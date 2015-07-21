@@ -64,7 +64,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getQuery);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServer);
 
 /**
- * Checks whether $_SERVER superglobal has certain index
+ * Checks whether $_REQUEST superglobal has certain index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, has);
 

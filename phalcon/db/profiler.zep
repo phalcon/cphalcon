@@ -60,7 +60,7 @@ class Profiler
 	/**
 	 * All the Phalcon\Db\Profiler\Item in the active profile
 	 *
-	 * @var array
+	 * @var \Phalcon\Db\Profiler\Item[]
 	 */
 	protected _allProfiles;
 

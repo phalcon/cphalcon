@@ -42,7 +42,6 @@ class TextCamelizeTest extends Helper\TextBase
                     'camelize'        => 'Camelize',
                     'CameLiZe'        => 'Camelize',
                     'cAmeLize'        => 'Camelize',
-                    '_camelize'       => 'Camelize',
                     '123camelize'     => '123camelize',
                     'c_a_m_e_l_i_z_e' => 'CAMELIZE',
                     'Camelize'        => 'Camelize',

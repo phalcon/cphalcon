@@ -347,6 +347,26 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Sets Cache headers to use HTTP cache
+	 *
+	 *<code>
+	 *	$this->response->setCache(60);
+	 *</code>
+	 */
+	public function setCache(int! minutes) -> <Response>
+	{
+		var date;
+
+		let date = new \DateTime();
+		date->modify("+" . minutes . " minutes");
+
+		this->setExpires(date);
+		this->setHeader("Cache-Control", "max-age=" . (minutes * 60));
+
+		return this;
+	}
+
+	/**
 	 * Sends a Not-Modified response
 	 */
 	public function setNotModified() -> <Response>

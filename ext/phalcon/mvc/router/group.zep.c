@@ -85,6 +85,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool _0;
 	zval *paths = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -95,12 +96,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 	}
 
 
-	if (Z_TYPE_P(paths) == IS_ARRAY) {
+	_0 = Z_TYPE_P(paths) == IS_ARRAY;
+	if (!(_0)) {
+		_0 = Z_TYPE_P(paths) == IS_STRING;
+	}
+	if (_0) {
 		zephir_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
-	} else {
-		if (Z_TYPE_P(paths) == IS_STRING) {
-			zephir_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
-		}
 	}
 	if ((zephir_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, paths);
@@ -634,7 +635,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, 74, _2, mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 366, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 368, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(route);
 

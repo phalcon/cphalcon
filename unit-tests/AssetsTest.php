@@ -129,16 +129,16 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$assets->outputCss();
 		$html = ob_get_clean();
 
-		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="//css/style1.css" />
-<link rel="stylesheet" type="text/css" href="//css/style2.css" />
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/style1.css" />
+<link rel="stylesheet" type="text/css" href="/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL);
 
 		ob_start();
 		$assets->outputJs();
 		$html = ob_get_clean();
 
-		$this->assertEquals($html, '<script type="text/javascript" src="//js/scripts1.js"></script>
-<script type="text/javascript" src="//js/scripts2.js"></script>' . PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="/js/scripts1.js"></script>
+<script type="text/javascript" src="/js/scripts2.js"></script>' . PHP_EOL);
 
 		//Without implicit output
 
@@ -146,14 +146,14 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$html = $assets->outputCss();
 
-		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="//css/style1.css" />
-<link rel="stylesheet" type="text/css" href="//css/style2.css" />
+		$this->assertEquals($html, '<link rel="stylesheet" type="text/css" href="/css/style1.css" />
+<link rel="stylesheet" type="text/css" href="/css/style2.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />' . PHP_EOL);
 
 		$html = $assets->outputJs();
 
-		$this->assertEquals($html, '<script type="text/javascript" src="//js/scripts1.js"></script>
-<script type="text/javascript" src="//js/scripts2.js"></script>' . PHP_EOL);
+		$this->assertEquals($html, '<script type="text/javascript" src="/js/scripts1.js"></script>
+<script type="text/javascript" src="/js/scripts2.js"></script>' . PHP_EOL);
 
 		//Test collections
 		$assets->collection('footer')

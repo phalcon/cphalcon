@@ -211,10 +211,11 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 /**
  * Removes a service in the services container
+ * It also removes any shared instance created for the service
  */
 PHP_METHOD(Phalcon_Di, remove) {
 
-	zval *name_param = NULL, *_0;
+	zval *name_param = NULL, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -235,6 +236,8 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	zephir_array_unset(&_0, name, PH_SEPARATE);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
+	zephir_array_unset(&_1, name, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -353,7 +356,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 187 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 189 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -395,7 +398,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 201 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 203 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -456,7 +459,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_3, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _3);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_2, "phalcon/di.zep", 227 TSRMLS_CC);
+			zephir_throw_exception_debug(_2, "phalcon/di.zep", 229 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -829,7 +832,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_5, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _5);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 425 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 427 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

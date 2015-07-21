@@ -18,6 +18,7 @@
 
 namespace Phalcon\Validation;
 
+use Phalcon\Validation;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
 
@@ -90,5 +91,5 @@ abstract class Validator implements ValidatorInterface
     /**
      * Executes the validation
      */
-     abstract public function validate(<\Phalcon\Validation> validation, string! attribute) -> boolean;
+     abstract public function validate(<Validation> validation, string! attribute) -> boolean;
 }

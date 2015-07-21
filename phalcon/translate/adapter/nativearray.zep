@@ -40,6 +40,8 @@ class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
 	{
 		var data;
 
+		parent::__construct(options);
+
 		if !fetch data, options["content"] {
 			throw new Exception("Translation content was not provided");
 		}

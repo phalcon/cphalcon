@@ -549,10 +549,8 @@ abstract class Resultset
 			/**
 			 * Only add processed records to 'records' if the returned value is an array/object
 			 */
-			if typeof processedRecord != "object" {
-				if typeof processedRecord != "array" {
-					continue;
-				}
+			if typeof processedRecord != "object" && typeof processedRecord != "array" {
+				continue;
 			}
 
 			let records[] = processedRecord;

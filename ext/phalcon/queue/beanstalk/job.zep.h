@@ -15,7 +15,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats);
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_job___construct, 0, 0, 3)
-	ZEND_ARG_INFO(0, queue)
+	ZEND_ARG_OBJ_INFO(0, queue, Phalcon\\Queue\\Beanstalk, 0)
 	ZEND_ARG_INFO(0, id)
 	ZEND_ARG_INFO(0, body)
 ZEND_END_ARG_INFO()

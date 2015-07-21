@@ -19,11 +19,13 @@
 
 namespace Phalcon\Queue\Beanstalk;
 
+use Phalcon\Queue\Beanstalk;
+
 /**
-* Phalcon\Queue\Beanstalk\Job
-*
-* Represents a job in a beanstalk queue
-*/
+ * Phalcon\Queue\Beanstalk\Job
+ *
+ * Represents a job in a beanstalk queue
+ */
 class Job
 {
 	protected _id { get };
@@ -34,12 +36,8 @@ class Job
 
 	/**
 	 * Phalcon\Queue\Beanstalk\Job
-	 *
-	 * @param Phalcon\Queue\Beanstalk queue
-	 * @param string id
-	 * @param string body
 	 */
-	public function __construct(queue, id, body)
+	public function __construct(<Beanstalk> queue, string id, var body)
 	{
 		let this->_queue = queue;
 		let this->_id = id;

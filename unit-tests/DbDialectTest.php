@@ -649,8 +649,14 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12'],$columns['column2']), 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT "A"');
 
     //Drop Columns
-    $this->assertEquals($dialect->dropColumn('table', null, 'column1'), 'ALTER TABLE "table"  DROP COLUMN "column1"');
-    $this->assertEquals($dialect->dropColumn('table', 'schema', 'column1'), 'ALTER TABLE "schema"."table"  DROP COLUMN "column1"');
+    $this->assertEquals($dialect->dropColumn('table', null, 'column1'), 'ALTER TABLE "table" DROP COLUMN "column1"');
+    $this->assertEquals($dialect->dropColumn('table', 'schema', 'column1'), 'ALTER TABLE "schema"."table" DROP COLUMN "column1"');
+
+    //Drop Tables
+    $this->assertEquals($dialect->dropTable('table', null, true), 'DROP TABLE IF EXISTS "table"');
+    $this->assertEquals($dialect->dropTable('table', 'schema', true), 'DROP TABLE IF EXISTS "schema"."table"');
+    $this->assertEquals($dialect->dropTable('table', null, false), 'DROP TABLE "table"');
+    $this->assertEquals($dialect->dropTable('table', 'schema', false), 'DROP TABLE "schema"."table"');
 
     $indexes = $this->getIndexes();
 
@@ -915,10 +921,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->createView('test_view', $definition, 'schema'), 'CREATE VIEW `schema`.`test_view` AS SELECT 1');
 
 		//Drop View
-		$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW test_view');
-		$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS test_view');
-		$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW schema.test_view');
-		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS schema.test_view');
+		$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW `test_view`');
+		$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS `test_view`');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW `schema`.`test_view`');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS `schema`.`test_view`');
 
 		$this->assertEquals($dialect->listViews(), 'SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ORDER BY view_name');
 

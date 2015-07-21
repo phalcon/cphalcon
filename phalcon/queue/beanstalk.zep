@@ -270,7 +270,12 @@ class Beanstalk
 	 */
 	final public function readStatus() -> array
 	{
-		return explode(" ", this->read());
+		var status;
+		let status = this->read();
+		if status === false {
+			return [];
+		}
+		return explode(" ", status);
 	}
 
 	/**

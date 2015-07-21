@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
 
 
 /**
@@ -146,7 +147,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *format = NULL, *_0 = NULL, *_1, _2 = zval_used_for_init, *_3 = NULL, *_4;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *format = NULL, *_0 = NULL, *_1, _2 = zval_used_for_init, *_3 = NULL, *_4 = NULL, *_5;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -167,7 +168,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_LONG(&_2, timestamp);
-		ZEPHIR_CALL_FUNCTION(&_3, "date", NULL, 299, _1, &_2);
+		ZEPHIR_CALL_FUNCTION(&_3, "date", NULL, 300, _1, &_2);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_2);
 		ZVAL_STRING(&_2, "%date%", 0);
@@ -189,7 +190,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZEPHIR_SINIT_NVAR(_2);
 	ZVAL_STRING(&_2, "%message%", 0);
 	zephir_fast_str_replace(&_0, &_2, message, format TSRMLS_CC);
-	ZEPHIR_CPY_WRT(format, _0);
+	ZEPHIR_INIT_NVAR(_4);
+	ZEPHIR_GET_CONSTANT(_4, "PHP_EOL");
+	ZEPHIR_INIT_VAR(_5);
+	ZEPHIR_CONCAT_VV(_5, _0, _4);
+	ZEPHIR_CPY_WRT(format, _5);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "interpolate", NULL, 0, format, context);
 		zephir_check_call_status();

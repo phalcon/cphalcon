@@ -19,6 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
 
 /**
@@ -42,11 +44,21 @@ class Identical extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var message, label, replacePairs;
+		var message, label, replacePairs, value, valid;
 
-		if validation->getValue(field) != this->getOption("accepted") {
+		let value = validation->getValue(field);
+
+		if this->hasOption("accepted") {
+			let valid = value == this->getOption("accepted");
+		} else {
+			if this->hasOption("value") {
+				let valid = value == this->getOption("value");
+			}
+		}
+
+		if !valid {
 
 			let label = this->getOption("label");
 			if empty label {
@@ -59,11 +71,10 @@ class Identical extends Validator
 				let message = validation->getDefaultMessage("Identical");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "Identical"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Identical"));
 			return false;
 		}
 
 		return true;
 	}
 }
-

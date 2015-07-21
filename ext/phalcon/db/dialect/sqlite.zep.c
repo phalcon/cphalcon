@@ -184,8 +184,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *sql = NULL, *defaultValue = NULL, *_1 = NULL, *_2 = NULL, *_3, _4, *_5 = NULL, *_6;
-	zval *tableName = NULL, *schemaName = NULL, *_0 = NULL;
+	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *sql, *defaultValue = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, _4, *_5 = NULL, *_6;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
@@ -214,16 +214,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 	}
 
 
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, tableName, schemaName);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(sql);
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_SVSVS(_0, "ALTER TABLE \"", schemaName, "\".\"", tableName, "\" ADD COLUMN ");
-		ZEPHIR_CPY_WRT(sql, _0);
-	} else {
-		ZEPHIR_INIT_LNVAR(_0);
-		ZEPHIR_CONCAT_SVS(_0, "ALTER TABLE \"", tableName, "\" ADD COLUMN ");
-		ZEPHIR_CPY_WRT(sql, _0);
-	}
+	ZEPHIR_CONCAT_SVS(sql, "ALTER TABLE ", _0, " ADD COLUMN ");
 	ZEPHIR_CALL_METHOD(&_1, column, "getname", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumndefinition", NULL, 0, column);
@@ -294,7 +288,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Altering a DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 169);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Altering a DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 165);
 	return;
 
 }
@@ -345,7 +339,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 177);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping DB column is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 173);
 	return;
 
 }
@@ -508,7 +502,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 221);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 217);
 	return;
 
 }
@@ -548,7 +542,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 229);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 225);
 	return;
 
 }
@@ -588,7 +582,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a foreign key constraint to an existing table is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 237);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Adding a foreign key constraint to an existing table is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 233);
 	return;
 
 }
@@ -639,7 +633,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping a foreign key constraint is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 245);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Dropping a foreign key constraint is not supported by SQLite", "phalcon/db/dialect/sqlite.zep", 241);
 	return;
 
 }
@@ -682,7 +676,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/sqlite.zep", 253);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/sqlite.zep", 249);
 	return;
 
 }
@@ -692,9 +686,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *sql, *table = NULL;
-	zval *tableName = NULL, *schemaName = NULL, *_0;
+	zval *tableName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &tableName_param, &schemaName_param, &ifExists_param);
@@ -728,18 +723,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable) {
 	}
 
 
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VSV(_0, schemaName, "\".\"", tableName);
-		ZEPHIR_CPY_WRT(table, _0);
-	} else {
-		ZEPHIR_CPY_WRT(table, tableName);
-	}
+	ZEPHIR_CALL_METHOD(&table, this_ptr, "preparetable", NULL, 0, tableName, schemaName);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(sql);
 	if (ifExists) {
-		ZEPHIR_CONCAT_SVS(sql, "DROP TABLE IF EXISTS \"", table, "\"");
+		ZEPHIR_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
 	} else {
-		ZEPHIR_CONCAT_SVS(sql, "DROP TABLE \"", table, "\"");
+		ZEPHIR_CONCAT_SV(sql, "DROP TABLE ", table);
 	}
 	RETURN_CCTOR(sql);
 
@@ -750,9 +740,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *definition = NULL;
-	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, *view = NULL, *viewSql;
-	zval *viewName = NULL, *schemaName = NULL, *_0;
+	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, *viewSql, *_0 = NULL;
+	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &viewName_param, &definition_param, &schemaName_param);
@@ -780,17 +771,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/sqlite.zep", 286);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/sqlite.zep", 278);
 		return;
 	}
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VSV(_0, schemaName, "\".\"", viewName);
-		ZEPHIR_CPY_WRT(view, _0);
-	} else {
-		ZEPHIR_CPY_WRT(view, viewName);
-	}
-	ZEPHIR_CONCAT_SVSV(return_value, "CREATE VIEW \"", view, "\" AS ", viewSql);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, viewName, schemaName);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVSV(return_value, "CREATE VIEW ", _0, " AS ", viewSql);
 	RETURN_MM();
 
 }
@@ -800,9 +786,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, *view = NULL;
-	zval *viewName = NULL, *schemaName = NULL, *_0;
+	zval *viewName = NULL, *schemaName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &viewName_param, &schemaName_param, &ifExists_param);
@@ -836,18 +823,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView) {
 	}
 
 
-	if (schemaName && Z_STRLEN_P(schemaName)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_CONCAT_VSV(_0, schemaName, "\".\"", viewName);
-		ZEPHIR_CPY_WRT(view, _0);
-	} else {
-		ZEPHIR_CPY_WRT(view, viewName);
-	}
+	ZEPHIR_CALL_METHOD(&view, this_ptr, "preparetable", NULL, 0, viewName, schemaName);
+	zephir_check_call_status();
 	if (ifExists) {
-		ZEPHIR_CONCAT_SVS(return_value, "DROP VIEW IF EXISTS \"", view, "\"");
+		ZEPHIR_CONCAT_SV(return_value, "DROP VIEW IF EXISTS ", view);
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "DROP VIEW \"", view, "\"");
+	ZEPHIR_CONCAT_SV(return_value, "DROP VIEW ", view);
 	RETURN_MM();
 
 }

@@ -16,6 +16,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader);
 PHP_METHOD(Phalcon_Http_Response, setRawHeader);
 PHP_METHOD(Phalcon_Http_Response, resetHeaders);
 PHP_METHOD(Phalcon_Http_Response, setExpires);
+PHP_METHOD(Phalcon_Http_Response, setCache);
 PHP_METHOD(Phalcon_Http_Response, setNotModified);
 PHP_METHOD(Phalcon_Http_Response, setContentType);
 PHP_METHOD(Phalcon_Http_Response, setEtag);
@@ -64,6 +65,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setexpires, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, datetime, DateTime, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcache, 0, 0, 1)
+	ZEND_ARG_INFO(0, minutes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcontenttype, 0, 0, 1)
@@ -115,6 +120,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, setRawHeader, arginfo_phalcon_http_response_setrawheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, resetHeaders, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setExpires, arginfo_phalcon_http_response_setexpires, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setCache, arginfo_phalcon_http_response_setcache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setNotModified, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setContentType, arginfo_phalcon_http_response_setcontenttype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setEtag, arginfo_phalcon_http_response_setetag, ZEND_ACC_PUBLIC)

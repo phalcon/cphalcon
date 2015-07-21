@@ -1315,7 +1315,7 @@ class Tag
 	 * @param string separator
 	 * @param boolean lowercase
 	 * @param mixed replace
-	 * @return text
+	 * @return string
 	 */
 	public static function friendlyTitle(string text, string separator = "-", boolean lowercase = true, replace = null) -> string
 	{

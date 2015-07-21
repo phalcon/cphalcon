@@ -297,7 +297,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$data = array('id' => 1);
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
 		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => 'id = :id:',
+			'conditions' => '[id] = :id:',
 			'bind' => array(
 				'id' => 1,
 			),
@@ -306,7 +306,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$data = array('name' => 'ol');
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
 		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => 'name LIKE :name:',
+			'conditions' => '[name] LIKE :name:',
 			'bind' => array(
 				'name' => '%ol%',
 			),
@@ -315,7 +315,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$data = array('id' => 1, 'name' => 'ol');
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
 		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => 'id = :id: AND name LIKE :name:',
+			'conditions' => '[id] = :id: AND [name] LIKE :name:',
 			'bind' => array(
 				'id' => 1,
 				'name' => '%ol%',
@@ -325,7 +325,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$data = array('id' => 1, 'name' => 'ol', 'other' => true);
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
 		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => 'id = :id: AND name LIKE :name:',
+			'conditions' => '[id] = :id: AND [name] LIKE :name:',
 			'bind' => array(
 				'id' => 1,
 				'name' => '%ol%',
@@ -351,5 +351,4 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$personas = Personas::query()->where("estado='I'")->cache(array("key" => "cache-2131"))->execute();
 		$this->assertFalse($personas->isFresh());
 	}
-
 }

@@ -832,7 +832,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	}
 
 	/**
-	 * Creates/Updates a collection based on the values in the atributes
+	 * Creates/Updates a collection based on the values in the attributes
 	 */
 	public function save() -> boolean
 	{

@@ -101,7 +101,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes,
-			with, distinct, bind, bindTypes;		
+			with, distinct, bind, bindTypes;
 
 		if typeof params == "array" {
 
@@ -1315,7 +1315,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				}
 			}
 
-			if is_numeric(limit) {
+			if is_numeric(number) {
 
 				let hiddenParam = this->_hiddenParamNumber,
 					phql .= " LIMIT :AP" . hiddenParam . ":",

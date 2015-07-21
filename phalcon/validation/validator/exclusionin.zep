@@ -19,7 +19,10 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Validation;
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\Exception;
 
 /**
  * Phalcon\Validation\Validator\ExclusionIn
@@ -41,7 +44,7 @@ class ExclusionIn extends Validator
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<\Phalcon\Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, string! field) -> boolean
 	{
 		var value, domain, message, label, replacePairs;
 
@@ -56,7 +59,7 @@ class ExclusionIn extends Validator
 		 */
 		let domain = this->getOption("domain");
 		if typeof domain != "array" {
-			throw new \Phalcon\Validation\Exception("Option 'domain' must be an array");
+			throw new Exception("Option 'domain' must be an array");
 		}
 
 		/**
@@ -75,11 +78,10 @@ class ExclusionIn extends Validator
 				let message = validation->getDefaultMessage("ExclusionIn");
 			}
 
-			validation->appendMessage(new \Phalcon\Validation\Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn"));
 			return false;
 		}
 
 		return true;
 	}
-
 }

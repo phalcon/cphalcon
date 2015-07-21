@@ -52,7 +52,7 @@ class Debug
 	}
 
 	/**
-	 * Sets if files the exception"s backtrace must be showed
+	 * Sets if files the exception's backtrace must be showed
 	 */
 	public function setShowBackTrace(boolean showBackTrace) -> <Debug>
 	{
@@ -205,7 +205,7 @@ class Debug
 	 */
 	protected function _getVarDump(var variable) -> string
 	{
-		var className, dumpedObject, dump;
+		var className, dumpedObject;
 
 		if is_scalar(variable) {
 
@@ -248,15 +248,14 @@ class Debug
 				/**
 				 * dump() must return an array, generate a recursive representation using getArrayDump
 				 */
-				let dump = "Object(" . className  . ": " . this->_getArrayDump(dumpedObject) . ")";
+				return "Object(" . className  . ": " . this->_getArrayDump(dumpedObject) . ")";
 			} else {
 
 				/**
 				 * If dump() is not available just print the class name
 				 */
-				let dump = "Object(" . className . ")</span>";
+				return "Object(" . className . ")";
 			}
-			return dump;
 		}
 
 		/**
@@ -334,26 +333,17 @@ class Debug
 	 */
 	protected final function showTraceItem(int n, array! trace)
 	{
-		var space, twoSpaces, underscore, minus, className,
-			prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
+		var className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
 			functionName, functionReflection, traceArgs, arguments, argument,
 			filez, line, showFiles, lines, numberLines, showFileFragment,
-			beforeLine, firstLine, afterLine, lastLine, commentPattern, utf8, entCompat, tab,
-			comment, i, linePosition, currentLine;
-
-		let space = " ";
-		let twoSpaces = "  ";
-		let underscore = "_";
-		let minus = "-";
+			beforeLine, firstLine, afterLine, lastLine, i, linePosition, currentLine;
 
 		/**
 		 * Every trace in the backtrace have a unique number
 		 */
 		let html = "<tr><td align=\"right\" valign=\"top\" class=\"error-number\">#" . n . "</td><td>";
 
-		if isset trace["class"] {
-
-			let className = trace["class"];
+		if fetch className, trace["class"] {
 
 			/**
 			 * We assume that classes starting by Phalcon are framework's classes
@@ -378,7 +368,7 @@ class Debug
 				 */
 				if classReflection->isInternal() {
 
-					let prepareInternalClass = str_replace(underscore, minus, strtolower(className));
+					let prepareInternalClass = str_replace("_", "-", strtolower(className));
 
 					/**
 					 * Generate a link to the official docs
@@ -415,9 +405,9 @@ class Debug
 				 */
 				if functionReflection->isInternal() {
 					/**
-					 * Prepare function"s name according to the conventions in the docs
+					 * Prepare function's name according to the conventions in the docs
 					 */
-					let preparedFunctionName = str_replace(underscore, minus, functionName);
+					let preparedFunctionName = str_replace("_", "-", functionName);
 					let html .= "<span class=\"error-function\"><a target=\"_new\" href=\"http://php.net/manual/en/function." . preparedFunctionName . ".php\">" . functionName . "</a></span>";
 				} else {
 					let html .= "<span class=\"error-function\">" . functionName . "</span>";
@@ -430,16 +420,15 @@ class Debug
 		/**
 		 * Check for arguments in the function
 		 */
-		if isset trace["args"] {
+		if fetch traceArgs, trace["args"] {
 
-			let traceArgs = trace["args"];
 			if count(traceArgs) {
 				let arguments = [];
 				for argument in traceArgs {
 
 					/**
 					 * Every argument is generated using _getVarDump
-					 * Append the HTML generated to the argument"s list
+					 * Append the HTML generated to the argument's list
 					 */
 					let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
 				}
@@ -520,21 +509,6 @@ class Debug
 					let html .= "<pre class=\"prettyprint highlight:" . firstLine . ":" . line . " linenums error-scroll\">";
 				}
 
-				let commentPattern = "#\\*\\/#";
-
-				/**
-				 * We assume the file is utf-8 encoded, @TODO add an option for this
-				 */
-				let utf8 = "UTF-8";
-
-				/**
-				 * Don't escape quotes
-				 */
-				let entCompat = ENT_COMPAT;
-
-				let tab = "\t";
-				let comment = "* /";
-
 				let i = firstLine;
 				while i <= lastLine {
 
@@ -553,8 +527,8 @@ class Debug
 					 */
 					if showFileFragment {
 						if i == firstLine {
-							if preg_match(commentPattern, rtrim(currentLine)) {
-								let currentLine = str_replace(comment, space, currentLine);
+							if preg_match("#\\*\\/#", rtrim(currentLine)) {
+								let currentLine = str_replace("* /", " ", currentLine);
 							}
 						}
 					}
@@ -562,14 +536,14 @@ class Debug
 					/**
 					 * Print a non break space if the current line is a line break, this allows to show the html zebra properly
 					 */
-					if currentLine == "\n" {
+					if currentLine == "\n" || currentLine == "\r\n" {
 						let html .= "&nbsp;\n";
 					} else {
-						if currentLine == "\r\n" {
-							let html .= "&nbsp;\n";
-						} else {
-							let html .= htmlentities(str_replace(tab, twoSpaces, currentLine), entCompat, utf8);
-						}
+						/**
+						 * Don't escape quotes
+						 * We assume the file is utf-8 encoded, @TODO add an option for this
+						 */
+						let html .= htmlentities(str_replace("\t", "  ", currentLine), ENT_COMPAT, "UTF-8");
 					}
 
 					let i++;
@@ -729,7 +703,7 @@ class Debug
 			/**
 			 * Print extra variables passed to the component
 			 */
-			if typeof  dataVars == "array" {
+			if typeof dataVars == "array" {
 				let html .= "<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">";
 				let html .= "<tr><th>Key</th><th>Value</th></tr>";
 				for keyVar, dataVar in dataVars {
@@ -744,7 +718,7 @@ class Debug
 		/**
 		 * Get Javascript sources
 		 */
-		let html .=  this->getJsSources() . "</div></body></html>";
+		let html .= this->getJsSources() . "</div></body></html>";
 
 		/**
 		 * Print the HTML, @TODO, add an option to store the html

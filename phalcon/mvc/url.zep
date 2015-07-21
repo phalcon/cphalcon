@@ -20,11 +20,11 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
+use Phalcon\Mvc\UrlInterface;
+use Phalcon\Mvc\Url\Exception;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Mvc\Url\Exception;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\UrlInterface;
 
 /**
  * Phalcon\Mvc\Url
@@ -109,6 +109,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 		let baseUri = this->_baseUri;
 		if baseUri === null {
+
 			if fetch phpSelf, _SERVER["PHP_SELF"] {
 				let uri = phalcon_get_uri(phpSelf);
 			} else {
@@ -120,6 +121,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 			} else {
 				let baseUri = "/" . uri ."/";
 			}
+
 			let this->_baseUri = baseUri;
 		}
 		return baseUri;
@@ -172,6 +174,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 */
 	public function get(var uri = null, var args = null, var local = null, var baseUri = null) -> string
 	{
+		string strUri;
 		var router, dependencyInjector, routeName, route, queryString;
 
 		if local == null {
@@ -227,7 +230,12 @@ class Url implements UrlInterface, InjectionAwareInterface
 		}
 
 		if local {
-			let uri = baseUri . uri;			
+			let strUri = (string) uri;
+			if baseUri == "/" && strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
+				let uri = baseUri . substr(strUri, 1);
+			} else {
+				let uri = baseUri . strUri;
+			}
 		}
 
 		if args {

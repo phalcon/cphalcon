@@ -26,7 +26,7 @@
  * Validates that a value is ipv4 address in valid range
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\CardNumber;
+ *use Phalcon\Mvc\Model\Validator\Ip;
  *
  *class Data extends Phalcon\Mvc\Model
  *{
@@ -34,7 +34,7 @@
  *  public function validation()
  *  {
  *      // Any pubic IP
- *      $this->validate(new IPv4(array(
+ *      $this->validate(new IP(array(
  *          'field'             => 'server_ip',
  *          'version'           => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
  *          'allowReserved'     => false,   // False if not specified. Ignored for v6
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 	zephir_array_update_string(&options, SL("flags"), &_6, PH_COPY | PH_SEPARATE);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_LONG(&_5, 275);
-	ZEPHIR_CALL_FUNCTION(&_7, "filter_var", NULL, 190, value, &_5, options);
+	ZEPHIR_CALL_FUNCTION(&_7, "filter_var", NULL, 191, value, &_5, options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_7))) {
 		ZEPHIR_INIT_NVAR(_0);

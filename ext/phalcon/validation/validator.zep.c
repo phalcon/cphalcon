@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 		_0 = Z_TYPE_P(options) != IS_NULL;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 39);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 40);
 		return;
 	} else {
 		zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);

@@ -12,14 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
-#include "kernel/hash.h"
-#include "kernel/string.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -31,7 +30,53 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate, Adapter, phalcon, translate_adapter, phalcon_translate_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	/**
+	 * @var Phalcon\Translate\InterpolatorInterface
+	 */
+	zend_declare_property_null(phalcon_translate_adapter_ce, SL("_interpolator"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Translate_Adapter, __construct) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *options_param = NULL, *interpolator = NULL;
+	zval *options = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options_param);
+
+	options = options_param;
+
+
+
+	ZEPHIR_OBS_VAR(interpolator);
+	if (!(zephir_array_isset_string_fetch(&interpolator, options, SS("interpolator"), 0 TSRMLS_CC))) {
+		ZEPHIR_INIT_NVAR(interpolator);
+		object_init_ex(interpolator, phalcon_translate_interpolator_associativearray_ce);
+		if (zephir_has_constructor(interpolator TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, interpolator, "__construct", NULL, 0);
+			zephir_check_call_status();
+		}
+	}
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setinterpolator", NULL, 0, interpolator);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
+PHP_METHOD(Phalcon_Translate_Adapter, setInterpolator) {
+
+	zval *interpolator;
+
+	zephir_fetch_params(0, 1, 0, &interpolator);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_interpolator"), interpolator TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
@@ -125,7 +170,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 64);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 86);
 	return;
 
 }
@@ -174,7 +219,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 82);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/translate/adapter.zep", 104);
 	return;
 
 }
@@ -216,13 +261,12 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 }
 
 /**
- * Replaces placeholders by the values passed	
+ * Replaces placeholders by the values passed
  */
 PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 
-	HashTable *_1;
-	HashPosition _0;
-	zval *translation_param = NULL, *placeholders = NULL, *key = NULL, *value = NULL, **_2, *_3 = NULL, *_4 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *translation_param = NULL, *placeholders = NULL, *_0;
 	zval *translation = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -244,24 +288,10 @@ PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 	}
 
 
-	if (Z_TYPE_P(placeholders) == IS_ARRAY) {
-		if (zephir_fast_count_int(placeholders TSRMLS_CC)) {
-			zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/translate/adapter.zep", 108);
-			for (
-			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_1, &_0)
-			) {
-				ZEPHIR_GET_HMKEY(key, _1, _0);
-				ZEPHIR_GET_HVALUE(value, _2);
-				ZEPHIR_INIT_NVAR(_3);
-				ZEPHIR_INIT_LNVAR(_4);
-				ZEPHIR_CONCAT_SVS(_4, "%", key, "%");
-				zephir_fast_str_replace(&_3, _4, value, translation TSRMLS_CC);
-				zephir_get_strval(translation, _3);
-			}
-		}
-	}
-	RETURN_CTOR(translation);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_interpolator"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "replaceplaceholders", NULL, 0, translation, placeholders);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

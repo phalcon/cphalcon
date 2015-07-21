@@ -19,12 +19,13 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Mvc\Model\CriteriaInterface;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Db\Column;
+use Phalcon\DiInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\CriteriaInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
+
 
 /**
  * Phalcon\Mvc\Model\Criteria
@@ -686,34 +687,45 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <Criteria>
 	{
-		var conditions, field, value, type, metaData, model, dataTypes, bind, criteria;
+		var attribute, conditions, field, value, type, metaData,
+			model, dataTypes, bind, criteria, columnMap;
 
 		let conditions = [];
 		if count(data) {
 
 			let metaData = dependencyInjector->getShared("modelsMetadata");
 
-			let model = new {modelName}();
-			let dataTypes = metaData->getDataTypes(model);
+			let model = new {modelName}(),
+				dataTypes = metaData->getDataTypes(model),
+				columnMap = metaData->getReverseColumnMap(model);
 
 			/**
 			 * We look for attributes in the array passed as data
 			 */
 			let bind = [];
 			for field, value in data {
-				if fetch type, dataTypes[field] {
+
+				if typeof columnMap == "array" && count(columnMap) {
+					let attribute = columnMap[field];
+				} else {
+					let attribute = field;
+				}
+
+				if fetch type, dataTypes[attribute] {
 					if value !== null && value !== "" {
+
 						if type == Column::TYPE_VARCHAR {
 							/**
 							 * For varchar types we use LIKE operator
 							 */
-							let conditions[] = field . " LIKE :" . field . ":", bind[field] = "%" . value . "%";
-						} else {
-							/**
-							 * For the rest of data types we use a plain = operator
-							 */
-							let conditions[] = field . " = :" . field . ":", bind[field] = value;
+							let conditions[] = "[" . field . "] LIKE :" . field . ":", bind[field] = "%" . value . "%";
+							continue;
 						}
+
+						/**
+						 * For the rest of data types we use a plain = operator
+						 */
+						let conditions[] = "[" . field . "] = :" . field . ":", bind[field] = value;
 					}
 				}
 			}

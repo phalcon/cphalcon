@@ -721,6 +721,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 
+	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_object_iterator *_0;
 	zval *filter, *records, *record = NULL, *parameters, *processedRecord = NULL;
@@ -746,12 +747,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 		ZEPHIR_INIT_NVAR(processedRecord);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
 		zephir_check_call_status();
-		if (Z_TYPE_P(processedRecord) != IS_OBJECT) {
-			if (Z_TYPE_P(processedRecord) != IS_ARRAY) {
-				continue;
-			}
+		_1 = Z_TYPE_P(processedRecord) != IS_OBJECT;
+		if (_1) {
+			_1 = Z_TYPE_P(processedRecord) != IS_ARRAY;
 		}
-		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 558);
+		if (_1) {
+			continue;
+		}
+		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 556);
 	}
 	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);

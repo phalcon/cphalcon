@@ -51,7 +51,7 @@ interface ManagerInterface
 	public function detachAll(string! type = null);
 
 	/**
-	 * Fires a event in the events manager causing that the acive listeners will be notified about it
+	 * Fires an event in the events manager causing the active listeners to be notified about it
 	 *
 	 * @param string eventType
 	 * @param object source

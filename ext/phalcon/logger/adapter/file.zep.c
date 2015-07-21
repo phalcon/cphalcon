@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&handler, "fopen", NULL, 291, name, mode);
+	ZEPHIR_CALL_FUNCTION(&handler, "fopen", NULL, 292, name, mode);
 	zephir_check_call_status();
 	if (Z_TYPE_P(handler) != IS_RESOURCE) {
 		ZEPHIR_INIT_VAR(_0);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter) {
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 295);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 296);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
 	}
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 
 	zval *context = NULL;
 	int type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *fileHandler, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_4;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *fileHandler, *_0 = NULL, *_1 = NULL, *_2, *_3;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -195,11 +195,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal) {
 	ZVAL_LONG(_3, time);
 	ZEPHIR_CALL_METHOD(&_1, _0, "format", NULL, 0, message, _2, _3, context);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(_2);
-	ZEPHIR_GET_CONSTANT(_2, "PHP_EOL");
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_VV(_4, _1, _2);
-	zephir_fwrite(NULL, fileHandler, _4 TSRMLS_CC);
+	zephir_fwrite(NULL, fileHandler, _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -247,7 +243,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode", "phalcon/logger/adapter/file.zep", 152);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "fopen", NULL, 291, path, mode);
+	ZEPHIR_CALL_FUNCTION(&_1, "fopen", NULL, 292, path, mode);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_fileHandler"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

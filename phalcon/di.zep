@@ -140,10 +140,12 @@ class Di implements DiInterface
 
 	/**
 	 * Removes a service in the services container
+	 * It also removes any shared instance created for the service
 	 */
 	public function remove(string! name)
 	{
 		unset this->_services[name];
+		unset this->_sharedInstances[name];
 	}
 
 	/**

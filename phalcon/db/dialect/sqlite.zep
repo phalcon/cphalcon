@@ -137,11 +137,7 @@ class Sqlite extends Dialect
 	{
 		var sql, defaultValue;
 
-		if schemaName {
-			let sql = "ALTER TABLE \"" . schemaName . "\".\"" . tableName . "\" ADD COLUMN ";
-		} else {
-			let sql = "ALTER TABLE \"" . tableName . "\" ADD COLUMN ";
-		}
+		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
 
 		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
 
@@ -260,16 +256,12 @@ class Sqlite extends Dialect
 	{
 		var sql, table;
 
-		if schemaName {
-			let table = schemaName . "\".\"" . tableName;
-		} else {
-			let table = tableName;
-		}
+		let table = this->prepareTable(tableName, schemaName);
 
 		if ifExists {
-			let sql = "DROP TABLE IF EXISTS \"" . table . "\"";
+			let sql = "DROP TABLE IF EXISTS " . table;
 		} else {
-			let sql = "DROP TABLE \"" . table . "\"";
+			let sql = "DROP TABLE " . table;
 		}
 
 		return sql;
@@ -280,19 +272,13 @@ class Sqlite extends Dialect
 	 */
 	public function createView(string! viewName, array! definition, string schemaName = null) -> string
 	{
-		var view, viewSql;
+		var viewSql;
 
 		if !fetch viewSql, definition["sql"] {
 			throw new Exception("The index 'sql' is required in the definition array");
 		}
 
-		if schemaName {
-			let view = schemaName . "\".\"" . viewName;
-		} else {
-			let view = viewName;
-		}
-
-		return "CREATE VIEW \"" . view . "\" AS " . viewSql;
+		return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
 	}
 
 	/**
@@ -302,16 +288,12 @@ class Sqlite extends Dialect
 	{
 		var view;
 
-		if schemaName {
-			let view = schemaName . "\".\"" . viewName;
-		} else {
-			let view = viewName;
-		}
+		let view = this->prepareTable(viewName, schemaName);
 
 		if ifExists {
-			return "DROP VIEW IF EXISTS \"" . view . "\"";
+			return "DROP VIEW IF EXISTS " . view;
 		}
-		return "DROP VIEW \"" . view . "\"";
+		return "DROP VIEW " . view;
 	}
 
 	/**

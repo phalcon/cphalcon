@@ -69,13 +69,9 @@ abstract class Text
 	 *    echo Phalcon\Text::increment("a_1"); // "a_2"
 	 * </code>
 	 */
-	public static function increment(string str, var separator = null) -> string
+	public static function increment(string str, string separator = "_") -> string
 	{
 		var parts, number;
-
-		if separator === null {
-			let separator = "_";
-		}
 
 		let parts = explode(separator, str);
 

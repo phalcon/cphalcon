@@ -56,6 +56,7 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 */
 	public function __construct(array! options)
 	{
+		parent::__construct(options);
 		this->prepareOptions(options);
 	}
 

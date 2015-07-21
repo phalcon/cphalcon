@@ -157,9 +157,9 @@ class Simple extends Resultset
 			key, value, renamedRecords, columnMap;
 
 		/**
-		* If _rows is not present, fetchAll from database
-		* and keep them in memory for further operations
-		*/
+		 * If _rows is not present, fetchAll from database
+		 * and keep them in memory for further operations
+		 */
 		let records = this->_rows;
 		if typeof records != "array" {
 			let result = this->_result;
@@ -205,11 +205,9 @@ class Simple extends Resultset
 		                    if !fetch renamedKey, renamedKey[0] {
                 	            throw new Exception("Column '" . key . "' is not part of the column map");
                         	}
-
-							let renamed[renamedKey[0]] = value;
-		                } else {
-							let renamed[renamedKey] = value;
 						}
+
+						let renamed[renamedKey] = value;
 					}
 
 					/**

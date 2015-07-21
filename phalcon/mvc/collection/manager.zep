@@ -286,7 +286,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 		let customEventsManager = this->_customEventsManager;
 		if typeof customEventsManager == "array" {
 			if isset customEventsManager[get_class_lower(model)] {
-				let status = customEventsManager->fire("collection:". eventName, model);
+				let status = customEventsManager->fire("collection:" . eventName, model);
 				if !status {
 					return status;
 				}

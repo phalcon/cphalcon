@@ -111,7 +111,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, wasFreshInstance);
 /**
  * Return the services registered in the DI
  *
- * @return array
+ * @return \Phalcon\Di\ServiceInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getServices);
 

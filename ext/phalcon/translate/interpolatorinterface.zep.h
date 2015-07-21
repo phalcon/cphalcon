@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_translate_interpolatorinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_interpolatorinterface_replaceplaceholders, 0, 0, 1)
+	ZEND_ARG_INFO(0, translation)
+	ZEND_ARG_INFO(0, placeholders)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_translate_interpolatorinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Translate_InterpolatorInterface, replacePlaceholders, arginfo_phalcon_translate_interpolatorinterface_replaceplaceholders)
+	PHP_FE_END
+};

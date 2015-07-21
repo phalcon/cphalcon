@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
 
 
@@ -43,6 +43,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
 	zval *options_param = NULL, *data;
 	zval *options = NULL;
 
@@ -53,13 +55,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 
 
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, this_ptr, "__construct", &_0, 426, options);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(data);
 	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation content was not provided", "phalcon/translate/adapter/nativearray.zep", 44);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation content was not provided", "phalcon/translate/adapter/nativearray.zep", 46);
 		return;
 	}
 	if (Z_TYPE_P(data) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/translate/adapter/nativearray.zep", 48);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/translate/adapter/nativearray.zep", 50);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_translate"), data TSRMLS_CC);
