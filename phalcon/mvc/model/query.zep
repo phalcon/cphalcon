@@ -112,7 +112,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * Phalcon\Mvc\Model\Query constructor
 	 *
 	 * @param string phql
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 */
 	public function __construct(phql = null, <DiInterface> dependencyInjector = null)
 	{
@@ -858,7 +858,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves a table in a SELECT statement checking if the model exists
 	 *
-	 * @param Phalcon\Mvc\Model\ManagerInterface manager
+	 * @param \Phalcon\Mvc\Model\ManagerInterface manager
 	 * @param array qualifiedName
 	 * @return string
 	 */
@@ -884,7 +884,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves a JOIN clause checking if the associated models exist
 	 *
-	 * @param Phalcon\Mvc\Model\ManagerInterface manager
+	 * @param \Phalcon\Mvc\Model\ManagerInterface manager
 	 * @param array join
 	 * @return array
 	 */
@@ -963,7 +963,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param string joinSource
 	 * @param string modelAlias
 	 * @param string joinAlias
-	 * @param Phalcon\Mvc\Model\RelationInterface relation
+	 * @param \Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
 	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation) -> array
@@ -1060,7 +1060,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param string joinSource
 	 * @param string modelAlias
 	 * @param string joinAlias
-	 * @param Phalcon\Mvc\Model\RelationInterface relation
+	 * @param \Phalcon\Mvc\Model\RelationInterface relation
 	 * @return array
 	 */
 	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation) -> array
@@ -3030,7 +3030,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Query the records on which the UPDATE/DELETE operation well be done
 	 *
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param \Phalcon\Mvc\ModelInterface model
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
