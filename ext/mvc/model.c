@@ -2607,6 +2607,14 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 	phalcon_fetch_params(1, 1, 2, &event_name, &data, &cancelable);
 	PHALCON_ENSURE_IS_STRING(&event_name);
 
+	if (!data) {
+		data = PHALCON_GLOBAL(z_null);
+	}
+
+	if (!cancelable) {
+		cancelable = PHALCON_GLOBAL(z_null);
+	}
+
 	if (likely(PHALCON_GLOBAL(orm).events)) {
 		PHALCON_INIT_VAR(lower);
 		phalcon_fast_strtolower(lower, event_name);
