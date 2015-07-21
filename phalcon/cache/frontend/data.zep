@@ -133,7 +133,7 @@ class Data implements FrontendInterface
 	}
 
 	/**
-	 * Unserializes data after retrieval	 
+	 * Unserializes data after retrieval
 	 */
 	public function afterRetrieve(var data)
 	{

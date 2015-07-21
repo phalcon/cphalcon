@@ -618,7 +618,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 								let exprReturn = [
 									"type": "placeholder",
 									"value": ":" . name,
-									"rawValue": name, 
+									"rawValue": name,
 									"times": count(bind)
 								];
 								break;

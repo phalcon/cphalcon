@@ -164,7 +164,7 @@ class Builder
 				let instance = create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
 
 			} else {
-				let instance = create_instance(className);				
+				let instance = create_instance(className);
 			}
 		}
 

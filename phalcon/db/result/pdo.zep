@@ -115,7 +115,7 @@ class Pdo implements ResultInterface
 	 *</code>
 	 */
 	public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
-	{		
+	{
 		return this->_pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
 	}
 

@@ -157,7 +157,7 @@ class Service implements ServiceInterface
 						let instance = create_instance(definition);
 					}
 				} else {
-					let instance = create_instance(definition);					
+					let instance = create_instance(definition);
 				}
 			} else {
 				let found = false;

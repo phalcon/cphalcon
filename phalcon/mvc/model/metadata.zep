@@ -121,7 +121,7 @@ abstract class MetaData implements InjectionAwareInterface
 					} else {
 
 						/**
-						 * Get the meta-data extraction strategy						 
+						 * Get the meta-data extraction strategy
 						 */
 						let dependencyInjector = this->_dependencyInjector,
 							strategy = this->getStrategy(),

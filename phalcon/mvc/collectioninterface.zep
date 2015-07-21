@@ -63,7 +63,7 @@ interface CollectionInterface
 	 *
 	 * @return MongoDb
 	 */
-	public function getConnection();	
+	public function getConnection();
 
 	/**
 	 * Returns a cloned collection
