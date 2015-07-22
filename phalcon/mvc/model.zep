@@ -500,7 +500,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
+	 * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
@@ -678,7 +678,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\ModelInterface $base
+	 * @param \Phalcon\Mvc\ModelInterface $base
 	 * @param array data
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
@@ -924,8 +924,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Checks if the current record already exists or not
 	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @return boolean
 	 */
@@ -2092,8 +2092,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @param boolean|string identityField
 	 * @return boolean
@@ -2281,8 +2281,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build UPDATE SQL statement to the relational database system
 	 *
-	 * @param Phalcon\Mvc\Model\MetaDataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @return boolean
 	 */
@@ -2491,8 +2491,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Saves related records that must be stored prior to save the master record
 	 *
-	 * @param Phalcon\Db\AdapterInterface connection
-	 * @param Phalcon\Mvc\ModelInterface[] related
+	 * @param \Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\ModelInterface[] related
 	 * @return boolean
 	 */
 	protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean

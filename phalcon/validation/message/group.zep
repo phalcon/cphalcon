@@ -75,7 +75,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *</code>
 	 *
 	 * @param int index
-	 * @param Phalcon\Validation\Message message
+	 * @param \Phalcon\Validation\Message message
 	 */
 	public function offsetSet(int! index, var message)
 	{
@@ -136,7 +136,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * $messages->appendMessages($messagesArray);
 	 *</code>
 	 *
-	 * @param Phalcon\Validation\MessageInterface[] messages
+	 * @param \Phalcon\Validation\MessageInterface[] messages
 	 */
 	public function appendMessages(messages)
 	{

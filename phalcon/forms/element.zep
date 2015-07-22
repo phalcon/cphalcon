@@ -147,7 +147,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Adds a group of validators
 	 *
-	 * @param Phalcon\Validation\ValidatorInterface[]
+	 * @param \Phalcon\Validation\ValidatorInterface[]
 	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>

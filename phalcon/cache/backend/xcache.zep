@@ -53,7 +53,7 @@ class Xcache extends Backend implements BackendInterface
 	/**
 	 * Phalcon\Cache\Backend\Xcache constructor
 	 *
-	 * @param Phalcon\Cache\FrontendInterface frontend
+	 * @param \Phalcon\Cache\FrontendInterface frontend
 	 * @param array options
 	 */
 	public function __construct(<FrontendInterface> frontend, options = null)

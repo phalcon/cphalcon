@@ -101,7 +101,7 @@ interface ModelInterface
 	/**
 	 * Assigns values to a model from an array
 	 *
-	 * @param Phalcon\Mvc\Model object
+	 * @param \Phalcon\Mvc\Model object
 	 * @param array data
 	 * @param array columnMap
 	 * @return Phalcon\Mvc\Model
@@ -111,7 +111,7 @@ interface ModelInterface
 	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
-	 * @param Phalcon\Mvc\Model base
+	 * @param \Phalcon\Mvc\Model base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
@@ -123,7 +123,7 @@ interface ModelInterface
 	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
-	 * @param Phalcon\Mvc\ModelInterface base
+	 * @param \Phalcon\Mvc\ModelInterface base
 	 * @param array data
 	 * @param int dirtyState
 	 * @return Phalcon\Mvc\ModelInterface
@@ -158,7 +158,7 @@ interface ModelInterface
 	/**
 	 * Create a criteria for a especific model
 	 *
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public static function query(<DiInterface> dependencyInjector = null);

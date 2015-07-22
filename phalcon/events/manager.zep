@@ -199,7 +199,7 @@ class Manager implements ManagerInterface
 	 * Internal handler to call a queue of events
 	 *
 	 * @param \SplPriorityQueue|array queue
-	 * @param Phalcon\Events\Event event
+	 * @param \Phalcon\Events\Event event
 	 * @return mixed
 	 */
 	public final function fireQueue(var queue, <Event> event)

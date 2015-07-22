@@ -147,7 +147,7 @@ abstract class Select
 	/**
 	 * Generate the OPTION tags based on a resultset
 	 *
-	 * @param Phalcon\Mvc\Model\Resultset resultset
+	 * @param \Phalcon\Mvc\Model\Resultset resultset
 	 * @param array using
 	 * @param mixed value
 	 * @param string closeOption

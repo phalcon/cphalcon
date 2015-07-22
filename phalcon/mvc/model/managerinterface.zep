@@ -174,7 +174,7 @@ interface ManagerInterface
 	 * @param string method
 	 * @param string modelName
 	 * @param string modelRelation
-	 * @param Phalcon\Mvc\Model record
+	 * @param \Phalcon\Mvc\Model record
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
@@ -186,7 +186,7 @@ interface ManagerInterface
 	 * @param string method
 	 * @param string modelName
 	 * @param string modelRelation
-	 * @param Phalcon\Mvc\Model record
+	 * @param \Phalcon\Mvc\Model record
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
@@ -198,7 +198,7 @@ interface ManagerInterface
 	 * @param string method
 	 * @param string modelName
 	 * @param string modelRelation
-	 * @param Phalcon\Mvc\Model record
+	 * @param \Phalcon\Mvc\Model record
 	 * @param array parameters
 	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
@@ -288,7 +288,7 @@ interface ManagerInterface
 	 * Notify the behaviors that are listening in the model
 	 *
 	 * @param string eventName
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param \Phalcon\Mvc\ModelInterface model
 	 */
 	public function notifyEvent(eventName, <ModelInterface> model);
 
@@ -297,7 +297,7 @@ interface ManagerInterface
 	 * This method expects that the endpoint listeners/behaviors returns true
 	 * meaning that a least one is implemented
 	 *
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param \Phalcon\Mvc\ModelInterface model
 	 * @param string eventName
 	 * @param array data
 	 * @return boolean

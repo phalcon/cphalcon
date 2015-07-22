@@ -236,7 +236,7 @@ class Annotations extends Router
 	 * @param string namespaceName
 	 * @param string controller
 	 * @param string action
-	 * @param Phalcon\Annotations\Annotation annotation
+	 * @param \Phalcon\Annotations\Annotation annotation
 	 */
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Annotation> annotation)

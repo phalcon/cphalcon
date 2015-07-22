@@ -120,7 +120,7 @@ class Service implements ServiceInterface
 	 * Resolves the service
 	 *
 	 * @param array parameters
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)

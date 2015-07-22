@@ -286,7 +286,7 @@ class Manager
 	/**
 	 * Traverses a collection calling the callback to generate its HTML
 	 *
-	 * @param Phalcon\Assets\Collection collection
+	 * @param \Phalcon\Assets\Collection collection
 	 * @param callback callback
 	 * @param string type
 	 */
@@ -697,7 +697,7 @@ class Manager
 	/**
 	 * Traverses a collection and generate its HTML
 	 *
-	 * @param Phalcon\Assets\Collection collection
+	 * @param \Phalcon\Assets\Collection collection
 	 * @param string type
 	 */
 	public function outputInline(<Collection> collection, type)

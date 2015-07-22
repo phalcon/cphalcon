@@ -71,7 +71,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess
 	 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 	 *
 	 * @param string|int index
-	 * @param Phalcon\Mvc\ModelInterface value
+	 * @param \Phalcon\Mvc\ModelInterface value
 	 */
 	public function offsetSet(var index, var value)
 	{
