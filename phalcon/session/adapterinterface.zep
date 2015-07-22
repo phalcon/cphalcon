@@ -81,4 +81,8 @@ interface AdapterInterface
 	 */
 	public function destroy() -> boolean;
 
+	/**
+	 * Regenerate session's id
+	 */
+	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>
 }

@@ -111,6 +111,15 @@ abstract class Adapter
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	{
+		session_regenerate_id(deleteOldSession);
+		return this;
+	}
+
+	/**
 	 * Gets a session variable from an application context
 	 *
 	 * @param string index
