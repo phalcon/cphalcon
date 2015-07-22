@@ -231,8 +231,10 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			for cookie in this->_cookies {
 				cookie->send();
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
