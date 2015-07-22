@@ -138,11 +138,8 @@ abstract class Adapter
 	 *<code>
 	 *	$session->set('auth', 'yes');
 	 *</code>
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function set(string index, value)
+	public function set(string index, var value)
 	{
 		let _SESSION[this->_uniqueId . index] = value;
 	}

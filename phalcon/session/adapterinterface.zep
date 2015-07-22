@@ -53,11 +53,8 @@ interface AdapterInterface
 
 	/**
 	 * Sets a session variable in an application context
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function set(string index, value);
+	public function set(string index, var value);
 
 	/**
 	 * Check whether a session variable is set in an application context
