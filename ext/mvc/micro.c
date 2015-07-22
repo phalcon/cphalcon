@@ -508,8 +508,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			/* Create a real handler */
 			PHALCON_INIT_NVAR(real_handler);
 			array_init_size(real_handler, 2);
-			phalcon_array_append(&real_handler, lazy_handler, 0);
-			phalcon_array_append(&real_handler, sub_handler, 0);
+			phalcon_array_append(&real_handler, lazy_handler, PH_COPY);
+			phalcon_array_append(&real_handler, sub_handler, PH_COPY);
 			if (PHALCON_IS_NOT_EMPTY(prefix)) {
 				if (PHALCON_IS_STRING(pattern, "/")) {
 					PHALCON_CPY_WRT(prefixed_pattern, prefix);
@@ -1042,7 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			if (Z_TYPE_P(params) == IS_NULL) {
 				PHALCON_INIT_NVAR(params);
 				array_init_size(params, 1);
-				phalcon_array_append(&params, this_ptr, PH_SEPARATE);
+				phalcon_array_append(&params, this_ptr, PH_COPY);
 			}
 
 			/** 
@@ -1288,7 +1288,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, _throwException){
 
 	PHALCON_INIT_VAR(arguments);
 	array_init_size(arguments, 1);
-	phalcon_array_append(&arguments, object, 0);
+	phalcon_array_append(&arguments, object, PH_COPY);
 
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);

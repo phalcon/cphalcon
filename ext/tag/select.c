@@ -89,8 +89,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 2);
-		phalcon_array_append(&params, parameters, 0);
-		phalcon_array_append(&params, data, 0);
+		phalcon_array_append(&params, parameters, PH_COPY);
+		phalcon_array_append(&params, data, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -98,18 +98,18 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	if (!phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(id);
 		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
-		phalcon_array_update_long(&params, 0, id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_long(&params, 0, id, PH_COPY);
 	}
 
 	PHALCON_OBS_NVAR(id);
 	phalcon_array_fetch_long(&id, params, 0, PH_NOISY);
 	if (!phalcon_array_isset_string(params, SS("name"))) {
-		phalcon_array_update_string(&params, SL("name"), id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&params, SL("name"), id, PH_COPY);
 	} else {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, params, SL("name"), PH_NOISY);
 		if (!zend_is_true(name)) {
-			phalcon_array_update_string(&params, SL("name"), id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, SL("name"), id, PH_COPY);
 		}
 	}
 
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	 */
 	if (!phalcon_memnstr_str(id, SL("["))) {
 		if (!phalcon_array_isset_string(params, SS("id"))) {
-			phalcon_array_update_string(&params, SL("id"), id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, SL("id"), id, PH_COPY);
 		}
 	}
 
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	} else {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY);
-		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
+		phalcon_array_unset_string(&params, SS("value"), PH_COPY);
 	}
 
 	PHALCON_INIT_VAR(use_empty);
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		} else {
 			PHALCON_OBS_NVAR(empty_value);
 			phalcon_array_fetch_string(&empty_value, params, SL("emptyValue"), PH_NOISY);
-			phalcon_array_unset_string(&params, SS("emptyValue"), PH_SEPARATE);
+			phalcon_array_unset_string(&params, SS("emptyValue"), PH_COPY);
 		}
 		if (!phalcon_array_isset_string(params, SS("emptyText"))) {
 			PHALCON_INIT_VAR(empty_text);
@@ -147,16 +147,16 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		} else {
 			PHALCON_OBS_NVAR(empty_text);
 			phalcon_array_fetch_string(&empty_text, params, SL("emptyText"), PH_NOISY);
-			phalcon_array_unset_string(&params, SS("emptyText"), PH_SEPARATE);
+			phalcon_array_unset_string(&params, SS("emptyText"), PH_COPY);
 		}
 
 		PHALCON_OBS_NVAR(use_empty);
 		phalcon_array_fetch_string(&use_empty, params, SL("useEmpty"), PH_NOISY);
-		phalcon_array_unset_string(&params, SS("useEmpty"), PH_SEPARATE);
+		phalcon_array_unset_string(&params, SS("useEmpty"), PH_COPY);
 	}
 
 	if (phalcon_array_isset_string_fetch(&using, params, SS("using"))) {
-		phalcon_array_unset_string(&params, SS("using"), PH_SEPARATE);
+		phalcon_array_unset_string(&params, SS("using"), PH_COPY);
 	}
 
 	PHALCON_INIT_VAR(code);
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 					PHALCON_INIT_NVAR(params);
 					array_init(params);
 				}
-				phalcon_array_update_long(&params, 0, option, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_long(&params, 0, option, PH_COPY);
 
 				PHALCON_INIT_NVAR(code_option);/**/
 				PHALCON_CALL_USER_FUNC_ARRAY(code_option, using, params);

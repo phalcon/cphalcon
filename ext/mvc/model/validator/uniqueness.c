@@ -186,12 +186,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 			PHALCON_INIT_NVAR(compose_condition);
 			PHALCON_CONCAT_SVSV(compose_condition, "[", compose_field, "] = ?", number);
-			phalcon_array_append(&conditions, compose_condition, PH_SEPARATE);
-			phalcon_array_append(&bind_params, value, PH_SEPARATE);
+			phalcon_array_append(&conditions, compose_condition, PH_COPY);
+			phalcon_array_append(&bind_params, value, PH_COPY);
 	
 			PHALCON_OBS_NVAR(bind_type);
 			phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY);
-			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
+			phalcon_array_append(&bind_types, bind_type, PH_COPY);
 			phalcon_increment(number);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -232,12 +232,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 		PHALCON_INIT_VAR(condition);
 		PHALCON_CONCAT_SVS(condition, "[", field, "] = ?0");
-		phalcon_array_append(&conditions, condition, PH_SEPARATE);
-		phalcon_array_append(&bind_params, value, PH_SEPARATE);
+		phalcon_array_append(&conditions, condition, PH_COPY);
+		phalcon_array_append(&bind_params, value, PH_COPY);
 	
 		PHALCON_OBS_NVAR(bind_type);
 		phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY);
-		phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
+		phalcon_array_append(&bind_types, bind_type, PH_COPY);
 		phalcon_increment(number);
 	}
 	
@@ -295,12 +295,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 			PHALCON_INIT_NVAR(condition);
 			PHALCON_CONCAT_SVSV(condition, "[", attribute_field, "] <> ?", number);
-			phalcon_array_append(&conditions, condition, PH_SEPARATE);
-			phalcon_array_append(&bind_params, value, PH_SEPARATE);
+			phalcon_array_append(&conditions, condition, PH_COPY);
+			phalcon_array_append(&bind_params, value, PH_COPY);
 	
 			PHALCON_OBS_NVAR(bind_type);
 			phalcon_array_fetch(&bind_type, bind_data_types, primary_field, PH_NOISY);
-			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
+			phalcon_array_append(&bind_types, bind_type, PH_COPY);
 			phalcon_increment(number);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);

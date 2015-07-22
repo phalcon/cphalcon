@@ -305,17 +305,17 @@ PHP_METHOD(Phalcon_Mvc_JsonRpc, handle){
 	array_init(jsonrpc_error);
 
 	if (PHALCON_IS_EMPTY(data)) {
-		phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, 0);
-		phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Parse error"), 0);
+		phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, PH_COPY);
+		phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Parse error"), PH_COPY);
 	} else if (Z_TYPE_P(data) != IS_ARRAY) {
-		phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, 0);
-		phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Parse error"), 0);
+		phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, PH_COPY);
+		phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Parse error"), PH_COPY);
 	} else if (!phalcon_array_isset_string(data, SS("jsonrpc"))) {		
-			phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, 0);
-			phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Invalid Request"), 0);
+			phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, PH_COPY);
+			phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Invalid Request"), PH_COPY);
 	} else if (!phalcon_array_isset_string(data, SS("method"))) {
-			phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, 0);
-			phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Invalid Request"), 0);
+			phalcon_array_update_string_long(&jsonrpc_error, SL("code"), __LINE__, PH_COPY);
+			phalcon_array_update_string_string(&jsonrpc_error, SL("message"), SL("Invalid Request"), PH_COPY);
 	} else {
 		PHALCON_OBS_VAR(jsonrpc_method);
 		phalcon_array_fetch_string(&jsonrpc_method, data, SL("method"), PH_NOISY);
@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_JsonRpc, handle){
 				/* A module definition object, can be a Closure instance */
 				PHALCON_INIT_VAR(module_params);
 				array_init_size(module_params, 1);
-				phalcon_array_append(&module_params, dependency_injector, 0);
+				phalcon_array_append(&module_params, dependency_injector, PH_COPY);
 
 				PHALCON_INIT_NVAR(status);/**/
 				PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);
@@ -480,7 +480,7 @@ PHP_METHOD(Phalcon_Mvc_JsonRpc, handle){
 		RETURN_MM();
 	}
 	
-	phalcon_array_update_string_string(&jsonrpc_message, SL("jsonrpc"), SL("2.0"), 0);
+	phalcon_array_update_string_string(&jsonrpc_message, SL("jsonrpc"), SL("2.0"), PH_COPY);
 
 	if (PHALCON_IS_NOT_EMPTY(jsonrpc_error)) {
 		phalcon_array_update_string(&jsonrpc_message, SL("error"), jsonrpc_error, PH_COPY);

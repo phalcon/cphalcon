@@ -113,8 +113,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 	
 	PHALCON_INIT_VAR(call_handler);
 	array_init_size(call_handler, 2);
-	phalcon_array_append(&call_handler, handler, 0);
-	phalcon_array_append(&call_handler, method, 0);
+	phalcon_array_append(&call_handler, handler, PH_COPY);
+	phalcon_array_append(&call_handler, method, PH_COPY);
 	
 	/** 
 	 * Call the handler

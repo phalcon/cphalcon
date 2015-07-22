@@ -244,8 +244,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __call){
 	PHALCON_INIT_VAR(callback);
 	array_init(callback);
 
-	phalcon_array_append(&callback, service, 0);
-	phalcon_array_append(&callback, method_name, 0);
+	phalcon_array_append(&callback, service, PH_COPY);
+	phalcon_array_append(&callback, method_name, PH_COPY);
 
 	PHALCON_CALL_USER_FUNC_ARRAY(return_value, callback, arguments);
 

@@ -96,27 +96,27 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, __construct){
 
 	PHALCON_INIT_VAR(constant);
 	if (zend_get_constant(SL("CURLOPT_RETURNTRANSFER"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_bool(&options, constant, 1, 0);
+		phalcon_array_update_zval_bool(&options, constant, 1, PH_COPY);
 	}
 
 	PHALCON_INIT_NVAR(constant);
 	if (zend_get_constant(SL("CURLOPT_AUTOREFERER"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_bool(&options, constant, 1, 0);
+		phalcon_array_update_zval_bool(&options, constant, 1, PH_COPY);
 	}
 
 	PHALCON_INIT_NVAR(constant);
 	if (zend_get_constant(SL("CURLOPT_FOLLOWLOCATION"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_bool(&options, constant, 1, 0);
+		phalcon_array_update_zval_bool(&options, constant, 1, PH_COPY);
 	}
 
 	PHALCON_INIT_NVAR(constant);
 	if (zend_get_constant(SL("CURLOPT_MAXREDIRS"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_long(&options, constant, 20, 0);
+		phalcon_array_update_zval_long(&options, constant, 20, PH_COPY);
 	}
 
 	PHALCON_INIT_NVAR(constant);
 	if (zend_get_constant(SL("CURLOPT_HEADER"), constant TSRMLS_CC)) {
-		phalcon_array_update_zval_bool(&options, constant, 1, 0);
+		phalcon_array_update_zval_bool(&options, constant, 1, PH_COPY);
 	}
 
 	PHALCON_INIT_NVAR(constant);
@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Http_Client_Adapter_Curl, sendInternal){
 					object_init_ex(tmp, curlfile_ce);
 					PHALCON_CALL_METHOD(NULL, tmp, "__construct", file);
 
-					phalcon_array_append(&data, tmp, 0);
+					phalcon_array_append(&data, tmp, PH_COPY);
 				}
 
 				zend_hash_move_forward_ex(ah0, &hp0);

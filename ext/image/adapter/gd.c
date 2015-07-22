@@ -707,31 +707,31 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 	PHALCON_INIT_NVAR(item);
 	array_init_size(item, 3);
 
-	phalcon_array_append_long(&item, -1, 0);
-	phalcon_array_append_long(&item, -1, 0);
-	phalcon_array_append_long(&item, -1, 0);
+	phalcon_array_append_long(&item, -1, PH_COPY);
+	phalcon_array_append_long(&item, -1, PH_COPY);
+	phalcon_array_append_long(&item, -1, PH_COPY);
 
-	phalcon_array_append(&matrix, item, 0);
+	phalcon_array_append(&matrix, item, PH_COPY);
 
 	/* 2 */
 	PHALCON_INIT_NVAR(item);
 	array_init_size(item, 3);
 
-	phalcon_array_append_long(&item, -1, 0);
-	phalcon_array_append(&item, tmp_amount, 0);
-	phalcon_array_append_long(&item, -1, 0);
+	phalcon_array_append_long(&item, -1, PH_COPY);
+	phalcon_array_append(&item, tmp_amount, PH_COPY);
+	phalcon_array_append_long(&item, -1, PH_COPY);
 
-	phalcon_array_append(&matrix, item, 0);
+	phalcon_array_append(&matrix, item, PH_COPY);
 
 	/* 3 */
 	PHALCON_INIT_NVAR(item);
 	array_init_size(item, 3);
 
-	phalcon_array_append_long(&item, -1, 0);
-	phalcon_array_append_long(&item, -1, 0);
-	phalcon_array_append_long(&item, -1, 0);
+	phalcon_array_append_long(&item, -1, PH_COPY);
+	phalcon_array_append_long(&item, -1, PH_COPY);
+	phalcon_array_append_long(&item, -1, PH_COPY);
 
-	phalcon_array_append(&matrix, item, 9);
+	phalcon_array_append(&matrix, item, PH_COPY);
 
 	b = b - 8;
 

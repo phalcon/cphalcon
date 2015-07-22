@@ -932,7 +932,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				PHALCON_CPY_WRT(column_alias_sql, column_domain_sql);
 			}
 
-			phalcon_array_append(&selected_columns, column_alias_sql, PH_SEPARATE);
+			phalcon_array_append(&selected_columns, column_alias_sql, PH_COPY);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -960,7 +960,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_HVALUE(table);
 
 			PHALCON_CALL_METHOD(&sql_table, this_ptr, "getsqltable", table, escape_char);
-			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE);
+			phalcon_array_append(&selected_tables, sql_table, PH_COPY);
 
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
@@ -1011,7 +1011,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			phalcon_array_fetch_string(&table, join, SL("source"), PH_NOISY);
 
 			PHALCON_CALL_METHOD(&sql_table, this_ptr, "getsqltable", table, escape_char);
-			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE);
+			phalcon_array_append(&selected_tables, sql_table, PH_COPY);
 
 			PHALCON_INIT_NVAR(sql_join);
 			PHALCON_CONCAT_SVSV(sql_join, " ", type, " JOIN ", sql_table);
@@ -1035,7 +1035,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 						PHALCON_GET_HVALUE(join_condition);
 
 						PHALCON_CALL_METHOD(&join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
-						phalcon_array_append(&join_expressions, join_expression, PH_SEPARATE);
+						phalcon_array_append(&join_expressions, join_expression, PH_COPY);
 
 						zend_hash_move_forward_ex(ah3, &hp3);
 					}
@@ -1086,7 +1086,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_HVALUE(group_field);
 
 			PHALCON_CALL_METHOD(&group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
-			phalcon_array_append(&group_items, group_expression, PH_SEPARATE);
+			phalcon_array_append(&group_items, group_expression, PH_COPY);
 
 			zend_hash_move_forward_ex(ah4, &hp4);
 		}
@@ -1145,7 +1145,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				PHALCON_CPY_WRT(order_sql_item_type, order_sql_item);
 			}
 
-			phalcon_array_append(&order_items, order_sql_item_type, PH_SEPARATE);
+			phalcon_array_append(&order_items, order_sql_item_type, PH_COPY);
 
 			zend_hash_move_forward_ex(ah5, &hp5);
 		}

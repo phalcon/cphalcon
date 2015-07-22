@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 			if (phalcon_array_isset_string_fetch(&n, argument, SS("name"))) {
 				phalcon_array_update_zval(&arguments, n, resolved_argument, PH_COPY);
 			} else {
-				phalcon_array_append(&arguments, resolved_argument, 0);
+				phalcon_array_append(&arguments, resolved_argument, PH_COPY);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 				if (phalcon_array_isset_string_fetch(&name, item, SS("name"))) {
 					phalcon_array_update_zval(&return_value, name, resolved_item, PH_COPY);
 				} else {
-					phalcon_array_append(&return_value, resolved_item, 0);
+					phalcon_array_append(&return_value, resolved_item, PH_COPY);
 				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);

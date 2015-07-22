@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 			}
 
 			if (!EG(exception) && (!prefix || phalcon_start_with(key, prefix, NULL))) {
-				phalcon_array_append(&return_value, key, 0);
+				phalcon_array_append(&return_value, key, PH_COPY);
 			}
 		}
 

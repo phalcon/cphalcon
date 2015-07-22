@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 						PHALCON_GET_HVALUE(item_value);
 	
 						PHALCON_CALL_METHOD(&filter_value, this_ptr, "_sanitize", item_value, filter);
-						phalcon_array_update_zval(&array_value, item_key, filter_value, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_zval(&array_value, item_key, filter_value, PH_COPY);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			(Z_TYPE_P(filter_object) == IS_OBJECT && instanceof_function(Z_OBJCE_P(filter_object), zend_ce_closure TSRMLS_CC))) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
-			phalcon_array_append(&arguments, value, 0);
+			phalcon_array_append(&arguments, value, PH_COPY);
 			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
 			RETURN_MM();
 		}

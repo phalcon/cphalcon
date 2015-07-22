@@ -177,15 +177,6 @@ static phalcon_memory_entry* phalcon_memory_grow_stack_common(zend_phalcon_globa
 		assert(g->active_memory >= g->end_memory - 1 || g->active_memory < g->start_memory);
 #endif
 		entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
-	/* ecalloc() will take care of these members
-		entry->pointer   = 0;
-		entry->capacity  = 0;
-		entry->addresses = NULL;
-		entry->hash_pointer   = 0;
-		entry->hash_capacity  = 0;
-		entry->hash_addresses = NULL;
-		entry->next = NULL;
-	*/
 #ifndef PHALCON_RELEASE
 		entry->permanent  = 0;
 		entry->func       = NULL;
@@ -280,6 +271,7 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 						zval_ptr_dtor(ptr);
 					} else {
 						efree(*ptr);
+						*ptr = NULL;
 					}
 				} else {
 					Z_DELREF_PP(ptr);
@@ -832,10 +824,12 @@ void ZEND_FASTCALL phalcon_ptr_dtor(zval **var)
 	} else {
 		if (Z_REFCOUNT_PP(var) == 0) {
 			efree(*var);
+			*var = NULL;
 		} else {
 			Z_DELREF_PP(var);
 			if (Z_REFCOUNT_PP(var) == 0) {
 				efree(*var);
+				*var = NULL;
 			}
 		}
 	}

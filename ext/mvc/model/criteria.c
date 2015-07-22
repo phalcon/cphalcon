@@ -967,7 +967,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_append(&bind_keys, query_key, PH_COPY);
 		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 
@@ -1054,7 +1054,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 
 		PHALCON_INIT_NVAR(query_key);
 		PHALCON_CONCAT_SVS(query_key, ":", key, ":");
-		phalcon_array_append(&bind_keys, query_key, 0);
+		phalcon_array_append(&bind_keys, query_key, PH_COPY);
 		phalcon_array_update_zval(&bind_params, key, value, PH_COPY);
 		phalcon_increment(hidden_param);
 
@@ -1444,7 +1444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 						phalcon_array_update_zval(&bind, field, value, PH_COPY);
 					}
 
-					phalcon_array_append(&conditions, condition, 0);
+					phalcon_array_append(&conditions, condition, PH_COPY);
 				}
 			}
 
@@ -1947,14 +1947,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, _generateSelect) {
 				PHALCON_GET_HVALUE(group_item);
 
 				if (phalcon_is_numeric(group_item)) {
-					phalcon_array_append(&group_items, group_item, PH_SEPARATE);
+					phalcon_array_append(&group_items, group_item, PH_COPY);
 				} else {
 					if (phalcon_memnstr_str(group_item, SL("."))) {
-						phalcon_array_append(&group_items, group_item, PH_SEPARATE);
+						phalcon_array_append(&group_items, group_item, PH_COPY);
 					} else {
 						PHALCON_INIT_NVAR(escaped_item);
 						PHALCON_CONCAT_SVS(escaped_item, "[", group_item, "]");
-						phalcon_array_append(&group_items, escaped_item, PH_SEPARATE);
+						phalcon_array_append(&group_items, escaped_item, PH_COPY);
 					}
 				}
 

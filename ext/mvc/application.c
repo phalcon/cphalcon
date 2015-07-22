@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			/* A module definition object, can be a Closure instance */
 			PHALCON_INIT_VAR(module_params);
 			array_init_size(module_params, 1);
-			phalcon_array_append(&module_params, dependency_injector, 0);
+			phalcon_array_append(&module_params, dependency_injector, PH_COPY);
 
 			PHALCON_INIT_NVAR(status);/**/
 			PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);
