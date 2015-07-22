@@ -3247,7 +3247,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Ṕhalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public function getSingleResult(var bindParams = null, var bindTypes = null)
 	{
