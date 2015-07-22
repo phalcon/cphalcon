@@ -78,17 +78,8 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Sets a cookie to be sent at the end of the request
 	 * This method overrides any cookie set before with the same name
-	 *
-	 * @param string name
-	 * @param mixed value
-	 * @param int expire
-	 * @param string path
-	 * @param boolean secure
-	 * @param string domain
-	 * @param boolean httpOnly
-	 * @return Phalcon\Http\Response\Cookies
 	 */
-	public function set(string! name, value = null, int expire = 0, string path = "/", secure = null, string! domain = null, httpOnly = null) -> <Cookies>
+	public function set(string! name, value = null, int expire = 0, string path = "/", boolean secure = null, string! domain = null, boolean httpOnly = null) -> <Cookies>
 	{
 		var cookie, encryption, dependencyInjector, response;
 

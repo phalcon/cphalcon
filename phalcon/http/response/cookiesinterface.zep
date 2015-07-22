@@ -39,17 +39,8 @@ interface CookiesInterface
 
 	/**
 	 * Sets a cookie to be sent at the end of the request
-	 *
-	 * @param string name
-	 * @param mixed value
-	 * @param int expire
-	 * @param string path
-	 * @param boolean secure
-	 * @param string domain
-	 * @param boolean httpOnly
-	 * @return Phalcon\Http\Response\CookiesInterface
 	 */
-	public function set(string! name, value = null, int expire = 0, string path = "/", secure = null, string! domain = null, httpOnly = null) -> <CookiesInterface>;
+	public function set(string! name, value = null, int expire = 0, string path = "/", boolean secure = null, string! domain = null, boolean httpOnly = null) -> <CookiesInterface>;
 
 	/**
 	 * Gets a cookie from the bag
