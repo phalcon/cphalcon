@@ -1,4 +1,4 @@
-# [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-??-??)
+# [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds
 - Added `Http\Response::setCache()` to easily set cache headers.
 - When a beanstalkd connection is closed the adapter does not produce a notice anymore
