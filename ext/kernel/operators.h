@@ -79,12 +79,14 @@
 void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 #if PHP_VERSION_ID < 50400
 #define phalcon_sub_function(result, left, right) sub_function(result, left, right TSRMLS_CC)
-#define phalcon_add_function(result, left, right) phalcon_add_function_ex(result, left, right TSRMLS_CC)
+#define phalcon_add_function(result, left, right) add_function(result, left, right TSRMLS_CC)
 #define phalcon_div_function(result, left, right) div_function(result, left, right TSRMLS_CC)
+#define phalcon_mul_function(result, left, right) mul_function(result, left, right TSRMLS_CC)
 #else
 #define phalcon_sub_function(result, left, right) fast_sub_function(result, left, right TSRMLS_CC)
 #define phalcon_add_function(result, left, right) fast_add_function(result, left, right TSRMLS_CC)
 #define phalcon_div_function(result, left, right) fast_div_function(result, left, right TSRMLS_CC)
+#define phalcon_mul_function(result, left, right) fast_mul_function(result, left, right TSRMLS_CC)
 #endif
 
 /** Operator functions */

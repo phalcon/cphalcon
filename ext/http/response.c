@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader);
 PHP_METHOD(Phalcon_Http_Response, setRawHeader);
 PHP_METHOD(Phalcon_Http_Response, resetHeaders);
 PHP_METHOD(Phalcon_Http_Response, setExpires);
+PHP_METHOD(Phalcon_Http_Response, setCache);
 PHP_METHOD(Phalcon_Http_Response, setNotModified);
 PHP_METHOD(Phalcon_Http_Response, setContentType);
 PHP_METHOD(Phalcon_Http_Response, setEtag);
@@ -113,6 +114,7 @@ static const zend_function_entry phalcon_http_response_method_entry[] = {
 	PHP_ME(Phalcon_Http_Response, setRawHeader, arginfo_phalcon_http_responseinterface_setrawheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, resetHeaders, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setExpires, arginfo_phalcon_http_responseinterface_setexpires, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, setCache, arginfo_phalcon_http_responseinterface_setcache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setNotModified, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setContentType, arginfo_phalcon_http_responseinterface_setcontenttype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setEtag, arginfo_phalcon_http_response_setetag, ZEND_ACC_PUBLIC)
@@ -434,6 +436,55 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	PHALCON_INIT_VAR(expires_header);
 	ZVAL_STRING(expires_header, "Expires", 1);
 	PHALCON_CALL_METHOD(NULL, this_ptr, "setheader", expires_header, utc_date);
+
+	RETURN_THIS();
+}
+
+/**
+ * Sets Cache headers to use HTTP cache
+ *
+ *<code>
+ *	$this->response->setCache(60);
+ *</code>
+ *
+ * @param int $minutes
+ * @return \Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, setCache){
+
+	zval *minutes, *headers = NULL, *date, *modify;
+	zval *seconds, *cache_header, *header_value;
+	zend_class_entry *datetime_ce;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &minutes);
+	PHALCON_ENSURE_IS_LONG(&minutes);
+
+	datetime_ce = php_date_get_date_ce();
+
+	PHALCON_CALL_METHOD(&headers, this_ptr, "getheaders");
+
+	PHALCON_INIT_VAR(date);
+	object_init_ex(date, datetime_ce);
+	PHALCON_CALL_METHOD(NULL, date, "__construct");
+
+	PHALCON_INIT_VAR(modify);
+	PHALCON_CONCAT_SVS(modify, "+", minutes, " minutes");
+	PHALCON_CALL_METHOD(NULL, date, "modify", minutes);
+
+	PHALCON_CALL_SELF(NULL, "setexpires", date);
+
+	PHALCON_INIT_VAR(seconds);
+	ZVAL_LONG(seconds, Z_LVAL_P(minutes) * 60);
+
+	PHALCON_INIT_VAR(cache_header);
+	ZVAL_STRING(cache_header, "Cache-Control", 1);
+
+	PHALCON_INIT_VAR(header_value);
+	PHALCON_CONCAT_SV(header_value, "max-age=", seconds);
+
+	PHALCON_CALL_METHOD(NULL, this_ptr, "setheader", cache_header, header_value);
 
 	RETURN_THIS();
 }

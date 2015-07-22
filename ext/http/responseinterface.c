@@ -29,6 +29,7 @@ static const zend_function_entry phalcon_http_responseinterface_method_entry[] =
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setRawHeader, arginfo_phalcon_http_responseinterface_setrawheader)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, resetHeaders, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setExpires, arginfo_phalcon_http_responseinterface_setexpires)
+	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setCache, arginfo_phalcon_http_responseinterface_setcache)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setNotModified, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setContentType, arginfo_phalcon_http_responseinterface_setcontenttype)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, redirect, arginfo_phalcon_http_responseinterface_redirect)
@@ -100,6 +101,14 @@ PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
  * @return Phalcon\Http\ResponseInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, setExpires);
+
+/**
+ * Sets Cache headers to use HTTP cache
+ *
+ * @param int $minutes
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, setCache);
 
 /**
  * Sends a Not-Modified response
