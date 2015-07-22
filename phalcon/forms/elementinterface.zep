@@ -34,7 +34,7 @@ interface ElementInterface
 	/**
 	 * Sets the parent form to the element
 	 *
-	 * @param Phalcon\Forms\Form form
+	 * @param \Phalcon\Forms\Form form
 	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setForm(<\Phalcon\Forms\Form> form);
@@ -85,7 +85,7 @@ interface ElementInterface
 	/**
 	 * Adds a group of validators
 	 *
-	 * @param Phalcon\Validation\ValidatorInterface[]
+	 * @param \Phalcon\Validation\ValidatorInterface[]
 	 * @param boolean merge
 	 * @return Phalcon\Forms\ElementInterface
 	 */
@@ -94,7 +94,7 @@ interface ElementInterface
 	/**
 	 * Adds a validator to the element
 	 *
-	 * @param Phalcon\Validation\ValidatorInterface
+	 * @param \Phalcon\Validation\ValidatorInterface
 	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function addValidator(<ValidatorInterface> validator);
@@ -237,7 +237,7 @@ interface ElementInterface
 	/**
 	 * Sets the validation messages related to the element
 	 *
-	 * @param Phalcon\Validation\Message\Group group
+	 * @param \Phalcon\Validation\Message\Group group
 	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function setMessages(<Group> group);
@@ -245,7 +245,7 @@ interface ElementInterface
 	/**
 	 * Appends a message to the internal message list
 	 *
-	 * @param Phalcon\Validation\Message message
+	 * @param \Phalcon\Validation\Message message
 	 * @return Phalcon\Forms\ElementInterface
 	 */
 	public function appendMessage(<MessageInterface> message);

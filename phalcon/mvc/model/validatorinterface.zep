@@ -39,7 +39,7 @@ interface ValidatorInterface
 	/**
 	 * Executes the validator
 	 *
-	 * @param Phalcon\Mvc\ModelInterface record
+	 * @param \Phalcon\Mvc\ModelInterface record
 	 * @return boolean
 	 */
 	public function validate(<EntityInterface> record) -> boolean;

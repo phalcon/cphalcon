@@ -567,7 +567,7 @@ class View extends Injectable implements ViewInterface
 	 * @param string viewPath
 	 * @param boolean silence
 	 * @param boolean mustClean
-	 * @param Phalcon\Cache\BackendInterface $cache
+	 * @param \Phalcon\Cache\BackendInterface $cache
 	 */
 	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
 	{

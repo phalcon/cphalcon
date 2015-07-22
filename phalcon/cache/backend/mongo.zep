@@ -60,7 +60,7 @@ class Mongo extends Backend implements BackendInterface
 	/**
 	* Phalcon\Cache\Backend\Mongo constructor
 	*
-	* @param Phalcon\Cache\FrontendInterface frontend
+	* @param \Phalcon\Cache\FrontendInterface frontend
 	* @param array options
 	*/
 	public function __construct(<FrontendInterface> frontend, options = null)

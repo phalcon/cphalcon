@@ -442,7 +442,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Adds an element to the form
 	 *
-	 * @param Phalcon\Forms\ElementInterface element
+	 * @param \Phalcon\Forms\ElementInterface element
 	 * @param string $postion
  	 * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
 	 * @return Phalcon\Forms\Form
