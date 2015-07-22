@@ -122,10 +122,9 @@ abstract class Adapter
 	/**
 	 * Gets a session variable from an application context
 	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @param boolean remove
-	 * @return mixed
+	 *<code>
+	 *	$session->get('auth', 'yes');
+	 *</code>
 	 */
 	public function get(string index, defaultValue = null, boolean remove = false)
 	{
@@ -259,9 +258,6 @@ abstract class Adapter
 
 	/**
 	 * Alias: Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @return mixed
 	 */
 	public function __get(string index)
 	{
@@ -270,11 +266,8 @@ abstract class Adapter
 
 	/**
 	 * Alias: Sets a session variable in an application context
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function __set(string index, value)
+	public function __set(string index, var value)
 	{
 		return this->set(index, value);
 	}

@@ -44,12 +44,8 @@ interface AdapterInterface
 
 	/**
 	 * Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function get(string index, defaultValue = null);
+	public function get(string index, var defaultValue = null);
 
 	/**
 	 * Sets a session variable in an application context
