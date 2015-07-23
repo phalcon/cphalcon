@@ -111,12 +111,20 @@ abstract class Adapter
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	{
+		session_regenerate_id(deleteOldSession);
+		return this;
+	}
+
+	/**
 	 * Gets a session variable from an application context
 	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @param boolean remove
-	 * @return mixed
+	 *<code>
+	 *	$session->get('auth', 'yes');
+	 *</code>
 	 */
 	public function get(string index, defaultValue = null, boolean remove = false)
 	{
@@ -138,11 +146,8 @@ abstract class Adapter
 	 *<code>
 	 *	$session->set('auth', 'yes');
 	 *</code>
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function set(string index, value)
+	public function set(string index, var value)
 	{
 		let _SESSION[this->_uniqueId . index] = value;
 	}
@@ -253,9 +258,6 @@ abstract class Adapter
 
 	/**
 	 * Alias: Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @return mixed
 	 */
 	public function __get(string index)
 	{
@@ -264,11 +266,8 @@ abstract class Adapter
 
 	/**
 	 * Alias: Sets a session variable in an application context
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function __set(string index, value)
+	public function __set(string index, var value)
 	{
 		return this->set(index, value);
 	}
