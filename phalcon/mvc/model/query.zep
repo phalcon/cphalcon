@@ -1653,37 +1653,37 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * sql_models are all the models that are using in the query
+		 * sqlModels is an array of the models to be used in the query
 		 */
 		let sqlModels = [];
 
 		/**
-		 * sql_tables are all the mapped sources regarding the models in use
+		 * sqlTables is an array of the mapped models sources to be used in the query
 		 */
 		let sqlTables = [];
 
 		/**
-		 * sql_aliases are the aliases as keys and the mapped sources as values
-		 */
-		let sqlAliases = [];
-
-		/**
-		 * sql_columns are all every column expression
+		 * sqlColumns is an array of every column expression
 		 */
 		let sqlColumns = [];
 
 		/**
-		 * sqlAliasesModels are the aliases as keys and the model names as values
+		 * sqlAliases is a map from aliases to mapped sources
+		 */
+		let sqlAliases = [];
+
+		/**
+		 * sqlAliasesModels is a map from aliases to model names
 		 */
 		let sqlAliasesModels = [];
 
 		/**
-		 * sqlAliasesModels are the model names as keys and the aliases as values
+		 * sqlAliasesModels is a map from model names to aliases
 		 */
 		let sqlModelsAliases = [];
 
 		/**
-		 * sqlAliasesModelsInstances are the aliases as keys and the model instances as values
+		 * sqlAliasesModelsInstances is a map from aliases to model instances
 		 */
 		let sqlAliasesModelsInstances = [];
 
@@ -1710,14 +1710,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 			throw new Exception("A meta-data is required to execute the query");
 		}
 
-		// Processing selected columns
+		// Process selected columns
 		for selectedModel in selectedModels {
 
 			let qualifiedName = selectedModel["qualifiedName"],
 				modelName = qualifiedName["name"];
 
 			/**
-			 * Check if the table have a namespace alias
+			 * Check if the table has a namespace alias
 			 */
 			if memstr(modelName, ":") {
 				let nsAlias = explode(":", modelName);
@@ -1744,10 +1744,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let completeSource = source;
 			}
 
-			// If an alias is defined for a model the model cannot be referenced in the column list
+			// If an alias is defined for a model then the model cannot be referenced in the column list
 			if fetch alias, selectedModel["alias"] {
 
-				// Check that the alias hasn't been used before
+				// Check if the alias was used before
 				if isset sqlAliases[alias] {
 					throw new Exception("Alias '" . alias . "' is already used, when preparing: " . this->_phql);
 				}
@@ -1797,7 +1797,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				this->_sqlAliasesModelsInstances = array_merge(this->_sqlAliasesModelsInstances, sqlAliasesModelsInstances);
 		}
 
-		// Processing joins
+		// Process joins
 		if fetch joins, select["joins"] {
 			if count(joins) {
 				let sqlJoins = this->_getJoins(select);
@@ -1808,7 +1808,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let sqlJoins = [];
 		}
 
-		// Processing selected columns
+		// Process selected columns
 		if !isset columns[0] {
 			let selectColumns = [columns];
 		} else {
@@ -1824,7 +1824,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			for sqlColumn in this->_getSelectColumn(column) {
 
 				/**
-				 * If "alias" is set, the user had defined a alias for the column
+				 * If "alias" is set, the user defined an alias for the column
 				 */
 				if fetch alias, column["alias"] {
 
@@ -1871,32 +1871,32 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let sqlSelect["joins"] = sqlJoins;
 		}
 
-		// Process "WHERE" clause if any
+		// Process "WHERE" clause if set
 		if fetch where, ast["where"] {
 			let sqlSelect["where"] = this->_getExpression(where);
 		}
 
-		// Process "GROUP BY" clause if any
+		// Process "GROUP BY" clause if set
 		if fetch groupBy, ast["groupBy"] {
 			let sqlSelect["group"] = this->_getGroupClause(groupBy);
 		}
 
-		// Process "HAVING" clause if any
+		// Process "HAVING" clause if set
 		if fetch having , ast["having"] {
 			let sqlSelect["having"] = this->_getExpression(having);
 		}
 
-		// Process "ORDER BY" clause if any
+		// Process "ORDER BY" clause if set
 		if fetch order, ast["orderBy"] {
 			let sqlSelect["order"] = this->_getOrderClause(order);
 		}
 
-		// Process "LIMIT" clause if any
+		// Process "LIMIT" clause if set
 		if fetch limit, ast["limit"] {
 			let sqlSelect["limit"] = this->_getLimitClause(limit);
 		}
 
-		// Process "FOR UPDATE" clause
+		// Process "FOR UPDATE" clause if set
 		if isset ast["forUpdate"] {
 			let sqlSelect["forUpdate"] = true;
 		}
