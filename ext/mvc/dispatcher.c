@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	zval *namespace_name, *controller_name, *action_name, *params, *dependency_injector;
 	zval *exception_message, *exception = NULL, *service;
 	zval *response = NULL, *status_code, *status_message;
-	zval *events_manager, *event_name, *status = NULL;
+	zval *event_name, *status = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -277,17 +277,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	PHALCON_CALL_METHOD(NULL, exception, "__construct", message, exception_code);
 
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	PHALCON_INIT_VAR(event_name);
+	ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 
-		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-
-		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, exception);
-		if (PHALCON_IS_FALSE(status)) {
-			RETURN_MM_FALSE;
-		}
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name, exception);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
 
 	/**
@@ -307,17 +302,20 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
 
-	zval *exception, *events_manager, *event_name;
+	zval *exception, *event_name;
 
-	phalcon_fetch_params(0, 1, 0, &exception);
+	PHALCON_MM_GROW();
 
-	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-		PHALCON_ALLOC_GHOST_ZVAL(event_name);
-		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+	phalcon_fetch_params(1, 1, 0, &exception);
 
-		PHALCON_RETURN_CALL_METHODW(events_manager, "fire", event_name, this_ptr, exception);
-	}
+	PHALCON_INIT_VAR(event_name);
+	ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+
+	Z_SET_ISREF_P(exception);
+	PHALCON_RETURN_CALL_METHOD(this_ptr, "fireevent", event_name, exception);
+	Z_UNSET_ISREF_P(exception);
+
+	RETURN_MM();
 }
 
 /**

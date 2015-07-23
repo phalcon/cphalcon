@@ -952,7 +952,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 */
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
-			PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 		}
 
 		/**
@@ -1360,8 +1360,10 @@ PHP_METHOD(Phalcon_Dispatcher, fireEvent){
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 
+		Z_SET_ISREF_P(exception);
 		zval *params[] = {PHALCON_FETCH_VA_ARGS event_name, exception};
 		ret2 = phalcon_call_class_method_aparams(&status, phalcon_dispatcher_ce, phalcon_fcall_parent, this_ptr, SL("fireevent"), PHALCON_CALL_NUM_PARAMS(params), PHALCON_PASS_CALL_PARAMS(params) TSRMLS_CC);
+		Z_UNSET_ISREF_P(exception);
 
 		if (ret2 == SUCCESS && PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
