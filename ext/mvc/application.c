@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	ZVAL_STRING(event_name, "application:afterHandleRequest", 1);
 
 	Z_SET_ISREF_P(controller);
-	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name, );
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name, controller);
 	Z_UNSET_ISREF_P(controller);
 
 	if (PHALCON_IS_FALSE(status)) {
