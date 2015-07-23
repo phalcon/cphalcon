@@ -1399,8 +1399,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *controller_name, *action_name, *params = NULL, *namespace_name = NULL, *view_model = NULL;
 	zval *disabled, *contents = NULL, *model_content = NULL, *layouts_dir = NULL, *layout, *enable_namespace_view, *lower_case;
 	zval *layout_name = NULL, *layout_namespace = NULL, *engines = NULL, *pick_view, *render_view = NULL;
-	zval *pick_view_action;
-	zval *events_manager, *event_name = NULL, *status = NULL;
+	zval *pick_view_action, *event_name = NULL, *status = NULL;
 	zval *silence = NULL, *disabled_levels, *render_level, *enable_layouts_absolute_path;
 	zval *templates_before, *template_before = NULL;
 	zval *view_temp_path = NULL, *templates_after, *template_after = NULL, *main_view;
@@ -1589,9 +1588,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		}
 	}
 
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
-
 	/** 
 	 * Create a virtual symbol table
 	 */
@@ -1600,16 +1596,14 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	/** 
 	 * Call beforeRender if there is an events manager
 	 */
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "view:beforeRender", 1);
 
-		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "view:beforeRender", 1);
-
-		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr);
-		if (PHALCON_IS_FALSE(status)) {
-			RETURN_MM_FALSE;
-		}
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name);
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
+	
 
 	/** 
 	 * Get the current content in the buffer maybe some output from the controller
@@ -1769,11 +1763,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	/** 
 	 * Call afterRender event
 	 */
-	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-		PHALCON_INIT_NVAR(event_name);
-		ZVAL_STRING(event_name, "view:afterRender", 1);
-		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr);
-	}
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "view:afterRender", 1);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
 
 	RETURN_THIS();
 }

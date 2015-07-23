@@ -270,31 +270,6 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule){
 	RETURN_MEMBER(this_ptr, "_defaultModule");
 }
 
-static int phalcon_mvc_application_fire_event(zval *mgr, const char *event, zval *this_ptr, zval *params TSRMLS_DC)
-{
-	if (mgr) {
-		zval *event_name;
-		zval *status = NULL;
-		uint params_cnt = 2 + (params != NULL ? 1 : 0);
-		zval *p[3];
-
-		PHALCON_ALLOC_GHOST_ZVAL(event_name);
-		ZVAL_STRING(event_name, event, 1);
-
-		p[0] = event_name;
-		p[1] = this_ptr;
-		p[2] = params;
-
-		if (FAILURE == phalcon_call_method(&status, mgr, "fire", params_cnt, p TSRMLS_CC)) {
-			return FAILURE;
-		}
-
-		return (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) ? FAILURE : SUCCESS;
-	}
-
-	return SUCCESS;
-}
-
 /**
  * Handles a MVC request
  *
@@ -303,14 +278,14 @@ static int phalcon_mvc_application_fire_event(zval *mgr, const char *event, zval
  */
 PHP_METHOD(Phalcon_Mvc_Application, handle){
 
-	zval *uri = NULL, *dependency_injector, *events_manager;
+	zval *uri = NULL, *dependency_injector, *event_name = NULL;
 	zval *status = NULL, *service = NULL, *router = NULL, *module_name = NULL;
 	zval *module_object = NULL, *modules;
 	zval *module, *class_name = NULL, *module_params;
 	zval *implicit_view, *view = NULL, *namespace_name = NULL;
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL, *exact = NULL;
 	zval *dispatcher = NULL, *controller = NULL, *returned_response = NULL;
-	zval *possible_response = NULL, *render_status = NULL, *response = NULL;
+	zval *possible_response = NULL, *response = NULL;
 	zval *content = NULL, *path;
 	int f_implicit_view;
 
@@ -328,16 +303,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		return;
 	}
 
-	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(events_manager) != IS_OBJECT) {
-		events_manager = NULL;
-	}
-	else {
-		PHALCON_VERIFY_INTERFACE_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_mvc_application_exception_ce, 1);
-	}
-
 	/* Call boot event, this allows the developer to perform initialization actions */
-	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:boot", getThis(), NULL TSRMLS_CC)) {
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "application:boot", 1);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name);
+	if (PHALCON_IS_FALSE(status)) {
 		RETURN_MM_FALSE;
 	}
 
@@ -362,7 +332,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * Process the module definition
 	 */
 	if (zend_is_true(module_name)) {
-		if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:beforeStartModule", getThis(), module_name TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "application:beforeStartModule", 1);
+
+		Z_SET_ISREF_P(module_name);
+		PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name, module_name);
+		Z_UNSET_ISREF_P(module_name);
+
+		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
 
@@ -433,15 +410,19 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		}
 
 		/* Calling afterStartModule event */
-		if (events_manager) {
-			if (!module_object) {
-				module_object = PHALCON_GLOBAL(z_null);
-			}
+		if (!module_object) {
+			module_object = PHALCON_GLOBAL(z_null);
+		}
 
-			phalcon_update_property_this(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
-			if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:afterStartModule", getThis(), module_name TSRMLS_CC)) {
-				RETURN_MM_FALSE;
-			}
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "application:afterStartModule", 1);
+
+		Z_SET_ISREF_P(module_name);
+		PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name, module_name);
+		Z_UNSET_ISREF_P(module_name);
+
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
 		}
 	}
 
@@ -494,14 +475,30 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 
 	/* Calling beforeHandleRequest */
-	RETURN_MM_ON_FAILURE(phalcon_mvc_application_fire_event(events_manager, "application:beforeHandleRequest", getThis(), dispatcher TSRMLS_CC));
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "application:beforeHandleRequest", 1);
+
+	Z_SET_ISREF_P(dispatcher);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name, dispatcher);
+	Z_UNSET_ISREF_P(dispatcher);
+
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
+	}
 
 	/* The dispatcher must return an object */
 	PHALCON_CALL_METHOD(&controller, dispatcher, "dispatch");
 
 	/* Calling afterHandleRequest */
-	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:afterHandleRequest", getThis(), controller TSRMLS_CC) && EG(exception)) {
-		RETURN_MM();
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "application:afterHandleRequest", 1);
+
+	Z_SET_ISREF_P(controller);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name, );
+	Z_UNSET_ISREF_P(controller);
+
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
 
 	if (f_implicit_view) {
@@ -531,30 +528,15 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		if (PHALCON_IS_FALSE(returned_response)) {
 
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "application:beforeRenderView", 1);
 
-				PHALCON_INIT_VAR(render_status);
-
-				/** 
-				 * This allows to make a custom view render
-				 */
-				if (events_manager) {
-					if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:viewRender", getThis(), view TSRMLS_CC)) {
-						if (EG(exception)) {
-							RETURN_MM();
-						}
-
-						ZVAL_FALSE(render_status);
-					}
-					else {
-						ZVAL_TRUE(render_status);
-					}
-				}
-				else {
-					ZVAL_TRUE(render_status);
-				}
+				Z_SET_ISREF_P(view);
+				PHALCON_CALL_METHOD(&status, this_ptr, "fireeventcancel", event_name, view);
+				Z_UNSET_ISREF_P(view);
 
 				/* Check if the view process has been treated by the developer */
-				if (PHALCON_IS_NOT_FALSE(render_status)) {
+				if (PHALCON_IS_NOT_FALSE(status)) {
 					PHALCON_CALL_METHOD(&namespace_name, dispatcher, "getnamespacename");
 					PHALCON_CALL_METHOD(&controller_name, dispatcher, "getcontrollername");
 					PHALCON_CALL_METHOD(&action_name, dispatcher, "getactionname");
@@ -571,6 +553,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 						PHALCON_CALL_METHOD(NULL, view, "render", controller_name, action_name, params, namespace_name);
 					}
 				}
+
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "application:afterRenderView", 1);
+
+				Z_SET_ISREF_P(view);
+				PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name, view);
+				Z_UNSET_ISREF_P(view);
 			}
 		}
 	} else {		
@@ -582,8 +571,15 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 
 	/* Calling beforeSendResponse */
-	if (FAILURE == phalcon_mvc_application_fire_event(events_manager, "application:beforeSendResponse", getThis(), response TSRMLS_CC) && EG(exception)) {
-		RETURN_MM();
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "application:beforeSendResponse", 1);
+
+	Z_SET_ISREF_P(response);
+	PHALCON_CALL_METHOD(&status, this_ptr, "fireevent", event_name, response);
+	Z_UNSET_ISREF_P(response);
+
+	if (PHALCON_IS_FALSE(status)) {
+		RETURN_MM_FALSE;
 	}
 
 	if (f_implicit_view) {
@@ -601,6 +597,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	/* Cookies are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendcookies");
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "application:afterSendResponse", 1);
+
+	Z_SET_ISREF_P(response);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name, response);
+	Z_UNSET_ISREF_P(response);
 
 	/* Return the response */
 	RETURN_CCTOR(response);
