@@ -1540,13 +1540,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute) {
 	bind_params = phalcon_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY TSRMLS_CC);
 	bind_types = phalcon_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY TSRMLS_CC);
 
-	if (Z_TYPE_P(bind_params) == IS_ARRAY && Z_TYPE_P(bind_types) == IS_ARRAY) {
-		PHALCON_CALL_METHOD(NULL, query, "execute", bind_params, bind_types, use_rawsql);
-	} else if (Z_TYPE_P(bind_params) == IS_ARRAY) {
-		PHALCON_RETURN_CALL_METHOD(query, "execute", bind_params, PHALCON_GLOBAL(z_null), use_rawsql);
-	} else {
-		PHALCON_RETURN_CALL_METHOD(query, "execute", PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_null), use_rawsql);
+	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
+		PHALCON_CALL_METHOD(NULL, query, "setbindparams", bind_params);
 	}
+
+	if (Z_TYPE_P(bind_types) == IS_ARRAY) {
+		PHALCON_CALL_METHOD(NULL, query, "setbindtypes", bind_types);
+	}
+
+	PHALCON_RETURN_CALL_METHOD(query, "execute", PHALCON_GLOBAL(z_null), PHALCON_GLOBAL(z_null), use_rawsql);
 
 	PHALCON_MM_RESTORE();
 }

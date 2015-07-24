@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getModels);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getConnection);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSql);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getSqlSelect);
@@ -203,6 +204,7 @@ static const zend_function_entry phalcon_mvc_model_query_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Model_Query, getBindTypes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setIntermediate, arginfo_phalcon_mvc_model_query_setintermediate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getIntermediate, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, getModels, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getConnection, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getSql, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, _getSqlSelect, NULL, ZEND_ACC_PROTECTED)
@@ -3669,7 +3671,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
-	zval *intermediate, *phql, *ast = NULL, *ir_phql = NULL, *ir_phql_cache = NULL, *ir_phql_cache2;
+	zval *event_name = NULL, *intermediate, *phql, *ast = NULL, *ir_phql = NULL, *ir_phql_cache = NULL, *ir_phql_cache2;
 	zval *unique_id = NULL, *type = NULL, *exception_message;
 	zval *manager = NULL, *model_names = NULL, *tables = NULL, *key_schema, *key_source, *key = NULL, *model_name = NULL, *model = NULL, *table = NULL;
 	zval *old_schema = NULL, *old_source = NULL, *schema = NULL, *source = NULL;	
@@ -3679,6 +3681,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	int i_cache = 1;
 
 	PHALCON_MM_GROW();
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "query:beforeParse", 1);
+
+	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name);
 
 	intermediate = phalcon_fetch_nproperty_this(this_ptr, SL("_intermediate"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) {
@@ -3851,6 +3858,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "query:afterParse", 1);
+
+	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name);
 
 	RETURN_CTOR(ir_phql);
 }
@@ -5247,7 +5259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
-	zval *bind_params = NULL, *bind_types = NULL, *use_rawsql = NULL, *unique_row;
+	zval *bind_params = NULL, *bind_types = NULL, *use_rawsql = NULL, *event_name = NULL, *unique_row;
 	zval *cache_options, *cache_key = NULL, *key = NULL, *lifetime = NULL, *cache_service = NULL;
 	zval *dependency_injector, *cache = NULL, *frontend = NULL, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate = NULL, *default_bind_params;
@@ -5274,6 +5286,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	if (!use_rawsql) {
 		use_rawsql = PHALCON_GLOBAL(z_false);
 	}
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "query:beforeExecute", 1);
+
+	Z_SET_ISREF_P(bind_params);
+	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name, bind_params);
+	Z_UNSET_ISREF_P(bind_params);
 
 	cache_options = phalcon_fetch_nproperty_this(this_ptr, SL("_cacheOptions"), PH_NOISY TSRMLS_CC);
 	cache_options_is_not_null = (Z_TYPE_P(cache_options) != IS_NULL); /* to keep scan-build happy */
@@ -5446,6 +5465,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			return;
 
 	}
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "query:afterExecute", 1);
+
+	Z_SET_ISREF_P(result);
+	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name, result);
+	Z_UNSET_ISREF_P(result);
 
 	/** 
 	 * We store the resultset in the cache if any
@@ -5631,6 +5657,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate){
 
 
 	RETURN_MEMBER(this_ptr, "_intermediate");
+}
+
+/**
+ * Returns the models of the PHQL statement
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getModels){
+
+
+	RETURN_MEMBER(getThis(), "_models");
 }
 
 /**
