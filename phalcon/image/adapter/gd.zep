@@ -501,7 +501,14 @@ class Gd extends Adapter implements AdapterInterface
 	{
 		var ext;
 
-		let ext = strtolower(pathinfo(file, PATHINFO_EXTENSION));
+		let ext = pathinfo(file, PATHINFO_EXTENSION);
+
+		// If no extension is given, revert to the original type.
+		if !ext {
+			let ext = image_type_to_extension(this->_type, false);
+		}
+
+		let ext = strtolower(ext);
 
 		if strcmp(ext, "gif") == 0 {
 			let this->_type = 1;
