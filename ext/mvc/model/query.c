@@ -3671,7 +3671,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
-	zval *intermediate, *phql, *ast = NULL, *ir_phql = NULL, *ir_phql_cache = NULL, *ir_phql_cache2;
+	zval *event_name = NULL, *intermediate, *phql, *ast = NULL, *ir_phql = NULL, *ir_phql_cache = NULL, *ir_phql_cache2;
 	zval *unique_id = NULL, *type = NULL, *exception_message;
 	zval *manager = NULL, *model_names = NULL, *tables = NULL, *key_schema, *key_source, *key = NULL, *model_name = NULL, *model = NULL, *table = NULL;
 	zval *old_schema = NULL, *old_source = NULL, *schema = NULL, *source = NULL;	
@@ -3681,6 +3681,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	int i_cache = 1;
 
 	PHALCON_MM_GROW();
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "query:beforeParse", 1);
+
+	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name);
 
 	intermediate = phalcon_fetch_nproperty_this(this_ptr, SL("_intermediate"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) {
@@ -3853,6 +3858,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
+
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "query:afterParse", 1);
+
+	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name);
 
 	RETURN_CTOR(ir_phql);
 }
@@ -5278,7 +5288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	}
 
 	PHALCON_INIT_NVAR(event_name);
-	ZVAL_STRING(event_name, "query:beforeExecute");
+	ZVAL_STRING(event_name, "query:beforeExecute", 1);
 
 	Z_SET_ISREF_P(bind_params);
 	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name, bind_params);
@@ -5457,7 +5467,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	}
 
 	PHALCON_INIT_NVAR(event_name);
-	ZVAL_STRING(event_name, "query:afterExecute");
+	ZVAL_STRING(event_name, "query:afterExecute", 1);
 
 	Z_SET_ISREF_P(result);
 	PHALCON_CALL_METHOD(NULL, getThis(), "fireevent", event_name, result);
