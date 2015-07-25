@@ -915,7 +915,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Find a document by its id (_id)
 	 *
 	 * @param string|\MongoId id
-	 * @return Phalcon\Mvc\Collection
+	 * @return \Phalcon\Mvc\Collection
 	 */
 	public static function findById(id) -> <Collection>
 	{

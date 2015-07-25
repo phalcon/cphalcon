@@ -31,7 +31,7 @@ class Manager
 	 *
 	 * @param string name
 	 * @param object entity
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function create(name = null, entity = null) -> <Form>
 	{

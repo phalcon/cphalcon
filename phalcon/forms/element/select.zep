@@ -48,7 +48,7 @@ class Select extends Element implements ElementInterface {
 	 * Set the choice's options
 	 *
 	 * @param array|object options
-	 * @return Phalcon\Forms\Element
+	 * @return \Phalcon\Forms\Element
 	 */
 	public function setOptions(var options) -> <Element>
 	{

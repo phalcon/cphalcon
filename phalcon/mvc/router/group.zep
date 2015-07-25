@@ -179,7 +179,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addGet(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -191,7 +191,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addPost(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -203,7 +203,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addPut(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -215,7 +215,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -227,7 +227,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addDelete(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -239,7 +239,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -251,7 +251,7 @@ class Group implements GroupInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Mvc\Router\Route
+	 * @return \Phalcon\Mvc\Router\Route
 	 */
 	public function addHead(string! pattern, var paths = null) -> <RouteInterface>
 	{

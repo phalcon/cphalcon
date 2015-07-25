@@ -115,7 +115,7 @@ class Cookie implements InjectionAwareInterface
 	 * Sets the cookie's value
 	 *
 	 * @param string value
-	 * @return Phalcon\Http\Cookie
+	 * @return \Phalcon\Http\Cookie
 	 */
 	public function setValue(value) -> <Cookie>
 	{

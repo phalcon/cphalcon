@@ -36,14 +36,14 @@ interface ResultsetInterface
 	/**
 	 * Get first row in the resultset
 	 *
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public function getFirst();
 
 	/**
 	 * Get last row in the resultset
 	 *
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public function getLast();
 
@@ -60,7 +60,7 @@ interface ResultsetInterface
 	/**
 	 * Returns the associated cache for the resultset
 	 *
-	 * @return Phalcon\Cache\BackendInterface
+	 * @return \Phalcon\Cache\BackendInterface
 	 */
 	public function getCache();
 

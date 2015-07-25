@@ -72,7 +72,7 @@ class Validation extends Injectable
 	 *
 	 * @param array|object data
 	 * @param object entity
-	 * @return Phalcon\Validation\Message\Group
+	 * @return \Phalcon\Validation\Message\Group
 	 */
 	public function validate(var data = null, var entity = null) -> <Group>
 	{
@@ -180,7 +180,7 @@ class Validation extends Injectable
 	 *
 	 * @param string field
 	 * @param array|string filters
-	 * @return Phalcon\Validation
+	 * @return \Phalcon\Validation
 	 */
 	public function setFilters(string field, filters) -> <Validation>
 	{
@@ -327,7 +327,7 @@ class Validation extends Injectable
 	 *
 	 * @param object entity
 	 * @param array|object data
-	 * @return Phalcon\Validation
+	 * @return \Phalcon\Validation
 	 */
 	public function bind(entity, data) -> <Validation>
 	{

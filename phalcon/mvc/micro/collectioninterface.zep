@@ -49,7 +49,7 @@ interface CollectionInterface
 	 *
 	 * @param mixed handler
 	 * @param boolean lazy
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function setHandler(handler, boolean lazy = false);
 
@@ -76,7 +76,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function map(string! routePattern, handler, name = null);
 
@@ -86,7 +86,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function get(string! routePattern, handler, name = null);
 
@@ -96,7 +96,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function post(string! routePattern, handler, name = null);
 
@@ -106,7 +106,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function put(string! routePattern, handler, name = null);
 
@@ -116,7 +116,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function patch(string! routePattern, handler, name = null);
 
@@ -126,7 +126,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function head(string! routePattern, handler, name = null);
 
@@ -136,7 +136,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function delete(string! routePattern, handler, name = null);
 
@@ -146,7 +146,7 @@ interface CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function options(string! routePattern, handler, name = null);
 

@@ -532,7 +532,7 @@ abstract class Resultset
 	 *</code>
 	 *
 	 * @param callback filter
-	 * @return Phalcon\Mvc\Model[]
+	 * @return \Phalcon\Mvc\Model[]
 	 */
 	public function filter(var filter) -> array
 	{

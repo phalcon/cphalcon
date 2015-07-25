@@ -104,7 +104,7 @@ interface ModelInterface
 	 * @param \Phalcon\Mvc\Model object
 	 * @param array data
 	 * @param array columnMap
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null);
 
@@ -116,7 +116,7 @@ interface ModelInterface
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
-	 * @return Phalcon\Mvc\Model result
+	 * @return \Phalcon\Mvc\Model result
 	 */
 	public static function cloneResultMap(base, array! data, var columnMap, dirtyState = 0, keepSnapshots = null);
 
@@ -126,7 +126,7 @@ interface ModelInterface
 	 * @param \Phalcon\Mvc\ModelInterface base
 	 * @param array data
 	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public static function cloneResult(<ModelInterface> base, array! data, dirtyState = 0);
 
@@ -151,7 +151,7 @@ interface ModelInterface
 	 * Allows to query the first record that match the specified conditions
 	 *
 	 * @param array parameters
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public static function findFirst(parameters = null);
 
@@ -159,7 +159,7 @@ interface ModelInterface
 	 * Create a criteria for a especific model
 	 *
 	 * @param \Phalcon\DiInterface dependencyInjector
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public static function query(<DiInterface> dependencyInjector = null);
 
@@ -235,7 +235,7 @@ interface ModelInterface
 	/**
 	 * Returns all the validation messages
 	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
+	 * @return \Phalcon\Mvc\Model\MessageInterface[]
 	 */
 	public function getMessages();
 
@@ -298,7 +298,7 @@ interface ModelInterface
 	 *
 	 * @param string alias
 	 * @param array arguments
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getRelated(alias, arguments = null);
 

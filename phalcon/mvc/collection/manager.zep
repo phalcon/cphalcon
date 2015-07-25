@@ -107,7 +107,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 * Returns a custom events manager related to a model
 	 *
 	 * @param \Phalcon\Mvc\CollectionInterface $model
- 	 * @return Phalcon\Events\ManagerInterface
+ 	 * @return \Phalcon\Events\ManagerInterface
 	 */
 	public function getCustomEventsManager(<CollectionInterface> model) //-> <\Phalcon\Events\ManagerInterface>
 	{
