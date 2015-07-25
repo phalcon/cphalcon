@@ -211,15 +211,16 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *g TSRMLS_D
 
 	if (EXPECTED(!CG(unclean_shutdown))) {
 		/* Clean active symbol table */
-		if (g->active_symbol_table) {
+		while (g->active_symbol_table) {
 			active_symbol_table = g->active_symbol_table;
-			if (active_symbol_table->scope == active_memory) {
-				zend_hash_destroy(EG(active_symbol_table));
-				FREE_HASHTABLE(EG(active_symbol_table));
-				EG(active_symbol_table) = active_symbol_table->symbol_table;
-				g->active_symbol_table = active_symbol_table->prev;
-				efree(active_symbol_table);
+			if (active_symbol_table->scope != active_memory) {
+				break;
 			}
+			zend_hash_destroy(EG(active_symbol_table));
+			FREE_HASHTABLE(EG(active_symbol_table));
+			EG(active_symbol_table) = active_symbol_table->symbol_table;
+			g->active_symbol_table = active_symbol_table->prev;
+			efree(active_symbol_table);
 		}
 
 		/* Check for non freed hash key zvals, mark as null to avoid string freeing */
