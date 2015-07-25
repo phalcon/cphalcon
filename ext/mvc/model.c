@@ -4119,38 +4119,48 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 
 					PHALCON_OBS_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(value);
+					ZVAL_NULL(value);
+				}
 
-					if (Z_TYPE_P(value) != IS_NULL || !phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {
+				if (Z_TYPE_P(value) == IS_NULL) {
+					if (PHALCON_GLOBAL(orm).not_null_validations) {
+						if (!phalcon_fast_in_array(field, not_null TSRMLS_CC)) { // Allow null value
+							phalcon_array_append(&fields, field, PH_COPY);
+							phalcon_array_append(&values, null_value, PH_COPY);
+							phalcon_array_append(&bind_types, bind_skip, PH_COPY);
+						} else if (!phalcon_array_isset(default_values, field)) { // Has default value
+							phalcon_array_append(&fields, field, PH_COPY);
+							phalcon_array_append(&values, null_value, PH_COPY);
+							phalcon_array_append(&bind_types, bind_skip, PH_COPY);
+						}
+					}
+				} else {
+					if (PHALCON_GLOBAL(orm).enable_auto_convert) {
+						if (Z_TYPE_P(value) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
+							PHALCON_OBS_NVAR(field_type);
+							phalcon_array_fetch(&field_type, data_types, field, PH_NOISY);
 
-						if (PHALCON_GLOBAL(orm).enable_auto_convert) {
-							if (Z_TYPE_P(value) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(value), phalcon_db_rawvalue_ce TSRMLS_CC)) {
-								PHALCON_OBS_NVAR(field_type);
-								phalcon_array_fetch(&field_type, data_types, field, PH_NOISY);
-
-								if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_JSON TSRMLS_CC)) {
-									PHALCON_INIT_NVAR(convert_value);
-									RETURN_MM_ON_FAILURE(phalcon_json_encode(convert_value, value, 0 TSRMLS_CC));
-								} else {
-									PHALCON_CPY_WRT(convert_value, value);
-								}
+							if (phalcon_is_equal_long(field_type, PHALCON_DB_COLUMN_TYPE_JSON TSRMLS_CC)) {
+								PHALCON_INIT_NVAR(convert_value);
+								RETURN_MM_ON_FAILURE(phalcon_json_encode(convert_value, value, 0 TSRMLS_CC));
 							} else {
 								PHALCON_CPY_WRT(convert_value, value);
 							}
 						} else {
 							PHALCON_CPY_WRT(convert_value, value);
 						}
-
-						phalcon_array_append(&fields, field, PH_COPY);
-						phalcon_array_append(&values, convert_value, PH_COPY);
-
-						PHALCON_OBS_NVAR(bind_type);
-						phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
-						phalcon_array_append(&bind_types, bind_type, PH_COPY);
+					} else {
+						PHALCON_CPY_WRT(convert_value, value);
 					}
-				} else if (!phalcon_fast_in_array(field, not_null TSRMLS_CC) || !phalcon_array_isset(default_values, field)) {
+
 					phalcon_array_append(&fields, field, PH_COPY);
-					phalcon_array_append(&values, null_value, PH_COPY);
-					phalcon_array_append(&bind_types, bind_skip, PH_COPY);
+					phalcon_array_append(&values, convert_value, PH_COPY);
+
+					PHALCON_OBS_NVAR(bind_type);
+					phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY);
+					phalcon_array_append(&bind_types, bind_type, PH_COPY);
 				}
 			}
 		}
