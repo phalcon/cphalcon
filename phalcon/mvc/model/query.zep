@@ -98,6 +98,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _bindTypes;
 
+	protected _enableImplicitJoins;
+
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -114,14 +116,22 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param string phql
 	 * @param \Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(phql = null, <DiInterface> dependencyInjector = null)
+	public function __construct(phql = null, <DiInterface> dependencyInjector = null, options = null)
 	{
+		var enableImplicitJoins;
+
 		if typeof phql != "null" {
 			let this->_phql = phql;
 		}
 
 		if typeof dependencyInjector == "object" {
 			this->setDI(dependencyInjector);
+		}
+
+		if typeof options == "array" && fetch enableImplicitJoins, options["enable_implicit_joins"] {
+			let this->_enableImplicitJoins = (enableImplicitJoins == true);
+		} else {
+			let this->_enableImplicitJoins = globals_get("orm.enable_implicit_joins");
 		}
 	}
 
@@ -1421,6 +1431,24 @@ class Query implements QueryInterface, InjectionAwareInterface
 			if fetch joinExpr, joinItem["conditions"] {
 				let joinPreCondition[joinAliasName] = this->_getExpression(joinExpr);
 			}
+		}
+
+		/**
+		 * Skip all implicit joins if the option is not enabled
+		 */
+		if !this->_enableImplicitJoins {
+			for joinAliasName, joinItem in joinPrepared {
+
+				let joinType = joinTypes[joinAliasName];
+				let joinSource = joinSources[joinAliasName];
+				let preCondition = joinPreCondition[joinAliasName];
+				let sqlJoins[] = [
+					"type": joinType,
+					"source": joinSource,
+					"conditions": [preCondition]
+				];
+			}
+			return sqlJoins;
 		}
 
 		/**
