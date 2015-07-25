@@ -268,7 +268,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Returns coookies set by the user
 	 *
-	 * @return Phalcon\Http\Response\CookiesInterface
+	 * @return \Phalcon\Http\Response\CookiesInterface
 	 */
 	public function getCookies() -> <CookiesInterface>
 	{
@@ -284,7 +284,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *
 	 * @param string name
 	 * @param string value
-	 * @return Phalcon\Http\Response
+	 * @return \Phalcon\Http\Response
 	 */
 	public function setHeader(string name, value) -> <Response>
 	{
@@ -385,7 +385,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *
 	 * @param string contentType
 	 * @param string charset
-	 * @return Phalcon\Http\Response
+	 * @return \Phalcon\Http\Response
 	 */
 	public function setContentType(string contentType, charset = null) -> <Response>
 	{
@@ -434,7 +434,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * @param string|array location
 	 * @param boolean externalRedirect
 	 * @param int statusCode
-	 * @return Phalcon\Http\Response
+	 * @return \Phalcon\Http\Response
 	 */
 	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
 	{
@@ -515,7 +515,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *
 	 * @param mixed content
 	 * @param int jsonOptions
-	 * @return Phalcon\Http\Response
+	 * @return \Phalcon\Http\Response
 	 */
 	public function setJsonContent(var content, jsonOptions = 0, depth = 512) -> <Response>
 	{
@@ -527,7 +527,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Appends a string to the HTTP response body
 	 *
 	 * @param string content
-	 * @return Phalcon\Http\Response
+	 * @return \Phalcon\Http\Response
 	 */
 	public function appendContent(content) -> <Response>
 	{
@@ -627,7 +627,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *
 	 * @param string filePath
 	 * @param string attachmentName
-	 * @return Phalcon\Http\Response
+	 * @return \Phalcon\Http\Response
 	 */
 	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <Response>
 	{

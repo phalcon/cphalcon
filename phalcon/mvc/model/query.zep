@@ -2662,7 +2662,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\StatusInterface
+	 * @return \Phalcon\Mvc\Model\Query\StatusInterface
 	 */
 	protected final function _executeInsert(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
@@ -2797,7 +2797,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\StatusInterface
+	 * @return \Phalcon\Mvc\Model\Query\StatusInterface
 	 */
 	protected final function _executeUpdate(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
@@ -2953,7 +2953,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\StatusInterface
+	 * @return \Phalcon\Mvc\Model\Query\StatusInterface
 	 */
 	protected final function _executeDelete(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
@@ -3034,7 +3034,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected final function _getRelatedRecords(<ModelInterface> model, var intermediate, var bindParams, var bindTypes)
 	 -> <ResultsetInterface>

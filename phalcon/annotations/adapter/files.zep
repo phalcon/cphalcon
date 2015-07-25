@@ -58,7 +58,7 @@ class Files extends Adapter implements AdapterInterface
 	 * Reads parsed annotations from files
 	 *
 	 * @param string key
-	 * @return Phalcon\Annotations\Reflection
+	 * @return \Phalcon\Annotations\Reflection
 	 */
 	public function read(string key) -> <Reflection> | boolean | int
 	{

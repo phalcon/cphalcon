@@ -420,7 +420,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array data
 	 * @param array dataColumnMap array to transform keys of data to another
 	 * @param array whiteList
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
@@ -505,7 +505,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
@@ -681,7 +681,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param \Phalcon\Mvc\ModelInterface $base
 	 * @param array data
 	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0)
 	{
@@ -827,7 +827,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * </code>
 	 *
 	 * @param string|array parameters
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
@@ -1076,7 +1076,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param string function
 	 * @param string alias
 	 * @param array parameters
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
 	{
@@ -3838,7 +3838,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string alias
 	 * @param array arguments
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
 	{
@@ -4116,7 +4116,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Magic method to get related records using the relation alias as a property
 	 *
 	 * @param string property
-	 * @return Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
 	 */
 	public function __get(string! property)
 	{

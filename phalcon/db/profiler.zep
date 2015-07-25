@@ -82,7 +82,7 @@ class Profiler
 	 * Starts the profile of a SQL sentence
 	 *
 	 * @param string sqlStatement
-	 * @return Phalcon\Db\Profiler
+	 * @return \Phalcon\Db\Profiler
 	 */
 	public function startProfile(var sqlStatement, var sqlVariables = null, var sqlBindTypes = null) -> <Profiler>
 	{

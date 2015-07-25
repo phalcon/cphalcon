@@ -43,7 +43,7 @@ interface AdapterInterface
 	 * Parses or retrieves all the annotations found in a class
 	 *
 	 * @param string|object className
-	 * @return Phalcon\Annotations\Reflection
+	 * @return \Phalcon\Annotations\Reflection
 	 */
 	public function get(className);
 
@@ -60,7 +60,7 @@ interface AdapterInterface
 	 *
 	 * @param string className
 	 * @param string methodName
-	 * @return Phalcon\Annotations\Collection
+	 * @return \Phalcon\Annotations\Collection
 	 */
 	public function getMethod(className, methodName);
 
@@ -77,7 +77,7 @@ interface AdapterInterface
 	 *
 	 * @param string className
 	 * @param string propertyName
-	 * @return Phalcon\Annotations\Collection
+	 * @return \Phalcon\Annotations\Collection
 	 */
 	public function getProperty(className, propertyName);
 }

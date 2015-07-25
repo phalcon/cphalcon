@@ -36,7 +36,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\Di\ServiceInterface
+	 * @return \Phalcon\Di\ServiceInterface
 	 */
 	public function set(string! name, definition, boolean shared = false) -> <ServiceInterface>;
 
@@ -45,7 +45,7 @@ interface DiInterface extends \ArrayAccess
 	 *
 	 * @param string name
 	 * @param mixed definition
-	 * @return Phalcon\Di\ServiceInterface
+	 * @return \Phalcon\Di\ServiceInterface
 	 */
 	public function setShared(string! name, definition) -> <ServiceInterface>;
 
@@ -62,7 +62,7 @@ interface DiInterface extends \ArrayAccess
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\Di\ServiceInterface
+	 * @return \Phalcon\Di\ServiceInterface
 	 */
 	public function attempt(string! name, definition, boolean shared = false) -> <ServiceInterface>;
 

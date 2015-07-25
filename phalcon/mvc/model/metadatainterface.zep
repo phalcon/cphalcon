@@ -38,7 +38,7 @@ interface MetaDataInterface
 	/**
 	 * Return the strategy to obtain the meta-data
 	 *
-	 * @return Phalcon\Mvc\Model\MetaData\StrategyInterface
+	 * @return \Phalcon\Mvc\Model\MetaData\StrategyInterface
 	 */
 	public function getStrategy();
 

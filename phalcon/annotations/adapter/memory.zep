@@ -40,7 +40,7 @@ class Memory extends Adapter implements AdapterInterface
 	* Reads parsed annotations from memory
 	*
 	* @param string key
-	* @return Phalcon\Annotations\Reflection
+	* @return \Phalcon\Annotations\Reflection
 	*/
 	public function read(string! key) -> <Reflection> | boolean
 	{

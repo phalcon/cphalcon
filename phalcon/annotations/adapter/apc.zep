@@ -62,7 +62,7 @@ class Apc extends Adapter implements AdapterInterface
 	 * Reads parsed annotations from APC
 	 *
 	 * @param string key
-	 * @return Phalcon\Annotations\Reflection
+	 * @return \Phalcon\Annotations\Reflection
 	 */
 	public function read(string! key) -> <Reflection> | boolean
 	{

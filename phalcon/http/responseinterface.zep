@@ -44,7 +44,7 @@ interface ResponseInterface
 	 *
 	 * @param string name
 	 * @param string value
-	 * @return Phalcon\Http\ResponseInterface
+	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function setHeader(string name, value) -> <ResponseInterface>;
 
@@ -72,7 +72,7 @@ interface ResponseInterface
 	 *
 	 * @param string contentType
 	 * @param string charset
-	 * @return Phalcon\Http\ResponseInterface
+	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function setContentType(string contentType, charset = null) -> <ResponseInterface>;
 
@@ -82,7 +82,7 @@ interface ResponseInterface
 	 * @param string location
 	 * @param boolean externalRedirect
 	 * @param int statusCode
-	 * @return Phalcon\Http\ResponseInterface
+	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
@@ -99,7 +99,7 @@ interface ResponseInterface
 	 *</code>
 	 *
 	 * @param string content
-	 * @return Phalcon\Http\ResponseInterface
+	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function setJsonContent(content) -> <ResponseInterface>;
 
@@ -107,7 +107,7 @@ interface ResponseInterface
 	 * Appends a string to the HTTP response body
 	 *
 	 * @param string content
-	 * @return Phalcon\Http\ResponseInterface
+	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function appendContent(content) -> <ResponseInterface>;
 

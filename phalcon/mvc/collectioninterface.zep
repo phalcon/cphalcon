@@ -105,7 +105,7 @@ interface CollectionInterface
 	 * Find a document by its id
 	 *
 	 * @param string id
-	 * @return Phalcon\Mvc\Collection
+	 * @return \Phalcon\Mvc\Collection
 	 */
 	public static function findById(id) -> <CollectionInterface>;
 

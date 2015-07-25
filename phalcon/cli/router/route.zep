@@ -449,7 +449,7 @@ class Route
 	 * If the callback returns false the route is treated as not matched
 	 *
 	 * @param callback callback
-	 * @return Phalcon\Cli\Router\Route
+	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function beforeMatch(var callback) -> <Route>
 	{
@@ -518,7 +518,7 @@ class Route
 	 *
 	 * @param string name
 	 * @param callable converter
-	 * @return Phalcon\Cli\Router\Route
+	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function convert(string! name, converter) -> <Route>
 	{

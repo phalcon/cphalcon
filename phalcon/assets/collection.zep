@@ -133,7 +133,7 @@ class Collection implements \Countable, \Iterator
 	 * @param boolean local
 	 * @param boolean filter
 	 * @param array attributes
-	 * @return Phalcon\Assets\Collection
+	 * @return \Phalcon\Assets\Collection
 	 */
 	public function addJs(string! path, var local = null, boolean filter = false, attributes = null) -> <Collection>
 	{

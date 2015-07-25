@@ -1187,7 +1187,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Helper method to query records based on a relation definition
 	 *
-	 * @return Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{

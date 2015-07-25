@@ -298,7 +298,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets SELECT DISTINCT / SELECT ALL flag
 	 *
 	 * @param bool|null distinct
-	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
+	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
 	 public function distinct(var distinct) -> <Builder>
 	 {
@@ -322,7 +322,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array columns
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function columns(var columns) -> <Builder>
 	{
@@ -349,7 +349,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array models
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function from(var models) -> <Builder>
 	{
@@ -366,7 +366,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *
 	 * @param string model
 	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function addFrom(var model, var alias = null) -> <Builder>
 	{
@@ -416,7 +416,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param string alias
 	 * @param string type
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function join(string! model, var conditions = null, var alias = null, var type = null) -> <Builder>
 	{
@@ -437,7 +437,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param string alias
 	 * @param string type
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function innerJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
@@ -455,7 +455,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function leftJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
@@ -473,7 +473,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function rightJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
@@ -493,7 +493,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param mixed conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function where(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
@@ -541,7 +541,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
@@ -600,7 +600,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
@@ -823,7 +823,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array orderBy
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function orderBy(var orderBy) -> <Builder>
 	{
@@ -935,7 +935,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array group
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function groupBy(var group) -> <Builder>
 	{

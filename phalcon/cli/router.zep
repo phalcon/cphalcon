@@ -389,7 +389,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param string pattern
 	 * @param string/array paths
-	 * @return Phalcon\Cli\Router\Route
+	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function add(string! pattern, paths = null) -> <Route>
 	{
@@ -472,7 +472,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * Returns a route object by its id
 	 *
 	 * @param int id
-	 * @return Phalcon\Cli\Router\Route
+	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function getRouteById(var id) -> <Route> | boolean
 	{

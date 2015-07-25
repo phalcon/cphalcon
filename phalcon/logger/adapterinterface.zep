@@ -32,14 +32,14 @@ interface AdapterInterface
 	/**
 	 * Sets the message formatter
 	 *
-	 * @return Phalcon\Logger\Adapter
+	 * @return \Phalcon\Logger\Adapter
 	 */
 	public function setFormatter(<FormatterInterface> formatter);
 
 	/**
 	 * Returns the internal formatter
 	 *
-	 * @return Phalcon\Logger\FormatterInterface
+	 * @return \Phalcon\Logger\FormatterInterface
 	 */
 	public function getFormatter();
 
@@ -47,7 +47,7 @@ interface AdapterInterface
 	 * Filters the logs sent to the handlers to be greater or equals than a specific level
 	 *
 	 * @param int level
-	 * @return Phalcon\Logger\Adapter
+	 * @return \Phalcon\Logger\Adapter
 	 */
 	public function setLogLevel(int level);
 
@@ -61,28 +61,28 @@ interface AdapterInterface
 	/**
 	 * Sends/Writes messages to the file log
 	 *
-	 * @return Phalcon\Logger\Adapter1
+	 * @return \Phalcon\Logger\Adapter1
 	 */
 	public function log(var type, var message = null, array! context = null);
 
 	/**
  	 * Starts a transaction
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function begin();
 
 	/**
  	 * Commits the internal transaction
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function commit();
 
 	/**
  	 * Rollbacks the internal transaction
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function rollback();
 
@@ -94,49 +94,49 @@ interface AdapterInterface
 	/**
  	 * Sends/Writes a debug message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function debug(string! message, array! context = null);
 
 	/**
  	 * Sends/Writes an error message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function error(string! message, array! context = null);
 
 	/**
  	 * Sends/Writes an info message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function info(string! message, array! context = null);
 
 	/**
  	 * Sends/Writes a notice message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function notice(string! message, array! context = null);
 
 	/**
  	 * Sends/Writes a warning message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function warning(string! message, array! context = null);
 
 	/**
  	 * Sends/Writes an alert message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function alert(string! message, array! context = null);
 
 	/**
  	 * Sends/Writes an emergency message to the log
  	 *
- 	 * @return Phalcon\Logger\Adapter
+ 	 * @return \Phalcon\Logger\Adapter
  	 */
 	public function emergency(string! message, array! context = null);
 }
