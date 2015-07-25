@@ -1248,15 +1248,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 			joinPrepared, manager, selectJoins, joinItem, joins, joinData, schema, source, model,
 			realModelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
 			fromModelName, joinAlias, joinModel, joinSource, preCondition, modelNameAlias,
-			relation, relations, modelAlias, sqlJoin, sqlJoinItem;
+			relation, relations, modelAlias, sqlJoin, sqlJoinItem, selectTables, table, tables, tableItem;
 
 		let models = this->_models,
 			sqlAliases = this->_sqlAliases,
 			sqlAliasesModels = this->_sqlAliasesModels,
 			sqlModelsAliases = this->_sqlModelsAliases,
 			sqlAliasesModelsInstances = this->_sqlAliasesModelsInstances,
-			modelsInstances = this->_modelsInstances,
-			fromModels = models;
+			modelsInstances = this->_modelsInstances;
 
 		let sqlJoins = [],
 			joinModels = [],
@@ -1266,6 +1265,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 			joinPrepared = [];
 
 		let manager = this->_manager;
+
+		let tables = select["tables"];
+		if !isset tables[0] {
+			let selectTables = [tables];
+		} else {
+			let selectTables = tables;
+		}
 
 		let joins = select["joins"];
 		if !isset joins[0] {
@@ -1437,7 +1443,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Skip all implicit joins if the option is not enabled
 		 */
 		if !this->_enableImplicitJoins {
-			for joinAliasName, joinItem in joinPrepared {
+			for joinAliasName, _ in joinPrepared {
 
 				let joinType = joinTypes[joinAliasName];
 				let joinSource = joinSources[joinAliasName];
@@ -1449,6 +1455,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 				];
 			}
 			return sqlJoins;
+		}
+
+		/**
+		 * Build the list of tables used in the SELECT clause
+		 */
+		let fromModels = [];
+		for tableItem in selectTables {
+			let table = tableItem["qualifiedName"]["name"];
+			let fromModels[table]	= true;
 		}
 
 		/**
