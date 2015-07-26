@@ -1,5 +1,6 @@
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-XX-XX)
-
+- Added orm.enable_implicit_joins option for allowing implicit joins to be disabled [#10704](https://github.com/phalcon/cphalcon/issues/10704)
+- Fixed bug causing SELECT subqueries to join against all of the tables from the previous query [#10705](https://github.com/phalcon/cphalcon/issues/10705)
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds
