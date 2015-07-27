@@ -378,11 +378,11 @@ class Imagick extends Adapter implements AdapterInterface
 	 */
 	protected function _text(string text, var offsetX, var offsetY, int opacity, int r, int g, int b, int size, string fontfile)
 	{
-		var x, y, draw, color, pixel, gravity;
+		var x, y, draw, color, gravity;
 
 		let opacity = opacity / 100,
 			draw = new \ImagickDraw(),
-			color = sprintf("rgb(%d, %d, %d)", r, g, b);			
+			color = sprintf("rgb(%d, %d, %d)", r, g, b);
 
 		draw->setFillColor(new \ImagickPixel(color));
 
@@ -707,5 +707,4 @@ class Imagick extends Adapter implements AdapterInterface
 	{
 		this->_image->setResourceLimit(type, limit);
 	}
-
 }
