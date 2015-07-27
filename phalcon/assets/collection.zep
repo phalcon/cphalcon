@@ -139,10 +139,6 @@ class Collection implements \Countable, \Iterator
 	{
 		var collectionLocal, collectionAttributes;
 
-		if !filter {
-			let filter = true;
-		}
-
 		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
@@ -166,10 +162,6 @@ class Collection implements \Countable, \Iterator
 	public function addInlineJs(string content, boolean filter = false, attributes = null) -> <Collection>
 	{
 		var collectionAttributes;
-
-		if !filter {
-			let filter = true;
-		}
 
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
