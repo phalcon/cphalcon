@@ -698,22 +698,6 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		catch (Phalcon\Mvc\View\Exception $e){
 			$this->assertEquals($e->getMessage(), 'Unknown filter type in eval code on line 1');
 		}
-
-		try {
-			$volt->compileString('{{ unknown() }}');
-			$this->assertTrue(false);
-		}
-		catch (Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), "Undefined function 'unknown' in eval code on line 1");
-		}
-
-		try {
-			$volt->compileString('{{ dump(unknown()) }}');
-			$this->assertTrue(false);
-		}
-		catch (Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), "Undefined function 'unknown' in eval code on line 1");
-		}
 	}
 
 	public function testVoltExtendsError()

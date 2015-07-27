@@ -2,7 +2,7 @@
 - Image\Adapter\Gd::save() no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in Image\Adapter\Imagick::text
 - Exceptions thrown in Volt compiler are now Phalcon\Mvc\View\Engine\Exception
-- Now you can import macros from other files using 
+- Now you can import macros from other files using {% include "file.volt" %}
 - Now undefined function calls fall back to macro calls in Volt
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
