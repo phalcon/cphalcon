@@ -22,7 +22,7 @@ namespace Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\View\Exception;
+use Phalcon\Mvc\View\Engine\Volt\Exception;
 
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler

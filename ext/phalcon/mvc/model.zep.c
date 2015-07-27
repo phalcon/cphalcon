@@ -48,7 +48,7 @@
  * if ($robot->save() == false) {
  *  echo "Umh, We can store robots: ";
  *  foreach ($robot->getMessages() as $message) {
- *	echo message;
+ *	 echo message;
  *  }
  * } else {
  *  echo "Great, a new robot was saved successfully!";

@@ -330,7 +330,7 @@ static zval *phvolt_ret_extends_statement(zval *path, phvolt_scanner_state *stat
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-	add_assoc_zval(ret, "path", path);	
+	add_assoc_zval(ret, "path", path);
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);

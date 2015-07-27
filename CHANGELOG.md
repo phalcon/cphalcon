@@ -1,6 +1,7 @@
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-XX-XX)
 - Image\Adapter\Gd::save() no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in Image\Adapter\Imagick::text
+- Exceptions thrown in Volt compiler are now Phalcon\Mvc\View\Engine\Exception
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds

@@ -107,6 +107,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/router/groupinterface.zep.c
 	phalcon/mvc/router/routeinterface.zep.c
 	phalcon/mvc/urlinterface.zep.c
+	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/session/baginterface.zep.c
 	phalcon/validation/messageinterface.zep.c
@@ -312,7 +313,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engine/php.zep.c
 	phalcon/mvc/view/engine/volt.zep.c
 	phalcon/mvc/view/engine/volt/compiler.zep.c
-	phalcon/mvc/view/exception.zep.c
+	phalcon/mvc/view/engine/volt/exception.zep.c
 	phalcon/mvc/view/simple.zep.c
 	phalcon/paginator/adapter/model.zep.c
 	phalcon/paginator/adapter/nativearray.zep.c
