@@ -93,7 +93,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getMessages);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, appendMessage);
 
 /**
- * Creates/Updates a collection based on the values in the atributes
+ * Creates/Updates a collection based on the values in the attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, save);
 
@@ -101,7 +101,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, save);
  * Find a document by its id
  *
  * @param string id
- * @return Phalcon\Mvc\Collection
+ * @return \Phalcon\Mvc\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, findById);
 

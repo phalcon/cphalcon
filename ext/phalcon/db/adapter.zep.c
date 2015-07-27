@@ -1257,7 +1257,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable) {
 }
 
 /**
- * Creates a view	 
+ * Creates a view
  */
 PHP_METHOD(Phalcon_Db_Adapter, createView) {
 

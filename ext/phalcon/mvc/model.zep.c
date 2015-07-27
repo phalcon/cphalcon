@@ -644,7 +644,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
  * @param array data
  * @param array dataColumnMap array to transform keys of data to another
  * @param array whiteList
- * @return Phalcon\Mvc\Model
+ * @return \Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, assign) {
 
@@ -760,12 +760,12 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
  *));
  *</code>
  *
- * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
+ * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
  * @param array data
  * @param array columnMap
  * @param int dirtyState
  * @param boolean keepSnapshots
- * @return Phalcon\Mvc\Model
+ * @return \Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 
@@ -986,10 +986,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
  *));
  *</code>
  *
- * @param Phalcon\Mvc\ModelInterface $base
+ * @param \Phalcon\Mvc\ModelInterface $base
  * @param array data
  * @param int dirtyState
- * @return Phalcon\Mvc\ModelInterface
+ * @return \Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 
@@ -1164,7 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
  * </code>
  *
  * @param string|array parameters
- * @return Phalcon\Mvc\Model
+ * @return \Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 
@@ -1279,12 +1279,12 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 			ZEPHIR_CALL_METHOD(NULL, criteria, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(NULL, criteria, "setdi", NULL, 309, dependencyInjector);
+		ZEPHIR_CALL_METHOD(NULL, criteria, "setdi", NULL, 311, dependencyInjector);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_get_called_class(_2 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, criteria, "setmodelname", NULL, 310, _2);
+	ZEPHIR_CALL_METHOD(NULL, criteria, "setmodelname", NULL, 312, _2);
 	zephir_check_call_status();
 	RETURN_CCTOR(criteria);
 
@@ -1293,8 +1293,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 /**
  * Checks if the current record already exists or not
  *
- * @param Phalcon\Mvc\Model\MetadataInterface metaData
- * @param Phalcon\Db\AdapterInterface connection
+ * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+ * @param \Phalcon\Db\AdapterInterface connection
  * @param string|array table
  * @return boolean
  */
@@ -1470,7 +1470,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
  * @param string function
  * @param string alias
  * @param array parameters
- * @return Phalcon\Mvc\Model\ResultsetInterface
+ * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 
@@ -2745,8 +2745,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave) {
 /**
  * Sends a pre-build INSERT SQL statement to the relational database system
  *
- * @param Phalcon\Mvc\Model\MetadataInterface metaData
- * @param Phalcon\Db\AdapterInterface connection
+ * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+ * @param \Phalcon\Db\AdapterInterface connection
  * @param string|array table
  * @param boolean|string identityField
  * @return boolean
@@ -2953,8 +2953,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 /**
  * Sends a pre-build UPDATE SQL statement to the relational database system
  *
- * @param Phalcon\Mvc\Model\MetaDataInterface metaData
- * @param Phalcon\Db\AdapterInterface connection
+ * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
+ * @param \Phalcon\Db\AdapterInterface connection
  * @param string|array table
  * @return boolean
  */
@@ -3069,9 +3069,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 										break;
 									}
 									if (ZEPHIR_IS_LONG(bindType, 3) || ZEPHIR_IS_LONG(bindType, 7)) {
-										ZEPHIR_CALL_FUNCTION(&_1, "floatval", &_8, 311, snapshotValue);
+										ZEPHIR_CALL_FUNCTION(&_1, "floatval", &_8, 313, snapshotValue);
 										zephir_check_call_status();
-										ZEPHIR_CALL_FUNCTION(&_9, "floatval", &_8, 311, value);
+										ZEPHIR_CALL_FUNCTION(&_9, "floatval", &_8, 313, value);
 										zephir_check_call_status();
 										changed = !ZEPHIR_IS_IDENTICAL(_1, _9);
 										break;
@@ -3163,8 +3163,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 /**
  * Saves related records that must be stored prior to save the master record
  *
- * @param Phalcon\Db\AdapterInterface connection
- * @param Phalcon\Mvc\ModelInterface[] related
+ * @param \Phalcon\Db\AdapterInterface connection
+ * @param \Phalcon\Mvc\ModelInterface[] related
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
@@ -3543,7 +3543,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 			ZEPHIR_INIT_NVAR(_4);
 			object_init_ex(_4, phalcon_mvc_model_validationfailed_ce);
 			_3 = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
-			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 312, this_ptr, _3);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 314, this_ptr, _3);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(_4, "phalcon/mvc/model.zep", 2877 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -4908,7 +4908,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
  *
  * @param string alias
  * @param array arguments
- * @return Phalcon\Mvc\Model\ResultsetInterface
+ * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 
@@ -5197,7 +5197,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	if (zephir_array_isset(attributes, extraMethod)) {
 		ZEPHIR_CPY_WRT(field, extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 65, extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 66, extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset(attributes, extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(field, extraMethodFirst);
@@ -5323,7 +5323,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
  * Magic method to get related records using the relation alias as a property
  *
  * @param string property
- * @return Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
+ * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get) {
 
@@ -5447,7 +5447,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 71, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 72, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -5481,7 +5481,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 72, data);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 73, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);

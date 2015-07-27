@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI) {
  * Sets SELECT DISTINCT / SELECT ALL flag
  *
  * @param bool|null distinct
- * @return Phalcon\Mvc\Model\Query\BuilderInterface
+ * @return \Phalcon\Mvc\Model\Query\BuilderInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, distinct) {
 
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDistinct) {
  *</code>
  *
  * @param string|array columns
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns) {
 
@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns) {
  *</code>
  *
  * @param string|array models
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from) {
 
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from) {
  *
  * @param string model
  * @param string alias
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom) {
 
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom) {
  * @param string conditions
  * @param string alias
  * @param string type
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 
@@ -500,7 +500,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
  * @param string conditions
  * @param string alias
  * @param string type
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
 
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin) {
  * @param string model
  * @param string conditions
  * @param string alias
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
 
@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin) {
  * @param string model
  * @param string conditions
  * @param string alias
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
 
@@ -661,7 +661,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin) {
  * @param mixed conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where) {
 
@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where) {
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere) {
 
@@ -786,7 +786,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere) {
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere) {
 
@@ -1132,7 +1132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere) {
  *</code>
  *
  * @param string|array orderBy
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy) {
 
@@ -1321,7 +1321,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset) {
  *</code>
  *
  * @param string|array group
- * @return Phalcon\Mvc\Model\Query\Builder
+ * @return \Phalcon\Mvc\Model\Query\Builder
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy) {
 
@@ -1844,21 +1844,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 
 	ZEPHIR_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getphql", NULL, 354);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getphql", NULL, 356);
 	zephir_check_call_status();
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, query, "__construct", NULL, 345, _0, _1);
+	ZEPHIR_CALL_METHOD(NULL, query, "__construct", NULL, 347, _0, _1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(bindParams);
 	zephir_read_property_this(&bindParams, this_ptr, SL("_bindParams"), PH_NOISY_CC);
 	if (Z_TYPE_P(bindParams) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 355, bindParams);
+		ZEPHIR_CALL_METHOD(NULL, query, "setbindparams", NULL, 357, bindParams);
 		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(bindTypes);
 	zephir_read_property_this(&bindTypes, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 	if (Z_TYPE_P(bindTypes) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 356, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, query, "setbindtypes", NULL, 358, bindTypes);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(query);

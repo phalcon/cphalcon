@@ -35,7 +35,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ValidatorInterface, getMessages);
 /**
  * Executes the validator
  *
- * @param Phalcon\Mvc\ModelInterface record
+ * @param \Phalcon\Mvc\ModelInterface record
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ValidatorInterface, validate);

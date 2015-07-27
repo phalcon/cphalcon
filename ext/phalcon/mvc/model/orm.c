@@ -58,6 +58,8 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 		RETURN_ZVAL(str, 1, 0);
 	}
 
+	fprintf(stderr, "%s\n", "here");
+
 	marker = Z_STRVAL_P(str);
 
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
@@ -67,10 +69,10 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 		if ((*marker) == '\'') {
 			if (i > 0) {
 				if (*(marker - 1) != '\\') {
-					smart_str_appendc(&escaped_str, '\'');
+					smart_str_appendc(&escaped_str, '\\');
 				}
 			} else {
-				smart_str_appendc(&escaped_str, '\'');
+				smart_str_appendc(&escaped_str, '\\');
 			}
 		}
 		smart_str_appendc(&escaped_str, (*marker));
@@ -81,8 +83,8 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 
 	if (escaped_str.len) {
 		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
-	} else {
-		smart_str_free(&escaped_str);
-		RETURN_EMPTY_STRING();
 	}
+
+	smart_str_free(&escaped_str);
+	RETURN_EMPTY_STRING();
 }

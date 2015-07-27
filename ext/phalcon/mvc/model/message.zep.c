@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
  * @param string message
  * @param string|array field
  * @param string type
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 

@@ -23,8 +23,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_StrategyInterface) {
 /**
  * The meta-data is obtained by reading the column descriptions from the database information schema
  *
- * @param Phalcon\Mvc\ModelInterface model
- * @param Phalcon\DiInterface dependencyInjector
+ * @param \Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\DiInterface dependencyInjector
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_StrategyInterface, getMetaData);
@@ -32,8 +32,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_StrategyInterface, getMetaData);
 /**
  * Read the model's column map, this can't be inferred
  *
- * @param Phalcon\Mvc\ModelInterface model
- * @param Phalcon\DiInterface dependencyInjector
+ * @param \Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\DiInterface dependencyInjector
  * @return array
  * @todo Not implemented
  */

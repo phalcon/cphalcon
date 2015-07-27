@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
  * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param string|int index
- * @param Phalcon\Mvc\ModelInterface value
+ * @param \Phalcon\Mvc\ModelInterface value
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 

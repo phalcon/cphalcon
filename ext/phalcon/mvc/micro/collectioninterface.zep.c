@@ -47,7 +47,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandlers);
  *
  * @param mixed handler
  * @param boolean lazy
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setHandler);
 
@@ -74,7 +74,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandler);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, map);
 
@@ -84,7 +84,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, map);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, get);
 
@@ -94,7 +94,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, get);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
 
@@ -104,7 +104,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
 
@@ -114,7 +114,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, patch);
 
@@ -124,7 +124,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, patch);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, head);
 
@@ -134,7 +134,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, head);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, delete);
 
@@ -144,7 +144,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, delete);
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return \Phalcon\Mvc\Router\RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, options);
 

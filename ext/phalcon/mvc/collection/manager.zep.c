@@ -140,8 +140,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
 /**
  * Returns a custom events manager related to a model
  *
- * @param Phalcon\Mvc\CollectionInterface $model
- * @return Phalcon\Events\ManagerInterface
+ * @param \Phalcon\Mvc\CollectionInterface $model
+ * @return \Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 /**
  * Returns the connection related to a model
  *
- * @param Phalcon\Mvc\CollectionInterface $model
+ * @param \Phalcon\Mvc\CollectionInterface $model
  * @return \Mongo
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {

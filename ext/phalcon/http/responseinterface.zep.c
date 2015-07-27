@@ -40,7 +40,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
  *
  * @param string name
  * @param string value
- * @return Phalcon\Http\ResponseInterface
+ * @return \Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
 
@@ -69,7 +69,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
  *
  * @param string contentType
  * @param string charset
- * @return Phalcon\Http\ResponseInterface
+ * @return \Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
 
@@ -79,7 +79,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
  * @param string location
  * @param boolean externalRedirect
  * @param int statusCode
- * @return Phalcon\Http\ResponseInterface
+ * @return \Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
 
@@ -96,7 +96,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
  *</code>
  *
  * @param string content
- * @return Phalcon\Http\ResponseInterface
+ * @return \Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
 
@@ -104,7 +104,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
  * Appends a string to the HTTP response body
  *
  * @param string content
- * @return Phalcon\Http\ResponseInterface
+ * @return \Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, appendContent);
 

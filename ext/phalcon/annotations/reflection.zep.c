@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 }
 
 /**
- * Returns the annotations found in the properties' docblocks	 
+ * Returns the annotations found in the properties' docblocks
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 

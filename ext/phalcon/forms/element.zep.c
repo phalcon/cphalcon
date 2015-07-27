@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Forms_Element, getName) {
  * Sets the element filters
  *
  * @param array|string filters
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 
@@ -226,8 +226,8 @@ PHP_METHOD(Phalcon_Forms_Element, getFilters) {
 /**
  * Adds a group of validators
  *
- * @param Phalcon\Validation\ValidatorInterface[]
- * @return Phalcon\Forms\ElementInterface
+ * @param \Phalcon\Validation\ValidatorInterface[]
+ * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
  *
  * @param string attribute
  * @param mixed value
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setAttribute) {
 
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes) {
  *
  * @param string option
  * @param mixed value
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setUserOption) {
 
@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
  * Sets options for the element
  *
  * @param array options
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setUserOptions) {
 
@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
  * or there is no value available for the element in _POST
  *
  * @param mixed value
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setDefault) {
 

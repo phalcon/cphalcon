@@ -32,7 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\Di\ServiceInterface
+ * @return \Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
 
@@ -41,7 +41,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
  *
  * @param string name
  * @param mixed definition
- * @return Phalcon\Di\ServiceInterface
+ * @return \Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setShared);
 
@@ -58,7 +58,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\Di\ServiceInterface
+ * @return \Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, attempt);
 

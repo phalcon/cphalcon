@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		}
 		zephir_update_property_this(this_ptr, SL("_processed"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, this_ptr, "handle", &_18, 367, realUri);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, this_ptr, "handle", &_18, 369, realUri);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
  * @param string namespaceName
  * @param string controller
  * @param string action
- * @param Phalcon\Annotations\Annotation annotation
+ * @param \Phalcon\Annotations\Annotation annotation
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 

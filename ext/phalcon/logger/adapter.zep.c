@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert) {
 }
 
 /**
- * Logs messages to the internal logger. Appends logs to the logger	 
+ * Logs messages to the internal logger. Appends logs to the logger
  */
 PHP_METHOD(Phalcon_Logger_Adapter, log) {
 

@@ -33,14 +33,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
 /**
  * Return the strategy to obtain the meta-data
  *
- * @return Phalcon\Mvc\Model\MetaData\StrategyInterface
+ * @return \Phalcon\Mvc\Model\MetaData\StrategyInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getStrategy);
 
 /**
  * Reads meta-data for certain model
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaData);
@@ -48,7 +48,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaData);
 /**
  * Reads meta-data for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @param int index
  * @return mixed
  */
@@ -57,7 +57,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
 /**
  * Writes meta-data for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @param int index
  * @param mixed data
  */
@@ -66,7 +66,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
 /**
  * Reads the ordered/reversed column map for certain model
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMap);
@@ -74,7 +74,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMap);
 /**
  * Reads column-map information for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @param int index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMapIndex);
@@ -82,7 +82,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMapIndex);
 /**
  * Returns table attributes names (fields)
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes);
@@ -90,7 +90,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes);
 /**
  * Returns an array of fields which are part of the primary key
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes);
@@ -98,7 +98,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes);
 /**
  * Returns an arrau of fields which are not part of the primary key
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes);
@@ -106,7 +106,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttribute
 /**
  * Returns an array of not null attributes
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
@@ -114,7 +114,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
 /**
  * Returns attributes and their data types
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
@@ -122,7 +122,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
 /**
  * Returns attributes which types are numerical
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
@@ -130,7 +130,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
 /**
  * Returns the name of identity field (if one is present)
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField);
@@ -138,7 +138,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField);
 /**
  * Returns attributes and their bind data types
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
@@ -146,7 +146,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
 /**
  * Returns attributes that must be ignored from the INSERT SQL generation
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttributes);
@@ -154,7 +154,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttribu
 /**
  * Returns attributes that must be ignored from the UPDATE SQL generation
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttributes);
@@ -170,7 +170,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttribu
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes);
 
 /**
- * Set the attributes that allow empty string values	 
+ * Set the attributes that allow empty string values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setEmptyStringAttributes);
 

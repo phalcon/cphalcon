@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers) {
  *
  * @param mixed handler
  * @param boolean lazy
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler) {
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 
@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
  * @param  string routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 
@@ -479,7 +479,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
  * @param  string   routePattern
  * @param  callable handler
  * @param  string name
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 
@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
  *
  * @param string routePattern
  * @param callable handler
- * @return Phalcon\Mvc\Micro\Collection
+ * @return \Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
 
