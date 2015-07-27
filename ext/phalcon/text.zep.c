@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_5 = NULL, *_7 = NULL;
-	zval *text_param = NULL, *leftDelimiter_param = NULL, *rightDelimiter_param = NULL, *separator_param = NULL, *ld_s = NULL, *rd_s = NULL, *result = NULL, *pattern, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_6 = NULL;
+	zval *text_param = NULL, *leftDelimiter_param = NULL, *rightDelimiter_param = NULL, *separator_param = NULL, *ldS = NULL, *rdS = NULL, *result = NULL, *pattern, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_6 = NULL;
 	zval *text = NULL, *leftDelimiter = NULL, *rightDelimiter = NULL, *separator = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
@@ -647,12 +647,12 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&ld_s, "preg_quote", &_5, 426, leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_5, 426, leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&rd_s, "preg_quote", &_5, 426, rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_5, 426, rightDelimiter);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(pattern);
-	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ld_s, "([^", ld_s, rd_s, "]+)", rd_s, "/");
+	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ldS, "([^", ldS, rdS, "]+)", rdS, "/");
 	ZEPHIR_CPY_WRT(result, text);
 	while (1) {
 		if (!(zephir_memnstr(result, leftDelimiter, "phalcon/text.zep", 269))) {

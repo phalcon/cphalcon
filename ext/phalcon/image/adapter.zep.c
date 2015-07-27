@@ -652,23 +652,19 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark) {
 PHP_METHOD(Phalcon_Image_Adapter, text) {
 
 	zend_bool _0;
-	int offsetX, offsetY, opacity, size, ZEPHIR_LAST_CALL_STATUS;
-	zval *text_param = NULL, *offsetX_param = NULL, *offsetY_param = NULL, *opacity_param = NULL, *color_param = NULL, *size_param = NULL, *fontfile_param = NULL, *colors = NULL, _1, _2, *_3, _4 = zval_used_for_init, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8, *_9, *_10, *_11, *_12;
+	int opacity, size, ZEPHIR_LAST_CALL_STATUS;
+	zval *text_param = NULL, *offsetX = NULL, *offsetY = NULL, *opacity_param = NULL, *color_param = NULL, *size_param = NULL, *fontfile_param = NULL, *colors = NULL, _1, _2, *_3, _4 = zval_used_for_init, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8, *_9, *_10;
 	zval *text = NULL, *color = NULL, *fontfile = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 6, &text_param, &offsetX_param, &offsetY_param, &opacity_param, &color_param, &size_param, &fontfile_param);
+	zephir_fetch_params(1, 1, 6, &text_param, &offsetX, &offsetY, &opacity_param, &color_param, &size_param, &fontfile_param);
 
 	zephir_get_strval(text, text_param);
-	if (!offsetX_param) {
-		offsetX = 0;
-	} else {
-		offsetX = zephir_get_intval(offsetX_param);
+	if (!offsetX) {
+		offsetX = ZEPHIR_GLOBAL(global_false);
 	}
-	if (!offsetY_param) {
-		offsetY = 0;
-	} else {
-		offsetY = zephir_get_intval(offsetY_param);
+	if (!offsetY) {
+		offsetY = ZEPHIR_GLOBAL(global_false);
 	}
 	if (!opacity_param) {
 		opacity = 100;
@@ -696,8 +692,10 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 
 	if (opacity < 0) {
 		opacity = 0;
-	} else if (opacity > 100) {
-		opacity = 100;
+	} else {
+		if (opacity > 100) {
+			opacity = 100;
+		}
 	}
 	_0 = zephir_fast_strlen_ev(color) > 1;
 	if (_0) {
@@ -735,18 +733,14 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 	ZVAL_STRING(&_4, "hexdec", 0);
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 69, &_4, _7);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_8, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 333 TSRMLS_CC);
-	zephir_array_fetch_long(&_9, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 333 TSRMLS_CC);
-	zephir_array_fetch_long(&_10, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 333 TSRMLS_CC);
+	zephir_array_fetch_long(&_8, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 335 TSRMLS_CC);
+	zephir_array_fetch_long(&_9, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 335 TSRMLS_CC);
+	zephir_array_fetch_long(&_10, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 335 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_5);
-	ZVAL_LONG(_5, offsetX);
+	ZVAL_LONG(_5, opacity);
 	ZEPHIR_INIT_NVAR(_6);
-	ZVAL_LONG(_6, offsetY);
-	ZEPHIR_INIT_VAR(_11);
-	ZVAL_LONG(_11, opacity);
-	ZEPHIR_INIT_VAR(_12);
-	ZVAL_LONG(_12, size);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_text", NULL, 0, text, _5, _6, _11, _8, _9, _10, _12, fontfile);
+	ZVAL_LONG(_6, size);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_text", NULL, 0, text, offsetX, offsetY, _5, _8, _9, _10, _6, fontfile);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -828,9 +822,9 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 	ZVAL_STRING(&_4, "hexdec", 0);
 	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 69, &_4, _7);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_8, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 364 TSRMLS_CC);
-	zephir_array_fetch_long(&_9, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 364 TSRMLS_CC);
-	zephir_array_fetch_long(&_10, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 364 TSRMLS_CC);
+	zephir_array_fetch_long(&_8, colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 366 TSRMLS_CC);
+	zephir_array_fetch_long(&_9, colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 366 TSRMLS_CC);
+	zephir_array_fetch_long(&_10, colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 366 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_5);
 	ZVAL_LONG(_5, opacity);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_background", NULL, 0, _8, _9, _10, _5);
