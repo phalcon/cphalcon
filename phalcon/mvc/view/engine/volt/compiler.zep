@@ -429,13 +429,6 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
-			 * Check if the function name is a macro
-			 */
-			if isset this->_macros[name] {
-				return "$this->callMacro('" . name . "', array(" . arguments . "))";
-			}
-
-			/**
 			 * This function includes the previous rendering stage
 			 */
 			if name == "get_content" || name == "content" {
@@ -568,9 +561,9 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
-			 * The function doesn't exist throw an exception
+			 * By default it tries to call a macro
 			 */
-			throw new Exception("Undefined function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
+			return "$this->callMacro('" . name . "', array(" . arguments . "))";					
 		}
 
 		return this->expression(nameExpr) . "(" . arguments . ")";
