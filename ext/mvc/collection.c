@@ -110,6 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, parse);
 PHP_METHOD(Phalcon_Mvc_Collection, __set);
 PHP_METHOD(Phalcon_Mvc_Collection, __get);
 PHP_METHOD(Phalcon_Mvc_Collection, __callStatic);
+PHP_METHOD(Phalcon_Mvc_Collection, setup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -174,6 +175,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___callstatic, 0, 0, 1)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_setup, 0, 0, 1)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, __construct, arginfo_phalcon_mvc_collection___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Collection, setId, arginfo_phalcon_mvc_collectioninterface_setid, ZEND_ACC_PUBLIC)
@@ -231,6 +236,7 @@ static const zend_function_entry phalcon_mvc_collection_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Collection, __set, arginfo_phalcon_mvc_collection___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, __get, arginfo_phalcon_mvc_collection___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, __callStatic, arginfo_phalcon_mvc_collection___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Collection, setup, arginfo_phalcon_mvc_collection_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -247,6 +253,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 	zend_declare_property_null(phalcon_mvc_collection_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_ce, SL("_reserved"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_collection_ce, SL("_disableEvents"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_collection_ce, SL("_allowDrop"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_NONE"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
@@ -2850,7 +2857,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, refresh){
 
 PHP_METHOD(Phalcon_Mvc_Collection, drop){
 
-	zval *class_name, *collection, *source = NULL, *connection = NULL, *mongo_collection = NULL;
+	zval *class_name, *allow_drop, *collection, *source = NULL, *connection = NULL, *mongo_collection = NULL;
 	zval *status = NULL, *ok = NULL;
 	zend_class_entry *ce0;
 
@@ -2858,6 +2865,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, drop){
 
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_called_class(class_name  TSRMLS_CC);
+
+	allow_drop = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_allowDrop") TSRMLS_CC);
+
+	if (!zend_is_true(allow_drop)) {
+		zend_error(E_NOTICE, "Can't drop collection %s", Z_STRVAL_P(class_name));
+		RETURN_MM_FALSE;
+	}
+
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 
 	PHALCON_INIT_VAR(collection);
@@ -3171,4 +3186,40 @@ PHP_METHOD(Phalcon_Mvc_Collection, __callStatic){
 	 */
 	PHALCON_RETURN_CALL_CE_STATIC(ce0, type, params);
 	RETURN_MM();
+}
+
+/**
+ * Enables/disables options
+ * Available options:
+ * disableEvents         — Enables/Disables disable events
+ * allowDrop             — Enables/Disables allow drop
+ *
+ * @param array $options
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, setup){
+
+	zval *options, *disable_events, *allow_drop;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &options);
+
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Options must be an array");
+		return;
+	}
+
+	if (phalcon_array_isset_string(options, SS("disableEvents"))) {
+		PHALCON_OBS_VAR(disable_events);
+		phalcon_array_fetch_string(&disable_events, options, SL("disableEvents"), PH_NOISY);
+		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_disableEvents"), disable_events TSRMLS_CC);
+	}
+
+	if (phalcon_array_isset_string(options, SS("allowDrop"))) {
+		PHALCON_OBS_VAR(allow_drop);
+		phalcon_array_fetch_string(&allow_drop, options, SL("allowDrop"), PH_NOISY);
+		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_allowDrop"), allow_drop TSRMLS_CC);
+	}
+
+	PHALCON_MM_RESTORE();
 }
