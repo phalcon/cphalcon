@@ -80,7 +80,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a CSS resource to the collection
 	 */
-	public function addCss(string! path, var local = null, boolean filter = false, attributes = null) -> <Collection>
+	public function addCss(string! path, var local = null, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
 		
@@ -104,7 +104,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a inline CSS to the collection
 	 */
-	public function addInlineCss(string content, boolean filter = false, attributes = null) -> <Collection>
+	public function addInlineCss(string content, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionAttributes;
 		
@@ -127,13 +127,9 @@ class Collection implements \Countable, \Iterator
 	 * @param array attributes
 	 * @return \Phalcon\Assets\Collection
 	 */
-	public function addJs(string! path, var local = null, boolean filter = false, attributes = null) -> <Collection>
+	public function addJs(string! path, var local = null, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
-
-		if !filter {
-			let filter = true;
-		}
 
 		if typeof local == "boolean" {
 			let collectionLocal = local;
@@ -155,13 +151,9 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a inline javascript to the collection
 	 */
-	public function addInlineJs(string content, boolean filter = false, attributes = null) -> <Collection>
+	public function addInlineJs(string content, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionAttributes;
-
-		if !filter {
-			let filter = true;
-		}
 
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
