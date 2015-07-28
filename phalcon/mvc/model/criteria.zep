@@ -352,12 +352,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		/**
 		 * Minimum key with auto bind-params
 		 */
-		let minimumKey = "AP" . hiddenParam;
+		let minimumKey = "ACP" . hiddenParam;
 
 		/**
 		 * Maximum key with auto bind-params
 		 */
-		let maximumKey = "AP" . nextHiddenParam;
+		let maximumKey = "ACP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -391,12 +391,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		/**
 		 * Minimum key with auto bind-params
 		 */
-		let minimumKey = "AP" . hiddenParam;
+		let minimumKey = "ACP" . hiddenParam;
 
 		/**
 		 * Maximum key with auto bind-params
 		 */
-		let maximumKey = "AP" . nextHiddenParam;
+		let maximumKey = "ACP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -435,7 +435,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "AP" . hiddenParam;
+			let key = "ACP" . hiddenParam;
 
 			let queryKey = ":" . key . ":";
 
@@ -474,7 +474,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "AP" . hiddenParam,
+			let key = "ACP" . hiddenParam,
 				bindKeys[] = ":" . key . ":",
 				bindParams[key] = value;
 

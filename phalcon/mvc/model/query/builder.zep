@@ -24,8 +24,8 @@ use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\Builder
@@ -297,8 +297,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Sets SELECT DISTINCT / SELECT ALL flag
 	 *
-	 * @param bool|null distinct
-	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+	 *<code>
+	 *	$builder->distinct("status");
+	 *	$builder->distinct(null);
+	 *</code>
 	 */
 	 public function distinct(var distinct) -> <Builder>
 	 {
@@ -318,11 +320,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets the columns to be queried
 	 *
 	 *<code>
+	 *	$builder->columns("id, name");
 	 *	$builder->columns(array('id', 'name'));
 	 *</code>
-	 *
-	 * @param string|array columns
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function columns(var columns) -> <Builder>
 	{
@@ -346,10 +346,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->from('Robots');
 	 *	$builder->from(array('Robots', 'RobotsParts'));
+	 *	$builder->from(array('r' => 'Robots', 'rp' => 'RobotsParts'));
 	 *</code>
-	 *
-	 * @param string|array models
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function from(var models) -> <Builder>
 	{
@@ -361,12 +359,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Add a model to take part of the query
 	 *
 	 *<code>
+	 **	$builder->addFrom('Robots');
 	 *	$builder->addFrom('Robots', 'r');
-	 *</code>
-	 *
-	 * @param string model
-	 * @param string alias
-	 * @return \Phalcon\Mvc\Model\Query\Builder
+	 *</code>	 
 	 */
 	public function addFrom(var model, var alias = null) -> <Builder>
 	{
