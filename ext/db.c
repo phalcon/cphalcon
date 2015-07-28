@@ -67,13 +67,41 @@
 zend_class_entry *phalcon_db_ce;
 
 PHP_METHOD(Phalcon_Db, setup);
+PHP_METHOD(Phalcon_Db, select);
+PHP_METHOD(Phalcon_Db, insert);
+PHP_METHOD(Phalcon_Db, update);
+PHP_METHOD(Phalcon_Db, delete);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_setup, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_select, 0, 0, 0)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, columns)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_insert, 0, 0, 0)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, columns)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_update, 0, 0, 0)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, columns)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_delete, 0, 0, 0)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, columns)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_db_method_entry[] = {
 	PHP_ME(Phalcon_Db, setup, arginfo_phalcon_db_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Db, select, arginfo_phalcon_db_select, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Db, insert, arginfo_phalcon_db_insert, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Db, update, arginfo_phalcon_db_update, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Db, delete, arginfo_phalcon_db_delete, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -129,4 +157,104 @@ PHP_METHOD(Phalcon_Db, setup){
 	if (phalcon_array_isset_string_fetch(&escape_identifiers, options, SS("escapeSqlIdentifiers"))) {
 		PHALCON_GLOBAL(db).escape_identifiers = zend_is_true(escape_identifiers);
 	}
+}
+
+/**
+ * Create a select query
+ *
+ *     // SELECT id, username FROM users WHERE id > 10
+ *     $query = DB::select(array('form' => 'users', 'columns' => array('username', 'password'), 'where' => 'id > :id:, 'bind' => array('id' => 10)));
+ *     $query = DB::select()->form('users')->columns(array('username', 'password'))->where('id > :id:', array('id' => 10));
+ *
+ * @param	array $parameters
+ * @return	Phalcon\Db\Query\Select
+ */
+PHP_METHOD(Phalcon_Db, select){
+
+	zval *parameters = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Create a insert query
+ *
+ *     // INSERT INTO users (username, password) VALUES ('phalcon', '123456')
+ *     $query = DB::insert(array('table' => 'users', 'columns' => array('username', 'password'), 'values' => array('phalcon', '123456'));
+ *     $query = DB::insert()->table('users')->columns(array('username', 'password'))->values(array('phalcon', '123456'));
+ *
+ * @param	array $parameters
+ * @return	Phalcon\Db\Query\Insert
+ */
+PHP_METHOD(Phalcon_Db, insert){
+
+	zval *parameters = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Create a update query
+ *
+ *     // UPDATE users SET username = 'Dao' WHERE username = 'phalcon'
+ *     $query = DB::update(array('table' => 'users', 'columns' => array('username', 'password'), 'values' => array('phalcon', '123456'), 'where' =>  array('username = :username:'), 'bind' => array('username' => 'phalcon')));
+ *     $query = DB::update()->table('users')->columns(array('username', 'password'))->values(array('phalcon', '123456'))->where('username = :username:', array('username' => 'phalcon'));
+ *
+ * @param	array $parameters
+ * @return	Phalcon\Db\Query\Update
+ */
+PHP_METHOD(Phalcon_Db, update){
+
+	zval *parameters = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Create a update query
+ *
+ *     // DELETE FROM users WHERE username = 'phalcon'
+ *     $query = DB::delete(array('from' => 'users', 'where' =>  array('username = :username:'), 'bind' => array('username' => 'phalcon')));
+ *     $query = DB::delete()->from('users')->where('username = :username:', array('username' => 'phalcon'));
+ *
+ * @param	array $parameters
+ * @return	Phalcon\Db\Query\Delete
+ */
+PHP_METHOD(Phalcon_Db, delete){
+
+	zval *parameters = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
+	PHALCON_MM_RESTORE();
 }
