@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		local = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -218,9 +218,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
 	} else {
@@ -257,7 +254,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 
 	zephir_get_strval(content, content_param);
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -266,9 +263,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
@@ -318,7 +312,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		local = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -327,9 +321,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
 	} else {
@@ -366,7 +357,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 
 	zephir_get_strval(content, content_param);
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -375,9 +366,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {

@@ -114,6 +114,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		if this->_initialized === false {
 			this->initialize();
 		}
+		let this->_data = [];
 		this->_session->remove(this->_name);
 	}
 
@@ -235,11 +236,16 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 */
 	public function remove(string! property) -> boolean
 	{
-		if isset this->_data[property] {
-			unset this->_data[property];
-			this->_session->set(this->_name, this->_data);
+		var data;
+
+		let data = this->_data;
+		if isset data[property] {
+			unset data[property];
+			this->_session->set(this->_name, data);
+			let this->_data = data;
 			return true;
 		}
+
 		return false;
 	}
 

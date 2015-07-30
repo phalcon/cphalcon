@@ -3,7 +3,12 @@
 - Fixed segfault in Image\Adapter\Imagick::text
 - Exceptions thrown in Volt compiler are now Phalcon\Mvc\View\Engine\Exception
 - Now you can import macros from other files using {% include "file.volt" %}
-- Now undefined function calls fall back to macro calls in Volt
+- Undefined function calls fall back to macro calls in Volt
+- Automatic bound parameters in Mvc\Model\Criteria now uses a different prefix
+  than Mvc\Model\Query\Builder to avoid collissions
+- Added flush() method to Cache\Multiple to flush the cache backends added to the multiple system
+- Fixed Session\Bag::remove()
+- Session\Bag::destroy() eliminates any temporary data in the variables bag
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds
