@@ -3563,11 +3563,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 		ZVAL_LONG(_3, 0);
 		zephir_update_property_this(this_ptr, SL("_dirtyState"), _3 TSRMLS_CC);
 	}
-	if (ZEPHIR_GLOBAL(orm).events) {
-		ZEPHIR_CALL_METHOD(&_2, this_ptr, "_postsave", NULL, 0, success, exists);
-		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(success, _2);
-	}
 	if (Z_TYPE_P(related) == IS_ARRAY) {
 		if (ZEPHIR_IS_FALSE_IDENTICAL(success)) {
 			ZEPHIR_INIT_NVAR(_1);
@@ -3578,6 +3573,11 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 			ZEPHIR_CALL_METHOD(&success, this_ptr, "_postsaverelatedrecords", NULL, 0, writeConnection, related);
 			zephir_check_call_status();
 		}
+	}
+	if (ZEPHIR_GLOBAL(orm).events) {
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "_postsave", NULL, 0, success, exists);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(success, _2);
 	}
 	if (ZEPHIR_IS_FALSE_IDENTICAL(success)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_canceloperation", NULL, 0);

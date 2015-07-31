@@ -31,7 +31,7 @@
  *<code>
  *	$user = new \Phalcon\Session\Bag('user');
  *	$user->name = "Kimbra Johnson";
- *	$user->age = 22;
+ *	$user->age  = 22;
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
@@ -145,8 +145,6 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&data, session, "get", NULL, 0, _2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "print_r", NULL, 164, data);
-	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(data);
 		array_init(data);
@@ -193,9 +191,6 @@ PHP_METHOD(Phalcon_Session_Bag, destroy) {
  *<code>
  * $user->set('name', 'Kimbra');
  *</code>
- *
- * @param string property
- * @param string value
  */
 PHP_METHOD(Phalcon_Session_Bag, set) {
 
@@ -240,9 +235,6 @@ PHP_METHOD(Phalcon_Session_Bag, set) {
  *<code>
  * $user->name = "Kimbra";
  *</code>
- *
- * @param string property
- * @param string value
  */
 PHP_METHOD(Phalcon_Session_Bag, __set) {
 
@@ -324,9 +316,6 @@ PHP_METHOD(Phalcon_Session_Bag, get) {
  *<code>
  * echo $user->name;
  *</code>
- *
- * @param string property
- * @return mixed
  */
 PHP_METHOD(Phalcon_Session_Bag, __get) {
 
@@ -463,8 +452,6 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (zephir_array_isset(data, property)) {
 		zephir_array_unset(&data, property, PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(NULL, "print_r", NULL, 164, data);
-		zephir_check_call_status();
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _0, "set", NULL, 0, _1, data);

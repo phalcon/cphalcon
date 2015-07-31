@@ -2896,13 +2896,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
 		}
 
-		/**
-		 * _postSave() makes all the validations
-		 */
-		if globals_get("orm.events") {
-			let success = this->_postSave(success, exists);
-		}
-
 		if typeof related == "array" {
 
 			/**
@@ -2916,6 +2909,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				 */
 				let success = this->_postSaveRelatedRecords(writeConnection, related);
 			}
+		}
+
+		/**
+		 * _postSave() invokes after* events if the operation was successful
+		 */
+		if globals_get("orm.events") {
+			let success = this->_postSave(success, exists);
 		}
 
 		if success === false {
