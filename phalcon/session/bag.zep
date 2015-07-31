@@ -32,7 +32,7 @@ use Phalcon\Di\InjectionAwareInterface;
  *<code>
  *	$user = new \Phalcon\Session\Bag('user');
  *	$user->name = "Kimbra Johnson";
- *	$user->age = 22;
+ *	$user->age  = 22;
  *</code>
  */
 class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, \ArrayAccess, \Countable
@@ -98,6 +98,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		if typeof data != "array" {
 			let data = [];
 		}
+
 		let this->_data = data;
 		let this->_initialized = true;
 	}
@@ -124,15 +125,13 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * $user->set('name', 'Kimbra');
 	 *</code>
-	 *
-	 * @param string property
-	 * @param string value
 	 */
-	public function set(string! property, value)
+	public function set(string! property, var value)
 	{
 		if this->_initialized === false {
 			this->initialize();
 		}
+
 		let this->_data[property] = value;
 		this->_session->set(this->_name, this->_data);
 	}
@@ -143,11 +142,8 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * $user->name = "Kimbra";
 	 *</code>
-	 *
-	 * @param string property
-	 * @param string value
 	 */
-	public function __set(string! property, value)
+	public function __set(string! property, var value)
 	{
 		this->set(property, value);
 	}
@@ -158,12 +154,8 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * echo $user->get('name', 'Kimbra');
 	 *</code>
-	 *
-	 * @param string property
-	 * @param string defaultValue
-	 * @return mixed
 	 */
-	public function get(string! property, defaultValue = null)
+	public function get(string! property, var defaultValue = null)
 	{
 		var value;
 
@@ -190,9 +182,6 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 *<code>
 	 * echo $user->name;
 	 *</code>
-	 *
-	 * @param string property
-	 * @return mixed
 	 */
 	public function __get(string! property)
 	{

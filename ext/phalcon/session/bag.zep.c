@@ -145,6 +145,8 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&data, session, "get", NULL, 0, _2);
 	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(NULL, "print_r", NULL, 164, data);
+	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(data);
 		array_init(data);
@@ -165,7 +167,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 PHP_METHOD(Phalcon_Session_Bag, destroy) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1, *_2;
+	zval *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -174,9 +176,12 @@ PHP_METHOD(Phalcon_Session_Bag, destroy) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0);
 		zephir_check_call_status();
 	}
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, _1, "remove", NULL, 0, _2);
+	ZEPHIR_INIT_VAR(_1);
+	array_init(_1);
+	zephir_update_property_this(this_ptr, SL("_data"), _1 TSRMLS_CC);
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(NULL, _2, "remove", NULL, 0, _3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -273,10 +278,6 @@ PHP_METHOD(Phalcon_Session_Bag, __set) {
  *<code>
  * echo $user->get('name', 'Kimbra');
  *</code>
- *
- * @param string property
- * @param string defaultValue
- * @return mixed
  */
 PHP_METHOD(Phalcon_Session_Bag, get) {
 
@@ -462,6 +463,8 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (zephir_array_isset(data, property)) {
 		zephir_array_unset(&data, property, PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(NULL, "print_r", NULL, 164, data);
+		zephir_check_call_status();
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_session"), PH_NOISY_CC);
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _0, "set", NULL, 0, _1, data);
