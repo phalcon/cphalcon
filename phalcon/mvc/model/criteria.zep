@@ -685,7 +685,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
 	 */
-	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <Criteria>
+	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <Criteria>
 	{
 		var attribute, conditions, field, value, type, metaData,
 			model, dataTypes, bind, criteria, columnMap;
@@ -736,7 +736,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		 */
 		let criteria = new self();
 		if count(conditions) {
-			criteria->where(join(" AND ", conditions));
+			criteria->where(join(" " . operator . " ", conditions));
 			criteria->bind(bind);
 		}
 

@@ -192,7 +192,7 @@ interface CriteriaInterface
 	/**
 	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
 	 */
-	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <CriteriaInterface>;
+	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>;
 
 	/**
 	 * Executes a find using the parameters built with the criteria
