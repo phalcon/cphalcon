@@ -78,6 +78,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_frominput, 0,
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
 	ZEND_ARG_INFO(0, modelName)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
+	ZEND_ARG_INFO(0, operator)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {

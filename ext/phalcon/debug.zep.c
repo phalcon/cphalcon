@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		} else {
 			ZEPHIR_INIT_VAR(classReflection);
 			object_init_ex(classReflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-			ZEPHIR_CALL_METHOD(NULL, classReflection, "__construct", NULL, 63, className);
+			ZEPHIR_CALL_METHOD(NULL, classReflection, "__construct", NULL, 64, className);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_8, classReflection, "isinternal", NULL, 156);
 			zephir_check_call_status();
@@ -853,7 +853,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 	ZEPHIR_CALL_FUNCTION(&obLevel, "ob_get_level", NULL, 162);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(obLevel, 0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 119);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 120);
 		zephir_check_call_status();
 	}
 	_0 = zephir_fetch_static_property_ce(phalcon_debug_ce, SL("_isActive") TSRMLS_CC);

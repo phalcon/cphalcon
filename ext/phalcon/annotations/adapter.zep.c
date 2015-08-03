@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 
 /**
@@ -163,8 +164,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
+	zephir_fcall_cache_entry *_4 = NULL;
+	HashTable *_1;
+	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *className_param = NULL, *methodName_param = NULL, *classAnnotations = NULL, *methods = NULL, *method;
+	zval *className_param = NULL, *methodName_param = NULL, *classAnnotations = NULL, *methods = NULL, *method = NULL, *methodKey = NULL, **_2, *_3 = NULL;
 	zval *className = NULL, *methodName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -180,13 +184,23 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
-			if (zephir_array_isset_fetch(&method, methods, methodName, 1 TSRMLS_CC)) {
-				RETURN_CTOR(method);
+			zephir_is_iterable(methods, &_1, &_0, 0, 0, "phalcon/annotations/adapter.zep", 154);
+			for (
+			  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_1, &_0)
+			) {
+				ZEPHIR_GET_HMKEY(methodKey, _1, _0);
+				ZEPHIR_GET_HVALUE(method, _2);
+				ZEPHIR_CALL_FUNCTION(&_3, "strcasecmp", &_4, 19, methodKey, methodName);
+				zephir_check_call_status();
+				if (!(zephir_is_true(_3))) {
+					RETURN_CCTOR(method);
+				}
 			}
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 19);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -247,7 +261,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 		}
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 19);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20);
 	zephir_check_call_status();
 	RETURN_MM();
 

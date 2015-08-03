@@ -261,8 +261,8 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, set) {
 
-	int _2;
-	zval *index_param = NULL, *value, *uniqueId, *_SESSION, *_0, *_1 = NULL;
+	int _1;
+	zval *index_param = NULL, *value, *uniqueId, *_SESSION, *_0;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -274,21 +274,18 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 
 	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
-		_2 = zephir_maybe_separate_zval(&_SESSION);
-		zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
-		if (_2) {
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VSV(_0, uniqueId, "#", index);
+		_1 = zephir_maybe_separate_zval(&_SESSION);
+		zephir_array_update_zval(&_SESSION, _0, &value, PH_COPY | PH_SEPARATE);
+		if (_1) {
 			ZEND_SET_SYMBOL(&EG(symbol_table), "_SESSION", _SESSION);
 		}
+		RETURN_MM_NULL();
 	}
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_LNVAR(_1);
-	ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
-	_2 = zephir_maybe_separate_zval(&_SESSION);
-	zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
-	if (_2) {
+	_1 = zephir_maybe_separate_zval(&_SESSION);
+	zephir_array_update_zval(&_SESSION, index, &value, PH_COPY | PH_SEPARATE);
+	if (_1) {
 		ZEND_SET_SYMBOL(&EG(symbol_table), "_SESSION", _SESSION);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -304,7 +301,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, has) {
 
-	zval *index_param = NULL, *uniqueId, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *uniqueId, *_SESSION, *_0;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -316,10 +313,9 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
 
 	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
-		RETURN_MM_BOOL(zephir_array_isset(_SESSION, _1));
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VSV(_0, uniqueId, "#", index);
+		RETURN_MM_BOOL(zephir_array_isset(_SESSION, _0));
 	}
 	RETURN_MM_BOOL(zephir_array_isset(_SESSION, index));
 
@@ -334,7 +330,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
-	zval *index_param = NULL, *uniqueId, *_0, *_1, *_SESSION;
+	zval *index_param = NULL, *uniqueId, *_0, *_SESSION;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -346,10 +342,10 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
 	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
-		zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VSV(_0, uniqueId, "#", index);
+		zephir_array_unset(&_SESSION, _0, PH_SEPARATE);
+		RETURN_MM_NULL();
 	}
 	zephir_array_unset(&_SESSION, index, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
@@ -443,7 +439,7 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 		zephir_read_property_this(&prefix, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 		if (!(ZEPHIR_IS_EMPTY(prefix))) {
 			ZEPHIR_INIT_VAR(_0);
-			zephir_is_iterable(_SESSION, &_2, &_1, 1, 0, "phalcon/session/adapter.zep", 263);
+			zephir_is_iterable(_SESSION, &_2, &_1, 1, 0, "phalcon/session/adapter.zep", 265);
 			for (
 			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2, &_1)

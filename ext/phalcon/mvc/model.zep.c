@@ -844,7 +844,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 					if (ZEPHIR_IS_LONG(_7, 0)) {
 						ZEPHIR_SINIT_NVAR(_8);
 						ZVAL_LONG(&_8, 10);
-						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_9, 25, value, &_8);
+						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_9, 26, value, &_8);
 						zephir_check_call_status();
 						break;
 					}
@@ -5197,7 +5197,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	if (zephir_array_isset(attributes, extraMethod)) {
 		ZEPHIR_CPY_WRT(field, extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 66, extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 67, extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset(attributes, extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(field, extraMethodFirst);
@@ -5447,7 +5447,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 72, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 73, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -5481,7 +5481,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 73, data);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 74, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);
@@ -5531,7 +5531,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 23, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 24, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

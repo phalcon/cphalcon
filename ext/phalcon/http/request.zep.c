@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeader) {
 	ZVAL_STRING(&_0, "-", 0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "_", 0);
-	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 53, header, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 54, header, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(name);
 	zephir_fast_strtoupper(name, _2);
@@ -1973,7 +1973,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_LONG(_1, 2);
 		Z_SET_ISREF_P(matches);
-		ZEPHIR_CALL_FUNCTION(&_2, "preg_match_all", NULL, 27, _0, digest, matches, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "preg_match_all", NULL, 28, _0, digest, matches, _1);
 		zephir_check_temp_parameter(_0);
 		Z_UNSET_ISREF_P(matches);
 		zephir_check_call_status();

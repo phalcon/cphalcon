@@ -1783,7 +1783,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			zephir_concat_self(&phql, _4 TSRMLS_CC);
 			ZEPHIR_SINIT_NVAR(_29);
 			ZVAL_LONG(&_29, 10);
-			ZEPHIR_CALL_FUNCTION(&_34, "intval", &_35, 25, number, &_29);
+			ZEPHIR_CALL_FUNCTION(&_34, "intval", &_35, 26, number, &_29);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_12);
 			ZEPHIR_CONCAT_SV(_12, "AP", hiddenParam);
@@ -1801,7 +1801,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 				zephir_concat_self(&phql, _23 TSRMLS_CC);
 				ZEPHIR_SINIT_NVAR(_29);
 				ZVAL_LONG(&_29, 10);
-				ZEPHIR_CALL_FUNCTION(&_34, "intval", &_35, 25, offset, &_29);
+				ZEPHIR_CALL_FUNCTION(&_34, "intval", &_35, 26, offset, &_29);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_24);
 				ZEPHIR_CONCAT_SV(_24, "AP", hiddenParam);

@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 			ZVAL_STRING(_6, "/[^A-Za-z0-9]/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_VAR(_7);
 			ZVAL_STRING(_7, "", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 28, _6, _7, value);
+			ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 29, _6, _7, value);
 			zephir_check_temp_parameter(_6);
 			zephir_check_temp_parameter(_7);
 			zephir_check_call_status();

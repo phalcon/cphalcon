@@ -1304,11 +1304,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 	zend_class_entry *_2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL;
-	zval *modelName = NULL;
-	zval *dependencyInjector, *modelName_param = NULL, *data_param = NULL, *attribute = NULL, *conditions, *field = NULL, *value = NULL, *type = NULL, *metaData = NULL, *model, *dataTypes = NULL, *bind, *criteria, *columnMap = NULL, *_0 = NULL, *_1 = NULL, **_5, *_8 = NULL, *_9 = NULL;
+	zval *modelName = NULL, *operator = NULL, *_10;
+	zval *dependencyInjector, *modelName_param = NULL, *data_param = NULL, *operator_param = NULL, *attribute = NULL, *conditions, *field = NULL, *value = NULL, *type = NULL, *metaData = NULL, *model, *dataTypes = NULL, *bind, *criteria, *columnMap = NULL, *_0 = NULL, *_1 = NULL, **_5, *_8 = NULL, *_9 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &dependencyInjector, &modelName_param, &data_param);
+	zephir_fetch_params(1, 3, 1, &dependencyInjector, &modelName_param, &data_param, &operator_param);
 
 	if (unlikely(Z_TYPE_P(modelName_param) != IS_STRING && Z_TYPE_P(modelName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
@@ -1323,6 +1323,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 	}
 	data = data_param;
 
+	if (!operator_param) {
+		ZEPHIR_INIT_VAR(operator);
+		ZVAL_STRING(operator, "AND", 1);
+	} else {
+	if (unlikely(Z_TYPE_P(operator_param) != IS_STRING && Z_TYPE_P(operator_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'operator' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(operator_param) == IS_STRING)) {
+		zephir_get_strval(operator, operator_param);
+	} else {
+		ZEPHIR_INIT_VAR(operator);
+		ZVAL_EMPTY_STRING(operator);
+	}
+	}
 
 
 	ZEPHIR_INIT_VAR(conditions);
@@ -1396,7 +1412,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 	}
 	if (zephir_fast_count_int(conditions TSRMLS_CC)) {
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_fast_join_str(_0, SL(" AND "), conditions TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_10);
+		ZEPHIR_CONCAT_SVS(_10, " ", operator, " ");
+		zephir_fast_join(_0, _10, conditions TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(NULL, criteria, "where", NULL, 315, _0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, criteria, "bind", NULL, 316, bind);

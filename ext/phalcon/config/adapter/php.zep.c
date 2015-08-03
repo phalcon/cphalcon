@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 	if (zephir_require_zval_ret(&_1, filePath TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, this_ptr, "__construct", &_0, 21, _1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, this_ptr, "__construct", &_0, 22, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

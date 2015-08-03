@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Text, reduceSlashes) {
 	ZVAL_STRING(_0, "#(?<!:)//+#", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "/", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 28, _0, _1, str);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 29, _0, _1, str);
 	zephir_check_temp_parameter(_0);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();

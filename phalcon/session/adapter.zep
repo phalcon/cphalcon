@@ -160,10 +160,11 @@ abstract class Adapter
 
 		let uniqueId = this->_uniqueId;
 		if !empty uniqueId {
-			let _SESSION[this->_uniqueId . "#" . index] = value;
+			let _SESSION[uniqueId . "#" . index] = value;
+			return;
 		}
 
-		let _SESSION[this->_uniqueId . "#" . index] = value;
+		let _SESSION[index] = value;
 	}
 
 	/**
@@ -179,7 +180,7 @@ abstract class Adapter
 
 		let uniqueId = this->_uniqueId;
 		if !empty uniqueId {
-			return isset _SESSION[this->_uniqueId . "#" . index];
+			return isset _SESSION[uniqueId . "#" . index];
 		}
 
 		return isset _SESSION[index];
@@ -198,7 +199,8 @@ abstract class Adapter
 
 		let uniqueId = this->_uniqueId;
 		if !empty uniqueId {
-			unset _SESSION[this->_uniqueId . "#" . index];
+			unset _SESSION[uniqueId . "#" . index];
+			return;
 		}
 
 		unset _SESSION[index];

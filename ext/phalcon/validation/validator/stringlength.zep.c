@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_NVAR(_0);
 			object_init_ex(_0, phalcon_validation_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 53, message, replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 54, message, replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_6);
 			ZVAL_STRING(_6, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_NVAR(_6);
 			object_init_ex(_6, phalcon_validation_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 53, message, replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_4, "strtr", &_5, 54, message, replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_8);
 			ZVAL_STRING(_8, "TooShort", ZEPHIR_TEMP_PARAM_COPY);

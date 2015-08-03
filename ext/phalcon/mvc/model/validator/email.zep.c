@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 		ZEPHIR_INIT_VAR(_5);
 		zephir_create_array(_5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 53, message, _5);
+		ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 54, message, _5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Email", ZEPHIR_TEMP_PARAM_COPY);

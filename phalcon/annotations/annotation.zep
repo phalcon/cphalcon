@@ -193,7 +193,6 @@ class Annotation
 	/**
 	 * Returns a named argument
 	 *
-	 * @param string name
 	 * @return mixed
 	 */
 	public function getNamedArgument(string! name)
@@ -207,7 +206,6 @@ class Annotation
 	/**
 	 * Returns a named parameter
 	 *
-	 * @param string name
 	 * @return mixed
 	 */
 	public function getNamedParameter(string! name)

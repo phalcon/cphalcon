@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 	}
 	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcolumnlist", NULL, 43, _2);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcolumnlist", NULL, 44, _2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_LNVAR(_1);
 	ZEPHIR_CONCAT_VS(_1, _0, ")");

@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", NULL, 43, _4);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", NULL, 44, _4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_LNVAR(_1);
 	ZEPHIR_CONCAT_SVSVS(_1, "`", _2, "` (", _3, ")");
@@ -644,7 +644,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 43, _2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 44, _2);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVS(return_value, "ALTER TABLE ", _0, " ADD PRIMARY KEY (", _1, ")");
 	RETURN_MM();
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, reference, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumnlist", NULL, 43, _3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getcolumnlist", NULL, 44, _3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_5, reference, "getreferencedtable", NULL, 0);
 	zephir_check_call_status();
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_8, reference, "getreferencedcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getcolumnlist", NULL, 43, _8);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getcolumnlist", NULL, 44, _8);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(sql);
 	ZEPHIR_CONCAT_SVSVSVSVSVS(sql, "ALTER TABLE ", _0, " ADD FOREIGN KEY `", _1, "`(", _2, ") REFERENCES ", _4, "(", _7, ")");
@@ -941,7 +941,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			if (ZEPHIR_IS_STRING(indexName, "PRIMARY")) {
 				ZEPHIR_CALL_METHOD(&_4, index, "getcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", &_13, 43, _4);
+				ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", &_13, 44, _4);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(indexSql);
 				ZEPHIR_CONCAT_SVS(indexSql, "PRIMARY KEY (", _3, ")");
@@ -950,13 +950,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 				if (!(ZEPHIR_IS_EMPTY(indexType))) {
 					ZEPHIR_CALL_METHOD(&_14, index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_7, this_ptr, "getcolumnlist", &_13, 43, _14);
+					ZEPHIR_CALL_METHOD(&_7, this_ptr, "getcolumnlist", &_13, 44, _14);
 					zephir_check_call_status();
 					ZEPHIR_CONCAT_VSVSVS(indexSql, indexType, " KEY `", indexName, "` (", _7, ")");
 				} else {
 					ZEPHIR_CALL_METHOD(&_15, index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_14, this_ptr, "getcolumnlist", &_13, 43, _15);
+					ZEPHIR_CALL_METHOD(&_14, this_ptr, "getcolumnlist", &_13, 44, _15);
 					zephir_check_call_status();
 					ZEPHIR_CONCAT_SVSVS(indexSql, "KEY `", indexName, "` (", _14, ")");
 				}
@@ -976,13 +976,13 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_7, reference, "getcolumns", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_4, this_ptr, "getcolumnlist", &_13, 43, _7);
+			ZEPHIR_CALL_METHOD(&_4, this_ptr, "getcolumnlist", &_13, 44, _7);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_14, reference, "getreferencedtable", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_19, reference, "getreferencedcolumns", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_15, this_ptr, "getcolumnlist", &_13, 43, _19);
+			ZEPHIR_CALL_METHOD(&_15, this_ptr, "getcolumnlist", &_13, 44, _19);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(referenceSql);
 			ZEPHIR_CONCAT_SVSVSSVSVS(referenceSql, "CONSTRAINT `", _3, "` FOREIGN KEY (", _4, ")", " REFERENCES `", _14, "`(", _15, ")");

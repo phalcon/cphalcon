@@ -1265,7 +1265,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn) {
 		ZEPHIR_OBS_VAR(modelName);
 		zephir_array_fetch(&modelName, sqlAliasesModels, columnDomain, PH_NOISY, "phalcon/mvc/model/query.zep", 805 TSRMLS_CC);
 		if (ZEPHIR_IS_EQUAL(columnDomain, modelName)) {
-			ZEPHIR_CALL_FUNCTION(&preparedAlias, "lcfirst", NULL, 66, modelName);
+			ZEPHIR_CALL_FUNCTION(&preparedAlias, "lcfirst", NULL, 67, modelName);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(preparedAlias, columnDomain);

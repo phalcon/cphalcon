@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 	if ((zephir_file_exists(_1 TSRMLS_CC) == SUCCESS)) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
-		ZEPHIR_CALL_FUNCTION(&_3, "realpath", NULL, 61, _2);
+		ZEPHIR_CALL_FUNCTION(&_3, "realpath", NULL, 62, _2);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_realpath"), _3 TSRMLS_CC);
 		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
@@ -1389,7 +1389,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_FUNCTION(&ext, "pathinfo", NULL, 70, file, &_0);
+	ZEPHIR_CALL_FUNCTION(&ext, "pathinfo", NULL, 71, file, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(ext))) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
@@ -1524,7 +1524,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_fast_strtolower(_0, ext);
 	zephir_get_strval(ext, _0);
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 117);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 118);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "gif", 0);

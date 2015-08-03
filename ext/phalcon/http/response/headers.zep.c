@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 54);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 55);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
