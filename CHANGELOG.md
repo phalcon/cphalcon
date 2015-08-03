@@ -11,6 +11,7 @@
 - Session\Bag::destroy() eliminates any temporary data in the variables bag
 - afterCreate/afterUpdate are only called if saving related records was successful
 - Added parameter the changing concatenation conditions in method `Mvc\Model\Criteria::fromImput()` [#10749](https://github.com/phalcon/cphalcon/issues/10749)
+- Added method `addErrorMessage()` in `Phalcon\Mvc\Model` (alias for `appendMessage(new Message(...))`)
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds
