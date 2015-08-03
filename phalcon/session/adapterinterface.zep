@@ -75,7 +75,7 @@ interface AdapterInterface
 	/**
 	 * Destroys the active session
 	 */
-	public function destroy() -> boolean;
+	public function destroy(boolean removeData = false) -> boolean;
 
 	/**
 	 * Regenerate session's id

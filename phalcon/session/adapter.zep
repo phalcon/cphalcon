@@ -250,16 +250,16 @@ abstract class Adapter
 	 *	var_dump($session->destroy(true));
 	 *</code>
 	 */
-	public function destroy(removeData = false) -> boolean
+	public function destroy(boolean removeData = false) -> boolean
 	{
-		var prefix, key;
+		var uniqueId, key, session;
 
 		if removeData {
-			let prefix = this->_uniqueId;
-			if !empty prefix {
+			let uniqueId = this->_uniqueId;
+			if !empty uniqueId {
 				for key, _ in _SESSION {
-					if starts_with(key, prefix . "#") {
-						unset _SESSION[prefix . "#" . key];
+					if starts_with(key, uniqueId . "#") {
+						unset _SESSION[key];
 					}
 				}
 			} else {
