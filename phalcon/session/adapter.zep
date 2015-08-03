@@ -252,7 +252,7 @@ abstract class Adapter
 	 */
 	public function destroy(boolean removeData = false) -> boolean
 	{
-		var uniqueId, key, session;
+		var uniqueId, key;
 
 		if removeData {
 			let uniqueId = this->_uniqueId;
