@@ -44,7 +44,7 @@ abstract class Adapter
 	 *
 	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(var options = null)
 	{
 		if typeof options == "array" {
 			this->setOptions(options);
@@ -126,17 +126,24 @@ abstract class Adapter
 	 *	$session->get('auth', 'yes');
 	 *</code>
 	 */
-	public function get(string index, defaultValue = null, boolean remove = false)
+	public function get(string index, var defaultValue = null, boolean remove = false)
 	{
-		var value, key;
+		var value, key, uniqueId;
 
-		let key = this->_uniqueId . index;
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			let key = uniqueId . "#" . index;
+		} else {
+			let key = index;
+		}
+
 		if fetch value, _SESSION[key] {
 			if remove {
 				unset _SESSION[key];
 			}
 			return value;
 		}
+
 		return defaultValue;
 	}
 
@@ -149,7 +156,14 @@ abstract class Adapter
 	 */
 	public function set(string index, var value)
 	{
-		let _SESSION[this->_uniqueId . index] = value;
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			let _SESSION[this->_uniqueId . "#" . index] = value;
+		}
+
+		let _SESSION[this->_uniqueId . "#" . index] = value;
 	}
 
 	/**
@@ -161,7 +175,14 @@ abstract class Adapter
 	 */
 	public function has(string index) -> boolean
 	{
-		return isset _SESSION[this->_uniqueId . index];
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			return isset _SESSION[this->_uniqueId . "#" . index];
+		}
+
+		return isset _SESSION[index];
 	}
 
 	/**
@@ -173,7 +194,14 @@ abstract class Adapter
 	 */
 	public function remove(string index)
 	{
-		unset _SESSION[this->_uniqueId . index];
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			unset _SESSION[this->_uniqueId . "#" . index];
+		}
+
+		unset _SESSION[index];
 	}
 
 	/**
@@ -217,10 +245,26 @@ abstract class Adapter
 	 *
 	 *<code>
 	 *	var_dump($session->destroy());
+	 *	var_dump($session->destroy(true));
 	 *</code>
 	 */
-	public function destroy() -> boolean
+	public function destroy(removeData = false) -> boolean
 	{
+		var prefix, key;
+
+		if removeData {
+			let prefix = this->_uniqueId;
+			if !empty prefix {
+				for key, _ in _SESSION {
+					if starts_with(key, prefix . "#") {
+						unset _SESSION[prefix . "#" . key];
+					}
+				}
+			} else {
+				let _SESSION = [];
+			}
+		}
+
 		let this->_started = false;
 		return session_destroy();
 	}

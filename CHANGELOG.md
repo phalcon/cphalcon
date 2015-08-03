@@ -10,6 +10,9 @@
 - Fixed Session\Bag::remove()
 - Session\Bag::destroy() eliminates any temporary data in the variables bag
 - afterCreate/afterUpdate are only called if saving related records was successful
+- Added an optional parameter removeData to Session\Adapter::remove to remove any data in _SESSION that belongs to 
+  the uniqueId or the whole session data 
+- Now session variables making use of unique prefixes use # as internal separator
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds

@@ -20,6 +20,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/hash.h"
+#include "kernel/string.h"
 
 
 /**
@@ -213,7 +215,7 @@ PHP_METHOD(Phalcon_Session_Adapter, regenerateId) {
 PHP_METHOD(Phalcon_Session_Adapter, get) {
 
 	zend_bool remove;
-	zval *index_param = NULL, *defaultValue = NULL, *remove_param = NULL, *value, *key, *_0, *_SESSION;
+	zval *index_param = NULL, *defaultValue = NULL, *remove_param = NULL, *value, *key = NULL, *uniqueId, *_SESSION;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -231,9 +233,13 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(key);
-	ZEPHIR_CONCAT_VV(key, _0, index);
+	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
+		ZEPHIR_INIT_VAR(key);
+		ZEPHIR_CONCAT_VSV(key, uniqueId, "#", index);
+	} else {
+		ZEPHIR_CPY_WRT(key, index);
+	}
 	ZEPHIR_OBS_VAR(value);
 	if (zephir_array_isset_fetch(&value, _SESSION, key, 0 TSRMLS_CC)) {
 		if (remove) {
@@ -256,7 +262,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 PHP_METHOD(Phalcon_Session_Adapter, set) {
 
 	int _2;
-	zval *index_param = NULL, *value, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *value, *uniqueId, *_SESSION, *_0, *_1 = NULL;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -266,9 +272,20 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 	zephir_get_strval(index, index_param);
 
 
+	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
+		_2 = zephir_maybe_separate_zval(&_SESSION);
+		zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
+		if (_2) {
+			ZEND_SET_SYMBOL(&EG(symbol_table), "_SESSION", _SESSION);
+		}
+	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, _0, index);
+	ZEPHIR_INIT_LNVAR(_1);
+	ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
 	_2 = zephir_maybe_separate_zval(&_SESSION);
 	zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
 	if (_2) {
@@ -287,7 +304,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, has) {
 
-	zval *index_param = NULL, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *uniqueId, *_SESSION, *_0, *_1;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -297,10 +314,14 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
 	zephir_get_strval(index, index_param);
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, _0, index);
-	RETURN_MM_BOOL(zephir_array_isset(_SESSION, _1));
+	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
+		RETURN_MM_BOOL(zephir_array_isset(_SESSION, _1));
+	}
+	RETURN_MM_BOOL(zephir_array_isset(_SESSION, index));
 
 }
 
@@ -313,7 +334,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
-	zval *index_param = NULL, *_0, *_1, *_SESSION;
+	zval *index_param = NULL, *uniqueId, *_0, *_1, *_SESSION;
 	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -323,10 +344,14 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
 	zephir_get_strval(index, index_param);
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_VV(_1, _0, index);
-	zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
+	uniqueId = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_VSV(_1, _0, "#", index);
+		zephir_array_unset(&_SESSION, _1, PH_SEPARATE);
+	}
+	zephir_array_unset(&_SESSION, index, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -394,14 +419,50 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
  *
  *<code>
  *	var_dump($session->destroy());
+ *	var_dump($session->destroy(true));
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	HashTable *_2;
+	HashPosition _1;
+	zval *removeData = NULL, *prefix, *key = NULL, *_SESSION = NULL, *_0 = NULL, **_3, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	zephir_fetch_params(1, 0, 1, &removeData);
 
+	if (!removeData) {
+		removeData = ZEPHIR_GLOBAL(global_false);
+	}
+
+
+	if (zephir_is_true(removeData)) {
+		ZEPHIR_OBS_VAR(prefix);
+		zephir_read_property_this(&prefix, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+		if (!(ZEPHIR_IS_EMPTY(prefix))) {
+			ZEPHIR_INIT_VAR(_0);
+			zephir_is_iterable(_SESSION, &_2, &_1, 1, 0, "phalcon/session/adapter.zep", 263);
+			for (
+			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_2, &_1)
+			) {
+				ZEPHIR_GET_HMKEY(key, _2, _1);
+				ZEPHIR_GET_HVALUE(_0, _3);
+				ZEPHIR_INIT_LNVAR(_4);
+				ZEPHIR_CONCAT_VS(_4, prefix, "#");
+				if (zephir_start_with(key, _4, NULL)) {
+					ZEPHIR_INIT_LNVAR(_5);
+					ZEPHIR_CONCAT_VSV(_5, prefix, "#", key);
+					zephir_array_unset(&_SESSION, _5, PH_SEPARATE);
+				}
+			}
+		} else {
+			ZEPHIR_INIT_NVAR(_SESSION);
+			array_init(_SESSION);
+		}
+	}
 	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_FUNCTION("session_destroy", NULL, 59);
 	zephir_check_call_status();
