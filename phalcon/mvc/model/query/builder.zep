@@ -1313,7 +1313,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			if is_numeric(number) {
 
-				let phql .= " LIMIT :AP0:",
+				let phql .= " LIMIT :APL0:",
 					this->_bindParams["APL0"] = intval(number, 10),
 					this->_bindTypes["APL0"] = Column::BIND_PARAM_INT;
 
