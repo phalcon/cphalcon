@@ -3953,7 +3953,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param	array arguments
 	 * @return	mixed
 	 */
-	public static function __callStatic(string method, arguments = null)
+	public static function __callStatic(string method, arguments)
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
