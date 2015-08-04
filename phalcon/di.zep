@@ -205,6 +205,7 @@ class Di implements DiInterface
 
 	/**
 	 * Resolves the service based on its configuration
+	 * @returm mixed
 	 */
 	public function get(string! name, parameters = null)
 	{
