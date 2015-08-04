@@ -60,7 +60,6 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * when interacting with databases while is also easy to use.
  *
  * <code>
- *
  * $robot = new Robots();
  * $robot->type = 'mechanical';
  * $robot->name = 'Astro Boy';
@@ -257,14 +256,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *  $robot->name = 'WALL·E';
 	 *  $robot->created_at = date('Y-m-d');
 	 *  if ($robot->save() == false) {
-	 *	$transaction->rollback("Can't save robot");
+	 *	  $transaction->rollback("Can't save robot");
 	 *  }
 	 *
 	 *  $robotPart = new RobotParts();
 	 *  $robotPart->setTransaction($transaction);
 	 *  $robotPart->type = 'head';
 	 *  if ($robotPart->save() == false) {
-	 *	$transaction->rollback("Robot part cannot be saved");
+	 *	  $transaction->rollback("Robot part cannot be saved");
 	 *  }
 	 *
 	 *  $transaction->commit();

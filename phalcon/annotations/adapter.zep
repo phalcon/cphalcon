@@ -155,7 +155,7 @@ abstract class Adapter
 		}
 
 		/**
-		 * Returns a collection anyways
+		 * Returns a collection anyway
 		 */
 		return new Collection();
 	}

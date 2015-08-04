@@ -19,8 +19,8 @@
 
 namespace Phalcon\Di\Service;
 
-use Phalcon\Di\Exception;
 use Phalcon\DiInterface;
+use Phalcon\Di\Exception;
 
 /**
  * Phalcon\Di\Service\Builder
@@ -223,7 +223,6 @@ class Builder
 						 */
 						continue;
 					}
-
 				}
 
 				/**
@@ -231,7 +230,6 @@ class Builder
 				 */
 				call_user_func(methodCall);
 			}
-
 		}
 
 		/**
@@ -278,7 +276,6 @@ class Builder
 				 */
 				let instance->{propertyName} = this->_buildParameter(dependencyInjector, propertyPosition, propertyValue);
 			}
-
 		}
 
 		return instance;

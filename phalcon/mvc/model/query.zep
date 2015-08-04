@@ -1630,7 +1630,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
 			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
 			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
-			groupBy, order, limit;
+			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
+			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1789,6 +1790,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 				this->_sqlModelsAliases = sqlModelsAliases,
 				this->_sqlAliasesModelsInstances = sqlAliasesModelsInstances;
 		} else {
+
+			let tempModels = this->_models,
+				tempModelsInstances = this->_modelsInstances,
+				tempSqlAliases = this->_sqlAliases,
+				tempSqlAliasesModels = this->_sqlAliasesModels,
+				tempSqlModelsAliases = this->_sqlModelsAliases,
+				tempSqlAliasesModelsInstances = this->_sqlAliasesModelsInstances;
+
 			let this->_models = array_merge(this->_models, models),
 				this->_modelsInstances = array_merge(this->_modelsInstances, modelsInstances),
 				this->_sqlAliases = array_merge(this->_sqlAliases, sqlAliases),
@@ -1899,6 +1908,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 		// Process "FOR UPDATE" clause if set
 		if isset ast["forUpdate"] {
 			let sqlSelect["forUpdate"] = true;
+		}
+
+		if merge {
+			let this->_models = tempModels,
+				this->_modelsInstances = tempModelsInstances,
+				this->_sqlAliases = tempSqlAliases,
+				this->_sqlAliasesModels = tempSqlAliasesModels,
+				this->_sqlModelsAliases = tempSqlModelsAliases,
+				this->_sqlAliasesModelsInstances = tempSqlAliasesModelsInstances;
 		}
 
 		return sqlSelect;

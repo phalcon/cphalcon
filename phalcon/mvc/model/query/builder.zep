@@ -322,6 +322,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->columns("id, name");
 	 *	$builder->columns(array('id', 'name'));
+	 *  $builder->columns(array('name', 'number' => 'COUNT(*)'));
 	 *</code>
 	 */
 	public function columns(var columns) -> <Builder>
@@ -1063,7 +1064,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					if typeof columnAlias == "integer" {
 						let selectedColumns[] = column;
 					} else {
-						let selectedColumns[] = column . " AS " . columnAlias;
+						if memstr(columnAlias, "[") {
+							let selectedColumns[] = column . " AS " . columnAlias;
+						} else {
+							let selectedColumns[] = column . " AS [" . columnAlias . "]";
+						}
 					}
 				}
 
@@ -1140,7 +1145,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			let selectedColumns = [];
 			for model in withModels {
-				let selectedColumns[] = "[" . model . "]";
+				if memstr(model, "[") {
+					let selectedColumns[] = model;
+				} else {
+					let selectedColumns[] = "[" . model . "]";
+				}
 			}
 
 			let phql .= " WITH " . join(", ", selectedColumns);
