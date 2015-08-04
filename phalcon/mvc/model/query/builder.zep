@@ -361,7 +361,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 **	$builder->addFrom('Robots');
 	 *	$builder->addFrom('Robots', 'r');
-	 *</code>	 
+	 *</code>
 	 */
 	public function addFrom(var model, var alias = null) -> <Builder>
 	{
@@ -961,7 +961,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, forUpdate, distinct, withModels, hiddenParam;
+			limit, number, offset, forUpdate, distinct, withModels;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -982,6 +982,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let conditions = this->_conditions;
+
 		if is_numeric(conditions) {
 
 			/**
@@ -1312,19 +1313,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			if is_numeric(number) {
 
-				let hiddenParam = this->_hiddenParamNumber,
-					phql .= " LIMIT :AP" . hiddenParam . ":",
-					this->_bindParams["AP" . hiddenParam] = intval(number, 10),
-					this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+				let phql .= " LIMIT :AP0:",
+					this->_bindParams["APL0"] = intval(number, 10),
+					this->_bindTypes["APL0"] = Column::BIND_PARAM_INT;
 
 				if is_numeric(offset) {
-					let hiddenParam++,
-						phql .= " OFFSET :AP" . hiddenParam . ":",
-						this->_bindParams["AP" . hiddenParam] = intval(offset, 10),
-						this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+					let phql .= " OFFSET :APL1:",
+						this->_bindParams["APL1"] = intval(offset, 10),
+						this->_bindTypes["APL1"] = Column::BIND_PARAM_INT;
 				}
-
-				let this->_hiddenParamNumber = hiddenParam + 1;
 			}
 		}
 
