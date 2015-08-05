@@ -98,6 +98,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _bindTypes;
 
+	protected _enableImplicitJoins;
+
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -114,14 +116,22 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param string phql
 	 * @param \Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(phql = null, <DiInterface> dependencyInjector = null)
+	public function __construct(phql = null, <DiInterface> dependencyInjector = null, options = null)
 	{
+		var enableImplicitJoins;
+
 		if typeof phql != "null" {
 			let this->_phql = phql;
 		}
 
 		if typeof dependencyInjector == "object" {
 			this->setDI(dependencyInjector);
+		}
+
+		if typeof options == "array" && fetch enableImplicitJoins, options["enable_implicit_joins"] {
+			let this->_enableImplicitJoins = (enableImplicitJoins == true);
+		} else {
+			let this->_enableImplicitJoins = globals_get("orm.enable_implicit_joins");
 		}
 	}
 
@@ -1238,7 +1248,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			joinPrepared, manager, selectJoins, joinItem, joins, joinData, schema, source, model,
 			realModelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
 			fromModelName, joinAlias, joinModel, joinSource, preCondition, modelNameAlias,
-			relation, relations, modelAlias, sqlJoin, sqlJoinItem;
+			relation, relations, modelAlias, sqlJoin, sqlJoinItem, selectTables, table, tables, tableItem;
 
 		let models = this->_models,
 			sqlAliases = this->_sqlAliases,
@@ -1256,6 +1266,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 			joinPrepared = [];
 
 		let manager = this->_manager;
+
+		let tables = select["tables"];
+		if !isset tables[0] {
+			let selectTables = [tables];
+		} else {
+			let selectTables = tables;
+		}
 
 		let joins = select["joins"];
 		if !isset joins[0] {
@@ -1421,6 +1438,34 @@ class Query implements QueryInterface, InjectionAwareInterface
 			if fetch joinExpr, joinItem["conditions"] {
 				let joinPreCondition[joinAliasName] = this->_getExpression(joinExpr);
 			}
+		}
+
+		/**
+		 * Skip all implicit joins if the option is not enabled
+		 */
+		if !this->_enableImplicitJoins {
+			for joinAliasName, _ in joinPrepared {
+
+				let joinType = joinTypes[joinAliasName];
+				let joinSource = joinSources[joinAliasName];
+				let preCondition = joinPreCondition[joinAliasName];
+				let sqlJoins[] = [
+					"type": joinType,
+					"source": joinSource,
+					"conditions": [preCondition]
+				];
+			}
+			return sqlJoins;
+		}
+
+		/**
+		 * Build the list of tables used in the SELECT clause
+		 */
+		let fromModels = [];
+		for tableItem in selectTables {
+
+			let table = tableItem["qualifiedName"]["name"];
+			let fromModels[table]	= true;
 		}
 
 		/**
