@@ -85,6 +85,10 @@
             "type": "bool",
             "default": false
         },
+        "orm.enable_implicit_joins": {
+            "type": "bool",
+            "default": true
+        },
         "orm.cast_on_hydrate": {
             "type": "bool",
             "default": false
