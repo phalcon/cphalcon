@@ -1,20 +1,20 @@
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-XX-XX)
-- Image\Adapter\Gd::save() no longer fails if the method or the instance is created with a filename without an extension
-- Fixed segfault in Image\Adapter\Imagick::text
-- Exceptions thrown in Volt compiler are now Phalcon\Mvc\View\Engine\Exception
-- Now you can import macros from other files using {% include "file.volt" %}
+- `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
+- Fixed segfault in `Image\Adapter\Imagick::text()`
+- Exceptions thrown in Volt compiler are now `Phalcon\Mvc\View\Engine\Exception`
+- Now you can import macros from other files using `{% include "file.volt" %}`
 - Undefined function calls fall back to macro calls in Volt
-- Automatic bound parameters in Mvc\Model\Criteria now uses a different prefix
-  than Mvc\Model\Query\Builder to avoid collissions
-- Added flush() method to Cache\Multiple to flush the cache backends added to the multiple system
-- Fixed Session\Bag::remove()
-- Session\Bag::destroy() eliminates any temporary data in the variables bag
-- afterCreate/afterUpdate are only called if saving related records was successful
-- Added an optional parameter removeData to Session\Adapter::remove to remove any data in _SESSION that belongs to 
-  the uniqueId or the whole session data 
-- Now session variables making use of unique prefixes use # as internal separator
+- Automatic bound parameters in `Mvc\Model\Criteria` now uses a different prefix
+than `Mvc\Model\Query\Builder` to avoid collissions
+- Added `Cache\Multiple::flush()` to flush the cache backends added to the multiple system
+- Fixed `Session\Bag::remove()`
+- `Session\Bag::destroy()` eliminates any temporary data in the variables bag
+- `afterCreate`/`afterUpdate` are only called if saving related records was successful
+- Added an optional parameter removeData to `Session\Adapter::remove()` to remove any data in `$_SESSION` that
+belongs to the uniqueId or the whole session data 
+- Now session variables making use of unique prefixes use `#` as internal separator
 - Added parameter the changing operator for conditions in method `Mvc\Model\Criteria::fromImput()` [#10749](https://github.com/phalcon/cphalcon/issues/10749)
-- Added listTubes to `\Phalcon\Queue\Beanstalk`
+- Added `\Phalcon\Queue\Beanstalk::listTubes()` to get list of a tubes
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds
