@@ -985,7 +985,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, forUpdate, distinct, withModels;
+			limit, number, offset, forUpdate, distinct;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -1158,24 +1158,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			} else {
 				let phql .= " FROM [" . models . "]";
 			}
-		}
-
-		/**
-		 * Check if there are eager loaded models
-		 */
-		let withModels = this->_with;
-		if typeof withModels == "array" {
-
-			let selectedColumns = [];
-			for model in withModels {
-				if memstr(model, "[") {
-					let selectedColumns[] = model;
-				} else {
-					let selectedColumns[] = "[" . model . "]";
-				}
-			}
-
-			let phql .= " WITH " . join(", ", selectedColumns);
 		}
 
 		/**

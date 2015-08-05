@@ -1732,10 +1732,18 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let models = [],
 			modelsInstances = [];
 
+		// Convert selected models in an array
 		if !isset tables[0] {
 			let selectedModels = [tables];
 		} else {
 			let selectedModels = tables;
+		}
+
+		// Convert selected columns in an array
+		if !isset columns[0] {
+			let selectColumns = [columns];
+		} else {
+			let selectColumns = columns;
 		}
 
 		let manager = this->_manager,
@@ -1824,6 +1832,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 				// Simulate the definition of inner joins
 				for withItem in withs {
 
+					let selectColumns[] = [
+						"type":   PHQL_T_DOMAINALL,
+    					"column": "AA" . number
+					];
+
 					let automaticJoins[] = [
 						"type": PHQL_T_INNERJOIN,
 						"qualified": [
@@ -1890,13 +1903,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 			} else {
 				let sqlJoins = [];
 			}
-		}
-
-		// Process selected columns
-		if !isset columns[0] {
-			let selectColumns = [columns];
-		} else {
-			let selectColumns = columns;
 		}
 
 		// Resolve selected columns
