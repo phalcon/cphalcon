@@ -47,7 +47,7 @@ use Phalcon\Mvc\Model\RelationInterface;
  *          WHERE b.name = :name: ORDER BY c.name";
  *
  * $result = manager->executeQuery($phql, array(
- *   "name": "Lamborghini"
+ *   "name" => "Lamborghini"
  * ));
  *
  * foreach ($result as $row) {
@@ -129,7 +129,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		if typeof options == "array" && fetch enableImplicitJoins, options["enable_implicit_joins"] {
-			let this->_enableImplicitJoins = (enableImplicitJoins == true);
+			let this->_enableImplicitJoins = enableImplicitJoins == true;
 		} else {
 			let this->_enableImplicitJoins = globals_get("orm.enable_implicit_joins");
 		}
@@ -424,7 +424,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param boolean quoting
 	 * @return string
 	 */
-	protected final function _getExpression(expr, boolean quoting = true) -> string
+	protected final function _getExpression(var expr, boolean quoting = true) -> string
 	{
 		var exprType, exprLeft, exprRight, left = null, right = null, listItems, exprListItem,
 			exprReturn, tempNotQuoting, value, escapedValue, exprValue,
@@ -893,14 +893,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Resolves a JOIN clause checking if the associated models exist
-	 *
-	 * @param \Phalcon\Mvc\Model\ManagerInterface manager
-	 * @param array join
-	 * @return array
 	 */
-	protected final function _getJoin(<ManagerInterface> manager, join) -> array
+	protected final function _getJoin(<ManagerInterface> manager, var join) -> array
 	{
-		var qualified, modelName, realModelName, nsAlias, source, model, schema;
+		var qualified, modelName, realModelName, nsAlias,
+			source, model, schema;
 
 		if fetch qualified, join["qualified"] {
 
@@ -1241,14 +1238,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * @param array select
 	 * @return array
 	 */
-	protected final function _getJoins(select)
+	protected final function _getJoins(var select)
 	{
 		var models, sqlAliases, sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			modelsInstances, fromModels, sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
 			joinPrepared, manager, selectJoins, joinItem, joins, joinData, schema, source, model,
 			realModelName, completeSource, joinType, aliasExpr, alias, joinAliasName, joinExpr,
 			fromModelName, joinAlias, joinModel, joinSource, preCondition, modelNameAlias,
-			relation, relations, modelAlias, sqlJoin, sqlJoinItem, selectTables, table, tables, tableItem;
+			relation, relations, modelAlias, sqlJoin, sqlJoinItem, selectTables, tables, tableItem;
 
 		let models = this->_models,
 			sqlAliases = this->_sqlAliases,
@@ -1445,15 +1442,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if !this->_enableImplicitJoins {
 			for joinAliasName, _ in joinPrepared {
-
-				let joinType = joinTypes[joinAliasName];
-				let joinSource = joinSources[joinAliasName];
-				let preCondition = joinPreCondition[joinAliasName];
-				let sqlJoins[] = [
-					"type": joinType,
-					"source": joinSource,
-					"conditions": [preCondition]
-				];
+				let joinType = joinTypes[joinAliasName],
+					joinSource = joinSources[joinAliasName],
+					preCondition = joinPreCondition[joinAliasName],
+					sqlJoins[] = [
+						"type": joinType,
+						"source": joinSource,
+						"conditions": [preCondition]
+					];
 			}
 			return sqlJoins;
 		}
@@ -1463,16 +1459,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let fromModels = [];
 		for tableItem in selectTables {
-
-			let table = tableItem["qualifiedName"]["name"];
-			let fromModels[table]	= true;
+			let fromModels[tableItem["qualifiedName"]["name"]]	= true;
 		}
 
 		/**
 		 * Create join relationships dynamically
 		 */
-		let manager = this->_manager;
-
 		for fromModelName, _ in fromModels {
 
 			for joinAlias, joinModel in joinModels {
@@ -1676,7 +1668,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
 			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
-			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels;
+			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels,
+			with, withs, withItem, automaticJoins;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1756,15 +1749,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 			throw new Exception("A meta-data is required to execute the query");
 		}
 
-		// Process selected columns
+		// Process selected models
+		let automaticJoins = [];
+
 		for selectedModel in selectedModels {
 
 			let qualifiedName = selectedModel["qualifiedName"],
 				modelName = qualifiedName["name"];
 
-			/**
-			 * Check if the table has a namespace alias
-			 */
+			// Check if the table has a namespace alias
 			if memstr(modelName, ":") {
 				let nsAlias = explode(":", modelName);
 				let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
@@ -1772,14 +1765,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let realModelName = modelName;
 			}
 
-			/**
-			 * Load a model instance from the models manager
-			 */
+			// Load a model instance from the models manager
 			let model = manager->load(realModelName, true);
 
-			/**
-			 * Define a complete schema/source
-			 */
+			// Define a complete schema/source
 			let schema = model->getSchema(),
 				source = model->getSource();
 
@@ -1795,7 +1784,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				// Check if the alias was used before
 				if isset sqlAliases[alias] {
-					throw new Exception("Alias '" . alias . "' is already used, when preparing: " . this->_phql);
+					throw new Exception("Alias '" . alias . "' is used more than once, when preparing: " . this->_phql);
 				}
 
 				let sqlAliases[alias] = alias,
@@ -1814,11 +1803,33 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let models[realModelName] = alias;
 
 			} else {
-				let sqlAliases[realModelName] = source,
+				let alias = source,
+					sqlAliases[realModelName] = source,
 					sqlAliasesModels[realModelName] = realModelName,
 					sqlModelsAliases[realModelName] = realModelName,
 					sqlAliasesModelsInstances[realModelName] = model,
 					models[realModelName] = source;
+			}
+
+			// Eager load any specified relationship
+			if fetch with, selectedModel["with"] {
+
+				if !isset with[0] {
+					let withs = [with];
+				} else {
+					let withs = with;
+				}
+
+				for withItem in withs {
+
+					let automaticJoins[] = [
+						"type": 360,
+						"qualified": [
+							"type": 355,
+							"name": withItem["name"]
+						]
+					];
+				}
 			}
 
 			let sqlModels[] = realModelName,
@@ -1851,15 +1862,25 @@ class Query implements QueryInterface, InjectionAwareInterface
 				this->_sqlAliasesModelsInstances = array_merge(this->_sqlAliasesModelsInstances, sqlAliasesModelsInstances);
 		}
 
-		// Process joins
-		if fetch joins, select["joins"] {
-			if count(joins) {
-				let sqlJoins = this->_getJoins(select);
+		fetch joins, select["joins"];
+
+		if count(joins) {
+			if count(automaticJoins) {
+				if isset joins[0] {
+					let select["joins"] = array_merge(joins, automaticJoins);
+				} else {
+					let automaticJoins[] = joins,
+						select["joins"] = automaticJoins;
+				}
+			}			
+			let sqlJoins = this->_getJoins(select);
+		} else {
+			if count(automaticJoins) {
+				let select["joins"] = automaticJoins,
+					sqlJoins = this->_getJoins(select);
 			} else {
 				let sqlJoins = [];
 			}
-		} else {
-			let sqlJoins = [];
 		}
 
 		// Process selected columns

@@ -374,6 +374,32 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, statsTube) {
 }
 
 /**
+ * Get list of a tubes.
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk, listTubes) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *response = NULL, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "list-tubes", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, _0);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readyaml", NULL, 396);
+	zephir_check_call_status();
+	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 244 TSRMLS_CC);
+	if (!ZEPHIR_IS_STRING(_1, "OK")) {
+		RETURN_MM_BOOL(0);
+	}
+	zephir_array_fetch_long(&_2, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 248 TSRMLS_CC);
+	RETURN_CTOR(_2);
+
+}
+
+/**
  * Inspect the next ready job.
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
@@ -390,13 +416,13 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 394);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 244 TSRMLS_CC);
+	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 261 TSRMLS_CC);
 	if (!ZEPHIR_IS_STRING(_1, "FOUND")) {
 		RETURN_MM_BOOL(0);
 	}
 	object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
-	zephir_array_fetch_long(&_2, response, 1, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 248 TSRMLS_CC);
-	zephir_array_fetch_long(&_4, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 248 TSRMLS_CC);
+	zephir_array_fetch_long(&_2, response, 1, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 265 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 265 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "read", NULL, 0, _4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_5, "unserialize", NULL, 74, _3);
@@ -424,13 +450,13 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 394);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 261 TSRMLS_CC);
+	zephir_array_fetch_long(&_1, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 278 TSRMLS_CC);
 	if (!ZEPHIR_IS_STRING(_1, "FOUND")) {
 		RETURN_MM_BOOL(0);
 	}
 	object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
-	zephir_array_fetch_long(&_2, response, 1, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 265 TSRMLS_CC);
-	zephir_array_fetch_long(&_4, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 265 TSRMLS_CC);
+	zephir_array_fetch_long(&_2, response, 1, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 282 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 282 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "read", NULL, 0, _4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_5, "unserialize", NULL, 74, _3);
@@ -475,10 +501,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readYaml) {
 	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 394);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(status);
-	zephir_array_fetch_long(&status, response, 0, PH_NOISY, "phalcon/queue/beanstalk.zep", 290 TSRMLS_CC);
+	zephir_array_fetch_long(&status, response, 0, PH_NOISY, "phalcon/queue/beanstalk.zep", 307 TSRMLS_CC);
 	if (zephir_fast_count_int(response TSRMLS_CC) > 1) {
 		ZEPHIR_OBS_VAR(numberOfBytes);
-		zephir_array_fetch_long(&numberOfBytes, response, 1, PH_NOISY, "phalcon/queue/beanstalk.zep", 293 TSRMLS_CC);
+		zephir_array_fetch_long(&numberOfBytes, response, 1, PH_NOISY, "phalcon/queue/beanstalk.zep", 310 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(&response, this_ptr, "read", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&data, "yaml_parse", NULL, 0, response);
@@ -538,9 +564,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_1, "stream_get_meta_data", NULL, 398, connection);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_2, _1, SL("timed_out"), PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 337 TSRMLS_CC);
+		zephir_array_fetch_string(&_2, _1, SL("timed_out"), PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk.zep", 354 TSRMLS_CC);
 		if (zephir_is_true(_2)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 338);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_exception_ce, "Connection timed out", "phalcon/queue/beanstalk.zep", 355);
 			return;
 		}
 		ZEPHIR_SINIT_NVAR(_0);

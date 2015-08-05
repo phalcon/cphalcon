@@ -647,7 +647,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			keyRelation, relations, alias, lowerAlias, singleRelations;
 
 		let entityName = get_class_lower(model),
-			referencedEntity = strtolower(referencedModel);
+			referencedEntity = strtolower(model);
 
 		let keyRelation = entityName . "$" . referencedEntity;
 
@@ -1113,9 +1113,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	protected final function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
 	{
 		var key, value, findParams;
-
-		//var_dump(findParamsOne);
-		//var_dump(findParamsTwo);
 
 		if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
 			return ["(" . findParamsOne . ") AND " . findParamsTwo];
@@ -1601,7 +1598,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var keyRelation, belongsTo, hasMany, hasOne, relations;
 
-		let keyRelation = strtolower(first) . "$" . strtolower(second);
+		let keyRelation = strtolower(first) . "$" . strtolower(second);		
 
 		/**
 		 * Check if it's a belongs-to relationship
