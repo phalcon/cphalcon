@@ -901,7 +901,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		if fetch qualified, join["qualified"] {
 
-			if qualified["type"] == 355 {
+			if qualified["type"] == PHQL_T_QUALIFIED {
 
 				let modelName = qualified["name"];
 
@@ -1000,7 +1000,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					"type"     : "binary-op",
 					"op"       : "=",
 					"left"     : this->_getQualified([
-						"type"   : 355,
+						"type"   : PHQL_T_QUALIFIED,
 						"domain" : modelAlias,
 						"name"   : fields
 					]),
@@ -1036,7 +1036,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					"type" : "binary-op",
 					"op"   : "=",
 					"left" : this->_getQualified([
-						"type"   : 355,
+						"type"   : PHQL_T_QUALIFIED,
 						"domain" : modelAlias,
 						"name"   : field
 					]),
@@ -1159,7 +1159,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					"type" : "binary-op",
 					"op" : "=",
 					"left" : this->_getQualified([
-						"type" : 355,
+						"type" : PHQL_T_QUALIFIED,
 						"domain" : modelAlias,
 						"name" : field
 					]),
@@ -1190,7 +1190,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						"type" : "binary-op",
 						"op" : "=",
 						"left" : this->_getQualified([
-							"type" : 355,
+							"type" : PHQL_T_QUALIFIED,
 							"domain" : modelAlias,
 							"name" : fields
 						]),
@@ -1215,7 +1215,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						"type" : "binary-op",
 						"op" : "=",
 						"left" : this->_getQualified([
-							"type" : 355,
+							"type" : PHQL_T_QUALIFIED,
 							"domain" : intermediateModelName,
 							"name" : intermediateReferencedFields
 						]),
@@ -1669,7 +1669,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
 			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels,
-			with, withs, withItem, automaticJoins;
+			with, withs, withItem, automaticJoins, number;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1750,7 +1750,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		// Process selected models
-		let automaticJoins = [];
+		let number = 0,
+			automaticJoins = [];
 
 		for selectedModel in selectedModels {
 
@@ -1811,7 +1812,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					models[realModelName] = source;
 			}
 
-			// Eager load any specified relationship
+			// Eager load any specified relationship(s)
 			if fetch with, selectedModel["with"] {
 
 				if !isset with[0] {
@@ -1820,15 +1821,22 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let withs = with;
 				}
 
+				// Simulate the definition of inner joins
 				for withItem in withs {
 
 					let automaticJoins[] = [
-						"type": 360,
+						"type": PHQL_T_INNERJOIN,
 						"qualified": [
-							"type": 355,
+							"type": PHQL_T_QUALIFIED,
 							"name": withItem["name"]
+						],
+						"alias": [
+							"type": PHQL_T_QUALIFIED,
+							"name": "AA" . number
 						]
 					];
+
+					let number++;
 				}
 			}
 
@@ -1864,6 +1872,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		fetch joins, select["joins"];
 
+		// Join existing JOINS with automatic Joins
 		if count(joins) {
 			if count(automaticJoins) {
 				if isset joins[0] {
@@ -1872,7 +1881,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let automaticJoins[] = joins,
 						select["joins"] = automaticJoins;
 				}
-			}			
+			}
 			let sqlJoins = this->_getJoins(select);
 		} else {
 			if count(automaticJoins) {

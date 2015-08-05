@@ -647,7 +647,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			keyRelation, relations, alias, lowerAlias, singleRelations;
 
 		let entityName = get_class_lower(model),
-			referencedEntity = strtolower(model);
+			referencedEntity = strtolower(referencedModel);
 
 		let keyRelation = entityName . "$" . referencedEntity;
 
@@ -1598,7 +1598,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var keyRelation, belongsTo, hasMany, hasOne, relations;
 
-		let keyRelation = strtolower(first) . "$" . strtolower(second);		
+		let keyRelation = strtolower(first) . "$" . strtolower(second);
 
 		/**
 		 * Check if it's a belongs-to relationship

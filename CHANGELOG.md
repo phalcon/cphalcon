@@ -15,6 +15,7 @@ belongs to the uniqueId or the whole session data
 - Now session variables making use of unique prefixes use `#` as internal separator
 - Added parameter the changing operator for conditions in method `Mvc\Model\Criteria::fromImput()` [#10749](https://github.com/phalcon/cphalcon/issues/10749)
 - Added `\Phalcon\Queue\Beanstalk::listTubes()` to get list of a tubes
+- Added a fix to avoid that a table present in many sub-queries causes invalid SQL generation
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds

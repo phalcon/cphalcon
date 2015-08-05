@@ -1062,7 +1062,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	ZEPHIR_INIT_VAR(entityName);
 	zephir_get_class(entityName, model, 1 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(referencedEntity);
-	zephir_fast_strtolower(referencedEntity, model);
+	zephir_fast_strtolower(referencedEntity, referencedModel);
 	ZEPHIR_INIT_VAR(keyRelation);
 	ZEPHIR_CONCAT_VSV(keyRelation, entityName, "$", referencedEntity);
 	ZEPHIR_OBS_VAR(relations);

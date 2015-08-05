@@ -5110,16 +5110,13 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	zval *_6, *_7;
 	zend_class_entry *_5, *_8;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, *arguments = NULL, *extraMethod = NULL, *type = NULL, *modelName, *value, *model, *attributes = NULL, *field = NULL, *extraMethodFirst = NULL, *metaData = NULL, _0 = zval_used_for_init, *_1 = NULL, *_2 = NULL, *_4 = NULL;
+	zval *method_param = NULL, *arguments, *extraMethod = NULL, *type = NULL, *modelName, *value, *model, *attributes = NULL, *field = NULL, *extraMethodFirst = NULL, *metaData = NULL, _0 = zval_used_for_init, *_1 = NULL, *_2 = NULL, *_4 = NULL;
 	zval *method = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
+	zephir_fetch_params(1, 2, 0, &method_param, &arguments);
 
 	zephir_get_strval(method, method_param);
-	if (!arguments) {
-		arguments = ZEPHIR_GLOBAL(global_null);
-	}
 
 
 	ZEPHIR_INIT_VAR(extraMethod);
