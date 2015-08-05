@@ -360,11 +360,22 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Add a model to take part of the query
 	 *
 	 *<code>
-	 **	$builder->addFrom('Robots');
+	 *  // Load data from models Robots
+	 *	$builder->addFrom('Robots');
+	 *
+	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
 	 *	$builder->addFrom('Robots', 'r');
+	 *
+	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
+	 *  // and eager load model 'RobotsParts'
+	 *	$builder->addFrom('Robots', 'r', 'RobotsParts');
+	 *
+	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
+	 *  // and eager load models 'RobotsParts' and 'Parts'
+	 *	$builder->addFrom('Robots', 'r', ['RobotsParts', 'Parts']);
 	 *</code>
 	 */
-	public function addFrom(var model, var alias = null) -> <Builder>
+	public function addFrom(var model, var alias = null, var with = null) -> <Builder>
 	{
 		var models, currentModel;
 
@@ -402,10 +413,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds a INNER join to the query
 	 *
 	 *<code>
+	 *  // Inner Join model 'Robots' with automatic conditions and alias
 	 *	$builder->join('Robots');
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions
+	 *	$builder->join('Robots', 'Robots.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions and alias
 	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'INNER');
+	 *
+	 *  // Left Join model 'Robots' specifing conditions, alias and type of join
+	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
 	 *
 	 * @param string model
@@ -424,8 +442,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds a INNER join to the query
 	 *
 	 *<code>
+	 *  // Inner Join model 'Robots' with automatic conditions and alias
 	 *	$builder->innerJoin('Robots');
-	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions
+	 *	$builder->innerJoin('Robots', 'Robots.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions and alias
 	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
 	 *</code>
 	 *
