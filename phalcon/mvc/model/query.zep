@@ -2233,7 +2233,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 					"type" : exprColumn["type"],
 					"value": this->_getExpression(exprColumn, notQuoting)
 				];
-
 		}
 
 		let sqlUpdate = [
@@ -2276,9 +2275,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * We use these arrays to store info related to models, alias and its sources. With them we can rename columns later
+		 * We use these arrays to store info related to models, alias and its sources.
+		 * Thanks to them we can rename columns later
 		 */
-		let models = [], modelsInstances = [];
+		let models = [],
+			modelsInstances = [];
 
 		let sqlTables = [],
 			sqlModels = [],
@@ -2296,10 +2297,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			let qualifiedName = table["qualifiedName"],
 				modelName = qualifiedName["name"];
-
-			/**
-			 * Check if the table have a namespace alias
-			 */
+			
 			/**
 			 * Check if the table have a namespace alias
 			 */
