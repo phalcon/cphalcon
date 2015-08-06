@@ -753,15 +753,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves a column from its intermediate representation into an array used to determine
 	 * if the resultset produced is simple or complex
-	 *
-	 * @param array column
-	 * @return array
 	 */
-	protected final function _getSelectColumn(array! column)
+	protected final function _getSelectColumn(array! column) -> array
 	{
 		var sqlColumns, columnType, sqlAliases, modelName, source,
 			columnDomain, sqlColumnAlias, preparedAlias, sqlExprColumn,
-			sqlAliasesModels, sqlColumn, columnData, balias;
+			sqlAliasesModels, sqlColumn, columnData, balias, eager;
 
 		if !fetch columnType, column["type"] {
 			throw new Exception("Corrupted SELECT AST");
@@ -770,15 +767,28 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let sqlColumns = [];
 
 		/**
+		 * Check if column is eager loaded
+		 */
+		fetch eager, column["eager"];
+
+		/**
 		 * Check for select * (all)
 		 */
 		if columnType == PHQL_T_STARALL {
 			for modelName, source in this->_models {
-				let sqlColumns[] = [
+
+				let sqlColumn = [
 					"type"  : "object",
 					"model" : modelName,
-					"column": source
+					"column": source,
+					"balias": lcfirst(modelName)
 				];
+
+				if eager !== null {
+					let sqlColumn["eager"] = eager;
+				}
+
+				let sqlColumns[] = sqlColumn;
 			}
 			return sqlColumns;
 		}
@@ -826,12 +836,18 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Each item is a complex type returning a complete object
 			 */
-			let sqlColumns[] = [
+			let sqlColumn = [
 				"type":  "object",
 				"model":  modelName,
 				"column": sqlColumnAlias,
 				"balias": preparedAlias
 			];
+
+			if eager !== null {
+				let sqlColumn["eager"] = eager;
+			}
+
+			let sqlColumns[] = sqlColumn;
 
 			return sqlColumns;
 		}
@@ -854,6 +870,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 			if fetch balias, sqlExprColumn["balias"] {
 				let sqlColumn["balias"] = balias,
 					sqlColumn["sqlAlias"] = balias;
+			}
+
+			if eager !== null {
+				let sqlColumn["eager"] = eager;
 			}
 
 			let sqlColumn["column"] = sqlExprColumn,
@@ -1834,7 +1854,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 					let selectColumns[] = [
 						"type":   PHQL_T_DOMAINALL,
-    					"column": "AA" . number
+    					"column": "AA" . number,
+						"eager": alias
 					];
 
 					let automaticJoins[] = [
@@ -1928,7 +1949,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				} else {
 					/**
-					 * "balias" is the best alias selected for the column
+					 * "balias" is the best alias choosen for the column
 					 */
 					if fetch alias, sqlColumn["balias"] {
 						let sqlColumns[alias] = sqlColumn;

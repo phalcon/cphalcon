@@ -26,7 +26,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-
 /**
  * Phalcon\Mvc\Model\Criteria
  *

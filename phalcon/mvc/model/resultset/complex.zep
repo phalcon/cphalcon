@@ -1,31 +1,31 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework							  |
+ | Phalcon Framework							                          |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	  |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
- | with this package in the file docs/LICENSE.txt.			  |
- |									  |								  |
- | If you did not receive a copy of the license and are unable to	  |
- | obtain it through the world-wide-web, please send an email		  |
- | to license@phalconphp.com so we can send you a copy immediately.	  |
+ | with this package in the file docs/LICENSE.txt.			              |
+ |									   								      |
+ | If you did not receive a copy of the license and are unable to	      |
+ | obtain it through the world-wide-web, please send an email		      |
+ | to license@phalconphp.com so we can send you a copy immediately.	      |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>			  |
- |		  Eduar Carvajal <eduar@phalconphp.com>			  |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>			          |
+ |		  Eduar Carvajal <eduar@phalconphp.com>			                  |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Mvc\Model\Resultset;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Row;
+use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
-use Phalcon\Db\ResultInterface;
-use Phalcon\Mvc\Model\Row;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -196,7 +196,7 @@ class Complex extends Resultset implements ResultsetInterface
 						// Other kinds of hydrations
 						let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 						break;
-				}
+				}				
 
 				/**
 				 * The complete object is assigned to an attribute with the name of the alias or the model name
