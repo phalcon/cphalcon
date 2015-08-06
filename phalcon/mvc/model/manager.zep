@@ -684,7 +684,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 			let lowerAlias = strtolower(alias);
 		} else {
-			let lowerAlias = referencedEntity;
+			let lowerAlias = referencedEntity;			
 		}
 
 		/**

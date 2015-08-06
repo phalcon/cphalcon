@@ -818,19 +818,22 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 */
 			let sqlColumnAlias = source;
 
-			/**
-			 * Get the real source name
-			 */
-			let sqlAliasesModels = this->_sqlAliasesModels,
-				modelName = sqlAliasesModels[columnDomain];
+			if !fetch preparedAlias, column["balias"] {
 
-			/**
-			 * If the best alias is the model name we lowercase the first letter
-			 */
-			if columnDomain == modelName {
-				let preparedAlias = lcfirst(modelName);
-			} else {
-				let preparedAlias = columnDomain;
+				/**
+				 * Get the real source name
+				 */
+				let sqlAliasesModels = this->_sqlAliasesModels,
+					modelName = sqlAliasesModels[columnDomain];
+
+				/**
+				 * If the best alias is the model name, we lowercase the first letter
+				 */
+				if columnDomain == modelName {
+					let preparedAlias = lcfirst(modelName);
+				} else {
+					let preparedAlias = columnDomain;
+				}
 			}
 
 			/**
@@ -1689,7 +1692,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
 			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels,
-			with, withs, withItem, automaticJoins, number;
+			with, withs, withItem, automaticJoins, number, relation, joinAlias,
+			relationModel;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1852,21 +1856,39 @@ class Query implements QueryInterface, InjectionAwareInterface
 				// Simulate the definition of inner joins
 				for withItem in withs {
 
+					let joinAlias = "AA" . number,
+						relationModel = withItem["name"],
+						relation = manager->getRelationByAlias(realModelName, relationModel);
+
+					if typeof relation == "object" {
+						let bestAlias = relation->getOption("alias"),
+							relationModel = relation->getReferencedModel();
+					} else {
+						let relation = manager->getRelationsBetween(realModelName, relationModel);
+						if typeof relation == "object" {
+							let bestAlias = relation->getOption("alias"),
+								relationModel = relation->getReferencedModel();
+						} else {
+							throw new Exception("Can't find a relationship between '" . realModelName . "' and '" . relationModel . "' when preparing: " . this->_phql);
+						}
+					}
+
 					let selectColumns[] = [
 						"type":   PHQL_T_DOMAINALL,
-    					"column": "AA" . number,
-						"eager": alias
+    					"column": joinAlias,
+						"eager":  alias,
+						"balias": bestAlias
 					];
 
 					let automaticJoins[] = [
 						"type": PHQL_T_INNERJOIN,
 						"qualified": [
 							"type": PHQL_T_QUALIFIED,
-							"name": withItem["name"]
+							"name": relationModel
 						],
 						"alias": [
 							"type": PHQL_T_QUALIFIED,
-							"name": "AA" . number
+							"name": joinAlias
 						]
 					];
 
@@ -2297,7 +2319,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			let qualifiedName = table["qualifiedName"],
 				modelName = qualifiedName["name"];
-			
+
 			/**
 			 * Check if the table have a namespace alias
 			 */
