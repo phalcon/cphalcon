@@ -201,9 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
 
 /**
  * Returns an option by the specified name
- * If the option doesn't exist null is returned
- *
- * @return string|array
+ * If the option doesn't exist null is returned	 
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 

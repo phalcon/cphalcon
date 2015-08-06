@@ -785,7 +785,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 				];
 
 				if eager !== null {
-					let sqlColumn["eager"] = eager;
+					let sqlColumn["eager"] = eager,
+						sqlColumn["eagerType"] = column["eagerType"];
 				}
 
 				let sqlColumns[] = sqlColumn;
@@ -818,13 +819,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 */
 			let sqlColumnAlias = source;
 
-			if !fetch preparedAlias, column["balias"] {
+			fetch preparedAlias, column["balias"];
 
-				/**
-				 * Get the real source name
-				 */
-				let sqlAliasesModels = this->_sqlAliasesModels,
-					modelName = sqlAliasesModels[columnDomain];
+			/**
+			 * Get the real source name
+			 */
+			let sqlAliasesModels = this->_sqlAliasesModels,
+				modelName = sqlAliasesModels[columnDomain];
+
+			if typeof preparedAlias != "string" {
 
 				/**
 				 * If the best alias is the model name, we lowercase the first letter
@@ -847,7 +850,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			];
 
 			if eager !== null {
-				let sqlColumn["eager"] = eager;
+				let sqlColumn["eager"] = eager,
+					sqlColumn["eagerType"] = column["eagerType"];
 			}
 
 			let sqlColumns[] = sqlColumn;
@@ -876,7 +880,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 
 			if eager !== null {
-				let sqlColumn["eager"] = eager;
+				let sqlColumn["eager"] = eager,
+					sqlColumn["eagerType"] = column["eagerType"];
 			}
 
 			let sqlColumn["column"] = sqlExprColumn,
@@ -1693,7 +1698,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
 			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels,
 			with, withs, withItem, automaticJoins, number, relation, joinAlias,
-			relationModel;
+			relationModel, bestAlias, eagerType;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1862,12 +1867,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 					if typeof relation == "object" {
 						let bestAlias = relation->getOption("alias"),
-							relationModel = relation->getReferencedModel();
+							relationModel = relation->getReferencedModel(),
+							eagerType = relation->getType();
 					} else {
 						let relation = manager->getRelationsBetween(realModelName, relationModel);
 						if typeof relation == "object" {
 							let bestAlias = relation->getOption("alias"),
-								relationModel = relation->getReferencedModel();
+								relationModel = relation->getReferencedModel(),
+								eagerType = relation->getType();
 						} else {
 							throw new Exception("Can't find a relationship between '" . realModelName . "' and '" . relationModel . "' when preparing: " . this->_phql);
 						}
@@ -1877,6 +1884,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						"type":   PHQL_T_DOMAINALL,
     					"column": joinAlias,
 						"eager":  alias,
+						"eagerType": eagerType,
 						"balias": bestAlias
 					];
 

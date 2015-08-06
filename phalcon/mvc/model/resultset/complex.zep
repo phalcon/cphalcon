@@ -64,9 +64,9 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var row, hydrateMode,
-			dirtyState, alias, activeRow, type, columnTypes,
-			column, columnValue, value, attribute, source, attributes,
+		var row, hydrateMode, eager,
+			dirtyState, alias, activeRow, type, column, columnValue,
+			value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias, modelName;
 
 		let activeRow = this->_activeRow;
@@ -120,16 +120,14 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		/**
-		 * Create every record according to the column types
-		 */
-		let columnTypes = this->_columnTypes;
-
-		/**
 		 * Set records as dirty state PERSISTENT by default
 		 */
 		let dirtyState = 0;
 
-		for alias, column in columnTypes {
+		/**
+		 * Create every record according to the column types
+		 */
+		for alias, column in this->_columnTypes {
 
 			if typeof column != "array" {
 				throw new Exception("Column type is corrupt");
@@ -196,7 +194,7 @@ class Complex extends Resultset implements ResultsetInterface
 						// Other kinds of hydrations
 						let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 						break;
-				}				
+				}
 
 				/**
 				 * The complete object is assigned to an attribute with the name of the alias or the model name
@@ -224,18 +222,21 @@ class Complex extends Resultset implements ResultsetInterface
 				}
 			}
 
-			/**
-			 * Assign the instance according to the hydration type
-			 */
-			switch hydrateMode {
+			if !fetch eager, column["eager"] {
 
-				case Resultset::HYDRATE_ARRAYS:
-					let activeRow[attribute] = value;
-					break;
+				/**
+				 * Assign the instance according to the hydration type
+				 */
+				switch hydrateMode {
 
-				default:
-					let activeRow->{attribute} = value;
-					break;
+					case Resultset::HYDRATE_ARRAYS:
+						let activeRow[attribute] = value;
+						break;
+
+					default:
+						let activeRow->{attribute} = value;
+						break;
+				}
 			}
 		}
 
