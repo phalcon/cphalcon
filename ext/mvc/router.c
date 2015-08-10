@@ -608,7 +608,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		PHALCON_CALL_METHOD(&real_uri, this_ptr, "getrewriteuri");
 	} else {
-		real_uri = uri;
+		PHALCON_CPY_WRT(real_uri, uri);
 	}
 
 	/**
@@ -642,14 +642,16 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 	if (unlikely(PHALCON_GLOBAL(debug).enable_debug)) {
 		PHALCON_INIT_NVAR(debug_message);
-		PHALCON_CONCAT_SV(debug_message, "Handle the URI pattern: ", real_uri);
+		PHALCON_CONCAT_SV(debug_message, "Handle the URI pattern: ", handled_uri);
 		phalcon_debug_print_r(debug_message TSRMLS_CC);
 	}
 
 	PHALCON_INIT_NVAR(event_name);
 	ZVAL_STRING(event_name, "router:beforeCheckRoutes", 1);
 
-	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name);
+	Z_SET_ISREF_P(handled_uri);
+	PHALCON_CALL_METHOD(NULL, this_ptr, "fireevent", event_name, handled_uri);
+	Z_UNSET_ISREF_P(handled_uri);
 
 	/**
 	 * Routes are traversed in reversed order
