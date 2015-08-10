@@ -199,3 +199,4 @@ ext/phalcon/annotations/lemon.dSYM/
 ext/phalcon/annotations/parser.out
 ext/phalcon/mvc/model/query/lemon
 ext/phalcon/mvc/model/query/parser.out
+vendor/
