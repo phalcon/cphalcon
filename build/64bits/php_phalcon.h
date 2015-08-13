@@ -219,6 +219,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
 	zend_bool late_state_binding;
+	zend_bool enable_implicit_joins;
 	zend_bool cast_on_hydrate;
 	zend_bool ignore_unknown_columns;
 } zephir_struct_orm;
