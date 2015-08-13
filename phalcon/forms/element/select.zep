@@ -75,7 +75,7 @@ class Select extends Element implements ElementInterface {
 	public function addOption(var option) -> <Element>
 	{
 		var key, value;
-		for key, value in options {
+		for key, value in option {
 			let this->_optionsValues[key] = value;
 		}
 		return this;
