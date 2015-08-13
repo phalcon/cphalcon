@@ -377,6 +377,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function getReadConnection() -> <AdapterInterface>
 	{
+		var transaction;
+
+		let transaction = <TransactionInterface> this->_transaction;
+		if typeof transaction == "object" {
+			return transaction->getConnection();
+		}
+
 		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
 	}
 
