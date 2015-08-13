@@ -216,7 +216,7 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	protected final function _merge(<Config> config, var instance = null) -> <Config>
 	{
-		var key, value, number;
+		var key, value, number, localObject;
 
 		if typeof instance !== "object" {
 			let instance = this;
@@ -225,15 +225,21 @@ class Config implements \ArrayAccess, \Countable
 		let number = instance->count();
 
 		for key, value in get_object_vars(config) {
-			if isset(instance->{key}) && typeof value === "object" && typeof instance->{key} === "object" {
-				this->_merge(value, instance->{key});
-			} else {
-				if typeof key == "integer" {
-					let key = strval(number);
-					let number++;
+
+			if fetch localObject, instance->{key} {
+				if typeof localObject === "object" && typeof value === "object" {
+					if localObject instanceof Config && value instanceof Config {
+						this->_merge(value, localObject);
+						continue;
+					}
 				}
-				let instance->{key} = value;
 			}
+
+			if typeof key == "integer" {
+				let key = strval(number),
+					number++;
+			}
+			let instance->{key} = value;
 		}
 
 		return instance;
