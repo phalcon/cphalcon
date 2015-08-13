@@ -247,7 +247,9 @@ class Cookie implements InjectionAwareInterface
 		 */
 		if count(definition) {
 			let session = <SessionInterface> dependencyInjector->getShared("session");
-			session->set("_PHCOOKIE_" . name, definition);
+			if session->isStarted() {
+				session->set("_PHCOOKIE_" . name, definition);
+			}
 		}
 
 		if this->_useEncryption {
@@ -297,27 +299,29 @@ class Cookie implements InjectionAwareInterface
 
 				let session = dependencyInjector->getShared("session");
 
-				let definition = session->get("_PHCOOKIE_" . this->_name);
-				if typeof definition == "array" {
+				if session->isStarted() {
+					let definition = session->get("_PHCOOKIE_" . this->_name);
+					if typeof definition == "array" {
 
-					if fetch expire, definition["expire"] {
-						let this->_expire = expire;
-					}
+						if fetch expire, definition["expire"] {
+							let this->_expire = expire;
+						}
 
-					if fetch domain, definition["domain"] {
-						let this->_domain = domain;
-					}
+						if fetch domain, definition["domain"] {
+							let this->_domain = domain;
+						}
 
-					if fetch path, definition["path"] {
-						let this->_path = path;
-					}
+						if fetch path, definition["path"] {
+							let this->_path = path;
+						}
 
-					if fetch secure, definition["secure"] {
-						let this->_secure = secure;
-					}
+						if fetch secure, definition["secure"] {
+							let this->_secure = secure;
+						}
 
-					if fetch httpOnly, definition["httpOnly"] {
-						let this->_httpOnly = httpOnly;
+						if fetch httpOnly, definition["httpOnly"] {
+							let this->_httpOnly = httpOnly;
+						}
 					}
 				}
 			}
@@ -344,7 +348,9 @@ class Cookie implements InjectionAwareInterface
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			let session = <SessionInterface> dependencyInjector->getShared("session");
-			session->remove("_PHCOOKIE_" . name);
+			if session->isStarted() {
+				session->remove("_PHCOOKIE_" . name);
+			}
 		}
 
 		let this->_value = null;
