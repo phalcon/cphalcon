@@ -89,8 +89,9 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		 * Check if the cookie needs to be updated or
 		 */
 		if !fetch cookie, this->_cookies[name] {
-
-			let cookie = new Cookie(name, value, expire, path, secure, domain, httpOnly);
+			let cookie =
+				<Cookie> this->_dependencyInjector->get("Phalcon\\Http\\Cookie",
+				[name, value, expire, path, secure, domain, httpOnly]);
 
 			/**
 			 * Pass the DI to created cookies
@@ -154,7 +155,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		/**
          * Create the cookie if the it does not exist
          */
-		let cookie = new Cookie(name),
+		let cookie = <Cookie> this->_dependencyInjector->get("Phalcon\\Http\\Cookie", [name]),
 			dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector == "object" {
