@@ -517,4 +517,12 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<input type="text" name="name" class="big-input" />', $element->render());
 	}
+
+	public function testCorrectlyAddOptionToSelectElement()
+	{
+		$element = new Select('test-select');
+		$element->addOption(array('key' => 'value'));
+
+		$this->assertEquals('<select id="test-select" name="test-select"><option value="key">value</option></select>', preg_replace('/[[:cntrl:]]/', '', $element->render()));
+	}
 }
