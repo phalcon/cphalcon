@@ -1345,7 +1345,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let phql .= " FOR UPDATE";
 			}
 		}
-
+		
 		return phql;
 	}
 

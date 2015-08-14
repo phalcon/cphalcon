@@ -78,6 +78,7 @@
 #include "phalcon/escaperinterface.zep.h"
 #include "phalcon/events/managerinterface.zep.h"
 #include "phalcon/filterinterface.zep.h"
+#include "phalcon/http/cookieinterface.zep.h"
 #include "phalcon/http/request/fileinterface.zep.h"
 #include "phalcon/http/requestinterface.zep.h"
 #include "phalcon/http/response/cookiesinterface.zep.h"

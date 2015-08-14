@@ -1082,7 +1082,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
 			builder, query, dependencyInjector, manager;
-		let dependencyInjector = \Phalcon\Di::getDefault();
+
+		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
@@ -1095,7 +1096,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		if !fetch groupColumn, params["column"] {
-			let groupColumn = '*';
+			let groupColumn = "*";
 		}
 
 		/**
@@ -1164,7 +1165,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * echo "There are ", $number, "\n";
 	 *
 	 * //How many mechanical robots are there?
-	 * $number = Robots::count("type='mechanical'");
+	 * $number = Robots::count("type = 'mechanical'");
 	 * echo "There are ", $number, " mechanical robots\n";
 	 *
 	 * </code>
@@ -1193,7 +1194,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * echo "The total price of robots is ", $sum, "\n";
 	 *
 	 * //How much are mechanical robots?
-	 * $sum = Robots::sum(array("type='mechanical'", 'column' => 'price'));
+	 * $sum = Robots::sum(array("type = 'mechanical'", 'column' => 'price'));
 	 * echo "The total price of mechanical robots is  ", $sum, "\n";
 	 *
 	 * </code>
