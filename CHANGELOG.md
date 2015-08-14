@@ -19,6 +19,7 @@ belongs to the uniqueId or the whole session data
 - Add CookieInterface, update Cookie and Cookies to use this interface - Decoupling Cookies and Cookie - Check Session state before using it in Cookie . [#10789](https://github.com/phalcon/cphalcon/issues/10789)
 - Fixed merge of Phalcon\Config instances containing objects different than Phalcon\Config compatible instances
 - When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797) 
+- Fixed incorrect generation of SELECT COUNT(*) causing unexpected exceptions when phqlLiterals is disabled
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds

@@ -855,6 +855,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We only want the first record
 		 */
 		builder->limit(1);
+
 		let query = builder->getQuery();
 
 		/**
