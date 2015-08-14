@@ -77,8 +77,12 @@ interface ServiceInterface
 	public function resolve(parameters = null, <\Phalcon\DiInterface> dependencyInjector = null);
 
 	/**
+	 * Changes a parameter in the definition without resolve the service
+	 */
+	public function setParameter(int position, array! parameter) -> <ServiceInterface>;
+
+	/**
 	 * Restore the interal state of a service
 	 */
 	public static function __set_state(array! attributes) -> <ServiceInterface>;
-
 }
