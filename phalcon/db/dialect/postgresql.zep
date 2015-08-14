@@ -381,7 +381,7 @@ class Postgresql extends Dialect
 			let createLines[] = columnLine;
 		}
 		if !empty primaryColumns {
-			let createLines[] = "PRIMARY KEY (" . implode(",",primaryColumns) . ")";
+			let createLines[] = "PRIMARY KEY (" . this->getColumnList(primaryColumns) . ")";
 		}
 
 		/**
