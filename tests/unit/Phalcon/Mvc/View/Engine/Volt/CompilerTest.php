@@ -1,6 +1,6 @@
 <?php
 /**
- * EngineTest.php
+ * CompilerTest.php
  * \Phalcon\Mvc\View\Engine\Volt\CompilerTest
  *
  * Tests the Phalcon\Mvc\View\Engine\Volt\Compiler component
