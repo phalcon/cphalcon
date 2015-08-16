@@ -131,7 +131,6 @@ class Random
 	 *
 	 * If $len is not specified, 16 is assumed. It may be larger in future.
 	 * The length of the result string is usually greater of $len.
-	 * By default, padding is not generated because "=" may be used as a URL delimiter.
 	 *
 	 *<code>
 	 *	$random = new \Phalcon\Security\Random();
