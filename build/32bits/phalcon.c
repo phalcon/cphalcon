@@ -39195,7 +39195,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		} else {
 			if (PHALCON_IS_STRING(feature, "decimal")) {
 				phalcon_array_update_zval_long(&field_types, property, 3, PH_SEPARATE);
-				phalcon_array_update_zval_long(&field_bind_types, property, 32, PH_SEPARATE);
+				phalcon_array_update_zval_long(&field_bind_types, property, 50, PH_SEPARATE);
 				phalcon_array_update_zval_bool(&numeric_typed, property, 1, PH_SEPARATE);
 			} else {
 				if (PHALCON_IS_STRING(feature, "boolean")) {
@@ -69771,7 +69771,7 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("decimal"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
 				phalcon_array_update_quick_string(&definition, SS("isNumeric"), 1643974676UL, &ztrue, PH_COPY | PH_SEPARATE);
-				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 50, PH_SEPARATE);
 				break;
 			}
 	
@@ -70512,7 +70512,7 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 					if (phalcon_memnstr_str(column_type, SL("decimal"))) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
 						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
-						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
+						phalcon_array_update_string_long(&definition, SL("bindType"), 50, PH_SEPARATE);
 					} else {
 						if (phalcon_memnstr_str(column_type, SL("char"))) {
 							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
