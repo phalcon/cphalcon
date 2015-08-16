@@ -46,8 +46,8 @@ abstract class Backend
 	/**
 	 * Phalcon\Cache\Backend constructor
 	 *
-	 * @param	Phalcon\Cache\FrontendInterface frontend
-	 * @param	array options
+	 * @param \Phalcon\Cache\FrontendInterface frontend
+	 * @param array options
 	 */
 	public function __construct(<FrontendInterface> frontend, options = null)
 	{
