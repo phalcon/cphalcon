@@ -88,7 +88,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator/adapter", "model.zep.c nativearray.zep.c querybuilder.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue", "beanstalk.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue/beanstalk", "job.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/security", "exception.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/security", "exception.zep.c random.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session/adapter", "files.zep.c libmemcached.zep.c memcache.zep.c redis.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/tag", "exception.zep.c select.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");

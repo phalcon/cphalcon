@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter) {
  * @param string  serviceName
  * @param mixed   definition
  * @param boolean shared
- * @return \Phalcon\DI\ServiceInterface
+ * @return \Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 

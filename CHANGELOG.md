@@ -1,4 +1,4 @@
-# [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-XX-XX)
+# [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in `Image\Adapter\Imagick::text()`
 - Exceptions thrown in Volt compiler are now `Phalcon\Mvc\View\Engine\Exception`
@@ -19,7 +19,7 @@ belongs to the uniqueId or the whole session data
 - Add `CookieInterface`, update `Cookie` and `Cookies` to use this interface - Decoupling `Cookies` and `Cookie` - Check `Session` state before using it in `Cookie`. [#10789](https://github.com/phalcon/cphalcon/issues/10789)
 - Fixed merge of `Phalcon\Config` instances containing objects different than `Phalcon\Config` compatible instances
 - When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797) 
-- Fixed incorrect generation of `SELECT COUNT(*)` causing unexpected exceptions when `phqlLiterals` is disabled
+- Fixed incorrect generation of `SELECT COUNT(\*)` causing unexpected exceptions when `phqlLiterals` is disabled
 - Added `Phalcon\Security\Random` - secure random number generator class. Provides secure random number generator which is suitable for generating session key in HTTP cookies, etc
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
