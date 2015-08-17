@@ -4613,6 +4613,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_resolve, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_setparameter, 0, 0, 2)
+	ZEND_ARG_INFO(0, position)
+	ZEND_ARG_ARRAY_INFO(0, parameter, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface___set_state, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
@@ -4625,6 +4630,7 @@ ZEPHIR_INIT_FUNCS(phalcon_di_serviceinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, getDefinition, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, resolve, arginfo_phalcon_di_serviceinterface_resolve)
+	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, setParameter, arginfo_phalcon_di_serviceinterface_setparameter)
 	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_di_serviceinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -4728,6 +4734,64 @@ ZEPHIR_INIT_FUNCS(phalcon_filterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_FilterInterface, add, arginfo_phalcon_filterinterface_add)
 	PHP_ABSTRACT_ME(Phalcon_FilterInterface, sanitize, arginfo_phalcon_filterinterface_sanitize)
 	PHP_ABSTRACT_ME(Phalcon_FilterInterface, getFilters, NULL)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_http_cookieinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Http_CookieInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_setvalue, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_getvalue, 0, 0, 0)
+	ZEND_ARG_INFO(0, filters)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_useencryption, 0, 0, 1)
+	ZEND_ARG_INFO(0, useEncryption)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_setexpiration, 0, 0, 1)
+	ZEND_ARG_INFO(0, expire)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_setpath, 0, 0, 1)
+	ZEND_ARG_INFO(0, path)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_setdomain, 0, 0, 1)
+	ZEND_ARG_INFO(0, domain)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_setsecure, 0, 0, 1)
+	ZEND_ARG_INFO(0, secure)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookieinterface_sethttponly, 0, 0, 1)
+	ZEND_ARG_INFO(0, httpOnly)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_http_cookieinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, setValue, arginfo_phalcon_http_cookieinterface_setvalue)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getValue, arginfo_phalcon_http_cookieinterface_getvalue)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, send, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, delete, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, useEncryption, arginfo_phalcon_http_cookieinterface_useencryption)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, isUsingEncryption, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, setExpiration, arginfo_phalcon_http_cookieinterface_setexpiration)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getExpiration, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, setPath, arginfo_phalcon_http_cookieinterface_setpath)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getPath, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, setDomain, arginfo_phalcon_http_cookieinterface_setdomain)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getDomain, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, setSecure, arginfo_phalcon_http_cookieinterface_setsecure)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getSecure, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, setHttpOnly, arginfo_phalcon_http_cookieinterface_sethttponly)
+	PHP_ABSTRACT_ME(Phalcon_Http_CookieInterface, getHttpOnly, NULL)
 	PHP_FE_END
 };
 
@@ -5266,13 +5330,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_notinwhere, 0
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_frominput, 0, 0, 3)
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
-	ZEND_ARG_INFO(0, modelName)
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, operator)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, setModelName, arginfo_phalcon_mvc_model_criteriainterface_setmodelname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getModelName, NULL)
@@ -5295,7 +5352,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getLimit, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getOrder, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getParams, NULL)
-	ZEND_FENTRY(fromInput, NULL, arginfo_phalcon_mvc_model_criteriainterface_frominput, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, execute, NULL)
 	PHP_FE_END
 };
@@ -9709,11 +9765,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlvariables, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlVariables)
+	ZEND_ARG_ARRAY_INFO(0, sqlVariables, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlbindtypes, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlBindTypes)
+	ZEND_ARG_ARRAY_INFO(0, sqlBindTypes, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setinitialtime, 0, 0, 1)
@@ -17167,6 +17223,48 @@ zend_class_entry *phalcon_security_exception_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Security_Exception);
 
+
+zend_class_entry *phalcon_security_random_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Security_Random);
+
+static PHP_METHOD(Phalcon_Security_Random, bytes);
+static PHP_METHOD(Phalcon_Security_Random, hex);
+static PHP_METHOD(Phalcon_Security_Random, base64);
+static PHP_METHOD(Phalcon_Security_Random, base64Safe);
+static PHP_METHOD(Phalcon_Security_Random, uuid);
+static PHP_METHOD(Phalcon_Security_Random, number);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_bytes, 0, 0, 0)
+	ZEND_ARG_INFO(0, len)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_hex, 0, 0, 0)
+	ZEND_ARG_INFO(0, len)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_base64, 0, 0, 0)
+	ZEND_ARG_INFO(0, len)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_base64safe, 0, 0, 0)
+	ZEND_ARG_INFO(0, len)
+	ZEND_ARG_INFO(0, padding)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_number, 0, 0, 1)
+	ZEND_ARG_INFO(0, len)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_security_random_method_entry) {
+	PHP_ME(Phalcon_Security_Random, bytes, arginfo_phalcon_security_random_bytes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_Random, hex, arginfo_phalcon_security_random_hex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_Random, base64, arginfo_phalcon_security_random_base64, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_Random, base64Safe, arginfo_phalcon_security_random_base64safe, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_Random, uuid, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_Random, number, arginfo_phalcon_security_random_number, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 zend_class_entry *phalcon_session_ce;
 
