@@ -32,7 +32,7 @@ belongs to the uniqueId or the whole session data
 - Errors generated in `Cache\Backend\Memcached` now shows the result code to easily debug problems
 - Fixed `LIMIT/OFFSET` SQL generation in `Mvc\Model\Query\Builder`
 - Fixed Logger\Formatter\Line to match 1.3.x behavior
-- Fixed warning when castOnHydrate' is true [#10648](https://github.com/phalcon/cphalcon/pull/10648)
+- Fixed warning when 'castOnHydrate' is true [#10648](https://github.com/phalcon/cphalcon/pull/10648)
 - Added name before int/float/numeric/string/bool/null/other variables in Debug\Dump::output
 - Now `Validation\Validator\Identical` allows both 'accepted' and 'value' as value to keep backwards compatibility
 - Added `\Phalcon\Mvc\Model\MetaData\Redis` adapter.
