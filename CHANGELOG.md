@@ -16,10 +16,11 @@ belongs to the uniqueId or the whole session data
 - Added parameter the changing operator for conditions in method `Mvc\Model\Criteria::fromImput()` [#10749](https://github.com/phalcon/cphalcon/issues/10749)
 - Added `\Phalcon\Queue\Beanstalk::listTubes()` to get list of a tubes
 - Added a fix to avoid that a table present in many sub-queries causes invalid SQL generation
-- Add CookieInterface, update Cookie and Cookies to use this interface - Decoupling Cookies and Cookie - Check Session state before using it in Cookie . [#10789](https://github.com/phalcon/cphalcon/issues/10789)
-- Fixed merge of Phalcon\Config instances containing objects different than Phalcon\Config compatible instances
+- Add `CookieInterface`, update `Cookie` and `Cookies` to use this interface - Decoupling `Cookies` and `Cookie` - Check `Session` state before using it in `Cookie`. [#10789](https://github.com/phalcon/cphalcon/issues/10789)
+- Fixed merge of `Phalcon\Config` instances containing objects different than `Phalcon\Config` compatible instances
 - When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797) 
-- Fixed incorrect generation of SELECT COUNT(*) causing unexpected exceptions when phqlLiterals is disabled
+- Fixed incorrect generation of `SELECT COUNT(*)` causing unexpected exceptions when `phqlLiterals` is disabled
+- Added `Phalcon\Security\Random` - secure random number generator class. Provides secure random number generator which is suitable for generating session key in HTTP cookies, etc
 
 # [2.0.6](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.6) (2015-07-21)
 - Builds in TravisCI now uses Docker to perform faster builds
