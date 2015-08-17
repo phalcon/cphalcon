@@ -233,7 +233,7 @@ interface ModelInterface
 	public function validationHasFailed();
 
 	/**
-	 * Returns all the validation messages
+	 * Returns array of validation messages
 	 *
 	 * @return \Phalcon\Mvc\Model\MessageInterface[]
 	 */
