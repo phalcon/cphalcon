@@ -89,22 +89,20 @@ class Random
 	 *
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
 	 */
-	public function bytes(int len = null) -> string
+	public function bytes(int len = 16) -> string
 	{
-		var n, handle, ret;
+		var handle, ret;
 
-		if !len {
-			let n = 16;
-		} else {
-			let n = len;
+		if len <= 0 {
+			let len = 16;
 		}
 
 		if function_exists("\\Sodium\\randombytes_buf") {
-			return \\Sodium\\randombytes_buf(n);
+			return \\Sodium\\randombytes_buf(len);
 		}
 
 		if function_exists("openssl_random_pseudo_bytes") {
-			return openssl_random_pseudo_bytes(n);
+			return openssl_random_pseudo_bytes(len);
 		}
 
 		if file_exists("/dev/urandom") {
@@ -112,10 +110,10 @@ class Random
 
 			if handle !== false {
 				stream_set_read_buffer(handle, 0);
-				let ret = fread(handle, n);
+				let ret = fread(handle, len);
 				fclose(handle);
 
-				if strlen(ret) != n {
+				if strlen(ret) != len {
 					throw new Exception("Unexpected partial read from random device");
 				}
 
