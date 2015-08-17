@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 
 
 /**
@@ -106,14 +107,29 @@ PHP_METHOD(Phalcon_Forms_Element_Select, getOptions) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
-	zval *option;
+	HashTable *_1;
+	HashPosition _0;
+	zval *option, *key = NULL, *value = NULL, **_2;
 
-	zephir_fetch_params(0, 1, 0, &option);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &option);
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("_optionsValues"), option TSRMLS_CC);
-	RETURN_THISW();
+	if (Z_TYPE_P(option) == IS_ARRAY) {
+		zephir_is_iterable(option, &_1, &_0, 0, 0, "phalcon/forms/element/select.zep", 85);
+		for (
+		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1, &_0)
+		) {
+			ZEPHIR_GET_HMKEY(key, _1, _0);
+			ZEPHIR_GET_HVALUE(value, _2);
+			zephir_update_property_array(this_ptr, SL("_optionsValues"), key, value TSRMLS_CC);
+		}
+	} else {
+		zephir_update_property_array_append(this_ptr, SL("_optionsValues"), option TSRMLS_CC);
+	}
+	RETURN_THIS();
 
 }
 

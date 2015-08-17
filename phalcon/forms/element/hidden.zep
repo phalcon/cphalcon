@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\ElementInterface;
 
@@ -38,6 +39,6 @@ class Hidden extends Element implements ElementInterface
 	 */
 	public function render(attributes = null) -> string
 	{
-		return \Phalcon\Tag::hiddenField(this->prepareAttributes(attributes));
+		return Tag::hiddenField(this->prepareAttributes(attributes));
 	}
 }

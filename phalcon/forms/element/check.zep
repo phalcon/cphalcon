@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\ElementInterface;
 
@@ -38,6 +39,6 @@ class Check extends Element implements ElementInterface
 	 */
 	public function render(var attributes = null) -> string
 	{
-		return \Phalcon\Tag::checkField(this->prepareAttributes(attributes, true));
+		return Tag::checkField(this->prepareAttributes(attributes, true));
 	}
 }
