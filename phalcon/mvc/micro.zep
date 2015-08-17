@@ -500,7 +500,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * @param string  serviceName
 	 * @param mixed   definition
 	 * @param boolean shared
-	 * @return \Phalcon\DI\ServiceInterface
+	 * @return \Phalcon\Di\ServiceInterface
 	 */
 	public function setService(string! serviceName, var definition, boolean shared = false) -> <ServiceInterface>
 	{
