@@ -83,6 +83,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/escaperinterface.zep.c
 	phalcon/events/managerinterface.zep.c
 	phalcon/filterinterface.zep.c
+	phalcon/http/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c

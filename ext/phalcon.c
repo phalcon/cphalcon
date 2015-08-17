@@ -70,6 +70,7 @@ zend_class_entry *phalcon_di_serviceinterface_ce;
 zend_class_entry *phalcon_escaperinterface_ce;
 zend_class_entry *phalcon_events_managerinterface_ce;
 zend_class_entry *phalcon_filterinterface_ce;
+zend_class_entry *phalcon_http_cookieinterface_ce;
 zend_class_entry *phalcon_http_request_fileinterface_ce;
 zend_class_entry *phalcon_http_requestinterface_ce;
 zend_class_entry *phalcon_http_response_cookiesinterface_ce;
@@ -465,6 +466,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_EscaperInterface);
 	ZEPHIR_INIT(Phalcon_Events_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_FilterInterface);
+	ZEPHIR_INIT(Phalcon_Http_CookieInterface);
 	ZEPHIR_INIT(Phalcon_Http_RequestInterface);
 	ZEPHIR_INIT(Phalcon_Http_Request_FileInterface);
 	ZEPHIR_INIT(Phalcon_Http_ResponseInterface);
