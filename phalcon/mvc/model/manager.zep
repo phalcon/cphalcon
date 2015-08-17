@@ -40,13 +40,13 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * This components controls the initialization of models, keeping record of relations
  * between the different models of the application.
  *
- * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\DI.
+ * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\Di.
  *
  * <code>
- * use Phalcon\DI;
+ * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
- * $di = new DI();
+ * $di = new Di();
  *
  * $di->set('modelsManager', function() {
  *      return new ModelsManager();
