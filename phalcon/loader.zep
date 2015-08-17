@@ -477,7 +477,7 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
-	 * Get the path when a class was found	 
+	 * Get the path when a class was found
 	 */
 	public function getFoundPath() -> string
 	{

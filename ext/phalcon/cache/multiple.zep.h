@@ -10,6 +10,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start);
 PHP_METHOD(Phalcon_Cache_Multiple, save);
 PHP_METHOD(Phalcon_Cache_Multiple, delete);
 PHP_METHOD(Phalcon_Cache_Multiple, exists);
+PHP_METHOD(Phalcon_Cache_Multiple, flush);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_multiple___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, backends)
@@ -53,5 +54,6 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_multiple_method_entry) {
 	PHP_ME(Phalcon_Cache_Multiple, save, arginfo_phalcon_cache_multiple_save, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Multiple, delete, arginfo_phalcon_cache_multiple_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache_Multiple, exists, arginfo_phalcon_cache_multiple_exists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Multiple, flush, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

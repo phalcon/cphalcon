@@ -20,7 +20,7 @@
 namespace Phalcon\Http\Response;
 
 use Phalcon\DiInterface;
-use Phalcon\Http\Cookie;
+use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Cookie\Exception;
@@ -78,17 +78,8 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Sets a cookie to be sent at the end of the request
 	 * This method overrides any cookie set before with the same name
-	 *
-	 * @param string name
-	 * @param mixed value
-	 * @param int expire
-	 * @param string path
-	 * @param boolean secure
-	 * @param string domain
-	 * @param boolean httpOnly
-	 * @return Phalcon\Http\Response\Cookies
 	 */
-	public function set(string! name, value = null, int expire = 0, string path = "/", secure = null, string! domain = null, httpOnly = null) -> <Cookies>
+	public function set(string! name, value = null, int expire = 0, string path = "/", boolean secure = null, string! domain = null, boolean httpOnly = null) -> <Cookies>
 	{
 		var cookie, encryption, dependencyInjector, response;
 
@@ -98,8 +89,9 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		 * Check if the cookie needs to be updated or
 		 */
 		if !fetch cookie, this->_cookies[name] {
-
-			let cookie = new Cookie(name, value, expire, path, secure, domain, httpOnly);
+			let cookie =
+				<CookieInterface> this->_dependencyInjector->get("Phalcon\\Http\\Cookie",
+				[name, value, expire, path, secure, domain, httpOnly]);
 
 			/**
 			 * Pass the DI to created cookies
@@ -152,7 +144,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	/**
 	 * Gets a cookie from the bag
 	 */
-	public function get(string! name) -> <Cookie>
+	public function get(string! name) -> <CookieInterface>
 	{
 		var dependencyInjector, encryption, cookie;
 
@@ -163,7 +155,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		/**
          * Create the cookie if the it does not exist
          */
-		let cookie = new Cookie(name),
+		let cookie = <CookieInterface> this->_dependencyInjector->get("Phalcon\\Http\\Cookie", [name]),
 			dependencyInjector = this->_dependencyInjector;
 
 		if typeof dependencyInjector == "object" {
@@ -240,8 +232,10 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			for cookie in this->_cookies {
 				cookie->send();
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 

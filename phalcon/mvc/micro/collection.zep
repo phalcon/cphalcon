@@ -95,7 +95,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param mixed handler
 	 * @param boolean lazy
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function setHandler(var handler, boolean lazy = false) -> <Collection>
 	{
@@ -136,7 +136,7 @@ class Collection implements CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function map(string! routePattern, var handler, var name = null) -> <Collection>
 	{
@@ -150,7 +150,7 @@ class Collection implements CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function get(string! routePattern, handler, var name = null) -> <Collection>
 	{
@@ -164,7 +164,7 @@ class Collection implements CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function post(string! routePattern, handler, var name = null) -> <Collection>
 	{
@@ -178,7 +178,7 @@ class Collection implements CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function put(string! routePattern, var handler, var name = null) -> <Collection>
 	{
@@ -192,7 +192,7 @@ class Collection implements CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function patch(string! routePattern, var handler, var name = null) -> <Collection>
 	{
@@ -206,7 +206,7 @@ class Collection implements CollectionInterface
 	 * @param  string routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function head(string! routePattern, var handler, var name = null) -> <Collection>
 	{
@@ -220,7 +220,7 @@ class Collection implements CollectionInterface
 	 * @param  string   routePattern
 	 * @param  callable handler
 	 * @param  string name
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function delete(string! routePattern, var handler, var name = null) -> <Collection>
 	{
@@ -233,7 +233,7 @@ class Collection implements CollectionInterface
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Micro\Collection
+	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
 	public function options(string! routePattern, handler, var name = null) -> <Collection>
 	{

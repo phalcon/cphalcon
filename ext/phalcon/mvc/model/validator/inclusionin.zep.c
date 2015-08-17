@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 365, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 358, value, domain, strict);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_5))) {
 		ZEPHIR_INIT_NVAR(_0);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_fast_join_str(_0, SL(", "), domain TSRMLS_CC);
 		zephir_array_update_string(&_6, SL(":domain"), &_0, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 53, message, _6);
+		ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 54, message, _6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "Inclusion", ZEPHIR_TEMP_PARAM_COPY);

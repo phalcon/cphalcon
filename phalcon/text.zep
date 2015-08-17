@@ -53,7 +53,7 @@ abstract class Text
 	 * Uncamelize strings which are camelized
 	 *
 	 * <code>
-	 *    echo Phalcon\Text::camelize('CocoBongo'); //coco_bongo
+	 *    echo Phalcon\Text::uncamelize('CocoBongo'); //coco_bongo
 	 * </code>
 	 */
 	public static function uncamelize(string! str) -> string
@@ -255,15 +255,15 @@ abstract class Text
 	 */
 	public static function dynamic(string! text, string! leftDelimiter = "{", string! rightDelimiter = "}", string! separator = "|") -> string
 	{
-		var ld_s, rd_s, result, pattern;
+		var ldS, rdS, result, pattern;
 
 		if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
 			throw new \RuntimeException("Syntax error in string \"" . text . "\"");
 		}
 
-		let ld_s 	= preg_quote(leftDelimiter);
-		let rd_s 	= preg_quote(rightDelimiter);
-		let pattern = "/" . ld_s . "([^" . ld_s . rd_s . "]+)" . rd_s . "/";
+		let ldS 	= preg_quote(leftDelimiter);
+		let rdS 	= preg_quote(rightDelimiter);
+		let pattern = "/" . ldS . "([^" . ldS . rdS . "]+)" . rdS . "/";
 		let result 	= text;
 
 		while memstr(result, leftDelimiter) {

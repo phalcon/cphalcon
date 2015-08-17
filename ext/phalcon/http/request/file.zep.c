@@ -79,7 +79,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File) {
 }
 
 /**
- * @var string|null
  */
 PHP_METHOD(Phalcon_Http_Request_File, getError) {
 
@@ -89,7 +88,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getError) {
 }
 
 /**
- * @var string|null
  */
 PHP_METHOD(Phalcon_Http_Request_File, getKey) {
 
@@ -99,7 +97,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey) {
 }
 
 /**
- * @var string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getExtension) {
 
@@ -132,12 +129,12 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 		zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_0);
 		ZVAL_STRING(&_0, "PATHINFO_EXTENSION", 0);
-		ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 228, &_0);
+		ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 229, &_0);
 		zephir_check_call_status();
 		if (zephir_is_true(_1)) {
 			ZEPHIR_SINIT_NVAR(_0);
 			ZVAL_LONG(&_0, 4);
-			ZEPHIR_CALL_FUNCTION(&_2, "pathinfo", NULL, 69, name, &_0);
+			ZEPHIR_CALL_FUNCTION(&_2, "pathinfo", NULL, 71, name, &_0);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_extension"), _2 TSRMLS_CC);
 		}
@@ -214,15 +211,15 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 229, &_0);
+	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 230, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(finfo) != IS_RESOURCE) {
 		RETURN_MM_STRING("", 1);
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 230, finfo, _1);
+	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 231, finfo, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 231, finfo);
+	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 232, finfo);
 	zephir_check_call_status();
 	RETURN_CCTOR(mime);
 
@@ -243,7 +240,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(tmp) == IS_STRING;
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 232, tmp);
+		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 233, tmp);
 		zephir_check_call_status();
 		_0 = zephir_is_true(_1);
 	}
@@ -277,7 +274,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 233, _0, destination);
+	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 234, _0, destination);
 	zephir_check_call_status();
 	RETURN_MM();
 

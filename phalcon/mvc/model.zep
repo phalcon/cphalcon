@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework													  |
+ | Phalcon Framework							  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
- | with this package in the file docs/LICENSE.txt.						  |
- |																		  |
- | If you did not receive a copy of the license and are unable to		  |
- | obtain it through the world-wide-web, please send an email			  |
- | to license@phalconphp.com so we can send you a copy immediately.	      |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
- |		  Eduar Carvajal <eduar@phalconphp.com>						      |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
 
@@ -60,7 +60,6 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * when interacting with databases while is also easy to use.
  *
  * <code>
- *
  * $robot = new Robots();
  * $robot->type = 'mechanical';
  * $robot->name = 'Astro Boy';
@@ -68,7 +67,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * if ($robot->save() == false) {
  *  echo "Umh, We can store robots: ";
  *  foreach ($robot->getMessages() as $message) {
- *	echo message;
+ *	 echo message;
  *  }
  * } else {
  *  echo "Great, a new robot was saved successfully!";
@@ -257,14 +256,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *  $robot->name = 'WALL·E';
 	 *  $robot->created_at = date('Y-m-d');
 	 *  if ($robot->save() == false) {
-	 *	$transaction->rollback("Can't save robot");
+	 *	  $transaction->rollback("Can't save robot");
 	 *  }
 	 *
 	 *  $robotPart = new RobotParts();
 	 *  $robotPart->setTransaction($transaction);
 	 *  $robotPart->type = 'head';
 	 *  if ($robotPart->save() == false) {
-	 *	$transaction->rollback("Robot part cannot be saved");
+	 *	  $transaction->rollback("Robot part cannot be saved");
 	 *  }
 	 *
 	 *  $transaction->commit();
@@ -420,7 +419,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array data
 	 * @param array dataColumnMap array to transform keys of data to another
 	 * @param array whiteList
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
@@ -500,12 +499,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
+	 * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
@@ -678,10 +677,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *));
 	 *</code>
 	 *
-	 * @param Phalcon\Mvc\ModelInterface $base
+	 * @param \Phalcon\Mvc\ModelInterface $base
 	 * @param array data
 	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0)
 	{
@@ -827,7 +826,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * </code>
 	 *
 	 * @param string|array parameters
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
@@ -856,6 +855,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We only want the first record
 		 */
 		builder->limit(1);
+
 		let query = builder->getQuery();
 
 		/**
@@ -924,8 +924,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Checks if the current record already exists or not
 	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @return boolean
 	 */
@@ -1076,14 +1076,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param string function
 	 * @param string alias
 	 * @param array parameters
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
 	{
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
 			builder, query, dependencyInjector, manager;
-		let dependencyInjector = \Phalcon\Di::getDefault();
+
+		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		if typeof parameters != "array" {
@@ -1096,7 +1097,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		if !fetch groupColumn, params["column"] {
-			let groupColumn = '*';
+			let groupColumn = "*";
 		}
 
 		/**
@@ -1165,7 +1166,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * echo "There are ", $number, "\n";
 	 *
 	 * //How many mechanical robots are there?
-	 * $number = Robots::count("type='mechanical'");
+	 * $number = Robots::count("type = 'mechanical'");
 	 * echo "There are ", $number, " mechanical robots\n";
 	 *
 	 * </code>
@@ -1194,7 +1195,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * echo "The total price of robots is ", $sum, "\n";
 	 *
 	 * //How much are mechanical robots?
-	 * $sum = Robots::sum(array("type='mechanical'", 'column' => 'price'));
+	 * $sum = Robots::sum(array("type = 'mechanical'", 'column' => 'price'));
 	 * echo "The total price of mechanical robots is  ", $sum, "\n";
 	 *
 	 * </code>
@@ -1427,7 +1428,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns all the validation messages
+	 * Returns array of validation messages
 	 *
 	 *<code>
 	 *	$robot = new Robots();
@@ -2092,8 +2093,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
-	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @param boolean|string identityField
 	 * @return boolean
@@ -2281,8 +2282,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build UPDATE SQL statement to the relational database system
 	 *
-	 * @param Phalcon\Mvc\Model\MetaDataInterface metaData
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @return boolean
 	 */
@@ -2491,8 +2492,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Saves related records that must be stored prior to save the master record
 	 *
-	 * @param Phalcon\Db\AdapterInterface connection
-	 * @param Phalcon\Mvc\ModelInterface[] related
+	 * @param \Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\ModelInterface[] related
 	 * @return boolean
 	 */
 	protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
@@ -2896,13 +2897,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
 		}
 
-		/**
-		 * _postSave() makes all the validations
-		 */
-		if globals_get("orm.events") {
-			let success = this->_postSave(success, exists);
-		}
-
 		if typeof related == "array" {
 
 			/**
@@ -2916,6 +2910,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				 */
 				let success = this->_postSaveRelatedRecords(writeConnection, related);
 			}
+		}
+
+		/**
+		 * _postSave() invokes after* events if the operation was successful
+		 */
+		if globals_get("orm.events") {
+			let success = this->_postSave(success, exists);
 		}
 
 		if success === false {
@@ -3838,7 +3839,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string alias
 	 * @param array arguments
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
 	{
@@ -3953,7 +3954,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param	array arguments
 	 * @return	mixed
 	 */
-	public static function __callStatic(string method, arguments = null)
+	public static function __callStatic(string method, arguments)
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
@@ -4116,7 +4117,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Magic method to get related records using the relation alias as a property
 	 *
 	 * @param string property
-	 * @return Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
 	 */
 	public function __get(string! property)
 	{

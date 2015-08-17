@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
  * If the callback returns false the route is treated as not matched
  *
  * @param callback callback
- * @return Phalcon\Cli\Router\Route
+ * @return \Phalcon\Cli\Router\Route
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, beforeMatch) {
 
@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getReversedPaths) {
  *
  * @param string name
  * @param callable converter
- * @return Phalcon\Cli\Router\Route
+ * @return \Phalcon\Cli\Router\Route
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, convert) {
 

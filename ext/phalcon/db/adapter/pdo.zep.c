@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "connect", NULL, 0, descriptor);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", &_0, 24, descriptor);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", &_0, 25, descriptor);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 							if (ZEPHIR_IS_LONG(type, 1)) {
 								ZEPHIR_SINIT_NVAR(_4);
 								ZVAL_LONG(&_4, 10);
-								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_5, 25, value, &_4);
+								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_5, 26, value, &_4);
 								zephir_check_call_status();
 								break;
 							}
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_db_result_pdo_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 26, this_ptr, statement, sqlStatement, bindParams, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 27, this_ptr, statement, sqlStatement, bindParams, bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -682,7 +682,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, setOrder);
 	Z_SET_ISREF_P(matches);
-	ZEPHIR_CALL_FUNCTION(&_1, "preg_match_all", NULL, 27, bindPattern, sql, matches, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "preg_match_all", NULL, 28, bindPattern, sql, matches, _0);
 	Z_UNSET_ISREF_P(matches);
 	zephir_check_call_status();
 	if (zephir_is_true(_1)) {
@@ -711,7 +711,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "?", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 28, bindPattern, _0, sql);
+		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 29, bindPattern, _0, sql);
 		zephir_check_temp_parameter(_0);
 		zephir_check_call_status();
 	} else {

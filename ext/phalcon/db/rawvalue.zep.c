@@ -48,8 +48,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 
 /**
  * Raw value without quoting or formating
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_RawValue, getValue) {
 
@@ -60,8 +58,6 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue) {
 
 /**
  * Raw value without quoting or formating
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_RawValue, __toString) {
 

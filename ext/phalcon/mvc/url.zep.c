@@ -265,11 +265,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath) {
  */
 PHP_METHOD(Phalcon_Mvc_Url, get) {
 
-	unsigned char _10, _12;
+	unsigned char _10, _12, _15;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool _0, _1, _11;
+	zend_bool _0, _1, _11, _13, _14;
 	zval *strUri = NULL, *_9 = NULL;
-	zval *uri = NULL, *args = NULL, *local = NULL, *baseUri = NULL, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *queryString = NULL, *_2, *_3 = NULL, _4 = zval_used_for_init, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_13;
+	zval *uri = NULL, *args = NULL, *local = NULL, *baseUri = NULL, *router = NULL, *dependencyInjector = NULL, *routeName, *route = NULL, *queryString = NULL, *_2, *_3 = NULL, _4 = zval_used_for_init, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_16;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &uri, &args, &local, &baseUri);
@@ -386,19 +386,33 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			_12 = ZEPHIR_STRING_OFFSET(strUri, 1);
 			_11 = _12 != '/';
 		}
-		ZEPHIR_INIT_NVAR(uri);
 		if (_11) {
 			ZEPHIR_SINIT_NVAR(_4);
 			ZVAL_LONG(&_4, 1);
 			ZEPHIR_INIT_NVAR(_3);
 			zephir_substr(_3, strUri, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+			ZEPHIR_INIT_NVAR(uri);
 			ZEPHIR_CONCAT_VV(uri, baseUri, _3);
 		} else {
-			ZEPHIR_CONCAT_VV(uri, baseUri, strUri);
+			_13 = ZEPHIR_IS_STRING(baseUri, "/");
+			if (_13) {
+				_13 = zephir_fast_strlen_ev(strUri) == 1;
+			}
+			_14 = _13;
+			if (_14) {
+				_15 = ZEPHIR_STRING_OFFSET(strUri, 0);
+				_14 = _15 == '/';
+			}
+			if (_14) {
+				ZEPHIR_CPY_WRT(uri, baseUri);
+			} else {
+				ZEPHIR_INIT_NVAR(uri);
+				ZEPHIR_CONCAT_VV(uri, baseUri, strUri);
+			}
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 369, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 362, args);
 		zephir_check_call_status();
 		_0 = Z_TYPE_P(queryString) == IS_STRING;
 		if (_0) {
@@ -414,9 +428,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 				ZEPHIR_CONCAT_SV(_7, "&", queryString);
 				zephir_concat_self(&uri, _7 TSRMLS_CC);
 			} else {
-				ZEPHIR_INIT_VAR(_13);
-				ZEPHIR_CONCAT_SV(_13, "?", queryString);
-				zephir_concat_self(&uri, _13 TSRMLS_CC);
+				ZEPHIR_INIT_VAR(_16);
+				ZEPHIR_CONCAT_SV(_16, "?", queryString);
+				zephir_concat_self(&uri, _16 TSRMLS_CC);
 			}
 		}
 	}

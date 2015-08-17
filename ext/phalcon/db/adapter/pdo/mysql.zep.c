@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 324 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_7);
 		object_init_ex(_7, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_15, 138, columnName, definition);
+		ZEPHIR_CALL_METHOD(NULL, _7, "__construct", &_15, 140, columnName, definition);
 		zephir_check_call_status();
 		zephir_array_append(&columns, _7, PH_SEPARATE, "phalcon/db/adapter/pdo/mysql.zep", 325);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);

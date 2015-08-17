@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
 /**
  * Acts as fallbacks when a missing method is called on the model
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @param string method
  * @param array arguments
  */

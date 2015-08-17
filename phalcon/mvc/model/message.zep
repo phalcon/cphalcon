@@ -65,7 +65,7 @@ class Message implements MessageInterface
 	 * @param string message
 	 * @param string|array field
 	 * @param string type
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param \Phalcon\Mvc\ModelInterface model
 	 */
 	public function __construct(string! message, field = null, type = null, model = null)
 	{

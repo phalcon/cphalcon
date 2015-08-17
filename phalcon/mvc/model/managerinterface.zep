@@ -174,9 +174,9 @@ interface ManagerInterface
 	 * @param string method
 	 * @param string modelName
 	 * @param string modelRelation
-	 * @param Phalcon\Mvc\Model record
+	 * @param \Phalcon\Mvc\Model record
 	 * @param array parameters
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getBelongsToRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
 
@@ -186,9 +186,9 @@ interface ManagerInterface
 	 * @param string method
 	 * @param string modelName
 	 * @param string modelRelation
-	 * @param Phalcon\Mvc\Model record
+	 * @param \Phalcon\Mvc\Model record
 	 * @param array parameters
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getHasManyRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
 
@@ -198,9 +198,9 @@ interface ManagerInterface
 	 * @param string method
 	 * @param string modelName
 	 * @param string modelRelation
-	 * @param Phalcon\Mvc\Model record
+	 * @param \Phalcon\Mvc\Model record
 	 * @param array parameters
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getHasOneRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
 
@@ -240,7 +240,7 @@ interface ManagerInterface
 	 * Query all the relationships defined on a model
 	 *
 	 * @param string modelName
-	 * @return Phalcon\Mvc\Model\RelationInterface[]
+	 * @return \Phalcon\Mvc\Model\RelationInterface[]
 	 */
 	public function getRelations(modelName);
 
@@ -257,7 +257,7 @@ interface ManagerInterface
 	 * Creates a Phalcon\Mvc\Model\Query without execute it
 	 *
 	 * @param string phql
-	 * @return Phalcon\Mvc\Model\QueryInterface
+	 * @return \Phalcon\Mvc\Model\QueryInterface
 	 */
 	public function createQuery(phql);
 
@@ -266,7 +266,7 @@ interface ManagerInterface
 	 *
 	 * @param string phql
 	 * @param array placeholders
-	 * @return Phalcon\Mvc\Model\QueryInterface
+	 * @return \Phalcon\Mvc\Model\QueryInterface
 	 */
 	public function executeQuery(phql, placeholders = null);
 
@@ -274,7 +274,7 @@ interface ManagerInterface
 	 * Creates a Phalcon\Mvc\Model\Query\Builder
 	 *
 	 * @param string params
-	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
+	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
 	public function createBuilder(params = null);
 
@@ -288,7 +288,7 @@ interface ManagerInterface
 	 * Notify the behaviors that are listening in the model
 	 *
 	 * @param string eventName
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param \Phalcon\Mvc\ModelInterface model
 	 */
 	public function notifyEvent(eventName, <ModelInterface> model);
 
@@ -297,7 +297,7 @@ interface ManagerInterface
 	 * This method expects that the endpoint listeners/behaviors returns true
 	 * meaning that a least one is implemented
 	 *
-	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param \Phalcon\Mvc\ModelInterface model
 	 * @param string eventName
 	 * @param array data
 	 * @return boolean
@@ -307,7 +307,7 @@ interface ManagerInterface
 	/**
 	 * Returns the last query created or executed in the models manager
 	 *
-	 * @return Phalcon\Mvc\Model\QueryInterface
+	 * @return \Phalcon\Mvc\Model\QueryInterface
 	 */
 	public function getLastQuery();
 
@@ -316,7 +316,7 @@ interface ManagerInterface
 	 *
 	 * @param string modelName
 	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Relation
+	 * @return \Phalcon\Mvc\Model\Relation
 	 */
 	public function getRelationByAlias(string modelName, string alias);
 

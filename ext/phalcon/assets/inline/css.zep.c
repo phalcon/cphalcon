@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 	}
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "css", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_css_ce, this_ptr, "__construct", &_0, 94, _1, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_css_ce, this_ptr, "__construct", &_0, 96, _1, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

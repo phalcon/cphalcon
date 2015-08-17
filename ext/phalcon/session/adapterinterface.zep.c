@@ -42,18 +42,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, getOptions);
 
 /**
  * Gets a session variable from an application context
- *
- * @param string index
- * @param mixed defaultValue
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, get);
 
 /**
  * Sets a session variable in an application context
- *
- * @param string index
- * @param string value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, set);
 
@@ -81,4 +74,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, isStarted);
  * Destroys the active session
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, destroy);
+
+/**
+ * Regenerate session's id
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, regenerateId);
 

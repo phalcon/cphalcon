@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZEPHIR_GET_HVALUE(annotationData, _3);
 			ZEPHIR_INIT_NVAR(_4);
 			object_init_ex(_4, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, 84, annotationData);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, 86, annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, _4, PH_SEPARATE, "phalcon/annotations/collection.zep", 66);
 		}
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, rewind) {
 /**
  * Returns the current annotation in the iterator
  *
- * @return Phalcon\Annotations\Annotation
+ * @return \Phalcon\Annotations\Annotation
  */
 PHP_METHOD(Phalcon_Annotations_Collection, current) {
 

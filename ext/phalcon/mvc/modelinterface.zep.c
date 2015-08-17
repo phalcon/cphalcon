@@ -94,32 +94,32 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getDirtyState);
 /**
  * Assigns values to a model from an array
  *
- * @param Phalcon\Mvc\Model object
+ * @param \Phalcon\Mvc\Model object
  * @param array data
  * @param array columnMap
- * @return Phalcon\Mvc\Model
+ * @return \Phalcon\Mvc\Model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
 
 /**
  * Assigns values to a model from an array returning a new model
  *
- * @param Phalcon\Mvc\Model base
+ * @param \Phalcon\Mvc\Model base
  * @param array data
  * @param array columnMap
  * @param int dirtyState
  * @param boolean keepSnapshots
- * @return Phalcon\Mvc\Model result
+ * @return \Phalcon\Mvc\Model result
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
 
 /**
  * Assigns values to a model from an array returning a new model
  *
- * @param Phalcon\Mvc\ModelInterface base
+ * @param \Phalcon\Mvc\ModelInterface base
  * @param array data
  * @param int dirtyState
- * @return Phalcon\Mvc\ModelInterface
+ * @return \Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 
@@ -144,15 +144,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
  * Allows to query the first record that match the specified conditions
  *
  * @param array parameters
- * @return Phalcon\Mvc\ModelInterface
+ * @return \Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 
 /**
  * Create a criteria for a especific model
  *
- * @param Phalcon\DiInterface dependencyInjector
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @param \Phalcon\DiInterface dependencyInjector
+ * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, query);
 
@@ -226,9 +226,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, appendMessage);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);
 
 /**
- * Returns all the validation messages
+ * Returns array of validation messages
  *
- * @return Phalcon\Mvc\Model\MessageInterface[]
+ * @return \Phalcon\Mvc\Model\MessageInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getMessages);
 
@@ -291,7 +291,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
  *
  * @param string alias
  * @param array arguments
- * @return Phalcon\Mvc\Model\ResultsetInterface
+ * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
 

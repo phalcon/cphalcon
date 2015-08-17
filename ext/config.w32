@@ -38,8 +38,8 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata", "strategyinterface.zep.c apc.zep.c files.zep.c libmemcached.zep.c memcache.zep.c memory.zep.c redis.zep.c session.zep.c xcache.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view", "engine.zep.c engineinterface.zep.c exception.zep.c simple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache/frontend", "data.zep.c base64.zep.c igbinary.zep.c json.zep.c none.zep.c output.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "cookieinterface.zep.c requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request", "fileinterface.zep.c exception.zep.c file.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/response", "cookiesinterface.zep.c headersinterface.zep.c cookies.zep.c exception.zep.c headers.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/micro", "collectioninterface.zep.c collection.zep.c exception.zep.c lazyloader.zep.c middlewareinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/query", "builderinterface.zep.c statusinterface.zep.c builder.zep.c lang.zep.c status.zep.c", "phalcon");
@@ -84,11 +84,11 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/url", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/user", "component.zep.c module.zep.c plugin.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view/engine", "php.zep.c volt.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view/engine/volt", "compiler.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view/engine/volt", "compiler.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator/adapter", "model.zep.c nativearray.zep.c querybuilder.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue", "beanstalk.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/queue/beanstalk", "job.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/security", "exception.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/security", "exception.zep.c random.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session/adapter", "files.zep.c libmemcached.zep.c memcache.zep.c redis.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/tag", "exception.zep.c select.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");

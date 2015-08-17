@@ -184,4 +184,18 @@ class Multiple
 
 		return false;
 	}
+	
+	/**
+	 * Flush all backend(s)
+	 */
+	public function flush() -> boolean
+	{
+		var backend;
+		
+		for backend in this->_backends {
+			backend->flush();
+		}
+		
+		return true;
+	}
 }

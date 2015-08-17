@@ -63,7 +63,7 @@ interface CollectionInterface
 	 *
 	 * @return MongoDb
 	 */
-	public function getConnection();	
+	public function getConnection();
 
 	/**
 	 * Returns a cloned collection
@@ -97,7 +97,7 @@ interface CollectionInterface
 	public function appendMessage(<MessageInterface> message);
 
 	/**
-	 * Creates/Updates a collection based on the values in the atributes
+	 * Creates/Updates a collection based on the values in the attributes
 	 */
 	public function save() -> boolean;
 
@@ -105,7 +105,7 @@ interface CollectionInterface
 	 * Find a document by its id
 	 *
 	 * @param string id
-	 * @return Phalcon\Mvc\Collection
+	 * @return \Phalcon\Mvc\Collection
 	 */
 	public static function findById(id) -> <CollectionInterface>;
 

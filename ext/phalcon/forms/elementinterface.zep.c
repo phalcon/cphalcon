@@ -28,15 +28,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_ElementInterface) {
 /**
  * Sets the parent form to the element
  *
- * @param Phalcon\Forms\Form form
- * @return Phalcon\Forms\ElementInterface
+ * @param \Phalcon\Forms\Form form
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setForm);
 
 /**
  * Returns the parent form to the element
  *
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getForm);
 
@@ -44,7 +44,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getForm);
  * Sets the element's name
  *
  * @param string name
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setName);
 
@@ -57,7 +57,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getName);
  * Sets the element's filters
  *
  * @param array|string filters
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setFilters);
 
@@ -65,7 +65,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setFilters);
  * Adds a filter to current list of filters
  *
  * @param string filter
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, addFilter);
 
@@ -79,24 +79,24 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getFilters);
 /**
  * Adds a group of validators
  *
- * @param Phalcon\Validation\ValidatorInterface[]
+ * @param \Phalcon\Validation\ValidatorInterface[]
  * @param boolean merge
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, addValidators);
 
 /**
  * Adds a validator to the element
  *
- * @param Phalcon\Validation\ValidatorInterface
- * @return Phalcon\Forms\ElementInterface
+ * @param \Phalcon\Validation\ValidatorInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, addValidator);
 
 /**
  * Returns the validators registered for the element
  *
- * @return Phalcon\Validation\ValidatorInterface[]
+ * @return \Phalcon\Validation\ValidatorInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getValidators);
 
@@ -115,7 +115,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, prepareAttributes);
  *
  * @param string attribute
  * @param mixed value
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setAttribute);
 
@@ -132,7 +132,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getAttribute);
  * Sets default attributes for the element
  *
  * @param array attributes
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setAttributes);
 
@@ -146,7 +146,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getAttributes);
  *
  * @param string option
  * @param mixed value
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setUserOption);
 
@@ -163,7 +163,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getUserOption);
  * Sets options for the element
  *
  * @param array options
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setUserOptions);
 
@@ -178,7 +178,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getUserOptions);
  * Sets the element label
  *
  * @param string label
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setLabel);
 
@@ -197,7 +197,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, label);
  * or there is no value available for the element in _POST
  *
  * @param mixed value
- * @return Phalcon\Forms\ElementInterface
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setDefault);
 
@@ -219,7 +219,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getValue);
  * Returns the messages that belongs to the element
  * The element needs to be attached to a form
  *
- * @return Phalcon\Validation\Message\Group
+ * @return \Phalcon\Validation\Message\Group
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getMessages);
 
@@ -231,23 +231,23 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, hasMessages);
 /**
  * Sets the validation messages related to the element
  *
- * @param Phalcon\Validation\Message\Group group
- * @return Phalcon\Forms\ElementInterface
+ * @param \Phalcon\Validation\Message\Group group
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setMessages);
 
 /**
  * Appends a message to the internal message list
  *
- * @param Phalcon\Validation\Message message
- * @return Phalcon\Forms\ElementInterface
+ * @param \Phalcon\Validation\Message message
+ * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, appendMessage);
 
 /**
  * Clears every element in the form to its default value
  *
- * @return Phalcon\Forms\Element
+ * @return \Phalcon\Forms\Element
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, clear);
 

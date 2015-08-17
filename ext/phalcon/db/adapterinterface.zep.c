@@ -275,7 +275,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, query);
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server doesn't return any rows	 
+ * Use this method only when the SQL statement sent to the server doesn't return any rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, execute);
 

@@ -70,6 +70,7 @@ zend_class_entry *phalcon_di_serviceinterface_ce;
 zend_class_entry *phalcon_escaperinterface_ce;
 zend_class_entry *phalcon_events_managerinterface_ce;
 zend_class_entry *phalcon_filterinterface_ce;
+zend_class_entry *phalcon_http_cookieinterface_ce;
 zend_class_entry *phalcon_http_request_fileinterface_ce;
 zend_class_entry *phalcon_http_requestinterface_ce;
 zend_class_entry *phalcon_http_response_cookiesinterface_ce;
@@ -133,6 +134,7 @@ zend_class_entry *phalcon_cache_frontend_data_ce;
 zend_class_entry *phalcon_di_factorydefault_ce;
 zend_class_entry *phalcon_mvc_model_transaction_exception_ce;
 zend_class_entry *phalcon_mvc_router_ce;
+zend_class_entry *phalcon_mvc_view_exception_ce;
 zend_class_entry *phalcon_0__closure_ce;
 zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_ce;
@@ -331,7 +333,7 @@ zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_view_engine_php_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
-zend_class_entry *phalcon_mvc_view_exception_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_exception_ce;
 zend_class_entry *phalcon_mvc_view_simple_ce;
 zend_class_entry *phalcon_paginator_adapter_model_ce;
 zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
@@ -342,6 +344,7 @@ zend_class_entry *phalcon_queue_beanstalk_job_ce;
 zend_class_entry *phalcon_registry_ce;
 zend_class_entry *phalcon_security_ce;
 zend_class_entry *phalcon_security_exception_ce;
+zend_class_entry *phalcon_security_random_ce;
 zend_class_entry *phalcon_session_adapter_files_ce;
 zend_class_entry *phalcon_session_adapter_libmemcached_ce;
 zend_class_entry *phalcon_session_adapter_memcache_ce;
@@ -398,6 +401,7 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.orm.exception_on_failed_save", "0", PHP_INI_ALL, OnUpdateBool, orm.exception_on_failed_save, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_literals", "1", PHP_INI_ALL, OnUpdateBool, orm.enable_literals, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.late_state_binding", "0", PHP_INI_ALL, OnUpdateBool, orm.late_state_binding, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_implicit_joins", "1", PHP_INI_ALL, OnUpdateBool, orm.enable_implicit_joins, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_on_hydrate", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_on_hydrate, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.ignore_unknown_columns", "0", PHP_INI_ALL, OnUpdateBool, orm.ignore_unknown_columns, zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
@@ -463,6 +467,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_EscaperInterface);
 	ZEPHIR_INIT(Phalcon_Events_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_FilterInterface);
+	ZEPHIR_INIT(Phalcon_Http_CookieInterface);
 	ZEPHIR_INIT(Phalcon_Http_RequestInterface);
 	ZEPHIR_INIT(Phalcon_Http_Request_FileInterface);
 	ZEPHIR_INIT(Phalcon_Http_ResponseInterface);
@@ -526,6 +531,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Di_FactoryDefault);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Transaction_Exception);
 	ZEPHIR_INIT(Phalcon_Mvc_Router);
+	ZEPHIR_INIT(Phalcon_Mvc_View_Exception);
 	ZEPHIR_INIT(Phalcon_Acl);
 	ZEPHIR_INIT(Phalcon_Acl_Adapter_Memory);
 	ZEPHIR_INIT(Phalcon_Acl_Exception);
@@ -723,7 +729,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Php);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Compiler);
-	ZEPHIR_INIT(Phalcon_Mvc_View_Exception);
+	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Exception);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Simple);
 	ZEPHIR_INIT(Phalcon_Paginator_Adapter_Model);
 	ZEPHIR_INIT(Phalcon_Paginator_Adapter_NativeArray);
@@ -734,6 +740,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Registry);
 	ZEPHIR_INIT(Phalcon_Security);
 	ZEPHIR_INIT(Phalcon_Security_Exception);
+	ZEPHIR_INIT(Phalcon_Security_Random);
 	ZEPHIR_INIT(Phalcon_Session);
 	ZEPHIR_INIT(Phalcon_Session_Adapter_Files);
 	ZEPHIR_INIT(Phalcon_Session_Adapter_Libmemcached);
@@ -820,6 +827,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.cache_level = 3;
 	phalcon_globals->orm.unique_cache_id = 3;
+
 
 
 

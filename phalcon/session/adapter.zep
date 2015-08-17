@@ -44,7 +44,7 @@ abstract class Adapter
 	 *
 	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(var options = null)
 	{
 		if typeof options == "array" {
 			this->setOptions(options);
@@ -111,24 +111,39 @@ abstract class Adapter
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	{
+		session_regenerate_id(deleteOldSession);
+		return this;
+	}
+
+	/**
 	 * Gets a session variable from an application context
 	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @param boolean remove
-	 * @return mixed
+	 *<code>
+	 *	$session->get('auth', 'yes');
+	 *</code>
 	 */
-	public function get(string index, defaultValue = null, boolean remove = false)
+	public function get(string index, var defaultValue = null, boolean remove = false)
 	{
-		var value, key;
+		var value, key, uniqueId;
 
-		let key = this->_uniqueId . index;
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			let key = uniqueId . "#" . index;
+		} else {
+			let key = index;
+		}
+
 		if fetch value, _SESSION[key] {
 			if remove {
 				unset _SESSION[key];
 			}
 			return value;
 		}
+
 		return defaultValue;
 	}
 
@@ -138,13 +153,18 @@ abstract class Adapter
 	 *<code>
 	 *	$session->set('auth', 'yes');
 	 *</code>
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function set(string index, value)
+	public function set(string index, var value)
 	{
-		let _SESSION[this->_uniqueId . index] = value;
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			let _SESSION[uniqueId . "#" . index] = value;
+			return;
+		}
+
+		let _SESSION[index] = value;
 	}
 
 	/**
@@ -156,7 +176,14 @@ abstract class Adapter
 	 */
 	public function has(string index) -> boolean
 	{
-		return isset _SESSION[this->_uniqueId . index];
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			return isset _SESSION[uniqueId . "#" . index];
+		}
+
+		return isset _SESSION[index];
 	}
 
 	/**
@@ -168,7 +195,15 @@ abstract class Adapter
 	 */
 	public function remove(string index)
 	{
-		unset _SESSION[this->_uniqueId . index];
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			unset _SESSION[uniqueId . "#" . index];
+			return;
+		}
+
+		unset _SESSION[index];
 	}
 
 	/**
@@ -212,10 +247,26 @@ abstract class Adapter
 	 *
 	 *<code>
 	 *	var_dump($session->destroy());
+	 *	var_dump($session->destroy(true));
 	 *</code>
 	 */
-	public function destroy() -> boolean
+	public function destroy(boolean removeData = false) -> boolean
 	{
+		var uniqueId, key;
+
+		if removeData {
+			let uniqueId = this->_uniqueId;
+			if !empty uniqueId {
+				for key, _ in _SESSION {
+					if starts_with(key, uniqueId . "#") {
+						unset _SESSION[key];
+					}
+				}
+			} else {
+				let _SESSION = [];
+			}
+		}
+
 		let this->_started = false;
 		return session_destroy();
 	}
@@ -253,9 +304,6 @@ abstract class Adapter
 
 	/**
 	 * Alias: Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @return mixed
 	 */
 	public function __get(string index)
 	{
@@ -264,11 +312,8 @@ abstract class Adapter
 
 	/**
 	 * Alias: Sets a session variable in an application context
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function __set(string index, value)
+	public function __set(string index, var value)
 	{
 		return this->set(index, value);
 	}

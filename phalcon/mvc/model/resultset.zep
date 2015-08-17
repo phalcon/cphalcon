@@ -93,8 +93,8 @@ abstract class Resultset
 	 * Phalcon\Mvc\Model\Resultset constructor
 	 *
 	 * @param array columnTypes
-	 * @param Phalcon\Db\ResultInterface|false result
-	 * @param Phalcon\Cache\BackendInterface cache
+	 * @param \Phalcon\Db\ResultInterface|false result
+	 * @param \Phalcon\Cache\BackendInterface cache
 	 */
 	public function __construct(result, <BackendInterface> cache = null)
 	{
@@ -289,7 +289,7 @@ abstract class Resultset
 	 * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
 	 *
 	 * @param int index
-	 * @param Phalcon\Mvc\ModelInterface value
+	 * @param \Phalcon\Mvc\ModelInterface value
 	 */
 	public function offsetSet(var index, var value)
 	{
@@ -394,7 +394,7 @@ abstract class Resultset
 	 * Updates every record in the resultset
 	 *
 	 * @param array data
-	 * @param Closure conditionCallback
+	 * @param \Closure conditionCallback
 	 * @return boolean
 	 */
 	public function update(var data, <\Closure> conditionCallback = null) -> boolean
@@ -532,7 +532,7 @@ abstract class Resultset
 	 *</code>
 	 *
 	 * @param callback filter
-	 * @return Phalcon\Mvc\Model[]
+	 * @return \Phalcon\Mvc\Model[]
 	 */
 	public function filter(var filter) -> array
 	{

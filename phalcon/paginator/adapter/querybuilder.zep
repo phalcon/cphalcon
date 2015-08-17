@@ -179,7 +179,7 @@ class QueryBuilder extends Adapter implements AdapterInterface
 			row = result->getFirst(),
 			rowcount = intval(row->rowcount),
 			totalPages = intval(ceil(rowcount / limit));
-			
+
 		if numberPage < totalPages {
 			let next = numberPage + 1;
 		} else {

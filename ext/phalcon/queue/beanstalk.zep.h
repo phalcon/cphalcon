@@ -11,6 +11,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, choose);
 PHP_METHOD(Phalcon_Queue_Beanstalk, watch);
 PHP_METHOD(Phalcon_Queue_Beanstalk, stats);
 PHP_METHOD(Phalcon_Queue_Beanstalk, statsTube);
+PHP_METHOD(Phalcon_Queue_Beanstalk, listTubes);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekBuried);
 PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus);
@@ -61,6 +62,7 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_beanstalk_method_entry) {
 	PHP_ME(Phalcon_Queue_Beanstalk, watch, arginfo_phalcon_queue_beanstalk_watch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, stats, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, statsTube, arginfo_phalcon_queue_beanstalk_statstube, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Queue_Beanstalk, listTubes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekReady, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, peekBuried, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Queue_Beanstalk, readStatus, NULL, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)

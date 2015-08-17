@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
  * Returns a collection resultset
  *
  * @param array params
- * @param Phalcon\Mvc\Collection collection
+ * @param \Phalcon\Mvc\Collection collection
  * @param \MongoDb connection
  * @param boolean unique
  * @return array
@@ -628,7 +628,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	}
 	ZEPHIR_INIT_VAR(collections);
 	array_init(collections);
-	ZEPHIR_CALL_FUNCTION(&_0, "iterator_to_array", NULL, 301, documentsCursor);
+	ZEPHIR_CALL_FUNCTION(&_0, "iterator_to_array", NULL, 294, documentsCursor);
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/collection.zep", 440);
 	for (
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
  * Perform a count over a resultset
  *
  * @param array params
- * @param Phalcon\Mvc\Collection collection
+ * @param \Phalcon\Mvc\Collection collection
  * @param \MongoDb connection
  * @return int
  */
@@ -716,7 +716,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
 /**
  * Executes internal hooks before save a document
  *
- * @param Phalcon\DiInterface dependencyInjector
+ * @param \Phalcon\DiInterface dependencyInjector
  * @param boolean disableEvents
  * @param boolean exists
  * @return boolean
@@ -1211,7 +1211,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	zephir_update_property_this(this_ptr, SL("_errorMessages"), _1 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(disableEvents);
 	zephir_read_static_property_ce(&disableEvents, phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 302, dependencyInjector, disableEvents, exists);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 295, dependencyInjector, disableEvents, exists);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_2)) {
 		RETURN_MM_BOOL(0);
@@ -1240,7 +1240,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	} else {
 		success = 0;
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 303, disableEvents, (success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), exists);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 296, disableEvents, (success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), exists);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1250,7 +1250,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
  * Find a document by its id (_id)
  *
  * @param string|\MongoId id
- * @return Phalcon\Mvc\Collection
+ * @return \Phalcon\Mvc\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 
@@ -1760,7 +1760,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 23, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 24, this_ptr);
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/collection.zep", 1244);
 	for (
@@ -1795,7 +1795,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 71, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 73, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1829,7 +1829,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 72, data);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 74, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);

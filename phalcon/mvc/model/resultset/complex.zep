@@ -1,31 +1,31 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework							  |
+ | Phalcon Framework							                          |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	  |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
- | with this package in the file docs/LICENSE.txt.			  |
- |									  |								  |
- | If you did not receive a copy of the license and are unable to	  |
- | obtain it through the world-wide-web, please send an email		  |
- | to license@phalconphp.com so we can send you a copy immediately.	  |
+ | with this package in the file docs/LICENSE.txt.			              |
+ |									   								      |
+ | If you did not receive a copy of the license and are unable to	      |
+ | obtain it through the world-wide-web, please send an email		      |
+ | to license@phalconphp.com so we can send you a copy immediately.	      |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>			  |
- |		  Eduar Carvajal <eduar@phalconphp.com>			  |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>			          |
+ |		  Eduar Carvajal <eduar@phalconphp.com>			                  |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Mvc\Model\Resultset;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Row;
+use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
-use Phalcon\Db\ResultInterface;
-use Phalcon\Mvc\Model\Row;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -46,8 +46,8 @@ class Complex extends Resultset implements ResultsetInterface
 	 * Phalcon\Mvc\Model\Resultset\Complex constructor
 	 *
 	 * @param array columnTypes
-	 * @param Phalcon\Db\ResultInterface result
-	 * @param Phalcon\Cache\BackendInterface cache
+	 * @param \Phalcon\Db\ResultInterface result
+	 * @param \Phalcon\Cache\BackendInterface cache
 	 */
 	public function __construct(var columnTypes, <ResultInterface> result = null, <BackendInterface> cache = null)
 	{
@@ -64,9 +64,9 @@ class Complex extends Resultset implements ResultsetInterface
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var row, hydrateMode,
-			dirtyState, alias, activeRow, type, columnTypes,
-			column, columnValue, value, attribute, source, attributes,
+		var row, hydrateMode, eager,
+			dirtyState, alias, activeRow, type, column, columnValue,
+			value, attribute, source, attributes,
 			columnMap, rowModel, keepSnapshots, sqlAlias, modelName;
 
 		let activeRow = this->_activeRow;
@@ -120,16 +120,14 @@ class Complex extends Resultset implements ResultsetInterface
 		}
 
 		/**
-		 * Create every record according to the column types
-		 */
-		let columnTypes = this->_columnTypes;
-
-		/**
 		 * Set records as dirty state PERSISTENT by default
 		 */
 		let dirtyState = 0;
 
-		for alias, column in columnTypes {
+		/**
+		 * Create every record according to the column types
+		 */
+		for alias, column in this->_columnTypes {
 
 			if typeof column != "array" {
 				throw new Exception("Column type is corrupt");
@@ -224,18 +222,21 @@ class Complex extends Resultset implements ResultsetInterface
 				}
 			}
 
-			/**
-			 * Assign the instance according to the hydration type
-			 */
-			switch hydrateMode {
+			if !fetch eager, column["eager"] {
 
-				case Resultset::HYDRATE_ARRAYS:
-					let activeRow[attribute] = value;
-					break;
+				/**
+				 * Assign the instance according to the hydration type
+				 */
+				switch hydrateMode {
 
-				default:
-					let activeRow->{attribute} = value;
-					break;
+					case Resultset::HYDRATE_ARRAYS:
+						let activeRow[attribute] = value;
+						break;
+
+					default:
+						let activeRow->{attribute} = value;
+						break;
+				}
 			}
 		}
 

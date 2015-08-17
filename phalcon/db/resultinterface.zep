@@ -30,7 +30,7 @@ interface ResultInterface
 	/**
 	 * Phalcon\Db\Result\Pdo constructor
 	 *
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param \PDOStatement result
 	 * @param string sqlStatement
 	 * @param array bindParams

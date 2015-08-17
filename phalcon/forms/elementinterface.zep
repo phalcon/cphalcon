@@ -34,15 +34,15 @@ interface ElementInterface
 	/**
 	 * Sets the parent form to the element
 	 *
-	 * @param Phalcon\Forms\Form form
-	 * @return Phalcon\Forms\ElementInterface
+	 * @param \Phalcon\Forms\Form form
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setForm(<\Phalcon\Forms\Form> form);
 
 	/**
 	 * Returns the parent form to the element
 	 *
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function getForm();
 
@@ -50,7 +50,7 @@ interface ElementInterface
 	 * Sets the element's name
 	 *
 	 * @param string name
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setName(string name);
 
@@ -63,7 +63,7 @@ interface ElementInterface
 	 * Sets the element's filters
 	 *
 	 * @param array|string filters
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setFilters(filters);
 
@@ -71,7 +71,7 @@ interface ElementInterface
 	 * Adds a filter to current list of filters
 	 *
 	 * @param string filter
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function addFilter(filter);
 
@@ -85,24 +85,24 @@ interface ElementInterface
 	/**
 	 * Adds a group of validators
 	 *
-	 * @param Phalcon\Validation\ValidatorInterface[]
+	 * @param \Phalcon\Validation\ValidatorInterface[]
 	 * @param boolean merge
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function addValidators(array! validators, merge = true);
 
 	/**
 	 * Adds a validator to the element
 	 *
-	 * @param Phalcon\Validation\ValidatorInterface
-	 * @return Phalcon\Forms\ElementInterface
+	 * @param \Phalcon\Validation\ValidatorInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function addValidator(<ValidatorInterface> validator);
 
 	/**
 	 * Returns the validators registered for the element
 	 *
-	 * @return Phalcon\Validation\ValidatorInterface[]
+	 * @return \Phalcon\Validation\ValidatorInterface[]
 	 */
 	public function getValidators();
 
@@ -121,7 +121,7 @@ interface ElementInterface
 	 *
 	 * @param string attribute
 	 * @param mixed value
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setAttribute(attribute, value);
 
@@ -138,7 +138,7 @@ interface ElementInterface
 	 * Sets default attributes for the element
 	 *
 	 * @param array attributes
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setAttributes(array! attributes);
 
@@ -152,7 +152,7 @@ interface ElementInterface
 	 *
 	 * @param string option
 	 * @param mixed value
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setUserOption(option, value);
 
@@ -169,7 +169,7 @@ interface ElementInterface
 	 * Sets options for the element
 	 *
 	 * @param array options
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setUserOptions(options);
 
@@ -184,7 +184,7 @@ interface ElementInterface
 	 * Sets the element label
 	 *
 	 * @param string label
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setLabel(label);
 
@@ -203,7 +203,7 @@ interface ElementInterface
 	 * or there is no value available for the element in _POST
 	 *
 	 * @param mixed value
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setDefault(value);
 
@@ -225,7 +225,7 @@ interface ElementInterface
 	 * Returns the messages that belongs to the element
 	 * The element needs to be attached to a form
 	 *
-	 * @return Phalcon\Validation\Message\Group
+	 * @return \Phalcon\Validation\Message\Group
 	 */
 	public function getMessages();
 
@@ -237,23 +237,23 @@ interface ElementInterface
 	/**
 	 * Sets the validation messages related to the element
 	 *
-	 * @param Phalcon\Validation\Message\Group group
-	 * @return Phalcon\Forms\ElementInterface
+	 * @param \Phalcon\Validation\Message\Group group
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setMessages(<Group> group);
 
 	/**
 	 * Appends a message to the internal message list
 	 *
-	 * @param Phalcon\Validation\Message message
-	 * @return Phalcon\Forms\ElementInterface
+	 * @param \Phalcon\Validation\Message message
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Clears every element in the form to its default value
 	 *
-	 * @return Phalcon\Forms\Element
+	 * @return \Phalcon\Forms\Element
 	 */
 	public function clear();
 

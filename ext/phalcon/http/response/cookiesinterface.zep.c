@@ -37,15 +37,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, isUsingEncryption);
 
 /**
  * Sets a cookie to be sent at the end of the request
- *
- * @param string name
- * @param mixed value
- * @param int expire
- * @param string path
- * @param boolean secure
- * @param string domain
- * @param boolean httpOnly
- * @return Phalcon\Http\Response\CookiesInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, set);
 

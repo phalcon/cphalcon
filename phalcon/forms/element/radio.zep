@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\ElementInterface;
 
@@ -38,6 +39,6 @@ class Radio extends Element implements ElementInterface
 	 */
 	public function render(attributes = null) -> string
 	{
-		return \Phalcon\Tag::radioField(this->prepareAttributes(attributes, true));
+		return Tag::radioField(this->prepareAttributes(attributes, true));
 	}
 }

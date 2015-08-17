@@ -120,7 +120,7 @@ class Service implements ServiceInterface
 	 * Resolves the service
 	 *
 	 * @param array parameters
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
@@ -157,7 +157,7 @@ class Service implements ServiceInterface
 						let instance = create_instance(definition);
 					}
 				} else {
-					let instance = create_instance(definition);					
+					let instance = create_instance(definition);
 				}
 			} else {
 				let found = false;

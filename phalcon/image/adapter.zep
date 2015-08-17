@@ -310,14 +310,16 @@ abstract class Adapter
 	/**
  	 * Add a text to an image with a specified opacity
  	 */
-	public function text(string text, int offsetX = 0, int offsetY = 0, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Adapter>
+	public function text(string text, var offsetX = false, var offsetY = false, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Adapter>
 	{
 		var colors;
 
 		if opacity < 0 {
 			let opacity = 0;
-		} elseif opacity > 100 {
-			let opacity = 100;
+		} else {
+			if opacity > 100 {
+				let opacity = 100;
+			}
 		}
 
 		if strlen(color) > 1 && substr(color, 0, 1) === "#" {

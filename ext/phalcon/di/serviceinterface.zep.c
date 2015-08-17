@@ -69,10 +69,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, getDefinition);
  * Resolves the service
  *
  * @param array parameters
- * @param Phalcon\DiInterface dependencyInjector
+ * @param \Phalcon\DiInterface dependencyInjector
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
+
+/**
+ * Changes a parameter in the definition without resolve the service
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setParameter);
 
 /**
  * Restore the interal state of a service

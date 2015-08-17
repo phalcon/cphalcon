@@ -132,8 +132,6 @@ PHP_METHOD(Phalcon_Db_Adapter, getType) {
 
 /**
  * Active SQL bound parameter variables
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables) {
 
@@ -1257,7 +1255,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable) {
 }
 
 /**
- * Creates a view	 
+ * Creates a view
  */
 PHP_METHOD(Phalcon_Db_Adapter, createView) {
 

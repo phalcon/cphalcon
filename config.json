@@ -10,7 +10,7 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
@@ -84,6 +84,10 @@
         "orm.late_state_binding": {
             "type": "bool",
             "default": false
+        },
+        "orm.enable_implicit_joins": {
+            "type": "bool",
+            "default": true
         },
         "orm.cast_on_hydrate": {
             "type": "bool",

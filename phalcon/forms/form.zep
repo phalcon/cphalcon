@@ -86,7 +86,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Sets the form's action
 	 *
 	 * @param string action
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function setAction(var action) -> <Form>
 	{
@@ -107,7 +107,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string option
 	 * @param mixed value
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function setUserOption(var option, var value) -> <Form>
 	{
@@ -154,7 +154,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Sets the entity related to the model
 	 *
 	 * @param object entity
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function setEntity(var entity) -> <Form>
 	{
@@ -186,7 +186,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * @param array data
 	 * @param object entity
 	 * @param array whitelist
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function bind(array! data, var entity, var whitelist = null) -> <Form>
 	{
@@ -412,7 +412,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Returns the messages generated for a specific element
 	 *
 	 * @param string name
-	 * @return Phalcon\Validation\Message\Group
+	 * @return \Phalcon\Validation\Message\Group
 	 */
 	public function getMessagesFor(var name) -> <Group>
 	{
@@ -442,10 +442,10 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Adds an element to the form
 	 *
-	 * @param Phalcon\Forms\ElementInterface element
+	 * @param \Phalcon\Forms\ElementInterface element
 	 * @param string $postion
  	 * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function add(<ElementInterface> element, string postion = null, boolean type = null) -> <Form>
 	{
@@ -666,7 +666,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Clears every element in the form to its default value
 	 *
 	 * @param array fields
-	 * @return Phalcon\Forms\Form
+	 * @return \Phalcon\Forms\Form
 	 */
 	public function clear(var fields = null) -> <Form>
 	{

@@ -71,7 +71,7 @@ interface CriteriaInterface
 	 *
 	 * @param int limit
 	 * @param int offset
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function limit(int limit, offset = null) -> <CriteriaInterface>;
 
@@ -91,7 +91,7 @@ interface CriteriaInterface
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
@@ -101,7 +101,7 @@ interface CriteriaInterface
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
@@ -115,7 +115,7 @@ interface CriteriaInterface
 	 * @param string expr
 	 * @param mixed minimum
 	 * @param mixed maximum
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function betweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
 
@@ -129,7 +129,7 @@ interface CriteriaInterface
 	 * @param string expr
 	 * @param mixed minimum
 	 * @param mixed maximum
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function notBetweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
 
@@ -188,11 +188,6 @@ interface CriteriaInterface
 	 * @return array
 	 */
 	public function getParams();
-
-	/**
-	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
-	 */
-	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <CriteriaInterface>;
 
 	/**
 	 * Executes a find using the parameters built with the criteria

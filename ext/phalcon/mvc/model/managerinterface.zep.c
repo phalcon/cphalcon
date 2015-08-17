@@ -169,9 +169,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOne);
  * @param string method
  * @param string modelName
  * @param string modelRelation
- * @param Phalcon\Mvc\Model record
+ * @param \Phalcon\Mvc\Model record
  * @param array parameters
- * @return Phalcon\Mvc\Model\ResultsetInterface
+ * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsToRecords);
 
@@ -181,9 +181,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsToRecords);
  * @param string method
  * @param string modelName
  * @param string modelRelation
- * @param Phalcon\Mvc\Model record
+ * @param \Phalcon\Mvc\Model record
  * @param array parameters
- * @return Phalcon\Mvc\Model\ResultsetInterface
+ * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyRecords);
 
@@ -193,9 +193,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyRecords);
  * @param string method
  * @param string modelName
  * @param string modelRelation
- * @param Phalcon\Mvc\Model record
+ * @param \Phalcon\Mvc\Model record
  * @param array parameters
- * @return Phalcon\Mvc\Model\ResultsetInterface
+ * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneRecords);
 
@@ -235,7 +235,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
  * Query all the relationships defined on a model
  *
  * @param string modelName
- * @return Phalcon\Mvc\Model\RelationInterface[]
+ * @return \Phalcon\Mvc\Model\RelationInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
 
@@ -252,7 +252,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationsBetween);
  * Creates a Phalcon\Mvc\Model\Query without execute it
  *
  * @param string phql
- * @return Phalcon\Mvc\Model\QueryInterface
+ * @return \Phalcon\Mvc\Model\QueryInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
 
@@ -261,7 +261,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
  *
  * @param string phql
  * @param array placeholders
- * @return Phalcon\Mvc\Model\QueryInterface
+ * @return \Phalcon\Mvc\Model\QueryInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
 
@@ -269,7 +269,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
  * Creates a Phalcon\Mvc\Model\Query\Builder
  *
  * @param string params
- * @return Phalcon\Mvc\Model\Query\BuilderInterface
+ * @return \Phalcon\Mvc\Model\Query\BuilderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
 
@@ -283,7 +283,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBehavior);
  * Notify the behaviors that are listening in the model
  *
  * @param string eventName
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 
@@ -292,7 +292,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
  * This method expects that the endpoint listeners/behaviors returns true
  * meaning that a least one is implemented
  *
- * @param Phalcon\Mvc\ModelInterface model
+ * @param \Phalcon\Mvc\ModelInterface model
  * @param string eventName
  * @param array data
  * @return boolean
@@ -302,7 +302,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
 /**
  * Returns the last query created or executed in the models manager
  *
- * @return Phalcon\Mvc\Model\QueryInterface
+ * @return \Phalcon\Mvc\Model\QueryInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastQuery);
 
@@ -311,7 +311,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastQuery);
  *
  * @param string modelName
  * @param string alias
- * @return Phalcon\Mvc\Model\Relation
+ * @return \Phalcon\Mvc\Model\Relation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationByAlias);
 

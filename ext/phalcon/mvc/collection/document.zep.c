@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 23, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 24, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

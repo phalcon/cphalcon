@@ -93,7 +93,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getBeforeMatch);
  * Set common paths for all the routes in the group
  *
  * @param array paths
- * @return Phalcon\Mvc\Router\Group
+ * @return \Phalcon\Mvc\Router\Group
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setPaths);
 

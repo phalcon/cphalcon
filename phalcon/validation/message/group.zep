@@ -56,7 +56,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *</code>
 	 *
 	 * @param int index
-	 * @return Phalcon\Validation\Message
+	 * @return \Phalcon\Validation\Message
 	 */
 	public function offsetGet(int! index) -> <Message> | boolean
 	{
@@ -75,7 +75,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *</code>
 	 *
 	 * @param int index
-	 * @param Phalcon\Validation\Message message
+	 * @param \Phalcon\Validation\Message message
 	 */
 	public function offsetSet(int! index, var message)
 	{
@@ -136,7 +136,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * $messages->appendMessages($messagesArray);
 	 *</code>
 	 *
-	 * @param Phalcon\Validation\MessageInterface[] messages
+	 * @param \Phalcon\Validation\MessageInterface[] messages
 	 */
 	public function appendMessages(messages)
 	{
@@ -221,7 +221,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	/**
 	 * Returns the current message in the iterator
 	 *
-	 * @return Phalcon\Validation\Message
+	 * @return \Phalcon\Validation\Message
 	 */
 	public function current() -> <Message> | boolean
 	{
@@ -260,7 +260,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Magic __set_state helps to re-build messages variable when exporting
 	 *
 	 * @param array group
-	 * @return Phalcon\Validation\Message\Group
+	 * @return \Phalcon\Validation\Message\Group
 	 */
 	public static function __set_state(group) -> <Group>
 	{

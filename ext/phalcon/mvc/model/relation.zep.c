@@ -200,6 +200,39 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
 }
 
 /**
+ * Returns an option by the specified name
+ * If the option doesn't exist null is returned	 
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
+
+	zval *name_param = NULL, *option, *_0;
+	zval *name = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+
+	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(name, name_param);
+	} else {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	}
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&option, _0, name, 1 TSRMLS_CC)) {
+		RETURN_CTOR(option);
+	}
+	RETURN_MM_NULL();
+
+}
+
+/**
  * Check whether the relation act as a foreign key
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey) {

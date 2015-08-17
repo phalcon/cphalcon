@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
  *
  * @param array|object data
  * @param object entity
- * @return Phalcon\Validation\Message\Group
+ * @return \Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Validation, validate) {
 
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
  *
  * @param string field
  * @param array|string filters
- * @return Phalcon\Validation
+ * @return \Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, setFilters) {
 
@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
  *
  * @param object entity
  * @param array|object data
- * @return Phalcon\Validation
+ * @return \Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, bind) {
 

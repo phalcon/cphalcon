@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 20, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 21, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Config, get) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 20, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 21, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	if (zephir_isset_property_zval(this_ptr, index TSRMLS_CC)) {
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 20, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 21, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	ZEPHIR_OBS_VAR(_1);
@@ -201,13 +201,13 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 20, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 21, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 21, value);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 22, value);
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, index, _1 TSRMLS_CC);
 	} else {
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
 	ZEPHIR_SEPARATE_PARAM(index);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 20, index);
+	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 21, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, _0);
 	zephir_update_property_zval_zval(this_ptr, index, ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 22, config);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_merge", NULL, 23, config);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 
 	ZEPHIR_INIT_VAR(arrayConfig);
 	array_init(arrayConfig);
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 23, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 24, this_ptr);
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 180);
 	for (
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Config, count) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 23, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 24, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_config_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 21, data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 22, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -369,12 +369,12 @@ PHP_METHOD(Phalcon_Config, __set_state) {
  */
 PHP_METHOD(Phalcon_Config, _merge) {
 
-	zephir_fcall_cache_entry *_8 = NULL, *_9 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
 	zend_bool _4, _5;
 	HashTable *_2;
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *config, *instance = NULL, *key = NULL, *value = NULL, *number = NULL, *_0 = NULL, **_3, *_6 = NULL, *_7 = NULL;
+	zval *config, *instance = NULL, *key = NULL, *value = NULL, *number = NULL, *localObject = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &config, &instance);
@@ -391,39 +391,40 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	}
 	ZEPHIR_CALL_METHOD(&number, instance, "count", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 23, config);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 24, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 239);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 245);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
-		_4 = zephir_isset_property_zval(instance, key TSRMLS_CC);
-		if (_4) {
-			_4 = Z_TYPE_P(value) == IS_OBJECT;
-		}
-		_5 = _4;
-		if (_5) {
-			ZEPHIR_OBS_NVAR(_6);
-			zephir_read_property_zval(&_6, instance, key, PH_NOISY_CC);
-			_5 = Z_TYPE_P(_6) == IS_OBJECT;
-		}
-		if (_5) {
-			ZEPHIR_OBS_NVAR(_7);
-			zephir_read_property_zval(&_7, instance, key, PH_NOISY_CC);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_8, 22, value, _7);
-			zephir_check_call_status();
-		} else {
-			if (Z_TYPE_P(key) == IS_LONG) {
-				ZEPHIR_CALL_FUNCTION(&key, "strval", &_9, 20, number);
-				zephir_check_call_status();
-				ZEPHIR_SEPARATE(number);
-				zephir_increment(number);
+		ZEPHIR_OBS_NVAR(localObject);
+		if (zephir_fetch_property_zval(&localObject, instance, key, PH_SILENT_CC)) {
+			_4 = Z_TYPE_P(localObject) == IS_OBJECT;
+			if (_4) {
+				_4 = Z_TYPE_P(value) == IS_OBJECT;
 			}
-			zephir_update_property_zval_zval(instance, key, value TSRMLS_CC);
+			if (_4) {
+				_5 = zephir_instance_of_ev(localObject, phalcon_config_ce TSRMLS_CC);
+				if (_5) {
+					_5 = zephir_instance_of_ev(value, phalcon_config_ce TSRMLS_CC);
+				}
+				if (_5) {
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_6, 23, value, localObject);
+					zephir_check_call_status();
+					continue;
+				}
+			}
 		}
+		if (Z_TYPE_P(key) == IS_LONG) {
+			ZEPHIR_CALL_FUNCTION(&key, "strval", &_7, 21, number);
+			zephir_check_call_status();
+			ZEPHIR_SEPARATE(number);
+			zephir_increment(number);
+		}
+		zephir_update_property_zval_zval(instance, key, value TSRMLS_CC);
 	}
 	RETVAL_ZVAL(instance, 1, 0);
 	RETURN_MM();

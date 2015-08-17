@@ -230,13 +230,7 @@ class Annotations extends Router
 	}
 
 	/**
-	 * Checks for annotations in the public methods of the controller
-	 *
-	 * @param string module
-	 * @param string namespaceName
-	 * @param string controller
-	 * @param string action
-	 * @param Phalcon\Annotations\Annotation annotation
+	 * Checks for annotations in the public methods of the controller	 
 	 */
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Annotation> annotation)
@@ -245,9 +239,9 @@ class Annotations extends Router
 			route, methods, converts, param, convert, conversorParam, routeName,
 			beforeMatch;
 
-		let isRoute = false, methods = null;
-
-		let name = annotation->getName();
+		let isRoute = false,
+			methods = null,
+			name = annotation->getName();
 
 		/**
 		 * Find if the route is for adding routes

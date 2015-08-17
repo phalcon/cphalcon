@@ -56,7 +56,7 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		RETURN_ZVAL(str, 1, 0);
-	}
+	}	
 
 	marker = Z_STRVAL_P(str);
 
@@ -81,8 +81,8 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 
 	if (escaped_str.len) {
 		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
-	} else {
-		smart_str_free(&escaped_str);
-		RETURN_EMPTY_STRING();
 	}
+
+	smart_str_free(&escaped_str);
+	RETURN_EMPTY_STRING();
 }

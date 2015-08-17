@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
  *</code>
  *
  * @param int index
- * @return Phalcon\Validation\Message
+ * @return \Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
  *</code>
  *
  * @param int index
- * @param Phalcon\Validation\Message message
+ * @param \Phalcon\Validation\Message message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
  * $messages->appendMessages($messagesArray);
  *</code>
  *
- * @param Phalcon\Validation\MessageInterface[] messages
+ * @param \Phalcon\Validation\MessageInterface[] messages
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, rewind) {
 /**
  * Returns the current message in the iterator
  *
- * @return Phalcon\Validation\Message
+ * @return \Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
  * Magic __set_state helps to re-build messages variable when exporting
  *
  * @param array group
- * @return Phalcon\Validation\Message\Group
+ * @return \Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 

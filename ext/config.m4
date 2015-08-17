@@ -83,6 +83,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/escaperinterface.zep.c
 	phalcon/events/managerinterface.zep.c
 	phalcon/filterinterface.zep.c
+	phalcon/http/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c
@@ -107,6 +108,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/router/groupinterface.zep.c
 	phalcon/mvc/router/routeinterface.zep.c
 	phalcon/mvc/urlinterface.zep.c
+	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/session/baginterface.zep.c
 	phalcon/validation/messageinterface.zep.c
@@ -312,7 +314,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engine/php.zep.c
 	phalcon/mvc/view/engine/volt.zep.c
 	phalcon/mvc/view/engine/volt/compiler.zep.c
-	phalcon/mvc/view/exception.zep.c
+	phalcon/mvc/view/engine/volt/exception.zep.c
 	phalcon/mvc/view/simple.zep.c
 	phalcon/paginator/adapter/model.zep.c
 	phalcon/paginator/adapter/nativearray.zep.c
@@ -323,6 +325,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/registry.zep.c
 	phalcon/security.zep.c
 	phalcon/security/exception.zep.c
+	phalcon/security/random.zep.c
 	phalcon/session.zep.c
 	phalcon/session/adapter/files.zep.c
 	phalcon/session/adapter/libmemcached.zep.c

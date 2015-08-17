@@ -39,7 +39,7 @@ interface QueryInterface
 	 * Sets the cache parameters of the query
 	 *
 	 * @param array cacheOptions
-	 * @return Phalcon\Mvc\Model\Query
+	 * @return \Phalcon\Mvc\Model\Query
 	 */
 	public function cache(cacheOptions);
 
@@ -54,7 +54,7 @@ interface QueryInterface
 	 * Tells to the query if only the first row in the resultset must be returned
 	 *
 	 * @param boolean uniqueRow
-	 * @return Phalcon\Mvc\Model\Query
+	 * @return \Phalcon\Mvc\Model\Query
 	 */
 	public function setUniqueRow(boolean uniqueRow);
 

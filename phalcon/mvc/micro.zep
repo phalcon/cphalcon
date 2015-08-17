@@ -107,7 +107,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function map(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -139,7 +139,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function get(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -171,7 +171,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function post(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -203,7 +203,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string $routePattern
 	 * @param callable $handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function put(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -235,7 +235,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string $routePattern
 	 * @param callable $handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function patch(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -267,7 +267,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function head(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -299,7 +299,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function delete(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -331,7 +331,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 *
 	 * @param string routePattern
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Router\RouteInterface
+	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
 	public function options(string! routePattern, handler) -> <RouteInterface>
 	{
@@ -443,7 +443,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Sets a handler that will be called when the router doesn't match any of the defined routes
 	 *
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Micro
+	 * @return \Phalcon\Mvc\Micro
 	 */
 	public function notFound(var handler) -> <Micro>
 	{
@@ -455,7 +455,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Sets a handler that will be called when an exception is thrown handling the route
 	 *
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Micro
+	 * @return \Phalcon\Mvc\Micro
 	 */
 	public function error(var handler) -> <Micro>
 	{
@@ -500,7 +500,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * @param string  serviceName
 	 * @param mixed   definition
 	 * @param boolean shared
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return \Phalcon\Di\ServiceInterface
 	 */
 	public function setService(string! serviceName, var definition, boolean shared = false) -> <ServiceInterface>
 	{
@@ -980,7 +980,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Appends a before middleware to be called before execute the route
 	 *
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Micro
+	 * @return \Phalcon\Mvc\Micro
 	 */
 	public function before(handler) -> <Micro>
 	{
@@ -992,7 +992,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Appends an 'after' middleware to be called after execute the route
 	 *
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Micro
+	 * @return \Phalcon\Mvc\Micro
 	 */
 	public function after(handler) -> <Micro>
 	{
@@ -1004,7 +1004,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Appends a 'finish' middleware to be called when the request is finished
 	 *
 	 * @param callable handler
-	 * @return Phalcon\Mvc\Micro
+	 * @return \Phalcon\Mvc\Micro
 	 */
 	public function finish(handler) -> <Micro>
 	{

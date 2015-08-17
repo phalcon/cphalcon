@@ -22,7 +22,7 @@ namespace Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\View\Exception;
+use Phalcon\Mvc\View\Engine\Volt\Exception;
 
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler
@@ -429,13 +429,6 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
-			 * Check if the function name is a macro
-			 */
-			if isset this->_macros[name] {
-				return "$this->callMacro('" . name . "', array(" . arguments . "))";
-			}
-
-			/**
 			 * This function includes the previous rendering stage
 			 */
 			if name == "get_content" || name == "content" {
@@ -568,9 +561,9 @@ class Compiler implements InjectionAwareInterface
 			}
 
 			/**
-			 * The function doesn't exist throw an exception
+			 * By default it tries to call a macro
 			 */
-			throw new Exception("Undefined function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
+			return "$this->callMacro('" . name . "', array(" . arguments . "))";					
 		}
 
 		return this->expression(nameExpr) . "(" . arguments . ")";
@@ -1461,7 +1454,7 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Update the forelse var if it"s iterated at least one time
+		 * Update the forelse var if it's iterated at least one time
 		 */
 		if typeof forElse == "string" {
 			let compilation .= "<?php $" . forElse . "iterated = true; ?>";
@@ -1832,7 +1825,7 @@ class Compiler implements InjectionAwareInterface
 				/**
 				 * Clone the original compiler
 				 * Perform a subcompilation of the included file
-				 * If the compilation doesn"t return anything we include the compiled path
+				 * If the compilation doesn't return anything we include the compiled path
 				 */
 				let subCompiler = clone this;
 				let compilation = subCompiler->compile(finalPath, false);
@@ -2023,7 +2016,7 @@ class Compiler implements InjectionAwareInterface
 			let type = statement["type"];
 
 			/**
-			 * Compile the statement according to the statement"s type
+			 * Compile the statement according to the statement's type
 			 */
 			switch type {
 
@@ -2111,7 +2104,7 @@ class Compiler implements InjectionAwareInterface
 					let tempCompilation = subCompiler->compile(finalPath, extended);
 
 					/**
-					 * If the compilation doesn"t return anything we include the compiled path
+					 * If the compilation doesn't return anything we include the compiled path
 					 */
 					if typeof tempCompilation == "null" {
 						let tempCompilation = file_get_contents(subCompiler->getCompiledTemplatePath());

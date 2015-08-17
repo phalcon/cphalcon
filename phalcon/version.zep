@@ -80,7 +80,7 @@ class Version
 	 */
 	protected static function _getVersion() -> array
 	{
-		return [2, 0, 6, 4, 0];
+		return [2, 0, 7, 4, 0];
 	}
 
 	/**

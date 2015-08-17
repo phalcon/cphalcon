@@ -127,11 +127,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4, "strtr", NULL, 53, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_4, "strtr", NULL, 54, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5);
 		ZVAL_STRING(_5, "Between", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 436, _4, field, _5);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 435, _4, field, _5);
 		zephir_check_temp_parameter(_5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _0);

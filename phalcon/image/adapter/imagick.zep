@@ -20,8 +20,8 @@
 namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Adapter;
-use Phalcon\Image\AdapterInterface;
 use Phalcon\Image\Exception;
+use Phalcon\Image\AdapterInterface;
 
 /**
  * Phalcon\Image\Adapter\Imagick
@@ -111,7 +111,7 @@ class Imagick extends Adapter implements AdapterInterface
 		let this->_width = this->_image->getImageWidth();
 		let this->_height = this->_image->getImageHeight();
 		let this->_type = this->_image->getImageType();
-		let this->_mime = "image/".this->_image->getImageFormat();
+		let this->_mime = "image/" . this->_image->getImageFormat();
 	}
 
 	/**
@@ -376,18 +376,15 @@ class Imagick extends Adapter implements AdapterInterface
 	/**
 	 * Execute a text
 	 */
-	protected function _text(string text, int offsetX, int offsetY, int opacity, int r, int g, int b, int size, string fontfile)
+	protected function _text(string text, var offsetX, var offsetY, int opacity, int r, int g, int b, int size, string fontfile)
 	{
-		var draw, color, pixel, gravity;
+		var x, y, draw, color, gravity;
 
-		let opacity = opacity / 100;
+		let opacity = opacity / 100,
+			draw = new \ImagickDraw(),
+			color = sprintf("rgb(%d, %d, %d)", r, g, b);
 
-		let draw = new \ImagickDraw();
-
-		let color = sprintf("rgb(%d, %d, %d)", r, g, b);
-		let pixel = new \ImagickPixel(color);
-
-		draw->setFillColor(pixel);
+		draw->setFillColor(new \ImagickPixel(color));
 
 		if fontfile {
 			draw->setFont(fontfile);
@@ -401,21 +398,101 @@ class Imagick extends Adapter implements AdapterInterface
 			draw->setfillopacity(opacity);
 		}
 
-		if offsetX < 0 {
-			let offsetX = abs(offsetX);
-			if offsetY < 0 {
-				let offsetY = abs(offsetY);
-				let gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+		let gravity = null;
+
+		if typeof offsetX == "bool" {
+			if typeof offsetY == "bool" {
+				let offsetX	= 0,
+					offsetY = 0;
+				if offsetX && offsetY {
+					let gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+				} else {
+					if offsetX {
+						let gravity = constant("Imagick::GRAVITY_EAST");
+					} else {
+						if offsetY {
+							let gravity = constant("Imagick::GRAVITY_SOUTH");
+						} else {
+							let gravity = constant("Imagick::GRAVITY_CENTER");
+						}
+					}
+				}
 			} else {
-				let gravity = constant("Imagick::GRAVITY_NORTHEAST");
+				if typeof offsetY == "int" {
+					let y = (int) offsetY;
+					if offsetX {
+						if y < 0 {
+							let offsetX	= 0,
+								offsetY = y * -1,
+								gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+						} else {
+							let offsetX	= 0,
+								gravity = constant("Imagick::GRAVITY_NORTHEAST");
+						}
+					} else {
+						if y < 0 {
+							let offsetX	= 0,
+								offsetY = y * -1,
+								gravity = constant("Imagick::GRAVITY_SOUTH");
+						} else {
+							let offsetX	= 0,
+								gravity = constant("Imagick::GRAVITY_NORTH");
+						}
+					}
+				}
 			}
 		} else {
-			/*if y < 0 { where y comes from??
-				let offsetY = abs(offsetY);
-				let gravity = constant("Imagick::GRAVITY_SOUTHWEST");
-			} else {
-				let gravity = constant("Imagick::GRAVITY_NORTHWEST");
-			}*/
+			if typeof offsetX == "int" {
+				let x = (int) offsetX;
+				if offsetX {
+					if typeof offsetY == "bool" {
+						if offsetY {
+							if x < 0 {
+								let offsetX	= x * -1,
+									offsetY = 0,
+									gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+							} else {
+								let offsetY	= 0,
+									gravity = constant("Imagick::GRAVITY_SOUTH");
+							}
+						} else {
+							if x < 0 {
+								let offsetX	= x * -1,
+									offsetY = 0,
+									gravity = constant("Imagick::GRAVITY_EAST");
+							} else {
+								let offsetY	= 0,
+									gravity = constant("Imagick::GRAVITY_WEST");
+							}
+						}
+					} else {
+						if typeof offsetY == "long" {
+							let x = (int) offsetX,
+								y = (int) offsetY;
+
+							if x < 0 {
+								if y < 0 {
+									let offsetX	= x * -1,
+										offsetY = y * -1,
+										gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+								} else {
+									let offsetX	= x * -1,
+										gravity = constant("Imagick::GRAVITY_NORTHEAST");
+								}
+							} else {
+								if y < 0 {
+									let offsetX	= 0,
+										offsetY = y * -1,
+										gravity = constant("Imagick::GRAVITY_SOUTHWEST");
+								} else {
+									let offsetX	= 0,
+										gravity = constant("Imagick::GRAVITY_NORTHWEST");
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		draw->setGravity(gravity);
@@ -428,6 +505,7 @@ class Imagick extends Adapter implements AdapterInterface
 				break;
 			}
 		}
+
 		draw->destroy();
 	}
 
@@ -629,5 +707,4 @@ class Imagick extends Adapter implements AdapterInterface
 	{
 		this->_image->setResourceLimit(type, limit);
 	}
-
 }

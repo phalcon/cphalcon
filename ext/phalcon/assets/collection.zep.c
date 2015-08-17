@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		local = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -218,9 +218,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
 	} else {
@@ -235,7 +232,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_resource_css_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 90, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 92, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_resources"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -257,7 +254,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 
 	zephir_get_strval(content, content_param);
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -266,9 +263,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
@@ -277,7 +271,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_inline_css_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 91, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 93, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -291,7 +285,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
  * @param boolean local
  * @param boolean filter
  * @param array attributes
- * @return Phalcon\Assets\Collection
+ * @return \Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 
@@ -318,7 +312,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		local = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -327,9 +321,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		ZEPHIR_CPY_WRT(collectionLocal, local);
 	} else {
@@ -344,7 +335,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_resource_js_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 92, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 94, path, collectionLocal, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_resources"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -366,7 +357,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 
 	zephir_get_strval(content, content_param);
 	if (!filter_param) {
-		filter = 0;
+		filter = 1;
 	} else {
 		filter = zephir_get_boolval(filter_param);
 	}
@@ -375,9 +366,6 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 
 
-	if (!(filter)) {
-		filter = 1;
-	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(collectionAttributes, attributes);
 	} else {
@@ -386,7 +374,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	object_init_ex(_0, phalcon_assets_inline_js_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 93, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 95, content, (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -719,7 +707,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_INIT_VAR(completePath);
 	ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 	if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 60, completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 62, completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

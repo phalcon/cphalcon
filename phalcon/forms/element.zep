@@ -104,7 +104,7 @@ abstract class Element implements ElementInterface
 	 * Sets the element filters
 	 *
 	 * @param array|string filters
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setFilters(var filters) -> <ElementInterface>
 	{
@@ -122,7 +122,7 @@ abstract class Element implements ElementInterface
 	{
 		var filters;
 		let filters = this->_filters;
-		if typeof filters == "array" {			
+		if typeof filters == "array" {
 			let this->_filters[] = filter;
 		} else {
 			if typeof filters == "string" {
@@ -147,8 +147,8 @@ abstract class Element implements ElementInterface
 	/**
 	 * Adds a group of validators
 	 *
-	 * @param Phalcon\Validation\ValidatorInterface[]
-	 * @return Phalcon\Forms\ElementInterface
+	 * @param \Phalcon\Validation\ValidatorInterface[]
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>
 	{
@@ -257,7 +257,7 @@ abstract class Element implements ElementInterface
 	 *
 	 * @param string attribute
 	 * @param mixed value
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setAttribute(string attribute, value) -> <ElementInterface>
 	{
@@ -309,7 +309,7 @@ abstract class Element implements ElementInterface
 	 *
 	 * @param string option
 	 * @param mixed value
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setUserOption(string option, value) -> <ElementInterface>
 	{
@@ -337,7 +337,7 @@ abstract class Element implements ElementInterface
 	 * Sets options for the element
 	 *
 	 * @param array options
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setUserOptions(options) -> <ElementInterface>
 	{
@@ -419,7 +419,7 @@ abstract class Element implements ElementInterface
 	 * or there is no value available for the element in _POST
 	 *
 	 * @param mixed value
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setDefault(value) -> <ElementInterface>
 	{

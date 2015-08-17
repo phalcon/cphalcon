@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, __construct) {
 	ZEPHIR_OBS_VAR(_3);
 	zephir_read_property_this(&_3, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 318, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 311, _2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 321, _1, options);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 314, _1, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_memcache_ce, this_ptr, "reset", &_5, 320);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_memcache_ce, this_ptr, "reset", &_5, 313);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

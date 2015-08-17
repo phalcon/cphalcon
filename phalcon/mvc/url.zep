@@ -234,7 +234,11 @@ class Url implements UrlInterface, InjectionAwareInterface
 			if baseUri == "/" && strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
 				let uri = baseUri . substr(strUri, 1);
 			} else {
-				let uri = baseUri . strUri;
+				if baseUri == "/" && strlen(strUri) == 1 && strUri[0] == '/' {
+					let uri = baseUri;
+				} else {
+					let uri = baseUri . strUri;
+				}
 			}
 		}
 

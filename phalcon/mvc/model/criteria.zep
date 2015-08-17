@@ -26,7 +26,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
-
 /**
  * Phalcon\Mvc\Model\Criteria
  *
@@ -131,7 +130,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array columns
-	 * @return Phalcon\Mvc\Model\Criteria
+	 * @return \Phalcon\Mvc\Model\Criteria
 	 */
 	public function columns(var columns) -> <Criteria>
 	{
@@ -352,12 +351,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		/**
 		 * Minimum key with auto bind-params
 		 */
-		let minimumKey = "AP" . hiddenParam;
+		let minimumKey = "ACP" . hiddenParam;
 
 		/**
 		 * Maximum key with auto bind-params
 		 */
-		let maximumKey = "AP" . nextHiddenParam;
+		let maximumKey = "ACP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -391,12 +390,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		/**
 		 * Minimum key with auto bind-params
 		 */
-		let minimumKey = "AP" . hiddenParam;
+		let minimumKey = "ACP" . hiddenParam;
 
 		/**
 		 * Maximum key with auto bind-params
 		 */
-		let maximumKey = "AP" . nextHiddenParam;
+		let maximumKey = "ACP" . nextHiddenParam;
 
 		/**
 		 * Create a standard BETWEEN condition with bind params
@@ -435,7 +434,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "AP" . hiddenParam;
+			let key = "ACP" . hiddenParam;
 
 			let queryKey = ":" . key . ":";
 
@@ -474,7 +473,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			/**
 			 * Key with auto bind-params
 			 */
-			let key = "AP" . hiddenParam,
+			let key = "ACP" . hiddenParam,
 				bindKeys[] = ":" . key . ":",
 				bindParams[key] = value;
 
@@ -685,7 +684,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
 	 */
-	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data) -> <Criteria>
+	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <Criteria>
 	{
 		var attribute, conditions, field, value, type, metaData,
 			model, dataTypes, bind, criteria, columnMap;
@@ -736,7 +735,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		 */
 		let criteria = new self();
 		if count(conditions) {
-			criteria->where(join(" AND ", conditions));
+			criteria->where(join(" " . operator . " ", conditions));
 			criteria->bind(bind);
 		}
 

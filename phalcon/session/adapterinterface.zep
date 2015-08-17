@@ -44,20 +44,13 @@ interface AdapterInterface
 
 	/**
 	 * Gets a session variable from an application context
-	 *
-	 * @param string index
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function get(string index, defaultValue = null);
+	public function get(string index, var defaultValue = null);
 
 	/**
 	 * Sets a session variable in an application context
-	 *
-	 * @param string index
-	 * @param string value
 	 */
-	public function set(string index, value);
+	public function set(string index, var value);
 
 	/**
 	 * Check whether a session variable is set in an application context
@@ -82,6 +75,10 @@ interface AdapterInterface
 	/**
 	 * Destroys the active session
 	 */
-	public function destroy() -> boolean;
+	public function destroy(boolean removeData = false) -> boolean;
 
+	/**
+	 * Regenerate session's id
+	 */
+	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>;
 }

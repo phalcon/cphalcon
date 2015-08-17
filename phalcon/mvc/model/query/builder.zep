@@ -24,8 +24,8 @@ use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\Builder
@@ -297,8 +297,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Sets SELECT DISTINCT / SELECT ALL flag
 	 *
-	 * @param bool|null distinct
-	 * @return Phalcon\Mvc\Model\Query\BuilderInterface
+	 *<code>
+	 *	$builder->distinct("status");
+	 *	$builder->distinct(null);
+	 *</code>
 	 */
 	 public function distinct(var distinct) -> <Builder>
 	 {
@@ -318,11 +320,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets the columns to be queried
 	 *
 	 *<code>
+	 *	$builder->columns("id, name");
 	 *	$builder->columns(array('id', 'name'));
+	 *  $builder->columns(array('name', 'number' => 'COUNT(*)'));
 	 *</code>
-	 *
-	 * @param string|array columns
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function columns(var columns) -> <Builder>
 	{
@@ -346,10 +347,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 *	$builder->from('Robots');
 	 *	$builder->from(array('Robots', 'RobotsParts'));
+	 *	$builder->from(array('r' => 'Robots', 'rp' => 'RobotsParts'));
 	 *</code>
-	 *
-	 * @param string|array models
-	 * @return Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function from(var models) -> <Builder>
 	{
@@ -361,14 +360,22 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Add a model to take part of the query
 	 *
 	 *<code>
-	 *	$builder->addFrom('Robots', 'r');
-	 *</code>
+	 *  // Load data from models Robots
+	 *	$builder->addFrom('Robots');
 	 *
-	 * @param string model
-	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
+	 *	$builder->addFrom('Robots', 'r');
+	 *
+	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
+	 *  // and eager load model 'RobotsParts'
+	 *	$builder->addFrom('Robots', 'r', 'RobotsParts');
+	 *
+	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
+	 *  // and eager load models 'RobotsParts' and 'Parts'
+	 *	$builder->addFrom('Robots', 'r', ['RobotsParts', 'Parts']);
+	 *</code>
 	 */
-	public function addFrom(var model, var alias = null) -> <Builder>
+	public function addFrom(var model, var alias = null, var with = null) -> <Builder>
 	{
 		var models, currentModel;
 
@@ -406,17 +413,24 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds a INNER join to the query
 	 *
 	 *<code>
+	 *  // Inner Join model 'Robots' with automatic conditions and alias
 	 *	$builder->join('Robots');
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions
+	 *	$builder->join('Robots', 'Robots.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions and alias
 	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'INNER');
+	 *
+	 *  // Left Join model 'Robots' specifing conditions, alias and type of join
+	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
 	 *</code>
 	 *
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
 	 * @param string type
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function join(string! model, var conditions = null, var alias = null, var type = null) -> <Builder>
 	{
@@ -428,8 +442,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds a INNER join to the query
 	 *
 	 *<code>
+	 *  // Inner Join model 'Robots' with automatic conditions and alias
 	 *	$builder->innerJoin('Robots');
-	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions
+	 *	$builder->innerJoin('Robots', 'Robots.id = RobotsParts.robots_id');
+	 *
+	 *  // Inner Join model 'Robots' specifing conditions and alias
 	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
 	 *</code>
 	 *
@@ -437,7 +456,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param string alias
 	 * @param string type
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function innerJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
@@ -455,7 +474,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function leftJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
@@ -473,7 +492,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function rightJoin(string! model, var conditions = null, var alias = null) -> <Builder>
 	{
@@ -493,7 +512,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param mixed conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function where(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
@@ -541,7 +560,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
@@ -600,7 +619,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
@@ -823,7 +842,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array orderBy
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function orderBy(var orderBy) -> <Builder>
 	{
@@ -935,7 +954,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array group
-	 * @return Phalcon\Mvc\Model\Query\Builder
+	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function groupBy(var group) -> <Builder>
 	{
@@ -966,7 +985,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			selectedModel, selectedModels, columnAlias, modelColumnAlias,
 			joins, join, joinModel, joinConditions, joinAlias, joinType, group,
 			groupItems, groupItem, having, order, orderItems, orderItem,
-			limit, number, offset, forUpdate, distinct, withModels, hiddenParam;
+			limit, number, offset, forUpdate, distinct;
 		boolean noPrimary;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -987,6 +1006,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		let conditions = this->_conditions;
+
 		if is_numeric(conditions) {
 
 			/**
@@ -1067,7 +1087,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					if typeof columnAlias == "integer" {
 						let selectedColumns[] = column;
 					} else {
-						let selectedColumns[] = column . " AS " . columnAlias;
+						if memstr(columnAlias, "[") {
+							let selectedColumns[] = column . " AS " . columnAlias;
+						} else {
+							let selectedColumns[] = column . " AS [" . columnAlias . "]";
+						}
 					}
 				}
 
@@ -1134,20 +1158,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			} else {
 				let phql .= " FROM [" . models . "]";
 			}
-		}
-
-		/**
-		 * Check if there are eager loaded models
-		 */
-		let withModels = this->_with;
-		if typeof withModels == "array" {
-
-			let selectedColumns = [];
-			for model in withModels {
-				let selectedColumns[] = "[" . model . "]";
-			}
-
-			let phql .= " WITH " . join(", ", selectedColumns);
 		}
 
 		/**
@@ -1317,19 +1327,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			if is_numeric(number) {
 
-				let hiddenParam = this->_hiddenParamNumber,
-					phql .= " LIMIT :AP" . hiddenParam . ":",
-					this->_bindParams["AP" . hiddenParam] = intval(number, 10),
-					this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+				let phql .= " LIMIT :APL0:",
+					this->_bindParams["APL0"] = intval(number, 10),
+					this->_bindTypes["APL0"] = Column::BIND_PARAM_INT;
 
 				if is_numeric(offset) {
-					let hiddenParam++,
-						phql .= " OFFSET :AP" . hiddenParam . ":",
-						this->_bindParams["AP" . hiddenParam] = intval(offset, 10),
-						this->_bindTypes["AP" . hiddenParam] = Column::BIND_PARAM_INT;
+					let phql .= " OFFSET :APL1:",
+						this->_bindParams["APL1"] = intval(offset, 10),
+						this->_bindTypes["APL1"] = Column::BIND_PARAM_INT;
 				}
-
-				let this->_hiddenParamNumber = hiddenParam + 1;
 			}
 		}
 
@@ -1339,7 +1345,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let phql .= " FOR UPDATE";
 			}
 		}
-
+		
 		return phql;
 	}
 

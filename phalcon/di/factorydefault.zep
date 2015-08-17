@@ -56,7 +56,7 @@ class FactoryDefault extends \Phalcon\Di
 			"session":            new Service("session", "Phalcon\\Session\\Adapter\\Files", true),
 			"sessionBag":         new Service("sessionBag", "Phalcon\\Session\\Bag"),
 			"eventsManager":      new Service("eventsManager", "Phalcon\\Events\\Manager", true),
-			"transactionManager": new Service("transactions", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
+			"transactionManager": new Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
 			"assets":             new Service("assets", "Phalcon\\Assets\\Manager", true)
 		];
 	}

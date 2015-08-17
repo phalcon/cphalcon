@@ -448,7 +448,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Sets the cache options
 	 *
 	 * @param  array options
-	 * @return Phalcon\Mvc\View\Simple
+	 * @return \Phalcon\Mvc\View\Simple
 	 */
 	public function setCacheOptions(options) -> <Simple>
 	{

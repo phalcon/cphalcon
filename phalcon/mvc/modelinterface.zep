@@ -101,32 +101,32 @@ interface ModelInterface
 	/**
 	 * Assigns values to a model from an array
 	 *
-	 * @param Phalcon\Mvc\Model object
+	 * @param \Phalcon\Mvc\Model object
 	 * @param array data
 	 * @param array columnMap
-	 * @return Phalcon\Mvc\Model
+	 * @return \Phalcon\Mvc\Model
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null);
 
 	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
-	 * @param Phalcon\Mvc\Model base
+	 * @param \Phalcon\Mvc\Model base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
-	 * @return Phalcon\Mvc\Model result
+	 * @return \Phalcon\Mvc\Model result
 	 */
 	public static function cloneResultMap(base, array! data, var columnMap, dirtyState = 0, keepSnapshots = null);
 
 	/**
 	 * Assigns values to a model from an array returning a new model
 	 *
-	 * @param Phalcon\Mvc\ModelInterface base
+	 * @param \Phalcon\Mvc\ModelInterface base
 	 * @param array data
 	 * @param int dirtyState
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public static function cloneResult(<ModelInterface> base, array! data, dirtyState = 0);
 
@@ -151,15 +151,15 @@ interface ModelInterface
 	 * Allows to query the first record that match the specified conditions
 	 *
 	 * @param array parameters
-	 * @return Phalcon\Mvc\ModelInterface
+	 * @return \Phalcon\Mvc\ModelInterface
 	 */
 	public static function findFirst(parameters = null);
 
 	/**
 	 * Create a criteria for a especific model
 	 *
-	 * @param Phalcon\DiInterface dependencyInjector
-	 * @return Phalcon\Mvc\Model\CriteriaInterface
+	 * @param \Phalcon\DiInterface dependencyInjector
+	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public static function query(<DiInterface> dependencyInjector = null);
 
@@ -233,9 +233,9 @@ interface ModelInterface
 	public function validationHasFailed();
 
 	/**
-	 * Returns all the validation messages
+	 * Returns array of validation messages
 	 *
-	 * @return Phalcon\Mvc\Model\MessageInterface[]
+	 * @return \Phalcon\Mvc\Model\MessageInterface[]
 	 */
 	public function getMessages();
 
@@ -291,14 +291,14 @@ interface ModelInterface
 	/**
 	 * Skips the current operation forcing a success state
 	 */
-	public function skipOperation(boolean skip);	
+	public function skipOperation(boolean skip);
 
 	/**
 	 * Returns related records based on defined relations
 	 *
 	 * @param string alias
 	 * @param array arguments
-	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getRelated(alias, arguments = null);
 

@@ -160,7 +160,7 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	return ret;
 }
 
-static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables, zval *with_list, zval *join_list)
+static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables, zval *join_list)
 {
 	zval *ret;
 
@@ -173,10 +173,6 @@ static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables,
 
 	add_assoc_zval(ret, "columns", columns);
 	add_assoc_zval(ret, "tables", tables);
-
-	if (with_list) {
-		add_assoc_zval(ret, "with", with_list);
-	}
 
 	if (join_list) {
 		add_assoc_zval(ret, "joins", join_list);
@@ -396,7 +392,7 @@ static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *ide
 	return ret;
 }
 
-static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
+static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias, zval *with)
 {
 
 	zval *ret;
@@ -404,9 +400,14 @@ static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_zval(ret, "qualifiedName", qualified_name);
+
 	if (alias) {
 		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
 		efree(alias);
+	}
+
+	if (with) {
+		add_assoc_zval(ret, "with", with);
 	}
 
 	return ret;
@@ -593,8 +594,8 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 
 %destructor select_clause { zval_ptr_dtor(&$$); }
 
-select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) with_list_or_null(W) join_list_or_null(J) . {
-	R = phql_ret_select_clause(D, C, A, W, J);
+select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) join_list_or_null(J) . {
+	R = phql_ret_select_clause(D, C, A, J);
 }
 
 %destructor distinct_all { zephir_safe_zval_ptr_dtor($$); }
@@ -661,14 +662,6 @@ join_list_or_null(R) ::= . {
 	R = NULL;
 }
 
-with_list_or_null(R) ::= WITH with_list(L) . {
-	R = L;
-}
-
-with_list_or_null(R) ::= . {
-	R = NULL;
-}
-
 %destructor join_list { zval_ptr_dtor(&$$); }
 
 join_list(R) ::= join_list(L) join_item(I) . {
@@ -683,22 +676,6 @@ join_list(R) ::= join_item(I) . {
 
 join_item(R) ::= join_clause(C) . {
 	R = C;
-}
-
-%destructor with_list { zval_ptr_dtor(&$$); }
-
-with_list(R) ::= with_list(L) with_item(I) . {
-	R = phql_ret_zval_list(L, I);
-}
-
-with_list(R) ::= with_item(I) . {
-	R = I;
-}
-
-%destructor with_item { zval_ptr_dtor(&$$); }
-
-with_item(R) ::= IDENTIFIER(I) . {
-	R = phql_ret_qualified_name(NULL, NULL, I);
 }
 
 %destructor join_clause { zval_ptr_dtor(&$$); }
@@ -862,15 +839,55 @@ delete_clause(R) ::= DELETE FROM associated_name(A) . {
 %destructor associated_name { zval_ptr_dtor(&$$); }
 
 associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) . {
-	R = phql_ret_assoc_name(Q, I);
+	R = phql_ret_assoc_name(Q, I, NULL);
 }
 
 associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) . {
-	R = phql_ret_assoc_name(Q, I);
+	R = phql_ret_assoc_name(Q, I, NULL);
 }
 
 associated_name(R) ::= aliased_or_qualified_name(Q) . {
-	R = phql_ret_assoc_name(Q, NULL);
+	R = phql_ret_assoc_name(Q, NULL, NULL);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) WITH with_item(W) . {
+	R = phql_ret_assoc_name(Q, I, W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) WITH PARENTHESES_OPEN with_list(W) PARENTHESES_CLOSE . {
+	R = phql_ret_assoc_name(Q, I, W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) WITH PARENTHESES_OPEN with_list(W) PARENTHESES_CLOSE . {
+	R = phql_ret_assoc_name(Q, I, W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) WITH with_item(W) . {
+	R = phql_ret_assoc_name(Q, I, W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) WITH PARENTHESES_OPEN with_list(W) PARENTHESES_CLOSE . {
+	R = phql_ret_assoc_name(Q, NULL, W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) WITH with_item(W) . {
+	R = phql_ret_assoc_name(Q, NULL, W);
+}
+
+%destructor with_list { zval_ptr_dtor(&$$); }
+
+with_list(R) ::= with_list(L) COMMA with_item(I) . {
+	R = phql_ret_zval_list(L, I);
+}
+
+with_list(R) ::= with_item(I) . {
+	R = I;
+}
+
+%destructor with_item { zval_ptr_dtor(&$$); }
+
+with_item(R) ::= IDENTIFIER(I) . {
+	R = phql_ret_qualified_name(NULL, NULL, I);
 }
 
 %destructor aliased_or_qualified_name { zval_ptr_dtor(&$$); }

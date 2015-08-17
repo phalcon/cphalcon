@@ -279,8 +279,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 
 /**
  * Column's name
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Column, getName) {
 
@@ -291,8 +289,6 @@ PHP_METHOD(Phalcon_Db_Column, getName) {
 
 /**
  * Schema which table related is
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
@@ -303,8 +299,6 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
 /**
  * Column data type
- *
- * @var int|string
  */
 PHP_METHOD(Phalcon_Db_Column, getType) {
 
@@ -315,8 +309,6 @@ PHP_METHOD(Phalcon_Db_Column, getType) {
 
 /**
  * Column data type reference
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
@@ -327,8 +319,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
 /**
  * Column data type values
- *
- * @var array|string
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
@@ -339,8 +329,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
 /**
  * Integer column size
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getSize) {
 
@@ -351,8 +339,6 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
 
 /**
  * Integer column number scale
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getScale) {
 
@@ -645,7 +631,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 138, columnName, definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 140, columnName, definition);
 	zephir_check_call_status();
 	RETURN_MM();
 

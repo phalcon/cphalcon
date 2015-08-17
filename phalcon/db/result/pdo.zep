@@ -69,7 +69,7 @@ class Pdo implements ResultInterface
 	/**
 	 * Phalcon\Db\Result\Pdo constructor
 	 *
-	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param \PDOStatement result
 	 * @param string sqlStatement
 	 * @param array bindParams
@@ -115,7 +115,7 @@ class Pdo implements ResultInterface
 	 *</code>
 	 */
 	public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
-	{		
+	{
 		return this->_pdoStatement->$fetch(fetchStyle, cursorOrientation, cursorOffset);
 	}
 

@@ -333,7 +333,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Returns a collection resultset
 	 *
 	 * @param array params
-	 * @param Phalcon\Mvc\Collection collection
+	 * @param \Phalcon\Mvc\Collection collection
 	 * @param \MongoDb connection
 	 * @param boolean unique
 	 * @return array
@@ -444,7 +444,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Perform a count over a resultset
 	 *
 	 * @param array params
-	 * @param Phalcon\Mvc\Collection collection
+	 * @param \Phalcon\Mvc\Collection collection
 	 * @param \MongoDb connection
 	 * @return int
 	 */
@@ -508,7 +508,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Executes internal hooks before save a document
 	 *
-	 * @param Phalcon\DiInterface dependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @param boolean disableEvents
 	 * @param boolean exists
 	 * @return boolean
@@ -915,7 +915,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Find a document by its id (_id)
 	 *
 	 * @param string|\MongoId id
-	 * @return Phalcon\Mvc\Collection
+	 * @return \Phalcon\Mvc\Collection
 	 */
 	public static function findById(id) -> <Collection>
 	{

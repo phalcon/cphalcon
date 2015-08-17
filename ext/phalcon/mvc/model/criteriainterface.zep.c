@@ -67,7 +67,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
  *
  * @param int limit
  * @param int offset
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 
@@ -87,7 +87,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
 
@@ -97,7 +97,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
  * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 
@@ -111,7 +111,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
  * @param string expr
  * @param mixed minimum
  * @param mixed maximum
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
 
@@ -125,7 +125,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
  * @param string expr
  * @param mixed minimum
  * @param mixed maximum
- * @return Phalcon\Mvc\Model\CriteriaInterface
+ * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
 
@@ -184,11 +184,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrder);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
-
-/**
- * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, fromInput);
 
 /**
  * Executes a find using the parameters built with the criteria

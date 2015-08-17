@@ -27,24 +27,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface) {
 
 /**
  * Sets a header to be sent at the end of the request
- *
- * @param string name
- * @param string value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, set);
 
 /**
  * Gets a header value from the internal bag
- *
- * @param string name
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, get);
 
 /**
  * Sets a raw header to be sent at the end of the request
- *
- * @param string header
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, setRaw);
 
@@ -59,7 +51,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, send);
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, reset);
 
 /**
- * Restore a Phalcon\Http\Response\Headers object
+ * Restore a \Phalcon\Http\Response\Headers object
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, __set_state);
 

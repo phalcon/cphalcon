@@ -21,10 +21,7 @@ namespace Phalcon;
 
 class Image
 {
-
-	/*
-	 * Resizing constraints
-	 */
+	// Resizing constraints
 	const NONE    = 1;
 	const WIDTH   = 2;
 	const HEIGHT  = 3;

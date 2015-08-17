@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
 		ZVAL_STRING(_1, "_PHCM", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_1, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_libmemcached_ce, this_ptr, "__construct", &_2, 103, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_libmemcached_ce, this_ptr, "__construct", &_2, 105, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

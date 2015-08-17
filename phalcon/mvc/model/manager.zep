@@ -40,13 +40,13 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * This components controls the initialization of models, keeping record of relations
  * between the different models of the application.
  *
- * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\DI.
+ * A ModelsManager is injected to a model via a Dependency Injector/Services Container such as Phalcon\Di.
  *
  * <code>
- * use Phalcon\DI;
+ * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
- * $di = new DI();
+ * $di = new Di();
  *
  * $di->set('modelsManager', function() {
  *      return new ModelsManager();
@@ -684,7 +684,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 			let lowerAlias = strtolower(alias);
 		} else {
-			let lowerAlias = referencedEntity;
+			let lowerAlias = referencedEntity;			
 		}
 
 		/**
@@ -1114,9 +1114,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var key, value, findParams;
 
-		//var_dump(findParamsOne);
-		//var_dump(findParamsTwo);
-
 		if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
 			return ["(" . findParamsOne . ") AND " . findParamsTwo];
 		}
@@ -1187,7 +1184,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Helper method to query records based on a relation definition
 	 *
-	 * @return Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{

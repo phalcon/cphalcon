@@ -30,7 +30,7 @@ use Phalcon\Session\AdapterInterface as SessionInterface;
  *
  * Provide OO wrappers to manage a HTTP cookie
  */
-class Cookie implements InjectionAwareInterface
+class Cookie implements CookieInterface, InjectionAwareInterface
 {
 
 	protected _readed = false;
@@ -115,9 +115,9 @@ class Cookie implements InjectionAwareInterface
 	 * Sets the cookie's value
 	 *
 	 * @param string value
-	 * @return Phalcon\Http\Cookie
+	 * @return \Phalcon\Http\Cookie
 	 */
-	public function setValue(value) -> <Cookie>
+	public function setValue(value) -> <CookieInterface>
 	{
 		let this->_value = value,
 			this->_readed = true;
@@ -201,7 +201,7 @@ class Cookie implements InjectionAwareInterface
 	 * Sends the cookie to the HTTP client
 	 * Stores the cookie definition in session
 	 */
-	public function send() -> <Cookie>
+	public function send() -> <CookieInterface>
 	{
 		var name, value, expire, domain, path, secure, httpOnly,
 			dependencyInjector, definition, session, crypt, encryptValue;
@@ -247,7 +247,9 @@ class Cookie implements InjectionAwareInterface
 		 */
 		if count(definition) {
 			let session = <SessionInterface> dependencyInjector->getShared("session");
-			session->set("_PHCOOKIE_" . name, definition);
+			if session->isStarted() {
+				session->set("_PHCOOKIE_" . name, definition);
+			}
 		}
 
 		if this->_useEncryption {
@@ -285,7 +287,7 @@ class Cookie implements InjectionAwareInterface
 	 * Reads the cookie-related info from the SESSION to restore the cookie as it was set
 	 * This method is automatically called internally so normally you don't need to call it
 	 */
-	public function restore() -> <Cookie>
+	public function restore() -> <CookieInterface>
 	{
 		var dependencyInjector, expire, domain, path, secure,
 			httpOnly, session, definition;
@@ -297,27 +299,29 @@ class Cookie implements InjectionAwareInterface
 
 				let session = dependencyInjector->getShared("session");
 
-				let definition = session->get("_PHCOOKIE_" . this->_name);
-				if typeof definition == "array" {
+				if session->isStarted() {
+					let definition = session->get("_PHCOOKIE_" . this->_name);
+					if typeof definition == "array" {
 
-					if fetch expire, definition["expire"] {
-						let this->_expire = expire;
-					}
+						if fetch expire, definition["expire"] {
+							let this->_expire = expire;
+						}
 
-					if fetch domain, definition["domain"] {
-						let this->_domain = domain;
-					}
+						if fetch domain, definition["domain"] {
+							let this->_domain = domain;
+						}
 
-					if fetch path, definition["path"] {
-						let this->_path = path;
-					}
+						if fetch path, definition["path"] {
+							let this->_path = path;
+						}
 
-					if fetch secure, definition["secure"] {
-						let this->_secure = secure;
-					}
+						if fetch secure, definition["secure"] {
+							let this->_secure = secure;
+						}
 
-					if fetch httpOnly, definition["httpOnly"] {
-						let this->_httpOnly = httpOnly;
+						if fetch httpOnly, definition["httpOnly"] {
+							let this->_httpOnly = httpOnly;
+						}
 					}
 				}
 			}
@@ -344,7 +348,9 @@ class Cookie implements InjectionAwareInterface
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			let session = <SessionInterface> dependencyInjector->getShared("session");
-			session->remove("_PHCOOKIE_" . name);
+			if session->isStarted() {
+				session->remove("_PHCOOKIE_" . name);
+			}
 		}
 
 		let this->_value = null;
@@ -354,7 +360,7 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Sets if the cookie must be encrypted/decrypted automatically
 	 */
-	public function useEncryption(boolean useEncryption) -> <Cookie>
+	public function useEncryption(boolean useEncryption) -> <CookieInterface>
 	{
 		let this->_useEncryption = useEncryption;
 		return this;
@@ -371,7 +377,7 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Sets the cookie's expiration time
 	 */
-	public function setExpiration(int expire) -> <Cookie>
+	public function setExpiration(int expire) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -394,7 +400,7 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Sets the cookie's expiration time
 	 */
-	public function setPath(string! path) -> <Cookie>
+	public function setPath(string! path) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -425,7 +431,7 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Sets the domain that the cookie is available to
 	 */
-	public function setDomain(string! domain) -> <Cookie>
+	public function setDomain(string! domain) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -448,7 +454,7 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Sets if the cookie must only be sent when the connection is secure (HTTPS)
 	 */
-	public function setSecure(boolean secure) -> <Cookie>
+	public function setSecure(boolean secure) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();
@@ -471,7 +477,7 @@ class Cookie implements InjectionAwareInterface
 	/**
 	 * Sets if the cookie is accessible only through the HTTP protocol
 	 */
-	public function setHttpOnly(boolean httpOnly) -> <Cookie>
+	public function setHttpOnly(boolean httpOnly) -> <CookieInterface>
 	{
 		if !this->_restored {
 			this->restore();

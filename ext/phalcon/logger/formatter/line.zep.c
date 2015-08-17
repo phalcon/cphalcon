@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -50,8 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 
 /**
  * Default date format
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
 
@@ -62,25 +60,25 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
 
 /**
  * Default date format
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat) {
 
-	zval *dateFormat;
+	zval *dateFormat_param = NULL;
+	zval *dateFormat = NULL;
 
-	zephir_fetch_params(0, 1, 0, &dateFormat);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &dateFormat_param);
 
+	zephir_get_strval(dateFormat, dateFormat_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_dateFormat"), dateFormat TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * Format applied to each message
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 
@@ -91,18 +89,20 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 
 /**
  * Format applied to each message
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 
-	zval *format;
+	zval *format_param = NULL;
+	zval *format = NULL;
 
-	zephir_fetch_params(0, 1, 0, &format);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &format_param);
 
+	zephir_get_strval(format, format_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2);
 		ZVAL_LONG(&_2, timestamp);
-		ZEPHIR_CALL_FUNCTION(&_3, "date", NULL, 300, _1, &_2);
+		ZEPHIR_CALL_FUNCTION(&_3, "date", NULL, 293, _1, &_2);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_2);
 		ZVAL_STRING(&_2, "%date%", 0);

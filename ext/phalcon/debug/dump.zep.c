@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Debug_Dump, all) {
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "variables", 1);
 	zephir_array_fast_append(_0, _1);
-	ZEPHIR_CALL_FUNCTION(&_2, "func_get_args", NULL, 166);
+	ZEPHIR_CALL_FUNCTION(&_2, "func_get_args", NULL, 167);
 	zephir_check_call_status();
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _0, _2);
 	zephir_check_call_status();
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		add_assoc_long_ex(_1, SS(":count"), zephir_fast_count_int(variable TSRMLS_CC));
 		ZEPHIR_SINIT_VAR(_5);
 		ZVAL_STRING(&_5, "<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		zephir_concat_self(&output, _2 TSRMLS_CC);
 		zephir_is_iterable(variable, &_8, &_7, 0, 0, "phalcon/debug/dump.zep", 154);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_GET_HVALUE(value, _9);
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_LONG(&_5, tab);
-			ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 129, space, &_5);
+			ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 131, space, &_5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_12);
 			zephir_create_array(_12, 2, 0 TSRMLS_CC);
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			zephir_array_update_string(&_12, SL(":key"), &key, PH_COPY | PH_SEPARATE);
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_STRING(&_5, "[<span style=':style'>:key</span>] => ", 0);
-			ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 53, &_5, _12);
+			ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 54, &_5, _12);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_14);
 			ZEPHIR_CONCAT_VV(_14, _10, _13);
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_LONG(&_5, (tab + 1));
-				ZEPHIR_CALL_METHOD(&_18, this_ptr, "output", &_19, 167, value, _3, &_5);
+				ZEPHIR_CALL_METHOD(&_18, this_ptr, "output", &_19, 168, value, _3, &_5);
 				zephir_check_temp_parameter(_3);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_20);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		}
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_LONG(&_5, (tab - 1));
-		ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 129, space, &_5);
+		ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 131, space, &_5);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VVS(return_value, output, _10, ")");
 		RETURN_MM();
@@ -381,10 +381,10 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":class"), &_3, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>Object</b> :class", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		zephir_concat_self(&output, _2 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_13, "get_parent_class", &_21, 168, variable);
+		ZEPHIR_CALL_FUNCTION(&_13, "get_parent_class", &_21, 169, variable);
 		zephir_check_call_status();
 		if (zephir_is_true(_13)) {
 			ZEPHIR_INIT_NVAR(_12);
@@ -395,19 +395,19 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			zephir_check_temp_parameter(_3);
 			zephir_check_call_status();
 			zephir_array_update_string(&_12, SL(":style"), &_18, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_FUNCTION(&_18, "get_parent_class", &_21, 168, variable);
+			ZEPHIR_CALL_FUNCTION(&_18, "get_parent_class", &_21, 169, variable);
 			zephir_check_call_status();
 			zephir_array_update_string(&_12, SL(":parent"), &_18, PH_COPY | PH_SEPARATE);
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_STRING(&_5, " <b style=':style'>extends</b> :parent", 0);
-			ZEPHIR_CALL_FUNCTION(&_18, "strtr", &_6, 53, &_5, _12);
+			ZEPHIR_CALL_FUNCTION(&_18, "strtr", &_6, 54, &_5, _12);
 			zephir_check_call_status();
 			zephir_concat_self(&output, _18 TSRMLS_CC);
 		}
 		zephir_concat_self_str(&output, SL(" (\n") TSRMLS_CC);
 		_22 = zephir_fetch_nproperty_this(this_ptr, SL("_detailed"), PH_NOISY_CC);
 		if (!(zephir_is_true(_22))) {
-			ZEPHIR_CALL_FUNCTION(&_10, "get_object_vars", NULL, 23, variable);
+			ZEPHIR_CALL_FUNCTION(&_10, "get_object_vars", NULL, 24, variable);
 			zephir_check_call_status();
 			zephir_is_iterable(_10, &_24, &_23, 0, 0, "phalcon/debug/dump.zep", 171);
 			for (
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZEPHIR_GET_HVALUE(value, _25);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_LONG(&_5, tab);
-				ZEPHIR_CALL_FUNCTION(&_13, "str_repeat", &_11, 129, space, &_5);
+				ZEPHIR_CALL_FUNCTION(&_13, "str_repeat", &_11, 131, space, &_5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(_12);
 				zephir_create_array(_12, 3, 0 TSRMLS_CC);
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				add_assoc_stringl_ex(_12, SS(":type"), SL("public"), 1);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", 0);
-				ZEPHIR_CALL_FUNCTION(&_26, "strtr", &_6, 53, &_5, _12);
+				ZEPHIR_CALL_FUNCTION(&_26, "strtr", &_6, 54, &_5, _12);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_14);
 				ZEPHIR_CONCAT_VV(_14, _13, _26);
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_LONG(&_5, (tab + 1));
-				ZEPHIR_CALL_METHOD(&_27, this_ptr, "output", &_19, 167, value, _3, &_5);
+				ZEPHIR_CALL_METHOD(&_27, this_ptr, "output", &_19, 168, value, _3, &_5);
 				zephir_check_temp_parameter(_3);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_20);
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		} else {
 			do {
 				Z_SET_ISREF_P(variable);
-				ZEPHIR_CALL_FUNCTION(&attr, "each", &_28, 169, variable);
+				ZEPHIR_CALL_FUNCTION(&attr, "each", &_28, 170, variable);
 				Z_UNSET_ISREF_P(variable);
 				zephir_check_call_status();
 				if (!(zephir_is_true(attr))) {
@@ -467,9 +467,9 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZEPHIR_INIT_NVAR(_3);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "\\x00", 0);
-				ZEPHIR_CALL_FUNCTION(&_10, "ord", &_29, 130, &_5);
+				ZEPHIR_CALL_FUNCTION(&_10, "ord", &_29, 132, &_5);
 				zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_13, "chr", &_30, 128, _10);
+				ZEPHIR_CALL_FUNCTION(&_13, "chr", &_30, 130, _10);
 				zephir_check_call_status();
 				zephir_fast_explode(_3, _13, key, LONG_MAX TSRMLS_CC);
 				ZEPHIR_CPY_WRT(key, _3);
@@ -486,7 +486,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				}
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_LONG(&_5, tab);
-				ZEPHIR_CALL_FUNCTION(&_18, "str_repeat", &_11, 129, space, &_5);
+				ZEPHIR_CALL_FUNCTION(&_18, "str_repeat", &_11, 131, space, &_5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(_12);
 				zephir_create_array(_12, 3, 0 TSRMLS_CC);
@@ -497,14 +497,14 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				zephir_check_call_status();
 				zephir_array_update_string(&_12, SL(":style"), &_26, PH_COPY | PH_SEPARATE);
 				Z_SET_ISREF_P(key);
-				ZEPHIR_CALL_FUNCTION(&_26, "end", &_32, 170, key);
+				ZEPHIR_CALL_FUNCTION(&_26, "end", &_32, 171, key);
 				Z_UNSET_ISREF_P(key);
 				zephir_check_call_status();
 				zephir_array_update_string(&_12, SL(":key"), &_26, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_12, SL(":type"), &type, PH_COPY | PH_SEPARATE);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", 0);
-				ZEPHIR_CALL_FUNCTION(&_26, "strtr", &_6, 53, &_5, _12);
+				ZEPHIR_CALL_FUNCTION(&_26, "strtr", &_6, 54, &_5, _12);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_14);
 				ZEPHIR_CONCAT_VV(_14, _18, _26);
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_LONG(&_5, (tab + 1));
-				ZEPHIR_CALL_METHOD(&_27, this_ptr, "output", &_19, 167, value, _3, &_5);
+				ZEPHIR_CALL_METHOD(&_27, this_ptr, "output", &_19, 168, value, _3, &_5);
 				zephir_check_temp_parameter(_3);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_20);
@@ -521,11 +521,11 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				zephir_concat_self(&output, _20 TSRMLS_CC);
 			} while (zephir_is_true(attr));
 		}
-		ZEPHIR_CALL_FUNCTION(&attr, "get_class_methods", NULL, 171, variable);
+		ZEPHIR_CALL_FUNCTION(&attr, "get_class_methods", NULL, 172, variable);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_LONG(&_5, tab);
-		ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 129, space, &_5);
+		ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 131, space, &_5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_12);
 		zephir_create_array(_12, 3, 0 TSRMLS_CC);
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		add_assoc_long_ex(_12, SS(":count"), zephir_fast_count_int(attr TSRMLS_CC));
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, ":class <b style=':style'>methods</b>: (<span style=':style'>:count</span>) (\n", 0);
-		ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 53, &_5, _12);
+		ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 54, &_5, _12);
 		zephir_check_call_status();
 		ZEPHIR_INIT_LNVAR(_14);
 		ZEPHIR_CONCAT_VV(_14, _10, _13);
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		if (zephir_fast_in_array(_3, _33 TSRMLS_CC)) {
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_LONG(&_5, tab);
-			ZEPHIR_CALL_FUNCTION(&_18, "str_repeat", &_11, 129, space, &_5);
+			ZEPHIR_CALL_FUNCTION(&_18, "str_repeat", &_11, 131, space, &_5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_20);
 			ZEPHIR_CONCAT_VS(_20, _18, "[already listed]\n");
@@ -570,7 +570,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				if (ZEPHIR_IS_STRING(value, "__construct")) {
 					ZEPHIR_SINIT_NVAR(_5);
 					ZVAL_LONG(&_5, (tab + 1));
-					ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 129, space, &_5);
+					ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 131, space, &_5);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(_12);
 					zephir_create_array(_12, 2, 0 TSRMLS_CC);
@@ -583,7 +583,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 					zephir_array_update_string(&_12, SL(":method"), &value, PH_COPY | PH_SEPARATE);
 					ZEPHIR_SINIT_NVAR(_5);
 					ZVAL_STRING(&_5, "-><span style=':style'>:method</span>(); [<b style=':style'>constructor</b>]\n", 0);
-					ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 53, &_5, _12);
+					ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 54, &_5, _12);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_14);
 					ZEPHIR_CONCAT_VV(_14, _10, _13);
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 				} else {
 					ZEPHIR_SINIT_NVAR(_5);
 					ZVAL_LONG(&_5, (tab + 1));
-					ZEPHIR_CALL_FUNCTION(&_26, "str_repeat", &_11, 129, space, &_5);
+					ZEPHIR_CALL_FUNCTION(&_26, "str_repeat", &_11, 131, space, &_5);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(_38);
 					zephir_create_array(_38, 2, 0 TSRMLS_CC);
@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 					zephir_array_update_string(&_38, SL(":method"), &value, PH_COPY | PH_SEPARATE);
 					ZEPHIR_SINIT_NVAR(_5);
 					ZVAL_STRING(&_5, "-><span style=':style'>:method</span>();\n", 0);
-					ZEPHIR_CALL_FUNCTION(&_27, "strtr", &_6, 53, &_5, _38);
+					ZEPHIR_CALL_FUNCTION(&_27, "strtr", &_6, 54, &_5, _38);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_39);
 					ZEPHIR_CONCAT_VV(_39, _26, _27);
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			}
 			ZEPHIR_SINIT_NVAR(_5);
 			ZVAL_LONG(&_5, tab);
-			ZEPHIR_CALL_FUNCTION(&_18, "str_repeat", &_11, 129, space, &_5);
+			ZEPHIR_CALL_FUNCTION(&_18, "str_repeat", &_11, 131, space, &_5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_20);
 			ZEPHIR_CONCAT_VS(_20, _18, ")\n");
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		}
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_LONG(&_5, (tab - 1));
-		ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 129, space, &_5);
+		ZEPHIR_CALL_FUNCTION(&_10, "str_repeat", &_11, 131, space, &_5);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VVS(return_value, output, _10, ")");
 		RETURN_MM();
@@ -638,12 +638,12 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>Integer</b> (<span style=':style'>:var</span>)", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VV(return_value, output, _2);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "is_float", NULL, 172, variable);
+	ZEPHIR_CALL_FUNCTION(&_2, "is_float", NULL, 173, variable);
 	zephir_check_call_status();
 	if (zephir_is_true(_2)) {
 		ZEPHIR_INIT_NVAR(_1);
@@ -657,7 +657,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>Float</b> (<span style=':style'>:var</span>)", 0);
-		ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_13, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VV(return_value, output, _13);
 		RETURN_MM();
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>Numeric string</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VV(return_value, output, _2);
 		RETURN_MM();
@@ -694,14 +694,14 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZVAL_LONG(&_5, 4);
 		ZEPHIR_SINIT_VAR(_40);
 		ZVAL_STRING(&_40, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "htmlentities", NULL, 151, variable, &_5, &_40);
+		ZEPHIR_CALL_FUNCTION(&_2, "htmlentities", NULL, 152, variable, &_5, &_40);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_26, "nl2br", NULL, 173, _2);
+		ZEPHIR_CALL_FUNCTION(&_26, "nl2br", NULL, 174, _2);
 		zephir_check_call_status();
 		zephir_array_update_string(&_1, SL(":var"), &_26, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>String</b> (<span style=':style'>:length</span>) \"<span style=':style'>:var</span>\"", 0);
-		ZEPHIR_CALL_FUNCTION(&_26, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_26, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VV(return_value, output, _26);
 		RETURN_MM();
@@ -726,7 +726,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":var"), &_14, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>Boolean</b> (<span style=':style'>:var</span>)", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VV(return_value, output, _2);
 		RETURN_MM();
@@ -742,7 +742,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_array_update_string(&_1, SL(":style"), &_2, PH_COPY | PH_SEPARATE);
 		ZEPHIR_SINIT_NVAR(_5);
 		ZVAL_STRING(&_5, "<b style=':style'>NULL</b>", 0);
-		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+		ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VV(return_value, output, _2);
 		RETURN_MM();
@@ -758,7 +758,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 	zephir_array_update_string(&_1, SL(":var"), &variable, PH_COPY | PH_SEPARATE);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_STRING(&_5, "(<span style=':style'>:var</span>)", 0);
-	ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 53, &_5, _1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strtr", &_6, 54, &_5, _1);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VV(return_value, output, _2);
 	RETURN_MM();
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Debug_Dump, variable) {
 	zephir_array_update_string(&_0, SL(":output"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_STRING(&_3, "<pre style=':style'>:output</pre>", 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 53, &_3, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 54, &_3, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -835,7 +835,7 @@ PHP_METHOD(Phalcon_Debug_Dump, variables) {
 
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
-	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 166);
+	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 167);
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/debug/dump.zep", 290);
 	for (

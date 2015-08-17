@@ -39,7 +39,7 @@ class Xcache extends Adapter implements AdapterInterface
 	 * Reads parsed annotations from XCache
 	 *
 	 * @param string key
-	 * @return Phalcon\Annotations\Reflection
+	 * @return \Phalcon\Annotations\Reflection
 	 */
 	public function read(string! key) -> <Reflection> | boolean
 	{

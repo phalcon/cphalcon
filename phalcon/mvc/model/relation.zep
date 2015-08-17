@@ -140,6 +140,19 @@ class Relation implements RelationInterface
 	}
 
 	/**
+	 * Returns an option by the specified name
+	 * If the option doesn't exist null is returned	 
+	 */
+	public function getOption(string! name)
+	{
+		var option;
+		if fetch option, this->_options[name] {
+			return option;
+		}
+		return null;
+	}
+
+	/**
 	 * Check whether the relation act as a foreign key
 	 */
 	public function isForeignKey() -> boolean
@@ -171,7 +184,7 @@ class Relation implements RelationInterface
 			}
 		}
 		return false;
-	}	
+	}
 
 	/**
 	 * Returns parameters that must be always used when the related records are obtained

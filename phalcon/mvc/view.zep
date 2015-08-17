@@ -261,7 +261,7 @@ class View extends Injectable implements ViewInterface
 	 *</code>
 	 *
 	 * @param int|array level
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function disableLevel(var level) -> <View>
 	{
@@ -320,7 +320,7 @@ class View extends Injectable implements ViewInterface
 	 * Sets a template before the controller layout
 	 *
 	 * @param string|array templateBefore
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function setTemplateBefore(var templateBefore) -> <View>
 	{
@@ -345,7 +345,7 @@ class View extends Injectable implements ViewInterface
 	 * Sets a "template after" controller layout
 	 *
 	 * @param string|array templateAfter
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function setTemplateAfter(var templateAfter) -> <View>
 	{
@@ -375,7 +375,7 @@ class View extends Injectable implements ViewInterface
 	 *
 	 * @param string key
 	 * @param mixed value
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function setParamToView(string! key, value) -> <View>
 	{
@@ -392,7 +392,7 @@ class View extends Injectable implements ViewInterface
 	 *
 	 * @param array params
 	 * @param boolean merge
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
 	{
@@ -421,7 +421,7 @@ class View extends Injectable implements ViewInterface
 	 *
 	 * @param string key
 	 * @param mixed value
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function setVar(string! key, value) -> <View>
 	{
@@ -567,7 +567,7 @@ class View extends Injectable implements ViewInterface
 	 * @param string viewPath
 	 * @param boolean silence
 	 * @param boolean mustClean
-	 * @param Phalcon\Cache\BackendInterface $cache
+	 * @param \Phalcon\Cache\BackendInterface $cache
 	 */
 	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
 	{
@@ -971,7 +971,7 @@ class View extends Injectable implements ViewInterface
 	 * </code>
 	 *
 	 * @param string|array renderView
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function pick(var renderView) -> <View>
 	{
@@ -1222,7 +1222,7 @@ class View extends Injectable implements ViewInterface
 	 *</code>
 	 *
 	 * @param boolean|array options
-	 * @return Phalcon\Mvc\View
+	 * @return \Phalcon\Mvc\View
 	 */
 	public function cache(var options = true) -> <View>
 	{

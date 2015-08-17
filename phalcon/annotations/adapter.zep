@@ -133,7 +133,7 @@ abstract class Adapter
 	 */
 	public function getMethod(string className, string methodName) -> <Collection>
 	{
-		var classAnnotations, methods, method;
+		var classAnnotations, methods, method, methodKey;
 
 		/**
 		 * Get the full annotations from the class
@@ -146,14 +146,16 @@ abstract class Adapter
 		if typeof classAnnotations == "object" {
 			let methods = classAnnotations->getMethodsAnnotations();
 			if typeof methods == "array" {
-				if fetch method, methods[methodName] {
-					return method;
+				for methodKey, method in methods {
+					if !strcasecmp(methodKey, methodName) {
+						return method;
+					}
 				}
 			}
 		}
 
 		/**
-		 * Returns a collection anyways
+		 * Returns a collection anyway
 		 */
 		return new Collection();
 	}

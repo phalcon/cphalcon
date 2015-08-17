@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 	zephir_array_update_string(&options, SL("flags"), &_6, PH_COPY | PH_SEPARATE);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_LONG(&_5, 275);
-	ZEPHIR_CALL_FUNCTION(&_7, "filter_var", NULL, 191, value, &_5, options);
+	ZEPHIR_CALL_FUNCTION(&_7, "filter_var", NULL, 192, value, &_5, options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_7))) {
 		ZEPHIR_INIT_NVAR(_0);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_create_array(_4, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_8, "strtr", NULL, 53, message, _4);
+		ZEPHIR_CALL_FUNCTION(&_8, "strtr", NULL, 54, message, _4);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "IP", ZEPHIR_TEMP_PARAM_COPY);
