@@ -27,6 +27,8 @@ use Phalcon\Mvc\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\ViewInterface;
 
 /**
@@ -43,7 +45,7 @@ use Phalcon\Mvc\ViewInterface;
  *	$response->send();
  *</code>
  */
-class Response implements ResponseInterface, InjectionAwareInterface
+class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
 	protected _sent = false;
@@ -57,6 +59,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	protected _file;
 
 	protected _dependencyInjector;
+
+	protected _eventsManager;
 
 	protected _statusCodes;
 
@@ -100,6 +104,22 @@ class Response implements ResponseInterface, InjectionAwareInterface
 			let this->_dependencyInjector = dependencyInjector;
 		}
 		return dependencyInjector;
+	}
+
+	/**
+	 * Sets the events manager
+	 */
+	public function setEventsManager(<ManagerInterface> eventsManager)
+	{
+		let this->_eventsManager = eventsManager;
+	}
+
+	/**
+	 * Returns the internal event manager
+	 */
+	public function getEventsManager() -> <ManagerInterface>
+	{
+		return this->_eventsManager;
 	}
 
 	/**
@@ -554,13 +574,26 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	/**
 	 * Sends headers to the client
 	 */
-	public function sendHeaders() -> <Response>
+	public function sendHeaders() -> <Response> | boolean
 	{
-		var headers;
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
+		var headers, eventsManager;
+
+		let headers = <HeadersInterface> this->getHeaders();
+		let eventsManager = <ManagerInterface> this->getEventsManager();
+
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("response:beforeSendHeaders", this) === false {
+				return false;
+			}
 		}
+
+		/**
+		 * Send headers
+		 */
+		if headers->send() && typeof eventsManager == "object" {
+			eventsManager->fire("response:afterSendHeaders", this);
+		}
+
 		return this;
 	}
 
@@ -591,18 +624,12 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		/**
 		 * Send headers
 		 */
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
-		}
+		this->sendHeaders();
 
 		/**
 		 * Send Cookies/comment>
 		 */
-		let cookies = this->_cookies;
-		if typeof cookies == "object" {
-			cookies->send();
-		}
+		this->sendCookies();
 
 		/**
 		 * Output the response body
