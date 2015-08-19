@@ -32,41 +32,41 @@ namespace Phalcon\Security;
  * - /dev/urandom
  *
  *<code>
- *	$random = new \Phalcon\Security\Random();
+ *  $random = new \Phalcon\Security\Random();
  *
- *	// Random binary string
- *	$bytes = $random->bytes();
+ *  // Random binary string
+ *  $bytes = $random->bytes();
  *
- *	// Random hex string
- *	echo $random->hex(10); // a29f470508d5ccb8e289
- *	echo $random->hex(10); // 533c2f08d5eee750e64a
- *	echo $random->hex(11); // f362ef96cb9ffef150c9cd
- *	echo $random->hex(12); // 95469d667475125208be45c4
- *	echo $random->hex(13); // 05475e8af4a34f8f743ab48761
+ *  // Random hex string
+ *  echo $random->hex(10); // a29f470508d5ccb8e289
+ *  echo $random->hex(10); // 533c2f08d5eee750e64a
+ *  echo $random->hex(11); // f362ef96cb9ffef150c9cd
+ *  echo $random->hex(12); // 95469d667475125208be45c4
+ *  echo $random->hex(13); // 05475e8af4a34f8f743ab48761
  *
- *	// Random base64 string
- *	echo $random->base64(12); // XfIN81jGGuKkcE1E
- *	echo $random->base64(12); // 3rcq39QzGK9fUqh8
- *	echo $random->base64();   // DRcfbngL/iOo9hGGvy1TcQ==
- *	echo $random->base64(16); // SvdhPcIHDZFad838Bb0Swg==
+ *  // Random base64 string
+ *  echo $random->base64(12); // XfIN81jGGuKkcE1E
+ *  echo $random->base64(12); // 3rcq39QzGK9fUqh8
+ *  echo $random->base64();   // DRcfbngL/iOo9hGGvy1TcQ==
+ *  echo $random->base64(16); // SvdhPcIHDZFad838Bb0Swg==
  *
- *	// Random URL-safe base64 string
- *	echo $random->base64Safe();           // PcV6jGbJ6vfVw7hfKIFDGA
- *	echo $random->base64Safe();           // GD8JojhzSTrqX7Q8J6uug
- *	echo $random->base64Safe(8);          // mGyy0evy3ok
- *	echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
+ *  // Random URL-safe base64 string
+ *  echo $random->base64Safe();           // PcV6jGbJ6vfVw7hfKIFDGA
+ *  echo $random->base64Safe();           // GD8JojhzSTrqX7Q8J6uug
+ *  echo $random->base64Safe(8);          // mGyy0evy3ok
+ *  echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
  *
- *	// Random UUID
- *	echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
- *	echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
- *	echo $random->uuid(); // 75e6b628-c562-4117-bb76-61c4153455a9
- *	echo $random->uuid(); // dc446df1-0848-4d05-b501-4af3c220c13d
+ *  // Random UUID
+ *  echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
+ *  echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
+ *  echo $random->uuid(); // 75e6b628-c562-4117-bb76-61c4153455a9
+ *  echo $random->uuid(); // dc446df1-0848-4d05-b501-4af3c220c13d
  *
- *	// Random number between 0 and $len
- *	echo $random->number(256); // 84
- *	echo $random->number(256); // 79
- *	echo $random->number(100); // 29
- *	echo $random->number(300); // 40
+ *  // Random number between 0 and $len
+ *  echo $random->number(256); // 84
+ *  echo $random->number(256); // 79
+ *  echo $random->number(100); // 29
+ *  echo $random->number(300); // 40
  *</code>
  *
  * This class partially borrows SecureRandom library from Ruby
@@ -82,9 +82,9 @@ class Random
 	 * The result may contain any byte: "x00" - "xFF".
 	 *
 	 *<code>
-	 *	$random = new \Phalcon\Security\Random();
+	 *  $random = new \Phalcon\Security\Random();
 	 *
-	 *	$bytes = $random->bytes();
+	 *  $bytes = $random->bytes();
 	 *</code>
 	 *
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -131,9 +131,9 @@ class Random
 	 * The length of the result string is usually greater of $len.
 	 *
 	 *<code>
-	 *	$random = new \Phalcon\Security\Random();
+	 *  $random = new \Phalcon\Security\Random();
 	 *
-	 *	echo $random->hex(10); // a29f470508d5ccb8e289
+	 *  echo $random->hex(10); // a29f470508d5ccb8e289
 	 *</code>
 	 *
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -148,11 +148,12 @@ class Random
 	 *
 	 * If $len is not specified, 16 is assumed. It may be larger in future.
 	 * The length of the result string is usually greater of $len.
+	 * Size formula: 4 *( $len / 3) and this need to be rounded up to a multiple of 4.
 	 *
 	 *<code>
-	 *	$random = new \Phalcon\Security\Random();
+	 *  $random = new \Phalcon\Security\Random();
 	 *
-	 *	echo $random->base64(12); // 3rcq39QzGK9fUqh8
+	 *  echo $random->base64(12); // 3rcq39QzGK9fUqh8
 	 *</code>
 	 *
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -173,9 +174,9 @@ class Random
 	 * See RFC 3548 for the definition of URL-safe base64.
 	 *
 	 *<code>
-	 *	$random = new \Phalcon\Security\Random();
+	 *  $random = new \Phalcon\Security\Random();
 	 *
-	 *	echo $random->base64Safe(); // GD8JojhzSTrqX7Q8J6uug
+	 *  echo $random->base64Safe(); // GD8JojhzSTrqX7Q8J6uug
 	 *</code>
 	 *
 	 * @link https://www.ietf.org/rfc/rfc3548.txt
@@ -206,9 +207,9 @@ class Random
 	 * digit and y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
 	 *
 	 *<code>
-	 *	$random = new \Phalcon\Security\Random();
+	 *  $random = new \Phalcon\Security\Random();
 	 *
-	 *	echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
+	 *  echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
 	 *</code>
 	 *
 	 * @link https://www.ietf.org/rfc/rfc4122.txt
@@ -230,10 +231,12 @@ class Random
 	/**
 	 * Generates a random number between 0 and $len
 	 *
+	 * Returns an integer: 0 <= result <= $len.
+
 	 *<code>
-	 *	$random = new \Phalcon\Security\Random();
+	 *  $random = new \Phalcon\Security\Random();
 	 *
-	 *	echo $random->number(16); // 8
+	 *  echo $random->number(16); // 8
 	 *</code>
 	 * @throws Exception If secure random number generator is not available, unexpected partial read or $len <= 0
 	 */
