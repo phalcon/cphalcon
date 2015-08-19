@@ -67,6 +67,12 @@ namespace Phalcon\Security;
  *  echo $random->number(256); // 79
  *  echo $random->number(100); // 29
  *  echo $random->number(300); // 40
+ *
+ *  // Random base58 string
+ *  echo $random->base58();   // 4kUgL2pdQMSCQtjE
+ *  echo $random->base58();   // Umjxqf7ZPwh765yR
+ *  echo $random->base58(24); // qoXcgmw4A9dys26HaNEdCRj9
+ *  echo $random->base58(7);  // 774SJD3vgP
  *</code>
  *
  * This class partially borrows SecureRandom library from Ruby
@@ -141,6 +147,52 @@ class Random
 	public function hex(int len = null) -> string
 	{
 		return array_shift(unpack("H*", this->bytes(len)));
+	}
+
+	/**
+	 * Generates a random base58 string
+	 *
+	 * If $len is not specified, 16 is assumed. It may be larger in future.
+	 * The result may contain alphanumeric characters except 0, O, I and l.
+	 *
+	 * It is similar to Base64 but has been modified to avoid both non-alphanumeric
+	 * characters and letters which might look ambiguous when printed.
+	 *
+	 *<code>
+	 *  $random = new \Phalcon\Security\Random();
+	 *
+	 *  echo $random->base58(); // 4kUgL2pdQMSCQtjE
+	 *</code>
+	 *
+	 * @link https://en.wikipedia.org/wiki/Base58
+	 * @throws Exception If secure random number generator is not available or unexpected partial read
+	 */
+	public function base58(n = null)
+	{
+		var bytes, del, key, byte, alphabet;
+
+		let alphabet = array_merge(
+			range("A", "H"),
+			range("J", "N"),
+			range("P", "Z"),
+			range("a", "k"),
+			range("m", "z"),
+			range("1", "9")
+		);
+
+		let bytes = unpack("C*", this->bytes(n));
+
+		for key, byte in bytes {
+			let byte = byte % 64;
+
+			if byte >= 58 {
+				let byte = this->number(57);
+			}
+
+			let bytes[key] = alphabet[byte];
+		}
+
+		return join("", bytes);
 	}
 
 	/**
@@ -220,8 +272,8 @@ class Random
 		var ary;
 
 		let ary = array_values(unpack("N1a/n1b/n1c/n1d/n1e/N1f", this->bytes(16)));
-		let ary[2] = (ary[2] & 0x0fff) | 0x4000;
-		let ary[3] = (ary[3] & 0x3fff) | 0x8000;
+		let ary[2] = (ary[2] & 0x0fff) | 0x4000,
+			ary[3] = (ary[3] & 0x3fff) | 0x8000;
 
 		array_unshift(ary, "%08x-%04x-%04x-%04x-%04x%08x");
 
@@ -232,7 +284,7 @@ class Random
 	 * Generates a random number between 0 and $len
 	 *
 	 * Returns an integer: 0 <= result <= $len.
-
+	 *
 	 *<code>
 	 *  $random = new \Phalcon\Security\Random();
 	 *
@@ -259,8 +311,8 @@ class Random
 			let mask = mask | (mask >> 4);
 
 			do {
-				let rnd = this->bytes(strlen(bin));
-				let first = ord(substr(rnd, 0, 1));
+				let rnd = this->bytes(strlen(bin)),
+					first = ord(substr(rnd, 0, 1));
 				let rnd = substr_replace(rnd, chr(first & mask), 0, 1);
 			} while (bin < rnd);
 
