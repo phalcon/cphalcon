@@ -21,7 +21,6 @@ namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
 use Phalcon\Session\Exception;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -40,7 +39,15 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *         Memcached::OPT_PREFIX_KEY => 'prefix.',
  *     ),
  *    'lifetime' => 3600,
- *    'prefix' => 'my_'
+ *    'prefix' => 'my_',
+ *
+ *    'uniqueId' => 'my-private-app',
+ *    'name' => 'session-name',
+ *    'cookie_lifetime' => 'session-cookie-lifetime',
+ *    'cookie_path' => 'session-cookie-path',
+ *    'cookie_domain' => 'session-cookie-domain',
+ *    'cookie_secure' => 'session-cookie-secure',
+ *    'cookie_httponly' => 'session-cookie-httponly'
  * ));
  *
  * $session->start();
@@ -50,7 +57,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Libmemcached extends Adapter implements AdapterInterface
+class Libmemcached extends Adapter
 {
 
 	protected _libmemcached = null { get };
@@ -62,48 +69,13 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 */
 	public function __construct(array options)
 	{
-		var servers, client, lifetime, prefix, statsKey;
+		if typeof options != "array" {
+			throw new Exception("The options must be an array");
+		}
 
-		if !fetch servers, options["servers"] {
+		if !isset options["servers"] {
 			throw new Exception("No servers given in options");
 		}
-
-		if !fetch client, options["client"] {
-			let client = null;
-		}
-
-		if !fetch lifetime, options["lifetime"] {
-			let lifetime = 8600;
-		}
-
-		let this->_lifetime = lifetime;
-
-		if !fetch prefix, options["prefix"] {
-			let prefix = null;
-		}
-
-		if !fetch statsKey, options["statsKey"] {
-			let statsKey = null;
-		}
-
-		let this->_libmemcached = new Libmemcached(
-			new FrontendData(["lifetime": this->_lifetime]),
-			[
-				"servers":  servers,
-				"client":   client,
-				"prefix":   prefix,
-				"statsKey": statsKey
-			]
-		);
-
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
 
 		parent::__construct(options);
 	}
@@ -120,33 +92,24 @@ class Libmemcached extends Adapter implements AdapterInterface
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
 	 */
-	public function read(sessionId)
+	public function read(string sessionId) -> var
 	{
 		return this->_libmemcached->get(sessionId, this->_lifetime);
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @param string data
 	 */
-	public function write(sessionId, data)
+	public function write(string sessionId, data) -> void
 	{
 		this->_libmemcached->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param  string  sessionId
-	 * @return boolean
 	 */
-	public function destroy(sessionId = null)
+	public function destroy(var sessionId = null) -> boolean
 	{
 		if sessionId === null {
 			let sessionId = this->getId();
@@ -160,5 +123,32 @@ class Libmemcached extends Adapter implements AdapterInterface
 	public function gc() -> boolean
 	{
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		let this->_lifetime = this->getOption("lifetime", this->getLifetime());
+
+		let this->_libmemcached = new Libmemcached(
+			new FrontendData(["lifetime": this->_lifetime]), [
+				"servers": this->getOption("servers"),
+				"client": this->getOption("client"),
+				"prefix": this->getOption("prefix"),
+				"statsKey": this->getOption("statsKey")
+		]);
+
+		session_set_save_handler(
+			[this, "open"],
+			[this, "close"],
+			[this, "read"],
+			[this, "write"],
+			[this, "destroy"],
+			[this, "gc"]
+		);
+
+		parent::configure();
 	}
 }

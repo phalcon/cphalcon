@@ -1,3 +1,14 @@
+# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
+- Phalcon\Session\Adapter
+   - Added public method (with support PHP 5.3):
+      - `getOption()`, `getCookieParams()`, `setCookieParams()`, `setName()`, `getName()`,
+      - `regenerateId()`, `reset()`, `commit()`, `abort()`, `clear()`, `status()`, `encode()`, `decode()`
+   - Added protected method:
+      - `configure()`, `legacySessionReset()`, `legacySessionAbort()`, `legacySessionStatus()`
+   - Added options:
+      - name, cookie_lifetime, cookie_path, cookie_domain, cookie_secure, cookie_httponly
+   - `Phalcon\Session\Adapter\Files` added options: savePath
+
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in `Image\Adapter\Imagick::text()`
@@ -18,7 +29,7 @@ belongs to the uniqueId or the whole session data
 - Added a fix to avoid that a table present in many sub-queries causes invalid SQL generation
 - Add `CookieInterface`, update `Cookie` and `Cookies` to use this interface - Decoupling `Cookies` and `Cookie` - Check `Session` state before using it in `Cookie`. [#10789](https://github.com/phalcon/cphalcon/issues/10789)
 - Fixed merge of `Phalcon\Config` instances containing objects different than `Phalcon\Config` compatible instances
-- When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797) 
+- When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797)
 - Fixed incorrect generation of `SELECT COUNT(\*)` causing unexpected exceptions when `phqlLiterals` is disabled
 - Added `Phalcon\Security\Random` - secure random number generator class. Provides secure random number generator which is suitable for generating session key in HTTP cookies, etc
 

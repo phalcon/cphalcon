@@ -59,37 +59,14 @@ class Redis extends Adapter implements AdapterInterface
 	 */
 	public function __construct(array options = [])
 	{
-		var lifetime;
+		let options = array_merge([
+			"host": "127.0.0.1",
+			"port": 6379,
+			"persistent": false,
+			"lifetime": this->_lifetime
+		], options);
 
-		if !isset options["host"] {
-			let options["host"] = "127.0.0.1";
-		}
-
-		if !isset options["port"] {
-			let options["port"] = 6379;
-		}
-
-		if !isset options["persistent"] {
-			let options["persistent"] = false;
-		}
-
-		if fetch lifetime, options["lifetime"] {
-			let this->_lifetime = lifetime;
-		}
-
-		let this->_redis = new Redis(
-			new FrontendData(["lifetime": this->_lifetime]),
-			options
-		);
-
-		session_set_save_handler(
-			[this, "open"],
-			[this, "close"],
-			[this, "read"],
-			[this, "write"],
-			[this, "destroy"],
-			[this, "gc"]
-		);
+		let this->_lifetime = options["lifetime"];
 
 		parent::__construct(options);
 	}
@@ -146,5 +123,28 @@ class Redis extends Adapter implements AdapterInterface
 	public function gc()
 	{
 		return true;
+	}
+
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function configure() -> void
+	{
+		let this->_redis = new Redis(
+			new FrontendData(["lifetime": this->_lifetime]),
+			this->getOptions()
+		);
+
+		session_set_save_handler(
+			[this, "open"],
+			[this, "close"],
+			[this, "read"],
+			[this, "write"],
+			[this, "destroy"],
+			[this, "gc"]
+		);
+
+		parent::configure();
 	}
 }
