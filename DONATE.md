@@ -10,4 +10,5 @@
 * 恒飞 99RMB
 * 兰陵小生 @rongyouyuan 30RMB
 * 显功 200RMB
+* 奉智 500RMB
 * 景峰 100RMB
