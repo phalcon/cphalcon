@@ -39,6 +39,21 @@
  *
  * Pagination using a SQL as source of data
  *
+ * <code>
+ * $sql = "SELECT * FROM robots WHERE type = :type LIMIT :limit OFFSET :offset ";
+ * $sql2 = "SELECT COUNT(*) rowcount WHERE type = :type FROM robots";
+ *
+ * $bind = ['type' => 'google'];
+ *
+ * $paginator = new \Phalcon\Paginator\Adapter\Sql(array(
+ *                 "db" => $this->db,
+ *                 "sql" => $sql,
+ *                 "total_sql" => $sql2,
+ *                 "bind" => $bind,
+ *                 "limit" => 20,
+ *                 "page" => $page
+ * ));
+ * </code>
  */
 zend_class_entry *phalcon_paginator_adapter_sql_ce;
 
