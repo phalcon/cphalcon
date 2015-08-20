@@ -81,6 +81,8 @@ namespace Phalcon\Security;
  */
 class Random
 {
+	const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+
 	/**
 	 * Generates a random binary string
 	 *
@@ -170,9 +172,6 @@ class Random
 	public function base58(n = null)
 	{
 		var bytes, key, byte;
-		string alphabet;
-
-		let alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 		let bytes = unpack("C*", this->bytes(n));
 
@@ -183,7 +182,7 @@ class Random
 				let byte = this->number(57);
 			}
 
-			let bytes[key] = substr(alphabet, byte, 1);
+			let bytes[key] = substr(self::BASE58_ALPHABET, byte, 1);
 		}
 
 		return join("", bytes);
@@ -290,31 +289,35 @@ class Random
 	{
 		var hex, bin, mask, rnd, ret, first;
 
-		if len > 0 {
-			let hex = dechex(len);
-
-			if (strlen(hex) & 1) == 1 {
-				let hex = "0" . hex;
-			}
-
-			let bin = pack("H*", hex);
-
-			let mask = ord(substr(bin, 0, 1));
-			let mask = mask | (mask >> 1);
-			let mask = mask | (mask >> 2);
-			let mask = mask | (mask >> 4);
-
-			do {
-				let rnd = this->bytes(strlen(bin)),
-					first = ord(substr(rnd, 0, 1));
-				let rnd = substr_replace(rnd, chr(first & mask), 0, 1);
-			} while (bin < rnd);
-
-			let ret = unpack("H*", rnd);
-
-			return hexdec(array_shift(ret));
+		if len <= 0 {
+			throw new Exception("Require a positive integer > 0");
 		}
 
-		throw new Exception("Require a positive integer > 0");
+		if function_exists("\\Sodium\\randombytes_uniform") {
+			return \\Sodium\\randombytes_uniform(len);
+		}
+
+		let hex = dechex(len);
+
+		if (strlen(hex) & 1) == 1 {
+			let hex = "0" . hex;
+		}
+
+		let bin = pack("H*", hex);
+
+		let mask = ord(substr(bin, 0, 1));
+		let mask = mask | (mask >> 1);
+		let mask = mask | (mask >> 2);
+		let mask = mask | (mask >> 4);
+
+		do {
+			let rnd = this->bytes(strlen(bin)),
+				first = ord(substr(rnd, 0, 1));
+			let rnd = substr_replace(rnd, chr(first & mask), 0, 1);
+		} while (bin < rnd);
+
+		let ret = unpack("H*", rnd);
+
+		return hexdec(array_shift(ret));
 	}
 }
