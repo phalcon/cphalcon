@@ -1,3 +1,6 @@
+# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
+- Added `Phalcon\Security\Random::base58` - to generate a random base58 string
+
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in `Image\Adapter\Imagick::text()`
@@ -5,7 +8,7 @@
 - Now you can import macros from other files using `{% include "file.volt" %}`
 - Undefined function calls fall back to macro calls in Volt
 - Automatic bound parameters in `Mvc\Model\Criteria` now uses a different prefix
-than `Mvc\Model\Query\Builder` to avoid collissions
+than `Mvc\Model\Query\Builder` to avoid collisions
 - Added `Cache\Multiple::flush()` to flush the cache backends added to the multiple system
 - Fixed `Session\Bag::remove()`
 - `Session\Bag::destroy()` eliminates any temporary data in the variables bag
@@ -37,7 +40,7 @@ belongs to the uniqueId or the whole session data
 - Now `Validation\Validator\Identical` allows both 'accepted' and 'value' as value to keep backwards compatibility
 - Added `\Phalcon\Mvc\Model\MetaData\Redis` adapter.
 - Added Redis Session adapter
-- Fixed bug in Mvc\Model\Criteria::fromInput unallowing it to use renamed columns
+- Fixed bug in `Mvc\Model\Criteria::fromInput` unallowing it to use renamed columns
 - Fixed bug in `Http\Request` getRawBody()/getPut() clears input buffer [#10694](https://github.com/phalcon/cphalcon/issues/10694)
 
 # [2.0.5](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.5) (2015-07-14)
@@ -91,7 +94,7 @@ belongs to the uniqueId or the whole session data
 
 # [2.0.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.3) (2015-06-10)
 - Added support for Behaviors in `Phalcon\Mvc\Collection`
-- Added SoftDelete and Timestampable behaviors to Collections
+- Added `SoftDelete` and `Timestampable` behaviors to Collections
 - Implemented Namespace aliases in PHQL
 - Now you can define if a virtual foreign key must ignore null values or not
 - Fixed bug that added two ? in `Mvc\Url::get()` when using query parameters ([#10421](https://github.com/phalcon/cphalcon/issues/10421))
@@ -122,7 +125,7 @@ belongs to the uniqueId or the whole session data
  - Added new theme in `Phalcon\Debug`
  - Allow to count and iterate `Phalcon\Session\Bag` as in 1.3.x
  - Renamed `getEventsManager()` to `getInternalEventsManager()` in `Phalcon\Di` to avoid collision with existing services
- - Added constants FILTER_* to Phalcon\Filter for filters names
+ - Added constants FILTER_* to `Phalcon\Filter` for filters names
  - Fixed multibyte characters in cssmin/jsmin
  - Added `Phalcon\Security::destroyToken()` to remove current token key and value from session
    removed first argument (password), since it's not used in the function

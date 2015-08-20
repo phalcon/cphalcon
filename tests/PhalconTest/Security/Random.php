@@ -35,6 +35,11 @@ class Random extends PhRandom
         return parent::hex($len);
     }
 
+    public function base58($len = null)
+    {
+        return parent::base58($len);
+    }
+
     public function base64($len = null)
     {
         return parent::base64($len);

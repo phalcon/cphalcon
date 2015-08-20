@@ -98,6 +98,55 @@ class RandomTest extends TBase
     }
 
     /**
+     * Tests the random base58 generation
+     *
+     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @since  2015-08-20
+     */
+    public function testRandomBase58()
+    {
+        $this->specify(
+            "The base58 string contains valid chars and result is valid size",
+            function () {
+                $lens = [
+                    2,
+                    12,
+                    16,
+                    24,
+                    48,
+                    100
+                ];
+
+                $random = new PhTRandom();
+
+                $isValid = function($base58) {
+                    $alphabet = array_merge(
+                        range("A", "H"),
+                        range("J", "N"),
+                        range("P", "Z"),
+                        range("a", "k"),
+                        range("m", "z"),
+                        range("1", "9")
+                    );
+
+                    return (preg_match('#^[^'.join('', $alphabet).']+$#i', $base58) === 0);
+                };
+
+                foreach ($lens as $len) {
+                    $actual = $random->base58($len);
+
+                    expect(strlen($actual))->equals($len);
+                    expect($isValid($actual))->true();
+                }
+
+                $actual = $random->base58();
+                expect(strlen($actual))->equals(16);
+                expect($isValid($actual))->true();
+            }
+        );
+    }
+
+    /**
      * Tests the random base64 generation
      *
      * @author Serghei Iakovlev <sadhooklay@gmail.com>
