@@ -169,16 +169,10 @@ class Random
 	 */
 	public function base58(n = null)
 	{
-		var bytes, del, key, byte, alphabet;
+		var bytes, key, byte;
+		string alphabet;
 
-		let alphabet = array_merge(
-			range("A", "H"),
-			range("J", "N"),
-			range("P", "Z"),
-			range("a", "k"),
-			range("m", "z"),
-			range("1", "9")
-		);
+		let alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 		let bytes = unpack("C*", this->bytes(n));
 
@@ -189,7 +183,7 @@ class Random
 				let byte = this->number(57);
 			}
 
-			let bytes[key] = alphabet[byte];
+			let bytes[key] = substr(alphabet, byte, 1);
 		}
 
 		return join("", bytes);
