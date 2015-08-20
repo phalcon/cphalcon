@@ -81,8 +81,6 @@ namespace Phalcon\Security;
  */
 class Random
 {
-	const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-
 	/**
 	 * Generates a random binary string
 	 *
@@ -169,23 +167,25 @@ class Random
 	 * @link https://en.wikipedia.org/wiki/Base58
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
 	 */
-	public function base58(n = null)
+	public function base58(n = null) -> string
 	{
-		var bytes, key, byte;
+		var bytes, idx;
+		string byteString = "",
+			alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 		let bytes = unpack("C*", this->bytes(n));
 
-		for key, byte in bytes {
-			let byte = byte % 64;
+		for idx in bytes {
+			let idx = idx % 64;
 
-			if byte >= 58 {
-				let byte = this->number(57);
+			if idx >= 58 {
+				let idx = this->number(57);
 			}
 
-			let bytes[key] = substr(self::BASE58_ALPHABET, byte, 1);
+			let byteString .= alphabet[(int) idx];
 		}
 
-		return join("", bytes);
+		return byteString;
 	}
 
 	/**
@@ -287,7 +287,8 @@ class Random
 	 */
 	public function number(int len) -> int
 	{
-		var hex, bin, mask, rnd, ret, first;
+		var hex, mask, rnd, ret;
+		string bin = "";
 
 		if len <= 0 {
 			throw new Exception("Require a positive integer > 0");
@@ -303,17 +304,16 @@ class Random
 			let hex = "0" . hex;
 		}
 
-		let bin = pack("H*", hex);
+		let bin .= pack("H*", hex);
 
-		let mask = ord(substr(bin, 0, 1));
+		let mask = ord(bin[0]);
 		let mask = mask | (mask >> 1);
 		let mask = mask | (mask >> 2);
 		let mask = mask | (mask >> 4);
 
 		do {
-			let rnd = this->bytes(strlen(bin)),
-				first = ord(substr(rnd, 0, 1));
-			let rnd = substr_replace(rnd, chr(first & mask), 0, 1);
+			let rnd = this->bytes(strlen(bin));
+			let rnd = substr_replace(rnd, chr(ord(substr(rnd, 0, 1)) & mask), 0, 1);
 		} while (bin < rnd);
 
 		let ret = unpack("H*", rnd);
