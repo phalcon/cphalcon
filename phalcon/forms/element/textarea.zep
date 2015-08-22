@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\ElementInterface;
 
@@ -38,6 +39,6 @@ class TextArea extends Element implements ElementInterface
 	 */
 	public function render(attributes = null) -> string
 	{
-		return \Phalcon\Tag::textArea(this->prepareAttributes(attributes));
+		return Tag::textArea(this->prepareAttributes(attributes));
 	}
 }

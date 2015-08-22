@@ -92,8 +92,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 
 /**
  * Constraint name
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Reference, getName) {
 
@@ -118,8 +116,6 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
 
 /**
  * Referenced Table
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 
@@ -130,8 +126,6 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 
 /**
  * Local reference columns
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 
@@ -142,8 +136,6 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 
 /**
  * Referenced Columns
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
 
@@ -154,8 +146,6 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
 
 /**
  * ON DELETE
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
 
@@ -166,8 +156,6 @@ PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
 
 /**
  * ON UPDATE
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Reference, getOnUpdate) {
 

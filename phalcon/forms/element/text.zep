@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\ElementInterface;
 
@@ -38,6 +39,6 @@ class Text extends Element implements ElementInterface
 	 */
 	public function render(attributes = null) -> string
 	{
-		return \Phalcon\Tag::textField(this->prepareAttributes(attributes));
+		return Tag::textField(this->prepareAttributes(attributes));
 	}
 }

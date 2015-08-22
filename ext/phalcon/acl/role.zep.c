@@ -47,7 +47,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 
 /**
  * Role name
- * @var string
  */
 PHP_METHOD(Phalcon_Acl_Role, getName) {
 
@@ -58,7 +57,6 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
 
 /**
  * Role name
- * @var string
  */
 PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
@@ -69,7 +67,6 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
 /**
  * Role description
- * @var string
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 

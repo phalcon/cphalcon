@@ -106,8 +106,8 @@ PHP_METHOD(Phalcon_Cache_Backend, setLastKey) {
 /**
  * Phalcon\Cache\Backend constructor
  *
- * @param	Phalcon\Cache\FrontendInterface frontend
- * @param	array options
+ * @param \Phalcon\Cache\FrontendInterface frontend
+ * @param array options
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct) {
 

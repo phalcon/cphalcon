@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Tag;
 use Phalcon\Forms\Element;
 use Phalcon\Forms\ElementInterface;
 
@@ -41,6 +42,6 @@ class Submit extends Element implements ElementInterface
 		/**
 		 * Merged passed attributes with previously defined ones
 		 */
-		return \Phalcon\Tag::submitButton(this->prepareAttributes(attributes));
+		return Tag::submitButton(this->prepareAttributes(attributes));
 	}
 }

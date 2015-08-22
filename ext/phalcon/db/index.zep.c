@@ -60,8 +60,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
 /**
  * Index name
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Index, getName) {
 
@@ -72,8 +70,6 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
 
 /**
  * Index columns
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
@@ -84,8 +80,6 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
 /**
  * Index type
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Index, getType) {
 

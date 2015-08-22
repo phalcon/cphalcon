@@ -164,7 +164,6 @@ PHP_METHOD(Phalcon_Mvc_View, getCurrentRenderLevel) {
 }
 
 /**
- * @var array
  */
 PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines) {
 

@@ -325,6 +325,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/registry.zep.c
 	phalcon/security.zep.c
 	phalcon/security/exception.zep.c
+	phalcon/security/random.zep.c
 	phalcon/session.zep.c
 	phalcon/session/adapter/files.zep.c
 	phalcon/session/adapter/libmemcached.zep.c

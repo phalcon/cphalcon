@@ -186,11 +186,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrder);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
 
 /**
- * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, fromInput);
-
-/**
  * Executes a find using the parameters built with the criteria
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);

@@ -54,7 +54,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface $modelsMetadata
  * @property \Phalcon\Mvc\Model\Transaction\Manager $transactionManager
  * @property \Phalcon\Assets\Manager $assets
- * @property \Phalcon\DI|\Phalcon\DiInterface $di
+ * @property \Phalcon\Di|\Phalcon\DiInterface $di
  * @property \Phalcon\Session\Bag $persistent
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */

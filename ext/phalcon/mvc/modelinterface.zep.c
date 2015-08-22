@@ -226,7 +226,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, appendMessage);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);
 
 /**
- * Returns all the validation messages
+ * Returns array of validation messages
  *
  * @return \Phalcon\Mvc\Model\MessageInterface[]
  */
