@@ -112,6 +112,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/session/baginterface.zep.c
 	phalcon/validation/messageinterface.zep.c
+	phalcon/validationinterface.zep.c
 	phalcon/acl.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/exception.zep.c

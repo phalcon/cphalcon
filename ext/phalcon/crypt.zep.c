@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
 
 	zend_declare_property_long(phalcon_crypt_ce, SL("_padding"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cbc", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cfb", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_string(phalcon_crypt_ce, SL("_cipher"), "rijndael-256", ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -790,7 +790,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZEPHIR_INIT_VAR(length);
 	ZVAL_LONG(length, zephir_fast_strlen_ev(text));
 	if (ZEPHIR_GT(keySize, length)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt", "phalcon/crypt.zep", 380);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt. Are you trying to decrypt an uncrypted text?", "phalcon/crypt.zep", 380);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_0);

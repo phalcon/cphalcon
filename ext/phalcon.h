@@ -107,6 +107,7 @@
 #include "phalcon/mvc/viewinterface.zep.h"
 #include "phalcon/session/baginterface.zep.h"
 #include "phalcon/validation/messageinterface.zep.h"
+#include "phalcon/validationinterface.zep.h"
 #include "phalcon/acl.zep.h"
 #include "phalcon/acl/adapter/memory.zep.h"
 #include "phalcon/acl/exception.zep.h"
