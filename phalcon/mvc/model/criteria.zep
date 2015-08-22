@@ -694,7 +694,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 			let metaData = dependencyInjector->getShared("modelsMetadata");
 
-			let model = new {modelName}(),
+			let model = new {modelName}(null, dependencyInjector),
 				dataTypes = metaData->getDataTypes(model),
 				columnMap = metaData->getReverseColumnMap(model);
 

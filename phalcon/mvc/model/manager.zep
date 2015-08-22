@@ -276,7 +276,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 */
 		if fetch model, this->_initialized[strtolower(modelName)] {
 			if newInstance {
-				return new {modelName}(this->_dependencyInjector, this);
+				return new {modelName}(null, this->_dependencyInjector, this);
 			}
 			model->reset();
 			return model;
@@ -286,7 +286,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Load it using an autoloader
 		 */
 		if class_exists(modelName) {
-			return new {modelName}(this->_dependencyInjector, this);
+			return new {modelName}(null, this->_dependencyInjector, this);
 		}
 
 		/**
@@ -684,7 +684,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 			let lowerAlias = strtolower(alias);
 		} else {
-			let lowerAlias = referencedEntity;			
+			let lowerAlias = referencedEntity;
 		}
 
 		/**
