@@ -45,7 +45,7 @@ class Crypt implements CryptInterface
 
 	protected _padding = 0;
 
-	protected _mode = "cbc";
+	protected _mode = "cfb";
 
 	protected _cipher = "rijndael-256";
 
@@ -377,7 +377,7 @@ class Crypt implements CryptInterface
 
 		let length = strlen(text);
 		if keySize > length {
-			throw new Exception("Size of IV is larger than text to decrypt");
+			throw new Exception("Size of IV is larger than text to decrypt. Are you trying to decrypt an uncrypted text?");
 		}
 
 		let decrypted = mcrypt_decrypt(cipher, decryptKey, substr(text, ivSize), mode, substr(text, 0, ivSize));

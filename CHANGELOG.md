@@ -1,3 +1,7 @@
+# [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2015-XX-XX)
+- Phalcon\Mvc\Model\Validation is now deprecated in favor of Phalcon\Validation
+- Default encrypt mode in Phalcon\Crypt is now changed to MCRYPT_MODE_CFB
+
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
 
