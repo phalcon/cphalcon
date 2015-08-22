@@ -5,7 +5,10 @@ Phalcon is an open source project and a volunteer effort. Phalcon welcomes contr
 ## Contributions
 
 Contributions to Phalcon should be made in the form of GitHub pull requests. Each pull request will be reviewed by a core contributor (someone with permission to land patches) and either landed in the main tree or given feedback for changes that would be required before it can be merged. All contributions should follow this format, even those from core contributors.
-*We only accept bug reports, new feature requests and pull requests in GitHub*. For questions regarding the usage of the framework or support requests please visit the [official forums](http://forum.phalconphp.com/).
+
+## Questions & Support
+
+*We only accept bug reports, new feature requests and pull requests in GitHub*. For questions regarding the usage of the framework or support requests please visit the [official forums](https://forum.phalconphp.com/).
 
 ## Bug Report Checklist
 
@@ -17,7 +20,8 @@ Contributions to Phalcon should be made in the form of GitHub pull requests. Eac
   make everyone reproduce the issue reported easily. If a bug cannot be reproduced by the development it would be difficult provide corrections and solutions. [Submit Reproducible Test](https://github.com/phalcon/cphalcon/wiki/Submit-Reproducible-Test) for more information.
 
 - Be sure that information such as OS, Phalcon version and PHP version are part of the bug report.
-  
+
+- If you're submitting a Segmentation Fault error, we would require a backtrace, please see [Generating a Backtrace](https://github.com/phalcon/cphalcon/wiki/Generating-a-backtrace)
 
 ## Pull Request Checklist
 
