@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework													  |
+ | Phalcon Framework							  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
- | with this package in the file docs/LICENSE.txt.						  |
- |																		  |
- | If you did not receive a copy of the license and are unable to		  |
- | obtain it through the world-wide-web, please send an email			  |
- | to license@phalconphp.com so we can send you a copy immediately.	      |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
- |		  Eduar Carvajal <eduar@phalconphp.com>						      |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
 
@@ -42,6 +42,7 @@ use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -377,6 +378,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function getReadConnection() -> <AdapterInterface>
 	{
+		var transaction;
+
+		let transaction = <TransactionInterface> this->_transaction;
+		if typeof transaction == "object" {
+			return transaction->getConnection();
+		}
+
 		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
 	}
 
@@ -1336,9 +1344,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Appends a customized message on the validation process
 	 *
 	 * <code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Message as Message;
 	 *
-	 * class Robots extends \Phalcon\Mvc\Model
+	 * class Robots extends Model
 	 * {
 	 *
 	 *   public function beforeSave()
@@ -1361,9 +1370,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Executes validators on every validation call
 	 *
 	 *<code>
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
@@ -1379,19 +1389,16 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *}
 	 *</code>
 	 */
-	protected function validate(<Model\ValidatorInterface> validator) -> <Model>
+	protected function validate(<ValidationInterface> validator) -> <Model>
 	{
-		var message;
+		/*var message;
 
-		/**
-		 * Call the validation, if it returns false we append the messages to the current object
-		 */
+		// Call the validation, if it returns false we append the messages to the current object
 		if validator->validate(this) === false {
 			for message in validator->getMessages() {
 				let this->_errorMessages[] = message;
 			}
-		}
-
+		}*/
 		return this;
 	}
 
@@ -1399,9 +1406,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
@@ -1428,7 +1436,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns all the validation messages
+	 * Returns array of validation messages
 	 *
 	 *<code>
 	 *	$robot = new Robots();
@@ -1458,6 +1466,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 			return filtered;
 		}
+
 		return this->_errorMessages;
 	}
 
@@ -1465,7 +1474,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
 	 */
-	protected function _checkForeignKeysRestrict() -> boolean
+	protected final function _checkForeignKeysRestrict() -> boolean
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
@@ -1614,7 +1623,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
 	 */
-	protected function _checkForeignKeysReverseCascade() -> boolean
+	protected final function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
 			resultset, conditions, bindParams, referencedModel,
@@ -1721,7 +1730,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
 	 */
-	protected function _checkForeignKeysReverseRestrict() -> boolean
+	protected final function _checkForeignKeysReverseRestrict() -> boolean
 	{
 		boolean error;
 		var manager, relations, foreignKey, relation,

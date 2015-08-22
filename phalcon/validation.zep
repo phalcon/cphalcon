@@ -20,9 +20,10 @@
 namespace Phalcon;
 
 use Phalcon\Di\Injectable;
+use Phalcon\ValidationInterface;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
@@ -30,7 +31,7 @@ use Phalcon\Validation\ValidatorInterface;
  *
  * Allows to validate data using custom or built-in validators
  */
-class Validation extends Injectable
+class Validation extends Injectable implements ValidationInterface
 {
 	protected _data;
 
@@ -216,6 +217,19 @@ class Validation extends Injectable
 	public function getValidators() -> array
 	{
 		return this->_validators;
+	}
+
+	/**
+	 * Sets the bound entity
+	 *
+	 * @param object entity
+	 */
+	public function setEntity(entity)
+	{
+		if typeof entity != "object" {
+			throw new Exception("Entity must be an object");
+		}
+		let this->_entity = entity;
 	}
 
 	/**
