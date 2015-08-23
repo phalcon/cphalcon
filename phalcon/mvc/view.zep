@@ -156,6 +156,18 @@ class View extends Injectable implements ViewInterface
 	}
 
 	/**
+	 * Checks if a path is absolute or not
+	 */
+	protected final function _isAbsolutePath(string path)
+	{
+		if PHP_OS == "WINNT" {
+			return strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';
+		}
+
+		return strlen(path) >= 1 && path[0] == '/';
+	}
+
+	/**
 	 * Sets the views directory. Depending of your platform,
 	 * always add a trailing slash or backslash
 	 */
@@ -616,9 +628,11 @@ class View extends Injectable implements ViewInterface
 
 		for viewsDir in this->_viewsDirs {
 
-			let viewsDirPath = basePath . viewsDir . viewPath;
-
-			file_put_contents("/tmp/v.txt", viewsDirPath . PHP_EOL, FILE_APPEND);
+			if !this->_isAbsolutePath(viewPath) {
+				let viewsDirPath = basePath . viewsDir . viewPath;
+			} else {
+				let viewsDirPath = viewPath;
+			}			
 
 			if typeof cache == "object" {
 
@@ -745,7 +759,7 @@ class View extends Injectable implements ViewInterface
 	 * Checks whether view exists
 	 */
 	public function exists(string! view) -> boolean
-	{		
+	{
 		var basePath, viewsDir, engines, extension;
 
 		let basePath = this->_basePath,
@@ -991,15 +1005,17 @@ class View extends Injectable implements ViewInterface
 	 * Choose a different view to render instead of last-controller/last-action
 	 *
 	 * <code>
-	 * class ProductsController extends \Phalcon\Mvc\Controller
+	 * use Phalcon\Mvc\Controller;
+	 *
+	 * class ProductsController extends Controller
 	 * {
 	 *
 	 *    public function saveAction()
 	 *    {
 	 *
-	 *         //Do some save stuff...
+	 *         // Do some save stuff...
 	 *
-	 *         //Then show the list view
+	 *         // Then show the list view
 	 *         $this->view->pick("products/list");
 	 *    }
 	 * }
