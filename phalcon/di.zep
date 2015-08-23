@@ -209,7 +209,7 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null)
 	{
-		var service, instance = null, reflection, eventsManager;
+		var service, eventsManager, instance = null;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -237,7 +237,7 @@ class Di implements DiInterface
 
 				if typeof parameters == "array" {
 					if count(parameters) {
-						let instance = create_instance_params(name, parameters);						
+						let instance = create_instance_params(name, parameters);
 					} else {
 						let instance = create_instance(name);
 					}

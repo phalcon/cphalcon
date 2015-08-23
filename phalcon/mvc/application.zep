@@ -19,15 +19,15 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\ViewInterface;
-use Phalcon\Mvc\Application\Exception;
-use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\RouterInterface;
-use Phalcon\DiInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\DispatcherInterface;
+use Phalcon\Mvc\Application\Exception;
+use Phalcon\Mvc\ModuleDefinitionInterface;
 
 /**
  * Phalcon\Mvc\Application
@@ -347,84 +347,96 @@ class Application extends Injectable
 		 */
 		let possibleResponse = dispatcher->getReturnedValue();
 
+		/**
+		 * Returning false from an action cancels the view
+		 */
 		if typeof possibleResponse == "boolean" && possibleResponse == false {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 		} else {
-			if typeof possibleResponse == "object" {
+
+			/**
+			 * Returning a string makes use it as the body of the response
+			 */
+			if typeof possibleResponse == "string" {
+				let response = <ResponseInterface> dependencyInjector->getShared("response");
+				response->setContent(possibleResponse);
+			} else {
 
 				/**
 				 * Check if the returned object is already a response
 				 */
-				let returnedResponse = possibleResponse instanceof ResponseInterface;
-			} else {
-				let returnedResponse = false;
-			}
+				if typeof possibleResponse == "object" {
+					let returnedResponse = possibleResponse instanceof ResponseInterface;
+				} else {
+					let returnedResponse = false;
+				}
 
-			/**
-			 * Calling afterHandleRequest
-			 */
-			if typeof eventsManager == "object" {
-				eventsManager->fire("application:afterHandleRequest", this, controller);
-			}
+				/**
+				 * Calling afterHandleRequest
+				 */
+				if typeof eventsManager == "object" {
+					eventsManager->fire("application:afterHandleRequest", this, controller);
+				}
 
-			/**
-			 * If the dispatcher returns an object we try to render the view in auto-rendering mode
-			 */
-			if returnedResponse === false {
-				if implicitView === true {
-					if typeof controller == "object" {
+				/**
+				 * If the dispatcher returns an object we try to render the view in auto-rendering mode
+				 */
+				if returnedResponse === false {
+					if implicitView === true {
+						if typeof controller == "object" {
 
-						let renderStatus = true;
-
-						/**
-						 * This allows to make a custom view render
-						 */
-						if typeof eventsManager == "object" {
-							let renderStatus = eventsManager->fire("application:viewRender", this, view);
-						}
-
-						/**
-						 * Check if the view process has been treated by the developer
-						 */
-						if renderStatus !== false {
+							let renderStatus = true;
 
 							/**
-							 * Automatic render based on the latest controller executed
+							 * This allows to make a custom view render
 							 */
-							view->render(
-								dispatcher->getControllerName(),
-								dispatcher->getActionName(),
-								dispatcher->getParams()
-							);
+							if typeof eventsManager == "object" {
+								let renderStatus = eventsManager->fire("application:viewRender", this, view);
+							}
+
+							/**
+							 * Check if the view process has been treated by the developer
+							 */
+							if renderStatus !== false {
+
+								/**
+								 * Automatic render based on the latest controller executed
+								 */
+								view->render(
+									dispatcher->getControllerName(),
+									dispatcher->getActionName(),
+									dispatcher->getParams()
+								);
+							}
 						}
 					}
 				}
-			}
-
-			/**
-			 * Finish the view component (stop output buffering)
-			 */
-			if implicitView === true {
-				view->finish();
-			}
-
-			if returnedResponse === false {
-
-				let response = <ResponseInterface> dependencyInjector->getShared("response");
-				if implicitView === true {
-
-					/**
-					 * The content returned by the view is passed to the response service
-					 */
-					response->setContent(view->getContent());
-				}
-
-			} else {
 
 				/**
-				 * We don't need to create a response because there is one already created
+				 * Finish the view component (stop output buffering)
 				 */
-				let response = possibleResponse;
+				if implicitView === true {
+					view->finish();
+				}
+
+				if returnedResponse === false {
+
+					let response = <ResponseInterface> dependencyInjector->getShared("response");
+					if implicitView === true {
+
+						/**
+						 * The content returned by the view is passed to the response service
+						 */
+						response->setContent(view->getContent());
+					}
+
+				} else {
+
+					/**
+					 * We don't need to create a response because there is one already created
+					 */
+					let response = possibleResponse;
+				}
 			}
 		}
 
