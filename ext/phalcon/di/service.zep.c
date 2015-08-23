@@ -186,9 +186,10 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
+	zend_class_entry *_1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0, *_1, *_2;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition = NULL, *sharedInstance, *instance = NULL, *builder, *_0 = NULL, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -238,6 +239,12 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	} else {
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
 			if (zephir_instance_of_ev(definition, zend_ce_closure TSRMLS_CC)) {
+				if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
+					_1 = zend_fetch_class(SL("Closure"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+					ZEPHIR_CALL_CE_STATIC(&_0, _1, "bind", NULL, 0, definition, dependencyInjector);
+					zephir_check_call_status();
+					ZEPHIR_CPY_WRT(definition, _0);
+				}
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(instance);
 					ZEPHIR_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
@@ -258,7 +265,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 176, dependencyInjector, definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 174, dependencyInjector, definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -266,14 +273,14 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if (found == 0) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_SVS(_2, "Service '", _1, "' cannot be resolved");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _2);
+		object_init_ex(_2, phalcon_di_exception_ce);
+		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_4);
+		ZEPHIR_CONCAT_SVS(_4, "Service '", _3, "' cannot be resolved");
+		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/di/service.zep", 197 TSRMLS_CC);
+		zephir_throw_exception_debug(_2, "phalcon/di/service.zep", 205 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -305,16 +312,16 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	ZEPHIR_OBS_VAR(definition);
 	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/di/service.zep", 221);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/di/service.zep", 229);
 		return;
 	}
 	ZEPHIR_OBS_VAR(arguments);
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 0 TSRMLS_CC)) {
-		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 228);
+		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE, "phalcon/di/service.zep", 236);
 	} else {
 		ZEPHIR_INIT_NVAR(arguments);
 		zephir_create_array(arguments, 1, 0 TSRMLS_CC);
-		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 230);
+		zephir_array_update_long(&arguments, position, &parameter, PH_COPY, "phalcon/di/service.zep", 238);
 	}
 	zephir_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
@@ -342,7 +349,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 	ZEPHIR_OBS_VAR(definition);
 	zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/di/service.zep", 258);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/di/service.zep", 266);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 1 TSRMLS_CC)) {
@@ -382,17 +389,17 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 	ZEPHIR_OBS_VAR(name);
 	if (!(zephir_array_isset_string_fetch(&name, attributes, SS("_name"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_name' is required", "phalcon/di/service.zep", 289);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_name' is required", "phalcon/di/service.zep", 297);
 		return;
 	}
 	ZEPHIR_OBS_VAR(definition);
 	if (!(zephir_array_isset_string_fetch(&definition, attributes, SS("_definition"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_definition' is required", "phalcon/di/service.zep", 293);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_definition' is required", "phalcon/di/service.zep", 301);
 		return;
 	}
 	ZEPHIR_OBS_VAR(shared);
 	if (!(zephir_array_isset_string_fetch(&shared, attributes, SS("_shared"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_shared' is required", "phalcon/di/service.zep", 297);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The attribute '_shared' is required", "phalcon/di/service.zep", 305);
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);

@@ -44,7 +44,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/micro", "collectioninterface.zep.c collection.zep.c exception.zep.c lazyloader.zep.c middlewareinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/query", "builderinterface.zep.c statusinterface.zep.c builder.zep.c lang.zep.c status.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/transaction", "exception.zep.c managerinterface.zep.c failed.zep.c manager.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/router", "groupinterface.zep.c routeinterface.zep.c annotations.zep.c exception.zep.c group.zep.c route.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/router", "groupinterface.zep.c routeinterface.zep.c annotations.zep.c defaultvalue.zep.c exception.zep.c group.zep.c route.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl/adapter", "memory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/adapter", "apc.zep.c files.zep.c memory.zep.c xcache.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/filters", "cssmin.zep.c jsmin.zep.c none.zep.c", "phalcon");

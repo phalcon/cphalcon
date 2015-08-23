@@ -322,6 +322,7 @@ zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
 zend_class_entry *phalcon_mvc_model_validator_url_ce;
 zend_class_entry *phalcon_mvc_router_annotations_ce;
+zend_class_entry *phalcon_mvc_router_defaultvalue_ce;
 zend_class_entry *phalcon_mvc_router_exception_ce;
 zend_class_entry *phalcon_mvc_router_group_ce;
 zend_class_entry *phalcon_mvc_router_route_ce;
@@ -719,6 +720,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Uniqueness);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator_Url);
 	ZEPHIR_INIT(Phalcon_Mvc_Router_Annotations);
+	ZEPHIR_INIT(Phalcon_Mvc_Router_DefaultValue);
 	ZEPHIR_INIT(Phalcon_Mvc_Router_Exception);
 	ZEPHIR_INIT(Phalcon_Mvc_Router_Group);
 	ZEPHIR_INIT(Phalcon_Mvc_Router_Route);

@@ -169,6 +169,14 @@ class Service implements ServiceInterface
 			 */
 			if typeof definition == "object" {
 				if definition instanceof \Closure {
+
+					/**
+					 * Bounds the closure to the current DI
+					 */
+					if typeof dependencyInjector == "object" {
+						let definition = \Closure::bind(definition, dependencyInjector);
+					}
+
 					if typeof parameters == "array" {
 						let instance = call_user_func_array(definition, parameters);
 					} else {

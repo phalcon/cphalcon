@@ -145,7 +145,7 @@ class Imagick extends Adapter implements AdapterInterface
 	 */
 	protected function _liquidRescale(int width, int height, int deltaX, int rigidity)
 	{
-		var ret;
+		var ret, image;
 		let image = this->_image;
 
 		image->setIteratorIndex(0);

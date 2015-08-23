@@ -303,6 +303,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/validator/url.zep.c
 	phalcon/mvc/moduledefinitioninterface.zep.c
 	phalcon/mvc/router/annotations.zep.c
+	phalcon/mvc/router/defaultvalue.zep.c
 	phalcon/mvc/router/exception.zep.c
 	phalcon/mvc/router/group.zep.c
 	phalcon/mvc/router/route.zep.c
