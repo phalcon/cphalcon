@@ -687,10 +687,18 @@ class Micro extends Injectable implements \ArrayAccess
 					}
 				}
 
+				let params = router->getParams();
+
+				/**
+				 * Bound the app to the handler
+				 */
+				if handler instanceof \Closure {
+					let handler = \Closure::bind(handler, this);
+				}
+
 				/**
 				 * Calling the Handler in the PHP userland
 				 */
-				let params = router->getParams();
 				let returnedValue = call_user_func_array(handler, params);
 
 				/**
