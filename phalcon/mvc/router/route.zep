@@ -154,7 +154,7 @@ class Route implements RouteInterface
 	 */
 	public function extractNamedParams(string! pattern) -> array | boolean
 	{
-		char ch;
+		char ch, prevCh = '\0';
 		var tmp, matches;
 		boolean notValid;
 		int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
@@ -272,7 +272,13 @@ class Route implements RouteInterface
 			if bracketCount > 0 {
 				let intermediate++;
 			} else {
-				let route .= ch;
+				if prevCh != '\\' {
+					if ch == '.' || ch == '+' || ch == '|' || ch == '#' {
+						let route .= '\\';
+					}
+				}
+				let route .= ch,
+					prevCh = ch;
 			}
 		}
 
@@ -443,8 +449,21 @@ class Route implements RouteInterface
 	 * Sets a callback that is called if the route is matched.
 	 * The developer can implement any arbitrary conditions here
 	 * If the callback returns false the route is treated as not matched
+	 *
+	 *<code>
+	 * $router->add('/login', array(
+     *  'module'     => 'admin',
+     *  'controller' => 'session'
+     * ))->beforeMatch(function ($uri, $route) {
+     *   // Check if the request was made with Ajax
+     *   if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'xmlhttprequest') {
+     *      return false;
+     *   }
+     *     return true;
+     * });
+	 *</code>
 	 */
-	public function beforeMatch(callable callback) -> <Route>
+	public function beforeMatch(var callback) -> <Route>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -456,6 +475,15 @@ class Route implements RouteInterface
 	public function getBeforeMatch() -> callable
 	{
 		return this->_beforeMatch;
+	}
+
+	/**
+	 * Allows to set a callback to handle the request directly in the route
+	 */
+	public function match(var callback) -> <Route>
+	{
+		let this->_match = callback;
+		return this;
 	}
 
 	/**
