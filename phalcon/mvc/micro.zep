@@ -579,7 +579,8 @@ class Micro extends Injectable implements \ArrayAccess
 	{
 		var dependencyInjector, eventsManager, status = null, router, matchedRoute,
 			handler, beforeHandlers, params, returnedValue, e, errorHandler,
-			afterHandlers, notFoundHandler, finishHandlers, finish, before, after;
+			afterHandlers, notFoundHandler, finishHandlers, finish, before, after,
+			response;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -603,7 +604,7 @@ class Micro extends Injectable implements \ArrayAccess
 			/**
 			 * Handling routing information
 			 */
-			let router = dependencyInjector->getShared("router");
+			let router = <RouterInterface> dependencyInjector->getShared("router");
 
 			/**
 			 * Handle the URI as normal
@@ -870,6 +871,12 @@ class Micro extends Injectable implements \ArrayAccess
 					throw e;
 				}
 			}
+		}
+
+		if typeof returnedValue == "string" {
+			let response = <ResponseInterface> dependencyInjector->getShared("response");
+			response->setContent(returnedValue);
+			returnedValue->send();
 		}
 
 		/**

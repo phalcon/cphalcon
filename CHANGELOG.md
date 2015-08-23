@@ -13,7 +13,9 @@
 - Placeholders :controller and :action in Mvc\Router now defaults to /([\\w0-9\\_\\-]+) instead of /([\\a-zA-Z0-9\\_\\-]+)
 - Modifier #u (PCRE_UTF8) is now default in regex based routes in Mvc\Router
 - Return 'false' from an action disables the view component (same as $this->view->disable())
-- Return a string from an action takes it as the body of the response (same as $this->response->setContent('Hello world'))
+- Return a string from an action takes it as the body of the response (same as return $this->response->setContent('Hello world'))
+- Return a string from an Mvc\Micro handler takes it as the body of the response
+- Mvc\Router\Route now escapes characters such as . or + to avoid unexpected behaviors
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
