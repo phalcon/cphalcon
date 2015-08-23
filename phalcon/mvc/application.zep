@@ -27,6 +27,7 @@ use Phalcon\Http\ResponseInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Mvc\Application\Exception;
+use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
 /**
@@ -189,7 +190,8 @@ class Application extends Injectable
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
-			implicitView, returnedResponse, controller, possibleResponse, renderStatus;
+			implicitView, returnedResponse, controller, possibleResponse,
+			renderStatus, matchedRoute, match;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -213,6 +215,46 @@ class Application extends Injectable
 		 * Handle the URI pattern (if any)
 		 */
 		router->handle(uri);
+
+		/**
+		 * If a 'match' callback was defined in the matched route
+		 * The whole dispatcher+view behavior can be overriden by the developer
+		 */
+		let matchedRoute = router->getMatchedRoute();
+		if typeof matchedRoute == "object" {
+			let match = matchedRoute->getMatch();
+			if match !== null {
+
+				if match instanceof \Closure {
+					let match = \Closure::bind(match, dependencyInjector);
+				}
+
+				/**
+				 * Directly call the match callback
+				 */
+				let possibleResponse = call_user_func_array(match, router->getParams());
+
+				/**
+				 * If the returned value is a string return it as body
+				 */
+				if typeof possibleResponse == "string" {
+					let response = <ResponseInterface> dependencyInjector->getShared("response");
+					response->setContent(possibleResponse);
+					return response;
+				}
+
+				/**
+				 * If the returned string is a ResponseInterface use it as response
+				 */
+				if typeof possibleResponse == "object" {
+					if possibleResponse instanceof ResponseInterface {
+						possibleResponse->sendHeaders();
+						possibleResponse->sendCookies();
+						return possibleResponse;
+					}
+				}
+			}
+		}
 
 		/**
 		 * If the router doesn't return a valid module we use the default module
@@ -298,7 +340,6 @@ class Application extends Injectable
 			if typeof eventsManager == "object" {
 				eventsManager->fire("application:afterStartModule", this, moduleObject);
 			}
-
 		}
 
 		/**

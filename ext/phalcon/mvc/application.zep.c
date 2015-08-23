@@ -20,9 +20,9 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
+#include "Zend/zend_closures.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
-#include "Zend/zend_closures.h"
 
 
 /**
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		ZEPHIR_CONCAT_SVS(_2, "Module '", name, "' isn't registered in the application container");
 		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 159 TSRMLS_CC);
+		zephir_throw_exception_debug(_1, "phalcon/mvc/application.zep", 160 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -275,10 +275,11 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
-	zval *_6;
+	zval *_7;
+	zend_class_entry *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool returnedResponse, _3;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zend_bool returnedResponse, _5;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *matchedRoute = NULL, *match = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4 = NULL, *_6, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -291,7 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 196);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services", "phalcon/mvc/application.zep", 198);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -314,6 +315,45 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_CPY_WRT(router, _1);
 	ZEPHIR_CALL_METHOD(NULL, router, "handle", NULL, 0, uri);
 	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&matchedRoute, router, "getmatchedroute", NULL, 0);
+	zephir_check_call_status();
+	if (Z_TYPE_P(matchedRoute) == IS_OBJECT) {
+		ZEPHIR_CALL_METHOD(&match, matchedRoute, "getmatch", NULL, 0);
+		zephir_check_call_status();
+		if (Z_TYPE_P(match) != IS_NULL) {
+			if (zephir_instance_of_ev(match, zend_ce_closure TSRMLS_CC)) {
+				_3 = zend_fetch_class(SL("Closure"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+				ZEPHIR_CALL_CE_STATIC(&_1, _3, "bind", NULL, 0, match, dependencyInjector);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(match, _1);
+			}
+			ZEPHIR_CALL_METHOD(&_1, router, "getparams", NULL, 0);
+			zephir_check_call_status();
+			ZEPHIR_INIT_VAR(possibleResponse);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(possibleResponse, match, _1);
+			zephir_check_call_status();
+			if (Z_TYPE_P(possibleResponse) == IS_STRING) {
+				ZEPHIR_INIT_NVAR(_2);
+				ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
+				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", NULL, 0, _2);
+				zephir_check_temp_parameter(_2);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(response, _4);
+				ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, 0, possibleResponse);
+				zephir_check_call_status();
+				RETURN_CCTOR(response);
+			}
+			if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
+				if (zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC)) {
+					ZEPHIR_CALL_METHOD(NULL, possibleResponse, "sendheaders", NULL, 0);
+					zephir_check_call_status();
+					ZEPHIR_CALL_METHOD(NULL, possibleResponse, "sendcookies", NULL, 0);
+					zephir_check_call_status();
+					RETURN_CCTOR(possibleResponse);
+				}
+			}
+		}
+	}
 	ZEPHIR_CALL_METHOD(&moduleName, router, "getmodulename", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(moduleName))) {
@@ -335,12 +375,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		}
 		ZEPHIR_CALL_METHOD(&module, this_ptr, "getmodule", NULL, 0, moduleName);
 		zephir_check_call_status();
-		_3 = Z_TYPE_P(module) != IS_ARRAY;
-		if (_3) {
-			_3 = Z_TYPE_P(module) != IS_OBJECT;
+		_5 = Z_TYPE_P(module) != IS_ARRAY;
+		if (_5) {
+			_5 = Z_TYPE_P(module) != IS_OBJECT;
 		}
-		if (_3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 247);
+		if (_5) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 289);
 			return;
 		}
 		if (Z_TYPE_P(module) == IS_ARRAY) {
@@ -359,33 +399,33 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					} else {
 						ZEPHIR_INIT_NVAR(_2);
 						object_init_ex(_2, phalcon_mvc_application_exception_ce);
-						ZEPHIR_INIT_VAR(_4);
-						ZEPHIR_CONCAT_SVS(_4, "Module definition path '", path, "' doesn't exist");
-						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _4);
+						ZEPHIR_INIT_VAR(_6);
+						ZEPHIR_CONCAT_SVS(_6, "Module definition path '", path, "' doesn't exist");
+						ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _6);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 270 TSRMLS_CC);
+						zephir_throw_exception_debug(_2, "phalcon/mvc/application.zep", 312 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
 				}
 			}
-			ZEPHIR_CALL_METHOD(&_5, dependencyInjector, "get", NULL, 0, className);
+			ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "get", NULL, 0, className);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(moduleObject, _5);
+			ZEPHIR_CPY_WRT(moduleObject, _4);
 			ZEPHIR_CALL_METHOD(NULL, moduleObject, "registerautoloaders", NULL, 0, dependencyInjector);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, moduleObject, "registerservices", NULL, 0, dependencyInjector);
 			zephir_check_call_status();
 		} else {
 			if (zephir_instance_of_ev(module, zend_ce_closure TSRMLS_CC)) {
-				ZEPHIR_INIT_VAR(_6);
-				zephir_create_array(_6, 1, 0 TSRMLS_CC);
-				zephir_array_fast_append(_6, dependencyInjector);
+				ZEPHIR_INIT_VAR(_7);
+				zephir_create_array(_7, 1, 0 TSRMLS_CC);
+				zephir_array_fast_append(_7, dependencyInjector);
 				ZEPHIR_INIT_NVAR(moduleObject);
-				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _6);
+				ZEPHIR_CALL_USER_FUNC_ARRAY(moduleObject, module, _7);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 291);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/mvc/application.zep", 333);
 				return;
 			}
 		}
@@ -417,21 +457,21 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setmodulename", NULL, 0, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, router, "getnamespacename", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_4, router, "getnamespacename", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setnamespacename", NULL, 0, _5);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setnamespacename", NULL, 0, _4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_7, router, "getcontrollername", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_8, router, "getcontrollername", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setcontrollername", NULL, 0, _7);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setcontrollername", NULL, 0, _8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, router, "getactionname", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_9, router, "getactionname", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, 0, _8);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setactionname", NULL, 0, _9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_9, router, "getparams", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_10, router, "getparams", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, 0, _9);
+	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setparams", NULL, 0, _10);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
 		ZEPHIR_CALL_METHOD(NULL, view, "start", NULL, 0);
@@ -451,11 +491,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&possibleResponse, dispatcher, "getreturnedvalue", NULL, 0);
 	zephir_check_call_status();
-	_3 = Z_TYPE_P(possibleResponse) == IS_BOOL;
-	if (_3) {
-		_3 = ZEPHIR_IS_FALSE(possibleResponse);
+	_5 = Z_TYPE_P(possibleResponse) == IS_BOOL;
+	if (_5) {
+		_5 = ZEPHIR_IS_FALSE(possibleResponse);
 	}
-	if (_3) {
+	if (_5) {
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, 0, _2);
@@ -463,62 +503,73 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(response, _1);
 	} else {
-		if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
-			returnedResponse = zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
-		} else {
-			returnedResponse = 0;
-		}
-		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+		if (Z_TYPE_P(possibleResponse) == IS_STRING) {
 			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "application:afterHandleRequest", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _2, this_ptr, controller);
+			ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, 0, _2);
 			zephir_check_temp_parameter(_2);
 			zephir_check_call_status();
-		}
-		if (returnedResponse == 0) {
-			if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-				if (Z_TYPE_P(controller) == IS_OBJECT) {
-					ZEPHIR_INIT_VAR(renderStatus);
-					ZVAL_BOOL(renderStatus, 1);
-					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-						ZEPHIR_INIT_NVAR(_2);
-						ZVAL_STRING(_2, "application:viewRender", ZEPHIR_TEMP_PARAM_COPY);
-						ZEPHIR_CALL_METHOD(&renderStatus, eventsManager, "fire", NULL, 0, _2, this_ptr, view);
-						zephir_check_temp_parameter(_2);
-						zephir_check_call_status();
-					}
-					if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
-						ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL, 0);
-						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_5, dispatcher, "getactionname", NULL, 0);
-						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_10, dispatcher, "getparams", NULL, 0);
-						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, 0, _1, _5, _10);
-						zephir_check_call_status();
+			ZEPHIR_CPY_WRT(response, _1);
+			ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, 0, possibleResponse);
+			zephir_check_call_status();
+		} else {
+			if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
+				returnedResponse = zephir_instance_of_ev(possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
+			} else {
+				returnedResponse = 0;
+			}
+			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+				ZEPHIR_INIT_NVAR(_2);
+				ZVAL_STRING(_2, "application:afterHandleRequest", ZEPHIR_TEMP_PARAM_COPY);
+				ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _2, this_ptr, controller);
+				zephir_check_temp_parameter(_2);
+				zephir_check_call_status();
+			}
+			if (returnedResponse == 0) {
+				if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
+					if (Z_TYPE_P(controller) == IS_OBJECT) {
+						ZEPHIR_INIT_VAR(renderStatus);
+						ZVAL_BOOL(renderStatus, 1);
+						if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+							ZEPHIR_INIT_NVAR(_2);
+							ZVAL_STRING(_2, "application:viewRender", ZEPHIR_TEMP_PARAM_COPY);
+							ZEPHIR_CALL_METHOD(&renderStatus, eventsManager, "fire", NULL, 0, _2, this_ptr, view);
+							zephir_check_temp_parameter(_2);
+							zephir_check_call_status();
+						}
+						if (!ZEPHIR_IS_FALSE_IDENTICAL(renderStatus)) {
+							ZEPHIR_CALL_METHOD(&_1, dispatcher, "getcontrollername", NULL, 0);
+							zephir_check_call_status();
+							ZEPHIR_CALL_METHOD(&_4, dispatcher, "getactionname", NULL, 0);
+							zephir_check_call_status();
+							ZEPHIR_CALL_METHOD(&_11, dispatcher, "getparams", NULL, 0);
+							zephir_check_call_status();
+							ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, 0, _1, _4, _11);
+							zephir_check_call_status();
+						}
 					}
 				}
 			}
-		}
-		if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-			ZEPHIR_CALL_METHOD(NULL, view, "finish", NULL, 0);
-			zephir_check_call_status();
-		}
-		if (returnedResponse == 0) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_5, dependencyInjector, "getshared", NULL, 0, _2);
-			zephir_check_temp_parameter(_2);
-			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(response, _5);
 			if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-				ZEPHIR_CALL_METHOD(&_5, view, "getcontent", NULL, 0);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, 0, _5);
+				ZEPHIR_CALL_METHOD(NULL, view, "finish", NULL, 0);
 				zephir_check_call_status();
 			}
-		} else {
-			ZEPHIR_CPY_WRT(response, possibleResponse);
+			if (returnedResponse == 0) {
+				ZEPHIR_INIT_NVAR(_2);
+				ZVAL_STRING(_2, "response", ZEPHIR_TEMP_PARAM_COPY);
+				ZEPHIR_CALL_METHOD(&_4, dependencyInjector, "getshared", NULL, 0, _2);
+				zephir_check_temp_parameter(_2);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(response, _4);
+				if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
+					ZEPHIR_CALL_METHOD(&_4, view, "getcontent", NULL, 0);
+					zephir_check_call_status();
+					ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, 0, _4);
+					zephir_check_call_status();
+				}
+			} else {
+				ZEPHIR_CPY_WRT(response, possibleResponse);
+			}
 		}
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

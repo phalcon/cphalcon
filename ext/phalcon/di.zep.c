@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Di, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_1 = NULL;
-	zval *name_param = NULL, *parameters = NULL, *service, *instance = NULL, *eventsManager = NULL, *_0, *_2 = NULL;
+	zval *name_param = NULL, *parameters = NULL, *service, *eventsManager = NULL, *instance = NULL, *_0, *_2 = NULL;
 	zval *name = NULL, *_3;
 
 	ZEPHIR_MM_GROW();

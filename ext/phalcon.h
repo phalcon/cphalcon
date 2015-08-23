@@ -298,7 +298,6 @@
 #include "phalcon/mvc/model/validator/url.zep.h"
 #include "phalcon/mvc/moduledefinitioninterface.zep.h"
 #include "phalcon/mvc/router/annotations.zep.h"
-#include "phalcon/mvc/router/defaultvalue.zep.h"
 #include "phalcon/mvc/router/exception.zep.h"
 #include "phalcon/mvc/router/group.zep.h"
 #include "phalcon/mvc/router/route.zep.h"

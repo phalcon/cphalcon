@@ -487,6 +487,14 @@ class Route implements RouteInterface
 	}
 
 	/**
+	 * Returns the 'match' callback if any
+	 */
+	public function getMatch() -> callable
+	{
+		return this->_match;
+	}
+
+	/**
 	 * Returns the route's id
 	 */
 	public function getRouteId() -> string
