@@ -20,16 +20,16 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\Injectable;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
-use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Di\ServiceInterface;
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Mvc\Micro\CollectionInterface;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
-use Phalcon\Di\ServiceInterface;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Di\Injectable;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Mvc\Micro\CollectionInterface;
 
 /**
  * Phalcon\Mvc\Micro

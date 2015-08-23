@@ -301,11 +301,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	public function getDefaults() -> array
 	{
 		return [
-			"namespace": this->_defaultNamespace,
-			"module": this->_defaultModule,
+			"namespace":  this->_defaultNamespace,
+			"module":     this->_defaultModule,
 			"controller": this->_defaultController,
-			"action": this->_defaultAction,
-			"params": this->_defaultParams
+			"action":     this->_defaultAction,
+			"params":     this->_defaultParams
 		];
 	}
 

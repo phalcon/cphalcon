@@ -58,8 +58,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Loader) {
 
 	zend_declare_property_null(phalcon_loader_ce, SL("_checkedPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_loader_ce, SL("_prefixes"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
 	zend_declare_property_null(phalcon_loader_ce, SL("_classes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_loader_ce, SL("_extensions"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -412,7 +410,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(namespaces);
 	zephir_read_property_this(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) {
-		zephir_is_iterable(namespaces, &_2, &_1, 0, 0, "phalcon/loader.zep", 318);
+		zephir_is_iterable(namespaces, &_2, &_1, 0, 0, "phalcon/loader.zep", 316);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -434,7 +432,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(fixedDirectory);
 					ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-					zephir_is_iterable(extensions, &_7, &_6, 0, 0, "phalcon/loader.zep", 315);
+					zephir_is_iterable(extensions, &_7, &_6, 0, 0, "phalcon/loader.zep", 313);
 					for (
 					  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_7, &_6)
@@ -478,7 +476,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(directories);
 	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {
-		zephir_is_iterable(directories, &_15, &_14, 0, 0, "phalcon/loader.zep", 375);
+		zephir_is_iterable(directories, &_15, &_14, 0, 0, "phalcon/loader.zep", 373);
 		for (
 		  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_15, &_14)
@@ -488,7 +486,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(fixedDirectory);
 			ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-			zephir_is_iterable(extensions, &_18, &_17, 0, 0, "phalcon/loader.zep", 374);
+			zephir_is_iterable(extensions, &_18, &_17, 0, 0, "phalcon/loader.zep", 372);
 			for (
 			  ; zephir_hash_get_current_data_ex(_18, (void**) &_19, &_17) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_18, &_17)
