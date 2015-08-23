@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter, begin);
 PHP_METHOD(Phalcon_Logger_Adapter, commit);
 PHP_METHOD(Phalcon_Logger_Adapter, rollback);
+PHP_METHOD(Phalcon_Logger_Adapter, isTransaction);
 PHP_METHOD(Phalcon_Logger_Adapter, critical);
 PHP_METHOD(Phalcon_Logger_Adapter, emergency);
 PHP_METHOD(Phalcon_Logger_Adapter, debug);
@@ -80,6 +81,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter, begin, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, commit, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, rollback, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, isTransaction, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, critical, arginfo_phalcon_logger_adapter_critical, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, emergency, arginfo_phalcon_logger_adapter_emergency, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, debug, arginfo_phalcon_logger_adapter_debug, ZEND_ACC_PUBLIC)
