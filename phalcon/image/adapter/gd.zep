@@ -593,5 +593,4 @@ class Gd extends Adapter implements AdapterInterface
 			imagedestroy(image);
 		}
 	}
-
 }

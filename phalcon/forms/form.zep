@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Validation;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Di\Injectable;
@@ -325,7 +326,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 					let validation = this->getValidation();
 					if typeof validation == "object" {
-						if validation instanceof \Phalcon\Validation {
+						if validation instanceof Validation {
 							/**
 							 * Set the validators to the validation
 							 */
@@ -335,7 +336,7 @@ class Form extends Injectable implements \Countable, \Iterator
 						/**
 						 * Create an implicit validation
 						 */
-						let validation = new \Phalcon\Validation(preparedValidators);
+						let validation = new Validation(preparedValidators);
 					}
 
 					/**
