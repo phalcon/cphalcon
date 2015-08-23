@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value, _7);
 					ZEPHIR_SINIT_NVAR(_8);
 					ZVAL_STRING(&_8, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_0, "addcslashes", &_9, 142, value, &_8);
+					ZEPHIR_CALL_FUNCTION(&_0, "addcslashes", &_9, 143, value, &_8);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_1);
 					ZEPHIR_CONCAT_SVS(_1, "\"", _0, "\", ");
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_10);
 				ZVAL_STRING(&_10, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_9, 142, typeValues, &_10);
+				ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_9, 143, typeValues, &_10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_SVS(_4, "(\"", _2, "\")");
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 	if (!(ZEPHIR_IS_EMPTY(defaultValue))) {
 		ZEPHIR_SINIT_VAR(_3);
 		ZVAL_STRING(&_3, "\"", 0);
-		ZEPHIR_CALL_FUNCTION(&_4, "addcslashes", NULL, 142, defaultValue, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "addcslashes", NULL, 143, defaultValue, &_3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5);
 		ZEPHIR_CONCAT_SVS(_5, " DEFAULT \"", _4, "\"");
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 	if (!(ZEPHIR_IS_EMPTY(defaultValue))) {
 		ZEPHIR_SINIT_VAR(_3);
 		ZVAL_STRING(&_3, "\"", 0);
-		ZEPHIR_CALL_FUNCTION(&_4, "addcslashes", NULL, 142, defaultValue, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "addcslashes", NULL, 143, defaultValue, &_3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5);
 		ZEPHIR_CONCAT_SVS(_5, " DEFAULT \"", _4, "\"");
@@ -903,7 +903,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		if (!(ZEPHIR_IS_EMPTY(defaultValue))) {
 			ZEPHIR_SINIT_NVAR(_6);
 			ZVAL_STRING(&_6, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_7, "addcslashes", &_8, 142, defaultValue, &_6);
+			ZEPHIR_CALL_FUNCTION(&_7, "addcslashes", &_8, 143, defaultValue, &_6);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_9);
 			ZEPHIR_CONCAT_SVS(_9, " DEFAULT \"", _7, "\"");
