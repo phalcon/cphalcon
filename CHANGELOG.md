@@ -4,6 +4,7 @@
 - Default encrypt mode in Phalcon\Crypt is now changed to MCRYPT_MODE_CFB
 - Changed default hash algorithm in Phalcon\Security to CRYPT_BLOWFISH_Y
 - Changed constructor of Phalcon\Mvc\Model to allow pass an array of initialization data
+- Removed support for prefixes strategy in Phalcon\Loader
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string

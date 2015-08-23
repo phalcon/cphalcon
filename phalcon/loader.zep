@@ -54,8 +54,6 @@ class Loader implements EventsAwareInterface
 
 	protected _checkedPath = null;
 
-	protected _prefixes = null;
-
 	protected _classes = null;
 
 	protected _extensions;
@@ -135,35 +133,6 @@ class Loader implements EventsAwareInterface
 	public function getNamespaces() -> array
 	{
 		return this->_namespaces;
-	}
-
-	/**
-	 * Register directories in which "not found" classes could be found
-	 */
-	public function registerPrefixes(array! prefixes, boolean merge = false) -> <Loader>
-	{
-		var currentPrefixes, mergedPrefixes;
-
-		if merge {
-			let currentPrefixes = this->_prefixes;
-			if typeof currentPrefixes == "array" {
-				let mergedPrefixes = array_merge(currentPrefixes, prefixes);
-			} else {
-				let mergedPrefixes = prefixes;
-			}
-			let this->_prefixes = mergedPrefixes;
-		} else {
-			let this->_prefixes = prefixes;
-		}
-		return this;
-	}
-
-	/**
-	 * Returns the prefixes currently registered in the autoloader
-	 */
-	public function getPrefixes() -> array
-	{
-		return this->_prefixes;
 	}
 
 	/**
@@ -254,8 +223,8 @@ class Loader implements EventsAwareInterface
 	public function autoLoad(string! className) -> boolean
 	{
 		var eventsManager, classes, extensions, filePath, ds, fixedDirectory,
-			prefixes, directories, namespaceSeparator, namespaces, nsPrefix,
-			directory, fileName, extension, prefix, dsClassName, nsClassName;
+			directories, namespaceSeparator, namespaces, nsPrefix,
+			directory, fileName, extension, nsClassName;
 
 		let eventsManager = this->_eventsManager;
 		if typeof eventsManager == "object" {
@@ -347,69 +316,9 @@ class Loader implements EventsAwareInterface
 		}
 
 		/**
-		 * Checking in prefixes
+		 * Change the namespace separator by directory separator too
 		 */
-		let prefixes = this->_prefixes;
-		if typeof prefixes == "array" {
-
-			for prefix, directory in prefixes {
-
-				/**
-				 * The class name starts with the prefix?
-				 */
-				if starts_with(className, prefix) {
-
-					/**
-					 * Get the possible file path
-					 */
-					let fileName = str_replace(prefix . namespaceSeparator, "", className);
-					let fileName = str_replace(prefix . "_", "", fileName);
-					let fileName = str_replace("_", ds, fileName);
-
-					if fileName {
-
-						/**
-						 * Add a trailing directory separator if the user forgot to do that
-						 */
-						let fixedDirectory = rtrim(directory, ds) . ds;
-
-						for extension in extensions {
-
-							let filePath = fixedDirectory . fileName . "." . extension;
-
-							if typeof eventsManager == "object" {
-								let this->_checkedPath = filePath;
-								eventsManager->fire("loader:beforeCheckPath", this, filePath);
-							}
-
-							if is_file(filePath) {
-
-								/**
-								 * Call 'pathFound' event
-								 */
-								if typeof eventsManager == "object" {
-									let this->_foundPath = filePath;
-									eventsManager->fire("loader:pathFound", this, filePath);
-								}
-
-								require filePath;
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		/**
-		 * Change the pseudo-separator by the directory separator in the class name
-		 */
-		let dsClassName = str_replace("_", ds, className);
-
-		/**
-		 * And change the namespace separator by directory separator too
-		 */
-		let nsClassName = str_replace("\\", ds, dsClassName);
+		let nsClassName = str_replace("\\", ds, className);
 
 		/**
 		 * Checking in directories
