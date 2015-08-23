@@ -873,6 +873,9 @@ class Micro extends Injectable implements \ArrayAccess
 			}
 		}
 
+		/**
+		 * Check if the returned value is a string and take it as response body
+		 */
 		if typeof returnedValue == "string" {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 			response->setContent(returnedValue);
