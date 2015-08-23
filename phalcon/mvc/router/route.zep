@@ -47,6 +47,8 @@ class Route implements RouteInterface
 
 	protected _beforeMatch;
 
+	protected _match;
+
 	protected _group;
 
 	protected static _uniqueId;
@@ -87,7 +89,7 @@ class Route implements RouteInterface
 		if memstr(pattern, ":") {
 
 			// This is a pattern for valid identifiers
-			let idPattern = "/([a-zA-Z0-9\\_\\-]+)";
+			let idPattern = "/([\\w0-9\\_\\-]+)";
 
 			// Replace the module part
 			if memstr(pattern, "/:module") {
@@ -122,12 +124,12 @@ class Route implements RouteInterface
 
 		// Check if the pattern has parentheses in order to add the regex delimiters
 		if memstr(pattern, "(") {
-			return "#^" . pattern . "$#";
+			return "#^" . pattern . "$#u";
 		}
 
 		// Square brackets are also checked
 		if memstr(pattern, "[") {
-			return "#^" . pattern . "$#";
+			return "#^" . pattern . "$#u";
 		}
 
 		return pattern;
