@@ -1,22 +1,22 @@
 # [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2015-XX-XX)
 - PHP 5.3 is now fully deprecated
-- Phalcon\Mvc\Model\Validation is now deprecated in favor of Phalcon\Validation
-- Default encrypt mode in Phalcon\Crypt is now changed to MCRYPT_MODE_CFB
-- Changed default hash algorithm in Phalcon\Security to CRYPT_BLOWFISH_Y
-- Changed constructor of Phalcon\Mvc\Model to allow pass an array of initialization data
-- Removed support for prefixes strategy in Phalcon\Loader
-- Now Phalcon\Mvc\View supports many views directories at the same time
+- `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
+- Default encrypt mode in `Phalcon\Crypt` is now changed to `MCRYPT_MODE_CFB`
+- Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`
+- Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
+- Removed support for prefixes strategy in `Phalcon\Loader`
+- Now `Phalcon\Mvc\View` supports many views directories at the same time
 - An absolute path can now be used to Mvc\View::setLayoutsDir
-- Phalcon\Di is now bound to services closures allowing use Phalcon\Di as $this to access services within them
-- If an object is returned after firing the event "beforeServiceResolve" in Phalcon\Di this overrides the
+- `Phalcon\Di` is now bound to services closures allowing use `Phalcon\Di` as $this to access services within them
+- If an object is returned after firing the event `beforeServiceResolve` in `Phalcon\Di` this overrides the
   default service localization process
-- Placeholders :controller and :action in Mvc\Router now defaults to /([\\w0-9\\_\\-]+) instead of /([\\a-zA-Z0-9\\_\\-]+)
-- Modifier #u (PCRE_UTF8) is now default in regex based routes in Mvc\Router
+- Placeholders :controller and :action in `Mvc\Router` now defaults to `/([\\w0-9\\_\\-]+)` instead of `/([\\a-zA-Z0-9\\_\\-]+)`
+- Modifier `#u` (PCRE_UTF8) is now default in regex based routes in `Mvc\Router`
 - Return 'false' from an action disables the view component (same as $this->view->disable())
 - Return a string from an action takes it as the body of the response (same as return $this->response->setContent('Hello world'))
-- Return a string from an Mvc\Micro handler takes it as the body of the response
-- Mvc\Router\Route now escapes characters such as . or + to avoid unexpected behaviors
-- Closures used as handlers in Mvc\Micro are now bound to the $app instance
+- Return a string from an `Mvc\Micro` handler takes it as the body of the response
+- `Mvc\Router\Route` now escapes characters such as . or + to avoid unexpected behaviors
+- Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
 - Routes now can have an associated callback that can override the default dispatcher + view behavior
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)

@@ -479,6 +479,12 @@ class Route implements RouteInterface
 
 	/**
 	 * Allows to set a callback to handle the request directly in the route
+	 *
+	 *<code>
+	 *$router->add("/help", array())->match(function () {
+	 *	  return $this->getResponse()->redirect('https://support.google.com/', true);
+	 *});
+	 *</code>
 	 */
 	public function match(var callback) -> <Route>
 	{
