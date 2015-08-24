@@ -145,6 +145,11 @@ interface ColumnInterface
 	public function getDefault();
 
 	/**
+	 * Check whether column has default value
+	 */
+	public function hasDefault() -> boolean;
+
+	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
 	 */
 	public static function __set_state(array! data) -> <ColumnInterface>;
