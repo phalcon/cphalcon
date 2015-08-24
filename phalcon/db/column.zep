@@ -557,4 +557,12 @@ class Column implements ColumnInterface
 
 		return new self(columnName, definition);
 	}
+
+	/**
+	 * Check whether column has default value
+	 */
+	public function hasDefault() -> boolean
+	{
+		return this->_default !== null;
+	}
 }
