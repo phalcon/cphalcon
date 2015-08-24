@@ -169,6 +169,14 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Timestamp
+				 */
+				if memstr(columnType, "timestamp") {
+					let definition["type"] = Column::TYPE_TIMESTAMP;
+					break;
+				}
+
+				/**
 				 * Numeric
 				 */
 				if memstr(columnType, "numeric") {

@@ -142,7 +142,7 @@ class Oracle extends PdoAdapter implements AdapterInterface
 				}
 
 				if memstr(columnType, "TIMESTAMP") {
-					let definition["type"] = Column::TYPE_INTEGER;
+					let definition["type"] = Column::TYPE_TIMESTAMP;
 					break;
 				}
 

@@ -173,6 +173,14 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Timestamp are dates
+				 */
+				if memstr(columnType, "timestamp") {
+					let definition["type"] = Column::TYPE_TIMESTAMP;
+					break;
+				}
+
+				/**
 				 * Text are varchars
 				 */
 				if memstr(columnType, "text") {
