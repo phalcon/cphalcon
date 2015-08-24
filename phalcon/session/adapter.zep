@@ -333,4 +333,12 @@ abstract class Adapter
 	{
 		return this->remove(index);
 	}
+
+	public function __destruct()
+	{
+		if this->_started {
+			session_write_close();
+			let this->_started = false;
+		}
+	}
 }

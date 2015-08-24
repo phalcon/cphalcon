@@ -680,6 +680,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getBeforeMatch) {
 
 /**
  * Allows to set a callback to handle the request directly in the route
+ *
+ *<code>
+ *$router->add("/help", array())->match(function () {
+ *	  return $this->getResponse()->redirect('https://support.google.com/', true);
+ *});
+ *</code>
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, match) {
 
@@ -758,7 +764,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths) {
 	ZEPHIR_INIT_VAR(reversed);
 	array_init(reversed);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/router/route.zep", 540);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/router/route.zep", 546);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

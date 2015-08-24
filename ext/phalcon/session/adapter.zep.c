@@ -587,3 +587,20 @@ PHP_METHOD(Phalcon_Session_Adapter, __unset) {
 
 }
 
+PHP_METHOD(Phalcon_Session_Adapter, __destruct) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_started"), PH_NOISY_CC);
+	if (zephir_is_true(_0)) {
+		ZEPHIR_CALL_FUNCTION(NULL, "session_write_close", NULL, 62);
+		zephir_check_call_status();
+		zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
+	ZEPHIR_MM_RESTORE();
+
+}
+

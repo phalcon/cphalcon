@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
 		zephir_array_fast_append(_1, _2);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 284, _1);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 285, _1);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_registered"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
 		zephir_array_fast_append(_1, _2);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 285, _1);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 286, _1);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_registered"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							zephir_check_temp_parameter(_9);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 286, filePath);
+						ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 287, filePath);
 						zephir_check_call_status();
 						if (zephir_is_true(_11)) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -502,7 +502,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_check_temp_parameter(_9);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 286, filePath);
+				ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 287, filePath);
 				zephir_check_call_status();
 				if (zephir_is_true(_11)) {
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

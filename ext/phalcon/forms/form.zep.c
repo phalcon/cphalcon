@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				} else {
 					ZEPHIR_INIT_NVAR(validation);
 					object_init_ex(validation, phalcon_validation_ce);
-					ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_11, 209, preparedValidators);
+					ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_11, 210, preparedValidators);
 					zephir_check_call_status();
 				}
 				ZEPHIR_CALL_METHOD(&filters, element, "getfilters", NULL, 0);
@@ -454,10 +454,10 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				if (Z_TYPE_P(filters) == IS_ARRAY) {
 					ZEPHIR_CALL_METHOD(&_2, element, "getname", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_12, 210, _2, filters);
+					ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_12, 211, _2, filters);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_13, 211, data, entity);
+				ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_13, 212, data, entity);
 				zephir_check_call_status();
 				if (zephir_fast_count_int(elementMessages TSRMLS_CC)) {
 					ZEPHIR_CALL_METHOD(&_14, element, "getname", NULL, 0);
@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 		  ; zephir_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(elementMessages, _3);
-			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 212, elementMessages);
+			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 213, elementMessages);
 			zephir_check_call_status();
 		}
 	}
@@ -1053,7 +1053,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 213, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 214, _0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
