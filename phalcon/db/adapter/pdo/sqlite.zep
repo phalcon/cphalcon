@@ -164,7 +164,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 				 * Timestamp as date
 				 */
 				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_DATE;
+					let definition["type"] = Column::TYPE_TIMESTAMP;
 					break;
 				}
 
