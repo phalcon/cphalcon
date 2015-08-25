@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParam);
 PHP_METHOD(Phalcon_Dispatcher, getParam);
 PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
 PHP_METHOD(Phalcon_Dispatcher, isFinished);
+PHP_METHOD(Phalcon_Dispatcher, setFinished);
 PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
 PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
 PHP_METHOD(Phalcon_Dispatcher, dispatch);
@@ -87,6 +88,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setreturnedvalue, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setfinished, 0, 0, 1)
+	ZEND_ARG_INFO(0, finished)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_dispatcher_method_entry[] = {
 	PHP_ME(Phalcon_Dispatcher, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcherinterface_setactionsuffix, ZEND_ACC_PUBLIC)
@@ -105,6 +110,7 @@ static const zend_function_entry phalcon_dispatcher_method_entry[] = {
 	PHP_ME(Phalcon_Dispatcher, getParam, arginfo_phalcon_dispatcherinterface_getparam, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getActiveMethod, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setFinished, arginfo_phalcon_dispatcher_setfinished, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setReturnedValue, arginfo_phalcon_dispatcher_setreturnedvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
@@ -484,6 +490,24 @@ PHP_METHOD(Phalcon_Dispatcher, isFinished){
 
 
 	RETURN_MEMBER(this_ptr, "_finished");
+}
+
+/**
+ * Sets the finished
+ *
+ * @param boolean $finished
+ */
+PHP_METHOD(Phalcon_Dispatcher, setFinished){
+
+	zval *finished;
+
+	phalcon_fetch_params(0, 1, 0, &finished);
+
+	if (PHALCON_IS_TRUE(finished)) {
+		phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
+	} else {
+		phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	}
 }
 
 /**
