@@ -76,7 +76,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
 	protected _dependencyInjector;
@@ -4337,6 +4337,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return data;
+	}
+
+    /**
+    * Serializes the object for json_encode
+    *
+	*<code>
+	* echo json_encode($robot);
+	*</code>
+    *
+    * @return array
+    */
+	public function jsonSerialize() -> array
+	{
+	    return this->toArray();
 	}
 
 	/**
