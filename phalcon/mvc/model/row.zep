@@ -30,7 +30,7 @@ use Phalcon\Mvc\Model\ResultInterface;
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-class Row implements EntityInterface, ResultInterface, \ArrayAccess
+class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerializable
 {
 
 	/**

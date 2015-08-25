@@ -93,7 +93,7 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 
         // Single model object json serialization
         $robot = Robots::findFirst();
-        $json = json_encode($robot->jsonSerialize());
+        $json = json_encode($robot);
         $this->assertTrue(is_string($json));
         $this->assertTrue(strlen($json) > 10); // make sure result is not "{ }"
         $array = json_decode($json, true);
@@ -101,7 +101,7 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 
         // Result-set serialization
         $robots = Robots::find();
-        $json = json_encode($robots->jsonSerialize());
+        $json = json_encode($robots);
         $this->assertTrue(is_string($json));
         $this->assertTrue(strlen($json) > 50); // make sure result is not "{ }"
         $array = json_decode($json, true);
@@ -113,7 +113,7 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
         foreach ($result as $row) {
             $this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
             $this->assertEquals($row->id, $robot->id);
-            $json = json_encode($row->jsonSerialize());
+            $json = json_encode($row);
             $this->assertTrue(is_string($json));
             $this->assertTrue(strlen($json) > 5); // make sure result is not "{ }"
             $array = json_decode($json, true);
