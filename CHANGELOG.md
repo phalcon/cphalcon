@@ -18,6 +18,7 @@
 - `Mvc\Router\Route` now escapes characters such as . or + to avoid unexpected behaviors
 - Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
 - Routes now can have an associated callback that can override the default dispatcher + view behavior
+- Phalcon\Mvc\Model now implements JsonSerializable making easy serialize model instances
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
