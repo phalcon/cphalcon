@@ -564,7 +564,7 @@ abstract class Resultset
      *
      *<code>
      * $robots = Robots::find();
-     * echo json_encode($robots->jsonSerialize());
+     * echo json_encode($robots);
      *</code>
      *
      * @return array

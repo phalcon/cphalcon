@@ -4343,7 +4343,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     * Serializes the object for json_encode
     *
 	*<code>
-	* echo json_encode($robot->jsonSerialize());
+	* echo json_encode($robot);
 	*</code>
     *
     * @return array
