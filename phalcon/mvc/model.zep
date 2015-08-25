@@ -1056,11 +1056,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let num = connection->fetchOne(
 			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
-			null,
+			\Phalcon\Db::FETCH_ASSOC,
 			uniqueParams,
 			uniqueTypes
 		);
-		if num["rowcount"] {
+		if num && num["rowcount"] {
 			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
 			return true;
 		} else {
