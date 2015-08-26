@@ -98,6 +98,12 @@ class Oracle extends Dialect
 				let columnSql = "TIMESTAMP";
 				break;
 
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
 			case Column::TYPE_CHAR:
 				let columnSql = "CHAR(" . size . ")";
 				break;
@@ -116,7 +122,7 @@ class Oracle extends Dialect
 				break;
 
 			default:
-				throw new Exception("Unrecognized Oracle data type");
+				throw new Exception("Unrecognized Oracle data type at column " . column->getName());
 		}
 
 		return columnSql;

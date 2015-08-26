@@ -93,6 +93,12 @@ class MySQL extends Dialect
 				}
 				break;
 
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
 			case Column::TYPE_CHAR:
 				if empty columnSql {
 					let columnSql .= "CHAR";
@@ -188,7 +194,7 @@ class MySQL extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized MySQL data type");
+					throw new Exception("Unrecognized MySQL data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
@@ -220,7 +226,11 @@ class MySQL extends Dialect
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
@@ -249,7 +259,11 @@ class MySQL extends Dialect
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
