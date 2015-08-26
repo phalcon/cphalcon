@@ -482,6 +482,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
 			'host' => '127.0.0.1',
+			'statsKey' => '_PHCM',
 			'port' => '11211'
 		));
 
@@ -862,7 +863,9 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			'lifetime' => 2
 		));
 
-		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache, array(
+			'statsKey' => '_PHCM'
+		));
 
 		ob_start();
 
@@ -1143,7 +1146,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 					'host' => '127.0.0.1',
 					'port' => '11211',
 					'weight' => '1'),
-			)
+			),
+			'statsKey' => '_PHCM'
 		));
 
 		$keys = $cache->queryKeys();
@@ -1299,7 +1303,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
 			'host' => '127.0.0.1',
 			'port' => '11211',
-            'statsKey' => '_PHCM'
+			'statsKey' => '_PHCM'
 		));
 
 		$cache->save('data', "1");
@@ -1372,8 +1376,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 
 		$cache = new Phalcon\Cache\Backend\Xcache($frontCache, array(
-            'statsKey' => '_PHCM'
-        ));
+			'statsKey' => '_PHCM'
+		));
 
 		$cache->save('data', "1");
 		$cache->save('data2', "2");
@@ -1401,7 +1405,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 					'port' => '11211',
 					'weight' => '1'),
 			),
-            'statsKey' => '_PHCM',
+			'statsKey' => '_PHCM',
 			'client' => array(
 				Memcached::OPT_PREFIX_KEY => 'prefix.',
 			)
@@ -1487,6 +1491,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Output(array('lifetime' => 2));
 		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
 			'host' => 'localhost',
+			'statsKey' => '_PHCM',
 			'port' => 6379
 		));
 
@@ -1542,6 +1547,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
 			'host' => 'localhost',
+			'statsKey' => '_PHCM',
 			'port' => 6379
 		));
 
@@ -1583,7 +1589,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 		$cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
 			'host' => 'localhost',
-            'statsKey' => '_PHCM',
+			'statsKey' => '_PHCM',
 			'port' => 6379
 		));
 
