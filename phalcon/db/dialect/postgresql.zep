@@ -92,6 +92,12 @@ class Postgresql extends Dialect
 				}
 				break;
 
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
 			case Column::TYPE_CHAR:
 				if empty columnSql {
 					let columnSql .= "CHARACTER";
@@ -140,7 +146,7 @@ class Postgresql extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized PostgreSQL data type");
+					throw new Exception("Unrecognized PostgreSQL data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
@@ -174,7 +180,11 @@ class Postgresql extends Dialect
 
 		let defaultValue = column->getDefault();
 		if !empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
@@ -219,7 +229,12 @@ class Postgresql extends Dialect
 			}
 			let defaultValue = column->getDefault();
 			if !empty defaultValue {
-				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+
+				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT CURRENT_TIMESTAMP";
+				} else {
+					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+				}
 			}
 		}
 
