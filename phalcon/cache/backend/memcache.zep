@@ -226,7 +226,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Update the stats key
 			 */
