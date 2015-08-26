@@ -4,9 +4,9 @@
   mode or not (Phalcon 1.3 behavior)
 - `Phalcon\Session\Adapter` now closes the session when the adapter is destroyed (Phalcon 1.3 behavior)
 - Fixed fetching of data in modes FETCH_CLASS, FETCH_INTO and FETCH_FUNC in `Phalcon\Db`
-- Added missing code property in Phalcon\Validation\Message available in Phalcon 1.3.x
-- Added Phalcon\Db\Column::TYPE_DATETIME to allow migrations on these kind of columns
-- Added Phalcon\Db\ColumnInterface::hasDefault to check if a column has a default value declared in its database
+- Added missing code property in `Phalcon\Validation\Message` available in Phalcon 1.3.x
+- Added `Phalcon\Db\Column::TYPE_TIMESTAMP` to allow migrations on these kind of columns
+- Added `Phalcon\Db\ColumnInterface::hasDefault` to check if a column has a default value declared in its database
   column definition
 
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
