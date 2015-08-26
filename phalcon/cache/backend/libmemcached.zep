@@ -84,7 +84,8 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM";
+			// Disable tracking of cached keys per default
+			let options["statsKey"] = "";
 		}
 
 		parent::__construct(frontend, options);
@@ -319,7 +320,7 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), you shouldn't use this function");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		/**
@@ -458,7 +459,7 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), flush of memcached phalcon-related keys isn't implemented for now");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		/**
