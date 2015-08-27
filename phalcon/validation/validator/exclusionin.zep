@@ -78,7 +78,7 @@ class ExclusionIn extends Validator
 				let message = validation->getDefaultMessage("ExclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(message, replacePairs, field, "ExclusionIn");
 			return false;
 		}
 
