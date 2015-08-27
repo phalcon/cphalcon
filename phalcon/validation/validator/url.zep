@@ -65,7 +65,8 @@ class Url extends Validator
 				let message = validation->getDefaultMessage("Url");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Url"));
+			validation->appendMessage(message, replacePairs, field, "Url");
+
 			return false;
 		}
 
