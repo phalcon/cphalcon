@@ -88,7 +88,8 @@ class Uniqueness extends Validator
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Uniqueness"));
+			validation->appendMessage(message, replacePairs, field, "Uniqueness");
+
 			return false;
 		}
 
