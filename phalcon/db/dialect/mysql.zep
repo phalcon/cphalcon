@@ -224,8 +224,8 @@ class MySQL extends Dialect
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
 			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
 				let sql .= " DEFAULT CURRENT_TIMESTAMP";
 			} else {
@@ -257,8 +257,8 @@ class MySQL extends Dialect
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " MODIFY `" . column->getName() . "` " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
 			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
 				let sql .= " DEFAULT CURRENT_TIMESTAMP";
 			} else {
@@ -392,9 +392,13 @@ class MySQL extends Dialect
 			/**
 			 * Add a Default clause
 			 */
-			let defaultValue = column->getDefault();
-			if ! empty defaultValue {
-				let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if column->hasDefault() {
+				let defaultValue = column->getDefault();
+				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+				} else {
+					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+				}
 			}
 
 			/**

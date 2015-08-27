@@ -147,8 +147,8 @@ class Sqlite extends Dialect
 
 		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
 			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
 				let sql .= " DEFAULT CURRENT_TIMESTAMP";
 			} else {
