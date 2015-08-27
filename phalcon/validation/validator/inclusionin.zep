@@ -87,7 +87,8 @@ class InclusionIn extends Validator
 				let message = validation->getDefaultMessage("InclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "InclusionIn"));
+			validation->appendMessage(message, replacePairs, field, "InclusionIn");
+
 			return false;
 		}
 
