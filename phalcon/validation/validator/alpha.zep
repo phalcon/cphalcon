@@ -65,7 +65,7 @@ class Alpha extends Validator
 				let message = validation->getDefaultMessage("Alpha");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alpha"));
+			validation->appendMessage(message, replacePairs, field, "Alpha");
 			return false;
 		}
 
