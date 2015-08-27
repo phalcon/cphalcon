@@ -77,7 +77,8 @@ class Regex extends Validator
 				let message = validation->getDefaultMessage("Regex");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Regex"));
+			validation->appendMessage(message, replacePairs, field, "Regex");
+
 			return false;
 		}
 
