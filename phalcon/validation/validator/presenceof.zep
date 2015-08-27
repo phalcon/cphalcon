@@ -60,7 +60,7 @@ class PresenceOf extends Validator
 				let message = validation->getDefaultMessage("PresenceOf");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "PresenceOf"));
+			validation->appendMessage(message, replacePairs, field, "PresenceOf");
 			return false;
 		}
 
