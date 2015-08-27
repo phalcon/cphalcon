@@ -88,6 +88,12 @@ class Sqlite extends Dialect
 				}
 				break;
 
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
 			case Column::TYPE_CHAR:
 				if empty columnSql {
 					let columnSql .= "CHARACTER";
@@ -109,7 +115,7 @@ class Sqlite extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized SQLite data type");
+					throw new Exception("Unrecognized SQLite data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
@@ -143,7 +149,11 @@ class Sqlite extends Dialect
 
 		let defaultValue = column->getDefault();
 		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
