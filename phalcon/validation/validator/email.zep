@@ -65,7 +65,9 @@ class Email extends Validator
 				let message = validation->getDefaultMessage("Email");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Email"));
+			let message = validation->formatMessage(message, replacePairs);
+
+			validation->appendMessage(new Message(message, field, "Email"));
 			return false;
 		}
 
