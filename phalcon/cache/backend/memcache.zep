@@ -473,9 +473,11 @@ class Memcache extends Backend implements BackendInterface
 	 * Stores special memcached key use internally to store all memcache keys
 	 * @param string|null key
 	 */
-	public function setTrackingKey(var key) -> void
+	public function setTrackingKey(var key) -> <Memcache>
 	{
 		let this->_options["statsKey"] = key;
+
+		return this;
 	}
 
 	/**
