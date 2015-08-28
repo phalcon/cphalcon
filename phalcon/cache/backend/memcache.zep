@@ -276,11 +276,13 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let keys = memcache->get(specialKey);
+		if typeof specialKey != "null" {
+			let keys = memcache->get(specialKey);
 
-		if typeof keys == "array" {
-			unset keys[prefixedKey];
-			memcache->set(specialKey, keys);
+			if typeof keys == "array" {
+				unset keys[prefixedKey];
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		/**
@@ -294,23 +296,27 @@ class Memcache extends Backend implements BackendInterface
 	 * Query the existing cached keys
 	 *
 	 * @param string prefix
-	 * @return array
+	 * @return array|void
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(prefix = null)
 	{
 		var memcache, options, keys, specialKey, key, realKey;
+
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if typeof specialKey == "null" {
+			return;
+		}
 
 		let memcache = this->_memcache;
 
 		if typeof memcache != "object" {
 			this->_connect();
 			let memcache = this->_memcache;
-		}
-
-		let options = this->_options;
-
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		/**
@@ -463,4 +469,29 @@ class Memcache extends Backend implements BackendInterface
 		return true;
 	}
 
+	/**
+	 * Stores special memcached key use internally to store all memcache keys
+	 * @param string|null key
+	 */
+	public function setTrackingKey(var key) -> void
+	{
+		let this->_options["statsKey"] = key;
+	}
+
+	/**
+	 * Returns special memcached key.
+	 * @return string|null
+	 */
+	public function getTrackingKey()
+	{
+		var options, specialKey;
+
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			return null;
+		}
+
+		return specialKey;
+	}
 }

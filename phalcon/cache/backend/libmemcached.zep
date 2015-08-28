@@ -229,7 +229,7 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if specialKey != "" {
+		if typeof specialKey != "null" {
 			/**
 			 * Update the stats key
 			 */
@@ -280,7 +280,7 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if specialKey != "" {
+		if typeof specialKey != "null" {
 			let keys = memcache->get(specialKey);
 			if typeof keys == "array" {
 				unset keys[prefixedKey];
@@ -299,18 +299,11 @@ class Libmemcached extends Backend implements BackendInterface
 	 * Query the existing cached keys
 	 *
 	 * @param string prefix
-	 * @return array
+	 * @return array|void
 	 */
 	public function queryKeys(prefix = null)
 	{
 		var memcache, options, keys, specialKey, key;
-
-		let memcache = this->_memcache;
-
-		if typeof memcache != "object" {
-			this->_connect();
-			let memcache = this->_memcache;
-		}
 
 		let options = this->_options;
 
@@ -318,8 +311,15 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if specialKey == "" {
-			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), you shouldn't use this function");
+		if typeof specialKey == "null" {
+			return;
+		}
+
+		let memcache = this->_memcache;
+
+		if typeof memcache != "object" {
+			this->_connect();
+			let memcache = this->_memcache;
 		}
 
 		/**
@@ -457,21 +457,47 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if specialKey == "" {
-			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), flush of memcached phalcon-related keys isn't implemented for now");
+		if typeof specialKey != "null" {
+			/**
+			 * Get the key from memcached
+			 */
+			let keys = memcache->get(specialKey);
+			if typeof keys == "array" {
+				for key in array_keys(keys) {
+					memcache->delete(key);
+				}
+				memcache->set(specialKey, keys);
+			}
 		}
 
-		/**
-		 * Get the key from memcached
-		 */
-		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key in array_keys(keys) {
-				memcache->delete(key);
-			}
-			memcache->set(specialKey, keys);
-		}
+		
 
 		return true;
+	}
+
+	/**
+	 * Stores special memcached key use internally to store all memcache keys
+	 * @param string|null key
+	 */
+	public function setTrackingKey(var key) -> void
+	{
+		let this->_options["statsKey"] = key;
+	}
+
+	/**
+	 * Returns special memcached key.
+	 * @return string|null
+	 */
+	public function getTrackingKey()
+	{
+		var options, specialKey;
+
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			return null;
+		}
+
+		return specialKey;
 	}
 }
