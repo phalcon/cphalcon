@@ -334,7 +334,7 @@ class Validation extends Injectable implements ValidationInterface
 	{
 		var message;
 
-		return = strtr(messageText, injectionData);
+		return strtr(messageText, injectionData);
 
 	}
 
