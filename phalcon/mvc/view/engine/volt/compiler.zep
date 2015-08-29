@@ -1413,6 +1413,7 @@ class Compiler implements InjectionAwareInterface
 			let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
 			let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length; ";
 			let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - 1; ?>";
+			let compilation .= "$" . prefixLevel . "loop->self = &$" . prefixLevel . "loop; ";
 			let iterator = "$" . prefixLevel . "iterator";
 		} else {
 			let iterator = exprCode;
