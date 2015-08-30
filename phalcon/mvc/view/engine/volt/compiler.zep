@@ -1790,7 +1790,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileInclude(array! statement) -> string
 	{
-		var pathExpr, path, view, subCompiler, finalPath, compilation, params;
+		var pathExpr, path, subCompiler, finalPath, compilation, params;
 
 		/**
 		 * Include statement
@@ -1816,12 +1816,7 @@ class Compiler implements InjectionAwareInterface
 				 */
 				let path = pathExpr["value"];
 
-				let view = this->_view;
-				if typeof view == "object" {
-					let finalPath = view->getViewsDir() . path;
-				} else {
-					let finalPath = path;
-				}
+				let finalPath = this->getFinalPath(path);
 
 				/**
 				 * Clone the original compiler
@@ -1959,7 +1954,7 @@ class Compiler implements InjectionAwareInterface
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
-			blocks, path, view, finalPath, subCompiler, level;
+			blocks, path, finalPath, subCompiler, level;
 
 		/**
 		 * Nothing to compile
@@ -2091,12 +2086,7 @@ class Compiler implements InjectionAwareInterface
 					 */
 					let path = statement["path"];
 
-					let view = this->_view;
-					if typeof view == "object" {
-						let finalPath = view->getViewsDir() . path["value"];
-					} else {
-						let finalPath = path["value"];
-					}
+					let finalPath = this->getFinalPath(path["value"]);
 
 					let extended = true;
 
@@ -2627,5 +2617,34 @@ class Compiler implements InjectionAwareInterface
 	{
 		var currentPath = "eval code";
 		return phvolt_parse_view(viewCode, currentPath);
+	}
+
+	/**
+	 * Gets the final path with VIEW
+	 */
+	protected function getFinalPath(string path)
+	{
+		var view, viewsDirs, viewsDir;
+		let view = this->_view;
+
+		if typeof view == "object" {
+			let viewsDirs = view->getViewsDir();
+
+			if typeof viewsDirs == "array" {
+				for viewsDir in viewsDirs {
+					if file_exists(viewsDir . path) {
+						return viewsDir . path;
+					}
+				}
+
+				// Otherwise, take the last viewsDir
+				return viewsDir . path;
+
+			} else {
+				return viewsDirs . path;
+			}
+		}
+
+		return path;
 	}
 }
