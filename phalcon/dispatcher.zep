@@ -265,7 +265,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 		}
 		let filter = <FilterInterface> dependencyInjector->getShared("filter");
-		return filter->sanitize(paramValue, filters);
+		let paramValue = filter->sanitize(paramValue, filters);
+		if strlen(paramValue) < 1 && defaultValue !== null {
+			return defaultValue;
+		}
+		return paramValue;
 	}
 
 	/**
