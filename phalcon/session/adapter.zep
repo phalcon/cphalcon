@@ -105,7 +105,7 @@ abstract class Adapter
 	/**
 	 * Get session name
 	 */
-	public function getName()
+	public function getName() -> string
 	{
 	    return session_name();
 	}
