@@ -97,17 +97,19 @@ class Mongo extends Adapter implements AdapterInterface
 
     public function write(sessionId, sessionData) -> boolean
     {
+        var sessionSave;
+
         if this->_data === sessionData {
         	return true;
         }
 
-        let sessionData = [
+        let sessionSave = [
             "_id" : sessionId,
             "modified" : new \MongoDate(),
             "data" : sessionData
         ];
 
-        this->getCollection()->save(sessionData);
+        this->getCollection()->save(sessionSave);
 
         return true;
     }
