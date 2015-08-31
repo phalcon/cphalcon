@@ -32,9 +32,9 @@ use Phalcon\Validation\Message\Group;
 class Group implements \Countable, \ArrayAccess, \Iterator
 {
 
-	protected _position;
+	protected _position = 0;
 
-	protected _messages;
+	protected _messages = [];
 
 	/**
 	 * Phalcon\Validation\Message\Group constructor
@@ -220,16 +220,10 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Returns the current message in the iterator
-	 *
-	 * @return \Phalcon\Validation\Message
 	 */
-	public function current() -> <Message> | boolean
+	public function current() -> <Message>
 	{
-		var message;
-		if fetch message, this->_messages[this->_position] {
-			return message;
-		}
-		return false;
+		return this->_messages[this->_position];
 	}
 
 	/**
