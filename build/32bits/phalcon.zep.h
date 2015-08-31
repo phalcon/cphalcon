@@ -2385,6 +2385,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
 static PHP_METHOD(Phalcon_Logger_Adapter, begin);
 static PHP_METHOD(Phalcon_Logger_Adapter, commit);
 static PHP_METHOD(Phalcon_Logger_Adapter, rollback);
+static PHP_METHOD(Phalcon_Logger_Adapter, isTransaction);
 static PHP_METHOD(Phalcon_Logger_Adapter, critical);
 static PHP_METHOD(Phalcon_Logger_Adapter, emergency);
 static PHP_METHOD(Phalcon_Logger_Adapter, debug);
@@ -2456,6 +2457,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter, begin, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, commit, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, rollback, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter, isTransaction, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, critical, arginfo_phalcon_logger_adapter_critical, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, emergency, arginfo_phalcon_logger_adapter_emergency, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter, debug, arginfo_phalcon_logger_adapter_debug, ZEND_ACC_PUBLIC)
@@ -2641,6 +2643,7 @@ static PHP_METHOD(Phalcon_Session_Adapter, __get);
 static PHP_METHOD(Phalcon_Session_Adapter, __set);
 static PHP_METHOD(Phalcon_Session_Adapter, __isset);
 static PHP_METHOD(Phalcon_Session_Adapter, __unset);
+static PHP_METHOD(Phalcon_Session_Adapter, __destruct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -2723,6 +2726,7 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapter_method_entry) {
 	PHP_ME(Phalcon_Session_Adapter, __set, arginfo_phalcon_session_adapter___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, __isset, arginfo_phalcon_session_adapter___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Adapter, __unset, arginfo_phalcon_session_adapter___unset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Adapter, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_FE_END
 };
 
@@ -6611,6 +6615,88 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_messageinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Validation_MessageInterface, getField, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Validation_MessageInterface, __toString, NULL)
 	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_validation_messageinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_validationinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_ValidationInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_validate, 0, 0, 0)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, entity)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_add, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_rule, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_rules, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_ARRAY_INFO(0, validators, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_setfilters, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, filters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_getfilters, 0, 0, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_setdefaultmessages, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, messages, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_getdefaultmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_setlabels, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, labels, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_getlabel, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_appendmessage, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Validation\\MessageInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_bind, 0, 0, 2)
+	ZEND_ARG_INFO(0, entity)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validationinterface_getvalue, 0, 0, 1)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_validationinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, validate, arginfo_phalcon_validationinterface_validate)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, add, arginfo_phalcon_validationinterface_add)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, rule, arginfo_phalcon_validationinterface_rule)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, rules, arginfo_phalcon_validationinterface_rules)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, setFilters, arginfo_phalcon_validationinterface_setfilters)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getFilters, arginfo_phalcon_validationinterface_getfilters)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getValidators, NULL)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getEntity, NULL)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, setDefaultMessages, arginfo_phalcon_validationinterface_setdefaultmessages)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getDefaultMessage, arginfo_phalcon_validationinterface_getdefaultmessage)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getMessages, NULL)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, setLabels, arginfo_phalcon_validationinterface_setlabels)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getLabel, arginfo_phalcon_validationinterface_getlabel)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, appendMessage, arginfo_phalcon_validationinterface_appendmessage)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, bind, arginfo_phalcon_validationinterface_bind)
+	PHP_ABSTRACT_ME(Phalcon_ValidationInterface, getValue, arginfo_phalcon_validationinterface_getvalue)
 	PHP_FE_END
 };
 
@@ -11897,8 +11983,6 @@ static PHP_METHOD(Phalcon_Loader, setExtensions);
 static PHP_METHOD(Phalcon_Loader, getExtensions);
 static PHP_METHOD(Phalcon_Loader, registerNamespaces);
 static PHP_METHOD(Phalcon_Loader, getNamespaces);
-static PHP_METHOD(Phalcon_Loader, registerPrefixes);
-static PHP_METHOD(Phalcon_Loader, getPrefixes);
 static PHP_METHOD(Phalcon_Loader, registerDirs);
 static PHP_METHOD(Phalcon_Loader, getDirs);
 static PHP_METHOD(Phalcon_Loader, registerClasses);
@@ -11919,11 +12003,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registernamespaces, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, namespaces, 0)
-	ZEND_ARG_INFO(0, merge)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerprefixes, 0, 0, 1)
-	ZEND_ARG_ARRAY_INFO(0, prefixes, 0)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
@@ -11949,8 +12028,6 @@ ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {
 	PHP_ME(Phalcon_Loader, getExtensions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerNamespaces, arginfo_phalcon_loader_registernamespaces, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getNamespaces, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Loader, registerPrefixes, arginfo_phalcon_loader_registerprefixes, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Loader, getPrefixes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerDirs, arginfo_phalcon_loader_registerdirs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getDirs, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerClasses, arginfo_phalcon_loader_registerclasses, ZEND_ACC_PUBLIC)
@@ -13351,6 +13428,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, setup);
 static PHP_METHOD(Phalcon_Mvc_Model, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
 	ZEND_ARG_OBJ_INFO(0, modelsManager, Phalcon\\Mvc\\Model\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
@@ -13474,7 +13552,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_appendmessage, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Mvc\\Model\\ValidatorInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getmessages, 0, 0, 0)
@@ -13700,9 +13778,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, validate, arginfo_phalcon_mvc_model_validate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getMessages, arginfo_phalcon_mvc_model_getmessages, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysRestrict, NULL, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade, NULL, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysRestrict, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model, _preSave, arginfo_phalcon_mvc_model__presave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _postSave, arginfo_phalcon_mvc_model__postsave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _doLowInsert, arginfo_phalcon_mvc_model__dolowinsert, ZEND_ACC_PROTECTED)
@@ -15974,6 +16052,8 @@ static PHP_METHOD(Phalcon_Mvc_Router_Route, getName);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, setName);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getBeforeMatch);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, match);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getMatch);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern);
@@ -16024,6 +16104,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_beforematch, 0, 0, 1)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_match, 0, 0, 1)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_sethttpmethods, 0, 0, 1)
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
@@ -16052,6 +16136,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_route_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Route, setName, arginfo_phalcon_mvc_router_route_setname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, beforeMatch, arginfo_phalcon_mvc_router_route_beforematch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getBeforeMatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, match, arginfo_phalcon_mvc_router_route_match, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, getMatch, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getRouteId, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getPattern, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getCompiledPattern, NULL, ZEND_ACC_PUBLIC)
@@ -16159,6 +16245,7 @@ static PHP_METHOD(Phalcon_Mvc_View, getRenderLevel);
 static PHP_METHOD(Phalcon_Mvc_View, getCurrentRenderLevel);
 static PHP_METHOD(Phalcon_Mvc_View, getRegisteredEngines);
 static PHP_METHOD(Phalcon_Mvc_View, __construct);
+static PHP_METHOD(Phalcon_Mvc_View, _isAbsolutePath);
 static PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
 static PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
 static PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir);
@@ -16213,6 +16300,10 @@ static PHP_METHOD(Phalcon_Mvc_View, __isset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view__isabsolutepath, 0, 0, 1)
+	ZEND_ARG_INFO(0, path)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setviewsdir, 0, 0, 1)
@@ -16343,6 +16434,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getCurrentRenderLevel, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getRegisteredEngines, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, __construct, arginfo_phalcon_mvc_view___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_View, _isAbsolutePath, arginfo_phalcon_mvc_view__isabsolutepath, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_View, setViewsDir, arginfo_phalcon_mvc_view_setviewsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setLayoutsDir, arginfo_phalcon_mvc_view_setlayoutsdir, ZEND_ACC_PUBLIC)
@@ -17230,6 +17322,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_Random);
 
 static PHP_METHOD(Phalcon_Security_Random, bytes);
 static PHP_METHOD(Phalcon_Security_Random, hex);
+static PHP_METHOD(Phalcon_Security_Random, base58);
 static PHP_METHOD(Phalcon_Security_Random, base64);
 static PHP_METHOD(Phalcon_Security_Random, base64Safe);
 static PHP_METHOD(Phalcon_Security_Random, uuid);
@@ -17241,6 +17334,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_hex, 0, 0, 0)
 	ZEND_ARG_INFO(0, len)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_base58, 0, 0, 0)
+	ZEND_ARG_INFO(0, n)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_random_base64, 0, 0, 0)
@@ -17259,6 +17356,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_security_random_method_entry) {
 	PHP_ME(Phalcon_Security_Random, bytes, arginfo_phalcon_security_random_bytes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_Random, hex, arginfo_phalcon_security_random_hex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_Random, base58, arginfo_phalcon_security_random_base58, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_Random, base64, arginfo_phalcon_security_random_base64, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_Random, base64Safe, arginfo_phalcon_security_random_base64safe, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_Random, uuid, NULL, ZEND_ACC_PUBLIC)
@@ -18186,6 +18284,7 @@ static PHP_METHOD(Phalcon_Validation, rules);
 static PHP_METHOD(Phalcon_Validation, setFilters);
 static PHP_METHOD(Phalcon_Validation, getFilters);
 static PHP_METHOD(Phalcon_Validation, getValidators);
+static PHP_METHOD(Phalcon_Validation, setEntity);
 static PHP_METHOD(Phalcon_Validation, getEntity);
 static PHP_METHOD(Phalcon_Validation, setDefaultMessages);
 static PHP_METHOD(Phalcon_Validation, getDefaultMessage);
@@ -18233,6 +18332,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_getfilters, 0, 0, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setentity, 0, 0, 1)
+	ZEND_ARG_INFO(0, entity)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setdefaultmessages, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, messages, 1)
 ZEND_END_ARG_INFO()
@@ -18272,6 +18375,7 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_method_entry) {
 	PHP_ME(Phalcon_Validation, setFilters, arginfo_phalcon_validation_setfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getFilters, arginfo_phalcon_validation_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getValidators, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation, setEntity, arginfo_phalcon_validation_setentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getEntity, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, setDefaultMessages, arginfo_phalcon_validation_setdefaultmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation, getDefaultMessage, arginfo_phalcon_validation_getdefaultmessage, ZEND_ACC_PUBLIC)
