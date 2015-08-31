@@ -81,4 +81,14 @@ interface AdapterInterface
 	 * Regenerate session's id
 	 */
 	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>;
+
+	/**
+	 * Set session name
+	 */
+	public function setName(string name);
+
+	/**
+	 * Get session name
+	 */
+	public function getName() -> string;
 }
