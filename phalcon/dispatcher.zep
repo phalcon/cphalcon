@@ -267,7 +267,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		let filter = <FilterInterface> dependencyInjector->getShared("filter");
 		let paramValue = filter->sanitize(paramValue, filters);
 		if strlen(paramValue) < 1 && defaultValue !== null {
-			return defaultValue;
+			return filter->sanitize(defaultValue, filters);
 		}
 		return paramValue;
 	}
