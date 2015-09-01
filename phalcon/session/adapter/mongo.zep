@@ -117,7 +117,7 @@ class Mongo extends Adapter implements AdapterInterface
         var remove;
 
         if sessionId === null {
-        	let sessionId = session_id();
+        	let sessionId = this->getId();
         }
 
         let this->_data = null;
