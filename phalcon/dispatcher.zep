@@ -240,6 +240,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Determine if param exists by its name or numeric index
+	 *
+	 * @param  mixed param
+	 * @return bool
+	 */
+	public function hasParam(param) -> bool
+	{
+		return isset this->_params[param];
+	}
+
+	/**
 	 * Gets a param by its name or numeric index
 	 *
 	 * @param  mixed param
