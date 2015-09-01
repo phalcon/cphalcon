@@ -223,14 +223,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
-	zval *rollback_message = NULL, *rollback_record = NULL;
+	zval *rollback_message = NULL, *rollback_record = NULL, *rollback_code = NULL;
 	zval *manager, *connection;
 	zval *success = NULL;
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 2, &rollback_message, &rollback_record);
+	phalcon_fetch_params(1, 0, 3, &rollback_message, &rollback_record, &rollback_code);
 	
 	if (!rollback_message) {
 		PHALCON_INIT_VAR(rollback_message);
@@ -242,6 +242,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_INIT_VAR(rollback_record);
 	} else {
 		PHALCON_SEPARATE_PARAM(rollback_record);
+	}
+	
+	if (!rollback_code) {
+		rollback_code = PHALCON_GLOBAL(z_zero);
 	}
 	
 	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY TSRMLS_CC);
@@ -266,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	
 		PHALCON_INIT_VAR(i0);
 		object_init_ex(i0, phalcon_mvc_model_transaction_failed_ce);
-		PHALCON_CALL_METHOD(NULL, i0, "__construct", rollback_message, rollback_record);
+		PHALCON_CALL_METHOD(NULL, i0, "__construct", rollback_message, rollback_record, rollback_code);
 	
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		RETURN_MM();
