@@ -22,6 +22,7 @@ namespace Phalcon;
 use Phalcon\Di\Injectable;
 use Phalcon\ValidationInterface;
 use Phalcon\Validation\Exception;
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\ValidatorInterface;
@@ -324,6 +325,17 @@ class Validation extends Injectable implements ValidationInterface
 			}
 		}
 		return field;
+	}
+
+	/**
+	 * Format a message
+	 */
+	public function formatMessage(string! messageText, array! injectionData = [])
+	{
+		var message;
+
+		return strtr(messageText, injectionData);
+
 	}
 
 	/**

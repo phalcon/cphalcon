@@ -99,7 +99,9 @@ class StringLength extends Validator
 					let message = validation->getDefaultMessage("TooLong");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooLong"));
+				let message = validation->formatMessage(message, replacePairs);
+
+				validation->appendMessage(new Message(message, field, "TooLong"));
 				return false;
 			}
 		}
@@ -121,7 +123,9 @@ class StringLength extends Validator
 					let message = validation->getDefaultMessage("TooShort");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooShort"));
+				let message = validation->formatMessage(message, replacePairs);
+
+				validation->appendMessage(new Message(message, field, "TooShort"));
 				return false;
 			}
 		}

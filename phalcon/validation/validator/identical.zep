@@ -71,7 +71,9 @@ class Identical extends Validator
 				let message = validation->getDefaultMessage("Identical");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Identical"));
+			let message = validation->formatMessage(message, replacePairs);
+
+			validation->appendMessage(new Message(message, field, "Identical"));
 			return false;
 		}
 

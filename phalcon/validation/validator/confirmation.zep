@@ -71,7 +71,9 @@ class Confirmation extends Validator
 				let message = validation->getDefaultMessage("Confirmation");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Confirmation"));
+			let message = validation->formatMessage(message, replacePairs);
+
+			validation->appendMessage(new Message(message, field, "Confirmation"));
 			return false;
 		}
 

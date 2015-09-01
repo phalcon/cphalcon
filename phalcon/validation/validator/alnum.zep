@@ -65,7 +65,9 @@ class Alnum extends Validator
 				let message = validation->getDefaultMessage("Alnum");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum"));
+			let message = validation->formatMessage(message, replacePairs);
+
+			validation->appendMessage(new Message(message, field, "Alnum"));
 			return false;
 		}
 
