@@ -533,6 +533,7 @@ abstract class Element implements ElementInterface
 		let messages = this->_messages;
 		if typeof messages != "object" {
 			let this->_messages = new Group();
+			let messages = this->_messages;
 		}
 		messages->appendMessage(message);
 		return this;
