@@ -4063,7 +4063,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel,
-			key, item;
+			key, item, method;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -4115,7 +4115,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Fallback assigning the value to the instance
 		 */
-		let this->{property} = value;
+		let method = "set" . Text::camelize(property);
+
+		if method_exists(this, method) {
+			this->{method}(value);
+		} else {
+			let this->{property} = value;
+		}
 
 		return value;
 	}

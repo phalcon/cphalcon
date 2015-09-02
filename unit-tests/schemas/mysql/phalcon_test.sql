@@ -412,6 +412,14 @@ CREATE TABLE IF NOT EXISTS `issue_2019` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `server` (
+	`id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+	`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`ip` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+	`mac` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

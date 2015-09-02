@@ -565,6 +565,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'prueba',
 			'robots',
 			'robots_parts',
+			'server',
 			'songs',
 			'subscriptores',
 			'tipo_documento',
