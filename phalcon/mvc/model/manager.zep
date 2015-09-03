@@ -29,9 +29,11 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -557,7 +559,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Binds a behavior to a model
 	 */
-	public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior)
+	public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior)
 	{
 		var entityName, modelsBehaviors;
 
@@ -1738,5 +1740,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getNamespaceAliases() -> array
 	{
 		return this->_namespaceAliases;
+	}
+
+	/**
+ 	 * Destroys the current PHQL cache
+ 	 */
+	public function __destruct()
+	{
+		phalcon_orm_destroy_cache();
+		Query::clean();
 	}
 }

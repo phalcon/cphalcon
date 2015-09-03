@@ -20,11 +20,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlvariables, 0, 0, 1)
-	ZEND_ARG_ARRAY_INFO(0, sqlVariables, 0)
+	ZEND_ARG_INFO(0, sqlVariables)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlbindtypes, 0, 0, 1)
-	ZEND_ARG_ARRAY_INFO(0, sqlBindTypes, 0)
+	ZEND_ARG_INFO(0, sqlBindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setinitialtime, 0, 0, 1)

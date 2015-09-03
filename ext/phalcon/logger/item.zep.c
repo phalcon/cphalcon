@@ -56,6 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 /**
  * Log type
+ *
+ * @var integer
  */
 PHP_METHOD(Phalcon_Logger_Item, getType) {
 
@@ -66,6 +68,8 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 /**
  * Log message
+ *
+ * @var string
  */
 PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 
@@ -76,6 +80,8 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 
 /**
  * Log timestamp
+ *
+ * @var integer
  */
 PHP_METHOD(Phalcon_Logger_Item, getTime) {
 

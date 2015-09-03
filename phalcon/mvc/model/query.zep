@@ -3544,4 +3544,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		throw new Exception("This type of statement generates multiple SQL statements");
 	}
+
+	/**
+	 * Destroys the internal PHQL cache
+	 */
+	public static function clean()
+	{
+		let self::_irPhqlCache = [];
+	}
 }

@@ -429,20 +429,24 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 		if (bracketCount > 0) {
 			intermediate++;
 		} else {
-			if (prevCh != '\\') {
-				_6 = ch == '.';
-				if (!(_6)) {
-					_6 = ch == '+';
-				}
-				_7 = _6;
+			_6 = parenthesesCount == 0;
+			if (_6) {
+				_6 = prevCh != '\\';
+			}
+			if (_6) {
+				_7 = ch == '.';
 				if (!(_7)) {
-					_7 = ch == '|';
+					_7 = ch == '+';
 				}
 				_8 = _7;
 				if (!(_8)) {
-					_8 = ch == '#';
+					_8 = ch == '|';
 				}
-				if (_8) {
+				_9 = _8;
+				if (!(_9)) {
+					_9 = ch == '#';
+				}
+				if (_9) {
 					zephir_concat_self_str(&route, "\\", sizeof("\\")-1 TSRMLS_CC);
 				}
 			}

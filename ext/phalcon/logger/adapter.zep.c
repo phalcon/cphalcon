@@ -189,8 +189,6 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 
 /**
  * Returns the whether the logger is currently in an active transaction or not
- *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Logger_Adapter, isTransaction) {
 
