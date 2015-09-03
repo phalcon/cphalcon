@@ -80,3 +80,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, destroy);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, regenerateId);
 
+/**
+ * Set session name
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, setName);
+
+/**
+ * Get session name
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_AdapterInterface, getName);
+

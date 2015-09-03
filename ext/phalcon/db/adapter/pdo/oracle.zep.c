@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 			}
 			if (zephir_memnstr_str(columnType, SL("TIMESTAMP"), "phalcon/db/adapter/pdo/oracle.zep", 144)) {
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 0);
+				ZVAL_LONG(_7, 17);
 				zephir_array_update_string(&definition, SL("type"), &_7, PH_COPY | PH_SEPARATE);
 				break;
 			}

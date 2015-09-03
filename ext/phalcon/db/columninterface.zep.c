@@ -143,6 +143,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getDefault);
 
 /**
+ * Check whether column has default value
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, hasDefault);
+
+/**
  * Restores the internal state of a Phalcon\Db\Column object
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, __set_state);

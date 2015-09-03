@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit) {
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *column, *columnSql = NULL, *size = NULL, *scale = NULL, *type = NULL;
+	zval *column, *columnSql = NULL, *size = NULL, *scale = NULL, *type = NULL, *_0, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
@@ -145,6 +145,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition) {
 			ZVAL_STRING(columnSql, "TIMESTAMP", 1);
 			break;
 		}
+		if (ZEPHIR_IS_LONG(type, 17)) {
+			if (ZEPHIR_IS_EMPTY(columnSql)) {
+				zephir_concat_self_str(&columnSql, SL("TIMESTAMP") TSRMLS_CC);
+			}
+			break;
+		}
 		if (ZEPHIR_IS_LONG(type, 5)) {
 			ZEPHIR_INIT_NVAR(columnSql);
 			ZEPHIR_CONCAT_SVS(columnSql, "CHAR(", size, ")");
@@ -167,7 +173,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition) {
 			ZVAL_STRING(columnSql, "TINYINT(1)", 1);
 			break;
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Unrecognized Oracle data type", "phalcon/db/dialect/oracle.zep", 119);
+		ZEPHIR_INIT_VAR(_0);
+		object_init_ex(_0, phalcon_db_exception_ce);
+		ZEPHIR_CALL_METHOD(&_1, column, "getname", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SV(_2, "Unrecognized Oracle data type at column ", _1);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _2);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_0, "phalcon/db/dialect/oracle.zep", 125 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);
 
@@ -210,7 +225,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 130);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 136);
 	return;
 
 }
@@ -253,7 +268,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 138);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 144);
 	return;
 
 }
@@ -294,7 +309,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn) {
 	zephir_get_strval(columnName, columnName_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 146);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 152);
 	return;
 
 }
@@ -334,7 +349,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 154);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 160);
 	return;
 
 }
@@ -386,7 +401,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 163);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 169);
 	return;
 
 }
@@ -406,7 +421,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey) {
 	zephir_get_strval(schemaName, schemaName_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 171);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 177);
 	return;
 
 }
@@ -446,7 +461,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 179);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 185);
 	return;
 
 }
@@ -486,7 +501,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 187);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 193);
 	return;
 
 }
@@ -537,7 +552,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 195);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 201);
 	return;
 
 }
@@ -580,7 +595,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 203);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 209);
 	return;
 
 }
@@ -679,7 +694,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/oracle.zep", 230);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/oracle.zep", 236);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, viewName, schemaName);

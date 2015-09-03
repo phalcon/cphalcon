@@ -92,6 +92,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_serializable);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zephir_get_internal_ce(SS("jsonserializable") TSRMLS_CC));
 	return SUCCESS;
 
 }
@@ -755,6 +756,52 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 			continue;
 		}
 		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 556);
+	}
+	_0->funcs->dtor(_0 TSRMLS_CC);
+	RETURN_CCTOR(records);
+
+}
+
+/**
+ * Returns serialised model objects as array for json_encode. Calls jsonSerialize on each object if present
+ *
+ *<code>
+ * $robots = Robots::find();
+ * echo json_encode($robots);
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool _1;
+	zend_object_iterator *_0;
+	zval *records, *current = NULL, *_2 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(records);
+	array_init(records);
+	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
+	_0->funcs->rewind(_0 TSRMLS_CC);
+	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(current, (*ZEPHIR_TMP_ITERATOR_PTR));
+		}
+		_1 = Z_TYPE_P(current) == IS_OBJECT;
+		if (_1) {
+			_1 = (zephir_method_exists_ex(current, SS("jsonserialize") TSRMLS_CC) == SUCCESS);
+		}
+		if (_1) {
+			ZEPHIR_CALL_METHOD(&_2, current, "jsonserialize", NULL, 0);
+			zephir_check_call_status();
+			zephir_array_append(&records, _2, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 578);
+		} else {
+			zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 580);
+		}
 	}
 	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);

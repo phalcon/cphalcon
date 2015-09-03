@@ -19,7 +19,7 @@
 
 
 /**
- * Phalcon\Di\FactoryDefault\CLI
+ * Phalcon\Di\FactoryDefault\Cli
  *
  * This is a variant of the standard Phalcon\Di. By default it automatically
  * registers all the services provided by the framework.
@@ -35,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault_Cli) {
 }
 
 /**
- * Phalcon\Di\FactoryDefault\CLI constructor
+ * Phalcon\Di\FactoryDefault\Cli constructor
  */
 PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 
@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "router", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_4);
-	ZVAL_STRING(_4, "Phalcon\\CLI\\Router", ZEPHIR_TEMP_PARAM_COPY);
+	ZVAL_STRING(_4, "Phalcon\\Cli\\Router", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_VAR(_5);
 	ZVAL_BOOL(&_5, 1);
 	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 64, _3, _4, &_5);
@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "dispatcher", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_NVAR(_4);
-	ZVAL_STRING(_4, "Phalcon\\CLI\\Dispatcher", ZEPHIR_TEMP_PARAM_COPY);
+	ZVAL_STRING(_4, "Phalcon\\Cli\\Dispatcher", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_SINIT_NVAR(_5);
 	ZVAL_BOOL(&_5, 1);
 	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", &_6, 64, _3, _4, &_5);
