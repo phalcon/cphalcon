@@ -272,7 +272,7 @@ class Route implements RouteInterface
 			if bracketCount > 0 {
 				let intermediate++;
 			} else {
-				if prevCh != '\\' {
+				if parenthesesCount == 0 && prevCh != '\\' {
 					if ch == '.' || ch == '+' || ch == '|' || ch == '#' {
 						let route .= '\\';
 					}

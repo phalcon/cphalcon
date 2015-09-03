@@ -186,7 +186,7 @@ class View extends Injectable implements ViewInterface
 				let viewsDir = viewsDir . directorySeparator;
 			}
 
-			let this->_viewsDirs = [viewsDir];
+			let this->_viewsDirs = viewsDir;
 		} else {
 
 			let newViewsDir = [];
@@ -626,7 +626,7 @@ class View extends Injectable implements ViewInterface
 			viewParams = this->_viewParams,
 			eventsManager = <ManagerInterface> this->_eventsManager;
 
-		for viewsDir in this->_viewsDirs {
+		for viewsDir in this->getViewsDirs() {
 
 			if !this->_isAbsolutePath(viewPath) {
 				let viewsDirPath = basePath . viewsDir . viewPath;
@@ -770,7 +770,7 @@ class View extends Injectable implements ViewInterface
 				this->_registeredEngines = engines;
 		}
 
-		for viewsDir in this->_viewsDirs {
+		for viewsDir in this->getViewsDirs() {
 			for extension, _ in engines {
 				if file_exists(basePath . viewsDir . view . extension) {
 					return true;
@@ -1441,5 +1441,18 @@ class View extends Injectable implements ViewInterface
 	public function __isset(string! key) -> boolean
 	{
 		return isset(this->_viewParams[key]);
+	}
+
+
+	/**
+	 * Gets views directories
+	 */
+	protected function getViewsDirs() -> array
+	{
+		if typeof this->_viewsDirs === "string" {
+			return [this->_viewsDirs];
+		}
+
+		return this->_viewsDirs;
 	}
 }

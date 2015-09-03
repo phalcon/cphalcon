@@ -692,7 +692,7 @@ class Micro extends Injectable implements \ArrayAccess
 				/**
 				 * Bound the app to the handler
 				 */
-				if handler instanceof \Closure {
+				if typeof handler == "object" && handler instanceof \Closure {
 					let handler = \Closure::bind(handler, this);
 				}
 

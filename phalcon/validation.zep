@@ -94,6 +94,10 @@ class Validation extends Injectable implements ValidationInterface
 		 */
 		let messages = new Group();
 
+		if entity !== null {
+			this->setEntity(entity);
+		}
+
 		/**
 		 * Validation classes can implement the 'beforeValidation' callback
 		 */
@@ -377,7 +381,7 @@ class Validation extends Injectable implements ValidationInterface
 		 * If the entity is an object use it to retrieve the values
 		 */
 		if typeof entity == "object" {
-			let method = "get" . field;
+			let method = "get" . camelize(field);
 			if method_exists(entity, method) {
 				let value = entity->{method}();
 			} else {

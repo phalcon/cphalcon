@@ -42,8 +42,10 @@ use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\Message;
 use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Validation\Message\Group as ValidationMessageGroup;
 
 /**
  * Phalcon\Mvc\Model
@@ -1375,41 +1377,40 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *<code>
 	 *use Phalcon\Mvc\Model;
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *use Phalcon\Validation;
+	 *use Phalcon\Validation\Validator\ExclusionIn;
 	 *
 	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+	 * 		$validator = new Validation();
+	 * 		$validator->add('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
 	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
 	 */
 	protected function validate(<ValidationInterface> validator) -> boolean
 	{
-		var messages;
-
+		var messages, message;
 		let messages = validator->validate(null, this);
 
-		print_r(messages);
-
-		/*var message;
-
-		// Call the validation, if it returns false we append the messages to the current object
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
+		// Call the validation, if it returns not the boolean we append the messages to the current object
+		if typeof messages != "boolean" {
+			for message in iterator(messages) {
+				this->appendMessage(new Message(message->getMessage(), message->getField(), message->getType()));
 			}
-		}*/
-		return this;
+
+			// If there is a message, it returns false otherwise true
+			return !count(messages);
+		}
+
+		return messages;
 	}
 
 	/**
