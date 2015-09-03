@@ -58,6 +58,8 @@ class Task extends Injectable
 	 */
 	public final function __construct()
 	{
-
+        if method_exists(this, "onConstruct") {
+            this->{"onConstruct"}();
+        }
 	}
 }

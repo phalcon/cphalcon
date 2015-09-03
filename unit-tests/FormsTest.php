@@ -25,7 +25,8 @@ use
 	Phalcon\Forms\Element\Radio,
 	Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\StringLength,
-	Phalcon\Validation\Validator\Regex;
+	Phalcon\Validation\Validator\Regex,
+	Phalcon\Validation\Message;
 
 class ContactFormPublicProperties
 {
@@ -532,5 +533,11 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element->addOption('value');
 
 		$this->assertEquals('<select id="test-select" name="test-select"><option value="0">value</option></select>', preg_replace('/[[:cntrl:]]/', '', $element->render()));
+	}
+
+	public function testElementAppendMessage()
+	{
+		$element = new Select('test-select');
+		$element->appendMessage(new Message(''));
 	}
 }
