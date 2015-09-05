@@ -19,6 +19,9 @@ use Phalcon\Validation\Message;
  */
 class CreditCard extends Validator
 {
+    /**
+     * Executes the validation
+     */
     public function validate(<Validation> validation, string! field) -> boolean
     {
         var message, label, replacePairs, value, valid;
@@ -46,7 +49,12 @@ class CreditCard extends Validator
         return true;
     }
 
-    private function verifyByLuhnAlgorithm(number)
+    /**
+     * is a simple checksum formula used to validate a variety of identification numbers
+     * @param  string number
+     * @return boolean
+     */
+    private function verifyByLuhnAlgorithm(number) -> boolean
     {
         array digits;
         let digits = (array) str_split(number);
