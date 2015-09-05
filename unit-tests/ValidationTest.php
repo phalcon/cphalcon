@@ -27,7 +27,8 @@ use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Email,
 	Phalcon\Validation\Validator\Between,
-	Phalcon\Validation\Validator\Url;
+	Phalcon\Validation\Validator\Url,
+	Phalcon\Validation\Validator\CreditCard;
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
@@ -205,6 +206,71 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$messages = $validation->validate($_POST);
 
 		$this->assertEquals(count($messages), 0);
+	}
+
+	public function providerCreditCardNumberValid()
+	{
+		return [
+			['378282246310005'], //amex
+			['4012888888881881'], //visa
+			['38520000023237'], //dinners
+			['5105105105105100'], //mastercard
+			['6011000990139424'] //discover
+		];
+	}
+
+	/**
+	 * @dataProvider providerCreditCardNumberValid
+	 */
+	public function testValidationCreditCardValid($number)
+	{
+		$_POST = array('number' => $number);
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('number', new CreditCard());
+
+		$messages = $validation->validate($_POST);
+		
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function providerCreditCardNumberInvalid()
+	{
+		return [
+			['1203191201121221'],
+			['102030102320'],
+			['120120s201023'],
+			['20323200003230'],
+			['12010012']
+		];
+	}
+
+	/**
+	 * @dataProvider providerCreditCardNumberInvalid
+	 */
+	public function testValidationCreditCardInvalid($number)
+	{
+		$_POST = array('number' => $number);
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('number', new CreditCard());
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'CreditCard',
+					'_message' => 'Filed number is not valid for a credit card number',
+					'_field' => 'number',
+					'_code' => '0',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
 	}
 
 	public function testValidationIdenticalCustomMessage()
