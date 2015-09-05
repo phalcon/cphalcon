@@ -210,12 +210,12 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 	public function providerCreditCardNumberValid()
 	{
-		return [
-			['378282246310005'], //amex
-			['4012888888881881'], //visa
-			['38520000023237'], //dinners
-			['5105105105105100'], //mastercard
-			['6011000990139424'] //discover
+		return array(
+			array('378282246310005'), //amex
+			array('4012888888881881'), //visa
+			array('38520000023237'], //dinners
+			array('5105105105105100'), //mastercard
+			array('6011000990139424') //discover
 		];
 	}
 
@@ -231,19 +231,19 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation->add('number', new CreditCard());
 
 		$messages = $validation->validate($_POST);
-		
+
 		$this->assertEquals(count($messages), 0);
 	}
 
 	public function providerCreditCardNumberInvalid()
 	{
-		return [
-			['1203191201121221'],
-			['102030102320'],
-			['120120s201023'],
-			['20323200003230'],
-			['12010012']
-		];
+		return array(
+			array('1203191201121221'),
+			array('102030102320'),
+			array('120120s201023'),
+			array('20323200003230'),
+			array('12010012')
+		);
 	}
 
 	/**
