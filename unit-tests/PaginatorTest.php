@@ -427,6 +427,27 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$queryBuilder = $paginator->getQueryBuilder();
 		$this->assertEquals($builder2, $queryBuilder);
 		$this->assertEquals($setterResult, $paginator);
+
+
+		// -- Group by test --
+		$builderGroup = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres, tipo_documento_id')
+			->from('Personnes')
+			->orderBy('cedula')
+			->groupBy('tipo_documento_id');
+
+		$paginatorGroup = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builderGroup,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+
+		$pageGroup = $paginatorGroup->getPaginate();
+
+		$this->assertEquals(1, $pageGroup->total_pages);
+		$this->assertEquals(8, $pageGroup->total_items);
+		$this->assertEquals(8, $pageGroup->items->count());
 	}
 
 }
