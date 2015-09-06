@@ -50,7 +50,7 @@ class ExclusionIn extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
+		if this->hasOption("allowEmpty") && empty value {
 			return true;
 		}
 

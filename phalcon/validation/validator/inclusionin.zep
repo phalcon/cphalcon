@@ -50,7 +50,7 @@ class InclusionIn extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
+		if this->hasOption("allowEmpty") && empty value {
 			return true;
 		}
 
@@ -63,7 +63,7 @@ class InclusionIn extends Validator
 		}
 
 		let strict = false;
-		if this->isSetOption("strict") {
+		if this->hasOption("strict") {
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
