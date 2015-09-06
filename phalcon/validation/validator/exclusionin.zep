@@ -50,10 +50,6 @@ class ExclusionIn extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->hasOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		/**
 		 * A domain is an array with a list of valid values
 		 */

@@ -72,10 +72,6 @@ class File extends Validator
 			return false;
 		}
 
-		if this->hasOption("allowEmpty") && (empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE) {
-			return true;
-		}
-
 		if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
 
 			let message = this->getOption("messageEmpty"),
@@ -206,5 +202,16 @@ class File extends Validator
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Check on empty
+	 */
+	public function isAllowEmpty(<Validation> validation, string! field) -> boolean
+	{
+		var value;
+		let value = validation->getValue(field);
+
+		return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
 	}
 }

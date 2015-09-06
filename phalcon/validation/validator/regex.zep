@@ -54,10 +54,6 @@ class Regex extends Validator
 		let matches = null;
 		let value = validation->getValue(field);
 
-		if this->hasOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if preg_match(this->getOption("pattern"), value, matches) {
 			let failed = matches[0] != value;
 		} else {
