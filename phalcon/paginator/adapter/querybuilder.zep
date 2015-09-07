@@ -175,10 +175,21 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		/**
 		 * Obtain the result of the total query
 		 */
-		let result = totalQuery->execute(),
-			row = result->getFirst(),
-			rowcount = intval(row->rowcount),
-			totalPages = intval(ceil(rowcount / limit));
+		let result = totalQuery->execute();
+
+
+		/**
+		 * Check if the query has a 'GROUP BY' clause and if it does just get the row count
+		 */
+		if totalBuilder->getGroupBy() != null {
+			let rowcount = result->count();
+		} else {
+			let row = result->getFirst(),
+				rowcount = intval(row->rowcount);
+		}
+
+		let totalPages = intval(ceil(rowcount / limit));
+
 
 		if numberPage < totalPages {
 			let next = numberPage + 1;
