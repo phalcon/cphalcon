@@ -10,6 +10,7 @@
   column definition
 - Fixed determining of default value for column in `Phalcon\Db\Dialect\MySQL`, `Phalcon\Db\Dialect\Sqlite` and
   `Phalcon\Db\Dialect\Postgresql` classes
+- Now Phalcon\Mvc\Model::__call invokes finders as in __callStatic
 
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
