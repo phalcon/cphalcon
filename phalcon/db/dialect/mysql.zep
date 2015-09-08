@@ -237,6 +237,10 @@ class MySQL extends Dialect
 			let sql .= " NOT NULL";
 		}
 
+		if column->isAutoIncrement() {
+			let sql .= " AUTO_INCREMENT";
+		}
+
 		if column->isFirst() {
 			let sql .= " FIRST";
 		} else {
@@ -269,6 +273,11 @@ class MySQL extends Dialect
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
 		}
+
+		if column->isAutoIncrement() {
+			let sql .= " AUTO_INCREMENT";
+		}
+
 		return sql;
 	}
 
