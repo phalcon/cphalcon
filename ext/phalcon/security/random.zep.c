@@ -435,7 +435,7 @@ PHP_METHOD(Phalcon_Security_Random, uuid) {
 	ZEPHIR_INIT_VAR(_7);
 	ZVAL_STRING(_7, "%08x-%04x-%04x-%04x-%04x%08x", ZEPHIR_TEMP_PARAM_COPY);
 	Z_SET_ISREF_P(ary);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 380, ary, _7);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 381, ary, _7);
 	zephir_check_temp_parameter(_7);
 	Z_UNSET_ISREF_P(ary);
 	zephir_check_call_status();

@@ -1415,9 +1415,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(_10);
 		ZEPHIR_CONCAT_SVS(_10, " ", operator, " ");
 		zephir_fast_join(_0, _10, conditions TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(NULL, criteria, "where", NULL, 307, _0);
+		ZEPHIR_CALL_METHOD(NULL, criteria, "where", NULL, 308, _0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, criteria, "bind", NULL, 308, bind);
+		ZEPHIR_CALL_METHOD(NULL, criteria, "bind", NULL, 309, bind);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, criteria, "setmodelname", NULL, 304, modelName);

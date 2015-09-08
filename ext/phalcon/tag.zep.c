@@ -2186,7 +2186,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 		ZVAL_STRING(&_0, "UTF-8", 0);
 		ZEPHIR_SINIT_NVAR(_3);
 		ZVAL_STRING(&_3, "ASCII//TRANSLIT", 0);
-		ZEPHIR_CALL_FUNCTION(&_5, "iconv", NULL, 372, &_0, &_3, text);
+		ZEPHIR_CALL_FUNCTION(&_5, "iconv", NULL, 373, &_0, &_3, text);
 		zephir_check_call_status();
 		zephir_get_strval(text, _5);
 	}

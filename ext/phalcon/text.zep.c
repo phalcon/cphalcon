@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_0);
 		ZVAL_LONG(&_0, 3);
-		ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 373, _3, &_0);
+		ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 374, _3, &_0);
 		zephir_check_call_status();
 		zephir_is_iterable(_4, &_6, &_5, 0, 0, "phalcon/text.zep", 242);
 		for (

@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns) {
 			}
 			if (zephir_memnstr_str(columnType, SL("timestamp"), "phalcon/db/adapter/pdo/sqlite.zep", 166)) {
 				ZEPHIR_INIT_NVAR(_7);
-				ZVAL_LONG(_7, 1);
+				ZVAL_LONG(_7, 17);
 				zephir_array_update_string(&definition, SL("type"), &_7, PH_COPY | PH_SEPARATE);
 				break;
 			}
