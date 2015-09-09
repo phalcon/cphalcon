@@ -55,8 +55,8 @@ class StringLength extends Validator
 		/**
 		 * At least one of 'min' or 'max' must be set
 		 */
-		let isSetMin = this->isSetOption("min"),
-			isSetMax = this->isSetOption("max");
+		let isSetMin = this->hasOption("min"),
+			isSetMax = this->hasOption("max");
 
 		if !isSetMin && !isSetMax {
 			throw new Exception("A minimum or maximum must be set");
@@ -64,7 +64,7 @@ class StringLength extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
+		if this->hasOption("allowEmpty") && empty value {
 			return true;
 		}
 
