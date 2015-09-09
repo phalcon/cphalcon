@@ -650,7 +650,15 @@ class Imagick extends Adapter implements AdapterInterface
 			if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
 				this->_image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
 			}
-			this->_image->setImageCompressionQuality(quality);
+
+			if quality >= 0 {
+				if quality < 1 {
+					let quality = 1;
+				} elseif quality > 100 {
+					let quality = 100;
+				}
+				this->_image->setImageCompressionQuality(quality);
+			}
 			this->_image->writeImage(file);
 		}
 	}
