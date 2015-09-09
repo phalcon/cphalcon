@@ -139,6 +139,7 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Register directories in which "not found" classes could be found
+	 * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
 	 */
 	public function registerPrefixes(array! prefixes, boolean merge = false) -> <Loader>
 	{
@@ -160,6 +161,7 @@ class Loader implements EventsAwareInterface
 
 	/**
 	 * Returns the prefixes currently registered in the autoloader
+	 * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
 	 */
 	public function getPrefixes() -> array
 	{
