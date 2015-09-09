@@ -154,7 +154,7 @@ abstract class Select
 	 */
 	private static function _optionsFromResultset(resultset, using, value, closeOption)
 	{
-		var code, params, option, usingZero, usingOne,
+		var code, params, option, usingZero, usingOne, escaper,
 			optionValue, optionText, strValue, strOptionValue;
 
 		let code = "";
@@ -166,6 +166,8 @@ abstract class Select
 			}
 			let usingZero = using[0], usingOne = using[1];
 		}
+
+		let escaper = <EscaperInterface> BaseTag::getEscaperService();
 
 		for option in iterator(resultset) {
 
@@ -187,6 +189,9 @@ abstract class Select
 						throw new Exception("Resultset returned an invalid value");
 					}
 				}
+
+				let optionValue = escaper->escapeHtmlAttr(optionValue);
+				let optionText = escaper->escapeHtml(optionText);
 
 				/**
 				 * If the value is equal to the option's value we mark it as selected
