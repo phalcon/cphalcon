@@ -48,10 +48,6 @@ class Digit extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->hasOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if !ctype_digit(value) {
 
 			let label = this->getOption("label");

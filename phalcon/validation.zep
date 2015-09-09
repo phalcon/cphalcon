@@ -128,6 +128,13 @@ class Validation extends Injectable implements ValidationInterface
 			}
 
 			/**
+			 * Call internal validations, if it returns true, then skip the current validator
+			 */
+			if this->preChecking(field, validator) {
+				continue;
+			}
+
+			/**
 			 * Check if the validation must be canceled if this validator fails
 			 */
 			if validator->validate(this, field) === false {
@@ -458,5 +465,21 @@ class Validation extends Injectable implements ValidationInterface
 		let this->_values[field] = value;
 
 		return value;
+	}
+
+	/**
+	 * Internal validations, if it returns true, then skip the current validator
+	 */
+	protected function preChecking(string field, <ValidatorInterface> validator) -> boolean
+	{
+		if validator->getOption("allowEmpty", false) {
+			if method_exists(validator, "isAllowEmpty") {
+				return validator->isAllowEmpty(this, field);
+			} else {
+				return empty this->getValue(field);
+			}
+		}
+
+		return false;
 	}
 }

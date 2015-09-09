@@ -53,10 +53,6 @@ class Between extends Validator
 				minimum = this->getOption("minimum"),
 				maximum = this->getOption("maximum");
 
-		if this->hasOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if value < minimum || value > maximum {
 
 			let label = this->getOption("label");

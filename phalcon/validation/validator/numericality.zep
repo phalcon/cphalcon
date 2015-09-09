@@ -48,10 +48,6 @@ class Numericality extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->hasOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if !preg_match("/^-?\d+\.?\d*$/", value) {
 
 			let label = this->getOption("label");

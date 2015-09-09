@@ -88,8 +88,8 @@ abstract class Validator implements ValidatorInterface
 		let this->_options[key] = value;
 	}
 
-    /**
-     * Executes the validation
-     */
-     abstract public function validate(<Validation> validation, string! attribute) -> boolean;
+	/**
+	 * Executes the validation
+	 */
+	abstract public function validate(<Validation> validation, string! attribute) -> boolean;
 }

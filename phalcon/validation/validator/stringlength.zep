@@ -63,11 +63,6 @@ class StringLength extends Validator
 		}
 
 		let value = validation->getValue(field);
-
-		if this->hasOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		let label = this->getOption("label");
 		if empty label {
 			let label = validation->getLabel(field);
