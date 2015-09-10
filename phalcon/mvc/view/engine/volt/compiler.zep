@@ -1408,6 +1408,7 @@ class Compiler implements InjectionAwareInterface
 			let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
 			let compilation .= "$" . prefixLevel . "incr = 0; ";
 			let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
+			let compilation .= "$" . prefixLevel . "loop->self = &$" . prefixLevel . "loop; ";
 			let compilation .= "$" . prefixLevel . "loop->length = count($" . prefixLevel . "iterator); ";
 			let compilation .= "$" . prefixLevel . "loop->index = 1; ";
 			let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
