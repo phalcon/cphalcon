@@ -119,10 +119,11 @@ class Postgresql extends Dialect
 
 			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
-					let columnSql .= "BIGINT";
-				}
-				if size {
-					let columnSql .= "(" . column->getSize() . ")";
+					if column->isAutoIncrement() {
+						let columnSql .= "BIGSERIAL";
+					} else {
+						let columnSql .= "BIGINT";
+					}
 				}
 				break;
 
@@ -140,7 +141,7 @@ class Postgresql extends Dialect
 
 			case Column::TYPE_BOOLEAN:
 				if empty columnSql {
-					let columnSql .= "SMALLINT(1)";
+					let columnSql .= "BOOLEAN";
 				}
 				break;
 
@@ -172,15 +173,18 @@ class Postgresql extends Dialect
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
-		var sql, defaultValue;
+		var sql, defaultValue, columnDefinition;
+
+		let columnDefinition = this->getColumnDefinition(column);
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
+		let sql .= "\"" . column->getName() . "\" " . columnDefinition;
 
-		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
-
-		let defaultValue = column->getDefault();
-		if !empty defaultValue {
-			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
+			if memstr(strtoupper(columnDefinition), "BOOLEAN") {
+				let sql .= " DEFAULT " . (defaultValue ? "true" : "false");
+			} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
 				let sql .= " DEFAULT CURRENT_TIMESTAMP";
 			} else {
 				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -199,8 +203,9 @@ class Postgresql extends Dialect
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
 	{
-		var sql = "", sqlAlterTable, defaultValue;
+		var sql = "", sqlAlterTable, defaultValue, columnDefinition;
 
+		let columnDefinition = this->getColumnDefinition(column);
 		let sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
 
 		//Rename
@@ -210,7 +215,7 @@ class Postgresql extends Dialect
 
 		//Change type
 		if column->getType() != currentColumn->getType() {
-			let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" TYPE " . this->getColumnDefinition(column) . ";";
+			let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" TYPE " . columnDefinition . ";";
 		}
 
 		//NULL
@@ -230,7 +235,9 @@ class Postgresql extends Dialect
 
 			if column->hasDefault() {
 				let defaultValue = column->getDefault();
-				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
+					let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . (defaultValue ? "true" : "false");
+				} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
 					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT CURRENT_TIMESTAMP";
 				} else {
 					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -336,7 +343,8 @@ class Postgresql extends Dialect
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
 			indexSql, indexSqlAfterCreate, sql, columnLine, indexType,
-			referenceSql, onDelete, onUpdate, defaultValue, primaryColumns;
+			referenceSql, onDelete, onUpdate, defaultValue, primaryColumns,
+			columnDefinition;
 
 		if !fetch columns, definition["columns"] {
 			throw new Exception("The index 'columns' is required in the definition array");
@@ -362,14 +370,17 @@ class Postgresql extends Dialect
 		let primaryColumns = [];
 		for column in columns {
 
-			let columnLine = "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
+			let columnDefinition = this->getColumnDefinition(column);
+			let columnLine = "\"" . column->getName() . "\" " . columnDefinition;
 
 			/**
 			 * Add a Default clause
 			 */
 			if column->hasDefault() {
 				let defaultValue = column->getDefault();
-				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
+					let sql .= " DEFAULT " . (defaultValue ? "true" : "false");
+				} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
 					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
 				} else {
 					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -381,13 +392,6 @@ class Postgresql extends Dialect
 			 */
 			if column->isNotNull() {
 				let columnLine .= " NOT NULL";
-			}
-
-			/**
-			 * Add an AUTO_INCREMENT clause
-			 */
-			if column->isAutoIncrement() {
-				//let columnLine .= " AUTO_INCREMENT";
 			}
 
 			/**
