@@ -117,7 +117,7 @@ class MicroMvcMiddlewareTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($middleware->getNumber(), 6);
 	}
 
-	public function testMicroStopMiddlewareClasses()
+	public function testMicroStopMiddlewareOnBeforeClasses()
 	{
 
 		$app = new Phalcon\Mvc\Micro();
@@ -139,7 +139,29 @@ class MicroMvcMiddlewareTest extends PHPUnit_Framework_TestCase
 
 		$app->handle('/api/site');
 
-		$this->assertEquals($middleware->getNumber(), 3);
+		$this->assertEquals($middleware->getNumber(), 1);
+	}
+
+	public function testMicroStopMiddlewareOnAfterAndFinishClasses()
+	{
+
+		$app = new Phalcon\Mvc\Micro();
+
+		$app->map('/api/site', function(){
+			return true;
+		});
+
+		$middleware = new MyMiddlewareStop();
+
+		$app->after($middleware);
+		$app->after($middleware);
+
+		$app->finish($middleware);
+		$app->finish($middleware);
+
+		$app->handle('/api/site');
+
+		$this->assertEquals($middleware->getNumber(), 2);
 	}
 
 }

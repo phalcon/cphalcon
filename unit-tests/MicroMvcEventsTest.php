@@ -28,13 +28,15 @@ class MicroMvcEventsTest extends PHPUnit_Framework_TestCase
 
 		$app = new Phalcon\Mvc\Micro();
 
-		$app->before(function() use (&$trace) {
+		$app->before(function() use ($app, &$trace) {
 			$trace[] = 1;
+			$app->stop();
 			return false;
 		});
 
-		$app->before(function() use (&$trace) {
+		$app->before(function() use ($app, &$trace) {
 			$trace[] = 1;
+			$app->stop();
 			return false;
 		});
 
