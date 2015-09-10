@@ -64,9 +64,7 @@ class Crypt implements CryptInterface
 	const PADDING_SPACE = 6;
 
 	/**
-	 * Changes the padding scheme used
-	 *
-	 * @param int scheme
+	 * Changes the padding scheme used	 
 	 */
 	public function setPadding(int! scheme) -> <CryptInterface>
 	{

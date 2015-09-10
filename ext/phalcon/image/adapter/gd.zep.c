@@ -1375,9 +1375,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _pixelate) {
 PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 
 	zend_bool _8;
-	zephir_fcall_cache_entry *_4 = NULL, *_6 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_6 = NULL, *_11 = NULL;
 	int quality, ZEPHIR_LAST_CALL_STATUS;
-	zval *file_param = NULL, *quality_param = NULL, *ext = NULL, _0 = zval_used_for_init, *_1, *_2 = NULL, *_3 = NULL, *_5 = NULL, *_7, *_9 = NULL, *_10 = NULL, *_11;
+	zval *file_param = NULL, *quality_param = NULL, *ext = NULL, _0 = zval_used_for_init, *_1, *_2 = NULL, *_3 = NULL, *_5 = NULL, *_7, *_9 = NULL, *_10 = NULL, *_12, *_13;
 	zval *file = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1436,11 +1436,22 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 		ZEPHIR_CALL_FUNCTION(&_10, "image_type_to_mime_type", &_6, 277, _1);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_mime"), _10 TSRMLS_CC);
-		_7 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_LONG(&_0, quality);
-		ZEPHIR_CALL_FUNCTION(NULL, "imagejpeg", NULL, 279, _7, file, &_0);
-		zephir_check_call_status();
+		if (quality >= 0) {
+			if (quality < 1) {
+				quality = 1;
+			} else if (quality > 100) {
+				quality = 100;
+			}
+			_7 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, quality);
+			ZEPHIR_CALL_FUNCTION(NULL, "imagejpeg", &_11, 279, _7, file, &_0);
+			zephir_check_call_status();
+		} else {
+			_12 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
+			ZEPHIR_CALL_FUNCTION(NULL, "imagejpeg", &_11, 279, _12, file);
+			zephir_check_call_status();
+		}
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_SINIT_NVAR(_0);
@@ -1496,11 +1507,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 	}
 	ZEPHIR_INIT_NVAR(_2);
 	object_init_ex(_2, phalcon_image_exception_ce);
-	ZEPHIR_INIT_VAR(_11);
-	ZEPHIR_CONCAT_SVS(_11, "Installed GD does not support '", ext, "' images");
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _11);
+	ZEPHIR_INIT_VAR(_13);
+	ZEPHIR_CONCAT_SVS(_13, "Installed GD does not support '", ext, "' images");
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _13);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_2, "phalcon/image/adapter/gd.zep", 544 TSRMLS_CC);
+	zephir_throw_exception_debug(_2, "phalcon/image/adapter/gd.zep", 555 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -1602,7 +1613,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	ZEPHIR_CONCAT_SVS(_13, "Installed GD does not support '", ext, "' images");
 	ZEPHIR_CALL_METHOD(NULL, _12, "__construct", NULL, 9, _13);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_12, "phalcon/image/adapter/gd.zep", 572 TSRMLS_CC);
+	zephir_throw_exception_debug(_12, "phalcon/image/adapter/gd.zep", 583 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

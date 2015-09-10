@@ -38,10 +38,6 @@ class PhalconOrmDestroyCacheOptimizer extends OptimizerAbstract
 	public function optimize(array $expression, Call $call, CompilationContext $context)
 	{
 
-		if (count($expression['parameters']) > 0) {
-			throw new CompilerException("phalcon_orm_destroy_cache does not accept any parameters", $expression);
-		}
-
 		$context->headersManager->add('phalcon/mvc/model/orm');
 
 		$context->codePrinter->output('phalcon_orm_destroy_cache(TSRMLS_C);');

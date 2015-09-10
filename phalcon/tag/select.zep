@@ -21,6 +21,7 @@ namespace Phalcon\Tag;
 
 use Phalcon\Tag\Exception;
 use Phalcon\Tag as BaseTag;
+use Phalcon\EscaperInterface;
 
 /**
  * Phalcon\Tag\Select

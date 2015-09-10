@@ -132,8 +132,6 @@ PHP_METHOD(Phalcon_Db_Adapter, getType) {
 
 /**
  * Active SQL bound parameter variables
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables) {
 

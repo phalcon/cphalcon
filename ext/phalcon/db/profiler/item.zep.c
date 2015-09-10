@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -68,25 +68,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 
 /**
  * SQL statement related to the profile
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 
-	zval *sqlStatement;
+	zval *sqlStatement_param = NULL;
+	zval *sqlStatement = NULL;
 
-	zephir_fetch_params(0, 1, 0, &sqlStatement);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlStatement_param);
 
+	zephir_get_strval(sqlStatement, sqlStatement_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_sqlStatement"), sqlStatement TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * SQL statement related to the profile
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
@@ -97,25 +97,25 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
 /**
  * SQL variables related to the profile
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables) {
 
-	zval *sqlVariables;
+	zval *sqlVariables_param = NULL;
+	zval *sqlVariables = NULL;
 
-	zephir_fetch_params(0, 1, 0, &sqlVariables);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlVariables_param);
 
+	zephir_get_arrval(sqlVariables, sqlVariables_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_sqlVariables"), sqlVariables TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * SQL variables related to the profile
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables) {
 
@@ -126,25 +126,25 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables) {
 
 /**
  * SQL bind types related to the profile
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes) {
 
-	zval *sqlBindTypes;
+	zval *sqlBindTypes_param = NULL;
+	zval *sqlBindTypes = NULL;
 
-	zephir_fetch_params(0, 1, 0, &sqlBindTypes);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlBindTypes_param);
 
+	zephir_get_arrval(sqlBindTypes, sqlBindTypes_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_sqlBindTypes"), sqlBindTypes TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * SQL bind types related to the profile
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes) {
 
@@ -155,25 +155,25 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes) {
 
 /**
  * Timestamp when the profile started
- *
- * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 
-	zval *initialTime;
+	zval *initialTime_param = NULL, *_0;
+	double initialTime;
 
-	zephir_fetch_params(0, 1, 0, &initialTime);
+	zephir_fetch_params(0, 1, 0, &initialTime_param);
+
+	initialTime = zephir_get_doubleval(initialTime_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_initialTime"), initialTime TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_DOUBLE(_0, initialTime);
+	zephir_update_property_this(this_ptr, SL("_initialTime"), _0 TSRMLS_CC);
 
 }
 
 /**
  * Timestamp when the profile started
- *
- * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
 
@@ -184,25 +184,25 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
 
 /**
  * Timestamp when the profile ended
- *
- * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
 
-	zval *finalTime;
+	zval *finalTime_param = NULL, *_0;
+	double finalTime;
 
-	zephir_fetch_params(0, 1, 0, &finalTime);
+	zephir_fetch_params(0, 1, 0, &finalTime_param);
+
+	finalTime = zephir_get_doubleval(finalTime_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_finalTime"), finalTime TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_DOUBLE(_0, finalTime);
+	zephir_update_property_this(this_ptr, SL("_finalTime"), _0 TSRMLS_CC);
 
 }
 
 /**
  * Timestamp when the profile ended
- *
- * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 

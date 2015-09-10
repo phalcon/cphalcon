@@ -89,8 +89,6 @@ PHP_METHOD(Phalcon_Image_Adapter, getRealpath) {
 
 /**
  * Image width
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Image_Adapter, getWidth) {
 
@@ -101,8 +99,6 @@ PHP_METHOD(Phalcon_Image_Adapter, getWidth) {
 
 /**
  * Image height
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Image_Adapter, getHeight) {
 
@@ -114,9 +110,9 @@ PHP_METHOD(Phalcon_Image_Adapter, getHeight) {
 /**
  * Image type
  *
+ *
  * Driver dependent
  *
- * @var int
  */
 PHP_METHOD(Phalcon_Image_Adapter, getType) {
 
@@ -127,8 +123,6 @@ PHP_METHOD(Phalcon_Image_Adapter, getType) {
 
 /**
  * Image mime type
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Image_Adapter, getMime) {
 
@@ -904,7 +898,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save) {
 		zephir_get_strval(file, file_param);
 	}
 	if (!quality_param) {
-		quality = 100;
+		quality = -1;
 	} else {
 		quality = zephir_get_intval(quality_param);
 	}
@@ -915,11 +909,6 @@ PHP_METHOD(Phalcon_Image_Adapter, save) {
 		zephir_read_property_this(&_0, this_ptr, SL("_realpath"), PH_NOISY_CC);
 		zephir_get_strval(_1, _0);
 		ZEPHIR_CPY_WRT(file, _1);
-	}
-	if (quality < 1) {
-		quality = 1;
-	} else if (quality > 100) {
-		quality = 100;
 	}
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, quality);

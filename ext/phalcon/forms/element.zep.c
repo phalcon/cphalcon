@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message, *messages, *_0;
+	zval *message, *messages = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message);
@@ -768,6 +768,8 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 6);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
+		ZEPHIR_OBS_NVAR(messages);
+		zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	}
 	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, 0, message);
 	zephir_check_call_status();
