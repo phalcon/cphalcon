@@ -381,7 +381,7 @@ class Memory extends Adapter
 
 				if accessName != "*" {
 					let accessKeyAll = roleName . "!" . resourceName . "!*";
-					if isset accessList[accessKeyAll] {
+					if isset internalAccess[accessKeyAll] {
 						let this->_access[accessKeyAll] = defaultAccess;
 					}
 				}
@@ -410,7 +410,7 @@ class Memory extends Adapter
 				 * If there is no default action for all the rest actions in the resource set the
 				 * default one
 				 */
-				if !isset accessList[accessKey] {
+				if !isset internalAccess[accessKey] {
 					let this->_access[accessKey] = this->_defaultAccess;
 				}
 			}
