@@ -358,7 +358,7 @@ class Postgresql extends Dialect
 		}
 
 		/**
-		 * Create a temporary o normal table
+		 * Create a temporary or normal table
 		 */
 		if temporary {
 			let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
