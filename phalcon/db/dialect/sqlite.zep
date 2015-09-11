@@ -302,13 +302,6 @@ class Sqlite extends Dialect
 			}
 
 			/**
-			 * Add a NOT NULL clause
-			 */
-			if column->isNotNull() {
-				let columnLine .= " NOT NULL";
-			}
-
-			/**
 			 * Add a Default clause
 			 */
 			if column->hasDefault() {
@@ -318,6 +311,13 @@ class Sqlite extends Dialect
 				} else {
 					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
 				}
+			}
+
+			/**
+			 * Add a NOT NULL clause
+			 */
+			if column->isNotNull() {
+				let columnLine .= " NOT NULL";
 			}
 
 			let createLines[] = columnLine;
