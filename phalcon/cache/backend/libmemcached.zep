@@ -27,9 +27,8 @@ use Phalcon\Cache\Exception;
 /**
  * Phalcon\Cache\Backend\Libmemcached
  *
- * Allows to cache output fragments, PHP data or raw data to a libmemcached backend
- *
- * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ * Allows to cache output fragments, PHP data or raw data to a libmemcached backend.
+ * Per default persistent memcached connection pools are used.
  *
  *<code>
  *
@@ -57,6 +56,36 @@ use Phalcon\Cache\Exception;
  * //Get data
  * $data = $cache->get('my-data');
  *
+ *</code>
+ *
+ * For multiple memcached servers please make sure to enable proper fail-over and timeouts.
+ * The following settings could be used in a fast local network environment.
+ * Shared environments with higher latencies require different settings.
+ *
+ *<code>
+ *$cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, [
+ *  "server" => $servers,
+ *  "persistent_id" => "phalcon_cache",
+ *  "client" => [
+ *    // Ensure correct mapping of keys for failed servers
+ *    Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
+ *    // Remove failed servers from connection pool
+ *    Memcached::OPT_REMOVE_FAILED_SERVERS => true,
+ *    // Number of connection failures after a server is considered down
+ *    Memcached::OPT_SERVER_FAILURE_LIMIT => 2,
+ *    // Retry failed servers every 1 second
+ *    Memcached::OPT_RETRY_TIMEOUT => 1,
+ *    // Can not initially connect within 20ms -> consider offline
+ *    Memcached::OPT_POLL_TIMEOUT => 20,
+ *    // An open connection does not respond to polling within 20ms -> consider offline
+ *    Memcached::OPT_CONNECT_TIMEOUT => 20,
+ *    // Binary transfer is marginally faster than ascii transfer
+ *    Memcached::OPT_BINARY_PROTOCOL => true,
+ *    // Asynchronous I/O is supposedly the fastest transport
+ *    Memcached::OPT_NO_BLOCK => true,
+ *    // Don't queue network packages. Send as fast as possible
+ *    Memcached::OPT_TCP_NODELAY => true
+ *]]);
  *</code>
  */
 class Libmemcached extends Backend implements BackendInterface
@@ -96,28 +125,43 @@ class Libmemcached extends Backend implements BackendInterface
 	 */
 	public function _connect()
 	{
-		var options, memcache, client, servers;
+		var options, memcache, client, servers, persistentId;
 
 		let options = this->_options;
-		let memcache = new \Memcached();
 
-		if !fetch servers, options["servers"] {
-			throw new Exception("Servers must be an array");
+		/* Enable persistent memcache connection per default */
+		if !fetch persistentId, options["persistent_id"] {
+			let persistentId = "phalcon_cache";
 		}
 
-		if typeof servers != "array" {
-			throw new Exception("Servers must be an array");
-		}
+		/* Get memcached pool connection */
+		let memcache = new \Memcached(persistentId);
 
-		if !memcache->addServers(servers) {
-			throw new Exception("Cannot connect to Memcached server");
-		}
+		/* Persistent memcached pools need to be reconnected if getServerList() is empty */
+		if empty memcache->getServerList() {
+			if !fetch servers, options["servers"] {
+				throw new Exception("Servers must be an array");
+			}
 
-		if fetch client, options["client"] {
+			if typeof servers != "array" {
+				throw new Exception("Servers must be an array");
+			}
+
+			if !fetch client, options["client"] {
+				let client = [];
+			}
+
 			if typeof client !== "array" {
 				throw new Exception("Client options must be instance of array");
 			}
-			memcache->setOptions(client);
+
+			if !memcache->setOptions(client) {
+				throw new Exception("Cannot set to Memcached options");
+			}
+
+			if !memcache->addServers(servers) {
+				throw new Exception("Cannot connect to Memcached server");
+			}
 		}
 
 		let this->_memcache = memcache;
@@ -440,6 +484,17 @@ class Libmemcached extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
+	 *
+	 * Memcached does not support flush() per default. If you require flush() support, set $config["statsKey"].
+     * All modified keys are stored in "statsKey". Note: statsKey has a negative performance impact.
+     *
+     *<code>
+     * $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, ["statsKey" => "_PHCM"]);
+     * $cache->save('my-data', array(1, 2, 3, 4, 5));
+     *
+     * //'my-data' and all other used keys are deleted
+     * $cache->flush();
+     *</code>
 	 */
 	public function flush() -> boolean
 	{
