@@ -21,6 +21,8 @@
 #include "tag.h"
 #include "tag/exception.h"
 
+#include <ext/standard/html.h>
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
@@ -234,7 +236,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 	zval *resultset, *using, *value, *close_option;
 	zval *code, *params = NULL, *option = NULL, *using_zero = NULL, *using_one = NULL;
 	zval *option_value = NULL, *option_text = NULL, *code_option = NULL;
-	zval *r0 = NULL, *escaped;
+	zval *r0 = NULL, *escaped, *escaped2, *quoting;
 
 	PHALCON_MM_GROW();
 
@@ -249,11 +251,14 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 	ZVAL_EMPTY_STRING(code);
 
 	PHALCON_INIT_VAR(params);
-	/**/
 
 	PHALCON_CALL_METHOD(NULL, resultset, "rewind");
 
 	PHALCON_INIT_VAR(escaped);
+	PHALCON_INIT_VAR(escaped2);
+
+	PHALCON_INIT_VAR(quoting);
+	ZVAL_LONG(quoting, ENT_QUOTES);
 
 	while (1) {
 		PHALCON_CALL_METHOD(&r0, resultset, "valid");
@@ -320,18 +325,19 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 			 * If the value is equal to the option's value we mark it as selected
 			 */
 			phalcon_htmlspecialchars(escaped, option_value, NULL, NULL TSRMLS_CC);
+			phalcon_htmlspecialchars(escaped2, option_text, quoting, NULL TSRMLS_CC);
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
 				if (phalcon_fast_in_array(option_value, value TSRMLS_CC)) {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", escaped2, close_option);
 				} else {
 					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", option_text, close_option);
 				}
 			} else {
 				convert_to_string(option_value);
 				if (PHALCON_IS_IDENTICAL(option_value, value)) {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", escaped2, close_option);
 				} else {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", escaped2, close_option);
 				}
 			}
 		} else {
@@ -368,7 +374,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	zval *data, *value, *close_option, *code, *option_text = NULL;
-	zval *option_value = NULL, *escaped, *array_options = NULL;
+	zval *option_value = NULL, *escaped, *escaped2, *quoting, *array_options = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -388,6 +394,10 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 
 	PHALCON_INIT_VAR(escaped);
+	PHALCON_INIT_VAR(escaped2);
+
+	PHALCON_INIT_VAR(quoting);
+	ZVAL_LONG(quoting, ENT_QUOTES);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -402,19 +412,20 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 			PHALCON_SCONCAT_SVSVS(code, "\t<optgroup label=\"", escaped, "\">" PHP_EOL, array_options, "\t</optgroup>" PHP_EOL);
 		} else {
 			phalcon_htmlspecialchars(escaped, option_value, NULL, NULL TSRMLS_CC);
+			phalcon_htmlspecialchars(escaped2, option_text, quoting, NULL TSRMLS_CC);
 		
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
 				if (phalcon_fast_in_array(option_value, value TSRMLS_CC)) {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", escaped2, close_option);
 				} else {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", escaped2, close_option);
 				}
 			} else {
 				convert_to_string(option_value);
 				if (PHALCON_IS_EQUAL(option_value, value)) {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", escaped, "\">", escaped2, close_option);
 				} else {
-					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", option_text, close_option);
+					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", escaped, "\">", escaped2, close_option);
 				}
 			}
 		}

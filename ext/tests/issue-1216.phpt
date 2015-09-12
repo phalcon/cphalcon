@@ -33,7 +33,7 @@ echo "DONE", PHP_EOL;
 <img src="&lt;" alt="&gt;" />
 <br class="&lt;" />
 <select id="" name="&lt;">
-	<option value="&quot;">"</option>
+	<option value="&quot;">&quot;</option>
 	<option selected="selected" value="&gt;">test</option>
 </select>
 DONE
