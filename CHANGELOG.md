@@ -10,7 +10,7 @@
   column definition
 - Fixed determining of default value for column in `Phalcon\Db\Dialect\MySQL`, `Phalcon\Db\Dialect\Sqlite` and
   `Phalcon\Db\Dialect\Postgresql` classes
-- Now Phalcon\Mvc\Model::__call invokes finders as in __callStatic
+- Now `Phalcon\Mvc\Model::__call` invokes finders as in `__callStatic`
 - Fixed `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` for `BIGINT` and `BOOLEAN` data types
 - Fixed `BOOLEAN` default value in `Phalcon\Db\Dialect\Postgresql`
 
@@ -73,20 +73,20 @@ belongs to the uniqueId or the whole session data
 - Fixed generation and validation of default parameters in Volt's macros
 - Added `Phalcon\Assets\Manager::getCollections()` to return all collections registered [#2488](https://github.com/phalcon/cphalcon/pull/2488)
 - Now `Phalcon\Mvc\Url::getStatic()` generates URLs from routes
-- Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both Phalcon\Mvc\Model and `Phalcon\Mvc\Collection` instances
+- Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both `Phalcon\Mvc\Model` and `Phalcon\Mvc\Collection` instances
 - Added `Phalcon\Session\Adapter::setName()` to change the session name
-- Added BIGINT support in Phalcon\Db
+- Added BIGINT support in `Phalcon\Db`
 - Added new types `Phalcon\Db\Column::BLOB` and `Phalcon\Db\Column::DOUBLE` [#10506](https://github.com/phalcon/cphalcon/pull/10506)
 - Automatic binding of Large Object data (LOB) in the ORM
 - Support for BIT types in MySQL with binding as booleans
 - Added `Phalcon\Flash\Direct::output()` allowing to place flash messages in a specific place of the view [#629](https://github.com/phalcon/cphalcon/pull/629)
 - Added 'autoescape' option that allows to globally enable autoescape in any Volt template
-- Added readAttribute/writeAttribute to `Phalcon\Mvc\Collection\Document`
+- Added `readAttribute`/`writeAttribute` to `Phalcon\Mvc\Collection\Document`
 - Added toArray to `Phalcon\Mvc\Collection\Document`
 - Global setting `db.force_casting` now forces casting bound parameters to specified bind types
 - Introduced new placeholders in PHQL enclosed in brackets that allow to set the type: {name:str} or {names:array}
 - Now you can bind arrays in bound parameters in PHQL
-- Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
+- Global setting `orm.cast_on_hydrate` allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
 - Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
 - Allowing late state binding in both Simple/Complex results to allow override `Mvc\Model::cloneResultMap`
 - Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` [#10536](https://github.com/phalcon/cphalcon/issues/10536)
