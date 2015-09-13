@@ -258,7 +258,8 @@ class Validation extends Injectable
 			"TooLong": "Field :field must not exceed :max characters long",
 			"TooShort": "Field :field must be at least :min characters long",
 			"Uniqueness": "Field :field must be unique",
-			"Url": "Field :field must be a url"
+			"Url": "Field :field must be a url",
+			"CreditCard": "Field :field is not valid for a credit card number"
 		];
 
 		let this->_defaultMessages = array_merge(defaultMessages, messages);
