@@ -371,6 +371,7 @@ zend_class_entry *phalcon_validation_validator_alnum_ce;
 zend_class_entry *phalcon_validation_validator_alpha_ce;
 zend_class_entry *phalcon_validation_validator_between_ce;
 zend_class_entry *phalcon_validation_validator_confirmation_ce;
+zend_class_entry *phalcon_validation_validator_creditcard_ce;
 zend_class_entry *phalcon_validation_validator_digit_ce;
 zend_class_entry *phalcon_validation_validator_email_ce;
 zend_class_entry *phalcon_validation_validator_exclusionin_ce;
@@ -767,6 +768,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Alpha);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Between);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Confirmation);
+	ZEPHIR_INIT(Phalcon_Validation_Validator_CreditCard);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Digit);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Email);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_ExclusionIn);

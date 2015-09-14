@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	zephir_read_property_this(&httpOnly, this_ptr, SL("_httpOnly"), PH_NOISY_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "session", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, 0, _2);

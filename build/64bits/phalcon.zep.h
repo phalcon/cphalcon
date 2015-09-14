@@ -9778,11 +9778,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlvariables, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlVariables)
+	ZEND_ARG_ARRAY_INFO(0, sqlVariables, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlbindtypes, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlBindTypes)
+	ZEND_ARG_ARRAY_INFO(0, sqlBindTypes, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setinitialtime, 0, 0, 1)
@@ -18517,6 +18517,28 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_validation_validator_confirmation_method_entry) {
 	PHP_ME(Phalcon_Validation_Validator_Confirmation, validate, arginfo_phalcon_validation_validator_confirmation_validate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Validation_Validator_Confirmation, compare, arginfo_phalcon_validation_validator_confirmation_compare, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_validation_validator_creditcard_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_CreditCard);
+
+static PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_creditcard_validate, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_creditcard_verifybyluhnalgorithm, 0, 0, 1)
+	ZEND_ARG_INFO(0, number)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_validation_validator_creditcard_method_entry) {
+	PHP_ME(Phalcon_Validation_Validator_CreditCard, validate, arginfo_phalcon_validation_validator_creditcard_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm, arginfo_phalcon_validation_validator_creditcard_verifybyluhnalgorithm, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 

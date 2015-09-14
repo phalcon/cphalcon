@@ -132,8 +132,6 @@ PHP_METHOD(Phalcon_Db_Adapter, getType) {
 
 /**
  * Active SQL bound parameter variables
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables) {
 
@@ -246,11 +244,11 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect) {
  *
  *<code>
  *	//Getting first robot
- *	$robot = $connection->fecthOne("SELECT * FROM robots");
+ *	$robot = $connection->fetchOne("SELECT * FROM robots");
  *	print_r($robot);
  *
  *	//Getting first robot with associative indexes only
- *	$robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *	$robot = $connection->fetchOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
  *	print_r($robot);
  *</code>
  */

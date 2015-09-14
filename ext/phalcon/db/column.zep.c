@@ -284,8 +284,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 
 /**
  * Column's name
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Column, getName) {
 
@@ -296,8 +294,6 @@ PHP_METHOD(Phalcon_Db_Column, getName) {
 
 /**
  * Schema which table related is
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
@@ -308,8 +304,6 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
 /**
  * Column data type
- *
- * @var int|string
  */
 PHP_METHOD(Phalcon_Db_Column, getType) {
 
@@ -320,8 +314,6 @@ PHP_METHOD(Phalcon_Db_Column, getType) {
 
 /**
  * Column data type reference
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
@@ -332,8 +324,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
 /**
  * Column data type values
- *
- * @var array|string
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
@@ -344,8 +334,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
 /**
  * Integer column size
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getSize) {
 
@@ -356,8 +344,6 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
 
 /**
  * Integer column number scale
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getScale) {
 

@@ -572,7 +572,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 				ZEPHIR_INIT_LNVAR(_2);
 				ZEPHIR_CONCAT_VSVS(_2, roleName, "!", resourceName, "!*");
 				ZEPHIR_CPY_WRT(accessKeyAll, _2);
-				if (zephir_array_isset(accessList, accessKeyAll)) {
+				if (zephir_array_isset(internalAccess, accessKeyAll)) {
 					zephir_update_property_array(this_ptr, SL("_access"), accessKeyAll, defaultAccess TSRMLS_CC);
 				}
 			}
@@ -600,7 +600,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			ZEPHIR_INIT_LNVAR(_2);
 			ZEPHIR_CONCAT_VSVS(_2, roleName, "!", resourceName, "!*");
 			ZEPHIR_CPY_WRT(accessKey, _2);
-			if (!(zephir_array_isset(accessList, accessKey))) {
+			if (!(zephir_array_isset(internalAccess, accessKey))) {
 				_11 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 				zephir_update_property_array(this_ptr, SL("_access"), accessKey, _11 TSRMLS_CC);
 			}

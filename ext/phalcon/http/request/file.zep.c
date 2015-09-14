@@ -79,7 +79,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File) {
 }
 
 /**
- * @var string|null
  */
 PHP_METHOD(Phalcon_Http_Request_File, getError) {
 
@@ -89,7 +88,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getError) {
 }
 
 /**
- * @var string|null
  */
 PHP_METHOD(Phalcon_Http_Request_File, getKey) {
 
@@ -99,7 +97,6 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey) {
 }
 
 /**
- * @var string
  */
 PHP_METHOD(Phalcon_Http_Request_File, getExtension) {
 

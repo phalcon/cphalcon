@@ -89,8 +89,6 @@ PHP_METHOD(Phalcon_Image_Adapter, getRealpath) {
 
 /**
  * Image width
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Image_Adapter, getWidth) {
 
@@ -101,8 +99,6 @@ PHP_METHOD(Phalcon_Image_Adapter, getWidth) {
 
 /**
  * Image height
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Image_Adapter, getHeight) {
 
@@ -114,9 +110,9 @@ PHP_METHOD(Phalcon_Image_Adapter, getHeight) {
 /**
  * Image type
  *
+ *
  * Driver dependent
  *
- * @var int
  */
 PHP_METHOD(Phalcon_Image_Adapter, getType) {
 
@@ -127,8 +123,6 @@ PHP_METHOD(Phalcon_Image_Adapter, getType) {
 
 /**
  * Image mime type
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Image_Adapter, getMime) {
 

@@ -46,7 +46,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
 
 /**
  * Resource name
- * @var string
  */
 PHP_METHOD(Phalcon_Acl_Resource, getName) {
 
@@ -57,7 +56,6 @@ PHP_METHOD(Phalcon_Acl_Resource, getName) {
 
 /**
  * Resource name
- * @var string
  */
 PHP_METHOD(Phalcon_Acl_Resource, __toString) {
 
@@ -68,7 +66,6 @@ PHP_METHOD(Phalcon_Acl_Resource, __toString) {
 
 /**
  * Resource description
- * @var string
  */
 PHP_METHOD(Phalcon_Acl_Resource, getDescription) {
 
