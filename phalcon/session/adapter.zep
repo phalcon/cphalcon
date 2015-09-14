@@ -126,7 +126,7 @@ abstract class Adapter
 	 *	$session->get('auth', 'yes');
 	 *</code>
 	 */
-	public function get(string index, var defaultValue = null, boolean remove = false)
+	public function get(string index, var defaultValue = null, boolean remove = false) -> var
 	{
 		var value, key, uniqueId;
 
