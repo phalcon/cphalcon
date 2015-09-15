@@ -1932,7 +1932,9 @@ class Compiler implements InjectionAwareInterface
 		/**
 		 * Bind the closure to the $this object allowing to call services, only PHP >= 5.4
 		 */
-		if !is_php_version("5.3") {
+		if is_php_version("5.3") {
+			let code .= " ?>";
+		} else {
 			let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
 		}
 
