@@ -111,7 +111,7 @@ class Uniqueness extends Validator
 		/**
 		 * If the operation is update, there must be values in the object
 		 */
-		if record->getOperationMade() == Model::OP_UPDATE {
+		if record->getDirtyState() == Model::DIRTY_STATE_PERSISTENT {
 			let metaData = record->getDI()->getShared("modelsMetadata");
 
 			for primaryField in metaData->getPrimaryKeyAttributes(record) {
