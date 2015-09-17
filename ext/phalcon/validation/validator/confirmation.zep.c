@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&valueWith, validation, "getvalue", NULL, 0, fieldWith);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "compare", NULL, 441, value, valueWith);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "compare", NULL, 440, value, valueWith);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_INIT_NVAR(_0);
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_STRING(_3, "Confirmation", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 438, _2, field, _3);
+		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 437, _2, field, _3);
 		zephir_check_temp_parameter(_3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _0);

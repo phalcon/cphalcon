@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -50,6 +50,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 
 /**
  * Default date format
+ *
+ * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
 
@@ -60,25 +62,25 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
 
 /**
  * Default date format
+ *
+ * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat) {
 
-	zval *dateFormat_param = NULL;
-	zval *dateFormat = NULL;
+	zval *dateFormat;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &dateFormat_param);
+	zephir_fetch_params(0, 1, 0, &dateFormat);
 
-	zephir_get_strval(dateFormat, dateFormat_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_dateFormat"), dateFormat TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * Format applied to each message
+ *
+ * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 
@@ -89,20 +91,18 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 
 /**
  * Format applied to each message
+ *
+ * @var string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 
-	zval *format_param = NULL;
-	zval *format = NULL;
+	zval *format;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &format_param);
+	zephir_fetch_params(0, 1, 0, &format);
 
-	zephir_get_strval(format, format_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

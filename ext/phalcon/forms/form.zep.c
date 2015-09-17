@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	if (byItemName) {
 		if (Z_TYPE_P(messages) != IS_ARRAY) {
 			object_init_ex(return_value, phalcon_validation_message_group_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0, 6);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", &_0, 3);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -514,7 +514,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, group, "__construct", &_0, 6);
+	ZEPHIR_CALL_METHOD(NULL, group, "__construct", &_0, 3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
 		zephir_is_iterable(messages, &_2, &_1, 0, 0, "phalcon/forms/form.zep", 407);
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 	}
 	ZEPHIR_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, group, "__construct", NULL, 6);
+	ZEPHIR_CALL_METHOD(NULL, group, "__construct", NULL, 3);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_messages"), name, group TSRMLS_CC);
 	RETURN_CCTOR(group);

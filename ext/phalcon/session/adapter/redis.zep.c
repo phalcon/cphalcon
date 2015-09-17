@@ -157,9 +157,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 	ZEPHIR_INIT_NVAR(_5);
 	ZVAL_STRING(_5, "gc", 1);
 	zephir_array_fast_append(_10, _5);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 412, _4, _6, _7, _8, _9, _10);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 411, _4, _6, _7, _8, _9, _10);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_redis_ce, this_ptr, "__construct", &_11, 413, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_redis_ce, this_ptr, "__construct", &_11, 412, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
