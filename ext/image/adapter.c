@@ -1045,33 +1045,33 @@ PHP_METHOD(Phalcon_Image_Adapter, pixelate){
  */
 PHP_METHOD(Phalcon_Image_Adapter, save){
 
-	zval **fname = NULL, **q = NULL;
-	zval *file, *quality;
+	zval *file = NULL, *quality = NULL;
 	zval *ret = NULL, *dir, *constant;
-
-	phalcon_fetch_params_ex(0, 2, &fname, &q);
 
 	PHALCON_MM_GROW();
 
-	if (!fname) {
+	phalcon_fetch_params(1, 0, 2, &file, &quality);
+
+	if (!file) {
 		PHALCON_OBS_VAR(file);
 		phalcon_read_property_this(&file, this_ptr, SL("_realpath"), PH_NOISY TSRMLS_CC);
 		convert_to_string_ex(&file);
-	}
-	else {
-		PHALCON_ENSURE_IS_STRING(fname);
-		file = *fname;
+	} else {
+		PHALCON_ENSURE_IS_STRING(&file);
 	}
 
-	PHALCON_INIT_VAR(quality);
-	if (!q || Z_TYPE_PP(q) != IS_LONG) {
-		ZVAL_LONG(quality, 100);
-	} else if (Z_LVAL_PP(q) > 100) {
-		ZVAL_LONG(quality, 100);
-	} else if (Z_LVAL_PP(q) < 1) {
-		ZVAL_LONG(quality, 1);
-	} else {
-		ZVAL_LONG(quality, Z_LVAL_PP(q));
+	if (!quality) {
+		PHALCON_INIT_VAR(quality);
+		ZVAL_NULL(quality);
+	}
+
+	if (Z_TYPE_P(quality) == IS_LONG) {
+		PHALCON_SEPARATE_PARAM(quality);
+		if (Z_LVAL_P(quality) > 100) {
+			ZVAL_LONG(quality, 100);
+		} else if (Z_LVAL_P(quality) < 1) {
+			ZVAL_LONG(quality, 1);
+		}
 	}
 
 	PHALCON_CALL_FUNCTION(&ret, "is_file", file);
@@ -1141,13 +1141,17 @@ PHP_METHOD(Phalcon_Image_Adapter, render){
 
 	if (!quality) {
 		PHALCON_INIT_VAR(quality);
-		ZVAL_LONG(quality, 100);
-	} else {
-        if (Z_TYPE_P(quality) != IS_LONG) {
-            PHALCON_SEPARATE_PARAM(quality);
-            convert_to_long(quality);
-        }
-    }
+		ZVAL_NULL(quality);
+	}
+
+	if (Z_TYPE_P(quality) == IS_LONG) {
+		PHALCON_SEPARATE_PARAM(quality);
+		if (Z_LVAL_P(quality) > 100) {
+			ZVAL_LONG(quality, 100);
+		} else if (Z_LVAL_P(quality) < 1) {
+			ZVAL_LONG(quality, 1);
+		}
+	}
 
 	PHALCON_RETURN_CALL_METHOD(this_ptr, "_render", ext, quality);
 
