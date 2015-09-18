@@ -1,4 +1,4 @@
-# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
+# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
 - Added `Phalcon\Logger\Adapter::isTransaction()` to check whether the logger is currently in transaction
   mode or not (Phalcon 1.3 behavior)
