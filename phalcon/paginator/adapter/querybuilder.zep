@@ -193,8 +193,8 @@ class QueryBuilder extends Adapter implements AdapterInterface
 			page->current = numberPage,
 			page->last = totalPages,
 			page->next = next,
-			page->total_pages = totalPages,
-			page->total_items = rowcount,
+			page->totalPages = totalPages,
+			page->totalItems = rowcount,
 			page->limit = this->_limitRows;
 
 		return page;
