@@ -145,6 +145,22 @@ class Application extends Injectable
 	{
 		return this->_modules;
 	}
+	
+	/**
+	 * Handles a user exception
+	 */
+	protected function _handleException(<\Exception> exception)
+	{
+		var eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("application:beforeException", this, exception) === false {
+				return false;
+			} else {
+				throw exception;
+			}
+		}
+	}
 
 	/**
 	 * Gets the module definition registered in the application via module name
@@ -157,7 +173,8 @@ class Application extends Injectable
 		var module;
 
 		if !fetch module, this->_modules[name] {
-			throw new Exception("Module '" . name . "' isn't registered in the application container");
+			exception = new Exception("Module '" . name . "' isn't registered in the application container");
+			this->_handleException(exception);
 		}
 
 		return module;
