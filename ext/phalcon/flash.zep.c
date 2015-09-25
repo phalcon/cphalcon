@@ -93,7 +93,11 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 	implicitFlush = zephir_get_boolval(implicitFlush_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_implicitFlush"), implicitFlush ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (implicitFlush) {
+		zephir_update_property_this(this_ptr, SL("_implicitFlush"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_implicitFlush"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -111,7 +115,11 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 	automaticHtml = zephir_get_boolval(automaticHtml_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_automaticHtml"), automaticHtml ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (automaticHtml) {
+		zephir_update_property_this(this_ptr, SL("_automaticHtml"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_automaticHtml"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -127,7 +135,6 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
 	zephir_fetch_params(0, 1, 0, &cssClasses_param);
 
 	cssClasses = cssClasses_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);

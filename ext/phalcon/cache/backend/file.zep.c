@@ -303,7 +303,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -354,7 +358,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_object_iterator *_1;
-	zval *keys;
+	zval *keys = NULL;
 	zval *prefix = NULL, *item = NULL, *key = NULL, *cacheDir, *_0, *_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -367,6 +371,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	array_init(keys);
 
 
+	ZEPHIR_INIT_NVAR(keys);
+	array_init(keys);
 	ZEPHIR_OBS_VAR(cacheDir);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&cacheDir, _0, SS("cacheDir"), 0 TSRMLS_CC))) {
@@ -516,7 +522,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
 		ZEPHIR_INIT_VAR(_4);
-		sub_function(_4, timestamp, ttl TSRMLS_CC);
+		zephir_sub_function(_4, timestamp, ttl);
 		ZEPHIR_INIT_VAR(_5);
 		zephir_filemtime(_5, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_4, _5)) {
@@ -598,7 +604,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
 		ZEPHIR_INIT_VAR(_5);
-		sub_function(_5, timestamp, ttl TSRMLS_CC);
+		zephir_sub_function(_5, timestamp, ttl);
 		ZEPHIR_INIT_VAR(_6);
 		zephir_filemtime(_6, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_5, _6)) {
@@ -726,7 +732,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, useSafeKey) {
 	useSafeKey = zephir_get_boolval(useSafeKey_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_useSafeKey"), useSafeKey ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (useSafeKey) {
+		zephir_update_property_this(this_ptr, SL("_useSafeKey"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_useSafeKey"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }

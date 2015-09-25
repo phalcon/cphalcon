@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 	if (!(zephir_array_isset(_3, roleName))) {
 		zephir_update_property_array(this_ptr, SL("_roleInherits"), roleName, ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	}
-	zephir_update_property_array_multi(this_ptr, SL("_roleInherits"), &roleInheritName TSRMLS_CC, SL("za"), 1, roleName);
+	zephir_update_property_array_multi(this_ptr, SL("_roleInherits"), &roleInheritName TSRMLS_CC, SL("za"), 2, roleName);
 	RETURN_MM_BOOL(1);
 
 }

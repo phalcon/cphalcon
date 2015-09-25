@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 			if (_4) {
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "HTTP/", 0);
-				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, 236, key, &_5);
+				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, 235, key, &_5);
 				zephir_check_call_status();
 				_4 = zephir_is_true(_6);
 			}
@@ -526,10 +526,9 @@ PHP_METHOD(Phalcon_Http_Response, setCache) {
 	zephir_fetch_params(1, 1, 0, &minutes_param);
 
 	if (unlikely(Z_TYPE_P(minutes_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be a long/integer") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be a int") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	minutes = Z_LVAL_P(minutes_param);
 
 
@@ -716,7 +715,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		if (_0) {
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, "://", 0);
-			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 236, location, &_1);
+			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 235, location, &_1);
 			zephir_check_call_status();
 			_0 = zephir_is_true(_2);
 		}
@@ -975,11 +974,15 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_1 = (zephir_fast_strlen_ev(file)) ? 1 : 0;
 		}
 		if (_1) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 237, file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 236, file);
 			zephir_check_call_status();
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_sent"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_sent"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_sent"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THIS();
 
 }

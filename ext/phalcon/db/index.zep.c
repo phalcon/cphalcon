@@ -60,8 +60,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
 /**
  * Index name
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Index, getName) {
 
@@ -72,8 +70,6 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
 
 /**
  * Index columns
- *
- * @var array
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
@@ -84,8 +80,6 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
 /**
  * Index type
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Index, getType) {
 
@@ -110,7 +104,6 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -118,7 +111,6 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		ZVAL_EMPTY_STRING(name);
 	}
 	columns = columns_param;
-
 	if (!type) {
 		type = ZEPHIR_GLOBAL(global_null);
 	}
@@ -145,7 +137,6 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 	zephir_fetch_params(1, 1, 0, &data_param);
 
 	data = data_param;
-
 
 
 	ZEPHIR_OBS_VAR(indexName);

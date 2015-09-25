@@ -185,7 +185,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {

@@ -72,7 +72,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	reflectionData = reflectionData_param;
 
 
-
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 58 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(exprArguments);
@@ -130,7 +129,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	zephir_fetch_params(1, 1, 0, &expr_param);
 
 	expr = expr_param;
-
 
 
 	ZEPHIR_OBS_VAR(type);
@@ -293,7 +291,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -328,7 +325,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {

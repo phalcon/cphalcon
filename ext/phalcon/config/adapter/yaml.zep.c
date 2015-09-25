@@ -81,7 +81,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(filePath_param) == IS_STRING)) {
 		zephir_get_strval(filePath, filePath_param);
 	} else {
@@ -89,11 +88,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZVAL_EMPTY_STRING(filePath);
 	}
 	if (!callbacks_param) {
-	ZEPHIR_INIT_VAR(callbacks);
-	array_init(callbacks);
+		ZEPHIR_INIT_VAR(callbacks);
+		array_init(callbacks);
 	} else {
 	callbacks = callbacks_param;
-
 	}
 
 
@@ -110,9 +108,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZVAL_LONG(_2, 0);
 		ZEPHIR_INIT_VAR(_3);
 		ZVAL_LONG(_3, ndocs);
-		Z_SET_ISREF_P(_3);
+		ZEPHIR_MAKE_REF(_3);
 		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 130, filePath, _2, _3, callbacks);
-		Z_UNSET_ISREF_P(_3);
+		ZEPHIR_UNREF(_3);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 130, filePath);

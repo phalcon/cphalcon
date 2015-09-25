@@ -85,7 +85,6 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -175,7 +174,11 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue) {
 
 
 	zephir_update_property_this(this_ptr, SL("_value"), value TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_readed"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_readed"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_readed"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -354,7 +357,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	} else {
 		ZEPHIR_CPY_WRT(encryptValue, value);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 218, name, encryptValue, expire, path, domain, secure, httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 217, name, encryptValue, expire, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -408,7 +411,11 @@ PHP_METHOD(Phalcon_Http_Cookie, restore) {
 				}
 			}
 		}
-		zephir_update_property_this(this_ptr, SL("_restored"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (1) {
+			zephir_update_property_this(this_ptr, SL("_restored"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_restored"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	RETURN_THIS();
 
@@ -457,7 +464,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	zephir_time(_2);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, (zephir_get_numberval(_2) - 691200));
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 218, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 217, name, ZEPHIR_GLOBAL(global_null), &_4, path, domain, secure, httpOnly);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -476,7 +483,11 @@ PHP_METHOD(Phalcon_Http_Cookie, useEncryption) {
 	useEncryption = zephir_get_boolval(useEncryption_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_useEncryption"), useEncryption ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (useEncryption) {
+		zephir_update_property_this(this_ptr, SL("_useEncryption"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_useEncryption"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -552,7 +563,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
@@ -616,7 +626,6 @@ PHP_METHOD(Phalcon_Http_Cookie, setDomain) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'domain' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(domain_param) == IS_STRING)) {
 		zephir_get_strval(domain, domain_param);
 	} else {
@@ -674,7 +683,11 @@ PHP_METHOD(Phalcon_Http_Cookie, setSecure) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_this(this_ptr, SL("_secure"), secure ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (secure) {
+		zephir_update_property_this(this_ptr, SL("_secure"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_secure"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THIS();
 
 }
@@ -718,7 +731,11 @@ PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "restore", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_this(this_ptr, SL("_httpOnly"), httpOnly ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (httpOnly) {
+		zephir_update_property_this(this_ptr, SL("_httpOnly"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_httpOnly"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THIS();
 
 }

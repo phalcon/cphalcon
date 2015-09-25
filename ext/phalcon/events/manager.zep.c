@@ -71,7 +71,6 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(eventType_param) == IS_STRING)) {
 		zephir_get_strval(eventType, eventType_param);
 	} else {
@@ -82,10 +81,9 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 		priority = 100;
 	} else {
 	if (unlikely(Z_TYPE_P(priority_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'priority' must be a long/integer") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'priority' must be a int") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	priority = Z_LVAL_P(priority_param);
 	}
 
@@ -107,7 +105,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 			}
 			ZEPHIR_INIT_VAR(_2);
 			ZVAL_LONG(_2, 1);
-			ZEPHIR_CALL_METHOD(NULL, priorityQueue, "setextractflags", NULL, 186, _2);
+			ZEPHIR_CALL_METHOD(NULL, priorityQueue, "setextractflags", NULL, 185, _2);
 			zephir_check_call_status();
 			zephir_update_property_array(this_ptr, SL("_events"), eventType, priorityQueue TSRMLS_CC);
 		} else {
@@ -117,7 +115,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 	if (Z_TYPE_P(priorityQueue) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_2);
 		ZVAL_LONG(_2, priority);
-		ZEPHIR_CALL_METHOD(NULL, priorityQueue, "insert", NULL, 187, handler, _2);
+		ZEPHIR_CALL_METHOD(NULL, priorityQueue, "insert", NULL, 186, handler, _2);
 		zephir_check_call_status();
 	} else {
 		zephir_array_append(&priorityQueue, handler, PH_SEPARATE, "phalcon/events/manager.zep", 82);
@@ -147,7 +145,6 @@ PHP_METHOD(Phalcon_Events_Manager, detach) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(eventType_param) == IS_STRING)) {
 		zephir_get_strval(eventType, eventType_param);
 	} else {
@@ -172,7 +169,7 @@ PHP_METHOD(Phalcon_Events_Manager, detach) {
 			}
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_LONG(_1, 1);
-			ZEPHIR_CALL_METHOD(NULL, newPriorityQueue, "setextractflags", NULL, 186, _1);
+			ZEPHIR_CALL_METHOD(NULL, newPriorityQueue, "setextractflags", NULL, 185, _1);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_1);
 			ZVAL_LONG(_1, 3);
@@ -194,13 +191,13 @@ PHP_METHOD(Phalcon_Events_Manager, detach) {
 				if (!ZEPHIR_IS_IDENTICAL(_5, handler)) {
 					zephir_array_fetch_string(&_6, data, SL("data"), PH_NOISY | PH_READONLY, "phalcon/events/manager.zep", 117 TSRMLS_CC);
 					zephir_array_fetch_string(&_7, data, SL("priority"), PH_NOISY | PH_READONLY, "phalcon/events/manager.zep", 117 TSRMLS_CC);
-					ZEPHIR_CALL_METHOD(NULL, newPriorityQueue, "insert", &_8, 187, _6, _7);
+					ZEPHIR_CALL_METHOD(NULL, newPriorityQueue, "insert", &_8, 186, _6, _7);
 					zephir_check_call_status();
 				}
 			}
 			zephir_update_property_array(this_ptr, SL("_events"), eventType, newPriorityQueue TSRMLS_CC);
 		} else {
-			ZEPHIR_CALL_FUNCTION(&key, "array_search", NULL, 188, handler, priorityQueue, ZEPHIR_GLOBAL(global_true));
+			ZEPHIR_CALL_FUNCTION(&key, "array_search", NULL, 187, handler, priorityQueue, ZEPHIR_GLOBAL(global_true));
 			zephir_check_call_status();
 			if (!ZEPHIR_IS_FALSE_IDENTICAL(key)) {
 				zephir_array_unset(&priorityQueue, key, PH_SEPARATE);
@@ -225,7 +222,11 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities) {
 	enablePriorities = zephir_get_boolval(enablePriorities_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_enablePriorities"), enablePriorities ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (enablePriorities) {
+		zephir_update_property_this(this_ptr, SL("_enablePriorities"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_enablePriorities"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 
 }
 
@@ -253,7 +254,11 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses) {
 	collect = zephir_get_boolval(collect_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_collect"), collect ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (collect) {
+		zephir_update_property_this(this_ptr, SL("_collect"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_collect"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 
 }
 
@@ -299,7 +304,6 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -342,7 +346,6 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -388,7 +391,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 				zephir_get_class(_1, queue, 0 TSRMLS_CC);
 				ZEPHIR_SINIT_VAR(_2);
 				ZVAL_STRING(&_2, "Unexpected value type: expected object of type SplPriorityQueue, %s given", 0);
-				ZEPHIR_CALL_FUNCTION(&_3, "sprintf", NULL, 189, &_2, _1);
+				ZEPHIR_CALL_FUNCTION(&_3, "sprintf", NULL, 188, &_2, _1);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _3);
 				zephir_check_call_status();
@@ -548,7 +551,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable, _3;
-	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event = NULL, *status = NULL, *fireEvents = NULL, *_0, *_2;
+	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events, *eventParts, *type, *eventName, *event = NULL, *status = NULL, *fireEvents = NULL, *_0 = NULL, *_2;
 	zval *eventType = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
@@ -558,7 +561,6 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventType' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(eventType_param) == IS_STRING)) {
 		zephir_get_strval(eventType, eventType_param);
 	} else {
@@ -614,9 +616,15 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 		if (_3) {
 			ZEPHIR_INIT_NVAR(event);
 			object_init_ex(event, phalcon_events_event_ce);
-			ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_4, 190, eventName, source, data, (cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			ZEPHIR_INIT_NVAR(_0);
+			if (cancelable) {
+				ZVAL_BOOL(_0, 1);
+			} else {
+				ZVAL_BOOL(_0, 0);
+			}
+			ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_4, 189, eventName, source, data, _0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_5, 191, fireEvents, event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_5, 190, fireEvents, event);
 			zephir_check_call_status();
 		}
 	}
@@ -630,10 +638,16 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 			if (Z_TYPE_P(event) == IS_NULL) {
 				ZEPHIR_INIT_NVAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
-				ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_4, 190, eventName, source, data, (cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				ZEPHIR_INIT_NVAR(_0);
+				if (cancelable) {
+					ZVAL_BOOL(_0, 1);
+				} else {
+					ZVAL_BOOL(_0, 0);
+				}
+				ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_4, 189, eventName, source, data, _0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_5, 191, fireEvents, event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_5, 190, fireEvents, event);
 			zephir_check_call_status();
 		}
 	}
@@ -656,7 +670,6 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -688,7 +701,6 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {

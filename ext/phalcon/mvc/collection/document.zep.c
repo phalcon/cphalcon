@@ -55,7 +55,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
@@ -83,7 +82,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
@@ -116,7 +114,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
@@ -197,7 +194,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {

@@ -65,7 +65,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(filePath_param) == IS_STRING)) {
 		zephir_get_strval(filePath, filePath_param);
 	} else {

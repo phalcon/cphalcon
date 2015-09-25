@@ -116,7 +116,11 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 	implicitView = zephir_get_boolval(implicitView_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_implicitView"), implicitView ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (implicitView) {
+		zephir_update_property_this(this_ptr, SL("_implicitView"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_implicitView"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -202,7 +206,6 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -243,7 +246,6 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(defaultModule_param) == IS_STRING)) {
 		zephir_get_strval(defaultModule, defaultModule_param);
 	} else {

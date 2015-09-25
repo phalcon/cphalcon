@@ -64,7 +64,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 	config = config_param;
 
 
-
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (zephir_array_isset_string_fetch(&limit, config, SS("limit"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);

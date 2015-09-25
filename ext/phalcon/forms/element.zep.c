@@ -129,7 +129,6 @@ PHP_METHOD(Phalcon_Forms_Element, setName) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -245,7 +244,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	zephir_fetch_params(1, 1, 1, &validators_param, &merge_param);
 
 	validators = validators_param;
-
 	if (!merge_param) {
 		merge = 1;
 	} else {
@@ -329,7 +327,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	} else {
 		ZEPHIR_CPY_WRT(widgetAttributes, attributes);
 	}
-	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE, "phalcon/forms/element.zep", 210);
+	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_OBS_VAR(defaultAttributes);
 	zephir_read_property_this(&defaultAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(defaultAttributes) == IS_ARRAY) {
@@ -428,7 +426,6 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 	zephir_fetch_params(0, 1, 0, &attributes_param);
 
 	attributes = attributes_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);

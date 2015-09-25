@@ -55,7 +55,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
@@ -70,7 +69,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean == 1) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 366);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 365);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {

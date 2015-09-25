@@ -156,7 +156,6 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'propertyName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(propertyName_param) == IS_STRING)) {
 		zephir_get_strval(propertyName, propertyName_param);
 	} else {
@@ -184,7 +183,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		RETURN_CCTOR(service);
 	}
 	if (ZEPHIR_IS_STRING(propertyName, "di")) {
-		zephir_update_property_zval(this_ptr, SL("di"), dependencyInjector TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("di"), dependencyInjector TSRMLS_CC);
 		RETURN_CCTOR(dependencyInjector);
 	}
 	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
@@ -199,7 +198,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		zephir_check_temp_parameter(_5);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(persistent, _3);
-		zephir_update_property_zval(this_ptr, SL("persistent"), persistent TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("persistent"), persistent TSRMLS_CC);
 		RETURN_CCTOR(persistent);
 	}
 	ZEPHIR_INIT_VAR(_6);

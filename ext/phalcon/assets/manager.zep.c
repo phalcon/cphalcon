@@ -82,7 +82,6 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 	options = options_param;
 
 
-
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	RETURN_THISW();
 
@@ -111,7 +110,11 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
 	implicitOutput = zephir_get_boolval(implicitOutput_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_implicitOutput"), implicitOutput ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (implicitOutput) {
+		zephir_update_property_this(this_ptr, SL("_implicitOutput"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_implicitOutput"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -137,7 +140,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
@@ -223,7 +225,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
@@ -308,7 +309,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -350,7 +350,6 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -441,7 +440,6 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
@@ -474,7 +472,6 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
@@ -743,7 +740,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 498);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 499);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 501);
@@ -815,7 +812,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 612);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 613);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 615);
@@ -849,7 +846,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_INIT_NVAR(parameters);
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
-				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE, "phalcon/assets/manager.zep", 671);
+				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 672);
 			} else {
 				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 674);

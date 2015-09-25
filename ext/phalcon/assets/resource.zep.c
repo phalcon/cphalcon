@@ -147,8 +147,16 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_local"), local ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_filter"), filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (local) {
+		zephir_update_property_this(this_ptr, SL("_local"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_local"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
+	if (filter) {
+		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
@@ -207,7 +215,11 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 	local = zephir_get_boolval(local_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_local"), local ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (local) {
+		zephir_update_property_this(this_ptr, SL("_local"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_local"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -225,7 +237,11 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 	filter = zephir_get_boolval(filter_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_filter"), filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (filter) {
+		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }

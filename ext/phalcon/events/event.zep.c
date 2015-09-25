@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 
@@ -69,25 +69,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
 /**
  * Event type
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Events_Event, setType) {
 
-	zval *type;
+	zval *type_param = NULL;
+	zval *type = NULL;
 
-	zephir_fetch_params(0, 1, 0, &type);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &type_param);
 
+	zephir_get_strval(type, type_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * Event type
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Events_Event, getType) {
 
@@ -98,8 +98,6 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
 
 /**
  * Event source
- *
- * @var object
  */
 PHP_METHOD(Phalcon_Events_Event, getSource) {
 
@@ -110,8 +108,6 @@ PHP_METHOD(Phalcon_Events_Event, getSource) {
 
 /**
  * Event data
- *
- * @var mixed
  */
 PHP_METHOD(Phalcon_Events_Event, setData) {
 
@@ -127,8 +123,6 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 
 /**
  * Event data
- *
- * @var mixed
  */
 PHP_METHOD(Phalcon_Events_Event, getData) {
 
@@ -139,8 +133,6 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
 
 /**
  * Is event cancelable?
- *
- * @var boolean
  */
 PHP_METHOD(Phalcon_Events_Event, getCancelable) {
 
@@ -170,7 +162,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -193,7 +184,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	}
 	if (cancelable != 1) {
-		zephir_update_property_this(this_ptr, SL("_cancelable"), cancelable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (cancelable) {
+			zephir_update_property_this(this_ptr, SL("_cancelable"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_cancelable"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -212,7 +207,11 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 93);
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_stopped"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_stopped"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_stopped"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 
 }
 

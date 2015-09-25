@@ -58,7 +58,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -84,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 		ZVAL_NULL(timestamp);
 		ZEPHIR_OBS_VAR(format);
 		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 294, format);
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 293, format);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_VAR(generator);

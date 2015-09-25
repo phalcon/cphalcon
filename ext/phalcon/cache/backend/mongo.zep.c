@@ -348,7 +348,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -402,7 +406,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	HashPosition _5;
 	zend_object_iterator *_4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keys, *conditions, *_2, *_3;
+	zval *keys = NULL, *conditions = NULL, *_2, *_3;
 	zval *prefix = NULL, *collection = NULL, *key = NULL, *item = NULL, *items = NULL, *value = NULL, *_0 = NULL, *_1, **_7;
 
 	ZEPHIR_MM_GROW();
@@ -417,6 +421,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	array_init(conditions);
 
 
+	ZEPHIR_INIT_NVAR(keys);
+	array_init(keys);
+	ZEPHIR_INIT_NVAR(conditions);
+	array_init(conditions);
 	if (zephir_is_true(prefix)) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, zephir_get_internal_ce(SS("mongoregex") TSRMLS_CC));
@@ -592,7 +600,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 		}
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(incremented);
-			zephir_add_function_ex(incremented, cachedContent, value TSRMLS_CC);
+			zephir_add_function(incremented, cachedContent, value);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, 0, prefixedKey, incremented);
 			zephir_check_call_status();
 			RETURN_CCTOR(incremented);
@@ -650,7 +658,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 		}
 		if (zephir_is_numeric(cachedContent)) {
 			ZEPHIR_INIT_VAR(decremented);
-			sub_function(decremented, cachedContent, value TSRMLS_CC);
+			zephir_sub_function(decremented, cachedContent, value);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, 0, prefixedKey, decremented);
 			zephir_check_call_status();
 			RETURN_CCTOR(decremented);

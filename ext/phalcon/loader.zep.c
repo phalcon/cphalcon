@@ -133,7 +133,6 @@ PHP_METHOD(Phalcon_Loader, setExtensions) {
 	extensions = extensions_param;
 
 
-
 	zephir_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	RETURN_THISW();
 
@@ -162,7 +161,6 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 	zephir_fetch_params(1, 1, 1, &namespaces_param, &merge_param);
 
 	namespaces = namespaces_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -211,7 +209,6 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 	zephir_fetch_params(1, 1, 1, &prefixes_param, &merge_param);
 
 	prefixes = prefixes_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -260,7 +257,6 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 	zephir_fetch_params(1, 1, 1, &directories_param, &merge_param);
 
 	directories = directories_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -308,7 +304,6 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 	zephir_fetch_params(1, 1, 1, &classes_param, &merge_param);
 
 	classes = classes_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -362,9 +357,13 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
 		zephir_array_fast_append(_1, _2);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 287, _1);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 286, _1);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_registered"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (1) {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	RETURN_THIS();
 
@@ -389,9 +388,13 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "autoLoad", 1);
 		zephir_array_fast_append(_1, _2);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 288, _1);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 287, _1);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_registered"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (0) {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	RETURN_THIS();
 
@@ -416,7 +419,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'className' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(className_param) == IS_STRING)) {
 		zephir_get_strval(className, className_param);
 	} else {
@@ -500,7 +502,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							zephir_check_temp_parameter(_9);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 289, filePath);
+						ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 288, filePath);
 						zephir_check_call_status();
 						if (zephir_is_true(_11)) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -571,7 +573,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							zephir_check_temp_parameter(_9);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 289, filePath);
+						ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 288, filePath);
 						zephir_check_call_status();
 						if (zephir_is_true(_11)) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -629,7 +631,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_check_temp_parameter(_9);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 289, filePath);
+				ZEPHIR_CALL_FUNCTION(&_11, "is_file", &_12, 288, filePath);
 				zephir_check_call_status();
 				if (zephir_is_true(_11)) {
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

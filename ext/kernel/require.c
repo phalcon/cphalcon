@@ -40,7 +40,7 @@
 int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_DC)
 {
 	zend_file_handle file_handle;
-	int ret, use_ret, mode;
+	int ret, use_ret;
 	zend_op_array *new_op_array;
 
 #ifndef ZEPHIR_RELEASE
@@ -54,7 +54,7 @@ int zephir_require_ret(zval **return_value_ptr, const char *require_path TSRMLS_
 	if (!require_path) {
 		/* @TODO, throw an exception here */
 		return FAILURE;
-	}	
+	}
 
 	use_ret = !!return_value_ptr;
 

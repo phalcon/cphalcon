@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 352, result, cache);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 351, result, cache);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -105,7 +105,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 		RETURN_CCTOR(row);
 	}
 	if (Z_TYPE_P(row) != IS_ARRAY) {
-		zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (0) {
+			zephir_update_property_this(this_ptr, SL("_activeRow"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_activeRow"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_OBS_VAR(hydrateMode);
@@ -318,7 +322,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(data_param) == IS_STRING)) {
 		zephir_get_strval(data, data_param);
 	} else {
@@ -327,7 +330,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_disableHydration"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_disableHydration"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_disableHydration"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 75, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(resultset) != IS_ARRAY) {

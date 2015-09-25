@@ -464,16 +464,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 374);
@@ -493,16 +493,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 1);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 391);
@@ -522,16 +522,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 2);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 408);
@@ -551,16 +551,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 3);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 3);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 425);
@@ -580,16 +580,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 4);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 442);
@@ -609,16 +609,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 5);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 5);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 459);
@@ -641,16 +641,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, _0;
+	zval *model, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 8);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 8);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -666,16 +666,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 9);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 9);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 491);
@@ -695,16 +695,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 10);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 508);
@@ -724,16 +724,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 11);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 11);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 525);
@@ -754,7 +754,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
-	zval *model, *attributes_param = NULL, _0;
+	zval *model, *attributes_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attributes_param);
@@ -762,9 +762,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 	zephir_get_arrval(attributes, attributes_param);
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 12, model, &_0, attributes);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 10);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 12, model, _0, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
-	zval *model, *attributes_param = NULL, _0;
+	zval *model, *attributes_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attributes_param);
@@ -789,9 +789,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 	zephir_get_arrval(attributes, attributes_param);
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 11);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 12, model, &_0, attributes);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 11);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 12, model, _0, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -808,7 +808,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
-	zval *model, *attributes_param = NULL, _0;
+	zval *model, *attributes_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attributes_param);
@@ -816,9 +816,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 	zephir_get_arrval(attributes, attributes_param);
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 13);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 12, model, &_0, attributes);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 13);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 12, model, _0, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -834,16 +834,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 13);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 13);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 578);
@@ -863,16 +863,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 12);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 12);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 11, model, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/mvc/model/metadata.zep", 595);
@@ -893,16 +893,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 
 	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 13, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 13, model, _0);
 	zephir_check_call_status();
 	_1 = Z_TYPE_P(data) != IS_NULL;
 	if (_1) {
@@ -927,16 +927,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 
 	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model, *data = NULL, _0;
+	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
 
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 13, model, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 1);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 13, model, _0);
 	zephir_check_call_status();
 	_1 = Z_TYPE_P(data) != IS_NULL;
 	if (_1) {

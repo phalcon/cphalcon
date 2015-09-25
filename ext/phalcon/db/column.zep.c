@@ -284,8 +284,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 
 /**
  * Column's name
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Column, getName) {
 
@@ -296,8 +294,6 @@ PHP_METHOD(Phalcon_Db_Column, getName) {
 
 /**
  * Schema which table related is
- *
- * @var string
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
@@ -308,8 +304,6 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
 /**
  * Column data type
- *
- * @var int|string
  */
 PHP_METHOD(Phalcon_Db_Column, getType) {
 
@@ -320,8 +314,6 @@ PHP_METHOD(Phalcon_Db_Column, getType) {
 
 /**
  * Column data type reference
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
@@ -332,8 +324,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
 /**
  * Column data type values
- *
- * @var array|string
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
@@ -344,8 +334,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
 /**
  * Integer column size
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getSize) {
 
@@ -356,8 +344,6 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
 
 /**
  * Integer column number scale
- *
- * @var int
  */
 PHP_METHOD(Phalcon_Db_Column, getScale) {
 
@@ -392,7 +378,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -400,7 +385,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		ZVAL_EMPTY_STRING(name);
 	}
 	definition = definition_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -462,11 +446,19 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	ZEPHIR_OBS_VAR(autoIncrement);
 	if (zephir_array_isset_string_fetch(&autoIncrement, definition, SS("autoIncrement"), 0 TSRMLS_CC)) {
 		if (!(zephir_is_true(autoIncrement))) {
-			zephir_update_property_this(this_ptr, SL("_autoIncrement"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			if (0) {
+				zephir_update_property_this(this_ptr, SL("_autoIncrement"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+			} else {
+				zephir_update_property_this(this_ptr, SL("_autoIncrement"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			}
 		} else {
 			do {
 				if (ZEPHIR_IS_LONG(type, 0) || ZEPHIR_IS_LONG(type, 14)) {
-					zephir_update_property_this(this_ptr, SL("_autoIncrement"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+					if (1) {
+						zephir_update_property_this(this_ptr, SL("_autoIncrement"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+					} else {
+						zephir_update_property_this(this_ptr, SL("_autoIncrement"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+					}
 					break;
 				}
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 383);
@@ -583,7 +575,6 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	zephir_fetch_params(1, 1, 0, &data_param);
 
 	data = data_param;
-
 
 
 	ZEPHIR_OBS_VAR(columnName);

@@ -240,7 +240,6 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaults) {
 	defaults = defaults_param;
 
 
-
 	if (zephir_array_isset_string_fetch(&module, defaults, SS("module"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_defaultModule"), module TSRMLS_CC);
 	}
@@ -289,7 +288,11 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	array_init(params);
 	ZEPHIR_INIT_VAR(matches);
 	ZVAL_NULL(matches);
-	zephir_update_property_this(this_ptr, SL("_wasMatched"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	zephir_update_property_this(this_ptr, SL("_matchedRoute"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	if (Z_TYPE_P(arguments) != IS_ARRAY) {
 		_0 = Z_TYPE_P(arguments) != IS_STRING;
@@ -386,9 +389,17 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 			}
 		}
 		if (zephir_is_true(routeFound)) {
-			zephir_update_property_this(this_ptr, SL("_wasMatched"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			if (1) {
+				zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+			} else {
+				zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			}
 		} else {
-			zephir_update_property_this(this_ptr, SL("_wasMatched"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			if (0) {
+				zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+			} else {
+				zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			}
 			_11 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_module"), _11 TSRMLS_CC);
 			_12 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultTask"), PH_NOISY_CC);
@@ -492,7 +503,6 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -650,7 +660,6 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {

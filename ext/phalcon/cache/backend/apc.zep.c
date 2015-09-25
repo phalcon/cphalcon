@@ -76,7 +76,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'keyName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(keyName_param) == IS_STRING)) {
 		zephir_get_strval(keyName, keyName_param);
 	} else {
@@ -184,7 +183,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -309,7 +312,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'keyName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(keyName_param) == IS_STRING)) {
 		zephir_get_strval(keyName, keyName_param);
 	} else {
@@ -353,7 +355,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
 
 	ZEPHIR_INIT_VAR(prefixPattern);
-	if (!(prefix && Z_STRLEN_P(prefix))) {
+	if (!(!(!prefix) && Z_STRLEN_P(prefix))) {
 		ZVAL_STRING(prefixPattern, "/^_PHCA/", 1);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
