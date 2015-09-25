@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2015-XX-XX)
 - PHP 5.3 is now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
@@ -25,10 +24,7 @@
 - Added internal check "allowEmpty" before calling a validator. If it option is true and the value of empty, the validator is skipped
 - Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
 
-# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
-=======
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
->>>>>>> 2.0.x
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
 - Added `Phalcon\Logger\Adapter::isTransaction()` to check whether the logger is currently in transaction
   mode or not (Phalcon 1.3 behavior)
