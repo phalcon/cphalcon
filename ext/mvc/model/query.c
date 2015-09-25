@@ -234,6 +234,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlAliasesModelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlColumnAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_modelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_currentModelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cacheOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_uniqueRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -530,7 +531,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		ZVAL_FALSE(has_model);
 
 		PHALCON_OBS_VAR(models_instances);
-		phalcon_read_property_this(&models_instances, this_ptr, SL("_modelsInstances"), PH_NOISY TSRMLS_CC);
+		phalcon_read_property_this(&models_instances, this_ptr, SL("_currentModelsInstances"), PH_NOISY TSRMLS_CC);
 
 		phalcon_is_iterable(models_instances, &ah0, &hp0, 0, 0);
 
@@ -844,7 +845,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	zval *expr_value = NULL, *value = NULL, *escaped_value = NULL;
 	zval *placeholder = NULL, *exception_message;
 	zval *list_items, *expr_list_item = NULL;
-	zval *expr_item = NULL;
+	zval *expr_item = NULL, *models_instances;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1375,7 +1376,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 			case PHQL_T_SELECT:
 				array_init_size(return_value, 2);
 
+				PHALCON_OBS_VAR(models_instances);
+				phalcon_read_property_this(&models_instances, this_ptr, SL("_currentModelsInstances"), PH_NOISY TSRMLS_CC);
+
 				PHALCON_CALL_METHOD(&expr_value, this_ptr, "_prepareselect", expr, PHALCON_GLOBAL(z_true));
+
+				phalcon_update_property_this(this_ptr, SL("_currentModelsInstances"), models_instances TSRMLS_CC);
 
 				add_assoc_stringl_ex(return_value, ISS(type), SL("select"), 1);
 				phalcon_array_update_string(&return_value, ISL(value), expr_value, PH_COPY);
@@ -2905,6 +2911,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	/** 
 	 * Assign Models/Tables information
 	 */
+	phalcon_update_property_this(this_ptr, SL("_currentModelsInstances"), models_instances TSRMLS_CC);
+
 	if (!zend_is_true(merge)) {
 		phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
@@ -3420,7 +3428,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 
 	/** 
 	 * Update the models/alias/sources in the object
-	 */
+	 */	
+	phalcon_update_property_this(this_ptr, SL("_currentModelsInstances"), models_instances TSRMLS_CC);
+
 	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
@@ -3639,6 +3649,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	/** 
 	 * Update the models/alias/sources in the object
 	 */
+	phalcon_update_property_this(this_ptr, SL("_currentModelsInstances"), models_instances TSRMLS_CC);
+
 	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
