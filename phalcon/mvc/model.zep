@@ -28,9 +28,9 @@ use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\DialectInterface;
-use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\Resultset;
@@ -377,6 +377,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function getReadConnection() -> <AdapterInterface>
 	{
+		var transaction;
+
+		let transaction = <TransactionInterface> this->_transaction;
+		if typeof transaction == "object" {
+			return transaction->getConnection();
+		}
+
 		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
 	}
 
@@ -3222,8 +3229,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let dialect = readConnection->getDialect(),
 			tables = dialect->select([
 				"columns": fields,
-				"tables": readConnection->escapeIdentifier(table),
-				"where": uniqueKey
+				"tables":  readConnection->escapeIdentifier(table),
+				"where":   uniqueKey
 			]),
 			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
 
@@ -3510,9 +3517,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *<code>
 	 *<?php
 	 *
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Behavior\Timestampable;
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
+	 *class Robots extends Model
 	 *{
 	 *
 	 *   public function initialize()
@@ -3537,8 +3545,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *<code>
 	 *<?php
+	 *use Phalcon\Mvc\Model;
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
+	 *class Robots extends Model
 	 *{
 	 *
 	 *   public function initialize()
@@ -3818,8 +3827,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *<code>
 	 *<?php
+	 *use Phalcon\Mvc\Model;
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
+	 *class Robots extends Model
 	 *{
 	 *
 	 *   public function initialize()
@@ -3913,48 +3923,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Handles method calls when a method is not implemented
+	 * Try to check if the query must invoke a finder
 	 *
-	 * @param	string method
-	 * @param	array arguments
-	 * @return	mixed
+	 * @param  string method
+	 * @param  array arguments
+	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
 	 */
-	public function __call(string method, arguments)
-	{
-		var modelName, status, records;
-
-		let modelName = get_class(this);
-
-		/**
-		 * Check if there is a default action using the magic getter
-		 */
-		let records = this->_getRelatedRecords(modelName, method, arguments);
-		if records !== null {
-			return records;
-		}
-
-		/**
-		 * Try to find a replacement for the missing method in a behavior/listener
-		 */
-		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
-		if status !== null {
-			return status;
-		}
-
-		/**
-		 * The method doesn't exist throw an exception
-		 */
-		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
-	}
-
-	/**
-	 * Handles method calls when a static method is not implemented
-	 *
-	 * @param	string method
-	 * @param	array arguments
-	 * @return	mixed
-	 */
-	public static function __callStatic(string method, arguments)
+	protected final static function _invokeFinder(method, arguments)
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
@@ -3995,7 +3970,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let modelName = get_called_class();
 
 		if !extraMethod {
-			throw new Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
+			return null;
 		}
 
 		if !fetch value, arguments[0] {
@@ -4043,8 +4018,67 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		return {modelName}::{type}([
 			"conditions": field . " = ?0",
-			"bind"	  : [value]
+			"bind"	    : [value]
 		]);
+	}
+
+	/**
+	 * Handles method calls when a method is not implemented
+	 *
+	 * @param	string method
+	 * @param	array arguments
+	 * @return	mixed
+	 */
+	public function __call(string method, arguments)
+	{
+		var modelName, status, records;
+
+		let records = self::_invokeFinder(method, arguments);
+		if records !== null {
+			return records;
+		}
+
+		let modelName = get_class(this);
+
+		/**
+		 * Check if there is a default action using the magic getter
+		 */
+		let records = this->_getRelatedRecords(modelName, method, arguments);
+		if records !== null {
+			return records;
+		}
+
+		/**
+		 * Try to find a replacement for the missing method in a behavior/listener
+		 */
+		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
+		if status !== null {
+			return status;
+		}
+
+		/**
+		 * The method doesn't exist throw an exception
+		 */
+		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
+	}
+
+	/**
+	 * Handles method calls when a static method is not implemented
+	 *
+	 * @param	string method
+	 * @param	array arguments
+	 * @return	mixed
+	 */
+	public static function __callStatic(string method, arguments)
+	{
+		var records;
+
+		let records = self::_invokeFinder(method, arguments);
+		if records === null {
+			throw new Exception("The static method '" . method . "' doesn't exist");
+		}
+
+		return records;
 	}
 
 	/**
@@ -4055,8 +4089,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function __set(string property, value)
 	{
-		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel,
-			key, item;
+		var lowerProperty, related, modelName, manager, lowerKey,
+			relation, referencedModel, key, item;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -4090,10 +4124,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					let lowerKey = strtolower(key),
 						this->{lowerKey} = item,
 						relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
-						if typeof relation == "object" {
-							let referencedModel = manager->load(relation->getReferencedModel());
-							referencedModel->writeAttribute(lowerKey, item);
-						}
+					if typeof relation == "object" {
+						let referencedModel = manager->load(relation->getReferencedModel());
+						referencedModel->writeAttribute(lowerKey, item);
+					}
 				}
 			}
 

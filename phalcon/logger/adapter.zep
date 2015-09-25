@@ -146,6 +146,14 @@ abstract class Adapter
 	}
 
 	/**
+	 * Returns the whether the logger is currently in an active transaction or not
+	 */
+	public function isTransaction() -> boolean
+	{
+		return this->_transaction;
+	}
+
+	/**
  	 * Sends/Writes a critical message to the log
  	 */
 	public function critical(string! message, array! context = null) -> <AdapterInterface>

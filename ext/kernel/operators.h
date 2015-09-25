@@ -85,12 +85,12 @@
 
 void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 
+#define zephir_add_function(result, left, right) zephir_add_function_ex(result, left, right TSRMLS_CC)
+
 #if PHP_VERSION_ID < 50400
-#define zephir_sub_function(result, left, right, t) sub_function(result, left, right TSRMLS_CC)
-#define zephir_add_function(result, left, right, t) zephir_add_function_ex(result, left, right TSRMLS_CC)
+#define zephir_sub_function(result, left, right) sub_function(result, left, right TSRMLS_CC)
 #else
-#define zephir_add_function(result, left, right, t) fast_add_function(result, left, right TSRMLS_CC)
-#define zephir_sub_function(result, left, right, t) fast_sub_function(result, left, right TSRMLS_CC)
+#define zephir_sub_function(result, left, right) fast_sub_function(result, left, right TSRMLS_CC)
 #endif
 
 #if PHP_VERSION_ID < 50600

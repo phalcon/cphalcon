@@ -58,7 +58,6 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 	argument = argument_param;
 
 
-
 	ZEPHIR_OBS_VAR(type);
 	if (!(zephir_array_isset_string_fetch(&type, argument, SS("type"), 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
@@ -178,7 +177,6 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 	arguments = arguments_param;
 
 
-
 	ZEPHIR_INIT_VAR(buildArguments);
 	array_init(buildArguments);
 	zephir_is_iterable(arguments, &_1, &_0, 0, 0, "phalcon/di/service/builder.zep", 119);
@@ -217,7 +215,6 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition_param, &parameters);
 
 	definition = definition_param;
-
 	if (!parameters) {
 		parameters = ZEPHIR_GLOBAL(global_null);
 	}

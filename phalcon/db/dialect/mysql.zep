@@ -93,6 +93,12 @@ class MySQL extends Dialect
 				}
 				break;
 
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
 			case Column::TYPE_CHAR:
 				if empty columnSql {
 					let columnSql .= "CHAR";
@@ -188,7 +194,7 @@ class MySQL extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized MySQL data type");
+					throw new Exception("Unrecognized MySQL data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
@@ -218,13 +224,21 @@ class MySQL extends Dialect
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
+		}
+
+		if column->isAutoIncrement() {
+			let sql .= " AUTO_INCREMENT";
 		}
 
 		if column->isFirst() {
@@ -247,14 +261,23 @@ class MySQL extends Dialect
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " MODIFY `" . column->getName() . "` " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
 		}
+
+		if column->isAutoIncrement() {
+			let sql .= " AUTO_INCREMENT";
+		}
+
 		return sql;
 	}
 
@@ -378,9 +401,13 @@ class MySQL extends Dialect
 			/**
 			 * Add a Default clause
 			 */
-			let defaultValue = column->getDefault();
-			if ! empty defaultValue {
-				let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if column->hasDefault() {
+				let defaultValue = column->getDefault();
+				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+				} else {
+					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+				}
 			}
 
 			/**

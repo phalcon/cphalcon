@@ -163,14 +163,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, _1;
+	zval *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_LONG(&_1, (zephir_get_numberval(_0) + 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 72, &_1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_LONG(_1, (zephir_get_numberval(_0) + 1));
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 73, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -213,13 +213,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval _0;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 72, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 73, _0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -341,25 +341,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
-	zval *index_param = NULL, *_0, _1;
+	zval *index_param = NULL, *_0, *_1;
 	int index, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
 	if (unlikely(Z_TYPE_P(index_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a long/integer") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a int") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	index = Z_LVAL_P(index_param);
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_count"), PH_NOISY_CC);
 	if (ZEPHIR_GT_LONG(_0, index)) {
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_LONG(&_1, index);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 72, &_1);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_LONG(_1, index);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 73, _1);
 		zephir_check_call_status();
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 		zephir_check_call_status();
@@ -434,7 +433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, _1;
+	zval *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
@@ -442,9 +441,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 	if (ZEPHIR_IS_LONG(_0, 0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 72, &_1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_LONG(_1, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 73, _1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -458,7 +457,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *count, _0;
+	zval *count, *_0;
 
 	ZEPHIR_MM_GROW();
 
@@ -467,9 +466,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 	if (ZEPHIR_IS_LONG(count, 0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_LONG(&_0, (zephir_get_numberval(count) - 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 72, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, (zephir_get_numberval(count) - 1));
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 73, _0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -490,7 +489,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh) {
 	isFresh = zephir_get_boolval(isFresh_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_isFresh"), isFresh ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (isFresh) {
+		zephir_update_property_this(this_ptr, SL("_isFresh"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_isFresh"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -743,7 +746,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
 			ZEPHIR_CPY_WRT(record, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
-		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 546);
+		zephir_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 		ZEPHIR_INIT_NVAR(processedRecord);
 		ZEPHIR_CALL_USER_FUNC_ARRAY(processedRecord, filter, parameters);
 		zephir_check_call_status();

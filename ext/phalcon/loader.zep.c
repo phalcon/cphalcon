@@ -133,7 +133,6 @@ PHP_METHOD(Phalcon_Loader, setExtensions) {
 	extensions = extensions_param;
 
 
-
 	zephir_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	RETURN_THISW();
 
@@ -162,7 +161,6 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 	zephir_fetch_params(1, 1, 1, &namespaces_param, &merge_param);
 
 	namespaces = namespaces_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -199,6 +197,7 @@ PHP_METHOD(Phalcon_Loader, getNamespaces) {
 
 /**
  * Register directories in which "not found" classes could be found
+ * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
@@ -210,7 +209,6 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 	zephir_fetch_params(1, 1, 1, &prefixes_param, &merge_param);
 
 	prefixes = prefixes_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -237,6 +235,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
 /**
  * Returns the prefixes currently registered in the autoloader
+ * @deprecated From Phalcon 2.1.0 version has been removed support for prefixes strategy
  */
 PHP_METHOD(Phalcon_Loader, getPrefixes) {
 
@@ -258,7 +257,6 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 	zephir_fetch_params(1, 1, 1, &directories_param, &merge_param);
 
 	directories = directories_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -306,7 +304,6 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 	zephir_fetch_params(1, 1, 1, &classes_param, &merge_param);
 
 	classes = classes_param;
-
 	if (!merge_param) {
 		merge = 0;
 	} else {
@@ -362,7 +359,11 @@ PHP_METHOD(Phalcon_Loader, register) {
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 286, _1);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_registered"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (1) {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	RETURN_THIS();
 
@@ -389,7 +390,11 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		zephir_array_fast_append(_1, _2);
 		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 287, _1);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_registered"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (0) {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	RETURN_THIS();
 
@@ -414,7 +419,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'className' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(className_param) == IS_STRING)) {
 		zephir_get_strval(className, className_param);
 	} else {
@@ -460,7 +464,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(namespaces);
 	zephir_read_property_this(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) {
-		zephir_is_iterable(namespaces, &_2, &_1, 0, 0, "phalcon/loader.zep", 347);
+		zephir_is_iterable(namespaces, &_2, &_1, 0, 0, "phalcon/loader.zep", 349);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -482,7 +486,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(fixedDirectory);
 					ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-					zephir_is_iterable(extensions, &_7, &_6, 0, 0, "phalcon/loader.zep", 344);
+					zephir_is_iterable(extensions, &_7, &_6, 0, 0, "phalcon/loader.zep", 346);
 					for (
 					  ; zephir_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_7, &_6)
@@ -522,7 +526,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(prefixes);
 	zephir_read_property_this(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) {
-		zephir_is_iterable(prefixes, &_15, &_14, 0, 0, "phalcon/loader.zep", 402);
+		zephir_is_iterable(prefixes, &_15, &_14, 0, 0, "phalcon/loader.zep", 404);
 		for (
 		  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_15, &_14)
@@ -553,7 +557,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(fixedDirectory);
 					ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-					zephir_is_iterable(extensions, &_21, &_20, 0, 0, "phalcon/loader.zep", 399);
+					zephir_is_iterable(extensions, &_21, &_20, 0, 0, "phalcon/loader.zep", 401);
 					for (
 					  ; zephir_hash_get_current_data_ex(_21, (void**) &_22, &_20) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_21, &_20)
@@ -601,7 +605,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	ZEPHIR_OBS_VAR(directories);
 	zephir_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) {
-		zephir_is_iterable(directories, &_26, &_25, 0, 0, "phalcon/loader.zep", 464);
+		zephir_is_iterable(directories, &_26, &_25, 0, 0, "phalcon/loader.zep", 466);
 		for (
 		  ; zephir_hash_get_current_data_ex(_26, (void**) &_27, &_25) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_26, &_25)
@@ -611,7 +615,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 			zephir_fast_trim(_0, directory, ds, ZEPHIR_TRIM_RIGHT TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(fixedDirectory);
 			ZEPHIR_CONCAT_VV(fixedDirectory, _0, ds);
-			zephir_is_iterable(extensions, &_29, &_28, 0, 0, "phalcon/loader.zep", 463);
+			zephir_is_iterable(extensions, &_29, &_28, 0, 0, "phalcon/loader.zep", 465);
 			for (
 			  ; zephir_hash_get_current_data_ex(_29, (void**) &_30, &_28) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_29, &_28)

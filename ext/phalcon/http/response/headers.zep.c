@@ -208,7 +208,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	data = data_param;
 
 
-
 	ZEPHIR_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
 	if (zephir_has_constructor(headers TSRMLS_CC)) {

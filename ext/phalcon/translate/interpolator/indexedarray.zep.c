@@ -45,7 +45,6 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(translation_param) == IS_STRING)) {
 		zephir_get_strval(translation, translation_param);
 	} else {
@@ -62,9 +61,9 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 		_0 = (zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0;
 	}
 	if (_0) {
-		Z_SET_ISREF_P(placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 379, placeholders, translation);
-		Z_UNSET_ISREF_P(placeholders);
+		ZEPHIR_MAKE_REF(placeholders);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 380, placeholders, translation);
+		ZEPHIR_UNREF(placeholders);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_STRING(&_1, "sprintf", 0);

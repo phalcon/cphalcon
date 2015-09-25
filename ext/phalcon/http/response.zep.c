@@ -526,10 +526,9 @@ PHP_METHOD(Phalcon_Http_Response, setCache) {
 	zephir_fetch_params(1, 1, 0, &minutes_param);
 
 	if (unlikely(Z_TYPE_P(minutes_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be a long/integer") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be a int") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	minutes = Z_LVAL_P(minutes_param);
 
 
@@ -979,7 +978,11 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			zephir_check_call_status();
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_sent"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_sent"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_sent"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THIS();
 
 }

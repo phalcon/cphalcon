@@ -347,6 +347,7 @@
 #include "phalcon/validation/validator/alpha.zep.h"
 #include "phalcon/validation/validator/between.zep.h"
 #include "phalcon/validation/validator/confirmation.zep.h"
+#include "phalcon/validation/validator/creditcard.zep.h"
 #include "phalcon/validation/validator/digit.zep.h"
 #include "phalcon/validation/validator/email.zep.h"
 #include "phalcon/validation/validator/exclusionin.zep.h"

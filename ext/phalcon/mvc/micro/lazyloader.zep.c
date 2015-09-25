@@ -53,7 +53,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(definition_param) == IS_STRING)) {
 		zephir_get_strval(definition, definition_param);
 	} else {
@@ -89,7 +88,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(method_param) == IS_STRING)) {
 		zephir_get_strval(method, method_param);
 	} else {
@@ -105,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 		zephir_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(handler);
 		zephir_fetch_safe_class(_0, definition);
-		_1 = zend_fetch_class(Z_STRVAL_P(_0), Z_STRLEN_P(_0), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			_1 = zend_fetch_class(Z_STRVAL_P(_0), Z_STRLEN_P(_0), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(handler, _1);
 		if (zephir_has_constructor(handler TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, handler, "__construct", NULL, 0);

@@ -58,7 +58,7 @@ class Sqlite extends Dialect
 
 			case Column::TYPE_INTEGER:
 				if empty columnSql {
-					let columnSql .= "INT";
+					let columnSql .= "INTEGER";
 				}
 				break;
 
@@ -83,6 +83,12 @@ class Sqlite extends Dialect
 				break;
 
 			case Column::TYPE_DATETIME:
+				if empty columnSql {
+					let columnSql .= "DATETIME";
+				}
+				break;
+
+			case Column::TYPE_TIMESTAMP:
 				if empty columnSql {
 					let columnSql .= "TIMESTAMP";
 				}
@@ -109,7 +115,7 @@ class Sqlite extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized SQLite data type");
+					throw new Exception("Unrecognized SQLite data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
@@ -141,9 +147,13 @@ class Sqlite extends Dialect
 
 		let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
@@ -246,7 +256,119 @@ class Sqlite extends Dialect
 	 */
 	public function createTable(string! tableName, string! schemaName, array! definition) -> string
 	{
-		throw new Exception("Not implemented yet");
+		var columns, table, temporary, options, createLines, columnLine, column,
+			indexes, index, indexName, indexType, references, reference, defaultValue,
+			referenceSql, onDelete, onUpdate, sql, hasPrimary;
+
+		let table = this->prepareTable(tableName, schemaName);
+
+		let temporary = false;
+		if fetch options, definition["options"] {
+			fetch temporary, options["temporary"];
+		}
+
+		if !fetch columns, definition["columns"] {
+			throw new Exception("The index 'columns' is required in the definition array");
+		}
+
+		/**
+		 * Create a temporary or normal table
+		 */
+		if temporary {
+			let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
+		} else {
+			let sql = "CREATE TABLE " . table . " (\n\t";
+		}
+
+		let hasPrimary = false;
+		let createLines = [];
+
+		for column in columns {
+			let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
+
+			/**
+			 * Mark the column as primary key
+			 */
+			if column->isPrimary() && !hasPrimary {
+				let columnLine .= " PRIMARY KEY";
+				let hasPrimary = true;
+			}
+
+			/**
+			 * Add an AUTOINCREMENT clause
+			 */
+			if column->isAutoIncrement() && hasPrimary {
+				let columnLine .= " AUTOINCREMENT";
+			}
+
+			/**
+			 * Add a Default clause
+			 */
+			if column->hasDefault() {
+				let defaultValue = column->getDefault();
+				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+				} else {
+					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+				}
+			}
+
+			/**
+			 * Add a NOT NULL clause
+			 */
+			if column->isNotNull() {
+				let columnLine .= " NOT NULL";
+			}
+
+			let createLines[] = columnLine;
+		}
+
+		/**
+		 * Create related indexes
+		 */
+		if fetch indexes, definition["indexes"] {
+
+			for index in indexes {
+
+				let indexName = index->getName();
+				let indexType = index->getType();
+
+				/**
+				 * If the index name is primary we add a primary key
+				 */
+				if indexName == "PRIMARY" && !hasPrimary {
+					let createLines[] = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+				} elseif !empty indexType && memstr(strtoupper(indexType), "UNIQUE") {
+					let createLines[] = "UNIQUE (" . this->getColumnList(index->getColumns()) . ")";
+				}
+			}
+		}
+
+		/**
+		 * Create related references
+		 */
+		if fetch references, definition["references"] {
+			for reference in references {
+				let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+					. " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+
+				let onDelete = reference->getOnDelete();
+				if !empty onDelete {
+					let referenceSql .= " ON DELETE " . onDelete;
+				}
+
+				let onUpdate = reference->getOnUpdate();
+				if !empty onUpdate {
+					let referenceSql .= " ON UPDATE " . onUpdate;
+				}
+
+				let createLines[] = referenceSql;
+			}
+		}
+
+		let sql .= join(",\n\t", createLines) . "\n)";
+
+		return sql;
 	}
 
 	/**

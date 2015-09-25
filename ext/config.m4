@@ -352,6 +352,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/alpha.zep.c
 	phalcon/validation/validator/between.zep.c
 	phalcon/validation/validator/confirmation.zep.c
+	phalcon/validation/validator/creditcard.zep.c
 	phalcon/validation/validator/digit.zep.c
 	phalcon/validation/validator/email.zep.c
 	phalcon/validation/validator/exclusionin.zep.c

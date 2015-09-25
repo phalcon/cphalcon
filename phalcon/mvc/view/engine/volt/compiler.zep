@@ -563,7 +563,7 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * By default it tries to call a macro
 			 */
-			return "$this->callMacro('" . name . "', array(" . arguments . "))";					
+			return "$this->callMacro('" . name . "', array(" . arguments . "))";
 		}
 
 		return this->expression(nameExpr) . "(" . arguments . ")";
@@ -1930,9 +1930,13 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Bind the closure to the $this object allowing to call services
+		 * Bind the closure to the $this object allowing to call services, only PHP >= 5.4
 		 */
-		let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
+		if is_php_version("5.3") {
+			let code .= " ?>";
+		} else {
+			let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
+		}
 
 		return code;
 	}

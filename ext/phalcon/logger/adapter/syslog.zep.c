@@ -78,7 +78,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 		}
 		ZEPHIR_CALL_FUNCTION(NULL, "openlog", NULL, 290, name, option, facility);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_opened"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (1) {
+			zephir_update_property_this(this_ptr, SL("_opened"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_opened"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 

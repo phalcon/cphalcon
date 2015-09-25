@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, this_ptr, "__construct", &_5, 105, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, this_ptr, "__construct", &_5, 106, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -303,7 +303,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -336,7 +340,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VVV(cacheFile, cacheDir, _1, _2);
 	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 106, cacheFile);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 107, cacheFile);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -354,7 +358,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_object_iterator *_1;
-	zval *keys;
+	zval *keys = NULL;
 	zval *prefix = NULL, *item = NULL, *key = NULL, *cacheDir, *_0, *_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -367,6 +371,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	array_init(keys);
 
 
+	ZEPHIR_INIT_NVAR(keys);
+	array_init(keys);
 	ZEPHIR_OBS_VAR(cacheDir);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (!(zephir_array_isset_string_fetch(&cacheDir, _0, SS("cacheDir"), 0 TSRMLS_CC))) {
@@ -375,7 +381,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	}
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, spl_ce_DirectoryIterator);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 107, cacheDir);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 108, cacheDir);
 	zephir_check_call_status();
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
@@ -516,7 +522,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
 		ZEPHIR_INIT_VAR(_4);
-		sub_function(_4, timestamp, ttl TSRMLS_CC);
+		zephir_sub_function(_4, timestamp, ttl);
 		ZEPHIR_INIT_VAR(_5);
 		zephir_filemtime(_5, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_4, _5)) {
@@ -598,7 +604,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
 		ZEPHIR_INIT_VAR(_5);
-		sub_function(_5, timestamp, ttl TSRMLS_CC);
+		zephir_sub_function(_5, timestamp, ttl);
 		ZEPHIR_INIT_VAR(_6);
 		zephir_filemtime(_6, cacheFile TSRMLS_CC);
 		if (ZEPHIR_LT(_5, _6)) {
@@ -655,7 +661,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 	}
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, spl_ce_DirectoryIterator);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 107, cacheDir);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 108, cacheDir);
 	zephir_check_call_status();
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
@@ -677,7 +683,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 				_4 = zephir_start_with(key, prefix, NULL);
 			}
 			if (_4) {
-				ZEPHIR_CALL_FUNCTION(&_5, "unlink", &_6, 106, cacheFile);
+				ZEPHIR_CALL_FUNCTION(&_5, "unlink", &_6, 107, cacheFile);
 				zephir_check_call_status();
 				if (!(zephir_is_true(_5))) {
 					RETURN_MM_BOOL(0);
@@ -726,7 +732,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, useSafeKey) {
 	useSafeKey = zephir_get_boolval(useSafeKey_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_useSafeKey"), useSafeKey ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (useSafeKey) {
+		zephir_update_property_this(this_ptr, SL("_useSafeKey"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_useSafeKey"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }

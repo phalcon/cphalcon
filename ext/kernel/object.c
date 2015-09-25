@@ -841,7 +841,8 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 
 /**
  * Updates properties on this_ptr (quick)
- * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
+ * If a variable is not defined in the class definition, this fallbacks to update_property_zval
+ * function ignores magic methods or dynamic properties
  */
 int zephir_update_property_this_quick(zval *object, const char *property_name, zend_uint property_length, zval *value, ulong key TSRMLS_DC){
 
@@ -894,7 +895,7 @@ int zephir_update_property_this_quick(zval *object, const char *property_name, z
 
 		zobj = zend_objects_get_address(object TSRMLS_CC);
 
-		if (zephir_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS) {
+		if (likely(zephir_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS)) {
 			assert(property_info != NULL);
 
 			/** This is as zend_std_write_property, but we're not interesed in validate properties visibility */
@@ -931,6 +932,9 @@ int zephir_update_property_this_quick(zval *object, const char *property_name, z
 				}
 
 			}
+		} else {
+			EG(scope) = old_scope;
+			return zephir_update_property_zval(object, property_name, property_length, value TSRMLS_CC);
 		}
 	}
 

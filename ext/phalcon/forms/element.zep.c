@@ -13,12 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
 
 
@@ -62,7 +62,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element) {
  */
 PHP_METHOD(Phalcon_Forms_Element, __construct) {
 
-	zval *name_param = NULL, *attributes = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL, *attributes = NULL, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -78,6 +79,11 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_validation_message_group_ce);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 3);
+	zephir_check_call_status();
+	zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -123,7 +129,6 @@ PHP_METHOD(Phalcon_Forms_Element, setName) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -167,7 +172,7 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/forms/element.zep", 112);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/forms/element.zep", 113);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_filters"), filters TSRMLS_CC);
@@ -239,7 +244,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 	zephir_fetch_params(1, 1, 1, &validators_param, &merge_param);
 
 	validators = validators_param;
-
 	if (!merge_param) {
 		merge = 1;
 	} else {
@@ -323,7 +327,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 	} else {
 		ZEPHIR_CPY_WRT(widgetAttributes, attributes);
 	}
-	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE, "phalcon/forms/element.zep", 209);
+	zephir_array_update_long(&widgetAttributes, 0, &name, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_OBS_VAR(defaultAttributes);
 	zephir_read_property_this(&defaultAttributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(defaultAttributes) == IS_ARRAY) {
@@ -422,7 +426,6 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
 	zephir_fetch_params(0, 1, 0, &attributes_param);
 
 	attributes = attributes_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
@@ -597,7 +600,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 	}
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_STRING(_1, "<label", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, 3, _1, attributes);
+	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, 4, _1, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	label = zephir_fetch_nproperty_this(this_ptr, SL("_label"), PH_NOISY_CC);
@@ -671,12 +674,12 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 		zephir_check_call_status();
 		_0 = Z_TYPE_P(value) == IS_NULL;
 		if (_0) {
-			ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, 4, name);
+			ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, 5, name);
 			zephir_check_call_status();
 			_0 = zephir_is_true(_1);
 		}
 		if (_0) {
-			ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, 5, name);
+			ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, 6, name);
 			zephir_check_call_status();
 		}
 	}
@@ -694,22 +697,8 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *messages = NULL;
 
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_OBS_VAR(messages);
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (Z_TYPE_P(messages) == IS_OBJECT) {
-		RETURN_CCTOR(messages);
-	}
-	ZEPHIR_INIT_NVAR(messages);
-	object_init_ex(messages, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 6);
-	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
-	RETURN_CCTOR(messages);
+	RETURN_MEMBER(this_ptr, "_messages");
 
 }
 
@@ -718,16 +707,11 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages) {
  */
 PHP_METHOD(Phalcon_Forms_Element, hasMessages) {
 
-	zval *messages;
+	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(messages);
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (Z_TYPE_P(messages) == IS_OBJECT) {
-		RETURN_MM_BOOL(zephir_fast_count_int(messages TSRMLS_CC) > 0);
-	}
-	RETURN_MM_BOOL(0);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_fast_count_int(_0 TSRMLS_CC) > 0);
 
 }
 
@@ -753,23 +737,15 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages) {
 PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message, *messages, *_0;
+	zval *message, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message);
 
 
 
-	ZEPHIR_OBS_VAR(messages);
-	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (Z_TYPE_P(messages) != IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_validation_message_group_ce);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 6);
-		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_messages"), _0 TSRMLS_CC);
-	}
-	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, 0, message);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(NULL, _0, "appendmessage", NULL, 0, message);
 	zephir_check_call_status();
 	RETURN_THIS();
 

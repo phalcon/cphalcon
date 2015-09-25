@@ -56,7 +56,6 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 	validationMessages = validationMessages_param;
 
 
-
 	if (zephir_fast_count_int(validationMessages TSRMLS_CC) > 0) {
 		ZEPHIR_OBS_VAR(message);
 		zephir_array_fetch_long(&message, validationMessages, 0, PH_NOISY, "phalcon/mvc/model/validationfailed.zep", 51 TSRMLS_CC);

@@ -118,7 +118,6 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 	zephir_fetch_params(1, 1, 1, &file_param, &key);
 
 	file = file_param;
-
 	if (!key) {
 		key = ZEPHIR_GLOBAL(global_null);
 	}
@@ -134,7 +133,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 		if (zephir_is_true(_1)) {
 			ZEPHIR_SINIT_NVAR(_0);
 			ZVAL_LONG(&_0, 4);
-			ZEPHIR_CALL_FUNCTION(&_2, "pathinfo", NULL, 71, name, &_0);
+			ZEPHIR_CALL_FUNCTION(&_2, "pathinfo", NULL, 72, name, &_0);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_extension"), _2 TSRMLS_CC);
 		}
@@ -264,7 +263,6 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'destination' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(destination_param) == IS_STRING)) {
 		zephir_get_strval(destination, destination_param);
 	} else {

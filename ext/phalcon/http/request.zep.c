@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *_REQUEST;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *_REQUEST, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -117,7 +117,6 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -143,7 +142,19 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, _REQUEST, name, filters, defaultValue, (notAllowEmpty ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), (noRecursive ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	ZEPHIR_INIT_VAR(_0);
+	if (notAllowEmpty) {
+		ZVAL_BOOL(_0, 1);
+	} else {
+		ZVAL_BOOL(_0, 0);
+	}
+	ZEPHIR_INIT_VAR(_1);
+	if (noRecursive) {
+		ZVAL_BOOL(_1, 1);
+	} else {
+		ZVAL_BOOL(_1, 0);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, _REQUEST, name, filters, defaultValue, _0, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -165,7 +176,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *_POST;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *_POST, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -180,7 +191,6 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -206,7 +216,19 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, _POST, name, filters, defaultValue, (notAllowEmpty ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), (noRecursive ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	ZEPHIR_INIT_VAR(_0);
+	if (notAllowEmpty) {
+		ZVAL_BOOL(_0, 1);
+	} else {
+		ZVAL_BOOL(_0, 0);
+	}
+	ZEPHIR_INIT_VAR(_1);
+	if (noRecursive) {
+		ZVAL_BOOL(_1, 1);
+	} else {
+		ZVAL_BOOL(_1, 0);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, _POST, name, filters, defaultValue, _0, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -227,7 +249,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *put = NULL, *_0 = NULL;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *put = NULL, *_0 = NULL, *_1, *_2;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -241,7 +263,6 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -274,13 +295,25 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 		array_init(put);
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "getrawbody", NULL, 0);
 		zephir_check_call_status();
-		Z_SET_ISREF_P(put);
+		ZEPHIR_MAKE_REF(put);
 		ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 219, _0, put);
-		Z_UNSET_ISREF_P(put);
+		ZEPHIR_UNREF(put);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_putCache"), put TSRMLS_CC);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, put, name, filters, defaultValue, (notAllowEmpty ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), (noRecursive ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	ZEPHIR_INIT_VAR(_1);
+	if (notAllowEmpty) {
+		ZVAL_BOOL(_1, 1);
+	} else {
+		ZVAL_BOOL(_1, 0);
+	}
+	ZEPHIR_INIT_VAR(_2);
+	if (noRecursive) {
+		ZVAL_BOOL(_2, 1);
+	} else {
+		ZVAL_BOOL(_2, 0);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, put, name, filters, defaultValue, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -305,7 +338,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
-	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *_GET;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *_GET, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -320,7 +353,6 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -346,7 +378,19 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, _GET, name, filters, defaultValue, (notAllowEmpty ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), (noRecursive ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	ZEPHIR_INIT_VAR(_0);
+	if (notAllowEmpty) {
+		ZVAL_BOOL(_0, 1);
+	} else {
+		ZVAL_BOOL(_0, 0);
+	}
+	ZEPHIR_INIT_VAR(_1);
+	if (noRecursive) {
+		ZVAL_BOOL(_1, 1);
+	} else {
+		ZVAL_BOOL(_1, 0);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethelper", NULL, 218, _GET, name, filters, defaultValue, _0, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -361,7 +405,7 @@ PHP_METHOD(Phalcon_Http_Request, getHelper) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive, _3;
 	zval *name = NULL;
-	zval *source_param = NULL, *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *value = NULL, *filter = NULL, *dependencyInjector = NULL, *_0, *_1 = NULL, *_2;
+	zval *source_param = NULL, *name_param = NULL, *filters = NULL, *defaultValue = NULL, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, *value = NULL, *filter = NULL, *dependencyInjector = NULL, *_0, *_1 = NULL, *_2 = NULL;
 	zval *source = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -376,7 +420,6 @@ PHP_METHOD(Phalcon_Http_Request, getHelper) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -428,7 +471,13 @@ PHP_METHOD(Phalcon_Http_Request, getHelper) {
 			ZEPHIR_CPY_WRT(filter, _1);
 			zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 		}
-		ZEPHIR_CALL_METHOD(&_1, filter, "sanitize", NULL, 0, value, filters, (noRecursive ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_INIT_NVAR(_2);
+		if (noRecursive) {
+			ZVAL_BOOL(_2, 1);
+		} else {
+			ZVAL_BOOL(_2, 0);
+		}
+		ZEPHIR_CALL_METHOD(&_1, filter, "sanitize", NULL, 0, value, filters, _2);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(value, _1);
 	}
@@ -460,7 +509,6 @@ PHP_METHOD(Phalcon_Http_Request, getServer) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -492,7 +540,6 @@ PHP_METHOD(Phalcon_Http_Request, has) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -521,7 +568,6 @@ PHP_METHOD(Phalcon_Http_Request, hasPost) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -550,7 +596,6 @@ PHP_METHOD(Phalcon_Http_Request, hasPut) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -581,7 +626,6 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -610,7 +654,6 @@ PHP_METHOD(Phalcon_Http_Request, hasServer) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -640,7 +683,6 @@ PHP_METHOD(Phalcon_Http_Request, getHeader) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'header' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(header_param) == IS_STRING)) {
 		zephir_get_strval(header, header_param);
 	} else {
@@ -789,7 +831,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *associative_param = NULL, *rawBody = NULL;
+	zval *associative_param = NULL, *rawBody = NULL, _0;
 	zend_bool associative;
 
 	ZEPHIR_MM_GROW();
@@ -807,7 +849,9 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 	if (Z_TYPE_P(rawBody) != IS_STRING) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_json_decode(return_value, &(return_value), rawBody, zephir_get_intval((associative ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)))  TSRMLS_CC);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_BOOL(&_0, (associative ? 1 : 0));
+	zephir_json_decode(return_value, &(return_value), rawBody, zephir_get_intval(&_0)  TSRMLS_CC);
 	RETURN_MM();
 
 }
@@ -1227,11 +1271,11 @@ PHP_METHOD(Phalcon_Http_Request, isOptions) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int numberFiles = 0, ZEPHIR_LAST_CALL_STATUS;
-	zval *onlySuccessful_param = NULL, *files = NULL, *file = NULL, *error = NULL, *_FILES, **_2, *_4 = NULL;
+	zval *onlySuccessful_param = NULL, *files = NULL, *file = NULL, *error = NULL, *_FILES, **_2, *_4 = NULL, *_5 = NULL;
 	zend_bool onlySuccessful, _3;
 
 	ZEPHIR_MM_GROW();
@@ -1267,7 +1311,13 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 				}
 			}
 			if (Z_TYPE_P(error) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", &_5, 222, error, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+				ZEPHIR_INIT_NVAR(_5);
+				if (onlySuccessful) {
+					ZVAL_BOOL(_5, 1);
+				} else {
+					ZVAL_BOOL(_5, 0);
+				}
+				ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", &_6, 222, error, _5);
 				zephir_check_call_status();
 				numberFiles += zephir_get_numberval(_4);
 			}
@@ -1282,12 +1332,12 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int numberFiles = 0, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool onlySuccessful, _3;
-	zval *data, *onlySuccessful_param = NULL, *value = NULL, **_2, *_4 = NULL;
+	zval *data, *onlySuccessful_param = NULL, *value = NULL, **_2, *_4 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &data, &onlySuccessful_param);
@@ -1314,7 +1364,13 @@ PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
 			}
 		}
 		if (Z_TYPE_P(value) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", &_5, 222, value, (onlySuccessful ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+			ZEPHIR_INIT_NVAR(_5);
+			if (onlySuccessful) {
+				ZVAL_BOOL(_5, 1);
+			} else {
+				ZVAL_BOOL(_5, 0);
+			}
+			ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasfilehelper", &_6, 222, value, _5);
 			zephir_check_call_status();
 			numberFiles += zephir_get_numberval(_4);
 		}
@@ -1332,7 +1388,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_1, *_11;
 	HashPosition _0, _10;
-	zval *files;
+	zval *files = NULL;
 	zval *onlySuccessful_param = NULL, *superFiles = NULL, *prefix = NULL, *input = NULL, *smoothInput = NULL, *file = NULL, *dataFile = NULL, *_FILES, **_2, *_3 = NULL, *_4, *_5, *_6, *_7, *_8, **_12, *_14, *_15 = NULL, *_16 = NULL, *_17;
 	zend_bool onlySuccessful, _13;
 
@@ -1349,6 +1405,8 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 	array_init(files);
 
 
+	ZEPHIR_INIT_NVAR(files);
+	array_init(files);
 	ZEPHIR_CPY_WRT(superFiles, _FILES);
 	if (zephir_fast_count_int(superFiles TSRMLS_CC) > 0) {
 		zephir_is_iterable(superFiles, &_1, &_0, 0, 0, "phalcon/http/request.zep", 720);
@@ -1442,15 +1500,10 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 	zephir_fetch_params(1, 6, 0, &names_param, &types_param, &tmp_names_param, &sizes_param, &errors_param, &prefix_param);
 
 	names = names_param;
-
 	types = types_param;
-
 	tmp_names = tmp_names_param;
-
 	sizes = sizes_param;
-
 	errors = errors_param;
-
 	zephir_get_strval(prefix, prefix_param);
 
 
@@ -1617,7 +1670,6 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'serverIndex' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(serverIndex_param) == IS_STRING)) {
 		zephir_get_strval(serverIndex, serverIndex_param);
 	} else {
@@ -1628,7 +1680,6 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -1727,7 +1778,6 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -1972,10 +2022,10 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 		ZVAL_STRING(_0, "#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_LONG(_1, 2);
-		Z_SET_ISREF_P(matches);
+		ZEPHIR_MAKE_REF(matches);
 		ZEPHIR_CALL_FUNCTION(&_2, "preg_match_all", NULL, 28, _0, digest, matches, _1);
 		zephir_check_temp_parameter(_0);
-		Z_UNSET_ISREF_P(matches);
+		ZEPHIR_UNREF(matches);
 		zephir_check_call_status();
 		if (!(zephir_is_true(_2))) {
 			RETURN_CTOR(auth);

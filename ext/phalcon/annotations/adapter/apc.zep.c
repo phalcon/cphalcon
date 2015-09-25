@@ -91,7 +91,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -105,7 +104,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVV(_2, "_PHAN", _1, key);
 	zephir_fast_strtolower(_0, _2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apc_fetch", NULL, 81, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apc_fetch", NULL, 82, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -127,7 +126,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -142,7 +140,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 	ZEPHIR_CONCAT_SVV(_2, "_PHAN", _1, key);
 	zephir_fast_strtolower(_0, _2);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_FUNCTION("apc_store", NULL, 82, _0, data, _3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apc_store", NULL, 83, _0, data, _3);
 	zephir_check_call_status();
 	RETURN_MM();
 

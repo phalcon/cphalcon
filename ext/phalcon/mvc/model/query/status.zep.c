@@ -70,7 +70,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_success"), success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (success) {
+		zephir_update_property_this(this_ptr, SL("_success"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_success"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 
 }

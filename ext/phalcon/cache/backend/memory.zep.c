@@ -162,7 +162,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -328,7 +332,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 		ZVAL_LONG(value, 1);
 	}
 	ZEPHIR_INIT_VAR(result);
-	zephir_add_function_ex(result, cachedContent, value TSRMLS_CC);
+	zephir_add_function(result, cachedContent, value);
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, result TSRMLS_CC);
 	RETURN_CCTOR(result);
 
@@ -379,7 +383,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement) {
 		ZVAL_LONG(value, 1);
 	}
 	ZEPHIR_INIT_VAR(result);
-	sub_function(result, cachedContent, value TSRMLS_CC);
+	zephir_sub_function(result, cachedContent, value);
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, result TSRMLS_CC);
 	RETURN_CCTOR(result);
 
@@ -412,7 +416,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, serialize) {
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("frontend"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 73, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 74, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -431,7 +435,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, unserialize) {
 
 
 
-	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 74, data);
+	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 75, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(unserialized) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Unserialized data must be an array", "phalcon/cache/backend/memory.zep", 295);

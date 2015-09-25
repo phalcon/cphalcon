@@ -147,24 +147,28 @@ class Pdo implements ResultInterface
 	 */
 	public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
 	{
+		var pdoStatement;
+
+		let pdoStatement = this->_pdoStatement;
+
 		if typeof fetchStyle == "integer" {
 
-			if (fetchStyle & Db::FETCH_CLASS) == Db::FETCH_CLASS {
-				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
+			if fetchStyle == Db::FETCH_CLASS {
+				return pdoStatement->fetchAll(fetchStyle, fetchArgument, ctorArgs);
 			}
 
-			if (fetchStyle & Db::FETCH_COLUMN) == Db::FETCH_COLUMN {
-				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument);
+			if fetchStyle == Db::FETCH_COLUMN {
+				return pdoStatement->fetchAll(fetchStyle, fetchArgument);
 			}
 
-			if (fetchStyle & Db::FETCH_FUNC) == Db::FETCH_FUNC {
-				return this->_pdoStatement->fetchAll(fetchStyle, fetchArgument);
+			if fetchStyle == Db::FETCH_FUNC {
+				return pdoStatement->fetchAll(fetchStyle, fetchArgument);
 			}
 
-			return this->_pdoStatement->fetchAll(fetchStyle);
+			return pdoStatement->fetchAll(fetchStyle);
 		}
 
-		return this->_pdoStatement->fetchAll();
+		return pdoStatement->fetchAll();
 	}
 
 	/**
@@ -295,16 +299,16 @@ class Pdo implements ResultInterface
 	 *
 	 *<code>
 	 *	//Return array with integer indexes
-	 *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
+	 *	$result->setFetchMode(\Phalcon\Db::FETCH_NUM);
 	 *
 	 *	//Return associative array without integer indexes
-	 *	$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+	 *	$result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
 	 *
 	 *	//Return associative array together with integer indexes
-	 *	$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
+	 *	$result->setFetchMode(\Phalcon\Db::FETCH_BOTH);
 	 *
 	 *	//Return an object
-	 *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
+	 *	$result->setFetchMode(\Phalcon\Db::FETCH_OBJ);
 	 *</code>
 	 */
 	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> boolean
@@ -313,15 +317,7 @@ class Pdo implements ResultInterface
 
 		let pdoStatement = this->_pdoStatement;
 
-		if (fetchMode & Db::FETCH_COLUMN) == Db::FETCH_COLUMN {
-			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
-				let this->_fetchMode = fetchMode;
-				return true;
-			}
-			return false;
-		}
-
-		if (fetchMode & Db::FETCH_CLASS) == Db::FETCH_CLASS {
+		if fetchMode == Db::FETCH_CLASS {
 			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
 				let this->_fetchMode = fetchMode;
 				return true;
@@ -329,7 +325,15 @@ class Pdo implements ResultInterface
 			return false;
 		}
 
-		if (fetchMode & Db::FETCH_INTO) == Db::FETCH_INTO {
+		if fetchMode == Db::FETCH_INTO {
+			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
+				let this->_fetchMode = fetchMode;
+				return true;
+			}
+			return false;
+		}
+
+		if fetchMode == Db::FETCH_COLUMN {
 			if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
 				let this->_fetchMode = fetchMode;
 				return true;

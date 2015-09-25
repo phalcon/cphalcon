@@ -10,8 +10,8 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "2.0.7",
-    "verbose": false,
+    "version": "2.0.8",
+    "verbose": true,
     "optimizer-dirs": [
         "optimizers"
     ],

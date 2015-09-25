@@ -70,6 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 /**
  * Role which the list is checking if it's allowed to certain resource/access
+ * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
@@ -80,6 +81,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
 /**
  * Resource which the list is checking if some role can access it
+ * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
@@ -90,6 +92,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
 /**
  * Active access which the list is checking if some role can access it
+ * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 

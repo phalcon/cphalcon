@@ -21,6 +21,7 @@ PHP_METHOD(Phalcon_Db_Column, isFirst);
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition);
 PHP_METHOD(Phalcon_Db_Column, getBindType);
 PHP_METHOD(Phalcon_Db_Column, __set_state);
+PHP_METHOD(Phalcon_Db_Column, hasDefault);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_column___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -50,5 +51,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_column_method_entry) {
 	PHP_ME(Phalcon_Db_Column, getAfterPosition, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getBindType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, __set_state, arginfo_phalcon_db_column___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Db_Column, hasDefault, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

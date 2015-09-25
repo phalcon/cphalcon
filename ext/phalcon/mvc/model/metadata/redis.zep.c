@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 	ZEPHIR_OBS_VAR(_3);
 	zephir_read_property_this(&_3, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 311, _2);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 312, _2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 315, _1, options);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 316, _1, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_redis"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
@@ -139,7 +139,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, read) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -174,7 +173,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, write) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -221,7 +219,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, this_ptr, "reset", &_5, 313);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, this_ptr, "reset", &_5, 314);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

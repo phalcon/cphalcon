@@ -72,7 +72,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	reflectionData = reflectionData_param;
 
 
-
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 58 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(exprArguments);
@@ -132,7 +131,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	expr = expr_param;
 
 
-
 	ZEPHIR_OBS_VAR(type);
 	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY, "phalcon/annotations/annotation.zep", 96 TSRMLS_CC);
 	do {
@@ -167,7 +165,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			) {
 				ZEPHIR_GET_HVALUE(item, _3);
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 121 TSRMLS_CC);
-				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 85, _4);
+				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 86, _4);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
@@ -180,7 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		}
 		if (ZEPHIR_IS_LONG(type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 86, expr);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 87, expr);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -293,7 +291,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -328,7 +325,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {

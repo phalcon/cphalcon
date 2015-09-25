@@ -91,7 +91,6 @@ PHP_METHOD(Phalcon_Filter, add) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -218,7 +217,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filter' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(filter_param) == IS_STRING)) {
 		zephir_get_strval(filter, filter_param);
 	} else {

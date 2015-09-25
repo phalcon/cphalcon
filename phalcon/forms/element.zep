@@ -64,6 +64,7 @@ abstract class Element implements ElementInterface
 		if typeof attributes == "array" {
 			let this->_attributes = attributes;
 		}
+		let this->_messages = new Group();
 	}
 
 	/**
@@ -484,16 +485,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function getMessages() -> <Group>
 	{
-		var messages;
-
-		let messages = this->_messages;
-		if typeof messages == "object" {
-			return messages;
-		}
-
-		let messages = new Group(),
-			this->_messages = messages;
-		return messages;
+		return this->_messages;
 	}
 
 	/**
@@ -501,17 +493,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function hasMessages() -> boolean
 	{
-		var messages;
-
-		/**
-		 * Get the related form
-		 */
-		let messages = this->_messages;
-		if typeof messages == "object" {
-			return count(messages) > 0;
-		}
-
-		return false;
+		return count(this->_messages) > 0;
 	}
 
 	/**
@@ -528,13 +510,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function appendMessage(<MessageInterface> message) -> <ElementInterface>
 	{
-		var messages;
-
-		let messages = this->_messages;
-		if typeof messages != "object" {
-			let this->_messages = new Group();
-		}
-		messages->appendMessage(message);
+		this->_messages->appendMessage(message);
 		return this;
 	}
 

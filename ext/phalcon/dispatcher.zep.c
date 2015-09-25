@@ -25,8 +25,8 @@
 /**
  * Phalcon\Dispatcher
  *
- * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
- * This class can't be instantiated directly, you can use it to create your own dispatchers
+ * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
+ * This class can't be instantiated directly, you can use it to create your own dispatchers.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 
@@ -522,7 +522,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	numberDispatches = 0;
 	ZEPHIR_OBS_VAR(actionSuffix);
 	zephir_read_property_this(&actionSuffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-	zephir_update_property_this(this_ptr, SL("_finished"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	while (1) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
 		if (!(!(zephir_is_true(_0)))) {
@@ -539,7 +543,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			zephir_check_call_status();
 			break;
 		}
-		zephir_update_property_this(this_ptr, SL("_finished"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (1) {
+			zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resolveemptyproperties", &_5, 0);
 		zephir_check_call_status();
 		ZEPHIR_OBS_NVAR(namespaceName);
@@ -828,8 +836,16 @@ PHP_METHOD(Phalcon_Dispatcher, forward) {
 	if (zephir_array_isset_string_fetch(&params, forward, SS("params"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
-	zephir_update_property_this(this_ptr, SL("_finished"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_forwarded"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_forwarded"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_forwarded"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

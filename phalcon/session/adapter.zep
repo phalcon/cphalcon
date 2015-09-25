@@ -105,7 +105,7 @@ abstract class Adapter
 	/**
 	 * Get session name
 	 */
-	public function getName()
+	public function getName() -> string
 	{
 	    return session_name();
 	}
@@ -126,7 +126,7 @@ abstract class Adapter
 	 *	$session->get('auth', 'yes');
 	 *</code>
 	 */
-	public function get(string index, var defaultValue = null, boolean remove = false)
+	public function get(string index, var defaultValue = null, boolean remove = false) -> var
 	{
 		var value, key, uniqueId;
 
@@ -332,5 +332,13 @@ abstract class Adapter
 	public function __unset(string index)
 	{
 		return this->remove(index);
+	}
+
+	public function __destruct()
+	{
+		if this->_started {
+			session_write_close();
+			let this->_started = false;
+		}
 	}
 }

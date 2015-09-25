@@ -1,14 +1,19 @@
 {
     "name": "phalcon/cphalcon",
     "description": "Web framework delivered as a C-extension for PHP",
-    "keywords": ["extension"],
+    "keywords": [
+        "extension",
+        "phalcon",
+        "framework",
+        "high load"
+    ],
     "require": {
         "php": "~5.3"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
-    "license": "MIT",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Phalcon Team",
@@ -18,5 +23,12 @@
             "name": "Contributors",
             "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
         }
-    ]
+    ],
+    "support": {
+        "issues": "https://github.com/phalcon/cphalcon/issues",
+        "source": "https://github.com/phalcon/cphalcon",
+        "forum": "https://forum.phalconphp.com/",
+        "docs": "http://docs.phalconphp.com/",
+        "irc": "irc://irc.freenode.org/phalconphp"
+    }
 }
