@@ -2690,6 +2690,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *ast = NULL, *merge = NULL, *select = NULL, *distinct = NULL, *sql_models, *sql_tables, *sql_aliases;
 	zval *sql_columns, *sql_aliases_models, *sql_models_aliases;
 	zval *sql_aliases_models_instances, *models;
+	zval *tmp_models, *tmp_models_instances, *tmp_sql_aliases, *tmp_sql_aliases_models, *tmp_sql_models_aliases, *tmp_sql_aliases_models_instances;
 	zval *models_instances, *tables, *selected_models = NULL;
 	zval *manager = NULL, *selected_model = NULL, *qualified_name = NULL;
 	zval *model_name = NULL, *real_namespace = NULL;
@@ -2920,15 +2921,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		phalcon_update_property_this(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
-		phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 	} else {
+		PHALCON_OBS_VAR(tmp_models);
+		phalcon_read_property_this(&tmp_models, this_ptr, SL("_models"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_VAR(tmp_models_instances);
+		phalcon_read_property_this(&tmp_models_instances, this_ptr, SL("_modelsInstances"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_VAR(tmp_sql_aliases);
+		phalcon_read_property_this(&tmp_sql_aliases, this_ptr, SL("_sqlAliases"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_VAR(tmp_sql_aliases_models);
+		phalcon_read_property_this(&tmp_sql_aliases_models, this_ptr, SL("_sqlAliasesModels"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_VAR(tmp_sql_models_aliases);
+		phalcon_read_property_this(&tmp_sql_models_aliases, this_ptr, SL("_sqlModelsAliases"), PH_NOISY TSRMLS_CC);
+
+		PHALCON_OBS_VAR(tmp_sql_aliases_models_instances);
+		phalcon_read_property_this(&tmp_sql_aliases_models_instances, this_ptr, SL("_sqlAliasesModelsInstances"), PH_NOISY TSRMLS_CC);
+
 		phalcon_update_property_array_merge(this_ptr, SL("_models"), models TSRMLS_CC);
 		phalcon_update_property_array_merge(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 		phalcon_update_property_array_merge(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
 		phalcon_update_property_array_merge(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
 		phalcon_update_property_array_merge(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
 		phalcon_update_property_array_merge(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
-		phalcon_update_property_array_merge(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 	}
 
 	/** 
@@ -3088,6 +3105,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	 */
 	if (phalcon_array_isset_string_fetch(&forupdate, ast, SS("forupdate"))) {
 		phalcon_array_update_string(&sql_select, ISL(forupdate), forupdate, PH_COPY);
+	}
+
+	if (zend_is_true(merge)) {
+		phalcon_update_property_this(this_ptr, SL("_models"), tmp_models TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modelsInstances"), tmp_models_instances TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlAliases"), tmp_sql_aliases TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlAliasesModels"), tmp_sql_aliases_models TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlModelsAliases"), tmp_sql_models_aliases TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), tmp_sql_aliases_models_instances TSRMLS_CC);
 	}
 
 	RETURN_CTOR(sql_select);
