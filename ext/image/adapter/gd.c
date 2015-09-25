@@ -1357,7 +1357,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 
-	zval *file = NULL, *quality = NULL, *q = NULL;
+	zval *file = NULL, *quality = NULL;
 	zval *ret = NULL, *extension, *type, *mime = NULL, *constant, *image;
 	const char *func_name = "imagegif";
 	char *ext;
@@ -1383,22 +1383,16 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 	if (strcmp(ext, "gif") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 1);
-			
-		PHALCON_INIT_NVAR(q);
 
 		func_name = "imagegif";
 	} else if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 2);
 
-		PHALCON_CPY_WRT(q, quality);
-
 		func_name = "imagejpeg";
 	} else if (strcmp(ext, "png") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
-
-		PHALCON_INIT_NVAR(q);
 
 		func_name = "imagepng";
 	} else {
@@ -1406,8 +1400,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 		RETURN_MM();
 	}
 
-	if (Z_TYPE_P(q) == IS_LONG) {
-		PHALCON_CALL_FUNCTION(&ret, func_name, image, file, q);
+	if (Z_TYPE_P(quality) == IS_LONG) {
+		PHALCON_CALL_FUNCTION(&ret, func_name, image, file, quality);
 	} else {
 		PHALCON_CALL_FUNCTION(&ret, func_name, image, file);
 	}
@@ -1435,7 +1429,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _render) {
 
-	zval *extension = NULL, *quality = NULL, *q = NULL;
+	zval *extension = NULL, *quality = NULL;
 	zval *file, *ret = NULL, *type, *mime = NULL, *image;
 	const char *func_name = "imagegif";
 	char *ext;
@@ -1454,22 +1448,16 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _render) {
 	if (strcmp(ext, "gif") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 1);
-			
-		PHALCON_INIT_NVAR(q);
 
 		func_name = "imagegif";
 	} else if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 2);
 
-		PHALCON_CPY_WRT(q, quality);
-
 		func_name = "imagejpeg";
 	} else if (strcmp(ext, "png") == 0) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 3);
-
-		PHALCON_INIT_NVAR(q);
 
 		func_name = "imagepng";
 	} else {
@@ -1481,8 +1469,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _render) {
 
 	phalcon_ob_start(TSRMLS_C);
 
-	if (Z_TYPE_P(q) == IS_LONG) {
-		PHALCON_CALL_FUNCTION(&ret, func_name, image, file, q);
+	if (Z_TYPE_P(quality) == IS_LONG) {
+		PHALCON_CALL_FUNCTION(&ret, func_name, image, file, quality);
 	} else {
 		PHALCON_CALL_FUNCTION(&ret, func_name, image, file);
 	}

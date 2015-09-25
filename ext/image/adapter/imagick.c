@@ -1456,7 +1456,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 			PHALCON_CALL_METHOD(NULL, im, "setImageCompression", compression );
 		}
 
-		PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
+		if (Z_TYPE_P(quality) == IS_LONG) {
+			PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
+		}
+
 		PHALCON_CALL_METHOD(&ret, im, "writeImage", file);
 	}
 
@@ -1532,7 +1535,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 			PHALCON_CALL_METHOD(NULL, im, "setImageCompression", compression );
 		}
 
-		PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
+		if (Z_TYPE_P(quality) == IS_LONG) {
+			PHALCON_CALL_METHOD(NULL, im, "setImageCompressionQuality", quality);
+		}
+
 		PHALCON_CALL_METHOD(&image_string, im, "getImageBlob");
 	}
 
