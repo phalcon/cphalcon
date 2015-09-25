@@ -116,7 +116,11 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 	implicitView = zephir_get_boolval(implicitView_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_implicitView"), implicitView ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (implicitView) {
+		zephir_update_property_this(this_ptr, SL("_implicitView"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_implicitView"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -202,7 +206,6 @@ PHP_METHOD(Phalcon_Mvc_Application, getModule) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -243,7 +246,6 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(defaultModule_param) == IS_STRING)) {
 		zephir_get_strval(defaultModule, defaultModule_param);
 	} else {
@@ -322,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 		if (Z_TYPE_P(match) != IS_NULL) {
 			if (zephir_instance_of_ev(match, zend_ce_closure TSRMLS_CC)) {
-				_3 = zend_fetch_class(SL("Closure"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+					_3 = zend_fetch_class(SL("Closure"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				ZEPHIR_CALL_CE_STATIC(&_1, _3, "bind", NULL, 0, match, dependencyInjector);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(match, _1);

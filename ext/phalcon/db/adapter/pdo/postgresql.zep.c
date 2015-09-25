@@ -380,7 +380,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -391,7 +390,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -399,7 +397,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable) {
 		ZVAL_EMPTY_STRING(schemaName);
 	}
 	definition = definition_param;
-
 
 
 	ZEPHIR_OBS_VAR(columns);
@@ -484,7 +481,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -495,7 +491,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {

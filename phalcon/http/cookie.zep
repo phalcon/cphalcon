@@ -346,7 +346,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 			httpOnly = this->_httpOnly;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
+		if typeof dependencyInjector == "object" {
 			let session = <SessionInterface> dependencyInjector->getShared("session");
 			if session->isStarted() {
 				session->remove("_PHCOOKIE_" . name);

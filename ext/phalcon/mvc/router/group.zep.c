@@ -253,7 +253,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -294,7 +293,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -335,7 +333,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -376,7 +373,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -417,7 +413,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -458,7 +453,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -499,7 +493,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -540,7 +533,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -594,7 +586,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {

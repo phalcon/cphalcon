@@ -219,7 +219,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	if (zephir_is_true(success)) {
 		ZEPHIR_OBS_VAR(options);
 		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);

@@ -58,7 +58,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions) {
 	options = options_param;
 
 
-
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 
 }
@@ -128,7 +127,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'templatePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(templatePath_param) == IS_STRING)) {
 		zephir_get_strval(templatePath, templatePath_param);
 	} else {
@@ -265,7 +263,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'from' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(from_param) == IS_STRING)) {
 		zephir_get_strval(from, from_param);
 	} else {
@@ -276,7 +273,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'to' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(to_param) == IS_STRING)) {
 		zephir_get_strval(to, to_param);
 	} else {
@@ -304,7 +300,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		RETURN_MM();
 	}
 	if ((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 180, text, from, to);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 179, text, from, to);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -429,9 +425,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort) {
 	zephir_get_arrval(value, value_param);
 
 
-	Z_SET_ISREF_P(value);
+	ZEPHIR_MAKE_REF(value);
 	ZEPHIR_CALL_FUNCTION(NULL, "asort", NULL, 378, value);
-	Z_UNSET_ISREF_P(value);
+	ZEPHIR_UNREF(value);
 	zephir_check_call_status();
 	RETURN_CTOR(value);
 
@@ -454,7 +450,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {

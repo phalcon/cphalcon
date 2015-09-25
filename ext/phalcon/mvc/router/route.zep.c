@@ -78,7 +78,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -126,7 +125,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -237,7 +235,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -477,7 +474,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
 		zephir_get_strval(pattern, pattern_param);
 	} else {
@@ -831,7 +827,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'hostname' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(hostname_param) == IS_STRING)) {
 		zephir_get_strval(hostname, hostname_param);
 	} else {
@@ -896,7 +891,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, convert) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -926,7 +920,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters) {
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset) {
 
 
-	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), &(ZEPHIR_GLOBAL(global_null)) TSRMLS_CC);
+	zephir_update_static_property_ce(phalcon_mvc_router_route_ce, SL("_uniqueId"), &ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 

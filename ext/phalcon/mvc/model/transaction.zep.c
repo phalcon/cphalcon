@@ -297,7 +297,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
 	isNew = zephir_get_boolval(isNew_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_isNewTransaction"), isNew ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (isNew) {
+		zephir_update_property_this(this_ptr, SL("_isNewTransaction"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_isNewTransaction"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 
 }
 
@@ -314,7 +318,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort) {
 	rollbackOnAbort = zephir_get_boolval(rollbackOnAbort_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_rollbackOnAbort"), rollbackOnAbort ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (rollbackOnAbort) {
+		zephir_update_property_this(this_ptr, SL("_rollbackOnAbort"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_rollbackOnAbort"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 
 }
 

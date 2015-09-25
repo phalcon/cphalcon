@@ -84,7 +84,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 	useEncryption = zephir_get_boolval(useEncryption_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_useEncryption"), useEncryption ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (useEncryption) {
+		zephir_update_property_this(this_ptr, SL("_useEncryption"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_useEncryption"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -108,7 +112,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 	zval *_3;
 	zend_bool secure, httpOnly;
 	int expire, ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure_param = NULL, *domain_param = NULL, *httpOnly_param = NULL, *cookie = NULL, *encryption, *dependencyInjector, *response = NULL, *_0, *_1, *_2 = NULL, *_4 = NULL, *_5;
+	zval *name_param = NULL, *value = NULL, *expire_param = NULL, *path_param = NULL, *secure_param = NULL, *domain_param = NULL, *httpOnly_param = NULL, *cookie = NULL, *encryption, *dependencyInjector, *response = NULL, *_0, *_1, *_2 = NULL, *_4 = NULL, *_5, *_6;
 	zval *name = NULL, *path = NULL, *domain = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -118,7 +122,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -152,7 +155,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'domain' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(domain_param) == IS_STRING)) {
 		zephir_get_strval(domain, domain_param);
 	} else {
@@ -211,11 +213,23 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, cookie, "setpath", NULL, 0, path);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, cookie, "setsecure", NULL, 0, (secure ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_INIT_NVAR(_4);
+		if (secure) {
+			ZVAL_BOOL(_4, 1);
+		} else {
+			ZVAL_BOOL(_4, 0);
+		}
+		ZEPHIR_CALL_METHOD(NULL, cookie, "setsecure", NULL, 0, _4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, cookie, "setdomain", NULL, 0, domain);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, cookie, "sethttponly", NULL, 0, (httpOnly ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+		ZEPHIR_INIT_VAR(_6);
+		if (httpOnly) {
+			ZVAL_BOOL(_6, 1);
+		} else {
+			ZVAL_BOOL(_6, 0);
+		}
+		ZEPHIR_CALL_METHOD(NULL, cookie, "sethttponly", NULL, 0, _6);
 		zephir_check_call_status();
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_registered"), PH_NOISY_CC);
@@ -255,7 +269,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -312,7 +325,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -349,7 +361,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {

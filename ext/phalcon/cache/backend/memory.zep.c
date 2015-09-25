@@ -162,7 +162,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -328,7 +332,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, increment) {
 		ZVAL_LONG(value, 1);
 	}
 	ZEPHIR_INIT_VAR(result);
-	zephir_add_function_ex(result, cachedContent, value TSRMLS_CC);
+	zephir_add_function(result, cachedContent, value);
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, result TSRMLS_CC);
 	RETURN_CCTOR(result);
 
@@ -379,7 +383,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement) {
 		ZVAL_LONG(value, 1);
 	}
 	ZEPHIR_INIT_VAR(result);
-	sub_function(result, cachedContent, value TSRMLS_CC);
+	zephir_sub_function(result, cachedContent, value);
 	zephir_update_property_array(this_ptr, SL("_data"), lastKey, result TSRMLS_CC);
 	RETURN_CCTOR(result);
 

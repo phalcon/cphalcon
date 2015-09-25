@@ -59,7 +59,6 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
@@ -110,7 +109,6 @@ PHP_METHOD(Phalcon_Validation_Message, setType) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
@@ -149,7 +147,6 @@ PHP_METHOD(Phalcon_Validation_Message, setMessage) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
@@ -188,7 +185,6 @@ PHP_METHOD(Phalcon_Validation_Message, setField) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
 		zephir_get_strval(field, field_param);
 	} else {
@@ -269,12 +265,11 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	message = message_param;
 
 
-
 	object_init_ex(return_value, phalcon_validation_message_ce);
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 441, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 440, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

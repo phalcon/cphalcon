@@ -89,7 +89,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_showBacktrace"), isShow ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (isShow) {
+		zephir_update_property_this(this_ptr, SL("_showBacktrace"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_showBacktrace"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -121,7 +125,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_enableLabels"), isEnable ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (isEnable) {
+		zephir_update_property_this(this_ptr, SL("_enableLabels"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_enableLabels"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THISW();
 
 }
@@ -185,9 +193,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZVAL_LONG(param, 2);
 		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 150, param);
 		zephir_check_call_status();
-		Z_SET_ISREF_P(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 170, backtrace);
-		Z_UNSET_ISREF_P(backtrace);
+		ZEPHIR_MAKE_REF(backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, backtrace);
+		ZEPHIR_UNREF(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
 			zephir_array_fetch_string(&_3, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 129 TSRMLS_CC);

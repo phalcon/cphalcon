@@ -94,6 +94,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/interpolator", "associativearray.zep.c indexedarray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/message", "group.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c creditcard.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
   ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE");
 }

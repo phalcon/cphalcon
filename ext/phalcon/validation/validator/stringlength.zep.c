@@ -66,7 +66,6 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
 		zephir_get_strval(field, field_param);
 	} else {
@@ -140,7 +139,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_4);
 			ZVAL_STRING(_4, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_5, 441, _2, field, _4);
+			ZEPHIR_CALL_METHOD(NULL, _0, "__construct", &_5, 440, _2, field, _4);
 			zephir_check_temp_parameter(_4);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _0);
@@ -177,7 +176,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_6);
 			ZVAL_STRING(_6, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, 441, _2, field, _6);
+			ZEPHIR_CALL_METHOD(NULL, _4, "__construct", &_5, 440, _2, field, _6);
 			zephir_check_temp_parameter(_6);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4);

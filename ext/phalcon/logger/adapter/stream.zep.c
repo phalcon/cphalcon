@@ -71,7 +71,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -93,7 +92,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 284, name, mode);
+	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 283, name, mode);
 	zephir_check_call_status();
 	if (!(zephir_is_true(stream))) {
 		ZEPHIR_INIT_VAR(_0);
@@ -126,7 +125,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 288);
+		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 287);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
 	}

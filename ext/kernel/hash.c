@@ -28,8 +28,6 @@
 
 #include "kernel/memory.h"
 
-#if PHP_VERSION_ID < 70000
-
 int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_func_t pDestructor, zend_bool persistent)
 {
 #if PHP_VERSION_ID < 50400
@@ -84,42 +82,6 @@ int zephir_hash_init(HashTable *ht, uint nSize, hash_func_t pHashFunction, dtor_
 
 	return SUCCESS;
 }
-
-#else
-
-void zephir_hash_init(HashTable *ht, uint nSize, dtor_func_t pDestructor, zend_bool persistent)
-{
-	#if ZEND_DEBUG
-		ht->inconsistent = 0;
-	#endif
-
-	if (nSize >= 0x80000000) {
-		ht->nTableSize = 0x80000000;
-	} else {
-		if (nSize > 3) {
-			ht->nTableSize = nSize + (nSize >> 2);
-		} else {
-			ht->nTableSize = 3;
-		}
-	}
-
-	ht->nTableMask = 0; /* 0 means that ht->arBuckets is uninitialized */
-	ht->nNumUsed = 0;
-	ht->nNumOfElements = 0;
-	ht->nNextFreeElement = 0;
-	ht->arData = NULL;
-	ht->arHash = (zend_uint*)&uninitialized_bucket;
-	ht->pDestructor = pDestructor;
-	ht->nInternalPointer = INVALID_IDX;
-	if (persistent) {
-		ht->u.flags = HASH_FLAG_PERSISTENT | HASH_FLAG_APPLY_PROTECTION;
-	} else {
-		ht->u.flags = HASH_FLAG_APPLY_PROTECTION;
-	}
-}
-
-#endif
-
 
 int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 {

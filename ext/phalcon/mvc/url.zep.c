@@ -104,7 +104,6 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'baseUri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(baseUri_param) == IS_STRING)) {
 		zephir_get_strval(baseUri, baseUri_param);
 	} else {
@@ -141,7 +140,6 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'staticBaseUri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(staticBaseUri_param) == IS_STRING)) {
 		zephir_get_strval(staticBaseUri, staticBaseUri_param);
 	} else {
@@ -228,7 +226,6 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(basePath_param) == IS_STRING)) {
 		zephir_get_strval(basePath, basePath_param);
 	} else {

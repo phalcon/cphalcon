@@ -55,7 +55,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {

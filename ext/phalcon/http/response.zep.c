@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 			if (_4) {
 				ZEPHIR_SINIT_NVAR(_5);
 				ZVAL_STRING(&_5, "HTTP/", 0);
-				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, 234, key, &_5);
+				ZEPHIR_CALL_FUNCTION(&_6, "strstr", &_7, 233, key, &_5);
 				zephir_check_call_status();
 				_4 = zephir_is_true(_6);
 			}
@@ -526,10 +526,9 @@ PHP_METHOD(Phalcon_Http_Response, setCache) {
 	zephir_fetch_params(1, 1, 0, &minutes_param);
 
 	if (unlikely(Z_TYPE_P(minutes_param) != IS_LONG)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be a long/integer") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'minutes' must be a int") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	minutes = Z_LVAL_P(minutes_param);
 
 
@@ -716,7 +715,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		if (_0) {
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, "://", 0);
-			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 234, location, &_1);
+			ZEPHIR_CALL_FUNCTION(&_2, "strstr", NULL, 233, location, &_1);
 			zephir_check_call_status();
 			_0 = zephir_is_true(_2);
 		}
@@ -817,35 +816,48 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
 
 /**
  * Sets HTTP response body. The parameter is automatically converted to JSON
+ * and also sets default header: Content-Type: "application/json; charset=UTF-8"
  *
  *<code>
  *	$response->setJsonContent(array("status" => "OK"));
  *</code>
- *
- * @param mixed content
- * @param int jsonOptions
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 
-	zval *content, *jsonOptions = NULL, *depth = NULL, *_0;
+	int jsonOptions, depth, ZEPHIR_LAST_CALL_STATUS;
+	zval *content, *jsonOptions_param = NULL, *depth_param = NULL, *_0 = NULL, *_1, _2, _3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &content, &jsonOptions, &depth);
+	zephir_fetch_params(1, 1, 2, &content, &jsonOptions_param, &depth_param);
 
-	if (!jsonOptions) {
-		ZEPHIR_INIT_VAR(jsonOptions);
-		ZVAL_LONG(jsonOptions, 0);
+	if (!jsonOptions_param) {
+		jsonOptions = 0;
+	} else {
+		jsonOptions = zephir_get_intval(jsonOptions_param);
 	}
-	if (!depth) {
-		ZEPHIR_INIT_VAR(depth);
-		ZVAL_LONG(depth, 512);
+	if (!depth_param) {
+		depth = 512;
+	} else {
+		depth = zephir_get_intval(depth_param);
 	}
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_json_encode(_0, &(_0), content, zephir_get_intval(jsonOptions)  TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_content"), _0 TSRMLS_CC);
+	ZVAL_STRING(_0, "application/json", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "UTF-8", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcontenttype", NULL, 0, _0, _1);
+	zephir_check_temp_parameter(_0);
+	zephir_check_temp_parameter(_1);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(_0);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_LONG(&_2, jsonOptions);
+	ZEPHIR_SINIT_VAR(_3);
+	ZVAL_LONG(&_3, depth);
+	zephir_json_encode(_0, &(_0), content, zephir_get_intval(&_2)  TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcontent", NULL, 0, _0);
+	zephir_check_call_status();
 	RETURN_THIS();
 
 }
@@ -948,7 +960,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 588);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 586);
 		return;
 	}
 	ZEPHIR_OBS_VAR(headers);
@@ -975,11 +987,15 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_1 = (zephir_fast_strlen_ev(file)) ? 1 : 0;
 		}
 		if (_1) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 235, file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 234, file);
 			zephir_check_call_status();
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_sent"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (1) {
+		zephir_update_property_this(this_ptr, SL("_sent"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_sent"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	RETURN_THIS();
 
 }

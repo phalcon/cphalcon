@@ -93,7 +93,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -138,7 +137,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -157,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_INIT_NVAR(_4);
-	zephir_var_export_ex(_4, &(data) TSRMLS_CC);
+	zephir_var_export_ex(_4, &data TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);

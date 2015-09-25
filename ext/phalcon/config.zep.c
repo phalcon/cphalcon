@@ -74,11 +74,10 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	zephir_fetch_params(1, 0, 1, &arrayConfig_param);
 
 	if (!arrayConfig_param) {
-	ZEPHIR_INIT_VAR(arrayConfig);
-	array_init(arrayConfig);
+		ZEPHIR_INIT_VAR(arrayConfig);
+		array_init(arrayConfig);
 	} else {
 	arrayConfig = arrayConfig_param;
-
 	}
 
 
@@ -349,7 +348,6 @@ PHP_METHOD(Phalcon_Config, __set_state) {
 	zephir_fetch_params(1, 1, 0, &data_param);
 
 	data = data_param;
-
 
 
 	object_init_ex(return_value, phalcon_config_ce);

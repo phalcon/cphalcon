@@ -53,7 +53,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
@@ -205,7 +204,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -216,7 +214,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -245,7 +242,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -256,7 +252,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -288,7 +283,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -299,7 +293,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -329,7 +322,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -340,7 +332,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -370,7 +361,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -381,7 +371,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -392,7 +381,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'indexName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(indexName_param) == IS_STRING)) {
 		zephir_get_strval(indexName, indexName_param);
 	} else {
@@ -441,7 +429,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -452,7 +439,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -481,7 +467,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -492,7 +477,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -521,7 +505,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -532,7 +515,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -543,7 +525,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referenceName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(referenceName_param) == IS_STRING)) {
 		zephir_get_strval(referenceName, referenceName_param);
 	} else {
@@ -573,7 +554,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -584,7 +564,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -592,7 +571,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable) {
 		ZVAL_EMPTY_STRING(schemaName);
 	}
 	definition = definition_param;
-
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Not implemented yet", "phalcon/db/dialect/oracle.zep", 209);
@@ -617,7 +595,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -628,7 +605,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
 		zephir_get_strval(schemaName, schemaName_param);
 	} else {
@@ -642,7 +618,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'ifExists' must be a bool") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	ifExists = Z_BVAL_P(ifExists_param);
 	}
 
@@ -675,7 +650,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(viewName_param) == IS_STRING)) {
 		zephir_get_strval(viewName, viewName_param);
 	} else {
@@ -683,7 +657,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView) {
 		ZVAL_EMPTY_STRING(viewName);
 	}
 	definition = definition_param;
-
 	if (!schemaName_param) {
 		ZEPHIR_INIT_VAR(schemaName);
 		ZVAL_EMPTY_STRING(schemaName);
@@ -721,7 +694,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(viewName_param) == IS_STRING)) {
 		zephir_get_strval(viewName, viewName_param);
 	} else {
@@ -741,7 +713,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'ifExists' must be a bool") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	ifExists = Z_BVAL_P(ifExists_param);
 	}
 
@@ -774,7 +745,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(viewName_param) == IS_STRING)) {
 		zephir_get_strval(viewName, viewName_param);
 	} else {
@@ -857,7 +827,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
 		zephir_get_strval(tableName, tableName_param);
 	} else {
@@ -908,7 +877,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
@@ -990,7 +958,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
@@ -1037,7 +1004,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
@@ -1088,7 +1054,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
@@ -1144,7 +1109,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, prepareTable) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {

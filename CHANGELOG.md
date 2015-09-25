@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2015-XX-XX)
 - PHP 5.3 is now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
@@ -25,6 +26,9 @@
 - Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-XX-XX)
+=======
+# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
+>>>>>>> 2.0.x
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
 - Added `Phalcon\Logger\Adapter::isTransaction()` to check whether the logger is currently in transaction
   mode or not (Phalcon 1.3 behavior)
@@ -36,6 +40,10 @@
   column definition
 - Fixed determining of default value for column in `Phalcon\Db\Dialect\MySQL`, `Phalcon\Db\Dialect\Sqlite` and
   `Phalcon\Db\Dialect\Postgresql` classes
+- Now Phalcon\Mvc\Model::__call invokes finders as in __callStatic
+- Fixed `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` for `BIGINT` and `BOOLEAN` data types
+- Fixed `BOOLEAN` default value in `Phalcon\Db\Dialect\Postgresql`
+- Added `Phalcon\Validation\Validator\CreditCard` - validation credit card number using luhn algorithm
 
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension

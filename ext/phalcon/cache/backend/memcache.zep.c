@@ -329,7 +329,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(isBuffering)) {
 		zend_print_zval(cachedContent, 0);
 	}
-	zephir_update_property_this(this_ptr, SL("_started"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (0) {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

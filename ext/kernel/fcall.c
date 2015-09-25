@@ -1320,7 +1320,60 @@ int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache 
 
 #endif
 
+/**
+ * If a retval_ptr is specified, PHP's implementation of zend_eval_stringl
+ * simply prepends a "return " which causes only the first statement to be executed
+ */
 void zephir_eval_php(zval *str, zval *retval_ptr, char *context TSRMLS_DC)
 {
-    zend_eval_string_ex(Z_STRVAL_P(str), retval_ptr, context, 1 TSRMLS_CC);
+	zend_op_array *new_op_array = NULL;
+	zend_uint original_compiler_options;
+	zend_op_array *original_active_op_array = EG(active_op_array);
+
+	original_compiler_options = CG(compiler_options);
+	CG(compiler_options) = ZEND_COMPILE_DEFAULT_FOR_EVAL;
+	new_op_array = zend_compile_string(str, context TSRMLS_CC);
+	CG(compiler_options) = original_compiler_options;
+
+	if (new_op_array)
+	{
+		zval *local_retval_ptr = NULL;
+		zval **original_return_value_ptr_ptr = EG(return_value_ptr_ptr);
+		zend_op **original_opline_ptr = EG(opline_ptr);
+		int orig_interactive = CG(interactive);
+
+		EG(return_value_ptr_ptr) = &local_retval_ptr;
+		EG(active_op_array) = new_op_array;
+		EG(no_extensions) = 1;
+		if (!EG(active_symbol_table)) {
+			zend_rebuild_symbol_table(TSRMLS_C);
+		}
+		CG(interactive) = 0;
+
+		zend_try {
+			zend_execute(new_op_array TSRMLS_CC);
+		} zend_catch {
+			destroy_op_array(new_op_array TSRMLS_CC);
+			efree(new_op_array);
+			zend_bailout();
+		} zend_end_try();
+
+		CG(interactive) = orig_interactive;
+		if (local_retval_ptr) {
+			if (retval_ptr) {
+				COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
+			} else {
+				zval_ptr_dtor(&local_retval_ptr);
+			}
+		} else if (retval_ptr) {
+			INIT_ZVAL(*retval_ptr);
+		}
+
+		EG(no_extensions) = 0;
+		EG(opline_ptr) = original_opline_ptr;
+		EG(active_op_array) = original_active_op_array;
+		destroy_op_array(new_op_array TSRMLS_CC);
+		efree(new_op_array);
+		EG(return_value_ptr_ptr) = original_return_value_ptr_ptr;
+	}
 }

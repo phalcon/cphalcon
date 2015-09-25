@@ -180,7 +180,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -188,7 +187,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		ZVAL_EMPTY_STRING(name);
 	}
 	definition = definition_param;
-
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -250,7 +248,6 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 	zephir_fetch_params(1, 1, 0, &data_param);
 
 	data = data_param;
-
 
 
 	ZEPHIR_OBS_VAR(constraintName);

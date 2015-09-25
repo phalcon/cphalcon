@@ -532,7 +532,7 @@ void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replac
 		do {
 			zval *params[] = { search, replace, subject };
 			zval_ptr_dtor(return_value_ptr);
-			return_value_ptr = NULL;
+			*return_value_ptr = NULL;
 			zephir_call_func_aparams(return_value_ptr, "str_replace", sizeof("str_replace")-1, NULL, 0, 3, params TSRMLS_CC);
 			return;
 		} while(0);

@@ -74,7 +74,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct) {
 	descriptor = descriptor_param;
 
 
-
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "connect", NULL, 0, descriptor);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_ce, this_ptr, "__construct", &_0, 25, descriptor);
@@ -148,7 +147,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	ZEPHIR_OBS_VAR(persistent);
 	if (zephir_array_isset_string_fetch(&persistent, descriptor, SS("persistent"), 0 TSRMLS_CC)) {
 		if (zephir_is_true(persistent)) {
-			zephir_array_update_long(&options, 12, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 127);
+			zephir_array_update_long(&options, 12, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 		}
 		zephir_array_unset_string(&descriptor, SS("persistent"), PH_SEPARATE);
 	}
@@ -175,7 +174,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	}
 	ZEPHIR_INIT_VAR(_4);
 	ZVAL_LONG(_4, 2);
-	zephir_array_update_long(&options, 3, &_4, PH_COPY | PH_SEPARATE, "phalcon/db/adapter/pdo.zep", 150);
+	zephir_array_update_long(&options, 3, &_4, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_INIT_VAR(_5);
 	object_init_ex(_5, php_pdo_get_dbh_ce());
 	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
@@ -209,7 +208,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
@@ -253,7 +251,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 	zephir_fetch_params(1, 3, 0, &statement, &placeholders_param, &dataTypes);
 
 	placeholders = placeholders_param;
-
 
 
 	zephir_is_iterable(placeholders, &_1, &_0, 0, 0, "phalcon/db/adapter/pdo.zep", 271);
@@ -401,7 +398,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
@@ -485,7 +481,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlStatement' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(sqlStatement_param) == IS_STRING)) {
 		zephir_get_strval(sqlStatement, sqlStatement_param);
 	} else {
@@ -657,7 +652,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sql' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(sql_param) == IS_STRING)) {
 		zephir_get_strval(sql, sql_param);
 	} else {
@@ -681,9 +675,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 	setOrder = 2;
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, setOrder);
-	Z_SET_ISREF_P(matches);
+	ZEPHIR_MAKE_REF(matches);
 	ZEPHIR_CALL_FUNCTION(&_1, "preg_match_all", NULL, 28, bindPattern, sql, matches, _0);
-	Z_UNSET_ISREF_P(matches);
+	ZEPHIR_UNREF(matches);
 	zephir_check_call_status();
 	if (zephir_is_true(_1)) {
 		zephir_is_iterable(matches, &_3, &_2, 0, 0, "phalcon/db/adapter/pdo.zep", 472);

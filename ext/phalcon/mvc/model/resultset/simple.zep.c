@@ -104,7 +104,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 	ZEPHIR_OBS_VAR(row);
 	zephir_read_property_this(&row, this_ptr, SL("_row"), PH_NOISY_CC);
 	if (Z_TYPE_P(row) != IS_ARRAY) {
-		zephir_update_property_this(this_ptr, SL("_activeRow"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		if (0) {
+			zephir_update_property_this(this_ptr, SL("_activeRow"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_activeRow"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		}
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_OBS_VAR(hydrateMode);
@@ -303,7 +307,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(data_param) == IS_STRING)) {
 		zephir_get_strval(data, data_param);
 	} else {

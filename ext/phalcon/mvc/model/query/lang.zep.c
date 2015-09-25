@@ -65,7 +65,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'phql' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(phql_param) == IS_STRING)) {
 		zephir_get_strval(phql, phql_param);
 	} else {
