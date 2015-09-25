@@ -548,4 +548,28 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($assets->outputJs('js'), '<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL);
 	}
 
+	public function testIssue10938()
+	{
+		$assets = new \Phalcon\Assets\Manager();
+
+		for ($i = 0; $i < 10; $i++) {
+			$assets
+				->addCss('style.css')
+				->addJs('script.js');
+		}
+
+		$this->assertEquals(count($assets->getCss()), 1);
+		$this->assertEquals(count($assets->getJs()), 1);
+
+		// sets other
+		for ($i = 0; $i < 2; $i++) {
+			$assets
+				->addCss('style_' . $i . '.css')
+				->addJs('script_' . $i . '.js');
+		}
+
+		$this->assertEquals(count($assets->getCss()), 3);
+		$this->assertEquals(count($assets->getCss()), 3);
+	}
+
 }

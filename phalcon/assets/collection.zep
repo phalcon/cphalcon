@@ -59,12 +59,14 @@ class Collection implements \Countable, \Iterator
 
 	protected _sourcePath { get };
 
+	protected _includedResources = [];
+
 	/**
 	 * Adds a resource to the collection
 	 */
 	public function add(<$Resource> $resource) -> <Collection>
 	{
-		let this->_resources[] = $resource;
+		this->addResource($resource);
 		return this;
 	}
 
@@ -73,8 +75,22 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function addInline(<$Inline> code) -> <Collection>
 	{
-		let this->_codes[] = code;
+		this->addResource(code);
 		return this;
+	}
+
+	/**
+	 * Checks this the resource is added to the collection
+	 *
+	 * @param Resource|Inline resource
+	 */
+	public function has(var $resource) -> boolean
+	{
+		if !($resource instanceof $Resource) && !($resource instanceof $Inline) {
+			throw new \InvalidArgumentException("The resource should be only type \"Phalcon\Assets\Resource\" or \"Phalcon\Assets\Inline\"");
+		}
+
+		return in_array(this->getResourceKey($resource), this->_includedResources);
 	}
 
 	/**
@@ -96,8 +112,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new ResourceCss(path, collectionLocal, filter, collectionAttributes);
-
+		this->add(new ResourceCss(path, collectionLocal, filter, collectionAttributes));
 		return this;
 	}
 
@@ -143,8 +158,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new ResourceJs(path, collectionLocal, filter, collectionAttributes);
-
+		this->add(new ResourceJs(path, collectionLocal, filter, collectionAttributes));
 		return this;
 	}
 
@@ -330,5 +344,42 @@ class Collection implements \Countable, \Iterator
 	{
 		let this->_filters[] = filter;
 		return this;
+	}
+
+	/**
+	 * Adds a resource or inline-code to the collection
+	 *
+	 * @param Resource|Inline resource
+	 */
+	protected function addResource(var $resource) -> boolean
+	{
+		if !this->has($resource) {
+			if $resource instanceof $Resource {
+				let this->_resources[] = $resource;
+			} else {
+				let this->_codes[] = $resource;
+			}
+
+			let this->_includedResources[] = this->getResourceKey($resource);
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns a hash key object
+	 */
+	protected function getResourceKey(var instance) -> string
+	{
+		var key;
+
+		if instance instanceof $Resource {
+			let key = instance->getType() . ":" . instance->getPath();
+		} else {
+			let key = instance->getType() . ":" . instance->getContent();
+		}
+
+		return md5(key);
 	}
 }
