@@ -68,7 +68,7 @@ class File extends Validator
 				let message = validation->getDefaultMessage("FileIniSize");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize", this->getOption("code")));
 			return false;
 		}
 
@@ -81,7 +81,7 @@ class File extends Validator
 				let message = validation->getDefaultMessage("FileEmpty");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty", this->getOption("code")));
 			return false;
 		}
 
@@ -94,7 +94,7 @@ class File extends Validator
 				let message = validation->getDefaultMessage("FileValid");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid", this->getOption("code")));
 			return false;
 		}
 
@@ -121,7 +121,7 @@ class File extends Validator
 					let message = validation->getDefaultMessage("FileSize");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize", this->getOption("code")));
 				return false;
 			}
 		}
@@ -151,7 +151,7 @@ class File extends Validator
 					let message = validation->getDefaultMessage("FileType");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType", this->getOption("code")));
 				return false;
 			}
 		}
@@ -178,7 +178,7 @@ class File extends Validator
 					let message = validation->getDefaultMessage("FileMinResolution");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution", this->getOption("code")));
 				return false;
 			}
 
@@ -196,7 +196,7 @@ class File extends Validator
 						let message = validation->getDefaultMessage("FileMaxResolution");
 					}
 
-					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution"));
+					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution", this->getOption("code")));
 					return false;
 				}
 			}
