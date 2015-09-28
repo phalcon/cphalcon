@@ -57,36 +57,6 @@ use Phalcon\Cache\Exception;
  * $data = $cache->get('my-data');
  *
  *</code>
- *
- * For multiple memcached servers please make sure to enable proper fail-over and timeouts.
- * The following settings could be used in a fast local network environment.
- * Shared environments with higher latencies require different settings.
- *
- *<code>
- *$cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, [
- *  "server" => $servers,
- *  "persistent_id" => "phalcon_cache",
- *  "client" => [
- *    // Ensure correct mapping of keys for failed servers
- *    Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
- *    // Remove failed servers from connection pool
- *    Memcached::OPT_REMOVE_FAILED_SERVERS => true,
- *    // Number of connection failures after a server is considered down
- *    Memcached::OPT_SERVER_FAILURE_LIMIT => 2,
- *    // Retry failed servers every 1 second
- *    Memcached::OPT_RETRY_TIMEOUT => 1,
- *    // Can not initially connect within 20ms -> consider offline
- *    Memcached::OPT_POLL_TIMEOUT => 20,
- *    // An open connection does not respond to polling within 20ms -> consider offline
- *    Memcached::OPT_CONNECT_TIMEOUT => 20,
- *    // Binary transfer is marginally faster than ascii transfer
- *    Memcached::OPT_BINARY_PROTOCOL => true,
- *    // Asynchronous I/O is supposedly the fastest transport
- *    Memcached::OPT_NO_BLOCK => true,
- *    // Don't queue network packages. Send as fast as possible
- *    Memcached::OPT_TCP_NODELAY => true
- *]]);
- *</code>
  */
 class Libmemcached extends Backend implements BackendInterface
 {
