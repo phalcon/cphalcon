@@ -387,7 +387,7 @@ class Di implements DiInterface
 	 * @param string method
 	 * @param array arguments
 	 */
-	public function __call(string! method, arguments = null) -> var
+	public function __call(string! method, arguments = null) -> var|null
 	{
 		var instance, possibleService, services, definition;
 
