@@ -36,11 +36,27 @@ abstract class Adapter implements AdapterInterface
 	protected _page = null;
 
 	/**
-	 * Get current rows limit
+	 * Repository for pagination
+	 * @var RepositoryInterface
 	 */
-	public function getLimit() -> int
+	private _repository;
+
+	/**
+	 * Phalcon\Paginator\Adapter\Model constructor
+	 */
+	public function __construct(array! config)
 	{
-		return this->_limitRows;
+		if isset config["limit"] {
+			this->setLimit(config["limit"]);
+		}
+
+		if isset config["page"] {
+			this->setCurrentPage(config["page"]);
+		}
+
+		if isset config["repository"] {
+			this->setRepository(config["repository"]);
+		}
 	}
 
 	/**
@@ -59,5 +75,38 @@ abstract class Adapter implements AdapterInterface
 	{
 		let this->_limitRows = limitRows;
 		return this;
+	}
+
+	/**
+	 * Get current rows limit
+	 */
+	public function getLimit() -> int
+	{
+		return this->_limitRows;
+	}
+
+	/**
+	 * Sets current repository for pagination
+	 */
+	public function setRepository(<RepositoryInterface> repository) -> <Adapter>
+	{
+		let this->_repository = repository;
+		return this;
+	}
+
+	/**
+	 * Gets current repository for pagination
+	 */
+	protected function getRepository(array properties = null) -> <RepositoryInterface>
+	{
+		if !this->_repository {
+			let this->_repository = new Repository();
+		}
+
+		if properties !== null {
+			this->_repository->setProperties(properties);
+		}
+
+		return this->_repository;
 	}
 }

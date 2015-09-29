@@ -21,6 +21,7 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter;
+use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
 use Phalcon\Db;
 
@@ -68,28 +69,18 @@ class QueryBuilder extends Adapter
 	 */
 	public function __construct(array config)
 	{
-		var builder, limit, page, columns;
-
+		parent::__construct(config);
 		let this->_config = config;
 
-		if !fetch builder, config["builder"] {
+		if !isset config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
 		}
 
-		if !fetch limit, config["limit"] {
+		if !isset config["limit"] {
 			throw new Exception("Parameter 'limit' is required");
 		}
 
-		if fetch columns, config["columns"] {
-		    let this->_columns = columns;
-		}
-
-		this->setQueryBuilder(builder);
-		this->setLimit(limit);
-
-		if fetch page, config["page"] {
-			this->setCurrentPage(page);
-		}
+		this->setQueryBuilder(config["builder"]);
 	}
 
 	/**
@@ -121,7 +112,7 @@ class QueryBuilder extends Adapter
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function paginate() -> <\stdClass>
+	public function getPaginate() -> <RepositoryInterface>
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, page, previous, items, totalQuery,
@@ -250,16 +241,16 @@ class QueryBuilder extends Adapter
 			let next = totalPages;
 		}
 
-		let page = new \stdClass(),
-			page->items = items,
-			page->first = 1,
-			page->previous = previous,
-			page->current = numberPage,
-			page->last = totalPages,
-			page->next = next,
-			page->total_items = rowcount,
-			page->limit = this->_limitRows;
-
-		return page;
+		return this->getRepository([
+			RepositoryInterface::PROPERTY_ITEMS 		: items,
+			RepositoryInterface::PROPERTY_TOTAL_PAGES	: totalPages,
+			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: rowcount,
+			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
+			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,
+			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
+			RepositoryInterface::PROPERTY_CURRENT_PAGE 	: numberPage,
+			RepositoryInterface::PROPERTY_NEXT_PAGE 	: next,
+			RepositoryInterface::PROPERTY_LAST_PAGE 	: totalPages
+		]);
 	}
 }
