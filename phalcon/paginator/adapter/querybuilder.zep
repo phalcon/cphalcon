@@ -21,7 +21,7 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter;
-use Phalcon\Paginator\AdapterInterface;
+use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
 
 /**
@@ -42,7 +42,7 @@ use Phalcon\Paginator\Exception;
  *  ));
  *</code>
  */
-class QueryBuilder extends Adapter implements AdapterInterface
+class QueryBuilder extends Adapter
 {
 	/**
 	 * Configuration of paginator by model
@@ -59,24 +59,18 @@ class QueryBuilder extends Adapter implements AdapterInterface
 	 */
 	public function __construct(array config)
 	{
-		var builder, limit, page;
-
+		parent::__construct(config);
 		let this->_config = config;
 
-		if !fetch builder, config["builder"] {
+		if !isset config["builder"] {
 			throw new Exception("Parameter 'builder' is required");
 		}
 
-		if !fetch limit, config["limit"] {
+		if !isset config["limit"] {
 			throw new Exception("Parameter 'limit' is required");
 		}
 
-		this->setQueryBuilder(builder);
-		this->setLimit(limit);
-
-		if fetch page, config["page"] {
-			this->setCurrentPage(page);
-		}
+		this->setQueryBuilder(config["builder"]);
 	}
 
 	/**
@@ -108,10 +102,10 @@ class QueryBuilder extends Adapter implements AdapterInterface
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <\stdClass>
+	public function getPaginate() -> <RepositoryInterface>
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
-			limit, numberPage, number, query, page, before, items, totalQuery,
+			limit, numberPage, number, query, before, items, totalQuery,
 			result, row, rowcount, next;
 
 		let originalBuilder = this->_builder;
@@ -186,18 +180,17 @@ class QueryBuilder extends Adapter implements AdapterInterface
 			let next = totalPages;
 		}
 
-		let page = new \stdClass(),
-			page->items = items,
-			page->first = 1,
-			page->before = before,
-			page->current = numberPage,
-			page->last = totalPages,
-			page->next = next,
-			page->total_pages = totalPages,
-			page->total_items = rowcount,
-			page->limit = this->_limitRows;
-
-		return page;
+		return this->getRepository([
+			RepositoryInterface::PROPERTY_ITEMS 		: items,
+			RepositoryInterface::PROPERTY_TOTAL_PAGES	: totalPages,
+			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: rowcount,
+			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
+			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,
+			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : before,
+			RepositoryInterface::PROPERTY_CURRENT_PAGE 	: numberPage,
+			RepositoryInterface::PROPERTY_NEXT_PAGE 	: next,
+			RepositoryInterface::PROPERTY_LAST_PAGE 	: totalPages
+		]);
 	}
 
 }

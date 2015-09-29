@@ -40,7 +40,7 @@ interface AdapterInterface
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <\stdClass>;
+	public function getPaginate() -> <PaginateInterface>;
 
 	/**
 	 * Set current rows limit

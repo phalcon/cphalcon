@@ -21,7 +21,7 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter;
-use Phalcon\Paginator\AdapterInterface;
+use Phalcon\Paginator\RepositoryInterface;
 
 /**
  * Phalcon\Paginator\Adapter\NativeArray
@@ -45,7 +45,7 @@ use Phalcon\Paginator\AdapterInterface;
  *</code>
  *
  */
-class NativeArray extends Adapter implements AdapterInterface
+class NativeArray extends Adapter
 {
 
 	/**
@@ -56,27 +56,18 @@ class NativeArray extends Adapter implements AdapterInterface
 	/**
 	 * Phalcon\Paginator\Adapter\NativeArray constructor
 	 */
-	public function __construct(array config)
+	public function __construct(array! config)
 	{
-		var page, limit;
-
+		parent::__construct(config);
 		let this->_config = config;
-
-		if fetch limit, config["limit"] {
-			let this->_limitRows = limit;
-		}
-
-		if fetch page, config["page"] {
-			let this->_page = page;
-		}
 	}
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <\stdClass>
+	public function getPaginate() -> <RepositoryInterface>
 	{
-		var config, items, page;
+		var config, items;
 		int show, pageNumber, totalPages, number, before, next;
 		double roundedTotal;
 
@@ -123,17 +114,16 @@ class NativeArray extends Adapter implements AdapterInterface
 			let before = 1;
 		}
 
-		let page = new \stdClass(),
-			page->items = items,
-			page->first = 1,
-			page->before =  before,
-			page->current = pageNumber,
-			page->last = totalPages,
-			page->next = next,
-			page->total_pages = totalPages,
-			page->total_items = number,
-			page->limit = this->_limitRows;
-
-		return page;
+		return this->getRepository([
+			RepositoryInterface::PROPERTY_ITEMS 		: items,
+			RepositoryInterface::PROPERTY_TOTAL_PAGES	: totalPages,
+			RepositoryInterface::PROPERTY_TOTAL_ITEMS 	: number,
+			RepositoryInterface::PROPERTY_LIMIT 		: this->_limitRows,
+			RepositoryInterface::PROPERTY_FIRST_PAGE 	: 1,
+			RepositoryInterface::PROPERTY_PREVIOUS_PAGE : before,
+			RepositoryInterface::PROPERTY_CURRENT_PAGE 	: pageNumber,
+			RepositoryInterface::PROPERTY_NEXT_PAGE 	: next,
+			RepositoryInterface::PROPERTY_LAST_PAGE 	: totalPages
+		]);
 	}
 }

@@ -158,7 +158,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 3);
 
@@ -174,7 +174,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$paginator->setCurrentPage(4);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 3);
 
@@ -196,7 +196,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		));
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 25);
 
@@ -211,7 +211,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$paginator->setCurrentPage(2);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 5);
 
@@ -243,7 +243,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -259,7 +259,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$paginator->setCurrentPage(50);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -274,7 +274,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$paginator->setCurrentPage(218);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -283,7 +283,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->last, 218);
 
 		$this->assertEquals($page->current, 218);
-		$this->assertEquals($page->total_pages, 218);
+		$this->assertEquals($page->totalPages, 218);
 	}
 
 	public function testModelPaginatorBind()
@@ -311,7 +311,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -347,7 +347,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -367,7 +367,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -386,7 +386,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
 
 		$this->assertEquals(count($page->items), 10);
 
@@ -429,4 +429,67 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($setterResult, $paginator);
 	}
 
+	public function testRepositoryPaginator()
+	{
+		$paginatorRepository = new \Phalcon\Paginator\Repository();
+		$paginatorRepository->setAliases(array(
+			'myFirstPage'   => $paginatorRepository::PROPERTY_FIRST_PAGE,
+			'myLastPage'    => $paginatorRepository::PROPERTY_LAST_PAGE,
+			'myCurrentPage' => $paginatorRepository::PROPERTY_CURRENT_PAGE,
+			'myTotalPages'  => $paginatorRepository::PROPERTY_TOTAL_PAGES,
+			'myLimit' 	    => $paginatorRepository::PROPERTY_LIMIT
+		));
+
+		$paginator = new \Phalcon\Paginator\Adapter\NativeArray(array(
+			'data' => array_fill(0, 30, 'banana'),
+			'limit'=> 25,
+			'page' => 1,
+			'repository' => $paginatorRepository
+		));
+
+		$page = $paginator->getPaginate();
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
+
+		// Test getters
+		$this->assertEquals(count($page->getItems()), 25);
+
+		$this->assertEquals($page->getPreviousPage(), 1);
+		$this->assertEquals($page->getNextPage(), 2);
+		$this->assertEquals($page->getLastPage(), 2);
+		$this->assertEquals($page->getLimit(), 25);
+
+		$this->assertEquals($page->getCurrentPage(), 1);
+		$this->assertEquals($page->getTotalPages(), 2);
+
+		// Test aliases
+		$this->assertEquals($page->myLastPage, 2);
+		$this->assertEquals($page->myLimit, 25);
+
+		$this->assertEquals($page->myCurrentPage, 1);
+		$this->assertEquals($page->myTotalPages, 2);
+
+		$paginator->setCurrentPage(2);
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'Phalcon\Paginator\Repository');
+
+		// Test magic getters
+		$this->assertEquals(count($page->items), 5);
+
+		$this->assertEquals($page->previousPage, 1);
+		$this->assertEquals($page->previous_page, 1);
+		$this->assertEquals($page->nextPage, 2);
+		$this->assertEquals($page->lastPage, 2);
+
+		$this->assertEquals($page->currentPage, 2);
+		$this->assertEquals($page->totalPages, 2);
+
+		// Test aliases
+		$this->assertEquals($page->myLastPage, 2);
+		$this->assertEquals($page->myLimit, 25);
+
+		$this->assertEquals($page->myCurrentPage, 2);
+		$this->assertEquals($page->myTotalPages, 2);
+	}
 }
