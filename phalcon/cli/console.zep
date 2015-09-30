@@ -154,6 +154,15 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
+		/**
+		 * Call boot event, this allow the developer to perform initialization actions
+		 */
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("console:boot", this) === false {
+				return false;
+			}
+		}
+
 		let router = <Router> dependencyInjector->getShared("router");
 
 		if !count(arguments) && this->_arguments {
