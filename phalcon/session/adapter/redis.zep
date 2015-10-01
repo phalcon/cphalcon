@@ -22,7 +22,7 @@ namespace Phalcon\Session\Adapter;
 use Phalcon\Session\Adapter;
 use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Redis;
-use Phalcon\Cache\Frontend\Data as FrontendData;
+use Phalcon\Cache\Frontend\None as FrontendNone;
 
 /**
  * Phalcon\Session\Adapter\Redis
@@ -78,7 +78,7 @@ class Redis extends Adapter implements AdapterInterface
 		}
 
 		let this->_redis = new Redis(
-			new FrontendData(["lifetime": this->_lifetime]),
+			new FrontendNone(["lifetime": this->_lifetime]),
 			options
 		);
 
