@@ -411,7 +411,6 @@ PHP_METHOD(Phalcon_Di, getService) {
 
 /**
  * Resolves the service based on its configuration
- * @returm mixed
  */
 PHP_METHOD(Phalcon_Di, get) {
 
@@ -464,7 +463,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_SVS(_3, "Service '", name, "' wasn't found in the dependency injection container");
 			ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 9, _3);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_2, "phalcon/di.zep", 230 TSRMLS_CC);
+			zephir_throw_exception_debug(_2, "phalcon/di.zep", 229 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -708,9 +707,6 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
  *<code>
  *	var_dump($di["request"]);
  *</code>
- *
- * @param string name
- * @return mixed
  */
 PHP_METHOD(Phalcon_Di, offsetGet) {
 
@@ -771,7 +767,6 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  *
  * @param string method
  * @param array arguments
- * @return mixed
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
@@ -838,7 +833,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_5, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _5);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 428 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 423 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
