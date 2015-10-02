@@ -92,6 +92,10 @@ class Ip extends Validator implements ValidatorInterface
 		let allowPrivate = this->getOption("allowPrivate") ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
 		let allowReserved = this->getOption("allowReserved") ? 0 : FILTER_FLAG_NO_RES_RANGE;
 
+		if this->getOption("allowEmpty", false) && empty value {
+			return true;
+		}
+
 		let options = [
 			"options": [
 				"default": false
