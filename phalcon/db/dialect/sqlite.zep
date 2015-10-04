@@ -480,12 +480,12 @@ class Sqlite extends Dialect
 	 */
 	public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string
 	{
-		var sql;
+		string sql;
 
-		let sql = "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = '". table ."' COLLATE NOCASE";
+		let sql = "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ". this->escape(table) ." COLLATE NOCASE";
 		
 		if keyName {
-			let sql .= " AND name = '". keyName ."' COLLATE NOCASE";
+			let sql .= " AND name = ". this->escape(keyName) ." COLLATE NOCASE";
 		}
 
 		return sql;
