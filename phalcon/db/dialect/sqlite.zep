@@ -472,6 +472,26 @@ class Sqlite extends Dialect
 	}
 
 	/**
+	 * Generates the SQL to list query of indexes
+	 *
+	 * <code>
+	 *     print_r($dialect->listIndexesSql("blog"))
+	 * </code>
+	 */
+	public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string
+	{
+		var sql;
+
+		let sql = "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = '". table ."' COLLATE NOCASE";
+		
+		if keyName {
+			let sql .= " AND name = '". keyName ."' COLLATE NOCASE";
+		}
+
+		return sql;
+	}
+
+	/**
 	 * Generates SQL to query indexes on a table
 	 */
 	public function describeIndexes(string! table, string schema = null) -> string
