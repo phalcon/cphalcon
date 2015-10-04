@@ -2,6 +2,8 @@
 - Fixed bug that double serializes data using Redis adapter
 - Added `console:boot` event to allow the developer to perform initialization actions
 - Added implementation options `allowEmpty` for `Phalcon\Mvc\Model\Validator\Ip`
+- Fixed SQLite bug[#10997] related to setting of index type
+- Added `Phalcon\Db\Dialect\Sqlite::listIndexesSql` - to generate the SQL to get query list of indexes
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string

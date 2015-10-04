@@ -472,7 +472,7 @@ class Sqlite extends Dialect
 	}
 
 	/**
-	 * Generates the SQL to list query of indexes
+	 * Generates the SQL to get query list of indexes
 	 *
 	 * <code>
 	 *     print_r($dialect->listIndexesSql("blog"))
