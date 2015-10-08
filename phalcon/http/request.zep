@@ -117,6 +117,10 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
 	{
+		if !this->isMethod("PUT") {
+			return [];
+		}
+
 		var put;
 
 		let put = this->_putCache;
@@ -317,6 +321,15 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function isSecureRequest() -> boolean
 	{
 		return this->getScheme() === "https";
+	}
+
+	/**
+	 * Set request raw body for unit test
+	 */
+	public function setRawBody(string rawBody) -> <Request>
+	{
+	    let this->_rawBody = rawBody;
+	    return this;
 	}
 
 	/**

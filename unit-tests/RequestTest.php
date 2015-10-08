@@ -379,4 +379,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($request->getHeaders(), $headers);
 	}
+
+	public function testPutEmptyWhenMethodIsPost()
+	{
+		$request = new \Phalcon\Http\Request();
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$request->setRawBody("foo");
+		$this->assertEmpty($request->getPut());
+	}
 }
