@@ -1201,6 +1201,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 					'port' => '11211',
 					'weight' => '1'),
 			),
+            'persistent_id' => 'new_connection_pool_with_prefix',
 			'client' => array(
 				Memcached::OPT_PREFIX_KEY => 'prefix.',
 			)
@@ -1222,6 +1223,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($cachedUnserialize, $data);
 
 		//Memcached Option None
+        //A new persistent_id is required, otherwise new options are not applied
 		$cache2 = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
 			'servers' => array(
 				array(
@@ -1229,6 +1231,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 					'port' => '11211',
 					'weight' => '1'),
 			),
+            'persistent_id' => 'new_connection_pool_without_prefix',
 			'client' => array(),
 		));
 
@@ -1406,6 +1409,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 					'weight' => '1'),
 			),
 			'statsKey' => '_PHCM',
+            'persistent_id' => 'new_connection_pool_with_prefix',
 			'client' => array(
 				Memcached::OPT_PREFIX_KEY => 'prefix.',
 			)

@@ -27,9 +27,8 @@ use Phalcon\Cache\Exception;
 /**
  * Phalcon\Cache\Backend\Libmemcached
  *
- * Allows to cache output fragments, PHP data or raw data to a libmemcached backend
- *
- * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ * Allows to cache output fragments, PHP data or raw data to a libmemcached backend.
+ * Per default persistent memcached connection pools are used.
  *
  *<code>
  *
@@ -96,28 +95,43 @@ class Libmemcached extends Backend implements BackendInterface
 	 */
 	public function _connect()
 	{
-		var options, memcache, client, servers;
+		var options, memcache, client, servers, persistentId;
 
 		let options = this->_options;
-		let memcache = new \Memcached();
 
-		if !fetch servers, options["servers"] {
-			throw new Exception("Servers must be an array");
+		/* Enable persistent memcache connection per default */
+		if !fetch persistentId, options["persistent_id"] {
+			let persistentId = "phalcon_cache";
 		}
 
-		if typeof servers != "array" {
-			throw new Exception("Servers must be an array");
-		}
+		/* Get memcached pool connection */
+		let memcache = new \Memcached(persistentId);
 
-		if !memcache->addServers(servers) {
-			throw new Exception("Cannot connect to Memcached server");
-		}
+		/* Persistent memcached pools need to be reconnected if getServerList() is empty */
+		if empty memcache->getServerList() {
+			if !fetch servers, options["servers"] {
+				throw new Exception("Servers must be an array");
+			}
 
-		if fetch client, options["client"] {
+			if typeof servers != "array" {
+				throw new Exception("Servers must be an array");
+			}
+
+			if !fetch client, options["client"] {
+				let client = [];
+			}
+
 			if typeof client !== "array" {
 				throw new Exception("Client options must be instance of array");
 			}
-			memcache->setOptions(client);
+
+			if !memcache->setOptions(client) {
+				throw new Exception("Cannot set to Memcached options");
+			}
+
+			if !memcache->addServers(servers) {
+				throw new Exception("Cannot connect to Memcached server");
+			}
 		}
 
 		let this->_memcache = memcache;
@@ -440,6 +454,17 @@ class Libmemcached extends Backend implements BackendInterface
 
 	/**
 	 * Immediately invalidates all existing items.
+	 *
+	 * Memcached does not support flush() per default. If you require flush() support, set $config["statsKey"].
+     * All modified keys are stored in "statsKey". Note: statsKey has a negative performance impact.
+     *
+     *<code>
+     * $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, ["statsKey" => "_PHCM"]);
+     * $cache->save('my-data', array(1, 2, 3, 4, 5));
+     *
+     * //'my-data' and all other used keys are deleted
+     * $cache->flush();
+     *</code>
 	 */
 	public function flush() -> boolean
 	{
