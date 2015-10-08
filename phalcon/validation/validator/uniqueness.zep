@@ -71,7 +71,7 @@ class Uniqueness extends Validator
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Message(strtr(message, [":field": label]), field, "Uniqueness"));
+			validation->appendMessage(new Message(strtr(message, [":field": label]), field, "Uniqueness", this->getOption("code")));
 			return false;
 		}
 

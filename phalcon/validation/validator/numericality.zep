@@ -61,7 +61,7 @@ class Numericality extends Validator
 				let message = validation->getDefaultMessage("Numericality");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Numericality"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Numericality", this->getOption("code")));
 			return false;
 		}
 
