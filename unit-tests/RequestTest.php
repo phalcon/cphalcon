@@ -22,6 +22,11 @@
 class RequestTest extends PHPUnit_Framework_TestCase
 {
 
+	public function setUp()
+	{
+		$_POST = null;
+	}
+
 	public function testHasFiles()
 	{
 		$request = new \Phalcon\Http\Request();
@@ -380,11 +385,108 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getHeaders(), $headers);
 	}
 
+	public function testPhpStream()
+	{
+		stream_wrapper_unregister('php');
+		stream_wrapper_register('php', PhpStream::class);
+
+		file_put_contents('php://input', [json_encode(['bar' => 'baz'])]);
+
+
+		$data = file_get_contents('php://input');
+		$this->assertEquals($data, json_encode(['bar' => 'baz']));
+
+		$_POST['foo'] = 'bar';
+		$this->assertNotEquals($_POST, $data);
+	}
+
 	public function testPutEmptyWhenMethodIsPost()
 	{
-		$request = new \Phalcon\Http\Request();
+		stream_wrapper_unregister('php');
+		stream_wrapper_register('php', PhpStream::class);
+		file_put_contents('php://input', ["foo" => "bar"]);
 		$_SERVER['REQUEST_METHOD'] = 'POST';
-		$request->setRawBody("foo");
-		$this->assertEmpty($request->getPut());
+		$request = new \Phalcon\Http\Request();
+		$this->assertEquals([], $request->getPut());
+		$this->assertEquals(null, $request->getPut("foo"));
+		$this->assertEquals(null, $request->getPost("foo"));
+	}
+}
+
+
+class PhpStream
+{
+	protected $index = 0;
+	protected $length = 0;
+	protected $data = '';
+
+	public function __construct()
+	{
+		if (file_exists($this->buffer_filename())) {
+			$this->data = file_get_contents($this->buffer_filename());
+		} else {
+			$this->data = '';
+		}
+
+		$this->index = 0;
+		$this->length = strlen($this->data);
+	}
+
+	protected function buffer_filename()
+	{
+		return sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'php_input.txt';
+	}
+
+	public function stream_open($path, $mode, $options, &$opened_path)
+	{
+		return true;
+	}
+
+	public function stream_close()
+	{
+	}
+
+	public function stream_stat()
+	{
+		return [];
+	}
+
+	public function stream_flush()
+	{
+		return true;
+	}
+
+	public function stream_read($count)
+	{
+		if (null === $this->length) {
+			$this->length = strlen($this->data);
+		}
+
+		$length = min($count, $this->length - $this->index);
+		$data = substr($this->data, $this->index);
+		$this->index = $this->index + $length;
+
+		return $data;
+	}
+
+	public function stream_eof()
+	{
+		return ($this->index >= $this->length ? true : false);
+	}
+
+	public function stream_write($data)
+	{
+		return file_put_contents($this->buffer_filename(), $data);
+	}
+
+	public function unlink()
+	{
+		if (file_exists($this->buffer_filename())) {
+			unlink($this->buffer_filename());
+		}
+
+		$this->data = '';
+		$this->index = 0;
+		$this->length = 0;
 	}
 }
