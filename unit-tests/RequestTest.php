@@ -450,7 +450,7 @@ class PhpStream
 
 	public function stream_stat()
 	{
-		return [];
+		return array();
 	}
 
 	public function stream_flush()
