@@ -394,7 +394,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
 
 		$data = file_get_contents('php://input');
-		$this->assertEquals($data, json_encode(['bar' => 'baz']));
+		$this->assertEquals($data, json_encode(array('bar' => 'baz')));
 
 		$_POST['foo'] = 'bar';
 		$this->assertNotEquals($_POST, $data);
@@ -408,7 +408,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		file_put_contents('php://input', array("foo" => "bar"));
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$request = new \Phalcon\Http\Request();
-		$this->assertEquals([], $request->getPut());
+		$this->assertEquals(array(), $request->getPut());
 		$this->assertEquals(null, $request->getPut("foo"));
 		$this->assertEquals(null, $request->getPost("foo"));
 		stream_wrapper_restore('php');
