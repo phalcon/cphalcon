@@ -388,7 +388,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 	public function testPhpStream()
 	{
 		stream_wrapper_unregister('php');
-		stream_wrapper_register('php', PhpStream::class);
+		stream_wrapper_register('php', 'PhpStream');
 
 		file_put_contents('php://input', [json_encode(['bar' => 'baz'])]);
 
@@ -398,18 +398,20 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
 		$_POST['foo'] = 'bar';
 		$this->assertNotEquals($_POST, $data);
+		stream_wrapper_restore('php');
 	}
 
 	public function testPutEmptyWhenMethodIsPost()
 	{
 		stream_wrapper_unregister('php');
-		stream_wrapper_register('php', PhpStream::class);
+		stream_wrapper_register('php', 'PhpStream');
 		file_put_contents('php://input', ["foo" => "bar"]);
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$request = new \Phalcon\Http\Request();
 		$this->assertEquals([], $request->getPut());
 		$this->assertEquals(null, $request->getPut("foo"));
 		$this->assertEquals(null, $request->getPost("foo"));
+		stream_wrapper_restore('php');
 	}
 }
 
