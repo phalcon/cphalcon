@@ -390,7 +390,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		stream_wrapper_unregister('php');
 		stream_wrapper_register('php', 'PhpStream');
 
-		file_put_contents('php://input', [json_encode(['bar' => 'baz'])]);
+		file_put_contents('php://input', array(json_encode(array('bar' => 'baz'))));
 
 
 		$data = file_get_contents('php://input');
@@ -405,7 +405,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 	{
 		stream_wrapper_unregister('php');
 		stream_wrapper_register('php', 'PhpStream');
-		file_put_contents('php://input', ["foo" => "bar"]);
+		file_put_contents('php://input', array("foo" => "bar"));
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$request = new \Phalcon\Http\Request();
 		$this->assertEquals([], $request->getPut());
