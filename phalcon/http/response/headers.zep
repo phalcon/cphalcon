@@ -69,7 +69,7 @@ class Headers implements HeadersInterface
 		var headers;
 
 		let headers = this->_headers;
-		unset(headers[header]);
+		unset headers[header];
 		let this->_headers = headers;
 	}
 

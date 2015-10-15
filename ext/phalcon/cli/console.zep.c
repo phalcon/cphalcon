@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(arguments);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_1, 122, arguments);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_1, 120, arguments);
 		ZEPHIR_UNREF(arguments);
 		zephir_check_call_status();
 	}
@@ -435,7 +435,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 			ZVAL_STRING(&_5, "--", 0);
 			ZEPHIR_SINIT_NVAR(_6);
 			ZVAL_LONG(&_6, 2);
-			ZEPHIR_CALL_FUNCTION(&_7, "strncmp", &_8, 123, arg, &_5, &_6);
+			ZEPHIR_CALL_FUNCTION(&_7, "strncmp", &_8, 121, arg, &_5, &_6);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_LONG(_7, 0)) {
 				ZEPHIR_SINIT_NVAR(_5);
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 				ZVAL_STRING(&_12, "-", 0);
 				ZEPHIR_SINIT_NVAR(_13);
 				ZVAL_LONG(&_13, 1);
-				ZEPHIR_CALL_FUNCTION(&_15, "strncmp", &_8, 123, arg, &_12, &_13);
+				ZEPHIR_CALL_FUNCTION(&_15, "strncmp", &_8, 121, arg, &_12, &_13);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG(_15, 0)) {
 					ZEPHIR_SINIT_NVAR(_12);
@@ -490,21 +490,21 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	if (str) {
 		ZEPHIR_INIT_NVAR(_9);
-		ZEPHIR_CALL_CE_STATIC(&_7, phalcon_cli_router_route_ce, "getdelimiter", &_16, 124);
+		ZEPHIR_CALL_CE_STATIC(&_7, phalcon_cli_router_route_ce, "getdelimiter", &_16, 122);
 		zephir_check_call_status();
 		zephir_fast_join(_9, _7, args TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_arguments"), _9 TSRMLS_CC);
 	} else {
 		if (zephir_fast_count_int(args TSRMLS_CC)) {
 			ZEPHIR_MAKE_REF(args);
-			ZEPHIR_CALL_FUNCTION(&_15, "array_shift", &_1, 122, args);
+			ZEPHIR_CALL_FUNCTION(&_15, "array_shift", &_1, 120, args);
 			ZEPHIR_UNREF(args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("task"), &_15, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_fast_count_int(args TSRMLS_CC)) {
 			ZEPHIR_MAKE_REF(args);
-			ZEPHIR_CALL_FUNCTION(&_7, "array_shift", &_1, 122, args);
+			ZEPHIR_CALL_FUNCTION(&_7, "array_shift", &_1, 120, args);
 			ZEPHIR_UNREF(args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("action"), &_7, PH_COPY | PH_SEPARATE);

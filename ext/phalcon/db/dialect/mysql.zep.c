@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value, _8);
 					ZEPHIR_SINIT_NVAR(_9);
 					ZVAL_STRING(&_9, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_10, 143, value, &_9);
+					ZEPHIR_CALL_FUNCTION(&_2, "addcslashes", &_10, 141, value, &_9);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_4);
 					ZEPHIR_CONCAT_SVS(_4, "\"", _2, "\", ");
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_11);
 				ZVAL_STRING(&_11, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_3, "addcslashes", &_10, 143, typeValues, &_11);
+				ZEPHIR_CALL_FUNCTION(&_3, "addcslashes", &_10, 141, typeValues, &_11);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_4);
 				ZEPHIR_CONCAT_SVS(_4, "(\"", _3, "\")");
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5);
 			ZVAL_STRING(&_5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6, "addcslashes", NULL, 143, defaultValue, &_5);
+			ZEPHIR_CALL_FUNCTION(&_6, "addcslashes", NULL, 141, defaultValue, &_5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7);
 			ZEPHIR_CONCAT_SVS(_7, " DEFAULT \"", _6, "\"");
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5);
 			ZVAL_STRING(&_5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6, "addcslashes", NULL, 143, defaultValue, &_5);
+			ZEPHIR_CALL_FUNCTION(&_6, "addcslashes", NULL, 141, defaultValue, &_5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7);
 			ZEPHIR_CONCAT_SVS(_7, " DEFAULT \"", _6, "\"");
@@ -927,7 +927,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_8);
 				ZVAL_STRING(&_8, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_9, "addcslashes", &_10, 143, defaultValue, &_8);
+				ZEPHIR_CALL_FUNCTION(&_9, "addcslashes", &_10, 141, defaultValue, &_8);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_11);
 				ZEPHIR_CONCAT_SVS(_11, " DEFAULT \"", _9, "\"");

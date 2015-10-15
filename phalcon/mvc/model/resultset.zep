@@ -53,7 +53,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * </code>
  */
 abstract class Resultset
-	implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
+	implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable, \JsonSerializable
 {
 
 	/**
@@ -558,4 +558,28 @@ abstract class Resultset
 
 		return records;
 	}
+
+    /**
+     * Returns serialised model objects as array for json_encode. Calls jsonSerialize on each object if present
+     *
+     *<code>
+     * $robots = Robots::find();
+     * echo json_encode($robots);
+     *</code>
+     *
+     * @return array
+     */
+    public function jsonSerialize() -> array
+    {
+        var records, current;
+        let records = [];
+        for current in iterator(this) {
+        	if typeof current == "object" && method_exists(current, "jsonSerialize") {
+        		let records[] = current->{"jsonSerialize"}();
+        	} else {
+        	    let records[] = current;
+        	}
+        }
+        return records;
+    }
 }

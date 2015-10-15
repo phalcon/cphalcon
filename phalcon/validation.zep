@@ -20,9 +20,10 @@
 namespace Phalcon;
 
 use Phalcon\Di\Injectable;
+use Phalcon\ValidationInterface;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
@@ -30,7 +31,7 @@ use Phalcon\Validation\ValidatorInterface;
  *
  * Allows to validate data using custom or built-in validators
  */
-class Validation extends Injectable
+class Validation extends Injectable implements ValidationInterface
 {
 	protected _data;
 
@@ -93,6 +94,10 @@ class Validation extends Injectable
 		 */
 		let messages = new Group();
 
+		if entity !== null {
+			this->setEntity(entity);
+		}
+
 		/**
 		 * Validation classes can implement the 'beforeValidation' callback
 		 */
@@ -120,6 +125,13 @@ class Validation extends Injectable
 
 			if typeof validator != "object" {
 				throw new Exception("One of the validators is not valid");
+			}
+
+			/**
+			 * Call internal validations, if it returns true, then skip the current validator
+			 */
+			if this->preChecking(field, validator) {
+				continue;
 			}
 
 			/**
@@ -216,6 +228,19 @@ class Validation extends Injectable
 	public function getValidators() -> array
 	{
 		return this->_validators;
+	}
+
+	/**
+	 * Sets the bound entity
+	 *
+	 * @param object entity
+	 */
+	public function setEntity(entity)
+	{
+		if typeof entity != "object" {
+			throw new Exception("Entity must be an object");
+		}
+		let this->_entity = entity;
 	}
 
 	/**
@@ -364,7 +389,7 @@ class Validation extends Injectable
 		 * If the entity is an object use it to retrieve the values
 		 */
 		if typeof entity == "object" {
-			let method = "get" . field;
+			let method = "get" . camelize(field);
 			if method_exists(entity, method) {
 				let value = entity->{method}();
 			} else {
@@ -441,5 +466,21 @@ class Validation extends Injectable
 		let this->_values[field] = value;
 
 		return value;
+	}
+
+	/**
+	 * Internal validations, if it returns true, then skip the current validator
+	 */
+	protected function preChecking(string field, <ValidatorInterface> validator) -> boolean
+	{
+		if validator->getOption("allowEmpty", false) {
+			if method_exists(validator, "isAllowEmpty") {
+				return validator->isAllowEmpty(this, field);
+			} else {
+				return empty this->getValue(field);
+			}
+		}
+
+		return false;
 	}
 }

@@ -153,56 +153,6 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader->unregister();
 	}
 
-	public function testPrefixes()
-	{
-
-		$loader = new Phalcon\Loader();
-
-		$loader->registerPrefixes(array(
-			"Pseudo" => "unit-tests/vendor/example/Pseudo/",
-		));
-
-		$loader->registerPrefixes(array(
-			"SecondPseudo" => "unit-tests/vendor/example/SecondPseudo/",
-		), true);
-
-		$loader->register();
-
-		$pseudoClass = new Pseudo_Some_Something();
-		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Some_Something');
-
-		$pseudoClass = new Pseudo_Base();
-		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
-
-		$pseudoClass = new SecondPseudo_Some_Something();
-		$this->assertEquals(get_class($pseudoClass), 'SecondPseudo_Some_Something');
-
-		$pseudoClass = new SecondPseudo_Base();
-		$this->assertEquals(get_class($pseudoClass), 'SecondPseudo_Base');
-
-		$loader->unregister();
-	}
-
-	public function testPrefixesUnderscore()
-	{
-
-		$loader = new Phalcon\Loader();
-
-		$loader->registerPrefixes(array(
-			"Pseudo_" => "unit-tests/vendor/example/Pseudo/",
-		));
-
-		$loader->register();
-
-		$pseudoClass = new Pseudo_Some_Something();
-		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Some_Something');
-
-		$pseudoClass = new Pseudo_Base();
-		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
-
-		$loader->unregister();
-	}
-
 	public function testEvents()
 	{
 
@@ -218,10 +168,6 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerNamespaces(array(
 			"Avec\Test" => "unit-tests/vendor/example/other/Avec/"
-		));
-
-		$loader->registerPrefixes(array(
-			"Avec_" => "unit-tests/vendor/example/other/Avec/"
 		));
 
 		$loader->register();

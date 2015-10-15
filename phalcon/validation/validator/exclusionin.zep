@@ -50,10 +50,6 @@ class ExclusionIn extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		/**
 		 * A domain is an array with a list of valid values
 		 */
@@ -78,7 +74,7 @@ class ExclusionIn extends Validator
 				let message = validation->getDefaultMessage("ExclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn", this->getOption("code")));
 			return false;
 		}
 

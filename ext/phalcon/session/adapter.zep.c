@@ -477,12 +477,11 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 }
 
 /**
- * Returns the status of the current session. For PHP 5.3 this function will always return SESSION_NONE
+ * Returns the status of the current session.
  *
  *<code>
  *	var_dump($session->status());
  *
- *  // PHP 5.4 and above will give meaningful messages, 5.3 gets SESSION_NONE always
  *  if ($session->status() !== $session::SESSION_ACTIVE) {
  *      $session->start();
  *  }
@@ -495,19 +494,17 @@ PHP_METHOD(Phalcon_Session_Adapter, status) {
 
 	ZEPHIR_MM_GROW();
 
-	if (!(zephir_is_php_version(50300))) {
-		ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 61);
-		zephir_check_call_status();
-		do {
-			if (ZEPHIR_IS_LONG(status, 0)) {
-				RETURN_MM_LONG(0);
-			}
-			if (ZEPHIR_IS_LONG(status, 2)) {
-				RETURN_MM_LONG(2);
-			}
-		} while(0);
+	ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 61);
+	zephir_check_call_status();
+	do {
+		if (ZEPHIR_IS_LONG(status, 0)) {
+			RETURN_MM_LONG(0);
+		}
+		if (ZEPHIR_IS_LONG(status, 2)) {
+			RETURN_MM_LONG(2);
+		}
+	} while(0);
 
-	}
 	RETURN_MM_LONG(1);
 
 }

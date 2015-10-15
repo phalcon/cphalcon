@@ -55,19 +55,14 @@ class StringLength extends Validator
 		/**
 		 * At least one of 'min' or 'max' must be set
 		 */
-		let isSetMin = this->isSetOption("min"),
-			isSetMax = this->isSetOption("max");
+		let isSetMin = this->hasOption("min"),
+			isSetMax = this->hasOption("max");
 
 		if !isSetMin && !isSetMax {
 			throw new Exception("A minimum or maximum must be set");
 		}
 
 		let value = validation->getValue(field);
-
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		let label = this->getOption("label");
 		if empty label {
 			let label = validation->getLabel(field);
@@ -99,7 +94,7 @@ class StringLength extends Validator
 					let message = validation->getDefaultMessage("TooLong");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooLong"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooLong", this->getOption("code")));
 				return false;
 			}
 		}
@@ -121,7 +116,7 @@ class StringLength extends Validator
 					let message = validation->getDefaultMessage("TooShort");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooShort"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooShort", this->getOption("code")));
 				return false;
 			}
 		}

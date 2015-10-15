@@ -20,16 +20,16 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\Injectable;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
-use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Di\ServiceInterface;
 use Phalcon\Mvc\Micro\Collection;
-use Phalcon\Mvc\Micro\CollectionInterface;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
-use Phalcon\Di\ServiceInterface;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Di\Injectable;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Micro\MiddlewareInterface;
+use Phalcon\Mvc\Micro\CollectionInterface;
 
 /**
  * Phalcon\Mvc\Micro
@@ -579,7 +579,8 @@ class Micro extends Injectable implements \ArrayAccess
 	{
 		var dependencyInjector, eventsManager, status = null, router, matchedRoute,
 			handler, beforeHandlers, params, returnedValue, e, errorHandler,
-			afterHandlers, notFoundHandler, finishHandlers, finish, before, after;
+			afterHandlers, notFoundHandler, finishHandlers, finish, before, after,
+			response;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -603,7 +604,7 @@ class Micro extends Injectable implements \ArrayAccess
 			/**
 			 * Handling routing information
 			 */
-			let router = dependencyInjector->getShared("router");
+			let router = <RouterInterface> dependencyInjector->getShared("router");
 
 			/**
 			 * Handle the URI as normal
@@ -686,10 +687,18 @@ class Micro extends Injectable implements \ArrayAccess
 					}
 				}
 
+				let params = router->getParams();
+
+				/**
+				 * Bound the app to the handler
+				 */
+				if typeof handler == "object" && handler instanceof \Closure {
+					let handler = \Closure::bind(handler, this);
+				}
+
 				/**
 				 * Calling the Handler in the PHP userland
 				 */
-				let params = router->getParams();
 				let returnedValue = call_user_func_array(handler, params);
 
 				/**
@@ -870,6 +879,15 @@ class Micro extends Injectable implements \ArrayAccess
 					throw e;
 				}
 			}
+		}
+
+		/**
+		 * Check if the returned value is a string and take it as response body
+		 */
+		if typeof returnedValue == "string" {
+			let response = <ResponseInterface> dependencyInjector->getShared("response");
+			response->setContent(returnedValue);
+			returnedValue->send();
 		}
 
 		/**

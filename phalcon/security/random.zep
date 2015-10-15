@@ -1,3 +1,4 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -314,7 +315,7 @@ class Random
 		do {
 			let rnd = this->bytes(strlen(bin));
 			let rnd = substr_replace(rnd, chr(ord(substr(rnd, 0, 1)) & mask), 0, 1);
-		} while (bin < rnd);
+		} while bin < rnd;
 
 		let ret = unpack("H*", rnd);
 

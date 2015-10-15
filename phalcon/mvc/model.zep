@@ -42,7 +42,10 @@ use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Validation\Message\Group as ValidationMessageGroup;
 
 /**
  * Phalcon\Mvc\Model
@@ -75,7 +78,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
 	protected _dependencyInjector;
@@ -121,7 +124,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Phalcon\Mvc\Model constructor
 	 */
-	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -160,7 +163,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
 		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
+			this->{"onConstruct"}(data);
+		}
+
+		if typeof data == "array" {
+			this->assign(data);
 		}
 	}
 
@@ -1343,9 +1350,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Appends a customized message on the validation process
 	 *
 	 * <code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Message as Message;
 	 *
-	 * class Robots extends \Phalcon\Mvc\Model
+	 * class Robots extends Model
 	 * {
 	 *
 	 *   public function beforeSave()
@@ -1368,47 +1376,51 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *use Phalcon\Mvc\Model;
+	 *use Phalcon\Validation;
+	 *use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+	 * 		$validator = new Validation();
+	 * 		$validator->add('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
 	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
 	 */
-	protected function validate(<Model\ValidatorInterface> validator) -> <Model>
+	protected function validate(<ValidationInterface> validator) -> boolean
 	{
-		var message;
+		var messages, message;
+		let messages = validator->validate(null, this);
 
-		/**
-		 * Call the validation, if it returns false we append the messages to the current object
-		 */
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
+		// Call the validation, if it returns not the boolean we append the messages to the current object
+		if typeof messages != "boolean" {
+			for message in iterator(messages) {
+				this->appendMessage(new Message(message->getMessage(), message->getField(), message->getType()));
 			}
+
+			// If there is a message, it returns false otherwise true
+			return !count(messages);
 		}
 
-		return this;
+		return messages;
 	}
 
 	/**
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
@@ -1465,6 +1477,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 			return filtered;
 		}
+
 		return this->_errorMessages;
 	}
 
@@ -1472,7 +1485,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
 	 */
-	protected function _checkForeignKeysRestrict() -> boolean
+	protected final function _checkForeignKeysRestrict() -> boolean
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
@@ -1621,7 +1634,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
 	 */
-	protected function _checkForeignKeysReverseCascade() -> boolean
+	protected final function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
 			resultset, conditions, bindParams, referencedModel,
@@ -1728,7 +1741,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
 	 */
-	protected function _checkForeignKeysReverseRestrict() -> boolean
+	protected final function _checkForeignKeysReverseRestrict() -> boolean
 	{
 		boolean error;
 		var manager, relations, foreignKey, relation,
@@ -4352,6 +4365,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return data;
+	}
+
+    /**
+    * Serializes the object for json_encode
+    *
+	*<code>
+	* echo json_encode($robot);
+	*</code>
+    *
+    * @return array
+    */
+	public function jsonSerialize() -> array
+	{
+	    return this->toArray();
 	}
 
 	/**

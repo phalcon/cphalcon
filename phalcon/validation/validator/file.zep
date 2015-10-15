@@ -68,12 +68,8 @@ class File extends Validator
 				let message = validation->getDefaultMessage("FileIniSize");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize", this->getOption("code")));
 			return false;
-		}
-
-		if this->isSetOption("allowEmpty") && (empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE) {
-			return true;
 		}
 
 		if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
@@ -85,7 +81,7 @@ class File extends Validator
 				let message = validation->getDefaultMessage("FileEmpty");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty", this->getOption("code")));
 			return false;
 		}
 
@@ -98,11 +94,11 @@ class File extends Validator
 				let message = validation->getDefaultMessage("FileValid");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid", this->getOption("code")));
 			return false;
 		}
 
-		if this->isSetOption("maxSize") {
+		if this->hasOption("maxSize") {
 
 			let byteUnits = ["B": 0, "K": 10, "M": 20, "G": 30, "T": 40, "KB": 10, "MB": 20, "GB": 30, "TB": 40],
 				maxSize = this->getOption("maxSize"),
@@ -125,12 +121,12 @@ class File extends Validator
 					let message = validation->getDefaultMessage("FileSize");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize", this->getOption("code")));
 				return false;
 			}
 		}
 
-		if this->isSetOption("allowedTypes") {
+		if this->hasOption("allowedTypes") {
 
 			let types = this->getOption("allowedTypes");
 
@@ -155,17 +151,17 @@ class File extends Validator
 					let message = validation->getDefaultMessage("FileType");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType", this->getOption("code")));
 				return false;
 			}
 		}
 
-		if this->isSetOption("minResolution") || this->isSetOption("maxResolution") {
+		if this->hasOption("minResolution") || this->hasOption("maxResolution") {
 			let tmp = getimagesize(value["tmp_name"]),
 				width = tmp[0],
 				height = tmp[1];
 
-			if this->isSetOption("minResolution") {
+			if this->hasOption("minResolution") {
 				let minResolution = explode("x", this->getOption("minResolution")),
 					minWidth = minResolution[0],
 					minHeight = minResolution[1];
@@ -182,11 +178,11 @@ class File extends Validator
 					let message = validation->getDefaultMessage("FileMinResolution");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution"));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution", this->getOption("code")));
 				return false;
 			}
 
-			if this->isSetOption("maxResolution") {
+			if this->hasOption("maxResolution") {
 
 				let maxResolution = explode("x", this->getOption("maxResolution")),
 					maxWidth = maxResolution[0],
@@ -200,11 +196,22 @@ class File extends Validator
 						let message = validation->getDefaultMessage("FileMaxResolution");
 					}
 
-					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution"));
+					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution", this->getOption("code")));
 					return false;
 				}
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Check on empty
+	 */
+	public function isAllowEmpty(<Validation> validation, string! field) -> boolean
+	{
+		var value;
+		let value = validation->getValue(field);
+
+		return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
 	}
 }

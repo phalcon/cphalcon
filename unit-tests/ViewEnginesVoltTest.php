@@ -1379,4 +1379,14 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 
 		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
 	}
+
+	public function testVoltEngineLoopContext()
+	{
+		$volt = new Compiler();
+		$compiled = $volt->compileString('{% for i in 1..5 %}{{ loop.self.index }}{% endfor %}');
+		ob_start();
+		eval('?>'.$compiled);
+		$result = ob_get_clean();
+		$this->assertEquals('12345', $result);
+	}
 }
