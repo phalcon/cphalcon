@@ -328,10 +328,13 @@ class Libmemcached extends Backend implements BackendInterface
 		let keys = memcache->get(specialKey);
 		if typeof keys == "array" {
 			let keys = array_keys(keys);
-			for key in keys {
-				if prefix && !starts_with(key, prefix) {
-					unset keys[key];
+			if prefix {
+			    var idx;
+			    for idx, key in keys {
+				if !starts_with(key, prefix) {
+					unset keys[idx];
 				}
+			    }
 			}
 		}
 
