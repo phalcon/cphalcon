@@ -66,6 +66,12 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 	const OP_DELETE = 3;
 
+	const HYDRATE_COLLECTIONS = 0;
+
+	const HYDRATE_DOCUMENTS   = 1;
+
+	const HYDRATE_ARRAYS      = 2;
+
 	/**
 	 * Phalcon\Mvc\Collection constructor
 	 */
@@ -340,8 +346,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	protected static function _getResultset(var params, <CollectionInterface> collection, connection, boolean unique)
 	{
-		var source, mongoCollection, conditions, base, documentsCursor,
-			fields, skip, limit, sort, document, collections;
+		var source, mongoCollection, conditions, documentsCursor,
+			fields, skip, limit, sort, document, collections, base, hydration;
 
 		let source = collection->getSource();
 		if empty source {
@@ -398,9 +404,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		}
 
 		/**
-		 * If a group of specific fields are requested we use a Phalcon\Mvc\Collection\Document instead
+		 * Check if "hydration" was set
 		 */
-		if isset params["fields"] {
+		fetch hydration, params["hydration"];
+
+		if hydration == self::HYDRATE_DOCUMENTS {
 			let base = new Document();
 		} else {
 			let base = collection;
@@ -419,6 +427,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 				return false;
 			}
 
+			if hydration == self::HYDRATE_ARRAYS {
+				return document;
+			}
+
 			/**
 			 * Assign the values to the base object
 			 */
@@ -430,11 +442,14 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 */
 		let collections = [];
 		for document in iterator_to_array(documentsCursor) {
-
-			/**
-			 * Assign the values to the base object
-			 */
-			let collections[] = static::cloneResult(base, document);
+			if hydration == self::HYDRATE_ARRAYS {
+				let collections[] = document;
+			} else {
+				/**
+				 * Assign the values to the base object
+				 */
+				let collections[] = static::cloneResult(base, document);
+			}
 		}
 
 		return collections;

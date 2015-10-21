@@ -200,5 +200,17 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			array('artist' => 'Massive Attack')
 		)), 2);
 
+		//Hydration
+		$songs = Songs::find(array(
+			'hydration' => \Phalcon\Mvc\Collection::HYDRATE_DOCUMENTS,
+			'limit'      => 1
+		));
+		$this->assertInstanceOf('Phalcon\Mvc\Collection\Document', $songs[0]);
+
+		$songs = Songs::find(array(
+			'hydration' => \Phalcon\Mvc\Collection::HYDRATE_ARRAYS,
+			'limit'      => 1
+		));
+		$this->assertTrue(is_array($songs[0]));
 	}
 }
