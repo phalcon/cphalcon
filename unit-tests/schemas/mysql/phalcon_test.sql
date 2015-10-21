@@ -412,6 +412,17 @@ CREATE TABLE IF NOT EXISTS `issue_2019` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `issue_11036`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issue_11036` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `token` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `issue_11036_token_UNIQUE` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
