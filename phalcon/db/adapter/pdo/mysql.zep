@@ -21,6 +21,8 @@ namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db;
 use Phalcon\Db\Column;
+use Phalcon\Db\Index;
+use Phalcon\Db\IndexInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
@@ -335,5 +337,54 @@ class Mysql extends PdoAdapter implements AdapterInterface
 		}
 
 		return columns;
+	}
+
+	/**
+	 * Lists table indexes
+	 *
+	 * <code>
+	 *   print_r($connection->describeIndexes('robots_parts'));
+	 * </code>
+	 *
+	 * @param  string table
+	 * @param  string schema
+	 * @return \Phalcon\Db\IndexInterface[]
+	 */
+	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
+	{
+		var indexes, index, keyName, indexObjects, columns, name;
+
+		let indexes = [];
+		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+			let keyName = index["Key_name"];
+
+			if !isset indexes[keyName] {
+				let indexes[keyName] = [];
+			}
+
+			if !isset indexes[keyName]["columns"] {
+				let columns = [];
+			} else {
+				let columns = indexes[keyName]["columns"];
+			}
+
+			let columns[] = index["Column_name"];
+			let indexes[keyName]["columns"] = columns;
+
+			if keyName == "PRIMARY" {
+				let indexes[keyName]["type"] = "PRIMARY";
+			} elseif index["Non_unique"] == 0 {
+				let indexes[keyName]["type"] = "UNIQUE";
+			} else {
+				let indexes[keyName]["type"] = null;
+			}
+		}
+
+		let indexObjects = [];
+		for name, index in indexes {
+			let indexObjects[name] = new Index(name, index["columns"], index["type"]);
+		}
+
+		return indexObjects;
 	}
 }
