@@ -554,6 +554,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'albums',
 			'artists',
 			'customers',
+			'issue_11036',
 			'issue_1534',
 			'issue_2019',
 			'm2m_parts',
@@ -605,7 +606,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$expectedIndexes = array(
 			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
 				'_name' => 'PRIMARY',
-				'_columns' => array('id')
+				'_columns' => array('id'),
+				'_type' => 'PRIMARY',
 			)),
 			'robots_id' => Phalcon\Db\Index::__set_state(array(
 				'_name' => 'robots_id',
@@ -621,6 +623,26 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		$describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');
+		$this->assertEquals($describeIndexes, $expectedIndexes);
+
+		//Indexes
+		$expectedIndexes = array(
+			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'PRIMARY',
+				'_columns' => array('id'),
+				'_type' => 'PRIMARY',
+			)),
+			'issue_11036_token_UNIQUE' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'issue_11036_token_UNIQUE',
+				'_columns' => array('token'),
+				'_type' => 'UNIQUE'
+			))
+		);
+
+		$describeIndexes = $connection->describeIndexes('issue_11036');
+		$this->assertEquals($describeIndexes, $expectedIndexes);
+
+		$describeIndexes = $connection->describeIndexes('issue_11036', 'phalcon_test');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
