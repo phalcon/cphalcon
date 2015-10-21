@@ -110,7 +110,7 @@ class Loader implements EventsAwareInterface
 	 */
 	public function registerNamespaces(array! namespaces, boolean merge = false) -> <Loader>
 	{
-		var currentNamespaces, mergedNamespaces, preparedNamespaces, name, paths;
+		var currentNamespaces, preparedNamespaces, name, paths;
 
 		let preparedNamespaces = this->prepareNamespace(namespaces);
 
@@ -136,20 +136,16 @@ class Loader implements EventsAwareInterface
 		return this;
 	}
 
-	protected function prepareNamespace(array! namespaces) -> array
+	protected function prepareNamespace(array! $namespace) -> array
 	{
 		var localPaths, name, paths, prepared;
 
 		let prepared = [];
-		for name, paths in namespaces {
+		for name, paths in $namespace {
 			if typeof paths != "array" {
 				let localPaths = [paths];
 			} else {
 				let localPaths = paths;
-			}
-
-			if !isset prepared[name] {
-				let prepared[name] = [];
 			}
 
 			let prepared[name] = localPaths;
