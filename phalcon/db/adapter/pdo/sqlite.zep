@@ -294,9 +294,13 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	/**
 	 * Lists table indexes
 	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	Phalcon\Db\IndexInterface[]
+	 * <code>
+	 *   print_r($connection->describeIndexes('robots_parts'));
+	 * </code>
+	 *
+	 * @param  string table
+	 * @param  string schema
+	 * @return \Phalcon\Db\IndexInterface[]
 	 */
 	public function describeIndexes(table, schema = null) -> <IndexInterface[]>
 	{
@@ -307,17 +311,17 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 			let keyName = index["name"];
 
 			if !isset indexes[keyName] {
+				let indexes[keyName] = [];
+			}
+
+			if !isset indexes[keyName]["columns"] {
 				let columns = [];
 			} else {
-				let columns = indexes[keyName];
+				let columns = indexes[keyName]["columns"];
 			}
 
 			for describeIndex in this->fetchAll(this->_dialect->describeIndex(keyName), Db::FETCH_ASSOC) {
 				let columns[] = describeIndex["name"];
-			}
-
-			if (isset(indexes[keyName])) {
-				let indexes[keyName] = [];
 			}
 
 			let indexes[keyName]["columns"] = columns;
