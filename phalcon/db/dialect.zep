@@ -844,13 +844,9 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Resolve a HAVING clause
 	 */
-	protected final function getSqlExpressionHaving(var expression, string escapeChar = null, bindCounts = null) -> string
+	protected final function getSqlExpressionHaving(array expression, string escapeChar = null, bindCounts = null) -> string
 	{
-		if typeof expression == "array" {
-			return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
-		}
-
-		throw new Exception("Invalid SQL-HAVING expression");
+		return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
 	}
 
 	/**
