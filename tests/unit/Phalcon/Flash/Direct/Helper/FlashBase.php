@@ -3,7 +3,7 @@
  * FlashBase.php
  * \Phalcon\Flash\Direct\Helper\FlashBase
  *
- * Tests the \Phalcon\Tag component
+ * Tests the \Phalcon\Flash\Direct component
  *
  * PhalconPHP Framework
  *
@@ -40,9 +40,9 @@ class FlashBase extends TBase
 
     /**
      * Sets the custom classes for the tests
-     * 
+     *
      * @param $classes
-     * 
+     *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
