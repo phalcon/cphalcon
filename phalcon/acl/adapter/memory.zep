@@ -22,6 +22,7 @@ namespace Phalcon\Acl\Adapter;
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter;
 use Phalcon\Acl\Role;
+use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
 use Phalcon\Events\Manager as EventsManager;
@@ -153,18 +154,21 @@ class Memory extends Adapter
 	 * 	$acl->addRole('administrator', 'consultant');
 	 * </code>
 	 *
-	 * @param  array|string accessInherits
+	 * @param  array|string         accessInherits
+	 * @param  RoleInterface|string role
 	 */
 	public function addRole(role, accessInherits = null) -> boolean
 	{
 		var roleName, roleObject;
 
-		if typeof role == "object" {
+		if typeof role == "object" && role instanceof RoleInterface {
 			let roleName = role->getName();
 			let roleObject = role;
-		} else {
+		} elseif is_string(role) {
 			let roleName = role;
 			let roleObject = new Role(role);
+		} else {
+			throw new Exception("Role must be either an string or implement RoleInterface");
 		}
 
 		if isset this->_rolesNames[roleName] {
