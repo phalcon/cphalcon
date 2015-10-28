@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 
 		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "db:beforeQuery", 1);
+		ZVAL_STRING(event_name, "db:beforeExecute", 1);
 
 		PHALCON_CALL_METHOD(&status, events_manager, "fire", event_name, this_ptr, bind_params);
 		if (PHALCON_IS_FALSE(status)) {
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
-		ZVAL_STRING(event_name, "db:afterQuery", 1);
+		ZVAL_STRING(event_name, "db:afterExecute", 1);
 		PHALCON_CALL_METHOD(NULL, events_manager, "fire", event_name, this_ptr, bind_params);
 	}
 
