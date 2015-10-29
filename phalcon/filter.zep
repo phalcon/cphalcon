@@ -125,7 +125,7 @@ class Filter implements FilterInterface
 	/**
 	 * Internal sanitize wrapper to filter_var
 	 */
-	protected function _sanitize(var value, string! filter) -> var
+	protected function _sanitize(var value, string! filter)
 	{
 		var filterObject;
 
