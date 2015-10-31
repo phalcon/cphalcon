@@ -25,6 +25,7 @@
 - Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
 - Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
+- Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
