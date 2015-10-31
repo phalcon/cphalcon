@@ -18,11 +18,13 @@
 - `Mvc\Router\Route` now escapes characters such as . or + to avoid unexpected behaviors
 - Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
 - Routes now can have an associated callback that can override the default dispatcher + view behavior
-- Phalcon\Mvc\Model now implements JsonSerializable making easy serialize model instances
-- When desctructing a Mvc\Model\Manager PHQL cache is clean
+- `Phalcon\Mvc\Model` now implements `JsonSerializable` making easy serialize model instances
+- When desctructing a `Mvc\Model\Manager` PHQL cache is clean
 - Method `isSetOption` in `Phalcon\Validation\ValidatorInterface` marked as deprecated, please use `hasOption`
 - Added internal check "allowEmpty" before calling a validator. If it option is true and the value of empty, the validator is skipped
 - Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
+- Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
+- `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
@@ -36,7 +38,7 @@
   column definition
 - Fixed determining of default value for column in `Phalcon\Db\Dialect\MySQL`, `Phalcon\Db\Dialect\Sqlite` and
   `Phalcon\Db\Dialect\Postgresql` classes
-- Now Phalcon\Mvc\Model::__call invokes finders as in __callStatic
+- Now `Phalcon\Mvc\Model::__call` invokes finders as in `__callStatic`
 - Fixed `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` for `BIGINT` and `BOOLEAN` data types
 - Fixed `BOOLEAN` default value in `Phalcon\Db\Dialect\Postgresql`
 - Added `Phalcon\Validation\Validator\CreditCard` - validation credit card number using luhn algorithm
