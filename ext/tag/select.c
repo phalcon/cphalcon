@@ -75,7 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag_Select){
  */
 PHP_METHOD(Phalcon_Tag_Select, selectField){
 
-	zval *parameters, *data = NULL, *params = NULL, *id = NULL, *name, *value = NULL;
+	zval *parameters, *data = NULL, *params = NULL, *default_params, *id = NULL, *name, *value = NULL;
 	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
 	zval *close_option, *options = NULL, *using = NULL;
 	zval *resultset_options = NULL, *array_options = NULL;
@@ -95,6 +95,11 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		phalcon_array_append(&params, data, PH_COPY);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
+	}
+
+	default_params = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_defaultParams") TSRMLS_CC);
+	if (Z_TYPE_P(default_params) == IS_ARRAY) { 
+		phalcon_array_merge_recursive_n2(&params, default_params);
 	}
 
 	if (!phalcon_array_isset_long(params, 0)) {
