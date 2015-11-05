@@ -82,7 +82,7 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 			$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 			$eventsManager->attach('db', function($event, $connection) use (&$tracer) {
-				if ($event->getType() == 'beforeQuery') {
+				if ($event->getType() == 'beforeQuery' || $event->getType() == 'beforeExecute') {
 					$tracer[] = $connection->getSqlStatement();
 				}
 			});
