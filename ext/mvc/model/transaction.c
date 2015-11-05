@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		RETURN_MM();
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(success);
 }
 
 /**
