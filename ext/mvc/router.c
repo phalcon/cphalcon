@@ -303,31 +303,6 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 }
 
 /**
- * Sets the dependency injector
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_Router, setDI){
-
-	zval *dependency_injector;
-
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_router_exception_ce, 0);
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-}
-
-/**
- * Returns the internal dependency injector
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Mvc_Router, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
-}
-
-/**
  * Get rewrite info. This info is read from $_GET['_url']. This returns '/' if the rewrite information cannot be read
  *
  * @return string
@@ -608,7 +583,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
  */
 PHP_METHOD(Phalcon_Mvc_Router, handle){
 
-	zval *uri = NULL, *real_uri = NULL, *debug_message = NULL, *event_name = NULL;
+	zval *uri = NULL, *dependency_injector = NULL, *real_uri = NULL, *debug_message = NULL, *event_name = NULL;
 	zval *handled_uri = NULL, *request = NULL, *current_host_name = NULL;
 	zval *route_found = NULL, *parts = NULL, *params = NULL, *matches, *routes;
 	zval *route = NULL, *case_sensitive = NULL, *methods = NULL;
@@ -622,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	zval *dependency_injector, *tmp;
+	zval *tmp;
 	zval *match_position = NULL, *converter = NULL;
 	zval *exact = NULL;
 	zval *default_namespace = NULL, *default_module = NULL, *default_controller = NULL;
@@ -640,6 +615,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	} else {
 		PHALCON_CPY_WRT(real_uri, uri);
 	}
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_router_exception_ce, 1);
 
 	/**
 	 * Remove extra slashes in the route
@@ -706,9 +684,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			 * Retrieve the request service from the container
 			 */
 			if (!request) {
-				dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-				PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_router_exception_ce, 1);
-
 				PHALCON_CALL_METHOD(&request, dependency_injector, "getshared", service);
 				PHALCON_VERIFY_INTERFACE_EX(request, phalcon_http_requestinterface_ce, phalcon_mvc_router_exception_ce, 1);
 			}
@@ -733,9 +708,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			 * Retrieve the request service from the container
 			 */
 			if (!request) {
-				dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-				PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_router_exception_ce, 1);
-
 				PHALCON_CALL_METHOD(&request, dependency_injector, "getshared", service);
 				PHALCON_VERIFY_INTERFACE_EX(request, phalcon_http_requestinterface_ce, phalcon_mvc_router_exception_ce, 1);
 			}

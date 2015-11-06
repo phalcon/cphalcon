@@ -93,18 +93,14 @@ PHALCON_INIT_CLASS(Phalcon_Flash_Session){
  */
 PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 
-	zval *remove, *dependency_injector, *service;
+	zval *remove, *dependency_injector = NULL, *service;
 	zval *session = NULL, *index_name;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &remove);
-	
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (unlikely(Z_TYPE_P(dependency_injector) != IS_OBJECT)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
-		return;
-	}
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
@@ -130,18 +126,14 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
  */
 PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
-	zval *messages, *dependency_injector, *service;
+	zval *messages, *dependency_injector = NULL, *service;
 	zval *session = NULL, *index_name;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &messages);
 	
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (unlikely(Z_TYPE_P(dependency_injector) != IS_OBJECT)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
-		return;
-	}
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);

@@ -17,5 +17,4 @@ catch (\Exception $e) {
 echo "OK", PHP_EOL;
 ?>
 --EXPECT--
-A dependency injector container is required to obtain the "escaper" service
-OK
+<input type="text" id="title" name="title" />OK

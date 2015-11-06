@@ -398,8 +398,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	/** 
 	 * Update the dependency injector if any
 	 */
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	if (dependency_injector) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 	}
 
 	PHALCON_MM_RESTORE();	
@@ -1444,12 +1444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	PHALCON_MM_GROW();
 
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		dependency_injector = NULL;
-		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	}
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 	models = phalcon_fetch_nproperty_this(this_ptr, SL("_models"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(models) == IS_ARRAY) { 
@@ -1840,7 +1835,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 
-	zval *phql = NULL, *dependency_injector, *service_name, *has = NULL, *parameters, *query = NULL, *bind_params, *bind_types;
+	zval *phql = NULL, *dependency_injector = NULL, *service_name, *has = NULL, *parameters, *query = NULL, *bind_params, *bind_types;
 
 	PHALCON_MM_GROW();
 
@@ -1852,7 +1847,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 	bind_params = phalcon_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY TSRMLS_CC);
 	bind_types = phalcon_fetch_nproperty_this(this_ptr, SL("_bindTypes"), PH_NOISY TSRMLS_CC);
 
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsQuery", 1);
@@ -1915,12 +1910,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getConditions){
 	phalcon_read_property_this(&conditions, this_ptr, SL("_conditions"), PH_NOISY TSRMLS_CC);
 
 	if (phalcon_is_numeric(conditions)) {
-		dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			dependency_injector = NULL;
-			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-			phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-		}
+		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 		models = phalcon_fetch_nproperty_this(this_ptr, SL("_models"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(models) == IS_ARRAY) { 

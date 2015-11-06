@@ -249,7 +249,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	
 		PHALCON_OBS_VAR(handlers);
 		phalcon_read_property_this(&handlers, this_ptr, SL("_handlers"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(handlers) == IS_ARRAY) { 
+		if (Z_TYPE_P(handlers) == IS_ARRAY) {
+			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	
 			PHALCON_OBS_VAR(controller_suffix);
 			phalcon_read_property_this(&controller_suffix, this_ptr, SL("_controllerSuffix"), PH_NOISY TSRMLS_CC);
@@ -274,15 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						}
 					}
 	
-					if (Z_TYPE_P(annotations_service) != IS_OBJECT) {
-	
-						PHALCON_OBS_NVAR(dependency_injector);
-						phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-							PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
-							return;
-						}
-	
+					if (Z_TYPE_P(annotations_service) != IS_OBJECT) {	
 						PHALCON_INIT_NVAR(service);
 						ZVAL_STRING(service, "annotations", 1);
 	

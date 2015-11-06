@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 
-	zval *mongo_collection, *mongo_database = NULL;
+	zval *mongo_collection;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -217,8 +217,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 		/** 
 		 * Make the connection and get the collection
 		 */
-		PHALCON_CALL_METHOD(&mongo_database, mongo, "selectdb", database);
-		PHALCON_RETURN_CALL_METHOD(mongo_database, "selectcollection", collection);
+		PHALCON_RETURN_CALL_METHOD(mongo, "selectcollection", database, collection);
 	}
 	else {
 		RETVAL_ZVAL(mongo_collection, 1, 0);

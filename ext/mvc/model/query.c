@@ -264,11 +264,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	phalcon_fetch_params(0, 0, 2, &phql, &dependency_injector);
 
-	if (phql && Z_TYPE_P(phql) != IS_NULL) {
+	if (phql) {
 		phalcon_update_property_this(this_ptr, SL("_phql"), phql TSRMLS_CC);
 	}
 
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+	if (dependency_injector) {
 		PHALCON_CALL_METHODW(NULL, this_ptr, "setdi", dependency_injector);
 	}
 }
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsManager){
 
-	zval *manager = NULL, *dependency_injector, *service_name, *has = NULL, *service = NULL;
+	zval *manager = NULL, *dependency_injector = NULL, *service_name, *has = NULL, *service = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -292,12 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsManager){
 		/**
 		 * Check if the DI is valid
 		 */
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
-		}
+		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsManager", 1);
@@ -335,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsMetaData){
 
-	zval *meta_data = NULL, *dependency_injector, *service_name, *has = NULL, *service = NULL;
+	zval *meta_data = NULL, *dependency_injector = NULL, *service_name, *has = NULL, *service = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -347,12 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsMetaData){
 		/**
 		 * Check if the DI is valid
 		 */
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
-		}
+		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsMetadata", 1);
@@ -3966,7 +3956,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
 	zval *type_wildcard = NULL, *result = NULL, *count = NULL, *result_data = NULL;
 	zval *cache, *result_object = NULL;
-	zval *dependency_injector, *service_name, *has = NULL, *service_params, *resultset = NULL;
+	zval *dependency_injector = NULL, *service_name, *has = NULL, *service_params, *resultset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
 	zval **hd;
@@ -4359,8 +4349,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		ZVAL_BOOL(result_data, 0);
 	}
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 	/** 
 	 * Choose a resultset type
@@ -4747,7 +4736,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	zval *selected_tables, *selected_models, *source = NULL;
 	zval *model_name, *select_column, *selected_columns;
 	zval *select_ir, *where_conditions, *limit_conditions;
-	zval *type_select, *dependency_injector, *service_name, *has = NULL, *parameters, *query = NULL;
+	zval *type_select, *dependency_injector = NULL, *service_name, *has = NULL, *parameters, *query = NULL;
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -4810,8 +4799,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	PHALCON_INIT_VAR(type_select);
 	ZVAL_LONG(type_select, 309);
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 	/** 
 	 * We create another Phalcon\Mvc\Model\Query to get the related records
@@ -5299,7 +5287,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *bind_params = NULL, *bind_types = NULL, *use_rawsql = NULL, *event_name = NULL, *unique_row;
 	zval *cache_options, *cache_key = NULL, *key = NULL, *lifetime = NULL, *cache_service = NULL;
-	zval *dependency_injector, *cache = NULL, *frontend = NULL, *result = NULL, *is_fresh;
+	zval *dependency_injector = NULL, *cache = NULL, *frontend = NULL, *result = NULL, *is_fresh;
 	zval *prepared_result = NULL, *intermediate = NULL, *default_bind_params;
 	zval *merged_params = NULL, *default_bind_types;
 	zval *merged_types = NULL, *type, *exception_message;
@@ -5369,8 +5357,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 				PHALCON_ZVAL_MAYBE_INTERNED_STRING(cache_service, phalcon_interned_modelsCache);
 			}
 
-			PHALCON_OBS_VAR(dependency_injector);
-			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 			PHALCON_CALL_METHOD(&cache, dependency_injector, "getshared", cache_service);
 			if (Z_TYPE_P(cache) != IS_OBJECT) {

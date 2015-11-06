@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 
-	zval *compiler = NULL, *view, *options, *dependency_injector;
+	zval *compiler = NULL, *view, *options, *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -168,9 +168,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 		PHALCON_OBS_VAR(options);
 		phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY TSRMLS_CC);
 	
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	
 		PHALCON_INIT_NVAR(compiler);
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 		PHALCON_CALL_METHOD(NULL, compiler, "__construct", view);
@@ -178,9 +175,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 		/** 
 		 * Pass the IoC to the compiler only of it's an object
 		 */
-		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-			PHALCON_CALL_METHOD(NULL, compiler, "setdi", dependency_injector);
-		}
+		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	
 		/** 
 		 * Pass the options to the compiler only if they're an array

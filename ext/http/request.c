@@ -202,7 +202,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request){
 PHP_METHOD(Phalcon_Http_Request, _get){
 
 	zval *data, *name, *filters, *default_value, *not_allow_empty, *norecursive;
-	zval *value, *filter = NULL, *dependency_injector;
+	zval *value, *filter = NULL, *dependency_injector = NULL;
 	zval *service, *filter_value = NULL;
 
 	PHALCON_MM_GROW();
@@ -216,13 +216,7 @@ PHP_METHOD(Phalcon_Http_Request, _get){
 				PHALCON_OBS_VAR(filter);
 				phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
 				if (Z_TYPE_P(filter) != IS_OBJECT) {
-
-					PHALCON_OBS_VAR(dependency_injector);
-					phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-						PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
-						return;
-					}
+					PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 					PHALCON_INIT_VAR(service);
 					PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
@@ -253,12 +247,7 @@ PHP_METHOD(Phalcon_Http_Request, _get){
 		PHALCON_OBS_VAR(filter);
 		phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(filter) != IS_OBJECT) {
-			PHALCON_OBS_VAR(dependency_injector);
-			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
-				return;
-			}
+			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 			PHALCON_INIT_VAR(service);
 			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);

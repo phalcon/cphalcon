@@ -154,6 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
+
 	if (Z_TYPE_P(service) != IS_STRING) {
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "db", 1);

@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
 
-	zval *uri = NULL, *args = NULL, *local = NULL, *base_uri = NULL, *router = NULL, *dependency_injector;
+	zval *uri = NULL, *args = NULL, *local = NULL, *base_uri = NULL, *router = NULL, *dependency_injector = NULL;
 	zval *service, *route_name, *hostname, *route = NULL, *exception_message;
 	zval *pattern = NULL, *paths = NULL, *processed_uri = NULL, *query_string;
 	zval *matched, *regexp;
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		 * Check if the router has not previously set
 		 */
 		if (Z_TYPE_P(router) != IS_OBJECT) {
-			dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 			if (!zend_is_true(dependency_injector)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
 				return;

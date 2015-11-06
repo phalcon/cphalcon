@@ -116,9 +116,8 @@ PHP_METHOD(Phalcon_Mvc_JsonRpc, __construct){
 
 	phalcon_fetch_params(0, 0, 1, &dependency_injector);
 	
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_jsonrpc_exception_ce, 0);
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	if (dependency_injector) {
+		PHALCON_CALL_METHODW(NULL, this_ptr, "setdi", dependency_injector);
 	}
 }
 
@@ -247,7 +246,7 @@ static int phalcon_mvc_jsonrpc_fire_event(zval *mgr, const char *event, zval *th
  */
 PHP_METHOD(Phalcon_Mvc_JsonRpc, handle){
 
-	zval *uri = NULL, *dependency_injector, *events_manager;
+	zval *uri = NULL, *dependency_injector = NULL, *events_manager;
 	zval *status = NULL, *service = NULL, *request = NULL, *response = NULL;
 	zval *json = NULL, *data = NULL, *jsonrpc_message, *jsonrpc_error, *jsonrpc_result = NULL;
 	zval *jsonrpc_method, *jsonrpc_params, *jsonrpc_id;
@@ -260,12 +259,8 @@ PHP_METHOD(Phalcon_Mvc_JsonRpc, handle){
 	zval *path;
 
 	PHALCON_MM_GROW();
-	
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_jsonrpc_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	
 	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) != IS_OBJECT) {

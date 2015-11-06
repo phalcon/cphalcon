@@ -8,4 +8,4 @@ $e = new \Phalcon\Forms\Element\Text('name', array('value' => '&&&'));
 echo $e, PHP_EOL;
 ?>
 --EXPECTF--
-Fatal error: A dependency injector container is required to obtain the "escaper" service in %s on line %d
+<input type="text" id="name" name="name" value="&amp;&amp;&amp;" />
