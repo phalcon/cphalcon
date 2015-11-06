@@ -788,10 +788,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 	PHALCON_CALL_SELF(&service, "getwriteconnectionservice", model);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
 
 	/** 
 	 * Request the connection service from the DI
@@ -824,10 +820,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 	PHALCON_CALL_SELF(&service, "getreadconnectionservice", model);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
 
 	/** 
 	 * Request the connection service from the DI
@@ -2956,10 +2948,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
-		return;
-	}
 
 	/** 
 	 * Create a query
@@ -3010,10 +2998,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
-		return;
-	}
 
 	/** 
 	 * Create a query builder

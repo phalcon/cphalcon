@@ -176,9 +176,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 		 * Pass the IoC to the compiler only of it's an object
 		 */
 		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-			PHALCON_CALL_METHOD(NULL, compiler, "setdi", dependency_injector);
-		}
 	
 		/** 
 		 * Pass the options to the compiler only if they're an array

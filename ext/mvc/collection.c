@@ -1653,10 +1653,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	phalcon_fetch_params(1, 0, 3, &arr, &white_list, &mode);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
 
 	if (!arr) {
 		arr = PHALCON_GLOBAL(z_null);
@@ -2637,21 +2633,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 		PHALCON_INIT_VAR(attributes);
 		phalcon_unserialize(attributes, data TSRMLS_CC);
 		if (Z_TYPE_P(attributes) == IS_ARRAY) {
-
-			/**
-			 * Obtain the default DI
-			 */
-			PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ODM");
-				return;
-			}
-
-			/**
-			 * Update the dependency injector
-			 */
-			PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
+			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 			/**
 			 * Gets the default collectionManager service

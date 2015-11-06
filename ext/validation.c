@@ -565,14 +565,6 @@ PHP_METHOD(Phalcon_Validation, getValue){
 					PHALCON_ZVAL_MAYBE_INTERNED_STRING(service_name, phalcon_interned_filter);
 	
 					PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-						PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-	
-						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-							PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");
-							return;
-						}
-					}
 	
 					PHALCON_CALL_METHOD(&filter_service, dependency_injector, "getshared", service_name);
 					if (Z_TYPE_P(filter_service) != IS_OBJECT) {

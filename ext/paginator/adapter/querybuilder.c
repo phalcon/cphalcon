@@ -309,10 +309,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_CALL_METHOD(&total_query, total_builder, "getquery");
 
 	PHALCON_CALL_METHOD(&dependency_injector, total_query, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
 
 	/* Get the connection through the model */
 	PHALCON_INIT_VAR(service_name);

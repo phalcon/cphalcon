@@ -945,11 +945,6 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 
 			phalcon_array_update_string(&engines, SL(".phtml"), php_engine, PH_COPY);
 		} else {
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
-				return;
-			}
-
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 2);
 			phalcon_array_append(&arguments, this_ptr, PH_COPY);
@@ -2037,10 +2032,6 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 	PHALCON_MM_GROW();
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services");
-		return;
-	}
 
 	PHALCON_INIT_VAR(cache_service);
 	ZVAL_STRING(cache_service, "viewCache", 1);

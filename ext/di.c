@@ -24,6 +24,7 @@
 #include "di/injectionawareinterface.h"
 #include "di/service.h"
 #include "di/serviceinterface.h"
+#include "di/factorydefault.h"
 #include "events/managerinterface.h"
 
 #include "kernel/main.h"
@@ -1053,7 +1054,7 @@ PHP_METHOD(Phalcon_DI, setDefault){
 	zval *dependency_injector;
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
+	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_di_exception_ce, 0);
 	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), dependency_injector TSRMLS_CC);
 	
 }
@@ -1065,10 +1066,19 @@ PHP_METHOD(Phalcon_DI, setDefault){
  */
 PHP_METHOD(Phalcon_DI, getDefault){
 
-	zval *default_di;
+	zval *default_di, *dependency_injector;
+
+	PHALCON_MM_GROW();
 
 	default_di = phalcon_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
-	RETURN_CTORW(default_di);
+	if (Z_TYPE_P(default_di) != IS_OBJECT) {
+		PHALCON_INIT_VAR(dependency_injector);
+		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
+		PHALCON_CALL_METHOD(NULL, dependency_injector, "__construct");
+		RETURN_CTOR(dependency_injector);
+	}
+
+	RETURN_CTOR(default_di);
 }
 
 /**

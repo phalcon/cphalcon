@@ -546,12 +546,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 
 	phalcon_fetch_params(1, 0, 2, &dependency_injector, &models_manager);
 
-	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
-	} else {
-		PHALCON_SEPARATE_PARAM(dependency_injector);
-	}
-
 	if (!models_manager) {
 		PHALCON_INIT_VAR(models_manager);
 	} else {
@@ -561,15 +555,12 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	/**
 	 * We use a default DI if the user doesn't define one
 	 */
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-	}
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
+	if (dependency_injector) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 	}
 
-	PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
+	dependency_injector = NULL;
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 	/**
 	 * Inject the manager service from the DI
@@ -662,14 +653,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 	if (Z_TYPE_P(meta_data) == IS_OBJECT) {
 		PHALCON_CPY_WRT(service, meta_data);
 	} else {
-		/**
-		 * Check if the DI is valid
-		 */
 		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
-		}
 
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsMetadata", 1);
@@ -1608,11 +1592,6 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
 
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
-
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsManager", 1);
 
@@ -1621,7 +1600,6 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_CALL_METHOD(&model, manager, "load", model_name);
 
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
-
 		PHALCON_INIT_VAR(params);
 		array_init(params);
 		if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -1852,28 +1830,17 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model, query){
 
-	zval *dependency_injector = NULL, *model_name, *service_name, *has = NULL, *criteria = NULL;
+	zval *di = NULL, *dependency_injector = NULL, *model_name, *service_name, *has = NULL, *criteria = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	phalcon_fetch_params(1, 0, 1, &di);
 
-	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
-	} else {
-		PHALCON_SEPARATE_PARAM(dependency_injector);
-	}
-
-	/**
-	 * Use the global dependency injector if there is no one defined
-	 */
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	if (!di || Z_TYPE_P(di) != IS_OBJECT) {
 		PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-	}
-
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
+	} else {
+		PHALCON_VERIFY_INTERFACE_EX(di, phalcon_diinterface_ce, phalcon_mvc_model_exception_ce, 1);
+		dependency_injector = di;
 	}
 
 	PHALCON_INIT_VAR(model_name);
@@ -2259,11 +2226,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	phalcon_get_called_class(model_name  TSRMLS_CC);
 
 	PHALCON_CALL_CE_STATIC(&dependency_injector, phalcon_di_ce, "getdefault");
-
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
 
 	PHALCON_INIT_VAR(service_name);
 	ZVAL_STRING(service_name, "modelsManager", 1);
@@ -7492,11 +7454,6 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			 */
 			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-				return;
-			}
-
 			/**
 			 * Update the dependency injector
 			 */
@@ -8029,10 +7986,6 @@ PHP_METHOD(Phalcon_Mvc_Model, filter){
 
 			if (Z_TYPE_P(filter) != IS_OBJECT) {
 				PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access the 'filter' service");
-					return;
-				}
 
 				PHALCON_INIT_VAR(service);
 				PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);

@@ -145,10 +145,9 @@ PHP_METHOD(Phalcon_Mvc_Amf, __construct){
 	zval *dependency_injector = NULL;
 
 	phalcon_fetch_params(0, 0, 1, &dependency_injector);
-	
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-		PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_amf_exception_ce, 0);
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+
+	if (dependency_injector) {
+		PHALCON_CALL_METHODW(NULL, this_ptr, "setdi", dependency_injector);
 	}
 }
 
@@ -179,11 +178,11 @@ PHP_METHOD(Phalcon_Mvc_Amf, registerModules){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &modules, &merge);
-	
+
 	if (!merge) {
 		merge = PHALCON_GLOBAL(z_false);
 	}
-	
+
 	if (Z_TYPE_P(modules) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_amf_exception_ce, "Modules must be an Array");
 		return;
@@ -199,10 +198,10 @@ PHP_METHOD(Phalcon_Mvc_Amf, registerModules){
 		} else {
 			PHALCON_CPY_WRT(merged_modules, modules);
 		}
-	
+
 		phalcon_update_property_this(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
-	
+
 	RETURN_THIS();
 }
 
@@ -228,7 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Amf, setDefaultModule){
 	zval *default_module;
 
 	phalcon_fetch_params(0, 1, 0, &default_module);
-	
+
 	phalcon_update_property_this(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -277,7 +276,7 @@ static int phalcon_mvc_amf_fire_event(zval *mgr, const char *event, zval *this_p
  */
 PHP_METHOD(Phalcon_Mvc_Amf, handle){
 
-	zval *uri = NULL, *dependency_injector, *events_manager;
+	zval *uri = NULL, *dependency_injector = NULL, *events_manager;
 	zval *status = NULL, *service = NULL, *request = NULL, *amf = NULL, *deserializer, *packet = NULL, *postion, *data, *message = NULL, *target = NULL;
 	zval *url = NULL, *router = NULL, *module_name = NULL;
 	zval *module_object = NULL, *modules;
@@ -289,18 +288,13 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 	zval *path;
 
 	PHALCON_MM_GROW();
-	
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_amf_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
-	
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+
 	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) != IS_OBJECT) {
 		events_manager = NULL;
-	}
-	else {
+	} else {
 		PHALCON_VERIFY_INTERFACE_EX(events_manager, phalcon_events_managerinterface_ce, phalcon_mvc_amf_exception_ce, 1);
 	}
 
@@ -313,7 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 
 	PHALCON_INIT_NVAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_request);
-	
+
 	PHALCON_CALL_METHOD(&request, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 
@@ -349,22 +343,22 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_router);
 	PHALCON_CALL_METHOD(&router, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
-	
+
 	/* Handle the URI pattern (if any) */
 	PHALCON_CALL_METHOD(NULL, router, "handle", uri);
-	
+
 	/* Load module config */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
 
 	/* Load module config */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
-	
+
 	/* If the router doesn't return a valid module we use the default module */
 	if (!zend_is_true(module_name)) {
 		PHALCON_OBS_NVAR(module_name);
 		phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY TSRMLS_CC);
 	}
-	
+
 	/** 
 	 * Process the module definition
 	 */
@@ -383,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 			zend_throw_exception_ex(phalcon_mvc_amf_exception_ce, 0 TSRMLS_CC, "Module %s is not registered in the amf container", Z_STRVAL_P(module_name));
 			RETURN_MM();
 		}
-	
+
 		/** 
 		 * A module definition must be an array or an object
 		 */
@@ -391,7 +385,7 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_amf_exception_ce, "Invalid module definition");
 			return;
 		}
-	
+
 		/* An array module definition contains a path to a module definition class */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
 			/* Class name used to load the module definition */
@@ -402,10 +396,10 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 				PHALCON_INIT_NVAR(class_name);
 				ZVAL_STRING(class_name, "Module", 1);
 			}
-	
+
 			/* If the developer has specified a path, try to include the file */
 			if (phalcon_array_isset_string(module, SS("path"))) {
-	
+
 				PHALCON_OBS_VAR(path);
 				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 				convert_to_string_ex(&path);
@@ -418,9 +412,9 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 					}
 				}
 			}
-	
+
 			PHALCON_CALL_METHOD(&module_object, dependency_injector, "get", class_name);
-	
+
 			/** 
 			 * 'registerAutoloaders' and 'registerServices' are automatically called
 			 */
@@ -438,7 +432,7 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_amf_exception_ce, "Invalid module definition");
 			return;
 		}
-	
+
 		/* Calling afterStartModule event */
 		if (events_manager) {
 			if (!module_object) {
@@ -451,7 +445,7 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 			}
 		}
 	}
-	
+
 	/* We get the parameters from the router and assign them to the dispatcher */
 	PHALCON_CALL_METHOD(&module_name, router, "getmodulename");
 	PHALCON_CALL_METHOD(&namespace_name, router, "getnamespacename");
@@ -464,25 +458,25 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 
 	PHALCON_INIT_NVAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_dispatcher);
-	
+
 	PHALCON_CALL_METHOD(&dispatcher, dependency_injector, "getshared", service);
 	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
-	
+
 	/* Assign the values passed from the router */
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setmodulename", module_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setnamespacename", namespace_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setcontrollername", controller_name, exact);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setactionname", action_name);
 	PHALCON_CALL_METHOD(NULL, dispatcher, "setparams", data);
-	
+
 	/* Calling beforeHandleRequest */
 	RETURN_MM_ON_FAILURE(phalcon_mvc_amf_fire_event(events_manager, "amf:beforeHandleRequest", getThis(), dispatcher TSRMLS_CC));
-	
+
 	/* The dispatcher must return an object */
 	PHALCON_CALL_METHOD(&controller, dispatcher, "dispatch");
-	
+
 	PHALCON_INIT_VAR(returned_response);
-	
+
 	/* Get the latest value returned by an action */
 	PHALCON_CALL_METHOD(&possible_response, dispatcher, "getreturnedvalue");
 	if (Z_TYPE_P(possible_response) == IS_OBJECT) {
@@ -492,35 +486,35 @@ PHP_METHOD(Phalcon_Mvc_Amf, handle){
 	else {
 		ZVAL_FALSE(returned_response);
 	}
-	
+
 	/* Calling afterHandleRequest */
 	if (FAILURE == phalcon_mvc_amf_fire_event(events_manager, "amf:afterHandleRequest", getThis(), controller TSRMLS_CC) && EG(exception)) {
 		RETURN_MM();
 	}
-	
+
 	if (PHALCON_IS_FALSE(returned_response)) {
 		PHALCON_INIT_NVAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_response);
-	
+
 		PHALCON_CALL_METHOD(&response, dependency_injector, "getshared", service);
 		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	} else {
 		/* We don't need to create a response because there is a one already created */
 		PHALCON_CPY_WRT(response, possible_response);
 	}
-	
+
 
 	/* Calling beforeSendResponse */
 	if (FAILURE == phalcon_mvc_amf_fire_event(events_manager, "amf:beforeSendResponse", getThis(), response TSRMLS_CC) && EG(exception)) {
 		RETURN_MM();
 	}
-	
+
 	/* Headers are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendheaders");
-	
+
 	/* Cookies are automatically sent */
 	PHALCON_CALL_METHOD(NULL, response, "sendcookies");
-	
+
 	/* Return the response */
 	RETURN_CCTOR(response);
 }

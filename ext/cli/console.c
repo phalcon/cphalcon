@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_CLI_Console, __construct){
 	phalcon_fetch_params(0, 0, 1, &dependency_injector);
 
 	if (dependency_injector) {
-		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
+		PHALCON_CALL_METHODW(NULL, this_ptr, "setdi", dependency_injector);
 	}
 }
 
@@ -217,10 +217,6 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
 
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);

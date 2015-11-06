@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isStrictMode){
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 
 	zval *model, *service = NULL, *connection_services;
-	zval *entity_name, *dependency_injector = NULL, *connection = NULL;
+	zval *entity_name, *dependency_injector = NULL, *has = NULL, *connection = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -453,22 +453,24 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
 
-	/** 
-	 * Request the connection service from the DI
-	 */
-	PHALCON_CALL_METHOD(&connection, dependency_injector, "getshared", service);
-	if (Z_TYPE_P(connection) != IS_OBJECT) {
+	PHALCON_CALL_METHOD(&has, dependency_injector, "has", service);
+	if (zend_is_true(has)) {
+		/** 
+		 * Request the connection service from the DI
+		 */
+		PHALCON_CALL_METHOD(&connection, dependency_injector, "getshared", service);
+		if (Z_TYPE_P(connection) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
+			return;
+		}
+
+		/* PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce); */
+		RETURN_CCTOR(connection);
+	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid injected connection service");
 		return;
 	}
-
-	/* PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce); */
-	RETURN_CCTOR(connection);
 }
 
 /**

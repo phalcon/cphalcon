@@ -101,10 +101,6 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	phalcon_fetch_params(1, 1, 0, &remove);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (unlikely(Z_TYPE_P(dependency_injector) != IS_OBJECT)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
-		return;
-	}
 	
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
@@ -138,10 +134,6 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	phalcon_fetch_params(1, 1, 0, &messages);
 	
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (unlikely(Z_TYPE_P(dependency_injector) != IS_OBJECT)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
-		return;
-	}
 	
 	PHALCON_INIT_VAR(service);
 	PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);

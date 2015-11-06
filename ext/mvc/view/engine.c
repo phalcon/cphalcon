@@ -92,12 +92,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 
 	phalcon_fetch_params(0, 1, 1, &view, &dependency_injector);
 	
-	if (!dependency_injector) {
-		dependency_injector = PHALCON_GLOBAL(z_null);
+	if (dependency_injector) {
+		PHALCON_CALL_METHODW(NULL, this_ptr, "setdi", dependency_injector);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 }
 
 /**
@@ -203,10 +202,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __call){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injection object is required to access internal services");
-		return;
-	}
 
 	PHALCON_INIT_VAR(service_name);
 	if (phalcon_compare_strict_string(method_name, SL("get")) 

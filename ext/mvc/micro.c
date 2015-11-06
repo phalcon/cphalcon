@@ -267,8 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
 	phalcon_fetch_params(1, 0, 1, &dependency_injector);
 
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-		PHALCON_VERIFY_INTERFACE(dependency_injector, phalcon_diinterface_ce);
+	if (dependency_injector) {
 		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 	}
 
@@ -616,13 +615,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_VAR(dependency_injector);
-		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
-		PHALCON_CALL_METHOD(NULL, dependency_injector, "__construct");
-
-		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
-	}
 
 	PHALCON_RETURN_CALL_METHOD(dependency_injector, "set", service_name, definition, shared);
 	RETURN_MM();
@@ -643,13 +635,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 	phalcon_fetch_params(1, 1, 0, &service_name);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_VAR(dependency_injector);
-		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
-		PHALCON_CALL_METHOD(NULL, dependency_injector, "__construct");
-
-		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
-	}
 
 	PHALCON_RETURN_CALL_METHOD(dependency_injector, "has", service_name);
 	RETURN_MM();
@@ -670,13 +655,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 	phalcon_fetch_params(1, 1, 0, &service_name);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_VAR(dependency_injector);
-		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
-		PHALCON_CALL_METHOD(NULL, dependency_injector, "__construct");
-
-		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
-	}
 
 	PHALCON_RETURN_CALL_METHOD(dependency_injector, "get", service_name);
 	RETURN_MM();
@@ -697,13 +675,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 	phalcon_fetch_params(1, 1, 0, &service_name);
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_VAR(dependency_injector);
-		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
-		PHALCON_CALL_METHOD(NULL, dependency_injector, "__construct");
-
-		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
-	}
 
 	PHALCON_RETURN_CALL_METHOD(dependency_injector, "getshared", service_name);
 	RETURN_MM();
@@ -737,10 +708,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services");
-		return;
-	}
 
 	/** 
 	 * Calling beforeHandle routing

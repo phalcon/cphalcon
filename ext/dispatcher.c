@@ -374,8 +374,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
 	zval *param, *filters = NULL, *default_value = NULL;
-	zval *exception_code;
-	zval *exception_message, *service, *filter = NULL;
+	zval *service, *filter = NULL;
 	zval *params, *param_value, *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
@@ -386,15 +385,6 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	if (phalcon_array_isset_fetch(&param_value, params, param)) {
 		if (filters && Z_TYPE_P(filters) != IS_NULL) {
 			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_INIT_VAR(exception_code);
-				ZVAL_LONG(exception_code, PHALCON_EXCEPTION_NO_DI);
-
-				PHALCON_INIT_VAR(exception_message);
-				ZVAL_STRING(exception_message, "A dependency injection object is required to access the 'filter' service", 1);
-				PHALCON_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", exception_message, exception_code);
-				RETURN_MM();
-			}
 
 			PHALCON_INIT_VAR(service);
 			PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
@@ -504,15 +494,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	PHALCON_MM_GROW();
 
 	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_VAR(exception_code);
-		ZVAL_LONG(exception_code, PHALCON_EXCEPTION_NO_DI);
-
-		PHALCON_INIT_VAR(exception_message);
-		ZVAL_STRING(exception_message, "A dependency injection container is required to access related dispatching services", 1);
-		PHALCON_CALL_METHOD(NULL, this_ptr, "_throwdispatchexception", exception_message, exception_code);
-		RETURN_MM();
-	}
 
 	events_manager = phalcon_fetch_property_this(this_ptr, SL("_eventsManager"), PH_NOISY TSRMLS_CC);
 	if (events_manager && Z_TYPE_P(events_manager) != IS_OBJECT) {

@@ -650,13 +650,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 			 * Services registered in the dependency injector container are availables always
 			 */
 			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-			if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-				PHALCON_CALL_METHOD(&is_service, dependency_injector, "has", variable);
-				if (zend_is_true(is_service)) {
-					PHALCON_SCONCAT_SV(expr_code, "$this->", variable);
-				} else {
-					PHALCON_SCONCAT_SV(expr_code, "$", variable);
-				}
+
+			PHALCON_CALL_METHOD(&is_service, dependency_injector, "has", variable);
+			if (zend_is_true(is_service)) {
+				PHALCON_SCONCAT_SV(expr_code, "$this->", variable);
 			} else {
 				PHALCON_SCONCAT_SV(expr_code, "$", variable);
 			}

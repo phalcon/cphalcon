@@ -264,11 +264,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	phalcon_fetch_params(0, 0, 2, &phql, &dependency_injector);
 
-	if (phql && Z_TYPE_P(phql) != IS_NULL) {
+	if (phql) {
 		phalcon_update_property_this(this_ptr, SL("_phql"), phql TSRMLS_CC);
 	}
 
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+	if (dependency_injector) {
 		PHALCON_CALL_METHODW(NULL, this_ptr, "setdi", dependency_injector);
 	}
 }
@@ -293,10 +293,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsManager){
 		 * Check if the DI is valid
 		 */
 		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
-		}
 
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsManager", 1);
@@ -347,10 +343,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getModelsMetaData){
 		 * Check if the DI is valid
 		 */
 		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
-		}
 
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsMetadata", 1);
