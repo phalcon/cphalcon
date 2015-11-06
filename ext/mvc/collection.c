@@ -1867,6 +1867,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_NVAR(status);
 
 	if (PHALCON_IS_FALSE(mode)){
+		PHALCON_CALL_SELF(&id, "getidstring");
+		phalcon_array_update_zval(&data, attribute, value, PH_COPY);
 		ZVAL_STRING(&func, "save", 0);
 	} else {
 		ZVAL_STRING(&func, "insert", 0);
