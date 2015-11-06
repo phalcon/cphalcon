@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 
 	zval *expr, *expr_code, *loop_context, *left, *left_type;
-	zval *variable, *prefix = NULL;
+	zval *variable, *prefix = NULL, *dependency_injector = NULL;
 	zval *is_service = NULL, *left_code = NULL, *right, *right_type;
 	zval *member, *right_code = NULL;
 
@@ -649,9 +649,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 			/** 
 			 * Services registered in the dependency injector container are availables always
 			 */
-			zval *dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+			PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 			if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-
 				PHALCON_CALL_METHOD(&is_service, dependency_injector, "has", variable);
 				if (zend_is_true(is_service)) {
 					PHALCON_SCONCAT_SV(expr_code, "$this->", variable);

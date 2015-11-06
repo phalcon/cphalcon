@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 
 	zval *model, *key, *table, *schema, *read_meta = NULL, *strategy = NULL, *class_name;
 	zval *meta_data = NULL, *prefix_key = NULL, *data = NULL, *model_metadata = NULL;
-	zval *exception_message, *dependency_injector;
+	zval *exception_message, *dependency_injector = NULL;
 	zval *column_map = NULL, *model_column_map = NULL;
 
 	PHALCON_MM_GROW();
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 		return;
 	}
 
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 	PHALCON_INIT_VAR(strategy);
 

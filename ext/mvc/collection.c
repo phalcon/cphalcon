@@ -273,32 +273,27 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 
-	zval **dependency_injector = NULL, **collection_manager = NULL;
+	zval *dependency_injector = NULL, *collection_manager = NULL;
 	zval *di = NULL, *mm = NULL;
 	zval *service_name;
 
-	phalcon_fetch_params_ex(0, 2, &dependency_injector, &collection_manager);
-
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &dependency_injector, &collection_manager);
 
 	/**
 	 * We use a default DI if the user doesn't define one
 	 */
-	if (!dependency_injector || Z_TYPE_PP(dependency_injector) != IS_OBJECT) {
-		PHALCON_CALL_CE_STATIC(&di, phalcon_di_ce, "getdefault");
-	}
-	else {
-		di = *dependency_injector;
+	if (dependency_injector) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 	}
 
-	PHALCON_VERIFY_INTERFACE_EX(di, phalcon_diinterface_ce, phalcon_mvc_collection_exception_ce, 1);
-
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), di TSRMLS_CC);
+	PHALCON_CALL_METHOD(&di, this_ptr, "getdi");
 
 	/**
 	 * Inject the manager service from the DI
 	 */
-	if (!collection_manager || Z_TYPE_PP(collection_manager) != IS_OBJECT) {
+	if (!collection_manager || Z_TYPE_P(collection_manager) != IS_OBJECT) {
 		PHALCON_ALLOC_GHOST_ZVAL(service_name);
 		ZVAL_STRING(service_name, "collectionManager", 1);
 
@@ -307,9 +302,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The injected service 'collectionManager' is not valid");
 			return;
 		}
-	}
-	else {
-		mm = *collection_manager;
+	} else {
+		mm = collection_manager;
 	}
 
 	PHALCON_VERIFY_INTERFACE_EX(mm, phalcon_mvc_collection_managerinterface_ce, phalcon_mvc_collection_exception_ce, 1);
@@ -1641,7 +1635,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, save){
 
-	zval *arr = NULL, *white_list = NULL, *mode = NULL;
+	zval *arr = NULL, *white_list = NULL, *mode = NULL, *dependency_injector = NULL;
 	zval *column_map = NULL, *attributes = NULL, *reserved = NULL, *attribute = NULL, *attribute_field = NULL, *new_value = NULL, *possible_setter = NULL;
 	zval *source = NULL, *connection = NULL;
 	zval *collection = NULL, *exists = NULL, *empty_array, *disable_events;
@@ -1650,19 +1644,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	zval *dependency_injector, *ok, *id;
+	zval *ok, *id;
 	zval *params[2];
 	zval func;
-
-	dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-		return;
-	}
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 3, &arr, &white_list, &mode);
+
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
 
 	if (!arr) {
 		arr = PHALCON_GLOBAL(z_null);
@@ -2655,7 +2649,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			/**
 			 * Update the dependency injector
 			 */
-			phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+			PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 
 			/**
 			 * Gets the default collectionManager service

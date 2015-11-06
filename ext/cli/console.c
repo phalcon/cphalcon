@@ -98,8 +98,8 @@ PHP_METHOD(Phalcon_CLI_Console, __construct){
 
 	phalcon_fetch_params(0, 0, 1, &dependency_injector);
 
-	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	if (dependency_injector) {
+		PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
 	}
 }
 
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_CLI_Console, getModules){
  */
 PHP_METHOD(Phalcon_CLI_Console, handle){
 
-	zval *arguments = NULL, *dependency_injector, *events_manager;
+	zval *arguments = NULL, *dependency_injector = NULL, *events_manager;
 	zval *service = NULL, *router = NULL, *module_name = NULL, *namespace_name = NULL, *event_name = NULL;
 	zval *status = NULL, *modules, *exception_msg = NULL, *module;
 	zval *path, *class_name = NULL, *module_object = NULL, *task_name = NULL;
@@ -216,8 +216,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 		array_init(arguments);
 	}
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
 		return;

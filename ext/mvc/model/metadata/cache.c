@@ -128,14 +128,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Cache, __construct){
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Cache, _getCache){
 
-	zval *dependency_injector, *cache, *tmp = NULL;
+	zval *dependency_injector = NULL, *cache, *tmp = NULL;
 
 	PHALCON_MM_GROW();;
 
 	cache = phalcon_fetch_nproperty_this(this_ptr, SL("_cache"), PH_NOISY TSRMLS_CC);
 
 	if (Z_TYPE_P(cache) == IS_STRING) {
-		dependency_injector = phalcon_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 
 		PHALCON_CALL_METHOD(&tmp, dependency_injector, "getshared", cache);
 

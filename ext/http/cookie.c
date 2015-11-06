@@ -257,7 +257,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 		PHALCON_CALL_METHOD(NULL, this_ptr, "restore");
 	}
 
-	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'filter' service");
+		return;
+	}
 
 	PHALCON_OBS_VAR(readed);
 	phalcon_read_property_this(&readed, this_ptr, SL("_readed"), PH_NOISY TSRMLS_CC);
@@ -272,14 +276,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 			PHALCON_OBS_VAR(encryption);
 			phalcon_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY TSRMLS_CC);
 			if (zend_is_true(encryption)) {
-
-				PHALCON_OBS_NVAR(dependency_injector);
-				phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'filter' service");
-					return;
-				}
-
 				PHALCON_INIT_VAR(service);
 				ZVAL_STRING(service, "crypt", 1);
 
@@ -303,13 +299,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 				PHALCON_OBS_VAR(filter);
 				phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY TSRMLS_CC);
 				if (Z_TYPE_P(filter) != IS_OBJECT) {
-					if (Z_TYPE_P(dependency_injector) == IS_NULL) {
-
-						PHALCON_OBS_NVAR(dependency_injector);
-						phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
-						PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_http_cookie_exception_ce, 1);
-					}
-
 					PHALCON_INIT_NVAR(service);
 					PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_filter);
 
@@ -347,7 +336,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 PHP_METHOD(Phalcon_Http_Cookie, send){
 
 	zval *name, *value, *expire, *domain, *path, *secure;
-	zval *http_only, *dependency_injector, *definition;
+	zval *http_only, *dependency_injector = NULL, *definition;
 	zval *service = NULL, *session = NULL, *key, *encryption, *crypt = NULL;
 	zval *encrypt_value = NULL, *has_session = NULL;
 
@@ -374,8 +363,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 	PHALCON_OBS_VAR(http_only);
 	phalcon_read_property_this(&http_only, this_ptr, SL("_httpOnly"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);
@@ -476,7 +464,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
  */
 PHP_METHOD(Phalcon_Http_Cookie, restore){
 
-	zval *restored, *dependency_injector, *service;
+	zval *restored, *dependency_injector = NULL, *service;
 	zval *session = NULL, *name, *key, *definition = NULL, *expire, *domain;
 	zval *path, *secure, *http_only;
 
@@ -485,9 +473,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore){
 	PHALCON_OBS_VAR(restored);
 	phalcon_read_property_this(&restored, this_ptr, SL("_restored"), PH_NOISY TSRMLS_CC);
 	if (!zend_is_true(restored)) {
-
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+		PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 
 			PHALCON_INIT_VAR(service);
@@ -547,7 +533,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore){
  */
 PHP_METHOD(Phalcon_Http_Cookie, delete){
 
-	zval *name, *domain, *path, *secure, *http_only, *dependency_injector;
+	zval *name, *domain, *path, *secure, *http_only, *dependency_injector = NULL;
 	zval *service, *session = NULL, *key;
 
 	PHALCON_MM_GROW();
@@ -567,8 +553,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete){
 	PHALCON_OBS_VAR(http_only);
 	phalcon_read_property_this(&http_only, this_ptr, SL("_httpOnly"), PH_NOISY TSRMLS_CC);
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		PHALCON_INIT_VAR(service);
 		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_session);

@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
 	zval *message, *exception_code = NULL, *error_handlers, *error_handler = NULL;
 	zval *previous_namespace_name, *previous_controller_name, *previous_action_name, *previous_params;
-	zval *namespace_name, *controller_name, *action_name, *params, *dependency_injector;
+	zval *namespace_name, *controller_name, *action_name, *params, *dependency_injector = NULL;
 	zval *exception_message, *exception = NULL, *service;
 	zval *response = NULL, *status_code, *status_message;
 	zval *event_name, *status = NULL;
@@ -237,8 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		}
 	}
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD(&dependency_injector, this_ptr, "getdi");
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
