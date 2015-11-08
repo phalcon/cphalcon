@@ -7,6 +7,8 @@
 - Fixed MySQL bug[#11036] related to setting of index type
 - Added missed `RouteInterface::setHostname`, `RouteInterface::getHostname`
 - Added `strict` option for ExclusionIn validator
+- Added `Phalcon\Text::underscore` - to make a phrase underscored instead of spaced
+- Added `Phalcon\Text::humanize` - to make an underscored or dashed phrase human-readable
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
