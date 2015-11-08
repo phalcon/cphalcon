@@ -60,7 +60,7 @@ interface RouteInterface
 	/**
 	 * Sets a set of HTTP methods that constraint the matching of the route
 	 */
-	public function setHttpMethods(var httpMethods) -> <RouteInterface>;
+	public function setHttpMethods(var httpMethods) -> string | array;
 
 	/**
 	 * Returns the route's id
