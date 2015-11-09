@@ -411,7 +411,7 @@ abstract class Pdo extends Adapter
 	 *
 	 *<code>
 	 *	$escapedTable = $connection->escapeIdentifier('robots');
-	 *	$escapedTable = $connection->escapeIdentifier(array('store', 'robots'));
+	 *	$escapedTable = $connection->escapeIdentifier(['store', 'robots']);
 	 *</code>
 	 *
 	 * @param string identifier
