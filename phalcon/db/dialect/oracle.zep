@@ -161,7 +161,6 @@ class Oracle extends Dialect
 	}
 
 	/**
-	/**
 	 * Generates SQL to delete an index from a table
 	 */
 	public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
