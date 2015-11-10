@@ -20,10 +20,8 @@
 
 class LoaderTest extends PHPUnit_Framework_TestCase
 {
-
 	public function testNamespaces()
 	{
-
 		$loader = new Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
@@ -48,6 +46,49 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$example = new \Example\Example\Example();
 		$this->assertEquals(get_class($example), 'Example\Example\Example');
+
+		$loader->unregister();
+	}
+
+	public function testNamespacesForMultipleDirectories()
+	{
+		$loader = new Phalcon\Loader();
+
+		$loader->registerNamespaces(array(
+			"Example\\Base" => "unit-tests/vendor/example/base/",
+		));
+
+		$this->assertEquals($loader->getNamespaces(), array("Example\\Base" => ["unit-tests/vendor/example/base/"]));
+
+		$loader->registerNamespaces(array(
+			"Example\\Adapter" =>
+			[
+				"unit-tests/vendor/example/adapter/",
+				"unit-tests/vendor/example/adapter2/",
+			],
+		), true);
+
+		$this->assertEquals($loader->getNamespaces(), array(
+			"Example\\Base" => [
+				"unit-tests/vendor/example/base/"
+			],
+			"Example\\Adapter" =>
+			[
+				"unit-tests/vendor/example/adapter/",
+				"unit-tests/vendor/example/adapter2/",
+			],
+		));
+
+		$loader->register();
+
+		$some = new \Example\Adapter\Some();
+		$this->assertEquals(get_class($some), 'Example\Adapter\Some');
+
+		$another = new \Example\Adapter\Another();
+		$this->assertEquals(get_class($another), 'Example\Adapter\Another');
+
+		$leSome = new \Example\Adapter\LeSome();
+		$this->assertEquals(get_class($leSome), 'Example\Adapter\LeSome');
 
 		$loader->unregister();
 	}
