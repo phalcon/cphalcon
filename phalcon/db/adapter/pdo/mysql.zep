@@ -33,15 +33,17 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  *
  *<code>
  *
- *$config = array(
- *	"host" => "192.168.0.11",
- *	"dbname" => "blog",
- *	"port" => 3306,
- *	"username" => "sigma",
- *	"password" => "secret"
- *);
+ * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
- *$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($config);
+ * $config = [
+ *   "host"     => "192.168.0.11",
+ *   "dbname"   => "blog",
+ *   "port"     => 3306,
+ *   "username" => "sigma",
+ *   "password" => "secret"
+ * ];
+ *
+ * $connection = new Mysql($config);
  *</code>
  */
 class Mysql extends PdoAdapter implements AdapterInterface
@@ -54,8 +56,12 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	/**
 	 * Escapes a column/table/schema name
 	 *
+	 * <code>
+	 * echo $connection->escapeIdentifier('my_table'); // `my_table`
+	 * echo $connection->escapeIdentifier(['companies', 'name']); // `companies`.`name`
+	 * <code>
+	 *
 	 * @param string|array identifier
-	 * @return string
 	 */
 	public function escapeIdentifier(var identifier) -> string
 	{
