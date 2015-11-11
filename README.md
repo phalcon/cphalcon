@@ -64,7 +64,7 @@ Add the extension to your php.ini:
 extension=phalcon.so
 ```
 
-Finally, restart the webserver.
+Finally, **restart the webserver**.
 
 Advanced compilation
 --------------
@@ -86,6 +86,8 @@ open your **php.ini** ( for the specific version ) and add this line:
 extension=_PATH_TO_PHP_EXTENTIONS_/phalcon.so
 #Example: extension=/opt/php-5615/lib/php/extensions/no-debug-non-zts-20131226/phalcon.so
 ```
+
+Save the file and **Restart the webserver**.
 
 Vagrant
 --------------
