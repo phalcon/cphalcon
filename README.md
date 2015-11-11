@@ -91,8 +91,12 @@ Save the file and **Restart the webserver**.
 
 Vagrant
 --------------
-
 https://github.com/phalcon/vagrant
+
+OSX MAMP ready extensions
+--------------
+
+https://github.com/majksner/php-phalcon-mamp
 
 External Links
 --------------
