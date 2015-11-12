@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 	phalcon_fetch_params(1, 1, 0, &dependency_injector);
 
 	PHALCON_VERIFY_INTERFACE_EX(dependency_injector, phalcon_diinterface_ce, phalcon_mvc_micro_exception_ce, 1);
-	PHALCON_CALL_METHOD(NULL, this_ptr, "setdi", dependency_injector);
+	PHALCON_CALL_PARENT(NULL, phalcon_mvc_micro_ce, this_ptr, "setdi", dependency_injector);
 
 	/** 
 	 * We automatically set ourselves as application service
