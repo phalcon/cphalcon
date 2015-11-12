@@ -53,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct) {
 
-	zval *options = NULL, *prefix;
+	zval *options = NULL, *prefix = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 
-	zval *key_param = NULL, *metaData, *_SESSION, *_0, *_1, *_2;
+	zval *key_param = NULL, *_SESSION, *metaData = NULL, *_0, *_1, *_2;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();

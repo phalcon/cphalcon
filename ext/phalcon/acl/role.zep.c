@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
  */
 PHP_METHOD(Phalcon_Acl_Role, getName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -60,6 +61,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
  */
 PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -70,6 +72,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_description");
 

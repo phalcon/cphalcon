@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL, *data;
+	zval *options_param = NULL, *data = NULL;
 	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	options = options_param;
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, this_ptr, "__construct", &_0, 426, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, this_ptr, "__construct", &_0, 391, options);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(data);
 	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 0 TSRMLS_CC))) {

@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
-	zval *index, *value;
+	zval *index, *value = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index);
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 
-	zval *attribute, *value;
+	zval *attribute, *value = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute);

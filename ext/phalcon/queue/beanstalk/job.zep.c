@@ -42,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Job) {
 
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_id");
 
@@ -49,6 +50,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
 
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_body");
 
@@ -80,8 +82,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 
+	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -106,7 +108,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 
-	zval *priority_param = NULL, *delay_param = NULL, *queue, *_0, _1, _2, *_3, *_4 = NULL, *_5;
+	zval *priority_param = NULL, *delay_param = NULL, *queue = NULL, *_0, _1, _2, *_3, *_4 = NULL, *_5;
 	int priority, delay, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -149,7 +151,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 
-	zval *priority_param = NULL, *queue, *_0, _1, *_2, *_3 = NULL, *_4;
+	zval *priority_param = NULL, *queue = NULL, *_0, _1, *_2, *_3 = NULL, *_4;
 	int priority, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -188,8 +190,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 
+	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -212,8 +214,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 
+	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -236,8 +238,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
 
+	zval *queue = NULL, *response = NULL, *_0, *_1, *_2, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *response = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -264,25 +266,25 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 
+	zval *_0, *_1$$3, *_2$$3, *_3$$3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_id"), PH_NOISY_CC);
 	if (Z_TYPE_P(_0) != IS_STRING) {
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_exception_ce);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Unexpected inconsistency in %s - possible break-in attempt!", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2, _3);
-		zephir_check_temp_parameter(_2);
-		zephir_check_temp_parameter(_3);
+		ZEPHIR_INIT_VAR(_1$$3);
+		object_init_ex(_1$$3, phalcon_exception_ce);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZVAL_STRING(_2$$3, "Unexpected inconsistency in %s - possible break-in attempt!", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_INIT_VAR(_3$$3);
+		ZVAL_STRING(_3$$3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 9, _2$$3, _3$$3);
+		zephir_check_temp_parameter(_2$$3);
+		zephir_check_temp_parameter(_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 141 TSRMLS_CC);
+		zephir_throw_exception_debug(_1$$3, "phalcon/queue/beanstalk/job.zep", 141 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

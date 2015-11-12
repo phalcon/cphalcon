@@ -60,8 +60,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0;
+	int ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -115,6 +115,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getView) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_view");
 

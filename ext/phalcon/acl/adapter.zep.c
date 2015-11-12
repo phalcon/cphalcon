@@ -70,10 +70,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 /**
  * Role which the list is checking if it's allowed to certain resource/access
- * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_activeRole");
 
@@ -81,10 +81,10 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
 /**
  * Resource which the list is checking if some role can access it
- * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_activeResource");
 
@@ -92,10 +92,10 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
 /**
  * Active access which the list is checking if some role can access it
- * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_activeAccess");
 
@@ -121,6 +121,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
 
@@ -150,6 +151,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_defaultAccess");
 

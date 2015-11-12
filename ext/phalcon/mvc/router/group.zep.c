@@ -84,8 +84,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool _0;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *paths = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -135,6 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_hostname");
 
@@ -164,6 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_prefix");
 
@@ -192,6 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_beforeMatch");
 
@@ -218,6 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_paths");
 
@@ -228,6 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_routes");
 
@@ -576,7 +581,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *mergedPaths = NULL, *route, *defaultPaths, *processedPaths = NULL, *_1, *_2;
+	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *mergedPaths = NULL, *route = NULL, *defaultPaths = NULL, *processedPaths = NULL, *_1, *_2;
 	zval *pattern = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -626,7 +631,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, 77, _2, mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 362, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 327, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(route);
 

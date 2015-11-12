@@ -58,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct) {
 
-	zval *options = NULL, *prefix, *ttl, *_0;
+	zval *options = NULL, *prefix = NULL, *ttl = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
