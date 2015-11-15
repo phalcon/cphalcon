@@ -32,7 +32,7 @@ use Phalcon\Db\DialectInterface;
  *
  * Generates database specific SQL for the MySQL RDBMS
  */
-class MySQL extends Dialect
+class Mysql extends Dialect
 {
 
 	protected _escapeChar = "`";
