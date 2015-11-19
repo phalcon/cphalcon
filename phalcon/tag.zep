@@ -794,6 +794,11 @@ class Tag
 	 * echo Phalcon\Tag::checkField(array("terms", "value" => "Y"));
 	 *</code>
 	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ check_field("terms") }}
+	 *</code>
+	 *
 	 * @param	array parameters
 	 * @return	string
 	 */
