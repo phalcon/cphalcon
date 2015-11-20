@@ -225,7 +225,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Update the stats key
 			 */
@@ -276,7 +276,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			let keys = memcache->get(specialKey);
 
 			if typeof keys == "array" {
@@ -308,7 +308,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey == "null" {
+		if specialKey == "" {
 			return;
 		}
 
@@ -456,24 +456,27 @@ class Memcache extends Backend implements BackendInterface
 			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
-		/**
-		 * Get the key from memcached
-		 */
-		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				memcache->delete(key);
+		if specialKey != "" {
+			/**
+			 * Get the key from memcached
+			 */
+			let keys = memcache->get(specialKey);
+			if typeof keys == "array" {
+				for key, _ in keys {
+					memcache->delete(key);
+				}
+				memcache->set(specialKey, keys);
 			}
-			memcache->set(specialKey, keys);
 		}
+
 		return true;
 	}
 
 	/**
 	 * Stores special memcached key use internally to store all memcache keys
-	 * @param string|null key
+	 * @param string key
 	 */
-	public function setTrackingKey(var key) -> <Memcache>
+	public function setTrackingKey(string! key) -> <Memcache>
 	{
 		let this->_options["statsKey"] = key;
 

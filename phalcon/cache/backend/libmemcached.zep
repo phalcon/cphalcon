@@ -229,7 +229,7 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Update the stats key
 			 */
@@ -280,7 +280,7 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			let keys = memcache->get(specialKey);
 			if typeof keys == "array" {
 				unset keys[prefixedKey];
@@ -311,7 +311,7 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey == "null" {
+		if specialKey == "" {
 			return;
 		}
 
@@ -457,7 +457,7 @@ class Libmemcached extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Get the key from memcached
 			 */
@@ -477,9 +477,9 @@ class Libmemcached extends Backend implements BackendInterface
 
 	/**
 	 * Stores special memcached key use internally to store all memcache keys
-	 * @param string|null key
+	 * @param string key
 	 */
-	public function setTrackingKey(var key) -> <Libmemcached>
+	public function setTrackingKey(string! key) -> <Libmemcached>
 	{
 		let this->_options["statsKey"] = key;
 
