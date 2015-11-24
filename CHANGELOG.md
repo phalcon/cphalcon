@@ -1,4 +1,4 @@
-# [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-??-??)
+# [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter
 - Added `console:boot` event to allow the developer to perform initialization actions
 - Added implementation options `allowEmpty` for `Phalcon\Mvc\Model\Validator\Ip`
