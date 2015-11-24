@@ -9,7 +9,7 @@
  *
  * @copyright (c) 2011-2015 Phalcon Team
  * @link      http://www.phalconphp.com
- * @author    Serghei Iakovlev <sadhooklay@gmail.com>
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -39,7 +39,7 @@ class RandomTest extends TBase
     /**
      * Tests the random number generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomNumber()
@@ -72,7 +72,7 @@ class RandomTest extends TBase
     /**
      * Tests the random UUID v4 generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomUuid()
@@ -100,7 +100,7 @@ class RandomTest extends TBase
     /**
      * Tests the random base58 generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-20
      */
     public function testRandomBase58()
@@ -149,7 +149,7 @@ class RandomTest extends TBase
     /**
      * Tests the random base64 generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomBase64()
@@ -196,7 +196,7 @@ class RandomTest extends TBase
     /**
      * Tests the random base64 generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomBase64Safe()
@@ -245,7 +245,7 @@ class RandomTest extends TBase
     /**
      * Tests the random hex generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomHex()
@@ -289,7 +289,7 @@ class RandomTest extends TBase
     /**
      * Tests the random bytes string generation
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-08-17
      */
     public function testRandomByte()

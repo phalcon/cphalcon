@@ -40,7 +40,6 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
@@ -4090,17 +4089,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item;
+			relation, referencedModel, key, item, dirtyState;
 
 		/**
 		 * Values are probably relationships if they are objects
 		 */
 		if typeof value == "object" {
 			if value instanceof ModelInterface {
+				let dirtyState = this->_dirtyState;
+				if (value->getDirtyState() != dirtyState) {
+					let dirtyState = self::DIRTY_STATE_TRANSIENT;
+				}
 				let lowerProperty = strtolower(property),
 					this->{lowerProperty} = value,
 					this->_related[lowerProperty] = value,
-					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+					this->_dirtyState = dirtyState;
 				return value;
 			}
 		}

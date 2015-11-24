@@ -341,7 +341,20 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	protected static function _getResultset(var params, <CollectionInterface> collection, connection, boolean unique)
 	{
 		var source, mongoCollection, conditions, base, documentsCursor,
-			fields, skip, limit, sort, document, collections;
+			fields, skip, limit, sort, document, collections, className;
+
+		/**
+		 * Check if "class" clause was defined
+		 */
+		if fetch className, params["class"] {
+			let base = new {className}();
+
+			if !(base instanceof CollectionInterface || base instanceof Collection\Document) {
+				throw new Exception("Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document");
+			}
+		} else {
+			let base = collection;
+		}
 
 		let source = collection->getSource();
 		if empty source {
@@ -395,15 +408,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 */
 		if fetch skip, params["skip"] {
 			documentsCursor->skip(skip);
-		}
-
-		/**
-		 * If a group of specific fields are requested we use a Phalcon\Mvc\Collection\Document instead
-		 */
-		if isset params["fields"] {
-			let base = new Document();
-		} else {
-			let base = collection;
 		}
 
 		if unique === true {

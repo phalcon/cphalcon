@@ -6499,4 +6499,16 @@ CREATE INDEX `personnes_cupo` ON `personnes` (`cupo`);
 CREATE INDEX `prueba_estado` ON `prueba` (`estado`);
 CREATE INDEX `robots_parts_robots_id` on `robots_parts` (`robots_id`);
 CREATE INDEX `robots_parts_parts_id` on `robots_parts` (`parts_id`);
+
+CREATE TABLE COMPANY (
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+CREATE INDEX salary_index ON COMPANY (salary);
+CREATE UNIQUE INDEX name_index ON COMPANY (name);
+
 COMMIT;

@@ -9,7 +9,7 @@
  *
  * @copyright (c) 2011-2015 Phalcon Team
  * @link      http://www.phalconphp.com
- * @author    Serghei Iakovlev <sadhooklay@gmail.com>
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt

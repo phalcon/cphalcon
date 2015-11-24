@@ -757,9 +757,11 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testHostnameRouteGroup()
+	/**
+	 * @dataProvider hostnamedRoutesProvider
+	 */
+	public function testHostnameRouteGroup($actualHost, $expectedHost, $controller)
 	{
-
 		Phalcon\Mvc\Router\Route::reset();
 
 		$di = new Phalcon\DI();
@@ -788,31 +790,17 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 		$router->mount($group);
 
-		$routes = array(
-			array(
-				'hostname' => 'localhost',
-				'controller' => 'posts3'
-			),
-			array(
-				'hostname' => 'my.phalconphp.com',
-				'controller' => 'posts'
-			),
-			array(
-				'hostname' => null,
-				'controller' => 'posts3'
-			)
-		);
-
-		foreach ($routes as $route) {
-			$_SERVER['HTTP_HOST'] = $route['hostname'];
-			$router->handle('/edit');
-			$this->assertEquals($router->getControllerName(), $route['controller']);
-		}
+		$_SERVER['HTTP_HOST'] = $actualHost;
+		$router->handle('/edit');
+		$this->assertEquals($router->getControllerName(), $controller);
+		$this->assertEquals($router->getMatchedRoute()->getHostname(), $expectedHost);
 	}
 
-	public function testHostnameRegexRouteGroup()
+	/**
+	 * @dataProvider hostnamedRegexRoutesProvider
+	 */
+	public function testHostnameRegexRouteGroup($actualHost, $expectedHost, $controller)
 	{
-
 		Phalcon\Mvc\Router\Route::reset();
 
 		$di = new Phalcon\DI();
@@ -841,26 +829,27 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 		$router->mount($group);
 
-		$routes = array(
-			array(
-				'hostname' => 'localhost',
-				'controller' => 'posts3'
-			),
-			array(
-				'hostname' => 'my.phalconphp.com',
-				'controller' => 'posts'
-			),
-			array(
-				'hostname' => null,
-				'controller' => 'posts3'
-			)
-		);
-
-		foreach ($routes as $route) {
-			$_SERVER['HTTP_HOST'] = $route['hostname'];
-			$router->handle('/edit');
-			$this->assertEquals($router->getControllerName(), $route['controller']);
-		}
+		$_SERVER['HTTP_HOST'] = $actualHost;
+		$router->handle('/edit');
+		$this->assertEquals($router->getControllerName(), $controller);
+		$this->assertEquals($router->getMatchedRoute()->getHostname(), $expectedHost);
 	}
 
+	public function hostnamedRegexRoutesProvider()
+	{
+		return array(
+			array('localhost', null, 'posts3'),
+			array('my.phalconphp.com', '([a-z]+).phalconphp.com', 'posts'),
+			array(null, null, 'posts3'),
+		);
+	}
+
+	public function hostnamedRoutesProvider()
+	{
+		return array(
+			array('localhost', null, 'posts3'),
+			array('my.phalconphp.com', 'my.phalconphp.com', 'posts'),
+			array(null, null, 'posts3'),
+		);
+	}
 }
