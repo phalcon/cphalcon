@@ -75,6 +75,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPost);
 PHP_METHOD(Phalcon_Http_Request, hasPut);
 PHP_METHOD(Phalcon_Http_Request, hasQuery);
 PHP_METHOD(Phalcon_Http_Request, hasServer);
+PHP_METHOD(Phalcon_Http_Request, hasHeader);
 PHP_METHOD(Phalcon_Http_Request, getHeader);
 PHP_METHOD(Phalcon_Http_Request, getScheme);
 PHP_METHOD(Phalcon_Http_Request, isAjax);
@@ -89,6 +90,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost);
 PHP_METHOD(Phalcon_Http_Request, getClientAddress);
 PHP_METHOD(Phalcon_Http_Request, getMethod);
 PHP_METHOD(Phalcon_Http_Request, getURI);
+PHP_METHOD(Phalcon_Http_Request, getQueryString);
 PHP_METHOD(Phalcon_Http_Request, getUserAgent);
 PHP_METHOD(Phalcon_Http_Request, isMethod);
 PHP_METHOD(Phalcon_Http_Request, isPost);
@@ -133,6 +135,7 @@ static const zend_function_entry phalcon_http_request_method_entry[] = {
 	PHP_ME(Phalcon_Http_Request, hasPut, arginfo_phalcon_http_requestinterface_haspost, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasQuery, arginfo_phalcon_http_requestinterface_hasquery, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasServer, arginfo_phalcon_http_requestinterface_hasserver, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, hasHeader, arginfo_phalcon_http_requestinterface_hasheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHeader, arginfo_phalcon_http_requestinterface_getheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getScheme, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isAjax, NULL, ZEND_ACC_PUBLIC)
@@ -147,6 +150,7 @@ static const zend_function_entry phalcon_http_request_method_entry[] = {
 	PHP_ME(Phalcon_Http_Request, getClientAddress, arginfo_phalcon_http_requestinterface_getclientaddress, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getMethod, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getURI, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, getQueryString, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getUserAgent, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isMethod, arginfo_phalcon_http_requestinterface_ismethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isPost, NULL, ZEND_ACC_PUBLIC)
@@ -629,6 +633,33 @@ PHP_METHOD(Phalcon_Http_Request, hasServer){
 
 	_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
 	RETURN_BOOL(phalcon_array_isset(_SERVER, name));
+}
+
+/**
+ * Checks whether $_SERVER superglobal has certain index
+ *
+ * @param string $header
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, hasHeader){
+
+	zval *header, *_SERVER, *key;
+
+	phalcon_fetch_params(0, 1, 0, &header);
+
+	_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset(_SERVER, header)) {
+		RETURN_TRUE;
+	}
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(key);
+	PHALCON_CONCAT_SV(key, "HTTP_", header);
+	if (phalcon_array_isset(_SERVER, key)) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -1119,6 +1150,27 @@ PHP_METHOD(Phalcon_Http_Request, getURI){
 
 	INIT_ZVAL(key);
 	ZVAL_STRING(&key, "REQUEST_URI", 0);
+
+	_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
+	value = (Z_TYPE_P(_SERVER) == IS_ARRAY) ? phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA) : NULL;
+	if (value && Z_TYPE_PP(value) == IS_STRING) {
+		RETURN_ZVAL(*value, 1, 0);
+	}
+
+	RETURN_EMPTY_STRING();
+}
+
+/**
+ * Gets query string which request has been made
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getQueryString){
+
+	zval **value, *_SERVER, key = zval_used_for_init;
+
+	INIT_ZVAL(key);
+	ZVAL_STRING(&key, "QUERY_STRING", 0);
 
 	_SERVER = phalcon_get_global(SS("_SERVER") TSRMLS_CC);
 	value = (Z_TYPE_P(_SERVER) == IS_ARRAY) ? phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA) : NULL;
