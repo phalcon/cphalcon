@@ -20,7 +20,6 @@
 namespace Phalcon\Annotations\Adapter;
 
 use Phalcon\Annotations\Adapter;
-use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\Exception;
 
@@ -35,7 +34,7 @@ use Phalcon\Annotations\Exception;
  * ));
  *</code>
  */
-class Files extends Adapter implements AdapterInterface
+class Files extends Adapter
 {
 	protected _annotationsDir = "./";
 
