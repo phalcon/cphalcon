@@ -651,8 +651,10 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'_referenceName' => 'robots_parts_ibfk_1',
 			'_referencedTable' => 'robots',
 			'_columns' => array('robots_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test'
+            '_referencedColumns' => array('id'),
+            '_referencedSchema' => 'phalcon_test',
+            '_onUpdate' => 'RESTRICT',
+            '_onDelete' => 'RESTRICT'
 			)),
 			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(array(
 				'_referenceName' => 'robots_parts_ibfk_2',
@@ -660,6 +662,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_columns' => array('parts_id'),
 				'_referencedColumns' => array('id'),
 				'_referencedSchema' => 'phalcon_test',
+                '_onUpdate' => 'RESTRICT',
+                '_onDelete' => 'RESTRICT'
 			)),
 		);
 
