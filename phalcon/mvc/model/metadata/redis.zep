@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -42,7 +41,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *	));
  *</code>
  */
-class Redis extends MetaData implements MetaDataInterface
+class Redis extends MetaData
 {
 
 	protected _ttl = 172800;
