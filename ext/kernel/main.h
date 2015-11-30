@@ -404,6 +404,26 @@ int phalcon_fetch_parameters_ex(int dummy TSRMLS_DC, int n_req, int n_opt, ...);
 		} \
 	}
 
+#if PHP_VERSION_ID < 50399
+	#define object_properties_init(object, class_type) { \
+		ALLOC_HASHTABLE_REL(object->properties); \
+		zend_hash_init(object->properties, zend_hash_num_elements(&class_type->default_properties), NULL, ZVAL_PTR_DTOR, 0); \
+		zend_hash_copy(object->properties, &class_type->default_properties, (copy_ctor_func_t) zval_add_ref, NULL, sizeof(zval *)); \
+	}
+#endif
+
+#define PHALCON_CREATE_OBJECT(obj_ptr, class_type) \
+	{ \
+		zend_object *object; \
+		PHALCON_INIT_ZVAL_NREF(obj_ptr); \
+		Z_TYPE_P(obj_ptr) = IS_OBJECT; \
+		Z_OBJVAL_P(obj_ptr) = zend_objects_new(&object, class_type TSRMLS_CC); \
+		object_properties_init(object, class_type); \
+	}
+
+#define PHALCON_MAKE_REF(obj) Z_SET_ISREF_P(obj);
+#define PHALCON_UNREF(obj) Z_UNSET_ISREF_P(obj);
+
 /** Method declaration for API generation */
 #define PHALCON_DOC_METHOD(class_name, method)
 

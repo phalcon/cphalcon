@@ -581,3 +581,235 @@ int phalcon_shift_right_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	Z_SET_ISREF_TO_P(result, is_ref);
 	return status;
 }
+
+/**
+ * Do safe divisions between two longs
+ */
+double phalcon_safe_div_long_long(long op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return (double) op1 / (double) op2;
+}
+
+/**
+ * Do safe divisions between two long/double
+ */
+double phalcon_safe_div_long_double(long op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return (double) op1 / op2;
+}
+
+/**
+ * Do safe divisions between two double/long
+ */
+double phalcon_safe_div_double_long(double op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / (double) op2;
+}
+
+/**
+ * Do safe divisions between two doubles
+ */
+double phalcon_safe_div_double_double(double op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 / op2;
+}
+
+/**
+ * Do safe divisions between two zval/long
+ */
+double phalcon_safe_div_zval_long(zval *op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op1)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return ((double) phalcon_get_numberval(op1)) / (double) op2;
+}
+
+/**
+ * Do safe divisions between two zval/double
+ */
+double phalcon_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op1)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return ((double) phalcon_get_numberval(op1)) / op2;
+}
+
+/**
+ * Do safe divisions between two long/zval
+ */
+double phalcon_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC) {
+	if (!phalcon_get_numberval(op2)) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op2)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return (double) op1 / ((double) phalcon_get_numberval(op2));
+}
+
+/**
+ * Do safe divisions between two double/zval
+ */
+double phalcon_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC) {
+	if (!phalcon_get_numberval(op2)) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op2)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return op1 / ((double) phalcon_get_numberval(op2));
+}
+
+/**
+ * Do safe divisions between two longs
+ */
+long phalcon_safe_mod_long_long(long op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 % op2;
+}
+
+/**
+ * Do safe divisions between two long/double
+ */
+long phalcon_safe_mod_long_double(long op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return op1 % (long) op2;
+}
+
+/**
+ * Do safe divisions between two double/long
+ */
+long phalcon_safe_mod_double_long(double op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return (long) op1 % op2;
+}
+
+/**
+ * Do safe divisions between two doubles
+ */
+long phalcon_safe_mod_double_double(double op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	return (long) op1 % (long) op2;
+}
+
+/**
+ * Do safe divisions between two zval/long
+ */
+long phalcon_safe_mod_zval_long(zval *op1, long op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op1)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return ((long) phalcon_get_numberval(op1)) % (long) op2;
+}
+
+/**
+ * Do safe divisions between two zval/double
+ */
+long phalcon_safe_mod_zval_double(zval *op1, double op2 TSRMLS_DC) {
+	if (!op2) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op1)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return ((long) phalcon_get_numberval(op1)) % (long) op2;
+}
+
+/**
+ * Do safe divisions between two long/zval
+ */
+long phalcon_safe_mod_long_zval(long op1, zval *op2 TSRMLS_DC) {
+	if (!phalcon_get_numberval(op2)) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op2)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return op1 % ((long) phalcon_get_numberval(op2));
+}
+
+/**
+ * Do safe divisions between two double/zval
+ */
+long phalcon_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC) {
+	if (!phalcon_get_numberval(op2)) {
+		zend_error(E_WARNING, "Division by zero");
+		return 0;
+	}
+	switch (Z_TYPE_P(op2)) {
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+	return (long) op1 % ((long) phalcon_get_numberval(op2));
+}
