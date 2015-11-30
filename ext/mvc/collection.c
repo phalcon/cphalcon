@@ -911,7 +911,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	zval *params, *collection, *connection, *unique;
 	zval *source = NULL, *mongo_collection = NULL, *conditions = NULL, *new_conditions = NULL;
 	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
-	zval *base = NULL, *document = NULL;
+	zval *class_name = NULL, *base = NULL, *document = NULL, *exception_message = NULL;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -1000,7 +1001,22 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_string(params, SS("fields"))) {
 		PHALCON_INIT_VAR(base);
-		object_init_ex(base, phalcon_mvc_collection_document_ce);
+		if (phalcon_array_isset_string(params, SS("class"))) {
+			PHALCON_OBS_NVAR(class_name);
+			phalcon_array_fetch_string(&class_name, params, SL("class"), PH_NOISY);
+			
+			ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+			object_init_ex(base, ce0);
+			if (!instanceof_function_ex(Z_OBJCE_P(base), phalcon_mvc_collection_document_ce, 1 TSRMLS_CC) && !instanceof_function_ex(Z_OBJCE_P(base), phalcon_mvc_collection_document_ce, 1 TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Object of class '", class_name, "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_collection_exception_ce, exception_message);
+				return;
+			}
+		} else {
+			object_init_ex(base, phalcon_mvc_collection_document_ce);
+		}
+
 	} else {
 		PHALCON_CPY_WRT(base, collection);
 	}
