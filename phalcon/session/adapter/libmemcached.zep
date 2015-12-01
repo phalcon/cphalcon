@@ -52,7 +52,9 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  */
 class Libmemcached extends Adapter implements AdapterInterface
 {
-
+	
+	const NATIVE_MAX_LIFETIME = 2592000;
+	
 	protected _libmemcached = null { get };
 
 	protected _lifetime = 8600 { get };
@@ -76,7 +78,7 @@ class Libmemcached extends Adapter implements AdapterInterface
 			let lifetime = 8600;
 		}
 
-		let this->_lifetime = lifetime;
+		let this->_lifetime = max(lifetime, self::NATIVE_MAX_LIFETIME);
 
 		if !fetch prefix, options["prefix"] {
 			let prefix = null;
