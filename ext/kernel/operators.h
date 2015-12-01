@@ -68,6 +68,7 @@
 #define PHALCON_GT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) > op2) || phalcon_greater_double(op1, op2 TSRMLS_CC))
 
 #define PHALCON_STRING_OFFSET(op1, index) ((index >= 0 && index < Z_STRLEN_P(op1)) ? Z_STRVAL_P(op1)[index] : '\0')
+
 #if PHP_VERSION_ID < 50400
 #define phalcon_increment(var) increment_function(var)
 #else
@@ -143,5 +144,23 @@ int phalcon_less_equal_long(zval *op1, long op2 TSRMLS_DC);
 
 int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
+
+double phalcon_safe_div_long_long(long op1, long op2 TSRMLS_DC);
+double phalcon_safe_div_long_double(long op1, double op2 TSRMLS_DC);
+double phalcon_safe_div_double_long(double op1, long op2 TSRMLS_DC);
+double phalcon_safe_div_double_double(double op1, double op2 TSRMLS_DC);
+double phalcon_safe_div_zval_long(zval *op1, long op2 TSRMLS_DC);
+double phalcon_safe_div_zval_double(zval *op1, double op2 TSRMLS_DC);
+double phalcon_safe_div_long_zval(long op1, zval *op2 TSRMLS_DC);
+double phalcon_safe_div_double_zval(double op1, zval *op2 TSRMLS_DC);
+
+long phalcon_safe_mod_long_long(long op1, long op2 TSRMLS_DC);
+long phalcon_safe_mod_long_double(long op1, double op2 TSRMLS_DC);
+long phalcon_safe_mod_double_long(double op1, long op2 TSRMLS_DC);
+long phalcon_safe_mod_double_double(double op1, double op2 TSRMLS_DC);
+long phalcon_safe_mod_zval_long(zval *op1, long op2 TSRMLS_DC);
+long phalcon_safe_mod_zval_double(zval *op1, double op2 TSRMLS_DC);
+long phalcon_safe_mod_long_zval(long op1, zval *op2 TSRMLS_DC);
+long phalcon_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC);
 
 #endif /* PHALCON_KERNEL_OPERATORS_H */

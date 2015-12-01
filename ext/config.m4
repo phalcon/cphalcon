@@ -354,6 +354,7 @@ di/exception.c \
 di/injectionawareinterface.c \
 di/service.c \
 security.c \
+security/random.c \
 annotations/reflection.c \
 annotations/annotation.c \
 annotations/readerinterface.c \

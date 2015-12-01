@@ -371,6 +371,7 @@
 #include "registry.h"
 
 #include "security.h"
+#include "security/random.h"
 #include "security/exception.h"
 
 #include "session/adapter.h"
