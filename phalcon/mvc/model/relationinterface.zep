@@ -84,6 +84,12 @@ interface RelationInterface
 	public function getOptions();
 
 	/**
+	 * Returns an option by the specified name
+	 * If the option doesn't exist null is returned	 
+	 */
+	public function getOption(string! name);
+
+	/**
 	 * Check whether the relation act as a foreign key
 	 */
 	public function isForeignKey() -> boolean;
