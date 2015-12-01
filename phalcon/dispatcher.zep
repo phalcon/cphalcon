@@ -503,6 +503,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
+			let this->_lastHandler = handler;
+
 			try {
 
 				// We update the latest value produced by the latest handler
@@ -516,8 +518,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				} else {
 					throw e;
 				}
-			} finally {
-				let this->_lastHandler = handler;
 			}
 
 			// Calling afterExecuteRoute
