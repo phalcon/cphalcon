@@ -78,7 +78,7 @@ class Libmemcached extends Adapter implements AdapterInterface
 			let lifetime = 8600;
 		}
 
-		let this->_lifetime = max(lifetime, self::NATIVE_MAX_LIFETIME);
+		let this->_lifetime = min(lifetime, self::NATIVE_MAX_LIFETIME);
 
 		if !fetch prefix, options["prefix"] {
 			let prefix = null;
