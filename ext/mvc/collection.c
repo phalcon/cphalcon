@@ -1655,14 +1655,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *column_map = NULL, *attributes = NULL, *reserved = NULL, *attribute = NULL, *attribute_field = NULL, *new_value = NULL, *possible_setter = NULL;
 	zval *source = NULL, *connection = NULL;
 	zval *collection = NULL, *exists = NULL, *empty_array, *disable_events;
-	zval *type, *message, *collection_message, *messages, *status = NULL, *data;
+	zval *type, *message, *collection_message, *messages, *status = NULL, *status2 = NULL, *data;
 	zval *value = NULL, *success = NULL, *options;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	zval *ok, *id;
-	zval *params[2];
-	zval func;
+	zval *ok, *id = NULL;
+	zval *func;
 
 	PHALCON_MM_GROW();
 
@@ -1772,11 +1771,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * Check the dirty state of the current operation to update the current operation
 	 */
 	if (Z_TYPE_P(mode) == IS_NULL) {
-		PHALCON_SEPARATE_PARAM(mode);
 		PHALCON_CALL_METHOD(&exists, this_ptr, "_exists", collection);
 
-		PHALCON_INIT_NVAR(mode);
-
+		PHALCON_INIT_VAR(mode);
 		ZVAL_BOOL(mode, (PHALCON_IS_FALSE(exists) ? 1 : 0));
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), (PHALCON_IS_FALSE(exists) ? 1 : 2) TSRMLS_CC);
 	} else {		
@@ -1876,14 +1873,15 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		}
 	}
 
-	PHALCON_INIT_NVAR(status);
+	PHALCON_INIT_VAR(func);
 
 	if (PHALCON_IS_FALSE(mode)){
 		PHALCON_CALL_SELF(&id, "getidstring");
 		phalcon_array_update_zval(&data, attribute, value, PH_COPY);
-		ZVAL_STRING(&func, "save", 0);
+
+		ZVAL_STRING(func, "save", 1);
 	} else {
-		ZVAL_STRING(&func, "insert", 0);
+		ZVAL_STRING(func, "insert", 1);
 	}
 
 	/**
@@ -1894,22 +1892,15 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	phalcon_array_update_string_long(&options, SL("w"), 1, PH_COPY);
 
-	params[0] = data;
-	params[1] = options;
-
 	/**
 	 * Save the document
 	 */
-	call_user_function(NULL, &collection, &func, status, 2, params TSRMLS_CC);
-
-	if (EG(exception)) {
-		RETURN_MM();
-	}
+	PHALCON_CALL_ZVAL_METHOD(&status2, collection, func, data, options);
 
 	PHALCON_INIT_NVAR(success);
 	ZVAL_FALSE(success);
 
-	if (phalcon_array_isset_string_fetch(&ok, status, SS("ok"))) {
+	if (phalcon_array_isset_string_fetch(&ok, status2, SS("ok"))) {
 		if (zend_is_true(ok)) {
 			ZVAL_TRUE(success);
 			if (PHALCON_IS_FALSE(exists) && phalcon_array_isset_string_fetch(&id, data, SS("_id"))) {
@@ -2531,7 +2522,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getOperationMade){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 
-	zval *columns = NULL, *rename_columns = NULL, *allow_empty = NULL, *data, *reserved = NULL;
+	zval *columns = NULL, *rename_columns = NULL, *data, *reserved = NULL;
 	zval *attributes = NULL, *column_map = NULL, *attribute = NULL, *attribute_field = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -2539,14 +2530,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &columns, &rename_columns, &allow_empty);
+	phalcon_fetch_params(1, 0, 2, &columns, &rename_columns);
 
 	if (!rename_columns) {
 		rename_columns = PHALCON_GLOBAL(z_true);
-	}
-
-	if (!allow_empty) {
-		allow_empty = PHALCON_GLOBAL(z_false);
 	}
 
 	PHALCON_INIT_VAR(data);
@@ -2572,7 +2559,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
 		PHALCON_GET_HKEY(attribute, ah0, hp0);
-		PHALCON_GET_HVALUE(value);
 
 		if (phalcon_array_isset(reserved, attribute)) {
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -2590,15 +2576,18 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 			PHALCON_CPY_WRT(attribute_field, attribute);
 		}
 
+		if (columns && Z_TYPE_P(columns) == IS_ARRAY) {
+			if (!phalcon_fast_in_array(attribute_field, columns TSRMLS_CC) && !phalcon_fast_in_array(attribute, columns TSRMLS_CC)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+		}
+
 		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY TSRMLS_CC);
 
-			if (zend_is_true(allow_empty)) {
-				phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
-			} else if (Z_TYPE_P(value) != IS_NULL) {
-				phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
-			}
+			phalcon_array_update_zval(&data, attribute_field, value, PH_COPY);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
