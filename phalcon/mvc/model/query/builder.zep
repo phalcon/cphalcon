@@ -22,7 +22,6 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
@@ -1352,11 +1351,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns the query built
 	 */
-	public function getQuery() -> <Query>
+	public function getQuery() -> <QueryInterface>
 	{
-		var query, bindParams, bindTypes;
+		var query, bindParams, bindTypes, phql, dependencyInjector;
 
-		let query = new Query(this->getPhql(), this->_dependencyInjector);
+		let phql = this->getPhql();
+
+		let dependencyInjector = this->_dependencyInjector;
+
+		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 
 		// Set default bind params
 		let bindParams = this->_bindParams;
