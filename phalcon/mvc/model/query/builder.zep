@@ -1357,7 +1357,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		let phql = this->getPhql();
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injection object is required to access ORM services");
+		}
 
 		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 
