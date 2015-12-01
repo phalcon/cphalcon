@@ -507,8 +507,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 				// We update the latest value produced by the latest handler
 				let this->_returnedValue = call_user_func_array([handler, actionMethod], params),
-					this->_lastHandler = handler;
-
+					
 			} catch \Exception, e {
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
@@ -517,6 +516,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				} else {
 					throw e;
 				}
+			} finally {
+				this->_lastHandler = handler;
 			}
 
 			// Calling afterExecuteRoute
