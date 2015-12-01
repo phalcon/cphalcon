@@ -152,6 +152,70 @@ typedef zend_function phalcon_fcall_cache_entry;
 		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, Z_OBJCE_P(object), phalcon_fcall_method, object, method, PHALCON_FUNC_STRLEN(method), PHALCON_CALL_NUM_PARAMS(params_), PHALCON_PASS_CALL_PARAMS(params_) TSRMLS_CC)); \
 	} while (0)
 
+#define PHALCON_CALL_ZVAL_METHODW(return_value_ptr, object, method, ...) \
+	do { \
+		char *method_name; \
+		int method_len; \
+		zval *params_[] = {PHALCON_FETCH_VA_ARGS __VA_ARGS__}; \
+		if (Z_TYPE_P(method) == IS_STRING) { \
+			method_len = Z_STRLEN_P(method); \
+			method_name = zend_str_tolower_dup(Z_STRVAL_P(method), method_len); \
+		} else { \
+			method_len = 0; \
+			method_name = zend_str_tolower_dup("", 0); \
+		} \
+		RETURN_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, phalcon_fcall_method, object, method_name, method_len, PHALCON_CALL_NUM_PARAMS(params_), PHALCON_PASS_CALL_PARAMS(params_) TSRMLS_CC)); \
+		efree(method_name); \
+	} while (0)
+
+#define PHALCON_CALL_ZVAL_METHOD(return_value_ptr, object, method, ...) \
+	do { \
+		char *method_name; \
+		int method_len; \
+		zval *params_[] = {PHALCON_FETCH_VA_ARGS __VA_ARGS__}; \
+		if (Z_TYPE_P(method) == IS_STRING) { \
+			method_len = Z_STRLEN_P(method); \
+			method_name = zend_str_tolower_dup(Z_STRVAL_P(method), method_len); \
+		} else { \
+			method_len = 0; \
+			method_name = zend_str_tolower_dup("", 0); \
+		} \
+		PHALCON_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		RETURN_MM_ON_FAILURE(phalcon_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, phalcon_fcall_method, object, method_name, method_len, PHALCON_CALL_NUM_PARAMS(params_), PHALCON_PASS_CALL_PARAMS(params_) TSRMLS_CC)); \
+		efree(method_name); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_ZVAL_METHODW(object, method, ...) \
+	do { \
+		char *method_name; \
+		int method_len; \
+		zval *params_[] = {PHALCON_FETCH_VA_ARGS __VA_ARGS__}; \
+		if (Z_TYPE_P(method) == IS_STRING) { \
+			method_len = Z_STRLEN_P(method); \
+			method_name = zend_str_tolower_dup(Z_STRVAL_P(method), method_len); \
+		} else { \
+			method_len = 0; \
+			method_name = zend_str_tolower_dup("", 0); \
+		} \
+		RETURN_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, phalcon_fcall_method, object, method_name, method_len, PHALCON_CALL_NUM_PARAMS(params_), PHALCON_PASS_CALL_PARAMS(params_) TSRMLS_CC)); \
+		efree(method_name); \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_ZVAL_METHOD(object, method, ...) \
+	do { \
+		char *method_name; \
+		int method_len; \
+		zval *params_[] = {PHALCON_FETCH_VA_ARGS __VA_ARGS__}; \
+		if (Z_TYPE_P(method) == IS_STRING) { \
+			method_len = Z_STRLEN_P(method); \
+			method_name = zend_str_tolower_dup(Z_STRVAL_P(method), method_len); \
+		} else { \
+			method_len = 0; \
+			method_name = zend_str_tolower_dup("", 0); \
+		} \
+		RETURN_MM_ON_FAILURE(phalcon_return_call_class_method(return_value, return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, phalcon_fcall_method, object, method_name, method_len, PHALCON_CALL_NUM_PARAMS(params_), PHALCON_PASS_CALL_PARAMS(params_) TSRMLS_CC)); \
+		efree(method_name); \
+	} while (0)
 
 #define PHALCON_CALL_PARENTW(return_value_ptr, class_entry, object, method, ...) \
 	do { \
