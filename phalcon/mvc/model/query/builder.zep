@@ -1362,6 +1362,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			throw new Exception("A dependency injection object is required to access ORM services");
 		}
 
+		/**
+		 * Gets Query instance from DI container
+		 */
 		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 
 		// Set default bind params
