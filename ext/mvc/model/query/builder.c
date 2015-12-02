@@ -1460,6 +1460,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	if (Z_TYPE_P(models) == IS_ARRAY) { 
 		phalcon_is_iterable(models, &ah, &hp, 0, 0);
 		while (zend_hash_get_current_data_ex(ah, (void**) &hd, &hp) == SUCCESS) {
+
+			PHALCON_GET_HKEY(model_alias, ah, hp);
 			PHALCON_GET_HVALUE(model);
 			ce0 = phalcon_fetch_class(model TSRMLS_CC);
 
@@ -1470,7 +1472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 					PHALCON_CALL_METHOD(NULL, model_instance, "__construct", dependency_injector);
 				}
 
-				PHALCON_CALL_METHOD(NULL, model_instance, "beforequery", this_ptr);
+				PHALCON_CALL_METHOD(NULL, model_instance, "beforequery", this_ptr, model_alias);
 			}
 
 			zend_hash_move_forward_ex(ah, &hp);
