@@ -1,4 +1,5 @@
-#[中文帮助](https://github.com/dreamsxin/cphalcon/wiki)
+#[中文 Wiki](https://github.com/dreamsxin/cphalcon/wiki)
+[Phalcon for PHP7](https://github.com/dreamsxin/cphalcon7)
 
 Phalcon Framework
 =================
