@@ -496,7 +496,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 		string returnMethod = "";
 
 		if fetch requestMethod, _SERVER["REQUEST_METHOD"] {
-			let returnMethod = strtoupper(requestMethod);
+			let returnMethod = requestMethod;
 		}
 
 		if "POST" === requestMethod {
@@ -505,11 +505,13 @@ class Request implements RequestInterface, InjectionAwareInterface
 				let returnMethod = overridedMethod;
 			} elseif this->_httpMethodParameterOverride {
 				if fetch spoofedMethod, _REQUEST["_method"] {
-					if this->isValidHttpMethod(spoofedMethod) {
-						let returnMethod = spoofedMethod;
-					}
+					let returnMethod = spoofedMethod;
 				}
 			}
+		}
+
+		if !this->isValidHttpMethod(returnMethod) {
+			let returnMethod = "GET";
 		}
 
 		return strtoupper(returnMethod);
