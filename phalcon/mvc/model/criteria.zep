@@ -638,13 +638,21 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Returns the order clause in the criteria
 	 */
-	public function getOrder() -> string | null
+	public function getOrderBy() -> string | null
 	{
 		var order;
 		if fetch order, this->_params["order"] {
 			return order;
 		}
 		return null;
+	}
+
+	/**
+	 * @deprecated (use: getOrderBy)
+	 */
+	public function getOrder() -> string | null
+	{
+		return this->getOrderBy();
 	}
 
 	/**
