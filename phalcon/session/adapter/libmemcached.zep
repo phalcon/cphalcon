@@ -75,8 +75,9 @@ class Libmemcached extends Adapter implements AdapterInterface
 		if !fetch lifetime, options["lifetime"] {
 			let lifetime = 8600;
 		}
-
-		let this->_lifetime = lifetime;
+		
+		// Memcached has an internal max lifetime of 30 days
+		let this->_lifetime = min(lifetime, 2592000);
 
 		if !fetch prefix, options["prefix"] {
 			let prefix = null;
