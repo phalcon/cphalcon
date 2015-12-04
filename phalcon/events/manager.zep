@@ -188,14 +188,6 @@ class Manager implements ManagerInterface
 	}
 
 	/**
-	 * Alias of detachAll
-	 */
-	public function dettachAll(string! type = null)
-	{
-		this->detachAll(type);
-	}
-
-	/**
 	 * Internal handler to call a queue of events
 	 *
 	 * @param \SplPriorityQueue|array queue
