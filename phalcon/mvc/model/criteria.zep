@@ -648,7 +648,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * @deprecated (use: getOrderBy)
+	* Returns the order clause in the criteria
 	 */
 	public function getOrder() -> string | null
 	{

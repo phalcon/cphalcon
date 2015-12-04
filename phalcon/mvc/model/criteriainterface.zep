@@ -180,7 +180,7 @@ interface CriteriaInterface
 	 *
 	 * @return string|null
 	 */
-	public function getOrderBy();
+	public function getOrder();
 
 	/**
 	 * Returns all the parameters defined in the criteria
