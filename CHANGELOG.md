@@ -1,5 +1,6 @@
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-11-24)
 - ORM: Added support for DATE columns in Oracle
+- Fixed wrong total_items and total_pages in Paginator when the query builder has set groupBy()
 
 # [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter

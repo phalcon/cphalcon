@@ -357,6 +357,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->limit, 10);
 
 		$this->assertEquals($page->current, 1);
+		$this->assertEquals($page->total_items, 2180);
 		$this->assertEquals($page->total_pages, 218);
 
 		$this->assertInternalType('int', $page->total_items);
@@ -429,4 +430,111 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($setterResult, $paginator);
 	}
 
+	public function testQueryBuilderPaginatorGroupBy()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$di = $this->_loadDI();
+
+		$builder = $di['modelsManager']->createBuilder()
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->orderBy('cedula')
+					->groupBy(['email']);
+
+		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builder,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'stdClass');
+
+		$this->assertEquals(count($page->items), 10);
+
+		$this->assertEquals($page->before, 1);
+		$this->assertEquals($page->next, 2);
+		$this->assertEquals($page->last, 18);
+		$this->assertEquals($page->limit, 10);
+
+		$this->assertEquals($page->current, 1);
+		$this->assertEquals($page->total_items, 178);
+		$this->assertEquals($page->total_pages, 18);
+
+		$this->assertInternalType('int', $page->total_items);
+		$this->assertInternalType('int', $page->total_pages);
+
+		//Middle page
+		$paginator->setCurrentPage(10);
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'stdClass');
+
+		$this->assertEquals(count($page->items), 10);
+
+		$this->assertEquals($page->before, 9);
+		$this->assertEquals($page->next, 11);
+		$this->assertEquals($page->last, 18);
+
+		$this->assertEquals($page->current, 10);
+		$this->assertEquals($page->total_pages, 18);
+
+		$this->assertInternalType('int', $page->total_items);
+		$this->assertInternalType('int', $page->total_pages);
+
+		//Last page
+		$paginator->setCurrentPage(18);
+
+		$page = $paginator->getPaginate();
+
+		$this->assertEquals(get_class($page), 'stdClass');
+
+		$this->assertEquals(count($page->items), 9);
+
+		$this->assertEquals($page->before, 17);
+		$this->assertEquals($page->next, 18);
+		$this->assertEquals($page->last, 18);
+
+		$this->assertEquals($page->current, 18);
+		$this->assertEquals($page->total_pages, 18);
+
+		$this->assertInternalType('int', $page->total_items);
+		$this->assertInternalType('int', $page->total_pages);
+
+		// test of getter/setters of querybuilder adapter
+
+        // -- current page --
+		$currentPage = $paginator->getCurrentPage();
+		$this->assertEquals($currentPage, 18);
+
+		// -- limit --
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 10);
+
+		$setterResult = $paginator->setLimit(25);
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 25);
+		$this->assertEquals($setterResult, $paginator);
+
+		// -- builder --
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder, $queryBuilder);
+
+		$builder2 = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres')
+			->from('Personnes')
+			->groupBy(['email']);
+
+		$setterResult = $paginator->setQueryBuilder($builder2);
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder2, $queryBuilder);
+		$this->assertEquals($setterResult, $paginator);
+	}
 }
