@@ -35,7 +35,7 @@ cd vendor/phalcon/zephir
 
 ZEPHIRDIR="$( cd "$( dirname . )" && pwd )"
 sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
-hmod 755 bin/zephir-cmd
+chmod 755 bin/zephir-cmd
 
 if [ ! -d ~/bin ]; then
 	mkdir ~/bin
