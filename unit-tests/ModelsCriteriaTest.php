@@ -220,6 +220,10 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePeople = $people->getFirst();
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
+		$personas = Personas::query()
+			->orderBy("nombres");
+
+		$this->assertEquals($personas->getOrderBy(), "nombres");
 	}
 
 	protected function _executeTestsRenamed($di)
