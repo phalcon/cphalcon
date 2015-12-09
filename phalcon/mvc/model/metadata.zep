@@ -42,7 +42,7 @@ use Phalcon\Mvc\Model\MetaData\StrategyInterface;
  * </code>
  *
  */
-abstract class MetaData implements InjectionAwareInterface
+abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
 
 	protected _dependencyInjector;
