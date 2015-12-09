@@ -268,10 +268,9 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 
 		_COOKIE = phalcon_get_global(SS("_COOKIE") TSRMLS_CC);
 		if (phalcon_array_isset_fetch(&value, _COOKIE, name)) {
-
 			PHALCON_OBS_VAR(encryption);
 			phalcon_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY TSRMLS_CC);
-			if (zend_is_true(encryption)) {
+			if (zend_is_true(encryption) && PHALCON_IS_NOT_EMPTY(value)) {
 				PHALCON_INIT_VAR(service);
 				ZVAL_STRING(service, "crypt", 1);
 
