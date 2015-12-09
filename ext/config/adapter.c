@@ -188,9 +188,9 @@ PHP_METHOD(Phalcon_Config_Adapter, load){
 			absolute_path = PHALCON_GLOBAL(z_false);
 		}
 
-		PHALCON_RETURN_CALL_STATICW("factory", file_path, absolute_path);
+		PHALCON_RETURN_CALL_STATIC("factory", file_path, absolute_path);
 	} else {
-		PHALCON_RETURN_CALL_STATICW("factory");
+		PHALCON_RETURN_CALL_STATIC("factory");
 	}
 
 	PHALCON_MM_RESTORE();
