@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
  */
 PHP_METHOD(Phalcon_Events_Event, getType) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -101,6 +102,7 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
  */
 PHP_METHOD(Phalcon_Events_Event, getSource) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_source");
 
@@ -126,6 +128,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
  */
 PHP_METHOD(Phalcon_Events_Event, getData) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_data");
 
@@ -136,6 +139,7 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
  */
 PHP_METHOD(Phalcon_Events_Event, getCancelable) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_cancelable");
 
@@ -220,6 +224,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
  */
 PHP_METHOD(Phalcon_Events_Event, isStopped) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_stopped");
 

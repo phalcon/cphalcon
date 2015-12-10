@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *config_param = NULL, *builder, *limit, *page;
+	zval *config_param = NULL, *builder = NULL, *limit = NULL, *page = NULL;
 	zval *config = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -102,6 +102,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_page");
 
@@ -128,6 +129,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_builder");
 
@@ -138,8 +140,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 
-	int numberPage, before, ZEPHIR_LAST_CALL_STATUS;
-	zval *originalBuilder, *builder, *totalBuilder, *totalPages, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount, *next = NULL, *_0, *_1 = NULL, *_2, _3, _4, *_5;
+	zval *originalBuilder = NULL, *builder = NULL, *totalBuilder = NULL, *totalPages = NULL, *limit = NULL, *number = NULL, *query = NULL, *page = NULL, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount = NULL, *next = NULL, *_0, *_1 = NULL, *_2, _3, _4, *_5;
+	int ZEPHIR_LAST_CALL_STATUS, numberPage = 0, before = 0;
 
 	ZEPHIR_MM_GROW();
 
@@ -194,10 +196,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&row, result, "getfirst", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_OBS_VAR(_2);
-	zephir_read_property(&_2, row, SL("rowcount"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(rowcount);
-	ZVAL_LONG(rowcount, zephir_get_intval(_2));
+	if (zephir_is_true(row)) {
+		ZEPHIR_OBS_VAR(_2);
+		zephir_read_property(&_2, row, SL("rowcount"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(rowcount);
+		ZVAL_LONG(rowcount, zephir_get_intval(_2));
+	} else {
+		ZEPHIR_INIT_NVAR(rowcount);
+		ZVAL_LONG(rowcount, 0);
+	}
 	ZEPHIR_SINIT_VAR(_3);
 	div_function(&_3, rowcount, limit TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_4);

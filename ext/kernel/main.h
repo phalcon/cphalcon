@@ -470,13 +470,6 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \
 	}
 
-#if PHP_VERSION_ID < 50399
-	#define object_properties_init(object, class_type) { \
-		ALLOC_HASHTABLE_REL(object->properties); \
-		zend_hash_init(object->properties, zend_hash_num_elements(&class_type->default_properties), NULL, ZVAL_PTR_DTOR, 0); \
-		zend_hash_copy(object->properties, &class_type->default_properties, (copy_ctor_func_t) zval_add_ref, NULL, sizeof(zval *)); \
-	}
-#endif
 #define ZEPHIR_CREATE_OBJECT(obj_ptr, class_type) \
 	{ \
 		zend_object *object; \

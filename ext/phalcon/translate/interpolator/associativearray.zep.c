@@ -35,10 +35,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray) {
  */
 PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders) {
 
-	HashTable *_2;
-	HashPosition _1;
+	HashTable *_2$$3;
+	HashPosition _1$$3;
 	zend_bool _0;
-	zval *translation_param = NULL, *placeholders = NULL, *key = NULL, *value = NULL, **_3, *_4 = NULL, *_5 = NULL;
+	zval *translation_param = NULL, *placeholders = NULL, *key = NULL, *value = NULL, **_3$$3, *_4$$4 = NULL, *_5$$4 = NULL;
 	zval *translation = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -64,18 +64,18 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 		_0 = (zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0;
 	}
 	if (_0) {
-		zephir_is_iterable(placeholders, &_2, &_1, 0, 0, "phalcon/translate/interpolator/associativearray.zep", 38);
+		zephir_is_iterable(placeholders, &_2$$3, &_1$$3, 0, 0, "phalcon/translate/interpolator/associativearray.zep", 38);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
-			ZEPHIR_GET_HMKEY(key, _2, _1);
-			ZEPHIR_GET_HVALUE(value, _3);
-			ZEPHIR_INIT_NVAR(_4);
-			ZEPHIR_INIT_LNVAR(_5);
-			ZEPHIR_CONCAT_SVS(_5, "%", key, "%");
-			zephir_fast_str_replace(&_4, _5, value, translation TSRMLS_CC);
-			zephir_get_strval(translation, _4);
+			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
+			ZEPHIR_GET_HVALUE(value, _3$$3);
+			ZEPHIR_INIT_NVAR(_4$$4);
+			ZEPHIR_INIT_LNVAR(_5$$4);
+			ZEPHIR_CONCAT_SVS(_5$$4, "%", key, "%");
+			zephir_fast_str_replace(&_4$$4, _5$$4, value, translation TSRMLS_CC);
+			zephir_get_strval(translation, _4$$4);
 		}
 	}
 	RETURN_CTOR(translation);

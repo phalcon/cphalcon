@@ -130,16 +130,10 @@ static void zephir_memory_restore_stack_common(zend_zephir_globals_def *g TSRMLS
 		for (i = 0; i < active_memory->pointer; ++i) {
 			if (active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL) {
 				zval **var = active_memory->addresses[i];
-#if PHP_VERSION_ID < 50400
-				if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
-					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
-				}
-#else
+
 				if (Z_TYPE_PP(var) > IS_CALLABLE) {
 					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
 				}
-#endif
-
 				if (Z_REFCOUNT_PP(var) == 0) {
 					fprintf(stderr, "%s: observed variable #%d (%p) has 0 references, type=%d [%s]\n", __func__, (int)i, *var, Z_TYPE_PP(var), active_memory->func);
 				}
@@ -443,15 +437,9 @@ int zephir_cleanup_fcache(void *pDest TSRMLS_DC, int num_args, va_list args, zen
 	}
 #endif
 
-#if PHP_VERSION_ID >= 50400
 	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->info.internal.module->type != MODULE_PERSISTENT) {
 		return ZEND_HASH_APPLY_REMOVE;
 	}
-#else
-	if (scope && scope->type == ZEND_INTERNAL_CLASS && scope->module->type != MODULE_PERSISTENT) {
-		return ZEND_HASH_APPLY_REMOVE;
-	}
-#endif
 
 	return ZEND_HASH_APPLY_KEEP;
 }
