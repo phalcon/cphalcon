@@ -267,7 +267,7 @@ abstract class Text
 		let result 	= text;
 
 		while memstr(result, leftDelimiter) {
-			let result = preg_replace_callback(pattern, function (matches, separator) {
+			let result = preg_replace_callback(pattern, function (matches) use (separator) {
 				var words;
 				let words = explode(separator, matches[1]);
 				return words[array_rand(words)];
