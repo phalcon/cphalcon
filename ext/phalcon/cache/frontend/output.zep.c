@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime) {
 
-	zval *options = NULL, *lifetime = NULL;
+	zval *options, *lifetime;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
@@ -123,7 +123,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_buffering");
 
@@ -156,8 +155,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
 
-	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
@@ -176,8 +175,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
-	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
 
 	ZEPHIR_MM_GROW();
 

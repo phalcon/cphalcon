@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
-	zval *key_param = NULL, *data = NULL, *_0, *_1;
+	zval *key_param = NULL, *data, *_0, *_1;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
-	zval *key_param = NULL, *data, *lowercasedKey = NULL;
+	zval *key_param = NULL, *data, *lowercasedKey;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();

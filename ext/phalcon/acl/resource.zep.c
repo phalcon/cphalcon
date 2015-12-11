@@ -49,7 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
  */
 PHP_METHOD(Phalcon_Acl_Resource, getName) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -60,7 +59,6 @@ PHP_METHOD(Phalcon_Acl_Resource, getName) {
  */
 PHP_METHOD(Phalcon_Acl_Resource, __toString) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -71,7 +69,6 @@ PHP_METHOD(Phalcon_Acl_Resource, __toString) {
  */
 PHP_METHOD(Phalcon_Acl_Resource, getDescription) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_description");
 

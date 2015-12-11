@@ -287,7 +287,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
  */
 PHP_METHOD(Phalcon_Db_Column, getName) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -298,7 +297,6 @@ PHP_METHOD(Phalcon_Db_Column, getName) {
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_schemaName");
 
@@ -309,7 +307,6 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
  */
 PHP_METHOD(Phalcon_Db_Column, getType) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -320,7 +317,6 @@ PHP_METHOD(Phalcon_Db_Column, getType) {
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_typeReference");
 
@@ -331,7 +327,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_typeValues");
 
@@ -342,7 +337,6 @@ PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
  */
 PHP_METHOD(Phalcon_Db_Column, getSize) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_size");
 
@@ -353,7 +347,6 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
  */
 PHP_METHOD(Phalcon_Db_Column, getScale) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_scale");
 
@@ -364,7 +357,6 @@ PHP_METHOD(Phalcon_Db_Column, getScale) {
  */
 PHP_METHOD(Phalcon_Db_Column, getDefault) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_default");
 
@@ -376,7 +368,7 @@ PHP_METHOD(Phalcon_Db_Column, getDefault) {
 PHP_METHOD(Phalcon_Db_Column, __construct) {
 
 	zval *definition = NULL;
-	zval *name_param = NULL, *definition_param = NULL, *type = NULL, *notNull = NULL, *primary = NULL, *size = NULL, *scale = NULL, *dunsigned = NULL, *first = NULL, *after = NULL, *bindType = NULL, *isNumeric = NULL, *autoIncrement = NULL, *defaultValue = NULL, *typeReference = NULL, *typeValues = NULL, *_0$$6;
+	zval *name_param = NULL, *definition_param = NULL, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement, *defaultValue, *typeReference, *typeValues, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -407,9 +399,9 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	if (zephir_array_isset_string_fetch(&typeReference, definition, SS("typeReference"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_typeReference"), typeReference TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_ZVAL_NREF(_0$$6);
-		ZVAL_LONG(_0$$6, -1);
-		zephir_update_property_this(this_ptr, SL("_typeReference"), _0$$6 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_0);
+		ZVAL_LONG(_0, -1);
+		zephir_update_property_this(this_ptr, SL("_typeReference"), _0 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(typeValues);
 	if (zephir_array_isset_string_fetch(&typeValues, definition, SS("typeValues"), 0 TSRMLS_CC)) {
@@ -493,7 +485,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Column, isUnsigned) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_unsigned");
 
@@ -504,7 +495,6 @@ PHP_METHOD(Phalcon_Db_Column, isUnsigned) {
  */
 PHP_METHOD(Phalcon_Db_Column, isNotNull) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_notNull");
 
@@ -515,7 +505,6 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull) {
  */
 PHP_METHOD(Phalcon_Db_Column, isPrimary) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_primary");
 
@@ -526,7 +515,6 @@ PHP_METHOD(Phalcon_Db_Column, isPrimary) {
  */
 PHP_METHOD(Phalcon_Db_Column, isAutoIncrement) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_autoIncrement");
 
@@ -537,7 +525,6 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement) {
  */
 PHP_METHOD(Phalcon_Db_Column, isNumeric) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_isNumeric");
 
@@ -548,7 +535,6 @@ PHP_METHOD(Phalcon_Db_Column, isNumeric) {
  */
 PHP_METHOD(Phalcon_Db_Column, isFirst) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_first");
 
@@ -561,7 +547,6 @@ PHP_METHOD(Phalcon_Db_Column, isFirst) {
  */
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_after");
 
@@ -572,7 +557,6 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition) {
  */
 PHP_METHOD(Phalcon_Db_Column, getBindType) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_bindType");
 
@@ -584,7 +568,7 @@ PHP_METHOD(Phalcon_Db_Column, getBindType) {
 PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *definition = NULL, *columnType = NULL, *notNull = NULL, *size = NULL, *dunsigned = NULL, *after = NULL, *isNumeric = NULL, *first = NULL, *bindType = NULL, *primary = NULL, *columnName = NULL, *scale = NULL, *defaultValue = NULL, *autoIncrement = NULL, *columnTypeReference = NULL, *columnTypeValues = NULL, *_0$$7, *_1$$12;
+	zval *data_param = NULL, *definition, *columnType, *notNull, *size, *dunsigned, *after, *isNumeric, *first, *bindType, *primary, *columnName = NULL, *scale, *defaultValue, *autoIncrement, *columnTypeReference, *columnTypeValues, *_0, *_1;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -609,9 +593,9 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	if (zephir_array_isset_string_fetch(&columnTypeReference, data, SS("_typeReference"), 1 TSRMLS_CC)) {
 		zephir_array_update_string(&definition, SL("typeReference"), &columnTypeReference, PH_COPY | PH_SEPARATE);
 	} else {
-		ZEPHIR_INIT_VAR(_0$$7);
-		ZVAL_LONG(_0$$7, -1);
-		zephir_array_update_string(&definition, SL("typeReference"), &_0$$7, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_0);
+		ZVAL_LONG(_0, -1);
+		zephir_array_update_string(&definition, SL("typeReference"), &_0, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&columnTypeValues, data, SS("_typeValues"), 1 TSRMLS_CC)) {
 		zephir_array_update_string(&definition, SL("typeValues"), &columnTypeValues, PH_COPY | PH_SEPARATE);
@@ -626,9 +610,9 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&scale, data, SS("_scale"), 1 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_1$$12, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 523 TSRMLS_CC);
+		zephir_array_fetch_string(&_1, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 523 TSRMLS_CC);
 		do {
-			if (ZEPHIR_IS_LONG(_1$$12, 0) || ZEPHIR_IS_LONG(_1$$12, 7) || ZEPHIR_IS_LONG(_1$$12, 3) || ZEPHIR_IS_LONG(_1$$12, 9) || ZEPHIR_IS_LONG(_1$$12, 14)) {
+			if (ZEPHIR_IS_LONG(_1, 0) || ZEPHIR_IS_LONG(_1, 7) || ZEPHIR_IS_LONG(_1, 3) || ZEPHIR_IS_LONG(_1, 9) || ZEPHIR_IS_LONG(_1, 14)) {
 				zephir_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
 				break;
 			}
@@ -657,7 +641,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 136, columnName, definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 141, columnName, definition);
 	zephir_check_call_status();
 	RETURN_MM();
 

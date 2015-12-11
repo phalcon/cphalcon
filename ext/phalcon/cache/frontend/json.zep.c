@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime) {
 
-	zval *options = NULL, *lifetime = NULL;
+	zval *options, *lifetime;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
@@ -104,7 +104,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering) {
 
-	
 
 	RETURN_BOOL(0);
 
@@ -115,7 +114,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, start) {
 
-	
 
 
 }
@@ -127,7 +125,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent) {
 
-	
 
 	RETURN_NULL();
 
@@ -138,7 +135,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, stop) {
 
-	
 
 
 }

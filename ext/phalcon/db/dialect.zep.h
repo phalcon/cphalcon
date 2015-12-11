@@ -191,7 +191,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressiongroupby, 0, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionhaving, 0, 0, 1)
-	ZEND_ARG_ARRAY_INFO(0, expression, 0)
+	ZEND_ARG_INFO(0, expression)
 	ZEND_ARG_INFO(0, escapeChar)
 	ZEND_ARG_INFO(0, bindCounts)
 ZEND_END_ARG_INFO()

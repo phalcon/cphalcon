@@ -52,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 
-	zval *options = NULL, *prefix = NULL, *ttl = NULL;
+	zval *options = NULL, *prefix, *ttl;
 
 	zephir_fetch_params(0, 0, 1, &options);
 

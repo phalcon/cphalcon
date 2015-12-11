@@ -144,7 +144,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getType) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -183,7 +182,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_message");
 
@@ -210,7 +208,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getField) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_field");
 
@@ -237,7 +234,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_model");
 
@@ -248,7 +244,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_message");
 

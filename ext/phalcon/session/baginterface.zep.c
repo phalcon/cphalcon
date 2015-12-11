@@ -37,11 +37,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, destroy);
 
 /**
  * Setter of values
+ *
+ * @param string property
+ * @param string value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, set);
 
 /**
  * Getter of values
+ *
+ * @param string property
+ * @param mixed defaultValue
+ * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
 
@@ -52,11 +59,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
 
 /**
  * Setter of values
+ *
+ * @param string property
+ * @param string value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __set);
 
 /**
  * Getter of values
+ *
+ * @param string property
+ * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __get);
 

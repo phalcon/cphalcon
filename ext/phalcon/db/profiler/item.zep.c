@@ -90,7 +90,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_sqlStatement");
 
@@ -120,7 +119,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_sqlVariables");
 
@@ -150,7 +148,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_sqlBindTypes");
 
@@ -180,7 +177,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_initialTime");
 
@@ -210,7 +206,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_finalTime");
 

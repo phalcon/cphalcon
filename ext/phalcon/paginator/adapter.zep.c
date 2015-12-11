@@ -83,7 +83,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter, setLimit) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter, getLimit) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_limitRows");
 

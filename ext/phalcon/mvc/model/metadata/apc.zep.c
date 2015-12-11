@@ -46,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc) {
 
 	zend_declare_property_long(phalcon_mvc_model_metadata_apc_ce, SL("_ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_metadata_apc_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
 	return SUCCESS;
 
 }
@@ -57,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct) {
 
-	zval *options = NULL, *prefix = NULL, *ttl = NULL, *_0;
+	zval *options = NULL, *prefix, *ttl, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);

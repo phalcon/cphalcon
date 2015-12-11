@@ -131,7 +131,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_prefix");
 
@@ -144,7 +143,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_handlers");
 
@@ -212,7 +210,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_lazy");
 
@@ -225,7 +222,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_handler");
 

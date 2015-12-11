@@ -95,7 +95,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
  */
 PHP_METHOD(Phalcon_Db_Reference, getName) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -103,7 +102,6 @@ PHP_METHOD(Phalcon_Db_Reference, getName) {
 
 PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_schemaName");
 
@@ -111,7 +109,6 @@ PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
 
 PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_referencedSchema");
 
@@ -122,7 +119,6 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_referencedTable");
 
@@ -133,7 +129,6 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
  */
 PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_columns");
 
@@ -144,7 +139,6 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns) {
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_referencedColumns");
 
@@ -155,7 +149,6 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
  */
 PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_onDelete");
 
@@ -166,7 +159,6 @@ PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
  */
 PHP_METHOD(Phalcon_Db_Reference, getOnUpdate) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_onUpdate");
 
@@ -178,7 +170,7 @@ PHP_METHOD(Phalcon_Db_Reference, getOnUpdate) {
 PHP_METHOD(Phalcon_Db_Reference, __construct) {
 
 	zval *definition = NULL;
-	zval *name_param = NULL, *definition_param = NULL, *columns = NULL, *schema = NULL, *referencedTable = NULL, *referencedSchema = NULL, *referencedColumns = NULL, *onDelete = NULL, *onUpdate = NULL;
+	zval *name_param = NULL, *definition_param = NULL, *columns, *schema, *referencedTable, *referencedSchema, *referencedColumns, *onDelete, *onUpdate;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -249,7 +241,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *referencedSchema = NULL, *referencedTable = NULL, *columns = NULL, *referencedColumns = NULL, *constraintName = NULL, *onDelete = NULL, *onUpdate = NULL;
+	zval *data_param = NULL, *referencedSchema, *referencedTable, *columns, *referencedColumns, *constraintName = NULL, *onDelete, *onUpdate;
 	zval *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();

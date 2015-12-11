@@ -109,7 +109,6 @@ PHP_METHOD(Phalcon_Forms_Element, setForm) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getForm) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_form");
 
@@ -148,7 +147,6 @@ PHP_METHOD(Phalcon_Forms_Element, setName) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getName) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -187,8 +185,8 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
  */
 PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 
-	zval *_0$$5, *_1$$6;
-	zval *filter_param = NULL, *filters = NULL;
+	zval *_0 = NULL;
+	zval *filter_param = NULL, *filters;
 	zval *filter = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -202,16 +200,16 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 		zephir_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(filters) == IS_STRING) {
-			ZEPHIR_INIT_VAR(_0$$5);
-			zephir_create_array(_0$$5, 2, 0 TSRMLS_CC);
-			zephir_array_fast_append(_0$$5, filters);
-			zephir_array_fast_append(_0$$5, filter);
-			zephir_update_property_this(this_ptr, SL("_filters"), _0$$5 TSRMLS_CC);
+			ZEPHIR_INIT_VAR(_0);
+			zephir_create_array(_0, 2, 0 TSRMLS_CC);
+			zephir_array_fast_append(_0, filters);
+			zephir_array_fast_append(_0, filter);
+			zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
 		} else {
-			ZEPHIR_INIT_VAR(_1$$6);
-			zephir_create_array(_1$$6, 1, 0 TSRMLS_CC);
-			zephir_array_fast_append(_1$$6, filter);
-			zephir_update_property_this(this_ptr, SL("_filters"), _1$$6 TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_0);
+			zephir_create_array(_0, 1, 0 TSRMLS_CC);
+			zephir_array_fast_append(_0, filter);
+			zephir_update_property_this(this_ptr, SL("_filters"), _0 TSRMLS_CC);
 		}
 	}
 	RETURN_THIS();
@@ -225,7 +223,6 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getFilters) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_filters");
 
@@ -240,7 +237,7 @@ PHP_METHOD(Phalcon_Forms_Element, getFilters) {
 PHP_METHOD(Phalcon_Forms_Element, addValidators) {
 
 	zend_bool merge;
-	zval *validators_param = NULL, *merge_param = NULL, *currentValidators = NULL, *mergedValidators = NULL;
+	zval *validators_param = NULL, *merge_param = NULL, *currentValidators, *mergedValidators = NULL;
 	zval *validators = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -290,7 +287,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getValidators) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_validators");
 
@@ -308,7 +304,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool useChecked;
-	zval *attributes = NULL, *useChecked_param = NULL, *value = NULL, *name = NULL, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes = NULL, *currentValue = NULL, *_0$$10, *_1$$12;
+	zval *attributes = NULL, *useChecked_param = NULL, *value = NULL, *name, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes, *currentValue, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &attributes, &useChecked_param);
@@ -346,15 +342,15 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 		if (useChecked) {
 			if (zephir_array_isset_string_fetch(&currentValue, mergedAttributes, SS("value"), 1 TSRMLS_CC)) {
 				if (ZEPHIR_IS_EQUAL(currentValue, value)) {
-					ZEPHIR_INIT_VAR(_0$$10);
-					ZVAL_STRING(_0$$10, "checked", 1);
-					zephir_array_update_string(&mergedAttributes, SL("checked"), &_0$$10, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_VAR(_0);
+					ZVAL_STRING(_0, "checked", 1);
+					zephir_array_update_string(&mergedAttributes, SL("checked"), &_0, PH_COPY | PH_SEPARATE);
 				}
 			} else {
 				if (zephir_is_true(value)) {
-					ZEPHIR_INIT_VAR(_1$$12);
-					ZVAL_STRING(_1$$12, "checked", 1);
-					zephir_array_update_string(&mergedAttributes, SL("checked"), &_1$$12, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(_0);
+					ZVAL_STRING(_0, "checked", 1);
+					zephir_array_update_string(&mergedAttributes, SL("checked"), &_0, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_update_string(&mergedAttributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
 			}
@@ -398,7 +394,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttribute) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getAttribute) {
 
-	zval *attribute_param = NULL, *defaultValue = NULL, *attributes = NULL, *value = NULL;
+	zval *attribute_param = NULL, *defaultValue = NULL, *attributes, *value;
 	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -442,7 +438,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getAttributes) {
 
-	zval *attributes = NULL;
+	zval *attributes;
 
 
 	attributes = zephir_fetch_nproperty_this(this_ptr, SL("_attributes"), PH_NOISY_CC);
@@ -486,7 +482,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOption) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
-	zval *option, *defaultValue = NULL, *value = NULL, *_0;
+	zval *option, *defaultValue = NULL, *value, *_0;
 
 	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
 
@@ -530,7 +526,6 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOptions) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getUserOptions) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_options");
 
@@ -560,7 +555,6 @@ PHP_METHOD(Phalcon_Forms_Element, setLabel) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getLabel) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_label");
 
@@ -576,7 +570,7 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 
 	zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes = NULL, *internalAttributes = NULL, *label = NULL, *name = NULL, *code = NULL, *_1, *_2$$7, *_3$$8;
+	zval *attributes = NULL, *internalAttributes = NULL, *label, *name = NULL, *code = NULL, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -611,13 +605,13 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 	zephir_check_call_status();
 	label = zephir_fetch_nproperty_this(this_ptr, SL("_label"), PH_NOISY_CC);
 	if (zephir_is_true(label)) {
-		ZEPHIR_INIT_VAR(_2$$7);
-		ZEPHIR_CONCAT_SVS(_2$$7, ">", label, "</label>");
-		zephir_concat_self(&code, _2$$7 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, ">", label, "</label>");
+		zephir_concat_self(&code, _2 TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_VAR(_3$$8);
-		ZEPHIR_CONCAT_SVS(_3$$8, ">", name, "</label>");
-		zephir_concat_self(&code, _3$$8 TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_2);
+		ZEPHIR_CONCAT_SVS(_2, ">", name, "</label>");
+		zephir_concat_self(&code, _2 TSRMLS_CC);
 	}
 	RETURN_CCTOR(code);
 
@@ -650,7 +644,6 @@ PHP_METHOD(Phalcon_Forms_Element, setDefault) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getDefault) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_value");
 
@@ -663,10 +656,10 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getValue) {
 
-	zend_bool _0$$3;
-	zval *name = NULL, *form = NULL, *value = NULL, *_1$$3 = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
+	zend_bool _0;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *name, *form, *value = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -679,13 +672,13 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
 	if (Z_TYPE_P(form) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&value, form, "getvalue", NULL, 0, name);
 		zephir_check_call_status();
-		_0$$3 = Z_TYPE_P(value) == IS_NULL;
-		if (_0$$3) {
-			ZEPHIR_CALL_CE_STATIC(&_1$$3, phalcon_tag_ce, "hasvalue", &_2, 5, name);
+		_0 = Z_TYPE_P(value) == IS_NULL;
+		if (_0) {
+			ZEPHIR_CALL_CE_STATIC(&_1, phalcon_tag_ce, "hasvalue", &_2, 5, name);
 			zephir_check_call_status();
-			_0$$3 = zephir_is_true(_1$$3);
+			_0 = zephir_is_true(_1);
 		}
-		if (_0$$3) {
+		if (_0) {
 			ZEPHIR_CALL_CE_STATIC(&value, phalcon_tag_ce, "getvalue", &_3, 6, name);
 			zephir_check_call_status();
 		}
@@ -704,7 +697,6 @@ PHP_METHOD(Phalcon_Forms_Element, getValue) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_messages");
 
@@ -764,8 +756,8 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage) {
  */
 PHP_METHOD(Phalcon_Forms_Element, clear) {
 
-	zval *_1, *_2;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_1, *_2;
 	zephir_fcall_cache_entry *_0 = NULL;
 
 	ZEPHIR_MM_GROW();

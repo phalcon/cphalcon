@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getLifetime) {
 
-	zval *options = NULL, *lifetime = NULL;
+	zval *options, *lifetime;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
@@ -108,7 +108,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, isBuffering) {
 
-	
 
 	RETURN_BOOL(0);
 
@@ -119,7 +118,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, start) {
 
-	
 
 
 }
@@ -131,7 +129,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getContent) {
 
-	
 
 	RETURN_NULL();
 
@@ -142,7 +139,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, stop) {
 
-	
 
 
 }

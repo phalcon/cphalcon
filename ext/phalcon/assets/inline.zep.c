@@ -44,7 +44,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
 PHP_METHOD(Phalcon_Assets_Inline, getType) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -52,7 +51,6 @@ PHP_METHOD(Phalcon_Assets_Inline, getType) {
 
 PHP_METHOD(Phalcon_Assets_Inline, getContent) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_content");
 
@@ -60,7 +58,6 @@ PHP_METHOD(Phalcon_Assets_Inline, getContent) {
 
 PHP_METHOD(Phalcon_Assets_Inline, getFilter) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_filter");
 
@@ -68,7 +65,6 @@ PHP_METHOD(Phalcon_Assets_Inline, getFilter) {
 
 PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_attributes");
 

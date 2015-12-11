@@ -18,6 +18,7 @@
  * Phalcon\Session\Exception
  *
  * Exceptions thrown in Phalcon\Session will use this class
+ *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Exception) {
 

@@ -84,7 +84,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_model");
 
@@ -95,8 +94,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
-	zval *model = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *model;
 
 	ZEPHIR_MM_GROW();
 
@@ -117,7 +116,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success) {
 
-	
 
 	RETURN_MEMBER(this_ptr, "_success");
 
