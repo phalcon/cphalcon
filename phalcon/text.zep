@@ -269,7 +269,7 @@ abstract class Text
 		while memstr(result, leftDelimiter) {
 			let result = preg_replace_callback(pattern, function (matches) {
 				var words;
-				let words = explode("|", matches[1]);
+				let words = explode(separator, matches[1]);
 				return words[array_rand(words)];
 			}, result);
 		}
