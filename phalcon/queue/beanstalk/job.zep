@@ -28,8 +28,14 @@ use Phalcon\Queue\Beanstalk;
  */
 class Job
 {
+	/**
+	 * @var string
+	 */
 	protected _id { get };
 
+	/**
+	 * @var mixed
+	 */
 	protected _body { get };
 
 	protected _queue;

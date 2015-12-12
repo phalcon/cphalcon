@@ -22,13 +22,13 @@ namespace Phalcon\Queue;
 use Phalcon\Queue\Beanstalk\Job;
 
 /**
-* Phalcon\Queue\Beanstalk
-*
-* Class to access the beanstalk queue service.
-* Partially implements the protocol version 1.2
-*
-* @see http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/
-*/
+ * Phalcon\Queue\Beanstalk
+ *
+ * Class to access the beanstalk queue service.
+ * Partially implements the protocol version 1.2
+ *
+ * @link http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/
+ */
 class Beanstalk
 {
 	protected _connection;
@@ -350,7 +350,7 @@ class Beanstalk
 				return false;
 			}
 
-			let data = fread(connection, length + 2);
+			let data = stream_get_line(connection, length + 2);
 			if stream_get_meta_data(connection)["timed_out"] {
 				throw new \Phalcon\Exception("Connection timed out");
 			}

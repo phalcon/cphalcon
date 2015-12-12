@@ -294,35 +294,53 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	/**
 	 * Lists table indexes
 	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	Phalcon\Db\IndexInterface[]
+	 * <code>
+	 *   print_r($connection->describeIndexes('robots_parts'));
+	 * </code>
+	 *
+	 * @param  string table
+	 * @param  string schema
+	 * @return \Phalcon\Db\IndexInterface[]
 	 */
 	public function describeIndexes(table, schema = null) -> <IndexInterface[]>
 	{
-		var indexes, index, keyName, indexObjects, name, indexColumns, columns,
-			describe_index;
+		var indexes, index, keyName, indexObjects, name, columns, describeIndex, indexSql;
 
 		let indexes = [];
-		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
+		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+			let keyName = index["name"];
 
-			let keyName = index[1];
 			if !isset indexes[keyName] {
+				let indexes[keyName] = [];
+			}
+
+			if !isset indexes[keyName]["columns"] {
 				let columns = [];
 			} else {
-				let columns = indexes[keyName];
+				let columns = indexes[keyName]["columns"];
 			}
 
-			for describe_index in this->fetchAll(this->_dialect->describeIndex(keyName), Db::FETCH_NUM) {
-				let columns[] = describe_index[2];
+			for describeIndex in this->fetchAll(this->_dialect->describeIndex(keyName), Db::FETCH_ASSOC) {
+				let columns[] = describeIndex["name"];
 			}
 
-			let indexes[keyName] = columns;
+			let indexes[keyName]["columns"] = columns;
+			let indexSql = this->fetchColumn(this->_dialect->listIndexesSql(table, schema, keyName));
+
+			if index["unique"] {
+				if preg_match("# UNIQUE #i", indexSql) {
+					let indexes[keyName]["type"] = "UNIQUE";
+				} else {
+					let indexes[keyName]["type"] = "PRIMARY";
+				}
+			} else {
+				let indexes[keyName]["type"] = null;
+			}
 		}
 
 		let indexObjects = [];
-		for name, indexColumns in indexes {
-			let indexObjects[name] = new Index(name, indexColumns);
+		for name, index in indexes {
+			let indexObjects[name] = new Index(name, index["columns"], index["type"]);
 		}
 
 		return indexObjects;

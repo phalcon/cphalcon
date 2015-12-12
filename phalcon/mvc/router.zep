@@ -23,7 +23,6 @@ use Phalcon\DiInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Http\RequestInterface;
-use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;

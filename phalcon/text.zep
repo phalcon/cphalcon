@@ -276,4 +276,30 @@ abstract class Text
 
 		return result;
 	}
+
+	/**
+	 * Makes a phrase underscored instead of spaced
+	 *
+	 * <code>
+	 *   echo Phalcon\Text::underscore('look behind'); // 'look_behind'
+	 *   echo Phalcon\Text::underscore('Awesome Phalcon'); // 'Awesome_Phalcon'
+	 * </code>
+	 */
+	public static function underscore(string! text) -> string
+	{
+		return preg_replace("#\s+#", "_", trim(text));
+	}
+
+	/**
+	 * Makes an underscored or dashed phrase human-readable
+	 *
+	 * <code>
+	 *   echo Phalcon\Text::humanize('start-a-horse'); // 'start a horse'
+	 *   echo Phalcon\Text::humanize('five_cats'); // 'five cats'
+	 * </code>
+	 */
+	public static function humanize(string! text) -> string
+	{
+		return preg_replace("#[_-]+#", " ", trim(text));
+	}
 }

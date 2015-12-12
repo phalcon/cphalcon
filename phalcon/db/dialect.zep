@@ -818,18 +818,18 @@ abstract class Dialect implements DialectInterface
 	 */
 	protected final function getSqlExpressionGroupBy(var expression, string escapeChar = null, bindCounts = null) -> string
 	{
-		var filed, fields;
+		var field, fields;
 
 		if typeof expression == "array" {
 
 			let fields = [];
 
-			for filed in expression {
-				if unlikely typeof filed != "array" {
+			for field in expression {
+				if unlikely typeof field != "array" {
 					throw new Exception("Invalid SQL-GROUP-BY expression");
 				}
 
-				let fields[] = this->getSqlExpression(filed, escapeChar, bindCounts);
+				let fields[] = this->getSqlExpression(field, escapeChar, bindCounts);
 			}
 
 			let fields = join(", ", fields);
@@ -844,13 +844,9 @@ abstract class Dialect implements DialectInterface
 	/**
 	 * Resolve a HAVING clause
 	 */
-	protected final function getSqlExpressionHaving(var expression, string escapeChar = null, bindCounts = null) -> string
+	protected final function getSqlExpressionHaving(array! expression, string escapeChar = null, bindCounts = null) -> string
 	{
-		if typeof expression == "array" {
-			return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
-		}
-
-		throw new Exception("Invalid SQL-HAVING expression");
+		return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
 	}
 
 	/**
@@ -858,24 +854,24 @@ abstract class Dialect implements DialectInterface
 	 */
 	protected final function getSqlExpressionOrderBy(var expression, string escapeChar = null, bindCounts = null) -> string
 	{
-		var filed, fields, type, fieldSql = null;
+		var field, fields, type, fieldSql = null;
 
 		if typeof expression == "array" {
 
 			let fields = [];
 
-			for filed in expression {
+			for field in expression {
 
-				if unlikely typeof filed != "array" {
+				if unlikely typeof field != "array" {
 					throw new Exception("Invalid SQL-ORDER-BY expression");
 				}
 
-				let fieldSql = this->getSqlExpression(filed[0], escapeChar, bindCounts);
+				let fieldSql = this->getSqlExpression(field[0], escapeChar, bindCounts);
 
 				/**
 				 * In the numeric 1 position could be a ASC/DESC clause
 				 */
-				if fetch type, filed[1] && type != "" {
+				if fetch type, field[1] && type != "" {
 					let fieldSql .= " " . type;
 				}
 

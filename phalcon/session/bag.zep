@@ -183,7 +183,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * echo $user->name;
 	 *</code>
 	 */
-	public function __get(string! property)
+	public function __get(string! property) -> var
 	{
 		return this->get(property);
 	}
@@ -267,10 +267,8 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	/**
 	 * Returns the bag iterator
-	 *
-	 * @return \ArrayIterator
 	 */
-	public final function getIterator()
+	public final function getIterator() -> <\ArrayIterator>
 	{
 		if this->_initialized === false {
 			this->initialize();
@@ -279,35 +277,22 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		return new \ArrayIterator(this->_data);
 	}
 
-	/**
-	 * @param string property
-	 * @param mixed value
-	 */
 	public final function offsetSet(string! property, var value)
 	{
 		return this->set(property, value);
 	}
 
-	/**
-	 * @param string property
-	 */
-	public final function offsetExists(string! property)
+	public final function offsetExists(string! property) -> boolean
 	{
 		return this->has(property);
 	}
 
-	/**
-	 * @param string property
-	 */
 	public final function offsetUnset(string! property)
 	{
 		return this->remove(property);
 	}
 
-	/**
-	 * @param string property
-	 */
-	public final function offsetGet(string! property)
+	public final function offsetGet(string! property) -> var
 	{
 		return this->get(property);
 	}

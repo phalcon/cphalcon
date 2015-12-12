@@ -83,7 +83,7 @@ class Config implements \ArrayAccess, \Countable
 	 * echo $config->get('controllersDir', '../app/controllers/');
 	 *</code>
 	 */
-	public function get(var index, var defaultValue = null)
+	public function get(var index, var defaultValue = null) -> var
 	{
 		let index = strval(index);
 

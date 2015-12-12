@@ -30,14 +30,16 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * This adapter store sessions in memcache
  *
  *<code>
- * $session = new \Phalcon\Session\Adapter\Memcache(array(
- *    'uniqueId' => 'my-private-app',
- *    'host' => '127.0.0.1',
- *    'port' => 11211,
+ * use Phalcon\Session\Adapter\Memcache;
+ *
+ * $session = new Memcache([
+ *    'uniqueId'   => 'my-private-app',
+ *    'host'       => '127.0.0.1',
+ *    'port'       => 11211,
  *    'persistent' => true,
- *    'lifetime' => 3600,
- *    'prefix' => 'my_'
- * ));
+ *    'lifetime'   => 3600,
+ *    'prefix'     => 'my_'
+ * ]);
  *
  * $session->start();
  *
@@ -48,7 +50,6 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  */
 class Memcache extends Adapter implements AdapterInterface
 {
-
 	protected _memcache = null { get };
 
 	protected _lifetime = 8600 { get };
@@ -93,56 +94,52 @@ class Memcache extends Adapter implements AdapterInterface
 		parent::__construct(options);
 	}
 
-	public function open()
+	public function open() -> boolean
 	{
 		return true;
 	}
 
-	public function close()
+	public function close() -> boolean
 	{
 		return true;
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
 	 */
-	public function read(sessionId)
+	public function read(string sessionId) -> var
 	{
 		return this->_memcache->get(sessionId, this->_lifetime);
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @param string data
 	 */
-	public function write(sessionId, data)
+	public function write(string sessionId, string data)
 	{
 		this->_memcache->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param  string  sessionId
-	 * @return boolean
 	 */
-	public function destroy(sessionId = null) -> boolean
+	public function destroy(string sessionId = null) -> boolean
 	{
+		var id;
+
 		if sessionId === null {
-			let sessionId = this->getId();
+			let id = this->getId();
+		} else {
+			let id = sessionId;
 		}
-		return this->_memcache->delete(sessionId);
+
+		return this->_memcache->delete(id);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function gc()
+	public function gc() -> boolean
 	{
 		return true;
 	}

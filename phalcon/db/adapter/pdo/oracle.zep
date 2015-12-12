@@ -146,6 +146,11 @@ class Oracle extends PdoAdapter implements AdapterInterface
 					break;
 				}
 
+				if memstr(columnType, "DATE") {
+					let definition["type"] = Column::TYPE_DATE;
+					break;
+				}
+
 				if memstr(columnType, "RAW") {
 					let definition["type"] = Column::TYPE_TEXT;
 					break;

@@ -35,7 +35,7 @@ use Phalcon\Di\Injectable;
  *class HelloTask extends \Phalcon\Cli\Task
  *{
  *
- *  //This action will be executed by default
+ *  // This action will be executed by default
  *  public function mainAction()
  *  {
  *
@@ -58,8 +58,8 @@ class Task extends Injectable
 	 */
 	public final function __construct()
 	{
-        if method_exists(this, "onConstruct") {
-            this->{"onConstruct"}();
-        }
+		if method_exists(this, "onConstruct") {
+			this->{"onConstruct"}();
+		}
 	}
 }
