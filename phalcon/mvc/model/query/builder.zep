@@ -1370,6 +1370,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setBindTypes(bindTypes);
 		}
 
+		if typeof this->_sharedLock === "boolean" {
+			query->setSharedLock(this->_sharedLock);
+		}
+
 		return query;
 	}
 }
