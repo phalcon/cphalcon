@@ -59,7 +59,7 @@ class ExclusionIn extends Validator
 		}
 		
 		let strict = false;
-		if this->isSetOption("strict") {
+		if this->hasOption("strict") {
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
