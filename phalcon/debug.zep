@@ -560,7 +560,7 @@ class Debug
 	/**
 	 * Throws an exception when a notice or warning is raised
 	 */
-	public function onUncaughtLowSeverity(severity, message, file, line)
+	public function onUncaughtLowSeverity(severity, message, file, line, context)
 	{
 		if error_reporting() & severity {
 			throw new \ErrorException(message, 0, severity, file, line);

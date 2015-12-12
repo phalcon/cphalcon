@@ -27,7 +27,6 @@ use Phalcon\Mvc\UrlInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\ViewInterface;
 
 /**
  * Phalcon\Http\Response

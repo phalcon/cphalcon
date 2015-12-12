@@ -178,7 +178,7 @@ class Di implements DiInterface
 	/**
 	 * Returns a service definition without resolving
 	 */
-	public function getRaw(string! name)
+	public function getRaw(string! name) -> var
 	{
 		var service;
 
@@ -205,9 +205,8 @@ class Di implements DiInterface
 
 	/**
 	 * Resolves the service based on its configuration
-	 * @returm mixed
 	 */
-	public function get(string! name, parameters = null)
+	public function get(string! name, parameters = null) -> var
 	{
 		var service, eventsManager, instance = null;
 
@@ -359,11 +358,8 @@ class Di implements DiInterface
 	 *<code>
 	 *	var_dump($di["request"]);
 	 *</code>
-	 *
-	 * @param string name
-	 * @return mixed
 	 */
-	public function offsetGet(string! name) -> boolean
+	public function offsetGet(string! name) -> var
 	{
 		return this->getShared(name);
 	}
@@ -381,9 +377,8 @@ class Di implements DiInterface
 	 *
 	 * @param string method
 	 * @param array arguments
-	 * @return mixed
 	 */
-	public function __call(string! method, arguments = null)
+	public function __call(string! method, arguments = null) -> var|null
 	{
 		var instance, possibleService, services, definition;
 

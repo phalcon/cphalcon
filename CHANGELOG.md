@@ -27,6 +27,22 @@
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
 
+# [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-11-24)
+- ORM: Added support for DATE columns in Oracle
+
+# [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
+- Fixed bug that double serializes data using Redis adapter
+- Added `console:boot` event to allow the developer to perform initialization actions
+- Added implementation options `allowEmpty` for `Phalcon\Mvc\Model\Validator\Ip`
+- Fixed SQLite bug[#10997] related to setting of index type
+- Added `Phalcon\Db\Dialect\Sqlite::listIndexesSql` - to generate the SQL to get query list of indexes
+- Fixed MySQL bug[#11036] related to setting of index type
+- Added missed `RouteInterface::setHostname`, `RouteInterface::getHostname`
+- Added `strict` option for ExclusionIn validator
+- Added `Phalcon\Text::underscore` - to make a phrase underscored instead of spaced
+- Added `Phalcon\Text::humanize` - to make an underscored or dashed phrase human-readable
+- Added ability to change document class to be returned in ODM through `class` option
+
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
 - Added `Phalcon\Logger\Adapter::isTransaction()` to check whether the logger is currently in transaction
@@ -103,20 +119,20 @@ belongs to the uniqueId or the whole session data
 - Fixed generation and validation of default parameters in Volt's macros
 - Added `Phalcon\Assets\Manager::getCollections()` to return all collections registered [#2488](https://github.com/phalcon/cphalcon/pull/2488)
 - Now `Phalcon\Mvc\Url::getStatic()` generates URLs from routes
-- Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both Phalcon\Mvc\Model and `Phalcon\Mvc\Collection` instances
+- Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both `Phalcon\Mvc\Model` and `Phalcon\Mvc\Collection` instances
 - Added `Phalcon\Session\Adapter::setName()` to change the session name
-- Added BIGINT support in Phalcon\Db
+- Added BIGINT support in `Phalcon\Db`
 - Added new types `Phalcon\Db\Column::BLOB` and `Phalcon\Db\Column::DOUBLE` [#10506](https://github.com/phalcon/cphalcon/pull/10506)
 - Automatic binding of Large Object data (LOB) in the ORM
 - Support for BIT types in MySQL with binding as booleans
 - Added `Phalcon\Flash\Direct::output()` allowing to place flash messages in a specific place of the view [#629](https://github.com/phalcon/cphalcon/pull/629)
 - Added 'autoescape' option that allows to globally enable autoescape in any Volt template
-- Added readAttribute/writeAttribute to `Phalcon\Mvc\Collection\Document`
+- Added `readAttribute`/`writeAttribute` to `Phalcon\Mvc\Collection\Document`
 - Added toArray to `Phalcon\Mvc\Collection\Document`
 - Global setting `db.force_casting` now forces casting bound parameters to specified bind types
 - Introduced new placeholders in PHQL enclosed in brackets that allow to set the type: {name:str} or {names:array}
 - Now you can bind arrays in bound parameters in PHQL
-- Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
+- Global setting `orm.cast_on_hydrate` allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
 - Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
 - Allowing late state binding in both Simple/Complex results to allow override `Mvc\Model::cloneResultMap`
 - Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` [#10536](https://github.com/phalcon/cphalcon/issues/10536)

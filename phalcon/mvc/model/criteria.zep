@@ -534,7 +534,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function having(var having) -> <Criteria>
 	{
-		let this->_params["group"] = having;
+		let this->_params["having"] = having;
 		return this;
 	}
 

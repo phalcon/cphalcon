@@ -384,7 +384,7 @@ class Redis extends Backend implements BackendInterface
 	 * Increment of given $keyName by $value
 	 *
 	 * @param  string keyName
-	 * @param  long lifetime
+	 * @param  long value
 	 * @return long
 	 */
 	public function increment(keyName = null, value = null)
