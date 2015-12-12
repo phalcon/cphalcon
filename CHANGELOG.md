@@ -27,7 +27,7 @@
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
 
-# [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-11-24)
+# [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
 
 # [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
