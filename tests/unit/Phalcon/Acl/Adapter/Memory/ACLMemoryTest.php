@@ -455,12 +455,19 @@ class ACLMemoryTest extends TBase
                 $acl->addRole('Guests');
                 $acl->addRole('Members', 'Guests');
 
-                $acl->addResource('Login', array('index'));
+                $acl->addResource('Login', array('help', 'index'));
 
-                $acl->allow('Guests', 'Login', 'index');
-                $acl->deny('Members', 'Login', 'index');
+                $acl->allow('Guests', 'Login', '*');
+                $acl->deny('Guests', 'Login', array('help'));
+                $acl->deny('Members', 'Login', array('index'));
 
                 $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
+                expect($actual)->false();
+
+                $actual = (bool)$acl->isAllowed('Guests', 'Login', 'index');
+                expect($actual)->true();
+
+                $actual = (bool)$acl->isAllowed('Guests', 'Login', 'help');
                 expect($actual)->false();
             }
         );
