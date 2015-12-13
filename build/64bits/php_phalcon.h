@@ -77,11 +77,7 @@ typedef zend_function zephir_fcall_cache_entry;
 
 #endif
 
-#if PHP_VERSION_ID >= 50400
-	#define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
-#else
-	#define ZEPHIR_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
-#endif
+#define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
@@ -174,16 +170,6 @@ typedef zend_function zephir_fcall_cache_entry;
 # define ZEPHIR_NO_OPT
 #endif
 
-/*#if PHP_VERSION_ID > 50399
-# define ZLK_DC , const struct _zend_literal* key
-# define ZLK_CC , key
-# define ZLK_NULL_CC , NULL
-#else
-# define ZLK_DC
-# define ZLK_CC
-# define ZLK_NULL_CC
-#endif*/
-
 #ifdef ZTS
 #define zephir_nts_static
 #else
@@ -196,10 +182,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "2.0.9"
+#define PHP_PHALCON_VERSION     "2.0.10"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.8.0a"
+#define PHP_PHALCON_ZEPVERSION  "0.9.1a-dev"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 

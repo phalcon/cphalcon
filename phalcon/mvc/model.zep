@@ -41,6 +41,7 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -2881,7 +2882,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				/**
 				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
 				 */
-				throw new \Phalcon\Mvc\Model\ValidationFailed(this, this->getMessages());
+				throw new ValidationFailed(this, this->getMessages());
 			}
 
 			return false;
