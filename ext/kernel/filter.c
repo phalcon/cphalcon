@@ -353,12 +353,7 @@ void zephir_escape_htmlattr(zval *return_value, zval *param) {
  * Escapes HTML replacing special chars by entities
  */
 void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
-
-	#if PHP_VERSION_ID < 50400
-	int length;
-	#else
 	size_t length;
-	#endif
 
 	char *escaped;
 

@@ -107,13 +107,6 @@ void zephir_addslashes(zval *return_value, zval *str TSRMLS_DC);
 void zephir_stripslashes(zval *return_value, zval *str TSRMLS_DC);
 void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
 
-#if PHP_VERSION_ID < 50400
-
-const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC);
-#define ZEPHIR_ZVAL_MAYBE_INTERNED_STRING(pz, string)  ZVAL_STRING(pz, string, 1);
-
-#else
-
 #define ZEPHIR_ZVAL_MAYBE_INTERNED_STRING(pz, string) \
 	do { \
 		if (IS_INTERNED(string)) { \
@@ -123,7 +116,5 @@ const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free
 			ZVAL_STRING(pz, string, 1); \
 		} \
 	} while (0)
-
-#endif /* PHP_VERSION_ID < 50400 */
 
 #endif /* ZEPHIR_KERNEL_STRING_H */

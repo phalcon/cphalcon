@@ -53,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 
-	zval *options = NULL, *annotationsDir;
+	zval *options = NULL, *annotationsDir = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, _2, *_3 = NULL;
+	zval *key_param = NULL, *path = NULL, *_0, *_1, _2, *_3$$3 = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -95,11 +95,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3);
-		if (zephir_require_zval_ret(&_3, path TSRMLS_CC) == FAILURE) {
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3$$3);
+		if (zephir_require_zval_ret(&_3$$3, path TSRMLS_CC) == FAILURE) {
 			RETURN_MM_NULL();
 		}
-		RETURN_CCTOR(_3);
+		RETURN_CCTOR(_3$$3);
 	}
 	RETURN_MM_BOOL(0);
 
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
+	zval *key_param = NULL, *data, *path = NULL, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();

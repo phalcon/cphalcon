@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
-	zval *key_param = NULL, *defaultValue = NULL, *options, *value;
+	zval *key_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();

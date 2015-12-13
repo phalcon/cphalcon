@@ -48,7 +48,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *validationMessages = NULL;
-	zval *model, *validationMessages_param = NULL, *messageStr = NULL, *message;
+	zval *model, *validationMessages_param = NULL, *messageStr = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_model");
 
@@ -88,6 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_messages");
 
