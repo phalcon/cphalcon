@@ -73,7 +73,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 		let this->_name = name;
 
 		if value !== null {
-			let this->_value = value;
+			this->setValue(value);
 		}
 
 		let this->_expire = expire;

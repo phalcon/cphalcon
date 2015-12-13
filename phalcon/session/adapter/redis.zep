@@ -30,15 +30,17 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * This adapter store sessions in Redis
  *
  *<code>
- * $session = new \Phalcon\Session\Adapter\Redis(array(
- *    'uniqueId' => 'my-private-app',
- *	  'host' => 'localhost',
- *	  'port' => 6379,
- *	  'auth' => 'foobared',
+ * use Phalcon\Session\Adapter\Redis;
+ *
+ * $session = new Redis([
+ *    'uniqueId'   => 'my-private-app',
+ *	  'host'       => 'localhost',
+ *	  'port'       => 6379,
+ *	  'auth'       => 'foobared',
  *    'persistent' => false,
- *    'lifetime' => 3600,
- *    'prefix' => 'my_'
- * ));
+ *    'lifetime'   => 3600,
+ *    'prefix'     => 'my_'
+ * ]);
  *
  * $session->start();
  *
@@ -49,7 +51,6 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  */
 class Redis extends Adapter implements AdapterInterface
 {
-
 	protected _redis = null { get };
 
 	protected _lifetime = 8600 { get };
@@ -94,56 +95,58 @@ class Redis extends Adapter implements AdapterInterface
 		parent::__construct(options);
 	}
 
-	public function open()
-	{
-		return true;
-	}
-
-	public function close()
+	/**
+	 * {@inheritdoc}
+	 */
+	public function open() -> boolean
 	{
 		return true;
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @return mixed
 	 */
-	public function read(sessionId)
+	public function close() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(sessionId) -> var
 	{
 		return this->_redis->get(sessionId, this->_lifetime);
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param string sessionId
-	 * @param string data
 	 */
-	public function write(sessionId, data)
+	public function write(string sessionId, string data)
 	{
 		this->_redis->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @param  string  sessionId
-	 * @return boolean
 	 */
-	public function destroy(sessionId = null) -> boolean
+	public function destroy(string sessionId = null) -> boolean
 	{
+		var id;
+
 		if sessionId === null {
-			let sessionId = this->getId();
+			let id = this->getId();
+		} else {
+			let id = sessionId;
 		}
-		return this->_redis->delete(sessionId);
+
+		return this->_redis->delete(id);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function gc()
+	public function gc() -> boolean
 	{
 		return true;
 	}

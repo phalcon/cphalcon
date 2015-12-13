@@ -2881,7 +2881,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				/**
 				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
 				 */
-				throw new \Phalcon\Mvc\Model\ValidationFailed(this, this->_errorMessages);
+				throw new \Phalcon\Mvc\Model\ValidationFailed(this, this->getMessages());
 			}
 
 			return false;

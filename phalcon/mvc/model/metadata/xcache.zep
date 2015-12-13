@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaDataInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Xcache
@@ -38,7 +37,7 @@ use Phalcon\Mvc\Model\MetaDataInterface;
  *	));
  *</code>
  */
-class Xcache extends MetaData implements MetaDataInterface
+class Xcache extends MetaData
 {
 
 	protected _prefix = "";

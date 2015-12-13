@@ -26,7 +26,6 @@ namespace Phalcon\Session;
  */
 abstract class Adapter
 {
-
 	const SESSION_ACTIVE = 2;
 
 	const SESSION_NONE = 1;
@@ -70,9 +69,7 @@ abstract class Adapter
 	 * Sets session's options
 	 *
 	 *<code>
-	 *	$session->setOptions(array(
-	 *		'uniqueId' => 'my-private-app'
-	 *	));
+	 *	$session->setOptions(['uniqueId' => 'my-private-app']);
 	 *</code>
 	 */
 	public function setOptions(array! options)
@@ -305,7 +302,7 @@ abstract class Adapter
 	/**
 	 * Alias: Gets a session variable from an application context
 	 */
-	public function __get(string index)
+	public function __get(string index) -> var
 	{
 		return this->get(index);
 	}

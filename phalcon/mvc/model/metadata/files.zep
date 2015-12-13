@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Exception;
 
 /**
@@ -34,7 +33,7 @@ use Phalcon\Mvc\Model\Exception;
  * ));
  *</code>
  */
-class Files extends MetaData implements MetaDataInterface
+class Files extends MetaData
 {
 
 	protected _metaDataDir = "./";

@@ -163,6 +163,15 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		totalBuilder->columns("COUNT(*) [rowcount]");
 
 		/**
+		 * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
+		 */
+		var groups = totalBuilder->getGroupBy();
+		if !empty groups {
+			var groupColumn = implode(", ", groups);
+			totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
+		}
+
+		/**
 		 * Remove the 'ORDER BY' clause, PostgreSQL requires this
 		 */
 		totalBuilder->orderBy(null);

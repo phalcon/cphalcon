@@ -350,7 +350,7 @@ class Beanstalk
 				return false;
 			}
 
-			let data = fread(connection, length + 2);
+			let data = stream_get_line(connection, length + 2);
 			if stream_get_meta_data(connection)["timed_out"] {
 				throw new \Phalcon\Exception("Connection timed out");
 			}

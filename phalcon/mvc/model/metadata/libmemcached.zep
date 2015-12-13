@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 use Phalcon\Mvc\Model\Exception;
@@ -47,7 +46,7 @@ use Phalcon\Mvc\Model\Exception;
  *	));
  *</code>
  */
-class Libmemcached extends MetaData implements MetaDataInterface
+class Libmemcached extends MetaData
 {
 
 	protected _ttl = 172800;
