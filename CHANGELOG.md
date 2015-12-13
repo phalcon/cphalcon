@@ -27,6 +27,7 @@
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
 - `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
+- Added method getOption() in `Phalcon\Mvc\Model\RelationInterface`
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
