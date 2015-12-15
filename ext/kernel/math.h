@@ -38,4 +38,6 @@ void zephir_pow(zval *return_value, zval *op1, zval *op2 TSRMLS_DC);
 
 long zephir_mt_rand(long min, long max TSRMLS_DC);
 
+double zephir_ldexp(zval *value, zval *expval TSRMLS_DC);
+
 #endif

@@ -146,6 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_handlerName");
 
@@ -156,6 +157,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_previousHandlerName");
 
@@ -166,6 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_previousActionName");
 
@@ -177,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *dependencyInjector, *response = NULL, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *dependencyInjector = NULL, *response = NULL, *exception = NULL, *_3 = NULL, *_4 = NULL, *_5, *_0$$3, *_1$$3, *_2$$3;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -203,37 +206,37 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_mvc_dispatcher_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_STRING(_1, "A dependency injection container is required to access the 'response' service", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_LONG(_2, 0);
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _1, _2);
-		zephir_check_temp_parameter(_1);
+		ZEPHIR_INIT_VAR(_0$$3);
+		object_init_ex(_0$$3, phalcon_mvc_dispatcher_exception_ce);
+		ZEPHIR_INIT_VAR(_1$$3);
+		ZVAL_STRING(_1$$3, "A dependency injection container is required to access the 'response' service", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZVAL_LONG(_2$$3, 0);
+		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 9, _1$$3, _2$$3);
+		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/mvc/dispatcher.zep", 120 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$3, "phalcon/mvc/dispatcher.zep", 120 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_STRING(_0, "response", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "getshared", NULL, 0, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(_4);
+	ZVAL_STRING(_4, "response", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "getshared", NULL, 0, _4);
+	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(response, _3);
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, 404);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "Not Found", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, response, "setstatuscode", NULL, 0, _0, _1);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_LONG(_4, 404);
+	ZEPHIR_INIT_VAR(_5);
+	ZVAL_STRING(_5, "Not Found", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, response, "setstatuscode", NULL, 0, _4, _5);
+	zephir_check_temp_parameter(_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, 9, message, _0);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_LONG(_4, exceptionCode);
+	ZEPHIR_CALL_METHOD(NULL, exception, "__construct", NULL, 9, message, _4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_handleexception", NULL, 0, exception);
 	zephir_check_call_status();
@@ -252,7 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *exception, *eventsManager = NULL, *_0, *_1 = NULL, *_2;
+	zval *exception, *eventsManager = NULL, *_0, *_1$$3 = NULL, *_2$$3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &exception);
@@ -262,12 +265,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "dispatch:beforeException", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, 0, _2, this_ptr, exception);
-		zephir_check_temp_parameter(_2);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZVAL_STRING(_2$$3, "dispatch:beforeException", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_1$$3, eventsManager, "fire", NULL, 0, _2$$3, this_ptr, exception);
+		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_1$$3)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -295,6 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_lastHandler");
 
@@ -305,6 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_activeHandler");
 

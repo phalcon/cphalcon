@@ -71,27 +71,13 @@
 
 #define ZEPHIR_STRING_OFFSET(op1, index) ((index >= 0 && index < Z_STRLEN_P(op1)) ? Z_STRVAL_P(op1)[index] : '\0')
 
-#if PHP_VERSION_ID < 50400
-#define zephir_increment(var) increment_function(var)
-#else
 #define zephir_increment(var) fast_increment_function(var)
-#endif
-
-#if PHP_VERSION_ID < 50400
-#define zephir_decrement(var) decrement_function(var)
-#else
 #define zephir_decrement(var) fast_decrement_function(var)
-#endif
 
 void zephir_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy);
 
 #define zephir_add_function(result, left, right) zephir_add_function_ex(result, left, right TSRMLS_CC)
-
-#if PHP_VERSION_ID < 50400
-#define zephir_sub_function(result, left, right) sub_function(result, left, right TSRMLS_CC)
-#else
 #define zephir_sub_function(result, left, right) fast_sub_function(result, left, right TSRMLS_CC)
-#endif
 
 #if PHP_VERSION_ID < 50600
 void zephir_pow_function_ex(zval *return_value, zval *zbase, zval *zexp TSRMLS_DC);

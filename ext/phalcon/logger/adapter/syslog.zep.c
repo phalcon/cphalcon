@@ -31,7 +31,7 @@
  *		'facility' => LOG_MAIL
  *	));
  *	$logger->log("This is a message");
- *	$logger->log("This is an error", \Phalcon\Logger::ERROR);
+ *	$logger->log(\Phalcon\Logger::ERROR, "This is an error");
  *	$logger->error("This is another error");
  *</code>
  */
@@ -93,21 +93,21 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 
+	zval *_0, *_1$$3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_logger_formatter_syslog_ce);
-		if (zephir_has_constructor(_1 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 0);
+		ZEPHIR_INIT_VAR(_1$$3);
+		object_init_ex(_1$$3, phalcon_logger_formatter_syslog_ce);
+		if (zephir_has_constructor(_1$$3 TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_formatter"), _1$$3 TSRMLS_CC);
 	}
 	RETURN_MM_MEMBER(this_ptr, "_formatter");
 
@@ -164,8 +164,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0;
+	int ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

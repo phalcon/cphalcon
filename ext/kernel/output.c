@@ -32,20 +32,12 @@
 
 void zephir_ob_start(TSRMLS_D)
 {
-#if PHP_VERSION_ID < 50400
-	php_start_ob_buffer(NULL, 0, 1 TSRMLS_CC);
-#else
 	php_output_start_default(TSRMLS_C);
-#endif
 }
 
 void zephir_ob_get_contents(zval *result TSRMLS_DC)
 {
-#if PHP_VERSION_ID < 50400
-	php_ob_get_buffer(result TSRMLS_CC);
-#else
 	php_output_get_contents(result TSRMLS_CC);
-#endif
 }
 
 int zephir_ob_end_flush(TSRMLS_D)
@@ -55,12 +47,7 @@ int zephir_ob_end_flush(TSRMLS_D)
 		return FAILURE;
 	}
 
-#if PHP_VERSION_ID < 50400
-	php_end_ob_buffer(1, 0 TSRMLS_CC);
-	return SUCCESS;
-#else
 	return php_output_end(TSRMLS_C);
-#endif
 }
 
 int zephir_ob_end_clean(TSRMLS_D)
@@ -70,12 +57,7 @@ int zephir_ob_end_clean(TSRMLS_D)
 		return FAILURE;
 	}
 
-#if PHP_VERSION_ID < 50400
-	php_end_ob_buffer(0, 0 TSRMLS_CC);
-	return SUCCESS;
-#else
 	return php_output_discard(TSRMLS_C);
-#endif
 }
 
 int zephir_ob_flush(TSRMLS_D)
@@ -85,12 +67,7 @@ int zephir_ob_flush(TSRMLS_D)
 		return FAILURE;
 	}
 
-#if PHP_VERSION_ID < 50400
-	php_end_ob_buffer(1, 1 TSRMLS_CC);
-	return SUCCESS;
-#else
 	return php_output_flush(TSRMLS_C);
-#endif
 }
 
 int zephir_ob_clean(TSRMLS_D)
@@ -100,19 +77,10 @@ int zephir_ob_clean(TSRMLS_D)
 		return FAILURE;
 	}
 
-#if PHP_VERSION_ID < 50400
-	php_end_ob_buffer(0, 1 TSRMLS_CC);
-	return SUCCESS;
-#else
 	return php_output_clean(TSRMLS_C);
-#endif
 }
 
 int zephir_ob_get_level(TSRMLS_D)
 {
-#if PHP_VERSION_ID < 50400
-	return OG(ob_nesting_level);
-#else
 	return php_output_get_level(TSRMLS_C);
-#endif
 }

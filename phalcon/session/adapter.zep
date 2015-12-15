@@ -69,7 +69,7 @@ abstract class Adapter
 	 * Sets session's options
 	 *
 	 *<code>
-	 *	$session->setOptions(['uniqueId' => 'my-private-app']]);
+	 *	$session->setOptions(['uniqueId' => 'my-private-app']);
 	 *</code>
 	 */
 	public function setOptions(array! options)

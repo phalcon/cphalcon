@@ -30,8 +30,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Job) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Beanstalk, Job, phalcon, queue_beanstalk_job, phalcon_queue_beanstalk_job_method_entry, 0);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_queue_beanstalk_job_ce, SL("_id"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_queue_beanstalk_job_ce, SL("_body"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_queue_beanstalk_job_ce, SL("_queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -40,15 +46,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Job) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_id");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_body");
 
@@ -80,8 +92,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 
+	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -94,7 +106,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 57 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 63 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "DELETED"));
 
 }
@@ -106,7 +118,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 
-	zval *priority_param = NULL, *delay_param = NULL, *queue, *_0, _1, _2, *_3, *_4 = NULL, *_5;
+	zval *priority_param = NULL, *delay_param = NULL, *queue = NULL, *_0, _1, _2, *_3, *_4 = NULL, *_5;
 	int priority, delay, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -137,7 +149,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 71 TSRMLS_CC);
+	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 77 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_5, "RELEASED"));
 
 }
@@ -149,7 +161,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 
-	zval *priority_param = NULL, *queue, *_0, _1, *_2, *_3 = NULL, *_4;
+	zval *priority_param = NULL, *queue = NULL, *_0, _1, *_2, *_3 = NULL, *_4;
 	int priority, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -173,7 +185,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 85 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 91 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_4, "BURIED"));
 
 }
@@ -188,8 +200,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 
+	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -202,7 +214,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 102 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 108 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "TOUCHED"));
 
 }
@@ -212,8 +224,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 
+	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *_0, *_1, *_2 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -226,7 +238,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 114 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 120 TSRMLS_CC);
 	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "KICKED"));
 
 }
@@ -236,8 +248,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
 
+	zval *queue = NULL, *response = NULL, *_0, *_1, *_2, *_3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, *response = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -250,11 +262,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&response, queue, "readyaml", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 128 TSRMLS_CC);
+	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 134 TSRMLS_CC);
 	if (ZEPHIR_IS_STRING(_2, "NOT_FOUND")) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_array_fetch_long(&_3, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 132 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 138 TSRMLS_CC);
 	RETURN_CTOR(_3);
 
 }
@@ -264,25 +276,25 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 
+	zval *_0, *_1$$3, *_2$$3, *_3$$3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_id"), PH_NOISY_CC);
 	if (Z_TYPE_P(_0) != IS_STRING) {
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_exception_ce);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Unexpected inconsistency in %s - possible break-in attempt!", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_INIT_VAR(_3);
-		ZVAL_STRING(_3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2, _3);
-		zephir_check_temp_parameter(_2);
-		zephir_check_temp_parameter(_3);
+		ZEPHIR_INIT_VAR(_1$$3);
+		object_init_ex(_1$$3, phalcon_exception_ce);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZVAL_STRING(_2$$3, "Unexpected inconsistency in %s - possible break-in attempt!", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_INIT_VAR(_3$$3);
+		ZVAL_STRING(_3$$3, "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 9, _2$$3, _3$$3);
+		zephir_check_temp_parameter(_2$$3);
+		zephir_check_temp_parameter(_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/queue/beanstalk/job.zep", 141 TSRMLS_CC);
+		zephir_throw_exception_debug(_1$$3, "phalcon/queue/beanstalk/job.zep", 147 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

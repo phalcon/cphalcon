@@ -47,7 +47,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 	zval *_2;
 	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0 = NULL, *_1, *_3 = NULL;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0$$3 = NULL, *_1, *_3 = NULL, *_4 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -62,26 +62,26 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, 0, message, context);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, message, context);
 		zephir_check_call_status();
-		zephir_get_strval(message, _0);
+		zephir_get_strval(message, _0$$3);
 	}
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_create_array(_2, 3, 0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_3);
-	ZVAL_LONG(_3, type);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, 0, _3);
+	ZEPHIR_INIT_VAR(_4);
+	ZVAL_LONG(_4, type);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "gettypestring", NULL, 0, _4);
 	zephir_check_call_status();
-	zephir_array_update_string(&_2, SL("type"), &_0, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_2, SL("type"), &_3, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_2, SL("message"), &message, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(_3);
-	ZVAL_LONG(_3, timestamp);
-	zephir_array_update_string(&_2, SL("timestamp"), &_3, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_LONG(_4, timestamp);
+	zephir_array_update_string(&_2, SL("timestamp"), &_4, PH_COPY | PH_SEPARATE);
 	zephir_json_encode(_1, &(_1), _2, 0  TSRMLS_CC);
-	ZEPHIR_INIT_NVAR(_3);
-	ZEPHIR_GET_CONSTANT(_3, "PHP_EOL");
-	ZEPHIR_CONCAT_VV(return_value, _1, _3);
+	ZEPHIR_INIT_NVAR(_4);
+	ZEPHIR_GET_CONSTANT(_4, "PHP_EOL");
+	ZEPHIR_CONCAT_VV(return_value, _1, _4);
 	RETURN_MM();
 
 }

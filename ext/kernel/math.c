@@ -254,3 +254,22 @@ long zephir_mt_rand(long min, long max TSRMLS_DC) {
 
 	return number;
 }
+
+double zephir_ldexp(zval *value, zval *expval TSRMLS_DC)
+{
+	int exp = (int) zephir_get_numberval(expval);
+
+	switch (Z_TYPE_P(value)) {
+		case IS_LONG:
+			return (double) ldexp(Z_LVAL_P(value), exp);
+		case IS_DOUBLE:
+			return (double) ldexp(Z_DVAL_P(value), exp);
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+
+	return ldexp(zephir_get_numberval(value), exp);
+}

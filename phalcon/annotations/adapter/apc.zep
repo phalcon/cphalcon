@@ -20,7 +20,6 @@
 namespace Phalcon\Annotations\Adapter;
 
 use Phalcon\Annotations\Adapter;
-use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Annotations\Reflection;
 
 /**
@@ -32,7 +31,7 @@ use Phalcon\Annotations\Reflection;
  * $annotations = new \Phalcon\Annotations\Adapter\Apc();
  *</code>
  */
-class Apc extends Adapter implements AdapterInterface
+class Apc extends Adapter
 {
 
 	protected _prefix = "";
