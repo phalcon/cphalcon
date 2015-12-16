@@ -11,10 +11,16 @@ namespace Phalcon\Tests\unit\Phalcon\Acl\Helper;
 use Phalcon\Acl\Roleable;
 use Phalcon\Mvc\Model;
 
-class TestRoleable extends Model implements Roleable
+class TestRoleable implements Roleable
 {
     protected $id;
     protected $roleName;
+
+    public function __construct($id,$roleName)
+    {
+        $this->id=$id;
+        $this->roleName=$roleName;
+    }
 
     public function getId()
     {

@@ -495,26 +495,11 @@ class ACLMemoryTest extends TBase
                 $acl->addRole('Members', 'Guests');
                 $acl->addRole('Admins', 'Members');
                 $acl->addResource('Post', array('update'));
-                $guest = (new TestRoleable())->assign(array(
-                    'roleName' => 'Guests',
-                    'id' => 1
-                ));
-                $member = (new TestRoleable())->assign(array(
-                    'roleName' => 'Members',
-                    'id' => 2
-                ));
-                $anotherMember = (new TestRoleable())->assign(array(
-                    'roleName' => 'Members',
-                    'id' => 3
-                ));
-                $admin = (new TestRoleable())->assign(array(
-                    'roleName' => 'Admins',
-                    'id' => 4
-                ));
-                $model = (new TestResourceable())->assign(array(
-                   'resourceName' => 'Post',
-                    'user' => 2
-                ));
+                $guest = new TestRoleable(1,'Guests');
+                $member = new TestRoleable(2,'Members');
+                $anotherMember = new TestRoleable(3, 'Members');
+                $admin = new TestRoleable(4, 'Admins');
+                $model = new TestResourceable(2, 'Post');
                 $acl->deny('Guests','Post','update');
                 $acl->allow('Members','Post','update',function(TestRoleable $user,TestResourceable $model){
                    return $user->getId() == $model->getUser();
