@@ -23,7 +23,6 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
-use Codeception\Lib\Generator\Test;
 use \Phalcon\Acl as PhAcl;
 use Phalcon\Tests\unit\Phalcon\Acl\Helper\TestResourceable;
 use Phalcon\Tests\unit\Phalcon\Acl\Helper\TestRoleable;
@@ -71,7 +70,7 @@ class ACLMemoryTest extends TBase
                 $acl->setDefaultAction(PhAcl::ALLOW);
 
                 $expected = PhAcl::ALLOW;
-                $actual = $acl->getDefaultAction();
+                $actual   = $acl->getDefaultAction();
                 expect($actual)->equals($expected);
             }
         );
@@ -89,7 +88,7 @@ class ACLMemoryTest extends TBase
             'Adding a ACL\Role in the ACL does not exist',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl     = new PhTAclMem();
                 $aclRole = new PhTAclRole('Administrators', 'Super User access');
 
                 $acl->addRole($aclRole);
@@ -112,7 +111,7 @@ class ACLMemoryTest extends TBase
             'Acl\Role added twice returns true',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl     = new PhTAclMem();
                 $aclRole = new PhTAclRole('Administrators', 'Super User access');
 
                 $acl->addRole($aclRole);
@@ -135,7 +134,7 @@ class ACLMemoryTest extends TBase
             'Acl\Role added twice by key returns true',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl     = new PhTAclMem();
                 $aclRole = new PhTAclRole('Administrators', 'Super User access');
 
                 $acl->addRole($aclRole);
@@ -158,12 +157,12 @@ class ACLMemoryTest extends TBase
             'Acl\Role added twice by key returns true',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl     = new PhTAclMem();
                 $acl->setDefaultAction(PhAcl::DENY);
 
-                $aclRoles = [
-                    'Admin' => new PhTAclRole('Admin'),
-                    'Users' => new PhTAclRole('Users'),
+                $aclRoles  = [
+                    'Admin'  => new PhTAclRole('Admin'),
+                    'Users'  => new PhTAclRole('Users'),
                     'Guests' => new PhTAclRole('Guests')
                 ];
 
@@ -205,7 +204,7 @@ class ACLMemoryTest extends TBase
             'Acl\Role added with wrong key returns true in isRole',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl     = new PhTAclMem();
 
                 $actual = $acl->isRole('Wrong');
 
@@ -226,7 +225,7 @@ class ACLMemoryTest extends TBase
             'Acl\Role does not exist in Acl',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl     = new PhTAclMem();
                 $aclRole = new PhTAclRole('Administrators', 'Super User access');
 
                 $acl->addRole($aclRole);
@@ -250,7 +249,7 @@ class ACLMemoryTest extends TBase
             'Acl\Resource does not exist in Acl',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl         = new PhTAclMem();
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $actual = $acl->addResource($aclResource, 'search');
@@ -272,7 +271,7 @@ class ACLMemoryTest extends TBase
             'Acl\Resource by name does not exist in the acl',
             function () {
 
-                $acl = new PhTAclMem();
+                $acl         = new PhTAclMem();
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $acl->addResource($aclResource, 'search');
@@ -296,8 +295,8 @@ class ACLMemoryTest extends TBase
             'Acl with default action search does not return correct results',
             function () {
 
-                $acl = new PhTAclMem();
-                $aclRole = new PhTAclRole('Administrators', 'Super User access');
+                $acl         = new PhTAclMem();
+                $aclRole     = new PhTAclRole('Administrators', 'Super User access');
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $acl->setDefaultAction(PhAcl::DENY);
@@ -306,7 +305,7 @@ class ACLMemoryTest extends TBase
                 $acl->addResource($aclResource, ['search', 'destroy']);
 
                 $expected = PhAcl::DENY;
-                $actual = $acl->isAllowed('Administrators', 'Customers', 'search');
+                $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
                 expect($actual)->equals($expected);
             }
         );
@@ -315,8 +314,8 @@ class ACLMemoryTest extends TBase
             'Acl with default action destroy does not return correct results',
             function () {
 
-                $acl = new PhTAclMem();
-                $aclRole = new PhTAclRole('Administrators', 'Super User access');
+                $acl         = new PhTAclMem();
+                $aclRole     = new PhTAclRole('Administrators', 'Super User access');
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $acl->setDefaultAction(PhAcl::DENY);
@@ -325,7 +324,7 @@ class ACLMemoryTest extends TBase
                 $acl->addResource($aclResource, array('search', 'destroy'));
 
                 $expected = PhAcl::DENY;
-                $actual = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+                $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
                 expect($actual)->equals($expected);
             }
         );
@@ -343,8 +342,8 @@ class ACLMemoryTest extends TBase
             'Acl search does not return correct results',
             function () {
 
-                $acl = new PhTAclMem();
-                $aclRole = new PhTAclRole('Administrators', 'Super User access');
+                $acl         = new PhTAclMem();
+                $aclRole     = new PhTAclRole('Administrators', 'Super User access');
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $acl->setDefaultAction(PhAcl::DENY);
@@ -356,7 +355,7 @@ class ACLMemoryTest extends TBase
                 $acl->deny('Administrators', 'Customers', 'destroy');
 
                 $expected = PhAcl::ALLOW;
-                $actual = $acl->isAllowed('Administrators', 'Customers', 'search');
+                $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
                 expect($actual)->equals($expected);
             }
         );
@@ -365,8 +364,8 @@ class ACLMemoryTest extends TBase
             'Acl destroy does not return correct results',
             function () {
 
-                $acl = new PhTAclMem();
-                $aclRole = new PhTAclRole('Administrators', 'Super User access');
+                $acl         = new PhTAclMem();
+                $aclRole     = new PhTAclRole('Administrators', 'Super User access');
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $acl->setDefaultAction(PhAcl::DENY);
@@ -378,7 +377,7 @@ class ACLMemoryTest extends TBase
                 $acl->deny('Administrators', 'Customers', 'destroy');
 
                 $expected = PhAcl::DENY;
-                $actual = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+                $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
                 expect($actual)->equals($expected);
             }
         );
@@ -396,10 +395,10 @@ class ACLMemoryTest extends TBase
             'Acl serialization/unserialization does not return a correct object back',
             function () {
 
-                $filename = newFileName('acl', 'log');
+                $filename    = newFileName('acl', 'log');
 
-                $acl = new PhTAclMem();
-                $aclRole = new PhTAclRole('Administrators', 'Super User access');
+                $acl         = new PhTAclMem();
+                $aclRole     = new PhTAclRole('Administrators', 'Super User access');
                 $aclResource = new PhTAclResource('Customers', 'Customer management');
 
                 $acl->addRole($aclRole);
@@ -428,11 +427,11 @@ class ACLMemoryTest extends TBase
                 expect($actual)->true();
 
                 $expected = PhAcl::ALLOW;
-                $actual = $acl->isAllowed('Administrators', 'Customers', 'search');
+                $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
                 expect($actual)->equals($expected);
 
                 $expected = PhAcl::DENY;
-                $actual = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+                $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
                 expect($actual)->equals($expected);
             }
         );
@@ -502,7 +501,7 @@ class ACLMemoryTest extends TBase
                 $model = new TestResourceable(2, 'Post');
                 $acl->deny('Guests','Post','update');
                 $acl->allow('Members','Post','update',function(TestRoleable $user,TestResourceable $model){
-                   return $user->getId() == $model->getUser();
+                    return $user->getId() == $model->getUser();
                 });
                 $acl->allow('Admins','Post','update');
                 $actual = (bool)$acl->isAllowed($guest, $model, 'update');
