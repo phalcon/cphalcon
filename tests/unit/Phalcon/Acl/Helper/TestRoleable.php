@@ -9,7 +9,6 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl\Helper;
 
 use Phalcon\Acl\Roleable;
-use Phalcon\Mvc\Model;
 
 /**
  * Class TestRoleable for AclMemoryTest::testAclAllowFunction

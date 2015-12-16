@@ -9,7 +9,6 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl\Helper;
 
 use Phalcon\Acl\Resourceable;
-use Phalcon\Mvc\Model;
 
 /**
  * Class TestResourceable for AclMemoryTest::testAclAllowFunction
