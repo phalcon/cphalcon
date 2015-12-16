@@ -391,7 +391,7 @@ class Memory extends Adapter
 
 				if accessName != "*" {
 					let accessKeyAll = roleName . "!" . resourceName . "!*";
-					if isset internalAccess[accessKeyAll] {
+					if !isset internalAccess[accessKeyAll] {
 						let this->_access[accessKeyAll] = defaultAccess;
 					}
 				}
