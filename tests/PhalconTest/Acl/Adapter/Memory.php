@@ -61,14 +61,14 @@ class Memory extends PhAdapter
         parent::dropResourceAccess($resourceName, $accessList);
     }
 
-    public function allow($roleName, $resourceName, $access)
+    public function allow($roleName, $resourceName, $access, $func)
     {
-        parent::allow($roleName, $resourceName, $access);
+        parent::allow($roleName, $resourceName, $access, $func);
     }
 
-    public function deny($roleName, $resourceName, $access)
+    public function deny($roleName, $resourceName, $access, $func)
     {
-        parent::deny($roleName, $resourceName, $access);
+        parent::deny($roleName, $resourceName, $access, $func);
     }
 
     public function isAllowed($roleName, $resourceName, $access)
