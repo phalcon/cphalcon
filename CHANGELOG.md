@@ -2,6 +2,8 @@
 - ORM: Added support for DATE columns in Oracle
 - Fixed wrong total_items and total_pages in Paginator when the query builder has set groupBy()
 - Fixed `Phalcon\Acl\Memory::allow` bug[#11210] related to the inconsistent behavior with access specified as string and array
+- Added quoting column in `Phalcon\Db\Dialect\MySQL::addColumn` when define position of the column
+- Added support to define position of the column in `Phalcon\Db\Dialect\MySQL::modifyColumn`
 
 # [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter
