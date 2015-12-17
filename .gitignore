@@ -3,8 +3,6 @@
 .cproject
 .project
 ext/ltmain.sh
-unit-tests/engines/*
-unit-tests/logs/*
 build/.deps
 build/.libs/
 build/Makefile
@@ -32,7 +30,6 @@ build/mkinstalldirs
 build/modules/
 build/phalcon.la
 build/phalcon.lo
-build/run-tests.php
 ext/.deps
 ext/.libs/
 ext/Makefile
@@ -77,9 +74,6 @@ ext/modules/
 ext/phalcon.la
 ext/phalcon.lo
 ext/run-tests.php
-unit-tests/views/test10/children.extends.volt.php
-unit-tests/views/test10/children2.volt.php
-unit-tests/views/test10/children.volt.php
 build/gccarch
 build/32bits/.deps
 build/32bits/.libs/
@@ -166,7 +160,6 @@ build/safe/modules/
 build/safe/phalcon.la
 build/safe/phalcon.lo
 build/safe/run-tests.php
-unit-tests/annotations/cache/*.php
 *.o
 *.lo
 *.loT
@@ -185,10 +178,7 @@ compile-errors.log
 compile.log
 .vagrant
 Vagrantfile
-tests/_output/*
 build/.gitignore
-build/32bits/tests/
-build/64bits/tests/
 build/README.md
 build/install-gentoo
 build/safe/tests/
@@ -200,3 +190,13 @@ ext/phalcon/annotations/parser.out
 ext/phalcon/mvc/model/query/lemon
 ext/phalcon/mvc/model/query/parser.out
 vendor/
+
+# Test environment & files
+/tests/_output/*
+!/tests/_output/tests/
+/unit-tests/annotations/cache/*.php
+/unit-tests/engines/*
+/unit-tests/logs/*
+/unit-tests/views/test10/children.extends.volt.php
+/unit-tests/views/test10/children2.volt.php
+/unit-tests/views/test10/children.volt.php

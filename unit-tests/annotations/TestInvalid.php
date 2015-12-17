@@ -1,9 +1,0 @@
-<?php
-
-/**
- * @Invalid(
- */
-class TestInvalid
-{
-
-}
