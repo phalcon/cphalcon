@@ -358,7 +358,7 @@ class Memory extends Adapter
 	/**
 	 * Checks if a role has access to a resource
 	 */
-	protected function _allowOrDeny(string roleName, string resourceName, var access, var action, var func)
+	protected function _allowOrDeny(string roleName, string resourceName, var access, var action, var func = null)
 	{
 		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
@@ -387,7 +387,7 @@ class Memory extends Adapter
 
 				let accessKey = roleName . "!" .resourceName . "!" . accessName;
 				let this->_access[accessKey] = action;
-				let this->_func[accessKey] = func;
+				fetch this->_func[accessKey], func;
 
 				if accessName != "*" {
 					let accessKeyAll = roleName . "!" . resourceName . "!*";
@@ -412,7 +412,7 @@ class Memory extends Adapter
 			 * Define the access action for the specified accessKey
 			 */
 			let this->_access[accessKey] = action;
-			let this->_func[accessKey] = func;
+			fetch this->_func[accessKey], func;
 
 			if access != "*" {
 				let accessKey = roleName . "!" . resourceName . "!*";
@@ -515,23 +515,19 @@ class Memory extends Adapter
 
 
 		if typeof roleName == "object" {
-			if(roleName instanceof Roleable){
+			if roleName instanceof Roleable {
 				let roleObject = roleName;
 				let roleName = roleObject->getRoleName();
 			}
-			else{
-				throw new Exception("Object passed as roleName must implement Roleable");
-			}
+			throw new Exception("Object passed as roleName must implement Roleable");
 		}
 
 		if typeof resourceName == "object" {
-			if(resourceName instanceof Resourceable){
+			if resourceName instanceof Resourceable {
 				let resourceObject = resourceName;
 				let resourceName = resourceObject->getResourceName();
 			}
-			else{
-				throw new Exception("Object passed as resourceName must implement Resourceable");
-			}
+			throw new Exception("Object passed as resourceName must implement Resourceable");
 		}
 
 		let this->_activeRole = roleName;
@@ -564,9 +560,7 @@ class Memory extends Adapter
 			let haveAccess = accessList[accessKey];
 		}
 
-		if isset funcList[accessKey] {
-			let funcAccess = funcList[accessKey];
-		}
+		fetch funcAccess, funcList[accessKey];
 
 		/**
 		 * Check in the inherits roles
@@ -585,9 +579,7 @@ class Memory extends Adapter
 						if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 						}
-						if isset funcList[accessKey] {
-                        	let funcAccess = funcList[accessKey];
-                        }
+						fetch funcAccess, funcList[accessKey];
 					}
 				}
 			}
@@ -613,9 +605,7 @@ class Memory extends Adapter
 						/**
 						 * In the inherited roles
 						 */
-						if isset funcList[accessKey] {
-						 	let funcAccess = funcList[accessKey];
-						}
+						fetch funcAccess, funcList[accessKey];
 						if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 							break;
@@ -645,9 +635,7 @@ class Memory extends Adapter
 						/**
 						 * In the inherited roles
 						 */
-						 if isset funcList[accessKey] {
-                          	let funcAccess = funcList[accessKey];
-                         }
+						 fetch funcAccess, funcList[accessKey];
 						 if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 							break;
@@ -673,9 +661,7 @@ class Memory extends Adapter
 		if (resourceObject != null && roleObject != null && funcAccess != null){
 		 	return (haveAccess == Acl::ALLOW) && call_user_func_array(funcAccess,[roleObject,resourceObject]);
 		}
-		else{
-			return (haveAccess == Acl::ALLOW);
-		}
+		return (haveAccess == Acl::ALLOW);
 	}
 
 	/**
