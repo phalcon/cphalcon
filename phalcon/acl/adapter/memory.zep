@@ -519,7 +519,7 @@ class Memory extends Adapter
 
 
 		if typeof roleName == "object" {
-			if !(roleName instanceof Roleable {
+			if !(roleName instanceof Roleable) {
 
 				throw new Exception("Object passed as roleName must implement Roleable");
 			}
