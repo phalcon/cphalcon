@@ -528,7 +528,7 @@ class Memory extends Adapter
 
 		if typeof resourceName == "object" {
 			if !(resourceName instanceof Resourceable) {
-			throw new Exception("Object passed as resourceName must implement Resourceable");
+				throw new Exception("Object passed as resourceName must implement Resourceable");
 			}
 			let resourceObject = resourceName;
 			let resourceName = resourceObject->getResourceName();
