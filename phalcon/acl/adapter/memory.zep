@@ -520,19 +520,18 @@ class Memory extends Adapter
 
 		if typeof roleName == "object" {
 			if !(roleName instanceof Roleable) {
-
 				throw new Exception("Object passed as roleName must implement Roleable");
 			}
 			let roleObject = roleName;
-            let roleName = roleObject->getRoleName();
+			let roleName = roleObject->getRoleName();
 		}
 
 		if typeof resourceName == "object" {
 			if !(resourceName instanceof Resourceable) {
-				throw new Exception("Object passed as resourceName must implement Resourceable");
+			throw new Exception("Object passed as resourceName must implement Resourceable");
 			}
 			let resourceObject = resourceName;
-            let resourceName = resourceObject->getResourceName();
+			let resourceName = resourceObject->getResourceName();
 		}
 
 		let this->_activeRole = roleName;
