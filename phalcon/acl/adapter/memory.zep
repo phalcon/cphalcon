@@ -387,7 +387,9 @@ class Memory extends Adapter
 
 				let accessKey = roleName . "!" .resourceName . "!" . accessName;
 				let this->_access[accessKey] = action;
-				fetch this->_func[accessKey], func;
+				if func != null{
+				    let this->_func[accessKey] = func;
+				}
 
 				if accessName != "*" {
 					let accessKeyAll = roleName . "!" . resourceName . "!*";
@@ -412,7 +414,9 @@ class Memory extends Adapter
 			 * Define the access action for the specified accessKey
 			 */
 			let this->_access[accessKey] = action;
-			fetch this->_func[accessKey], func;
+			if func != null {
+            	let this->_func[accessKey] = func;
+            }
 
 			if access != "*" {
 				let accessKey = roleName . "!" . resourceName . "!*";
