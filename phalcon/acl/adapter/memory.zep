@@ -415,8 +415,8 @@ class Memory extends Adapter
 			 */
 			let this->_access[accessKey] = action;
 			if func != null {
-            	let this->_func[accessKey] = func;
-            }
+				let this->_func[accessKey] = func;
+			}
 
 			if access != "*" {
 				let accessKey = roleName . "!" . resourceName . "!*";
