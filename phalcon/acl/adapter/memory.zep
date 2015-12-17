@@ -662,7 +662,7 @@ class Memory extends Adapter
 		 * If we have both objects and funcAccess call funcAccess too
 		 */
 
-		if (resourceObject != null && roleObject != null && funcAccess != null){
+		if resourceObject != null && roleObject != null && funcAccess != null {
 		 	return (haveAccess == Acl::ALLOW) && call_user_func_array(funcAccess,[roleObject,resourceObject]);
 		}
 		return (haveAccess == Acl::ALLOW);
