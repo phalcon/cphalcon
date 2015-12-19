@@ -71,7 +71,7 @@ class Memory extends PhAdapter
         parent::deny($roleName, $resourceName, $access, $func);
     }
 
-    public function isAllowed($roleName, $resourceName, $access, $parameters = null)
+    public function isAllowed($roleName, $resourceName, $access, array $parameters = null)
     {
         return parent::isAllowed($roleName, $resourceName, $access, $parameters);
     }
