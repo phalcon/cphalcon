@@ -718,8 +718,10 @@ class Memory extends Adapter
 					if count(parametersForFunction) == 0 {
 						if numberOfRequiredParameters > 0 {
 							trigger_error("You didnt provide any parameters when check ".roleName." can ".access." " .resourceName.". We will use default action when no arguments.");
+							return (haveAccess == Acl::ALLOW) && (this->_noArgumentsDefaultAction == Acl::ALLOW);
 						}
-						return (haveAccess == Acl::ALLOW) && (this->_noArgumentsDefaultAction == Acl::ALLOW);
+						// Number of required parameters == 0 so call funcAccess without any arguments
+						return (haveAccess == Acl::ALLOW) && call_user_func(funcAccess);
 					}
 					// Check necessary parameters
 					elseif count(parametersForFunction) >= numberOfRequiredParameters {
