@@ -296,9 +296,9 @@ class Tag
 	 * @param string id
 	 * @param string value
 	 */
-	public static function displayTo(id, value)
+	public static function displayTo(id, value) -> void
 	{
-		return self::setDefault(id, value);
+		self::setDefault(id, value);
 	}
 
 	/**
