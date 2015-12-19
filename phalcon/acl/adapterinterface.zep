@@ -38,6 +38,16 @@ interface AdapterInterface
 	public function getDefaultAction() -> int;
 
 	/**
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey
+	 */
+	public function setNoArgumentsDefaultAction(int defaultAccess);
+
+	/**
+	 * Returns the default ACL access level for no arguments provided in isAllowed action if there exists func for accessKey
+	 */
+	public function getNoArgumentsDefaultAction() -> int;
+
+	/**
 	 * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
 	 */
 	public function addRole(role, accessInherits = null) -> boolean;
@@ -88,7 +98,7 @@ interface AdapterInterface
 	/**
 	 * Check whether a role is allowed to access an action from a resource
 	 */
-	public function isAllowed(roleName, resourceName, access) -> boolean;
+	public function isAllowed(roleName, resourceName, access, array parameters = null) -> boolean;
 
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access

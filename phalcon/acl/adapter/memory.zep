@@ -145,6 +145,13 @@ class Memory extends Adapter
 	protected _func;
 
 	/**
+	 * Default action for no arguments is allow
+	 *
+	 * @var mixed
+	 */
+	protected _noArgumentsDefaultAction = Acl::ALLOW;
+
+	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
 	 */
 	public function __construct()
@@ -510,7 +517,7 @@ class Memory extends Adapter
 	 * $acl->isAllowed('guests', '*', 'edit');
 	 * </code>
 	 */
-	public function isAllowed(var roleName, var resourceName, string access) -> boolean
+	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,
@@ -659,13 +666,88 @@ class Memory extends Adapter
 		}
 
 		/**
-		 * If we have both objects and funcAccess call funcAccess too
+		 * If we have funcAccess then do all the checks for it
 		 */
 
-		if resourceObject != null && roleObject != null && funcAccess != null {
-		 	return (haveAccess == Acl::ALLOW) && call_user_func_array(funcAccess,[roleObject,resourceObject]);
+		if funcAccess != null {
+			var reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
+				numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,
+				reflectionParameter;
+			let reflectionFunction = new \ReflectionFunction(funcAccess);
+			let reflectionParameters = reflectionFunction->getParameters();
+			let parameterNumber = count(reflectionParameters);
+			switch parameterNumber {
+				// No parameters, just return haveAccess and call function without array
+				case 0:
+					return (haveAccess == Acl::ALLOW) && call_user_func(funcAccess);
+				// More parameters, do needed stuff
+				default:
+					let parametersForFunction = [];
+					let numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters();
+					let userParametersSizeShouldBe = parameterNumber;
+					for reflectionParameter in reflectionParameters {
+						let reflectionClass = reflectionParameter->getClass();
+						let parameterToCheck = reflectionParameter->getName();
+						if reflectionClass != null {
+							// roleObject is this class
+							if roleObject != null && reflectionClass->isInstance(roleObject) {
+								let parametersForFunction[] = roleObject;
+								let userParametersSizeShouldBe--;
+								continue;
+							}
+							// resourceObject is this class
+							elseif resourceObject != null && reflectionClass->isInstance(resourceObject) {
+								let parametersForFunction[] = resourceObject;
+								let userParametersSizeShouldBe--;
+								continue;
+							}
+							// This is some user defined class, check if his parameter is instance of it
+							elseif parameters != null && isset(parameters[parameterToCheck]) && typeof(parameters[parameterToCheck]) == "object" && !reflectionClass->isInstance(parameters[parameterToCheck]){
+								throw new Exception("Your passed parameter dont have same class as parameter in defined function when check ".roleName." can ".access." " .resourceName.". Class passed: ".get_class($parameters[parameterToCheck])." , Class in defined function: ".reflectionClass->getName().".");
+							}
+						}
+						if parameters != null && isset(parameters[parameterToCheck]) {
+							// We cant check type of ReflectionParameter in PHP 5.x so we just add it as it is
+							let parametersForFunction[] = parameters[parameterToCheck];
+						}
+					}
+					if count(parameters) > userParametersSizeShouldBe {
+						trigger_error("Number of parameters in array is higher than number of parameters in defined function when check ".roleName." can ".access." " .resourceName.". Remember that more parameters than defined in function will be ignored.",E_USER_WARNING);
+					}
+					// We dont have any parameters so check default action
+					if count(parametersForFunction) == 0 {
+						if numberOfRequiredParameters > 0 {
+							trigger_error("You didnt provide any parameters when check ".roleName." can ".access." " .resourceName.". We will use default action when no arguments.");
+						}
+						return (haveAccess == Acl::ALLOW) && (this->_noArgumentsDefaultAction == Acl::ALLOW);
+					}
+					// Check necessary parameters
+					elseif count(parametersForFunction) >= numberOfRequiredParameters {
+						return (haveAccess == Acl::ALLOW) && call_user_func_array(funcAccess,parametersForFunction);
+					}
+					// We dont have enough parameters
+					else {
+						throw new Exception("You didnt provide all necessary parameters for defined function when check ".roleName." can ".access." ".resourceName);
+					}
+			}
 		}
 		return (haveAccess == Acl::ALLOW);
+	}
+
+	/**
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey
+	 */
+	public function setNoArgumentsDefaultAction(int defaultAccess)
+	{
+		let this->_noArgumentsDefaultAction = defaultAccess;
+	}
+
+	/**
+	 * Returns the default ACL access level for no arguments provided in isAllowed action if there exists func for accessKey
+	 */
+	public function getNoArgumentsDefaultAction() -> int
+	{
+		return this->_noArgumentsDefaultAction;
 	}
 
 	/**
