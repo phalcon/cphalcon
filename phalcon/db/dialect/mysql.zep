@@ -246,7 +246,7 @@ class MySQL extends Dialect
 		} else {
 			let afterPosition = column->getAfterPosition();
 			if afterPosition {
-				let sql .=  " AFTER " . afterPosition;
+				let sql .=  " AFTER `" . afterPosition . "`";
 			}
 		}
 		return sql;
@@ -257,7 +257,7 @@ class MySQL extends Dialect
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
 	{
-		var sql, defaultValue;
+		var afterPosition, sql, defaultValue;
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " MODIFY `" . column->getName() . "` " . this->getColumnDefinition(column);
 
@@ -278,6 +278,14 @@ class MySQL extends Dialect
 			let sql .= " AUTO_INCREMENT";
 		}
 
+		if column->isFirst() {
+			let sql .= " FIRST";
+		} else {
+			let afterPosition = column->getAfterPosition();
+			if afterPosition {
+				let sql .=  " AFTER `" . afterPosition . "`";
+			}
+		}
 		return sql;
 	}
 

@@ -93,7 +93,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				'type' => 'ENUM',
 				'typeValues' => array('A', 'B', 'C'),
 				'notNull' => true,
-				'default' => 'A'
+				'default' => 'A',
+				'after' => 'column11'
 			)),
 			'column13' => new Column("column13", array(
 				'type' => Column::TYPE_TIMESTAMP,
@@ -435,8 +436,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column10']), 'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"');
 		$this->assertEquals($dialect->addColumn('table', null, $columns['column11']), 'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column11']), 'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED');
-		$this->assertEquals($dialect->addColumn('table', null, $columns['column12']), "ALTER TABLE `table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
-		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column12']), "ALTER TABLE `table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column13']), "ALTER TABLE `schema`.`table` ADD `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL");
 
 		//Modify Columns
@@ -462,8 +463,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column10']), 'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"');
 		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column11']), 'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED');
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column11']), 'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED');
-		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column12']), "ALTER TABLE `table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
-		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column12']), "ALTER TABLE `table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column13']), "ALTER TABLE `schema`.`table` MODIFY `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL");
 
 		//Drop Columns
