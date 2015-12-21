@@ -47,25 +47,44 @@ class Oracle extends Dialect
 
 		if typeof number == "array" {
 
+            if is_numeric(number[0]) {
+			    let limit = (int) trim(number[0], "'");
+            } else {
+                // number[0] can be a string ":APL0"
+			    let limit = trim(number[0], "'");
+            }
+
 			if isset number[1] {
-				let offset = (int) trim(number[1], "'");
+                //let offset = (int) trim(number[1], "'");
+
+                if !is_null(number[1]) {
+                    if is_numeric(number[1]) {
+				        let offset = (int) trim(number[1], "'");
+                        let limit = limit + offset;
+                    } else {
+                        // number[1] is ":APL1"
+                        let offset = trim(number[1], "''");
+                        let limit .= " + " . offset;
+                    }
+                }
 			}
 
-			let limit = (int) trim(number[0], "'") + offset;
+            //let limit = (int) trim(number[0], "'") + offset;
 		} else {
 			let limit = (int) trim(number, "'");
 		}
 
+        //let sqlQuery = "SELECT * FROM (SELECT Z1.*, ROWNUM PHALCON_RN FROM (" . sqlQuery . ") Z1 WHERE ROWNUM <= " . limit . ")";
 		let sqlQuery = "SELECT * FROM (SELECT Z1.*, ROWNUM PHALCON_RN FROM (" . sqlQuery . ") Z1";
 
-		if limit != 0 {
-			let sqlQuery .= " WHERE ROWNUM <= " . limit;
-		}
+        if limit !== 0 {
+            let sqlQuery .= " WHERE ROWNUM <= " . limit;
+        }
 
-		let sqlQuery .= ")";
+        let sqlQuery .= ")";
 
-		if offset != 0 {
-			let sqlQuery .= " WHERE PHALCON_RN >= " . offset;
+		if offset !== 0 {
+			let sqlQuery .= " WHERE PHALCON_RN > " . offset;
 		}
 
 		return sqlQuery;
