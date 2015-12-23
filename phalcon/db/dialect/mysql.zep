@@ -310,12 +310,12 @@ class MySQL extends Dialect implements DialectInterface
 		var sql, referencedSchema, onDelete, onUpdate;
 
 		if schemaName {
-			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD FOREIGN KEY ";
+			let sql = "ALTER TABLE `" . schemaName . "`.`" . tableName . "` ADD CONSTRAINT ";
 		} else {
-			let sql = "ALTER TABLE `" . tableName . "` ADD FOREIGN KEY ";
+			let sql = "ALTER TABLE `" . tableName . "` ADD CONSTRAINT ";
 		}
 
-		let sql .= "`" . reference->getName() . "`(" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
+		let sql .= "`" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
 
 		/**
 		 * Add the schema
