@@ -1,0 +1,1 @@
+{% extends "parent.volt" %}{% block block1 %}{{ super() }}{{ 'hello3' }}{% endblock %}
