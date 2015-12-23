@@ -588,7 +588,7 @@ class Router implements InjectionAwareInterface,RouterInterface
 			 */
 			if fetch paramsStr, parts["params"] {
 				let strParams = substr(paramsStr, 1);
-				if strParams {
+				if strParams !== false {
 					let params = explode("/", strParams);
 				}
 				unset parts["params"];
