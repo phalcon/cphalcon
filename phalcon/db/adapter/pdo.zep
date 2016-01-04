@@ -159,8 +159,10 @@ abstract class Pdo extends Adapter
 	 * Returns a PDO prepared statement to be executed with 'executePrepared'
 	 *
 	 *<code>
+	 * use Phalcon\Db\Column;
+	 *
 	 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
-	 * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
+	 * $result = $connection->executePrepared($statement, ['name' => 'Voltron'], ['name' => Column::BIND_PARAM_INT]);
 	 *</code>
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
@@ -173,7 +175,7 @@ abstract class Pdo extends Adapter
 	 *
 	 *<code>
 	 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
-	 * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
+	 * $result = $connection->executePrepared($statement, ['name' => 'Voltron'], ['name' => Column::BIND_PARAM_INT]);
 	 *</code>
 	 *
 	 * @param \PDOStatement statement
@@ -190,12 +192,10 @@ abstract class Pdo extends Adapter
 
 			if typeof wildcard == "integer" {
 				let parameter = wildcard + 1;
+			} elseif typeof wildcard == "string" {
+				let parameter = wildcard;
 			} else {
-				if typeof wildcard == "string" {
-					let parameter = wildcard;
-				} else {
-					throw new Exception("Invalid bind parameter (1)");
-				}
+				throw new Exception("Invalid bind parameter (1)");
 			}
 
 			if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
