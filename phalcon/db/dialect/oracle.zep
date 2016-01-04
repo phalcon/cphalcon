@@ -51,12 +51,18 @@ class Oracle extends Dialect
 				let offset = (int) trim(number[1], "'");
 			}
 
-			let limit = (int)trim(number[0], "'") + offset;
+			let limit = (int) trim(number[0], "'") + offset;
 		} else {
-			let limit = (int)trim(number, "'");
+			let limit = (int) trim(number, "'");
 		}
 
-		let sqlQuery = "SELECT * FROM (SELECT Z1.*, ROWNUM PHALCON_RN FROM (" . sqlQuery . ") Z1 WHERE ROWNUM <= " . limit . ")";
+		let sqlQuery = "SELECT * FROM (SELECT Z1.*, ROWNUM PHALCON_RN FROM (" . sqlQuery . ") Z1";
+
+		if limit != 0 {
+			let sqlQuery .= " WHERE ROWNUM <= " . limit;
+		}
+
+		let sqlQuery .= ")";
 
 		if offset != 0 {
 			let sqlQuery .= " WHERE PHALCON_RN >= " . offset;

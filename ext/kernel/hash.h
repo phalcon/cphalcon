@@ -40,8 +40,6 @@ int zephir_hash_unset(HashTable *ht, zval *offset);
 
 #define zephir_hash_move_forward_ex(ht, pos) *pos = (*pos ? (*pos)->pListNext : NULL)
 
-#if PHP_VERSION_ID < 70000
-
 static zend_always_inline int zephir_hash_get_current_data_ex(HashTable *ht, void **pData, HashPosition *pos)
 {
 	Bucket *p;
@@ -53,24 +51,6 @@ static zend_always_inline int zephir_hash_get_current_data_ex(HashTable *ht, voi
 		return FAILURE;
 	}
 }
-
-#else
-
-static zend_always_inline zval *zephir_hash_get_current_data_ex(HashTable *ht, HashPosition *pos)
-{
-	uint idx = *pos;
-	Bucket *p;
-
-	IS_CONSISTENT(ht);
-	if (idx != INVALID_IDX) {
-		p = ht->arData + idx;
-		return &p->val;
-	} else {
-		return NULL;
-	}
-}
-
-#endif
 
 static zend_always_inline int zephir_hash_move_backwards_ex(HashTable *ht, HashPosition *pos)
 {

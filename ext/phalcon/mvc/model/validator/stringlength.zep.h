@@ -4,7 +4,6 @@ extern zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength);
 
 PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate);
-static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_StringLength(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_stringlength_validate, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\EntityInterface, 0)

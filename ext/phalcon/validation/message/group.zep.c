@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
-	zval *index_param = NULL, *message, *_0;
+	zval *index_param = NULL, *message = NULL, *_0;
 	int index;
 
 	zephir_fetch_params(0, 1, 0, &index_param);
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 
-	zval *index, *_0, *_1;
+	zval *index, *_0, *_1$$3;
 
 	zephir_fetch_params(0, 1, 0, &index);
 
@@ -181,8 +181,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zephir_array_isset(_0, index)) {
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		zephir_array_unset(&_1, index, PH_SEPARATE);
+		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		zephir_array_unset(&_1$$3, index, PH_SEPARATE);
 	}
 	RETURN_BOOL(0);
 
@@ -218,11 +218,11 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 
+	zend_object_iterator *_1$$7;
+	zend_bool _0;
 	zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_object_iterator *_1;
-	zend_bool _0;
-	zval *messages, *currentMessages, *finalMessages = NULL, *message = NULL;
+	zval *messages, *currentMessages = NULL, *finalMessages = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &messages);
@@ -248,18 +248,18 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 		}
 		zephir_update_property_this(this_ptr, SL("_messages"), finalMessages TSRMLS_CC);
 	} else {
-		_1 = zephir_get_iterator(messages TSRMLS_CC);
-		_1->funcs->rewind(_1 TSRMLS_CC);
-		for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
+		_1$$7 = zephir_get_iterator(messages TSRMLS_CC);
+		_1$$7->funcs->rewind(_1$$7 TSRMLS_CC);
+		for (;_1$$7->funcs->valid(_1$$7 TSRMLS_CC) == SUCCESS && !EG(exception); _1$$7->funcs->move_forward(_1$$7 TSRMLS_CC)) {
 			{
 				zval **ZEPHIR_TMP_ITERATOR_PTR;
-				_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+				_1$$7->funcs->get_current_data(_1$$7, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
 				ZEPHIR_CPY_WRT(message, (*ZEPHIR_TMP_ITERATOR_PTR));
 			}
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_2, 0, message);
 			zephir_check_call_status();
 		}
-		_1->funcs->dtor(_1 TSRMLS_CC);
+		_1$$7->funcs->dtor(_1$$7 TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -273,10 +273,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
+	HashTable *_1$$3;
+	HashPosition _0$$3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	HashTable *_1;
-	HashPosition _0;
-	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, *_3 = NULL;
+	zval *fieldName_param = NULL, *filtered = NULL, *messages = NULL, *message = NULL, **_2$$3, *_3$$5 = NULL;
 	zval *fieldName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -299,16 +299,16 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_1, &_0, 0, 0, "phalcon/validation/message/group.zep", 200);
+		zephir_is_iterable(messages, &_1$$3, &_0$$3, 0, 0, "phalcon/validation/message/group.zep", 200);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
-			ZEPHIR_GET_HVALUE(message, _2);
+			ZEPHIR_GET_HVALUE(message, _2$$3);
 			if ((zephir_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_CALL_METHOD(&_3, message, "getfield", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_3$$5, message, "getfield", NULL, 0);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
+				if (ZEPHIR_IS_EQUAL(fieldName, _3$$5)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE, "phalcon/validation/message/group.zep", 196);
 				}
 			}
@@ -367,6 +367,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, key) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_position");
 
@@ -377,6 +378,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, key) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, next) {
 
+	
 
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_position") TSRMLS_CC));
 
@@ -422,7 +424,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 static zend_object_value zephir_init_properties_Phalcon_Validation_Message_Group(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval *_0, *_1;
+		zval *_0, *_1$$3;
 
 		ZEPHIR_MM_GROW();
 	
@@ -431,9 +433,9 @@ static zend_object_value zephir_init_properties_Phalcon_Validation_Message_Group
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1);
-			array_init(_1);
-			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_messages"), _1$$3 TSRMLS_CC);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJVAL_P(this_ptr);

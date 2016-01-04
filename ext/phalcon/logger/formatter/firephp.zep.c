@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_showBacktrace");
 
@@ -139,6 +140,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_enableLabels");
 
@@ -156,12 +158,12 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
-	zval *_16;
-	zend_bool _9, _12;
-	HashTable *_5;
-	HashPosition _4;
+	HashTable *_7$$4;
+	HashPosition _6$$4;
+	zval *_18;
+	zend_bool _11, _14;
 	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *meta, *body = NULL, *backtrace = NULL, *encoded, *len, *lastTrace = NULL, *_0 = NULL, *_1, *_2, *param, *backtraceItem = NULL, *key = NULL, *_3, **_6, *_7, *_8, *_10, *_11, *_13, *_14, *_15;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *meta = NULL, *body = NULL, *backtrace = NULL, *encoded = NULL, *len = NULL, *lastTrace = NULL, *_1 = NULL, *_2, *_3, *_9, *_10, *_12, *_13, *_15, *_0$$3 = NULL, *param$$4 = NULL, *backtraceItem$$4 = NULL, *key$$4 = NULL, **_8$$4, *_4$$5, *_5$$6, *_16$$11, *_17$$11;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -176,86 +178,88 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
 
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "interpolate", NULL, 0, message, context);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, message, context);
 		zephir_check_call_status();
-		zephir_get_strval(message, _0);
+		zephir_get_strval(message, _0$$3);
 	}
 	ZEPHIR_INIT_VAR(meta);
 	zephir_create_array(meta, 1, 0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_LONG(_1, type);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettypestring", NULL, 0, _1);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_LONG(_2, type);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "gettypestring", NULL, 0, _2);
 	zephir_check_call_status();
-	zephir_array_update_string(&meta, SL("Type"), &_0, PH_COPY | PH_SEPARATE);
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-	if (zephir_is_true(_2)) {
-		ZEPHIR_INIT_VAR(param);
-		ZVAL_LONG(param, 2);
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 150, param);
+	zephir_array_update_string(&meta, SL("Type"), &_1, PH_COPY | PH_SEPARATE);
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
+	if (zephir_is_true(_3)) {
+		ZEPHIR_INIT_VAR(param$$4);
+		ZVAL_LONG(param$$4, 2);
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 150, param$$4);
 		zephir_check_call_status();
 		ZEPHIR_MAKE_REF(backtrace);
 		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, backtrace);
 		ZEPHIR_UNREF(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
-			zephir_array_fetch_string(&_3, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 129 TSRMLS_CC);
-			zephir_array_update_string(&meta, SL("File"), &_3, PH_COPY | PH_SEPARATE);
+			zephir_array_fetch_string(&_4$$5, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 129 TSRMLS_CC);
+			zephir_array_update_string(&meta, SL("File"), &_4$$5, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_array_isset_string(lastTrace, SS("line"))) {
-			zephir_array_fetch_string(&_3, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 133 TSRMLS_CC);
-			zephir_array_update_string(&meta, SL("Line"), &_3, PH_COPY | PH_SEPARATE);
+			zephir_array_fetch_string(&_5$$6, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 133 TSRMLS_CC);
+			zephir_array_update_string(&meta, SL("Line"), &_5$$6, PH_COPY | PH_SEPARATE);
 		}
-		zephir_is_iterable(backtrace, &_5, &_4, 1, 0, "phalcon/logger/formatter/firephp.zep", 142);
+		zephir_is_iterable(backtrace, &_7$$4, &_6$$4, 1, 0, "phalcon/logger/formatter/firephp.zep", 142);
 		for (
-		  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_5, &_4)
+		  ; zephir_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_7$$4, &_6$$4)
 		) {
-			ZEPHIR_GET_HMKEY(key, _5, _4);
-			ZEPHIR_GET_HVALUE(backtraceItem, _6);
-			zephir_array_unset_string(&backtraceItem, SS("object"), PH_SEPARATE);
-			zephir_array_unset_string(&backtraceItem, SS("args"), PH_SEPARATE);
-			zephir_array_update_zval(&backtrace, key, &backtraceItem, PH_COPY | PH_SEPARATE);
+			ZEPHIR_GET_HMKEY(key$$4, _7$$4, _6$$4);
+			ZEPHIR_GET_HVALUE(backtraceItem$$4, _8$$4);
+			zephir_array_unset_string(&backtraceItem$$4, SS("object"), PH_SEPARATE);
+			zephir_array_unset_string(&backtraceItem$$4, SS("args"), PH_SEPARATE);
+			zephir_array_update_zval(&backtrace, key$$4, &backtraceItem$$4, PH_COPY | PH_SEPARATE);
 		}
+		zend_hash_destroy(_7$$4);
+		FREE_HASHTABLE(_7$$4);
 	}
-	_7 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-	if (zephir_is_true(_7)) {
+	_9 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
+	if (zephir_is_true(_9)) {
 		zephir_array_update_string(&meta, SL("Label"), &message, PH_COPY | PH_SEPARATE);
 	}
-	_8 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-	_9 = !zephir_is_true(_8);
-	if (_9) {
-		_10 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-		_9 = !zephir_is_true(_10);
+	_10 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
+	_11 = !zephir_is_true(_10);
+	if (_11) {
+		_12 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
+		_11 = !zephir_is_true(_12);
 	}
-	_11 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-	_12 = zephir_is_true(_11);
-	if (_12) {
-		_13 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-		_12 = !zephir_is_true(_13);
+	_13 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
+	_14 = zephir_is_true(_13);
+	if (_14) {
+		_15 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
+		_14 = !zephir_is_true(_15);
 	}
-	if (_9) {
+	if (_11) {
 		ZEPHIR_CPY_WRT(body, message);
-	} else if (_12) {
+	} else if (_14) {
 		ZEPHIR_INIT_NVAR(body);
 		ZVAL_STRING(body, "", 1);
 	} else {
 		ZEPHIR_INIT_NVAR(body);
 		array_init(body);
-		_14 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-		if (zephir_is_true(_14)) {
+		_16$$11 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
+		if (zephir_is_true(_16$$11)) {
 			zephir_array_update_string(&body, SL("backtrace"), &backtrace, PH_COPY | PH_SEPARATE);
 		}
-		_15 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-		if (!(zephir_is_true(_15))) {
+		_17$$11 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
+		if (!(zephir_is_true(_17$$11))) {
 			zephir_array_update_string(&body, SL("message"), &message, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_INIT_VAR(_16);
-	zephir_create_array(_16, 2, 0 TSRMLS_CC);
-	zephir_array_fast_append(_16, meta);
-	zephir_array_fast_append(_16, body);
+	ZEPHIR_INIT_VAR(_18);
+	zephir_create_array(_18, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(_18, meta);
+	zephir_array_fast_append(_18, body);
 	ZEPHIR_INIT_VAR(encoded);
-	zephir_json_encode(encoded, &(encoded), _16, 0  TSRMLS_CC);
+	zephir_json_encode(encoded, &(encoded), _18, 0  TSRMLS_CC);
 	ZEPHIR_INIT_VAR(len);
 	ZVAL_LONG(len, zephir_fast_strlen_ev(encoded));
 	ZEPHIR_CONCAT_VSVS(return_value, len, "|", encoded, "|");

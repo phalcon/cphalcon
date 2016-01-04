@@ -296,9 +296,9 @@ class Tag
 	 * @param string id
 	 * @param string value
 	 */
-	public static function displayTo(id, value)
+	public static function displayTo(id, value) -> void
 	{
-		return self::setDefault(id, value);
+		self::setDefault(id, value);
 	}
 
 	/**
@@ -792,6 +792,11 @@ class Tag
 	 *
 	 *<code>
 	 * echo Phalcon\Tag::checkField(array("terms", "value" => "Y"));
+	 *</code>
+	 *
+	 * Volt syntax:
+	 *<code>
+	 * {{ check_field("terms") }}
 	 *</code>
 	 *
 	 * @param	array parameters

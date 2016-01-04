@@ -40,7 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
 
 	zend_declare_property_long(phalcon_annotations_adapter_apc_ce, SL("_ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_annotations_adapter_apc_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -52,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 
-	zval *options = NULL, *prefix, *ttl;
+	zval *options = NULL, *prefix = NULL, *ttl = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 

@@ -63,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
  */
 PHP_METHOD(Phalcon_Db_Index, getName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -73,6 +74,7 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_columns");
 
@@ -83,6 +85,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
  */
 PHP_METHOD(Phalcon_Db_Index, getType) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -130,7 +133,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *indexName, *columns, *type = NULL;
+	zval *data_param = NULL, *indexName = NULL, *columns = NULL, *type = NULL;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();

@@ -28,7 +28,7 @@
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
  *
- * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher;
+ * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
  * @property \Phalcon\Mvc\Url|\Phalcon\Mvc\UrlInterface $url
  * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
@@ -97,9 +97,9 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
+	zval *dependencyInjector = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *dependencyInjector = NULL;
 
 	ZEPHIR_MM_GROW();
 
@@ -133,6 +133,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
 
@@ -143,10 +144,10 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zval *_4;
+	zval *_4$$7;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
-	zval *propertyName_param = NULL, *dependencyInjector = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_3 = NULL, *_5 = NULL;
+	zval *propertyName_param = NULL, *dependencyInjector = NULL, *service = NULL, *persistent = NULL, *_0, *_2 = NULL, *_3$$7 = NULL, *_5$$7 = NULL;
 	zval *propertyName = NULL, *_6;
 
 	ZEPHIR_MM_GROW();
@@ -187,17 +188,17 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		RETURN_CCTOR(dependencyInjector);
 	}
 	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
-		ZEPHIR_INIT_VAR(_4);
-		zephir_create_array(_4, 1, 0 TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_5);
-		zephir_get_class(_5, this_ptr, 0 TSRMLS_CC);
-		zephir_array_fast_append(_4, _5);
-		ZEPHIR_INIT_NVAR(_5);
-		ZVAL_STRING(_5, "sessionBag", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_3, dependencyInjector, "get", NULL, 0, _5, _4);
-		zephir_check_temp_parameter(_5);
+		ZEPHIR_INIT_VAR(_4$$7);
+		zephir_create_array(_4$$7, 1, 0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_5$$7);
+		zephir_get_class(_5$$7, this_ptr, 0 TSRMLS_CC);
+		zephir_array_fast_append(_4$$7, _5$$7);
+		ZEPHIR_INIT_NVAR(_5$$7);
+		ZVAL_STRING(_5$$7, "sessionBag", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_3$$7, dependencyInjector, "get", NULL, 0, _5$$7, _4$$7);
+		zephir_check_temp_parameter(_5$$7);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(persistent, _3);
+		ZEPHIR_CPY_WRT(persistent, _3$$7);
 		zephir_update_property_this(this_ptr, SL("persistent"), persistent TSRMLS_CC);
 		RETURN_CCTOR(persistent);
 	}

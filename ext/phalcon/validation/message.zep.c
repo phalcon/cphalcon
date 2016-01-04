@@ -127,6 +127,7 @@ PHP_METHOD(Phalcon_Validation_Message, setType) {
  */
 PHP_METHOD(Phalcon_Validation_Message, getType) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -165,6 +166,7 @@ PHP_METHOD(Phalcon_Validation_Message, setMessage) {
  */
 PHP_METHOD(Phalcon_Validation_Message, getMessage) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_message");
 
@@ -205,6 +207,7 @@ PHP_METHOD(Phalcon_Validation_Message, setField) {
  */
 PHP_METHOD(Phalcon_Validation_Message, getField) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_field");
 
@@ -235,6 +238,7 @@ PHP_METHOD(Phalcon_Validation_Message, setCode) {
  */
 PHP_METHOD(Phalcon_Validation_Message, getCode) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_code");
 
@@ -245,6 +249,7 @@ PHP_METHOD(Phalcon_Validation_Message, getCode) {
  */
 PHP_METHOD(Phalcon_Validation_Message, __toString) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_message");
 

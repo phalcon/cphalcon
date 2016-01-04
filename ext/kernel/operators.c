@@ -372,11 +372,8 @@ int zephir_add_function_ex(zval *result, zval *op1, zval *op2 TSRMLS_DC) {
 	int status;
 	int ref_count = Z_REFCOUNT_P(result);
 	int is_ref = Z_ISREF_P(result);
-#if PHP_VERSION_ID < 50400
-	status = add_function(result, op1, op2 TSRMLS_CC);
-#else
+
 	status = fast_add_function(result, op1, op2 TSRMLS_CC);
-#endif
 	Z_SET_REFCOUNT_P(result, ref_count);
 	Z_SET_ISREF_TO_P(result, is_ref);
 	return status;
@@ -448,9 +445,7 @@ long zephir_get_intval_ex(const zval *op) {
             return zend_hash_num_elements(Z_ARRVAL_P(op)) ? 1 : 0;
             break;
 
-#if PHP_VERSION_ID > 50400
 	    case IS_CALLABLE:
-#endif
 	    case IS_RESOURCE:
 	    case IS_OBJECT:
 	        return 1;
@@ -497,9 +492,8 @@ double zephir_get_doubleval_ex(const zval *op) {
         case IS_ARRAY:
             return zend_hash_num_elements(Z_ARRVAL_P(op)) ? (double) 1 : 0;
             break;
-#if PHP_VERSION_ID > 50400
+
 	    case IS_CALLABLE:
-#endif
 	    case IS_RESOURCE:
 	    case IS_OBJECT:
 	        return (double) 1;
@@ -539,9 +533,8 @@ zend_bool zephir_get_boolval_ex(const zval *op) {
         case IS_ARRAY:
             return zend_hash_num_elements(Z_ARRVAL_P(op)) ? (zend_bool) 1 : 0;
             break;
-#if PHP_VERSION_ID > 50400
+
 	    case IS_CALLABLE:
-#endif
 	    case IS_RESOURCE:
 	    case IS_OBJECT:
 	        return (zend_bool) 1;
@@ -598,12 +591,7 @@ int zephir_is_numeric_ex(const zval *op) {
  */
 int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
-	#if PHP_VERSION_ID < 50400
-	is_equal_function(&result, op1, op2 TSRMLS_CC);
-	return Z_BVAL(result);
-	#else
 	return fast_equal_function(&result, op1, op2 TSRMLS_CC);
-	#endif
 }
 
 /**
@@ -611,12 +599,7 @@ int zephir_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
  */
 int zephir_less(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
-	#if PHP_VERSION_ID < 50400
-	is_smaller_function(&result, op1, op2 TSRMLS_CC);
-	return Z_BVAL(result);
-	#else
 	return fast_is_smaller_function(&result, op1, op2 TSRMLS_CC);
-	#endif
 }
 
 /**

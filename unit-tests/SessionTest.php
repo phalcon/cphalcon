@@ -82,6 +82,14 @@ class SessionTest extends PHPUnit_Framework_TestCase
 		$session->start();
 		@session_start();
 
+
+		// https://github.com/phalcon/cphalcon/issues/11129
+		if (version_compare(phpversion(), "5.4.0", "<")) {
+			$this->assertEquals($session::SESSION_NONE, $session->status());
+		} else {
+			$this->assertEquals($session::SESSION_ACTIVE, $session->status());
+		}
+
 		$session->set('some', 'write-value');
 
 		$this->assertEquals($session->get('some'), 'write-value');

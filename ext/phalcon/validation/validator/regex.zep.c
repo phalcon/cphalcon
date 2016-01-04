@@ -48,10 +48,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
+	zend_bool failed = 0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool failed;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *matches, *message = NULL, *value = NULL, *label = NULL, *replacePairs, *_0, *_1 = NULL, *_2 = NULL, *_3, *_4 = NULL, *_5;
+	zval *validation, *field_param = NULL, *matches = NULL, *message = NULL, *value = NULL, *label = NULL, *replacePairs = NULL, *_0, *_1 = NULL, *_2, *_3$$3, *_4$$5 = NULL, *_6$$5 = NULL, *_7$$5 = NULL, *_8$$5 = NULL, *_5$$7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -80,46 +80,51 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	zephir_check_call_status();
 	zephir_preg_match(_0, _1, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(_0)) {
-		zephir_array_fetch_long(&_3, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 58 TSRMLS_CC);
-		failed = !ZEPHIR_IS_EQUAL(_3, value);
+		zephir_array_fetch_long(&_3$$3, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 58 TSRMLS_CC);
+		failed = !ZEPHIR_IS_EQUAL(_3$$3, value);
 	} else {
 		failed = 1;
 	}
 	if (failed == 1) {
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "label", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _2);
-		zephir_check_temp_parameter(_2);
+		ZEPHIR_INIT_VAR(_4$$5);
+		ZVAL_STRING(_4$$5, "label", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _4$$5);
+		zephir_check_temp_parameter(_4$$5);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _2);
-		zephir_check_temp_parameter(_2);
+		ZEPHIR_INIT_NVAR(_4$$5);
+		ZVAL_STRING(_4$$5, "message", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _4$$5);
+		zephir_check_temp_parameter(_4$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(replacePairs);
 		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_NVAR(_2);
-			ZVAL_STRING(_2, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _2);
-			zephir_check_temp_parameter(_2);
+			ZEPHIR_INIT_VAR(_5$$7);
+			ZVAL_STRING(_5$$7, "Regex", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _5$$7);
+			zephir_check_temp_parameter(_5$$7);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(_2);
-		object_init_ex(_2, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4, "strtr", NULL, 54, message, replacePairs);
+		ZEPHIR_INIT_NVAR(_4$$5);
+		object_init_ex(_4$$5, phalcon_validation_message_ce);
+		ZEPHIR_CALL_FUNCTION(&_6$$5, "strtr", NULL, 54, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_5);
-		ZVAL_STRING(_5, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 440, _4, field, _5);
-		zephir_check_temp_parameter(_5);
+		ZEPHIR_INIT_VAR(_8$$5);
+		ZVAL_STRING(_8$$5, "code", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_7$$5, this_ptr, "getoption", NULL, 0, _8$$5);
+		zephir_check_temp_parameter(_8$$5);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2);
+		ZEPHIR_INIT_NVAR(_8$$5);
+		ZVAL_STRING(_8$$5, "Regex", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 440, _6$$5, field, _8$$5, _7$$5);
+		zephir_check_temp_parameter(_8$$5);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4$$5);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

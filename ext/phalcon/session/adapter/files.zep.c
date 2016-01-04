@@ -20,9 +20,9 @@
  * This adapter store sessions in plain files
  *
  *<code>
- * $session = new \Phalcon\Session\Adapter\Files(array(
- *    'uniqueId' => 'my-private-app'
- * ));
+ * use Phalcon\Session\Adapter\Files;
+ *
+ * $session = new Files(['uniqueId' => 'my-private-app']);
  *
  * $session->start();
  *

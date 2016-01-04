@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Loader, getEventsManager);
 PHP_METHOD(Phalcon_Loader, setExtensions);
 PHP_METHOD(Phalcon_Loader, getExtensions);
 PHP_METHOD(Phalcon_Loader, registerNamespaces);
+PHP_METHOD(Phalcon_Loader, prepareNamespace);
 PHP_METHOD(Phalcon_Loader, getNamespaces);
 PHP_METHOD(Phalcon_Loader, registerDirs);
 PHP_METHOD(Phalcon_Loader, getDirs);
@@ -33,6 +34,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registernamespaces, 0, 0, 1)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_preparenamespace, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, namespace, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerdirs, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, directories, 0)
 	ZEND_ARG_INFO(0, merge)
@@ -54,6 +59,7 @@ ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {
 	PHP_ME(Phalcon_Loader, setExtensions, arginfo_phalcon_loader_setextensions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getExtensions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerNamespaces, arginfo_phalcon_loader_registernamespaces, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Loader, prepareNamespace, arginfo_phalcon_loader_preparenamespace, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Loader, getNamespaces, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerDirs, arginfo_phalcon_loader_registerdirs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getDirs, NULL, ZEND_ACC_PUBLIC)

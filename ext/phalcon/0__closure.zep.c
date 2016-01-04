@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(phalcon_0__closure) {
 PHP_METHOD(phalcon_0__closure, __invoke) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *matches, *words, *_0, *_1, *_2 = NULL;
+	zval *matches, *words = NULL, *_0, *_1, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &matches);

@@ -55,9 +55,9 @@ class Session extends FlashBase implements FlashInterface, InjectionAwareInterfa
 	/**
 	 * Returns the messages stored in session
 	 */
-	protected function _getSessionMessages(boolean remove) -> array
+	protected function _getSessionMessages(boolean remove, type = null) -> array
 	{
-		var dependencyInjector, session, messages;
+		var dependencyInjector, session, messages, returnMessages;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -66,6 +66,17 @@ class Session extends FlashBase implements FlashInterface, InjectionAwareInterfa
 
 		let session = <SessionInterface> dependencyInjector->getShared("session");
 		let messages = session->get("_flashMessages");
+
+		if typeof type == "string" && isset(messages[type]) {
+			if !fetch returnMessages, messages[type] {
+				let returnMessages = [];
+			}
+			if remove === true {
+				unset(messages[type]);
+				session->set("_flashMessages", messages);
+			}
+			return returnMessages;
+		}
 
 		if remove === true {
 			session->remove("_flashMessages");
@@ -132,19 +143,7 @@ class Session extends FlashBase implements FlashInterface, InjectionAwareInterfa
 	 */
 	public function getMessages(type = null, boolean remove = true) -> array
 	{
-		var messages, returnMessages;
-
-		let messages = this->_getSessionMessages(remove);
-
-		if typeof type != "string" {
-			return messages;
-		}
-
-		if !fetch returnMessages, messages[type] {
-			return [];
-		}
-
-		return returnMessages;
+		return this->_getSessionMessages(remove, type);
 	}
 
 	/**

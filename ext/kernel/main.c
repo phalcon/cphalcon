@@ -53,17 +53,9 @@ zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_c
  * Initilializes super global variables if doesn't
  */
 int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC) {
-
-	#if PHP_VERSION_ID < 50400
-	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
-	if (jit_initialization) {
-		return zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
-	}
-	#else
 	if (PG(auto_globals_jit)) {
 		return zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 	}
-	#endif
 
 	return SUCCESS;
 }

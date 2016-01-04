@@ -329,11 +329,7 @@ int zephir_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
-#if PHP_VERSION_ID < 50400
-			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
-#else
 			return ((*ce)->ce_flags & (ZEND_ACC_INTERFACE | (ZEND_ACC_TRAIT - ZEND_ACC_EXPLICIT_ABSTRACT_CLASS))) == 0;
-#endif
 		}
 		return 0;
 	}
@@ -499,11 +495,7 @@ int zephir_read_property(zval **result, zval *object, const char *property_name,
 	EG(scope) = ce;
 
 	if (!Z_OBJ_HT_P(object)->read_property) {
-#if PHP_VERSION_ID < 50400
-		char *class_name;
-#else
 		const char *class_name;
-#endif
 		zend_uint class_name_len;
 
 		zend_get_object_classname(object, &class_name, &class_name_len TSRMLS_CC);
@@ -513,11 +505,7 @@ int zephir_read_property(zval **result, zval *object, const char *property_name,
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
 
-#if PHP_VERSION_ID < 50400
-	*result = Z_OBJ_HT_P(object)->read_property(object, property, silent ? BP_VAR_IS : BP_VAR_R TSRMLS_CC);
-#else
 	*result = Z_OBJ_HT_P(object)->read_property(object, property, silent ? BP_VAR_IS : BP_VAR_R, 0 TSRMLS_CC);
-#endif
 
 	Z_ADDREF_PP(result);
 
@@ -553,16 +541,6 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 		zobj = zend_objects_get_address(object TSRMLS_CC);
 
 		if (zephir_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS) {
-
-			#if PHP_VERSION_ID < 50400
-
-			if (zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
-				EG(scope) = old_scope;
-				return *zv;
-			}
-
-			#else
-
 			int flag;
 			if (EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) {
 				if (zobj->properties) {
@@ -593,9 +571,6 @@ zval* zephir_fetch_property_this_quick(zval *object, const char *property_name, 
 				EG(scope) = old_scope;
 				return *zv;
 			}
-
-			#endif
-
 		}
 
 		EG(scope) = old_scope;
@@ -632,27 +607,6 @@ int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zv
 		zobj = zend_objects_get_address(object TSRMLS_CC);
 
 		if (zephir_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS) {
-
-			#if PHP_VERSION_ID < 50400
-
-			if (zephir_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == SUCCESS) {
-
-				EG(scope) = old_scope;
-
-				if (return_value_ptr) {
-					zval_ptr_dtor(return_value_ptr);
-					Z_ADDREF_PP(zv);
-					*return_value_ptr = *zv;
-				}
-				else {
-					ZVAL_ZVAL(return_value, *zv, 1, 0);
-				}
-
-				return SUCCESS;
-			}
-
-			#else
-
 			int flag;
 			if (EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) {
 				if (zobj->properties) {
@@ -693,9 +647,6 @@ int zephir_return_property_quick(zval *return_value, zval **return_value_ptr, zv
 
 				return SUCCESS;
 			}
-
-			#endif
-
 		}
 
 		EG(scope) = old_scope;
@@ -807,11 +758,7 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 	EG(scope) = ce;
 
 	if (!Z_OBJ_HT_P(object)->write_property) {
-#if PHP_VERSION_ID < 50400
-		char *class_name;
-#else
 		const char *class_name;
-#endif
 		zend_uint class_name_len;
 
 		zend_get_object_classname(object, &class_name, &class_name_len TSRMLS_CC);
@@ -821,11 +768,7 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
 
-#if PHP_VERSION_ID < 50400
-	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
-#else
 	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
-#endif
 
 	if (Z_REFCOUNT_P(property) > 1) {
 		ZVAL_STRINGL(property, property_name, property_length, 1);
@@ -860,33 +803,6 @@ int zephir_update_property_this_quick(zval *object, const char *property_name, z
 
 	old_scope = EG(scope);
 	EG(scope) = ce;
-
-	#if PHP_VERSION_ID < 50400
-
-	{
-		zval *property;
-
-		if (!Z_OBJ_HT_P(object)->write_property) {
-			EG(scope) = old_scope;
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
-			return FAILURE;
-		}
-
-		MAKE_STD_ZVAL(property);
-		ZVAL_STRINGL(property, property_name, property_length, 0);
-
-		Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
-
-		if (Z_REFCOUNT_P(property) > 1) {
-			ZVAL_STRINGL(property, property_name, property_length, 1);
-		} else {
-			ZVAL_NULL(property);
-		}
-
-		zval_ptr_dtor(&property);
-	}
-
-	#else
 
 	{
 		zend_object *zobj;
@@ -937,8 +853,6 @@ int zephir_update_property_this_quick(zval *object, const char *property_name, z
 			return zephir_update_property_zval(object, property_name, property_length, value TSRMLS_CC);
 		}
 	}
-
-	#endif
 
 	EG(scope) = old_scope;
 
@@ -1229,11 +1143,7 @@ int zephir_unset_property(zval* object, const char* name TSRMLS_DC)
 		old_scope = EG(scope);
 		EG(scope) = Z_OBJCE_P(object);
 
-		#if PHP_VERSION_ID < 50400
-			Z_OBJ_HT_P(object)->unset_property(object, &member TSRMLS_CC);
-		#else
-			Z_OBJ_HT_P(object)->unset_property(object, &member, 0 TSRMLS_CC);
-		#endif
+		Z_OBJ_HT_P(object)->unset_property(object, &member, 0 TSRMLS_CC);
 
 		EG(scope) = old_scope;
 
@@ -1352,7 +1262,6 @@ int zephir_read_static_property_ce(zval **result, zend_class_entry *ce, const ch
 	return FAILURE;
 }
 
-#if PHP_VERSION_ID >= 50400
 static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *property_name, int property_name_len, ulong hash_value, zend_bool silent, zend_property_info **
 	property_info TSRMLS_DC)
 {
@@ -1406,7 +1315,6 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 
 	return &CE_STATIC_MEMBERS(ce)[temp_property_info->offset];
 }
-#endif
 
 static int zephir_update_static_property_ex(zend_class_entry *scope, const char *name, int name_length, zval **value, zend_property_info **property_info TSRMLS_DC)
 {
@@ -1444,11 +1352,7 @@ static int zephir_update_static_property_ex(zend_class_entry *scope, const char 
 	}
 
 	EG(scope) = scope;
-#if PHP_VERSION_ID < 50400
-	property = zend_std_get_static_property(scope, name, name_length, 0 TSRMLS_CC);
-#else
 	property = zephir_std_get_static_property(scope, name, name_length, zend_inline_hash_func(name, name_length + 1), 0, property_info TSRMLS_CC);
-#endif
 	EG(scope) = old_scope;
 
 	if (!property) {
@@ -1821,10 +1725,6 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 		return FAILURE;
 	}
 
-#if PHP_VERSION_ID < 50400
-	zend_create_closure(return_value, function_ptr TSRMLS_CC);
-#else
 	zend_create_closure(return_value, function_ptr, ce, this_ptr TSRMLS_CC);
-#endif
 	return SUCCESS;
 }

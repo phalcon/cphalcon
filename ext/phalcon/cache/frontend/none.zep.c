@@ -65,6 +65,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_None) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime) {
 
+	
 
 	RETURN_LONG(1);
 
@@ -75,6 +76,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering) {
 
+	
 
 	RETURN_BOOL(0);
 
@@ -85,6 +87,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, start) {
 
+	
 
 
 }
@@ -96,6 +99,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, getContent) {
 
+	
 
 
 }
@@ -105,6 +109,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, stop) {
 
+	
 
 
 }

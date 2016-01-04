@@ -79,6 +79,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, getEncoding) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_encoding");
 
@@ -113,12 +114,12 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
  */
 PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_6 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zval *_0;
-	zval *str_param = NULL, *charset = NULL, *_1 = NULL, **_4, *_5 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_6 = NULL;
+	zval *str_param = NULL, *charset = NULL, *_1 = NULL, **_4, *_5$$5 = NULL;
 	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -155,9 +156,9 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	  ; zephir_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(charset, _4);
-		ZEPHIR_CALL_FUNCTION(&_5, "mb_detect_encoding", &_6, 177, str, charset, ZEPHIR_GLOBAL(global_true));
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "mb_detect_encoding", &_6, 177, str, charset, ZEPHIR_GLOBAL(global_true));
 		zephir_check_call_status();
-		if (zephir_is_true(_5)) {
+		if (zephir_is_true(_5$$5)) {
 			RETURN_CCTOR(charset);
 		}
 	}
