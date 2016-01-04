@@ -174,6 +174,8 @@ abstract class Pdo extends Adapter
 	 * Executes a prepared statement binding. This function uses integer indexes starting from zero
 	 *
 	 *<code>
+	 * use Phalcon\Db\Column;
+	 *
 	 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
 	 * $result = $connection->executePrepared($statement, ['name' => 'Voltron'], ['name' => Column::BIND_PARAM_INT]);
 	 *</code>
