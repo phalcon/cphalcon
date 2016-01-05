@@ -42,6 +42,6 @@ typedef struct _phannot_parser_status {
 #define PHANNOT_PARSING_FAILED 0
 
 int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC);
-int phannot_internal_parse_annotations(zval **result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line, char **error_msg TSRMLS_DC);
+int phannot_internal_parse_annotations(zval **result, const char *comment, int comment_len, const char *file_path, int line, char **error_msg TSRMLS_DC);
 
 #endif /* PHALCON_ANNOTATIONS_ANNOT_H */

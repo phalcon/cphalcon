@@ -94,9 +94,9 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, char
 int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC) {
 
 	char *comment_str;
-	zend_uint comment_len;
+	int comment_len;
 	char *file_path_str;
-	zend_uint line_num;
+	int line_num;
 
 	char *error_msg = NULL;
 
@@ -140,7 +140,7 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 /**
  * Remove comment separators from a docblock
  */
-static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, const char *comment, zend_uint length, zend_uint *start_lines)
+static void phannot_remove_comment_separators(char **ret, int *ret_len, const char *comment, int length, int *start_lines)
 {
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
@@ -221,6 +221,7 @@ static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, co
 
 	smart_str_0(&processed_str);
 
+#if PHP_VERSION_ID < 70000
 	if (processed_str.len) {
 		*ret     = processed_str.c;
 		*ret_len = processed_str.len;
@@ -228,21 +229,30 @@ static void phannot_remove_comment_separators(char **ret, zend_uint *ret_len, co
 		*ret     = NULL;
 		*ret_len = 0;
 	}
+#else
+	if (processed_str.s) {
+		//*ret     = processed_str.s;
+		//*ret_len = processed_str.len;
+	} else {
+		*ret     = NULL;
+		*ret_len = 0;
+	}
+#endif
 }
 
 /**
  * Parses a comment returning an intermediate array representation
  */
-int phannot_internal_parse_annotations(zval **result, const char *comment, zend_uint comment_len, const char *file_path, zend_uint line, char **error_msg TSRMLS_DC)
+int phannot_internal_parse_annotations(zval **result, const char *comment, int comment_len, const char *file_path, int line, char **error_msg TSRMLS_DC)
 {
 	phannot_scanner_state *state;
 	phannot_scanner_token token;
-	zend_uint start_lines;
+	int start_lines;
 	int scanner_status, status = SUCCESS;
 	phannot_parser_status *parser_status = NULL;
 	void* phannot_parser;
 	char *processed_comment;
-	zend_uint processed_comment_len;
+	int processed_comment_len;
 
 	*error_msg = NULL;
 
@@ -436,9 +446,11 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, zend_
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
 			if (parser_status->ret) {
+#if PHP_VERSION_ID < 70000
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
 				zval_ptr_dtor(&parser_status->ret);
+#endif
 			} else {
 				array_init(*result);
 			}
