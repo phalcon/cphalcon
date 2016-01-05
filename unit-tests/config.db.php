@@ -9,13 +9,13 @@ if (!file_exists(__DIR__ . '/config.db.local.php')) {
 		'dbname' => 'phalcon_test'
 	);
 
-	/*$configPostgresql = array(
+	$configPostgresql = array(
 		'host' => '127.0.0.1',
 		'username' => 'postgres',
 		'password' => '',
 		'dbname' => 'phalcon_test',
 		'schema' => 'public'
-	);*/
+	);
 
 	$configSqlite = array(
 		'dbname' => '/tmp/phalcon_test.sqlite',
