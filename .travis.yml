@@ -14,6 +14,7 @@ services:
   - mongodb
   - memcached
   - redis-server
+  - mysql
 
 before_install:
  - composer --prefer-source install
