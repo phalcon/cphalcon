@@ -51,7 +51,7 @@ static zval *phannot_alloc_zval()
     zval *ret;
 
 #if PHP_VERSION_ID < 70000
-    ret = phannot_alloc_zval();
+    MAKE_STD_ZVAL(ret);
 #else
     ret = emalloc(sizeof(zval *));
 #endif
@@ -132,7 +132,6 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 
 				Z_ADDREF_PP(item);
 				add_next_index_zval(ret, *item);
-
 			}
 			zval_ptr_dtor(&list_left);*/
 		} else {
@@ -151,6 +150,7 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 
 	ret = phannot_alloc_zval();
 	array_init_size(ret, 2);
+
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
 		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);

@@ -231,8 +231,8 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 	}
 #else
 	if (processed_str.s) {
-		//*ret     = processed_str.s;
-		//*ret_len = processed_str.len;
+		*ret     = ZSTR_VAL(processed_str.s);
+		*ret_len = ZSTR_LEN(processed_str.s);
 	} else {
 		*ret     = NULL;
 		*ret_len = 0;
@@ -414,6 +414,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		switch (scanner_status) {
+
 			case PHANNOT_SCANNER_RETCODE_ERR:
 			case PHANNOT_SCANNER_RETCODE_IMPOSSIBLE:
 				if (!*error_msg) {
@@ -421,6 +422,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 				}
 				status = FAILURE;
 				break;
+
 			default:
 				phannot_(phannot_parser, 0, NULL, parser_status);
 		}
@@ -434,8 +436,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
 				*error_msg = parser_status->syntax_error;
-			}
-			else {
+			} else {
 				efree(parser_status->syntax_error);
 			}
 		}

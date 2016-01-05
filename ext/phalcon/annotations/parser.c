@@ -31,7 +31,7 @@ static zval *phannot_alloc_zval()
     zval *ret;
 
 #if PHP_VERSION_ID < 70000
-    ret = phannot_alloc_zval();
+    MAKE_STD_ZVAL(ret);
 #else
     ret = emalloc(sizeof(zval *));
 #endif
@@ -112,7 +112,6 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 
 				Z_ADDREF_PP(item);
 				add_next_index_zval(ret, *item);
-
 			}
 			zval_ptr_dtor(&list_left);*/
 		} else {
@@ -131,6 +130,7 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 
 	ret = phannot_alloc_zval();
 	array_init_size(ret, 2);
+
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
 		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);
@@ -1433,8 +1433,8 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 	}
 #else
 	if (processed_str.s) {
-		//*ret     = processed_str.s;
-		//*ret_len = processed_str.len;
+		*ret     = ZSTR_VAL(processed_str.s);
+		*ret_len = ZSTR_LEN(processed_str.s);
 	} else {
 		*ret     = NULL;
 		*ret_len = 0;
@@ -1616,6 +1616,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		switch (scanner_status) {
+
 			case PHANNOT_SCANNER_RETCODE_ERR:
 			case PHANNOT_SCANNER_RETCODE_IMPOSSIBLE:
 				if (!*error_msg) {
@@ -1623,6 +1624,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 				}
 				status = FAILURE;
 				break;
+
 			default:
 				phannot_(phannot_parser, 0, NULL, parser_status);
 		}
@@ -1636,8 +1638,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
 				*error_msg = parser_status->syntax_error;
-			}
-			else {
+			} else {
 				efree(parser_status->syntax_error);
 			}
 		}
