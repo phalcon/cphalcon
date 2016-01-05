@@ -271,7 +271,11 @@ class Pdo implements ResultInterface
 		 * This a fetch scroll to reach the desired position, however with a big number of records
 		 * maybe it may be very slow
 		 */
+#if PHP_VERSION_ID >= 70000
+		stmt = php_pdo_stmt_fetch_object(Z_OBJ_P((&statement)));
+#else
 		stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
+#endif
 		if (!stmt->dbh) {
 			ZEPHIR_MM_RESTORE();
 			RETURN_FALSE;
