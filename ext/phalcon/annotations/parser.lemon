@@ -121,7 +121,8 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
-			/*zend_hash_internal_pointer_reset_ex(list, &pos);
+#if PHP_VERSION_ID < 70000
+			zend_hash_internal_pointer_reset_ex(list, &pos);
 			for (;; zend_hash_move_forward_ex(list, &pos)) {
 
 				zval ** item;
@@ -133,7 +134,8 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 				Z_ADDREF_PP(item);
 				add_next_index_zval(ret, *item);
 			}
-			zval_ptr_dtor(&list_left);*/
+			zval_ptr_dtor(&list_left);
+#endif            
 		} else {
 			add_next_index_zval(ret, list_left);
 		}
