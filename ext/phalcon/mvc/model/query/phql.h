@@ -35,7 +35,7 @@ typedef struct _phql_parser_status {
 	phql_scanner_state *scanner_state;
 	phql_scanner_token *token;
 	char *syntax_error;
-	unsigned int syntax_error_len;
+	zend_uint syntax_error_len;
 	zend_bool enable_literals;
 } phql_parser_status;
 

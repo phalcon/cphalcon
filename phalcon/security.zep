@@ -459,7 +459,7 @@ class Security implements InjectionAwareInterface
 	}
 
 	/**
- 	 * Returns the default hash
+ 	 * Sets the default hash
  	 */
 	public function getDefaultHash() -> int | null
 	{

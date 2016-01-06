@@ -64,10 +64,7 @@ class PhalconGetUriOptimizer extends OptimizerAbstract
 		$context->headersManager->add('phalcon/mvc/url/utils', HeadersManager::POSITION_LAST);
 
 		$resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
-
-		$symbol = $context->backend->getVariableCode($symbolVariable);
-		$context->codePrinter->output('phalcon_get_uri(' . $symbol . ', ' . $resolvedParams[0] . ');');
-
+		$context->codePrinter->output('phalcon_get_uri(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');');
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 

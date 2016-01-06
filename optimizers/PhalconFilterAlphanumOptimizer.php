@@ -63,10 +63,8 @@ class PhalconFilterAlphanumOptimizer extends OptimizerAbstract
 		$context->headersManager->add('kernel/filter');
 
 		$resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
-
-		$symbol = $context->backend->getVariableCode($symbolVariable);
-		$context->codePrinter->output('zephir_filter_alphanum(' . $symbol . ', ' . $resolvedParams[0] . ');');
-
+		$context->codePrinter->output('zephir_filter_alphanum(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');');
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
+
 }

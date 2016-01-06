@@ -70,9 +70,7 @@ class PhannotParseAnnotationsOptimizer extends OptimizerAbstract
 
 		$call->addCallStatusFlag($context);
 
-		$symbol = $context->backend->getVariableCode($symbolVariable);
-
-		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
+		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
 
 		$call->checkTempParameters($context);
 		$call->addCallStatusOrJump($context);

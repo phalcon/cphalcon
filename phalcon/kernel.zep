@@ -38,7 +38,6 @@ class Kernel
 
 		{
 
-#if PHP_VERSION_ID < 70000
 		char *arKey = Z_STRVAL_P(key), *strKey;
 		int nKeyLength = strlen(arKey);
 		register ulong hash = 5381;
@@ -77,9 +76,6 @@ class Kernel
 		snprintf(strKey, 24, "%lu", hash);
 
 		RETURN_MM_STRING(strKey, 0);
-#else
-		RETURN_MM_NULL();
-#endif
 
 		}
 
