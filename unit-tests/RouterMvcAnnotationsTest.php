@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+require_once 'controllers/AnnotationController.php';
+
 /**
  * @RoutePrefix("/robots")
  */
@@ -141,6 +143,13 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 		$router->addResource('About', '/about');
 		$router->handle('/about');
 		$this->assertEquals(count($router->getRoutes()), 5);
+
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
+		$router->setDefaultNamespace('MyNamespace\Controllers');
+		$router->addResource('Namespaced', '/namespaced');
+		$router->handle('/namespaced');
+		$this->assertEquals(count($router->getRoutes()), 1);
 
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
