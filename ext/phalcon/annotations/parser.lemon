@@ -66,9 +66,9 @@ static zval *phannot_alloc_zval()
 #endif
 
 #if PHP_VERSION_ID < 70000
-#define phannot_add_assoc_stringl_copy(var, index, str, len, copy) add_assoc_stringl(var, index, str, len, copy);
+#define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str, copy);
 #else
-#define phannot_add_assoc_stringl_copy(var, index, str, len) add_assoc_stringl(var, index, str, len);
+#define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str);
 #endif
 
 #if PHP_VERSION_ID < 70000
@@ -178,7 +178,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 		add_assoc_zval(ret, "arguments", arguments);
 	}
 
-	phannot_add_assoc_stringl_copy(ret, "file", (char*)state->active_file, !PHANNOT_IS_INTERNED(state->active_file));
+	phannot_add_assoc_string_copy(ret, "file", (char*)state->active_file, !PHANNOT_IS_INTERNED(state->active_file));
 	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
