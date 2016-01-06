@@ -113,7 +113,7 @@ class MainController
 
 }
 
-namespace MyNamespace\Controllers;
+namespace MyNamespace\Controllers
 {
 	class NamespacedController
 	{
