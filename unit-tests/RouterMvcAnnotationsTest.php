@@ -113,6 +113,20 @@ class MainController
 
 }
 
+namespace MyNamespace\Controllers;
+{
+	class NamespacedController
+	{
+		/**
+		 * @Get("/")
+		 */
+		public function indexAction()
+		{
+			
+		}
+	}
+}
+
 class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 {
 	public function _getDI()
@@ -141,7 +155,14 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 		$router->addResource('About', '/about');
 		$router->handle('/about');
 		$this->assertEquals(count($router->getRoutes()), 5);
-
+		
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
+		$router->setDefaultNamespace('MyNamespace\Controllers');
+		$router->addRessource('Namespaced', '/namespaced');
+		$router->handle('/namespaced');
+		$this->assertEquals(count($router->getRoutes()), 1);
+		
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
 		$router->addResource('Robots');
