@@ -72,9 +72,9 @@
 #endif
 
 #if PHP_VERSION_ID < 70000
-#define phvolt_add_assoc_stringl(var, index, str, len, copy) phvolt_add_assoc_stringl(var, index, str, len, copy);
+#define phvolt_add_assoc_stringl(var, index, str, len, copy) add_assoc_stringl(var, index, str, len, copy);
 #else
-#define phvolt_add_assoc_stringl(var, index, str, len, copy) phvolt_add_assoc_stringl(var, index, str, len);
+#define phvolt_add_assoc_stringl(var, index, str, len, copy) add_assoc_stringl(var, index, str, len);
 #endif
 
 static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_scanner_state *state)

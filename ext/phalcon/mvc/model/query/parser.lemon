@@ -955,7 +955,11 @@ associated_name(R) ::= aliased_or_qualified_name(Q) WITH with_item(W) . {
 	R = phql_ret_assoc_name(Q, NULL, W);
 }
 
-%destructor with_list { zval_ptr_dtor(&$$); }
+%destructor with_list {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 with_list(R) ::= with_list(L) COMMA with_item(I) . {
 	R = phql_ret_zval_list(L, I);
