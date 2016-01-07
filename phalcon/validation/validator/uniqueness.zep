@@ -34,7 +34,7 @@ use Phalcon\Mvc\Model;
  *use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
  *$validator->add('username', new UniquenessValidator(array(
- *    'model' => 'Users',
+ *    'model' => new Users(),
  *    'message' => ':field must be unique'
  *)));
  *</code>
@@ -42,7 +42,7 @@ use Phalcon\Mvc\Model;
  * Different attribute from the field
  *<code>
  *$validator->add('username', new UniquenessValidator(array(
- *    'model' => 'Users',
+ *    'model' => new Users(),
  *    'attribute' => 'nick'
  *)));
  *</code>
