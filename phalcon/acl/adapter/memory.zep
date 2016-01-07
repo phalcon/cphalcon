@@ -26,6 +26,8 @@ use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Acl\RoleAware;
+use Phalcon\Acl\ResourceAware;
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -135,6 +137,20 @@ class Memory extends Adapter
 	 * @var mixed
 	 */
 	protected _accessList;
+
+	/**
+	 * Function List
+	 *
+	 * @var mixed
+	 */
+	protected _func;
+
+	/**
+	 * Default action for no arguments is allow
+	 *
+	 * @var mixed
+	 */
+	protected _noArgumentsDefaultAction = Acl::ALLOW;
 
 	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
@@ -353,7 +369,7 @@ class Memory extends Adapter
 	/**
 	 * Checks if a role has access to a resource
 	 */
-	protected function _allowOrDeny(string roleName, string resourceName, var access, var action)
+	protected function _allowOrDeny(string roleName, string resourceName, var access, var action, var func = null)
 	{
 		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
@@ -382,6 +398,9 @@ class Memory extends Adapter
 
 				let accessKey = roleName . "!" .resourceName . "!" . accessName;
 				let this->_access[accessKey] = action;
+				if func != null {
+				    let this->_func[accessKey] = func;
+				}
 
 				if accessName != "*" {
 					let accessKeyAll = roleName . "!" . resourceName . "!*";
@@ -406,6 +425,9 @@ class Memory extends Adapter
 			 * Define the access action for the specified accessKey
 			 */
 			let this->_access[accessKey] = action;
+			if func != null {
+				let this->_func[accessKey] = func;
+			}
 
 			if access != "*" {
 				let accessKey = roleName . "!" . resourceName . "!*";
@@ -442,15 +464,15 @@ class Memory extends Adapter
 	 * $acl->allow('*', '*', 'browse');
 	 * </code>
 	 */
-	public function allow(string roleName, string resourceName, var access)
+	public function allow(string roleName, string resourceName, var access, var func = null)
 	{
 		var innerRoleName;
 
 		if roleName != "*" {
-			return this->_allowOrDeny(roleName, resourceName, access, Acl::ALLOW);
+			return this->_allowOrDeny(roleName, resourceName, access, Acl::ALLOW, func);
 		} else {
 			for innerRoleName, _ in this->_rolesNames {
-				this->_allowOrDeny(innerRoleName, resourceName, access, Acl::ALLOW);
+				this->_allowOrDeny(innerRoleName, resourceName, access, Acl::ALLOW, func);
 			}
 		}
 	}
@@ -475,15 +497,15 @@ class Memory extends Adapter
 	 * $acl->deny('*', '*', 'browse');
 	 * </code>
 	 */
-	public function deny(string roleName, string resourceName, var access)
+	public function deny(string roleName, string resourceName, var access, var func = null)
 	{
 		var innerRoleName;
 
 		if roleName != "*" {
-			return this->_allowordeny(roleName, resourceName, access, Acl::DENY);
+			return this->_allowordeny(roleName, resourceName, access, Acl::DENY, func);
 		} else {
 			for innerRoleName, _ in this->_rolesNames {
-				this->_allowordeny(innerRoleName, resourceName, access, Acl::DENY);
+				this->_allowordeny(innerRoleName, resourceName, access, Acl::DENY, func);
 			}
 		}
 	}
@@ -499,17 +521,36 @@ class Memory extends Adapter
 	 * $acl->isAllowed('guests', '*', 'edit');
 	 * </code>
 	 */
-	public function isAllowed(string roleName, string resourceName, string access) -> boolean
+	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,
-			inheritedRoles;
+			inheritedRoles, funcAccess = null, resourceObject = null, roleObject = null, funcList;
+
+
+
+		if typeof roleName == "object" {
+			if !(roleName instanceof RoleAware) {
+				throw new Exception("Object passed as roleName must implement RoleAware");
+			}
+			let roleObject = roleName;
+			let roleName = roleObject->getRoleName();
+		}
+
+		if typeof resourceName == "object" {
+			if !(resourceName instanceof ResourceAware) {
+				throw new Exception("Object passed as resourceName must implement ResourceAware");
+			}
+			let resourceObject = resourceName;
+			let resourceName = resourceObject->getResourceName();
+		}
 
 		let this->_activeRole = roleName;
 		let this->_activeResource = resourceName;
 		let this->_activeAccess = access;
 		let accessList = this->_access;
 		let eventsManager = <EventsManager> this->_eventsManager;
+		let funcList = this->_func;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {
@@ -534,6 +575,8 @@ class Memory extends Adapter
 			let haveAccess = accessList[accessKey];
 		}
 
+		fetch funcAccess, funcList[accessKey];
+
 		/**
 		 * Check in the inherits roles
 		 */
@@ -551,6 +594,7 @@ class Memory extends Adapter
 						if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 						}
+						fetch funcAccess, funcList[accessKey];
 					}
 				}
 			}
@@ -576,6 +620,7 @@ class Memory extends Adapter
 						/**
 						 * In the inherited roles
 						 */
+						fetch funcAccess, funcList[accessKey];
 						if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 							break;
@@ -605,6 +650,7 @@ class Memory extends Adapter
 						/**
 						 * In the inherited roles
 						 */
+						 fetch funcAccess, funcList[accessKey];
 						 if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 							break;
@@ -623,7 +669,91 @@ class Memory extends Adapter
 			return false;
 		}
 
+		/**
+		 * If we have funcAccess then do all the checks for it
+		 */
+
+		if funcAccess != null {
+			var reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
+				numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,
+				reflectionParameter;
+			let reflectionFunction = new \ReflectionFunction(funcAccess);
+			let reflectionParameters = reflectionFunction->getParameters();
+			let parameterNumber = count(reflectionParameters);
+			switch parameterNumber {
+				// No parameters, just return haveAccess and call function without array
+				case 0:
+					return (haveAccess == Acl::ALLOW) && call_user_func(funcAccess);
+				// More parameters, do needed stuff
+				default:
+					let parametersForFunction = [];
+					let numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters();
+					let userParametersSizeShouldBe = parameterNumber;
+					for reflectionParameter in reflectionParameters {
+						let reflectionClass = reflectionParameter->getClass();
+						let parameterToCheck = reflectionParameter->getName();
+						if reflectionClass != null {
+							// roleObject is this class
+							if roleObject != null && reflectionClass->isInstance(roleObject) {
+								let parametersForFunction[] = roleObject;
+								let userParametersSizeShouldBe--;
+								continue;
+							}
+							// resourceObject is this class
+							elseif resourceObject != null && reflectionClass->isInstance(resourceObject) {
+								let parametersForFunction[] = resourceObject;
+								let userParametersSizeShouldBe--;
+								continue;
+							}
+							// This is some user defined class, check if his parameter is instance of it
+							elseif parameters != null && isset(parameters[parameterToCheck]) && typeof(parameters[parameterToCheck]) == "object" && !reflectionClass->isInstance(parameters[parameterToCheck]){
+								throw new Exception("Your passed parameter dont have same class as parameter in defined function when check ".roleName." can ".access." " .resourceName.". Class passed: ".get_class($parameters[parameterToCheck])." , Class in defined function: ".reflectionClass->getName().".");
+							}
+						}
+						if parameters != null && isset(parameters[parameterToCheck]) {
+							// We cant check type of ReflectionParameter in PHP 5.x so we just add it as it is
+							let parametersForFunction[] = parameters[parameterToCheck];
+						}
+					}
+					if count(parameters) > userParametersSizeShouldBe {
+						trigger_error("Number of parameters in array is higher than number of parameters in defined function when check ".roleName." can ".access." " .resourceName.". Remember that more parameters than defined in function will be ignored.",E_USER_WARNING);
+					}
+					// We dont have any parameters so check default action
+					if count(parametersForFunction) == 0 {
+						if numberOfRequiredParameters > 0 {
+							trigger_error("You didnt provide any parameters when check ".roleName." can ".access." " .resourceName.". We will use default action when no arguments.");
+							return (haveAccess == Acl::ALLOW) && (this->_noArgumentsDefaultAction == Acl::ALLOW);
+						}
+						// Number of required parameters == 0 so call funcAccess without any arguments
+						return (haveAccess == Acl::ALLOW) && call_user_func(funcAccess);
+					}
+					// Check necessary parameters
+					elseif count(parametersForFunction) >= numberOfRequiredParameters {
+						return (haveAccess == Acl::ALLOW) && call_user_func_array(funcAccess,parametersForFunction);
+					}
+					// We dont have enough parameters
+					else {
+						throw new Exception("You didnt provide all necessary parameters for defined function when check ".roleName." can ".access." ".resourceName);
+					}
+			}
+		}
 		return (haveAccess == Acl::ALLOW);
+	}
+
+	/**
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey
+	 */
+	public function setNoArgumentsDefaultAction(int defaultAccess)
+	{
+		let this->_noArgumentsDefaultAction = defaultAccess;
+	}
+
+	/**
+	 * Returns the default ACL access level for no arguments provided in isAllowed action if there exists func for accessKey
+	 */
+	public function getNoArgumentsDefaultAction() -> int
+	{
+		return this->_noArgumentsDefaultAction;
 	}
 
 	/**
