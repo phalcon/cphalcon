@@ -24,6 +24,8 @@
 namespace Phalcon\Tests\unit\Phalcon\Acl;
 
 use \Phalcon\Acl as PhAcl;
+use Phalcon\Tests\unit\Phalcon\Acl\Helper\TestResourceAware;
+use Phalcon\Tests\unit\Phalcon\Acl\Helper\TestRoleAware;
 use \PhalconTest\Acl\Adapter\Memory as PhTAclMem;
 
 use \PhalconTest\Acl\Role as PhTAclRole;
@@ -494,6 +496,47 @@ class ACLMemoryTest extends TBase
                 $acl->addResource(new PhTAclResource('11'), ['index']);
 
                 $actual = $acl->isResource('11');
+                expect($actual)->true();
+            }
+        );
+    }
+
+    /**
+     * Tests function in Acl Allow Method
+     *
+     * @issue   11235
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2015-12-16
+     */
+    public function testAclAllowFunction()
+    {
+        $this->specify(
+            'The function in allow should be called and isAllowed should return correct values when using function in allow method',
+            function () {
+                $acl = new PhTAclMem;
+                $acl->setDefaultAction(PhAcl::DENY);
+                $acl->addRole('Guests');
+                $acl->addRole('Members', 'Guests');
+                $acl->addRole('Admins', 'Members');
+                $acl->addResource('Post', array('update'));
+                $guest = new TestRoleAware(1,'Guests');
+                $member = new TestRoleAware(2,'Members');
+                $anotherMember = new TestRoleAware(3, 'Members');
+                $admin = new TestRoleAware(4, 'Admins');
+                $model = new TestResourceAware(2, 'Post');
+                $acl->deny('Guests','Post','update');
+                $acl->allow('Members','Post','update',function(TestRoleAware $user,TestResourceAware $model){
+                    return $user->getId() == $model->getUser();
+                });
+                $acl->allow('Admins','Post','update');
+                $actual = (bool)$acl->isAllowed($guest, $model, 'update');
+                expect($actual)->false();
+                $actual = (bool)$acl->isAllowed($member, $model, 'update');
+                expect($actual)->true();
+                $actual = (bool)$acl->isAllowed($anotherMember, $model, 'update');
+                expect($actual)->false();
+                $actual = (bool)$acl->isAllowed($admin, $model, 'update');
                 expect($actual)->true();
             }
         );
