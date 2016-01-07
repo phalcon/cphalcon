@@ -29,6 +29,8 @@
 - `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
 - Added method getOption() in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
+- Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql` 
+- Fixed the use of the annotation router with namespaced controllers
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle

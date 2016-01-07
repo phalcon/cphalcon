@@ -111,6 +111,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 			'index2' => new Index("index2", array('column1', 'column2')),
 			'PRIMARY' => new Index("PRIMARY", array('column3')),
 			'index4' => new Index("index4", array('column4'), 'UNIQUE'),
+			'index5' => new Index("index5", array('column7'), 'FULLTEXT'),
 		);
 	}
 
@@ -308,6 +309,11 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($index4->getName(), 'index4');
 		$this->assertEquals($index4->getColumns(), array('column4'));
 		$this->assertEquals($index4->getType(), 'UNIQUE');
+
+		$index5 = $indexes['index5'];
+		$this->assertEquals($index5->getName(), 'index5');
+		$this->assertEquals($index5->getColumns(), array('column7'));
+		$this->assertEquals($index5->getType(), 'FULLTEXT');
 
 	}
 
