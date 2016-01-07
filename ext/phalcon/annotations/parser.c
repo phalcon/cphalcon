@@ -1651,9 +1651,9 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
 			if (parser_status->ret) {
-#if PHP_VERSION_ID < 70000
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
+#if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
 #endif
 			} else {

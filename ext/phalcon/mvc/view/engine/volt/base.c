@@ -159,7 +159,10 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 	int length;
 	phvolt_scanner_state *state = parser_status->scanner_state;
 
+#if PHP_VERSION_ID < 70000
 	MAKE_STD_ZVAL(*error_msg);
+#endif
+
 	if (state->start) {
 		error = emalloc(sizeof(char) * 72 + state->start_length +  Z_STRLEN_P(state->active_file));
 		if (state->start_length > 16) {
@@ -179,7 +182,12 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 	}
 
 	error[length - 1] = '\0';
+#if PHP_VERSION_ID < 70000
 	ZVAL_STRING(*error_msg, error, 1);
+#else
+    ZVAL_STRING(*error_msg, error);
+#endif
+
 	efree(error);
 }
 
@@ -199,7 +207,9 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
+#if PHP_VERSION_ID < 70000
 		zval_ptr_dtor(&error_msg);
+#endif        
 		return FAILURE;
 	}
 
@@ -239,8 +249,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	/** Check if the view has code */
 	if (!Z_STRVAL_P(view_code)) {
+#if PHP_VERSION_ID < 70000
 		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
+#else
+        ZVAL_STRING(*error_msg, "View code cannot be null");
+#endif
 		return FAILURE;
 	}
 
@@ -252,8 +266,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
 	if (unlikely(!phvolt_parser)) {
+#if PHP_VERSION_ID < 70000
 		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
+#else
+        ZVAL_STRING(*error_msg, "Memory allocation error");
+#endif
 		return FAILURE;
 	}
 
@@ -679,8 +697,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				if (!*error_msg) {
 					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
 					snprintf(error, 48 + Z_STRLEN_P(state->active_file) + state->active_line, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+#if PHP_VERSION_ID < 70000
 					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
+#else
+                    ZVAL_STRING(*error_msg, error);
+#endif
 					efree(error);
 				}
 				break;
@@ -716,8 +738,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
+#if PHP_VERSION_ID < 70000
 				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+#else
+                ZVAL_STRING(*error_msg, parser_status->syntax_error);
+#endif
 			}
 			efree(parser_status->syntax_error);
 		}
@@ -730,7 +756,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			if (parser_status->ret) {
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
+#if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
+#endif
 			} else {
 				array_init(*result);
 			}
