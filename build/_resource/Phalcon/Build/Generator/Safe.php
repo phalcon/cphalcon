@@ -35,18 +35,11 @@ class Generator_Safe
     protected $phalconC;
 
     /**
-     * Generator for config.m4
+     * Generator for config.m4 or config.w32
      *
-     * @var Generator_File_ConfigM4
+     * @var Generator_File_ConfigM4|Generator_File_ConfigW32
      */
-    protected $configM4;
-
-    /**
-     * Generator for config.w32
-     *
-     * @var Generator_File_ConfigW32
-     */
-    protected $configW32;
+    protected $config;
 
     /**
      * Generator for Makefile.frag
@@ -68,8 +61,12 @@ class Generator_Safe
 
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
-        $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
-        //$this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
+
+        if (preg_match('/^WIN/', PHP_OS)) {
+            $this->config = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
+        } else {
+            $this->config = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
+        }
     }
 
     /**
@@ -93,8 +90,7 @@ class Generator_Safe
         $includedHeaderFiles = $this->phalconH->generate();
         $this->phalconC->generate($includedHeaderFiles);
 
-        $this->configM4->generate();
-        //$this->configW32->generate();
+        $this->config->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
         $this->processKernelGlobals();
@@ -108,7 +104,7 @@ class Generator_Safe
         $lines = array();
         foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
             if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
-                $content = file_get_contents('ext/' . $matches[1]);
+                $content = file_get_contents($this->sourceDir . '/' . $matches[1]);
                 $lines[] = $content . PHP_EOL;
             } else {
                 $lines[] = $line;
