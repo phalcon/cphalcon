@@ -105,7 +105,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		$dispatcher->setParams(array(0 => $model->cedula));
 
 		$dispatcher->dispatch();
-		$this->assertInstanceOf(People::class, $dispatcher->getReturnedValue());
+		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
 		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
 
 		//Reset dispatcher
@@ -120,7 +120,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		$dispatcher->setParams(array(0 => $model->cedula));
 
 		$dispatcher->dispatch();
-		$this->assertInstanceOf(People::class, $dispatcher->getReturnedValue());
+		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
 		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
 
     }

@@ -30,6 +30,7 @@
 - Added method getOption() in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
 - Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql` 
+- Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
