@@ -136,6 +136,8 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			 * Pass the cookies bag to the response so it can send the headers at the of the request
 			 */
 			response->setCookies(this);
+
+			let this->_registered = true;
 		}
 
 		return this;
