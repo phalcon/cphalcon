@@ -833,7 +833,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * </code>
 	 *
 	 * @param string|array parameters
-	 * @return \Phalcon\Mvc\Model
+	 * @return static
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
