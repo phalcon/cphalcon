@@ -631,7 +631,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		var basePath, headers;
 
 		if typeof attachmentName != "string" {
-			let basePath = basename(filePath);
+			let basePath = basename(filePath);			
 		} else {
 			let basePath = attachmentName;
 		}
