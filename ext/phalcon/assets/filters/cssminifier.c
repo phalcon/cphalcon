@@ -43,7 +43,13 @@ SOFTWARE.
 #include "php.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
-#include "ext/standard/php_smart_str.h"
+
+#if PHP_VERSION_ID < 70000
+#include <ext/standard/php_smart_str.h>
+#else
+#include <ext/standard/php_smart_string.h>
+#include <zend_smart_str.h>
+#endif
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -259,11 +265,19 @@ static int phalcon_cssmin_internal(zval *return_value, zval *style, const char *
 
 	smart_str_0(&minified);
 
+#if PHP_VERSION_ID < 70000
 	if (minified.len) {
 		ZVAL_STRINGL(return_value, minified.c, minified.len, 0);
 	} else {
 		ZVAL_EMPTY_STRING(return_value);
 	}
+#else
+	if (minified.s) {
+		ZVAL_STR(return_value, minified.s);
+	} else {
+		ZVAL_EMPTY_STRING(return_value);
+	}
+#endif
 
 	*error = parser.error;
 	return SUCCESS;

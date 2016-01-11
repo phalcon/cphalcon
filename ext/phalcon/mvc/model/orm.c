@@ -23,7 +23,13 @@
 
 #include "php.h"
 #include "php_phalcon.h"
-#include "ext/standard/php_smart_str.h"
+
+#if PHP_VERSION_ID < 70000
+#include <ext/standard/php_smart_str.h>
+#else
+#include <ext/standard/php_smart_string.h>
+#include <zend_smart_str.h>
+#endif
 
 /**
  * Destroyes the prepared ASTs
@@ -56,7 +62,7 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		RETURN_ZVAL(str, 1, 0);
-	}	
+	}
 
 	marker = Z_STRVAL_P(str);
 
@@ -79,9 +85,15 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 
 	smart_str_0(&escaped_str);
 
+#if PHP_VERSION_ID < 70000
 	if (escaped_str.len) {
 		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
 	}
+#else
+	if (escaped_str.s) {
+		RETURN_STR(escaped_str.s);
+	}
+#endif
 
 	smart_str_free(&escaped_str);
 	RETURN_EMPTY_STRING();

@@ -126,8 +126,7 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 		if (likely(error_msg != NULL)) {
 			zephir_throw_exception_string(phalcon_annotations_exception_ce, error_msg, strlen(error_msg) TSRMLS_CC);
 			efree(error_msg);
-		}
-		else {
+		} else {
 			zephir_throw_exception_string(phalcon_annotations_exception_ce, SL("There was an error parsing annotation") TSRMLS_CC);
 		}
 
@@ -142,9 +141,9 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 static void phannot_remove_comment_separators(char **ret, int *ret_len, const char *comment, int length, int *start_lines)
 {
+	char ch;
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
-	char ch;
 
 	(*start_lines) = 0;
 
@@ -195,11 +194,15 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else if (ch == ')') {
-						open_parentheses--;
-					} else if (ch == '\n') {
-						(*start_lines)++;
-						start_mode = 1;
+					} else {
+						if (ch == ')') {
+							open_parentheses--;
+						} else {
+							if (ch == '\n') {
+								(*start_lines)++;
+								start_mode = 1;
+							}
+						}
 					}
 
 					if (open_parentheses > 0) {
@@ -231,7 +234,7 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 	}
 #else
 	if (processed_str.s) {
-		*ret     = ZSTR_VAL(processed_str.s);
+		*ret     = estrndup(ZSTR_VAL(processed_str.s), ZSTR_LEN(processed_str.s));
 		*ret_len = ZSTR_LEN(processed_str.s);
 	} else {
 		*ret     = NULL;
@@ -447,10 +450,12 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
 			if (parser_status->ret) {
-#if PHP_VERSION_ID < 70000
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
+#if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
+#else
+				zval_dtor(parser_status->ret);
 #endif
 			} else {
 				array_init(*result);

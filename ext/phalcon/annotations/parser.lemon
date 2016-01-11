@@ -46,14 +46,15 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 
-static zval *phannot_alloc_zval()
+static inline zval *phannot_alloc_zval()
 {
     zval *ret;
 
 #if PHP_VERSION_ID < 70000
     MAKE_STD_ZVAL(ret);
 #else
-    ret = emalloc(sizeof(zval *));
+    ret = emalloc(sizeof(zval));
+    ZVAL_UNDEF(ret);
 #endif
 
     return ret;
@@ -111,7 +112,6 @@ static zval *phannot_ret_array(zval *items)
 static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 {
 	zval *ret;
-	HashPosition pos;
 	HashTable *list;
 
 	ret = phannot_alloc_zval();
@@ -122,20 +122,35 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
 #if PHP_VERSION_ID < 70000
-			zend_hash_internal_pointer_reset_ex(list, &pos);
-			for (;; zend_hash_move_forward_ex(list, &pos)) {
+            {
+                HashPosition pos;
+                zend_hash_internal_pointer_reset_ex(list, &pos);
+    			for (;; zend_hash_move_forward_ex(list, &pos)) {
 
-				zval ** item;
+    				zval ** item;
 
-				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
-					break;
-				}
+    				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
+    					break;
+    				}
 
-				Z_ADDREF_PP(item);
-				add_next_index_zval(ret, *item);
-			}
-			zval_ptr_dtor(&list_left);
-#endif            
+    				Z_ADDREF_PP(item);
+    				add_next_index_zval(ret, *item);
+    			}
+    			zval_ptr_dtor(&list_left);
+            }
+#else
+            {
+                zval *item;
+                ZEND_HASH_FOREACH_VAL(list, item) {
+
+                    Z_TRY_ADDREF_P(item);
+                    add_next_index_zval(ret, item);
+
+                } ZEND_HASH_FOREACH_END();
+            }
+
+            zval_dtor(list_left);
+#endif
 		} else {
 			add_next_index_zval(ret, list_left);
 		}

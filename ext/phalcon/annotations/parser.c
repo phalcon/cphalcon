@@ -26,14 +26,15 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 
-static zval *phannot_alloc_zval()
+static inline zval *phannot_alloc_zval()
 {
     zval *ret;
 
 #if PHP_VERSION_ID < 70000
     MAKE_STD_ZVAL(ret);
 #else
-    ret = emalloc(sizeof(zval *));
+    ret = emalloc(sizeof(zval));
+    ZVAL_UNDEF(ret);
 #endif
 
     return ret;
@@ -91,7 +92,6 @@ static zval *phannot_ret_array(zval *items)
 static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 {
 	zval *ret;
-	HashPosition pos;
 	HashTable *list;
 
 	ret = phannot_alloc_zval();
@@ -102,20 +102,35 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
 #if PHP_VERSION_ID < 70000
-			zend_hash_internal_pointer_reset_ex(list, &pos);
-			for (;; zend_hash_move_forward_ex(list, &pos)) {
+            {
+                HashPosition pos;
+                zend_hash_internal_pointer_reset_ex(list, &pos);
+    			for (;; zend_hash_move_forward_ex(list, &pos)) {
 
-				zval ** item;
+    				zval ** item;
 
-				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
-					break;
-				}
+    				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
+    					break;
+    				}
 
-				Z_ADDREF_PP(item);
-				add_next_index_zval(ret, *item);
-			}
-			zval_ptr_dtor(&list_left);
-#endif            
+    				Z_ADDREF_PP(item);
+    				add_next_index_zval(ret, *item);
+    			}
+    			zval_ptr_dtor(&list_left);
+            }
+#else
+            {
+                zval *item;
+                ZEND_HASH_FOREACH_VAL(list, item) {
+
+                    Z_TRY_ADDREF_P(item);
+                    add_next_index_zval(ret, item);
+
+                } ZEND_HASH_FOREACH_END();
+            }
+
+            zval_dtor(list_left);
+#endif
 		} else {
 			add_next_index_zval(ret, list_left);
 		}
@@ -167,7 +182,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 }
 
 
-// 171 "parser.c"
+// 186 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -524,7 +539,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     case 15:
     case 16:
     case 17:
-// 236 "parser.lemon"
+// 251 "parser.lemon"
 {
 	if ((aapminor->aa0)) {
 		if ((aapminor->aa0)->free_flag) {
@@ -533,7 +548,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
 		efree((aapminor->aa0));
 	}
 }
-// 537 "parser.c"
+// 552 "parser.c"
       break;
     case 20:
     case 21:
@@ -541,13 +556,13 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     case 23:
     case 24:
     case 25:
-// 249 "parser.lemon"
+// 264 "parser.lemon"
 {
 #if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&(aapminor->aa36));
 #endif
 }
-// 551 "parser.c"
+// 566 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -785,166 +800,166 @@ static void aa_reduce(
   **     break;
   */
       case 0:
-// 245 "parser.lemon"
+// 260 "parser.lemon"
 {
 	status->ret = aamsp[0].minor.aa36;
 }
-// 793 "parser.c"
+// 808 "parser.c"
         break;
       case 1:
       case 14:
       case 15:
-// 255 "parser.lemon"
+// 270 "parser.lemon"
 {
 	aagotominor.aa36 = aamsp[0].minor.aa36;
 }
-// 802 "parser.c"
+// 817 "parser.c"
         break;
       case 2:
-// 265 "parser.lemon"
+// 280 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_zval_list(aamsp[-1].minor.aa36, aamsp[0].minor.aa36);
 }
-// 809 "parser.c"
+// 824 "parser.c"
         break;
       case 3:
       case 8:
-// 269 "parser.lemon"
+// 284 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_zval_list(NULL, aamsp[0].minor.aa36);
 }
-// 817 "parser.c"
+// 832 "parser.c"
         break;
       case 4:
-// 280 "parser.lemon"
+// 295 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_annotation(aamsp[-3].minor.aa0, aamsp[-1].minor.aa36, status->scanner_state);
   aa_destructor(2,&aamsp[-4].minor);
   aa_destructor(4,&aamsp[-2].minor);
   aa_destructor(5,&aamsp[0].minor);
 }
-// 827 "parser.c"
+// 842 "parser.c"
         break;
       case 5:
-// 284 "parser.lemon"
+// 299 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_annotation(aamsp[-2].minor.aa0, NULL, status->scanner_state);
   aa_destructor(2,&aamsp[-3].minor);
   aa_destructor(4,&aamsp[-1].minor);
   aa_destructor(5,&aamsp[0].minor);
 }
-// 837 "parser.c"
+// 852 "parser.c"
         break;
       case 6:
-// 288 "parser.lemon"
+// 303 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_annotation(aamsp[0].minor.aa0, NULL, status->scanner_state);
   aa_destructor(2,&aamsp[-1].minor);
 }
-// 845 "parser.c"
+// 860 "parser.c"
         break;
       case 7:
-// 298 "parser.lemon"
+// 313 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_zval_list(aamsp[-2].minor.aa36, aamsp[0].minor.aa36);
   aa_destructor(1,&aamsp[-1].minor);
 }
-// 853 "parser.c"
+// 868 "parser.c"
         break;
       case 9:
-// 312 "parser.lemon"
+// 327 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_named_item(NULL, aamsp[0].minor.aa36);
 }
-// 860 "parser.c"
+// 875 "parser.c"
         break;
       case 10:
       case 12:
-// 316 "parser.lemon"
+// 331 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_named_item(aamsp[-2].minor.aa0, aamsp[0].minor.aa36);
   aa_destructor(7,&aamsp[-1].minor);
 }
-// 869 "parser.c"
+// 884 "parser.c"
         break;
       case 11:
       case 13:
-// 320 "parser.lemon"
+// 335 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_named_item(aamsp[-2].minor.aa0, aamsp[0].minor.aa36);
   aa_destructor(8,&aamsp[-1].minor);
 }
-// 878 "parser.c"
+// 893 "parser.c"
         break;
       case 16:
-// 346 "parser.lemon"
+// 361 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, aamsp[0].minor.aa0);
 }
-// 885 "parser.c"
+// 900 "parser.c"
         break;
       case 17:
-// 350 "parser.lemon"
+// 365 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, aamsp[0].minor.aa0);
 }
-// 892 "parser.c"
+// 907 "parser.c"
         break;
       case 18:
-// 354 "parser.lemon"
+// 369 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_STRING, aamsp[0].minor.aa0);
 }
-// 899 "parser.c"
+// 914 "parser.c"
         break;
       case 19:
-// 358 "parser.lemon"
+// 373 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, aamsp[0].minor.aa0);
 }
-// 906 "parser.c"
+// 921 "parser.c"
         break;
       case 20:
-// 362 "parser.lemon"
+// 377 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   aa_destructor(11,&aamsp[0].minor);
 }
-// 914 "parser.c"
+// 929 "parser.c"
         break;
       case 21:
-// 366 "parser.lemon"
+// 381 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   aa_destructor(12,&aamsp[0].minor);
 }
-// 922 "parser.c"
+// 937 "parser.c"
         break;
       case 22:
-// 370 "parser.lemon"
+// 385 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   aa_destructor(13,&aamsp[0].minor);
 }
-// 930 "parser.c"
+// 945 "parser.c"
         break;
       case 23:
-// 374 "parser.lemon"
+// 389 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_array(aamsp[-1].minor.aa36);
   aa_destructor(14,&aamsp[-2].minor);
   aa_destructor(15,&aamsp[0].minor);
 }
-// 939 "parser.c"
+// 954 "parser.c"
         break;
       case 24:
-// 378 "parser.lemon"
+// 393 "parser.lemon"
 {
 	aagotominor.aa36 = phannot_ret_array(aamsp[-1].minor.aa36);
   aa_destructor(16,&aamsp[-2].minor);
   aa_destructor(17,&aamsp[0].minor);
 }
-// 948 "parser.c"
+// 963 "parser.c"
         break;
   };
   aagoto = aaRuleInfo[aaruleno].lhs;
@@ -986,7 +1001,7 @@ static void aa_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define ATOKEN (aaminor.aa0)
-// 191 "parser.lemon"
+// 206 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
 		char *token_name = NULL;
@@ -1031,7 +1046,7 @@ static void aa_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1035 "parser.c"
+// 1050 "parser.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -1330,8 +1345,7 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 		if (likely(error_msg != NULL)) {
 			zephir_throw_exception_string(phalcon_annotations_exception_ce, error_msg, strlen(error_msg) TSRMLS_CC);
 			efree(error_msg);
-		}
-		else {
+		} else {
 			zephir_throw_exception_string(phalcon_annotations_exception_ce, SL("There was an error parsing annotation") TSRMLS_CC);
 		}
 
@@ -1346,9 +1360,9 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 static void phannot_remove_comment_separators(char **ret, int *ret_len, const char *comment, int length, int *start_lines)
 {
+	char ch;
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
-	char ch;
 
 	(*start_lines) = 0;
 
@@ -1399,11 +1413,15 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 
 					if (ch == '(') {
 						open_parentheses++;
-					} else if (ch == ')') {
-						open_parentheses--;
-					} else if (ch == '\n') {
-						(*start_lines)++;
-						start_mode = 1;
+					} else {
+						if (ch == ')') {
+							open_parentheses--;
+						} else {
+							if (ch == '\n') {
+								(*start_lines)++;
+								start_mode = 1;
+							}
+						}
 					}
 
 					if (open_parentheses > 0) {
@@ -1435,7 +1453,7 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 	}
 #else
 	if (processed_str.s) {
-		*ret     = ZSTR_VAL(processed_str.s);
+		*ret     = estrndup(ZSTR_VAL(processed_str.s), ZSTR_LEN(processed_str.s));
 		*ret_len = ZSTR_LEN(processed_str.s);
 	} else {
 		*ret     = NULL;
@@ -1651,10 +1669,12 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
 			if (parser_status->ret) {
-#if PHP_VERSION_ID < 70000
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
+#if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
+#else
+				zval_dtor(parser_status->ret);
 #endif
 			} else {
 				array_init(*result);
