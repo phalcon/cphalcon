@@ -161,6 +161,8 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 
 #if PHP_VERSION_ID < 70000
 	MAKE_STD_ZVAL(*error_msg);
+#else
+    ZVAL_NULL(*error_msg);
 #endif
 
 	if (state->start) {
@@ -196,9 +198,17 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
  */
 int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC){
 
+#if PHP_VERSION_ID < 70000
 	zval *error_msg = NULL;
+#else
+    zval em, *error_msg = &em;
+#endif
 
 	ZVAL_NULL(result);
+
+#if PHP_VERSION_ID < 70000
+    ZVAL_NULL(error_msg);
+#endif
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "View code must be a string");
@@ -209,7 +219,9 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
 #if PHP_VERSION_ID < 70000
 		zval_ptr_dtor(&error_msg);
-#endif        
+#else
+        zval_dtor(error_msg);
+#endif
 		return FAILURE;
 	}
 
@@ -701,7 +713,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 #else
-                    ZVAL_STRING(*error_msg, error);
+                    ZVAL_STRING((*error_msg), error);
 #endif
 					efree(error);
 				}
@@ -737,14 +749,14 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;
 		if (parser_status->syntax_error) {
-			if (!*error_msg) {
 #if PHP_VERSION_ID < 70000
+            if (!*error_msg) {
 				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+            }
 #else
-                ZVAL_STRING(*error_msg, parser_status->syntax_error);
+            ZVAL_STRING(*error_msg, parser_status->syntax_error);
 #endif
-			}
 			efree(parser_status->syntax_error);
 		}
 	}
@@ -758,6 +770,8 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				ZVAL_NULL(parser_status->ret);
 #if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
+#else
+                zval_dtor(parser_status->ret);
 #endif
 			} else {
 				array_init(*result);

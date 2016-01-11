@@ -68,13 +68,19 @@
 #if PHP_VERSION_ID < 70000
 #define PHVOLT_DEFINE_INIT_ZVAL(var) zval *var; MAKE_STD_ZVAL(var);
 #else
-#define PHVOLT_DEFINE_INIT_ZVAL(var) zval __tmp##var ; zval *var = &__tmp##var;
+#define PHVOLT_DEFINE_INIT_ZVAL(var) zval *var = emalloc(sizeof(zval)); ZVAL_UNDEF(var);
 #endif
 
 #if PHP_VERSION_ID < 70000
 #define phvolt_add_assoc_stringl(var, index, str, len, copy) add_assoc_stringl(var, index, str, len, copy);
 #else
 #define phvolt_add_assoc_stringl(var, index, str, len, copy) add_assoc_stringl(var, index, str, len);
+#endif
+
+#if PHP_VERSION_ID < 70000
+#define PHVOLT_ADDREF_P(var) Z_ADDREF_P(var)
+#else
+#define PHVOLT_ADDREF_P(var) Z_TRY_ADDREF_P(var)
 #endif
 
 static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_scanner_state *state)
@@ -88,9 +94,8 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_sc
 		efree(T);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -112,9 +117,8 @@ static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *fa
 		add_assoc_zval(ret, "false_statements", false_statements);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -129,9 +133,8 @@ static zval *phvolt_ret_elseif_statement(zval *expr, phvolt_scanner_state *state
 	add_assoc_long(ret, "type", PHVOLT_T_ELSEIF);
 	add_assoc_zval(ret, "expr", expr);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -145,9 +148,8 @@ static zval *phvolt_ret_elsefor_statement(phvolt_scanner_state *state)
 	array_init_size(ret, 4);
 	add_assoc_long(ret, "type", PHVOLT_T_ELSEFOR);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -176,9 +178,8 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 
 	add_assoc_zval(ret, "block_statements", block_statements);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -199,9 +200,8 @@ static zval *phvolt_ret_cache_statement(zval *expr, zval *lifetime, zval *block_
 	}
 	add_assoc_zval(ret, "block_statements", block_statements);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -217,9 +217,8 @@ static zval *phvolt_ret_raw_statement(zval *statement, phvolt_scanner_state *sta
 	add_assoc_long(ret, "type", PHVOLT_T_RAW);
 	add_assoc_zval(ret, "content", statement);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -246,14 +245,11 @@ static zval *phvolt_ret_set_assignment(zval *assignable_expr, int operator, zval
 	array_init_size(ret, 5);
 
 	add_assoc_zval(ret, "variable", assignable_expr);
-
 	add_assoc_long(ret, "op", operator);
-
 	add_assoc_zval(ret, "expr", expr);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -268,9 +264,8 @@ static zval *phvolt_ret_echo_statement(zval *expr, phvolt_scanner_state *state)
 	add_assoc_long(ret, "type", PHVOLT_T_ECHO);
 	add_assoc_zval(ret, "expr", expr);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -292,9 +287,8 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 		add_assoc_zval(ret, "block_statements", block_statements);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -319,9 +313,8 @@ static zval *phvolt_ret_macro_statement(phvolt_parser_token *macro_name, zval *p
 		add_assoc_zval(ret, "block_statements", block_statements);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -341,9 +334,8 @@ static zval *phvolt_ret_macro_parameter(phvolt_parser_token *variable, zval *def
 		add_assoc_zval(ret, "default", default_value);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -359,9 +351,8 @@ static zval *phvolt_ret_extends_statement(zval *path, phvolt_scanner_state *stat
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
 	add_assoc_zval(ret, "path", path);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -381,9 +372,8 @@ static zval *phvolt_ret_include_statement(zval *path, zval *params, phvolt_scann
 		add_assoc_zval(ret, "params", params);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -397,12 +387,10 @@ static zval *phvolt_ret_do_statement(zval *expr, phvolt_scanner_state *state)
 	array_init_size(ret, 5);
 
 	add_assoc_long(ret, "type", PHVOLT_T_DO);
-
 	add_assoc_zval(ret, "expr", expr);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -416,12 +404,10 @@ static zval *phvolt_ret_return_statement(zval *expr, phvolt_scanner_state *state
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_RETURN);
-
 	add_assoc_zval(ret, "expr", expr);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -438,9 +424,8 @@ static zval *phvolt_ret_autoescape_statement(int enable, zval *block_statements,
 	add_assoc_long(ret, "enable", enable);
 	add_assoc_zval(ret, "block_statements", block_statements);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -454,9 +439,8 @@ static zval *phvolt_ret_empty_statement(phvolt_scanner_state *state)
 	array_init_size(ret, 3);
 	add_assoc_long(ret, "type", PHVOLT_T_EMPTY_STATEMENT);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -470,9 +454,8 @@ static zval *phvolt_ret_break_statement(phvolt_scanner_state *state)
 	array_init_size(ret, 3);
 	add_assoc_long(ret, "type", PHVOLT_T_BREAK);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -486,9 +469,8 @@ static zval *phvolt_ret_continue_statement(phvolt_scanner_state *state)
 	array_init_size(ret, 3);
 	add_assoc_long(ret, "type", PHVOLT_T_CONTINUE);
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -497,7 +479,6 @@ static zval *phvolt_ret_continue_statement(phvolt_scanner_state *state)
 
 static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 {
-	HashPosition pos;
 	HashTable *list;
 
 	PHVOLT_DEFINE_INIT_ZVAL(ret);
@@ -509,20 +490,33 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
 #if PHP_VERSION_ID < 70000
-			zend_hash_internal_pointer_reset_ex(list, &pos);
-			for (;; zend_hash_move_forward_ex(list, &pos)) {
+			{
+				HashPosition pos;
+				zend_hash_internal_pointer_reset_ex(list, &pos);
+				for (;; zend_hash_move_forward_ex(list, &pos)) {
 
-				zval ** item;
+					zval ** item;
 
-				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
-					break;
+					if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
+						break;
+					}
+
+					Z_ADDREF_PP(item);
+					add_next_index_zval(ret, *item);
+
 				}
-
-				Z_ADDREF_PP(item);
-				add_next_index_zval(ret, *item);
-
+				zval_ptr_dtor(&list_left);
 			}
-			zval_ptr_dtor(&list_left);
+#else
+			{
+				zval *item;
+				ZEND_HASH_FOREACH_VAL(list, item) {
+
+					Z_TRY_ADDREF_P(item);
+					add_next_index_zval(ret, item);
+
+				} ZEND_HASH_FOREACH_END();
+			}
 #endif
 		} else {
 			add_next_index_zval(ret, list_left);
@@ -545,9 +539,8 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt
 		efree(name);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -573,9 +566,8 @@ static zval *phvolt_ret_expr(int type, zval *left, zval *right, zval *ternary, p
 		add_assoc_zval(ret, "right", right);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -598,9 +590,8 @@ static zval *phvolt_ret_slice(zval *left, zval *start, zval *end, phvolt_scanner
 		add_assoc_zval(ret, "end", end);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -620,9 +611,8 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 		add_assoc_zval(ret, "arguments", arguments);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -646,9 +636,8 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 		add_assoc_zval(ret, "caller", caller);
 	}
 
-#if PHP_VERSION_ID < 70000
-	Z_ADDREF_P(state->active_file);
-#endif
+	PHVOLT_ADDREF_P(state->active_file);
+
 	add_assoc_zval(ret, "file", state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 
@@ -755,7 +744,7 @@ static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *
 		}
 #else
 		if (error_str.s) {
-			status->syntax_error = ZSTR_VAL(error_str.s);
+			status->syntax_error = estrndup(ZSTR_VAL(error_str.s), ZSTR_LEN(error_str.s));
 			status->syntax_error_len = ZSTR_LEN(error_str.s);
 		} else {
 			status->syntax_error = NULL;
