@@ -184,7 +184,7 @@ abstract class Flash
 				 * We create the applying formatting or not
 				 */
 				if automaticHtml === true {
-					let htmlMessage = "<div" . cssClasses . " role="alert">" . msg . "</div>" . eol;
+					let htmlMessage = "<div" . cssClasses . " role=\"alert\">" . msg . "</div>" . eol;
 				} else {
 					let htmlMessage = msg;
 				}
@@ -210,7 +210,7 @@ abstract class Flash
 			 * We create the applying formatting or not
 			 */
 			if automaticHtml === true {
-				let htmlMessage = "<div" . cssClasses . " role="alert">" . message . "</div>" . eol;
+				let htmlMessage = "<div" . cssClasses . " role=\"alert\">" . message . "</div>" . eol;
 			} else {
 				let htmlMessage = message;
 			}
