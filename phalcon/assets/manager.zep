@@ -290,7 +290,7 @@ class Manager
 	 * @param callback callback
 	 * @param string type
 	 */
-	public function output(<Collection> collection, callback, type)
+	public function output(<Collection> collection, callback, type) -> string | null
 	{
 		var output, resources, filters, prefix, sourceBasePath = null,
 			targetBasePath = null, options, collectionSourcePath, completeSourcePath,
@@ -700,7 +700,7 @@ class Manager
 	 * @param \Phalcon\Assets\Collection collection
 	 * @param string type
 	 */
-	public function outputInline(<Collection> collection, type)
+	public function outputInline(<Collection> collection, type) -> string | null
 	{
 		var output, html, codes, filters, filter, code, attributes, content, join, joinedContent;
 
@@ -762,7 +762,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputCss(collectionName = null)
+	public function outputCss(collectionName = null) -> string | null
 	{
 		var collection;
 
@@ -780,7 +780,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputInlineCss(collectionName = null)
+	public function outputInlineCss(collectionName = null) -> string | null
 	{
 		var collection;
 
@@ -798,7 +798,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputJs(collectionName = null)
+	public function outputJs(collectionName = null) -> string | null
 	{
 		var collection;
 
@@ -816,7 +816,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputInlineJs(collectionName = null)
+	public function outputInlineJs(collectionName = null) -> string | null
 	{
 		var collection;
 
