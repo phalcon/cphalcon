@@ -1,6 +1,8 @@
 Phalcon Framework
 =================
 
+[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
+
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
 Get Started
@@ -75,12 +77,6 @@ External Links
 * [Zephir](http://zephir-lang.com/)
 * [Twitter](http://twitter.com/phalconphp)
 
-Current Build Status
---------------------
-
-Phalcon Framework is built under the Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
-
-[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
 
 Meet the Incubator
 -----------
@@ -90,4 +86,4 @@ Just give it a try and help us improve Phalcon even more!
 
 License
 -------
-Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more
+Phalcon is open source software licensed under the New BSD License.
