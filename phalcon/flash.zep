@@ -143,7 +143,7 @@ abstract class Flash
 	 *
 	 * @param string|array message
 	 */
-	public function outputMessage(string type, var message)
+	public function outputMessage(string type, var message) -> string | null
 	{
 		boolean automaticHtml, implicitFlush;
 		var content, cssClasses, classes, typeClasses, eol, msg,
