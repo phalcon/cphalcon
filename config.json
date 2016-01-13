@@ -96,6 +96,14 @@
         "orm.ignore_unknown_columns": {
             "type": "bool",
             "default": false
+        },
+        "orm.check_existing_record_before_save": {
+            "type": "bool",
+            "default": false
+        },
+        "orm.use_write_connection_on_save": {
+            "type": "bool",
+            "default": true
         }
     },
     "destructors": {
