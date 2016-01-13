@@ -6,7 +6,7 @@ class Test9Controller extends Phalcon\Mvc\Controller implements Phalcon\Mvc\Cont
 {
 	public static function getModelName()
 	{
-		return People::class;
+		return 'People';
 	}
 
 	public function viewAction(Model $model)
