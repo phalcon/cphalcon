@@ -351,23 +351,19 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Check for an parameters
 		 */
-		if routeFound {
-			if fetch params, parts["params"] {
-				if typeof params != "array" {
-					let strParams = substr((string)params, 1);
-					if strParams {
-						let params = explode(Route::getDelimiter(), strParams);
-					} else {
-						let params = [];
-					}
+		if fetch params, parts["params"] {
+			if typeof params != "array" {
+				let strParams = substr((string)params, 1);
+				if strParams {
+					let params = explode(Route::getDelimiter(), strParams);
+				} else {
+					let params = [];
 				}
-				unset parts["params"];
 			}
-			if count(params) {
-				let params = array_merge(params, parts);
-			} else {
-				let params = parts;
-			}
+			unset parts["params"];
+		}
+		if count(params) {
+			let params = array_merge(params, parts);
 		} else {
 			let params = parts;
 		}

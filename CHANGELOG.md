@@ -36,6 +36,7 @@
 - `Phalcon\Acl\AdapterInterface::allow` and `Phalcon\Acl\AdapterInterface::deny` have 4th argument - function, which will be called when using `Phalcon\Acl\AdapterInterface::isAllowed`
 - `Phalcon\Acl\AdapterInterface::isAllowed` have 4th argument - parameters, you can pass arguments for function defined in `Phalcon\Acl\AdapterInterface:allow` or `Phalcon\Acl\AdapterInterface::deny` as associative array where key is argument name
 - Added method getActionSuffix() in `Phalcon\DispatcherInterface`
+- CLI parameters are now handled consistently.
 - Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
 - Added `Phalcon\Dispatcher::hasParam()`.
 - `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.

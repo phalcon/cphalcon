@@ -102,4 +102,27 @@ class DispatcherCliTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testCliParameters()
+	{
+		$di = new \Phalcon\DI\FactoryDefault\CLI();
+
+		$dispatcher = new \Phalcon\CLI\Dispatcher();
+
+		$di->setShared("dispatcher", $dispatcher);
+
+		$dispatcher->setDI($di);
+
+		$dispatcher->setTaskName('params');
+		$dispatcher->setActionName('params');
+		$dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
+		$dispatcher->dispatch();
+		$this->assertEquals($dispatcher->getReturnedValue(), 'same');
+
+		$dispatcher->setTaskName('params');
+		$dispatcher->setActionName('param');
+		$dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
+		$dispatcher->dispatch();
+		$this->assertEquals($dispatcher->getReturnedValue(), 'same');
+	}
+
 }
