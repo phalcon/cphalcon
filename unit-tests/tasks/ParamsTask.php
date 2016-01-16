@@ -5,14 +5,14 @@ class ParamsTask extends \Phalcon\CLI\Task
 	public function paramsAction($params)
 	{
 		return ($params === $this->dispatcher->getParams())
-				? 'same'
-				: 'not same';
+				? '$params is the same as $this->dispatcher->getParams()'
+				: '$params is not the same as $this->dispatcher->getParams()';
 	}
 
 	public function paramAction($params)
 	{
 		return ($params[0] === $this->dispatcher->getParam(0))
-				? 'same'
-				: 'not same';
+				? '$param[0] is the same as $this->dispatcher->getParam(0)'
+				: '$param[0] is not the same as $this->dispatcher->getParam(0)';
 	}
 }

@@ -112,17 +112,19 @@ class DispatcherCliTest extends PHPUnit_Framework_TestCase
 
 		$dispatcher->setDI($di);
 
+		// Test $this->dispatcher->getParams()
 		$dispatcher->setTaskName('params');
 		$dispatcher->setActionName('params');
 		$dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
 		$dispatcher->dispatch();
-		$this->assertEquals($dispatcher->getReturnedValue(), 'same');
+		$this->assertEquals($dispatcher->getReturnedValue(), '$params is the same as $this->dispatcher->getParams()');
 
+		// Test $this->dispatcher->getParam()
 		$dispatcher->setTaskName('params');
 		$dispatcher->setActionName('param');
 		$dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
 		$dispatcher->dispatch();
-		$this->assertEquals($dispatcher->getReturnedValue(), 'same');
+		$this->assertEquals($dispatcher->getReturnedValue(), '$param[0] is the same as $this->dispatcher->getParam(0)');
 	}
 
 }
