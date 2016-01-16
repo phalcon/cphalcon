@@ -703,7 +703,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		return handlerClass;
 	}
 
-	public function callActionMethod(handler, actionMethod, params)
+	public function callActionMethod(handler, string actionMethod, array! params = [])
 	{
 		return call_user_func_array([handler, actionMethod], params);
 	}

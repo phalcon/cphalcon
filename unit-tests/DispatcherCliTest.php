@@ -127,4 +127,21 @@ class DispatcherCliTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dispatcher->getReturnedValue(), '$param[0] is the same as $this->dispatcher->getParam(0)');
 	}
 
+	public function testCallActionMethod()
+	{
+		$di = new \Phalcon\DI\FactoryDefault\CLI();
+
+		$dispatcher = new \Phalcon\CLI\Dispatcher();
+
+		$di->setShared("dispatcher", $dispatcher);
+
+		$dispatcher->setDI($di);
+
+		$mainTask = new MainTask();
+		$mainTask->setDI($di);
+
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'mainAction', []), 'mainAction');
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'helloAction', ['World']), 'Hello World!');
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'helloAction', ['World', '.']), 'Hello World.');
+	}
 }

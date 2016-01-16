@@ -152,7 +152,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 		return this->_options;
 	}
 
-	public function callActionMethod(handler, actionMethod, params)
+	public function callActionMethod(handler, string actionMethod, array! params = [])
 	{
 		return call_user_func_array([handler, actionMethod], [params]);
 	}
