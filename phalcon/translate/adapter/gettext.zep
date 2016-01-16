@@ -57,7 +57,7 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	public function __construct(array! options)
 	{
 		if (!function_exists("gettext")) {
-			throw new Exception("This class require the gettext extension for PHP");
+			throw new Exception("This class requires the gettext extension for PHP");
 		}
 
 		parent::__construct(options);

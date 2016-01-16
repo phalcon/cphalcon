@@ -6,6 +6,8 @@
 - Added support to define position of the column in `Phalcon\Db\Dialect\MySQL::modifyColumn`
 - Fixed `Phalcon\Mvc\Model\Query\Builder` bug[#11298] related to resetting limit to null
 - Fixed `Phalcon\Tag::getTitle` bug[#11185]. Now a title will be automatically escaped.
+- Fixed `Gettext::exists` bug[#11310] related to the wrong returned value (always true)
+- Fixed `Gettext::setLocale` bug[#11311] related to the incorrect setting locale
 
 # [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter
