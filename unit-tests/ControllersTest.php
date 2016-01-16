@@ -123,7 +123,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		try {
 			$dispatcher->dispatch();
 		}catch (Exception $e) {
-			$error = boolval(strpos($e->getMessage(), 'must be an instance of Phalcon\Mvc\Model'));
+			$error = (bool) strpos($e->getMessage(), 'must be an instance of Phalcon\Mvc\Model');
 			$this->assertTrue($error);
 		}
 
