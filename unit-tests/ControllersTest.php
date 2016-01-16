@@ -80,6 +80,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setBindModel(true);
 		$dispatcher->setDI($di);
 		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
 
@@ -119,9 +120,17 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		$dispatcher->setActionName('view');
 		$dispatcher->setParams(array(0 => $model->cedula));
 
+		try {
+			$dispatcher->dispatch();
+		}catch (Exception $e) {
+			$error = boolval(strpos($e->getMessage(), 'must be an instance of Phalcon\Mvc\Model'));
+			$this->assertTrue($error);
+		}
+
+		$dispatcher->setBindModel(true);
 		$dispatcher->dispatch();
+
 		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
 		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
-
     }
 }
