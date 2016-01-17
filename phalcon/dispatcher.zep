@@ -329,6 +329,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
 			className, paramKey, methodParam, bindModel,
+			modelsMetadata, model, modelAttributes, acceptableAttributes, conditions, bind, attributeKey, attributeValue,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -517,6 +518,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			if this->_modelBinding === true {
+				let modelsMetadata = dependencyInjector->getShared("modelsMetadata");
+
 				//Check if we can bind a model based on what the controller action is expecting
 				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
 				let methodParams = reflectionMethod->getParameters();
@@ -527,8 +530,35 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 						if typeof className == "string" {
 							//Check if Model is defined
 							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
-								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);
+
+								let model = create_instance(className);
+
+								let modelAttributes = modelsMetadata->getAttributes(model);
+
+								let acceptableAttributes = array_intersect(params, modelAttributes);
+
+								let conditions = [];
+								let bind = [];
+
+								for attributeKey, attributeValue in acceptableAttributes {
+									let conditions[] = attributeKey . " = :" . attributeKey . ":";
+									let bind[attributeKey] = attributeValue;
+								}
+
+								let conditions = implode(" AND ", conditions);
+
+								let bindModel = call_user_func_array(
+									[className, "findFirst"],
+									[
+										[
+											"conditions": conditions,
+											"bind":       bind
+										]
+									]
+								);
+
 								let params[paramKey] = bindModel;
+
 								break;
 							}
 						}

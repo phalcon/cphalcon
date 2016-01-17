@@ -104,5 +104,49 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
 		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+
+		//Reset dispatcher
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setModelBinding(true);
+		$dispatcher->setDI($di);
+		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+
+		$di->set('dispatcher', $dispatcher);
+
+		//Model to test with
+		$person = Personnes::findFirst(
+			"nombres = 'HUANG ZHENGQUIN'"
+		);
+
+		$dispatcher->setControllerName('test9');
+		$dispatcher->setActionName('person');
+		$dispatcher->setParams(array('nombres' => 'HUANG ZHENGQUIN'));
+
+		$dispatcher->dispatch();
+		$this->assertInstanceOf('Personnes', $dispatcher->getReturnedValue());
+		$this->assertEquals($dispatcher->getReturnedValue()->nombre, $model->nombre);
+		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+
+		//Reset dispatcher
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setModelBinding(true);
+		$dispatcher->setDI($di);
+		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+
+		$di->set('dispatcher', $dispatcher);
+
+		//Model to test with
+		$person = Personnes::findFirst(
+			"nombres = 'USME FERNANDEZ JUAN GUILLERMO'"
+		);
+
+		$dispatcher->setControllerName('test9');
+		$dispatcher->setActionName('person');
+		$dispatcher->setParams(array('nombres' => 'USME FERNANDEZ JUAN GUILLERMO'));
+
+		$dispatcher->dispatch();
+		$this->assertInstanceOf('Personnes', $dispatcher->getReturnedValue());
+		$this->assertEquals($dispatcher->getReturnedValue()->nombre, $model->nombre);
+		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
     }
 }

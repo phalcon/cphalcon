@@ -6,4 +6,9 @@ class Test9Controller extends Phalcon\Mvc\Controller
 	{
 		return $people;
 	}
+
+	public function personAction(Personnes $person)
+	{
+		return $person;
+	}
 }
