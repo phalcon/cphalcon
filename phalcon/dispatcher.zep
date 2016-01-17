@@ -328,7 +328,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
-			className, paramKey, methodParam, modelName, bindModel,
+			className, paramKey, methodParam, bindModel,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -525,16 +525,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					if methodParam->getClass() {
 						let className = methodParam->getClass()->getName();
 						if typeof className == "string" {
-							//If we are in a base class and the child implements BindModelInterface we getModelName
-							if className == "Phalcon\\Mvc\\Model" {
-								if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
-									let modelName = call_user_func([handlerClass, "getModelName"]);
-									let bindModel = call_user_func_array([modelName, "findFirst"], [params[paramKey]]);
-									let params[paramKey] = bindModel;
-									break;
-								}
-							}
-
 							//Check if Model is defined
 							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
 								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);

@@ -1,16 +1,9 @@
 <?php
 
-use Phalcon\Mvc\Model;
-
-class Test9Controller extends Phalcon\Mvc\Controller implements Phalcon\Mvc\Controller\BindModelInterface
+class Test9Controller extends Phalcon\Mvc\Controller
 {
-	public static function getModelName()
+	public function viewAction(People $people)
 	{
-		return 'People';
-	}
-
-	public function viewAction(Model $model)
-	{
-		return $model;
+		return $people;
 	}
 }
