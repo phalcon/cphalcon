@@ -74,7 +74,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _previousActionName = null;
 
-	protected _bindModel = false;
+	protected _modelBinding = false;
 
 	const EXCEPTION_NO_DI = 0;
 
@@ -311,9 +311,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *
 	 * @param boolean value
 	 */
-	public function setBindModel(boolean value)
+	public function setModelBinding(boolean value)
 	{
-		let this->_bindModel = value;
+		let this->_modelBinding = value;
 	}
 
 	/**
@@ -516,7 +516,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
-			if this->_bindModel === true {
+			if this->_modelBinding === true {
 				//Check if we can bind a model based on what the controller action is expecting
 				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
 				let methodParams = reflectionMethod->getParameters();

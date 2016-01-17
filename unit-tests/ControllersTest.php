@@ -80,7 +80,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$dispatcher = new Phalcon\Mvc\Dispatcher();
-		$dispatcher->setBindModel(true);
+		$dispatcher->setModelBinding(true);
 		$dispatcher->setDI($di);
 		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
 
@@ -127,7 +127,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue($error);
 		}
 
-		$dispatcher->setBindModel(true);
+		$dispatcher->setModelBinding(true);
 		$dispatcher->dispatch();
 
 		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
