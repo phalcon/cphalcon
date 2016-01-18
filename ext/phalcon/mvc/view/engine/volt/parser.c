@@ -3748,13 +3748,10 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 	zval *error_msg = NULL;
 #else
     zval em, *error_msg = &em;
+    ZVAL_NULL(error_msg);
 #endif
 
 	ZVAL_NULL(result);
-
-#if PHP_VERSION_ID >= 70000
-    ZVAL_NULL(error_msg);
-#endif
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "View code must be a string");
