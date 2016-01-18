@@ -74,6 +74,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _previousActionName = null;
 
+	protected _modelBinding = false;
+
 	const EXCEPTION_NO_DI = 0;
 
 	const EXCEPTION_CYCLIC_ROUTING = 1;
@@ -305,6 +307,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Enable/Disable model binding during dispatch
+	 *
+	 * @param boolean value
+	 */
+	public function setModelBinding(boolean value)
+	{
+		let this->_modelBinding = value;
+	}
+
+	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
 	 * @return object
@@ -315,7 +327,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			actionSuffix, handlerClass, status, actionMethod,
+			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
+			className, paramKey, methodParam, bindModel,
+			modelsMetadata, model, modelAttributes, acceptableAttributes, conditions, bind, attributeKey, attributeValue,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -502,6 +516,56 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					}
 				}
 			}
+
+			if this->_modelBinding === true {
+				let modelsMetadata = dependencyInjector->getShared("modelsMetadata");
+
+				//Check if we can bind a model based on what the controller action is expecting
+				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
+				let methodParams = reflectionMethod->getParameters();
+
+				for paramKey, methodParam in methodParams {
+					if methodParam->getClass() {
+						let className = methodParam->getClass()->getName();
+						if typeof className == "string" {
+							//Check if Model is defined
+							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
+
+								let model = create_instance(className);
+
+								let modelAttributes = modelsMetadata->getAttributes(model);
+
+								let acceptableAttributes = array_intersect(params, modelAttributes);
+
+								let conditions = [];
+								let bind = [];
+
+								for attributeKey, attributeValue in acceptableAttributes {
+									let conditions[] = attributeKey . " = :" . attributeKey . ":";
+									let bind[attributeKey] = attributeValue;
+								}
+
+								let conditions = implode(" AND ", conditions);
+
+								let bindModel = call_user_func_array(
+									[className, "findFirst"],
+									[
+										[
+											"conditions": conditions,
+											"bind":       bind
+										]
+									]
+								);
+
+								let params[paramKey] = bindModel;
+
+								break;
+							}
+						}
+					}
+				}
+			}
+
 
 			try {
 

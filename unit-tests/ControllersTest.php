@@ -55,4 +55,98 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($view->getParamsToView()), 1);
 	}
 
+	public function testModelBinding()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Skipped");
+			return;
+		}
+
+		Phalcon\DI::reset();
+		$di = new Phalcon\Di();
+
+		$di->set('modelsManager', function() {
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function() {
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		$di->set('db', function() {
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		}, true);
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setModelBinding(true);
+		$dispatcher->setDI($di);
+		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+
+		$di->set('dispatcher', $dispatcher);
+
+		if (!class_exists('People', false)) {
+			require __DIR__ . '/models/People.php';
+		}
+
+		if (!class_exists('Test9Controller', false)) {
+			require __DIR__ . '/controllers/Test9Controller.php';
+		}
+
+		//Model to test with
+		$model = People::findFirst();
+
+		$dispatcher->setControllerName('test9');
+		$dispatcher->setActionName('view');
+		$dispatcher->setParams(array(0 => $model->cedula));
+
+		$dispatcher->dispatch();
+		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
+		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+
+		//Reset dispatcher
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setModelBinding(true);
+		$dispatcher->setDI($di);
+		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+
+		$di->set('dispatcher', $dispatcher);
+
+		//Model to test with
+		$person = Personnes::findFirst(
+			"nombres = 'HUANG ZHENGQUIN'"
+		);
+
+		$dispatcher->setControllerName('test9');
+		$dispatcher->setActionName('person');
+		$dispatcher->setParams(array('nombres' => 'HUANG ZHENGQUIN'));
+
+		$dispatcher->dispatch();
+		$this->assertInstanceOf('Personnes', $dispatcher->getReturnedValue());
+		$this->assertEquals($dispatcher->getReturnedValue()->nombre, $model->nombre);
+		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+
+		//Reset dispatcher
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setModelBinding(true);
+		$dispatcher->setDI($di);
+		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+
+		$di->set('dispatcher', $dispatcher);
+
+		//Model to test with
+		$person = Personnes::findFirst(
+			"nombres = 'USME FERNANDEZ JUAN GUILLERMO'"
+		);
+
+		$dispatcher->setControllerName('test9');
+		$dispatcher->setActionName('person');
+		$dispatcher->setParams(array('nombres' => 'USME FERNANDEZ JUAN GUILLERMO'));
+
+		$dispatcher->dispatch();
+		$this->assertInstanceOf('Personnes', $dispatcher->getReturnedValue());
+		$this->assertEquals($dispatcher->getReturnedValue()->nombre, $model->nombre);
+		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+    }
 }
