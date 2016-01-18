@@ -23,6 +23,11 @@ use Phalcon\Tag as Tag;
 class TagTest extends PHPUnit_Framework_TestCase
 {
 
+	public function testResetInput()
+	{
+		Tag::resetInput();
+	}
+
 	public function testSelect()
 	{
 		$data = array(
