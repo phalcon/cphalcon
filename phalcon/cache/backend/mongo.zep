@@ -194,7 +194,7 @@ class Mongo extends Backend implements BackendInterface
 		let conditions = [];
 		let data = [];
 
-		if !keyName {
+		if keyName === null {
 			let lastkey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
@@ -206,7 +206,7 @@ class Mongo extends Backend implements BackendInterface
 		}
 
 		let frontend = this->_frontend;
-		if !content {
+		if content === null {
 			let cachedContent = frontend->getContent();
 		} else {
 			let cachedContent = content;
@@ -216,7 +216,7 @@ class Mongo extends Backend implements BackendInterface
 			let preparedContent = frontend->beforeStore(cachedContent);
 		}
 
-		if !lifetime {
+		if lifetime === null {
 			let tmp = this->_lastLifetime;
 			if !tmp {
 				let ttl = frontend->getLifetime();
