@@ -9,6 +9,7 @@
 - Fixed `Phalcon\Translate\Adapter\Gettext::exists` bug[#11310](https://github.com/phalcon/cphalcon/issues/11310) related to the wrong returned value (always true)
 - Fixed `Phalcon\Translate\Adapter\Gettext::setLocale` bug[#11311](https://github.com/phalcon/cphalcon/issues/11311) related to the incorrect setting locale
 - Added ability to persistent connection in `Phalcon\Queue\Beanstalk::connect`
+- Fixed `Phalcon\Http\Response::redirect` bug[#11324](https://github.com/phalcon/cphalcon/issues/11324). Incorrect initialization local array of status codes
 
 # [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter
