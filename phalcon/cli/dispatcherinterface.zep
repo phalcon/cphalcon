@@ -14,52 +14,48 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Rack Lin <racklin@gmail.com>                                  |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Cli;
 
-use Phalcon\Di\Injectable;
+use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
 
 /**
- * Phalcon\Cli\Task
+ * Phalcon\Cli\DispatcherInterface
  *
- * Every command-line task should extend this class that encapsulates all the task functionality
- *
- * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
- * The Task class should at least have a "mainAction" method
- *
- *<code>
- *
- *class HelloTask extends \Phalcon\Cli\Task
- *{
- *
- *  // This action will be executed by default
- *  public function mainAction()
- *  {
- *
- *  }
- *
- *  public function findAction()
- *  {
- *
- *  }
- *
- *}
- *
- *</code>
+ * Interface for Phalcon\Cli\Dispatcher
  */
-class Task extends Injectable implements TaskInterface
+interface DispatcherInterface extends DispatcherInterfaceBase
 {
 
 	/**
-	 * Phalcon\Cli\Task constructor
+	 * Sets the default task suffix
 	 */
-	public final function __construct()
-	{
-		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
-		}
-	}
+	public function setTaskSuffix(string taskSuffix);
+
+	/**
+	 * Sets the default task name
+	 */
+	public function setDefaultTask(string taskName);
+
+	/**
+	 * Sets the task name to be dispatched
+	 */
+	public function setTaskName(string taskName);
+
+	/**
+	 * Gets last dispatched task name
+	 */
+	public function getTaskName() -> string;
+
+	/**
+	 * Returns the lastest dispatched controller
+	 */
+	public function getLastTask() -> <TaskInterface>;
+
+	/**
+	 * Returns the active task in the dispatcher
+	 */
+	public function getActiveTask() -> <TaskInterface>;
 }

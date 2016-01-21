@@ -20,7 +20,6 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Cli\Task;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
 
@@ -47,7 +46,7 @@ use Phalcon\Cli\Dispatcher\Exception;
  *
  *</code>
  */
-class Dispatcher extends \Phalcon\Dispatcher
+class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 {
 
 	protected _handlerSuffix = "Task";
@@ -123,7 +122,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	/**
 	 * Returns the lastest dispatched controller
 	 */
-	public function getLastTask() -> <Task>
+	public function getLastTask() -> <TaskInterface>
 	{
 		return this->_lastHandler;
 	}
@@ -131,7 +130,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	/**
 	 * Returns the active task in the dispatcher
 	 */
-	public function getActiveTask() -> <Task>
+	public function getActiveTask() -> <TaskInterface>
 	{
 		return this->_activeHandler;
 	}
