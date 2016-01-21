@@ -31,6 +31,11 @@ interface DispatcherInterface
 	 * Sets the default action suffix
 	 */
 	public function setActionSuffix(string actionSuffix);
+	
+	/**
+	 * Gets the default action suffix
+	 */
+	public function getActionSuffix() -> string;
 
 	/**
 	 * Sets the default namespace
