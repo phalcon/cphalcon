@@ -432,13 +432,8 @@ class Security implements InjectionAwareInterface
 
 	/**
 	 * Computes a HMAC
-	 *
-	 * @param string data
-	 * @param string key
-	 * @param string algo
-	 * @param boolean raw
 	 */
-	public function computeHmac(data, key, algo, boolean raw = false) -> string
+	public function computeHmac(string data, string key, string algo, boolean raw = false) -> string
 	{
 		var hmac;
 
@@ -453,7 +448,7 @@ class Security implements InjectionAwareInterface
 	/**
  	 * Sets the default hash
  	 */
-	public function setDefaultHash(var defaultHash)
+	public function setDefaultHash(int defaultHash)
 	{
 		let this->_defaultHash = defaultHash;
 	}
