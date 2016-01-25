@@ -532,7 +532,7 @@ void zephir_fast_str_replace(zval **return_value_ptr, zval *search, zval *replac
 		do {
 			zval *params[] = { search, replace, subject };
 			zval_ptr_dtor(return_value_ptr);
-			return_value_ptr = NULL;
+			*return_value_ptr = NULL;
 			zephir_call_func_aparams(return_value_ptr, "str_replace", sizeof("str_replace")-1, NULL, 0, 3, params TSRMLS_CC);
 			return;
 		} while(0);
@@ -1456,11 +1456,7 @@ int zephir_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_D
 		smart_str formstr = { NULL, 0, 0 };
 		int res;
 
-#if PHP_VERSION_ID < 50400
-		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep TSRMLS_CC);
-#else
 		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep, PHP_QUERY_RFC1738 TSRMLS_CC);
-#endif
 
 		if (res == SUCCESS) {
 			if (!formstr.c) {
@@ -1488,11 +1484,7 @@ void zephir_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zv
 	zval copy;
 	char *escaped, *cs;
 	int qs, use_copy = 0;
-#if PHP_VERSION_ID < 50400
-	int escaped_len;
-#else
 	size_t escaped_len;
-#endif
 
 	if (unlikely(Z_TYPE_P(string) != IS_STRING)) {
 		zend_make_printable_zval(string, &copy, &use_copy);
@@ -1517,11 +1509,7 @@ void zephir_htmlentities(zval *return_value, zval *string, zval *quoting, zval *
 	zval copy;
 	char *escaped, *cs;
 	int qs, use_copy = 0;
-#if PHP_VERSION_ID < 50400
-	int escaped_len;
-#else
 	size_t escaped_len;
-#endif
 
 	if (unlikely(Z_TYPE_P(string) != IS_STRING)) {
 		zend_make_printable_zval(string, &copy, &use_copy);
@@ -1638,12 +1626,3 @@ void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
 		zval_dtor(&copy);
 	}
 }
-
-#if PHP_VERSION_ID < 50400
-
-const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC)
-{
-	return arKey;
-}
-
-#endif

@@ -694,7 +694,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($status->getMessages(), array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
 				'_type' => 'Email',
-				'_message' => "Value of field 'email' must have a valid e-mail format",
+				'_message' => "Field email must be an email address",
 				'_field' => 'email',
 				'_code' => 0,
 			)),

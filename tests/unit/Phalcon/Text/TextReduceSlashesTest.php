@@ -9,8 +9,7 @@
  *
  * @copyright (c) 2011-2015 Phalcon Team
  * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -29,7 +28,7 @@ class TextReduceSlashesTest extends Helper\TextBase
     /**
      * Tests the reduce slashes function
      *
-     * @author Serghei Iakovlev <sadhooklay@gmail.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2015-05-11
      */
     public function testReduceSlashes()

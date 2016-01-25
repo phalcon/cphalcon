@@ -1,3 +1,77 @@
+# [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2016-XX-XX)
+- PHP 5.3 is now fully deprecated
+- `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
+- Default encrypt mode in `Phalcon\Crypt` is now changed to `MCRYPT_MODE_CFB`
+- Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`
+- Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
+- Removed support for prefixes strategy in `Phalcon\Loader`
+- Now `Phalcon\Mvc\View` supports many views directories at the same time
+- An absolute path can now be used to Mvc\View::setLayoutsDir
+- `Phalcon\Di` is now bound to services closures allowing use `Phalcon\Di` as $this to access services within them
+- If an object is returned after firing the event `beforeServiceResolve` in `Phalcon\Di` this overrides the
+  default service localization process
+- Placeholders :controller and :action in `Mvc\Router` now defaults to `/([\\w0-9\\_\\-]+)` instead of `/([\\a-zA-Z0-9\\_\\-]+)`
+- Modifier `#u` (PCRE_UTF8) is now default in regex based routes in `Mvc\Router`
+- Return 'false' from an action disables the view component (same as $this->view->disable())
+- Return a string from an action takes it as the body of the response (same as return $this->response->setContent('Hello world'))
+- Return a string from an `Mvc\Micro` handler takes it as the body of the response
+- `Mvc\Router\Route` now escapes characters such as . or + to avoid unexpected behaviors
+- Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
+- Routes now can have an associated callback that can override the default dispatcher + view behavior
+- `Phalcon\Mvc\Model` now implements `JsonSerializable` making easy serialize model instances
+- When desctructing a `Mvc\Model\Manager` PHQL cache is clean
+- Method `isSetOption` in `Phalcon\Validation\ValidatorInterface` marked as deprecated, please use `hasOption`
+- Added internal check "allowEmpty" before calling a validator. If it option is true and the value of empty, the validator is skipped
+- Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
+- Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
+- `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
+- Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
+- `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
+- Added method getOption() in `Phalcon\Mvc\Model\RelationInterface`
+- Added ability to spoof HTTP request method
+- Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql` 
+- Fixed the use of the annotation router with namespaced controllers
+- Added `Phalcon\Acl\RoleAware` and `Phalcon\Acl\ResourceAware` Interfaces, Now you can pass objects to `Phalcon\Acl\AdapterInterface::isAllowed` as `roleName` and `resourceName`, also they will be automatically passed to function defined in `Phalcon\Acl\AdapterInterface::allow` or `Phalcon\Acl\AdapterInterface::deny` by type
+- `Phalcon\Acl\AdapterInterface::allow` and `Phalcon\Acl\AdapterInterface::deny` have 4th argument - function, which will be called when using `Phalcon\Acl\AdapterInterface::isAllowed`
+- `Phalcon\Acl\AdapterInterface::isAllowed` have 4th argument - parameters, you can pass arguments for function defined in `Phalcon\Acl\AdapterInterface:allow` or `Phalcon\Acl\AdapterInterface::deny` as associative array where key is argument name
+
+# [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
+- ORM: Added support for DATE columns in Oracle
+- Fixed wrong total_items and total_pages in Paginator when the query builder has set groupBy()
+- Fixed `Phalcon\Acl\Memory::allow` bug[#11210] related to the inconsistent behavior with access specified as string and array
+- Added quoting column in `Phalcon\Db\Dialect\MySQL::addColumn` when define position of the column
+- Added support to define position of the column in `Phalcon\Db\Dialect\MySQL::modifyColumn`
+
+# [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
+- Fixed bug that double serializes data using Redis adapter
+- Added `console:boot` event to allow the developer to perform initialization actions
+- Added implementation options `allowEmpty` for `Phalcon\Mvc\Model\Validator\Ip`
+- Fixed SQLite bug[#10997] related to setting of index type
+- Added `Phalcon\Db\Dialect\Sqlite::listIndexesSql` - to generate the SQL to get query list of indexes
+- Fixed MySQL bug[#11036] related to setting of index type
+- Added missed `RouteInterface::setHostname`, `RouteInterface::getHostname`
+- Added `strict` option for ExclusionIn validator
+- Added `Phalcon\Text::underscore` - to make a phrase underscored instead of spaced
+- Added `Phalcon\Text::humanize` - to make an underscored or dashed phrase human-readable
+- Added ability to change document class to be returned in ODM through `class` option
+
+# [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
+- Added `Phalcon\Security\Random::base58` - to generate a random base58 string
+- Added `Phalcon\Logger\Adapter::isTransaction()` to check whether the logger is currently in transaction
+  mode or not (Phalcon 1.3 behavior)
+- `Phalcon\Session\Adapter` now closes the session when the adapter is destroyed (Phalcon 1.3 behavior)
+- Fixed fetching of data in modes FETCH_CLASS, FETCH_INTO and FETCH_FUNC in `Phalcon\Db`
+- Added missing code property in `Phalcon\Validation\Message` available in Phalcon 1.3.x
+- Added `Phalcon\Db\Column::TYPE_TIMESTAMP` to allow migrations on these kind of columns
+- Added `Phalcon\Db\ColumnInterface::hasDefault` to check if a column has a default value declared in its database
+  column definition
+- Fixed determining of default value for column in `Phalcon\Db\Dialect\MySQL`, `Phalcon\Db\Dialect\Sqlite` and
+  `Phalcon\Db\Dialect\Postgresql` classes
+- Now `Phalcon\Mvc\Model::__call` invokes finders as in `__callStatic`
+- Fixed `Phalcon\Db\Dialect\Postgresql::getColumnDefinition` for `BIGINT` and `BOOLEAN` data types
+- Fixed `BOOLEAN` default value in `Phalcon\Db\Dialect\Postgresql`
+- Added `Phalcon\Validation\Validator\CreditCard` - validation credit card number using luhn algorithm
+
 # [2.0.7](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.7) (2015-08-17)
 - `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
 - Fixed segfault in `Image\Adapter\Imagick::text()`
@@ -5,7 +79,7 @@
 - Now you can import macros from other files using `{% include "file.volt" %}`
 - Undefined function calls fall back to macro calls in Volt
 - Automatic bound parameters in `Mvc\Model\Criteria` now uses a different prefix
-than `Mvc\Model\Query\Builder` to avoid collissions
+than `Mvc\Model\Query\Builder` to avoid collisions
 - Added `Cache\Multiple::flush()` to flush the cache backends added to the multiple system
 - Fixed `Session\Bag::remove()`
 - `Session\Bag::destroy()` eliminates any temporary data in the variables bag
@@ -18,7 +92,7 @@ belongs to the uniqueId or the whole session data
 - Added a fix to avoid that a table present in many sub-queries causes invalid SQL generation
 - Add `CookieInterface`, update `Cookie` and `Cookies` to use this interface - Decoupling `Cookies` and `Cookie` - Check `Session` state before using it in `Cookie`. [#10789](https://github.com/phalcon/cphalcon/issues/10789)
 - Fixed merge of `Phalcon\Config` instances containing objects different than `Phalcon\Config` compatible instances
-- When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797) 
+- When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797)
 - Fixed incorrect generation of `SELECT COUNT(\*)` causing unexpected exceptions when `phqlLiterals` is disabled
 - Added `Phalcon\Security\Random` - secure random number generator class. Provides secure random number generator which is suitable for generating session key in HTTP cookies, etc
 
@@ -27,17 +101,17 @@ belongs to the uniqueId or the whole session data
 - Added `Http\Response::setCache()` to easily set cache headers.
 - When a beanstalkd connection is closed the adapter does not produce a notice anymore
 - Default separator in `Text::increment` is now _ (underscore)
-- Using tel_field in Volt now generates correct PHP code
+- Using `tel_field` in Volt now generates correct PHP code
 - SQL generated by PostgreSQL dialect in dropTable and dropView is now correct
 - Errors generated in `Cache\Backend\Memcached` now shows the result code to easily debug problems
 - Fixed `LIMIT/OFFSET` SQL generation in `Mvc\Model\Query\Builder`
-- Fixed Logger\Formatter\Line to match 1.3.x behavior
-- Fixed warning when 'castOnHydrate' is true [#10648](https://github.com/phalcon/cphalcon/pull/10648)
+- Fixed `Logger\Formatter\Line` to match 1.3.x behavior
+- Fixed warning when castOnHydrate' is true [#10648](https://github.com/phalcon/cphalcon/pull/10648)
 - Added name before int/float/numeric/string/bool/null/other variables in Debug\Dump::output
 - Now `Validation\Validator\Identical` allows both 'accepted' and 'value' as value to keep backwards compatibility
 - Added `\Phalcon\Mvc\Model\MetaData\Redis` adapter.
 - Added Redis Session adapter
-- Fixed bug in Mvc\Model\Criteria::fromInput unallowing it to use renamed columns
+- Fixed bug in `Mvc\Model\Criteria::fromInput` unallowing it to use renamed columns
 - Fixed bug in `Http\Request` getRawBody()/getPut() clears input buffer [#10694](https://github.com/phalcon/cphalcon/issues/10694)
 
 # [2.0.5](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.5) (2015-07-14)
@@ -57,27 +131,27 @@ belongs to the uniqueId or the whole session data
 - Fixed generation and validation of default parameters in Volt's macros
 - Added `Phalcon\Assets\Manager::getCollections()` to return all collections registered [#2488](https://github.com/phalcon/cphalcon/pull/2488)
 - Now `Phalcon\Mvc\Url::getStatic()` generates URLs from routes
-- Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both Phalcon\Mvc\Model and `Phalcon\Mvc\Collection` instances
+- Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both `Phalcon\Mvc\Model` and `Phalcon\Mvc\Collection` instances
 - Added `Phalcon\Session\Adapter::setName()` to change the session name
-- Added BIGINT support in Phalcon\Db
+- Added BIGINT support in `Phalcon\Db`
 - Added new types `Phalcon\Db\Column::BLOB` and `Phalcon\Db\Column::DOUBLE` [#10506](https://github.com/phalcon/cphalcon/pull/10506)
 - Automatic binding of Large Object data (LOB) in the ORM
 - Support for BIT types in MySQL with binding as booleans
 - Added `Phalcon\Flash\Direct::output()` allowing to place flash messages in a specific place of the view [#629](https://github.com/phalcon/cphalcon/pull/629)
 - Added 'autoescape' option that allows to globally enable autoescape in any Volt template
-- Added readAttribute/writeAttribute to `Phalcon\Mvc\Collection\Document`
+- Added `readAttribute`/`writeAttribute` to `Phalcon\Mvc\Collection\Document`
 - Added toArray to `Phalcon\Mvc\Collection\Document`
-- Global setting db.force_casting now forces casting bound parameters to specified bind types
+- Global setting `db.force_casting` now forces casting bound parameters to specified bind types
 - Introduced new placeholders in PHQL enclosed in brackets that allow to set the type: {name:str} or {names:array}
 - Now you can bind arrays in bound parameters in PHQL
-- Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
+- Global setting `orm.cast_on_hydrate` allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
 - Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
 - Allowing late state binding in both Simple/Complex results to allow override `Mvc\Model::cloneResultMap`
 - Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` [#10536](https://github.com/phalcon/cphalcon/issues/10536)
 - Added global setting orm.ignore_unknown_columns to ignore unexpected columns when hydrating instances in the ORM
   This fixes extra auxiliar columns used in `Db\Adapter\Pdo\Oracle`
 - Added support for afterFetch in `Mvc\Collection`
-- Added 'beforeMatch' parameter in @Route annotation of `Mvc\Router\Annotations`
+- Added `beforeMatch` parameter in `@Route` annotation of `Mvc\Router\Annotations`
 - Added groupBy/getGroupBy/having/getHaving to `Mvc\Model\Criteria`
 - `Phalcon\Mvc\Model::count()` now return values as integer
 - Removed `__construct` from `Phalcon\Mvc\View\EngineInterface`
@@ -91,7 +165,7 @@ belongs to the uniqueId or the whole session data
 
 # [2.0.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.3) (2015-06-10)
 - Added support for Behaviors in `Phalcon\Mvc\Collection`
-- Added SoftDelete and Timestampable behaviors to Collections
+- Added `SoftDelete` and `Timestampable` behaviors to Collections
 - Implemented Namespace aliases in PHQL
 - Now you can define if a virtual foreign key must ignore null values or not
 - Fixed bug that added two ? in `Mvc\Url::get()` when using query parameters ([#10421](https://github.com/phalcon/cphalcon/issues/10421))
@@ -122,7 +196,7 @@ belongs to the uniqueId or the whole session data
  - Added new theme in `Phalcon\Debug`
  - Allow to count and iterate `Phalcon\Session\Bag` as in 1.3.x
  - Renamed `getEventsManager()` to `getInternalEventsManager()` in `Phalcon\Di` to avoid collision with existing services
- - Added constants FILTER_* to Phalcon\Filter for filters names
+ - Added constants FILTER_* to `Phalcon\Filter` for filters names
  - Fixed multibyte characters in cssmin/jsmin
  - Added `Phalcon\Security::destroyToken()` to remove current token key and value from session
    removed first argument (password), since it's not used in the function

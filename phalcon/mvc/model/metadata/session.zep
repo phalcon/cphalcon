@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Exception;
 
 /**
@@ -37,7 +36,7 @@ use Phalcon\Mvc\Model\Exception;
  * ));
  *</code>
  */
-class Session extends MetaData implements MetaDataInterface
+class Session extends MetaData
 {
 
 	protected _prefix = "";

@@ -70,7 +70,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, mustTakeAction) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
@@ -92,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, mustTakeAction) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, getOptions) {
 
-	zval *eventName_param = NULL, *options, *eventOptions;
+	zval *eventName_param = NULL, *options = NULL, *eventOptions = NULL;
 	zval *eventName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -106,7 +105,6 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, getOptions) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {

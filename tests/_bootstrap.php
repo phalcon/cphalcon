@@ -46,7 +46,7 @@ function phalconTestAutoloader($className)
     }
 
     $filename = $className . '.php';
-    $fullFile = ROOT_PATH  . '/' . str_replace('Phalcon/Tests/', '', $filename);
+    $fullFile = ROOT_PATH  . DIRECTORY_SEPARATOR . str_replace('Phalcon' . DIRECTORY_SEPARATOR . 'Tests'.  DIRECTORY_SEPARATOR, '', $filename);
 
     if (file_exists($fullFile)) {
         require_once $fullFile;

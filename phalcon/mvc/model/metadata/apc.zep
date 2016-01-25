@@ -20,7 +20,6 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Exception;
 
 /**
@@ -39,7 +38,7 @@ use Phalcon\Mvc\Model\Exception;
  *	));
  *</code>
  */
-class Apc extends MetaData implements MetaDataInterface
+class Apc extends MetaData
 {
 
 	protected _prefix = "";

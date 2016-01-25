@@ -81,7 +81,7 @@ class Filter implements FilterInterface
 	/**
 	 * Sanitizes a value with a specified single or set of filters
 	 */
-	public function sanitize(var value, var filters, boolean noRecursive = false)
+	public function sanitize(var value, var filters, boolean noRecursive = false) -> var
 	{
 		var filter, arrayValue, itemKey, itemValue, sanitizedValue;
 

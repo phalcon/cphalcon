@@ -28,9 +28,9 @@ use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\DialectInterface;
-use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\Resultset;
@@ -40,9 +40,12 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\MetadataInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\ValidationInterface;
+use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Validation\Message\Group as ValidationMessageGroup;
 
 /**
  * Phalcon\Mvc\Model
@@ -75,7 +78,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
 	protected _dependencyInjector;
@@ -121,7 +124,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Phalcon\Mvc\Model constructor
 	 */
-	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -160,7 +163,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
 		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
+			this->{"onConstruct"}(data);
+		}
+
+		if typeof data == "array" {
+			this->assign(data);
 		}
 	}
 
@@ -377,6 +384,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function getReadConnection() -> <AdapterInterface>
 	{
+		var transaction;
+
+		let transaction = <TransactionInterface> this->_transaction;
+		if typeof transaction == "object" {
+			return transaction->getConnection();
+		}
+
 		return (<ManagerInterface> this->_modelsManager)->getReadConnection(this);
 	}
 
@@ -924,12 +938,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Checks if the current record already exists or not
 	 *
-	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
 	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _exists(<MetadataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
 	{
 		int numberEmpty, numberPrimary;
 		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
@@ -1336,9 +1350,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Appends a customized message on the validation process
 	 *
 	 * <code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Message as Message;
 	 *
-	 * class Robots extends \Phalcon\Mvc\Model
+	 * class Robots extends Model
 	 * {
 	 *
 	 *   public function beforeSave()
@@ -1361,47 +1376,51 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *use Phalcon\Mvc\Model;
+	 *use Phalcon\Validation;
+	 *use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+	 * 		$validator = new Validation();
+	 * 		$validator->add('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
 	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
 	 */
-	protected function validate(<Model\ValidatorInterface> validator) -> <Model>
+	protected function validate(<ValidationInterface> validator) -> boolean
 	{
-		var message;
+		var messages, message;
+		let messages = validator->validate(null, this);
 
-		/**
-		 * Call the validation, if it returns false we append the messages to the current object
-		 */
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
+		// Call the validation, if it returns not the boolean we append the messages to the current object
+		if typeof messages != "boolean" {
+			for message in iterator(messages) {
+				this->appendMessage(new Message(message->getMessage(), message->getField(), message->getType()));
 			}
+
+			// If there is a message, it returns false otherwise true
+			return !count(messages);
 		}
 
-		return this;
+		return messages;
 	}
 
 	/**
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
@@ -1458,6 +1477,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 			return filtered;
 		}
+
 		return this->_errorMessages;
 	}
 
@@ -1465,7 +1485,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
 	 */
-	protected function _checkForeignKeysRestrict() -> boolean
+	protected final function _checkForeignKeysRestrict() -> boolean
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
@@ -1614,7 +1634,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
 	 */
-	protected function _checkForeignKeysReverseCascade() -> boolean
+	protected final function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
 			resultset, conditions, bindParams, referencedModel,
@@ -1721,7 +1741,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
 	 */
-	protected function _checkForeignKeysReverseRestrict() -> boolean
+	protected final function _checkForeignKeysReverseRestrict() -> boolean
 	{
 		boolean error;
 		var manager, relations, foreignKey, relation,
@@ -1847,7 +1867,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Executes internal hooks before save a record
 	 */
-	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
+	protected function _preSave(<MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
 			field, attributeField, value, emptyStringValues;
@@ -2093,13 +2113,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
-	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
 	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @param boolean|string identityField
 	 * @return boolean
 	 */
-	protected function _doLowInsert(<MetadataInterface> metaData, <AdapterInterface> connection,
+	protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
 		table, identityField) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
@@ -2875,7 +2895,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				/**
 				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
 				 */
-				throw new \Phalcon\Mvc\Model\ValidationFailed(this, this->_errorMessages);
+				throw new ValidationFailed(this, this->getMessages());
 			}
 
 			return false;
@@ -3222,8 +3242,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let dialect = readConnection->getDialect(),
 			tables = dialect->select([
 				"columns": fields,
-				"tables": readConnection->escapeIdentifier(table),
-				"where": uniqueKey
+				"tables":  readConnection->escapeIdentifier(table),
+				"where":   uniqueKey
 			]),
 			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
 
@@ -3510,9 +3530,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *<code>
 	 *<?php
 	 *
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Behavior\Timestampable;
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
+	 *class Robots extends Model
 	 *{
 	 *
 	 *   public function initialize()
@@ -3537,8 +3558,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *<code>
 	 *<?php
+	 *use Phalcon\Mvc\Model;
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
+	 *class Robots extends Model
 	 *{
 	 *
 	 *   public function initialize()
@@ -3818,8 +3840,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *<code>
 	 *<?php
+	 *use Phalcon\Mvc\Model;
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
+	 *class Robots extends Model
 	 *{
 	 *
 	 *   public function initialize()
@@ -3913,48 +3936,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Handles method calls when a method is not implemented
+	 * Try to check if the query must invoke a finder
 	 *
-	 * @param	string method
-	 * @param	array arguments
-	 * @return	mixed
+	 * @param  string method
+	 * @param  array arguments
+	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
 	 */
-	public function __call(string method, arguments)
-	{
-		var modelName, status, records;
-
-		let modelName = get_class(this);
-
-		/**
-		 * Check if there is a default action using the magic getter
-		 */
-		let records = this->_getRelatedRecords(modelName, method, arguments);
-		if records !== null {
-			return records;
-		}
-
-		/**
-		 * Try to find a replacement for the missing method in a behavior/listener
-		 */
-		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
-		if status !== null {
-			return status;
-		}
-
-		/**
-		 * The method doesn't exist throw an exception
-		 */
-		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
-	}
-
-	/**
-	 * Handles method calls when a static method is not implemented
-	 *
-	 * @param	string method
-	 * @param	array arguments
-	 * @return	mixed
-	 */
-	public static function __callStatic(string method, arguments)
+	protected final static function _invokeFinder(method, arguments)
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
@@ -3995,7 +3983,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let modelName = get_called_class();
 
 		if !extraMethod {
-			throw new Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
+			return null;
 		}
 
 		if !fetch value, arguments[0] {
@@ -4043,8 +4031,67 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		return {modelName}::{type}([
 			"conditions": field . " = ?0",
-			"bind"	  : [value]
+			"bind"	    : [value]
 		]);
+	}
+
+	/**
+	 * Handles method calls when a method is not implemented
+	 *
+	 * @param	string method
+	 * @param	array arguments
+	 * @return	mixed
+	 */
+	public function __call(string method, arguments)
+	{
+		var modelName, status, records;
+
+		let records = self::_invokeFinder(method, arguments);
+		if records !== null {
+			return records;
+		}
+
+		let modelName = get_class(this);
+
+		/**
+		 * Check if there is a default action using the magic getter
+		 */
+		let records = this->_getRelatedRecords(modelName, method, arguments);
+		if records !== null {
+			return records;
+		}
+
+		/**
+		 * Try to find a replacement for the missing method in a behavior/listener
+		 */
+		let status = (<ManagerInterface> this->_modelsManager)->missingMethod(this, method, arguments);
+		if status !== null {
+			return status;
+		}
+
+		/**
+		 * The method doesn't exist throw an exception
+		 */
+		throw new Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
+	}
+
+	/**
+	 * Handles method calls when a static method is not implemented
+	 *
+	 * @param	string method
+	 * @param	array arguments
+	 * @return	mixed
+	 */
+	public static function __callStatic(string method, arguments)
+	{
+		var records;
+
+		let records = self::_invokeFinder(method, arguments);
+		if records === null {
+			throw new Exception("The static method '" . method . "' doesn't exist");
+		}
+
+		return records;
 	}
 
 	/**
@@ -4055,18 +4102,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function __set(string property, value)
 	{
-		var lowerProperty, related, modelName, manager, lowerKey, relation, referencedModel,
-			key, item;
+		var lowerProperty, related, modelName, manager, lowerKey,
+			relation, referencedModel, key, item, dirtyState;
 
 		/**
 		 * Values are probably relationships if they are objects
 		 */
 		if typeof value == "object" {
 			if value instanceof ModelInterface {
+				let dirtyState = this->_dirtyState;
+				if (value->getDirtyState() != dirtyState) {
+					let dirtyState = self::DIRTY_STATE_TRANSIENT;
+				}
 				let lowerProperty = strtolower(property),
 					this->{lowerProperty} = value,
 					this->_related[lowerProperty] = value,
-					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+					this->_dirtyState = dirtyState;
 				return value;
 			}
 		}
@@ -4090,10 +4141,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					let lowerKey = strtolower(key),
 						this->{lowerKey} = item,
 						relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
-						if typeof relation == "object" {
-							let referencedModel = manager->load(relation->getReferencedModel());
-							referencedModel->writeAttribute(lowerKey, item);
-						}
+					if typeof relation == "object" {
+						let referencedModel = manager->load(relation->getReferencedModel());
+						referencedModel->writeAttribute(lowerKey, item);
+					}
 				}
 			}
 
@@ -4318,6 +4369,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return data;
+	}
+
+    /**
+    * Serializes the object for json_encode
+    *
+	*<code>
+	* echo json_encode($robot);
+	*</code>
+    *
+    * @return array
+    */
+	public function jsonSerialize() -> array
+	{
+	    return this->toArray();
 	}
 
 	/**

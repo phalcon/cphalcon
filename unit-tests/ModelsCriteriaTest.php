@@ -119,6 +119,15 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestIssues2131($di);
 	}
 
+
+	public function testHavingNotOverwritingGroupBy()
+	{
+		$query = Personas::query()->groupBy('estado')->having('SUM(cupo) > 1000000');
+
+		$this->assertEquals('estado', $query->getGroupBy());
+		$this->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
+	}
+
 	protected function _executeTestsNormal($di)
 	{
 
@@ -220,6 +229,10 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePeople = $people->getFirst();
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
+		$personas = Personas::query()
+			->orderBy("nombres");
+
+		$this->assertEquals($personas->getOrderBy(), "nombres");
 	}
 
 	protected function _executeTestsRenamed($di)

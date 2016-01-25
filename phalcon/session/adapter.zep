@@ -26,7 +26,6 @@ namespace Phalcon\Session;
  */
 abstract class Adapter
 {
-
 	const SESSION_ACTIVE = 2;
 
 	const SESSION_NONE = 1;
@@ -70,9 +69,7 @@ abstract class Adapter
 	 * Sets session's options
 	 *
 	 *<code>
-	 *	$session->setOptions(array(
-	 *		'uniqueId' => 'my-private-app'
-	 *	));
+	 *	$session->setOptions(['uniqueId' => 'my-private-app']);
 	 *</code>
 	 */
 	public function setOptions(array! options)
@@ -105,7 +102,7 @@ abstract class Adapter
 	/**
 	 * Get session name
 	 */
-	public function getName()
+	public function getName() -> string
 	{
 	    return session_name();
 	}
@@ -126,7 +123,7 @@ abstract class Adapter
 	 *	$session->get('auth', 'yes');
 	 *</code>
 	 */
-	public function get(string index, var defaultValue = null, boolean remove = false)
+	public function get(string index, var defaultValue = null, boolean remove = false) -> var
 	{
 		var value, key, uniqueId;
 
@@ -272,12 +269,11 @@ abstract class Adapter
 	}
 
 	/**
-	 * Returns the status of the current session. For PHP 5.3 this function will always return SESSION_NONE
+	 * Returns the status of the current session.
 	 *
 	 *<code>
 	 *	var_dump($session->status());
 	 *
-	 *  // PHP 5.4 and above will give meaningful messages, 5.3 gets SESSION_NONE always
 	 *  if ($session->status() !== $session::SESSION_ACTIVE) {
 	 *      $session->start();
 	 *  }
@@ -287,16 +283,14 @@ abstract class Adapter
 	{
 		var status;
 
-		if !is_php_version("5.3") {
-			let status = session_status();
+		let status = session_status();
 
-			switch status {
-				case PHP_SESSION_DISABLED:
-					return self::SESSION_DISABLED;
+		switch status {
+			case PHP_SESSION_DISABLED:
+				return self::SESSION_DISABLED;
 
-				case PHP_SESSION_ACTIVE:
-					return self::SESSION_ACTIVE;
-			}
+			case PHP_SESSION_ACTIVE:
+				return self::SESSION_ACTIVE;
 		}
 
 		return self::SESSION_NONE;
@@ -305,7 +299,7 @@ abstract class Adapter
 	/**
 	 * Alias: Gets a session variable from an application context
 	 */
-	public function __get(string index)
+	public function __get(string index) -> var
 	{
 		return this->get(index);
 	}
@@ -332,5 +326,13 @@ abstract class Adapter
 	public function __unset(string index)
 	{
 		return this->remove(index);
+	}
+
+	public function __destruct()
+	{
+		if this->_started {
+			session_write_close();
+			let this->_started = false;
+		}
 	}
 }

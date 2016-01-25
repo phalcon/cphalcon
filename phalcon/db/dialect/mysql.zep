@@ -32,7 +32,7 @@ use Phalcon\Db\DialectInterface;
  *
  * Generates database specific SQL for the MySQL RDBMS
  */
-class MySQL extends Dialect
+class Mysql extends Dialect
 {
 
 	protected _escapeChar = "`";
@@ -90,6 +90,12 @@ class MySQL extends Dialect
 			case Column::TYPE_DATETIME:
 				if empty columnSql {
 					let columnSql .= "DATETIME";
+				}
+				break;
+
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
 				}
 				break;
 
@@ -188,7 +194,7 @@ class MySQL extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized MySQL data type");
+					throw new Exception("Unrecognized MySQL data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
@@ -218,13 +224,21 @@ class MySQL extends Dialect
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
+		}
+
+		if column->isAutoIncrement() {
+			let sql .= " AUTO_INCREMENT";
 		}
 
 		if column->isFirst() {
@@ -232,7 +246,7 @@ class MySQL extends Dialect
 		} else {
 			let afterPosition = column->getAfterPosition();
 			if afterPosition {
-				let sql .=  " AFTER " . afterPosition;
+				let sql .=  " AFTER `" . afterPosition . "`";
 			}
 		}
 		return sql;
@@ -243,17 +257,34 @@ class MySQL extends Dialect
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
 	{
-		var sql, defaultValue;
+		var afterPosition, sql, defaultValue;
 
 		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " MODIFY `" . column->getName() . "` " . this->getColumnDefinition(column);
 
-		let defaultValue = column->getDefault();
-		if ! empty defaultValue {
-			let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+		if column->hasDefault() {
+			let defaultValue = column->getDefault();
+			if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+				let sql .= " DEFAULT CURRENT_TIMESTAMP";
+			} else {
+				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			}
 		}
 
 		if column->isNotNull() {
 			let sql .= " NOT NULL";
+		}
+
+		if column->isAutoIncrement() {
+			let sql .= " AUTO_INCREMENT";
+		}
+
+		if column->isFirst() {
+			let sql .= " FIRST";
+		} else {
+			let afterPosition = column->getAfterPosition();
+			if afterPosition {
+				let sql .=  " AFTER `" . afterPosition . "`";
+			}
 		}
 		return sql;
 	}
@@ -362,7 +393,7 @@ class MySQL extends Dialect
 		}
 
 		/**
-		 * Create a temporary o normal table
+		 * Create a temporary or normal table
 		 */
 		if temporary {
 			let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
@@ -378,9 +409,13 @@ class MySQL extends Dialect
 			/**
 			 * Add a Default clause
 			 */
-			let defaultValue = column->getDefault();
-			if ! empty defaultValue {
-				let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+			if column->hasDefault() {
+				let defaultValue = column->getDefault();
+				if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+				} else {
+					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+				}
 			}
 
 			/**

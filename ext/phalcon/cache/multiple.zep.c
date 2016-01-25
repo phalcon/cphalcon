@@ -125,9 +125,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *lifetime = NULL, *backend = NULL, *content = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *lifetime = NULL, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -200,9 +200,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -244,9 +244,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -277,10 +277,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
-	zval *keyName = NULL, *lifetime = NULL, *backend = NULL, *_0, **_3, *_4 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *keyName = NULL, *lifetime = NULL, *backend = NULL, *_0, **_3, *_4$$3 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
@@ -300,9 +300,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(backend, _3);
-		ZEPHIR_CALL_METHOD(&_4, backend, "exists", NULL, 0, keyName, lifetime);
+		ZEPHIR_CALL_METHOD(&_4$$3, backend, "exists", NULL, 0, keyName, lifetime);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_TRUE(_4)) {
+		if (ZEPHIR_IS_TRUE(_4$$3)) {
 			RETURN_MM_BOOL(1);
 		}
 	}
@@ -315,10 +315,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Multiple, flush) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	HashTable *_2;
 	HashPosition _1;
 	zval *backend = NULL, *_0, **_3;
+	int ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

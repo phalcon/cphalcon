@@ -23,7 +23,6 @@ use Phalcon\DiInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Http\RequestInterface;
-use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -301,11 +300,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	public function getDefaults() -> array
 	{
 		return [
-			"namespace": this->_defaultNamespace,
-			"module": this->_defaultModule,
+			"namespace":  this->_defaultNamespace,
+			"module":     this->_defaultModule,
 			"controller": this->_defaultController,
-			"action": this->_defaultAction,
-			"params": this->_defaultParams
+			"action":     this->_defaultAction,
+			"params":     this->_defaultParams
 		];
 	}
 
@@ -497,7 +496,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 				/**
 				 * Start from the default paths
 				 */
-				let paths = route->getPaths(), parts = paths;
+				let paths = route->getPaths(),
+					parts = paths;
 
 				/**
 				 * Check if the matches has variables
@@ -510,6 +510,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 					let converters = route->getConverters();
 
 					for part, position in paths {
+
+						if typeof part != "string" {
+							throw new Exception("Wrong key in paths: " . part);
+						}
+
+						if typeof position != "string" && typeof position != "integer" {
+							continue;
+						}
 
 						if fetch matchPosition, matches[position] {
 
@@ -535,6 +543,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
 									let parts[part] = call_user_func_array(converter, [position]);
+								}
+							} else {
+
+								/**
+								 * Remove the path if the parameter was not matched
+								 */
+								if typeof position == "integer" {
+									unset parts[part];
 								}
 							}
 						}

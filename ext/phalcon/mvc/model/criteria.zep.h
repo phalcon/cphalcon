@@ -36,7 +36,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrderBy);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getGroupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getHaving);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
@@ -216,7 +216,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getColumns, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getConditions, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getLimit, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, getOrder, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, getOrderBy, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getGroupBy, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getHaving, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getParams, NULL, ZEND_ACC_PUBLIC)

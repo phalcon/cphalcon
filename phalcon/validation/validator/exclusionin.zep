@@ -46,13 +46,9 @@ class ExclusionIn extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, domain, message, label, replacePairs;
+		var value, domain, message, label, replacePairs, strict;
 
 		let value = validation->getValue(field);
-
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
 
 		/**
 		 * A domain is an array with a list of valid values
@@ -61,11 +57,21 @@ class ExclusionIn extends Validator
 		if typeof domain != "array" {
 			throw new Exception("Option 'domain' must be an array");
 		}
+		
+		let strict = false;
+		if this->hasOption("strict") {
+
+			if typeof strict != "boolean" {
+			    throw new Exception("Option 'strict' must be a boolean");
+			}
+
+			let strict = this->getOption("strict");
+		}
 
 		/**
 		 * Check if the value is contained by the array
 		 */
-		if in_array(value, domain) {
+		if in_array(value, domain, strict) {
 
 			let label = this->getOption("label");
 			if empty label {
@@ -78,7 +84,7 @@ class ExclusionIn extends Validator
 				let message = validation->getDefaultMessage("ExclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn", this->getOption("code")));
 			return false;
 		}
 

@@ -554,6 +554,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'albums',
 			'artists',
 			'customers',
+			'issue_11036',
 			'issue_1534',
 			'issue_2019',
 			'm2m_parts',
@@ -605,7 +606,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$expectedIndexes = array(
 			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
 				'_name' => 'PRIMARY',
-				'_columns' => array('id')
+				'_columns' => array('id'),
+				'_type' => 'PRIMARY',
 			)),
 			'robots_id' => Phalcon\Db\Index::__set_state(array(
 				'_name' => 'robots_id',
@@ -621,6 +623,26 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		$describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');
+		$this->assertEquals($describeIndexes, $expectedIndexes);
+
+		//Indexes
+		$expectedIndexes = array(
+			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'PRIMARY',
+				'_columns' => array('id'),
+				'_type' => 'PRIMARY',
+			)),
+			'issue_11036_token_UNIQUE' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'issue_11036_token_UNIQUE',
+				'_columns' => array('token'),
+				'_type' => 'UNIQUE'
+			))
+		);
+
+		$describeIndexes = $connection->describeIndexes('issue_11036');
+		$this->assertEquals($describeIndexes, $expectedIndexes);
+
+		$describeIndexes = $connection->describeIndexes('issue_11036', 'phalcon_test');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
@@ -755,22 +777,24 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array (
-			0 => 'customers',
-			1 => 'm2m_parts',
-			2 => 'm2m_robots',
-			3 => 'm2m_robots_parts',
-			4 => 'parts',
-			5 => 'personas',
-			6 => 'personnes',
-			7 => 'prueba',
-			8 => 'robots',
-			9 => 'robots_parts',
-			10 => 'sqlite_sequence',
-			11 => 'subscriptores',
-			12 => 'tipo_documento',
+			0 => 'COMPANY',
+			1 => 'customers',
+			2 => 'm2m_parts',
+			3 => 'm2m_robots',
+			4 => 'm2m_robots_parts',
+			5 => 'parts',
+			6 => 'personas',
+			7 => 'personnes',
+			8 => 'prueba',
+			9 => 'robots',
+			10 => 'robots_parts',
+			11 => 'sqlite_sequence',
+			12 => 'subscriptores',
+			13 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
+
 		$this->assertEquals($tables, $expectedTables);
 
 		$tables = $connection->listTables('public');
@@ -790,22 +814,28 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$describe = $connection->describeColumns('personas', 'main');
 		$this->assertEquals($describe, $expectedDescribe);
 
-		//Indexes ps. sqlite's integer primary key autoincrement is not listed in indexes
+		//Indexes
 		$expectedIndexes = array(
-			'robots_parts_parts_id' => Phalcon\Db\Index::__set_state(array(
-				'_name' => 'robots_parts_parts_id',
-				'_columns' => array('parts_id')
+			'sqlite_autoindex_COMPANY_1' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'sqlite_autoindex_COMPANY_1',
+				'_columns' => array('ID'),
+				'_type' => 'PRIMARY'
 			)),
-			'robots_parts_robots_id' => Phalcon\Db\Index::__set_state(array(
-				'_name' => 'robots_parts_robots_id',
-				'_columns' => array('robots_id')
+			'salary_index' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'salary_index',
+				'_columns' => array('SALARY')
+			)),
+			'name_index' => Phalcon\Db\Index::__set_state(array(
+				'_name' => 'name_index',
+				'_columns' => array('NAME'),
+				'_type' => 'UNIQUE'
 			))
 		);
 
-		$describeIndexes = $connection->describeIndexes('robots_parts');
+		$describeIndexes = $connection->describeIndexes('COMPANY');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
-		$describeIndexes = $connection->describeIndexes('robots_parts', 'main');
+		$describeIndexes = $connection->describeIndexes('company', 'main');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References

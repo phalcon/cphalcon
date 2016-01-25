@@ -100,6 +100,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _enableImplicitJoins;
 
+	protected _sharedLock;
+
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -2708,6 +2710,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let dialect = connection->getDialect(),
 			sqlSelect = dialect->select(intermediate);
+		if this->_sharedLock {
+			let sqlSelect = dialect->sharedLock(sqlSelect);
+		}
 
 		/**
 		 * Return the SQL to be executed instead of execute it
@@ -3479,6 +3484,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Set SHARED LOCK clause
+	 */
+	public function setSharedLock(boolean sharedLock = false) -> <Query>
+	{
+		let this->_sharedLock = sharedLock;
+
+		return this;
+	}
+
+	/**
 	 * Returns default bind types
 	 *
 	 * @return array
@@ -3543,5 +3558,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		throw new Exception("This type of statement generates multiple SQL statements");
+	}
+
+	/**
+	 * Destroys the internal PHQL cache
+	 */
+	public static function clean()
+	{
+		let self::_irPhqlCache = [];
 	}
 }

@@ -30,8 +30,8 @@ use Phalcon\Events\EventsAwareInterface;
 /**
  * Phalcon\Dispatcher
  *
- * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
- * This class can't be instantiated directly, you can use it to create your own dispatchers
+ * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
+ * This class can't be instantiated directly, you can use it to create your own dispatchers.
  */
 abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {

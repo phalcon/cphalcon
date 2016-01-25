@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
  */
 PHP_METHOD(Phalcon_Acl_Role, getName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -60,6 +61,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
  */
 PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -70,6 +72,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_description");
 
@@ -90,7 +93,6 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -110,7 +112,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	if (description && Z_STRLEN_P(description)) {
+	if (!(!description) && Z_STRLEN_P(description)) {
 		zephir_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();

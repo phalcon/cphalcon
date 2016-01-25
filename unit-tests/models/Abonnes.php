@@ -1,12 +1,13 @@
 <?php
 
-use Phalcon\Mvc\Model\Validator\PresenceOf as PresenceOfValidator;
-use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
-use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
-use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
-use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
-use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
-use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf as PresenceOfValidator;
+use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\ExclusionIn as ExclusionInValidator;
+use Phalcon\Validation\Validator\InclusionIn as InclusionInValidator;
+use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+use Phalcon\Validation\Validator\Regex as RegexValidator;
+use Phalcon\Validation\Validator\StringLength as StringLengthValidator;
 
 use Phalcon\Mvc\Model\Message as Message;
 
@@ -42,51 +43,45 @@ class Abonnes extends Phalcon\Mvc\Model
 
 	public function validation()
 	{
+		$validator = new Validation();
 
-		$this->validate(new PresenceOfValidator(array(
-			'field' => 'creeA',
+		$validator->add('creeA', new PresenceOfValidator(array(
 			'message' => "La date de création est nécessaire"
 		)));
 
-		$this->validate(new EmailValidator(array(
-			'field' => 'courrierElectronique',
+		$validator->add('courrierElectronique', new EmailValidator(array(
+			'field' => '',
 			'message' => 'Le courrier électronique est invalide'
 		)));
 
-		$this->validate(new ExclusionInValidator(array(
-			'field' => 'statut',
+		$validator->add('statut', new ExclusionInValidator(array(
 			'domain' => array('X', 'Z'),
 			'message' => 'L\'état ne doit être "X" ou "Z"'
 		)));
 
-		$this->validate(new InclusionInValidator(array(
-			'field' => 'statut',
+		$validator->add('statut', new InclusionInValidator(array(
 			'domain' => array('P', 'I', 'w'),
 			'message' => 'L\'état doit être "P", "I" ou "w"'
 		)));
 
-		$this->validate(new UniquenessValidator(array(
-			'field' => 'courrierElectronique',
-			'message' => 'Le courrier électronique doit être unique'
+		$validator->add('courrierElectronique', new UniquenessValidator(array(
+			'message' => 'Le courrier électronique doit être unique',
+			'model' => $this
 		)));
 
-		$this->validate(new RegexValidator(array(
-			'field' => 'statut',
+		$validator->validate('statut', new RegexValidator(array(
 			'pattern' => '/[A-Z]/',
 			'message' => "L'état ne correspond pas à l'expression régulière"
 		)));
 
-		$this->validate(new StringLengthValidator(array(
-			'field' => 'courrierElectronique',
+		$validator->validate('courrierElectronique', new StringLengthValidator(array(
 			'min' => '7',
 			'max' => '50',
 			'messageMinimum' => "Le courrier électronique est trop court",
 			'messageMaximum' => "Le courrier électronique est trop long"
 		)));
 
-		if ($this->validationHasFailed() == true) {
-			return false;
-		}
+		return $this->validate($validator);
 	}
 
 	public function columnMap()

@@ -136,6 +136,8 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			 * Pass the cookies bag to the response so it can send the headers at the of the request
 			 */
 			response->setCookies(this);
+
+			let this->_registered = true;
 		}
 
 		return this;
@@ -148,13 +150,17 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	{
 		var dependencyInjector, encryption, cookie;
 
+		/**
+		 * Gets cookie from the cookies service. They will be sent with response.
+		 */
 		if fetch cookie, this->_cookies[name] {
 			return cookie;
 		}
 
 		/**
-         * Create the cookie if the it does not exist
-         */
+		 * Create the cookie if the it does not exist. 
+		 * It's value come from $_COOKIE with request, so it shouldn't be saved to _cookies property, otherwise it will allways be resent after get.
+		 */
 		let cookie = <CookieInterface> this->_dependencyInjector->get("Phalcon\\Http\\Cookie", [name]),
 			dependencyInjector = this->_dependencyInjector;
 
@@ -175,7 +181,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			}
 		}
 
-		let this->_cookies[name] = cookie;
 		return cookie;
 	}
 

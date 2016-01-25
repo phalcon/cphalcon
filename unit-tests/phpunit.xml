@@ -22,6 +22,7 @@
 			<file>unit-tests/CollectionsBehaviorsTest.php</file>
 			<file>unit-tests/CollectionsEventsTest.php</file>
 			<file>unit-tests/CollectionsSerializeTest.php</file>
+			<file>unit-tests/CollectionsChangeClassTest.php</file>
 			<file>unit-tests/CollectionsTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
@@ -72,7 +73,7 @@
 			<file>unit-tests/ModelsSerializeTest.php</file>
 			<file>unit-tests/ModelsSnapshotsTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
-			<file>unit-tests/ModelsValidatorsTest.php</file>
+			<!--<file>unit-tests/ModelsValidatorsTest.php</file>-->
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>

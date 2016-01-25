@@ -70,7 +70,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_success"), success ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	if (success) {
+		zephir_update_property_this(this_ptr, SL("_success"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_success"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 
 }
@@ -80,6 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_model");
 
@@ -90,8 +95,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
+	zval *model = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *model;
 
 	ZEPHIR_MM_GROW();
 
@@ -112,6 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_success");
 

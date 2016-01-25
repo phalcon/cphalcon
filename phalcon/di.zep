@@ -178,7 +178,7 @@ class Di implements DiInterface
 	/**
 	 * Returns a service definition without resolving
 	 */
-	public function getRaw(string! name)
+	public function getRaw(string! name) -> var
 	{
 		var service;
 
@@ -205,51 +205,41 @@ class Di implements DiInterface
 
 	/**
 	 * Resolves the service based on its configuration
-	 * @returm mixed
 	 */
-	public function get(string! name, parameters = null)
+	public function get(string! name, parameters = null) -> var
 	{
-		var service, instance, reflection, eventsManager;
+		var service, eventsManager, instance = null;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		if typeof eventsManager == "object" {
-			eventsManager->fire("di:beforeServiceResolve", this, ["name": name, "parameters": parameters]);
+			let instance = eventsManager->fire(
+				"di:beforeServiceResolve",
+				this,
+				["name": name, "parameters": parameters]
+			);
 		}
 
-		if fetch service, this->_services[name] {
-			/**
-			 * The service is registered in the DI
-			 */
-			let instance = service->resolve(parameters, this);
-		} else {
-			/**
-			 * The DI also acts as builder for any class even if it isn't defined in the DI
-			 */
-			if !class_exists(name) {
-				throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
-			}
+		if typeof instance != "object" {
+			if fetch service, this->_services[name] {
+				/**
+				 * The service is registered in the DI
+				 */
+				let instance = service->resolve(parameters, this);
+			} else {
+				/**
+				 * The DI also acts as builder for any class even if it isn't defined in the DI
+				 */
+				if !class_exists(name) {
+					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+				}
 
-			if typeof parameters == "array" {
-				if count(parameters) {
-					if is_php_version("5.6") {
-						let reflection = new \ReflectionClass(name),
-							instance = reflection->newInstanceArgs(parameters);
-					} else {
+				if typeof parameters == "array" {
+					if count(parameters) {
 						let instance = create_instance_params(name, parameters);
-					}
-				} else {
-					if is_php_version("5.6") {
-						let reflection = new \ReflectionClass(name),
-							instance = reflection->newInstance();
 					} else {
 						let instance = create_instance(name);
 					}
-				}
-			} else {
-				if is_php_version("5.6") {
-					let reflection = new \ReflectionClass(name),
-						instance = reflection->newInstance();
 				} else {
 					let instance = create_instance(name);
 				}
@@ -368,11 +358,8 @@ class Di implements DiInterface
 	 *<code>
 	 *	var_dump($di["request"]);
 	 *</code>
-	 *
-	 * @param string name
-	 * @return mixed
 	 */
-	public function offsetGet(string! name) -> boolean
+	public function offsetGet(string! name) -> var
 	{
 		return this->getShared(name);
 	}
@@ -390,9 +377,8 @@ class Di implements DiInterface
 	 *
 	 * @param string method
 	 * @param array arguments
-	 * @return mixed
 	 */
-	public function __call(string! method, arguments = null)
+	public function __call(string! method, arguments = null) -> var|null
 	{
 		var instance, possibleService, services, definition;
 

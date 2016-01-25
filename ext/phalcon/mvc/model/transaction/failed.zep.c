@@ -51,7 +51,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
@@ -75,8 +74,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
+	zval *record = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record;
 
 	ZEPHIR_MM_GROW();
 
@@ -98,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_record");
 

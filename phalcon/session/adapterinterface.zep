@@ -26,7 +26,6 @@ namespace Phalcon\Session;
  */
 interface AdapterInterface
 {
-
 	/**
 	 * Starts session, optionally using an adapter
 	 */
@@ -45,7 +44,7 @@ interface AdapterInterface
 	/**
 	 * Gets a session variable from an application context
 	 */
-	public function get(string index, var defaultValue = null);
+	public function get(string index, var defaultValue = null) -> var;
 
 	/**
 	 * Sets a session variable in an application context
@@ -81,4 +80,14 @@ interface AdapterInterface
 	 * Regenerate session's id
 	 */
 	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>;
+
+	/**
+	 * Set session name
+	 */
+	public function setName(string name);
+
+	/**
+	 * Get session name
+	 */
+	public function getName() -> string;
 }

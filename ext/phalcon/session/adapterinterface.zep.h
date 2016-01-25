@@ -33,6 +33,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_regenerateid, 0,
 	ZEND_ARG_INFO(0, deleteOldSession)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapterinterface_setname, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_session_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, start, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, setOptions, arginfo_phalcon_session_adapterinterface_setoptions)
@@ -45,5 +49,7 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, isStarted, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, destroy, arginfo_phalcon_session_adapterinterface_destroy)
 	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, regenerateId, arginfo_phalcon_session_adapterinterface_regenerateid)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, setName, arginfo_phalcon_session_adapterinterface_setname)
+	PHP_ABSTRACT_ME(Phalcon_Session_AdapterInterface, getName, NULL)
 	PHP_FE_END
 };

@@ -103,14 +103,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
-	zval *options_param = NULL, *escapeIdentifiers, *forceCasting;
+	zval *options_param = NULL, *escapeIdentifiers = NULL, *forceCasting = NULL;
 	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
 	options = options_param;
-
 
 
 	ZEPHIR_OBS_VAR(escapeIdentifiers);

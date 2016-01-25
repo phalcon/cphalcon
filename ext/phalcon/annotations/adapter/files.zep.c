@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
 
 	zend_declare_property_string(phalcon_annotations_adapter_files_ce, SL("_annotationsDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_annotations_adapter_files_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -53,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 
-	zval *options = NULL, *annotationsDir;
+	zval *options = NULL, *annotationsDir = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 
@@ -78,7 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key_param = NULL, *path, *_0, *_1, _2, *_3 = NULL;
+	zval *key_param = NULL, *path = NULL, *_0, *_1, _2, *_3$$3 = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -95,11 +94,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
 	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3);
-		if (zephir_require_zval_ret(&_3, path TSRMLS_CC) == FAILURE) {
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3$$3);
+		if (zephir_require_zval_ret(&_3$$3, path TSRMLS_CC) == FAILURE) {
 			RETURN_MM_NULL();
 		}
-		RETURN_CCTOR(_3);
+		RETURN_CCTOR(_3$$3);
 	}
 	RETURN_MM_BOOL(0);
 
@@ -110,7 +109,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key_param = NULL, *data, *path, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
+	zval *key_param = NULL, *data, *path = NULL, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -120,7 +119,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
@@ -139,12 +137,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_INIT_NVAR(_4);
-	zephir_var_export_ex(_4, &(data) TSRMLS_CC);
+	zephir_var_export_ex(_4, &data TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 92);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 91);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

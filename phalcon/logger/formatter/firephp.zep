@@ -120,11 +120,7 @@ class Firephp extends Formatter implements FormatterInterface
 
 		if this->_showBacktrace {
 			var param, backtraceItem, key;
-			let param = false;
-
-			if !version_compare(PHP_VERSION, "5.3.6", "<") {
-				let param = DEBUG_BACKTRACE_IGNORE_ARGS;
-			}
+			let param = DEBUG_BACKTRACE_IGNORE_ARGS;
 
 			let backtrace = debug_backtrace(param),
 				lastTrace = end(backtrace);

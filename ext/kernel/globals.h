@@ -67,11 +67,7 @@ typedef zend_function zephir_fcall_cache_entry;
 
 #endif
 
-#if PHP_VERSION_ID >= 50400
-	#define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
-#else
-	#define ZEPHIR_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
-#endif
+#define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
@@ -163,16 +159,6 @@ typedef zend_function zephir_fcall_cache_entry;
 #else
 # define ZEPHIR_NO_OPT
 #endif
-
-/*#if PHP_VERSION_ID > 50399
-# define ZLK_DC , const struct _zend_literal* key
-# define ZLK_CC , key
-# define ZLK_NULL_CC , NULL
-#else
-# define ZLK_DC
-# define ZLK_CC
-# define ZLK_NULL_CC
-#endif*/
 
 #ifdef ZTS
 #define zephir_nts_static

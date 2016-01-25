@@ -60,8 +60,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zval *_0;
+	int ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -92,7 +92,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(partialPath_param) == IS_STRING)) {
 		zephir_get_strval(partialPath, partialPath_param);
 	} else {
@@ -116,6 +115,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getView) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_view");
 

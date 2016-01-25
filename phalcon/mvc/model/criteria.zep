@@ -534,7 +534,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function having(var having) -> <Criteria>
 	{
-		let this->_params["group"] = having;
+		let this->_params["having"] = having;
 		return this;
 	}
 
@@ -638,7 +638,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Returns the order clause in the criteria
 	 */
-	public function getOrder() -> string | null
+	public function getOrderBy() -> string | null
 	{
 		var order;
 		if fetch order, this->_params["order"] {
@@ -694,7 +694,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 			let metaData = dependencyInjector->getShared("modelsMetadata");
 
-			let model = new {modelName}(),
+			let model = new {modelName}(null, dependencyInjector),
 				dataTypes = metaData->getDataTypes(model),
 				columnMap = metaData->getReverseColumnMap(model);
 

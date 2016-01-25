@@ -18,6 +18,8 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
+#include "kernel/concat.h"
 #include "kernel/math.h"
 
 
@@ -64,7 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *config_param = NULL, *builder, *limit, *page;
+	zval *config_param = NULL, *builder = NULL, *limit = NULL, *page = NULL;
 	zval *config = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -102,6 +104,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_page");
 
@@ -128,6 +131,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_builder");
 
@@ -138,8 +142,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 
-	int numberPage, before, ZEPHIR_LAST_CALL_STATUS;
-	zval *originalBuilder, *builder, *totalBuilder, *totalPages, *limit, *number, *query = NULL, *page, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount, *next = NULL, *_0, *_1 = NULL, *_2, _3, _4, *_5;
+	zval *_4$$8;
+	zval *originalBuilder = NULL, *builder = NULL, *totalBuilder = NULL, *totalPages = NULL, *limit = NULL, *number = NULL, *query = NULL, *page = NULL, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount = NULL, *next = NULL, *_0, *_1 = NULL, *groups = NULL, *_6, _7, _8, *_9, *groupColumn$$8 = NULL, *_2$$8 = NULL, *_3$$8, *_5$$8;
+	int ZEPHIR_LAST_CALL_STATUS, numberPage = 0, before = 0;
 
 	ZEPHIR_MM_GROW();
 
@@ -184,6 +189,23 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "columns", NULL, 0, _1);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&groups, totalBuilder, "getgroupby", NULL, 0);
+	zephir_check_call_status();
+	if (!(ZEPHIR_IS_EMPTY(groups))) {
+		ZEPHIR_INIT_VAR(groupColumn$$8);
+		zephir_fast_join_str(groupColumn$$8, SL(", "), groups TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_3$$8);
+		ZVAL_NULL(_3$$8);
+		ZEPHIR_CALL_METHOD(&_2$$8, totalBuilder, "groupby", NULL, 0, _3$$8);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(_4$$8);
+		zephir_create_array(_4$$8, 1, 0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_5$$8);
+		ZEPHIR_CONCAT_SVS(_5$$8, "COUNT(DISTINCT ", groupColumn$$8, ") AS rowcount");
+		zephir_array_fast_append(_4$$8, _5$$8);
+		ZEPHIR_CALL_METHOD(NULL, _2$$8, "columns", NULL, 0, _4$$8);
+		zephir_check_call_status();
+	}
 	ZEPHIR_INIT_NVAR(_1);
 	ZVAL_NULL(_1);
 	ZEPHIR_CALL_METHOD(NULL, totalBuilder, "orderby", NULL, 0, _1);
@@ -194,16 +216,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&row, result, "getfirst", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_OBS_VAR(_2);
-	zephir_read_property(&_2, row, SL("rowcount"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(rowcount);
-	ZVAL_LONG(rowcount, zephir_get_intval(_2));
-	ZEPHIR_SINIT_VAR(_3);
-	div_function(&_3, rowcount, limit TSRMLS_CC);
-	ZEPHIR_SINIT_VAR(_4);
-	ZVAL_DOUBLE(&_4, zephir_ceil(&_3 TSRMLS_CC));
+	if (zephir_is_true(row)) {
+		ZEPHIR_OBS_VAR(_6);
+		zephir_read_property(&_6, row, SL("rowcount"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(rowcount);
+		ZVAL_LONG(rowcount, zephir_get_intval(_6));
+	} else {
+		ZEPHIR_INIT_NVAR(rowcount);
+		ZVAL_LONG(rowcount, 0);
+	}
+	ZEPHIR_SINIT_VAR(_7);
+	div_function(&_7, rowcount, limit TSRMLS_CC);
+	ZEPHIR_SINIT_VAR(_8);
+	ZVAL_DOUBLE(&_8, zephir_ceil(&_7 TSRMLS_CC));
 	ZEPHIR_INIT_VAR(totalPages);
-	ZVAL_LONG(totalPages, zephir_get_intval(&_4));
+	ZVAL_LONG(totalPages, zephir_get_intval(&_8));
 	if (ZEPHIR_GT_LONG(totalPages, numberPage)) {
 		ZEPHIR_INIT_VAR(next);
 		ZVAL_LONG(next, (numberPage + 1));
@@ -213,21 +240,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	ZEPHIR_INIT_VAR(page);
 	object_init(page);
 	zephir_update_property_zval(page, SL("items"), items TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
-	ZVAL_LONG(_5, 1);
-	zephir_update_property_zval(page, SL("first"), _5 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
-	ZVAL_LONG(_5, before);
-	zephir_update_property_zval(page, SL("before"), _5 TSRMLS_CC);
-	ZEPHIR_INIT_ZVAL_NREF(_5);
-	ZVAL_LONG(_5, numberPage);
-	zephir_update_property_zval(page, SL("current"), _5 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_9);
+	ZVAL_LONG(_9, 1);
+	zephir_update_property_zval(page, SL("first"), _9 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_9);
+	ZVAL_LONG(_9, before);
+	zephir_update_property_zval(page, SL("before"), _9 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_9);
+	ZVAL_LONG(_9, numberPage);
+	zephir_update_property_zval(page, SL("current"), _9 TSRMLS_CC);
 	zephir_update_property_zval(page, SL("last"), totalPages TSRMLS_CC);
 	zephir_update_property_zval(page, SL("next"), next TSRMLS_CC);
 	zephir_update_property_zval(page, SL("total_pages"), totalPages TSRMLS_CC);
 	zephir_update_property_zval(page, SL("total_items"), rowcount TSRMLS_CC);
-	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
-	zephir_update_property_zval(page, SL("limit"), _5 TSRMLS_CC);
+	_9 = zephir_fetch_nproperty_this(this_ptr, SL("_limitRows"), PH_NOISY_CC);
+	zephir_update_property_zval(page, SL("limit"), _9 TSRMLS_CC);
 	RETURN_CCTOR(page);
 
 }

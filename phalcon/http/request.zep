@@ -21,9 +21,9 @@ namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Http\Request\Exception;
 use Phalcon\Http\Request\File;
+use Phalcon\Http\Request\Exception;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Http\Request
@@ -54,6 +54,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	protected _putCache;
 
+	protected _httpMethodParameterOverride = false { get, set };
+
 	/**
 	 * Sets the dependency injector
 	 */
@@ -82,7 +84,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *	$userEmail = $request->get("user_email", "email");
 	 *</code>
 	 */
-	public function get(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	public function get(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
 		return this->getHelper(_REQUEST, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -99,7 +101,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *	$userEmail = $request->getPost("user_email", "email");
 	 *</code>
 	 */
-	public function getPost(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	public function getPost(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
 		return this->getHelper(_POST, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -115,7 +117,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *	$userEmail = $request->getPut("user_email", "email");
 	 *</code>
 	 */
-	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
 		var put;
 
@@ -146,7 +148,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *	$id = $request->getQuery("id", null, 150);
 	 *</code>
 	 */
-	public function getQuery(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	public function getQuery(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
 		return this->getHelper(_GET, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
@@ -155,7 +157,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Helper to get data from superglobals, applying filters if needed.
 	 * If no parameters are given the superglobal is returned.
 	 */
-	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false)
+	protected final function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
 		var value, filter, dependencyInjector;
 
@@ -191,7 +193,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets variable from $_SERVER superglobal
 	 */
-	public function getServer(string! name)
+	public function getServer(string! name) -> string | null
 	{
 		var serverValue;
 
@@ -479,15 +481,40 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP method which request has been made
+	 *
+	 * If the X-HTTP-Method-Override header is set, and if the method is a POST,
+	 * then it is used to determine the "real" intended HTTP method.
+	 *
+	 * The _method request parameter can also be used to determine the HTTP method,
+	 * but only if setHttpMethodParameterOverride(true) has been called.
+	 *
+	 * The method is always an uppercased string.
 	 */
 	public final function getMethod() -> string
 	{
-		var requestMethod;
+		var headers, overridedMethod, spoofedMethod, requestMethod;
+		string returnMethod = "";
 
 		if fetch requestMethod, _SERVER["REQUEST_METHOD"] {
-			return requestMethod;
+			let returnMethod = requestMethod;
 		}
-		return "";
+
+		if "POST" === requestMethod {
+			let headers = this->getHeaders();
+			if fetch overridedMethod, headers["X-HTTP-METHOD-OVERRIDE"] {
+				let returnMethod = overridedMethod;
+			} elseif this->_httpMethodParameterOverride {
+				if fetch spoofedMethod, _REQUEST["_method"] {
+					let returnMethod = spoofedMethod;
+				}
+			}
+		}
+
+		if !this->isValidHttpMethod(returnMethod) {
+			let returnMethod = "GET";
+		}
+
+		return strtoupper(returnMethod);
 	}
 
 	/**

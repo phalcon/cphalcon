@@ -87,7 +87,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
 		zephir_get_strval(referencedModel, referencedModel_param);
 	} else {
@@ -127,7 +126,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {
 		zephir_get_strval(intermediateModel, intermediateModel_param);
 	} else {
@@ -148,6 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getType) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -158,6 +157,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getType) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_referencedModel");
 
@@ -170,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_fields");
 
@@ -182,6 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_referencedFields");
 
@@ -194,6 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_options");
 
@@ -205,7 +208,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 
-	zval *name_param = NULL, *option, *_0;
+	zval *name_param = NULL, *option = NULL, *_0;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -215,7 +218,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
@@ -237,7 +239,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey) {
 
-	zval *options;
+	zval *options = NULL;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -257,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
 
-	zval *options, *foreignKey;
+	zval *options = NULL, *foreignKey = NULL;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -279,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams) {
 
-	zval *options, *params;
+	zval *options = NULL, *params = NULL;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -300,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough) {
 
 	zend_bool _0;
-	zval *type;
+	zval *type = NULL;
 
 
 	type = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
@@ -317,7 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable) {
 
-	zval *options, *reusable;
+	zval *options = NULL, *reusable = NULL;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
@@ -337,6 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_intermediateFields");
 
@@ -347,6 +350,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_intermediateModel");
 
@@ -359,6 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_intermediateReferencedFields");
 

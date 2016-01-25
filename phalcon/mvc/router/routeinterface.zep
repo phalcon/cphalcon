@@ -33,6 +33,16 @@ interface RouteInterface
 	public function __construct(string! pattern, var paths = null, var httpMethods = null);
 
 	/**
+	 * Sets a hostname restriction to the route
+	 */
+	public function setHostname(string hostname) -> <RouteInterface>;
+
+	/**
+	 * Returns the hostname restriction if any
+	 */
+	public function getHostname() -> string;
+
+	/**
 	 * Replaces placeholders from pattern returning a valid PCRE regular expression
 	 */
 	public function compilePattern(string! pattern) -> string;
@@ -60,7 +70,7 @@ interface RouteInterface
 	/**
 	 * Sets a set of HTTP methods that constraint the matching of the route
 	 */
-	public function setHttpMethods(var httpMethods) -> string | array;
+	public function setHttpMethods(var httpMethods) -> <RouteInterface>;
 
 	/**
 	 * Returns the route's id

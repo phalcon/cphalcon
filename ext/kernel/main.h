@@ -71,6 +71,7 @@ int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC);
 int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
 int zephir_is_callable(zval *var TSRMLS_DC);
+int zephir_is_scalar(zval *var);
 int zephir_function_exists(const zval *function_name TSRMLS_DC);
 int zephir_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
 int zephir_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
@@ -469,13 +470,6 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \
 	}
 
-#if PHP_VERSION_ID < 50399
-	#define object_properties_init(object, class_type) { \
-		ALLOC_HASHTABLE_REL(object->properties); \
-		zend_hash_init(object->properties, zend_hash_num_elements(&class_type->default_properties), NULL, ZVAL_PTR_DTOR, 0); \
-		zend_hash_copy(object->properties, &class_type->default_properties, (copy_ctor_func_t) zval_add_ref, NULL, sizeof(zval *)); \
-	}
-#endif
 #define ZEPHIR_CREATE_OBJECT(obj_ptr, class_type) \
 	{ \
 		zend_object *object; \
@@ -484,6 +478,9 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 		Z_OBJVAL_P(obj_ptr) = zend_objects_new(&object, class_type TSRMLS_CC); \
 		object_properties_init(object, class_type); \
 	}
+
+#define ZEPHIR_MAKE_REF(obj) Z_SET_ISREF_P(obj);
+#define ZEPHIR_UNREF(obj) Z_UNSET_ISREF_P(obj);
 
 #define ZEPHIR_REGISTER_INTERFACE(ns, classname, lower_ns, name, methods) \
 	{ \
@@ -568,6 +565,6 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 
 #define ZEPHIR_CHECK_POINTER(v) if (!v) fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__);
 
-#define zephir_is_php_version(id) ((PHP_VERSION_ID >= id && PHP_VERSION_ID <= (id + 10000)) ?  1 : 0)
+#define zephir_is_php_version(id) (PHP_VERSION_ID / 10 == id / 10 ?  1 : 0)
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */
