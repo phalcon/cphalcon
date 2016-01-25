@@ -1926,13 +1926,9 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Bind the closure to the $this object allowing to call services, only PHP >= 5.4
+		 * Bind the closure to the $this object allowing to call services
 		 */
-		if is_php_version("5.3") {
-			let code .= " ?>";
-		} else {
-			let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
-		}
+		let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
 
 		return code;
 	}
