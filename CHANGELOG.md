@@ -7,6 +7,7 @@
 - Removed support for prefixes strategy in `Phalcon\Loader`
 - Now `Phalcon\Mvc\View` supports many views directories at the same time
 - An absolute path can now be used to Mvc\View::setLayoutsDir
+- Fixed odd view behavior[#1933](https://github.com/phalcon/cphalcon/issues/1933) related to setLayout() and pick()
 - `Phalcon\Di` is now bound to services closures allowing use `Phalcon\Di` as $this to access services within them
 - If an object is returned after firing the event `beforeServiceResolve` in `Phalcon\Di` this overrides the
   default service localization process
