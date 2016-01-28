@@ -137,6 +137,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Gets the default action suffix
+	 */
+	public function getActionSuffix() -> string
+	{
+		return this->_actionSuffix;
+	}
+
+	/**
 	 * Sets the module where the controller is (only informative)
 	 */
 	public function setModuleName(string moduleName)

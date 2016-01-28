@@ -7,6 +7,7 @@
 - Removed support for prefixes strategy in `Phalcon\Loader`
 - Now `Phalcon\Mvc\View` supports many views directories at the same time
 - An absolute path can now be used to Mvc\View::setLayoutsDir
+- Fixed odd view behavior[#1933](https://github.com/phalcon/cphalcon/issues/1933) related to setLayout() and pick()
 - `Phalcon\Di` is now bound to services closures allowing use `Phalcon\Di` as $this to access services within them
 - If an object is returned after firing the event `beforeServiceResolve` in `Phalcon\Di` this overrides the
   default service localization process
@@ -34,6 +35,7 @@
 - Added `Phalcon\Acl\RoleAware` and `Phalcon\Acl\ResourceAware` Interfaces, Now you can pass objects to `Phalcon\Acl\AdapterInterface::isAllowed` as `roleName` and `resourceName`, also they will be automatically passed to function defined in `Phalcon\Acl\AdapterInterface::allow` or `Phalcon\Acl\AdapterInterface::deny` by type
 - `Phalcon\Acl\AdapterInterface::allow` and `Phalcon\Acl\AdapterInterface::deny` have 4th argument - function, which will be called when using `Phalcon\Acl\AdapterInterface::isAllowed`
 - `Phalcon\Acl\AdapterInterface::isAllowed` have 4th argument - parameters, you can pass arguments for function defined in `Phalcon\Acl\AdapterInterface:allow` or `Phalcon\Acl\AdapterInterface::deny` as associative array where key is argument name
+- Added method getActionSuffix() in `Phalcon\DispatcherInterface`
 - Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
