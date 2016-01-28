@@ -74,6 +74,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _previousActionName = null;
 
+	protected _modelBinding = false;
+
 	const EXCEPTION_NO_DI = 0;
 
 	const EXCEPTION_CYCLIC_ROUTING = 1;
@@ -313,6 +315,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Enable/Disable model binding during dispatch
+	 *
+	 * @param boolean value
+	 */
+	public function setModelBinding(boolean value)
+	{
+		let this->_modelBinding = value;
+	}
+
+	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
 	 * @return object
@@ -323,7 +335,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			actionSuffix, handlerClass, status, actionMethod,
+			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
+			className, paramKey, methodParam, modelName, bindModel,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -510,6 +523,37 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					}
 				}
 			}
+
+			if this->_modelBinding === true {
+				//Check if we can bind a model based on what the controller action is expecting
+				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
+				let methodParams = reflectionMethod->getParameters();
+
+				for paramKey, methodParam in methodParams {
+					if methodParam->getClass() {
+						let className = methodParam->getClass()->getName();
+						if typeof className == "string" {
+							//If we are in a base class and the child implements BindModelInterface we getModelName
+							if className == "Phalcon\\Mvc\\Model" {
+								if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
+									let modelName = call_user_func([handlerClass, "getModelName"]);
+									let bindModel = call_user_func_array([modelName, "findFirst"], [params[paramKey]]);
+									let params[paramKey] = bindModel;
+									break;
+								}
+							}
+
+							//Check if Model is defined
+							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
+								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);
+								let params[paramKey] = bindModel;
+								break;
+							}
+						}
+					}
+				}
+			}
+
 
 			try {
 
