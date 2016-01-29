@@ -432,7 +432,7 @@ class Di implements DiInterface
 	}
 
 	/**
-	 * Return the lastest DI created
+	 * Return the latest DI created
 	 */
 	public static function getDefault() -> <DiInterface>
 	{
