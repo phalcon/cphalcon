@@ -62,6 +62,17 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			$number++;
 		}
 		$this->assertEquals($number, 3);
+
+		$expected = [
+			'This a message #1',
+			'This a message #2',
+			'This a message #3',
+		];
+
+		$this->assertEquals($expected, $messages->toArray());
+		$this->assertEquals(['This a message #1'], $messages->toArray('field1'));
+		$this->assertEquals(['This a message #2'], $messages->toArray('field2'));
+		$this->assertEquals(['This a message #3'], $messages->toArray('field3'));
 	}
 
 	public function testValidationPresenceOf()
@@ -1024,18 +1035,18 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation = new Phalcon\Validation();
 
 		$validation->add('email', new PresenceOf(array(
-                            'message' => 'The :field is required'
+			'message' => 'The :field is required'
 		)));
 		$validation->add('email', new Email(array(
-                            'message' => 'The :field must be email',
-                            'label' => 'E-mail'
+			'message' => 'The :field must be email',
+			'label' => 'E-mail'
 		)));
 		$validation->add('firstname', new PresenceOf(array(
-                            'message' => 'The :field is required'
+			'message' => 'The :field is required'
 		)));
 		$validation->add('firstname', new StringLength(array(
-                            'min' => 4,
-                            'messageMinimum' => 'The :field is too short'
+			'min' => 4,
+			'messageMinimum' => 'The :field is too short'
 		)));
 
 		$validation->setLabels(array('firstname' => 'First name'));

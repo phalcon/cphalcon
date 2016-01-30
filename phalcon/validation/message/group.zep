@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -230,6 +230,41 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 			return message;
 		}
 		return false;
+	}
+
+	/**
+	 * Returns all message strings in the list
+	 *
+	 * <code>
+	 *    // All messages
+	 *    $this->flash->error(join('<br>', $messages->toArray()));
+	 *
+	 *    // Filtered messages
+	 *    $this->flash->error(join('<br>', $messages->toArray('email')));
+	 * </code>
+	 */
+	public function toArray(string fieldName = null) -> array
+	{
+		var filtered, messages, message;
+
+		let filtered = [],
+			messages = this->_messages;
+
+		if typeof messages == "array" {
+			for message in messages {
+				if typeof message == "object" && message instanceof Message {
+					if fieldName {
+						if fieldName == message->getField() {
+							let filtered[] = message->getMessage();
+						}
+					} else {
+						let filtered[] = message->getMessage();
+					}
+				}
+			}
+		}
+
+		return filtered;
 	}
 
 	/**
