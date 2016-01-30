@@ -186,11 +186,10 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function bind(array! data, var entity, var whitelist = null) -> <Form>
 	{
-		var elements, filter, key, value, element, filters,
+		var filter, key, value, element, filters,
 			dependencyInjector, filteredValue, method;
 
-		let elements = this->_elements;
-		if typeof elements != "array" {
+		if typeof this->_elements != "array" {
 			throw new Exception("There are no elements in the form");
 		}
 
@@ -200,7 +199,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			/**
 			 * Get the element
 			 */
-			if !fetch element, elements[key] {
+			if !fetch element, this->_elements[key] {
 				continue;
 			}
 
@@ -262,12 +261,11 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function isValid(var data = null, var entity = null) -> boolean
 	{
-		var elements, notFailed, messages, element,
+		var notFailed, messages, element,
 			validators, name, preparedValidators, filters,
 			validator, validation, elementMessages;
 
-		let elements = this->_elements;
-		if typeof elements != "array" {
+		if typeof this->_elements != "array" {
 			return true;
 		}
 
@@ -299,7 +297,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		let notFailed = true,
 			messages = [];
 
-		for element in elements {
+		for element in this->_elements {
 
 			let validators = element->getValidators();
 			if typeof validators == "array" {
@@ -632,14 +630,10 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function remove(string! name) -> boolean
 	{
-		var elements;
-
-		let elements = this->_elements;
-
 		/**
 		 * Checks if the element is in the form
 		 */
-		if isset elements[name] {
+		if isset this->_elements[name] {
 			unset this->_elements[name];
 			return true;
 		}
