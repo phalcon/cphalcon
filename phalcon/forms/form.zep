@@ -39,7 +39,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	protected _entity;
 
-	protected _options;
+	protected _options = [];
 
 	protected _data;
 
@@ -85,11 +85,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Sets the form's action
-	 *
-	 * @param string action
-	 * @return \Phalcon\Forms\Form
 	 */
-	public function setAction(var action) -> <Form>
+	public function setAction(string! action) -> <Form>
 	{
 		let this->_action = action;
 		return this;
@@ -143,10 +140,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Returns the options for the element
-	 *
-	 * @return array
 	 */
-	public function getUserOptions()
+	public function getUserOptions() -> array
 	{
 		return this->_options;
 	}
@@ -411,11 +406,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Returns the messages generated for a specific element
-	 *
-	 * @param string name
-	 * @return \Phalcon\Validation\Message\Group
 	 */
-	public function getMessagesFor(var name) -> <Group>
+	public function getMessagesFor(string! name) -> <Group>
 	{
 		var messages, elementMessages, group;
 
@@ -431,11 +423,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Check if messages were generated for a specific element
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function hasMessagesFor(var name) -> boolean
+	public function hasMessagesFor(string! name) -> boolean
 	{
 		return isset this->_messages[name];
 	}
