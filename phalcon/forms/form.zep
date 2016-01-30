@@ -300,61 +300,62 @@ class Form extends Injectable implements \Countable, \Iterator
 		for element in this->_elements {
 
 			let validators = element->getValidators();
-			if typeof validators == "array" {
-				if count(validators) {
+			if typeof validators != "array" {
+				continue;
+			}
 
+			if count(validators) == 0 {
+				continue;
+			}
+
+			/**
+			 * Element's name
+			 */
+			let name = element->getName();
+
+			/**
+			 * Prepare the validators
+			 */
+			let preparedValidators = [];
+
+			for validator in validators {
+				let preparedValidators[] = [name, validator];
+			}
+
+			let validation = this->getValidation();
+			if typeof validation == "object" {
+				if validation instanceof Validation {
 					/**
-					 * Element's name
+					 * Set the validators to the validation
 					 */
-					let name = element->getName();
-
-					/**
-					 * Prepare the validators
-					 */
-					let preparedValidators = [];
-
-					for validator in validators {
-						let preparedValidators[] = [name, validator];
-					}
-
-					let validation = this->getValidation();
-					if typeof validation == "object" {
-						if validation instanceof Validation {
-							/**
-							 * Set the validators to the validation
-							 */
-							validation->setValidators(preparedValidators);
-						}
-					} else {
-						/**
-						 * Create an implicit validation
-						 */
-						let validation = new Validation(preparedValidators);
-					}
-
-					/**
-					 * Get filters in the element
-					 */
-					let filters = element->getFilters();
-
-					/**
-					 * Assign the filters to the validation
-					 */
-					if typeof filters == "array" {
-						validation->setFilters(element->getName(), filters);
-					}
-
-					/**
-					 * Perform the validation
-					 */
-					let elementMessages = validation->validate(data, entity);
-					if count(elementMessages) {
-						let messages[element->getName()] = elementMessages,
-							notFailed = false;
-					}
-
+					validation->setValidators(preparedValidators);
 				}
+			} else {
+				/**
+				 * Create an implicit validation
+				 */
+				let validation = new Validation(preparedValidators);
+			}
 
+			/**
+			 * Get filters in the element
+			 */
+			let filters = element->getFilters();
+
+			/**
+			 * Assign the filters to the validation
+			 */
+			if typeof filters == "array" {
+				validation->setFilters(element->getName(), filters);
+			}
+
+			/**
+			 * Perform the validation
+			 */
+			let elementMessages = validation->validate(data, entity);
+			if count(elementMessages) {
+				let messages[element->getName()] = elementMessages,
+					notFailed = false;
 			}
 		}
 
