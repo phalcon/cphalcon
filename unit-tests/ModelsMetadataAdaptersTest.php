@@ -287,11 +287,18 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
+		$metaDataDir = __DIR__ . '/cache/';
+		$metaDataCacheFile = $metaDataDir. 'meta-robots-robots.php';
+		$mapCacheFile = $metaDataDir. 'map-robots.php';
+
+		if (file_exists($metaDataCacheFile)) unlink($metaDataCacheFile);
+		if (file_exists($mapCacheFile)) unlink($mapCacheFile);
+
 		$di = $this->_getDI();
 
-		$di->set('modelsMetadata', function(){
+		$di->set('modelsMetadata', function() use ($metaDataDir) {
 			return new Phalcon\Mvc\Model\Metadata\Files(array(
-				'metaDataDir' => __DIR__ . '/cache/',
+				'metaDataDir' => $metaDataDir,
 			));
 		});
 
@@ -303,13 +310,36 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$this->assertEquals(require __DIR__ . '/cache/meta-robots-robots.php', $this->_data['meta-robots-robots']);
-		$this->assertEquals(require __DIR__ . '/cache/map-robots.php', $this->_data['map-robots']);
+		$this->assertEquals(require $metaDataCacheFile, $this->_data['meta-robots-robots']);
+		$this->assertEquals(require $mapCacheFile, $this->_data['map-robots']);
+		$this->assertEquals(fileperms($metaDataCacheFile), 0100644);
+		$this->assertEquals(fileperms($mapCacheFile), 0100644);
 
 		$this->assertFalse($metaData->isEmpty());
 
 		$metaData->reset();
 		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+
+		$di->remove('modelsMetadata');
+
+		$di->setShared('modelsMetadata', function() use ($metaDataDir) {
+			return new Phalcon\Mvc\Model\Metadata\Files(array(
+				'metaDataDir' => $metaDataDir,
+				'metaDataFileMode' => 0777,
+			));
+		});
+
+		unlink($metaDataCacheFile);
+		unlink($mapCacheFile);
+
+		Robots::findFirst();
+
+		$this->assertEquals(require $metaDataCacheFile, $this->_data['meta-robots-robots']);
+		$this->assertEquals(require $mapCacheFile, $this->_data['map-robots']);
+		$this->assertEquals(fileperms($metaDataCacheFile), 0100777);
+		$this->assertEquals(fileperms($mapCacheFile), 0100777);
 
 		Robots::findFirst();
 	}
