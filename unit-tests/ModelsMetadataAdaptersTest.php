@@ -312,8 +312,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(require $metaDataCacheFile, $this->_data['meta-robots-robots']);
 		$this->assertEquals(require $mapCacheFile, $this->_data['map-robots']);
-		$this->assertEquals(fileperms($metaDataCacheFile), 0100644);
-		$this->assertEquals(fileperms($mapCacheFile), 0100644);
 
 		$this->assertFalse($metaData->isEmpty());
 
