@@ -46,7 +46,7 @@ use Phalcon\Mvc\Model\RelationInterface;
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
  *          WHERE b.name = :name: ORDER BY c.name";
  *
- * $result = manager->executeQuery($phql, array(
+ * $result = $manager->executeQuery($phql, array(
  *   "name" => "Lamborghini"
  * ));
  *

@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				} else {
 					ZEPHIR_INIT_NVAR(validation);
 					object_init_ex(validation, phalcon_validation_ce);
-					ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_11, 211, preparedValidators);
+					ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_11, 212, preparedValidators);
 					zephir_check_call_status();
 				}
 				ZEPHIR_CALL_METHOD(&filters, element, "getfilters", NULL, 0);
@@ -457,10 +457,10 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				if (Z_TYPE_P(filters) == IS_ARRAY) {
 					ZEPHIR_CALL_METHOD(&_12$$16, element, "getname", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_13, 212, _12$$16, filters);
+					ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_13, 213, _12$$16, filters);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_14, 213, data, entity);
+				ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_14, 214, data, entity);
 				zephir_check_call_status();
 				if (zephir_fast_count_int(elementMessages TSRMLS_CC)) {
 					ZEPHIR_CALL_METHOD(&_15$$17, element, "getname", NULL, 0);
@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 		  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
 		) {
 			ZEPHIR_GET_HVALUE(elementMessages, _3$$5);
-			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 214, elementMessages);
+			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 215, elementMessages);
 			zephir_check_call_status();
 		}
 	}
@@ -1049,7 +1049,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 215, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 216, _0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

@@ -33,6 +33,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter) {
 
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_annotations_adapter_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -103,7 +104,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		if (zephir_array_isset(annotations, realClassName)) {
-			zephir_array_fetch(&_0$$6, annotations, realClassName, PH_NOISY | PH_READONLY, "phalcon/annotations/adapter.zep", 80 TSRMLS_CC);
+			zephir_array_fetch(&_0$$6, annotations, realClassName, PH_NOISY | PH_READONLY, "phalcon/annotations/adapter.zep", 81 TSRMLS_CC);
 			RETURN_CTOR(_0$$6);
 		}
 	}
@@ -184,7 +185,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		ZEPHIR_CALL_METHOD(&methods, classAnnotations, "getmethodsannotations", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
-			zephir_is_iterable(methods, &_1$$4, &_0$$4, 0, 0, "phalcon/annotations/adapter.zep", 154);
+			zephir_is_iterable(methods, &_1$$4, &_0$$4, 0, 0, "phalcon/annotations/adapter.zep", 155);
 			for (
 			  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)

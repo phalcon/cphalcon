@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Di, set) {
 	} else {
 		ZVAL_BOOL(_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, 64, name, definition, _0);
+	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, 65, name, definition, _0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	RETURN_CCTOR(service);
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 	object_init_ex(service, phalcon_di_service_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_BOOL(_0, 1);
-	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, 64, name, definition, _0);
+	ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, 65, name, definition, _0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	RETURN_CCTOR(service);
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 		} else {
 			ZVAL_BOOL(_1$$3, 0);
 		}
-		ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, 64, name, definition, _1$$3);
+		ZEPHIR_CALL_METHOD(NULL, service, "__construct", NULL, 65, name, definition, _1$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 		RETURN_CCTOR(service);
@@ -473,9 +473,9 @@ PHP_METHOD(Phalcon_Di, get) {
 				if (zephir_is_php_version(50600)) {
 					ZEPHIR_INIT_VAR(reflection);
 					object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 65, name);
+					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 66, name);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, 66, parameters);
+					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstanceargs", NULL, 67, parameters);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(instance);
@@ -486,9 +486,9 @@ PHP_METHOD(Phalcon_Di, get) {
 				if (zephir_is_php_version(50600)) {
 					ZEPHIR_INIT_NVAR(reflection);
 					object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 65, name);
+					ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 66, name);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 67);
+					ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 68);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_NVAR(instance);
@@ -500,9 +500,9 @@ PHP_METHOD(Phalcon_Di, get) {
 			if (zephir_is_php_version(50600)) {
 				ZEPHIR_INIT_NVAR(reflection);
 				object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
-				ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 65, name);
+				ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 66, name);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 67);
+				ZEPHIR_CALL_METHOD(&instance, reflection, "newinstance", NULL, 68);
 				zephir_check_call_status();
 			} else {
 				ZEPHIR_INIT_NVAR(instance);
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 		ZVAL_LONG(&_0$$3, 3);
 		ZEPHIR_INIT_VAR(_1$$3);
 		zephir_substr(_1$$3, method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", &_2, 68, _1$$3);
+		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", &_2, 69, _1$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset(services, possibleService)) {
 			if (zephir_fast_count_int(arguments TSRMLS_CC)) {
@@ -823,7 +823,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 			ZVAL_LONG(&_4$$8, 3);
 			ZEPHIR_INIT_VAR(_5$$8);
 			zephir_substr(_5$$8, method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_CALL_FUNCTION(&_6$$8, "lcfirst", &_2, 68, _5$$8);
+			ZEPHIR_CALL_FUNCTION(&_6$$8, "lcfirst", &_2, 69, _5$$8);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, _6$$8, definition);
 			zephir_check_call_status();
@@ -858,7 +858,7 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 }
 
 /**
- * Return the lastest DI created
+ * Return the latest DI created
  */
 PHP_METHOD(Phalcon_Di, getDefault) {
 

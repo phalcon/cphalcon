@@ -27,12 +27,12 @@
 /**
  * Phalcon\Annotations\Adapter\Files
  *
- * Stores the parsed annotations in diles. This adapter is suitable for production
+ * Stores the parsed annotations in files. This adapter is suitable for production
  *
  *<code>
- * $annotations = new \Phalcon\Annotations\Adapter\Files(array(
- *    'annotationsDir' => 'app/cache/annotations/'
- * ));
+ * use Phalcon\Annotations\Adapter\Files;
+ *
+ * $annotations = new Files(['annotationsDir' => 'app/cache/annotations/']);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
 
 	zend_declare_property_string(phalcon_annotations_adapter_files_ce, SL("_annotationsDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_annotations_adapter_files_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -143,7 +142,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 92);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/annotations/adapter/files.zep", 91);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

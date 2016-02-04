@@ -16,9 +16,9 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/array.h"
 #include "kernel/hash.h"
 
 
@@ -71,13 +71,16 @@ PHP_METHOD(Phalcon_Flash_Session, getDI) {
 PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *remove_param = NULL, *dependencyInjector = NULL, *session = NULL, *messages = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3$$4;
-	zend_bool remove;
+	zval *remove_param = NULL, *type = NULL, *dependencyInjector = NULL, *session = NULL, *messages = NULL, *returnMessages = NULL, *_0, *_1 = NULL, *_2 = NULL, *_4$$6, *_5$$7;
+	zend_bool remove, _3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &remove_param);
+	zephir_fetch_params(1, 1, 1, &remove_param, &type);
 
 	remove = zephir_get_boolval(remove_param);
+	if (!type) {
+		type = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -97,11 +100,31 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 	ZEPHIR_CALL_METHOD(&messages, session, "get", NULL, 0, _2);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
+	_3 = Z_TYPE_P(type) == IS_STRING;
+	if (_3) {
+		_3 = zephir_array_isset(messages, type);
+	}
+	if (_3) {
+		ZEPHIR_OBS_VAR(returnMessages);
+		if (!(zephir_array_isset_fetch(&returnMessages, messages, type, 0 TSRMLS_CC))) {
+			ZEPHIR_INIT_NVAR(returnMessages);
+			array_init(returnMessages);
+		}
+		if (remove == 1) {
+			zephir_array_unset(&messages, type, PH_SEPARATE);
+			ZEPHIR_INIT_VAR(_4$$6);
+			ZVAL_STRING(_4$$6, "_flashMessages", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(NULL, session, "set", NULL, 0, _4$$6, messages);
+			zephir_check_temp_parameter(_4$$6);
+			zephir_check_call_status();
+		}
+		RETURN_CCTOR(returnMessages);
+	}
 	if (remove == 1) {
-		ZEPHIR_INIT_VAR(_3$$4);
-		ZVAL_STRING(_3$$4, "_flashMessages", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, session, "remove", NULL, 0, _3$$4);
-		zephir_check_temp_parameter(_3$$4);
+		ZEPHIR_INIT_VAR(_5$$7);
+		ZVAL_STRING(_5$$7, "_flashMessages", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, session, "remove", NULL, 0, _5$$7);
+		zephir_check_temp_parameter(_5$$7);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(messages);
@@ -126,7 +149,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/flash/session.zep", 86);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service", "phalcon/flash/session.zep", 97);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_2);
@@ -217,7 +240,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool remove;
-	zval *type = NULL, *remove_param = NULL, *messages = NULL, *returnMessages = NULL, *_0;
+	zval *type = NULL, *remove_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &type, &remove_param);
@@ -238,16 +261,9 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	} else {
 		ZVAL_BOOL(_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, 0, _0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_getsessionmessages", NULL, 0, _0, type);
 	zephir_check_call_status();
-	if (Z_TYPE_P(type) != IS_STRING) {
-		RETURN_CCTOR(messages);
-	}
-	if (!(zephir_array_isset_fetch(&returnMessages, messages, type, 1 TSRMLS_CC))) {
-		array_init(return_value);
-		RETURN_MM();
-	}
-	RETURN_CTOR(returnMessages);
+	RETURN_MM();
 
 }
 
@@ -282,7 +298,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "_getsessionmessages", NULL, 0, _0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_2$$3, &_1$$3, 0, 0, "phalcon/flash/session.zep", 162);
+		zephir_is_iterable(messages, &_2$$3, &_1$$3, 0, 0, "phalcon/flash/session.zep", 161);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
@@ -293,7 +309,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_5, 197);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_5, 198);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -314,7 +330,7 @@ PHP_METHOD(Phalcon_Flash_Session, clear) {
 	ZVAL_BOOL(_0, 1);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_getsessionmessages", NULL, 0, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_1, 197);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_1, 198);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

@@ -1256,30 +1256,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 
-	zval *limit_param = NULL, *offset_param = NULL, *_0, *_1$$3;
-	int limit, offset;
+	zval *limit = NULL, *offset = NULL, *_0$$3;
 
-	zephir_fetch_params(0, 0, 2, &limit_param, &offset_param);
+	zephir_fetch_params(0, 0, 2, &limit, &offset);
 
-	if (!limit_param) {
-		limit = 0;
-	} else {
-		limit = zephir_get_intval(limit_param);
+	if (!limit) {
+		limit = ZEPHIR_GLOBAL(global_null);
 	}
-	if (!offset_param) {
-		offset = 0;
-	} else {
-		offset = zephir_get_intval(offset_param);
+	if (!offset) {
+		offset = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(_0, limit);
-	zephir_update_property_this(this_ptr, SL("_limit"), _0 TSRMLS_CC);
-	if (offset) {
-		ZEPHIR_INIT_ZVAL_NREF(_1$$3);
-		ZVAL_LONG(_1$$3, offset);
-		zephir_update_property_this(this_ptr, SL("_offset"), _1$$3 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
+	if (zephir_is_numeric(offset)) {
+		ZEPHIR_INIT_ZVAL_NREF(_0$$3);
+		ZVAL_LONG(_0$$3, zephir_get_intval(offset));
+		zephir_update_property_this(this_ptr, SL("_offset"), _0$$3 TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -1840,7 +1833,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&phql, this_ptr, "getphql", NULL, 348);
+	ZEPHIR_CALL_METHOD(&phql, this_ptr, "getphql", NULL, 349);
 	zephir_check_call_status();
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
