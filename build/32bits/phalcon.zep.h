@@ -197,7 +197,7 @@ static PHP_METHOD(Phalcon_Validation_Validator, setOption);
 static PHP_METHOD(Phalcon_Validation_Validator, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_issetoption, 0, 0, 1)
@@ -950,6 +950,47 @@ ZEPHIR_INIT_FUNCS(phalcon_cache_frontendinterface_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_annotations_adapterinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_setreader, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, reader, Phalcon\\Annotations\\ReaderInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, className)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getmethods, 0, 0, 1)
+	ZEND_ARG_INFO(0, className)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getmethod, 0, 0, 2)
+	ZEND_ARG_INFO(0, className)
+	ZEND_ARG_INFO(0, methodName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getproperties, 0, 0, 1)
+	ZEND_ARG_INFO(0, className)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getproperty, 0, 0, 2)
+	ZEND_ARG_INFO(0, className)
+	ZEND_ARG_INFO(0, propertyName)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_adapterinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, setReader, arginfo_phalcon_annotations_adapterinterface_setreader)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getReader, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, get, arginfo_phalcon_annotations_adapterinterface_get)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getMethods, arginfo_phalcon_annotations_adapterinterface_getmethods)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getMethod, arginfo_phalcon_annotations_adapterinterface_getmethod)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getProperties, arginfo_phalcon_annotations_adapterinterface_getproperties)
+	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getProperty, arginfo_phalcon_annotations_adapterinterface_getproperty)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_db_adapter_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter);
@@ -1587,47 +1628,6 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_adapter_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_annotations_adapterinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_setreader, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, reader, Phalcon\\Annotations\\ReaderInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_get, 0, 0, 1)
-	ZEND_ARG_INFO(0, className)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getmethods, 0, 0, 1)
-	ZEND_ARG_INFO(0, className)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getmethod, 0, 0, 2)
-	ZEND_ARG_INFO(0, className)
-	ZEND_ARG_INFO(0, methodName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getproperties, 0, 0, 1)
-	ZEND_ARG_INFO(0, className)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapterinterface_getproperty, 0, 0, 2)
-	ZEND_ARG_INFO(0, className)
-	ZEND_ARG_INFO(0, propertyName)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_annotations_adapterinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, setReader, arginfo_phalcon_annotations_adapterinterface_setreader)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getReader, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, get, arginfo_phalcon_annotations_adapterinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getMethods, arginfo_phalcon_annotations_adapterinterface_getmethods)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getMethod, arginfo_phalcon_annotations_adapterinterface_getmethod)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getProperties, arginfo_phalcon_annotations_adapterinterface_getproperties)
-	PHP_ABSTRACT_ME(Phalcon_Annotations_AdapterInterface, getProperty, arginfo_phalcon_annotations_adapterinterface_getproperty)
-	PHP_FE_END
-};
-
 zend_class_entry *phalcon_config_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Config);
@@ -2112,6 +2112,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect);
 
 static PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction);
 static PHP_METHOD(Phalcon_Db_Dialect, getCustomFunctions);
+static PHP_METHOD(Phalcon_Db_Dialect, escapeSchema);
 static PHP_METHOD(Phalcon_Db_Dialect, escape);
 static PHP_METHOD(Phalcon_Db_Dialect, limit);
 static PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
@@ -2151,6 +2152,11 @@ static PHP_METHOD(Phalcon_Db_Dialect, prepareQualified);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_registercustomfunction, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, customFunction)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_escapeschema, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, escapeChar)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_escape, 0, 0, 1)
@@ -2337,6 +2343,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, registerCustomFunction, arginfo_phalcon_db_dialect_registercustomfunction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, getCustomFunctions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, escapeSchema, arginfo_phalcon_db_dialect_escapeschema, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, escape, arginfo_phalcon_db_dialect_escape, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialect_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, forUpdate, arginfo_phalcon_db_dialect_forupdate, ZEND_ACC_PUBLIC)
@@ -10535,6 +10542,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session__getsessionmessages, 0, 0, 1)
 	ZEND_ARG_INFO(0, remove)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session__setsessionmessages, 0, 0, 1)
@@ -13878,6 +13886,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_bind, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_bindtypes, 0, 0, 1)
@@ -17039,6 +17048,11 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_beanstalk_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_queue_beanstalk_exception_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Exception);
+
+
 zend_class_entry *phalcon_queue_beanstalk_job_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Job);
@@ -18083,6 +18097,10 @@ zend_class_entry *phalcon_translate_adapter_gettext_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Gettext);
 
+static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory);
+static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDefaultDomain);
+static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale);
+static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists);
@@ -18090,12 +18108,8 @@ static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, resetDomain);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain);
-static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDefaultDomain);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory);
-static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale);
-static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale);
-static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions);
 static PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getOptionsDefault);
 
@@ -18132,10 +18146,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdirectory, 0
 	ZEND_ARG_INFO(0, directory)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_getdirectory, 0, 0, 1)
-	ZEND_ARG_INFO(0, directory)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setlocale, 0, 0, 2)
 	ZEND_ARG_INFO(0, category)
 	ZEND_ARG_INFO(0, locale)
@@ -18146,6 +18156,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_prepareoptions,
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_gettext_method_entry) {
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDirectory, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDefaultDomain, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, getLocale, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, getCategory, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, __construct, arginfo_phalcon_translate_adapter_gettext___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, query, arginfo_phalcon_translate_adapter_gettext_query, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, exists, arginfo_phalcon_translate_adapter_gettext_exists, ZEND_ACC_PUBLIC)
@@ -18153,14 +18167,10 @@ ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_gettext_method_entry) {
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, setDomain, arginfo_phalcon_translate_adapter_gettext_setdomain, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, resetDomain, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, setDefaultDomain, arginfo_phalcon_translate_adapter_gettext_setdefaultdomain, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDefaultDomain, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, setDirectory, arginfo_phalcon_translate_adapter_gettext_setdirectory, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getDirectory, arginfo_phalcon_translate_adapter_gettext_getdirectory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, setLocale, arginfo_phalcon_translate_adapter_gettext_setlocale, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getLocale, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getCategory, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, prepareOptions, arginfo_phalcon_translate_adapter_gettext_prepareoptions, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getOptionsDefault, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, prepareOptions, arginfo_phalcon_translate_adapter_gettext_prepareoptions, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, getOptionsDefault, NULL, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 
