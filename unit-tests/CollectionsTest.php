@@ -200,5 +200,73 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 			array('artist' => 'Massive Attack')
 		)), 2);
 
+		$song = new Songs();
+		$song->artist = 'Cinema Strange';
+		$song->name = 'Greensward Grey';
+
+		$success = $song->create();
+		$this->assertTrue($success);
+
+		$song = new Songs();
+		$song->artist = 'Cinema Strange';
+		$song->name = 'Catacomb Kittens';
+
+		$success =$song->createIfNotExist(['name', 'artist']);
+		$this->assertTrue($success);
+
+		$song = new Songs();
+		$song->artist = 'Cinema Strange';
+		$song->name = 'Catacomb Kittens';
+
+		$success = $song->createIfNotExist(['name', 'artist']);
+		$this->assertFalse($success);
+
+		//Count
+		$this->assertEquals(Songs::count(), 5);
+		$this->assertEquals(Songs::count(array(
+			array('artist' => 'Cinema Strange')
+		)), 2);
+
+		$song = new Songs();
+		$song->artist = 'Cinema Strange';
+		$song->name = 'Hebenon Vial';
+		$success = $song->create();
+		$this->assertTrue($success);
+
+		$song->name = "Lindsey's Trachea";
+		$success = $song->update();
+		$this->assertTrue($success);
+
+	}
+
+	public function testUpdateException()
+	{
+		if (!class_exists('Mongo')) {
+			$this->markTestSkipped("Mongo class does not exist, test skipped");
+			return;
+		}
+
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('mongo', function(){
+			$mongo = new MongoClient();
+			return $mongo->phalcon_test;
+		});
+
+		$di->set('collectionManager', function(){
+			return new Phalcon\Mvc\Collection\Manager();
+		});
+
+		$song = new Songs();
+		$song->artist = 'Cinema Strange';
+		$song->name = 'Legs and Tarpaulin';
+
+		$success = false;
+
+		$this->setExpectedException('Phalcon\Mvc\Collection\Exception');
+		$success = $song->update();
+
 	}
 }
