@@ -41,6 +41,7 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -832,7 +833,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * </code>
 	 *
 	 * @param string|array parameters
-	 * @return \Phalcon\Mvc\Model
+	 * @return static
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
@@ -930,12 +931,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Checks if the current record already exists or not
 	 *
-	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
 	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _exists(<MetadataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
 	{
 		int numberEmpty, numberPrimary;
 		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
@@ -1853,7 +1854,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Executes internal hooks before save a record
 	 */
-	protected function _preSave(<MetadataInterface> metaData, boolean exists, var identityField) -> boolean
+	protected function _preSave(<MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
 		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
 			field, attributeField, value, emptyStringValues;
@@ -2099,13 +2100,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
-	 * @param \Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
 	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @param boolean|string identityField
 	 * @return boolean
 	 */
-	protected function _doLowInsert(<MetadataInterface> metaData, <AdapterInterface> connection,
+	protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
 		table, identityField) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
@@ -2881,7 +2882,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				/**
 				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
 				 */
-				throw new \Phalcon\Mvc\Model\ValidationFailed(this, this->_errorMessages);
+				throw new ValidationFailed(this, this->getMessages());
 			}
 
 			return false;

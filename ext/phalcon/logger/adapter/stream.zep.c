@@ -32,7 +32,7 @@
  *<code>
  *	$logger = new \Phalcon\Logger\Adapter\Stream("php://stderr");
  *	$logger->log("This is a message");
- *	$logger->log("This is an error", \Phalcon\Logger::ERROR);
+ *	$logger->log(\Phalcon\Logger::ERROR, "This is an error");
  *	$logger->error("This is another error");
  *</code>
  */
@@ -61,8 +61,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream) {
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *options = NULL, *mode = NULL, *stream = NULL, *_0;
-	zval *name = NULL, *_1;
+	zval *name_param = NULL, *options = NULL, *mode = NULL, *stream = NULL, *_0$$6;
+	zval *name = NULL, *_1$$6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options);
@@ -92,16 +92,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 285, name, mode);
+	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 286, name, mode);
 	zephir_check_call_status();
 	if (!(zephir_is_true(stream))) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_logger_exception_ce);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_SVS(_1, "Can't open stream '", name, "'");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _1);
+		ZEPHIR_INIT_VAR(_0$$6);
+		object_init_ex(_0$$6, phalcon_logger_exception_ce);
+		ZEPHIR_INIT_VAR(_1$$6);
+		ZEPHIR_CONCAT_SVS(_1$$6, "Can't open stream '", name, "'");
+		ZEPHIR_CALL_METHOD(NULL, _0$$6, "__construct", NULL, 9, _1$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/logger/adapter/stream.zep", 73 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$6, "phalcon/logger/adapter/stream.zep", 73 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -115,19 +115,19 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 
+	zval *_0, *_1$$3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 289);
+		ZEPHIR_INIT_VAR(_1$$3);
+		object_init_ex(_1$$3, phalcon_logger_formatter_line_ce);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 290);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_formatter"), _1 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_formatter"), _1$$3 TSRMLS_CC);
 	}
 	RETURN_MM_MEMBER(this_ptr, "_formatter");
 
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 
 	zval *context = NULL;
 	int type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *stream, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *stream = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();

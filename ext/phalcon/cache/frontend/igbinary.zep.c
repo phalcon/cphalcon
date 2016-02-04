@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getLifetime) {
 
-	zval *options, *lifetime;
+	zval *options = NULL, *lifetime = NULL;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
@@ -108,6 +108,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, isBuffering) {
 
+	
 
 	RETURN_BOOL(0);
 
@@ -118,6 +119,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, start) {
 
+	
 
 
 }
@@ -129,6 +131,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getContent) {
 
+	
 
 	RETURN_NULL();
 
@@ -139,6 +142,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, stop) {
 
+	
 
 
 }
@@ -159,7 +163,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 117, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 118, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -181,7 +185,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 118, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 119, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

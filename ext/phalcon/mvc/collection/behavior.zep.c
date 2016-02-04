@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, mustTakeAction) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, getOptions) {
 
-	zval *eventName_param = NULL, *options, *eventOptions;
+	zval *eventName_param = NULL, *options = NULL, *eventOptions = NULL;
 	zval *eventName = NULL;
 
 	ZEPHIR_MM_GROW();

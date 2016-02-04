@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
 PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name = NULL, *entity = NULL, *form;
+	zval *name = NULL, *entity = NULL, *form = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &name, &entity);
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 	}
 	ZEPHIR_INIT_VAR(form);
 	object_init_ex(form, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, form, "__construct", NULL, 216, entity);
+	ZEPHIR_CALL_METHOD(NULL, form, "__construct", NULL, 217, entity);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	RETURN_CCTOR(form);
@@ -76,8 +76,8 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 PHP_METHOD(Phalcon_Forms_Manager, get) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *form, *_0, *_1;
-	zval *name = NULL, *_2;
+	zval *name_param = NULL, *form = NULL, *_0, *_1$$3;
+	zval *name = NULL, *_2$$3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -88,13 +88,13 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 	ZEPHIR_OBS_VAR(form);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&form, _0, name, 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_forms_exception_ce);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_SVS(_2, "There is no form with name='", name, "'");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
+		ZEPHIR_INIT_VAR(_1$$3);
+		object_init_ex(_1$$3, phalcon_forms_exception_ce);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZEPHIR_CONCAT_SVS(_2$$3, "There is no form with name='", name, "'");
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 9, _2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/forms/manager.zep", 57 TSRMLS_CC);
+		zephir_throw_exception_debug(_1$$3, "phalcon/forms/manager.zep", 57 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

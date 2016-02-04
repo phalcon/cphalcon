@@ -17,7 +17,6 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 
 
 /**
@@ -69,7 +68,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Ip) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Ip, phalcon, mvc_model_validator_ip, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_ip_method_entry, 0);
 
-	phalcon_mvc_model_validator_ip_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip;
 	zend_declare_class_constant_long(phalcon_mvc_model_validator_ip_ce, SL("VERSION_4"), 1048576 TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_validator_ip_ce, SL("VERSION_6"), 2097152 TSRMLS_CC);
@@ -84,9 +82,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Ip) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 
-	zval *_4 = NULL;
+	zval *_6, *_12$$5;
+	zend_bool _5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *value = NULL, *message = NULL, *version = NULL, *allowPrivate = NULL, *allowReserved = NULL, *options, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, _5 = zval_used_for_init, *_6, *_7 = NULL, *_8 = NULL;
+	zval *record, *field = NULL, *value = NULL, *message = NULL, *version = NULL, *allowPrivate = NULL, *allowReserved = NULL, *options = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, _7 = zval_used_for_init, *_8, *_9 = NULL, *_10$$5 = NULL, *_11$$5, *_13$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -135,64 +134,57 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 		ZEPHIR_INIT_NVAR(allowReserved);
 		ZVAL_LONG(allowReserved, 4194304);
 	}
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_STRING(_0, "allowEmpty", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_INIT_NVAR(_1);
+	ZVAL_BOOL(_1, 0);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getoption", NULL, 0, _0, _1);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
+	_5 = zephir_is_true(_4);
+	if (_5) {
+		_5 = ZEPHIR_IS_EMPTY(value);
+	}
+	if (_5) {
+		RETURN_MM_BOOL(1);
+	}
 	ZEPHIR_INIT_VAR(options);
 	zephir_create_array(options, 2, 0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_4);
-	zephir_create_array(_4, 1, 0 TSRMLS_CC);
-	zephir_array_update_string(&_4, SL("default"), &ZEPHIR_GLOBAL(global_false), PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&options, SL("options"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_SINIT_VAR(_5);
-	zephir_bitwise_or_function(&_5, version, allowPrivate TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_6);
-	zephir_bitwise_or_function(_6, &_5, allowReserved TSRMLS_CC);
-	zephir_array_update_string(&options, SL("flags"), &_6, PH_COPY | PH_SEPARATE);
-	ZEPHIR_SINIT_NVAR(_5);
-	ZVAL_LONG(&_5, 275);
-	ZEPHIR_CALL_FUNCTION(&_7, "filter_var", NULL, 192, value, &_5, options);
+	zephir_create_array(_6, 1, 0 TSRMLS_CC);
+	zephir_array_update_string(&_6, SL("default"), &ZEPHIR_GLOBAL(global_false), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&options, SL("options"), &_6, PH_COPY | PH_SEPARATE);
+	ZEPHIR_SINIT_VAR(_7);
+	zephir_bitwise_or_function(&_7, version, allowPrivate TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_8);
+	zephir_bitwise_or_function(_8, &_7, allowReserved TSRMLS_CC);
+	zephir_array_update_string(&options, SL("flags"), &_8, PH_COPY | PH_SEPARATE);
+	ZEPHIR_SINIT_NVAR(_7);
+	ZVAL_LONG(&_7, 275);
+	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 193, value, &_7, options);
 	zephir_check_call_status();
-	if (!(zephir_is_true(_7))) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "IP address is incorrect", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0, _1);
-		zephir_check_temp_parameter(_0);
-		zephir_check_temp_parameter(_1);
+	if (!(zephir_is_true(_9))) {
+		ZEPHIR_INIT_VAR(_10$$5);
+		ZVAL_STRING(_10$$5, "message", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_INIT_VAR(_11$$5);
+		ZVAL_STRING(_11$$5, "IP address is incorrect", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _10$$5, _11$$5);
+		zephir_check_temp_parameter(_10$$5);
+		zephir_check_temp_parameter(_11$$5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(_4);
-		zephir_create_array(_4, 1, 0 TSRMLS_CC);
-		zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_8, "strtr", NULL, 54, message, _4);
+		ZEPHIR_INIT_VAR(_12$$5);
+		zephir_create_array(_12$$5, 1, 0 TSRMLS_CC);
+		zephir_array_update_string(&_12$$5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_13$$5, "strtr", NULL, 55, message, _12$$5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "IP", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _8, field, _0);
-		zephir_check_temp_parameter(_0);
+		ZEPHIR_INIT_NVAR(_10$$5);
+		ZVAL_STRING(_10$$5, "IP", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _13$$5, field, _10$$5);
+		zephir_check_temp_parameter(_10$$5);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-
-}
-
-static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Ip(zend_class_entry *class_type TSRMLS_DC) {
-
-		zval *_0, *_1;
-
-		ZEPHIR_MM_GROW();
-	
-	{
-		zval *this_ptr = NULL;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1);
-			array_init(_1);
-			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
-	}
 
 }
 

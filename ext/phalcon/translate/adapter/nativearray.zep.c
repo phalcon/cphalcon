@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL, *data;
+	zval *options_param = NULL, *data = NULL;
 	zval *options = NULL;
 
 	ZEPHIR_MM_GROW();

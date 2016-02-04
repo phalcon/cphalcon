@@ -176,7 +176,7 @@ class File extends Backend implements BackendInterface
 	{
 		var lastKey, frontend, cacheDir, isBuffering, cacheFile, cachedContent, preparedContent, status;
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = this->_prefix . this->getKey(keyName);
@@ -194,7 +194,7 @@ class File extends Backend implements BackendInterface
 
 		let cacheFile = cacheDir . lastKey;
 
-		if !content {
+		if content === null {
 			let cachedContent = frontend->getContent();
 		} else {
 			let cachedContent = content;

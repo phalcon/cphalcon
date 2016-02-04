@@ -19,6 +19,7 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\AdapterInterface;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Collection;
@@ -30,7 +31,7 @@ use Phalcon\Annotations\ReaderInterface;
  *
  * This is the base class for Phalcon\Annotations adapters
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
 
 	protected _reader;

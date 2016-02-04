@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -325,7 +325,6 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 	} else {
 		RETURN_EMPTY_STRING();
 	}
-
 }
 
 /**
@@ -353,12 +352,7 @@ void zephir_escape_htmlattr(zval *return_value, zval *param) {
  * Escapes HTML replacing special chars by entities
  */
 void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
-
-	#if PHP_VERSION_ID < 50400
-	int length;
-	#else
 	size_t length;
-	#endif
 
 	char *escaped;
 

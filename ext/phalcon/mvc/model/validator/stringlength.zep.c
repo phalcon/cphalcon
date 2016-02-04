@@ -53,8 +53,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, StringLength, phalcon, mvc_model_validator_stringlength, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_stringlength_method_entry, 0);
 
-	phalcon_mvc_model_validator_stringlength_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_StringLength;
-
 	zend_class_implements(phalcon_mvc_model_validator_stringlength_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
 
@@ -65,11 +63,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 
-	zephir_fcall_cache_entry *_6 = NULL;
-	zval *_4 = NULL;
+	zval *_6$$9, *_11$$12;
 	zend_bool _1, _3;
+	zephir_fcall_cache_entry *_8 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *record, *field = NULL, *isSetMin = NULL, *isSetMax = NULL, *value = NULL, *length = NULL, *maximum = NULL, *minimum = NULL, *message = NULL, *_0 = NULL, *_2 = NULL, *_5 = NULL;
+	zval *record, *field = NULL, *isSetMin = NULL, *isSetMax = NULL, *value = NULL, *length = NULL, *maximum = NULL, *minimum = NULL, *message = NULL, *_0 = NULL, *_2 = NULL, *_4$$8, *_5$$9 = NULL, *_7$$9 = NULL, *_9$$11, *_10$$12 = NULL, *_12$$12 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -118,94 +116,73 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 360, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 359, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);
 		ZVAL_LONG(length, zephir_fast_strlen_ev(value));
 	}
 	if (zephir_is_true(isSetMax)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "max", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, _0);
-		zephir_check_temp_parameter(_0);
+		ZEPHIR_INIT_VAR(_4$$8);
+		ZVAL_STRING(_4$$8, "max", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, _4$$8);
+		zephir_check_temp_parameter(_4$$8);
 		zephir_check_call_status();
 		if (ZEPHIR_GT(length, maximum)) {
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_STRING(_0, "messageMaximum", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0);
-			zephir_check_temp_parameter(_0);
+			ZEPHIR_INIT_VAR(_5$$9);
+			ZVAL_STRING(_5$$9, "messageMaximum", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _5$$9);
+			zephir_check_temp_parameter(_5$$9);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
 				ZVAL_STRING(message, "Value of field ':field' exceeds the maximum :max characters", 1);
 			}
-			ZEPHIR_INIT_VAR(_4);
-			zephir_create_array(_4, 2, 0 TSRMLS_CC);
-			zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_4, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, 54, message, _4);
+			ZEPHIR_INIT_VAR(_6$$9);
+			zephir_create_array(_6$$9, 2, 0 TSRMLS_CC);
+			zephir_array_update_string(&_6$$9, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&_6$$9, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
+			ZEPHIR_CALL_FUNCTION(&_7$$9, "strtr", &_8, 55, message, _6$$9);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_STRING(_0, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _5, field, _0);
-			zephir_check_temp_parameter(_0);
+			ZEPHIR_INIT_NVAR(_5$$9);
+			ZVAL_STRING(_5$$9, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _7$$9, field, _5$$9);
+			zephir_check_temp_parameter(_5$$9);
 			zephir_check_call_status();
 			RETURN_MM_BOOL(0);
 		}
 	}
 	if (zephir_is_true(isSetMin)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "min", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, _0);
-		zephir_check_temp_parameter(_0);
+		ZEPHIR_INIT_VAR(_9$$11);
+		ZVAL_STRING(_9$$11, "min", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, _9$$11);
+		zephir_check_temp_parameter(_9$$11);
 		zephir_check_call_status();
 		if (ZEPHIR_LT(length, minimum)) {
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_STRING(_0, "messageMinimum", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _0);
-			zephir_check_temp_parameter(_0);
+			ZEPHIR_INIT_VAR(_10$$12);
+			ZVAL_STRING(_10$$12, "messageMinimum", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _10$$12);
+			zephir_check_temp_parameter(_10$$12);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(message)) {
 				ZEPHIR_INIT_NVAR(message);
 				ZVAL_STRING(message, "Value of field ':field' is less than the minimum :min characters", 1);
 			}
-			ZEPHIR_INIT_NVAR(_4);
-			zephir_create_array(_4, 2, 0 TSRMLS_CC);
-			zephir_array_update_string(&_4, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_4, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_FUNCTION(&_5, "strtr", &_6, 54, message, _4);
+			ZEPHIR_INIT_VAR(_11$$12);
+			zephir_create_array(_11$$12, 2, 0 TSRMLS_CC);
+			zephir_array_update_string(&_11$$12, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&_11$$12, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
+			ZEPHIR_CALL_FUNCTION(&_12$$12, "strtr", &_8, 55, message, _11$$12);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_STRING(_0, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _5, field, _0);
-			zephir_check_temp_parameter(_0);
+			ZEPHIR_INIT_NVAR(_10$$12);
+			ZVAL_STRING(_10$$12, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _12$$12, field, _10$$12);
+			zephir_check_temp_parameter(_10$$12);
 			zephir_check_call_status();
 			RETURN_MM_BOOL(0);
 		}
 	}
 	RETURN_MM_BOOL(1);
-
-}
-
-static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_StringLength(zend_class_entry *class_type TSRMLS_DC) {
-
-		zval *_0, *_1;
-
-		ZEPHIR_MM_GROW();
-	
-	{
-		zval *this_ptr = NULL;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1);
-			array_init(_1);
-			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
-	}
 
 }
 

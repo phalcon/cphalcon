@@ -142,6 +142,7 @@ abstract class Flash
 	 *</code>
 	 *
 	 * @param string|array message
+	 * @return string|void
 	 */
 	public function outputMessage(string type, var message)
 	{

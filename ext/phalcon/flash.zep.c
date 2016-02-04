@@ -256,13 +256,14 @@ PHP_METHOD(Phalcon_Flash, warning) {
  *</code>
  *
  * @param string|array message
+ * @return string|void
  */
 PHP_METHOD(Phalcon_Flash, outputMessage) {
 
-	HashTable *_3;
-	HashPosition _2;
-	zend_bool automaticHtml, implicitFlush;
-	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol = NULL, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, *_1, **_4;
+	HashTable *_3$$8;
+	HashPosition _2$$8;
+	zend_bool automaticHtml = 0, implicitFlush = 0;
+	zval *type_param = NULL, *message, *content = NULL, *cssClasses = NULL, *classes = NULL, *typeClasses = NULL, *eol = NULL, *msg = NULL, *htmlMessage = NULL, *_0 = NULL, *_1$$5, **_4$$8;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -281,9 +282,9 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		if (zephir_array_isset_fetch(&typeClasses, classes, type, 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(cssClasses);
 			if (Z_TYPE_P(typeClasses) == IS_ARRAY) {
-				ZEPHIR_INIT_VAR(_1);
-				zephir_fast_join_str(_1, SL(" "), typeClasses TSRMLS_CC);
-				ZEPHIR_CONCAT_SVS(cssClasses, " class=\"", _1, "\"");
+				ZEPHIR_INIT_VAR(_1$$5);
+				zephir_fast_join_str(_1$$5, SL(" "), typeClasses TSRMLS_CC);
+				ZEPHIR_CONCAT_SVS(cssClasses, " class=\"", _1$$5, "\"");
 			} else {
 				ZEPHIR_CONCAT_SVS(cssClasses, " class=\"", typeClasses, "\"");
 			}
@@ -302,12 +303,12 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		zephir_is_iterable(message, &_3, &_2, 0, 0, "phalcon/flash.zep", 203);
+		zephir_is_iterable(message, &_3$$8, &_2$$8, 0, 0, "phalcon/flash.zep", 204);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3, &_2)
+		  ; zephir_hash_get_current_data_ex(_3$$8, (void**) &_4$$8, &_2$$8) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_3$$8, &_2$$8)
 		) {
-			ZEPHIR_GET_HVALUE(msg, _4);
+			ZEPHIR_GET_HVALUE(msg, _4$$8);
 			if (automaticHtml == 1) {
 				ZEPHIR_INIT_NVAR(htmlMessage);
 				ZEPHIR_CONCAT_SVSVSV(htmlMessage, "<div", cssClasses, ">", msg, "</div>", eol);

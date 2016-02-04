@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -253,4 +253,23 @@ long zephir_mt_rand(long min, long max TSRMLS_DC) {
 	RAND_RANGE(number, min, max, PHP_MT_RAND_MAX);
 
 	return number;
+}
+
+double zephir_ldexp(zval *value, zval *expval TSRMLS_DC)
+{
+	int exp = (int) zephir_get_numberval(expval);
+
+	switch (Z_TYPE_P(value)) {
+		case IS_LONG:
+			return (double) ldexp(Z_LVAL_P(value), exp);
+		case IS_DOUBLE:
+			return (double) ldexp(Z_DVAL_P(value), exp);
+		case IS_ARRAY:
+		case IS_OBJECT:
+		case IS_RESOURCE:
+			zend_error(E_WARNING, "Unsupported operand types");
+			break;
+	}
+
+	return ldexp(zephir_get_numberval(value), exp);
 }

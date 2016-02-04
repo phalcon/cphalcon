@@ -49,7 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memcache) {
 
 	zend_declare_property_null(phalcon_mvc_model_metadata_memcache_ce, SL("_memcache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_metadata_memcache_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
 	return SUCCESS;
 
 }
@@ -61,9 +60,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memcache) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, __construct) {
 
+	zval *_6;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_2;
-	zval *options = NULL, *ttl, *_0 = NULL, *_1, *_3, *_4;
+	zval *options = NULL, *ttl = NULL, *_4, *_5, *_7, *_8, *_0$$4, *_1$$5, *_2$$6, *_3$$7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
@@ -80,45 +79,45 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, __construct) {
 		array_init(options);
 	}
 	if (!(zephir_array_isset_string(options, SS("host")))) {
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "127.0.0.1", 1);
-		zephir_array_update_string(&options, SL("host"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_0$$4);
+		ZVAL_STRING(_0$$4, "127.0.0.1", 1);
+		zephir_array_update_string(&options, SL("host"), &_0$$4, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("port")))) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_LONG(_0, 11211);
-		zephir_array_update_string(&options, SL("port"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_1$$5);
+		ZVAL_LONG(_1$$5, 11211);
+		zephir_array_update_string(&options, SL("port"), &_1$$5, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("persistent")))) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_LONG(_0, 0);
-		zephir_array_update_string(&options, SL("persistent"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_2$$6);
+		ZVAL_LONG(_2$$6, 0);
+		zephir_array_update_string(&options, SL("persistent"), &_2$$6, PH_COPY | PH_SEPARATE);
 	}
 	if (!(zephir_array_isset_string(options, SS("statsKey")))) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_STRING(_0, "_PHCM_MM", 1);
-		zephir_array_update_string(&options, SL("statsKey"), &_0, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_VAR(_3$$7);
+		ZVAL_STRING(_3$$7, "_PHCM_MM", 1);
+		zephir_array_update_string(&options, SL("statsKey"), &_3$$7, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&ttl, options, SS("lifetime"), 1 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 	}
-	ZEPHIR_INIT_NVAR(_0);
-	object_init_ex(_0, phalcon_cache_backend_memcache_ce);
-	ZEPHIR_INIT_VAR(_1);
-	object_init_ex(_1, phalcon_cache_frontend_data_ce);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_create_array(_2, 1, 0 TSRMLS_CC);
-	ZEPHIR_OBS_VAR(_3);
-	zephir_read_property_this(&_3, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	zephir_array_update_string(&_2, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 312, _2);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 315, _1, options);
-	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_memcache"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_4);
-	array_init(_4);
-	zephir_update_property_this(this_ptr, SL("_metaData"), _4 TSRMLS_CC);
+	object_init_ex(_4, phalcon_cache_backend_memcache_ce);
+	ZEPHIR_INIT_VAR(_5);
+	object_init_ex(_5, phalcon_cache_frontend_data_ce);
+	ZEPHIR_INIT_VAR(_6);
+	zephir_create_array(_6, 1, 0 TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_7);
+	zephir_read_property_this(&_7, this_ptr, SL("_ttl"), PH_NOISY_CC);
+	zephir_array_update_string(&_6, SL("lifetime"), &_7, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 313, _6);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 316, _5, options);
+	zephir_check_call_status();
+	zephir_update_property_this(this_ptr, SL("_memcache"), _4 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_8);
+	array_init(_8);
+	zephir_update_property_this(this_ptr, SL("_metaData"), _8 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -193,33 +192,33 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, write) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, reset) {
 
+	HashTable *_2$$3;
+	HashPosition _1$$3;
+	zval *meta = NULL, *key = NULL, *realKey = NULL, *_0$$3 = NULL, **_3$$3, *_4$$4;
 	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	HashTable *_2;
-	HashPosition _1;
-	zval *meta, *key = NULL, *realKey = NULL, *_0 = NULL, **_3, *_4;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(meta);
 	zephir_read_property_this(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(meta) == IS_ARRAY) {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_is_iterable(meta, &_2, &_1, 0, 0, "phalcon/mvc/model/metadata/memcache.zep", 131);
+		ZEPHIR_INIT_VAR(_0$$3);
+		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/memcache.zep", 130);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
-			ZEPHIR_GET_HMKEY(key, _2, _1);
-			ZEPHIR_GET_HVALUE(_0, _3);
+			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
+			ZEPHIR_GET_HVALUE(_0$$3, _3$$3);
 			ZEPHIR_INIT_NVAR(realKey);
 			ZEPHIR_CONCAT_SV(realKey, "meta-", key);
-			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-			ZEPHIR_CALL_METHOD(NULL, _4, "delete", NULL, 0, realKey);
+			_4$$4 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
+			ZEPHIR_CALL_METHOD(NULL, _4$$4, "delete", NULL, 0, realKey);
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_memcache_ce, this_ptr, "reset", &_5, 314);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_memcache_ce, this_ptr, "reset", &_5, 315);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

@@ -158,6 +158,20 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Delete
 		$this->assertTrue($cache->delete('test-data'));
 
+		// Save & Get : zero string, zero number, false
+		$testSets = array(
+			'test-zero-data' => '0',
+			'test-0-data' => 0,
+			'test-false-data' => false
+		);
+
+		foreach($testSets as $key => $value) {
+			$cache->save($key, $value);
+			$this->assertTrue(file_exists('unit-tests/cache/'.$cache->getKey($key)));
+
+			$cachedContent = $cache->get($key);
+			$this->assertEquals($cachedContent, $value);
+		}
 	}
 
 	public function testDataFileCacheIncrement()

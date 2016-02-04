@@ -93,7 +93,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				'type' => 'ENUM',
 				'typeValues' => array('A', 'B', 'C'),
 				'notNull' => true,
-				'default' => 'A'
+				'default' => 'A',
+				'after' => 'column11'
 			)),
 			'column13' => new Column("column13", array(
 				'type' => Column::TYPE_TIMESTAMP,
@@ -435,8 +436,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column10']), 'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"');
 		$this->assertEquals($dialect->addColumn('table', null, $columns['column11']), 'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column11']), 'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED');
-		$this->assertEquals($dialect->addColumn('table', null, $columns['column12']), "ALTER TABLE `table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
-		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column12']), "ALTER TABLE `table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` ADD `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column13']), "ALTER TABLE `schema`.`table` ADD `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL");
 
 		//Modify Columns
@@ -462,8 +463,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column10']), 'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"');
 		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column11']), 'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED');
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column11']), 'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED');
-		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column12']), "ALTER TABLE `table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
-		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL");
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column12']), "ALTER TABLE `table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column12']), "ALTER TABLE `schema`.`table` MODIFY `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL AFTER `column11`");
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column13']), "ALTER TABLE `schema`.`table` MODIFY `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL");
 
 		//Drop Columns
@@ -586,6 +587,9 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= ")";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
+		// issue 11359
+		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), 'DESCRIBE `database.name.with.dots`.`table`');
+		$this->assertEquals($dialect->describeColumns('table', '`database.name.with.dots`'), 'DESCRIBE `database.name.with.dots`.`table`');
 	}
 
 	public function testPostgresqlDialect()
@@ -791,6 +795,17 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= "	\"column13\" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n";
 		$expected .= ");";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		// issue 11359
+		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='database.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position");$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='database.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position");$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='database.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position");
+	}
+
+	public function testOracleDialect()
+	{
+		$dialect = new \Phalcon\Db\Dialect\Oracle();
+
+		// issue 11359
+		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = 'TABLE' AND TC.OWNER = 'DATABASE.NAME.WITH.DOTS' ORDER BY TC.COLUMN_ID");
 	}
 
 	public function testSQLiteDialect()
@@ -995,6 +1010,9 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= "	`column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n";
 		$expected .= ")";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		// issue 11359
+		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "PRAGMA table_info('table')");
 	}
 
 	public function testViews()

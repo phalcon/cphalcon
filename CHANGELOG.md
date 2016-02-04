@@ -1,10 +1,25 @@
-# [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-??-??)
+# [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
+- ORM: Added support for DATE columns in Oracle
+- Fixed wrong `total_items` and `total_pages` in `Paginator` when the query builder has set `groupBy()`
+- Fixed `Phalcon\Acl\Memory::allow` bug[#11210](https://github.com/phalcon/cphalcon/issues/11210) related to the inconsistent behavior with access specified as string and array
+- Added quoting column in `Phalcon\Db\Dialect\MySQL::addColumn` when define position of the column
+- Added support to define position of the column in `Phalcon\Db\Dialect\MySQL::modifyColumn`
+- Fixed `Phalcon\Mvc\Model\Query\Builder` bug[#11298](https://github.com/phalcon/cphalcon/issues/11298) related to resetting limit to null
+- Fixed `Phalcon\Tag::getTitle` bug[#11185](https://github.com/phalcon/cphalcon/issues/11185). Now a title will be automatically escaped.
+- Fixed `Phalcon\Translate\Adapter\Gettext::exists` bug[#11310](https://github.com/phalcon/cphalcon/issues/11310) related to the wrong returned value (always true)
+- Fixed `Phalcon\Translate\Adapter\Gettext::setLocale` bug[#11311](https://github.com/phalcon/cphalcon/issues/11311) related to the incorrect setting locale
+- Added ability to persistent connection in `Phalcon\Queue\Beanstalk::connect`
+- Fixed `Phalcon\Http\Response::redirect` bug[#11324](https://github.com/phalcon/cphalcon/issues/11324). Incorrect initialization local array of status codes
+- Fixed cache backends bug[#11322](https://github.com/phalcon/cphalcon/issues/11322) related to saving number 0
+- Fixed `Phalcon\Db\Dialect::escape` bug[#11359](https://github.com/phalcon/cphalcon/issues/11359). Added ability to use the database name with dots.
+
+# [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter
 - Added `console:boot` event to allow the developer to perform initialization actions
 - Added implementation options `allowEmpty` for `Phalcon\Mvc\Model\Validator\Ip`
-- Fixed SQLite bug[#10997] related to setting of index type
+- Fixed SQLite bug[#10997](https://github.com/phalcon/cphalcon/issues/10997) related to setting of index type
 - Added `Phalcon\Db\Dialect\Sqlite::listIndexesSql` - to generate the SQL to get query list of indexes
-- Fixed MySQL bug[#11036] related to setting of index type
+- Fixed MySQL bug[#11036](https://github.com/phalcon/cphalcon/issues/11036) related to setting of index type
 - Added missed `RouteInterface::setHostname`, `RouteInterface::getHostname`
 - Added `strict` option for ExclusionIn validator
 - Added `Phalcon\Text::underscore` - to make a phrase underscored instead of spaced

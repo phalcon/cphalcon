@@ -34,14 +34,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Resource, phalcon, assets_resource, phalcon_assets_resource_method_entry, 0);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var boolean
+	 */
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_local"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var boolean
+	 */
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var array | null
+	 */
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -54,36 +69,51 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Resource, getType) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Resource, getPath) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_path");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Resource, getLocal) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_local");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Resource, getFilter) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_filter");
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Resource, getAttributes) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_attributes");
 
@@ -91,6 +121,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getAttributes) {
 
 PHP_METHOD(Phalcon_Assets_Resource, getSourcePath) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_sourcePath");
 
@@ -98,6 +129,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getSourcePath) {
 
 PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_targetPath");
 
@@ -105,6 +137,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
 
 PHP_METHOD(Phalcon_Assets_Resource, getTargetUri) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_targetUri");
 
@@ -329,7 +362,7 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *basePath_param = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1 = NULL, *_2 = NULL;
+	zval *basePath_param = NULL, *sourcePath = NULL, *completePath = NULL, *content = NULL, *_0, *_1$$5, *_2$$5, *_3$$6, *_4$$6;
 	zval *basePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -354,13 +387,13 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		if (!((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS))) {
-			ZEPHIR_INIT_VAR(_1);
-			object_init_ex(_1, phalcon_assets_exception_ce);
-			ZEPHIR_INIT_VAR(_2);
-			ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
-			ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
+			ZEPHIR_INIT_VAR(_1$$5);
+			object_init_ex(_1$$5, phalcon_assets_exception_ce);
+			ZEPHIR_INIT_VAR(_2$$5);
+			ZEPHIR_CONCAT_SVS(_2$$5, "Resource's content for '", completePath, "' cannot be read");
+			ZEPHIR_CALL_METHOD(NULL, _1$$5, "__construct", NULL, 9, _2$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 169 TSRMLS_CC);
+			zephir_throw_exception_debug(_1$$5, "phalcon/assets/resource.zep", 183 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -368,13 +401,13 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 	ZEPHIR_INIT_VAR(content);
 	zephir_file_get_contents(content, completePath TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(content)) {
-		ZEPHIR_INIT_NVAR(_1);
-		object_init_ex(_1, phalcon_assets_exception_ce);
-		ZEPHIR_INIT_LNVAR(_2);
-		ZEPHIR_CONCAT_SVS(_2, "Resource's content for '", completePath, "' cannot be read");
-		ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
+		ZEPHIR_INIT_VAR(_3$$6);
+		object_init_ex(_3$$6, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_VAR(_4$$6);
+		ZEPHIR_CONCAT_SVS(_4$$6, "Resource's content for '", completePath, "' cannot be read");
+		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 9, _4$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1, "phalcon/assets/resource.zep", 178 TSRMLS_CC);
+		zephir_throw_exception_debug(_3$$6, "phalcon/assets/resource.zep", 192 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -407,7 +440,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *basePath_param = NULL, *sourcePath = NULL, *_0, *_1;
+	zval *basePath_param = NULL, *sourcePath = NULL, *_0, *_1$$4;
 	zval *basePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -429,9 +462,9 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_CONCAT_VV(_1, basePath, sourcePath);
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 63, _1);
+		ZEPHIR_INIT_VAR(_1$$4);
+		ZEPHIR_CONCAT_VV(_1$$4, basePath, sourcePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 64, _1$$4);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -445,7 +478,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *basePath_param = NULL, *targetPath = NULL, *completePath, *_0;
+	zval *basePath_param = NULL, *targetPath = NULL, *completePath = NULL, *_0;
 	zval *basePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -470,7 +503,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 		ZEPHIR_INIT_VAR(completePath);
 		ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 		if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
-			ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 63, completePath);
+			ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 64, completePath);
 			zephir_check_call_status();
 			RETURN_MM();
 		}

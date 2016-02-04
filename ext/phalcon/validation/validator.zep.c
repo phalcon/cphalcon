@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 
 
@@ -41,26 +41,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
-	zend_bool _0;
+	zval *options_param = NULL;
 	zval *options = NULL;
 
-	zephir_fetch_params(0, 0, 1, &options);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
 
-	if (!options) {
-		options = ZEPHIR_GLOBAL(global_null);
-	}
-
-
-	_0 = Z_TYPE_P(options) != IS_ARRAY;
-	if (_0) {
-		_0 = Z_TYPE_P(options) != IS_NULL;
-	}
-	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Options must be an array", "phalcon/validation/validator.zep", 40);
-		return;
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(options);
+		array_init(options);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	options = options_param;
 	}
+
+
+	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -129,7 +125,7 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
-	zval *key_param = NULL, *defaultValue = NULL, *options, *value;
+	zval *key_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();

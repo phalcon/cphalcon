@@ -102,6 +102,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
  */
 PHP_METHOD(Phalcon_Di_Service, getName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -133,6 +134,7 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
  */
 PHP_METHOD(Phalcon_Di_Service, isShared) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_shared");
 
@@ -179,6 +181,7 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_definition");
 
@@ -193,9 +196,9 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
+	zend_bool found = 0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0, *_1, *_2;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared = NULL, *definition = NULL, *sharedInstance = NULL, *instance = NULL, *builder = NULL, *_0$$21, *_1$$21, *_2$$21;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -265,7 +268,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 176, dependencyInjector, definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, builder, "build", NULL, 177, dependencyInjector, definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -273,14 +276,14 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if (found == 0) {
-		ZEPHIR_INIT_VAR(_0);
-		object_init_ex(_0, phalcon_di_exception_ce);
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_2);
-		ZEPHIR_CONCAT_SVS(_2, "Service '", _1, "' cannot be resolved");
-		ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 9, _2);
+		ZEPHIR_INIT_VAR(_0$$21);
+		object_init_ex(_0$$21, phalcon_di_exception_ce);
+		_1$$21 = zephir_fetch_nproperty_this(this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_2$$21);
+		ZEPHIR_CONCAT_SVS(_2$$21, "Service '", _1$$21, "' cannot be resolved");
+		ZEPHIR_CALL_METHOD(NULL, _0$$21, "__construct", NULL, 9, _2$$21);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0, "phalcon/di/service.zep", 197 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$21, "phalcon/di/service.zep", 197 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -302,7 +305,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 PHP_METHOD(Phalcon_Di_Service, setParameter) {
 
 	zval *parameter = NULL;
-	zval *position_param = NULL, *parameter_param = NULL, *definition, *arguments = NULL;
+	zval *position_param = NULL, *parameter_param = NULL, *definition = NULL, *arguments = NULL;
 	int position;
 
 	ZEPHIR_MM_GROW();
@@ -340,7 +343,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
  */
 PHP_METHOD(Phalcon_Di_Service, getParameter) {
 
-	zval *position_param = NULL, *definition, *arguments, *parameter;
+	zval *position_param = NULL, *definition = NULL, *arguments = NULL, *parameter = NULL;
 	int position;
 
 	ZEPHIR_MM_GROW();
@@ -369,6 +372,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
  */
 PHP_METHOD(Phalcon_Di_Service, isResolved) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_resolved");
 
@@ -380,7 +384,7 @@ PHP_METHOD(Phalcon_Di_Service, isResolved) {
 PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes_param = NULL, *name, *definition, *shared;
+	zval *attributes_param = NULL, *name = NULL, *definition = NULL, *shared = NULL;
 	zval *attributes = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -405,7 +409,7 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 64, name, definition, shared);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 65, name, definition, shared);
 	zephir_check_call_status();
 	RETURN_MM();
 

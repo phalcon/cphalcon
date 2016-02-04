@@ -46,7 +46,7 @@ use Phalcon\Mvc\Model\RelationInterface;
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
  *          WHERE b.name = :name: ORDER BY c.name";
  *
- * $result = manager->executeQuery($phql, array(
+ * $result = $manager->executeQuery($phql, array(
  *   "name" => "Lamborghini"
  * ));
  *
@@ -99,6 +99,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 	protected _bindTypes;
 
 	protected _enableImplicitJoins;
+
+	protected _sharedLock;
 
 	static protected _irPhqlCache;
 
@@ -2708,6 +2710,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let dialect = connection->getDialect(),
 			sqlSelect = dialect->select(intermediate);
+		if this->_sharedLock {
+			let sqlSelect = dialect->sharedLock(sqlSelect);
+		}
 
 		/**
 		 * Return the SQL to be executed instead of execute it
@@ -3474,6 +3479,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 		} else {
 			let this->_bindTypes = bindTypes;
 		}
+
+		return this;
+	}
+
+	/**
+	 * Set SHARED LOCK clause
+	 */
+	public function setSharedLock(boolean sharedLock = false) -> <Query>
+	{
+		let this->_sharedLock = sharedLock;
 
 		return this;
 	}

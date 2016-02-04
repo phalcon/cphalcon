@@ -18,7 +18,6 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 
 
 /**
@@ -50,8 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, phalcon, mvc_model_validator_regex, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_regex_method_entry, 0);
 
-	phalcon_mvc_model_validator_regex_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator_Regex;
-
 	zend_class_implements(phalcon_mvc_model_validator_regex_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
 
@@ -62,10 +59,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
-	zval *_6;
+	zval *_6$$8;
+	zend_bool failed = 0, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zend_bool failed, _3;
-	zval *record, *field = NULL, *value = NULL, *matches, *pattern = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_4, *_5 = NULL, *_7 = NULL;
+	zval *record, *field = NULL, *value = NULL, *matches = NULL, *pattern = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_4$$6, *_5$$8 = NULL, *_7$$8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &record);
@@ -115,55 +112,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_preg_match(_0, pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(_0)) {
-		zephir_array_fetch_long(&_4, matches, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/validator/regex.zep", 89 TSRMLS_CC);
-		failed = !ZEPHIR_IS_EQUAL(_4, value);
+		zephir_array_fetch_long(&_4$$6, matches, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/validator/regex.zep", 89 TSRMLS_CC);
+		failed = !ZEPHIR_IS_EQUAL(_4$$6, value);
 	} else {
 		failed = 1;
 	}
 	if (failed == 1) {
-		ZEPHIR_INIT_VAR(_5);
-		ZVAL_STRING(_5, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _5);
-		zephir_check_temp_parameter(_5);
+		ZEPHIR_INIT_VAR(_5$$8);
+		ZVAL_STRING(_5$$8, "message", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _5$$8);
+		zephir_check_temp_parameter(_5$$8);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(message)) {
 			ZEPHIR_INIT_NVAR(message);
 			ZVAL_STRING(message, "Value of field ':field' doesn't match regular expression", 1);
 		}
-		ZEPHIR_INIT_VAR(_6);
-		zephir_create_array(_6, 1, 0 TSRMLS_CC);
-		zephir_array_update_string(&_6, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 54, message, _6);
+		ZEPHIR_INIT_VAR(_6$$8);
+		zephir_create_array(_6$$8, 1, 0 TSRMLS_CC);
+		zephir_array_update_string(&_6$$8, SL(":field"), &field, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_FUNCTION(&_7$$8, "strtr", NULL, 55, message, _6$$8);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(_5);
-		ZVAL_STRING(_5, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _7, field, _5);
-		zephir_check_temp_parameter(_5);
+		ZEPHIR_INIT_NVAR(_5$$8);
+		ZVAL_STRING(_5$$8, "Regex", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, _7$$8, field, _5$$8);
+		zephir_check_temp_parameter(_5$$8);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-
-}
-
-static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator_Regex(zend_class_entry *class_type TSRMLS_DC) {
-
-		zval *_0, *_1;
-
-		ZEPHIR_MM_GROW();
-	
-	{
-		zval *this_ptr = NULL;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1);
-			array_init(_1);
-			zephir_update_property_this(this_ptr, SL("_messages"), _1 TSRMLS_CC);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
-	}
 
 }
 

@@ -33,9 +33,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray) {
  */
 PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool _0;
-	zval *translation_param = NULL, *placeholders = NULL, _1;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *translation_param = NULL, *placeholders = NULL, _1$$3;
 	zval *translation = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -62,12 +62,12 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 380, placeholders, translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 379, placeholders, translation);
 		ZEPHIR_UNREF(placeholders);
 		zephir_check_call_status();
-		ZEPHIR_SINIT_VAR(_1);
-		ZVAL_STRING(&_1, "sprintf", 0);
-		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_1, placeholders);
+		ZEPHIR_SINIT_VAR(_1$$3);
+		ZVAL_STRING(&_1$$3, "sprintf", 0);
+		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_1$$3, placeholders);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

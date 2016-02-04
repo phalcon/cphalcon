@@ -19,16 +19,16 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/element.zep.c
 	phalcon/mvc/model/validator.zep.c
 	phalcon/mvc/model/validatorinterface.zep.c
+	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/cache/backend.zep.c
 	phalcon/cache/backendinterface.zep.c
 	phalcon/mvc/model/metadata.zep.c
-	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/cache/frontendinterface.zep.c
+	phalcon/annotations/adapterinterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapter.zep.c
-	phalcon/annotations/adapterinterface.zep.c
 	phalcon/config.zep.c
 	phalcon/db/adapter/pdo.zep.c
 	phalcon/db/adapterinterface.zep.c
@@ -321,6 +321,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/adapter/querybuilder.zep.c
 	phalcon/paginator/exception.zep.c
 	phalcon/queue/beanstalk.zep.c
+	phalcon/queue/beanstalk/exception.zep.c
 	phalcon/queue/beanstalk/job.zep.c
 	phalcon/registry.zep.c
 	phalcon/security.zep.c

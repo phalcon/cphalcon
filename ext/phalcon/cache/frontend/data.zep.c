@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime) {
 
-	zval *options, *lifetime;
+	zval *options = NULL, *lifetime = NULL;
 
 
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
@@ -111,6 +111,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering) {
 
+	
 
 	RETURN_BOOL(0);
 
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, start) {
 
+	
 
 
 }
@@ -132,6 +134,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent) {
 
+	
 
 	RETURN_NULL();
 
@@ -142,6 +145,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, stop) {
 
+	
 
 
 }
@@ -159,7 +163,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 74, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 75, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -178,7 +182,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 75, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 76, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

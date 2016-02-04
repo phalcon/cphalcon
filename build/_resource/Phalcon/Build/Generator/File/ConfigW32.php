@@ -41,6 +41,8 @@ class Generator_File_ConfigW32
 
         $generatedContent = preg_replace('/(\s*ADD_SOURCES\(.*?\n){1,}/', "\n", $originalContent);
 
+        $generatedContent = str_replace('EXTENSION("phalcon", "phalcon.c"', 'EXTENSION("phalcon", "phalcon.zep.c"', $generatedContent);
+
         file_put_contents($this->outputFile, $generatedContent);
     }
 }

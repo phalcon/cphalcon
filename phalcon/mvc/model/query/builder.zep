@@ -22,9 +22,9 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
@@ -904,11 +904,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->limit(100, 20);
 	 *</code>
 	 */
-	public function limit(int limit = null, int offset = null) -> <Builder>
+	public function limit(var limit = null, var offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
-		if offset {
-			let this->_offset = offset;
+		if is_numeric(offset) {
+			let this->_offset = (int)offset;
 		}
 		return this;
 	}
@@ -1352,11 +1352,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns the query built
 	 */
-	public function getQuery() -> <Query>
+	public function getQuery() -> <QueryInterface>
 	{
-		var query, bindParams, bindTypes;
+		var query, bindParams, bindTypes, phql, dependencyInjector;
 
-		let query = new Query(this->getPhql(), this->_dependencyInjector);
+		let phql = this->getPhql();
+
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injection object is required to access ORM services");
+		}
+
+		/**
+		 * Gets Query instance from DI container
+		 */
+		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
 
 		// Set default bind params
 		let bindParams = this->_bindParams;
@@ -1368,6 +1378,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		let bindTypes = this->_bindTypes;
 		if typeof bindTypes == "array" {
 			query->setBindTypes(bindTypes);
+		}
+
+		if typeof this->_sharedLock === "boolean" {
+			query->setSharedLock(this->_sharedLock);
 		}
 
 		return query;

@@ -20,12 +20,23 @@
 namespace Phalcon\Queue;
 
 use Phalcon\Queue\Beanstalk\Job;
+use Phalcon\Queue\Beanstalk\Exception;
 
 /**
  * Phalcon\Queue\Beanstalk
  *
  * Class to access the beanstalk queue service.
  * Partially implements the protocol version 1.2
+ *
+ * <code>
+ * use Phalcon\Queue\Beanstalk;
+ *
+ * $queue = new Beanstalk([
+ *     'host'       => '127.0.0.1',
+ *     'port'       => 11300,
+ *     'persistent' => true,
+ * ]);
+ * </code>
  *
  * @link http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/
  */
@@ -66,7 +77,7 @@ class Beanstalk
 	 */
 	public function connect() -> resource
 	{
- 		var connection, parameters;
+		var connection, parameters, persistent, $function;
 
 		let connection = this->_connection;
 		if typeof connection == "resource" {
@@ -75,9 +86,23 @@ class Beanstalk
 
 		let parameters = this->_parameters;
 
-		let connection = fsockopen(parameters["host"], parameters["port"], null, null);
+		/**
+		 * Check if the connection must be persistent
+		 */
+		if fetch persistent, parameters["persistent"] {
+			if persistent {
+				let $function = "pfsockopen";
+			} else {
+			    let $function = "fsockopen";
+			}
+		} else {
+		    let $function = "fsockopen";
+		}
+
+		let connection = {$function}(parameters["host"], parameters["port"], null, null);
+
 		if typeof connection != "resource" {
-			throw new \Phalcon\Exception("Can't connect to Beanstalk server");
+			throw new Exception("Can't connect to Beanstalk server");
 		}
 
 		stream_set_timeout(connection, -1, null);
@@ -95,7 +120,7 @@ class Beanstalk
 	 */
 	public function put(var data, var options = null) -> string|boolean
 	{
- 		var priority, delay, ttr, serialized, response, status, length;
+		var priority, delay, ttr, serialized, response, status, length;
 
 		/**
 		 * Priority is 100 by default
@@ -139,7 +164,7 @@ class Beanstalk
 	 */
 	public function reserve(var timeout = null) -> boolean|<Job>
 	{
- 		var command, response;
+		var command, response;
 
 		if typeof timeout != "null" {
 			let command = "reserve-with-timeout " . timeout;
@@ -168,7 +193,7 @@ class Beanstalk
 	 */
 	public function choose(string! tube) -> boolean|string
 	{
- 		var response;
+		var response;
 
 		this->write("use " . tube);
 
@@ -185,7 +210,7 @@ class Beanstalk
 	 */
 	public function watch(string! tube) -> boolean|string
 	{
- 		var response;
+		var response;
 
 		this->write("watch " . tube);
 
@@ -253,7 +278,7 @@ class Beanstalk
 	 */
 	public function peekReady() -> boolean|<Job>
 	{
- 		var response;
+		var response;
 
 		this->write("peek-ready");
 
@@ -270,7 +295,7 @@ class Beanstalk
 	 */
 	public function peekBuried() -> boolean|<Job>
 	{
- 		var response;
+		var response;
 
 		this->write("peek-buried");
 
@@ -328,13 +353,10 @@ class Beanstalk
 	/**
 	 * Reads a packet from the socket. Prior to reading from the socket will
 	 * check for availability of the connection.
-	 *
-	 * @param int length Number of bytes to read.
-	 * @return string|boolean Data or `false` on error.
 	 */
 	public function read(int length = 0) -> boolean|string
 	{
- 		var connection, data;
+		var connection, data;
 
 		let connection = this->_connection;
 		if typeof connection != "resource" {
@@ -350,9 +372,9 @@ class Beanstalk
 				return false;
 			}
 
-			let data = fread(connection, length + 2);
+			let data = stream_get_line(connection, length + 2);
 			if stream_get_meta_data(connection)["timed_out"] {
-				throw new \Phalcon\Exception("Connection timed out");
+				throw new Exception("Connection timed out");
 			}
 
 			return rtrim(data, "\r\n");
@@ -366,7 +388,7 @@ class Beanstalk
 	 */
 	protected function write(string data) -> boolean|int
 	{
- 		var connection, packet;
+		var connection, packet;
 
 		let connection = this->_connection;
 		if typeof connection != "resource" {

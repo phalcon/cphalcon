@@ -7,7 +7,7 @@
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2014 Phalcon Team
+ * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -318,6 +318,37 @@ class HttpResponseTest extends Helper\HttpBase
                         '_headers' => [
                             'Status'             => '302 Found',
                             'Location'           => 'http://google.com',
+                            'HTTP/1.1 302 Found' => null,
+                        ]
+                    ]
+                );
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests redirect local with non standard code
+     *
+     * @issue  11324
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-01-19
+     */
+    public function testHttpResponseRedirectLocalUrlWithNonStandardCode()
+    {
+        $this->specify(
+            "redirect is not redirecting local with non standard code properly",
+            function () {
+                $response = $this->getResponseObject();
+                $response->resetHeaders();
+                $response->redirect('new/place/', false, 309);
+
+                $actual   = $response->getHeaders();
+                $expected = PhResponseHeaders::__set_state(
+                    [
+                        '_headers' => [
+                            'Status'             => '302 Found',
+                            'Location'           => '/new/place/',
                             'HTTP/1.1 302 Found' => null,
                         ]
                     ]

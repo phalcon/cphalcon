@@ -97,9 +97,25 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Sets the bound parameters in the criteria
 	 * This method replaces all previously set bound parameters
 	 */
-	public function bind(array! bindParams) -> <Criteria>
+	public function bind(array! bindParams, boolean merge = false) -> <Criteria>
 	{
-		let this->_params["bind"] = bindParams;
+		var bind;
+
+		if merge {
+			if isset this->_params["bind"] {
+				let bind = this->_params["bind"];
+			} else {
+				let bind = null;
+			}
+			if typeof bind == "array" {
+				let this->_params["bind"] = bind + bindParams;
+			} else {
+				let this->_params["bind"] = bindParams;
+			}			
+		} else {
+			let this->_params["bind"] = bindParams;
+		}
+
 		return this;
 	}
 
@@ -534,7 +550,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function having(var having) -> <Criteria>
 	{
-		let this->_params["group"] = having;
+		let this->_params["having"] = having;
 		return this;
 	}
 

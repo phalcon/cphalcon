@@ -141,6 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 
@@ -181,6 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDbService) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_service");
 
@@ -213,6 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_rollbackPendent");
 
@@ -237,9 +240,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 
+	zval *_2$$4;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_2;
-	zval *autoBegin_param = NULL, *_0, *_1, *_3 = NULL;
+	zval *autoBegin_param = NULL, *_0, *_4, *_1$$3, *_3$$4;
 	zend_bool autoBegin;
 
 	ZEPHIR_MM_GROW();
@@ -254,15 +257,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackPendent"), PH_NOISY_CC);
-		if (zephir_is_true(_1)) {
-			ZEPHIR_INIT_VAR(_2);
-			zephir_create_array(_2, 2, 0 TSRMLS_CC);
-			zephir_array_fast_append(_2, this_ptr);
-			ZEPHIR_INIT_VAR(_3);
-			ZVAL_STRING(_3, "rollbackPendent", 1);
-			zephir_array_fast_append(_2, _3);
-			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 356, _2);
+		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_rollbackPendent"), PH_NOISY_CC);
+		if (zephir_is_true(_1$$3)) {
+			ZEPHIR_INIT_VAR(_2$$4);
+			zephir_create_array(_2$$4, 2, 0 TSRMLS_CC);
+			zephir_array_fast_append(_2$$4, this_ptr);
+			ZEPHIR_INIT_VAR(_3$$4);
+			ZVAL_STRING(_3$$4, "rollbackPendent", 1);
+			zephir_array_fast_append(_2$$4, _3$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 355, _2$$4);
 			zephir_check_call_status();
 		}
 		if (1) {
@@ -271,13 +274,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 			zephir_update_property_this(this_ptr, SL("_initialized"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_NVAR(_3);
+	ZEPHIR_INIT_VAR(_4);
 	if (autoBegin) {
-		ZVAL_BOOL(_3, 1);
+		ZVAL_BOOL(_4, 1);
 	} else {
-		ZVAL_BOOL(_3, 0);
+		ZVAL_BOOL(_4, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getorcreatetransaction", NULL, 0, _3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getorcreatetransaction", NULL, 0, _4);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -288,10 +291,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 
+	HashTable *_2$$5;
+	HashPosition _1$$5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	HashTable *_2;
-	HashPosition _1;
-	zval *autoBegin_param = NULL, *dependencyInjector = NULL, *transaction = NULL, *transactions, *_0, **_3, *_4 = NULL, *_5;
+	zval *autoBegin_param = NULL, *dependencyInjector = NULL, *transaction = NULL, *transactions = NULL, *_0, *_5, *_6, **_3$$5, *_4$$7 = NULL;
 	zend_bool autoBegin;
 
 	ZEPHIR_MM_GROW();
@@ -315,34 +318,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 		ZEPHIR_OBS_VAR(transactions);
 		zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 		if (Z_TYPE_P(transactions) == IS_ARRAY) {
-			zephir_is_iterable(transactions, &_2, &_1, 0, 1, "phalcon/mvc/model/transaction/manager.zep", 200);
+			zephir_is_iterable(transactions, &_2$$5, &_1$$5, 0, 1, "phalcon/mvc/model/transaction/manager.zep", 200);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-			  ; zephir_hash_move_backwards_ex(_2, &_1)
+			  ; zephir_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
+			  ; zephir_hash_move_backwards_ex(_2$$5, &_1$$5)
 			) {
-				ZEPHIR_GET_HVALUE(transaction, _3);
+				ZEPHIR_GET_HVALUE(transaction, _3$$5);
 				if (Z_TYPE_P(transaction) == IS_OBJECT) {
-					ZEPHIR_INIT_NVAR(_4);
-					ZVAL_BOOL(_4, 0);
-					ZEPHIR_CALL_METHOD(NULL, transaction, "setisnewtransaction", NULL, 0, _4);
+					ZEPHIR_INIT_NVAR(_4$$7);
+					ZVAL_BOOL(_4$$7, 0);
+					ZEPHIR_CALL_METHOD(NULL, transaction, "setisnewtransaction", NULL, 0, _4$$7);
 					zephir_check_call_status();
 					RETURN_CCTOR(transaction);
 				}
 			}
 		}
 	}
-	ZEPHIR_INIT_VAR(transaction);
+	ZEPHIR_INIT_NVAR(transaction);
 	object_init_ex(transaction, phalcon_mvc_model_transaction_ce);
 	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_service"), PH_NOISY_CC);
-	ZEPHIR_INIT_NVAR(_4);
+	ZEPHIR_INIT_VAR(_6);
 	if (autoBegin) {
-		ZVAL_BOOL(_4, 1);
+		ZVAL_BOOL(_6, 1);
 	} else {
-		ZVAL_BOOL(_4, 0);
+		ZVAL_BOOL(_6, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, 357, dependencyInjector, _4, _5);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, 356, dependencyInjector, _6, _5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, 358, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, 357, this_ptr);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_number") TSRMLS_CC));
@@ -370,27 +373,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 
+	HashTable *_1$$3;
+	HashPosition _0$$3;
+	zval *transactions = NULL, *transaction = NULL, *connection = NULL, **_2$$3, *_3$$4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	HashTable *_1;
-	HashPosition _0;
-	zval *transactions, *transaction = NULL, *connection = NULL, **_2, *_3 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(transactions);
 	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (Z_TYPE_P(transactions) == IS_ARRAY) {
-		zephir_is_iterable(transactions, &_1, &_0, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 233);
+		zephir_is_iterable(transactions, &_1$$3, &_0$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 233);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
-			ZEPHIR_GET_HVALUE(transaction, _2);
+			ZEPHIR_GET_HVALUE(transaction, _2$$3);
 			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3$$4, connection, "isundertransaction", NULL, 0);
 			zephir_check_call_status();
-			if (zephir_is_true(_3)) {
+			if (zephir_is_true(_3$$4)) {
 				ZEPHIR_CALL_METHOD(NULL, connection, "commit", NULL, 0);
 				zephir_check_call_status();
 			}
@@ -408,11 +411,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 
+	HashTable *_1$$3;
+	HashPosition _0$$3;
 	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	HashTable *_1;
-	HashPosition _0;
-	zval *collect = NULL, *transactions, *transaction = NULL, *connection = NULL, **_2, *_3 = NULL;
+	zval *collect = NULL, *transactions = NULL, *transaction = NULL, *connection = NULL, **_2$$3, *_3$$4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &collect);
@@ -425,17 +428,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 	ZEPHIR_OBS_VAR(transactions);
 	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (Z_TYPE_P(transactions) == IS_ARRAY) {
-		zephir_is_iterable(transactions, &_1, &_0, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 258);
+		zephir_is_iterable(transactions, &_1$$3, &_0$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 258);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
-			ZEPHIR_GET_HVALUE(transaction, _2);
+			ZEPHIR_GET_HVALUE(transaction, _2$$3);
 			ZEPHIR_CALL_METHOD(&connection, transaction, "getconnection", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_3, connection, "isundertransaction", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3$$4, connection, "isundertransaction", NULL, 0);
 			zephir_check_call_status();
-			if (zephir_is_true(_3)) {
+			if (zephir_is_true(_3$$4)) {
 				ZEPHIR_CALL_METHOD(NULL, connection, "rollback", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, connection, "close", NULL, 0);
@@ -494,9 +497,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 
-	HashTable *_1;
-	HashPosition _0;
-	zval *transaction, *transactions, *newTransactions, *managedTransaction = NULL, **_2;
+	HashTable *_1$$3;
+	HashPosition _0$$3;
+	zval *transaction, *transactions = NULL, *newTransactions = NULL, *managedTransaction = NULL, **_2$$3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &transaction);
@@ -508,12 +511,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(newTransactions);
 		array_init(newTransactions);
-		zephir_is_iterable(transactions, &_1, &_0, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 293);
+		zephir_is_iterable(transactions, &_1$$3, &_0$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 293);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1, &_0)
+		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
-			ZEPHIR_GET_HVALUE(managedTransaction, _2);
+			ZEPHIR_GET_HVALUE(managedTransaction, _2$$3);
 			if (ZEPHIR_IS_EQUAL(managedTransaction, transaction)) {
 				zephir_array_append(&newTransactions, transaction, PH_SEPARATE, "phalcon/mvc/model/transaction/manager.zep", 289);
 				RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("_number") TSRMLS_CC));
@@ -530,22 +533,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 
-	HashTable *_2;
-	HashPosition _1;
-	zval *transactions, *_0 = NULL, **_3;
+	HashTable *_2$$3;
+	HashPosition _1$$3;
+	zval *transactions = NULL, *_0$$3 = NULL, **_3$$3;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(transactions);
 	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		zephir_is_iterable(transactions, &_2, &_1, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 309);
+		ZEPHIR_INIT_VAR(_0$$3);
+		zephir_is_iterable(transactions, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 309);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2, &_1)
+		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
-			ZEPHIR_GET_HVALUE(_0, _3);
+			ZEPHIR_GET_HVALUE(_0$$3, _3$$3);
 			RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("_number") TSRMLS_CC));
 		}
 		zephir_update_property_this(this_ptr, SL("_transactions"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);

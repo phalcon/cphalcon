@@ -63,16 +63,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, __construct) {
 
+	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
-	zval *_0;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	zephir_update_property_this(this_ptr, SL("_options"), _0 TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_dispatcher_ce, this_ptr, "__construct", &_1, 125);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_dispatcher_ce, this_ptr, "__construct", &_1, 126);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -140,6 +140,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_handlerName");
 
@@ -151,7 +152,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
 PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 
 	int exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *_0, *_1 = NULL;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *exception = NULL, *_0, *_1 = NULL;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -188,7 +189,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 PHP_METHOD(Phalcon_Cli_Dispatcher, _handleException) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *exception, *eventsManager = NULL, *_0, *_1 = NULL, *_2;
+	zval *exception, *eventsManager = NULL, *_0, *_1$$3 = NULL, *_2$$3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &exception);
@@ -198,12 +199,12 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _handleException) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "dispatch:beforeException", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_1, eventsManager, "fire", NULL, 0, _2, this_ptr, exception);
-		zephir_check_temp_parameter(_2);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZVAL_STRING(_2$$3, "dispatch:beforeException", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_1$$3, eventsManager, "fire", NULL, 0, _2$$3, this_ptr, exception);
+		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_1$$3)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -216,6 +217,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _handleException) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getLastTask) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_lastHandler");
 
@@ -226,6 +228,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getLastTask) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getActiveTask) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_activeHandler");
 
@@ -255,6 +258,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getOptions) {
 
+	
 
 	RETURN_MEMBER(this_ptr, "_options");
 
