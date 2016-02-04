@@ -141,6 +141,11 @@ class Column implements ColumnInterface
 	const TYPE_TIMESTAMP = 17;
 
 	/**
+	 * Enum abstract type
+	 */
+	const TYPE_ENUM = 18;
+
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
