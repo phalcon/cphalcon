@@ -352,7 +352,7 @@ class Compiler implements InjectionAwareInterface
 		var code, funcArguments, arguments, nameExpr,
 			nameType, name, extensions, functions, definition,
 			extendedBlocks, block, currentBlock, exprLevel, escapedCode,
-			method, arrayHelpers, className;
+			method, arrayHelpers;
 
 		let code = null;
 
@@ -469,13 +469,12 @@ class Compiler implements InjectionAwareInterface
 				return "''";
 			}
 
-			let method = lcfirst(camelize(name)),
-				className = "Phalcon\\Tag";
+			let method = lcfirst(camelize(name));
 
 			/**
 			 * Check if it's a method in Phalcon\Tag
 			 */
-			if method_exists(className, method) {
+			if method_exists("Phalcon\\Tag", method) {
 
 				let arrayHelpers = [
 					"link_to": true,
