@@ -46,8 +46,6 @@ class Compiler implements InjectionAwareInterface
 
 	protected _options;
 
-	protected _arrayHelpers;
-
 	protected _level = 0;
 
 	protected _foreachLevel = 0;
@@ -479,30 +477,26 @@ class Compiler implements InjectionAwareInterface
 			 */
 			if method_exists(className, method) {
 
-				let arrayHelpers = this->_arrayHelpers;
-				if typeof arrayHelpers != "array" {
-					let arrayHelpers = [
-						"link_to": true,
-						"image": true,
-						"form": true,
-						"select": true,
-						"select_static": true,
-						"submit_button": true,
-						"radio_field": true,
-						"check_field": true,
-						"file_field": true,
-						"hidden_field": true,
-						"password_field": true,
-						"text_area": true,
-						"text_field": true,
-						"email_field": true,
-						"date_field": true,
-						"tel_field": true,
-						"numeric_field": true,
-						"image_input": true
-					];
-					let this->_arrayHelpers = arrayHelpers;
-				}
+				let arrayHelpers = [
+					"link_to": true,
+					"image": true,
+					"form": true,
+					"select": true,
+					"select_static": true,
+					"submit_button": true,
+					"radio_field": true,
+					"check_field": true,
+					"file_field": true,
+					"hidden_field": true,
+					"password_field": true,
+					"text_area": true,
+					"text_field": true,
+					"email_field": true,
+					"date_field": true,
+					"tel_field": true,
+					"numeric_field": true,
+					"image_input": true
+				];
 
 				if isset arrayHelpers[name] {
 					return "$this->tag->" . method . "([" . arguments . "])";
