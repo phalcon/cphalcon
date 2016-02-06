@@ -89,12 +89,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	 */
 	public function __construct(<DiInterface> dependencyInjector = null)
 	{
-		if dependencyInjector {
-			let this->_dependencyInjector = dependencyInjector;
-		} else {
-			let dependencyInjector = \Phalcon\Di::getDefault(),
-				this->_dependencyInjector = dependencyInjector;
+		if !dependencyInjector {
+			let dependencyInjector = \Phalcon\Di::getDefault();
 		}
+
+		let this->_dependencyInjector = dependencyInjector;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");

@@ -48,6 +48,8 @@ class Memcache extends MetaData
 
 	protected _memcache = null;
 
+	protected _metaData = [];
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Memcache constructor
 	 *
@@ -85,8 +87,6 @@ class Memcache extends MetaData
 			new FrontendData(["lifetime": this->_ttl]),
 			options
 		);
-
-		let this->_metaData = [];
 	}
 
 	/**

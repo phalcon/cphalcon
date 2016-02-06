@@ -45,6 +45,8 @@ class Apc extends MetaData
 
 	protected _ttl = 172800;
 
+	protected _metaData = [];
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Apc constructor
 	 *
@@ -62,8 +64,6 @@ class Apc extends MetaData
 				let this->_ttl = ttl;
 			}
 		}
-
-		let this->_metaData = [];
 	}
 
 	/**

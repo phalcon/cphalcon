@@ -38,6 +38,8 @@ class Files extends MetaData
 
 	protected _metaDataDir = "./";
 
+	protected _metaData = [];
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Files constructor
 	 *
@@ -51,7 +53,6 @@ class Files extends MetaData
 				let this->_metaDataDir = metaDataDir;
 			}
 		}
-		let this->_metaData = [];
 	}
 
 	/**
