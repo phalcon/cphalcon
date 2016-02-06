@@ -279,6 +279,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Check if a param exists
+	 *
+	 * @param  mixed param
+	 * @return boolean
+	 */
+	public function hasParam(param) -> boolean
+	{
+		return isset this->_params[param];
+	}
+
+	/**
 	 * Returns the current method to be/executed in the dispatcher
 	 */
 	public function getActiveMethod() -> string

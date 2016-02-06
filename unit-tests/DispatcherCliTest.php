@@ -78,6 +78,13 @@ class DispatcherCliTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
 		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
 
+		$dispatcher->setActionName('hello');
+		$dispatcher->setParams(array('hello' => 'World', 'goodbye' => 'Everybody'));
+		$dispatcher->dispatch();
+		$this->assertTrue($dispatcher->hasParam('hello'));
+		$this->assertTrue($dispatcher->hasParam('goodbye'));
+		$this->assertFalse($dispatcher->hasParam('salutations'));
+
 		// testing namespace
 		try {
 			$dispatcher->setDefaultNamespace('Dummy\\');
