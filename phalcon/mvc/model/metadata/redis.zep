@@ -48,6 +48,8 @@ class Redis extends MetaData
 
 	protected _redis = null;
 
+	protected _metaData = [];
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Redis constructor
 	 *
@@ -85,8 +87,6 @@ class Redis extends MetaData
 			new FrontendData(["lifetime": this->_ttl]),
 			options
 		);
-
-		let this->_metaData = [];
 	}
 
 	/**

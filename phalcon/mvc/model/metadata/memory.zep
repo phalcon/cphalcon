@@ -31,6 +31,8 @@ use Phalcon\Mvc\Model\Exception;
 class Memory extends MetaData
 {
 
+	protected _metaData = [];
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Memory constructor
 	 *
@@ -38,7 +40,6 @@ class Memory extends MetaData
 	 */
 	public function __construct(var options = null)
 	{
-		let this->_metaData = [];
 	}
 
 	/**

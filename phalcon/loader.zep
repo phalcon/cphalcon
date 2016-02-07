@@ -56,21 +56,13 @@ class Loader implements EventsAwareInterface
 
 	protected _classes = null;
 
-	protected _extensions;
+	protected _extensions = ["php"];
 
 	protected _namespaces = null;
 
 	protected _directories = null;
 
 	protected _registered = false;
-
-	/**
-	 * Phalcon\Loader constructor
-	 */
-	public function __construct()
-	{
-		let this->_extensions = ["php"];
-	}
 
 	/**
 	 * Sets the events manager

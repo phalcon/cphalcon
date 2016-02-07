@@ -70,7 +70,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _action = null;
 
-	protected _params;
+	protected _params = [];
 
 	protected _routes;
 
@@ -88,7 +88,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _defaultAction;
 
-	protected _defaultParams;
+	protected _defaultParams = [];
 
 	protected _removeExtraSlashes;
 
@@ -125,9 +125,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			]);
 		}
 
-		let this->_params = [],
-			this->_defaultParams = [],
-			this->_routes = routes;
+		let this->_routes = routes;
 	}
 
 	/**
