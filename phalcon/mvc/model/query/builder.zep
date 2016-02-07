@@ -860,18 +860,328 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		return this->_order;
 	}
 
-	/**
-	 * Sets a HAVING condition clause. You need to escape PHQL reserved words using [ and ] delimiters
-	 *
-	 *<code>
-	 *	$builder->having('SUM(Robots.price) > 0');
-	 *</code>
-	 */
-	public function having(string! having) -> <Builder>
-	{
-		let this->_having = having;
-		return this;
-	}
+    /**
+     * Sets the HAVING condition clause.
+     *
+     *<code>
+     *  $builder->having(100);
+     *  $builder->having('name = "Peter"');
+     *  $builder->having('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
+     *</code>
+     *
+     * @param mixed conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function having(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+    {
+        var currentBindParams, currentBindTypes, mergedParams, mergedTypes;
+
+        let this->_having = conditions;
+
+        /**
+         * Merge the bind params to the current ones
+         */
+        if typeof bindParams == "array" {
+            let currentBindParams = this->_bindParams;
+            if typeof currentBindParams == "array" {
+                let mergedParams = currentBindParams + bindParams;
+            } else {
+                let mergedParams = bindParams;
+            }
+            let this->_bindParams = mergedParams;
+        }
+
+        /**
+         * Merge the bind types to the current ones
+         */
+        if typeof bindTypes == "array" {
+            let currentBindTypes = this->_bindTypes;
+            if typeof currentBindParams == "array" {
+                let mergedTypes = currentBindTypes + bindTypes;
+            } else {
+                let mergedTypes = bindTypes;
+            }
+            let this->_bindTypes = mergedTypes;
+        }
+
+        return this;
+    }
+
+    /**
+     * Appends a condition to the current having conditions using a AND operator
+     *
+     *<code>
+     *  $builder->andHaving('name = "Peter"');
+     *  $builder->andHaving('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
+     *</code>
+     *
+     * @param string conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function andHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+    {
+        var currentBindParams, currentBindTypes, mergedParams,
+            mergedTypes, currentConditions, newConditions;
+
+        let currentConditions = this->_having;
+
+        /**
+         * Nest the condition to current ones or set as unique
+         */
+        if currentConditions {
+            let newConditions = "(" . currentConditions . ") AND (" . conditions . ")";
+        } else {
+            let newConditions = conditions;
+        }
+        let this->_having = newConditions;
+
+        /**
+         * Merge the bind params to the current ones
+         */
+        if typeof bindParams == "array" {
+            let currentBindParams = this->_bindParams;
+            if typeof currentBindParams == "array" {
+                let mergedParams = currentBindParams + bindParams;
+            } else {
+                let mergedParams = bindParams;
+            }
+            let this->_bindParams = mergedParams;
+        }
+
+        /**
+         * Merge the bind types to the current ones
+         */
+        if typeof bindTypes == "array" {
+            let currentBindTypes = this->_bindTypes;
+            if typeof currentBindParams == "array" {
+                let mergedTypes = currentBindTypes + bindTypes;
+            } else {
+                let mergedTypes = bindTypes;
+            }
+            let this->_bindTypes = mergedTypes;
+        }
+
+        return this;
+    }
+
+    /**
+     * Appends a condition to the current having conditions using a OR operator
+     *
+     *<code>
+     *  $builder->orHaving('name = "Peter"');
+     *  $builder->orHaving('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
+     *</code>
+     *
+     * @param string conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function orHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+    {
+        var currentBindParams, currentBindTypes, mergedParams,
+            mergedTypes, currentConditions;
+
+        /**
+         * Nest the condition to current ones or set as unique
+         */
+        let currentConditions = this->_having;
+        if currentConditions {
+            let this->_having = "(" . currentConditions . ") OR (" . conditions . ")";
+        } else {
+            let this->_having = conditions;
+        }
+
+        /**
+         * Merge the bind params to the current ones
+         */
+        if typeof bindParams == "array" {
+            let currentBindParams = this->_bindParams;
+            if typeof currentBindParams == "array" {
+                let mergedParams = currentBindParams + bindParams;
+            } else {
+                let mergedParams = bindParams;
+            }
+            let this->_bindParams = mergedParams;
+        }
+
+        /**
+         * Merge the bind types to the current ones
+         */
+        if typeof bindTypes == "array" {
+            let currentBindTypes = this->_bindTypes;
+            if typeof currentBindParams == "array" {
+                let mergedTypes = currentBindTypes + bindTypes;
+            } else {
+                let mergedTypes = bindTypes;
+            }
+            let this->_bindTypes = mergedTypes;
+        }
+
+        return this;
+    }
+
+    /**
+     * Appends a BETWEEN condition to the current having conditions
+     *
+     *<code>
+     *  $builder->betweenHaving('price', 100.25, 200.50);
+     *</code>
+     */
+    public function betweenHaving(string! expr, var minimum, var maximum) -> <Builder>
+    {
+        var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+
+        let hiddenParam = this->_hiddenParamNumber,
+            nextHiddenParam = hiddenParam + 1;
+
+        /**
+         * Minimum key with auto bind-params and
+         * Maximum key with auto bind-params
+         */
+        let minimumKey = "AP" . hiddenParam,
+            maximumKey = "AP" . nextHiddenParam;
+
+        /**
+         * Create a standard BETWEEN condition with bind params
+         * Append the BETWEEN to the current conditions using and "and"
+         */
+        this->andHaving(
+            expr . " BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
+            [minimumKey: minimum, maximumKey: maximum]
+        );
+
+        let nextHiddenParam++,
+            this->_hiddenParamNumber = nextHiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Appends a NOT BETWEEN condition to the current having conditions
+     *
+     *<code>
+     *  $builder->notBetweenHaving('price', 100.25, 200.50);
+     *</code>
+     */
+    public function notBetweenHaving(string! expr, var minimum, var maximum) -> <Builder>
+    {
+        var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+
+        let hiddenParam = this->_hiddenParamNumber,
+            nextHiddenParam = hiddenParam + 1;
+
+        /**
+         * Minimum key with auto bind-params and
+         * Maximum key with auto bind-params
+         */
+        let minimumKey = "AP" . hiddenParam,
+            maximumKey = "AP" . nextHiddenParam;
+
+        /**
+         * Create a standard BETWEEN condition with bind params
+         * Append the NOT BETWEEN to the current conditions using and "and"
+         */
+        this->andHaving(
+            expr . " NOT BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
+            [minimumKey: minimum, maximumKey: maximum]
+        );
+
+        let nextHiddenParam++,
+            this->_hiddenParamNumber = nextHiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Appends an IN condition to the current having conditions
+     *
+     *<code>
+     *  $builder->inHaving('id', [1, 2, 3]);
+     *</code>
+     */
+    public function inHaving(string! expr, array! values) -> <Builder>
+    {
+        var key, queryKey, value, bindKeys, bindParams;
+        int hiddenParam;
+
+        if !count(values) {
+            this->andHaving(expr . " != " . expr);
+            return this;
+        }
+
+        let hiddenParam = (int) this->_hiddenParamNumber;
+
+        let bindParams = [], bindKeys = [];
+        for value in values {
+
+            /**
+             * Key with auto bind-params
+             */
+            let key = "AP" . hiddenParam,
+                queryKey = ":" . key . ":",
+                bindKeys[] = queryKey,
+                bindParams[key] = value,
+                hiddenParam++;
+        }
+
+        /**
+         * Create a standard IN condition with bind params
+         * Append the IN to the current conditions using and "and"
+         */
+        this->andHaving(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
+
+        let this->_hiddenParamNumber = hiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Appends a NOT IN condition to the current having conditions
+     *
+     *<code>
+     *  $builder->notInHaving('id', [1, 2, 3]);
+     *</code>
+     */
+    public function notInHaving(string! expr, array! values) -> <Builder>
+    {
+        var key, queryKey, value, bindKeys, bindParams;
+        int hiddenParam;
+
+        if !count(values) {
+            this->andHaving(expr . " != " . expr);
+            return this;
+        }
+
+        let hiddenParam = (int) this->_hiddenParamNumber;
+
+        let bindParams = [], bindKeys = [];
+        for value in values {
+
+            /**
+             * Key with auto bind-params
+             */
+            let key = "AP" . hiddenParam,
+                queryKey = ":" . key . ":",
+                bindKeys[] = queryKey,
+                bindParams[key] = value,
+                hiddenParam++;
+        }
+
+        /**
+         * Create a standard NOT IN condition with bind params
+         * Append the NOT IN to the current conditions using and "and"
+         */
+        this->andHaving(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
+
+        let this->_hiddenParamNumber = hiddenParam;
+
+        return this;
+    }
 
 	/**
 	 * Sets a FOR UPDATE clause
@@ -904,11 +1214,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->limit(100, 20);
 	 *</code>
 	 */
-	public function limit(int limit = null, int offset = null) -> <Builder>
+	public function limit(var limit = null, var offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
-		if offset {
-			let this->_offset = offset;
+		if is_numeric(offset) {
+			let this->_offset = (int)offset;
 		}
 		return this;
 	}
@@ -1025,7 +1335,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Get the models metadata service to obtain the column names, column map and primary key
 			 */
 			let metaData = dependencyInjector->getShared("modelsMetadata"),
-				modelInstance = new {model}(null, dependencyInjector);
+				modelInstance = new {model}(dependencyInjector);
 
 			let noPrimary = true,
 				primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
@@ -1266,12 +1576,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			}
 		}
 
-		let having = this->_having;
-		if having !== null {
-			if !empty having {
-				let phql .= " HAVING " . having;
-			}
-		}
+        // Only append HAVING conditions if it's string
+        let having = this->_having;
+        if typeof having == "string" {
+            if !empty having {
+                let phql .= " HAVING " . having;
+            }
+        }
 
 		/**
 		 * Process order clause

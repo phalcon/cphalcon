@@ -196,13 +196,65 @@ interface BuilderInterface
 	 */
 	public function getOrderBy();
 
-	/**
-	 * Sets a HAVING condition clause
-	 *
-	 * @param string having
-	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
-	 */
-	public function having(having);
+    /**
+     * Sets the HAVING conditions
+     *
+     * @param string conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     */
+    public function having(conditions, bindParams = null, bindTypes = null) -> <BuilderInterface>;
+
+    /**
+     * Appends a condition to the current HAVING conditions using a AND operator
+     *
+     * @param string conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function andHaving(conditions, bindParams = null, bindTypes = null) -> <BuilderInterface>;
+
+    /**
+     * Appends a condition to the current HAVING conditions using a OR operator
+     *
+     * @param string conditions
+     * @param array bindParams
+     * @param array bindTypes
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function orHaving(conditions, bindParams = null, bindTypes = null) -> <BuilderInterface>;
+
+    /**
+     * Appends a BETWEEN condition to the current HAVING conditions
+     *
+     * @param string expr
+     * @param mixed minimum
+     * @param mixed maximum
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function betweenHaving(expr, minimum, maximum) -> <BuilderInterface>;
+
+    /**
+     * Appends a NOT BETWEEN condition to the current HAVING conditions
+     *
+     * @param string expr
+     * @param mixed minimum
+     * @param mixed maximum
+     * @return \Phalcon\Mvc\Model\Query\Builder
+     */
+    public function notBetweenHaving(expr, minimum, maximum) -> <BuilderInterface>;
+
+    /**
+     * Appends an IN condition to the current HAVING conditions
+     */
+    public function inHaving(string! expr, array! values) -> <BuilderInterface>;
+
+    /**
+     * Appends a NOT IN condition to the current HAVING conditions
+     */
+    public function notInHaving(string! expr, array! values) -> <BuilderInterface>;
 
 	/**
 	 * Returns the HAVING condition clause
