@@ -54,7 +54,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _actionName = null;
 
-	protected _params;
+	protected _params = [];
 
 	protected _returnedValue = null;
 
@@ -87,14 +87,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	const EXCEPTION_INVALID_PARAMS = 4;
 
 	const EXCEPTION_ACTION_NOT_FOUND = 5;
-
-	/**
-	 * Phalcon\Dispatcher constructor
-	 */
-	public function __construct()
-	{
-		let this->_params = [];
-	}
 
 	/**
 	 * Sets the dependency injector
@@ -276,6 +268,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		}
 		let filter = <FilterInterface> dependencyInjector->getShared("filter");
 		return filter->sanitize(paramValue, filters);
+	}
+
+	/**
+	 * Check if a param exists
+	 *
+	 * @param  mixed param
+	 * @return boolean
+	 */
+	public function hasParam(param) -> boolean
+	{
+		return isset this->_params[param];
 	}
 
 	/**

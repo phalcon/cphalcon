@@ -54,7 +54,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	protected _action;
 
-	protected _params;
+	protected _params = [];
 
 	protected _defaultModule = null;
 
@@ -62,7 +62,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	protected _defaultAction = null;
 
-	protected _defaultParams;
+	protected _defaultParams = [];
 
 	protected _routes;
 
@@ -96,9 +96,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 			]);
 		}
 
-		let this->_params = [],
-			this->_defaultParams = [],
-			this->_routes = routes;
+		let this->_routes = routes;
 	}
 
 	/**

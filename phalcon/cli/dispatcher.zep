@@ -56,17 +56,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	protected _defaultAction = "main";
 
-	protected _options;
-
-	/**
-	 * Phalcon\Cli\Dispatcher constructor
-	 */
-	public function __construct()
-	{
-		let this->_options = [];
-
-		parent::__construct();
-	}
+	protected _options = [];
 
 	/**
 	 * Sets the default task suffix

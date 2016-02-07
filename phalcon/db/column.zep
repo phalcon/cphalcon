@@ -199,7 +199,7 @@ class Column implements ColumnInterface
 	 *
 	 * @var int
 	 */
-	protected _typeReference { get };
+	protected _typeReference = -1 { get };
 
 	/**
 	 * Column data type values
@@ -299,8 +299,6 @@ class Column implements ColumnInterface
 
 		if fetch typeReference, definition["typeReference"] {
 			let this->_typeReference = typeReference;
-		} else {
-			let this->_typeReference = -1;
 		}
 
 		if fetch typeValues, definition["typeValues"] {

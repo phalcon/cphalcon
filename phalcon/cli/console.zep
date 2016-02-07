@@ -43,9 +43,9 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 
 	protected _moduleObject;
 
-	protected _arguments;
+	protected _arguments = [];
 
-	protected _options;
+	protected _options = [];
 
 	/**
 	 * Phalcon\Cli\Console constructor
@@ -55,9 +55,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
 		}
-
-		let this->_arguments = [],
-			this->_options = [];
 	}
 
 	/**
