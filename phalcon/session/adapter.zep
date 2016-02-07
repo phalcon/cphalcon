@@ -24,7 +24,7 @@ namespace Phalcon\Session;
  *
  * Base class for Phalcon\Session adapters
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
 	const SESSION_ACTIVE = 2;
 

@@ -20,7 +20,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Memcache;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -48,7 +47,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Memcache extends Adapter implements AdapterInterface
+class Memcache extends Adapter
 {
 	protected _memcache = null { get };
 
