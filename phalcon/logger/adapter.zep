@@ -45,7 +45,7 @@ abstract class Adapter
 	 *
 	 * @var array
 	 */
-	protected _queue;
+	protected _queue = [];
 
 	/**
 	 * Formatter
@@ -113,15 +113,13 @@ abstract class Adapter
 		 * Check if the queue has something to log
 		 */
 		let queue = this->_queue;
-		if typeof queue == "array" {
-			for message in queue {
-				this->{"logInternal"}(
-					message->getMessage(),
-					message->getType(),
-					message->getTime(),
-					message->getContext()
-				);
-			}
+		for message in queue {
+			this->{"logInternal"}(
+				message->getMessage(),
+				message->getType(),
+				message->getTime(),
+				message->getContext()
+			);
 		}
 
 		return this;
