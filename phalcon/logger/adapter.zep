@@ -158,8 +158,7 @@ abstract class Adapter
  	 */
 	public function critical(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::CRITICAL, message, context);
-		return this;
+		return this->log(Logger::CRITICAL, message, context);
 	}
 
 	/**
@@ -167,8 +166,7 @@ abstract class Adapter
  	 */
 	public function emergency(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::EMERGENCY, message, context);
-		return this;
+		return this->log(Logger::EMERGENCY, message, context);
 	}
 
 	/**
@@ -176,8 +174,7 @@ abstract class Adapter
  	 */
 	public function debug(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::DEBUG, message, context);
-		return this;
+		return this->log(Logger::DEBUG, message, context);
 	}
 
 	/**
@@ -185,8 +182,7 @@ abstract class Adapter
  	 */
 	public function error(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::ERROR, message, context);
-		return this;
+		return this->log(Logger::ERROR, message, context);
 	}
 
 	/**
@@ -194,8 +190,7 @@ abstract class Adapter
  	 */
 	public function info(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::INFO, message, context);
-		return this;
+		return this->log(Logger::INFO, message, context);
 	}
 
 	/**
@@ -203,8 +198,7 @@ abstract class Adapter
  	 */
 	public function notice(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::NOTICE, message, context);
-		return this;
+		return this->log(Logger::NOTICE, message, context);
 	}
 
 	/**
@@ -212,8 +206,7 @@ abstract class Adapter
  	 */
 	public function warning(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::WARNING, message, context);
-		return this;
+		return this->log(Logger::WARNING, message, context);
 	}
 
 	/**
@@ -221,8 +214,7 @@ abstract class Adapter
  	 */
 	public function alert(string! message, array! context = null) -> <AdapterInterface>
 	{
-		this->log(Logger::ALERT, message, context);
-		return this;
+		return this->log(Logger::ALERT, message, context);
 	}
 
 	/**
