@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -305,7 +305,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * @param string attribute
 	 * @param mixed value
 	 */
-	public function writeAttribute(string! attribute, var value)
+	public function writeAttribute(string attribute, var value)
 	{
 		let this->{attribute} = value;
 	}
