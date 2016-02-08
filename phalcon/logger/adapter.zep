@@ -101,7 +101,7 @@ abstract class Adapter
  	 */
 	public function commit() -> <AdapterInterface>
 	{
-		var queue, message;
+		var message;
 
 		if !this->_transaction {
 			throw new Exception("There is no active transaction");
@@ -112,8 +112,7 @@ abstract class Adapter
 		/**
 		 * Check if the queue has something to log
 		 */
-		let queue = this->_queue;
-		for message in queue {
+		for message in this->_queue {
 			this->{"logInternal"}(
 				message->getMessage(),
 				message->getType(),
