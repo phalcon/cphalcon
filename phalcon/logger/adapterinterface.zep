@@ -19,8 +19,6 @@
 
 namespace Phalcon\Logger;
 
-use Phalcon\Logger\FormatterInterface;
-
 /**
  * Phalcon\Logger\AdapterInterface
  *
@@ -31,60 +29,43 @@ interface AdapterInterface
 
 	/**
 	 * Sets the message formatter
-	 *
-	 * @return \Phalcon\Logger\Adapter
 	 */
-	public function setFormatter(<FormatterInterface> formatter);
+	public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>;
 
 	/**
 	 * Returns the internal formatter
-	 *
-	 * @return \Phalcon\Logger\FormatterInterface
 	 */
-	public function getFormatter();
+	public function getFormatter() -> <FormatterInterface>;
 
 	/**
 	 * Filters the logs sent to the handlers to be greater or equals than a specific level
-	 *
-	 * @param int level
-	 * @return \Phalcon\Logger\Adapter
 	 */
-	public function setLogLevel(int level);
+	public function setLogLevel(int level) -> <AdapterInterface>;
 
 	/**
 	 * Returns the current log level
-	 *
-	 * @return int
 	 */
-	public function getLogLevel();
+	public function getLogLevel() -> int;
 
 	/**
 	 * Sends/Writes messages to the file log
-	 *
-	 * @return \Phalcon\Logger\Adapter1
 	 */
-	public function log(var type, var message = null, array! context = null);
+	public function log(var type, var message = null, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Starts a transaction
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function begin();
+	public function begin() -> <AdapterInterface>;
 
 	/**
  	 * Commits the internal transaction
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function commit();
+	public function commit() -> <AdapterInterface>;
 
 	/**
  	 * Rollbacks the internal transaction
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function rollback();
+	public function rollback() -> <AdapterInterface>;
 
 	/**
  	 * Closes the logger
@@ -93,50 +74,36 @@ interface AdapterInterface
 
 	/**
  	 * Sends/Writes a debug message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function debug(string! message, array! context = null);
+	public function debug(string! message, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Sends/Writes an error message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function error(string! message, array! context = null);
+	public function error(string! message, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Sends/Writes an info message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function info(string! message, array! context = null);
+	public function info(string! message, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Sends/Writes a notice message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function notice(string! message, array! context = null);
+	public function notice(string! message, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Sends/Writes a warning message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function warning(string! message, array! context = null);
+	public function warning(string! message, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Sends/Writes an alert message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function alert(string! message, array! context = null);
+	public function alert(string! message, array! context = null) -> <AdapterInterface>;
 
 	/**
  	 * Sends/Writes an emergency message to the log
- 	 *
- 	 * @return \Phalcon\Logger\Adapter
  	 */
-	public function emergency(string! message, array! context = null);
+	public function emergency(string! message, array! context = null) -> <AdapterInterface>;
 }
