@@ -535,11 +535,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function isValidHttpMethod(string method) -> boolean
 	{
-		var lowerMethod;
-
-		let lowerMethod = strtoupper(method);
-
-		switch method {
+		switch strtoupper(method) {
 
 			case "GET":
 			case "POST":
