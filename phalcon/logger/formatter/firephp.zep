@@ -22,14 +22,13 @@ namespace Phalcon\Logger\Formatter;
 
 use Phalcon\Logger;
 use Phalcon\Logger\Formatter;
-use Phalcon\Logger\FormatterInterface;
 
 /**
  * Phalcon\Logger\Formatter\Firephp
  *
  * Formats messages so that they can be sent to FirePHP
  */
-class Firephp extends Formatter implements FormatterInterface
+class Firephp extends Formatter
 {
 	protected _showBacktrace = true;
 
