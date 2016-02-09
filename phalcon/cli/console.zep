@@ -88,7 +88,14 @@ class Console extends BaseApplication
 			router->handle(arguments);
 		}
 
+		/**
+		 * If the router doesn't return a valid module we use the default module
+		 */
 		let moduleName = router->getModuleName();
+		if !moduleName {
+			let moduleName = this->_defaultModule;
+		}
+
 		if moduleName {
 
 			if typeof eventsManager == "object" {
