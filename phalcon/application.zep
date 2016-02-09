@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -37,9 +37,15 @@ abstract class Application extends Injectable implements EventsAwareInterface
 
 	protected _dependencyInjector;
 
+	/**
+	 * @var string
+	 */
 	protected _defaultModule;
 
-	protected _modules;
+	/**
+	 * @var array
+	 */
+	protected _modules = [];
 
 	/**
 	 * Phalcon\Application
@@ -54,9 +60,11 @@ abstract class Application extends Injectable implements EventsAwareInterface
 	/**
 	 * Sets the events manager
 	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
+	public function setEventsManager(<ManagerInterface> eventsManager) -> <Application>
 	{
 		let this->_eventsManager = eventsManager;
+
+		return this;
 	}
 
 	/**
@@ -71,16 +79,18 @@ abstract class Application extends Injectable implements EventsAwareInterface
 	 * Register an array of modules present in the application
 	 *
 	 *<code>
-	 *	$this->registerModules(array(
-	 *		'frontend' => array(
-	 *			'className' => 'Multiple\Frontend\Module',
-	 *			'path' => '../apps/frontend/Module.php'
-	 *		),
-	 *		'backend' => array(
-	 *			'className' => 'Multiple\Backend\Module',
-	 *			'path' => '../apps/backend/Module.php'
-	 *		)
-	 *	));
+	 *	$this->registerModules(
+	 *		[
+	 *			'frontend' => [
+	 *				'className' => 'Multiple\Frontend\Module',
+	 *				'path'      => '../apps/frontend/Module.php'
+	 *			],
+	 *			'backend' => [
+	 *				'className' => 'Multiple\Backend\Module',
+	 *				'path'      => '../apps/backend/Module.php'
+	 *			]
+	 *		]
+	 *	);
 	 *</code>
 	 */
 	public function registerModules(array modules, boolean merge = false) -> <Application>
@@ -111,11 +121,8 @@ abstract class Application extends Injectable implements EventsAwareInterface
 
 	/**
 	 * Gets the module definition registered in the application via module name
-	 *
-	 * @param string name
-	 * @return array|object
 	 */
-	public function getModule(string! name)
+	public function getModule(string! name) -> array | object
 	{
 		var module;
 
