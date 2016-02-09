@@ -1,3 +1,5 @@
+# [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
+
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
 - ORM: Added support for DATE columns in Oracle
 - Fixed wrong `total_items` and `total_pages` in `Paginator` when the query builder has set `groupBy()`
