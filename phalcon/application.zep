@@ -78,20 +78,20 @@ abstract class Application extends Injectable implements EventsAwareInterface
 	/**
 	 * Register an array of modules present in the application
 	 *
-	 *<code>
-	 *	$this->registerModules(
-	 *		[
-	 *			'frontend' => [
-	 *				'className' => 'Multiple\Frontend\Module',
-	 *				'path'      => '../apps/frontend/Module.php'
-	 *			],
-	 *			'backend' => [
-	 *				'className' => 'Multiple\Backend\Module',
-	 *				'path'      => '../apps/backend/Module.php'
-	 *			]
-	 *		]
-	 *	);
-	 *</code>
+	 * <code>
+	 * $this->registerModules(
+	 * 	[
+	 * 		'frontend' => [
+	 * 			'className' => 'Multiple\Frontend\Module',
+	 * 			'path'      => '../apps/frontend/Module.php'
+	 * 		],
+	 * 		'backend' => [
+	 * 			'className' => 'Multiple\Backend\Module',
+	 * 			'path'      => '../apps/backend/Module.php'
+	 * 		]
+	 * 	]
+	 * );
+	 * </code>
 	 */
 	public function registerModules(array modules, boolean merge = false) -> <Application>
 	{
