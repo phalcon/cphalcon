@@ -95,17 +95,10 @@ abstract class Application extends Injectable implements EventsAwareInterface
 	 */
 	public function registerModules(array modules, boolean merge = false) -> <Application>
 	{
-		var registeredModules;
-
-		if merge === false {
-			let this->_modules = modules;
+		if merge === true && typeof this->_modules == "array" {
+			let this->_modules = array_merge(this->_modules, modules);
 		} else {
-			let registeredModules = this->_modules;
-			if typeof registeredModules == "array" {
-				let this->_modules = array_merge(registeredModules, modules);
-			} else {
-				let this->_modules = modules;
-			}
+			let this->_modules = modules;
 		}
 
 		return this;
