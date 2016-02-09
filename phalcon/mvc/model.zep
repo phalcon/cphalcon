@@ -430,7 +430,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
-		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, dataMapped;
+		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, hasColumnMap, dataMapped;
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {
@@ -450,16 +450,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		let metaData = this->getModelsMetaData();
 
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
+		let columnMap = this->_getColumnMap(metaData);
+		let hasColumnMap = typeof columnMap == "array";
 
 		for attribute in metaData->getAttributes(this) {
 
 			// Check if we need to rename the field
-			if typeof columnMap == "array" {
+			if hasColumnMap {
 				if !fetch attributeField, columnMap[attribute] {
 					if !globals_get("orm.ignore_unknown_columns") {
 						throw new Exception("Column '" . attribute. "' doesn\'t make part of the column map");
@@ -936,38 +933,73 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	protected function _exists(<MetaDataInterface> metaData = null, <AdapterInterface> connection = null, var table = null) -> boolean
 	{
-		int numberEmpty, numberPrimary;
-		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
-			wherePk, field, attributeField, value, bindDataTypes,
-			joinWhere, num, type, schema, source;
-
-		let uniqueParams = null,
-			uniqueTypes = null;
+		var num;
 
 		/**
-		 * Builds a unique primary key condition
+		 * If we already know if the record exists we don't check it
 		 */
-		let uniqueKey = this->_uniqueKey;
-		if uniqueKey === null {
+		if !this->_dirtyState {
+			return true;
+		}
 
+		if metaData === null {
+			let metaData = this->getModelsMetaData();
+		}
+
+		if table === null {
+			let table = this->_getTable();
+		}
+
+		if connection === null {
+			let connection = globals_get("orm.use_write_connection_on_save") ? this->getWriteConnection() : this->getReadConnection();
+		}
+
+		if !this->_buildUniqueVariables(metaData, connection) {
+			return false;
+		}
+
+		/**
+		 * Here we use a single COUNT(*) without PHQL to make the execution faster
+		 */
+		let num = connection->fetchOne(
+			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . this->_uniqueKey,
+			null,
+			this->_uniqueParams,
+			this->_uniqueTypes
+		);
+		if num["rowcount"] {
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+			return true;
+		} else {
+			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+		}
+
+		return false;
+	}
+
+	/**
+	  * Builds variables related to unique primary key
+	  */
+	protected function _buildUniqueVariables(<MetaDataInterface> metaData, <AdapterInterface> connection) -> boolean
+	{
+		int numberEmpty, numberPrimary;
+		var uniqueKey, uniqueParams, uniqueTypes, columnMap, hasColumnMap, primaryKeys, identityField,
+			wherePk, field, attributeField, value, bindDataTypes, type;
+
+		if this->_uniqueKey === null || this->_uniqueParams === null {
 			let primaryKeys = metaData->getPrimaryKeyAttributes(this),
-				bindDataTypes = metaData->getBindTypes(this);
+				bindDataTypes = metaData->getBindTypes(this),
+				identityField = metaData->getIdentityField(this);
 
 			let numberPrimary = count(primaryKeys);
 			if !numberPrimary {
-				return false;
+				throw new Exception("A primary key must be defined in the model in order to perform the operation");
 			}
 
-			/**
-			 * Check if column renaming is globally activated
-			 */
-			if globals_get("orm.column_renaming") {
-				let columnMap = metaData->getColumnMap(this);
-			} else {
-				let columnMap = null;
-			}
+			let columnMap = this->_getColumnMap(metaData);
+			let hasColumnMap = typeof columnMap == "array";
 
 			let numberEmpty = 0,
 				wherePk = [],
@@ -979,7 +1011,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 */
 			for field in primaryKeys {
 
-				if typeof columnMap == "array" {
+				if hasColumnMap {
 					if !fetch attributeField, columnMap[field] {
 						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
@@ -1006,6 +1038,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						numberEmpty++;
 				}
 
+				if value === null && field == identityField {
+					return false;
+				}
+
 				if !fetch type, bindDataTypes[field] {
 					throw new Exception("Column '" . field . "' isn't part of the table columns");
 				}
@@ -1021,60 +1057,37 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				return false;
 			}
 
-			let joinWhere = join(" AND ", wherePk);
+			let uniqueKey = join(" AND ", wherePk);
 
 			/**
 			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
 			 */
-			let this->_uniqueKey = joinWhere,
+			let this->_uniqueKey = uniqueKey,
 				this->_uniqueParams = uniqueParams,
-				this->_uniqueTypes = uniqueTypes,
-				uniqueKey = joinWhere;
+				this->_uniqueTypes = uniqueTypes;
 		}
 
-		/**
-		 * If we already know if the record exists we don't check it
-		 */
-		if !this->_dirtyState {
-			return true;
-		}
+		return true;
+	}
 
-		if uniqueKey === null {
-			let uniqueKey = this->_uniqueKey;
-		}
-
-		if uniqueParams === null {
-			let uniqueParams = this->_uniqueParams;
-		}
-
-		if uniqueTypes === null {
-			let uniqueTypes = this->_uniqueTypes;
-		}
+	/**
+	 * Returns a table
+	 */
+	protected function _getTable()
+	{
+		var schema, source;
 
 		let schema = this->getSchema(), source = this->getSource();
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
 
-		/**
-		 * Here we use a single COUNT(*) without PHQL to make the execution faster
-		 */
-		let num = connection->fetchOne(
-			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
-			null,
-			uniqueParams,
-			uniqueTypes
-		);
-		if num["rowcount"] {
-			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
-			return true;
-		} else {
-			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
-		}
+		return schema ? [schema, source] : source;
+	}
 
-		return false;
+	/**
+	 * Returns a column map
+	 */
+	protected function _getColumnMap(<MetaDataInterface> metaData)
+	{
+		return globals_get("orm.column_renaming") ? metaData->getColumnMap(this) : null;
 	}
 
 	/**
@@ -1856,7 +1869,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function _preSave(<MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
 	{
-		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
+		var notNull, columnMap, hasColumnMap, dataTypeNumeric, automaticAttributes, defaultValues,
 			field, attributeField, value, emptyStringValues;
 		boolean error, isNull;
 
@@ -1908,11 +1921,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				 */
 				let dataTypeNumeric = metaData->getDataTypesNumeric(this);
 
-				if globals_get("orm.column_renaming") {
-					let columnMap = metaData->getColumnMap(this);
-				} else {
-					let columnMap = null;
-				}
+				let columnMap = this->_getColumnMap(metaData);
+				let hasColumnMap = typeof columnMap == "array";
 
 				/**
 				 * Get fields that must be omitted from the SQL generation
@@ -1939,7 +1949,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 						let isNull = false;
 
-						if typeof columnMap == "array" {
+						if hasColumnMap {
 							if !fetch attributeField, columnMap[field] {
 								throw new Exception("Column '" . field . "' isn't part of the column map");
 							}
@@ -2098,6 +2108,127 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Executes the real operation to process a model instance.
+	 *
+	 * @param int operationMade
+	 * @param array data
+	 * @param array whiteList
+	 * @return boolean
+	 */
+	protected function _doRealSave(var operationMade, var data, var whiteList) -> boolean
+	{
+		var metaData, related, writeConnection, table, identityField, exists, success;
+
+		let metaData = this->getModelsMetaData();
+
+		if typeof data == "array" && count(data) > 0 {
+			this->assign(data, null, whiteList);
+		}
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let writeConnection = this->getWriteConnection();
+
+		/**
+		 * Save related records in belongsTo relationships
+		 */
+		let related = this->_related;
+		if typeof related == "array" {
+			if this->_preSaveRelatedRecords(writeConnection, related) === false {
+				return false;
+			}
+		}
+
+		let table = this->_getTable();
+
+		let this->_operationMade = operationMade;
+
+		let exists = operationMade == self::OP_UPDATE;
+
+		/**
+		 * Clean the messages
+		 */
+		let this->_errorMessages = [];
+
+		/**
+		 * Query the identity field
+		 */
+		let identityField = metaData->getIdentityField(this);
+
+		/**
+		 * _preSave() makes all the validations
+		 */
+		if this->_preSave(metaData, exists, identityField) === false {
+
+			/**
+			 * Rollback the current transaction if there was validation errors
+			 */
+			if typeof related == "array" {
+				writeConnection->rollback(false);
+			}
+
+			/**
+			 * Throw exceptions on failed saves?
+			 */
+			if globals_get("orm.exception_on_failed_save") {
+				/**
+				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
+				 */
+				throw new ValidationFailed(this, this->getMessages());
+			}
+
+			return false;
+		}
+
+		/**
+		 * Depending if the record exists we do an update or an insert operation
+		 */
+		if exists {
+			let success = this->_doLowUpdate(metaData, writeConnection, table);
+		} else {
+			let success = this->_doLowInsert(metaData, writeConnection, table, identityField);
+		}
+
+		/**
+		 * Change the dirty state to persistent
+		 */
+		if success {
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+		}
+
+		if typeof related == "array" {
+
+			/**
+			 * Rollbacks the implicit transaction if the master save has failed
+			 */
+			if success === false {
+				writeConnection->rollback(false);
+			} else {
+				/**
+				 * Save the post-related records
+				 */
+				let success = this->_postSaveRelatedRecords(writeConnection, related);
+			}
+		}
+
+		/**
+		 * _postSave() invokes after* events if the operation was successful
+		 */
+		if globals_get("orm.events") {
+			let success = this->_postSave(success, exists);
+		}
+
+		if success === false {
+			this->_cancelOperation();
+		} else {
+			this->fireEvent("afterSave");
+		}
+
+		return success;
+	}
+
+	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
 	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
@@ -2112,7 +2243,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType,
 			defaultValue, sequenceName, defaultValues, source, schema;
-		boolean useExplicitIdentity;
+		boolean useExplicitIdentity, hasColumnMap;
 
 		let bindSkip = Column::BIND_SKIP;
 
@@ -2125,11 +2256,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			automaticAttributes = metaData->getAutomaticCreateAttributes(this),
 			defaultValues = metaData->getDefaultValues(this);
 
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
+		let columnMap = this->_getColumnMap(metaData);
+		let hasColumnMap = typeof columnMap == "array";
 
 		/**
 		 * All fields in the model makes part or the INSERT
@@ -2141,7 +2269,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				/**
 				 * Check if the model has a column map
 				 */
-				if typeof columnMap == "array" {
+				if hasColumnMap {
 					if !fetch attributeField, columnMap[field] {
 						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
@@ -2297,9 +2425,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
 	{
 		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
-			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
-			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
-		boolean useDynamicUpdate, changed;
+			automaticAttributes, snapshotValue,
+			snapshot, nonPrimary, columnMap, attributeField, value, bindType;
+		boolean useDynamicUpdate, changed, hasColumnMap;
 
 		let bindSkip = Column::BIND_SKIP,
 			fields = [],
@@ -2323,11 +2451,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
 			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
+		let columnMap = this->_getColumnMap(metaData);
+		let hasColumnMap = typeof columnMap == "array";
 
 		/**
 		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
@@ -2346,7 +2471,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				/**
 				 * Check if the model has a column map
 				 */
-				if typeof columnMap == "array" {
+				if hasColumnMap {
 					if !fetch attributeField, columnMap[field] {
 						throw new Exception("Column '" . field . "' isn't part of the column map");
 					}
@@ -2445,44 +2570,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			return true;
 		}
 
-		let uniqueKey = this->_uniqueKey,
-			uniqueParams = this->_uniqueParams,
-			uniqueTypes = this->_uniqueTypes;
-
-		/**
-		 * When unique params is null we need to rebuild the bind params
-		 */
-		if typeof uniqueParams != "array" {
-
-			let primaryKeys = metaData->getPrimaryKeyAttributes(this);
-
-			/**
-			 * We can't create dynamic SQL without a primary key
-			 */
-			if !count(primaryKeys) {
-				throw new Exception("A primary key must be defined in the model in order to perform the operation");
-			}
-
-			let uniqueParams = [];
-			for field in primaryKeys {
-
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
-
-				if fetch value, this->{attributeField} {
-					let uniqueParams[] = value;
-				} else {
-					let uniqueParams[] = null;
-				}
-			}
+		if !this->_buildUniqueVariables(metaData, connection) {
+			throw new Exception("A primary key must be defined in the model in order to perform the operation");
 		}
 
 		/**
@@ -2490,9 +2579,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Perform the low level update
 		 */
 		return connection->update(table, fields, values, [
-			"conditions": uniqueKey,
-			"bind"	  : uniqueParams,
-			"bindTypes" : uniqueTypes
+			"conditions": this->_uniqueKey,
+			"bind"	  : this->_uniqueParams,
+			"bindTypes" : this->_uniqueTypes
 		], bindTypes);
 	}
 
@@ -2804,135 +2893,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function save(var data = null, var whiteList = null) -> boolean
 	{
-		var metaData, related, schema, writeConnection, readConnection,
-			source, table, identityField, exists, success;
+		var operationMade;
+		let operationMade = this->_exists() ? self::OP_UPDATE : self::OP_CREATE;
 
-		let metaData = this->getModelsMetaData();
-
-		if typeof data == "array" && count(data) > 0 {
-			this->assign(data, null, whiteList);
-		}
-
-		/**
-		 * Create/Get the current database connection
-		 */
-		let writeConnection = this->getWriteConnection();
-
-		/**
-		 * Save related records in belongsTo relationships
-		 */
-		let related = this->_related;
-		if typeof related == "array" {
-			if this->_preSaveRelatedRecords(writeConnection, related) === false {
-				return false;
-			}
-		}
-
-		let schema = this->getSchema(),
-			source = this->getSource();
-
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
-
-		/**
-		 * Create/Get the current database connection
-		 */
-		let readConnection = this->getReadConnection();
-
-		/**
-		 * We need to check if the record exists
-		 */
-		let exists = this->_exists(metaData, readConnection, table);
-
-		if exists {
-			let this->_operationMade = self::OP_UPDATE;
-		} else {
-			let this->_operationMade = self::OP_CREATE;
-		}
-
-		/**
-		 * Clean the messages
-		 */
-		let this->_errorMessages = [];
-
-		/**
-		 * Query the identity field
-		 */
-		let identityField = metaData->getIdentityField(this);
-
-		/**
-		 * _preSave() makes all the validations
-		 */
-		if this->_preSave(metaData, exists, identityField) === false {
-
-			/**
-			 * Rollback the current transaction if there was validation errors
-			 */
-			if typeof related == "array" {
-				writeConnection->rollback(false);
-			}
-
-			/**
-			 * Throw exceptions on failed saves?
-			 */
-			if globals_get("orm.exception_on_failed_save") {
-				/**
-				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
-				 */
-				throw new ValidationFailed(this, this->getMessages());
-			}
-
-			return false;
-		}
-
-		/**
-		 * Depending if the record exists we do an update or an insert operation
-		 */
-		if exists {
-			let success = this->_doLowUpdate(metaData, writeConnection, table);
-		} else {
-			let success = this->_doLowInsert(metaData, writeConnection, table, identityField);
-		}
-
-		/**
-		 * Change the dirty state to persistent
-		 */
-		if success {
-			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
-		}
-
-		if typeof related == "array" {
-
-			/**
-			 * Rollbacks the implicit transaction if the master save has failed
-			 */
-			if success === false {
-				writeConnection->rollback(false);
-			} else {
-				/**
-				 * Save the post-related records
-				 */
-				let success = this->_postSaveRelatedRecords(writeConnection, related);
-			}
-		}
-
-		/**
-		 * _postSave() invokes after* events if the operation was successful
-		 */
-		if globals_get("orm.events") {
-			let success = this->_postSave(success, exists);
-		}
-
-		if success === false {
-			this->_cancelOperation();
-		} else {
-			this->fireEvent("afterSave");
-		}
-
-		return success;
+		return this->_doRealSave(operationMade, data, whiteList);
 	}
 
 	/**
@@ -2958,25 +2922,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function create(var data = null, var whiteList = null) -> boolean
 	{
-		var metaData;
-
-		let metaData = this->getModelsMetaData();
-
 		/**
-		 * Get the current connection
 		 * If the record already exists we must throw an exception
 		 */
-		if this->_exists(metaData, this->getReadConnection()) {
+		if globals_get("orm.check_existing_record_before_save") && this->_exists() {
 			let this->_errorMessages = [
 				new Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
 			];
 			return false;
 		}
 
-		/**
-		 * Using save() anyways
-		 */
-		return this->save(data, whiteList);
+		return this->_doRealSave(self::OP_CREATE, data, whiteList);
 	}
 
 	/**
@@ -2992,25 +2948,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function update(var data = null, var whiteList = null) -> boolean
 	{
-		var metaData;
-
 		/**
 		 * We don't check if the record exists if the record is already checked
 		 */
-		if this->_dirtyState {
-
-			let metaData = this->getModelsMetaData();
-
-			if !this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
-				return false;
-			}
+		if this->_dirtyState && globals_get("orm.check_existing_record_before_save") && !this->_exists() {
+			let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
+			return false;
 		}
 
-		/**
-		 * Call save() anyways
-		 */
-		return this->save(data, whiteList);
+		return this->_doRealSave(self::OP_UPDATE, data, whiteList);
 	}
 
 	/**
@@ -3028,8 +2974,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function delete() -> boolean
 	{
 		var metaData, writeConnection, values, bindTypes, primaryKeys,
-			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
-			bindType, value, schema, source, table, success;
+			bindDataTypes, columnMap, hasColumnMap, attributeField, conditions, primaryKey,
+			bindType, value, table, success;
 
 		let metaData = this->getModelsMetaData(),
 			writeConnection = this->getWriteConnection();
@@ -3056,11 +3002,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let primaryKeys = metaData->getPrimaryKeyAttributes(this),
 			bindDataTypes = metaData->getBindTypes(this);
 
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
+		let columnMap = this->_getColumnMap(metaData);
+		let hasColumnMap = typeof columnMap == "array";
 
 		/**
 		 * We can't create dynamic SQL without a primary key
@@ -3084,7 +3027,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * Take the column values based on the column map if any
 			 */
-			if typeof columnMap == "array" {
+			if hasColumnMap {
 				if !fetch attributeField, columnMap[primaryKey] {
 					throw new Exception("Column '" . primaryKey . "' isn't part of the column map");
 				}
@@ -3126,14 +3069,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 		}
 
-		let schema = this->getSchema(),
-			source = this->getSource();
-
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
+		let table = this->_getTable();
 
 		/**
 		 * Join the conditions in the array using an AND operator
@@ -3178,40 +3114,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function refresh() -> <Model>
 	{
-		var metaData, readConnection, schema, source, table,
-			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute;
+		var metaData, readConnection, table, tables, dialect, row, fields, attribute;
 
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
 			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
 		let metaData = this->getModelsMetaData(),
-			readConnection = this->getReadConnection();
+			readConnection = this->getReadConnection(),
+			table = this->_getTable();
 
-		let schema = this->getSchema(),
-			source = this->getSource();
-
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
+		/**
+		 * We need to check if the record exists
+		 */
+		if !this->_exists(metaData, readConnection, table) {
+			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
-		let uniqueKey = this->_uniqueKey;
-		if !uniqueKey {
-
-			/**
-			 * We need to check if the record exists
-			 */
-			if !this->_exists(metaData, readConnection, table) {
-				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
-			}
-
-			let uniqueKey = this->_uniqueKey;
-		}
-
-		let uniqueParams = this->_uniqueParams;
-		if typeof uniqueParams != "array" {
+		if !this->_uniqueKey || typeof this->_uniqueParams != "array" {
 			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
@@ -3230,9 +3150,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			tables = dialect->select([
 				"columns": fields,
 				"tables":  readConnection->escapeIdentifier(table),
-				"where":   uniqueKey
+				"where":   this->_uniqueKey
 			]),
-			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+			row = readConnection->fetchOne(tables, \Phalcon\Db::FETCH_ASSOC, this->_uniqueParams, this->_uniqueTypes);
 
 		/**
 		 * Get a column map if any
@@ -4365,7 +4285,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
+			checkExistingRecordBeforeSave, useWriteConnectionOnSave;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4428,6 +4349,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
 			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+		}
+
+		/**
+		 * Checks if the record exists before save.
+		 */
+		if fetch checkExistingRecordBeforeSave, options["checkExistingRecordBeforeSave"] {
+			globals_set("orm.check_existing_record_before_save", checkExistingRecordBeforeSave);
+		}
+
+		/**
+		 * Uses the write connection on save instead of the read connection.
+		 */
+		if fetch useWriteConnectionOnSave, options["useWriteConnectionOnSave"] {
+			globals_set("orm.use_write_connection_on_save", useWriteConnectionOnSave);
 		}
 	}
 
