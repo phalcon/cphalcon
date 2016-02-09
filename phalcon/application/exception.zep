@@ -17,14 +17,14 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Application;
+namespace Phalcon\Application;
 
 /**
- * Phalcon\Mvc\Application\Exception
+ * Phalcon\Application\Exception
  *
- * Exceptions thrown in Phalcon\Mvc\Application class will use this class
+ * Exceptions thrown in Phalcon\Application class will use this class
  */
-class Exception extends \Phalcon\Application\Exception
+class Exception extends \Phalcon\Exception
 {
 
 }
