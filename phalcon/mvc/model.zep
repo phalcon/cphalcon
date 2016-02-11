@@ -606,8 +606,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(instance, "afterFetch") {
-			instance->{"afterFetch"}();
+		if method_exists(instance, "fireEvent") {
+			instance->{"fireEvent"}("afterFetch");
 		}
 
 		return instance;
@@ -720,9 +720,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(instance, "afterFetch") {
-			instance->{"afterFetch"}();
-		}
+		(<ModelInterface> instance)->fireEvent("afterFetch");
 
 		return instance;
 	}
