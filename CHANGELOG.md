@@ -39,6 +39,7 @@
 - Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
 - Added `Phalcon\Dispatcher::hasParam()`.
 - `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.
+- Fixed `afterFetch` event not being sent to behaviors
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
