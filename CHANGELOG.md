@@ -6,15 +6,15 @@
 - Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
 - Removed support for prefixes strategy in `Phalcon\Loader`
 - Now `Phalcon\Mvc\View` supports many views directories at the same time
-- An absolute path can now be used to Mvc\View::setLayoutsDir
+- An absolute path can now be used to `Mvc\View::setLayoutsDir`
 - Fixed odd view behavior[#1933](https://github.com/phalcon/cphalcon/issues/1933) related to setLayout() and pick()
 - `Phalcon\Di` is now bound to services closures allowing use `Phalcon\Di` as $this to access services within them
 - If an object is returned after firing the event `beforeServiceResolve` in `Phalcon\Di` this overrides the
   default service localization process
-- Placeholders :controller and :action in `Mvc\Router` now defaults to `/([\\w0-9\\_\\-]+)` instead of `/([\\a-zA-Z0-9\\_\\-]+)`
+- Placeholders `:controller` and `:action` in `Mvc\Router` now defaults to `/([\\w0-9\\_\\-]+)` instead of `/([\\a-zA-Z0-9\\_\\-]+)`
 - Modifier `#u` (PCRE_UTF8) is now default in regex based routes in `Mvc\Router`
-- Return 'false' from an action disables the view component (same as $this->view->disable())
-- Return a string from an action takes it as the body of the response (same as return $this->response->setContent('Hello world'))
+- Return 'false' from an action disables the view component (same as `$this->view->disable()`)
+- Return a string from an action takes it as the body of the response (same as return `$this->response->setContent('Hello world')`)
 - Return a string from an `Mvc\Micro` handler takes it as the body of the response
 - `Mvc\Router\Route` now escapes characters such as . or + to avoid unexpected behaviors
 - Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
@@ -28,20 +28,20 @@
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
 - `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
-- Added method getOption() in `Phalcon\Mvc\Model\RelationInterface`
+- Added method `getOption()` in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
 - Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql` 
 - Fixed the use of the annotation router with namespaced controllers
 - Added `Phalcon\Acl\RoleAware` and `Phalcon\Acl\ResourceAware` Interfaces, Now you can pass objects to `Phalcon\Acl\AdapterInterface::isAllowed` as `roleName` and `resourceName`, also they will be automatically passed to function defined in `Phalcon\Acl\AdapterInterface::allow` or `Phalcon\Acl\AdapterInterface::deny` by type
 - `Phalcon\Acl\AdapterInterface::allow` and `Phalcon\Acl\AdapterInterface::deny` have 4th argument - function, which will be called when using `Phalcon\Acl\AdapterInterface::isAllowed`
 - `Phalcon\Acl\AdapterInterface::isAllowed` have 4th argument - parameters, you can pass arguments for function defined in `Phalcon\Acl\AdapterInterface:allow` or `Phalcon\Acl\AdapterInterface::deny` as associative array where key is argument name
-- Added method getActionSuffix() in `Phalcon\DispatcherInterface`
+- Added method `getActionSuffix()` in `Phalcon\DispatcherInterface`
 - CLI parameters are now handled consistently.
 - Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
 - Added `Phalcon\Dispatcher::hasParam()`.
 - `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.
 - Fixed `afterFetch` event not being sent to behaviors
-- Fixed issue with Model::__set that was setting hidden attributes directly instead of calling setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
+- Fixed issue with `Model::__set` that was setting hidden attributes directly instead of calling setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
