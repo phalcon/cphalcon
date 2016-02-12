@@ -30,7 +30,7 @@
 - `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
 - Added method `getOption()` in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
-- Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql` 
+- Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql`
 - Fixed the use of the annotation router with namespaced controllers
 - Added `Phalcon\Acl\RoleAware` and `Phalcon\Acl\ResourceAware` Interfaces, Now you can pass objects to `Phalcon\Acl\AdapterInterface::isAllowed` as `roleName` and `resourceName`, also they will be automatically passed to function defined in `Phalcon\Acl\AdapterInterface::allow` or `Phalcon\Acl\AdapterInterface::deny` by type
 - `Phalcon\Acl\AdapterInterface::allow` and `Phalcon\Acl\AdapterInterface::deny` have 4th argument - function, which will be called when using `Phalcon\Acl\AdapterInterface::isAllowed`
@@ -43,6 +43,7 @@
 - Fixed `afterFetch` event not being sent to behaviors
 - Fixed issue with `Model::__set` that was setting hidden attributes directly instead of calling setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
+- Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
