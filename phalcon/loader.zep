@@ -102,24 +102,17 @@ class Loader implements EventsAwareInterface
 	 */
 	public function registerNamespaces(array! namespaces, boolean merge = false) -> <Loader>
 	{
-		var currentNamespaces, preparedNamespaces, name, paths;
+		var preparedNamespaces, name, paths;
 
 		let preparedNamespaces = this->prepareNamespace(namespaces);
 
-		if merge {
-			let currentNamespaces = this->_namespaces;
-			if typeof currentNamespaces == "array" {
-				for name, paths in preparedNamespaces {
-					if !isset currentNamespaces[name] {
-						let currentNamespaces[name] = [];
-					}
-
-					let currentNamespaces[name] = array_merge(currentNamespaces[name], paths);
+		if merge && typeof this->_namespaces == "array" {
+			for name, paths in preparedNamespaces {
+				if !isset this->_namespaces[name] {
+					let this->_namespaces[name] = [];
 				}
 
-				let this->_namespaces = currentNamespaces;
-			} else {
-				let this->_namespaces = preparedNamespaces;
+				let this->_namespaces[name] = array_merge(this->_namespaces[name], paths);
 			}
 		} else {
 			let this->_namespaces = preparedNamespaces;
@@ -159,19 +152,12 @@ class Loader implements EventsAwareInterface
 	 */
 	public function registerDirs(array! directories, boolean merge = false) -> <Loader>
 	{
-		var currentDirectories, mergedDirectories;
-
-		if merge {
-			let currentDirectories = this->_directories;
-			if typeof currentDirectories == "array" {
-				let mergedDirectories = array_merge(currentDirectories, directories);
-			} else {
-				let mergedDirectories = directories;
-			}
-			let this->_directories = mergedDirectories;
+		if merge && typeof this->_directories == "array" {
+			let this->_directories = array_merge(this->_directories, directories);
 		} else {
 			let this->_directories = directories;
 		}
+
 		return this;
 	}
 
@@ -188,19 +174,12 @@ class Loader implements EventsAwareInterface
 	 */
 	public function registerClasses(array! classes, boolean merge = false) -> <Loader>
 	{
-		var mergedClasses, currentClasses;
-
-		if merge {
-			let currentClasses = this->_classes;
-			if typeof currentClasses == "array" {
-				let mergedClasses = array_merge(currentClasses, classes);
-			} else {
-				let mergedClasses = classes;
-			}
-			let this->_classes = mergedClasses;
+		if merge && typeof this->_classes == "array" {
+			let this->_classes = array_merge(this->_classes, classes);
 		} else {
 			let this->_classes = classes;
 		}
+
 		return this;
 	}
 
@@ -281,55 +260,57 @@ class Loader implements EventsAwareInterface
 				/**
 				 * The class name must start with the current namespace
 				 */
-				if starts_with(className, nsPrefix) {
+				if !starts_with(className, nsPrefix) {
+					continue;
+				}
 
+				/**
+				 * Append the namespace separator to the prefix
+				 */
+				let fileName = substr(className, strlen(nsPrefix . ns));
+				let fileName = str_replace(ns, ds, fileName);
+
+				if !fileName {
+					continue;
+				}
+
+				for directory in directories {
 					/**
-					 * Append the namespace separator to the prefix
+					 * Add a trailing directory separator if the user forgot to do that
 					 */
-					let fileName = substr(className, strlen(nsPrefix . ns));
-					let fileName = str_replace(ns, ds, fileName);
+					let fixedDirectory = rtrim(directory, ds) . ds;
 
-					if fileName {
+					for extension in extensions {
 
-						for directory in directories {
-							/**
-							 * Add a trailing directory separator if the user forgot to do that
-							 */
-							let fixedDirectory = rtrim(directory, ds) . ds;
+						let filePath = fixedDirectory . fileName . "." . extension;
 
-							for extension in extensions {
+						/**
+						 * Check if a events manager is available
+						 */
+						if typeof eventsManager == "object" {
+							let this->_checkedPath = filePath;
+							eventsManager->fire("loader:beforeCheckPath", this);
+						}
 
-								let filePath = fixedDirectory . fileName . "." . extension;
+						/**
+						 * This is probably a good path, let's check if the file exists
+						 */
+						if is_file(filePath) {
 
-								/**
-								 * Check if a events manager is available
-								 */
-								if typeof eventsManager == "object" {
-									let this->_checkedPath = filePath;
-									eventsManager->fire("loader:beforeCheckPath", this);
-								}
-
-								/**
-								 * This is probably a good path, let's check if the file exists
-								 */
-								if is_file(filePath) {
-
-									if typeof eventsManager == "object" {
-										let this->_foundPath = filePath;
-										eventsManager->fire("loader:pathFound", this, filePath);
-									}
-
-									/**
-									 * Simulate a require
-									 */
-									require filePath;
-
-									/**
-									 * Return true mean success
-									 */
-									return true;
-								}
+							if typeof eventsManager == "object" {
+								let this->_foundPath = filePath;
+								eventsManager->fire("loader:pathFound", this, filePath);
 							}
+
+							/**
+							 * Simulate a require
+							 */
+							require filePath;
+
+							/**
+							 * Return true mean success
+							 */
+							return true;
 						}
 					}
 				}

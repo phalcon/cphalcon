@@ -132,10 +132,7 @@ class Di implements DiInterface
 	 */
 	public function setShared(string! name, var definition) -> <ServiceInterface>
 	{
-		var service;
-		let service = new Service(name, definition, true),
-			this->_services[name] = service;
-		return service;
+		return this->set(name, definition, true);
 	}
 
 	/**
@@ -234,12 +231,8 @@ class Di implements DiInterface
 					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
 				}
 
-				if typeof parameters == "array" {
-					if count(parameters) {
-						let instance = create_instance_params(name, parameters);
-					} else {
-						let instance = create_instance(name);
-					}
+				if typeof parameters == "array" && count(parameters) {
+					let instance = create_instance_params(name, parameters);
 				} else {
 					let instance = create_instance(name);
 				}
