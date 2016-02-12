@@ -33,13 +33,9 @@ class Manager
 	 * @param object entity
 	 * @return \Phalcon\Forms\Form
 	 */
-	public function create(name = null, entity = null) -> <Form>
+	public function create(string name = null, entity = null) -> <Form>
 	{
 		var form;
-
-		if typeof name != "string" {
-			throw new Exception("The form name must be string");
-		}
 
 		let form = new Form(entity),
 			this->_forms[name] = form;
