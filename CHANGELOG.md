@@ -41,6 +41,7 @@
 - Added `Phalcon\Dispatcher::hasParam()`.
 - `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.
 - Fixed `afterFetch` event not being sent to behaviors
+- Fixed issue with Model::__set that was setting hidden attributes directly instead of calling setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
