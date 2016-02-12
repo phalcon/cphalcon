@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -105,7 +105,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string option
 	 * @param mixed value
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function setUserOption(var option, var value) -> <Form>
 	{
@@ -118,9 +117,8 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string option
 	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function getUserOption(var option, var defaultValue = null)
+	public function getUserOption(var option, var defaultValue = null) -> var
 	{
 		var value;
 		if fetch value, this->_options[option] {
@@ -150,7 +148,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Sets the entity related to the model
 	 *
 	 * @param object entity
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function setEntity(var entity) -> <Form>
 	{
@@ -182,7 +179,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * @param array data
 	 * @param object entity
 	 * @param array whitelist
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function bind(array! data, var entity, var whitelist = null) -> <Form>
 	{
@@ -257,7 +253,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param array data
 	 * @param object entity
-	 * @return boolean
 	 */
 	public function isValid(var data = null, var entity = null) -> boolean
 	{
@@ -430,11 +425,6 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Adds an element to the form
-	 *
-	 * @param \Phalcon\Forms\ElementInterface element
-	 * @param string $postion
- 	 * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function add(<ElementInterface> element, string postion = null, boolean type = null) -> <Form>
 	{
@@ -492,7 +482,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string name
 	 * @param array attributes
-	 * @return string
 	 */
 	public function render(string! name, var attributes = null) -> string
 	{
@@ -558,11 +547,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Gets a value from the internal related entity or from the default value
-	 *
-	 * @param string name
-	 * @return mixed
 	 */
-	public function getValue(string! name)
+	public function getValue(string! name) -> var | null
 	{
 		var entity, method, value, data;
 
@@ -651,7 +637,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Clears every element in the form to its default value
 	 *
 	 * @param array fields
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function clear(var fields = null) -> <Form>
 	{
