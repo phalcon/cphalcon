@@ -548,7 +548,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Gets a value from the internal related entity or from the default value
 	 */
-	public function getValue(string! name) -> var
+	public function getValue(string! name) -> var | null
 	{
 		var entity, method, value, data;
 
