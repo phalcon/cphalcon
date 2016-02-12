@@ -4101,7 +4101,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function __set(string property, value)
 	{
 		var lowerProperty, related, modelName, manager, lowerKey,
-			relation, referencedModel, key, item, dirtyState;
+			relation, referencedModel, key, item, dirtyState, method;
 
 		/**
 		 * Values are probably relationships if they are objects
@@ -4152,6 +4152,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 
 			return value;
+		}
+
+		/**
+		 * Check if the property has setters
+		 */
+		let method = "set" . camelize(property);
+
+		if method_exists(this, method) {
+			return this->{method}(value);
 		}
 
 		/**
