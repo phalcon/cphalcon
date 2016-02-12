@@ -102,4 +102,46 @@ class DispatcherCliTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testCliParameters()
+	{
+		$di = new \Phalcon\DI\FactoryDefault\CLI();
+
+		$dispatcher = new \Phalcon\CLI\Dispatcher();
+
+		$di->setShared("dispatcher", $dispatcher);
+
+		$dispatcher->setDI($di);
+
+		// Test $this->dispatcher->getParams()
+		$dispatcher->setTaskName('params');
+		$dispatcher->setActionName('params');
+		$dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
+		$dispatcher->dispatch();
+		$this->assertEquals($dispatcher->getReturnedValue(), '$params is the same as $this->dispatcher->getParams()');
+
+		// Test $this->dispatcher->getParam()
+		$dispatcher->setTaskName('params');
+		$dispatcher->setActionName('param');
+		$dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
+		$dispatcher->dispatch();
+		$this->assertEquals($dispatcher->getReturnedValue(), '$param[0] is the same as $this->dispatcher->getParam(0)');
+	}
+
+	public function testCallActionMethod()
+	{
+		$di = new \Phalcon\DI\FactoryDefault\CLI();
+
+		$dispatcher = new \Phalcon\CLI\Dispatcher();
+
+		$di->setShared("dispatcher", $dispatcher);
+
+		$dispatcher->setDI($di);
+
+		$mainTask = new MainTask();
+		$mainTask->setDI($di);
+
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'mainAction', []), 'mainAction');
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'helloAction', ['World']), 'Hello World!');
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'helloAction', ['World', '.']), 'Hello World.');
+	}
 }
