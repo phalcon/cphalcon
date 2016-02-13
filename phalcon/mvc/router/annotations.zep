@@ -341,12 +341,8 @@ class Annotations extends Router
 				route->via(methods);
 			} else {
 				let methods = annotation->getNamedArgument("methods");
-				if typeof methods == "array" {
+				if typeof methods == "array" || typeof methods == "string" {
 					route->via(methods);
-				} else {
-					if typeof methods == "string" {
-						route->via(methods);
-					}
 				}
 			}
 
