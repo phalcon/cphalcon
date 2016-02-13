@@ -37,6 +37,7 @@
 - `Phalcon\Acl\AdapterInterface::isAllowed` have 4th argument - parameters, you can pass arguments for function defined in `Phalcon\Acl\AdapterInterface:allow` or `Phalcon\Acl\AdapterInterface::deny` as associative array where key is argument name
 - Added method getActionSuffix() in `Phalcon\DispatcherInterface`
 - Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
+- Added methods andHaving(), orHaving(), betweenHaving(), notBetweenHaving(), inHaving(), notInHaving() in  `Phalcon\Mvc\Model\Query\Builder`
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2015-XX-XX)
 - ORM: Added support for DATE columns in Oracle
