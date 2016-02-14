@@ -1,110 +1,61 @@
 <?php
-// This is global bootstrap for autoloading
 
-define('UNIT_TESTING', true);
+error_reporting(-1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+setlocale(LC_ALL, 'en_US.utf-8');
+date_default_timezone_set('UTC');
 
-$root = realpath(dirname(__FILE__));
-
-define('ROOT_PATH', $root);
-define('PATH_DATA', $root . '/_data/');
-define('PATH_CACHE', $root . '/_output/tests/cache/');
-define('PATH_LOGS', $root . '/_output/tests/logs/');
-
-/*
-
-define('PATH_CONFIG', $root . '/_output/tests/var/config/');
-define('PATH_MICRO', $root . '/tests/app_micro/');
-define('PATH_SINGLE', $root . '/tests/app_single/');
-define('PATH_MULTI', $root . '/tests/app_multi/');
-
-define('PATH_MODELS', $root . '/tests/app/models/');
-define('PATH_VIEWS', $root . '/tests/app/views/');
-define('PATH_CONTROLLERS', $root . '/tests/app/controllers/');
-
-define('PATH_COLLECTIONS', $root . '/tests/app/collections/');
-define('PATH_VENDORS', $root . '/tests/app/vendor/');
-define('PATH_TASKS', $root . '/tests/app/tasks/');
-*/
-
-// loading verify assert BDD style assert
-require_once ROOT_PATH . '/_support/Verify.php';
-
-error_reporting(E_ALL);
-set_include_path(
-    ROOT_PATH . PATH_SEPARATOR . get_include_path()
-);
-
-// \Codeception\Specify\Config::setDeepClone(false);
-
-// Register the autoloader
-spl_autoload_register('phalconTestAutoloader');
-
-function phalconTestAutoloader($className)
-{
-    if (strpos($className, '\\') > 0) {
-        $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-    }
-
-    $filename = $className . '.php';
-    $fullFile = ROOT_PATH  . DIRECTORY_SEPARATOR . str_replace('Phalcon' . DIRECTORY_SEPARATOR . 'Tests'.  DIRECTORY_SEPARATOR, '', $filename);
-
-    if (file_exists($fullFile)) {
-        require_once $fullFile;
-    }
+if (function_exists('mb_internal_encoding')) {
+    mb_internal_encoding('utf-8');
+}
+if (function_exists('mb_substitute_character')) {
+    mb_substitute_character('none');
 }
 
-function expect($description, $actual = null)
-{
-    return new Codeception\Verify($description, $actual);
+clearstatcache();
+
+$root = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
+
+defined('TESTS_PATH')   || define('TESTS_PATH', $root);
+defined('PROJECT_PATH') || define('PROJECT_PATH', dirname(TESTS_PATH) . DIRECTORY_SEPARATOR);
+defined('PATH_DATA')    || define('PATH_DATA', $root .  '_data' . DIRECTORY_SEPARATOR);
+defined('PATH_CACHE')   || define('PATH_CACHE', $root . '_cache' . DIRECTORY_SEPARATOR);
+defined('PATH_OUTPUT')  || define('PATH_OUTPUT', $root .  '_output' . DIRECTORY_SEPARATOR);
+
+unset($root);
+
+if (!file_exists(PROJECT_PATH . 'vendor/autoload.php')) {
+    throw new RuntimeException(
+        'Unable to locate autoloader. ' .
+        'Install dependencies from the project root directory to run test suite: `composer install`.'
+    );
 }
 
-function expect_that($truth)
-{
-    expect($truth)->notEmpty();
+include_once PROJECT_PATH . 'vendor/autoload.php';
+include_once TESTS_PATH . 'shim.php';
+
+if (extension_loaded('xdebug')) {
+    ini_set('xdebug.cli_color', 1);
+    ini_set('xdebug.collect_params', 0);
+    ini_set('xdebug.dump_globals', 'on');
+    ini_set('xdebug.show_local_vars', 'on');
+    ini_set('xdebug.max_nesting_level', 100);
+    ini_set('xdebug.var_display_max_depth', 4);
 }
 
-function expect_not($fallacy)
-{
-    expect($fallacy)->isEmpty();
-}
+// Beanstalk
+defined('TEST_BT_HOST') || define('TEST_BT_HOST', getenv('TEST_BT_HOST') ?: '127.0.0.1');
+defined('TEST_BT_PORT') || define('TEST_BT_PORT', getenv('TEST_BT_PORT') ?: 11300);
 
-/**
- * Returns a unique file name
- *
- * @author Nikos Dimopoulos <nikos@phalconphp.com>
- * @since  2014-09-13
- *
- * @param string $prefix    A prefix for the file
- * @param string $suffix    A suffix for the file
- *
- * @return string
- *
- */
-function newFileName($prefix = '', $suffix = 'log')
-{
-    $prefix = ($prefix) ? $prefix . '_' : '';
-    $suffix = ($suffix) ? $suffix       : 'log';
+// Memcached
+defined('TEST_MC_HOST') || define('TEST_MC_HOST', getenv('TEST_MC_HOST') ?: '127.0.0.1');
+defined('TEST_MC_PORT') || define('TEST_MC_PORT', getenv('TEST_MC_PORT') ?: 11211);
 
-    return uniqid($prefix, true) . '.' . $suffix;
-}
-
-/**
- * Removes a file from the system
- *
- * @author Nikos Dimopoulos <nikos@phalconphp.com>
- * @since  2014-09-13
- *
- * @param string $path
- * @param string $fileName
- */
-function cleanFile($path, $fileName)
-{
-    $file  = (substr($path, -1, 1) != "/") ? ($path . '/') : $path;
-    $file .= $fileName;
-
-    $actual = file_exists($file);
-
-    if ($actual) {
-        unlink($file);
-    }
-}
+// Database (MySQL)
+defined('TEST_DB_MYSQL_HOST')    || define('TEST_DB_MYSQL_HOST',    getenv('TEST_DB_MYSQL_HOST')    ?: '127.0.0.1');
+defined('TEST_DB_MYSQL_PORT')    || define('TEST_DB_MYSQL_PORT',    getenv('TEST_DB_MYSQL_PORT')    ?: 3306);
+defined('TEST_DB_MYSQL_USER')    || define('TEST_DB_MYSQL_USER',    getenv('TEST_DB_MYSQL_USER')    ?: 'root');
+defined('TEST_DB_MYSQL_PASSWD')  || define('TEST_DB_MYSQL_PASSWD',  getenv('TEST_DB_MYSQL_PASSWD')  ?: '');
+defined('TEST_DB_MYSQL_NAME')    || define('TEST_DB_MYSQL_NAME',    getenv('TEST_DB_MYSQL_NAME')    ?: 'phalcon_test');
+defined('TEST_DB_MYSQL_CHARSET') || define('TEST_DB_MYSQL_CHARSET', getenv('TEST_DB_MYSQL_CHARSET') ?: 'utf8');

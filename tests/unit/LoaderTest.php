@@ -1,0 +1,282 @@
+<?php
+
+namespace Phalcon\Test\Unit;
+
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Proxy\Loader;
+use Phalcon\Events\Manager;
+
+/**
+ * \Phalcon\Test\Unit\LoaderTest
+ * Tests the \Phalcon\Loader component
+ *
+ * @copyright (c) 2011-2016 Phalcon Team
+ * @link      http://www.phalconphp.com
+ * @author    Andres Gutierrez <andres@phalconphp.com>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @package   Phalcon\Test\Unit
+ *
+ * The contents of this file are subject to the New BSD License that is
+ * bundled with this package in the file docs/LICENSE.txt
+ *
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world-wide-web, please send an email to license@phalconphp.com
+ * so that we can send you a copy immediately.
+ */
+class LoaderTest extends UnitTest
+{
+    protected $loaders;
+    protected $includePath;
+
+    /**
+     * executed before each test
+     */
+    protected function _before()
+    {
+        parent::_before();
+
+        $this->loaders = spl_autoload_functions();
+        if (!is_array($this->loaders)) {
+            $this->loaders = [];
+        }
+
+        $this->includePath = get_include_path();
+    }
+
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        parent::_after();
+
+        $loaders = spl_autoload_functions();
+        if (is_array($loaders)) {
+            foreach ($loaders as $loader) {
+                spl_autoload_unregister($loader);
+            }
+        }
+
+        foreach ($this->loaders as $loader) {
+            spl_autoload_register($loader);
+        }
+
+        set_include_path($this->includePath);
+    }
+
+
+    public function testNamespaces()
+    {
+        $this->specify(
+            "The loader does not register namespaces correctly",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerNamespaces([
+                    'Example\Base' => PATH_DATA . 'vendor/example/base/',
+                ]);
+
+                $loader->registerNamespaces([
+                    'Example\Adapter' => PATH_DATA . 'vendor/example/adapter/',
+                    'Example' => PATH_DATA . 'vendor/example/'
+                ], true);
+
+                $loader->register();
+
+                expect(new \Example\Adapter\Some())->isInstanceOf('Example\Adapter\Some');
+                expect(new \Example\Adapter\LeSome())->isInstanceOf('Example\Adapter\LeSome');
+                expect(new \Example\Engines\LeEngine())->isInstanceOf('Example\Engines\LeEngine');
+                expect(new \Example\Example\Example())->isInstanceOf('Example\Example\Example');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testNamespacesExtensions()
+    {
+        $this->specify(
+            "The loader does not register namespaces correctly with different extension",
+            function () {
+                $loader = new Loader();
+
+                $loader->setExtensions(['inc', 'php']);
+                $loader->registerNamespaces([
+                    'Example\Base' => PATH_DATA . 'vendor/example/base/',
+                    'Example\Adapter' => PATH_DATA . 'vendor/example/adapter/',
+                ]);
+
+                $loader->registerNamespaces([
+                    'Example' => PATH_DATA . 'vendor/example/'
+                ], true);
+
+                $loader->register();
+
+                expect(new \Example\Engines\LeOtherEngine())->isInstanceOf('Example\Engines\LeOtherEngine');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testDirectories()
+    {
+        $this->specify(
+            "The loader does not load classes correctly with using directories strategy",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerDirs([
+                    // missing trailing slash
+                    PATH_DATA . 'vendor/example/dialects',
+                ]);
+
+                $loader->registerDirs([
+                    PATH_DATA . 'vendor/',
+                    PATH_DATA . 'vendor/example/types/',
+                ], true);
+
+                $loader->register();
+
+                expect(new \LeDialect())->isInstanceOf('LeDialect');
+                expect(new \SomeType())->isInstanceOf('SomeType');
+                expect(new \example\adapter\SomeCool())->isInstanceOf('Example\Adapter\SomeCool');
+                expect(new \example\adapter\LeCoolSome())->isInstanceOf('Example\Adapter\LeCoolSome');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testDirectoriesExtensions()
+    {
+        $this->specify(
+            "The loader does not load classes correctly with using directories strategy and different extension",
+            function () {
+                $loader = new Loader();
+
+                $loader->setExtensions(['inc', 'php']);
+                $loader->registerDirs([
+                    PATH_DATA . 'vendor/example/dialects/',
+                    PATH_DATA . 'vendor/example/types/',
+                    PATH_DATA . 'vendor/',
+                ]);
+
+                $loader->register();
+
+                expect(new \example\adapter\LeAnotherSome())->isInstanceOf('Example\Adapter\LeAnotherSome');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testClasses()
+    {
+        $this->specify(
+            "The loader does not load classes correctly",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerClasses(['MoiTest' => PATH_DATA . 'vendor/example/test/MoiTest.php']);
+                $loader->registerClasses(['LeTest' => PATH_DATA . 'vendor/example/test/LeTest.php'], true);
+                $loader->register();
+
+                expect(new \MoiTest())->isInstanceOf('MoiTest');
+                expect(new \LeTest())->isInstanceOf('LeTest');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testPrefixes()
+    {
+        $this->specify(
+            "The loader does not load classes correctly with using prefixes strategy",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerPrefixes(['Pseudo' => PATH_DATA . 'vendor/example/Pseudo/']);
+                $loader->registerPrefixes(['SecondPseudo' => PATH_DATA . 'vendor/example/SecondPseudo/'], true);
+                $loader->register();
+
+                expect(new \Pseudo_Some_Something())->isInstanceOf('Pseudo_Some_Something');
+                expect(new \Pseudo_Base())->isInstanceOf('Pseudo_Base');
+                expect(new \SecondPseudo_Some_Something())->isInstanceOf('SecondPseudo_Some_Something');
+                expect(new \SecondPseudo_Base())->isInstanceOf('SecondPseudo_Base');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testPrefixesUnderscore()
+    {
+        $this->specify(
+            "The loader does not load classes correctly with using prefixes strategy and underscore",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerPrefixes(['Pseudo_' => PATH_DATA . 'vendor/example/Pseudo/']);
+                $loader->register();
+
+                expect(new \Pseudo_Some_Something())->isInstanceOf('Pseudo_Some_Something');
+                expect(new \Pseudo_Base())->isInstanceOf('Pseudo_Base');
+
+                $loader->unregister();
+            }
+        );
+    }
+
+    public function testEvents()
+    {
+        $this->specify(
+            "The loader does not fire events correctly",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerDirs([
+                    PATH_DATA . 'vendor/example/other/'
+                ]);
+
+                $loader->registerClasses([
+                    'AvecTest' => PATH_DATA . 'vendor/example/other/Avec/'
+                ]);
+
+                $loader->registerNamespaces([
+                    'Avec\Test' => PATH_DATA . 'vendor/example/other/Avec/'
+                ]);
+
+                $loader->registerPrefixes([
+                    'Avec_' => PATH_DATA . 'vendor/example/other/Avec/'
+                ]);
+
+                $eventsManager = new Manager();
+                $trace = [];
+
+                $eventsManager->attach('loader', function($event, $loader) use (&$trace) {
+                    /** @var \Phalcon\Events\Event $event */
+                    /** @var Loader $loader */
+                    if(!isset($trace[$event->getType()])){
+                        $trace[$event->getType()] = [];
+                    }
+                    $trace[$event->getType()][] = $loader->getCheckedPath();
+                });
+
+                $loader->setEventsManager($eventsManager);
+
+                $loader->register();
+
+                expect(new \VousTest())->isInstanceOf('VousTest');
+                expect($trace)->equals([
+                    'beforeCheckClass' => [0 => NULL],
+                    'beforeCheckPath'  => [0 => PATH_DATA . 'vendor/example/other/VousTest.php'],
+                    'pathFound'        => [0 => PATH_DATA . 'vendor/example/other/VousTest.php'],
+                ]);
+
+                $loader->unregister();
+            }
+        );
+    }
+}
