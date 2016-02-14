@@ -112,7 +112,7 @@ class QueryBuilder extends Adapter implements AdapterInterface
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, page, before, items, totalQuery,
-			result, row, rowcount, next;
+			result, row, rowcount, next, groupColumn;
 
 		let originalBuilder = this->_builder;
 
@@ -167,7 +167,11 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		 */
 		var groups = totalBuilder->getGroupBy();
 		if !empty groups {
-			var groupColumn = implode(", ", groups);
+			if is_array(groups) {
+				let groupColumn = implode(", ", groups);
+			} else {
+				let groupColumn = groups;
+			}
 			totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
 		}
 
