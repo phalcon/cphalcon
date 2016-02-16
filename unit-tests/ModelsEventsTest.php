@@ -122,6 +122,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->save();
 
 		$this->assertEquals($trace, array(
+			'prepareSave' => array(
+				'GossipRobots' => 1	
+			),
 			'beforeValidation' => array(
 				'GossipRobots' => 2,
 			),
@@ -166,6 +169,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->save();
 
 		$this->assertEquals($trace, array(
+			'prepareSave' => array(
+				'GossipRobots' => 1	
+			),
 			'beforeValidation' => array(
 				'GossipRobots' => 2,
 			),

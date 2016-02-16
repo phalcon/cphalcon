@@ -110,7 +110,7 @@ class Xcache extends Backend implements BackendInterface
 		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = "_PHCX" . this->_prefix . keyName;
@@ -121,7 +121,7 @@ class Xcache extends Backend implements BackendInterface
 		}
 
 		let frontend = this->_frontend;
-		if !content {
+		if content === null {
 			let cachedContent = frontend->getContent();
 		} else {
 			let cachedContent = content;
@@ -134,7 +134,7 @@ class Xcache extends Backend implements BackendInterface
 		/**
 		 * Take the lifetime from the frontend or read it from the set in start()
 		 */
-		if !lifetime {
+		if lifetime === null {
 			let tmp = this->_lastLifetime;
 			if !tmp {
 				let tt1 = frontend->getLifetime();

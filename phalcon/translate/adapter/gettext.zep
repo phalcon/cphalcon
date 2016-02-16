@@ -1,8 +1,9 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -16,46 +17,49 @@
  |          Stanislav Kiryukhin <korsar.zn@gmail.com>                     |
  +------------------------------------------------------------------------+
  */
-namespace Phalcon\Translate\Adapter;
 
+namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Adapter;
 
-
 /**
- * Class Gettext
+ * Phalcon\Translate\Adapter\Gettext
  *
- * @package Phalcon\Translate\Adapter
+ * Allows translate using gettext
  */
 class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 {
 	/**
 	 * @var string|array
 	 */
-	protected _directory;
+	protected _directory { get };
 
 	/**
 	 * @var string
 	 */
-	protected _defaultDomain;
+	protected _defaultDomain { get };
 
 	/**
 	 * @var string
 	 */
-	protected _locale;
+	protected _locale { get };
 
 	/**
 	 * @var int
 	 */
-	protected _category;
+	protected _category { get };
 
 	/**
 	 * Phalcon\Translate\Adapter\Gettext constructor
 	 */
 	public function __construct(array! options)
 	{
+		if (!function_exists("gettext")) {
+			throw new Exception("This class requires the gettext extension for PHP");
+		}
+
 		parent::__construct(options);
 		this->prepareOptions(options);
 	}
@@ -72,10 +76,10 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	{
 		var translation, domain;
 
+		let domain = null;
+
 		if func_num_args() > 2 {
 			let domain = func_get_arg(2);
-		} else {
-			let domain = null;
 		}
 
 		if !domain {
@@ -92,7 +96,11 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 */
 	public function exists(string! index) -> boolean
 	{
-		return strlen(this->query(index)) > 0;
+		var result;
+
+		let result = this->query(index);
+
+		return result !== index;
 	}
 
 	/**
@@ -121,27 +129,15 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	}
 
 	/**
-	 * Changes the current domain (i.e. the translation file). The passed domain must be one
-	 * of those passed to the constructor.
-	 *
-	 * @param  string domain
-	 *
-	 * @return string Returns the new current domain.
-	 * @throws \InvalidArgumentException
+	 * Changes the current domain (i.e. the translation file)
 	 */
-	public function setDomain(string! domain) -> string
+	public function setDomain(var domain) -> string
 	{
-		/*if domain != this->_defaultDomain || !in_array(domain, this->_domains) {
-			throw new \InvalidArgumentException(domain . " is invalid translation domain");
-		}*/
-
 		return textdomain(domain);
 	}
 
 	/**
 	 * Sets the default domain
-	 *
-	 * @return string Returns the new current domain.
 	 */
 	public function resetDomain() -> string
 	{
@@ -157,82 +153,75 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	}
 
 	/**
-	 * Gets the default domain
-	 */
-	public function getDefaultDomain() -> string
-	{
-		return this->_defaultDomain;
-	}
-
-	/**
 	 * Sets the path for a domain
+	 *
+	 * <code>
+	 * // Set the directory path
+	 * $gettext->setDirectory("/path/to/the/messages");
+	 *
+	 * // Set the domains and directories path
+	 * $gettext->setDirectory([
+	 *    "messages" => "/path/to/the/messages",
+	 *    "another" => "/path/to/the/another"
+	 * ]);
+	 * </code>
+	 *
+	 * @param string|array directory The directory path or an array of directories and domains
 	 */
 	public function setDirectory(var directory) -> void
 	{
 		var key, value;
 
+		if (empty(directory)) {
+			return;
+		}
+
 		let this->_directory = directory;
 
 		if typeof directory === "array" {
-			if count(directory) {
-				for key, value in directory {
-					bindtextdomain(key, value);
-				}
+			for key, value in directory {
+				bindtextdomain(key, value);
 			}
 		} else {
 			bindtextdomain(this->getDefaultDomain(), directory);
 		}
 	}
-	/**
-	 * Gets the path for a domain
-	 */
-	public function getDirectory(var directory) -> string|array
-	{
-		return this->_directory;
-	}
 
 	/**
 	 * Sets locale information
+	 *
+	 * <code>
+	 * // Set locale to Dutch
+	 * $gettext->setLocale(LC_ALL, 'nl_NL');
+	 *
+	 * // Try different possible locale names for german
+	 * $gettext->setLocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
+	 * </code>
 	 */
-	public function setLocale(int category, string! locale) -> string|boolean
+	public function setLocale(int! category, string! locale) -> string|boolean
 	{
 		let this->_locale   = call_user_func_array("setlocale", func_get_args());
 		let this->_category = category;
 
-		//Windowns
 		putenv("LC_ALL=" . this->_locale);
-		//Linux
+		putenv("LANG=" . this->_locale);
+		putenv("LANGUAGE=" . this->_locale);
 		setlocale(LC_ALL, this->_locale);
-		return this->_locale;
-	}
 
-	/**
-	 * Gets locale
-	 */
-	public function getLocale() -> string
-	{
 		return this->_locale;
-	}
-
-	/**
-	 * Gets locale category
-	 */
-	public function getCategory() -> int
-	{
-		return this->_category;
 	}
 
 	/**
 	 * Validator for constructor
 	 */
-	protected function prepareOptions(array! options) -> void
+	private function prepareOptions(array! options) -> void
 	{
 		if !isset options["locale"] {
-			throw new Exception("Parameter \"locale\" is required");
+			throw new Exception("Parameter 'locale' is required");
 		}
 
 		if !isset options["directory"] {
-			throw new Exception("Parameter \"directory\" is required");
+			throw new Exception("Parameter 'directory' is required");
 		}
 
 		let options = array_merge(this->getOptionsDefault(), options);
@@ -246,11 +235,11 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	/**
 	 * Gets default options
 	 */
-	protected function getOptionsDefault() -> array
+	private function getOptionsDefault() -> array
 	{
 		return [
 			"category": LC_ALL,
-			"defaultDomain": "message"
+			"defaultDomain": "messages"
 		];
 	}
 }

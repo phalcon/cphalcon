@@ -7,7 +7,7 @@
  *
  * Phalcon Framework
  *
- * @copyright (c) 2011-2014 Phalcon Team
+ * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -26,6 +26,31 @@ use \PhalconTest\Tag as PhTTag;
 
 class TagTitleTest extends Helper\TagBase
 {
+    /**
+     * Tests malicious content in the title
+     *
+     * @issue  11185
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-01-13
+     */
+    public function testGetTitleWithoutMaliciousContent()
+    {
+        $this->specify(
+            "getTitle returns malicious content",
+            function () {
+
+                PhTTag::resetInput();
+                $value = "Hello </title><script>alert('Got your nose!');</script><title>";
+
+                PhTTag::setTitle($value);
+
+                $expected = "<title>Hello &lt;/title&gt;&lt;script&gt;alert(&#039;Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;</title>" . PHP_EOL;
+                $actual   = PhTTag::getTitle();
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 
     /**
      * Tests setTitle

@@ -57,8 +57,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	protected _dependencyInjector;
 
-	protected _statusCodes;
-
 	/**
 	 * Phalcon\Http\Response constructor
 	 *
@@ -110,7 +108,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setStatusCode(int code, string message = null) -> <Response>
 	{
-		var headers, currentHeadersRaw, key, defaultMessage;
+		var headers, currentHeadersRaw, key, statusCodes, defaultMessage;
 
 		let headers = this->getHeaders(),
 			currentHeadersRaw = headers->toArray();
@@ -132,78 +130,81 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		// status code. If a default doesn't exist, stop here.
 		if message === null {
 
-			if typeof this->_statusCodes != "array" {
-				let this->_statusCodes = [
-					// INFORMATIONAL CODES
-					100 : "Continue",
-					101 : "Switching Protocols",
-					102 : "Processing",
-					// SUCCESS CODES
-					200 : "OK",
-					201 : "Created",
-					202 : "Accepted",
-					203 : "Non-Authoritative Information",
-					204 : "No Content",
-					205 : "Reset Content",
-					206 : "Partial Content",
-					207 : "Multi-status",
-					208 : "Already Reported",
-					// REDIRECTION CODES
-					300 : "Multiple Choices",
-					301 : "Moved Permanently",
-					302 : "Found",
-					303 : "See Other",
-					304 : "Not Modified",
-					305 : "Use Proxy",
-					306 : "Switch Proxy", // Deprecated
-					307 : "Temporary Redirect",
-					// CLIENT ERROR
-					400 : "Bad Request",
-					401 : "Unauthorized",
-					402 : "Payment Required",
-					403 : "Forbidden",
-					404 : "Not Found",
-					405 : "Method Not Allowed",
-					406 : "Not Acceptable",
-					407 : "Proxy Authentication Required",
-					408 : "Request Time-out",
-					409 : "Conflict",
-					410 : "Gone",
-					411 : "Length Required",
-					412 : "Precondition Failed",
-					413 : "Request Entity Too Large",
-					414 : "Request-URI Too Large",
-					415 : "Unsupported Media Type",
-					416 : "Requested range not satisfiable",
-					417 : "Expectation Failed",
-					418 : "I'm a teapot",
-					422 : "Unprocessable Entity",
-					423 : "Locked",
-					424 : "Failed Dependency",
-					425 : "Unordered Collection",
-					426 : "Upgrade Required",
-					428 : "Precondition Required",
-					429 : "Too Many Requests",
-					431 : "Request Header Fields Too Large",
-					// SERVER ERROR
-					500 : "Internal Server Error",
-					501 : "Not Implemented",
-					502 : "Bad Gateway",
-					503 : "Service Unavailable",
-					504 : "Gateway Time-out",
-					505 : "HTTP Version not supported",
-					506 : "Variant Also Negotiates",
-					507 : "Insufficient Storage",
-					508 : "Loop Detected",
-					511 : "Network Authentication Required"
-				];
-			}
+			let statusCodes = [
+				// INFORMATIONAL CODES
+				100 : "Continue",
+				101 : "Switching Protocols",
+				102 : "Processing",
+				// SUCCESS CODES
+				200 : "OK",
+				201 : "Created",
+				202 : "Accepted",
+				203 : "Non-Authoritative Information",
+				204 : "No Content",
+				205 : "Reset Content",
+				206 : "Partial Content",
+				207 : "Multi-status",
+				208 : "Already Reported",
+				226 : "IM Used",
+				// REDIRECTION CODES
+				300 : "Multiple Choices",
+				301 : "Moved Permanently",
+				302 : "Found",
+				303 : "See Other",
+				304 : "Not Modified",
+				305 : "Use Proxy",
+				306 : "Switch Proxy", // Deprecated
+				307 : "Temporary Redirect",
+				308 : "Permanent Redirect",
+				// CLIENT ERROR
+				400 : "Bad Request",
+				401 : "Unauthorized",
+				402 : "Payment Required",
+				403 : "Forbidden",
+				404 : "Not Found",
+				405 : "Method Not Allowed",
+				406 : "Not Acceptable",
+				407 : "Proxy Authentication Required",
+				408 : "Request Time-out",
+				409 : "Conflict",
+				410 : "Gone",
+				411 : "Length Required",
+				412 : "Precondition Failed",
+				413 : "Request Entity Too Large",
+				414 : "Request-URI Too Large",
+				415 : "Unsupported Media Type",
+				416 : "Requested range not satisfiable",
+				417 : "Expectation Failed",
+				418 : "I'm a teapot",
+				421 : "Misdirected Request",
+				422 : "Unprocessable Entity",
+				423 : "Locked",
+				424 : "Failed Dependency",
+				425 : "Unordered Collection",
+				426 : "Upgrade Required",
+				428 : "Precondition Required",
+				429 : "Too Many Requests",
+				431 : "Request Header Fields Too Large",
+				451 : "Unavailable For Legal Reasons",
+				499 : "Client Closed Request",
+				// SERVER ERROR
+				500 : "Internal Server Error",
+				501 : "Not Implemented",
+				502 : "Bad Gateway",
+				503 : "Service Unavailable",
+				504 : "Gateway Time-out",
+				505 : "HTTP Version not supported",
+				506 : "Variant Also Negotiates",
+				507 : "Insufficient Storage",
+				508 : "Loop Detected",
+				511 : "Network Authentication Required"
+			];
 
-			if !isset this->_statusCodes[code] {
+			if !isset statusCodes[code] {
 				throw new Exception("Non-standard statuscode given without a message");
 			}
 
-			let defaultMessage = this->_statusCodes[code],
+			let defaultMessage = statusCodes[code],
 				message = defaultMessage;
 		}
 
@@ -437,7 +438,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
 	{
-		var header, url, dependencyInjector, matched, message, view;
+		var header, url, dependencyInjector, matched, view;
 
 		if !location {
 			let location = "";
@@ -476,13 +477,10 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		 * The HTTP status is 302 by default, a temporary redirection
 		 */
 		if statusCode < 300 || statusCode > 308 {
-			let statusCode = 302,
-				message = this->_statusCodes[302];
-		} else {
-			fetch message, this->_statusCodes[statusCode];
+			let statusCode = 302;
 		}
 
-		this->setStatusCode(statusCode, message);
+		this->setStatusCode(statusCode);
 
 		/**
 		 * Change the current location using 'Location'

@@ -112,7 +112,7 @@ class BeanstalkTest extends PHPUnit_Framework_TestCase
 
 		$tubeStats = $queue->statsTube('beanstalk-test');
 		$this->assertTrue(is_array($tubeStats));
-		$this->assertTrue($jobStats['name'] === 'beanstalk-test');
+		$this->assertTrue($tubeStats['name'] === 'beanstalk-test');
 
 		$this->assertTrue($queue->statsTube('beanstalk-test-does-not-exist') === false);
 

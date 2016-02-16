@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -241,10 +241,10 @@ class Tag
 	 * Assigns default values to generated tags by helpers
 	 *
 	 * <code>
-	 * //Assigning "peter" to "name" component
+	 * // Assigning "peter" to "name" component
 	 * Phalcon\Tag::setDefault("name", "peter");
 	 *
-	 * //Later in the view
+	 * // Later in the view
 	 * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
 	 * </code>
 	 *
@@ -265,10 +265,10 @@ class Tag
 	 * Assigns default values to generated tags by helpers
 	 *
 	 * <code>
-	 * //Assigning "peter" to "name" component
+	 * // Assigning "peter" to "name" component
 	 * Phalcon\Tag::setDefaults(array("name" => "peter"));
 	 *
-	 * //Later in the view
+	 * // Later in the view
 	 * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
 	 * </code>
 	 */
@@ -347,12 +347,12 @@ class Tag
 	 * Builds a HTML A tag using framework conventions
 	 *
 	 *<code>
-	 *	echo Phalcon\Tag::linkTo("signup/register", "Register Here!");
-	 *	echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!"));
-	 *	echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!", "class" => "btn-primary"));
-	 *	echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", FALSE);
-	 *	echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", FALSE));
-	 *	echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", "local" =>FALSE));
+	 * echo Phalcon\Tag::linkTo("signup/register", "Register Here!");
+	 * echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!"));
+	 * echo Phalcon\Tag::linkTo(array("signup/register", "Register Here!", "class" => "btn-primary"));
+	 * echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", FALSE);
+	 * echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", FALSE));
+	 * echo Phalcon\Tag::linkTo(array("http://phalconphp.com/", "Phalcon Home", "local" =>FALSE));
 	 *</code>
 	 *
 	 * @param array|string parameters
@@ -411,10 +411,10 @@ class Tag
 	/**
 	 * Builds generic INPUT tags
 	 *
-	 * @param   string type
-	 * @param	array parameters
-	 * @param 	boolean asValue
-	 * @return	string
+	 * @param string type
+	 * @param array parameters
+	 * @param boolean asValue
+	 * @return string
 	 */
 	static protected final function _inputField(string type, parameters, boolean asValue = false) -> string
 	{
@@ -482,9 +482,9 @@ class Tag
 	/**
 	 * Builds INPUT tags that implements the checked attribute
 	 *
-	 * @param   string type
-	 * @param	array parameters
-	 * @return	string
+	 * @param string type
+	 * @param array parameters
+	 * @return string
 	 */
 	static protected final function _inputFieldChecked(string type, var parameters) -> string
 	{
@@ -577,11 +577,11 @@ class Tag
 	 * Builds a HTML input[type="text"] tag
 	 *
 	 * <code>
-	 *	echo Phalcon\Tag::textField(array("name", "size" => 30));
+	 * echo Phalcon\Tag::textField(array("name", "size" => 30));
 	 * </code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function textField(var parameters) -> string
 	{
@@ -592,11 +592,11 @@ class Tag
 	 * Builds a HTML input[type="number"] tag
 	 *
 	 * <code>
-	 *	echo Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
+	 * echo Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
 	 * </code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function numericField(var parameters) -> string
 	{
@@ -619,11 +619,11 @@ class Tag
 	 * Builds a HTML input[type="email"] tag
 	 *
 	 * <code>
-	 *	echo Phalcon\Tag::emailField("email");
+	 * echo Phalcon\Tag::emailField("email");
 	 * </code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function emailField(var parameters) -> string
 	{
@@ -634,11 +634,11 @@ class Tag
 	 * Builds a HTML input[type="date"] tag
 	 *
 	 * <code>
-	 *	echo Phalcon\Tag::dateField(array("born", "value" => "14-12-1980"))
+	 * echo Phalcon\Tag::dateField(array("born", "value" => "14-12-1980"))
 	 * </code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function dateField(var parameters) -> string
 	{
@@ -707,8 +707,8 @@ class Tag
 	 * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function passwordField(var parameters) -> string
 	{
@@ -722,8 +722,8 @@ class Tag
 	 * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function hiddenField(var parameters) -> string
 	{
@@ -737,8 +737,8 @@ class Tag
 	 * echo Phalcon\Tag::fileField("file");
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function fileField(var parameters) -> string
 	{
@@ -790,8 +790,8 @@ class Tag
 	 * {{ check_field("terms") }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function checkField(var parameters) -> string
 	{
@@ -810,8 +810,8 @@ class Tag
 	 * {{ radio_field("Save") }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function radioField(var parameters) -> string
 	{
@@ -830,8 +830,8 @@ class Tag
 	 * {{ image_input("src": "/img/button.png") }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function imageInput(var parameters) -> string
 	{
@@ -850,8 +850,8 @@ class Tag
 	 * {{ submit_button("Save") }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function submitButton(var parameters) -> string
 	{
@@ -862,12 +862,12 @@ class Tag
 	 * Builds a HTML SELECT tag using a PHP array for options
 	 *
 	 *<code>
-	 *	echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
+	 * echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @param   array data
-	 * @return	string
+	 * @param array parameters
+	 * @param array data
+	 * @return string
 	 */
 	public static function selectStatic(parameters, data = null) -> string
 	{
@@ -878,11 +878,11 @@ class Tag
 	 * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
 	 *
 	 *<code>
-	 *	echo Phalcon\Tag::select(array(
-	 *		"robotId",
-	 *		Robots::find("type = "mechanical""),
-	 *		"using" => array("id", "name")
-	 * 	));
+	 * echo Phalcon\Tag::select([
+	 *     "robotId",
+	 *     Robots::find("type = "mechanical""),
+	 *     "using" => ["id", "name"]
+	 * ]);
 	 *</code>
 	 *
 	 * Volt syntax:
@@ -890,9 +890,9 @@ class Tag
 	 * {{ select("robotId", robots, "using": ["id", "name"]) }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @param   array data
-	 * @return	string
+	 * @param array parameters
+	 * @param array data
+	 * @return string
 	 */
 	public static function select(var parameters, data = null) -> string
 	{
@@ -911,8 +911,8 @@ class Tag
 	 * {{ text_area("comments", "cols": 10, "rows": 4) }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @return	string
+	 * @param array parameters
+	 * @return string
 	 */
 	public static function textArea(var parameters) -> string
 	{
@@ -1067,23 +1067,28 @@ class Tag
 	}
 
 	/**
-	 * Gets the current document title
+	 * Gets the current document title.
+	 * The title will be automatically escaped.
 	 *
 	 * <code>
-	 * 	echo Phalcon\Tag::getTitle();
+	 * echo Phalcon\Tag::getTitle();
 	 * </code>
 	 *
 	 * <code>
-	 * 	{{ get_title() }}
+	 * {{ get_title() }}
 	 * </code>
 	 */
 	public static function getTitle(boolean tags = true) -> string
 	{
-		var documentTitle;
-		let documentTitle = self::_documentTitle;
+		var documentTitle, escaper;
+
+		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
+		let documentTitle = escaper->escapeHtml(self::_documentTitle);
+
 		if tags {
 			return "<title>" . documentTitle . "</title>" . PHP_EOL;
 		}
+
 		return documentTitle;
 	}
 
@@ -1091,11 +1096,11 @@ class Tag
 	 * Gets the current document title separator
 	 *
 	 * <code>
-	 *         echo Phalcon\Tag::getTitleSeparator();
+	 * echo Phalcon\Tag::getTitleSeparator();
 	 * </code>
 	 *
 	 * <code>
-	 *         {{ get_title_separator() }}
+	 * {{ get_title_separator() }}
 	 * </code>
 	 */
 	public static function getTitleSeparator() -> string
@@ -1107,19 +1112,19 @@ class Tag
 	 * Builds a LINK[rel="stylesheet"] tag
 	 *
 	 * <code>
-	 * 	echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
-	 * 	echo Phalcon\Tag::stylesheetLink("css/style.css");
+	 * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+	 * echo Phalcon\Tag::stylesheetLink("css/style.css");
 	 * </code>
 	 *
 	 * Volt Syntax:
 	 *<code>
-	 * 	{{ stylesheet_link("http://fonts.googleapis.com/css?family=Rosario", false) }}
-	 * 	{{ stylesheet_link("css/style.css") }}
+	 * {{ stylesheet_link("http://fonts.googleapis.com/css?family=Rosario", false) }}
+	 * {{ stylesheet_link("css/style.css") }}
 	 *</code>
 	 *
-	 * @param	array parameters
-	 * @param   boolean local
-	 * @return	string
+	 * @param array parameters
+	 * @param boolean local
+	 * @return string
 	 */
 	public static function stylesheetLink(var parameters = null, boolean local = true) -> string
 	{
@@ -1181,8 +1186,8 @@ class Tag
 	 * Builds a SCRIPT[type="javascript"] tag
 	 *
 	 * <code>
-	 *         echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
-	 *         echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+	 * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
+	 * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
 	 * </code>
 	 *
 	 * Volt syntax:
@@ -1192,7 +1197,7 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @param   boolean local
+	 * @param boolean local
 	 * @return string
 	 */
 	public static function javascriptInclude(var parameters = null, boolean local = true) -> string
@@ -1243,15 +1248,15 @@ class Tag
 	 * Builds HTML IMG tags
 	 *
 	 * <code>
-	 *         echo Phalcon\Tag::image("img/bg.png");
-	 *         echo Phalcon\Tag::image(array("img/photo.jpg", "alt" => "Some Photo"));
+	 * echo Phalcon\Tag::image("img/bg.png");
+	 * echo Phalcon\Tag::image(array("img/photo.jpg", "alt" => "Some Photo"));
 	 * </code>
 	 *
 	 * Volt Syntax:
 	 * <code>
-	 *         {{ image("img/bg.png") }}
-	 *         {{ image("img/photo.jpg", "alt": "Some Photo") }}
-	 *         {{ image("http://static.mywebsite.com/img/bg.png", false) }}
+	 * {{ image("img/bg.png") }}
+	 * {{ image("img/photo.jpg", "alt": "Some Photo") }}
+	 * {{ image("http://static.mywebsite.com/img/bg.png", false) }}
 	 * </code>
 	 *
 	 * @param  array parameters
@@ -1306,14 +1311,8 @@ class Tag
 	 *<code>
 	 * echo Phalcon\Tag::friendlyTitle("These are big important news", "-")
 	 *</code>
-	 *
-	 * @param string text
-	 * @param string separator
-	 * @param boolean lowercase
-	 * @param mixed replace
-	 * @return string
 	 */
-	public static function friendlyTitle(string text, string separator = "-", boolean lowercase = true, replace = null) -> string
+	public static function friendlyTitle(string text, string separator = "-", boolean lowercase = true, var replace = null) -> string
 	{
 		var friendly, locale, search;
 
@@ -1414,15 +1413,8 @@ class Tag
 	 * Builds a HTML tag
 	 *
 	 *<code>
-	 *        echo Phalcon\Tag::tagHtml(name, parameters, selfClose, onlyStart, eol);
+	 * echo Phalcon\Tag::tagHtml(name, parameters, selfClose, onlyStart, eol);
 	 *</code>
-	 *
-	 * @param string tagName
-	 * @param array parameters
-	 * @param boolean selfClose
-	 * @param boolean onlyStart
-	 * @param boolean useEol
-	 * @return string
 	 */
 	public static function tagHtml(string tagName, var parameters = null, boolean selfClose = false,
 		boolean onlyStart = false, boolean useEol = false) -> string
@@ -1465,7 +1457,7 @@ class Tag
 	 * Builds a HTML tag closing tag
 	 *
 	 *<code>
-	 *        echo Phalcon\Tag::tagHtmlClose("script", true)
+	 * echo Phalcon\Tag::tagHtmlClose("script", true)
 	 *</code>
 	 */
 	public static function tagHtmlClose(string tagName, boolean useEol = false) -> string

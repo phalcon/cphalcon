@@ -185,7 +185,7 @@ class Redis extends Backend implements BackendInterface
 		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 			let prefixedKey = substr(lastKey, 5);
 		} else {
@@ -209,7 +209,7 @@ class Redis extends Backend implements BackendInterface
 			let redis = this->_redis;
 		}
 
-		if !content {
+		if content === null {
 			let cachedContent = frontend->getContent();
 		} else {
 			let cachedContent = content;
@@ -222,7 +222,7 @@ class Redis extends Backend implements BackendInterface
 			let preparedContent = frontend->beforeStore(cachedContent);
 		}
 
-		if !lifetime {
+		if lifetime === null {
 			let tmp = this->_lastLifetime;
 
 			if !tmp {

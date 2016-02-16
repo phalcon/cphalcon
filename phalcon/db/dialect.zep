@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -48,6 +48,22 @@ abstract class Dialect implements DialectInterface
 	public function getCustomFunctions() -> array
 	{
 		return this->_customFunctions;
+	}
+
+	/**
+	 * Escape Schema
+	 */
+	public final function escapeSchema(string! str, string escapeChar = null) -> string
+	{
+		if !globals_get("db.escape_identifiers") {
+			return str;
+		}
+
+		if escapeChar == "" {
+			let escapeChar = (string) this->_escapeChar;
+		}
+
+		return escapeChar . trim(str, escapeChar) . escapeChar;
 	}
 
 	/**
@@ -943,7 +959,7 @@ abstract class Dialect implements DialectInterface
 		 * Schema
 		 */
 		if schema != "" {
-			let table = this->escape(schema, escapeChar) . "." . table;
+			let table = this->escapeSchema(schema, escapeChar) . "." . table;
 		}
 
 		/**

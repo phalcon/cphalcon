@@ -30,15 +30,29 @@ namespace Phalcon\Assets;
  */
 class $Resource
 {
-
+	/**
+	 * @var string
+	 */
 	protected _type { get };
 
+	/**
+	 * @var string
+	 */
 	protected _path { get };
 
+	/**
+	 * @var boolean
+	 */
 	protected _local { get };
 
+	/**
+	 * @var boolean
+	 */
 	protected _filter { get };
 
+	/**
+	 * @var array | null
+	 */
 	protected _attributes { get };
 
 	protected _sourcePath { get };

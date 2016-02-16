@@ -151,7 +151,7 @@ interface ModelInterface
 	 * Allows to query the first record that match the specified conditions
 	 *
 	 * @param array parameters
-	 * @return \Phalcon\Mvc\ModelInterface
+	 * @return static
 	 */
 	public static function findFirst(parameters = null);
 
