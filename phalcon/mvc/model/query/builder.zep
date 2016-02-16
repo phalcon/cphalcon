@@ -904,11 +904,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->limit(100, 20);
 	 *</code>
 	 */
-	public function limit(int limit = null, int offset = null) -> <Builder>
+	public function limit(var limit = null, var offset = null) -> <Builder>
 	{
 		let this->_limit = limit;
-		if offset {
-			let this->_offset = offset;
+		if is_numeric(offset) {
+			let this->_offset = (int)offset;
 		}
 		return this;
 	}

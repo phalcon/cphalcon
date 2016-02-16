@@ -182,7 +182,7 @@ class Libmemcached extends Backend implements BackendInterface
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
 			specialKey, keys, isBuffering;
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = this->_prefix . keyName;
@@ -203,7 +203,7 @@ class Libmemcached extends Backend implements BackendInterface
 			let memcache = this->_memcache;
 		}
 
-		if !content {
+		if content === null {
 			let cachedContent = frontend->getContent();
 		} else {
 			let cachedContent = content;
@@ -216,7 +216,7 @@ class Libmemcached extends Backend implements BackendInterface
 			let preparedContent = frontend->beforeStore(cachedContent);
 		}
 
-		if !lifetime {
+		if lifetime === null {
 			let tmp = this->_lastLifetime;
 
 			if !tmp {

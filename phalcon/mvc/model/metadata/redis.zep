@@ -33,11 +33,11 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *
  *<code>
  *	$metaData = new Phalcon\Mvc\Model\Metadata\Redis(array(
- *		'prefix' => 'my-app-id',
- *		'lifetime' => 86400,
- *		'host' => 'localhost',
- *		'port' => 6379,
- *  	'persistent' => false
+ * 		'host' => '127.0.0.1',
+ * 		'port' => 6379,
+ * 		'persistent' => 0,
+ * 		'statsKey' => '_PHCM_MM',
+ * 		'lifetime' => 172800
  *	));
  *</code>
  */

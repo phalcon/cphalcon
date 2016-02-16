@@ -34,13 +34,9 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Phalcon\Validation\Validator constructor
 	 */
-	public function __construct(var options = null)
+	public function __construct(array! options = null)
 	{
-		if typeof options != "array" && typeof options != "null" {
-			throw new Exception("Options must be an array");
-		} else {
-			let this->_options = options;
-		}
+		let this->_options = options;
 	}
 
 	/**
