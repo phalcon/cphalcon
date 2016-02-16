@@ -39,6 +39,11 @@ class Robots extends \Phalcon\Mvc\Model
 	 */
 	protected $text;
 
+	/**
+	 * Test restriction to not set hidden properties without setters.
+	 */
+	protected $serial;
+
 	public function getText() {
 		return $this->text;
 	}

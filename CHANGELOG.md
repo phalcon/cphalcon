@@ -42,7 +42,8 @@
 - `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.
 - Fixed `afterFetch` event not being sent to behaviors
 - Fixed issue with radio not being checked when default value is 0 [#11358] (https://github.com/phalcon/cphalcon/issues/11358)
-- Fixed issue with `Model::__set` that was setting hidden attributes directly instead of calling setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
+- Fixed issue with `Model::__set` that was bypassing setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
+- Fixed issue with `Model::__set` that was setting hidden attributes directly when setters are not declared [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
 - Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
 
