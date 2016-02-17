@@ -50,6 +50,7 @@
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Added a `prepareSave` event to model saving
 - Added support for OnUpdate and OnDelete foreign key events to the MySQL adapter
+- Added ability to setLogLevel on multiple logs [#10429](https://github.com/phalcon/cphalcon/pull/10429)
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
 - ORM: Added support for DATE columns in Oracle
