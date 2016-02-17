@@ -238,4 +238,27 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('Foo\IndexController', $value);
 	}
 
+	public function testLastController()
+	{
+		Phalcon\DI::reset();
+		$di = new \Phalcon\Di();
+	
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+		
+		$di->set('dispatcher', $dispatcher);
+
+		$dispatcher->setControllerName('failure');
+		$dispatcher->setActionName('exception');
+		$dispatcher->setParams(array());
+
+		try {
+			$dispatcher->dispatch();
+
+		} catch(\Exception $e) {
+			
+			$this->assertEquals('failure by exception', $e->getMessage());
+			$this->assertInstanceOf('FailureController', $dispatcher->getLastController());
+		}
+	}
 }
