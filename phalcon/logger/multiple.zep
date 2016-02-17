@@ -36,6 +36,8 @@ class Multiple
 
 	protected _formatter { get };
 
+	protected _logLevel { get };
+
 	/**
 	 * Pushes a logger to the logger tail
 	 */
@@ -58,6 +60,22 @@ class Multiple
 			}
 		}
 		let this->_formatter = formatter;
+	}
+
+	/**
+	 * Sets a global level
+	 */
+	public function setLogLevel(int level)
+	{
+		var loggers, logger;
+
+		let loggers = this->_loggers;
+		if typeof loggers == "array" {
+			for logger in loggers {
+				logger->setLogLevel(level);
+			}
+		}
+		let this->_logLevel = level;
 	}
 
 	/**
