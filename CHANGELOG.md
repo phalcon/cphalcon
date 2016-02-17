@@ -48,7 +48,8 @@
 - Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
-- Added a `prepareSave` event to model saving
+- Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
+- Added a `prepareSave` event to model saving 
 - Added support for OnUpdate and OnDelete foreign key events to the MySQL adapter
 - Added ability to setLogLevel on multiple logs [#10429](https://github.com/phalcon/cphalcon/pull/10429)
 
