@@ -107,8 +107,21 @@ class ModelsGetterSetterTest extends PHPUnit_Framework_TestCase
 		$robot->assign(array('text' => $testText));
 		$this->assertEquals($robot->text, $testText . $robot::setterEpilogue);
 		$this->assertEquals($robot->text, $robot->getText());
+
 		$testText = 'executeSetGet Test 2';
 		$robot->text = $testText;
 		$this->assertEquals($robot->text, $testText . $robot::setterEpilogue);
+		$this->assertEquals($robot->text, $robot->getText());
+
+		$testText = 'executeSetGet Test 3';
+		$robot = new Boutique\Robots();
+		try {
+			$exception_thrown = false;
+			$robot->serial = '1234';
+		} catch (Exception $e) {
+			$exception_thrown = true;
+			$this->assertEquals($e->getMessage(), "Property 'serial' does not have a setter.");
+		}
+		$this->assertEquals($exception_thrown, true);
 	}
 }
