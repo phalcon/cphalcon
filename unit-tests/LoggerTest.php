@@ -125,22 +125,23 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 		@unlink($logfile1);
 		@unlink($logfile2);
 
+		// Show the first debug message is ignored.
 		$logger = new \Phalcon\Logger\Multiple();
 		$logger->push(new \Phalcon\Logger\Adapter\File($logfile1));
 		$logger->push(new \Phalcon\Logger\Adapter\File($logfile2));
 		$logger->setFormatter(new \Phalcon\Logger\Formatter\Json());
 		$logger->setLogLevel(\Phalcon\Logger::WARNING);
-		$logger->log('This is a warning');
-		$logger->log("This is an error", \Phalcon\Logger::ERROR);
-		$logger->error("This is another error");
+		$logger->log('This is an ignored debug');
+		$logger->log("This is a warning", \Phalcon\Logger::WARNING);
+		$logger->error("This is an error");
 		$logger->setLogLevel(\Phalcon\Logger::DEBUG);
 		$logger->log('This is a debug');
 
-		$loggerType = array('WARNING', 'ERROR', 'ERROR', 'DEBUG');
-		$loggerMessage = array('This is a warning', 'This is an error', 'This is another error', 'This is a debug');
+		$loggerType = array('WARNING', 'ERROR', 'DEBUG');
+		$loggerMessage = array('This is a warning', 'This is an error', 'This is a debug');
 
 		$lines = file($logfile1);
-		$this->assertEquals(count($lines), 4);
+		$this->assertEquals(count($lines), 3);
 		foreach($lines as $key => $line) {
 			$line = json_decode($line, true);
 			$this->assertEquals($line['type'], $loggerType[$key]);
@@ -149,7 +150,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 		unset($lines);
 		$lines = file($logfile2);
-		$this->assertEquals(count($lines), 4);
+		$this->assertEquals(count($lines), 3);
 		foreach($lines as $key => $line) {
 			$line = json_decode($line, true);
 			$this->assertEquals($line['type'], $loggerType[$key]);
