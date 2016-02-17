@@ -125,7 +125,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 		@unlink($logfile1);
 		@unlink($logfile2);
 
-                // Show the first debug message is ignored.
+		// Show the first debug message is ignored.
 		$logger = new \Phalcon\Logger\Multiple();
 		$logger->push(new \Phalcon\Logger\Adapter\File($logfile1));
 		$logger->push(new \Phalcon\Logger\Adapter\File($logfile2));
