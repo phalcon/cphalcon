@@ -483,10 +483,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				// Try to find a possible getter
-				let possibleSetter = "set" . camelize(attributeField);
-				if method_exists(this, possibleSetter) {
-					this->{possibleSetter}(value);
-				} else {
+				if !this->_possibleSetter(attributeField, value) {
 					let this->{attributeField} = value;
 				}
 			}
@@ -4148,12 +4145,63 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			return value;
 		}
 
-		/**
-		 * Fallback assigning the value to the instance
-		 */
+		// Use possible setter.
+		if this->_possibleSetter(property, value) {
+			return value;
+		}
+
+		// Throw an exception if there is an attempt to set a non-public property.
+		if !this->_isVisible(property) {
+			throw new Exception("Property '" . property . "' does not have a setter.");
+		}
+
 		let this->{property} = value;
 
 		return value;
+	}
+
+	/**
+	 * Check for, and attempt to use, possible setter.
+	 *
+	 * @param string property
+	 * @param mixed value
+	 * @return string
+	 */
+	protected final function _possibleSetter(string property, value)
+	{
+		var possibleSetter;
+
+		let possibleSetter = "set" . camelize(property);
+		if method_exists(this, possibleSetter) {
+			this->{possibleSetter}(value);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check whether a property is declared private or protected.
+	 * This is a stop-gap because we do not want to have to declare all properties.
+	 *
+	 * @param string property
+	 * @return boolean
+	 */
+	protected final function _isVisible(property)
+	{
+		var reflectionClass, reflectionProp, e;
+
+		//Try reflection on the property.
+		let reflectionClass = new \ReflectionClass(this);
+		try {
+			let reflectionProp = reflectionClass->getProperty(property);
+			if !reflectionProp->isPublic() {
+				return false;
+			}
+		} catch \Exception, e {
+			// The property doesn't exist.
+			return true;
+		}
+		return true;
 	}
 
 	/**
