@@ -49,11 +49,14 @@ class Column implements ColumnInterface
 
 	/**
 	 * Integer abstract type
+	 * Including integer/int (32-bit integer), smallint (16-bit integer), tinyint (8-bit integer)
 	 */
 	const TYPE_INTEGER = 0;
 
 	/**
 	 * Date abstract type
+	 * In format "YYYY-MM-DD"
+	 * eg. 2011-01-11
 	 */
 	const TYPE_DATE = 1;
 
@@ -69,6 +72,9 @@ class Column implements ColumnInterface
 
 	/**
 	 * Datetime abstract type
+	 * In format "YYYY-MM-DD hh:mm:ss[.uuu]"
+	 * eg. 2011-01-11 01:11:11
+	 * eg. 2011-01-11 01:11:11.111
 	 */
 	const TYPE_DATETIME = 4;
 
@@ -84,6 +90,7 @@ class Column implements ColumnInterface
 
 	/**
 	 * Float abstract data type
+	 * Single precision floating point number
 	 */
 	const TYPE_FLOAT = 7;
 
@@ -94,7 +101,7 @@ class Column implements ColumnInterface
 
 	/**
 	 * Double abstract data type
-	 *
+	 * Double precision floating point number
 	 */
 	const TYPE_DOUBLE = 9;
 
@@ -120,6 +127,7 @@ class Column implements ColumnInterface
 
 	/**
 	 * Big integer abstract type
+	 * Integer that requires more than 32 bits to store
 	 */
 	const TYPE_BIGINTEGER = 14;
 
@@ -134,9 +142,18 @@ class Column implements ColumnInterface
 	const TYPE_JSONB = 16;
 
 	/**
-	 * Datetime abstract type
+	 * Timestamp abstract type
 	 */
 	const TYPE_TIMESTAMP = 17;
+
+	/**
+	 * Time abstract type
+	 * In format "hh:mm:ss[.uuu]"
+	 * eg. 01:11:11
+	 * eg. 01:11:11.111
+	 */
+	const TYPE_TIME = 18;
+
 
 	/**
 	 * Bind Type Null
