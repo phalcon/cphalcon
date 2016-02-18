@@ -79,7 +79,7 @@ export TEST_DB_MYSQL_PORT="3306"
 export TEST_DB_MYSQL_USER="root"
 export TEST_DB_MYSQL_PASSWD=""
 export TEST_DB_MYSQL_NAME="phalcon_test"
-export TEST_DB_MYSQL_CHARSET="urf8"
+export TEST_DB_MYSQL_CHARSET="utf8"
 ```
 
 Once the database is created, run the tests on a terminal:
