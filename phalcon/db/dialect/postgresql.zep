@@ -83,6 +83,18 @@ class Postgresql extends Dialect
 				let columnSql .= "(" . size . "," . column->getScale() . ")";
 				break;
 
+			case Column::TYPE_FLOAT:
+				if empty columnSql {
+					let columnSql .= "REAL";
+				}
+				break;
+
+			case Column::TYPE_DOUBLE:
+				if empty columnSql {
+					let columnSql .= "DOUBLE PRECISION";
+				}
+				break;
+
 			case Column::TYPE_DATE:
 				if empty columnSql {
 					let columnSql .= "DATE";
@@ -119,12 +131,6 @@ class Postgresql extends Dialect
 			case Column::TYPE_TEXT:
 				if empty columnSql {
 					let columnSql .= "TEXT";
-				}
-				break;
-
-			case Column::TYPE_FLOAT:
-				if empty columnSql {
-					let columnSql .= "REAL";
 				}
 				break;
 
