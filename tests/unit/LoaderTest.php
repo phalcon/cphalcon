@@ -73,12 +73,12 @@ class LoaderTest extends UnitTest
                 $loader = new Loader();
 
                 $loader->registerNamespaces([
-                    'Example\Base' => PATH_DATA . 'vendor/example/base/',
+                    'Example\Base' => PATH_DATA . 'vendor/Example/Base/',
                 ]);
 
                 $loader->registerNamespaces([
-                    'Example\Adapter' => PATH_DATA . 'vendor/example/adapter/',
-                    'Example' => PATH_DATA . 'vendor/example/'
+                    'Example\Adapter' => PATH_DATA . 'vendor/Example/Adapter/',
+                    'Example' => PATH_DATA . 'vendor/Example/'
                 ], true);
 
                 $loader->register();
@@ -102,12 +102,12 @@ class LoaderTest extends UnitTest
 
                 $loader->setExtensions(['inc', 'php']);
                 $loader->registerNamespaces([
-                    'Example\Base' => PATH_DATA . 'vendor/example/base/',
-                    'Example\Adapter' => PATH_DATA . 'vendor/example/adapter/',
+                    'Example\Base' => PATH_DATA . 'vendor/Example/Base/',
+                    'Example\Adapter' => PATH_DATA . 'vendor/Example/Adapter/',
                 ]);
 
                 $loader->registerNamespaces([
-                    'Example' => PATH_DATA . 'vendor/example/'
+                    'Example' => PATH_DATA . 'vendor/Example/'
                 ], true);
 
                 $loader->register();
@@ -128,20 +128,20 @@ class LoaderTest extends UnitTest
 
                 $loader->registerDirs([
                     // missing trailing slash
-                    PATH_DATA . 'vendor/example/dialects',
+                    PATH_DATA . 'vendor/Example/Dialects',
                 ]);
 
                 $loader->registerDirs([
                     PATH_DATA . 'vendor/',
-                    PATH_DATA . 'vendor/example/types/',
+                    PATH_DATA . 'vendor/Example/Types/',
                 ], true);
 
                 $loader->register();
 
                 expect(new \LeDialect())->isInstanceOf('LeDialect');
                 expect(new \SomeType())->isInstanceOf('SomeType');
-                expect(new \example\adapter\SomeCool())->isInstanceOf('Example\Adapter\SomeCool');
-                expect(new \example\adapter\LeCoolSome())->isInstanceOf('Example\Adapter\LeCoolSome');
+                expect(new \Example\Adapter\SomeCool())->isInstanceOf('Example\Adapter\SomeCool');
+                expect(new \Example\Adapter\LeCoolSome())->isInstanceOf('Example\Adapter\LeCoolSome');
 
                 $loader->unregister();
             }
@@ -157,14 +157,14 @@ class LoaderTest extends UnitTest
 
                 $loader->setExtensions(['inc', 'php']);
                 $loader->registerDirs([
-                    PATH_DATA . 'vendor/example/dialects/',
-                    PATH_DATA . 'vendor/example/types/',
+                    PATH_DATA . 'vendor/Example/Dialects/',
+                    PATH_DATA . 'vendor/Example/Types/',
                     PATH_DATA . 'vendor/',
                 ]);
 
                 $loader->register();
 
-                expect(new \example\adapter\LeAnotherSome())->isInstanceOf('Example\Adapter\LeAnotherSome');
+                expect(new \Example\Adapter\LeAnotherSome())->isInstanceOf('Example\Adapter\LeAnotherSome');
 
                 $loader->unregister();
             }
@@ -178,8 +178,8 @@ class LoaderTest extends UnitTest
             function () {
                 $loader = new Loader();
 
-                $loader->registerClasses(['MoiTest' => PATH_DATA . 'vendor/example/test/MoiTest.php']);
-                $loader->registerClasses(['LeTest' => PATH_DATA . 'vendor/example/test/LeTest.php'], true);
+                $loader->registerClasses(['MoiTest' => PATH_DATA . 'vendor/Example/Test/MoiTest.php']);
+                $loader->registerClasses(['LeTest' => PATH_DATA . 'vendor/Example/Test/LeTest.php'], true);
                 $loader->register();
 
                 expect(new \MoiTest())->isInstanceOf('MoiTest');
@@ -198,15 +198,15 @@ class LoaderTest extends UnitTest
                 $loader = new Loader();
 
                 $loader->registerDirs([
-                    PATH_DATA . 'vendor/example/other/'
+                    PATH_DATA . 'vendor/Example/Other/'
                 ]);
 
                 $loader->registerClasses([
-                    'AvecTest' => PATH_DATA . 'vendor/example/other/Avec/'
+                    'AvecTest' => PATH_DATA . 'vendor/Example/Other/Avec/'
                 ]);
 
                 $loader->registerNamespaces([
-                    'Avec\Test' => PATH_DATA . 'vendor/example/other/Avec/'
+                    'Avec\Test' => PATH_DATA . 'vendor/Example/Other/Avec/'
                 ]);
 
                 $eventsManager = new Manager();
@@ -228,8 +228,8 @@ class LoaderTest extends UnitTest
                 expect(new \VousTest())->isInstanceOf('VousTest');
                 expect($trace)->equals([
                     'beforeCheckClass' => [0 => NULL],
-                    'beforeCheckPath'  => [0 => PATH_DATA . 'vendor/example/other/VousTest.php'],
-                    'pathFound'        => [0 => PATH_DATA . 'vendor/example/other/VousTest.php'],
+                    'beforeCheckPath'  => [0 => PATH_DATA . 'vendor/Example/Other/VousTest.php'],
+                    'pathFound'        => [0 => PATH_DATA . 'vendor/Example/Other/VousTest.php'],
                 ]);
 
                 $loader->unregister();
