@@ -66,17 +66,14 @@ class Postgresql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_DATE:
+			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
-					let columnSql .= "DATE";
+					if column->isAutoIncrement() {
+						let columnSql .= "BIGSERIAL";
+					} else {
+						let columnSql .= "BIGINT";
+					}
 				}
-				break;
-
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "CHARACTER VARYING";
-				}
-				let columnSql .= "(" . size . ")";
 				break;
 
 			case Column::TYPE_DECIMAL:
@@ -86,12 +83,19 @@ class Postgresql extends Dialect
 				let columnSql .= "(" . size . "," . column->getScale() . ")";
 				break;
 
-			case Column::TYPE_DATETIME:
+			case Column::TYPE_DATE:
 				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
+					let columnSql .= "DATE";
 				}
 				break;
 
+			case Column::TYPE_TIME:
+				if empty columnSql {
+					let columnSql .= "TIME";
+				}
+				break;
+
+			case Column::TYPE_DATETIME:
 			case Column::TYPE_TIMESTAMP:
 				if empty columnSql {
 					let columnSql .= "TIMESTAMP";
@@ -105,6 +109,13 @@ class Postgresql extends Dialect
 				let columnSql .= "(" . size . ")";
 				break;
 
+			case Column::TYPE_VARCHAR:
+				if empty columnSql {
+					let columnSql .= "CHARACTER VARYING";
+				}
+				let columnSql .= "(" . size . ")";
+				break;
+
 			case Column::TYPE_TEXT:
 				if empty columnSql {
 					let columnSql .= "TEXT";
@@ -113,17 +124,7 @@ class Postgresql extends Dialect
 
 			case Column::TYPE_FLOAT:
 				if empty columnSql {
-					let columnSql .= "FLOAT";
-				}
-				break;
-
-			case Column::TYPE_BIGINTEGER:
-				if empty columnSql {
-					if column->isAutoIncrement() {
-						let columnSql .= "BIGSERIAL";
-					} else {
-						let columnSql .= "BIGINT";
-					}
+					let columnSql .= "REAL";
 				}
 				break;
 
@@ -560,10 +561,10 @@ class Postgresql extends Dialect
 	 */
 	public function describeColumns(string! table, string schema = null) -> string
 	{
-		if schema {
-			return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+		if !schema {
+			schema = "public";
 		}
-		return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+		return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
 	}
 
 	/**

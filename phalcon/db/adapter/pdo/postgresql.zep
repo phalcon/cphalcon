@@ -219,7 +219,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				 * Time
 				 */
 				if memstr(columnType, "time") {
-					let definition["type"] = Column::TYPE_DATETIME,
+					let definition["type"] = Column::TYPE_TIME,
 						definition["size"] = 0;
 					break;
 				}

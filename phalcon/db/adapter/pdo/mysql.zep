@@ -122,7 +122,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			loop {
 
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Tinyint/Smallint/Bigint/Integers/Int are int
 				 */
 				if memstr(columnType, "bigint") {
 					let definition["type"] = Column::TYPE_BIGINTEGER,
@@ -132,28 +132,12 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Tinyint/Smallint/Bigint/Integers/Int are int
 				 */
 				if memstr(columnType, "int") {
 					let definition["type"] = Column::TYPE_INTEGER,
 						definition["isNumeric"] = true,
 						definition["bindType"] = Column::BIND_PARAM_INT;
-					break;
-				}
-
-				/**
-				 * Varchar are varchars
-				 */
-				if memstr(columnType, "varchar") {
-					let definition["type"] = Column::TYPE_VARCHAR;
-					break;
-				}
-
-				/**
-				 * Special type for datetime
-				 */
-				if memstr(columnType, "datetime") {
-					let definition["type"] = Column::TYPE_DATETIME;
 					break;
 				}
 
@@ -166,10 +150,42 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
+				 * Text are varchars
+				 */
+				if memstr(columnType, "text") {
+					let definition["type"] = Column::TYPE_TEXT;
+					break;
+				}
+
+				/**
+				 * Varchar are varchars
+				 */
+				if memstr(columnType, "varchar") {
+					let definition["type"] = Column::TYPE_VARCHAR;
+					break;
+				}
+
+				/**
 				 * Chars are chars
 				 */
 				if memstr(columnType, "char") {
 					let definition["type"] = Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
+				 * Special type for datetime
+				 */
+				if memstr(columnType, "datetime") {
+					let definition["type"] = Column::TYPE_DATETIME;
+					break;
+				}
+
+				/**
+				 * Timestamp are timestamps
+				 */
+				if memstr(columnType, "timestamp") {
+					let definition["type"] = Column::TYPE_TIMESTAMP;
 					break;
 				}
 
@@ -182,23 +198,15 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Timestamp are dates
+				 * Time are times
 				 */
-				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_TIMESTAMP;
+				if memstr(columnType, "time") {
+					let definition["type"] = Column::TYPE_TIME;
 					break;
 				}
 
 				/**
-				 * Text are varchars
-				 */
-				if memstr(columnType, "text") {
-					let definition["type"] = Column::TYPE_TEXT;
-					break;
-				}
-
-				/**
-				 * Decimals are floats
+				 * Decimal
 				 */
 				if memstr(columnType, "decimal"){
 					let definition["type"] = Column::TYPE_DECIMAL,
@@ -208,7 +216,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Doubles
+				 * Double
 				 */
 				if memstr(columnType, "double"){
 					let definition["type"] = Column::TYPE_DOUBLE,
@@ -218,7 +226,7 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Float/Smallfloats/Decimals are float
+				 * Float
 				 */
 				if memstr(columnType, "float") {
 					let definition["type"] = Column::TYPE_FLOAT,

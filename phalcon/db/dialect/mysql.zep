@@ -64,17 +64,17 @@ class Mysql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_DATE:
+			case Column::TYPE_BIGINTEGER:
 				if empty columnSql {
-					let columnSql .= "DATE";
+					let columnSql .= "BIGINT";
 				}
-				break;
-
-			case Column::TYPE_VARCHAR:
-				if empty columnSql {
-					let columnSql .= "VARCHAR";
+				let scale = column->getSize();
+				if scale {
+					let columnSql .= "(" . column->getSize() . ")";
 				}
-				let columnSql .= "(" . column->getSize() . ")";
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
 				break;
 
 			case Column::TYPE_DECIMAL:
@@ -84,37 +84,6 @@ class Mysql extends Dialect
 				let columnSql .= "(" . column->getSize() . "," . column->getScale() . ")";
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
-				}
-				break;
-
-			case Column::TYPE_DATETIME:
-				if empty columnSql {
-					let columnSql .= "DATETIME";
-				}
-				break;
-
-			case Column::TYPE_TIMESTAMP:
-				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
-				}
-				break;
-
-			case Column::TYPE_CHAR:
-				if empty columnSql {
-					let columnSql .= "CHAR";
-				}
-				let columnSql .= "(" . column->getSize() . ")";
-				break;
-
-			case Column::TYPE_TEXT:
-				if empty columnSql {
-					let columnSql .= "TEXT";
-				}
-				break;
-
-			case Column::TYPE_BOOLEAN:
-				if empty columnSql {
-					let columnSql .= "TINYINT(1)";
 				}
 				break;
 
@@ -155,16 +124,53 @@ class Mysql extends Dialect
 				}
 				break;
 
-			case Column::TYPE_BIGINTEGER:
+			case Column::TYPE_DATE:
 				if empty columnSql {
-					let columnSql .= "BIGINT";
+					let columnSql .= "DATE";
 				}
-				let scale = column->getSize();
-				if scale {
-					let columnSql .= "(" . column->getSize() . ")";
+				break;
+
+			case Column::TYPE_TIME:
+				if empty columnSql {
+					let columnSql .= "TIME";
 				}
-				if column->isUnsigned() {
-					let columnSql .= " UNSIGNED";
+				break;
+
+			case Column::TYPE_DATETIME:
+				if empty columnSql {
+					let columnSql .= "DATETIME";
+				}
+				break;
+
+			case Column::TYPE_TIMESTAMP:
+				if empty columnSql {
+					let columnSql .= "TIMESTAMP";
+				}
+				break;
+
+			case Column::TYPE_CHAR:
+				if empty columnSql {
+					let columnSql .= "CHAR";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
+				break;
+
+			case Column::TYPE_VARCHAR:
+				if empty columnSql {
+					let columnSql .= "VARCHAR";
+				}
+				let columnSql .= "(" . column->getSize() . ")";
+				break;
+
+			case Column::TYPE_TEXT:
+				if empty columnSql {
+					let columnSql .= "TEXT";
+				}
+				break;
+
+			case Column::TYPE_BOOLEAN:
+				if empty columnSql {
+					let columnSql .= "TINYINT(1)";
 				}
 				break;
 
