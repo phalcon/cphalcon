@@ -214,7 +214,7 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	/**
 	 * Validator for constructor
 	 */
-	private function prepareOptions(array! options) -> void
+	protected function prepareOptions(array! options) -> void
 	{
 		if !isset options["locale"] {
 			throw new Exception("Parameter 'locale' is required");
