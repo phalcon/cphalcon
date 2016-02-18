@@ -108,7 +108,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			/**
 			 * By default the bind types is two
 			 */
-			let definition = ["type": Column::TYPE_VARCHAR, bindType": Column::BIND_PARAM_STR];
+			let definition = ["type": Column::TYPE_VARCHAR, "bindType": Column::BIND_PARAM_STR];
 
 			/**
 			 * By checking every column type we convert it to a Phalcon\Db\Column
