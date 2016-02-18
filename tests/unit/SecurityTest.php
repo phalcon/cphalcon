@@ -50,10 +50,11 @@ class SecurityTest extends UnitTest
                 expect(Security::CRYPT_EXT_DES)->equals(2);
                 expect(Security::CRYPT_MD5)->equals(3);
                 expect(Security::CRYPT_BLOWFISH)->equals(4);
-                expect(Security::CRYPT_BLOWFISH_X)->equals(5);
-                expect(Security::CRYPT_BLOWFISH_Y)->equals(6);
-                expect(Security::CRYPT_SHA256)->equals(7);
-                expect(Security::CRYPT_SHA512)->equals(8);
+                expect(Security::CRYPT_BLOWFISH_A)->equals(5);
+                expect(Security::CRYPT_BLOWFISH_X)->equals(6);
+                expect(Security::CRYPT_BLOWFISH_Y)->equals(7);
+                expect(Security::CRYPT_SHA256)->equals(8);
+                expect(Security::CRYPT_SHA512)->equals(9);
             }
         );
     }
