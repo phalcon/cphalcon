@@ -181,9 +181,9 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				 */
 				if memstr(columnType, "char") {
 					if memstr(columnType, "var") {
-						let definition["type"] = Column::TYPE_VARCHAR,
+						let definition["type"] = Column::TYPE_VARCHAR;
 					} else {
-						let definition["type"] = Column::TYPE_CHAR,
+						let definition["type"] = Column::TYPE_CHAR;
 					}
 					let definition["size"] = charSize;
 					break;
