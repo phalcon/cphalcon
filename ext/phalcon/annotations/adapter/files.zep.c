@@ -27,12 +27,12 @@
 /**
  * Phalcon\Annotations\Adapter\Files
  *
- * Stores the parsed annotations in files. This adapter is suitable for production
+ * Stores the parsed annotations in diles. This adapter is suitable for production
  *
  *<code>
- * use Phalcon\Annotations\Adapter\Files;
- *
- * $annotations = new Files(['annotationsDir' => 'app/cache/annotations/']);
+ * $annotations = new \Phalcon\Annotations\Adapter\Files(array(
+ *    'annotationsDir' => 'app/cache/annotations/'
+ * ));
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {

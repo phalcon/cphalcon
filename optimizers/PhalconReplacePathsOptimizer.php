@@ -64,7 +64,10 @@ class PhalconReplacePathsOptimizer extends OptimizerAbstract
 		$context->headersManager->add('phalcon/mvc/url/utils', HeadersManager::POSITION_LAST);
 
 		$resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
-		$context->codePrinter->output('phalcon_replace_paths(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
+
+		$symbol = $context->backend->getVariableCode($symbolVariable);
+		$context->codePrinter->output('phalcon_replace_paths(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
+
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 

@@ -82,6 +82,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getReferencedFields);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
 
 /**
+ * Returns an option by the specified name
+ * If the option doesn't exist null is returned	 
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOption);
+
+/**
  * Check whether the relation act as a foreign key
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeignKey);

@@ -56,6 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response) {
 
 	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_http_response_ce, SL("_statusCodes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 1, phalcon_http_responseinterface_ce);
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
@@ -131,7 +133,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 95);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 97);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -149,12 +151,13 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 
+	zval *_10$$7;
 	zend_bool _4$$4;
 	HashTable *_2$$3;
 	HashPosition _1$$3;
 	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL;
-	zval *message = NULL, *_10, *_12;
-	zval *code_param = NULL, *message_param = NULL, *headers = NULL, *currentHeadersRaw = NULL, *key = NULL, *statusCodes = NULL, *defaultMessage = NULL, _9, _11, *_13, *_0$$3 = NULL, **_3$$3, _5$$4 = zval_used_for_init, *_6$$4 = NULL;
+	zval *message = NULL, *_14, *_16;
+	zval *code_param = NULL, *message_param = NULL, *headers = NULL, *currentHeadersRaw = NULL, *key = NULL, *defaultMessage = NULL, _13, _15, *_17, *_0$$3 = NULL, **_3$$3, _5$$4 = zval_used_for_init, *_6$$4 = NULL, *_9$$6, *_11$$6, *_12$$6;
 	int code, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -175,7 +178,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	zephir_check_call_status();
 	if (Z_TYPE_P(currentHeadersRaw) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(currentHeadersRaw, &_2$$3, &_1$$3, 0, 0, "phalcon/http/response.zep", 127);
+		zephir_is_iterable(currentHeadersRaw, &_2$$3, &_1$$3, 0, 0, "phalcon/http/response.zep", 129);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
@@ -186,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 			if (_4$$4) {
 				ZEPHIR_SINIT_NVAR(_5$$4);
 				ZVAL_STRING(&_5$$4, "HTTP/", 0);
-				ZEPHIR_CALL_FUNCTION(&_6$$4, "strstr", &_7, 236, key, &_5$$4);
+				ZEPHIR_CALL_FUNCTION(&_6$$4, "strstr", &_7, 233, key, &_5$$4);
 				zephir_check_call_status();
 				_4$$4 = zephir_is_true(_6$$4);
 			}
@@ -197,92 +200,94 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 		}
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
-		ZEPHIR_INIT_VAR(statusCodes);
-		zephir_create_array(statusCodes, 67, 0 TSRMLS_CC);
-		add_index_stringl(statusCodes, 100, SL("Continue"), 1);
-		add_index_stringl(statusCodes, 101, SL("Switching Protocols"), 1);
-		add_index_stringl(statusCodes, 102, SL("Processing"), 1);
-		add_index_stringl(statusCodes, 200, SL("OK"), 1);
-		add_index_stringl(statusCodes, 201, SL("Created"), 1);
-		add_index_stringl(statusCodes, 202, SL("Accepted"), 1);
-		add_index_stringl(statusCodes, 203, SL("Non-Authoritative Information"), 1);
-		add_index_stringl(statusCodes, 204, SL("No Content"), 1);
-		add_index_stringl(statusCodes, 205, SL("Reset Content"), 1);
-		add_index_stringl(statusCodes, 206, SL("Partial Content"), 1);
-		add_index_stringl(statusCodes, 207, SL("Multi-status"), 1);
-		add_index_stringl(statusCodes, 208, SL("Already Reported"), 1);
-		add_index_stringl(statusCodes, 226, SL("IM Used"), 1);
-		add_index_stringl(statusCodes, 300, SL("Multiple Choices"), 1);
-		add_index_stringl(statusCodes, 301, SL("Moved Permanently"), 1);
-		add_index_stringl(statusCodes, 302, SL("Found"), 1);
-		add_index_stringl(statusCodes, 303, SL("See Other"), 1);
-		add_index_stringl(statusCodes, 304, SL("Not Modified"), 1);
-		add_index_stringl(statusCodes, 305, SL("Use Proxy"), 1);
-		add_index_stringl(statusCodes, 306, SL("Switch Proxy"), 1);
-		add_index_stringl(statusCodes, 307, SL("Temporary Redirect"), 1);
-		add_index_stringl(statusCodes, 308, SL("Permanent Redirect"), 1);
-		add_index_stringl(statusCodes, 400, SL("Bad Request"), 1);
-		add_index_stringl(statusCodes, 401, SL("Unauthorized"), 1);
-		add_index_stringl(statusCodes, 402, SL("Payment Required"), 1);
-		add_index_stringl(statusCodes, 403, SL("Forbidden"), 1);
-		add_index_stringl(statusCodes, 404, SL("Not Found"), 1);
-		add_index_stringl(statusCodes, 405, SL("Method Not Allowed"), 1);
-		add_index_stringl(statusCodes, 406, SL("Not Acceptable"), 1);
-		add_index_stringl(statusCodes, 407, SL("Proxy Authentication Required"), 1);
-		add_index_stringl(statusCodes, 408, SL("Request Time-out"), 1);
-		add_index_stringl(statusCodes, 409, SL("Conflict"), 1);
-		add_index_stringl(statusCodes, 410, SL("Gone"), 1);
-		add_index_stringl(statusCodes, 411, SL("Length Required"), 1);
-		add_index_stringl(statusCodes, 412, SL("Precondition Failed"), 1);
-		add_index_stringl(statusCodes, 413, SL("Request Entity Too Large"), 1);
-		add_index_stringl(statusCodes, 414, SL("Request-URI Too Large"), 1);
-		add_index_stringl(statusCodes, 415, SL("Unsupported Media Type"), 1);
-		add_index_stringl(statusCodes, 416, SL("Requested range not satisfiable"), 1);
-		add_index_stringl(statusCodes, 417, SL("Expectation Failed"), 1);
-		add_index_stringl(statusCodes, 418, SL("I'm a teapot"), 1);
-		add_index_stringl(statusCodes, 421, SL("Misdirected Request"), 1);
-		add_index_stringl(statusCodes, 422, SL("Unprocessable Entity"), 1);
-		add_index_stringl(statusCodes, 423, SL("Locked"), 1);
-		add_index_stringl(statusCodes, 424, SL("Failed Dependency"), 1);
-		add_index_stringl(statusCodes, 425, SL("Unordered Collection"), 1);
-		add_index_stringl(statusCodes, 426, SL("Upgrade Required"), 1);
-		add_index_stringl(statusCodes, 428, SL("Precondition Required"), 1);
-		add_index_stringl(statusCodes, 429, SL("Too Many Requests"), 1);
-		add_index_stringl(statusCodes, 431, SL("Request Header Fields Too Large"), 1);
-		add_index_stringl(statusCodes, 451, SL("Unavailable For Legal Reasons"), 1);
-		add_index_stringl(statusCodes, 499, SL("Client Closed Request"), 1);
-		add_index_stringl(statusCodes, 500, SL("Internal Server Error"), 1);
-		add_index_stringl(statusCodes, 501, SL("Not Implemented"), 1);
-		add_index_stringl(statusCodes, 502, SL("Bad Gateway"), 1);
-		add_index_stringl(statusCodes, 503, SL("Service Unavailable"), 1);
-		add_index_stringl(statusCodes, 504, SL("Gateway Time-out"), 1);
-		add_index_stringl(statusCodes, 505, SL("HTTP Version not supported"), 1);
-		add_index_stringl(statusCodes, 506, SL("Variant Also Negotiates"), 1);
-		add_index_stringl(statusCodes, 507, SL("Insufficient Storage"), 1);
-		add_index_stringl(statusCodes, 508, SL("Loop Detected"), 1);
-		add_index_stringl(statusCodes, 511, SL("Network Authentication Required"), 1);
-		if (!(zephir_array_isset_long(statusCodes, code))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/http/response.zep", 204);
+		ZEPHIR_OBS_VAR(_9$$6);
+		zephir_read_property_this(&_9$$6, this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		if (Z_TYPE_P(_9$$6) != IS_ARRAY) {
+			ZEPHIR_INIT_VAR(_10$$7);
+			zephir_create_array(_10$$7, 59, 0 TSRMLS_CC);
+			add_index_stringl(_10$$7, 100, SL("Continue"), 1);
+			add_index_stringl(_10$$7, 101, SL("Switching Protocols"), 1);
+			add_index_stringl(_10$$7, 102, SL("Processing"), 1);
+			add_index_stringl(_10$$7, 200, SL("OK"), 1);
+			add_index_stringl(_10$$7, 201, SL("Created"), 1);
+			add_index_stringl(_10$$7, 202, SL("Accepted"), 1);
+			add_index_stringl(_10$$7, 203, SL("Non-Authoritative Information"), 1);
+			add_index_stringl(_10$$7, 204, SL("No Content"), 1);
+			add_index_stringl(_10$$7, 205, SL("Reset Content"), 1);
+			add_index_stringl(_10$$7, 206, SL("Partial Content"), 1);
+			add_index_stringl(_10$$7, 207, SL("Multi-status"), 1);
+			add_index_stringl(_10$$7, 208, SL("Already Reported"), 1);
+			add_index_stringl(_10$$7, 300, SL("Multiple Choices"), 1);
+			add_index_stringl(_10$$7, 301, SL("Moved Permanently"), 1);
+			add_index_stringl(_10$$7, 302, SL("Found"), 1);
+			add_index_stringl(_10$$7, 303, SL("See Other"), 1);
+			add_index_stringl(_10$$7, 304, SL("Not Modified"), 1);
+			add_index_stringl(_10$$7, 305, SL("Use Proxy"), 1);
+			add_index_stringl(_10$$7, 306, SL("Switch Proxy"), 1);
+			add_index_stringl(_10$$7, 307, SL("Temporary Redirect"), 1);
+			add_index_stringl(_10$$7, 400, SL("Bad Request"), 1);
+			add_index_stringl(_10$$7, 401, SL("Unauthorized"), 1);
+			add_index_stringl(_10$$7, 402, SL("Payment Required"), 1);
+			add_index_stringl(_10$$7, 403, SL("Forbidden"), 1);
+			add_index_stringl(_10$$7, 404, SL("Not Found"), 1);
+			add_index_stringl(_10$$7, 405, SL("Method Not Allowed"), 1);
+			add_index_stringl(_10$$7, 406, SL("Not Acceptable"), 1);
+			add_index_stringl(_10$$7, 407, SL("Proxy Authentication Required"), 1);
+			add_index_stringl(_10$$7, 408, SL("Request Time-out"), 1);
+			add_index_stringl(_10$$7, 409, SL("Conflict"), 1);
+			add_index_stringl(_10$$7, 410, SL("Gone"), 1);
+			add_index_stringl(_10$$7, 411, SL("Length Required"), 1);
+			add_index_stringl(_10$$7, 412, SL("Precondition Failed"), 1);
+			add_index_stringl(_10$$7, 413, SL("Request Entity Too Large"), 1);
+			add_index_stringl(_10$$7, 414, SL("Request-URI Too Large"), 1);
+			add_index_stringl(_10$$7, 415, SL("Unsupported Media Type"), 1);
+			add_index_stringl(_10$$7, 416, SL("Requested range not satisfiable"), 1);
+			add_index_stringl(_10$$7, 417, SL("Expectation Failed"), 1);
+			add_index_stringl(_10$$7, 418, SL("I'm a teapot"), 1);
+			add_index_stringl(_10$$7, 422, SL("Unprocessable Entity"), 1);
+			add_index_stringl(_10$$7, 423, SL("Locked"), 1);
+			add_index_stringl(_10$$7, 424, SL("Failed Dependency"), 1);
+			add_index_stringl(_10$$7, 425, SL("Unordered Collection"), 1);
+			add_index_stringl(_10$$7, 426, SL("Upgrade Required"), 1);
+			add_index_stringl(_10$$7, 428, SL("Precondition Required"), 1);
+			add_index_stringl(_10$$7, 429, SL("Too Many Requests"), 1);
+			add_index_stringl(_10$$7, 431, SL("Request Header Fields Too Large"), 1);
+			add_index_stringl(_10$$7, 500, SL("Internal Server Error"), 1);
+			add_index_stringl(_10$$7, 501, SL("Not Implemented"), 1);
+			add_index_stringl(_10$$7, 502, SL("Bad Gateway"), 1);
+			add_index_stringl(_10$$7, 503, SL("Service Unavailable"), 1);
+			add_index_stringl(_10$$7, 504, SL("Gateway Time-out"), 1);
+			add_index_stringl(_10$$7, 505, SL("HTTP Version not supported"), 1);
+			add_index_stringl(_10$$7, 506, SL("Variant Also Negotiates"), 1);
+			add_index_stringl(_10$$7, 507, SL("Insufficient Storage"), 1);
+			add_index_stringl(_10$$7, 508, SL("Loop Detected"), 1);
+			add_index_stringl(_10$$7, 511, SL("Network Authentication Required"), 1);
+			zephir_update_property_this(this_ptr, SL("_statusCodes"), _10$$7 TSRMLS_CC);
+		}
+		_11$$6 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		if (!(zephir_array_isset_long(_11$$6, code))) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/http/response.zep", 203);
 			return;
 		}
+		_12$$6 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, statusCodes, code, PH_NOISY, "phalcon/http/response.zep", 207 TSRMLS_CC);
+		zephir_array_fetch_long(&defaultMessage, _12$$6, code, PH_NOISY, "phalcon/http/response.zep", 206 TSRMLS_CC);
 		zephir_get_strval(message, defaultMessage);
 	}
-	ZEPHIR_SINIT_VAR(_9);
-	ZVAL_LONG(&_9, code);
-	ZEPHIR_INIT_VAR(_10);
-	ZEPHIR_CONCAT_SVSV(_10, "HTTP/1.1 ", &_9, " ", message);
-	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, 0, _10);
+	ZEPHIR_SINIT_VAR(_13);
+	ZVAL_LONG(&_13, code);
+	ZEPHIR_INIT_VAR(_14);
+	ZEPHIR_CONCAT_SVSV(_14, "HTTP/1.1 ", &_13, " ", message);
+	ZEPHIR_CALL_METHOD(NULL, headers, "setraw", NULL, 0, _14);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_VAR(_11);
-	ZVAL_LONG(&_11, code);
-	ZEPHIR_INIT_VAR(_12);
-	ZEPHIR_CONCAT_VSV(_12, &_11, " ", message);
-	ZEPHIR_INIT_VAR(_13);
-	ZVAL_STRING(_13, "Status", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, 0, _13, _12);
-	zephir_check_temp_parameter(_13);
+	ZEPHIR_SINIT_VAR(_15);
+	ZVAL_LONG(&_15, code);
+	ZEPHIR_INIT_VAR(_16);
+	ZEPHIR_CONCAT_VSV(_16, &_15, " ", message);
+	ZEPHIR_INIT_VAR(_17);
+	ZVAL_STRING(_17, "Status", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, headers, "set", NULL, 0, _17, _16);
+	zephir_check_temp_parameter(_17);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -678,7 +683,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 
 	int statusCode, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool externalRedirect, _10, _0$$5;
-	zval *location = NULL, *externalRedirect_param = NULL, *statusCode_param = NULL, *header = NULL, *url = NULL, *dependencyInjector = NULL, *matched = NULL, *view = NULL, *_7 = NULL, *_8 = NULL, _1$$5, *_2$$5 = NULL, *_3$$6, _4$$6, *_5$$10 = NULL, *_6$$10, *_9$$11;
+	zval *location = NULL, *externalRedirect_param = NULL, *statusCode_param = NULL, *header = NULL, *url = NULL, *dependencyInjector = NULL, *matched = NULL, *message = NULL, *view = NULL, *_7 = NULL, *_8 = NULL, _1$$5, *_2$$5 = NULL, *_3$$6, _4$$6, *_5$$10 = NULL, *_6$$10, *_9$$11, *_11$$13, *_12$$14;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &location, &externalRedirect_param, &statusCode_param);
@@ -711,7 +716,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		if (_0$$5) {
 			ZEPHIR_SINIT_VAR(_1$$5);
 			ZVAL_STRING(&_1$$5, "://", 0);
-			ZEPHIR_CALL_FUNCTION(&_2$$5, "strstr", NULL, 236, location, &_1$$5);
+			ZEPHIR_CALL_FUNCTION(&_2$$5, "strstr", NULL, 233, location, &_1$$5);
 			zephir_check_call_status();
 			_0$$5 = zephir_is_true(_2$$5);
 		}
@@ -766,10 +771,17 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 	}
 	if (_10) {
 		statusCode = 302;
+		_11$$13 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(message);
+		zephir_array_fetch_long(&message, _11$$13, 302, PH_NOISY, "phalcon/http/response.zep", 480 TSRMLS_CC);
+	} else {
+		ZEPHIR_OBS_NVAR(message);
+		_12$$14 = zephir_fetch_nproperty_this(this_ptr, SL("_statusCodes"), PH_NOISY_CC);
+		zephir_array_isset_long_fetch(&message, _12$$14, statusCode, 0 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_NVAR(_8);
 	ZVAL_LONG(_8, statusCode);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, 0, _8);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, 0, _8, message);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_8);
 	ZVAL_STRING(_8, "Location", ZEPHIR_TEMP_PARAM_COPY);
@@ -805,35 +817,48 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
 
 /**
  * Sets HTTP response body. The parameter is automatically converted to JSON
+ * and also sets default header: Content-Type: "application/json; charset=UTF-8"
  *
  *<code>
  *	$response->setJsonContent(array("status" => "OK"));
  *</code>
- *
- * @param mixed content
- * @param int jsonOptions
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 
-	zval *content, *jsonOptions = NULL, *depth = NULL, *_0;
+	int jsonOptions, depth, ZEPHIR_LAST_CALL_STATUS;
+	zval *content, *jsonOptions_param = NULL, *depth_param = NULL, *_0 = NULL, *_1, _2, _3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &content, &jsonOptions, &depth);
+	zephir_fetch_params(1, 1, 2, &content, &jsonOptions_param, &depth_param);
 
-	if (!jsonOptions) {
-		ZEPHIR_INIT_VAR(jsonOptions);
-		ZVAL_LONG(jsonOptions, 0);
+	if (!jsonOptions_param) {
+		jsonOptions = 0;
+	} else {
+		jsonOptions = zephir_get_intval(jsonOptions_param);
 	}
-	if (!depth) {
-		ZEPHIR_INIT_VAR(depth);
-		ZVAL_LONG(depth, 512);
+	if (!depth_param) {
+		depth = 512;
+	} else {
+		depth = zephir_get_intval(depth_param);
 	}
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_json_encode(_0, &(_0), content, zephir_get_intval(jsonOptions)  TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_content"), _0 TSRMLS_CC);
+	ZVAL_STRING(_0, "application/json", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "UTF-8", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcontenttype", NULL, 0, _0, _1);
+	zephir_check_temp_parameter(_0);
+	zephir_check_temp_parameter(_1);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(_0);
+	ZEPHIR_SINIT_VAR(_2);
+	ZVAL_LONG(&_2, jsonOptions);
+	ZEPHIR_SINIT_VAR(_3);
+	ZVAL_LONG(&_3, depth);
+	zephir_json_encode(_0, &(_0), content, zephir_get_intval(&_2)  TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcontent", NULL, 0, _0);
+	zephir_check_call_status();
 	RETURN_THIS();
 
 }
@@ -965,7 +990,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_1$$7 = (zephir_fast_strlen_ev(file)) ? 1 : 0;
 		}
 		if (_1$$7) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 237, file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 234, file);
 			zephir_check_call_status();
 		}
 	}

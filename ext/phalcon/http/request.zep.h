@@ -3,6 +3,8 @@ extern zend_class_entry *phalcon_http_request_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request);
 
+PHP_METHOD(Phalcon_Http_Request, getHttpMethodParameterOverride);
+PHP_METHOD(Phalcon_Http_Request, setHttpMethodParameterOverride);
 PHP_METHOD(Phalcon_Http_Request, setDI);
 PHP_METHOD(Phalcon_Http_Request, getDI);
 PHP_METHOD(Phalcon_Http_Request, get);
@@ -56,6 +58,10 @@ PHP_METHOD(Phalcon_Http_Request, getLanguages);
 PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
 PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
 PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_sethttpmethodparameteroverride, 0, 0, 1)
+	ZEND_ARG_INFO(0, httpMethodParameterOverride)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
@@ -180,6 +186,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request__getbestquality, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
+	PHP_ME(Phalcon_Http_Request, getHttpMethodParameterOverride, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, setHttpMethodParameterOverride, arginfo_phalcon_http_request_sethttpmethodparameteroverride, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setDI, arginfo_phalcon_http_request_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, get, arginfo_phalcon_http_request_get, ZEND_ACC_PUBLIC)

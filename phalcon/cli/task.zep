@@ -50,7 +50,7 @@ use Phalcon\Di\Injectable;
  *
  *</code>
  */
-class Task extends Injectable
+class Task extends Injectable implements TaskInterface
 {
 
 	/**

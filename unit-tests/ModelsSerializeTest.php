@@ -39,7 +39,7 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	protected function _prepareDI()
+	protected function _getDI()
 	{
 		Phalcon\DI::reset();
 
@@ -58,6 +58,8 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
+        return $di;
+
 	}
 
 	public function testSerialize()
@@ -68,7 +70,7 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->_prepareDI();
+		$this->_getDI();
 
 		$robot = Robots::findFirst();
 
@@ -78,5 +80,46 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($robot->save());
 
 	}
+
+    public function testJsonSerialize()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped('Test skipped');
+            return;
+        }
+
+        $di = $this->_getDI();
+
+        // Single model object json serialization
+        $robot = Robots::findFirst();
+        $json = json_encode($robot);
+        $this->assertTrue(is_string($json));
+        $this->assertTrue(strlen($json) > 10); // make sure result is not "{ }"
+        $array = json_decode($json, true);
+        $this->assertEquals($robot->toArray(), $array);
+
+        // Result-set serialization
+        $robots = Robots::find();
+        $json = json_encode($robots);
+        $this->assertTrue(is_string($json));
+        $this->assertTrue(strlen($json) > 50); // make sure result is not "{ }"
+        $array = json_decode($json, true);
+        $this->assertEquals($robots->toArray(), $array);
+
+        // Single row serialization
+        $result = $di->get('modelsManager')->executeQuery('SELECT id FROM Robots LIMIT 1');
+        $this->assertEquals(get_class($result), 'Phalcon\Mvc\Model\Resultset\Simple');
+        foreach ($result as $row) {
+            $this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+            $this->assertEquals($row->id, $robot->id);
+            $json = json_encode($row);
+            $this->assertTrue(is_string($json));
+            $this->assertTrue(strlen($json) > 5); // make sure result is not "{ }"
+            $array = json_decode($json, true);
+            $this->assertEquals($row->toArray(), $array);
+        }
+
+    }
 
 }

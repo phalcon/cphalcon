@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Validation;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Di\Injectable;
@@ -38,7 +39,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	protected _entity;
 
-	protected _options;
+	protected _options = [];
 
 	protected _data;
 
@@ -84,11 +85,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Sets the form's action
-	 *
-	 * @param string action
-	 * @return \Phalcon\Forms\Form
 	 */
-	public function setAction(var action) -> <Form>
+	public function setAction(string! action) -> <Form>
 	{
 		let this->_action = action;
 		return this;
@@ -107,7 +105,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string option
 	 * @param mixed value
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function setUserOption(var option, var value) -> <Form>
 	{
@@ -120,9 +117,8 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string option
 	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function getUserOption(var option, var defaultValue = null)
+	public function getUserOption(var option, var defaultValue = null) -> var
 	{
 		var value;
 		if fetch value, this->_options[option] {
@@ -142,10 +138,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Returns the options for the element
-	 *
-	 * @return array
 	 */
-	public function getUserOptions()
+	public function getUserOptions() -> array
 	{
 		return this->_options;
 	}
@@ -154,7 +148,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Sets the entity related to the model
 	 *
 	 * @param object entity
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function setEntity(var entity) -> <Form>
 	{
@@ -186,15 +179,13 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * @param array data
 	 * @param object entity
 	 * @param array whitelist
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function bind(array! data, var entity, var whitelist = null) -> <Form>
 	{
-		var elements, filter, key, value, element, filters,
+		var filter, key, value, element, filters,
 			dependencyInjector, filteredValue, method;
 
-		let elements = this->_elements;
-		if typeof elements != "array" {
+		if typeof this->_elements != "array" {
 			throw new Exception("There are no elements in the form");
 		}
 
@@ -204,7 +195,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			/**
 			 * Get the element
 			 */
-			if !fetch element, elements[key] {
+			if !fetch element, this->_elements[key] {
 				continue;
 			}
 
@@ -262,16 +253,14 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param array data
 	 * @param object entity
-	 * @return boolean
 	 */
 	public function isValid(var data = null, var entity = null) -> boolean
 	{
-		var elements, notFailed, messages, element,
+		var notFailed, messages, element,
 			validators, name, preparedValidators, filters,
 			validator, validation, elementMessages;
 
-		let elements = this->_elements;
-		if typeof elements != "array" {
+		if typeof this->_elements != "array" {
 			return true;
 		}
 
@@ -303,64 +292,65 @@ class Form extends Injectable implements \Countable, \Iterator
 		let notFailed = true,
 			messages = [];
 
-		for element in elements {
+		for element in this->_elements {
 
 			let validators = element->getValidators();
-			if typeof validators == "array" {
-				if count(validators) {
+			if typeof validators != "array" {
+				continue;
+			}
 
+			if count(validators) == 0 {
+				continue;
+			}
+
+			/**
+			 * Element's name
+			 */
+			let name = element->getName();
+
+			/**
+			 * Prepare the validators
+			 */
+			let preparedValidators = [];
+
+			for validator in validators {
+				let preparedValidators[] = [name, validator];
+			}
+
+			let validation = this->getValidation();
+			if typeof validation == "object" {
+				if validation instanceof Validation {
 					/**
-					 * Element's name
+					 * Set the validators to the validation
 					 */
-					let name = element->getName();
-
-					/**
-					 * Prepare the validators
-					 */
-					let preparedValidators = [];
-
-					for validator in validators {
-						let preparedValidators[] = [name, validator];
-					}
-
-					let validation = this->getValidation();
-					if typeof validation == "object" {
-						if validation instanceof \Phalcon\Validation {
-							/**
-							 * Set the validators to the validation
-							 */
-							validation->setValidators(preparedValidators);
-						}
-					} else {
-						/**
-						 * Create an implicit validation
-						 */
-						let validation = new \Phalcon\Validation(preparedValidators);
-					}
-
-					/**
-					 * Get filters in the element
-					 */
-					let filters = element->getFilters();
-
-					/**
-					 * Assign the filters to the validation
-					 */
-					if typeof filters == "array" {
-						validation->setFilters(element->getName(), filters);
-					}
-
-					/**
-					 * Perform the validation
-					 */
-					let elementMessages = validation->validate(data, entity);
-					if count(elementMessages) {
-						let messages[element->getName()] = elementMessages,
-							notFailed = false;
-					}
-
+					validation->setValidators(preparedValidators);
 				}
+			} else {
+				/**
+				 * Create an implicit validation
+				 */
+				let validation = new Validation(preparedValidators);
+			}
 
+			/**
+			 * Get filters in the element
+			 */
+			let filters = element->getFilters();
+
+			/**
+			 * Assign the filters to the validation
+			 */
+			if typeof filters == "array" {
+				validation->setFilters(element->getName(), filters);
+			}
+
+			/**
+			 * Perform the validation
+			 */
+			let elementMessages = validation->validate(data, entity);
+			if count(elementMessages) {
+				let messages[element->getName()] = elementMessages,
+					notFailed = false;
 			}
 		}
 
@@ -410,11 +400,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Returns the messages generated for a specific element
-	 *
-	 * @param string name
-	 * @return \Phalcon\Validation\Message\Group
 	 */
-	public function getMessagesFor(var name) -> <Group>
+	public function getMessagesFor(string! name) -> <Group>
 	{
 		var messages, elementMessages, group;
 
@@ -430,22 +417,14 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Check if messages were generated for a specific element
-	 *
-	 * @param string name
-	 * @return boolean
 	 */
-	public function hasMessagesFor(var name) -> boolean
+	public function hasMessagesFor(string! name) -> boolean
 	{
 		return isset this->_messages[name];
 	}
 
 	/**
 	 * Adds an element to the form
-	 *
-	 * @param \Phalcon\Forms\ElementInterface element
-	 * @param string $postion
- 	 * @param bool $type If $type is TRUE, the element wile add before $postion, else is after
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function add(<ElementInterface> element, string postion = null, boolean type = null) -> <Form>
 	{
@@ -503,7 +482,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *
 	 * @param string name
 	 * @param array attributes
-	 * @return string
 	 */
 	public function render(string! name, var attributes = null) -> string
 	{
@@ -569,11 +547,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Gets a value from the internal related entity or from the default value
-	 *
-	 * @param string name
-	 * @return mixed
 	 */
-	public function getValue(string! name)
+	public function getValue(string! name) -> var | null
 	{
 		var entity, method, value, data;
 
@@ -642,14 +617,10 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function remove(string! name) -> boolean
 	{
-		var elements;
-
-		let elements = this->_elements;
-
 		/**
 		 * Checks if the element is in the form
 		 */
-		if isset elements[name] {
+		if isset this->_elements[name] {
 			unset this->_elements[name];
 			return true;
 		}
@@ -666,7 +637,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Clears every element in the form to its default value
 	 *
 	 * @param array fields
-	 * @return \Phalcon\Forms\Form
 	 */
 	public function clear(var fields = null) -> <Form>
 	{

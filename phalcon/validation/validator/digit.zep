@@ -48,10 +48,6 @@ class Digit extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if !ctype_digit(value) {
 
 			let label = this->getOption("label");
@@ -65,7 +61,7 @@ class Digit extends Validator
 				let message = validation->getDefaultMessage("Digit");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit", this->getOption("code")));
 			return false;
 		}
 

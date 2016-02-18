@@ -33,9 +33,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message_Group) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Message, Group, phalcon, validation_message_group, phalcon_validation_message_group_method_entry, 0);
 
-	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_validation_message_group_ce, SL("_position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_validation_message_group_ce->create_object = zephir_init_properties_Phalcon_Validation_Message_Group;
 
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_validation_message_group_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
@@ -345,20 +347,18 @@ PHP_METHOD(Phalcon_Validation_Message_Group, rewind) {
 
 /**
  * Returns the current message in the iterator
- *
- * @return \Phalcon\Validation\Message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 
-	zval *message = NULL, *_0, *_1;
+	zval *_0, *_1, *_2;
 
+	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&message, _0, _1, 1 TSRMLS_CC)) {
-		RETURN_CTORW(message);
-	}
-	RETURN_BOOL(0);
+	ZEPHIR_OBS_VAR(_2);
+	zephir_read_property_this(&_2, this_ptr, SL("_position"), PH_NOISY_CC);
+	zephir_array_fetch(&_1, _0, _2, PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 226 TSRMLS_CC);
+	RETURN_CTOR(_1);
 
 }
 
@@ -415,10 +415,31 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
-	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 267 TSRMLS_CC);
+	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY | PH_READONLY, "phalcon/validation/message/group.zep", 261 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 3, _0);
 	zephir_check_call_status();
 	RETURN_MM();
+
+}
+
+static zend_object_value zephir_init_properties_Phalcon_Validation_Message_Group(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1$$3;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_messages"), _1$$3 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			zephir_update_property_this(this_ptr, SL("_processed"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, this_ptr, "handle", &_18, 360, realUri);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, this_ptr, "handle", &_18, 361, realUri);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

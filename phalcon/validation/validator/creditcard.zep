@@ -61,7 +61,7 @@ class CreditCard extends Validator
             	let message = validation->getDefaultMessage("CreditCard");
             }
 
-            validation->appendMessage(new Message(strtr(message, replacePairs), field, "CreditCard"));
+            validation->appendMessage(new Message(strtr(message, replacePairs), field, "CreditCard", this->getOption("code")));
             return false;
         }
 

@@ -56,7 +56,7 @@ class TasksCliTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($task->requestRegistryAction(), 'data');
 		$this->assertEquals($task->helloAction(), 'Hello !');
-		$this->assertEquals($task->helloAction('World'), 'Hello World!');
+		$this->assertEquals($task->helloAction(array('World')), 'Hello World!');
 
 		$task2 = new EchoTask();
 		$task2->setDI($di);

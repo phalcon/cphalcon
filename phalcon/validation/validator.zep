@@ -45,7 +45,7 @@ abstract class Validator implements ValidatorInterface
 	 * @deprecated since 2.1.0
 	 * @see \Phalcon\Validation\Validator::hasOption()
 	 */
-	public function isSetOption(string! key) -> boolean
+	deprecated public function isSetOption(string! key) -> boolean
 	{
 		return isset this->_options[key];
 	}
@@ -84,8 +84,8 @@ abstract class Validator implements ValidatorInterface
 		let this->_options[key] = value;
 	}
 
-    /**
-     * Executes the validation
-     */
-     abstract public function validate(<Validation> validation, string! attribute) -> boolean;
+	/**
+	 * Executes the validation
+	 */
+	abstract public function validate(<Validation> validation, string! attribute) -> boolean;
 }

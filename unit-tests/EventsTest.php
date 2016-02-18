@@ -359,12 +359,6 @@ class EventsTest extends PHPUnit_Framework_TestCase
 	 * - attaching second log listener
 	 * - detaching all log listeners
 	 * - attaching different listener
-	 *
-	 * NOTE: This test looks the same as above but it checks dettachAll()
-	 * instead of detachAll() method. To be DELETED when dettachAll()
-	 * will not supported any more.
-	 *
-	 * @see https://github.com/phalcon/cphalcon/issues/1331
 	 */
 	public function testBug1331BackwardCompatibility()
 	{
@@ -403,11 +397,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 		// ----- TESTING STEP 3 - ALL 'LOG' LISTENER DETACHED
 
-		$oldErrorLevel = error_reporting(E_ALL & ~E_DEPRECATED);
-
-		@$component->getEventsManager()->dettachAll('log');
-
-		error_reporting($oldErrorLevel);
+		$component->getEventsManager()->detachAll('log');
 
 		$logListeners = $component->getEventsManager()->getListeners('log');
 		$this->assertEmpty($logListeners);

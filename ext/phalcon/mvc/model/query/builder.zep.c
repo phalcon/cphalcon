@@ -1256,23 +1256,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
 
-	zval *limit = NULL, *offset = NULL, *_0$$3;
+	zval *limit_param = NULL, *offset_param = NULL, *_0, *_1$$3;
+	int limit, offset;
 
-	zephir_fetch_params(0, 0, 2, &limit, &offset);
+	zephir_fetch_params(0, 0, 2, &limit_param, &offset_param);
 
-	if (!limit) {
-		limit = ZEPHIR_GLOBAL(global_null);
+	if (!limit_param) {
+		limit = 0;
+	} else {
+		limit = zephir_get_intval(limit_param);
 	}
-	if (!offset) {
-		offset = ZEPHIR_GLOBAL(global_null);
+	if (!offset_param) {
+		offset = 0;
+	} else {
+		offset = zephir_get_intval(offset_param);
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
-	if (zephir_is_numeric(offset)) {
-		ZEPHIR_INIT_ZVAL_NREF(_0$$3);
-		ZVAL_LONG(_0$$3, zephir_get_intval(offset));
-		zephir_update_property_this(this_ptr, SL("_offset"), _0$$3 TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, limit);
+	zephir_update_property_this(this_ptr, SL("_limit"), _0 TSRMLS_CC);
+	if (offset) {
+		ZEPHIR_INIT_ZVAL_NREF(_1$$3);
+		ZVAL_LONG(_1$$3, offset);
+		zephir_update_property_this(this_ptr, SL("_offset"), _1$$3 TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -1375,7 +1382,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 	HashPosition _8$$25, _14$$33, _19$$38, _26$$49, _36$$62, _50$$78;
 	zend_class_entry *_3$$8;
 	zend_bool noPrimary = 0, _7;
-	zval *dependencyInjector = NULL, *models = NULL, *conditions = NULL, *model = NULL, *metaData = NULL, *modelInstance = NULL, *primaryKeys = NULL, *firstPrimaryKey = NULL, *columnMap = NULL, *modelAlias = NULL, *attributeField = NULL, *phql = NULL, *column = NULL, *columns = NULL, *selectedColumns = NULL, *selectedColumn = NULL, *selectedModel = NULL, *selectedModels = NULL, *columnAlias = NULL, *modelColumnAlias = NULL, *joins = NULL, *join = NULL, *joinModel = NULL, *joinConditions = NULL, *joinAlias = NULL, *joinType = NULL, *group = NULL, *groupItems = NULL, *groupItem = NULL, *having = NULL, *order = NULL, *orderItems = NULL, *orderItem = NULL, *limit = NULL, *number = NULL, *offset = NULL, *forUpdate = NULL, *distinct = NULL, *_1$$8, *_2$$8 = NULL, *_4$$17, *_5$$17, *_6$$13, **_10$$25, *_13$$25, *_11$$29 = NULL, *_12$$30 = NULL, **_16$$33, *_17$$33, *_18$$37, **_21$$38, *_22$$38, *_23$$38, *_24$$47, *_25$$48, **_28$$49, *_29$$52 = NULL, *_30$$53 = NULL, *_31$$55 = NULL, *_32$$56 = NULL, *_33$$57 = NULL, *_34$$58 = NULL, *_35$$60, **_38$$62, *_40$$62, *_41$$62, *_39$$67 = NULL, *_42$$69, *_43$$71, *_44$$73 = NULL, _45$$73, _46$$73, *_47$$73, *_48$$74, *_49$$76, **_52$$78, *_54$$78, *_55$$78, *_53$$83 = NULL, *_56$$84, _57$$93, *_58$$93 = NULL, *_60$$93, *_61$$93, *_62$$93, _63$$94, *_64$$94 = NULL, *_65$$94, *_66$$94, *_67$$94;
+	zval *dependencyInjector = NULL, *models = NULL, *conditions = NULL, *model = NULL, *metaData = NULL, *modelInstance = NULL, *primaryKeys = NULL, *firstPrimaryKey = NULL, *columnMap = NULL, *modelAlias = NULL, *attributeField = NULL, *phql = NULL, *column = NULL, *columns = NULL, *selectedColumns = NULL, *selectedColumn = NULL, *selectedModel = NULL, *selectedModels = NULL, *columnAlias = NULL, *modelColumnAlias = NULL, *joins = NULL, *join = NULL, *joinModel = NULL, *joinConditions = NULL, *joinAlias = NULL, *joinType = NULL, *group = NULL, *groupItems = NULL, *groupItem = NULL, *having = NULL, *order = NULL, *orderItems = NULL, *orderItem = NULL, *limit = NULL, *number = NULL, *offset = NULL, *forUpdate = NULL, *distinct = NULL, *_1$$8 = NULL, *_2$$8 = NULL, *_4$$17, *_5$$17, *_6$$13, **_10$$25, *_13$$25, *_11$$29 = NULL, *_12$$30 = NULL, **_16$$33, *_17$$33, *_18$$37, **_21$$38, *_22$$38, *_23$$38, *_24$$47, *_25$$48, **_28$$49, *_29$$52 = NULL, *_30$$53 = NULL, *_31$$55 = NULL, *_32$$56 = NULL, *_33$$57 = NULL, *_34$$58 = NULL, *_35$$60, **_38$$62, *_40$$62, *_41$$62, *_39$$67 = NULL, *_42$$69, *_43$$71, *_44$$73 = NULL, _45$$73, _46$$73, *_47$$73, *_48$$74, *_49$$76, **_52$$78, *_54$$78, *_55$$78, *_53$$83 = NULL, *_56$$84, _57$$93, *_58$$93 = NULL, *_60$$93, *_61$$93, *_62$$93, _63$$94, *_64$$94 = NULL, *_65$$94, *_66$$94, *_67$$94;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_59 = NULL;
 
@@ -1424,7 +1431,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql) {
 			_3$$8 = zend_fetch_class(Z_STRVAL_P(_2$$8), Z_STRLEN_P(_2$$8), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(modelInstance, _3$$8);
 		if (zephir_has_constructor(modelInstance TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, modelInstance, "__construct", NULL, 0, dependencyInjector);
+			ZEPHIR_INIT_NVAR(_1$$8);
+			ZVAL_NULL(_1$$8);
+			ZEPHIR_CALL_METHOD(NULL, modelInstance, "__construct", NULL, 0, _1$$8, dependencyInjector);
 			zephir_check_call_status();
 		}
 		noPrimary = 1;
@@ -1833,7 +1842,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&phql, this_ptr, "getphql", NULL, 349);
+	ZEPHIR_CALL_METHOD(&phql, this_ptr, "getphql", NULL, 350);
 	zephir_check_call_status();
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);

@@ -73,6 +73,30 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		}, true);
 	}
 
+	public function testEventsFetch()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
+		$trace = array();
+
+		$this->_prepareDI($trace);
+
+		$robot = GossipRobots::findFirst();
+
+		$robot->trace = &$trace;
+
+		$this->assertEquals($trace, array(
+			'afterFetch' => array(
+				'GossipRobots' => 1,
+			),
+		));
+
+	}
+
 	public function testEventsCreate()
 	{
 		require 'unit-tests/config.db.php';
@@ -98,6 +122,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->save();
 
 		$this->assertEquals($trace, array(
+			'prepareSave' => array(
+				'GossipRobots' => 1	
+			),
 			'beforeValidation' => array(
 				'GossipRobots' => 2,
 			),
@@ -142,6 +169,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->save();
 
 		$this->assertEquals($trace, array(
+			'prepareSave' => array(
+				'GossipRobots' => 1	
+			),
 			'beforeValidation' => array(
 				'GossipRobots' => 2,
 			),
@@ -169,6 +199,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 			'afterSave' => array(
 				'GossipRobots' => 2,
 			),
+			'afterFetch' => array(
+				'GossipRobots' => 1,
+			),
 		));
 
 	}
@@ -192,9 +225,12 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		$robot->delete();
 
 		$this->assertEquals($trace, array(
+			'afterFetch' => array(
+				'GossipRobots' => 1,
+			),
 			'beforeDelete' => array(
 				'GossipRobots' => 1,
-			)
+			),
 		));
 
 	}

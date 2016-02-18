@@ -41,7 +41,7 @@ class Dump
 
 	protected _detailed = false { get, set };
 
-	protected _methods = null;
+	protected _methods = [];
 
 	protected _styles;
 
@@ -56,8 +56,8 @@ class Dump
 			throw new Exception("The styles must be an array");
 		}
 		this->setStyles(styles);
-		let this->_methods = [],
-			this->_detailed = detailed;
+
+		let this->_detailed = detailed;
 	}
 
 

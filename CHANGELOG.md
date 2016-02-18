@@ -1,3 +1,56 @@
+# [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2016-XX-XX)
+- PHP 5.3 is now fully deprecated
+- `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
+- Default encrypt mode in `Phalcon\Crypt` is now changed to `MCRYPT_MODE_CFB`
+- Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`
+- Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
+- Removed support for prefixes strategy in `Phalcon\Loader`
+- Now `Phalcon\Mvc\View` supports many views directories at the same time
+- An absolute path can now be used to `Mvc\View::setLayoutsDir`
+- Fixed odd view behavior[#1933](https://github.com/phalcon/cphalcon/issues/1933) related to setLayout() and pick()
+- `Phalcon\Di` is now bound to services closures allowing use `Phalcon\Di` as $this to access services within them
+- If an object is returned after firing the event `beforeServiceResolve` in `Phalcon\Di` this overrides the
+  default service localization process
+- Placeholders `:controller` and `:action` in `Mvc\Router` now defaults to `/([\\w0-9\\_\\-]+)` instead of `/([\\a-zA-Z0-9\\_\\-]+)`
+- Modifier `#u` (PCRE_UTF8) is now default in regex based routes in `Mvc\Router`
+- Return 'false' from an action disables the view component (same as `$this->view->disable()`)
+- Return a string from an action takes it as the body of the response (same as return `$this->response->setContent('Hello world')`)
+- Return a string from an `Mvc\Micro` handler takes it as the body of the response
+- `Mvc\Router\Route` now escapes characters such as . or + to avoid unexpected behaviors
+- Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
+- Routes now can have an associated callback that can override the default dispatcher + view behavior
+- `Phalcon\Mvc\Model` now implements `JsonSerializable` making easy serialize model instances
+- When desctructing a `Mvc\Model\Manager` PHQL cache is clean
+- Method `isSetOption` in `Phalcon\Validation\ValidatorInterface` marked as deprecated, please use `hasOption`
+- Added internal check "allowEmpty" before calling a validator. If it option is true and the value of empty, the validator is skipped
+- Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
+- Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
+- `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
+- Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
+- `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
+- Added method `getOption()` in `Phalcon\Mvc\Model\RelationInterface`
+- Added ability to spoof HTTP request method
+- Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql`
+- Fixed the use of the annotation router with namespaced controllers
+- Added `Phalcon\Acl\RoleAware` and `Phalcon\Acl\ResourceAware` Interfaces, Now you can pass objects to `Phalcon\Acl\AdapterInterface::isAllowed` as `roleName` and `resourceName`, also they will be automatically passed to function defined in `Phalcon\Acl\AdapterInterface::allow` or `Phalcon\Acl\AdapterInterface::deny` by type
+- `Phalcon\Acl\AdapterInterface::allow` and `Phalcon\Acl\AdapterInterface::deny` have 4th argument - function, which will be called when using `Phalcon\Acl\AdapterInterface::isAllowed`
+- `Phalcon\Acl\AdapterInterface::isAllowed` have 4th argument - parameters, you can pass arguments for function defined in `Phalcon\Acl\AdapterInterface:allow` or `Phalcon\Acl\AdapterInterface::deny` as associative array where key is argument name
+- Added method `getActionSuffix()` in `Phalcon\DispatcherInterface`
+- CLI parameters are now handled consistently.
+- Added `Phalcon\Mvc\Controller\BindModelInterface` and associated model type hint loading through dispatcher.
+- Added `Phalcon\Dispatcher::hasParam()`.
+- `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.
+- Fixed `afterFetch` event not being sent to behaviors
+- Fixed issue with radio not being checked when default value is 0 [#11358] (https://github.com/phalcon/cphalcon/issues/11358)
+- Fixed issue with `Model::__set` that was bypassing setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
+- Fixed issue with `Model::__set` that was setting hidden attributes directly when setters are not declared [#11286](https://github.com/phalcon/cphalcon/issues/11286)
+- Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
+- Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
+
+# [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
+- Added a `prepareSave` event to model saving
+- Added support for OnUpdate and OnDelete foreign key events to the MySQL adapter
+
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
 - ORM: Added support for DATE columns in Oracle
 - Fixed wrong `total_items` and `total_pages` in `Paginator` when the query builder has set `groupBy()`

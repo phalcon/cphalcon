@@ -48,10 +48,6 @@ class Email extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
 
 			let label = this->getOption("label");
@@ -65,7 +61,7 @@ class Email extends Validator
 				let message = validation->getDefaultMessage("Email");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Email"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Email", this->getOption("code")));
 			return false;
 		}
 

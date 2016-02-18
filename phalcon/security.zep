@@ -68,13 +68,15 @@ class Security implements InjectionAwareInterface
 
 	const CRYPT_BLOWFISH       =	4;
 
-	const CRYPT_BLOWFISH_X     =	5;
+	const CRYPT_BLOWFISH_A     =    5;
 
-	const CRYPT_BLOWFISH_Y     =	6;
+	const CRYPT_BLOWFISH_X     =	6;
 
-	const CRYPT_SHA256	   =	7;
+	const CRYPT_BLOWFISH_Y     =	7;
 
-	const CRYPT_SHA512	   =	8;
+	const CRYPT_SHA256	   =	8;
+
+	const CRYPT_SHA512	   =	9;
 
 	/**
 	 * Sets the dependency injector
@@ -162,6 +164,10 @@ class Security implements InjectionAwareInterface
 
 		switch hash {
 
+			case self::CRYPT_BLOWFISH_A:
+				let variant = "a";
+				break;
+
 			case self::CRYPT_BLOWFISH_X:
 				let variant = "x";
 				break;
@@ -180,7 +186,7 @@ class Security implements InjectionAwareInterface
 
 			case self::CRYPT_DEFAULT:
 			default:
-				let variant = "a";
+				let variant = "y";
 				break;
 		}
 
@@ -426,13 +432,8 @@ class Security implements InjectionAwareInterface
 
 	/**
 	 * Computes a HMAC
-	 *
-	 * @param string data
-	 * @param string key
-	 * @param string algo
-	 * @param boolean raw
 	 */
-	public function computeHmac(data, key, algo, boolean raw = false) -> string
+	public function computeHmac(string data, string key, string algo, boolean raw = false) -> string
 	{
 		var hmac;
 
@@ -447,7 +448,7 @@ class Security implements InjectionAwareInterface
 	/**
  	 * Sets the default hash
  	 */
-	public function setDefaultHash(var defaultHash)
+	public function setDefaultHash(int defaultHash)
 	{
 		let this->_defaultHash = defaultHash;
 	}

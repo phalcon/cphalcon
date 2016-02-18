@@ -238,4 +238,20 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('Foo\IndexController', $value);
 	}
 
+	public function testCallActionMethod()
+	{
+		$di = new \Phalcon\DI\FactoryDefault();
+
+		$dispatcher = new \Phalcon\Mvc\Dispatcher();
+
+		$di->setShared("dispatcher", $dispatcher);
+
+		$dispatcher->setDI($di);
+
+		$mainTask = new Test2Controller();
+		$mainTask->setDI($di);
+
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'anotherTwoAction', [1, 2]), 3);
+	}
+
 }

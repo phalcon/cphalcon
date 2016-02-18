@@ -150,8 +150,8 @@ class Annotations extends Router
 
 						} else {
 							let controllerName = handler,
-								lowerControllerName = uncamelize(controllerName),
-								namespaceName = null;
+								lowerControllerName = uncamelize(controllerName);
+							fetch namespaceName, this->_defaultNamespace;
 						}
 
 						let this->_routePrefix = null;
@@ -162,6 +162,13 @@ class Annotations extends Router
 						fetch moduleName, scope[2];
 
 						let sufixed = handler . controllerSuffix;
+
+						/**
+						 * Add namespace to class if one is set
+						 */
+						if namespaceName !== null {
+							let sufixed = namespaceName . "\\" . sufixed;
+						}
 
 						/**
 						 * Get the annotations from the class
@@ -334,12 +341,8 @@ class Annotations extends Router
 				route->via(methods);
 			} else {
 				let methods = annotation->getNamedArgument("methods");
-				if typeof methods == "array" {
+				if typeof methods == "array" || typeof methods == "string" {
 					route->via(methods);
-				} else {
-					if typeof methods == "string" {
-						route->via(methods);
-					}
 				}
 			}
 

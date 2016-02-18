@@ -22,6 +22,7 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db;
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
+use Phalcon\Db\Reference;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
@@ -358,11 +359,12 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 */
 	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
 	{
-		var indexes, index, keyName, indexObjects, columns, name;
+		var indexes, index, keyName, indexType, indexObjects, columns, name;
 
 		let indexes = [];
 		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
 			let keyName = index["Key_name"];
+			let indexType = index["Index_type"];
 
 			if !isset indexes[keyName] {
 				let indexes[keyName] = [];
@@ -379,6 +381,8 @@ class Mysql extends PdoAdapter implements AdapterInterface
 
 			if keyName == "PRIMARY" {
 				let indexes[keyName]["type"] = "PRIMARY";
+			} elseif indexType == "FULLTEXT" {
+				let indexes[keyName]["type"] = "FULLTEXT";
 			} elseif index["Non_unique"] == 0 {
 				let indexes[keyName]["type"] = "UNIQUE";
 			} else {
@@ -392,5 +396,69 @@ class Mysql extends PdoAdapter implements AdapterInterface
 		}
 
 		return indexObjects;
+	}
+
+	/**
+	 * Lists table references
+	 *
+	 *<code>
+	 * print_r($connection->describeReferences('robots_parts'));
+	 *</code>
+	 */
+	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
+	{
+		var references, reference,
+			arrayReference, constraintName, referenceObjects, name,
+			referencedSchema, referencedTable, columns, referencedColumns,
+			referenceUpdate, referenceDelete;
+
+		let references = [];
+
+		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema),Db::FETCH_NUM) {
+
+			let constraintName = reference[2];
+			if !isset references[constraintName] {
+				let referencedSchema  = reference[3];
+				let referencedTable   = reference[4];
+				let referenceUpdate   = reference[6];
+				let referenceDelete   = reference[7];
+				let columns           = [];
+				let referencedColumns = [];
+
+			} else {
+				let referencedSchema  = references[constraintName]["referencedSchema"];
+				let referencedTable   = references[constraintName]["referencedTable"];
+				let columns           = references[constraintName]["columns"];
+				let referencedColumns = references[constraintName]["referencedColumns"];
+				let referenceUpdate   = references[constraintName]["onUpdate"];
+				let referenceDelete   = references[constraintName]["onDelete"];
+			}
+
+			let columns[] = reference[1],
+				referencedColumns[] = reference[5];
+
+			let references[constraintName] = [
+				"referencedSchema"  : referencedSchema,
+				"referencedTable"   : referencedTable,
+				"columns"           : columns,
+				"referencedColumns" : referencedColumns,
+				"onUpdate"          : referenceUpdate,
+				"onDelete"          : referenceDelete
+			];
+		}
+
+		let referenceObjects = [];
+		for name, arrayReference in references {
+			let referenceObjects[name] = new Reference(name, [
+				"referencedSchema"  : arrayReference["referencedSchema"],
+				"referencedTable"   : arrayReference["referencedTable"],
+				"columns"           : arrayReference["columns"],
+				"referencedColumns" : arrayReference["referencedColumns"],
+				"onUpdate"          : arrayReference["onUpdate"],
+				"onDelete"          : arrayReference["onDelete"]
+			]);
+		}
+
+		return referenceObjects;
 	}
 }

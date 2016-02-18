@@ -50,10 +50,6 @@ class InclusionIn extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		/**
 		 * A domain is an array with a list of valid values
 		 */
@@ -63,7 +59,7 @@ class InclusionIn extends Validator
 		}
 
 		let strict = false;
-		if this->isSetOption("strict") {
+		if this->hasOption("strict") {
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
@@ -87,7 +83,7 @@ class InclusionIn extends Validator
 				let message = validation->getDefaultMessage("InclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "InclusionIn"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "InclusionIn", this->getOption("code")));
 			return false;
 		}
 

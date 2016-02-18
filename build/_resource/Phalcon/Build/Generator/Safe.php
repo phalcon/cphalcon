@@ -35,11 +35,18 @@ class Generator_Safe
     protected $phalconC;
 
     /**
-     * Generator for config.m4 or config.w32
+     * Generator for config.m4
      *
-     * @var array
+     * @var Generator_File_ConfigM4
      */
-    protected $configs = array();
+    protected $configM4;
+
+    /**
+     * Generator for config.w32
+     *
+     * @var Generator_File_ConfigW32
+     */
+    protected $configW32;
 
     /**
      * Generator for Makefile.frag
@@ -61,12 +68,8 @@ class Generator_Safe
 
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
-
-        $this->configs[] = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
-        
-        if (preg_match('/^WIN/', PHP_OS)) {
-            $this->configs[] = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
-        }
+        $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
+        //$this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
     }
 
     /**
@@ -89,10 +92,9 @@ class Generator_Safe
     {
         $includedHeaderFiles = $this->phalconH->generate();
         $this->phalconC->generate($includedHeaderFiles);
-        
-        foreach($this->configs as $config) {
-            $config->generate();
-        }
+
+        $this->configM4->generate();
+        //$this->configW32->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
         $this->processKernelGlobals();
@@ -106,7 +108,7 @@ class Generator_Safe
         $lines = array();
         foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
             if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
-                $content = file_get_contents($this->sourceDir . '/' . $matches[1]);
+                $content = file_get_contents('ext/' . $matches[1]);
                 $lines[] = $content . PHP_EOL;
             } else {
                 $lines[] = $line;

@@ -132,10 +132,7 @@ class Di implements DiInterface
 	 */
 	public function setShared(string! name, var definition) -> <ServiceInterface>
 	{
-		var service;
-		let service = new Service(name, definition, true),
-			this->_services[name] = service;
-		return service;
+		return this->set(name, definition, true);
 	}
 
 	/**
@@ -208,47 +205,34 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, instance, reflection, eventsManager;
+		var service, eventsManager, instance = null;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		if typeof eventsManager == "object" {
-			eventsManager->fire("di:beforeServiceResolve", this, ["name": name, "parameters": parameters]);
+			let instance = eventsManager->fire(
+				"di:beforeServiceResolve",
+				this,
+				["name": name, "parameters": parameters]
+			);
 		}
 
-		if fetch service, this->_services[name] {
-			/**
-			 * The service is registered in the DI
-			 */
-			let instance = service->resolve(parameters, this);
-		} else {
-			/**
-			 * The DI also acts as builder for any class even if it isn't defined in the DI
-			 */
-			if !class_exists(name) {
-				throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
-			}
-
-			if typeof parameters == "array" {
-				if count(parameters) {
-					if is_php_version("5.6") {
-						let reflection = new \ReflectionClass(name),
-							instance = reflection->newInstanceArgs(parameters);
-					} else {
-						let instance = create_instance_params(name, parameters);
-					}
-				} else {
-					if is_php_version("5.6") {
-						let reflection = new \ReflectionClass(name),
-							instance = reflection->newInstance();
-					} else {
-						let instance = create_instance(name);
-					}
-				}
+		if typeof instance != "object" {
+			if fetch service, this->_services[name] {
+				/**
+				 * The service is registered in the DI
+				 */
+				let instance = service->resolve(parameters, this);
 			} else {
-				if is_php_version("5.6") {
-					let reflection = new \ReflectionClass(name),
-						instance = reflection->newInstance();
+				/**
+				 * The DI also acts as builder for any class even if it isn't defined in the DI
+				 */
+				if !class_exists(name) {
+					throw new Exception("Service '" . name . "' wasn't found in the dependency injection container");
+				}
+
+				if typeof parameters == "array" && count(parameters) {
+					let instance = create_instance_params(name, parameters);
 				} else {
 					let instance = create_instance(name);
 				}
