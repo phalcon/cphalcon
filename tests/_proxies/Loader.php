@@ -54,16 +54,6 @@ class Loader extends PhLoader
         return parent::getNamespaces();
     }
 
-    public function registerPrefixes($prefixes, $merge = false)
-    {
-        return parent::registerPrefixes($prefixes, $merge);
-    }
-
-    public function getPrefixes()
-    {
-        return parent::getPrefixes();
-    }
-
     public function registerDirs($directories, $merge = false)
     {
         return parent::registerDirs($directories, $merge);

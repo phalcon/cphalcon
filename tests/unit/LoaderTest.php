@@ -190,45 +190,6 @@ class LoaderTest extends UnitTest
         );
     }
 
-    public function testPrefixes()
-    {
-        $this->specify(
-            "The loader does not load classes correctly with using prefixes strategy",
-            function () {
-                $loader = new Loader();
-
-                $loader->registerPrefixes(['Pseudo' => PATH_DATA . 'vendor/example/Pseudo/']);
-                $loader->registerPrefixes(['SecondPseudo' => PATH_DATA . 'vendor/example/SecondPseudo/'], true);
-                $loader->register();
-
-                expect(new \Pseudo_Some_Something())->isInstanceOf('Pseudo_Some_Something');
-                expect(new \Pseudo_Base())->isInstanceOf('Pseudo_Base');
-                expect(new \SecondPseudo_Some_Something())->isInstanceOf('SecondPseudo_Some_Something');
-                expect(new \SecondPseudo_Base())->isInstanceOf('SecondPseudo_Base');
-
-                $loader->unregister();
-            }
-        );
-    }
-
-    public function testPrefixesUnderscore()
-    {
-        $this->specify(
-            "The loader does not load classes correctly with using prefixes strategy and underscore",
-            function () {
-                $loader = new Loader();
-
-                $loader->registerPrefixes(['Pseudo_' => PATH_DATA . 'vendor/example/Pseudo/']);
-                $loader->register();
-
-                expect(new \Pseudo_Some_Something())->isInstanceOf('Pseudo_Some_Something');
-                expect(new \Pseudo_Base())->isInstanceOf('Pseudo_Base');
-
-                $loader->unregister();
-            }
-        );
-    }
-
     public function testEvents()
     {
         $this->specify(
@@ -246,10 +207,6 @@ class LoaderTest extends UnitTest
 
                 $loader->registerNamespaces([
                     'Avec\Test' => PATH_DATA . 'vendor/example/other/Avec/'
-                ]);
-
-                $loader->registerPrefixes([
-                    'Avec_' => PATH_DATA . 'vendor/example/other/Avec/'
                 ]);
 
                 $eventsManager = new Manager();
