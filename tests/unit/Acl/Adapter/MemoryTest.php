@@ -492,4 +492,47 @@ class MemoryTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests function in Acl Allow Method
+     *
+     * @issue   11235
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2015-12-16
+     */
+    public function testAclAllowFunction()
+    {
+        $this->specify(
+            'The function in allow should be called and isAllowed should return correct values when using function in allow method',
+            function () {
+                require_once PATH_DATA . 'acl/TestResourceAware.php';
+                require_once PATH_DATA . 'acl/TestRoleAware.php';
+
+                $acl = new Memory;
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addRole('Guests');
+                $acl->addRole('Members', 'Guests');
+                $acl->addRole('Admins', 'Members');
+                $acl->addResource('Post', array('update'));
+
+                $guest = new \TestRoleAware(1,'Guests');
+                $member = new \TestRoleAware(2,'Members');
+                $anotherMember = new \TestRoleAware(3, 'Members');
+                $admin = new \TestRoleAware(4, 'Admins');
+                $model = new \TestResourceAware(2, 'Post');
+
+                $acl->deny('Guests','Post','update');
+                $acl->allow('Members','Post','update',function(\TestRoleAware $user,\TestResourceAware $model){
+                    return $user->getId() == $model->getUser();
+                });
+                $acl->allow('Admins','Post','update');
+
+                expect($acl->isAllowed($guest, $model, 'update'))->false();
+                expect($acl->isAllowed($member, $model, 'update'))->true();
+                expect($acl->isAllowed($anotherMember, $model, 'update'))->false();
+                expect($acl->isAllowed($admin, $model, 'update'))->true();
+            }
+        );
+    }
 }
