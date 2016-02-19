@@ -148,6 +148,50 @@ class LoaderTest extends UnitTest
         );
     }
 
+    public function testNamespacesForMultipleDirectories()
+    {
+        $this->specify(
+            "The loader does not load classes correctly with using multiple directories strategy",
+            function () {
+                $loader = new Loader();
+
+                $loader->registerNamespaces(["Example\\Base" => PATH_DATA . 'vendor/Example/Base/']);
+
+                expect($loader->getNamespaces())->equals(["Example\\Base" => [PATH_DATA . 'vendor/Example/Base/']]);
+
+                $loader->registerNamespaces(
+                    [
+                        "Example\\Adapter" =>
+                        [
+                            PATH_DATA . 'vendor/Example/Adapter/',
+                            PATH_DATA . 'vendor/Example/Adapter2/',
+                        ],
+                    ],
+                    true
+                );
+
+                expect($loader->getNamespaces())->equals([
+                    "Example\\Base" => [
+                        PATH_DATA . 'vendor/Example/Base/'
+                    ],
+                    "Example\\Adapter" =>
+                    [
+                        PATH_DATA . 'vendor/Example/Adapter/',
+                        PATH_DATA . 'vendor/Example/Adapter2/',
+                    ],
+                ]);
+
+                $loader->register();
+
+                expect(new \Example\Adapter\Some())->isInstanceOf('Example\Adapter\Some');
+                expect(new \Example\Adapter\Another())->isInstanceOf('Example\Adapter\Another');
+                expect(new \Example\Adapter\LeSome())->isInstanceOf('Example\Adapter\LeSome');
+
+                $loader->unregister();
+            }
+        );
+    }
+
     public function testDirectoriesExtensions()
     {
         $this->specify(
