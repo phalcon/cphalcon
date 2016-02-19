@@ -446,4 +446,41 @@ class TagRadioFieldTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests check status when default value is 0
+     *
+     * @issue  11358
+     * @author Serhei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-02-19
+     */
+    public function testSetValue()
+    {
+        $this->specify(
+            "Radio field unchecked if default value is 0",
+            function () {
+                // Without default set.
+                $html = '<input type="radio" id="channel" name="channel" value="0"';
+
+                $options = ['channel', 'value' => 0];
+                $this->tester->testFieldParameter(
+                    'radioField',
+                    $options,
+                    $html,
+                    true
+                );
+
+                // With default set.
+                $html = '<input type="radio" id="x_name" name="x_name" value="x_value" checked="checked"';
+                $options = ['x_name', 'name' => 'x_name'];
+                $this->tester->testFieldParameter(
+                    'radioField',
+                    $options,
+                    $html,
+                    true,
+                    'setDefault'
+                );
+            }
+        );
+    }
 }

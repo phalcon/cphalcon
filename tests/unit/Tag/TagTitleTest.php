@@ -25,6 +25,16 @@ use Phalcon\Test\Module\UnitTest;
 class TagTitleTest extends UnitTest
 {
     /**
+     * @issue  11319
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-02-19
+     */
+    public function testResetInput()
+    {
+        Tag::resetInput();
+    }
+
+    /**
      * Tests malicious content in the title
      *
      * @issue  11185
