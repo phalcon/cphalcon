@@ -30,87 +30,87 @@ use Phalcon\Queue\Beanstalk\Exception;
  */
 class Job
 {
-	/**
-	 * @var integer
-	 */
-	protected _id { get };
+    /**
+     * @var integer
+     */
+    protected _id { get };
 
-	/**
-	 * @var mixed
-	 */
-	protected _body { get };
+    /**
+     * @var mixed
+     */
+    protected _body { get };
 
-	protected _queue;
+    protected _queue;
 
-	/**
-	 * Phalcon\Queue\Beanstalk\Job
-	 */
-	public function __construct(<Beanstalk> queue, int id, var body)
-	{
-		let this->_queue = queue;
-		let this->_id = id;
-		let this->_body = body;
-	}
+    /**
+     * Phalcon\Queue\Beanstalk\Job
+     */
+    public function __construct(<Beanstalk> queue, int id, var body)
+    {
+        let this->_queue = queue;
+        let this->_id = id;
+        let this->_body = body;
+    }
 
-	/**
-	 * Removes a job from the server entirely
-	 */
-	public function delete() -> boolean
-	{
- 		var queue;
+    /**
+     * Removes a job from the server entirely
+     */
+    public function delete() -> boolean
+    {
+         var queue;
 
-		let queue = this->_queue;
-		queue->write(sprintf(Beanstalk::CMD_DELETE_FMT, this->_id));
+        let queue = this->_queue;
+        queue->write(sprintf(Beanstalk::CMD_DELETE_FMT, this->_id));
 
-		return queue->readStatus()[0] == Beanstalk::MSG_DELETED;
-	}
+        return queue->readStatus()[0] == Beanstalk::MSG_DELETED;
+    }
 
-	/**
-	 * The release command puts a reserved job back into the ready queue (and marks
-	 * its state as "ready") to be run by any client. It is normally used when the job
-	 * fails because of a transitory error.
-	 */
-	public function release(int priority = 100, int delay = 0) -> boolean
-	{
-		var queue;
+    /**
+     * The release command puts a reserved job back into the ready queue (and marks
+     * its state as "ready") to be run by any client. It is normally used when the job
+     * fails because of a transitory error.
+     */
+    public function release(int priority = 100, int delay = 0) -> boolean
+    {
+        var queue;
 
-		let queue = this->_queue;
-		queue->write(sprintf(Beanstalk::CMD_RELEASE_FMT, this->_id, priority, delay));
-		return queue->readStatus()[0] == Beanstalk::MSG_RELEASED;
-	}
+        let queue = this->_queue;
+        queue->write(sprintf(Beanstalk::CMD_RELEASE_FMT, this->_id, priority, delay));
+        return queue->readStatus()[0] == Beanstalk::MSG_RELEASED;
+    }
 
-	/**
-	 * The bury command puts a job into the "buried" state. Buried jobs are put into
-	 * a FIFO linked list and will not be touched by the server again until a client
-	 * kicks them with the "kick" command.
-	 */
-	public function bury(int priority = 100) -> boolean
-	{
-		var queue;
+    /**
+     * The bury command puts a job into the "buried" state. Buried jobs are put into
+     * a FIFO linked list and will not be touched by the server again until a client
+     * kicks them with the "kick" command.
+     */
+    public function bury(int priority = 100) -> boolean
+    {
+        var queue;
 
-		let queue = this->_queue;
-		queue->write(sprintf(Beanstalk::CMD_BURY_FMT, this->_id, priority));
-		return queue->readStatus()[0] == Beanstalk::MSG_BURIED;
-	}
+        let queue = this->_queue;
+        queue->write(sprintf(Beanstalk::CMD_BURY_FMT, this->_id, priority));
+        return queue->readStatus()[0] == Beanstalk::MSG_BURIED;
+    }
 
-	/**
-	 * The `touch` command allows a worker to request more time to work on a job.
-	 * This is useful for jobs that potentially take a long time, but you still
-	 * want the benefits of a TTR pulling a job away from an unresponsive worker.
-	 * A worker may periodically tell the server that it's still alive and processing
-	 * a job (e.g. it may do this on `DEADLINE_SOON`). The command postpones the auto
-	 * release of a reserved job until TTR seconds from when the command is issued.
-	 */
-	public function touch() -> boolean
-	{
-		var queue;
+    /**
+     * The `touch` command allows a worker to request more time to work on a job.
+     * This is useful for jobs that potentially take a long time, but you still
+     * want the benefits of a TTR pulling a job away from an unresponsive worker.
+     * A worker may periodically tell the server that it's still alive and processing
+     * a job (e.g. it may do this on `DEADLINE_SOON`). The command postpones the auto
+     * release of a reserved job until TTR seconds from when the command is issued.
+     */
+    public function touch() -> boolean
+    {
+        var queue;
 
-		let queue = this->_queue;
-		queue->write(sprintf(Beanstalk::CMD_TOUCH_FMT, this->_id));
-		return queue->readStatus()[0] == Beanstalk::MSG_TOUCHED;
-	}
+        let queue = this->_queue;
+        queue->write(sprintf(Beanstalk::CMD_TOUCH_FMT, this->_id));
+        return queue->readStatus()[0] == Beanstalk::MSG_TOUCHED;
+    }
 
-	/**
+    /**
      * The kick-job command is a variant of kick that operates with a single 
      * job identified by its job id. If the given job id exists and is in a 
      * buried or delayed state, it will be moved to the ready queue of the the 
@@ -118,14 +118,14 @@ class Job
      *
      * @return boolean
      */
-	public function kick() -> boolean
-	{
-		var queue;
+    public function kick() -> boolean
+    {
+        var queue;
 
-		let queue = this->_queue;
-		queue->write(sprintf(Beanstalk::CMD_JOBKICK_FMT, this->_id));
-		return queue->readStatus()[0] == Beanstalk::MSG_KICKED;
-	}
+        let queue = this->_queue;
+        queue->write(sprintf(Beanstalk::CMD_JOBKICK_FMT, this->_id));
+        return queue->readStatus()[0] == Beanstalk::MSG_KICKED;
+    }
 
     /**
      * The stats-job command gives statistical information about the specified 
@@ -147,28 +147,28 @@ class Job
      * 
      * @return boolean | array
      */
-	public function stats() -> boolean|array
-	{
-		var queue, response;
+    public function stats() -> boolean|array
+    {
+        var queue, response;
 
-		let queue = this->_queue;
-		queue->write(sprintf(Beanstalk::CMD_JOBSTATS_FMT, this->_id));
+        let queue = this->_queue;
+        queue->write(sprintf(Beanstalk::CMD_JOBSTATS_FMT, this->_id));
 
-		let response = queue->readYaml();
-		if response[0] == Beanstalk::MSG_NOT_FOUND {
-			return false;
-		}
+        let response = queue->readYaml();
+        if response[0] == Beanstalk::MSG_NOT_FOUND {
+            return false;
+        }
 
-		return response[2];
-	}
+        return response[2];
+    }
 
-	/**
-	 * Checks if the job has been modified after unserializing the object
-	 */
-	public function __wakeup()
-	{
-		if typeof this->_id != "string" {
-			throw new Exception("Unexpected inconsistency in %s - possible break-in attempt!", "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()");
-		}
-	}
+    /**
+     * Checks if the job has been modified after unserializing the object
+     */
+    public function __wakeup()
+    {
+        if typeof this->_id != "string" {
+            throw new Exception("Unexpected inconsistency in %s - possible break-in attempt!", "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()");
+        }
+    }
 }

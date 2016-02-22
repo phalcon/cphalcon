@@ -205,7 +205,7 @@ class Beanstalk
      * 
      * @var resource
      */
-	protected _connection;
+     protected _connection;
 
     /**
      * Keys:
@@ -214,75 +214,75 @@ class Beanstalk
      * 
      * @var array Description
      */
-	protected _parameters;
+     protected _parameters;
 
-	/**
-	 * Phalcon\Queue\Beanstalk
-	 *
-	 * @param array options
-	 */
-	public function __construct(var options = null)
-	{
-		var parameters;
+    /**
+     * Phalcon\Queue\Beanstalk
+     *
+     * @param array options
+     */
+    public function __construct(var options = null)
+    {
+        var parameters;
 
-		if typeof options != "array" {
-			let parameters = [];
-		} else {
-			let parameters = options;
-		}
+        if typeof options != "array" {
+            let parameters = [];
+        } else {
+            let parameters = options;
+        }
 
-		if !isset parameters["host"] {
-			let parameters["host"] = self::DEFAULT_HOST;
-		}
+        if !isset parameters["host"] {
+            let parameters["host"] = self::DEFAULT_HOST;
+        }
 
-		if !isset parameters["port"]  {
-			let parameters["port"] = self::DEFAULT_PORT;
-		}
+        if !isset parameters["port"]  {
+            let parameters["port"] = self::DEFAULT_PORT;
+        }
 
-		let this->_parameters = parameters;
-	}
+        let this->_parameters = parameters;
+    }
 
-	/**
-	 * Makes a connection to the Beanstalkd server
-	 */
-	public function connect() -> resource
-	{
-		var connection, parameters, persistent, $function;
+    /**
+     * Makes a connection to the Beanstalkd server
+     */
+    public function connect() -> resource
+    {
+        var connection, parameters, persistent, $function;
 
-		let connection = this->_connection;
-		if typeof connection == "resource" {
-			this->disconnect();
-		}
+        let connection = this->_connection;
+        if typeof connection == "resource" {
+            this->disconnect();
+        }
 
-		let parameters = this->_parameters;
+        let parameters = this->_parameters;
 
-		/**
-		 * Check if the connection must be persistent
-		 */
-		if fetch persistent, parameters["persistent"] {
-			if persistent {
-				let $function = "pfsockopen";
-			} else {
-			    let $function = "fsockopen";
-			}
-		} else {
-		    let $function = "fsockopen";
-		}
+        /**
+         * Check if the connection must be persistent
+         */
+        if fetch persistent, parameters["persistent"] {
+            if persistent {
+                let $function = "pfsockopen";
+            } else {
+                let $function = "fsockopen";
+            }
+        } else {
+            let $function = "fsockopen";
+        }
 
-		let connection = {$function}(parameters["host"], parameters["port"], null, null);
+        let connection = {$function}(parameters["host"], parameters["port"], null, null);
 
-		if typeof connection != "resource" {
-			throw new Exception("Can't connect to Beanstalk server");
-		}
+        if typeof connection != "resource" {
+            throw new Exception("Can't connect to Beanstalk server");
+        }
 
-		stream_set_timeout(connection, -1, null);
+        stream_set_timeout(connection, -1, null);
 
-		let this->_connection = connection;
+        let this->_connection = connection;
 
-		return connection;
-	}
+        return connection;
+    }
 
-	/**
+    /**
      * Puts a job on the queue using specified tube.
      *
      * @param string $data is the job body. This value must be less than max-job-size (default: 2**16).
@@ -300,48 +300,48 @@ class Beanstalk
      * silently increase the ttr to 1.
      * @return boolean|integer job id or false
      */
-	public function put(var data, var options = null) -> int|boolean
-	{
-		var priority, delay, ttr, serialized, response, status, length;
+    public function put(var data, var options = null) -> int|boolean
+    {
+        var priority, delay, ttr, serialized, response, status, length;
 
-		/**
-		 * Priority is 100 by default
-		 */
-		if !fetch priority, options["priority"] {
-			let priority = self::DEFAULT_PRIORITY;
-		}
+        /**
+         * Priority is 100 by default
+         */
+        if !fetch priority, options["priority"] {
+            let priority = self::DEFAULT_PRIORITY;
+        }
 
-		if !fetch delay, options["delay"] {
-			let delay = self::DEFAULT_DELAY;
-		}
+        if !fetch delay, options["delay"] {
+            let delay = self::DEFAULT_DELAY;
+        }
 
-		if !fetch ttr, options["ttr"] {
-			let ttr = self::DEFAULT_TTR;
-		}
+        if !fetch ttr, options["ttr"] {
+            let ttr = self::DEFAULT_TTR;
+        }
 
-		/**
-		 * Data is automatically serialized before be sent to the server
-		 */
-		let serialized = serialize(data);
+        /**
+         * Data is automatically serialized before be sent to the server
+         */
+        let serialized = serialize(data);
 
-		/**
-		 * Create the command
-		 */
-		let length = strlen(serialized);
+        /**
+         * Create the command
+         */
+        let length = strlen(serialized);
         this->write(sprintf(self::CMD_PUT_FMT, priority, delay, ttr, length));
-		this->write(serialized);
+        this->write(serialized);
 
-		let response = this->readStatus();
-		let status = response[0];
+        let response = this->readStatus();
+        let status = response[0];
 
-		if status != self::MSG_INSERTED && status != self::MSG_BURIED {
-			return false;
-		}
+        if status != self::MSG_INSERTED && status != self::MSG_BURIED {
+            return false;
+        }
 
-		return (int) response[1];
-	}
+        return (int) response[1];
+    }
 
-	/**
+    /**
      * Reserves/locks a ready job from the specified tube.
      * This will return a newly-reserved job. If no job is available to be 
      * reserved, beanstalkd will wait to send a response until one becomes 
@@ -360,33 +360,33 @@ class Beanstalk
      * @param  integer          $timeout seconds
      * @return boolean|\Phalcon\Queue\Beanstalk\Job
      */
-	public function reserve(var timeout = null) -> boolean|<Job>
-	{
-		var command, response;
+    public function reserve(var timeout = null) -> boolean|<Job>
+    {
+        var command, response;
 
-		if typeof timeout != "null" {
-			let command = sprintf(self::CMD_RESERVE_TIMEOUT_FMT, timeout);
-		} else {
-			let command = self::CMD_RESERVE;
-		}
+        if typeof timeout != "null" {
+            let command = sprintf(self::CMD_RESERVE_TIMEOUT_FMT, timeout);
+        } else {
+            let command = self::CMD_RESERVE;
+        }
 
-		this->write(command);
+        this->write(command);
 
-		let response = this->readStatus();
-		if response[0] != self::MSG_RESERVED {
-			return false;
-		}
+        let response = this->readStatus();
+        if response[0] != self::MSG_RESERVED {
+            return false;
+        }
 
-		/**
-		 * The job is in the first position
-		 * Next is the job length
-		 * The body is serialized
-		 * Create a beanstalk job abstraction
-		 */
-		return new Job(this, response[1], unserialize(this->read(response[2])));
-	}
+        /**
+         * The job is in the first position
+         * Next is the job length
+         * The body is serialized
+         * Create a beanstalk job abstraction
+         */
+        return new Job(this, response[1], unserialize(this->read(response[2])));
+    }
 
-	/**
+    /**
      * Change the active tube. By default the tube is "default"
      * The use command is for producers. Subsequent put commands will put jobs
      * into the tube specified by this command. If no use command has been
@@ -395,21 +395,21 @@ class Beanstalk
      * @param string $tube
      * @return boolean|string
      */
-	public function choose(string! tube) -> boolean|string
-	{
-		var response;
+    public function choose(string! tube) -> boolean|string
+    {
+        var response;
 
-		this->write(sprintf(self::CMD_USE_FMT, tube));
+        this->write(sprintf(self::CMD_USE_FMT, tube));
 
-		let response = this->readStatus();
+        let response = this->readStatus();
         if response[0] != self::MSG_USING {
-			return false;
-		}
+            return false;
+        }
 
-		return response[1];
-	}
+        return response[1];
+    }
 
-	/**
+    /**
      * The watch command adds the named tube to the watch list for the current
      * connection. A reserve command will take a job from any of the tubes in
      * the watch list. For each new connection, the watch list initially
@@ -419,19 +419,19 @@ class Beanstalk
      * tube doesn't exist, it will be created.
      * @return boolean|integer is the integer number of tubes currently in the watch list.
      */
-	public function watch(string! tube) -> boolean|int
-	{
-		var response;
+    public function watch(string! tube) -> boolean|int
+    {
+        var response;
 
-		this->write(sprintf(self::CMD_WATCH_FMT, tube));
+        this->write(sprintf(self::CMD_WATCH_FMT, tube));
 
-		let response = this->readStatus();
-		if response[0] != self::MSG_WATCHING {
-			return false;
-		}
+        let response = this->readStatus();
+        if response[0] != self::MSG_WATCHING {
+            return false;
+        }
 
-		return (int) response[1];
-	}
+        return (int) response[1];
+    }
         
     /**
      * It removes the named tube from the watch list for the current connection.
@@ -441,16 +441,16 @@ class Beanstalk
      */
     public function ignore(tube) -> boolean|int
     {
-            var response;
+        var response;
 
-            this->write(sprintf(self::CMD_IGNORE_FMT, tube));
+        this->write(sprintf(self::CMD_IGNORE_FMT, tube));
 
-            let response = this->readStatus();
-            if(response[0] != self::MSG_WATCHING) {
-                    return false;
-            }
+        let response = this->readStatus();
+        if(response[0] != self::MSG_WATCHING) {
+            return false;
+        }
 
-            return (int) response[1];
+        return (int) response[1];
     }
 
     /**
@@ -463,16 +463,16 @@ class Beanstalk
      */
     public function pauseTube(tube, delay) -> boolean
     {
-            var response;
+        var response;
 
-            this->write(sprintf(self::CMD_PAUSE_TUBE_FMT, tube, delay));
+        this->write(sprintf(self::CMD_PAUSE_TUBE_FMT, tube, delay));
 
-            let response = this->readStatus();
-            if(response[0] != self::MSG_PAUSED) {
-                    return false;
-            }
+        let response = this->readStatus();
+        if(response[0] != self::MSG_PAUSED) {
+            return false;
+        }
 
-            return true;
+        return true;
     }
 
     /**
@@ -486,16 +486,16 @@ class Beanstalk
      */
     public function kick(bound) -> boolean|int
     {
-            var response;
+        var response;
 
-            this->write(sprintf(self::CMD_KICK_FMT, bound));
+        this->write(sprintf(self::CMD_KICK_FMT, bound));
 
-            let response = this->readStatus();
-            if(response[0] != self::MSG_KICKED) {
-                    return false;
-            }
+        let response = this->readStatus();
+        if(response[0] != self::MSG_KICKED) {
+            return false;
+        }
 
-            return (int) response[1];
+        return (int) response[1];
     }
 
     /**
@@ -552,21 +552,21 @@ class Beanstalk
      * <b>id</b></b> is a random id string for this server process, generated when each beanstalkd process starts.<br>
      * <b>hostname</b></b> is the hostname of the machine as determined by uname.<br>
      */
-	public function stats() -> boolean|array
-	{
-		var response;
+    public function stats() -> boolean|array
+    {
+        var response;
 
-		this->write(self::CMD_STATS);
+        this->write(self::CMD_STATS);
 
-		let response = this->readYaml();
-		if response[0] != self::MSG_OK {
-			return false;
-		}
+        let response = this->readYaml();
+        if response[0] != self::MSG_OK {
+            return false;
+        }
 
-		return response[2];
-	}
+        return response[2];
+    }
 
-	/**
+    /**
      * Gives statistical information about the specified tube if it exists.
      * @param string $tube Stats will be returned for this tube.
      * @return boolean|array
@@ -587,38 +587,38 @@ class Beanstalk
      * <b>cmd-pause-tube</b> is the cumulative number of pause-tube commands for this tube.<br>
      * <b>pause-time-left</b> is the number of seconds until the tube is un-paused.<br>
      */
-	public function statsTube(string! tube) -> boolean|array
-	{
-		var response;
+    public function statsTube(string! tube) -> boolean|array
+    {
+        var response;
 
-		this->write(sprintf(self::CMD_STATS_TUBE_FMT, tube));
+        this->write(sprintf(self::CMD_STATS_TUBE_FMT, tube));
 
-		let response = this->readYaml();
-		if response[0] != self::MSG_OK {
-			return false;
-		}
+        let response = this->readYaml();
+        if response[0] != self::MSG_OK {
+            return false;
+        }
 
-		return response[2];
-	}
+        return response[2];
+    }
 
     /**
      * Returns a list of all existing tubes.
      * 
      * @return boolean|array all tube names
      */
-	public function listTubes() -> boolean|array
-	{
-		var response;
+    public function listTubes() -> boolean|array
+    {
+        var response;
 
-		this->write(self::CMD_LIST_TUBES);
+        this->write(self::CMD_LIST_TUBES);
 
-		let response = this->readYaml();
-		if response[0] != self::MSG_OK {
-			return false;
-		}
+        let response = this->readYaml();
+        if response[0] != self::MSG_OK {
+            return false;
+        }
 
-		return response[2];
-	}
+        return response[2];
+    }
         
     /**
      * Returns the tube currently being used by the client.
@@ -627,16 +627,16 @@ class Beanstalk
      */
     public function listTubeUsed() -> boolean|string
     {
-            var response;
+        var response;
 
-            this->write(self::CMD_LIST_TUBE_USED);
+        this->write(self::CMD_LIST_TUBE_USED);
 
-            let response = this->readStatus();
-            if (response[0] != self::MSG_USING) {
-                    return false;
-            }
+        let response = this->readStatus();
+        if (response[0] != self::MSG_USING) {
+            return false;
+        }
 
-            return response[1];
+        return response[1];
     }
 
     /**
@@ -646,16 +646,16 @@ class Beanstalk
      */
     public function listTubesWatched() -> boolean|array
     {
-            var response;
+        var response;
 
-            this->write(self::CMD_LIST_TUBES_WATCHED);
+        this->write(self::CMD_LIST_TUBES_WATCHED);
 
-            let response = this->readYaml();
-            if(response[0] != self::MSG_OK) {
-                    return false;
-            }
+        let response = this->readYaml();
+        if(response[0] != self::MSG_OK) {
+            return false;
+        }
 
-            return response[2];
+        return response[2];
     }
 
     /**
@@ -663,38 +663,38 @@ class Beanstalk
      * 
      * @return boolean|\Phalcon\Queue\Beanstalk\Job
      */
-	public function peekReady() -> boolean|<Job>
-	{
-		var response;
+    public function peekReady() -> boolean|<Job>
+    {
+        var response;
 
-		this->write(self::CMD_PEEK_READY);
+        this->write(self::CMD_PEEK_READY);
 
-		let response = this->readStatus();
-		if response[0] != self::MSG_FOUND {
-			return false;
-		}
+        let response = this->readStatus();
+        if response[0] != self::MSG_FOUND {
+            return false;
+        }
 
-		return new Job(this, response[1], unserialize(this->read(response[2])));
-	}
+        return new Job(this, response[1], unserialize(this->read(response[2])));
+    }
 
-	/**
+    /**
      * Return the next job in the list of buried jobs.
      * 
      * @return boolean|\Phalcon\Queue\Beanstalk\Job
      */
-	public function peekBuried() -> boolean|<Job>
-	{
-		var response;
+    public function peekBuried() -> boolean|<Job>
+    {
+        var response;
 
-		this->write(self::CMD_PEEK_BURIED);
+        this->write(self::CMD_PEEK_BURIED);
 
-		let response = this->readStatus();
-		if response[0] != self::MSG_FOUND {
-			return false;
-		}
+        let response = this->readStatus();
+        if response[0] != self::MSG_FOUND {
+            return false;
+        }
 
-		return new Job(this, response[1], unserialize(this->read(response[2])));
-	}
+        return new Job(this, response[1], unserialize(this->read(response[2])));
+    }
         
     /**
      * Return the next job in the list of buried jobs.
@@ -703,18 +703,18 @@ class Beanstalk
      */
     public function peekDelayed() -> boolean|<Job>
     {
-            var response;
+        var response;
 
-            if (!this->write(self::CMD_PEEK_DELAYED)) {
-                return false;
-            }
+        if (!this->write(self::CMD_PEEK_DELAYED)) {
+            return false;
+        }
 
-            let response = this->readStatus();
-            if (response[0] != self::MSG_FOUND) {
-                return false;
-            }
+        let response = this->readStatus();
+        if (response[0] != self::MSG_FOUND) {
+            return false;
+        }
 
-            return new Job(this, response[1], unserialize(this->read(response[2])));
+        return new Job(this, response[1], unserialize(this->read(response[2])));
     }
 
     /**
@@ -725,89 +725,89 @@ class Beanstalk
      */
     public function jobPeek(job_id) -> boolean|<Job>
     {
-            var response;
+        var response;
 
-            this->write(sprintf(self::CMD_PEEKJOB_FMT, job_id));
+        this->write(sprintf(self::CMD_PEEKJOB_FMT, job_id));
 
-            let response = this->readStatus();
+        let response = this->readStatus();
 
-            if (response[0] != self::MSG_FOUND) {
-                    return false;
-            }
+        if (response[0] != self::MSG_FOUND) {
+            return false;
+        }
 
-            return new Job(this, response[1], unserialize(this->read(response[2])));
+        return new Job(this, response[1], unserialize(this->read(response[2])));
     }
 
     /**
-	 * Reads the latest status from the Beanstalkd server
-	 */
-	final public function readStatus() -> array
-	{
-		var status;
-		let status = this->read();
-		if status === false {
-			return [];
-		}
-		return explode(" ", status);
-	}
+     * Reads the latest status from the Beanstalkd server
+     */
+    final public function readStatus() -> array
+    {
+        var status;
+        let status = this->read();
+        if status === false {
+            return [];
+        }
+        return explode(" ", status);
+    }
 
-	/**
-	 * Fetch a YAML payload from the Beanstalkd server
-	 */
-	final public function readYaml() -> array
-	{
-		var response, status, numberOfBytes, data;
+    /**
+     * Fetch a YAML payload from the Beanstalkd server
+     */
+    final public function readYaml() -> array
+    {
+        var response, status, numberOfBytes, data;
 
-		let response = this->readStatus();
+        let response = this->readStatus();
 
-		let status = response[0];
+        let status = response[0];
 
-		if count(response) > 1 {
-			let numberOfBytes = response[1];
+        if count(response) > 1 {
+            let numberOfBytes = response[1];
 
-			let response = this->read();
+            let response = this->read();
 
-			let data = yaml_parse(response);
-		} else {
-			let numberOfBytes = 0;
+            let data = yaml_parse(response);
+        } else {
+            let numberOfBytes = 0;
 
-			let data = [];
-		}
+            let data = [];
+        }
 
-		return [
-			status,
-			numberOfBytes,
-			data
-		];
-	}
+        return [
+            status,
+            numberOfBytes,
+            data
+        ];
+    }
 
-	/**
-	 * Reads a packet from the socket. Prior to reading from the socket will
-	 * check for availability of the connection.
-	 */
-	public function read(int length = 0) -> boolean|string
-	{
-		var connection, data;
+    /**
+     * Reads a packet from the socket. Prior to reading from the socket will
+     * check for availability of the connection.
+     */
+    public function read(int length = 0) -> boolean|string
+    {
+        var connection, data;
 
-		let connection = this->_connection;
-		if typeof connection != "resource" {
-			let connection = this->connect();
-			if typeof connection != "resource" {
-				return false;
-			}
-		}
+        let connection = this->_connection;
+        if typeof connection != "resource" {
+            let connection = this->connect();
+            if typeof connection != "resource" {
+                return false;
+            }
+        }
 
-		if length {
+        if length {
 
-			if feof(connection) {
-				return false;
-			}
+            if feof(connection) {
+                return false;
+            }
 
-			let data = rtrim(stream_get_line(connection, length + 2), "\r\n");
-			if stream_get_meta_data(connection)["timed_out"] {
-				throw new Exception("Connection timed out");
-			}
-		} else {
+            let data = rtrim(stream_get_line(connection, length + 2), "\r\n");
+            if stream_get_meta_data(connection)["timed_out"] {
+                throw new Exception("Connection timed out");
+            }
+        } else {
             let data = stream_get_line(connection, 16384, "\r\n");
         }
         
@@ -815,58 +815,58 @@ class Beanstalk
         self::errorDetection(data);
         
         return data;
-	}
+    }
     
     /**
-	 * error detection for response
-	 */
+     * error detection for response
+     */
     protected static function errorDetection(response)
     {
         if response === self::MSG_UNKNOWN_COMMAND {
-			throw new Exception(self::MSG_UNKNOWN_COMMAND);
-		} elseif response === self::MSG_JOB_TOO_BIG {
-			throw new Exception(self::MSG_JOB_TOO_BIG);
-		} elseif response === self::MSG_BAD_FORMAT {
-			throw new Exception(self::MSG_BAD_FORMAT);
-		} elseif response === self::MSG_OUT_OF_MEMORY {
-			throw new Exception(self::MSG_OUT_OF_MEMORY);
-		}
+            throw new Exception(self::MSG_UNKNOWN_COMMAND);
+        } elseif response === self::MSG_JOB_TOO_BIG {
+            throw new Exception(self::MSG_JOB_TOO_BIG);
+        } elseif response === self::MSG_BAD_FORMAT {
+            throw new Exception(self::MSG_BAD_FORMAT);
+        } elseif response === self::MSG_OUT_OF_MEMORY {
+            throw new Exception(self::MSG_OUT_OF_MEMORY);
+        }
     }
 
-	/**
-	 * Writes data to the socket. Performs a connection if none is available
-	 */
-	protected function write(string data) -> boolean|int
-	{
-		var connection, packet;
+    /**
+     * Writes data to the socket. Performs a connection if none is available
+     */
+    protected function write(string data) -> boolean|int
+    {
+        var connection, packet;
 
-		let connection = this->_connection;
-		if typeof connection != "resource" {
-			let connection = this->connect();
-			if typeof connection != "resource" {
-				return false;
-			}
-		}
+        let connection = this->_connection;
+        if typeof connection != "resource" {
+            let connection = this->connect();
+            if typeof connection != "resource" {
+                return false;
+            }
+        }
 
-		let packet = data . "\r\n";
-		return fwrite(connection, packet, strlen(packet));
-	}
+        let packet = data . "\r\n";
+        return fwrite(connection, packet, strlen(packet));
+    }
 
-	/**
-	 * Closes the connection to the beanstalk server.
-	 */
-	public function disconnect() -> boolean
-	{
-		var connection;
+    /**
+     * Closes the connection to the beanstalk server.
+     */
+    public function disconnect() -> boolean
+    {
+        var connection;
 
-		let connection = this->_connection;
-		if typeof connection != "resource" {
-			return false;
-		}
+        let connection = this->_connection;
+        if typeof connection != "resource" {
+            return false;
+        }
 
-		fclose(connection);
-		return true;
-	}
+        fclose(connection);
+        return true;
+    }
         
     /**
      * Simply closes the connection.
