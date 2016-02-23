@@ -268,8 +268,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$this->assertEquals(xcache_get('$PMM$my-local-appmeta-robots-robots'), $this->_data['meta-robots-robots']);
-		$this->assertEquals(xcache_get('$PMM$my-local-appmap-robots'), $this->_data['map-robots']);
+		$this->assertEquals(apc_fetch('$PMM$my-local-appmeta-robots-robots'), $this->_data['meta-robots-robots']);
+		$this->assertEquals(apc_fetch('$PMM$my-local-appmap-robots'), $this->_data['map-robots']);
 
 		$this->assertFalse($metaData->isEmpty());
 
