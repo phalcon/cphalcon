@@ -207,6 +207,7 @@ class Postgresql extends Dialect
 
 		let columnDefinition = this->getColumnDefinition(column);
 		let sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
+		let currentColumn = currentColumn == null ? column : currentColumn; 
 
 		//Rename
 		if column->getName() != currentColumn->getName() {

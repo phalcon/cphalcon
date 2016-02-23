@@ -116,4 +116,45 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 			$result = $logger->format("msg", \Phalcon\Logger::INFO, 0);
 			$this->assertEquals($result, '[Thu, 01 Jan 70 00:00:00 +0000][INFO] msg'.PHP_EOL);
 	}
+
+	public function testIssues10429()
+	{
+		$logfile1 = "unit-tests/logs/file.log";
+		$logfile2 = "unit-tests/logs/multiple.log";
+
+		@unlink($logfile1);
+		@unlink($logfile2);
+
+		// Show the first debug message is ignored.
+		$logger = new \Phalcon\Logger\Multiple();
+		$logger->push(new \Phalcon\Logger\Adapter\File($logfile1));
+		$logger->push(new \Phalcon\Logger\Adapter\File($logfile2));
+		$logger->setFormatter(new \Phalcon\Logger\Formatter\Json());
+		$logger->setLogLevel(\Phalcon\Logger::WARNING);
+		$logger->log('This is an ignored debug');
+		$logger->log("This is a warning", \Phalcon\Logger::WARNING);
+		$logger->error("This is an error");
+		$logger->setLogLevel(\Phalcon\Logger::DEBUG);
+		$logger->log('This is a debug');
+
+		$loggerType = array('WARNING', 'ERROR', 'DEBUG');
+		$loggerMessage = array('This is a warning', 'This is an error', 'This is a debug');
+
+		$lines = file($logfile1);
+		$this->assertEquals(count($lines), 3);
+		foreach($lines as $key => $line) {
+			$line = json_decode($line, true);
+			$this->assertEquals($line['type'], $loggerType[$key]);
+			$this->assertEquals($line['message'], $loggerMessage[$key]);
+		}
+
+		unset($lines);
+		$lines = file($logfile2);
+		$this->assertEquals(count($lines), 3);
+		foreach($lines as $key => $line) {
+			$line = json_decode($line, true);
+			$this->assertEquals($line['type'], $loggerType[$key]);
+			$this->assertEquals($line['message'], $loggerMessage[$key]);
+		}
+	}
 }
