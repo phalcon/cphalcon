@@ -47,37 +47,24 @@ class Beanstalk
      * The put command is for any process that wants to insert a job into the queue.
      * @const string
      */
-    const CMD_PUT = "put ";
-    const CMD_PUT_FMT = "put %d %d %d %d";
-    const CMD_PEEKJOB = "peek ";
-    const CMD_PEEKJOB_FMT = "peek %d";
+    const CMD_PUT = "put";
+    const CMD_PEEKJOB = "peek";
     const CMD_PEEK_READY = "peek-ready";
     const CMD_PEEK_DELAYED = "peek-delayed";
     const CMD_PEEK_BURIED = "peek-buried";
     const CMD_RESERVE = "reserve";
-    const CMD_RESERVE_TIMEOUT = "reserve-with-timeout ";
-    const CMD_RESERVE_TIMEOUT_FMT = "reserve-with-timeout %d";
-    const CMD_DELETE = "delete ";
-    const CMD_DELETE_FMT = "delete %d";
-    const CMD_RELEASE = "release ";
-    const CMD_RELEASE_FMT = "release %d %d %d";
-    const CMD_BURY = "bury ";
-    const CMD_BURY_FMT = "bury %d %d";
-    const CMD_KICK = "kick ";
-    const CMD_KICK_FMT = "kick %d";
-    const CMD_JOBKICK = "kick-job ";
-    const CMD_JOBKICK_FMT = "kick-job %d";
-    const CMD_TOUCH = "touch ";
-    const CMD_TOUCH_FMT = "touch %d";
+    const CMD_RESERVE_TIMEOUT = "reserve-with-timeout";
+    const CMD_DELETE = "delete";
+    const CMD_RELEASE = "release";
+    const CMD_BURY = "bury";
+    const CMD_KICK = "kick";
+    const CMD_JOBKICK = "kick-job";
+    const CMD_TOUCH = "touch";
     const CMD_STATS = "stats";
-    const CMD_JOBSTATS = "stats-job ";
-    const CMD_JOBSTATS_FMT = "stats-job %d";
-    const CMD_USE = "use ";
-    const CMD_USE_FMT = "use %s";
-    const CMD_WATCH = "watch ";
-    const CMD_WATCH_FMT = "watch %s";
-    const CMD_IGNORE = "ignore ";
-    const CMD_IGNORE_FMT = "ignore %s";
+    const CMD_JOBSTATS = "stats-job";
+    const CMD_USE = "use";
+    const CMD_WATCH = "watch";
+    const CMD_IGNORE = "ignore";
 
     /**
      * The list-tubes command returns a list of all existing tubes.
@@ -86,34 +73,25 @@ class Beanstalk
     const CMD_LIST_TUBES = "list-tubes";
     const CMD_LIST_TUBE_USED = "list-tube-used";
     const CMD_LIST_TUBES_WATCHED = "list-tubes-watched";
-    const CMD_STATS_TUBE = "stats-tube ";
-    const CMD_STATS_TUBE_FMT = "stats-tube %s";
+    const CMD_STATS_TUBE = "stats-tube";
     const CMD_QUIT = "quit";
-    const CMD_PAUSE_TUBE = "pause-tube ";
-    const CMD_PAUSE_TUBE_FMT = "pause-tube %s %d";
+    const CMD_PAUSE_TUBE = "pause-tube";
 
     const MSG_OK = "OK";
-    const MSG_OK_FMT = "OK %d";
     const MSG_WATCHING = "WATCHING";
-    const MSG_WATCHING_FMT = "WATCHING %d";
     const MSG_FOUND = "FOUND";
-    const MSG_FOUND_FMT = "FOUND %d %d";
     const MSG_NOT_FOUND = "NOT_FOUND";
     const MSG_USING = "USING";
     const MSG_PAUSED = "PAUSED";
     const MSG_RESERVED = "RESERVED";
-    const MSG_RESERVED_FMT = "RESERVED %d %d";
     const MSG_DEADLINE_SOON = "DEADLINE_SOON";
     const MSG_TIMED_OUT = "TIMED_OUT";
     const MSG_DELETED = "DELETED";
     const MSG_RELEASED = "RELEASED";
     const MSG_BURIED = "BURIED";
-    const MSG_BURIED_FMT = "BURIED %d";
     const MSG_KICKED = "KICKED";
-    const MSG_KICKED_FMT = "KICKED %d";
     const MSG_TOUCHED = "TOUCHED";
     const MSG_INSERTED = "INSERTED";
-    const MSG_INSERTED_FMT = "INSERTED %d";
     const MSG_NOT_IGNORED = "NOT_IGNORED";
 
     /**
@@ -151,13 +129,7 @@ class Beanstalk
     const MSG_UNKNOWN_COMMAND = "UNKNOWN_COMMAND";
     const MSG_EXPECTED_CRLF = "EXPECTED_CRLF";
     const MSG_JOB_TOO_BIG = "JOB_TOO_BIG";
-
-    const STATS_FMT = "---\ncurrent-jobs-urgent: %d\ncurrent-jobs-ready: %d\ncurrent-jobs-reserved: %d\ncurrent-jobs-delayed: %d\ncurrent-jobs-buried: %d\ncmd-put: %d\ncmd-peek: %d\ncmd-peek-ready: %d\ncmd-peek-delayed: %d\ncmd-peek-buried: %dncmd-reserve: %d\ncmd-reserve-with-timeout: %d\ncmd-delete: %d\ncmd-release: %d\ncmd-use: %d\ncmd-watch: %d\ncmd-ignore: %d\ncmd-bury: %d\ncmd-kick: %d\ncmd-touch: %d\ncmd-stats: %d\ncmd-stats-job: %d\ncmd-stats-tube: %d\ncmd-list-tubes: %d\ncmd-list-tube-used: %d\ncmd-list-tubes-watched: %d\ncmd-pause-tube: %d\njob-timeouts: %d\ntotal-jobs: %d\nmax-job-size: %d\ncurrent-tubes: %d\ncurrent-connections: %d\ncurrent-producers: %d\ncurrent-workers: %d\ncurrent-waiting: %d\ntotal-connections: %d\npid: %d\nversion: %s\nrusage-utime: %f\nrusage-stime: %f\nuptime: %d\nbinlog-oldest-index: %d\nbinlog-current-index: %d\nbinlog-records-migrated: %d\nbinlog-records-written: %d\nbinlog-max-size: %d\nid: %s\nhostname: %s\n";
-
-    const STATS_TUBE_FMT = "---\nname: %s\ncurrent-jobs-urgent: %d\ncurrent-jobs-ready: %d\ncurrent-jobs-reserved: %d\ncurrent-jobs-delayed: %d\ncurrent-jobs-buried: %d\ntotal-jobs: %d\ncurrent-using: %d\ncurrent-watching: %d\ncurrent-waiting: %d\ncmd-delete: %d\ncmd-pause-tube: %d\npause: %d\npause-time-left: %d\n";
-
-    const STATS_JOB_FMT = "---\nid: %d\ntube: %s\nstate: %s\npri: %d\nage: %d\ndelay: %d\nttr: %d\ntime-left: %d\nfile: %d\nreserves: %d\ntimeouts: %d\nreleases: %d\nburies: %d\nkicks: %d\n";
-
+    
     /**
      * Seconds to wait before putting the job in the ready queue.
      * The job will be in the "delayed" state during this time.
@@ -328,7 +300,7 @@ class Beanstalk
          * Create the command
          */
         let length = strlen(serialized);
-        this->write(sprintf(self::CMD_PUT_FMT, priority, delay, ttr, length));
+        this->write(self::CMD_PUT . " " . priority . " " . delay . " " . ttr . " " . length);
         this->write(serialized);
 
         let response = this->readStatus();
@@ -365,7 +337,7 @@ class Beanstalk
         var command, response;
 
         if typeof timeout != "null" {
-            let command = sprintf(self::CMD_RESERVE_TIMEOUT_FMT, timeout);
+            let command = self::CMD_RESERVE_TIMEOUT . " " . timeout;
         } else {
             let command = self::CMD_RESERVE;
         }
@@ -399,7 +371,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_USE_FMT, tube));
+        this->write(self::CMD_USE . " " . tube);
 
         let response = this->readStatus();
         if response[0] != self::MSG_USING {
@@ -423,7 +395,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_WATCH_FMT, tube));
+        this->write(self::CMD_WATCH . " " . tube);
 
         let response = this->readStatus();
         if response[0] != self::MSG_WATCHING {
@@ -443,7 +415,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_IGNORE_FMT, tube));
+        this->write(self::CMD_IGNORE . " " . tube);
 
         let response = this->readStatus();
         if(response[0] != self::MSG_WATCHING) {
@@ -465,7 +437,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_PAUSE_TUBE_FMT, tube, delay));
+        this->write(self::CMD_PAUSE_TUBE . " " . tube . " " . delay);
 
         let response = this->readStatus();
         if(response[0] != self::MSG_PAUSED) {
@@ -488,7 +460,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_KICK_FMT, bound));
+        this->write(self::CMD_KICK . " " . bound);
 
         let response = this->readStatus();
         if(response[0] != self::MSG_KICKED) {
@@ -591,7 +563,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_STATS_TUBE_FMT, tube));
+        this->write(self::CMD_STATS_TUBE . " " . tube);
 
         let response = this->readYaml();
         if response[0] != self::MSG_OK {
@@ -727,7 +699,7 @@ class Beanstalk
     {
         var response;
 
-        this->write(sprintf(self::CMD_PEEKJOB_FMT, job_id));
+        this->write(self::CMD_PEEKJOB . " " . job_id);
 
         let response = this->readStatus();
 

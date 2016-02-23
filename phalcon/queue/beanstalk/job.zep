@@ -60,7 +60,7 @@ class Job
          var queue;
 
         let queue = this->_queue;
-        queue->write(sprintf(Beanstalk::CMD_DELETE_FMT, this->_id));
+        queue->write(Beanstalk::CMD_DELETE . " " . this->_id);
 
         return queue->readStatus()[0] == Beanstalk::MSG_DELETED;
     }
@@ -75,7 +75,7 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(sprintf(Beanstalk::CMD_RELEASE_FMT, this->_id, priority, delay));
+        queue->write(Beanstalk::CMD_RELEASE . " " . this->_id . " " . priority . " " . delay);
         return queue->readStatus()[0] == Beanstalk::MSG_RELEASED;
     }
 
@@ -89,7 +89,7 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(sprintf(Beanstalk::CMD_BURY_FMT, this->_id, priority));
+        queue->write(Beanstalk::CMD_BURY . " " . this->_id ." " . priority);
         return queue->readStatus()[0] == Beanstalk::MSG_BURIED;
     }
 
@@ -106,7 +106,7 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(sprintf(Beanstalk::CMD_TOUCH_FMT, this->_id));
+        queue->write(Beanstalk::CMD_TOUCH . " " . this->_id);
         return queue->readStatus()[0] == Beanstalk::MSG_TOUCHED;
     }
 
@@ -123,7 +123,7 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(sprintf(Beanstalk::CMD_JOBKICK_FMT, this->_id));
+        queue->write(Beanstalk::CMD_JOBKICK . " " . this->_id);
         return queue->readStatus()[0] == Beanstalk::MSG_KICKED;
     }
 
@@ -152,7 +152,7 @@ class Job
         var queue, response;
 
         let queue = this->_queue;
-        queue->write(sprintf(Beanstalk::CMD_JOBSTATS_FMT, this->_id));
+        queue->write(Beanstalk::CMD_JOBSTATS . " " . this->_id);
 
         let response = queue->readYaml();
         if response[0] == Beanstalk::MSG_NOT_FOUND {
