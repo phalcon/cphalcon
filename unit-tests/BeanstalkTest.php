@@ -32,11 +32,7 @@ class BeanstalkTest extends PHPUnit_Framework_TestCase
     const JOB_CLASS = 'Phalcon\Queue\Beanstalk\Job';
     
     protected $fakeData = [
-        "big_tube_name_over_200" => "tube_name_tube_name_tube_name_tube_name_"
-        . "tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name"
-        . "_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name"
-        . "_tube_name_tube_name_tube_name_"
-        
+        "big_tube_name_over_200" => "tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_tube_name_"
     ];
 
 
