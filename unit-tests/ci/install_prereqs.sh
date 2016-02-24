@@ -19,7 +19,7 @@ CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install imagick < /dev/null &
 CFLAGS="-O1 -g3 -fno-strict-aliasing" pecl install yaml < /dev/null &
 # CFLAGS="-O2 -g3 -fno-strict-aliasing" pecl upgrade mongo < /dev/null &
 
-if [ -z $(php -m | grep yaml) ]; then
+if [ "$(php -r 'echo substr(PHP_VERSION, 0, 3);')" = "5.4" ]; then
         phpenv config-add "$DIR/yaml.ini"
 fi
 
