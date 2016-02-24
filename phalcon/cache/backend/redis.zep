@@ -448,7 +448,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function flush() -> boolean
 	{
-		var options, specialKey, redis, keys, key, lastKey;
+		var options, specialKey, redis, keys, key;
 
 		let options = this->_options;
 
@@ -468,9 +468,8 @@ class Redis extends Backend implements BackendInterface
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = "_PHCR" . key;
 				redis->sRem(specialKey, key);
-				redis->delete(lastKey);
+				redis->delete(key);
 			}
 		}
 
