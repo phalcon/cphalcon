@@ -70,7 +70,7 @@ class BeanstalkTest extends PHPUnit_Framework_TestCase
         try {
             $tube = $this->client->choose($this->fakeData['big_tube_name_over_200']);
         } catch (Exception $e) {
-            $this->assertEquals(Phalcon\Queue\Beanstalk::MSG_BAD_FORMAT, $e->getMessage());
+            $this->assertEquals("BAD_FORMAT", $e->getMessage());
             return;
         }
         
