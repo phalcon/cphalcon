@@ -1,6 +1,15 @@
 # Codeception Test Suite Configuration
-
-# suite for unit (internal) tests.
-class_name: CodeGuy
+#
+# Suite for unit (internal) tests.
+class_name: UnitTester
 modules:
-    enabled: [Asserts, UnitHelper]
+    # enabled modules and helpers
+    enabled:
+        - Helper\Unit
+        - Asserts
+        - Db
+        - Filesystem
+        - Phalcon2
+    config:
+        Phalcon2:
+            bootstrap: 'tests/_config/bootstrap.php'
