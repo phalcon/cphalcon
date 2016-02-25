@@ -200,6 +200,36 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($successful[3]->getTempName(), 't3');
 	}
 
+	public function testGetURI()
+	{
+		$tmpServer = $_SERVER;
+		unset($_SERVER);
+
+		$_SERVER['REQUEST_URI'] = '/this/is/a/test';
+
+		$request = new \Phalcon\Http\Request();
+		$uri = $request->getURI();
+
+		$this->assertEquals('/this/is/a/test', $uri);
+
+		$_SERVER = $tmpServer;
+	}
+
+	public function testGetHeader()
+	{
+		$tmpServer = $_SERVER;
+		unset($_SERVER);
+
+		$_SERVER['HTTP_X_AUTHORIZATION'] = 'AUTH_TOK3N';
+
+		$request = new \Phalcon\Http\Request();
+		$token = $request->getHeader('X_AUTHORIZATION');
+
+		$this->assertEquals('AUTH_TOK3N', $token);
+
+		$_SERVER = $tmpServer;
+	}
+
 	public function xtestGetAuth()
 	{
 		$orgServer = $_SERVER;
