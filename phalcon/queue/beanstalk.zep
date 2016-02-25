@@ -42,94 +42,7 @@ use Phalcon\Queue\Beanstalk\Exception;
  * @link http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/
  */
 class Beanstalk
-{
-    /**
-     * The put command is for any process that wants to insert a job into the queue.
-     * @const string
-     */
-    const CMD_PUT = "put";
-    const CMD_PEEKJOB = "peek";
-    const CMD_PEEK_READY = "peek-ready";
-    const CMD_PEEK_DELAYED = "peek-delayed";
-    const CMD_PEEK_BURIED = "peek-buried";
-    const CMD_RESERVE = "reserve";
-    const CMD_RESERVE_TIMEOUT = "reserve-with-timeout";
-    const CMD_DELETE = "delete";
-    const CMD_RELEASE = "release";
-    const CMD_BURY = "bury";
-    const CMD_KICK = "kick";
-    const CMD_JOBKICK = "kick-job";
-    const CMD_TOUCH = "touch";
-    const CMD_STATS = "stats";
-    const CMD_JOBSTATS = "stats-job";
-    const CMD_USE = "use";
-    const CMD_WATCH = "watch";
-    const CMD_IGNORE = "ignore";
-
-    /**
-     * The list-tubes command returns a list of all existing tubes.
-     * @const string
-     */
-    const CMD_LIST_TUBES = "list-tubes";
-    const CMD_LIST_TUBE_USED = "list-tube-used";
-    const CMD_LIST_TUBES_WATCHED = "list-tubes-watched";
-    const CMD_STATS_TUBE = "stats-tube";
-    const CMD_QUIT = "quit";
-    const CMD_PAUSE_TUBE = "pause-tube";
-
-    const MSG_OK = "OK";
-    const MSG_WATCHING = "WATCHING";
-    const MSG_FOUND = "FOUND";
-    const MSG_NOT_FOUND = "NOT_FOUND";
-    const MSG_USING = "USING";
-    const MSG_PAUSED = "PAUSED";
-    const MSG_RESERVED = "RESERVED";
-    const MSG_DEADLINE_SOON = "DEADLINE_SOON";
-    const MSG_TIMED_OUT = "TIMED_OUT";
-    const MSG_DELETED = "DELETED";
-    const MSG_RELEASED = "RELEASED";
-    const MSG_BURIED = "BURIED";
-    const MSG_KICKED = "KICKED";
-    const MSG_TOUCHED = "TOUCHED";
-    const MSG_INSERTED = "INSERTED";
-    const MSG_NOT_IGNORED = "NOT_IGNORED";
-
-    /**
-     * The server cannot allocate enough memory for the job. 
-     * The client should try again later.
-     * 
-     * @const string
-     */
-    const MSG_OUT_OF_MEMORY = "OUT_OF_MEMORY";
-
-    /**
-     * This indicates a bug in the server. It should never happen.
-     * If it does happen, please report it at http://groups.google.com/group/beanstalk-talk.
-     * 
-     * @const string
-     */
-    const MSG_INTERNAL_ERROR = "INTERNAL_ERROR";
-    const MSG_DRAINING = "DRAINING";
-
-    /**
-     * The client sent a command line that was not well-formed.
-     * This can happen if the line does not end with \r\n,
-     * if non-numeric characters occur where an integer is expected,
-     * if the wrong number of arguments are present,
-     * or if the command line is mal-formed in any other way.
-     * 
-     * @const string
-     */
-    const MSG_BAD_FORMAT = "BAD_FORMAT";
-
-    /**
-     * The client sent a command that the server does not know.
-     * @const string
-     */
-    const MSG_UNKNOWN_COMMAND = "UNKNOWN_COMMAND";
-    const MSG_EXPECTED_CRLF = "EXPECTED_CRLF";
-    const MSG_JOB_TOO_BIG = "JOB_TOO_BIG";
-    
+{    
     /**
      * Seconds to wait before putting the job in the ready queue.
      * The job will be in the "delayed" state during this time.
@@ -300,13 +213,13 @@ class Beanstalk
          * Create the command
          */
         let length = strlen(serialized);
-        this->write(self::CMD_PUT . " " . priority . " " . delay . " " . ttr . " " . length);
+        this->write("put " . priority . " " . delay . " " . ttr . " " . length);
         this->write(serialized);
 
         let response = this->readStatus();
         let status = response[0];
 
-        if status != self::MSG_INSERTED && status != self::MSG_BURIED {
+        if status != "INSERTED" && status != "BURIED" {
             return false;
         }
 
@@ -337,15 +250,15 @@ class Beanstalk
         var command, response;
 
         if typeof timeout != "null" {
-            let command = self::CMD_RESERVE_TIMEOUT . " " . timeout;
+            let command = "reserve-with-timeout " . timeout;
         } else {
-            let command = self::CMD_RESERVE;
+            let command = "reserve";
         }
 
         this->write(command);
 
         let response = this->readStatus();
-        if response[0] != self::MSG_RESERVED {
+        if response[0] != "RESERVED" {
             return false;
         }
 
@@ -371,10 +284,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_USE . " " . tube);
+        this->write("use " . tube);
 
         let response = this->readStatus();
-        if response[0] != self::MSG_USING {
+        if response[0] != "USING" {
             return false;
         }
 
@@ -395,10 +308,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_WATCH . " " . tube);
+        this->write("watch " . tube);
 
         let response = this->readStatus();
-        if response[0] != self::MSG_WATCHING {
+        if response[0] != "WATCHING" {
             return false;
         }
 
@@ -415,10 +328,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_IGNORE . " " . tube);
+        this->write("ignore " . tube);
 
         let response = this->readStatus();
-        if(response[0] != self::MSG_WATCHING) {
+        if(response[0] != "WATCHING") {
             return false;
         }
 
@@ -437,10 +350,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_PAUSE_TUBE . " " . tube . " " . delay);
+        this->write("pause-tube " . tube . " " . delay);
 
         let response = this->readStatus();
-        if(response[0] != self::MSG_PAUSED) {
+        if(response[0] != "PAUSED") {
             return false;
         }
 
@@ -460,10 +373,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_KICK . " " . bound);
+        this->write("kick " . bound);
 
         let response = this->readStatus();
-        if(response[0] != self::MSG_KICKED) {
+        if(response[0] != "KICKED") {
             return false;
         }
 
@@ -528,10 +441,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_STATS);
+        this->write("stats");
 
         let response = this->readYaml();
-        if response[0] != self::MSG_OK {
+        if response[0] != "OK" {
             return false;
         }
 
@@ -563,10 +476,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_STATS_TUBE . " " . tube);
+        this->write("stats-tube " . tube);
 
         let response = this->readYaml();
-        if response[0] != self::MSG_OK {
+        if response[0] != "OK" {
             return false;
         }
 
@@ -582,10 +495,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_LIST_TUBES);
+        this->write("list-tubes");
 
         let response = this->readYaml();
-        if response[0] != self::MSG_OK {
+        if response[0] != "OK" {
             return false;
         }
 
@@ -601,10 +514,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_LIST_TUBE_USED);
+        this->write("list-tube-used");
 
         let response = this->readStatus();
-        if (response[0] != self::MSG_USING) {
+        if (response[0] != "USING") {
             return false;
         }
 
@@ -620,10 +533,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_LIST_TUBES_WATCHED);
+        this->write("list-tubes-watched");
 
         let response = this->readYaml();
-        if(response[0] != self::MSG_OK) {
+        if(response[0] != "OK") {
             return false;
         }
 
@@ -639,10 +552,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_PEEK_READY);
+        this->write("peek-ready");
 
         let response = this->readStatus();
-        if response[0] != self::MSG_FOUND {
+        if response[0] != "FOUND" {
             return false;
         }
 
@@ -658,10 +571,10 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_PEEK_BURIED);
+        this->write("peek-buried");
 
         let response = this->readStatus();
-        if response[0] != self::MSG_FOUND {
+        if response[0] != "FOUND" {
             return false;
         }
 
@@ -677,12 +590,12 @@ class Beanstalk
     {
         var response;
 
-        if (!this->write(self::CMD_PEEK_DELAYED)) {
+        if (!this->write("peek-delayed")) {
             return false;
         }
 
         let response = this->readStatus();
-        if (response[0] != self::MSG_FOUND) {
+        if (response[0] != "FOUND") {
             return false;
         }
 
@@ -699,11 +612,11 @@ class Beanstalk
     {
         var response;
 
-        this->write(self::CMD_PEEKJOB . " " . job_id);
+        this->write("peek " . job_id);
 
         let response = this->readStatus();
 
-        if (response[0] != self::MSG_FOUND) {
+        if (response[0] != "FOUND") {
             return false;
         }
 
@@ -794,14 +707,14 @@ class Beanstalk
      */
     protected static function errorDetection(response)
     {
-        if response === self::MSG_UNKNOWN_COMMAND {
-            throw new Exception(self::MSG_UNKNOWN_COMMAND);
-        } elseif response === self::MSG_JOB_TOO_BIG {
-            throw new Exception(self::MSG_JOB_TOO_BIG);
-        } elseif response === self::MSG_BAD_FORMAT {
-            throw new Exception(self::MSG_BAD_FORMAT);
-        } elseif response === self::MSG_OUT_OF_MEMORY {
-            throw new Exception(self::MSG_OUT_OF_MEMORY);
+        if response === "UNKNOWN_COMMAND" {
+            throw new Exception("UNKNOWN_COMMAND");
+        } elseif response === "JOB_TOO_BIG" {
+            throw new Exception("JOB_TOO_BIG");
+        } elseif response === "BAD_FORMAT" {
+            throw new Exception("BAD_FORMAT");
+        } elseif response === "OUT_OF_MEMORY" {
+            throw new Exception("OUT_OF_MEMORY");
         }
     }
 
@@ -847,6 +760,6 @@ class Beanstalk
      */
     public function quit()
     {
-        return (boolean)this->write(self::CMD_QUIT);
+        return (boolean)this->write("quit");
     }
 }

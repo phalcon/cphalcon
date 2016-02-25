@@ -60,9 +60,9 @@ class Job
          var queue;
 
         let queue = this->_queue;
-        queue->write(Beanstalk::CMD_DELETE . " " . this->_id);
+        queue->write("delete " . this->_id);
 
-        return queue->readStatus()[0] == Beanstalk::MSG_DELETED;
+        return queue->readStatus()[0] == "DELETED";
     }
 
     /**
@@ -75,8 +75,8 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(Beanstalk::CMD_RELEASE . " " . this->_id . " " . priority . " " . delay);
-        return queue->readStatus()[0] == Beanstalk::MSG_RELEASED;
+        queue->write("release " . this->_id . " " . priority . " " . delay);
+        return queue->readStatus()[0] == "RELEASED";
     }
 
     /**
@@ -89,8 +89,8 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(Beanstalk::CMD_BURY . " " . this->_id ." " . priority);
-        return queue->readStatus()[0] == Beanstalk::MSG_BURIED;
+        queue->write("bury " . this->_id ." " . priority);
+        return queue->readStatus()[0] == "BURIED";
     }
 
     /**
@@ -106,8 +106,8 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(Beanstalk::CMD_TOUCH . " " . this->_id);
-        return queue->readStatus()[0] == Beanstalk::MSG_TOUCHED;
+        queue->write("touch " . this->_id);
+        return queue->readStatus()[0] == "TOUCHED";
     }
 
     /**
@@ -123,8 +123,8 @@ class Job
         var queue;
 
         let queue = this->_queue;
-        queue->write(Beanstalk::CMD_JOBKICK . " " . this->_id);
-        return queue->readStatus()[0] == Beanstalk::MSG_KICKED;
+        queue->write("kick-job " . this->_id);
+        return queue->readStatus()[0] == "KICKED";
     }
 
     /**
@@ -152,10 +152,10 @@ class Job
         var queue, response;
 
         let queue = this->_queue;
-        queue->write(Beanstalk::CMD_JOBSTATS . " " . this->_id);
+        queue->write("stats-job " . this->_id);
 
         let response = queue->readYaml();
-        if response[0] == Beanstalk::MSG_NOT_FOUND {
+        if response[0] == "NOT_FOUND" {
             return false;
         }
 
