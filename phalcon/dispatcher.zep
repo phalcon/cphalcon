@@ -562,8 +562,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			try {
 
 				// We update the latest value produced by the latest handler
-				let this->_returnedValue = call_user_func_array([handler, actionMethod], params);
-					
+				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
 			} catch \Exception, e {
 
 				let this->_lastHandler = handler;
