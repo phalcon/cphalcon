@@ -341,7 +341,18 @@ class Di implements DiInterface
 	 */
 	public function offsetSet(string! name, var definition) -> boolean
 	{
-		this->setShared(name, definition);
+		var def, shared;
+		if typeof definition == "array" {
+			let def = definition[0];
+			let shared = true;
+			if isset definition[1] {
+				let shared = definition[1];
+			}
+			this->set(name, def, shared);
+		}
+		else{
+			this->setShared(name, definition);
+		}
 		return true;
 	}
 
@@ -354,7 +365,7 @@ class Di implements DiInterface
 	 */
 	public function offsetGet(string! name) -> var
 	{
-		return this->getShared(name);
+		return this->getService(name)->resolve();
 	}
 
 	/**
