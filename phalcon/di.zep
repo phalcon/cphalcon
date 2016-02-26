@@ -329,7 +329,7 @@ class Di implements DiInterface
 	}
 
 	/**
-	 * Allows to register a shared service using the array syntax
+	 * Allows to register a service using the array syntax
 	 *
 	 *<code>
 	 *	$di["request"] = new \Phalcon\Http\Request();
@@ -341,12 +341,23 @@ class Di implements DiInterface
 	 */
 	public function offsetSet(string! name, var definition) -> boolean
 	{
-		this->setShared(name, definition);
+		var def, shared;
+		if typeof definition == "array" {
+			let def = definition[0];
+			let shared = true;
+			if isset definition[1] {
+				let shared = definition[1];
+			}
+			this->set(name, def, shared);
+		}
+		else{
+			this->setShared(name, definition);
+		}
 		return true;
 	}
 
 	/**
-	 * Allows to obtain a shared service using the array syntax
+	 * Allows to obtain a service using the array syntax
 	 *
 	 *<code>
 	 *	var_dump($di["request"]);
@@ -354,7 +365,7 @@ class Di implements DiInterface
 	 */
 	public function offsetGet(string! name) -> var
 	{
-		return this->getShared(name);
+		return this->get(name);
 	}
 
 	/**
