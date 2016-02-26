@@ -47,6 +47,9 @@
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
 - Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
 - Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
+- Changing `offsetSet` and `offsetGet` methods in `Phalcon\Di`, now you can set if service is shared using array-access syntax, also it's using `resolve` method instead of
+returning always
+shared service
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
