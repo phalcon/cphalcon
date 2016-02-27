@@ -262,6 +262,22 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->limit(10, 5)
 						->getPhql();
 		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT :APL0: OFFSET :APL1:');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->where('Robots.name = "Voltron"')
+			->betweenWhere('Robots.id', 0, 50, Builder::OPERATOR_OR)
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] (Robots.name = "Voltron") OR (Robots.id BETWEEN :APL0: and :APL0:)');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->where('Robots.name = "Voltron"')
+			->inWhere('Robots.id', [1, 2, 3], Builder::OPERATOR_OR)
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] (Robots.name = "Voltron") OR (Robots.id in (:APL0:,:APL1:,:APL2:)');
 	}
 
 	public function testIssue701()
