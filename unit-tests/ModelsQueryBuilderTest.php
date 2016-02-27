@@ -267,9 +267,25 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$phql = $builder->setDi($di)
 			->from('Robots')
 			->where('Robots.name = "Voltron"')
+			->betweenWhere('Robots.id', 0, 50)
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] WHERE (Robots.name = "Voltron") AND (Robots.id BETWEEN :AP0: AND :AP1:)');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->where('Robots.name = "Voltron"')
+			->inWhere('Robots.id', [1, 2, 3])
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] WHERE (Robots.name = "Voltron") AND (Robots.id IN (:AP0:, :AP1:, :AP2:))');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->where('Robots.name = "Voltron"')
 			->betweenWhere('Robots.id', 0, 50, Builder::OPERATOR_OR)
 			->getPhql();
-		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] (Robots.name = "Voltron") OR (Robots.id BETWEEN :APL0: and :APL0:)');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] WHERE (Robots.name = "Voltron") OR (Robots.id BETWEEN :AP0: AND :AP1:)');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
@@ -277,7 +293,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			->where('Robots.name = "Voltron"')
 			->inWhere('Robots.id', [1, 2, 3], Builder::OPERATOR_OR)
 			->getPhql();
-		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] (Robots.name = "Voltron") OR (Robots.id in (:APL0:,:APL1:,:APL2:)');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] WHERE (Robots.name = "Voltron") OR (Robots.id IN (:AP0:, :AP1:, :AP2:))');
 	}
 
 	public function testIssue701()
