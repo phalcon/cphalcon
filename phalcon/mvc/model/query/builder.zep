@@ -676,8 +676,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
-        if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-		    throw new Exception(sprintf("Operator % is not available.", operator));
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
 		}
 
 		let operatorMethod = operator . "Where";
@@ -719,8 +719,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
-        if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-		    throw new Exception(sprintf("Operator % is not available.", operator));
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
 		}
 
 		let operatorMethod = operator . "Where";
@@ -760,13 +760,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
 		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
-        int hiddenParam;
+		int hiddenParam;
 
-        if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(sprintf("Operator % is not available.", operator));
-        }
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
 
-        let operatorMethod = operator . "Where";
+		let operatorMethod = operator . "Where";
 
 		if !count(values) {
 			this->{operatorMethod}(expr . " != " . expr);
@@ -812,10 +812,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		int hiddenParam;
 
 		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(sprintf("Operator % is not available.", operator));
-        }
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
 
-        let operatorMethod = operator . "Where";
+		let operatorMethod = operator . "Where";
 
 		if !count(values) {
 			this->{operatorMethod}(expr . " != " . expr);
