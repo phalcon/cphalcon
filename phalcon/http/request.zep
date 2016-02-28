@@ -569,17 +569,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		if typeof methods == "array" {
 			for method in methods {
-				if strict && !this->isValidHttpMethod(method) {
-					if typeof method == "string" {
-						throw new Exception("Invalid HTTP method: " . method);
-					} else {
-						throw new Exception("Invalid HTTP method: non-string");
-					}
-				}
-				if method == httpMethod {
+				if this->isMethod(method) {
 					return true;
 				}
 			}
+
 			return false;
 		}
 
