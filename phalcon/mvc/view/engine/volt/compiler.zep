@@ -265,34 +265,27 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function getUniquePrefix() -> string
 	{
-		var prefix, calculatedPrefix;
-
-		let prefix = this->_prefix;
+		var calculatedPrefix;
 
 		/**
 		 * If the unique prefix is not set we use a hash using the modified Berstein algotithm
 		 */
-		if !prefix {
-			let prefix = unique_path_key(this->_currentPath);
-			let this->_prefix = prefix;
+		if !this->_prefix {
+			let this->_prefix = unique_path_key(this->_currentPath);
 		}
 
 		/**
 		 * The user could use a closure generator
 		 */
-		if typeof prefix == "object" {
-			if prefix instanceof \Closure {
-				let calculatedPrefix = call_user_func_array(prefix, [this]),
-					this->_prefix = calculatedPrefix,
-					prefix = calculatedPrefix;
-			}
+		if typeof this->_prefix == "object" && this->_prefix instanceof \Closure {
+			let this->_prefix = call_user_func_array(this->_prefix, [this]);
 		}
 
-		if typeof prefix != "string" {
+		if typeof this->_prefix != "string" {
 			throw new Exception("The unique compilation prefix is invalid");
 		}
 
-		return prefix;
+		return this->_prefix;
 	}
 
 	/**
@@ -324,12 +317,8 @@ class Compiler implements InjectionAwareInterface
 				 * Services registered in the dependency injector container are availables always
 				 */
 				let dependencyInjector = this->_dependencyInjector;
-				if typeof dependencyInjector == "object" {
-					if dependencyInjector->has(variable) {
-						let exprCode .= "$this->" . variable;
-					} else {
-						let exprCode .= "$" . variable;
-					}
+				if typeof dependencyInjector == "object" && dependencyInjector->has(variable) {
+					let exprCode .= "$this->" . variable;
 				} else {
 					let exprCode .= "$" . variable;
 				}
