@@ -569,7 +569,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		if typeof methods == "array" {
 			for method in methods {
-				if this->isMethod(method) {
+				if this->isMethod(method, strict) {
 					return true;
 				}
 			}
