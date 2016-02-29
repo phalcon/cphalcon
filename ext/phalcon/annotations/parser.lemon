@@ -30,7 +30,13 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#if PHP_VERSION_ID < 70000
 #include <ext/standard/php_smart_str.h>
+#else
+#include <ext/standard/php_smart_string.h>
+#include <zend_smart_str.h>
+#endif
+
 #include <main/spprintf.h>
 
 #include "parser.h"
@@ -40,15 +46,48 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 
+static inline zval *phannot_alloc_zval()
+{
+    zval *ret;
+
+#if PHP_VERSION_ID < 70000
+    MAKE_STD_ZVAL(ret);
+#else
+    ret = emalloc(sizeof(zval));
+    ZVAL_UNDEF(ret);
+#endif
+
+    return ret;
+}
+
+#if PHP_VERSION_ID < 70000
+#define phannot_add_assoc_stringl(var, index, str, len) add_assoc_stringl(var, index, str, len, 0);
+#else
+#define phannot_add_assoc_stringl(var, index, str, len) add_assoc_stringl(var, index, str, len);
+#endif
+
+#if PHP_VERSION_ID < 70000
+#define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str, copy);
+#else
+#define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str);
+#endif
+
+#if PHP_VERSION_ID < 70000
+#define PHANNOT_IS_INTERNED(z) IS_INTERNED(z)
+#else
+#define PHANNOT_IS_INTERNED(z) 1
+#endif
+
 static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
 {
 	zval *ret;
 
-	MAKE_STD_ZVAL(ret);
+    ret = phannot_alloc_zval();
+
 	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		phannot_add_assoc_stringl(ret, "value", T->token, T->token_len);
 		efree(T);
 	}
 
@@ -59,7 +98,7 @@ static zval *phannot_ret_array(zval *items)
 {
 	zval *ret;
 
-	MAKE_STD_ZVAL(ret);
+	ret = phannot_alloc_zval();
 	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", PHANNOT_T_ARRAY);
 
@@ -73,30 +112,45 @@ static zval *phannot_ret_array(zval *items)
 static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 {
 	zval *ret;
-	HashPosition pos;
 	HashTable *list;
 
-	MAKE_STD_ZVAL(ret);
+	ret = phannot_alloc_zval();
 	array_init(ret);
 
 	if (list_left) {
 
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
-			zend_hash_internal_pointer_reset_ex(list, &pos);
-			for (;; zend_hash_move_forward_ex(list, &pos)) {
+#if PHP_VERSION_ID < 70000
+            {
+                HashPosition pos;
+                zend_hash_internal_pointer_reset_ex(list, &pos);
+    			for (;; zend_hash_move_forward_ex(list, &pos)) {
 
-				zval ** item;
+    				zval ** item;
 
-				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
-					break;
-				}
+    				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
+    					break;
+    				}
 
-				Z_ADDREF_PP(item);
-				add_next_index_zval(ret, *item);
+    				Z_ADDREF_PP(item);
+    				add_next_index_zval(ret, *item);
+    			}
+    			zval_ptr_dtor(&list_left);
+            }
+#else
+            {
+                zval *item;
+                ZEND_HASH_FOREACH_VAL(list, item) {
 
-			}
-			zval_ptr_dtor(&list_left);
+                    Z_TRY_ADDREF_P(item);
+                    add_next_index_zval(ret, item);
+
+                } ZEND_HASH_FOREACH_END();
+            }
+
+            zval_dtor(list_left);
+#endif
 		} else {
 			add_next_index_zval(ret, list_left);
 		}
@@ -111,11 +165,12 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 {
 	zval *ret;
 
-	MAKE_STD_ZVAL(ret);
+	ret = phannot_alloc_zval();
 	array_init_size(ret, 2);
+
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);
 		efree(name);
 	}
 
@@ -126,13 +181,13 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 {
 	zval *ret;
 
-	MAKE_STD_ZVAL(ret);
+	ret = phannot_alloc_zval();
 	array_init_size(ret, 5);
 
 	add_assoc_long(ret, "type", PHANNOT_T_ANNOTATION);
 
 	if (name) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);
 		efree(name);
 	}
 
@@ -140,7 +195,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 		add_assoc_zval(ret, "arguments", arguments);
 	}
 
-	add_assoc_string(ret, "file", (char*)state->active_file, !IS_INTERNED(state->active_file));
+	phannot_add_assoc_string_copy(ret, "file", (char*)state->active_file, !PHANNOT_IS_INTERNED(state->active_file));
 	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
@@ -206,13 +261,21 @@ program ::= annotation_language(Q) . {
 	status->ret = Q;
 }
 
-%destructor annotation_language { zval_ptr_dtor(&$$); }
+%destructor annotation_language {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 annotation_language(R) ::= annotation_list(L) . {
 	R = L;
 }
 
-%destructor annotation_list { zval_ptr_dtor(&$$); }
+%destructor annotation_list {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 annotation_list(R) ::= annotation_list(L) annotation(S) . {
 	R = phannot_ret_zval_list(L, S);
@@ -223,7 +286,11 @@ annotation_list(R) ::= annotation(S) . {
 }
 
 
-%destructor annotation { zval_ptr_dtor(&$$); }
+%destructor annotation {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
 	R = phannot_ret_annotation(I, L, status->scanner_state);
@@ -237,7 +304,11 @@ annotation(R) ::= AT IDENTIFIER(I) . {
 	R = phannot_ret_annotation(I, NULL, status->scanner_state);
 }
 
-%destructor argument_list { zval_ptr_dtor(&$$); }
+%destructor argument_list {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
 	R = phannot_ret_zval_list(L, I);
@@ -247,7 +318,11 @@ argument_list(R) ::= argument_item(I) . {
 	R = phannot_ret_zval_list(NULL, I);
 }
 
-%destructor argument_item { zval_ptr_dtor(&$$); }
+%destructor argument_item {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 argument_item(R) ::= expr(E) . {
 	R = phannot_ret_named_item(NULL, E);
@@ -269,7 +344,11 @@ argument_item(R) ::= IDENTIFIER(I) COLON expr(E) . {
 	R = phannot_ret_named_item(I, E);
 }
 
-%destructor expr { zval_ptr_dtor(&$$); }
+%destructor expr {
+#if PHP_VERSION_ID < 70000
+    zval_ptr_dtor(&$$);
+#endif
+}
 
 expr(R) ::= annotation(S) . {
 	R = S;

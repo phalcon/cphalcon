@@ -54,7 +54,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	protected _action;
 
-	protected _params;
+	protected _params = [];
 
 	protected _defaultModule = null;
 
@@ -62,7 +62,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	protected _defaultAction = null;
 
-	protected _defaultParams;
+	protected _defaultParams = [];
 
 	protected _routes;
 
@@ -96,9 +96,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 			]);
 		}
 
-		let this->_params = [],
-			this->_defaultParams = [],
-			this->_routes = routes;
+		let this->_routes = routes;
 	}
 
 	/**
@@ -353,23 +351,19 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 		/**
 		 * Check for an parameters
 		 */
-		if routeFound {
-			if fetch params, parts["params"] {
-				if typeof params != "array" {
-					let strParams = substr((string)params, 1);
-					if strParams {
-						let params = explode(Route::getDelimiter(), strParams);
-					} else {
-						let params = [];
-					}
+		if fetch params, parts["params"] {
+			if typeof params != "array" {
+				let strParams = substr((string)params, 1);
+				if strParams {
+					let params = explode(Route::getDelimiter(), strParams);
+				} else {
+					let params = [];
 				}
-				unset parts["params"];
 			}
-			if count(params) {
-				let params = array_merge(params, parts);
-			} else {
-				let params = parts;
-			}
+			unset parts["params"];
+		}
+		if count(params) {
+			let params = array_merge(params, parts);
 		} else {
 			let params = parts;
 		}
@@ -391,7 +385,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * @param string/array paths
 	 * @return \Phalcon\Cli\Router\Route
 	 */
-	public function add(string! pattern, paths = null) -> <Route>
+	public function add(string! pattern, paths = null) -> <RouteInterface>
 	{
 		var route;
 
@@ -437,7 +431,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Returns the route that matchs the handled URI
 	 */
-	public function getMatchedRoute() -> <Route>
+	public function getMatchedRoute() -> <RouteInterface>
 	{
 		return this->_matchedRoute;
 	}
@@ -474,7 +468,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * @param int id
 	 * @return \Phalcon\Cli\Router\Route
 	 */
-	public function getRouteById(var id) -> <Route> | boolean
+	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
 		var route;
 
@@ -489,7 +483,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	/**
 	 * Returns a route object by its name
 	 */
-	public function getRouteByName(string! name) -> <Route> | boolean
+	public function getRouteByName(string! name) -> <RouteInterface> | boolean
 	{
 		var route;
 

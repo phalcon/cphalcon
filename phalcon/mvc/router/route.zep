@@ -47,6 +47,8 @@ class Route implements RouteInterface
 
 	protected _beforeMatch;
 
+	protected _match;
+
 	protected _group;
 
 	protected static _uniqueId;
@@ -87,7 +89,7 @@ class Route implements RouteInterface
 		if memstr(pattern, ":") {
 
 			// This is a pattern for valid identifiers
-			let idPattern = "/([a-zA-Z0-9\\_\\-]+)";
+			let idPattern = "/([\\w0-9\\_\\-]+)";
 
 			// Replace the module part
 			if memstr(pattern, "/:module") {
@@ -122,12 +124,12 @@ class Route implements RouteInterface
 
 		// Check if the pattern has parentheses in order to add the regex delimiters
 		if memstr(pattern, "(") {
-			return "#^" . pattern . "$#";
+			return "#^" . pattern . "$#u";
 		}
 
 		// Square brackets are also checked
 		if memstr(pattern, "[") {
-			return "#^" . pattern . "$#";
+			return "#^" . pattern . "$#u";
 		}
 
 		return pattern;
@@ -152,7 +154,7 @@ class Route implements RouteInterface
 	 */
 	public function extractNamedParams(string! pattern) -> array | boolean
 	{
-		char ch;
+		char ch, prevCh = '\0';
 		var tmp, matches;
 		boolean notValid;
 		int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
@@ -270,7 +272,13 @@ class Route implements RouteInterface
 			if bracketCount > 0 {
 				let intermediate++;
 			} else {
-				let route .= ch;
+				if parenthesesCount == 0 && prevCh != '\\' {
+					if ch == '.' || ch == '+' || ch == '|' || ch == '#' {
+						let route .= '\\';
+					}
+				}
+				let route .= ch,
+					prevCh = ch;
 			}
 		}
 
@@ -441,8 +449,21 @@ class Route implements RouteInterface
 	 * Sets a callback that is called if the route is matched.
 	 * The developer can implement any arbitrary conditions here
 	 * If the callback returns false the route is treated as not matched
+	 *
+	 *<code>
+	 * $router->add('/login', array(
+     *  'module'     => 'admin',
+     *  'controller' => 'session'
+     * ))->beforeMatch(function ($uri, $route) {
+     *   // Check if the request was made with Ajax
+     *   if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'xmlhttprequest') {
+     *      return false;
+     *   }
+     *     return true;
+     * });
+	 *</code>
 	 */
-	public function beforeMatch(callable callback) -> <Route>
+	public function beforeMatch(var callback) -> <Route>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -454,6 +475,29 @@ class Route implements RouteInterface
 	public function getBeforeMatch() -> callable
 	{
 		return this->_beforeMatch;
+	}
+
+	/**
+	 * Allows to set a callback to handle the request directly in the route
+	 *
+	 *<code>
+	 *$router->add("/help", array())->match(function () {
+	 *	  return $this->getResponse()->redirect('https://support.google.com/', true);
+	 *});
+	 *</code>
+	 */
+	public function match(var callback) -> <Route>
+	{
+		let this->_match = callback;
+		return this;
+	}
+
+	/**
+	 * Returns the 'match' callback if any
+	 */
+	public function getMatch() -> callable
+	{
+		return this->_match;
 	}
 
 	/**

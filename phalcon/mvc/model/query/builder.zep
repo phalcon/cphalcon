@@ -1025,7 +1025,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Get the models metadata service to obtain the column names, column map and primary key
 			 */
 			let metaData = dependencyInjector->getShared("modelsMetadata"),
-				modelInstance = new {model}(dependencyInjector);
+				modelInstance = new {model}(null, dependencyInjector);
 
 			let noPrimary = true,
 				primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
@@ -1345,7 +1345,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let phql .= " FOR UPDATE";
 			}
 		}
-		
+
 		return phql;
 	}
 

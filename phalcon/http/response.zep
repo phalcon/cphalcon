@@ -505,18 +505,16 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	/**
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
+	 * and also sets default header: Content-Type: "application/json; charset=UTF-8"
 	 *
 	 *<code>
 	 *	$response->setJsonContent(array("status" => "OK"));
 	 *</code>
-	 *
-	 * @param mixed content
-	 * @param int jsonOptions
-	 * @return \Phalcon\Http\Response
 	 */
-	public function setJsonContent(var content, jsonOptions = 0, depth = 512) -> <Response>
+	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <Response>
 	{
-		let this->_content = json_encode(content, jsonOptions, depth);
+		this->setContentType("application/json", "UTF-8");
+		this->setContent(json_encode(content, jsonOptions, depth));
 		return this;
 	}
 
@@ -631,7 +629,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		var basePath, headers;
 
 		if typeof attachmentName != "string" {
-			let basePath = basename(filePath);
+			let basePath = basename(filePath);			
 		} else {
 			let basePath = attachmentName;
 		}

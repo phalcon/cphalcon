@@ -61,19 +61,19 @@ class Memory extends PhAdapter
         parent::dropResourceAccess($resourceName, $accessList);
     }
 
-    public function allow($roleName, $resourceName, $access)
+    public function allow($roleName, $resourceName, $access, $func = null)
     {
-        parent::allow($roleName, $resourceName, $access);
+        parent::allow($roleName, $resourceName, $access, $func);
     }
 
-    public function deny($roleName, $resourceName, $access)
+    public function deny($roleName, $resourceName, $access, $func = null)
     {
-        parent::deny($roleName, $resourceName, $access);
+        parent::deny($roleName, $resourceName, $access, $func);
     }
 
-    public function isAllowed($roleName, $resourceName, $access)
+    public function isAllowed($roleName, $resourceName, $access, array $parameters = null)
     {
-        return parent::isAllowed($roleName, $resourceName, $access);
+        return parent::isAllowed($roleName, $resourceName, $access, $parameters);
     }
 
     public function getRoles()
@@ -84,5 +84,15 @@ class Memory extends PhAdapter
     public function getResources()
     {
         return parent::getResources();
+    }
+
+    public function setNoArgumentsDefaultAction($defaultAccess)
+    {
+        parent::setNoArgumentsDefaultAction($defaultAccess);
+    }
+
+    public function getNoArgumentsDefaultAction()
+    {
+        return parent::getNoArgumentsDefaultAction();
     }
 }

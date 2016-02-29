@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 0, _4);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 317, _3, options);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 318, _3, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_redis"), _2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_6);
@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 	ZEPHIR_INIT_NVAR(_7);
 	ZVAL_STRING(_7, "gc", 1);
 	zephir_array_fast_append(_12, _7);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 410, _6, _8, _9, _10, _11, _12);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 413, _6, _8, _9, _10, _11, _12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_redis_ce, this_ptr, "__construct", &_13, 411, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_redis_ce, this_ptr, "__construct", &_13, 414, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

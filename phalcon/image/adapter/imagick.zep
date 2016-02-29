@@ -119,17 +119,20 @@ class Imagick extends Adapter implements AdapterInterface
 	 */
 	protected function _resize(int width, int height)
 	{
-		this->_image->setIteratorIndex(0);
+		var image;
+		let image = this->_image;
+
+		image->setIteratorIndex(0);
 
 		loop {
-			this->_image->scaleImage(width, height);
-			if this->_image->nextImage() === false {
+			image->scaleImage(width, height);
+			if image->nextImage() === false {
 				break;
 			}
 		}
 
-		let this->_width = this->_image->getImageWidth();
-		let this->_height = this->_image->getImageHeight();
+		let this->_width = image->getImageWidth();
+		let this->_height = image->getImageHeight();
 	}
 
 	/**
@@ -142,22 +145,24 @@ class Imagick extends Adapter implements AdapterInterface
 	 */
 	protected function _liquidRescale(int width, int height, int deltaX, int rigidity)
 	{
-		var ret;
-		this->_image->setIteratorIndex(0);
+		var ret, image;
+		let image = this->_image;
+
+		image->setIteratorIndex(0);
 
 		loop {
-			let ret = this->_image->liquidRescaleImage(width, height, deltaX, rigidity);
+			let ret = image->liquidRescaleImage(width, height, deltaX, rigidity);
 			if ret !== true {
 				throw new Exception("Imagick::liquidRescale failed");
 			}
 
-			if this->_image->nextImage() === false {
+			if image->nextImage() === false {
 				break;
 			}
 		}
 
-		let this->_width = this->_image->getImageWidth();
-		let this->_height = this->_image->getImageHeight();
+		let this->_width = image->getImageWidth();
+		let this->_height = image->getImageHeight();
 	}
 
 	/**
@@ -166,7 +171,6 @@ class Imagick extends Adapter implements AdapterInterface
 	protected function _crop(int width, int height, int offsetX, int offsetY)
 	{
 		var image;
-
 		let image = this->_image;
 
 		image->setIteratorIndex(0);
@@ -646,7 +650,15 @@ class Imagick extends Adapter implements AdapterInterface
 			if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
 				this->_image->setImageCompression(constant("Imagick::COMPRESSION_JPEG"));
 			}
-			this->_image->setImageCompressionQuality(quality);
+
+			if quality >= 0 {
+				if quality < 1 {
+					let quality = 1;
+				} elseif quality > 100 {
+					let quality = 100;
+				}
+				this->_image->setImageCompressionQuality(quality);
+			}
 			this->_image->writeImage(file);
 		}
 	}

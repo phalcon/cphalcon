@@ -79,7 +79,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Returns the parent form to the element
 	 */
-	public function getForm() -> <ElementInterface>
+	public function getForm() -> <Form>
 	{
 		return this->_form;
 	}
@@ -186,12 +186,8 @@ abstract class Element implements ElementInterface
 	/**
 	 * Returns an array of prepared attributes for Phalcon\Tag helpers
 	 * according to the element parameters
-	 *
-	 * @param array attributes
-	 * @param boolean useChecked
-	 * @return array
 	 */
-	public function prepareAttributes(attributes = null, boolean useChecked = false)
+	public function prepareAttributes(array attributes = null, boolean useChecked = false) -> array
 	{
 		var value, name, widgetAttributes, mergedAttributes,
 			defaultAttributes, currentValue;
@@ -325,7 +321,7 @@ abstract class Element implements ElementInterface
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getUserOption(option, defaultValue = null)
+	public function getUserOption(string option, defaultValue = null)
 	{
 		var value;
 		if fetch value, this->_options[option] {
@@ -336,11 +332,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets options for the element
-	 *
-	 * @param array options
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setUserOptions(options) -> <ElementInterface>
+	public function setUserOptions(array options) -> <ElementInterface>
 	{
 		let this->_options = options;
 		return this;
@@ -348,10 +341,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the options for the element
-	 *
-	 * @return array
 	 */
-	public function getUserOptions()
+	public function getUserOptions() -> array
 	{
 		return this->_options;
 	}

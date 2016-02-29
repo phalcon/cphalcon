@@ -1079,4 +1079,77 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation = new \Phalcon\Validation();
 		$this->assertEmpty($validation->getDefaultMessage('_notexistentvalidationmessage_'));
 	}
+
+	public function testOptionAllowEmpty()
+	{
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Confirmation',
+					'_message' => 'Field password must be the same as password2',
+					'_field' => 'password',
+					'_code' => '0',
+				)),
+			)
+		));
+
+		// allowEmpty: true
+		$validation = new Phalcon\Validation();
+		$validation->add('password', new Confirmation(array(
+			'allowEmpty' => true,
+			'with'		 => 'password2'
+		)));
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => 'test123',
+			'password2' => 'test123'
+		))), 0);
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => null,
+			'password2' => 'test123'
+		))), 0);
+		// END
+
+		// allowEmpty: false
+		$validation = new Phalcon\Validation();
+		$validation->add('password', new Confirmation(array(
+			'allowEmpty' => false,
+			'with'		 => 'password2'
+		)));
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => 'test123',
+			'password2' => 'test123'
+		))), 0);
+
+		$messages = $validation->validate(array(
+			'password'  => null,
+			'password2' => 'test123'
+		));
+
+		$this->assertEquals(count($messages), 1);
+		$this->assertEquals($messages, $expectedMessages);
+		// END
+
+		// allowEmpty: DEFAULT
+		$validation = new Phalcon\Validation();
+		$validation->add('password', new Confirmation(array(
+			'with'		 => 'password2'
+		)));
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => 'test123',
+			'password2' => 'test123'
+		))), 0);
+
+		$messages = $validation->validate(array(
+			'password'  => null,
+			'password2' => 'test123'
+		));
+
+		$this->assertEquals(count($messages), 1);
+		$this->assertEquals($messages, $expectedMessages);
+		// END
+	}
 }

@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		ZEPHIR_INIT_NVAR(_4$$7);
 		zephir_fast_join_str(_4$$7, SL(", "), domain TSRMLS_CC);
 		zephir_array_update_string(&_5$$7, SL(":domain"), &_4$$7, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_6$$7, "strtr", NULL, 55, message, _5$$7);
+		ZEPHIR_CALL_FUNCTION(&_6$$7, "strtr", NULL, 54, message, _5$$7);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_4$$7);
 		ZVAL_STRING(_4$$7, "Exclusion", ZEPHIR_TEMP_PARAM_COPY);

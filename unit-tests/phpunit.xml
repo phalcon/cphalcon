@@ -55,6 +55,7 @@
 			<file>unit-tests/ModelsEventsTest.php</file>
 			<file>unit-tests/ModelsFindersTest.php</file>
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
+			<file>unit-tests/ModelsGetterSetterTest.php</file>
 			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsMassAssigmentTest.php</file>
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
@@ -73,7 +74,7 @@
 			<file>unit-tests/ModelsSerializeTest.php</file>
 			<file>unit-tests/ModelsSnapshotsTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
-			<file>unit-tests/ModelsValidatorsTest.php</file>
+			<!--<file>unit-tests/ModelsValidatorsTest.php</file>-->
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>

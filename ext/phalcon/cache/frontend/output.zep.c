@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
 	} else {
 		zephir_update_property_this(this_ptr, SL("_buffering"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 120);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_contents", NULL, 121);
+		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_contents", NULL, 118);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 122);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 119);
 		zephir_check_call_status();
 	}
 	if (0) {

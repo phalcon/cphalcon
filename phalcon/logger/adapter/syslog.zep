@@ -104,14 +104,14 @@ class Syslog extends Adapter implements AdapterInterface
 
 	/**
  	 * Closes the logger
- 	 *
- 	 * @return boolean
  	 */
-	public function close()
+	public function close() -> boolean
 	{
-		if this->_opened {
-			closelog();
+		if !this->_opened {
+			return true;
 		}
+
+		return closelog();
 	}
 
 }

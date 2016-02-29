@@ -1408,6 +1408,7 @@ class Compiler implements InjectionAwareInterface
 			let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
 			let compilation .= "$" . prefixLevel . "incr = 0; ";
 			let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
+			let compilation .= "$" . prefixLevel . "loop->self = &$" . prefixLevel . "loop; ";
 			let compilation .= "$" . prefixLevel . "loop->length = count($" . prefixLevel . "iterator); ";
 			let compilation .= "$" . prefixLevel . "loop->index = 1; ";
 			let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
@@ -1789,7 +1790,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileInclude(array! statement) -> string
 	{
-		var pathExpr, path, view, subCompiler, finalPath, compilation, params;
+		var pathExpr, path, subCompiler, finalPath, compilation, params;
 
 		/**
 		 * Include statement
@@ -1815,12 +1816,7 @@ class Compiler implements InjectionAwareInterface
 				 */
 				let path = pathExpr["value"];
 
-				let view = this->_view;
-				if typeof view == "object" {
-					let finalPath = view->getViewsDir() . path;
-				} else {
-					let finalPath = path;
-				}
+				let finalPath = this->getFinalPath(path);
 
 				/**
 				 * Clone the original compiler
@@ -1930,13 +1926,9 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Bind the closure to the $this object allowing to call services, only PHP >= 5.4
+		 * Bind the closure to the $this object allowing to call services
 		 */
-		if is_php_version("5.3") {
-			let code .= " ?>";
-		} else {
-			let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
-		}
+		let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
 
 		return code;
 	}
@@ -1960,7 +1952,7 @@ class Compiler implements InjectionAwareInterface
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
-			blocks, path, view, finalPath, subCompiler, level;
+			blocks, path, finalPath, subCompiler, level;
 
 		/**
 		 * Nothing to compile
@@ -2092,12 +2084,7 @@ class Compiler implements InjectionAwareInterface
 					 */
 					let path = statement["path"];
 
-					let view = this->_view;
-					if typeof view == "object" {
-						let finalPath = view->getViewsDir() . path["value"];
-					} else {
-						let finalPath = path["value"];
-					}
+					let finalPath = this->getFinalPath(path["value"]);
 
 					let extended = true;
 
@@ -2628,5 +2615,34 @@ class Compiler implements InjectionAwareInterface
 	{
 		var currentPath = "eval code";
 		return phvolt_parse_view(viewCode, currentPath);
+	}
+
+	/**
+	 * Gets the final path with VIEW
+	 */
+	protected function getFinalPath(string path)
+	{
+		var view, viewsDirs, viewsDir;
+		let view = this->_view;
+
+		if typeof view == "object" {
+			let viewsDirs = view->getViewsDir();
+
+			if typeof viewsDirs == "array" {
+				for viewsDir in viewsDirs {
+					if file_exists(viewsDir . path) {
+						return viewsDir . path;
+					}
+				}
+
+				// Otherwise, take the last viewsDir
+				return viewsDir . path;
+
+			} else {
+				return viewsDirs . path;
+			}
+		}
+
+		return path;
 	}
 }

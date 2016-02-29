@@ -176,7 +176,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getLimit);
  *
  * @return string|null
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrder);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy);
 
 /**
  * Returns all the parameters defined in the criteria

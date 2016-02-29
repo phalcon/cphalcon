@@ -26,7 +26,7 @@ use Phalcon\Logger;
  *
  * This is a base class for logger formatters
  */
-abstract class Formatter
+abstract class Formatter implements FormatterInterface
 {
 
 	/**

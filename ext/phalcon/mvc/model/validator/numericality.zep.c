@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 		ZEPHIR_INIT_VAR(_4$$5);
 		zephir_create_array(_4$$5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_4$$5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 55, message, _4$$5);
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 54, message, _4$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_3$$5);
 		ZVAL_STRING(_3$$5, "Numericality", ZEPHIR_TEMP_PARAM_COPY);

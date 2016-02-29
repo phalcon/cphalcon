@@ -20,7 +20,6 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Cli\Task;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
 
@@ -47,7 +46,7 @@ use Phalcon\Cli\Dispatcher\Exception;
  *
  *</code>
  */
-class Dispatcher extends \Phalcon\Dispatcher
+class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 {
 
 	protected _handlerSuffix = "Task";
@@ -56,17 +55,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 
 	protected _defaultAction = "main";
 
-	protected _options;
-
-	/**
-	 * Phalcon\Cli\Dispatcher constructor
-	 */
-	public function __construct()
-	{
-		let this->_options = [];
-
-		parent::__construct();
-	}
+	protected _options = [];
 
 	/**
 	 * Sets the default task suffix
@@ -133,7 +122,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	/**
 	 * Returns the lastest dispatched controller
 	 */
-	public function getLastTask() -> <Task>
+	public function getLastTask() -> <TaskInterface>
 	{
 		return this->_lastHandler;
 	}
@@ -141,7 +130,7 @@ class Dispatcher extends \Phalcon\Dispatcher
 	/**
 	 * Returns the active task in the dispatcher
 	 */
-	public function getActiveTask() -> <Task>
+	public function getActiveTask() -> <TaskInterface>
 	{
 		return this->_activeHandler;
 	}
@@ -160,5 +149,10 @@ class Dispatcher extends \Phalcon\Dispatcher
 	public function getOptions() -> array
 	{
 		return this->_options;
+	}
+
+	public function callActionMethod(handler, string actionMethod, array! params = [])
+	{
+		return call_user_func_array([handler, actionMethod], [params]);
 	}
 }

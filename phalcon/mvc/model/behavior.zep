@@ -20,13 +20,14 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 
 /**
  * Phalcon\Mvc\Model\Behavior
  *
  * This is an optional base class for ORM behaviors
  */
-abstract class Behavior
+abstract class Behavior implements BehaviorInterface
 {
 	protected _options;
 

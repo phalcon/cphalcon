@@ -63,7 +63,8 @@ class Xcache extends Backend implements BackendInterface
 		}
 
 		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCX";
+			// Disable tracking of cached keys per default
+			let options["statsKey"] = "";
 		}
 
 		parent::__construct(frontend, options);
@@ -169,17 +170,19 @@ class Xcache extends Backend implements BackendInterface
 				throw new Exception("Unexpected inconsistency in options");
 			}
 
-			/**
-			 * xcache_list() is available only to the administrator (unless XCache was
-			 * patched). We have to update the list of the stored keys.
-			 */
-			let keys = xcache_get(specialKey);
-			if typeof keys != "array" {
-				let keys = [];
-			}
+			if specialKey != "" {
+				/**
+				 * xcache_list() is available only to the administrator (unless XCache was
+				 * patched). We have to update the list of the stored keys.
+				 */
+				let keys = xcache_get(specialKey);
+				if typeof keys != "array" {
+					let keys = [];
+				}
 
-			let keys[lastKey] = tt1;
-			xcache_set(specialKey, keys);
+				let keys[lastKey] = tt1;
+				xcache_set(specialKey, keys);
+			}
 		}
 	}
 
@@ -199,14 +202,16 @@ class Xcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let keys = xcache_get(specialKey);
-		if typeof keys != "array" {
-			let keys = [];
+		if specialKey != "" {
+			let keys = xcache_get(specialKey);
+			if typeof keys != "array" {
+				let keys = [];
+			}
+
+			unset keys[prefixedKey];
+
+			xcache_set(specialKey, keys);
 		}
-
-		unset keys[prefixedKey];
-
-		xcache_set(specialKey, keys);
 	}
 
 	/**
@@ -229,6 +234,10 @@ class Xcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		let retval = [];
@@ -348,6 +357,10 @@ class Xcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		let keys = xcache_get(specialKey);
