@@ -54,6 +54,7 @@
 - Added support for OnUpdate and OnDelete foreign key events to the MySQL adapter
 - Added ability to setLogLevel on multiple logs [#10429](https://github.com/phalcon/cphalcon/pull/10429)
 - Fixed regression changes for `Phalcon\Translate\Adapter\Gettext::prepareOptions` [#11429](https://github.com/phalcon/cphalcon/issues/11429)
+- Fires the dispatch:beforeException event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
 - ORM: Added support for DATE columns in Oracle
