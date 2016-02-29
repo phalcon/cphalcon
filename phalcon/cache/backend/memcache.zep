@@ -125,18 +125,18 @@ class Memcache extends Backend implements BackendInterface
          * @param  boolean persistent	 
          * @return boolean
 	 */
-        public function addServers(var host, var port, var persistent = false)
+	public function addServers(var host, var port, var persistent = false)
 	{
-                var memcache;                
-                /**
+		var memcache;                
+		/**
 		 * Check if a connection is created or make a new one
 		 */
 		let memcache = this->_memcache;
 		if typeof memcache != "object" {
-                    this->_connect();
-                    let memcache = this->_memcache;
+		    this->_connect();
+		    let memcache = this->_memcache;
 		}
-                return memcache->addServer(host, port, persistent);
+		return memcache->addServer(host, port, persistent);
 	}
 
 	/**
@@ -300,12 +300,12 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		if specialKey != "" {
-		let keys = memcache->get(specialKey);
+			let keys = memcache->get(specialKey);
 
-		if typeof keys == "array" {
-			unset keys[prefixedKey];
-			memcache->set(specialKey, keys);
-		}
+			if typeof keys == "array" {
+				unset keys[prefixedKey];
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		/**
