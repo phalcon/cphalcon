@@ -26,6 +26,10 @@ namespace Phalcon\Mvc\Model\Query;
  */
 interface BuilderInterface
 {
+	const OPERATOR_OR = "or";
+
+	const OPERATOR_AND = "and";
+
 	/**
 	 * Sets the columns to be queried
 	 *
@@ -144,7 +148,7 @@ interface BuilderInterface
 	 * @param mixed maximum
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function betweenWhere(expr, minimum, maximum);
+	public function betweenWhere(expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND);
 
 	/**
 	 * Appends a NOT BETWEEN condition to the current conditions
@@ -154,17 +158,17 @@ interface BuilderInterface
 	 * @param mixed maximum
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function notBetweenWhere(expr, minimum, maximum);
+	public function notBetweenWhere(expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND);
 
 	/**
 	 * Appends an IN condition to the current conditions
 	 */
-	public function inWhere(string! expr, array! values) -> <BuilderInterface>;
+	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
 	/**
 	 * Appends a NOT IN condition to the current conditions
 	 */
-	public function notInWhere(string! expr, array! values) -> <BuilderInterface>;
+	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
 	/**
 	 * Return the conditions for the query
