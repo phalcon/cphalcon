@@ -311,6 +311,28 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function dispatch()
 	{
+		var handler, e;
+
+		try {
+			let handler = this->_dispatch();
+		} catch \Exception, e {
+			if this->{"_handleException"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		}
+
+		return handler;
+	}
+
+	/**
+	 * Dispatches a handle action taking into account the routing parameters
+	 *
+	 * @return object
+	 */
+	protected function _dispatch()
+	{
 		boolean hasService;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
@@ -505,23 +527,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let this->_lastHandler = handler;
 
-			try {
-
-				// We update the latest value produced by the latest handler
-				let this->_returnedValue = call_user_func_array([handler, actionMethod], params);
-					
-			} catch \Exception, e {
-
-				let this->_lastHandler = handler;
-
-				if this->{"_handleException"}(e) === false {
-					if this->_finished === false {
-						continue;
-					}
-				} else {
-					throw e;
-				}
-			}
+			// We update the latest value produced by the latest handler
+			let this->_returnedValue = call_user_func_array([handler, actionMethod], params);
 
 			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
