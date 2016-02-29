@@ -179,4 +179,29 @@ HTML;
 		$html = Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary', 'query' => array('from' => 'github', 'token' => '123456')));
 		$this->assertEquals($html, '<a href="/signup/register?from=github&amp;token=123456" class="btn-primary">Register Here!</a>');
 	}
+
+	public function testIssue11358()
+	{
+        // Without default set.
+		$html = <<<HTML
+<input type="radio" id="channel" name="channel" value="0" />
+HTML;
+
+		$di = new Phalcon\DI\FactoryDefault();
+		Tag::setDefault("channel", null);
+		Tag::setDI($di);
+		$ret = Tag::radioField(['channel', 'value' => 0]);
+
+		$this->assertEquals($ret, $html);
+
+        // With default set.
+		$html = <<<HTML
+<input type="radio" id="channel" name="channel" value="0" checked="checked" />
+HTML;
+
+		Tag::setDefault("channel", "0");
+		$ret = Tag::radioField(['channel', 'value' => 0]);
+
+		$this->assertEquals($ret, $html);
+	}
 }

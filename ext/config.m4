@@ -81,6 +81,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/di/factorydefault.zep.c
 	phalcon/di/serviceinterface.zep.c
 	phalcon/escaperinterface.zep.c
+	phalcon/events/eventinterface.zep.c
 	phalcon/events/managerinterface.zep.c
 	phalcon/filterinterface.zep.c
 	phalcon/http/cookieinterface.zep.c
@@ -112,6 +113,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/session/baginterface.zep.c
 	phalcon/validation/messageinterface.zep.c
+	phalcon/validationinterface.zep.c
 	phalcon/acl.zep.c
 	phalcon/acl/adapter/memory.zep.c
 	phalcon/acl/exception.zep.c
@@ -321,7 +323,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/adapter/querybuilder.zep.c
 	phalcon/paginator/exception.zep.c
 	phalcon/queue/beanstalk.zep.c
-	phalcon/queue/beanstalk/exception.zep.c
 	phalcon/queue/beanstalk/job.zep.c
 	phalcon/registry.zep.c
 	phalcon/security.zep.c

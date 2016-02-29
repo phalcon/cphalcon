@@ -39,7 +39,7 @@ PHP_METHOD(phalcon_0__closure, __invoke) {
 	zephir_array_fetch_long(&_0, matches, 1, PH_NOISY | PH_READONLY, "phalcon/text.zep", 272 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(words);
 	zephir_fast_explode_str(words, SL("|"), _0, LONG_MAX TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_rand", NULL, 447, words);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_rand", NULL, 449, words);
 	zephir_check_call_status();
 	zephir_array_fetch(&_1, words, _2, PH_NOISY | PH_READONLY, "phalcon/text.zep", 273 TSRMLS_CC);
 	RETURN_CTOR(_1);

@@ -33,6 +33,11 @@ interface DispatcherInterface
 	public function setActionSuffix(string actionSuffix);
 
 	/**
+	 * Gets the default action suffix
+	 */
+	public function getActionSuffix() -> string;
+
+	/**
 	 * Sets the default namespace
 	 */
 	public function setDefaultNamespace(string defaultNamespace);
@@ -90,6 +95,14 @@ interface DispatcherInterface
 	 * @return mixed
 	 */
 	public function getParam(param, filters = null);
+
+	/**
+	 * Check if a param exists
+	 *
+	 * @param  mixed param
+	 * @return boolean
+	 */
+	public function hasParam(param) -> boolean;
 
 	/**
 	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch

@@ -27,11 +27,8 @@
  * Sends logs to FirePHP
  *
  *<code>
- * use Phalcon\Logger\Adapter\Firephp;
- * use Phalcon\Logger;
- *
- * $logger = new Firephp("");
- * $logger->log(Logger::ERROR, "This is an error");
+ * $logger = new \Phalcon\Logger\Adapter\Firephp("");
+ * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
  *</code>
  */
@@ -50,6 +47,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Firephp) {
 
 /**
  * Returns the internal formatter
+ *
+ * @return \Phalcon\Logger\FormatterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter) {
 
@@ -76,7 +75,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter) {
 /**
  * Writes the log to the stream itself
  *
- * @link http://www.firephp.org/Wiki/Reference/Protocol
+ * @param string $message
+ * @param int $type
+ * @param int $time
+ * @param array $context
+ * @see http://www.firephp.org/Wiki/Reference/Protocol
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 
@@ -107,15 +110,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(_2)) {
 		ZEPHIR_SINIT_VAR(_3$$4);
 		ZVAL_STRING(&_3$$4, "X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 238, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 235, &_3$$4);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_3$$4);
 		ZVAL_STRING(&_3$$4, "X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 238, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 235, &_3$$4);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_3$$4);
 		ZVAL_STRING(&_3$$4, "X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 238, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 235, &_3$$4);
 		zephir_check_call_status();
 		zephir_update_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_initialized"), &ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	}
@@ -129,9 +132,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_8);
 	ZVAL_LONG(&_8, 4500);
-	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 71, format, &_8);
+	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 67, format, &_8);
 	zephir_check_call_status();
-	zephir_is_iterable(chunk, &_10, &_9, 0, 0, "phalcon/logger/adapter/firephp.zep", 96);
+	zephir_is_iterable(chunk, &_10, &_9, 0, 0, "phalcon/logger/adapter/firephp.zep", 102);
 	for (
 	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_10, &_9)
@@ -145,7 +148,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 		if (zephir_array_isset_long(chunk, (zephir_get_numberval(key) + 1))) {
 			zephir_concat_self_str(&content, SL("|\\") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 238, content);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_4, 235, content);
 		zephir_check_call_status();
 		_13$$5 = zephir_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);
 		ZEPHIR_INIT_ZVAL_NREF(_14$$5);

@@ -144,7 +144,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
  * Allows to query the first record that match the specified conditions
  *
  * @param array parameters
- * @return static
+ * @return \Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 

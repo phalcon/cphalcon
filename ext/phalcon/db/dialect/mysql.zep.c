@@ -28,9 +28,9 @@
  *
  * Generates database specific SQL for the MySQL RDBMS
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
+ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Mysql) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, MySQL, phalcon, db_dialect_mysql, phalcon_db_dialect_ce, phalcon_db_dialect_mysql_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Mysql, phalcon, db_dialect_mysql, phalcon_db_dialect_ce, phalcon_db_dialect_mysql_method_entry, 0);
 
 	zend_declare_property_string(phalcon_db_dialect_mysql_ce, SL("_escapeChar"), "`", ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -41,7 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
 /**
  * Gets the column name in MySQL
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition) {
 
 	HashTable *_24$$51;
 	HashPosition _23$$51;
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value$$51, _25$$51);
 					ZEPHIR_SINIT_NVAR(_26$$52);
 					ZVAL_STRING(&_26$$52, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_27$$52, "addcslashes", &_28, 144, value$$51, &_26$$52);
+					ZEPHIR_CALL_FUNCTION(&_27$$52, "addcslashes", &_28, 141, value$$51, &_26$$52);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_29$$52);
 					ZEPHIR_CONCAT_SVS(_29$$52, "\"", _27$$52, "\", ");
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_VAR(_34$$53);
 				ZVAL_STRING(&_34$$53, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_35$$53, "addcslashes", &_28, 144, typeValues, &_34$$53);
+				ZEPHIR_CALL_FUNCTION(&_35$$53, "addcslashes", &_28, 141, typeValues, &_34$$53);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_36$$53);
 				ZEPHIR_CONCAT_SVS(_36$$53, "(\"", _35$$53, "\")");
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 /**
  * Generates SQL to add a column to a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *afterPosition = NULL, *sql = NULL, *defaultValue = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_4$$3, _5$$5, *_6$$5 = NULL, *_7$$5, *_11$$10;
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5$$5);
 			ZVAL_STRING(&_5$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 144, defaultValue, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 141, defaultValue, &_5$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7$$5);
 			ZEPHIR_CONCAT_SVS(_7$$5, " DEFAULT \"", _6$$5, "\"");
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn) {
 /**
  * Generates SQL to modify a column in a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *currentColumn = NULL, *afterPosition = NULL, *sql = NULL, *defaultValue = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_4$$3, _5$$5, *_6$$5 = NULL, *_7$$5, *_11$$10;
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5$$5);
 			ZVAL_STRING(&_5$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 144, defaultValue, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 141, defaultValue, &_5$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7$$5);
 			ZEPHIR_CONCAT_SVS(_7$$5, " DEFAULT \"", _6$$5, "\"");
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn) {
 /**
  * Generates SQL to delete a column from a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *columnName_param = NULL, *_0 = NULL;
@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn) {
 /**
  * Generates SQL to add an index to a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, *sql = NULL, *indexType = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_1$$3;
@@ -598,7 +598,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex) {
 /**
  * Generates SQL to delete an index from a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *indexName_param = NULL, *_0 = NULL;
@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex) {
 /**
  * Generates SQL to add the primary key to a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, *_0 = NULL, *_1 = NULL, *_2 = NULL;
@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey) {
 /**
  * Generates SQL to delete primary key from a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *_0 = NULL;
@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey) {
 /**
  * Generates SQL to add an index to a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, *sql = NULL, *onDelete = NULL, *onUpdate = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9$$3, *_10$$4;
@@ -807,7 +807,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey) {
 /**
  * Generates SQL to delete a foreign key from a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *referenceName_param = NULL, *_0 = NULL;
@@ -858,7 +858,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey) {
 /**
  * Generates SQL to create a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 
 	HashTable *_1, *_16$$14, *_26$$20;
 	HashPosition _0, _15$$14, _25$$20;
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_8$$10);
 				ZVAL_STRING(&_8$$10, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_9$$10, "addcslashes", &_10, 144, defaultValue, &_8$$10);
+				ZEPHIR_CALL_FUNCTION(&_9$$10, "addcslashes", &_10, 141, defaultValue, &_8$$10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_11$$10);
 				ZEPHIR_CONCAT_SVS(_11$$10, " DEFAULT \"", _9$$10, "\"");
@@ -1060,7 +1060,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 /**
  * Generates SQL to drop a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
@@ -1112,7 +1112,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable) {
 /**
  * Generates SQL to create a view
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *definition = NULL;
@@ -1156,7 +1156,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView) {
 /**
  * Generates SQL to drop a view
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
@@ -1213,7 +1213,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView) {
  *    echo $dialect->tableExists("posts");
  * </code>
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists) {
 
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval *tableName = NULL, *schemaName = NULL;
@@ -1251,7 +1251,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists) {
 /**
  * Generates SQL checking for the existence of a schema.view
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists) {
 
 	zval *viewName_param = NULL, *schemaName_param = NULL;
 	zval *viewName = NULL, *schemaName = NULL;
@@ -1293,7 +1293,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists) {
  *    print_r($dialect->describeColumns("posts"));
  * </code>
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *_0 = NULL;
@@ -1334,7 +1334,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns) {
  *     print_r($dialect->listTables("blog"))
  * </code>
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables) {
 
 	zval *schemaName_param = NULL;
 	zval *schemaName = NULL;
@@ -1361,7 +1361,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables) {
 /**
  * Generates the SQL to list all views of a schema or user
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews) {
 
 	zval *schemaName_param = NULL;
 	zval *schemaName = NULL;
@@ -1397,7 +1397,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews) {
 /**
  * Generates SQL to query indexes on a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *_0 = NULL;
@@ -1434,7 +1434,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes) {
 /**
  * Generates SQL to query foreign keys on a table
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences) {
 
 	zval *table_param = NULL, *schema_param = NULL, *sql = NULL;
 	zval *table = NULL, *schema = NULL, *_0$$3, *_1$$4;
@@ -1478,7 +1478,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences) {
 /**
  * Generates the SQL to describe the table creation options
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions) {
 
 	zval *table_param = NULL, *schema_param = NULL, *sql = NULL;
 	zval *table = NULL, *schema = NULL;
@@ -1518,7 +1518,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions) {
 /**
  * Generates SQL to add the table creation options
  */
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions) {
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions) {
 
 	zval *definition_param = NULL, *options = NULL, *engine = NULL, *autoIncrement = NULL, *tableCollation = NULL, *collationParts = NULL, *tableOptions = NULL, *_0$$5, *_1$$7, *_2$$9, *_3$$9, *_4$$9;
 	zval *definition = NULL;

@@ -27,14 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
 
 /**
  * Checks if an option is defined
- *
- * @deprecated since 2.1.0
- * @see \Phalcon\Validation\Validator::hasOption()
- */
-ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, isSetOption);
-
-/**
- * Checks if an option is defined
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, hasOption);
 

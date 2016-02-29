@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 			ZEPHIR_CONCAT_SVS(_4$$4, "{", key, "}");
 			zephir_array_update_zval(&replace, _4$$4, &value, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 55, message, replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 54, message, replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

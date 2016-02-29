@@ -92,6 +92,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, spl_ce_Countable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zend_ce_serializable);
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 1, zephir_get_internal_ce(SS("jsonserializable") TSRMLS_CC));
 	return SUCCESS;
 
 }
@@ -170,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_pointer"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, (zephir_get_numberval(_0) + 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 74, _1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 70, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -219,7 +220,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 74, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 70, _0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -359,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 	if (ZEPHIR_GT_LONG(_0, index)) {
 		ZEPHIR_INIT_VAR(_1$$3);
 		ZVAL_LONG(_1$$3, index);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 74, _1$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 70, _1$$3);
 		zephir_check_call_status();
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 		zephir_check_call_status();
@@ -444,7 +445,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 	}
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 74, _1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 70, _1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -469,7 +470,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, (zephir_get_numberval(count) - 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 74, _0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 70, _0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -763,6 +764,52 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 			continue;
 		}
 		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 556);
+	}
+	_0->funcs->dtor(_0 TSRMLS_CC);
+	RETURN_CCTOR(records);
+
+}
+
+/**
+ * Returns serialised model objects as array for json_encode. Calls jsonSerialize on each object if present
+ *
+ *<code>
+ * $robots = Robots::find();
+ * echo json_encode($robots);
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
+
+	zend_bool _1$$3;
+	zend_object_iterator *_0;
+	zval *records = NULL, *current = NULL, *_2$$4 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(records);
+	array_init(records);
+	_0 = zephir_get_iterator(this_ptr TSRMLS_CC);
+	_0->funcs->rewind(_0 TSRMLS_CC);
+	for (;_0->funcs->valid(_0 TSRMLS_CC) == SUCCESS && !EG(exception); _0->funcs->move_forward(_0 TSRMLS_CC)) {
+		{
+			zval **ZEPHIR_TMP_ITERATOR_PTR;
+			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+			ZEPHIR_CPY_WRT(current, (*ZEPHIR_TMP_ITERATOR_PTR));
+		}
+		_1$$3 = Z_TYPE_P(current) == IS_OBJECT;
+		if (_1$$3) {
+			_1$$3 = (zephir_method_exists_ex(current, SS("jsonserialize") TSRMLS_CC) == SUCCESS);
+		}
+		if (_1$$3) {
+			ZEPHIR_CALL_METHOD(&_2$$4, current, "jsonserialize", NULL, 0);
+			zephir_check_call_status();
+			zephir_array_append(&records, _2$$4, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 578);
+		} else {
+			zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 580);
+		}
 	}
 	_0->funcs->dtor(_0 TSRMLS_CC);
 	RETURN_CCTOR(records);

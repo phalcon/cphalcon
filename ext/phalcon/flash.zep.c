@@ -256,7 +256,6 @@ PHP_METHOD(Phalcon_Flash, warning) {
  *</code>
  *
  * @param string|array message
- * @return string|void
  */
 PHP_METHOD(Phalcon_Flash, outputMessage) {
 
@@ -303,7 +302,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		zephir_is_iterable(message, &_3$$8, &_2$$8, 0, 0, "phalcon/flash.zep", 204);
+		zephir_is_iterable(message, &_3$$8, &_2$$8, 0, 0, "phalcon/flash.zep", 203);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3$$8, (void**) &_4$$8, &_2$$8) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3$$8, &_2$$8)

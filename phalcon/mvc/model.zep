@@ -41,8 +41,11 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\ValidationInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Validation\Message\Group as ValidationMessageGroup;
 
 /**
  * Phalcon\Mvc\Model
@@ -75,7 +78,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
 	protected _dependencyInjector;
@@ -121,7 +124,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Phalcon\Mvc\Model constructor
 	 */
-	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -160,7 +163,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
 		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
+			this->{"onConstruct"}(data);
+		}
+
+		if typeof data == "array" {
+			this->assign(data);
 		}
 	}
 
@@ -483,10 +490,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				// Try to find a possible getter
-				let possibleSetter = "set" . camelize(attributeField);
-				if method_exists(this, possibleSetter) {
-					this->{possibleSetter}(value);
-				} else {
+				if !this->_possibleSetter(attributeField, value) {
 					let this->{attributeField} = value;
 				}
 			}
@@ -599,8 +603,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(instance, "afterFetch") {
-			instance->{"afterFetch"}();
+		if method_exists(instance, "fireEvent") {
+			instance->{"fireEvent"}("afterFetch");
 		}
 
 		return instance;
@@ -713,9 +717,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(instance, "afterFetch") {
-			instance->{"afterFetch"}();
-		}
+		(<ModelInterface> instance)->fireEvent("afterFetch");
 
 		return instance;
 	}
@@ -1343,9 +1345,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Appends a customized message on the validation process
 	 *
 	 * <code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Message as Message;
 	 *
-	 * class Robots extends \Phalcon\Mvc\Model
+	 * class Robots extends Model
 	 * {
 	 *
 	 *   public function beforeSave()
@@ -1368,47 +1371,51 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *use Phalcon\Mvc\Model;
+	 *use Phalcon\Validation;
+	 *use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+	 * 		$validator = new Validation();
+	 * 		$validator->add('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
 	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
 	 */
-	protected function validate(<Model\ValidatorInterface> validator) -> <Model>
+	protected function validate(<ValidationInterface> validator) -> boolean
 	{
-		var message;
+		var messages, message;
+		let messages = validator->validate(null, this);
 
-		/**
-		 * Call the validation, if it returns false we append the messages to the current object
-		 */
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
+		// Call the validation, if it returns not the boolean we append the messages to the current object
+		if typeof messages != "boolean" {
+			for message in iterator(messages) {
+				this->appendMessage(new Message(message->getMessage(), message->getField(), message->getType()));
 			}
+
+			// If there is a message, it returns false otherwise true
+			return !count(messages);
 		}
 
-		return this;
+		return messages;
 	}
 
 	/**
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
@@ -1465,6 +1472,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 			return filtered;
 		}
+
 		return this->_errorMessages;
 	}
 
@@ -1472,7 +1480,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
 	 */
-	protected function _checkForeignKeysRestrict() -> boolean
+	protected final function _checkForeignKeysRestrict() -> boolean
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
@@ -1621,7 +1629,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
 	 */
-	protected function _checkForeignKeysReverseCascade() -> boolean
+	protected final function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
 			resultset, conditions, bindParams, referencedModel,
@@ -1728,7 +1736,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
 	 */
-	protected function _checkForeignKeysReverseRestrict() -> boolean
+	protected final function _checkForeignKeysReverseRestrict() -> boolean
 	{
 		boolean error;
 		var manager, relations, foreignKey, relation,
@@ -2817,7 +2825,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Create/Get the current database connection
 		 */
 		let writeConnection = this->getWriteConnection();
-
+		
+		/**
+		 * Fire the start event
+		 */
+		this->fireEvent("prepareSave");
+		
 		/**
 		 * Save related records in belongsTo relationships
 		 */
@@ -4143,12 +4156,63 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			return value;
 		}
 
-		/**
-		 * Fallback assigning the value to the instance
-		 */
+		// Use possible setter.
+		if this->_possibleSetter(property, value) {
+			return value;
+		}
+
+		// Throw an exception if there is an attempt to set a non-public property.
+		if !this->_isVisible(property) {
+			throw new Exception("Property '" . property . "' does not have a setter.");
+		}
+
 		let this->{property} = value;
 
 		return value;
+	}
+
+	/**
+	 * Check for, and attempt to use, possible setter.
+	 *
+	 * @param string property
+	 * @param mixed value
+	 * @return string
+	 */
+	protected final function _possibleSetter(string property, value)
+	{
+		var possibleSetter;
+
+		let possibleSetter = "set" . camelize(property);
+		if method_exists(this, possibleSetter) {
+			this->{possibleSetter}(value);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check whether a property is declared private or protected.
+	 * This is a stop-gap because we do not want to have to declare all properties.
+	 *
+	 * @param string property
+	 * @return boolean
+	 */
+	protected final function _isVisible(property)
+	{
+		var reflectionClass, reflectionProp, e;
+
+		//Try reflection on the property.
+		let reflectionClass = new \ReflectionClass(this);
+		try {
+			let reflectionProp = reflectionClass->getProperty(property);
+			if !reflectionProp->isPublic() {
+				return false;
+			}
+		} catch \Exception, e {
+			// The property doesn't exist.
+			return true;
+		}
+		return true;
 	}
 
 	/**
@@ -4356,6 +4420,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return data;
+	}
+
+	/**
+	* Serializes the object for json_encode
+	*
+	*<code>
+	* echo json_encode($robot);
+	*</code>
+	*
+	* @return array
+	*/
+	public function jsonSerialize() -> array
+	{
+		return this->toArray();
 	}
 
 	/**

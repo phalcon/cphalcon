@@ -20,7 +20,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\None as FrontendNone;
 
@@ -49,7 +48,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * echo $session->get('var');
  *</code>
  */
-class Redis extends Adapter implements AdapterInterface
+class Redis extends Adapter
 {
 	protected _redis = null { get };
 

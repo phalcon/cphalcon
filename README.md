@@ -47,7 +47,7 @@ CentOS/Fedora/RHEL
 sudo yum install php-devel pcre-devel gcc make
 ```
 
-Compilation
+General Compilation
 -----------
 
 Follow these instructions to generate a binary extension for your platform:
@@ -64,7 +64,39 @@ Add the extension to your php.ini:
 extension=phalcon.so
 ```
 
-Finally, restart the webserver.
+Finally, **restart the webserver**.
+
+Advanced compilation
+--------------
+if you have specific php versions running
+
+```bash
+git clone git://github.com/phalcon/cphalcon.git
+cd cphalcon/build/64bits  #<OR> cd cphalcon/build/32bits 
+make clean
+phpize --clean
+_YOUR_PHP_INSTALITION_PATH_/bin/phpize  #Example: /opt/php-5.6.15/bin/phpize
+./configure --with-php-config=_YOUR_PHP_INSTALITION_PATH_/bin/php-config #Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+make && sudo make install
+```
+
+open your **php.ini** ( for the specific version ) and add this line:
+
+```bash
+extension=_PATH_TO_PHP_EXTENTIONS_/phalcon.so
+#Example: extension=/opt/php-5615/lib/php/extensions/no-debug-non-zts-20131226/phalcon.so
+```
+
+Save the file and **Restart the webserver**.
+
+Vagrant
+--------------
+https://github.com/phalcon/vagrant
+
+OSX MAMP ready extensions
+--------------
+
+https://github.com/majksner/php-phalcon-mamp
 
 External Links
 --------------

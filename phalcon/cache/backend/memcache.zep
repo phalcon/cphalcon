@@ -83,7 +83,8 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM";
+			// Disable tracking of cached keys per default
+			let options["statsKey"] = "";
 		}
 
 		parent::__construct(frontend, options);
@@ -114,6 +115,28 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		let this->_memcache = memcache;
+	}
+
+        /**
+	 * Add servers to memcache pool
+	 *
+	 * @param  string host
+	 * @param  long port
+         * @param  boolean persistent	 
+         * @return boolean
+	 */
+        public function addServers(var host, var port, var persistent = false)
+	{
+                var memcache;                
+                /**
+		 * Check if a connection is created or make a new one
+		 */
+		let memcache = this->_memcache;
+		if typeof memcache != "object" {
+                    this->_connect();
+                    let memcache = this->_memcache;
+		}
+                return memcache->addServer(host, port, persistent);
 	}
 
 	/**
@@ -225,7 +248,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Update the stats key
 			 */
@@ -276,11 +299,13 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
+		if specialKey != "" {
 		let keys = memcache->get(specialKey);
 
 		if typeof keys == "array" {
 			unset keys[prefixedKey];
 			memcache->set(specialKey, keys);
+		}
 		}
 
 		/**
@@ -311,6 +336,10 @@ class Memcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		/**
@@ -448,6 +477,10 @@ class Memcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		/**

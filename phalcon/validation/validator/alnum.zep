@@ -48,10 +48,6 @@ class Alnum extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if !ctype_alnum(value) {
 
 			let label = this->getOption("label");
@@ -65,7 +61,7 @@ class Alnum extends Validator
 				let message = validation->getDefaultMessage("Alnum");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum", this->getOption("code")));
 			return false;
 		}
 

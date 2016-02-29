@@ -20,98 +20,23 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\Application as BaseApplication;
 use Phalcon\DiInterface;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Console\Exception;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Phalcon\Cli\Console
  *
  * This component allows to create CLI applications using Phalcon
  */
-class Console implements InjectionAwareInterface, EventsAwareInterface
+class Console extends BaseApplication
 {
 
-	protected _dependencyInjector;
+	protected _arguments = [];
 
-	protected _eventsManager;
-
-	protected _modules;
-
-	protected _moduleObject;
-
-	protected _arguments;
-
-	protected _options;
-
-	/**
-	 * Phalcon\Cli\Console constructor
-	 */
-	public function __construct(<DiInterface> dependencyInjector = null)
-	{
-		if typeof dependencyInjector == "object" {
-			let this->_dependencyInjector = dependencyInjector;
-		}
-
-		let this->_arguments = [],
-			this->_options = [];
-	}
-
-	/**
-	 * Sets the DependencyInjector container
-	 */
-	public function setDI(<DiInterface> dependencyInjector)
-	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
-
-	/**
-	 * Returns the internal dependency injector
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		return this->_dependencyInjector;
-	}
-
-	/**
-	 * Sets the events manager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
-	{
-		let this->_eventsManager = eventsManager;
-	}
-
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <ManagerInterface>
-	{
-		return this->_eventsManager;
-	}
-
-	/**
-	 * Register an array of modules present in the console
-	 *
-	 *<code>
-	 *	$application->registerModules(array(
-	 *		'frontend' => array(
-	 *			'className' => 'Multiple\Frontend\Module',
-	 *			'path' => '../apps/frontend/Module.php'
-	 *		),
-	 *		'backend' => array(
-	 *			'className' => 'Multiple\Backend\Module',
-	 *			'path' => '../apps/backend/Module.php'
-	 *		)
-	 *	));
-	 *</code>
-	 */
-	public function registerModules(array! modules)
-	{
-		let this->_modules = modules;
-	}
+	protected _options = [];
 
 	/**
 	 * Merge modules with the existing ones
@@ -125,17 +50,9 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	 *	));
 	 *</code>
 	 */
-	public function addModules(array! modules)
+	deprecated public function addModules(array! modules)
 	{
-		let this->_modules = array_merge(modules, this->_modules);
-	}
-
-	/**
-	 * Return the modules registered in the console
-	 */
-	public function getModules() -> array
-	{
-		return this->_modules;
+		return this->registerModules(modules, true);
 	}
 
 	/**
@@ -171,7 +88,14 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 			router->handle(arguments);
 		}
 
+		/**
+		 * If the router doesn't return a valid module we use the default module
+		 */
 		let moduleName = router->getModuleName();
+		if !moduleName {
+			let moduleName = this->_defaultModule;
+		}
+
 		if moduleName {
 
 			if typeof eventsManager == "object" {
@@ -207,7 +131,6 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 			moduleObject->registerServices(dependencyInjector);
 
 			if typeof eventsManager == "object" {
-				let this->_moduleObject = moduleObject;
 				if eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
 					return false;
 				}

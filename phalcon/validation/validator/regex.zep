@@ -54,10 +54,6 @@ class Regex extends Validator
 		let matches = null;
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if preg_match(this->getOption("pattern"), value, matches) {
 			let failed = matches[0] != value;
 		} else {
@@ -77,7 +73,7 @@ class Regex extends Validator
 				let message = validation->getDefaultMessage("Regex");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Regex"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Regex", this->getOption("code")));
 			return false;
 		}
 

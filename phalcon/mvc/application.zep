@@ -19,15 +19,16 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Di\Injectable;
-use Phalcon\Mvc\ViewInterface;
-use Phalcon\Mvc\Application\Exception;
-use Phalcon\Mvc\ModuleDefinitionInterface;
-use Phalcon\Mvc\RouterInterface;
+use Phalcon\Application as BaseApplication;
 use Phalcon\DiInterface;
+use Phalcon\Mvc\ViewInterface;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\DispatcherInterface;
+use Phalcon\Mvc\Application\Exception;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\ModuleDefinitionInterface;
 
 /**
  * Phalcon\Mvc\Application
@@ -72,24 +73,10 @@ use Phalcon\Mvc\DispatcherInterface;
  *
  *</code>
  */
-class Application extends Injectable
+class Application extends BaseApplication
 {
 
-	protected _defaultModule;
-
-	protected _modules;
-
 	protected _implicitView = true;
-
-	/**
-	 * Phalcon\Mvc\Application
-	 */
-	public function __construct(<DiInterface> dependencyInjector = null)
-	{
-		if typeof dependencyInjector == "object" {
-			let this->_dependencyInjector = dependencyInjector;
-		}
-	}
 
 	/**
 	 * By default. The view is implicitly buffering all the output
@@ -102,84 +89,6 @@ class Application extends Injectable
 	}
 
 	/**
-	 * Register an array of modules present in the application
-	 *
-	 *<code>
-	 *	$this->registerModules(array(
-	 *		'frontend' => array(
-	 *			'className' => 'Multiple\Frontend\Module',
-	 *			'path' => '../apps/frontend/Module.php'
-	 *		),
-	 *		'backend' => array(
-	 *			'className' => 'Multiple\Backend\Module',
-	 *			'path' => '../apps/backend/Module.php'
-	 *		)
-	 *	));
-	 *</code>
-	 */
-	public function registerModules(array modules, boolean merge = false) -> <Application>
-	{
-		var registeredModules;
-
-		if merge === false {
-			let this->_modules = modules;
-		} else {
-			let registeredModules = this->_modules;
-			if typeof registeredModules == "array" {
-				let this->_modules = array_merge(registeredModules, modules);
-			} else {
-				let this->_modules = modules;
-			}
-		}
-
-		return this;
-	}
-
-	/**
-	 * Return the modules registered in the application
-	 *
-	 * @return array
-	 */
-	public function getModules()
-	{
-		return this->_modules;
-	}
-
-	/**
-	 * Gets the module definition registered in the application via module name
-	 *
-	 * @param string name
-	 * @return array|object
-	 */
-	public function getModule(string! name)
-	{
-		var module;
-
-		if !fetch module, this->_modules[name] {
-			throw new Exception("Module '" . name . "' isn't registered in the application container");
-		}
-
-		return module;
-	}
-
-	/**
-	 * Sets the module name to be used if the router doesn't return a valid module
-	 */
-	public function setDefaultModule(string! defaultModule) -> <Application>
-	{
-		let this->_defaultModule = defaultModule;
-		return this;
-	}
-
-	/**
-	 * Returns the default module name
-	 */
-	public function getDefaultModule() -> string
-	{
-		return this->_defaultModule;
-	}
-
-	/**
 	 * Handles a MVC request
 	 *
 	 * @param string uri
@@ -189,7 +98,8 @@ class Application extends Injectable
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
-			implicitView, returnedResponse, controller, possibleResponse, renderStatus;
+			implicitView, returnedResponse, controller, possibleResponse,
+			renderStatus, matchedRoute, match;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -213,6 +123,46 @@ class Application extends Injectable
 		 * Handle the URI pattern (if any)
 		 */
 		router->handle(uri);
+
+		/**
+		 * If a 'match' callback was defined in the matched route
+		 * The whole dispatcher+view behavior can be overriden by the developer
+		 */
+		let matchedRoute = router->getMatchedRoute();
+		if typeof matchedRoute == "object" {
+			let match = matchedRoute->getMatch();
+			if match !== null {
+
+				if match instanceof \Closure {
+					let match = \Closure::bind(match, dependencyInjector);
+				}
+
+				/**
+				 * Directly call the match callback
+				 */
+				let possibleResponse = call_user_func_array(match, router->getParams());
+
+				/**
+				 * If the returned value is a string return it as body
+				 */
+				if typeof possibleResponse == "string" {
+					let response = <ResponseInterface> dependencyInjector->getShared("response");
+					response->setContent(possibleResponse);
+					return response;
+				}
+
+				/**
+				 * If the returned string is a ResponseInterface use it as response
+				 */
+				if typeof possibleResponse == "object" {
+					if possibleResponse instanceof ResponseInterface {
+						possibleResponse->sendHeaders();
+						possibleResponse->sendCookies();
+						return possibleResponse;
+					}
+				}
+			}
+		}
 
 		/**
 		 * If the router doesn't return a valid module we use the default module
@@ -298,7 +248,6 @@ class Application extends Injectable
 			if typeof eventsManager == "object" {
 				eventsManager->fire("application:afterStartModule", this, moduleObject);
 			}
-
 		}
 
 		/**
@@ -347,84 +296,96 @@ class Application extends Injectable
 		 */
 		let possibleResponse = dispatcher->getReturnedValue();
 
+		/**
+		 * Returning false from an action cancels the view
+		 */
 		if typeof possibleResponse == "boolean" && possibleResponse == false {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 		} else {
-			if typeof possibleResponse == "object" {
+
+			/**
+			 * Returning a string makes use it as the body of the response
+			 */
+			if typeof possibleResponse == "string" {
+				let response = <ResponseInterface> dependencyInjector->getShared("response");
+				response->setContent(possibleResponse);
+			} else {
 
 				/**
 				 * Check if the returned object is already a response
 				 */
-				let returnedResponse = possibleResponse instanceof ResponseInterface;
-			} else {
-				let returnedResponse = false;
-			}
+				if typeof possibleResponse == "object" {
+					let returnedResponse = possibleResponse instanceof ResponseInterface;
+				} else {
+					let returnedResponse = false;
+				}
 
-			/**
-			 * Calling afterHandleRequest
-			 */
-			if typeof eventsManager == "object" {
-				eventsManager->fire("application:afterHandleRequest", this, controller);
-			}
+				/**
+				 * Calling afterHandleRequest
+				 */
+				if typeof eventsManager == "object" {
+					eventsManager->fire("application:afterHandleRequest", this, controller);
+				}
 
-			/**
-			 * If the dispatcher returns an object we try to render the view in auto-rendering mode
-			 */
-			if returnedResponse === false {
-				if implicitView === true {
-					if typeof controller == "object" {
+				/**
+				 * If the dispatcher returns an object we try to render the view in auto-rendering mode
+				 */
+				if returnedResponse === false {
+					if implicitView === true {
+						if typeof controller == "object" {
 
-						let renderStatus = true;
-
-						/**
-						 * This allows to make a custom view render
-						 */
-						if typeof eventsManager == "object" {
-							let renderStatus = eventsManager->fire("application:viewRender", this, view);
-						}
-
-						/**
-						 * Check if the view process has been treated by the developer
-						 */
-						if renderStatus !== false {
+							let renderStatus = true;
 
 							/**
-							 * Automatic render based on the latest controller executed
+							 * This allows to make a custom view render
 							 */
-							view->render(
-								dispatcher->getControllerName(),
-								dispatcher->getActionName(),
-								dispatcher->getParams()
-							);
+							if typeof eventsManager == "object" {
+								let renderStatus = eventsManager->fire("application:viewRender", this, view);
+							}
+
+							/**
+							 * Check if the view process has been treated by the developer
+							 */
+							if renderStatus !== false {
+
+								/**
+								 * Automatic render based on the latest controller executed
+								 */
+								view->render(
+									dispatcher->getControllerName(),
+									dispatcher->getActionName(),
+									dispatcher->getParams()
+								);
+							}
 						}
 					}
 				}
-			}
-
-			/**
-			 * Finish the view component (stop output buffering)
-			 */
-			if implicitView === true {
-				view->finish();
-			}
-
-			if returnedResponse === false {
-
-				let response = <ResponseInterface> dependencyInjector->getShared("response");
-				if implicitView === true {
-
-					/**
-					 * The content returned by the view is passed to the response service
-					 */
-					response->setContent(view->getContent());
-				}
-
-			} else {
 
 				/**
-				 * We don't need to create a response because there is one already created
+				 * Finish the view component (stop output buffering)
 				 */
-				let response = possibleResponse;
+				if implicitView === true {
+					view->finish();
+				}
+
+				if returnedResponse === false {
+
+					let response = <ResponseInterface> dependencyInjector->getShared("response");
+					if implicitView === true {
+
+						/**
+						 * The content returned by the view is passed to the response service
+						 */
+						response->setContent(view->getContent());
+					}
+
+				} else {
+
+					/**
+					 * We don't need to create a response because there is one already created
+					 */
+					let response = possibleResponse;
+				}
 			}
 		}
 

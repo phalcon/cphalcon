@@ -87,8 +87,9 @@ class Redis extends Backend implements BackendInterface
 			let options["persistent"] = false;
 		}
 
-		if !isset options["statsKey"] || empty options["statsKey"] {
-			let options["statsKey"] = "_PHCR";
+		if !isset options["statsKey"] {
+			// Disable tracking of cached keys per default
+			let options["statsKey"] = "";
 		}
 
 		parent::__construct(frontend, options);
@@ -247,13 +248,13 @@ class Redis extends Backend implements BackendInterface
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
-
-		redis->sAdd(specialKey, prefixedKey);
+		if specialKey != "" {
+			redis->sAdd(specialKey, prefixedKey);
+		}
 
 		let isBuffering = frontend->isBuffering();
 
@@ -289,13 +290,13 @@ class Redis extends Backend implements BackendInterface
 		let lastKey = "_PHCR" . prefixedKey;
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
-
-		redis->sRem(specialKey, prefixedKey);
+		if specialKey != "" {
+			redis->sRem(specialKey, prefixedKey);
+		}
 
 		/**
 		* Delete the key from redis
@@ -322,11 +323,13 @@ class Redis extends Backend implements BackendInterface
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
+		}
 
 		/**
 		* Get the key from redis
@@ -452,17 +455,19 @@ class Redis extends Backend implements BackendInterface
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
-
-		let specialKey = options["statsKey"];
 
 		let redis = this->_redis;
 
 		if typeof redis != "object" {
 			this->_connect();
 			let redis = this->_redis;
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		let keys = redis->sMembers(specialKey);
