@@ -1,1 +1,0 @@
-$.jQuery { append: function() { } }
