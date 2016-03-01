@@ -46,7 +46,7 @@ class SessionTest extends PHPUnit_Framework_TestCase
 
 	public function testSessionFiles()
 	{
-
+		$this->markTestSkipped("Test skipped: This test need to be refactored");
 		$session = new Phalcon\Session\Adapter\Files();
 
 		$this->assertFalse($session->start());
