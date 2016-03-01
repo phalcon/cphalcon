@@ -1,6 +1,11 @@
+# Codeception Test Suite Configuration
+#
+# Suite for unit (internal) tests.
 class_name: IntegrationTester
 modules:
-    enabled: [IntegrationHelper, Phalcon1]
+    enabled:
+        - Helper\Integration
+        - Phalcon2
     config:
-        Phalcon1:
-            bootstrap: '/tests/_support/_config/bootstrap.php'
+        Phalcon2:
+            bootstrap: 'tests/_config/bootstrap.php'
