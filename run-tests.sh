@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ZEND_DONT_UNLOAD_MODULES=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml --testsuite=stable
+ZEND_DONT_UNLOAD_MODULES=1 vendor/bin/phpunit --bootstrap unit-tests/ci/phpunit.php unit-tests/
 result_phpunit=$?
 
 $(phpenv which php) codecept.phar build

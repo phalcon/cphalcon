@@ -28,6 +28,7 @@ class SessionBagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetSet()
 	{
+		$this->markTestSkipped("Test skipped: This test need to be refactored");
 		\Phalcon\DI::reset();
 		new \Phalcon\DI\FactoryDefault();
 		@session_start();

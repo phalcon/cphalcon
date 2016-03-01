@@ -23,6 +23,10 @@ use Phalcon\Translate\Adapter\Gettext;
 
 class TranslateTest extends PHPUnit_Framework_TestCase
 {
+	public function setUp()
+	{
+		$this->markTestSkipped("Test skipped: This test need to be refactored");
+	}
 	public function testBasic()
 	{
 		$options = array(

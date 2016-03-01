@@ -196,7 +196,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 	public function testEvents()
 	{
-
+		$this->markTestSkipped("Test skipped: This test need to be refactored");
 		$loader = new Phalcon\Loader();
 
 		$loader->registerDirs(array(
