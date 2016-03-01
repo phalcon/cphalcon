@@ -117,17 +117,12 @@ class Memcache extends Backend implements BackendInterface
 		let this->_memcache = memcache;
 	}
 
-        /**
-	 * Add servers to memcache pool
-	 *
-	 * @param  string host
-	 * @param  long port
-         * @param  boolean persistent	 
-         * @return boolean
+	/**
+	 * Add servers to memcache pool	 	
 	 */
-	public function addServers(var host, var port, var persistent = false)
+	public function addServers(string! host, int port, boolean persistent = false) -> boolean
 	{
-		var memcache;                
+		var memcache, success;                
 		/**
 		 * Check if a connection is created or make a new one
 		 */
@@ -135,8 +130,10 @@ class Memcache extends Backend implements BackendInterface
 		if typeof memcache != "object" {
 		    this->_connect();
 		    let memcache = this->_memcache;
-		}
-		return memcache->addServer(host, port, persistent);
+		}		
+		let success = memcache->addServer(host, port, persistent);
+		let this->_memcache = memcache;
+		return success;
 	}
 
 	/**
