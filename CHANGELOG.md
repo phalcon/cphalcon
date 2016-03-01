@@ -27,7 +27,7 @@
 - Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
-- `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
+- `Phalcon\Mvc\Model\Criteria::getOrder` renamed to `Phalcon\Mvc\Model\Criteria::getOrderBy`
 - Added method `getOption()` in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
 - Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql`
@@ -46,7 +46,10 @@
 - Fixed issue with `Model::__set` that was setting hidden attributes directly when setters are not declared [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
 - Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
-- Adding addServers method to `Phalcon\Cache\Backend\Memcache` to enable pool of servers for memcache
+- Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
+- Fires the dispatch:beforeException event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
+- Added `OR` operator for `Phalcon\Mvc\Model\Query\Builder` methods: betweenWhere, notBetweenWhere, inWhere and notInWhere
+- Added addServers method to `Phalcon\Cache\Backend\Memcache` to enable pool of servers for memcache
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,16 +26,6 @@ namespace Phalcon\Di;
  */
 interface ServiceInterface
 {
-
-	/**
-	 * Phalcon\Di\ServiceInterface
-	 *
-	 * @param string name
-	 * @param mixed definition
-	 * @param boolean shared
-	 */
-	public function __construct(string name, definition, boolean shared = false);
-
 	/**
 	 * Returns the service's name
 	 *

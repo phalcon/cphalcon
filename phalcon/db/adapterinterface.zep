@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,12 +26,6 @@ namespace Phalcon\Db;
  */
 interface AdapterInterface
 {
-
-	/**
-	 * Constructor for Phalcon\Db\Adapter
-	 */
-	public function __construct(array! descriptor);
-
 	/**
 	 * Returns the first row in a SQL query result
 	 *

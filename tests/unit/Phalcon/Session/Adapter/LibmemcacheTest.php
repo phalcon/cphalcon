@@ -22,13 +22,18 @@
 
 namespace Phalcon\Tests\unit\Phalcon\Session\Adapter;
 
-use \PhalconTest\Session\Adapter\Libmemcached as PhTLibmemcached;
-use \Codeception\TestCase\Test as CdTest;
-
-use \Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
+use PhalconTest\Session\Adapter\Libmemcached as PhTLibmemcached;
+use Phalcon\Tests\unit\Phalcon\_Helper\TestsBase as TBase;
 
 class LibmemcachedTest extends TBase
 {
+    protected function _before()
+    {
+        if (!extension_loaded('memcached')) {
+            $this->markTestSkipped('Warning: memcached extension is not loaded');
+        }
+    }
+
     /**
      * Tests read and write
      *
@@ -40,17 +45,14 @@ class LibmemcachedTest extends TBase
         $this->specify(
             "The session cannot be read or written from",
             function () {
-                if (!extension_loaded('memcached')) {
-                    $this->markTestSkipped('Warning: memcached extension is not loaded');
-                    return false;
-                }
-
                 $sessionID = "abcdef123456";
 
                 $session = new PhTLibmemcached(
                     array(
-                        "host" => "127.0.0.1",
-                        "port" => 11211
+                        'servers' => array(
+                            array("host" => "127.0.0.1", "port" => 11211)
+                        ),
+                        'client' => array(),
                     )
                 );
 
@@ -80,17 +82,14 @@ class LibmemcachedTest extends TBase
         $this->specify(
             "The session cannot be destroyed",
             function () {
-                if (!extension_loaded('memcached')) {
-                    $this->markTestSkipped('Warning: memcached extension is not loaded');
-                    return false;
-                }
-
                 $sessionID = "abcdef123456";
 
                 $session = new PhTLibmemcached(
                     array(
-                        "host" => "127.0.0.1",
-                        "port" => 11211
+                        'servers' => array(
+                            array("host" => "127.0.0.1", "port" => 11211)
+                        ),
+                        'client' => array(),
                     )
                 );
 

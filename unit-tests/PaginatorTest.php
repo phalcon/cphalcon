@@ -440,12 +440,64 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_loadDI();
 
+		// test paginator with group by string value
+		$builder = $di['modelsManager']->createBuilder()
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->orderBy('cedula')
+					->groupBy('email');
+
+		$this->_paginatorBuilderTest($builder);
+
+		// test paginator with group by array value
 		$builder = $di['modelsManager']->createBuilder()
 					->columns('cedula, nombres')
 					->from('Personnes')
 					->orderBy('cedula')
 					->groupBy(['email']);
 
+		$this->_paginatorBuilderTest($builder);
+
+		// test of getter/setters of querybuilder adapter
+
+		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builder,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+		$paginator->setCurrentPage(18);
+
+        // -- current page --
+		$currentPage = $paginator->getCurrentPage();
+		$this->assertEquals($currentPage, 18);
+
+		// -- limit --
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 10);
+
+		$setterResult = $paginator->setLimit(25);
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 25);
+		$this->assertEquals($setterResult, $paginator);
+
+		// -- builder --
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder, $queryBuilder);
+
+		$builder2 = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres')
+			->from('Personnes')
+			->groupBy(['email']);
+
+		$setterResult = $paginator->setQueryBuilder($builder2);
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder2, $queryBuilder);
+		$this->assertEquals($setterResult, $paginator);
+	}
+
+	private function _paginatorBuilderTest($builder)
+	{
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
 			"builder" => $builder,
 			"limit"=> 10,
@@ -507,34 +559,5 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInternalType('int', $page->total_items);
 		$this->assertInternalType('int', $page->total_pages);
-
-		// test of getter/setters of querybuilder adapter
-
-        // -- current page --
-		$currentPage = $paginator->getCurrentPage();
-		$this->assertEquals($currentPage, 18);
-
-		// -- limit --
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 10);
-
-		$setterResult = $paginator->setLimit(25);
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 25);
-		$this->assertEquals($setterResult, $paginator);
-
-		// -- builder --
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder, $queryBuilder);
-
-		$builder2 = $di['modelsManager']->createBuilder()
-			->columns('cedula, nombres')
-			->from('Personnes')
-			->groupBy(['email']);
-
-		$setterResult = $paginator->setQueryBuilder($builder2);
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder2, $queryBuilder);
-		$this->assertEquals($setterResult, $paginator);
 	}
 }
