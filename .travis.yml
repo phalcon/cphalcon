@@ -34,9 +34,6 @@ before_install:
   - export PATH=$PATH:~/bin;
   - travis_retry composer self-update
   - travis_retry composer --prefer-source install
-  - git submodule --quiet update --init --recursive
-  - (cd php-tests/library/Mustache; git checkout master)
-  - (cd php-tests/library/Twig; git checkout master)
   - travis_retry composer require phalcon/zephir:dev-master
   - bash tests/_ci/install_prereqs.sh
   - bash tests/_ci/setup_dbs.sh

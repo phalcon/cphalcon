@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ZEND_DONT_UNLOAD_MODULES=1 vendor/bin/phpunit --bootstrap unit-tests/ci/phpunit.php unit-tests/
+ZEND_DONT_UNLOAD_MODULES=1 vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
 result_phpunit=$?
 
 vendor/bin/codecept build

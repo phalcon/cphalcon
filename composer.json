@@ -11,9 +11,9 @@
         "php": "~5.4"
     },
     "require-dev": {
-        "mustache/mustache": "~2",
-        "twig/twig": "~1.23",
-        "codeception/codeception": "2.1.5",
+        "mustache/mustache": "~2.10",
+        "twig/twig": "~1.24",
+        "codeception/codeception": "~2.1",
         "codeception/verify": "~0.3",
         "codeception/specify": "~0.4"
     },
