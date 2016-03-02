@@ -59,3 +59,6 @@ defined('TEST_DB_MYSQL_USER')    || define('TEST_DB_MYSQL_USER',    getenv('TEST
 defined('TEST_DB_MYSQL_PASSWD')  || define('TEST_DB_MYSQL_PASSWD',  getenv('TEST_DB_MYSQL_PASSWD')  ?: '');
 defined('TEST_DB_MYSQL_NAME')    || define('TEST_DB_MYSQL_NAME',    getenv('TEST_DB_MYSQL_NAME')    ?: 'phalcon_test');
 defined('TEST_DB_MYSQL_CHARSET') || define('TEST_DB_MYSQL_CHARSET', getenv('TEST_DB_MYSQL_CHARSET') ?: 'utf8');
+
+// Mongo
+defined('TEST_DB_MONGO_NAME') || define('TEST_DB_MONGO_NAME', getenv('TEST_DB_MONGO_NAME') ?: 'phalcon_test');

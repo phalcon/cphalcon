@@ -6,6 +6,7 @@ return [
         'staticUri' => '/',
         'timezone'  => 'UTC',
         'modelsDir' => TESTS_PATH . '_data/models/',
+        'collectionsDir' => TESTS_PATH . '_data/collections/',
     ],
     'database' => [
         'adapter'  => 'Mysql',

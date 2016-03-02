@@ -24,24 +24,21 @@ $di->setShared(
 /**
  * Autoloader
  */
-$di->set(
-    'loader',
-    function () use ($di) {
-        $config = $di['config'];
+$config = $di['config'];
+$loader = new Loader();
 
-        $loader = new Loader();
-
-        // Register the Library namespace as well as the common module
-        // since it needs to always be available
-        $loader->registerNamespaces(
-            [
-                'Phalcon\Test\Models' => $config->get('application')->modelsDir,
-            ]
-        );
-
-        $loader->register();
-    }
+// Register the Library namespace as well as the common module
+// since it needs to always be available
+$loader->registerNamespaces(
+    [
+        'Phalcon\Test\Models'      => $config->get('application')->modelsDir,
+        'Phalcon\Test\Collections' => $config->get('application')->collectionsDir,
+    ]
 );
+
+$loader->register();
+
+$di->setShared('loader',  $loader);
 
 /**
  * The URL component is used to generate all kind of urls in the

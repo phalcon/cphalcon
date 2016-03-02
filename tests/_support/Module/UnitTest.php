@@ -46,4 +46,12 @@ class UnitTest extends Test
     protected function _after()
     {
     }
+
+    /**
+     * @return UnitTester
+     */
+    public function getTester()
+    {
+        return $this->tester;
+    }
 }

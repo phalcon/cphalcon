@@ -53,14 +53,18 @@ We use the following settings of these services:
 * Host: `127.0.0.1`
 * Port: `11211`
 
-**Database** (MySQL)
+**MySQL**
 
 * Host: `127.0.0.1`
 * Port: `3306`
 * Username: `root`
 * Password: `''` (empty string)
-* DB Name: `incubator_tests`
+* DB Name: `phalcon_test`
 * Charset: `utf8`
+
+**Mongo**
+
+* DB Name `phalcon_test`
 
 You can change the connection settings of these services **before** running tests by using [environment variables][8]:
 
@@ -80,6 +84,9 @@ export TEST_DB_MYSQL_USER="root"
 export TEST_DB_MYSQL_PASSWD=""
 export TEST_DB_MYSQL_NAME="phalcon_test"
 export TEST_DB_MYSQL_CHARSET="urf8"
+
+# Mongo
+export TEST_DB_MONGO_NAME="phalcon_test"
 ```
 
 Once the database is created, run the tests on a terminal:
