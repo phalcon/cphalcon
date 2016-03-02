@@ -274,7 +274,7 @@ class GdTest extends UnitTest
                 $I->deleteFile('reflection.jpg');
             }
         );
-    } //watermark
+    }
 
     /**
      * Tests watermark
@@ -351,7 +351,7 @@ class GdTest extends UnitTest
     }
 
     /**
-     * Tests mask
+     * Tests background
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-02-19
