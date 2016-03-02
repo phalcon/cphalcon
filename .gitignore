@@ -182,7 +182,6 @@ compile-errors.log
 compile.log
 .vagrant
 Vagrantfile
-tests/_output/*
 build/.gitignore
 build/README.md
 build/install-gentoo

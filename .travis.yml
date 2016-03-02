@@ -29,6 +29,7 @@ env:
     - TEST_DB_MYSQL_PASSWD=""
     - TEST_DB_MYSQL_NAME="phalcon_test"
     - TEST_DB_MYSQL_CHARSET="utf8"
+    - ZEND_DONT_UNLOAD_MODULES=1
 
 before_install:
   - export PATH=$PATH:~/bin;
@@ -41,8 +42,10 @@ before_install:
   - bash tests/_ci/install_beanstalkd.sh
   - zephir generate &> /dev/null
 
+
 before_script:
-  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
+  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
+  - phpenv config-add tests/_ci/phalcon.ini
   - php --ri phalcon
   - phpenv config-add tests/_ci/redis.ini # after compilation Zephir and Phalcon
   - php -m
@@ -51,7 +54,9 @@ before_script:
   - stty cols 160
 
 script:
-  - bash run-tests.sh
+  - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
+  - vendor/bin/codecept build
+  - vendor/bin/codecept run
 
 after_failure:
   - bash tests/_ci/after_failure.sh
