@@ -15,9 +15,9 @@
         "twig/twig": "~1.23",
         "codeception/codeception": "2.1.5",
         "codeception/verify": "~0.3",
-        "codeception/specify": "~0.4",
-        "phpunit/phpunit": "~3.7|~4.8"
+        "codeception/specify": "~0.4"
     },
+    "minimum-stability": "dev",
     "license": "BSD-3-Clause",
     "authors": [
         {
