@@ -564,7 +564,7 @@ abstract class Adapter implements EventsAwareInterface
 	 *
 	 * <code>
 	 * //Updating existing robot
-	 * $success = $connection->update(
+	 * $success = $connection->updateAsDict(
 	 *	 "robots",
 	 *	 array(
 	 *		  "name" => "New Astro Boy"
