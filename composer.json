@@ -13,10 +13,10 @@
     "require-dev": {
         "mustache/mustache": "~2",
         "twig/twig": "~1.23",
-        "codeception/codeception": "~2.1",
+        "codeception/codeception": "2.1.5",
         "codeception/verify": "~0.3",
         "codeception/specify": "~0.4",
-        "phpunit/phpunit": "~4.8"
+        "phpunit/phpunit": "~3.7|~4.8"
     },
     "license": "BSD-3-Clause",
     "authors": [
