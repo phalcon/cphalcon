@@ -30,6 +30,7 @@ class KeyExistsTest extends UnitTest
     {
         parent::_before();
 
+	$this->markTestSkipped('This test is disabled due to unstable gettext utility');
         if (!extension_loaded('gettext')) {
             $this->markTestSkipped('Warning: gettext extension is not loaded');
         }
