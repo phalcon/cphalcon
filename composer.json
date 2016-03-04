@@ -11,8 +11,13 @@
         "php": "~5.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+        "mustache/mustache": "~2.10",
+        "twig/twig": "~1.24",
+        "codeception/codeception": "~2.1",
+        "codeception/verify": "~0.3",
+        "codeception/specify": "~0.4"
     },
+    "minimum-stability": "dev",
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -24,6 +29,13 @@
             "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
         }
     ],
+    "autoload-dev": {
+        "psr-4": {
+            "Phalcon\\Test\\Unit\\": "tests/unit/",
+            "Phalcon\\Test\\Proxy\\": "tests/_proxies/",
+            "Phalcon\\Test\\Module\\": "tests/_support/Module/"
+        }
+    },
     "support": {
         "issues": "https://github.com/phalcon/cphalcon/issues",
         "source": "https://github.com/phalcon/cphalcon",

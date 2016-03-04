@@ -35,7 +35,11 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$this->level = ob_get_level();
 		if (is_dir('unit-tests/cache')) {
 			foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
-				$item->isDir() or unlink($item->getPathname());
+				if ($item->isDir() || $item->isDot()) {
+					continue;
+				}
+
+				unlink($item->getPathname());
 			}
 		} else {
 			mkdir('unit-tests/cache');
@@ -218,7 +222,11 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 	{
 		if (is_dir('unit-tests/cache')) {
 			foreach (new DirectoryIterator('unit-tests/cache/') as $item) {
-				$item->isDir() or unlink($item->getPathname());
+				if ($item->isDir() || $item->isDot()) {
+					continue;
+				}
+
+				unlink($item->getPathname());
 			}
 		} else {
 			mkdir('unit-tests/cache');
