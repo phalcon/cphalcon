@@ -822,16 +822,16 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Arrays
 		$compilation = $volt->compileString("{% set a = [1, 2, 3, 4] %}");
-		$this->assertEquals($compilation, '<?php $a = array(1, 2, 3, 4); ?>');
+		$this->assertEquals($compilation, '<?php $a = [1, 2, 3, 4]; ?>');
 
 		$compilation = $volt->compileString('{% set a = ["hello", 2, 1.3, false, true, null] %}');
-		$this->assertEquals($compilation, '<?php $a = array(\'hello\', 2, 1.3, false, true, null); ?>');
+		$this->assertEquals($compilation, '<?php $a = [\'hello\', 2, 1.3, false, true, null]; ?>');
 
 		$compilation = $volt->compileString('{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}');
-		$this->assertEquals($compilation, '<?php $a = array(\'hello\', 2, 3, false, true, null, array(1, 2, \'hola\')); ?>');
+		$this->assertEquals($compilation, '<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>');
 
 		$compilation = $volt->compileString("{% set a = ['first': 1, 'second': 2, 'third': 3] %}");
-		$this->assertEquals($compilation, '<?php $a = array(\'first\' => 1, \'second\' => 2, \'third\' => 3); ?>');
+		$this->assertEquals($compilation, '<?php $a = [\'first\' => 1, \'second\' => 2, \'third\' => 3]; ?>');
 
 		//Array acccess
 		$compilation = $volt->compileString('{{ a[0 ]}}');
@@ -887,10 +887,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Phalcon\Tag helpers
 		$compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
-		$this->assertEquals($compilation, '<?= $this->tag->linkTo(array(\'hello\', \'some-link\')) ?>');
+		$this->assertEquals($compilation, '<?= $this->tag->linkTo([\'hello\', \'some-link\']) ?>');
 
 		$compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
-		$this->assertEquals($compilation, '<?= $this->tag->form(array(\'action\' => \'save/products\', \'method\' => \'post\')) ?>');
+		$this->assertEquals($compilation, '<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>');
 
 		$compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
 		$this->assertEquals($compilation, '<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>');
@@ -899,10 +899,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?= $this->tag->javascriptInclude(\'js/some.js\') ?>');
 
 		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
-		$this->assertEquals($compilation, "<?= \$this->tag->image(array('img/logo.png', 'width' => 80)) ?>");
+		$this->assertEquals($compilation, "<?= \$this->tag->image(['img/logo.png', 'width' => 80]) ?>");
 
 		$compilation = $volt->compileString("{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}");
-		$this->assertEquals($compilation, "<?= \$this->tag->emailField(array('email', 'class' => 'form-control', 'placeholder' => 'Email Address')) ?>");
+		$this->assertEquals($compilation, "<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>");
 
 		//Filters
 		$compilation = $volt->compileString('{{ "hello"|e }}');
@@ -1050,10 +1050,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php foreach ($b->c as $a) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] %} hello {% endfor %}');
-		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { ?> hello <?php } ?>');
+		$this->assertEquals($compilation, '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] if key!=3 %} hello {% endfor %}');
-		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>');
+		$this->assertEquals($compilation, '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>');
 
 		$compilation = $volt->compileString('{% for a in 1..10 %} hello {% endfor %}');
 		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?> hello <?php } ?>');
