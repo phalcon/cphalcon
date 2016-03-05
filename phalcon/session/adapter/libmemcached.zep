@@ -147,15 +147,18 @@ class Libmemcached extends Adapter
 	 */
 	public function destroy(string sessionId = null) ->boolean
 	{
-		var id;
+		var id, key;
 
 		if sessionId === null {
 			let id = this->getId();
 		} else {
 			let id = sessionId;
 		}
-
-		return this->_libmemcached->delete(id);
+		
+		for key, _ in _SESSION {
+			unset _SESSION[key];			
+		}
+		return this->_libmemcached->delete(id);		
 	}
 
 	/**
