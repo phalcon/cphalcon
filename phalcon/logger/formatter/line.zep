@@ -20,14 +20,13 @@
 namespace Phalcon\Logger\Formatter;
 
 use Phalcon\Logger\Formatter;
-use Phalcon\Logger\FormatterInterface;
 
 /**
  * Phalcon\Logger\Formatter\Line
  *
  * Formats messages using an one-line string
  */
-class Line extends Formatter implements FormatterInterface
+class Line extends Formatter
 {
 
 	/**
