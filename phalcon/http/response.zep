@@ -347,6 +347,32 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Sets Last-Modified header
+	 *
+	 *<code>
+	 *	$this->response->setLastModified(new DateTime());
+	 *</code>
+	 */
+	public function setLastModified(<\DateTime> datetime) -> <Response>
+	{
+		var date;
+
+		let date = clone datetime;
+
+		/**
+		 * All the Last-Modified times are sent in UTC
+		 * Change the timezone to utc
+		 */
+		date->setTimezone(new \DateTimeZone("UTC"));
+
+		/**
+		 * The 'Last-Modified' header sets this info
+		 */
+		this->setHeader("Last-Modified", date->format("D, d M Y H:i:s") . " GMT");
+		return this;
+	}
+
+	/**
 	 * Sets Cache headers to use HTTP cache
 	 *
 	 *<code>
