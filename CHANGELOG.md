@@ -27,7 +27,7 @@
 - Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
-- `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
+- `Phalcon\Mvc\Model\Criteria::getOrder` renamed to `Phalcon\Mvc\Model\Criteria::getOrderBy`
 - Added method `getOption()` in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
 - Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql`
@@ -53,6 +53,10 @@
 - Added `\Phalcon\Queue\Beanstalk::listTubesWatched()` Returns a list tubes currently being watched by the client.
 - Added `\Phalcon\Queue\Beanstalk::peekDelayed()` Return the delayed job with the shortest delay left.
 - Added `\Phalcon\Queue\Beanstalk::jobPeek()` Return job.
+- Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
+- Fires the dispatch:beforeException event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
+- Added `OR` operator for `Phalcon\Mvc\Model\Query\Builder` methods: betweenWhere, notBetweenWhere, inWhere and notInWhere
+- Added `setLastModified` method to `Phalcon\Http\Response`
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)

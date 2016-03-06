@@ -41,6 +41,7 @@ class CollectionsClassChangeTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function setUp() {
+		$this->markTestSkipped("Test skipped: This test need to be refactored");
 		$book = new Books();
 		$book->title = 'book';
 		$book->save();
@@ -86,7 +87,9 @@ class CollectionsClassChangeTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function tearDown() {
-		$this->_book->delete();
+		if ($this->_book) {
+			$this->_book->delete();
+		}
 	}
 
 }

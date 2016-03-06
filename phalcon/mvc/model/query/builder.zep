@@ -672,9 +672,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->betweenWhere('price', 100.25, 200.50);
 	 *</code>
 	 */
-	public function betweenWhere(string! expr, var minimum, var maximum) -> <Builder>
+	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
+
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
 
 		let hiddenParam = this->_hiddenParamNumber,
 			nextHiddenParam = hiddenParam + 1;
@@ -690,7 +696,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard BETWEEN condition with bind params
 		 * Append the BETWEEN to the current conditions using and "and"
 		 */
-		this->andWhere(
+
+		this->{operatorMethod}(
 			expr . " BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
 			[minimumKey: minimum, maximumKey: maximum]
 		);
@@ -708,9 +715,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->notBetweenWhere('price', 100.25, 200.50);
 	 *</code>
 	 */
-	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Builder>
+	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
+
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
 
 		let hiddenParam = this->_hiddenParamNumber,
 			nextHiddenParam = hiddenParam + 1;
@@ -726,7 +739,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard BETWEEN condition with bind params
 		 * Append the NOT BETWEEN to the current conditions using and "and"
 		 */
-		this->andWhere(
+		this->{operatorMethod}(
 			expr . " NOT BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
 			[minimumKey: minimum, maximumKey: maximum]
 		);
@@ -744,13 +757,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->inWhere('id', [1, 2, 3]);
 	 *</code>
 	 */
-	public function inWhere(string! expr, array! values) -> <Builder>
+	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var key, queryKey, value, bindKeys, bindParams;
+		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
 
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
+
 		if !count(values) {
-			this->andWhere(expr . " != " . expr);
+			this->{operatorMethod}(expr . " != " . expr);
 			return this;
 		}
 
@@ -773,7 +792,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard IN condition with bind params
 		 * Append the IN to the current conditions using and "and"
 		 */
-		this->andWhere(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
+		this->{operatorMethod}(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
 
 		let this->_hiddenParamNumber = hiddenParam;
 
@@ -787,13 +806,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->notInWhere('id', [1, 2, 3]);
 	 *</code>
 	 */
-	public function notInWhere(string! expr, array! values) -> <Builder>
+	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var key, queryKey, value, bindKeys, bindParams;
+		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
 
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
+
 		if !count(values) {
-			this->andWhere(expr . " != " . expr);
+			this->{operatorMethod}(expr . " != " . expr);
 			return this;
 		}
 
@@ -816,7 +841,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard NOT IN condition with bind params
 		 * Append the NOT IN to the current conditions using and "and"
 		 */
-		this->andWhere(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
+		this->{operatorMethod}(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
 
 		let this->_hiddenParamNumber = hiddenParam;
 
