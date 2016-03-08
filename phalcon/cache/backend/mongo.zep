@@ -438,10 +438,6 @@ class Mongo extends Backend implements BackendInterface
 	{
 		this->_getCollection()->remove();
 
-		if (int) rand() % 100 == 0 {
-			this->gc();
-		}
-
 		return true;
 	}
 }
