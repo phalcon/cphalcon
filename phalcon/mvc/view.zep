@@ -726,7 +726,7 @@ class View extends Injectable implements ViewInterface
 			}
 
 			if !silence {
-				throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
+				throw new Exception("View '" . viewPath . "' was not found in any of the views directory");
 			}
 		}
 	}
