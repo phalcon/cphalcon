@@ -76,7 +76,7 @@ class Date extends Validator
         return true;
     }
 
-    public function checkDate(value, format) -> boolean
+    private function checkDate(value, format) -> boolean
     {
         var date, errors;
 
