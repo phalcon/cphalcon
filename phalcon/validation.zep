@@ -260,7 +260,7 @@ class Validation extends Injectable
 			"Uniqueness": "Field :field must be unique",
 			"Url": "Field :field must be a url",
 			"CreditCard": "Field :field is not valid for a credit card number",
-            "Date": "Field :field is not a valid date"
+			"Date": "Field :field is not a valid date"
 		];
 
 		let this->_defaultMessages = array_merge(defaultMessages, messages);
