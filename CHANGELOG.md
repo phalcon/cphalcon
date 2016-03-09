@@ -49,6 +49,7 @@
 - Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
 - Fires the dispatch:beforeException event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
 - Added `OR` operator for `Phalcon\Mvc\Model\Query\Builder` methods: betweenWhere, notBetweenWhere, inWhere and notInWhere
+- Fixed bug of `destroy` method of `Phalcon\Session\Adapter\Libmemcached`
 - Added addServers method to `Phalcon\Cache\Backend\Memcache` to enable pool of servers for memcache
 - Added `setLastModified` method to `Phalcon\Http\Response`
 
