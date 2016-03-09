@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -114,11 +114,8 @@ class Beanstalk
 
 	/**
 	 * Inserts jobs into the queue
-	 *
-	 * @param string data
-	 * @param array options
 	 */
-	public function put(var data, var options = null) -> string|boolean
+	public function put(var data, array options = null) -> string|boolean
 	{
 		var priority, delay, ttr, serialized, response, status, length;
 
