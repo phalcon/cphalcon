@@ -775,169 +775,169 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, 'hello');
 
 		$compilation = $volt->compileString('{{ "hello" }}');
-		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
+		$this->assertEquals($compilation, "<?= 'hello' ?>");
 
 		$compilation = $volt->compileString('{{ "hello" }}{{ "hello" }}');
-		$this->assertEquals($compilation, "<?php echo 'hello'; ?><?php echo 'hello'; ?>");
+		$this->assertEquals($compilation, "<?= 'hello' ?><?= 'hello' ?>");
 
 		$compilation = $volt->compileString('{{ "hello" }}-{{ "hello" }}');
-		$this->assertEquals($compilation, "<?php echo 'hello'; ?>-<?php echo 'hello'; ?>");
+		$this->assertEquals($compilation, "<?= 'hello' ?>-<?= 'hello' ?>");
 
 		$compilation = $volt->compileString('-{{ "hello" }}{{ "hello" }}-');
-		$this->assertEquals($compilation, "-<?php echo 'hello'; ?><?php echo 'hello'; ?>-");
+		$this->assertEquals($compilation, "-<?= 'hello' ?><?= 'hello' ?>-");
 
 		$compilation = $volt->compileString('-{{ "hello" }}-{{ "hello" }}-');
-		$this->assertEquals($compilation, "-<?php echo 'hello'; ?>-<?php echo 'hello'; ?>-");
+		$this->assertEquals($compilation, "-<?= 'hello' ?>-<?= 'hello' ?>-");
 
 		$compilation = $volt->compileString('Some = {{ 100+50 }}');
-		$this->assertEquals($compilation, "Some = <?php echo 100 + 50; ?>");
+		$this->assertEquals($compilation, "Some = <?= 100 + 50 ?>");
 
 		$compilation = $volt->compileString('Some = {{ 100-50 }}');
-		$this->assertEquals($compilation, "Some = <?php echo 100 - 50; ?>");
+		$this->assertEquals($compilation, "Some = <?= 100 - 50 ?>");
 
 		$compilation = $volt->compileString('Some = {{ 100*50 }}');
-		$this->assertEquals($compilation, "Some = <?php echo 100 * 50; ?>");
+		$this->assertEquals($compilation, "Some = <?= 100 * 50 ?>");
 
 		$compilation = $volt->compileString('Some = {{ 100/50 }}');
-		$this->assertEquals($compilation, "Some = <?php echo 100 / 50; ?>");
+		$this->assertEquals($compilation, "Some = <?= 100 / 50 ?>");
 
 		$compilation = $volt->compileString('Some = {{ 100%50 }}');
-		$this->assertEquals($compilation, "Some = <?php echo 100 % 50; ?>");
+		$this->assertEquals($compilation, "Some = <?= 100 % 50 ?>");
 
 		$compilation = $volt->compileString('Some = {{ 100~50 }}');
-		$this->assertEquals($compilation, "Some = <?php echo 100 . 50; ?>");
+		$this->assertEquals($compilation, "Some = <?= 100 . 50 ?>");
 
 		//Unary operators
 		$compilation = $volt->compileString('{{ -10 }}');
-		$this->assertEquals($compilation, "<?php echo -10; ?>");
+		$this->assertEquals($compilation, "<?= -10 ?>");
 
 		$compilation = $volt->compileString('{{ !10 }}');
-		$this->assertEquals($compilation, "<?php echo !10; ?>");
+		$this->assertEquals($compilation, "<?= !10 ?>");
 
 		$compilation = $volt->compileString('{{ !a }}');
-		$this->assertEquals($compilation, '<?php echo !$a; ?>');
+		$this->assertEquals($compilation, '<?= !$a ?>');
 
 		$compilation = $volt->compileString('{{ not a }}');
-		$this->assertEquals($compilation, '<?php echo !$a; ?>');
+		$this->assertEquals($compilation, '<?= !$a ?>');
 
 		//Arrays
 		$compilation = $volt->compileString("{% set a = [1, 2, 3, 4] %}");
-		$this->assertEquals($compilation, '<?php $a = array(1, 2, 3, 4); ?>');
+		$this->assertEquals($compilation, '<?php $a = [1, 2, 3, 4]; ?>');
 
 		$compilation = $volt->compileString('{% set a = ["hello", 2, 1.3, false, true, null] %}');
-		$this->assertEquals($compilation, '<?php $a = array(\'hello\', 2, 1.3, false, true, null); ?>');
+		$this->assertEquals($compilation, '<?php $a = [\'hello\', 2, 1.3, false, true, null]; ?>');
 
 		$compilation = $volt->compileString('{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}');
-		$this->assertEquals($compilation, '<?php $a = array(\'hello\', 2, 3, false, true, null, array(1, 2, \'hola\')); ?>');
+		$this->assertEquals($compilation, '<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>');
 
 		$compilation = $volt->compileString("{% set a = ['first': 1, 'second': 2, 'third': 3] %}");
-		$this->assertEquals($compilation, '<?php $a = array(\'first\' => 1, \'second\' => 2, \'third\' => 3); ?>');
+		$this->assertEquals($compilation, '<?php $a = [\'first\' => 1, \'second\' => 2, \'third\' => 3]; ?>');
 
 		//Array acccess
 		$compilation = $volt->compileString('{{ a[0 ]}}');
-		$this->assertEquals($compilation, '<?php echo $a[0]; ?>');
+		$this->assertEquals($compilation, '<?= $a[0] ?>');
 
 		$compilation = $volt->compileString('{{ a[0 ] [ 1]}}');
-		$this->assertEquals($compilation, '<?php echo $a[0][1]; ?>');
+		$this->assertEquals($compilation, '<?= $a[0][1] ?>');
 
 		$compilation = $volt->compileString('{{ a[0]  [ "hello"] }}');
-		$this->assertEquals($compilation, '<?php echo $a[0][\'hello\']; ?>');
+		$this->assertEquals($compilation, '<?= $a[0][\'hello\'] ?>');
 
 		$compilation = $volt->compileString('{{ a[0] [1.2] [false] [true] }}');
-		$this->assertEquals($compilation, '<?php echo $a[0][1.2][false][true]; ?>');
+		$this->assertEquals($compilation, '<?= $a[0][1.2][false][true] ?>');
 
 		//Attribute access
 		$compilation = $volt->compileString('{{ a.b }}');
-		$this->assertEquals($compilation, '<?php echo $a->b; ?>');
+		$this->assertEquals($compilation, '<?= $a->b ?>');
 
 		$compilation = $volt->compileString('{{ a.b.c }}');
-		$this->assertEquals($compilation, '<?php echo $a->b->c; ?>');
+		$this->assertEquals($compilation, '<?= $a->b->c ?>');
 
 		//Ranges
 		$compilation = $volt->compileString('{{ 1..100 }}');
-		$this->assertEquals($compilation, '<?php echo range(1, 100); ?>');
+		$this->assertEquals($compilation, '<?= range(1, 100) ?>');
 
 		$compilation = $volt->compileString('{{ "Z".."A" }}');
-		$this->assertEquals($compilation, '<?php echo range(\'Z\', \'A\'); ?>');
+		$this->assertEquals($compilation, '<?= range(\'Z\', \'A\') ?>');
 
 		$compilation = $volt->compileString("{{ 'a'..'z' }}");
-		$this->assertEquals($compilation, '<?php echo range(\'a\', \'z\'); ?>');
+		$this->assertEquals($compilation, '<?= range(\'a\', \'z\') ?>');
 
 		$compilation = $volt->compileString("{{ 'a' .. 'z' }}");
-		$this->assertEquals($compilation, '<?php echo range(\'a\', \'z\'); ?>');
+		$this->assertEquals($compilation, '<?= range(\'a\', \'z\') ?>');
 
 		//Calling functions
 		$compilation = $volt->compileString("{{ content() }}");
-		$this->assertEquals($compilation, '<?php echo $this->getContent(); ?>');
+		$this->assertEquals($compilation, '<?= $this->getContent() ?>');
 
 		$compilation = $volt->compileString("{{ get_content() }}");
-		$this->assertEquals($compilation, '<?php echo $this->getContent(); ?>');
+		$this->assertEquals($compilation, '<?= $this->getContent() ?>');
 
 		$compilation = $volt->compileString("{{ partial('hello/x') }}");
-		$this->assertEquals($compilation, '<?php echo $this->partial(\'hello/x\'); ?>');
+		$this->assertEquals($compilation, '<?= $this->partial(\'hello/x\') ?>');
 
 		$compilation = $volt->compileString("{{ dump(a) }}");
-		$this->assertEquals($compilation, '<?php echo var_dump($a); ?>');
+		$this->assertEquals($compilation, '<?= var_dump($a) ?>');
 
 		$compilation = $volt->compileString("{{ date('Y-m-d', time()) }}");
-		$this->assertEquals($compilation, '<?php echo date(\'Y-m-d\', time()); ?>');
+		$this->assertEquals($compilation, '<?= date(\'Y-m-d\', time()) ?>');
 
 		$compilation = $volt->compileString("{{ robots.getPart(a) }}");
-		$this->assertEquals($compilation, '<?php echo $robots->getPart($a); ?>');
+		$this->assertEquals($compilation, '<?= $robots->getPart($a) ?>');
 
 		//Phalcon\Tag helpers
 		$compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
-		$this->assertEquals($compilation, '<?php echo $this->tag->linkTo(array(\'hello\', \'some-link\')); ?>');
+		$this->assertEquals($compilation, '<?= $this->tag->linkTo([\'hello\', \'some-link\']) ?>');
 
 		$compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
-		$this->assertEquals($compilation, '<?php echo $this->tag->form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
+		$this->assertEquals($compilation, '<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>');
 
 		$compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
-		$this->assertEquals($compilation, '<?php echo $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local); ?>');
+		$this->assertEquals($compilation, '<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>');
 
 		$compilation = $volt->compileString("{{ javascript_include('js/some.js') }}");
-		$this->assertEquals($compilation, '<?php echo $this->tag->javascriptInclude(\'js/some.js\'); ?>');
+		$this->assertEquals($compilation, '<?= $this->tag->javascriptInclude(\'js/some.js\') ?>');
 
 		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
-		$this->assertEquals($compilation, "<?php echo \$this->tag->image(array('img/logo.png', 'width' => 80)); ?>");
+		$this->assertEquals($compilation, "<?= \$this->tag->image(['img/logo.png', 'width' => 80]) ?>");
 
 		$compilation = $volt->compileString("{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}");
-		$this->assertEquals($compilation, "<?php echo \$this->tag->emailField(array('email', 'class' => 'form-control', 'placeholder' => 'Email Address')); ?>");
+		$this->assertEquals($compilation, "<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>");
 
 		//Filters
 		$compilation = $volt->compileString('{{ "hello"|e }}');
-		$this->assertEquals($compilation, '<?php echo $this->escaper->escapeHtml(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= $this->escaper->escapeHtml(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|escape }}');
-		$this->assertEquals($compilation, '<?php echo $this->escaper->escapeHtml(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= $this->escaper->escapeHtml(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|trim }}');
-		$this->assertEquals($compilation, '<?php echo trim(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= trim(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|striptags }}');
-		$this->assertEquals($compilation, '<?php echo strip_tags(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= strip_tags(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|json_encode }}');
-		$this->assertEquals($compilation, '<?php echo json_encode(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= json_encode(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|url_encode }}');
-		$this->assertEquals($compilation, '<?php echo urlencode(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= urlencode(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|uppercase }}');
-		$this->assertEquals($compilation, '<?php echo Phalcon\Text::upper(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= Phalcon\Text::upper(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|lowercase }}');
-		$this->assertEquals($compilation, '<?php echo Phalcon\Text::lower(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= Phalcon\Text::lower(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ ("hello" ~ "lol")|e|length }}');
-		$this->assertEquals($compilation, '<?php echo $this->length($this->escaper->escapeHtml((\'hello\' . \'lol\'))); ?>');
+		$this->assertEquals($compilation, '<?= $this->length($this->escaper->escapeHtml((\'hello\' . \'lol\'))) ?>');
 
 		//Filters with parameters
 		$compilation = $volt->compileString('{{ "My name is %s, %s"|format(name, "thanks") }}');
-		$this->assertEquals($compilation, "<?php echo sprintf('My name is %s, %s', \$name, 'thanks'); ?>");
+		$this->assertEquals($compilation, "<?= sprintf('My name is %s, %s', \$name, 'thanks') ?>");
 
 		$compilation = $volt->compileString('{{ "some name"|convert_encoding("utf-8", "latin1") }}');
-		$this->assertEquals($compilation, "<?php echo \$this->convertEncoding('some name', 'utf-8', 'latin1'); ?>");
+		$this->assertEquals($compilation, "<?= \$this->convertEncoding('some name', 'utf-8', 'latin1') ?>");
 
 		//if statement
 		$compilation = $volt->compileString('{% if a==b %} hello {% endif %}');
@@ -1050,10 +1050,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php foreach ($b->c as $a) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] %} hello {% endfor %}');
-		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { ?> hello <?php } ?>');
+		$this->assertEquals($compilation, '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] if key!=3 %} hello {% endfor %}');
-		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>');
+		$this->assertEquals($compilation, '<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>');
 
 		$compilation = $volt->compileString('{% for a in 1..10 %} hello {% endfor %}');
 		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?> hello <?php } ?>');
@@ -1095,16 +1095,16 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		//Autoescape mode
 		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
-		$this->assertEquals($compilation, "<?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?>");
+		$this->assertEquals($compilation, "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>");
 
 		//Mixed
 		$compilation = $volt->compileString('{# some comment #}{{ "hello" }}{# other comment }}');
-		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
+		$this->assertEquals($compilation, "<?= 'hello' ?>");
 
 		//Autoescape from options
 		$volt->setOption("autoescape", true);
 		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
-		$this->assertEquals($compilation, "<?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo \$this->escaper->escapeHtml('hello'); ?>");
+		$this->assertEquals($compilation, "<?= \$this->escaper->escapeHtml('hello') ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= \$this->escaper->escapeHtml('hello') ?>");
 	}
 
 	public function testVoltUsersFunctions()
@@ -1121,10 +1121,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		});
 
 		$compilation = $volt->compileString('{{ random() }}');
-		$this->assertEquals($compilation, '<?php echo mt_rand(); ?>');
+		$this->assertEquals($compilation, '<?= mt_rand() ?>');
 
 		$compilation = $volt->compileString('{{ shuffle("hello") }}');
-		$this->assertEquals($compilation, '<?php echo str_shuffle(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= str_shuffle(\'hello\') ?>');
 
 	}
 
@@ -1142,10 +1142,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		});
 
 		$compilation = $volt->compileString('{{ "hello"|reverse }}');
-		$this->assertEquals($compilation, '<?php echo strrev(\'hello\'); ?>');
+		$this->assertEquals($compilation, '<?= strrev(\'hello\') ?>');
 
 		$compilation = $volt->compileString('{{ "1,2,3,4"|separate }}');
-		$this->assertEquals($compilation, '<?php echo explode(",", \'1,2,3,4\'); ?>');
+		$this->assertEquals($compilation, '<?= explode(",", \'1,2,3,4\') ?>');
 
 	}
 
@@ -1160,7 +1160,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$compilation = file_get_contents('unit-tests/views/layouts/test10.volt.php');
 		$this->assertEquals($compilation, '<?php if ($some_eval) { ?>
-Clearly, the song is: <?php echo $this->getContent(); ?>.
+Clearly, the song is: <?= $this->getContent() ?>.
 <?php } ?>');
 	}
 
@@ -1287,7 +1287,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$path = 'unit-tests/cache/' . phalcon_prepare_virtual_path(realpath("unit-tests/"), ".") . '.views.test10.index.volt.compiled';
 
 		$this->assertTrue(file_exists($path));
-		$this->assertEquals(file_get_contents($path), 'Hello <?php echo $song; ?>!');
+		$this->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');
 		$this->assertEquals($view->getContent(), 'Hello Lights!');
 
 	}
