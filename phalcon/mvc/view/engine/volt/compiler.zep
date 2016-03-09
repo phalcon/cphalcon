@@ -514,7 +514,7 @@ class Compiler implements InjectionAwareInterface
 				}
 
 				if isset arrayHelpers[name] {
-					return "$this->tag->" . method . "(array(" . arguments . "))";
+					return "$this->tag->" . method . "([" . arguments . "])";
 				}
 				return "$this->tag->" . method . "(" . arguments . ")";
 			}
@@ -563,7 +563,7 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * By default it tries to call a macro
 			 */
-			return "$this->callMacro('" . name . "', array(" . arguments . "))";
+			return "$this->callMacro('" . name . "', [" . arguments . "])";
 		}
 
 		return this->expression(nameExpr) . "(" . arguments . ")";
@@ -1088,9 +1088,9 @@ class Compiler implements InjectionAwareInterface
 
 				case PHVOLT_T_ARRAY:
 					if isset expr["left"] {
-						let exprCode = "array(" . leftCode . ")";
+						let exprCode = "[" . leftCode . "]";
 					} else {
-						let exprCode = "array()";
+						let exprCode = "[]";
 					}
 					break;
 
@@ -1779,10 +1779,10 @@ class Compiler implements InjectionAwareInterface
 		 * Echo statement
 		 */
 		if this->_autoescape {
-			return "<?php echo $this->escaper->escapeHtml(" . exprCode . "); ?>";
+			return "<?= $this->escaper->escapeHtml(" . exprCode . ") ?>";
 		}
 
-		return "<?php echo " . exprCode . "; ?>";
+		return "<?= " . exprCode . " ?>";
 	}
 
 	/**

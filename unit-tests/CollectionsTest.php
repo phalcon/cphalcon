@@ -238,35 +238,4 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($success);
 
 	}
-
-	public function testUpdateException()
-	{
-		if (!class_exists('Mongo')) {
-			$this->markTestSkipped("Mongo class does not exist, test skipped");
-			return;
-		}
-
-		Phalcon\DI::reset();
-
-		$di = new Phalcon\DI();
-
-		$di->set('mongo', function(){
-			$mongo = new MongoClient();
-			return $mongo->phalcon_test;
-		});
-
-		$di->set('collectionManager', function(){
-			return new Phalcon\Mvc\Collection\Manager();
-		});
-
-		$song = new Songs();
-		$song->artist = 'Cinema Strange';
-		$song->name = 'Legs and Tarpaulin';
-
-		$success = false;
-
-		$this->setExpectedException('Phalcon\Mvc\Collection\Exception');
-		$success = $song->update();
-
-	}
 }
