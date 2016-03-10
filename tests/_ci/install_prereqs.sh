@@ -46,7 +46,7 @@ enable_extension memcached
 case ${PHP_VER} in
     "7.0")
         # Beta version of yaml extension works on 7.0
-        install_extension yaml-beta
+        install_extension yaml beta
         # todo: compile igbinary for 7.0
         ;;
     "*")
