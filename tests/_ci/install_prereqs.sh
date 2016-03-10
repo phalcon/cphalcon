@@ -42,11 +42,19 @@ install_extension() {
 
 install_extension igbinary
 install_extension imagick
-install_extension yaml
 install_extension mongo
 enable_extension memcache
 enable_extension memcached
 
+case ${PHP_VER} in
+    "7.0")
+        install_extension yaml-beta
+        ;;
+    "*")
+        install_extension yaml
+        ;;
+esac
+ 
 case ${PHP_VER} in
     "5.4")
         install_extension apc
