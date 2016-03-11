@@ -95,7 +95,12 @@ class Annotations extends Router
 			let realUri = uri;
 		}
 
-		let annotationsService = null;
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injection container is required to access the 'annotations' service");
+		}
+
+		let annotationsService = dependencyInjector->getShared("annotations");
 
 		let handlers = this->_handlers;
 
@@ -114,16 +119,6 @@ class Annotations extends Router
 					if !starts_with(realUri, prefix) {
 						continue;
 					}
-				}
-
-				if typeof annotationsService != "object" {
-
-					let dependencyInjector = <DiInterface> this->_dependencyInjector;
-					if typeof dependencyInjector != "object" {
-						throw new Exception("A dependency injection container is required to access the 'annotations' service");
-					}
-
-					let annotationsService = dependencyInjector->getShared("annotations");
 				}
 
 				/**
