@@ -45,9 +45,9 @@
 - Fixed issue with `Model::__set` that was bypassing setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Fixed issue with `Model::__set` that was setting hidden attributes directly when setters are not declared [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
-- Added `Phalcon\Mvc\Collection::update`, `Phalcon\Mvc\Collection::create` and `Phalcon\Mvc\Collection::::createIfNotExist`
+- Added `Phalcon\Mvc\Collection::update`, `Phalcon\Mvc\Collection::create` and `Phalcon\Mvc\Collection::createIfNotExist`
 - Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
-- Fires the `dispatch:beforeException`` event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
+- Fires the `dispatch:beforeException` event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
 - Added `OR` operator for `Phalcon\Mvc\Model\Query\Builder` methods: `betweenWhere`, `notBetweenWhere`, `inWhere` and `notInWhere`
 - Fixed bug of `destroy` method of `Phalcon\Session\Adapter\Libmemcached`
 - Added `Phalcon\Cache\Backend\Memcache::addServers` to enable pool of servers for memcache
@@ -261,7 +261,7 @@ belongs to the uniqueId or the whole session data
  - Added `Db\Adapter\Pdo::getErrorInfo()` to obtain the last error generated in a PDO connection
 
 # [1.3.4](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v1.3.4) (2014-10-28)
- - Fix improper access to \Phalcon\Debug::$_charset ([#2840](https://github.com/phalcon/cphalcon/issues/2840))
+ - Fix improper access to `\Phalcon\Debug::$_charset` ([#2840](https://github.com/phalcon/cphalcon/issues/2840))
  - Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
  - Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
  - Fix possible memory corruption when phalcon_concat_self does not properly separate values
@@ -276,7 +276,7 @@ belongs to the uniqueId or the whole session data
  - Fixed use columns as referenced columns in mysql createTable() reference...
  - [#2414](https://github.com/phalcon/cphalcon/issues/2414)  - Removed check for DBG in session/adapter
  - Updated Model::__set
- - [#1989](https://github.com/phalcon/cphalcon/issues/1989) Supported \Phaclon\Db\Index: TYPE
+ - [#1989](https://github.com/phalcon/cphalcon/issues/1989) Supported \Phalcon\Db\Index: TYPE
  - Updated Phalcon\Mvc\Model\Query\Builder::groupBy
  - Validation, setDefaultMessages fix
  - Fix pagination nativeArray test-unit failed
@@ -309,7 +309,7 @@ belongs to the uniqueId or the whole session data
  - [#2229](https://github.com/phalcon/cphalcon/issues/2229) (cast and convert not working)
  - Add method Phalcon\Assets\Collection::addFilter
  - Add Phalcon\Session\Adapter\memcache and Phalcon\Session\Adapter\Libmemcached
- - Add class Phalcon\Session\Adapter\Libemcached
+ - Add class Phalcon\Session\Adapter\Libmemcached
  - Add class Phalcon\Session\Adapter\Memcache
  - \Phalcon\Tag::XHTML5 was returning empty string
  - [#2278](https://github.com/phalcon/cphalcon/issues/2278) add Phalcon\Logger\Multiple::CRITICAL
@@ -324,7 +324,7 @@ belongs to the uniqueId or the whole session data
  - [#2111](https://github.com/phalcon/cphalcon/issues/2111) – replacing bindParam to bindValue to avoid unexpected reference changes
  - [#2002](https://github.com/phalcon/cphalcon/issues/2002) Tag::linkTo() to allow the addition of query string parameters
  - Added `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
- - Use phalcon_camelize for namesapce Add \Phalcon\Session\Adapter::setId Fixed [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\…
+ - Use phalcon_camelize for namespace Add \Phalcon\Session\Adapter::setId Fixed [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\…
  - [#2111](https://github.com/phalcon/cphalcon/issues/2111) – replacing bindParam to bindValue to avoid unexpected reference changes
  - Fix wrong issent() call on non Response objects
  - [#2236](https://github.com/phalcon/cphalcon/issues/2236)  - in mysql tinyint(1) is not boolean it's an int between 0 and 127
@@ -336,7 +336,7 @@ belongs to the uniqueId or the whole session data
  - Add `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
  - [#2002](https://github.com/phalcon/cphalcon/issues/2002) Tag::linkTo() to allow the addition of query string parameters
  - [#2018](https://github.com/phalcon/cphalcon/issues/2018) add method \Phalcon\Db\Result\Pdo::nextRowset
- - Use phalcon_camelize for namesapce
+ - Use phalcon_camelize for namespace
  - [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\Request\File extend SplFileInfo
 
 # [1.3.1](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v1.3.1) (2014-03-25)
