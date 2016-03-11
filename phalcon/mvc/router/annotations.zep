@@ -237,7 +237,7 @@ class Annotations extends Router
 	}
 
 	/**
-	 * Checks for annotations in the public methods of the controller	 
+	 * Checks for annotations in the public methods of the controller
 	 */
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Annotation> annotation)
