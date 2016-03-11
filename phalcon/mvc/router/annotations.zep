@@ -108,91 +108,87 @@ class Annotations extends Router
 
 		for scope in handlers {
 
-			if typeof scope == "array" {
+			if typeof scope != "array" {
+				continue;
+			}
+
+			/**
+			 * A prefix (if any) must be in position 0
+			 */
+			let prefix = scope[0];
+
+			if !empty prefix && !starts_with(realUri, prefix) {
+				continue;
+			}
+
+			/**
+			 * The controller must be in position 1
+			 */
+			let handler = scope[1];
+
+			if memstr(handler, "\\") {
 
 				/**
-				 * A prefix (if any) must be in position 0
+				 * Extract the real class name from the namespaced class
+				 * The lowercased class name is used as controller
+				 * Extract the namespace from the namespaced class
 				 */
-				let prefix = scope[0];
+				let controllerName = get_class_ns(handler),
+					namespaceName = get_ns_class(handler);
+			} else {
+				let controllerName = handler;
+				fetch namespaceName, this->_defaultNamespace;
+			}
 
-				if !empty prefix {
-					if !starts_with(realUri, prefix) {
-						continue;
+			let this->_routePrefix = null;
+
+			/**
+			 * Check if the scope has a module associated
+			 */
+			fetch moduleName, scope[2];
+
+			let sufixed = handler . controllerSuffix;
+
+			/**
+			 * Add namespace to class if one is set
+			 */
+			if namespaceName !== null {
+				let sufixed = namespaceName . "\\" . sufixed;
+			}
+
+			/**
+			 * Get the annotations from the class
+			 */
+			let handlerAnnotations = annotationsService->get(sufixed);
+
+			if typeof handlerAnnotations != "object" {
+				continue;
+			}
+
+			/**
+			 * Process class annotations
+			 */
+			let classAnnotations = handlerAnnotations->getClassAnnotations();
+			if typeof classAnnotations == "object" {
+				let annotations = classAnnotations->getAnnotations();
+				if typeof annotations == "array" {
+					for annotation in annotations {
+						this->processControllerAnnotation(controllerName, annotation);
 					}
 				}
+			}
 
-				/**
-				 * The controller must be in position 1
-				 */
-				let handler = scope[1];
+			/**
+			 * Process method annotations
+			 */
+			let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
+			if typeof methodAnnotations == "array" {
+				let lowerControllerName = uncamelize(controllerName);
 
-				if memstr(handler, "\\") {
-
-					/**
-					 * Extract the real class name from the namespaced class
-					 * The lowercased class name is used as controller
-					 * Extract the namespace from the namespaced class
-					 */
-					let controllerName = get_class_ns(handler),
-						namespaceName = get_ns_class(handler);
-				} else {
-					let controllerName = handler;
-					fetch namespaceName, this->_defaultNamespace;
-				}
-
-				let this->_routePrefix = null;
-
-				/**
-				 * Check if the scope has a module associated
-				 */
-				fetch moduleName, scope[2];
-
-				let sufixed = handler . controllerSuffix;
-
-				/**
-				 * Add namespace to class if one is set
-				 */
-				if namespaceName !== null {
-					let sufixed = namespaceName . "\\" . sufixed;
-				}
-
-				/**
-				 * Get the annotations from the class
-				 */
-				let handlerAnnotations = annotationsService->get(sufixed);
-
-				/**
-				 * Process class annotations
-				 */
-				if typeof handlerAnnotations == "object" {
-
-					let classAnnotations = handlerAnnotations->getClassAnnotations();
-					if typeof classAnnotations == "object" {
-
-						/**
-						 * Process class annotations
-						 */
-						let annotations = classAnnotations->getAnnotations();
-						if typeof annotations == "array" {
-							for annotation in annotations {
-								this->processControllerAnnotation(controllerName, annotation);
-							}
-						}
-					}
-
-					/**
-					 * Process method annotations
-					 */
-					let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
-					if typeof methodAnnotations == "array" {
-						let lowerControllerName = uncamelize(controllerName);
-
-						for method, collection in methodAnnotations {
-							if typeof collection == "object" {
-								for annotation in collection->getAnnotations() {
-									this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
-								}
-							}
+				for method, collection in methodAnnotations {
+					if typeof collection == "object" {
+						for annotation in collection->getAnnotations() {
+							this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
 						}
 					}
 				}
