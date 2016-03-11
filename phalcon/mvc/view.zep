@@ -139,7 +139,7 @@ class View extends Injectable implements ViewInterface
 
 	protected _cacheLevel = 0;
 
-	protected _activeRenderPath;
+	protected _activeRenderPaths;
 
 	protected _disabled = false;
 
@@ -613,12 +613,13 @@ class View extends Injectable implements ViewInterface
 		int renderLevel, cacheLevel;
 		var key, lifetime, viewsDir, basePath, viewsDirPath,
 			viewOptions, cacheOptions, cachedView, viewParams, eventsManager,
-			extension, engine, viewEnginePath;
+			extension, engine, viewEnginePath, viewEnginePaths;
 
 		let notExists = true,
 			basePath = this->_basePath,
 			viewParams = this->_viewParams,
-			eventsManager = <ManagerInterface> this->_eventsManager;
+			eventsManager = <ManagerInterface> this->_eventsManager,
+			viewEnginePaths = [];
 
 		for viewsDir in this->getViewsDirs() {
 
@@ -696,7 +697,7 @@ class View extends Injectable implements ViewInterface
 					 * Call beforeRenderView if there is a events manager available
 					 */
 					if typeof eventsManager == "object" {
-						let this->_activeRenderPath = viewEnginePath;
+						let this->_activeRenderPaths = [viewEnginePath];
 						if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
 							continue;
 						}
@@ -713,6 +714,8 @@ class View extends Injectable implements ViewInterface
 					}
 					break;
 				}
+
+				let viewEnginePaths[] = viewEnginePath;
 			}
 		}
 
@@ -721,7 +724,7 @@ class View extends Injectable implements ViewInterface
 			 * Notify about not found views
 			 */
 			if typeof eventsManager == "object" {
-				let this->_activeRenderPath = viewEnginePath;
+				let this->_activeRenderPaths = viewEnginePaths;
 				eventsManager->fire("view:notFoundView", this, viewEnginePath);
 			}
 
@@ -1329,11 +1332,11 @@ class View extends Injectable implements ViewInterface
 	}
 
 	/**
-	 * Returns the path of the view that is currently rendered
+	 * Returns the path (or paths) of the views that are currently rendered
 	 */
-	public function getActiveRenderPath() -> string
+	public function getActiveRenderPath() -> string | array
 	{
-		return this->_activeRenderPath;
+		return this->_activeRenderPaths;
 	}
 
 	/**
