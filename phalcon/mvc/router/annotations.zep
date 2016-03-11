@@ -98,7 +98,7 @@ class Annotations extends Router
 			let realUri = uri;
 		}
 
-		if !this->_processed {
+		if true {
 
 			let annotationsService = null;
 
