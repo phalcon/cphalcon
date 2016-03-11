@@ -83,7 +83,7 @@ class Annotations extends Router
 		var realUri, annotationsService, handlers, controllerSuffix,
 			scope, prefix, dependencyInjector, handler, controllerName,
 			lowerControllerName, namespaceName, moduleName, sufixed, handlerAnnotations,
-			classAnnotations, annotations, annotation, methodAnnotations, lowercased, method,
+			classAnnotations, annotations, annotation, methodAnnotations, method,
 			collection;
 
 		if !uri {
@@ -134,12 +134,9 @@ class Annotations extends Router
 					 * Extract the namespace from the namespaced class
 					 */
 					let controllerName = get_class_ns(handler),
-						lowerControllerName = uncamelize(controllerName),
 						namespaceName = get_ns_class(handler);
-
 				} else {
-					let controllerName = handler,
-						lowerControllerName = uncamelize(controllerName);
+					let controllerName = handler;
 					fetch namespaceName, this->_defaultNamespace;
 				}
 
@@ -188,7 +185,8 @@ class Annotations extends Router
 					 */
 					let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
 					if typeof methodAnnotations == "array" {
-						let lowercased = uncamelize(handler);
+						let lowerControllerName = uncamelize(controllerName);
+
 						for method, collection in methodAnnotations {
 							if typeof collection == "object" {
 								for annotation in collection->getAnnotations() {
