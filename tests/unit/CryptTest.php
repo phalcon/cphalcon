@@ -73,10 +73,6 @@ class CryptTest extends UnitTest
                     'le$ki12432543543543543' => null,
                 ];
                 $ciphers = [
-                    'AES-256-ECB',
-                    'AES-256-CBC',
-                    'AES-256-CFB',
-                    'AES-256-OFB',
                     'AES-128-ECB',
                     'AES-128-CBC',
                     'AES-128-CFB',
@@ -146,7 +142,7 @@ class CryptTest extends UnitTest
                 }
 
                 $crypt = new Crypt();
-                $crypt->setKey(substr($key, 0, 16));
+                $crypt->setKey(substr($key, 0, 32));
 
                 foreach ($pads as $padding) {
 
