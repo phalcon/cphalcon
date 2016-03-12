@@ -280,10 +280,6 @@ class Crypt implements CryptInterface
 			throw new Exception("openssl extension is required");
 		}
 		
-		if !in_array(cipher, openssl_get_cipher_methods()) {
-			throw new Exception("Cipher algorithm is unknown");
-		}
-		
 		if key === null {
 			let encryptKey = this->_key;
 		} else {
@@ -296,6 +292,11 @@ class Crypt implements CryptInterface
 
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
+		
+		if !in_array(cipher, openssl_get_cipher_methods()) {
+			throw new Exception("Cipher algorithm is unknown");
+		}
+		
 		let ivSize = openssl_cipher_iv_length(cipher);
 
 		if strlen(encryptKey) > ivSize {
