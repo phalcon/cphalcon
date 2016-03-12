@@ -298,16 +298,17 @@ class Crypt implements CryptInterface
 		}
 		
 		let ivSize = openssl_cipher_iv_length(cipher);
-
-		if strlen(encryptKey) > ivSize {
-			throw new Exception("Size of key is too large for this algorithm");
+		if ivSize > 0 {
+			let blockSize = ivSize;
+		} else {
+			let blockSize = openssl_cipher_iv_length(str_ireplace("-" . mode, "", cipher));
 		}
 
 		let iv = openssl_random_pseudo_bytes(ivSize);
 		let paddingType = this->_padding;
 
 		if paddingType != 0 && (mode == "cbc" || mode == "ecb") {
-			let padded = this->_cryptPadText(text, mode, ivSize, paddingType);
+			let padded = this->_cryptPadText(text, mode, blockSize, paddingType);
 		} else {
 			let padded = text;
 		}
@@ -348,12 +349,13 @@ class Crypt implements CryptInterface
 		}
 
 		let ivSize = openssl_cipher_iv_length(cipher);
-
-		let keySize = strlen(decryptKey);
-		if keySize > ivSize {
-			throw new Exception("Size of key is too large for this algorithm");
+		if ivSize > 0 {
+			let blockSize = ivSize;
+		} else {
+			let blockSize = openssl_cipher_iv_length(str_ireplace("-" . mode, "", cipher));
 		}
 
+		let keySize = strlen(decryptKey);
 		let length = strlen(text);
 		if keySize > length {
 			throw new Exception("Size of IV is larger than text to decrypt. Are you trying to decrypt an uncrypted text?");
@@ -364,7 +366,7 @@ class Crypt implements CryptInterface
 		let paddingType = this->_padding;
 
 		if mode == "cbc" || mode == "ecb" {
-			return this->_cryptUnpadText(decrypted, mode, ivSize, paddingType);
+			return this->_cryptUnpadText(decrypted, mode, blockSize, paddingType);
 		}
 
 		return decrypted;
