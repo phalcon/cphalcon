@@ -52,7 +52,7 @@ defined('TEST_BT_PORT') || define('TEST_BT_PORT', getenv('TEST_BT_PORT') ?: 1130
 defined('TEST_MC_HOST') || define('TEST_MC_HOST', getenv('TEST_MC_HOST') ?: '127.0.0.1');
 defined('TEST_MC_PORT') || define('TEST_MC_PORT', getenv('TEST_MC_PORT') ?: 11211);
 
-// Database (MySQL)
+// MySQL
 defined('TEST_DB_MYSQL_HOST')    || define('TEST_DB_MYSQL_HOST',    getenv('TEST_DB_MYSQL_HOST')    ?: '127.0.0.1');
 defined('TEST_DB_MYSQL_PORT')    || define('TEST_DB_MYSQL_PORT',    getenv('TEST_DB_MYSQL_PORT')    ?: 3306);
 defined('TEST_DB_MYSQL_USER')    || define('TEST_DB_MYSQL_USER',    getenv('TEST_DB_MYSQL_USER')    ?: 'root');
@@ -62,3 +62,7 @@ defined('TEST_DB_MYSQL_CHARSET') || define('TEST_DB_MYSQL_CHARSET', getenv('TEST
 
 // Mongo
 defined('TEST_DB_MONGO_NAME') || define('TEST_DB_MONGO_NAME', getenv('TEST_DB_MONGO_NAME') ?: 'phalcon_test');
+
+// Redis
+defined('TEST_RS_HOST') || define('TEST_RS_HOST', getenv('TEST_RS_HOST') ?: '127.0.0.1');
+defined('TEST_RS_PORT') || define('TEST_RS_PORT', getenv('TEST_RS_PORT') ?: 6379);

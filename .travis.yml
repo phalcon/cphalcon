@@ -30,6 +30,8 @@ env:
     - TEST_DB_MYSQL_NAME="phalcon_test"
     - TEST_DB_MYSQL_CHARSET="utf8"
     - TEST_DB_MONGO_NAME="phalcon_test"
+    - TEST_RS_HOST="127.0.0.1"
+    - TEST_RS_PORT="6379"
     - ZEND_DONT_UNLOAD_MODULES=1
 
 before_install:
