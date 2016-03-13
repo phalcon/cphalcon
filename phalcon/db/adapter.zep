@@ -183,15 +183,27 @@ abstract class Adapter implements EventsAwareInterface
 	 */
 	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
-		var result;
+		var result, row, position, value;
 
 		let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 		if typeof result == "object" {
 			if typeof fetchMode !== "null" {
 				result->setFetchMode(fetchMode);
 			}
-			return result->$fetch();
-		}
+			let row = result->$fetch();
+			/**
+			 * Incase of sqlrelay, text and blob types are returned as stream. Converting it into string
+			 */
+			if row
+			{
+				for position, value in row {
+					if is_resource(value) {
+						let row[position] = stream_get_contents(value);
+					}
+				}
+			}
+			return row;
+		}		
 		return [];
 	}
 
@@ -223,7 +235,7 @@ abstract class Adapter implements EventsAwareInterface
 	 */
 	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
-		var results, result, row;
+		var results, result, row, position, value;
 
 		let results = [],
 			result = this->{"query"}(sqlQuery, bindParams, bindTypes);
@@ -238,6 +250,16 @@ abstract class Adapter implements EventsAwareInterface
 				let row = result->$fetch();
 				if !row {
 					break;
+				}
+				else {
+					/**
+					 * Incase of sqlrelay, text and blob types are returned as stream. Converting it into string
+					 */
+					for position, value in row {
+						if is_resource(value) {
+							let row[position] = stream_get_contents(value);
+						}
+					}
 				}
 
 				let results[] = row;
