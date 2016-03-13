@@ -130,21 +130,15 @@ class Volt extends Engine implements EngineInterface
 	 */
 	public function length(var item) -> int
 	{
-		var length;
-
-		let length = 0;
-
 		if typeof item == "object" || typeof item == "array" {
-			let length = count(item);
-		} else {
-			if function_exists("mb_strlen") {
-				let length = mb_strlen(item);
-			} else {
-				let length = strlen(item);
-			}
+			return count(item);
 		}
 
-		return length;
+		if function_exists("mb_strlen") {
+			return mb_strlen(item);
+		}
+
+		return strlen(item);
 	}
 
 	/**
@@ -160,6 +154,7 @@ class Volt extends Engine implements EngineInterface
 			if function_exists("mb_strpos") {
 				return mb_strpos(haystack, needle) !== false;
 			}
+
 			return strpos(haystack, needle) !== false;
 		}
 
@@ -261,6 +256,7 @@ class Volt extends Engine implements EngineInterface
 			if length !== null {
 				return mb_substr(value, start, length);
 			}
+
 			return mb_substr(value, start);
 		}
 
@@ -270,6 +266,7 @@ class Volt extends Engine implements EngineInterface
 		if length !== null {
 			return substr(value, start, length);
 		}
+
 		return substr(value, start);
 	}
 
