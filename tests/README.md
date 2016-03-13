@@ -64,6 +64,10 @@ We use the following settings of these services:
 
 **Mongo**
 
+* Host: `127.0.0.1`
+* Port: `27017`
+* Username: `admin`
+* Password: `''` (empty string)
 * DB Name `phalcon_test`
 
 **Redis**
@@ -91,6 +95,10 @@ export TEST_DB_MYSQL_NAME="phalcon_test"
 export TEST_DB_MYSQL_CHARSET="urf8"
 
 # Mongo
+export TEST_DB_MONGO_HOST="127.0.0.1"
+export TEST_DB_MONGO_PORT="27017"
+export TEST_DB_MONGO_USER="admin"
+export TEST_DB_MONGO_PASSWD=""
 export TEST_DB_MONGO_NAME="phalcon_test"
 
 # Redis
