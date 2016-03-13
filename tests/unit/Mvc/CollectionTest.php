@@ -4,7 +4,6 @@ namespace Phalcon\Test\Unit\Mvc;
 
 use Mongo;
 use MongoClient;
-use Phalcon\Mvc\Collection;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Collections\Songs;
 use Phalcon\Mvc\Collection\Manager as CollectionManager;
