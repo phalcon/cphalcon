@@ -28,8 +28,8 @@ class CryptTest extends UnitTest
     {
         parent::_before();
 
-        if (!extension_loaded('mcrypt')) {
-            $this->markTestSkipped('Warning: mcrypt extension is not loaded');
+        if (!extension_loaded('openssl')) {
+            $this->markTestSkipped('Warning: openssl extension is not loaded');
         }
     }
 
@@ -72,19 +72,18 @@ class CryptTest extends UnitTest
                     time().time()            => str_shuffle('abcdefeghijklmnopqrst'),
                     'le$ki12432543543543543' => null,
                 ];
-                $modes = [
-                    MCRYPT_MODE_ECB,
-                    MCRYPT_MODE_CBC,
-                    MCRYPT_MODE_CFB,
-                    MCRYPT_MODE_CFB,
-                    MCRYPT_MODE_NOFB
+                $ciphers = [
+                    'AES-128-ECB',
+                    'AES-128-CBC',
+                    'AES-128-CFB',
+                    'AES-128-OFB',
                 ];
 
                 $crypt = new Crypt();
 
-                foreach ($modes as $mode) {
+                foreach ($ciphers as $cipher) {
 
-                    $crypt->setMode($mode);
+                    $crypt->setCipher($cipher);
 
                     foreach ($tests as $key => $test) {
 
@@ -124,7 +123,11 @@ class CryptTest extends UnitTest
 
                 $texts = [''];
                 $key   = '0123456789ABCDEF0123456789ABCDEF';
-                $modes = ['ecb', 'cbc', 'cfb'];
+                $ciphers = [
+                    'AES-256-ECB',
+                    'AES-256-CBC',
+                    'AES-256-CFB',
+                ];
                 $pads  = [
                     Crypt::PADDING_ANSI_X_923,
                     Crypt::PADDING_PKCS7,
@@ -139,16 +142,15 @@ class CryptTest extends UnitTest
                 }
 
                 $crypt = new Crypt();
-                $crypt->setCipher(MCRYPT_RIJNDAEL_256)
-                    ->setKey(substr($key, 0, 16));
+                $crypt->setKey(substr($key, 0, 32));
 
                 foreach ($pads as $padding) {
 
                     $crypt->setPadding($padding);
 
-                    foreach ($modes as $mode) {
+                    foreach ($ciphers as $cipher) {
 
-                        $crypt->setMode($mode);
+                        $crypt->setCipher($cipher);
 
                         foreach ($texts as $text) {
 
