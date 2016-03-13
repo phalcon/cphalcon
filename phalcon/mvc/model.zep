@@ -4024,7 +4024,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Execute the query
 		 */
 		return {modelName}::{type}([
-			"conditions": field . " = ?0",
+			"conditions": "[" . field . "] = ?0",
 			"bind"	    : [value]
 		]);
 	}
