@@ -325,7 +325,7 @@ class Crypt implements CryptInterface
 	 */
 	public function decrypt(string! text, key = null) -> string
 	{
-		var decryptKey, ivSize, cipher, mode, keySize, length, blockSize, paddingType, decrypted;
+		var decryptKey, ivSize, cipher, mode, blockSize, paddingType, decrypted;
 
 		if !function_exists("openssl_cipher_iv_length") {
 			throw new Exception("openssl extension is required");
@@ -353,12 +353,6 @@ class Crypt implements CryptInterface
 			let blockSize = ivSize;
 		} else {
 			let blockSize = openssl_cipher_iv_length(str_ireplace("-" . mode, "", cipher));
-		}
-
-		let keySize = strlen(decryptKey);
-		let length = strlen(text);
-		if keySize > length {
-			throw new Exception("Size of IV is larger than text to decrypt. Are you trying to decrypt an uncrypted text?");
 		}
 
 		let decrypted = openssl_decrypt(substr(text, ivSize), cipher, decryptKey, OPENSSL_RAW_DATA, substr(text, 0, ivSize));
