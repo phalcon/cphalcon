@@ -1186,14 +1186,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Helper method to query records based on a relation definition
 	 *
-	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{
 		var placeholders, referencedModel, intermediateModel,
 			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
-			findArguments, retrieveMethod, uniqueKey, records, arguments;
+			findArguments, retrieveMethod, uniqueKey, records, arguments, rows, firstRow;
 		boolean reusable;
 
 		/**
@@ -1253,6 +1253,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			builder->from(referencedModel);
 			builder->innerJoin(intermediateModel, join(" AND ", joinConditions));
 			builder->andWhere(join(" AND ", conditions), placeholders);
+
+			if method == "count" {
+				builder->columns("COUNT(*) AS rowcount");
+
+				let rows = builder->getQuery()->execute();
+
+				let firstRow = rows->getFirst();
+
+				return (int) firstRow->readAttribute("rowcount");
+			}
 
 			/**
 			 * Get the query
