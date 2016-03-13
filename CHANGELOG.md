@@ -53,7 +53,7 @@
 - Added `Phalcon\Cache\Backend\Memcache::addServers` to enable pool of servers for memcache
 - Added `setLastModified` method to `Phalcon\Http\Response`
 - Added `Phalcon\Validation\Validator\Date`
-- Added `Phalcon\Db\Adapter\Pdo\Sqlrelay` to support sql relay
+- Added `Phalcon\Db\Adapter\Pdo\Sqlrelay` class to support sql relay
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
