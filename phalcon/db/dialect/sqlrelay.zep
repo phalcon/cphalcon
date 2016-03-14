@@ -28,17 +28,17 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
 /**
- * Phalcon\Db\Dialect\Mysql
+ * Phalcon\Db\Dialect\Sqlrelay
  *
- * Generates database specific SQL for the MySQL RDBMS
+ * Generates database specific SQL
  */
-class Mysql extends Dialect
+class Sqlrelay extends Dialect
 {
 
 	protected _escapeChar = "`";
 
 	/**
-	 * Gets the column name in MySQL
+	 * Gets the column name
 	 */
 	public function getColumnDefinition(<ColumnInterface> column) -> string
 	{
@@ -194,7 +194,7 @@ class Mysql extends Dialect
 
 			default:
 				if empty columnSql {
-					throw new Exception("Unrecognized MySQL data type at column " . column->getName());
+					throw new Exception("Unrecognized data type at column " . column->getName());
 				}
 
 				let typeValues = column->getTypeValues();
