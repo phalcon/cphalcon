@@ -1336,7 +1336,18 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function getActiveRenderPath() -> string | array
 	{
-		return this->_activeRenderPaths;
+		var activeRenderPath;
+		int viewsDirsCount;
+
+		let viewsDirsCount = count(this->getViewsDirs());
+
+		if viewsDirsCount === 1 {
+			let activeRenderPath = this->_activeRenderPaths[0];
+		} else {
+			let activeRenderPath = this->_activeRenderPaths;
+		}
+
+		return activeRenderPath;
 	}
 
 	/**
