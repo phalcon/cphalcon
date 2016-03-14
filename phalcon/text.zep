@@ -268,7 +268,7 @@ abstract class Text
 		let this->separator = separator;
 
 		while memstr(result, leftDelimiter) {
-			let result = preg_replace_callback(pattern, [self, "dynamic_replace_callback"], result);
+			let result = preg_replace_callback(pattern, "self::dynamic_replace_callback", result);
 		}
 
 		return result;
