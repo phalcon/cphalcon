@@ -43,6 +43,10 @@ class Tag
 	 */
 	protected static _documentTitle = null;
 
+	protected static _documentAppendTitle = null;
+
+	protected static _documentPrependTitle = null;
+
 	protected static _documentTitleSeparator = null;
 
 	protected static _documentType = 11;
@@ -341,6 +345,10 @@ class Tag
 	public static function resetInput() -> void
 	{
 		let self::_displayValues = [], {"_POST"} = [];
+		let self::_documentTitle = null;
+		let self::_documentAppendTitle = null;
+		let self::_documentPrependTitle = null;
+		let self::_documentTitleSeparator = null;
 	}
 
 	/**
@@ -1055,7 +1063,7 @@ class Tag
 	 */
 	public static function appendTitle(string title) -> void
 	{
-		let self::_documentTitle = self::_documentTitle . self::_documentTitleSeparator . title;
+		let self::_documentAppendTitle = title;
 	}
 
 	/**
@@ -1063,7 +1071,7 @@ class Tag
 	 */
 	public static function prependTitle(string title) -> void
 	{
-		let self::_documentTitle = title . self::_documentTitleSeparator . self::_documentTitle;
+		let self::_documentPrependTitle = title;
 	}
 
 	/**
@@ -1080,16 +1088,41 @@ class Tag
 	 */
 	public static function getTitle(boolean tags = true) -> string
 	{
-		var documentTitle, escaper;
+		var items, output, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
 
 		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
+		let items = [];
+		let output = "";
+		let documentPrependTitle = escaper->escapeHtml(self::_documentPrependTitle);
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
+		let documentAppendTitle = escaper->escapeHtml(self::_documentAppendTitle);
+		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
-		if tags {
-			return "<title>" . documentTitle . "</title>" . PHP_EOL;
+		if !empty documentPrependTitle {
+			let items[] = documentPrependTitle;
 		}
 
-		return documentTitle;
+		if !empty documentTitle {
+			let items[] = documentTitle;
+		}
+
+		if !empty documentAppendTitle {
+			let items[] = documentAppendTitle;
+		}
+
+		if empty documentTitleSeparator {
+			let documentTitleSeparator = "";
+		}
+
+		if !empty items {
+			let output = implode(documentTitleSeparator, items);
+		}
+
+		if tags {
+			return "<title>" . output . "</title>" . PHP_EOL;
+		}
+
+		return output;
 	}
 
 	/**
