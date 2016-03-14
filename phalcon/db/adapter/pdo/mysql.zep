@@ -122,6 +122,14 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			loop {
 
 				/**
+				 * Enum are treated as char
+				 */
+				if memstr(columnType, "enum") {
+					let definition["type"] = Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
 				if memstr(columnType, "bigint") {
@@ -154,14 +162,6 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				 */
 				if memstr(columnType, "datetime") {
 					let definition["type"] = Column::TYPE_DATETIME;
-					break;
-				}
-
-				/**
-				 * Enum are treated as char
-				 */
-				if memstr(columnType, "enum") {
-					let definition["type"] = Column::TYPE_CHAR;
 					break;
 				}
 
