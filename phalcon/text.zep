@@ -265,16 +265,23 @@ abstract class Text
 		let rdS 	= preg_quote(rightDelimiter);
 		let pattern = "/" . ldS . "([^" . ldS . rdS . "]+)" . rdS . "/";
 		let result 	= text;
+		let this->separator = separator;
 
 		while memstr(result, leftDelimiter) {
-			let result = preg_replace_callback(pattern, function (matches) use (separator) {
-				var words;
-				let words = explode(separator, matches[1]);
-				return words[array_rand(words)];
-			}, result);
+			let result = preg_replace_callback(pattern, ['this', 'dynamic_replace_callback'], result);
 		}
 
 		return result;
+	}
+	
+	/**
+	 * The callback function used in Phalcon\Text::dynamic to select a random text
+	 */
+	private function dynamic_replace_callback(matches)
+	{
+		var words;
+		let words = explode(this->separator, matches[1]);
+		return words[array_rand(words)];
 	}
 
 	/**
