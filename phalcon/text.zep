@@ -36,6 +36,8 @@ abstract class Text
 	const RANDOM_NUMERIC = 3;
 
 	const RANDOM_NOZERO = 4;
+	
+	protected separator;
 
 	/**
 	 * Converts strings to camelize style
@@ -277,7 +279,7 @@ abstract class Text
 	/**
 	 * The callback function used in Phalcon\Text::dynamic to select a random text
 	 */
-	private function dynamic_replace_callback(matches)
+	protected function dynamic_replace_callback(matches)
 	{
 		var words;
 		let words = explode(this->separator, matches[1]);
