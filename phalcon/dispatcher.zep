@@ -581,8 +581,20 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let this->_lastHandler = handler;
 
-			// We update the latest value produced by the latest handler
-			let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+			try {
+				// We update the latest value produced by the latest handler
+				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+			} catch \Exception, e {
+				let this->_lastHandler = handler;
+
+				if this->{"_handleException"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				} else {
+					throw e;
+				}
+			}
 
 			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
