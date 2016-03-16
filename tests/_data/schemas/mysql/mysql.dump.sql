@@ -441,6 +441,20 @@ CREATE TABLE `issue_11036` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `issue_11036_token_UNIQUE` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `childs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `childs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `parent` INT DEFAULT NULL,
+  `source` VARCHAR(20) DEFAULT NULL,
+  `transaction` VARCHAR(20) DEFAULT NULL,
+  `for` INT DEFAULT NULL,
+  `group` INT DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

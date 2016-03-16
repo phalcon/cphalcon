@@ -152,7 +152,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 			/**
 			 * An array of messages is simply merged into the current one
 			 */
-			if currentMessages == "array" {
+			if typeof currentMessages == "array" {
 				let finalMessages = array_merge(currentMessages, messages);
 			} else {
 				let finalMessages = messages;

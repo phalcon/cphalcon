@@ -553,6 +553,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$expectedTables = array (
 			'albums',
 			'artists',
+			'childs',
 			'customers',
 			'issue_11036',
 			'issue_1534',

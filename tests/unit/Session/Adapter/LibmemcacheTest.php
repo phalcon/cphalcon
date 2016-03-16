@@ -52,8 +52,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers' => [
                         [
-                            "host" => "127.0.0.1",
-                            "port" => 11211
+                            "host" => TEST_MC_HOST,
+                            "port" => TEST_MC_PORT
                         ]
                     ],
                     'client' => []
@@ -90,8 +90,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers' => [
                         [
-                            "host" => "127.0.0.1",
-                            "port" => 11211
+                            "host" => TEST_MC_HOST,
+                            "port" => TEST_MC_PORT
                         ]
                     ],
                     'client' => []

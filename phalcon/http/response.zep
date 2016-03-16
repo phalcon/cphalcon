@@ -66,9 +66,15 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function __construct(content = null, code = null, status = null)
 	{
+		/**
+		 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
+		 */
+		let this->_headers = new Headers();
+
 		if content !== null {
 			let this->_content = content;
 		}
+
 		if code !== null {
 			this->setStatusCode(code, status);
 		}
@@ -244,16 +250,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function getHeaders() -> <HeadersInterface>
 	{
-		var headers;
-		let headers = this->_headers;
-		if headers === null {
-			/**
-			 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
-			 */
-			let headers = new Headers(),
-				this->_headers = headers;
-		}
-		return headers;
+		return this->_headers;
 	}
 
 	/**
@@ -415,13 +412,12 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setContentType(string contentType, charset = null) -> <Response>
 	{
-		var headers;
-		let headers = this->getHeaders();
 		if charset === null {
-			headers->set("Content-Type", contentType);
+			this->setHeader("Content-Type", contentType);
 		} else {
-			headers->set("Content-Type", contentType . "; charset=" . charset);
+			this->setHeader("Content-Type", contentType . "; charset=" . charset);
 		}
+
 		return this;
 	}
 
@@ -434,9 +430,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setEtag(string etag) -> <Response>
 	{
-		var headers;
-		let headers = this->getHeaders();
-		headers->set("Etag", etag);
+		this->setHeader("Etag", etag);
+
 		return this;
 	}
 
@@ -577,11 +572,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function sendHeaders() -> <Response>
 	{
-		var headers;
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
-		}
+		this->_headers->send();
+
 		return this;
 	}
 
@@ -609,21 +601,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 			throw new Exception("Response was already sent");
 		}
 
-		/**
-		 * Send headers
-		 */
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
-		}
+		this->sendHeaders();
 
-		/**
-		 * Send Cookies/comment>
-		 */
-		let cookies = this->_cookies;
-		if typeof cookies == "object" {
-			cookies->send();
-		}
+		this->sendCookies();
 
 		/**
 		 * Output the response body
@@ -652,7 +632,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <Response>
 	{
-		var basePath, headers;
+		var basePath;
 
 		if typeof attachmentName != "string" {
 			let basePath = basename(filePath);			
@@ -661,12 +641,10 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		}
 
 		if attachment {
-			let headers = this->getHeaders();
-
-			headers->setRaw("Content-Description: File Transfer");
-			headers->setRaw("Content-Type: application/octet-stream");
-			headers->setRaw("Content-Disposition: attachment; filename=" . basePath);
-			headers->setRaw("Content-Transfer-Encoding: binary");
+			this->setRawHeader("Content-Description: File Transfer");
+			this->setRawHeader("Content-Type: application/octet-stream");
+			this->setRawHeader("Content-Disposition: attachment; filename=" . basePath);
+			this->setRawHeader("Content-Transfer-Encoding: binary");
 		}
 
 		let this->_file = filePath;

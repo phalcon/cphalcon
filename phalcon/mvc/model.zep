@@ -213,13 +213,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let metaData = this->_modelsMetaData;
 		if typeof metaData != "object" {
 
-			/**
-			 * Check if the DI is valid
-			 */
 			let dependencyInjector = <DiInterface> this->_dependencyInjector;
-			if typeof dependencyInjector != "object" {
-				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-			}
 
 			/**
 			 * Obtain the models-metadata service from the DI
@@ -4030,7 +4024,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Execute the query
 		 */
 		return {modelName}::{type}([
-			"conditions": field . " = ?0",
+			"conditions": "[" . field . "] = ?0",
 			"bind"	    : [value]
 		]);
 	}

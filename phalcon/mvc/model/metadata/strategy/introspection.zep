@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,9 +27,9 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 
 /**
- * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
+ * Phalcon\Mvc\Model\MetaData\Strategy\Introspection
  *
- * Queries the table meta-data in order to instrospect the model's metadata
+ * Queries the table meta-data in order to introspect the model's metadata
  */
 class Introspection implements StrategyInterface
 {
@@ -48,7 +48,7 @@ class Introspection implements StrategyInterface
 			table     = model->getSource();
 
 		/**
-		 * Check if the mapped table exists on the database</comment>
+		 * Check if the mapped table exists on the database
 		 */
 		let readConnection = model->getReadConnection();
 

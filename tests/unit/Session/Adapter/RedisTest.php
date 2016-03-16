@@ -51,8 +51,8 @@ class RedisTest extends UnitTest
 
                 $session = new Redis(
                     [
-                        "host" => "127.0.0.1",
-                        "port" => 6379
+                        "host" => TEST_RS_HOST,
+                        "port" => TEST_RS_PORT
                     ]
                 );
 
@@ -86,8 +86,8 @@ class RedisTest extends UnitTest
 
                 $session = new Redis(
                     [
-                        "host" => "127.0.0.1",
-                        "port" => 6379
+                        "host" => TEST_RS_HOST,
+                        "port" => TEST_RS_PORT
                     ]
                 );
 

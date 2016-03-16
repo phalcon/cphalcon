@@ -51,8 +51,8 @@ class MemcacheTest extends UnitTest
 
                 $session = new Memcache(
                     array(
-                        "host" => "127.0.0.1",
-                        "port" => 11211
+                        "host" => TEST_MC_HOST,
+                        "port" => TEST_MC_PORT
                     )
                 );
 
@@ -86,8 +86,8 @@ class MemcacheTest extends UnitTest
 
                 $session = new Memcache(
                     array(
-                        "host" => "127.0.0.1",
-                        "port" => 11211
+                        "host" => TEST_MC_HOST,
+                        "port" => TEST_MC_PORT
                     )
                 );
 
