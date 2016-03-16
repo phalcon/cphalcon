@@ -2,6 +2,7 @@ language: php
 
 sudo: required
 dist: precise
+group: edge
 
 php:
   - 5.4
@@ -37,6 +38,11 @@ env:
     - TEST_RS_HOST="127.0.0.1"
     - TEST_RS_PORT="6379"
     - ZEND_DONT_UNLOAD_MODULES=1
+
+env:
+  global:
+    - TEST_BT_HOST="127.0.0.1"
+    - TEST_BT_PORT="11300"
 
 before_install:
   - export PATH=$PATH:~/bin;

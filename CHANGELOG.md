@@ -46,6 +46,13 @@
 - Fixed issue with `Model::__set` that was setting hidden attributes directly when setters are not declared [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
 - Added `Phalcon\Mvc\Collection::update`, `Phalcon\Mvc\Collection::create` and `Phalcon\Mvc\Collection::createIfNotExist`
+- Added `\Phalcon\Queue\Beanstalk::ignore()` It removes the named tube from the watch list for the current connection.
+- Added `\Phalcon\Queue\Beanstalk::pauseTube()` Can delay any new job being reserved for a given time.
+- Added `\Phalcon\Queue\Beanstalk::kick()` It moves jobs into the ready queue. If there are any buried jobs, it will only kick buried jobs. Otherwise it will kick delayed jobs.
+- Added `\Phalcon\Queue\Beanstalk::listTubeUsed()` Returns the tube currently being used by the client.
+- Added `\Phalcon\Queue\Beanstalk::listTubesWatched()` Returns a list tubes currently being watched by the client.
+- Added `\Phalcon\Queue\Beanstalk::peekDelayed()` Return the delayed job with the shortest delay left.
+- Added `\Phalcon\Queue\Beanstalk::jobPeek()` Return job.
 - Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
 - Fires the `dispatch:beforeException` event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
 - Added `OR` operator for `Phalcon\Mvc\Model\Query\Builder` methods: `betweenWhere`, `notBetweenWhere`, `inWhere` and `notInWhere`
