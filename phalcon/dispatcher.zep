@@ -362,7 +362,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
 			className, paramKey, methodParam, modelName, bindModel,
-			wasFresh = false;
+			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -581,8 +581,18 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let this->_lastHandler = handler;
 
-			// We update the latest value produced by the latest handler
-			let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+			try {
+				// We update the latest value produced by the latest handler
+				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+			} catch \Exception, e {
+				if this->{"_handleException"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				} else {
+					throw e;
+				}
+			}
 
 			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
