@@ -4,6 +4,10 @@ namespace Phalcon\Test\Unit\Queue;
 
 use Phalcon\Test\Unit\Queue\Helper\BeanstalkBase;
 
+use Phalcon\Queue\Beanstalk\Job;
+use Phalcon\Queue\Beanstalk;
+use Phalcon\Queue\Beanstalk\Exception;
+
 /**
  * \Phalcon\Test\Unit\Queue\BeanstalkTest
  * Tests the \Phalcon\Queue\Beanstalk component
