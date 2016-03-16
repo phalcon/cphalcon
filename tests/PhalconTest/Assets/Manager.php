@@ -135,4 +135,9 @@ class Manager extends PhManager
     {
         return parent::outputInlineJs($collectionName);
     }
+
+    public function exists($id)
+    {
+        return parent::exists($id);
+    }
 }
