@@ -457,4 +457,30 @@ class ManagerTest extends UnitTest
             }
         );
     }
+
+    /**
+     * exists tests
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
+     */
+    public function testAssetsExistsCollection()
+    {
+        $this->specify(
+            "The exists method in assets does not return correct value",
+            function () {
+
+                $assets = new Manager();
+
+                $assets->collection('footer')
+                    ->addCss('/css/style1.css');
+
+                $footer = $assets->exists('footer');
+                $header = $assets->exists('header');
+
+                expect($footer)->true();
+                expect($header)->false();
+            }
+        );
+    }
 }
