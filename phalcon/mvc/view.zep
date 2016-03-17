@@ -714,22 +714,22 @@ class View extends Injectable implements ViewInterface
 					break;
 				}
 			}
+		}
 
-			if notExists === false {
-				break;
-			}
+		if notExists === false {
+			break;
+		}
 
-			/**
-			 * Notify about not found views
-			 */
-			if typeof eventsManager == "object" {
-				let this->_activeRenderPath = viewEnginePath;
-				eventsManager->fire("view:notFoundView", this, viewEnginePath);
-			}
+		/**
+		 * Notify about not found views
+		 */
+		if typeof eventsManager == "object" {
+			let this->_activeRenderPath = viewEnginePath;
+			eventsManager->fire("view:notFoundView", this, viewEnginePath);
+		}
 
-			if !silence {
-				throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
-			}
+		if !silence {
+			throw new Exception("View '" . viewsDirPath . "' was not found in the views directory");
 		}
 	}
 
