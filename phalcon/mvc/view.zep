@@ -714,11 +714,9 @@ class View extends Injectable implements ViewInterface
 					break;
 				}
 			}
+		}
 
-			if notExists === false {
-				break;
-			}
-
+		if notExists === true {
 			/**
 			 * Notify about not found views
 			 */
