@@ -147,7 +147,7 @@ class Annotations extends Router
 			 */
 			fetch moduleName, scope[2];
 
-			let sufixed = handler . controllerSuffix;
+			let sufixed = controllerName . controllerSuffix;
 
 			/**
 			 * Add namespace to class if one is set
