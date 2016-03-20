@@ -220,7 +220,7 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 				'uri' => '/about/team',
 				'method' => 'POST',
 				'controller' => 'about',
-				'action' => 'teampost',
+				'action' => 'teamPost',
 				'params' => array()
 			),
 			array(
