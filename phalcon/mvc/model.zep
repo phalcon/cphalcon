@@ -1921,8 +1921,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 				} else {
 					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
-					let defaultValues = metaData->getDefaultValues(this);
 				}
+				let defaultValues = metaData->getDefaultValues(this);
 
 				/**
 				 * Get string attributes that allow empty strings as defaults
@@ -1991,9 +1991,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 								/**
 								 * The field have default value can be null
 								 */
-								if isset defaultValues[field] {
-									continue;
-								}
+							}
+							if isset defaultValues[field] {
+								continue;
 							}
 
 							/**
