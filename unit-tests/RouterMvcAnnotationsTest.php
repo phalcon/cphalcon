@@ -153,6 +153,11 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
+		$router->addResource('MyNamespace\Controllers\Namespaced', '/namespaced');
+		$router->handle('/namespaced/');
+
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
 		$router->addResource('Robots');
 		$router->addResource('Products');
 		$router->addResource('About');
