@@ -267,7 +267,7 @@ class Annotations extends Router
 
 		if isRoute === true {
 
-			let actionName = strtolower(str_replace(this->_actionSuffix, "", action)),
+			let actionName = str_replace(this->_actionSuffix, "", action),
 				routePrefix = this->_routePrefix;
 
 			/**
