@@ -38,16 +38,6 @@ interface CryptInterface
 	public function getCipher() -> string;
 
 	/**
-	 * Sets the encrypt/decrypt mode
-	 */
-	public function setMode(string! mode) -> <CryptInterface>;
-
-	/**
-	 * Returns the current encryption mode
-	 */
-	public function getMode() -> string;
-
-	/**
 	 * Sets the encryption key
 	 */
 	public function setKey(string! key) -> <CryptInterface>;
@@ -82,8 +72,4 @@ interface CryptInterface
 	 */
 	public function getAvailableCiphers() -> array;
 
-	/**
-	 * Returns a list of available modes
-	 */
-	public function getAvailableModes() -> array;
 }
