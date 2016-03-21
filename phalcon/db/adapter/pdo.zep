@@ -105,7 +105,7 @@ abstract class Pdo extends Adapter
 		 * Check for backendType - used only in case of sqlrelay
 		 */
 		if fetch backendType, descriptor["backendType"] {
-			let this->_backendType = backendType;
+			let this->_dialectType = backendType;
 		}
 
 		/**

@@ -52,9 +52,7 @@ class Sqlrelay extends PdoAdapter implements AdapterInterface
 
 	protected _type = "sqlrelay";
 
-	protected _dialectType = "sqlrelay";
-
-	protected _backendType;
+	protected _dialectType;	
 
 	/**
 	 * Escapes a column/table/schema name
@@ -91,7 +89,7 @@ class Sqlrelay extends PdoAdapter implements AdapterInterface
 	 */
 	public function getType() -> string
 	{
-		return this->_backendType;
+		return this->_dialectType;
 	}
 
 	/**
