@@ -270,11 +270,6 @@ class Form extends Injectable implements \Countable, \Iterator
 			validators, name, preparedValidators, filters,
 			validator, validation, elementMessages;
 
-		let elements = this->_elements;
-		if typeof elements != "array" {
-			return true;
-		}
-
 		/**
 		 * If the data is not an array use the one passed previously
 		 */
@@ -299,7 +294,12 @@ class Form extends Injectable implements \Countable, \Iterator
 				return false;
 			}
 		}
-
+		
+		let elements = this->_elements;
+		if typeof elements != "array" {
+			return true;
+		}
+		
 		let notFailed = true,
 			messages = [];
 
