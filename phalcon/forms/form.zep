@@ -296,9 +296,6 @@ class Form extends Injectable implements \Countable, \Iterator
 		}
 		
 		let elements = this->_elements;
-		if typeof elements != "array" {
-			return true;
-		}
 		
 		let notFailed = true,
 			messages = [];
