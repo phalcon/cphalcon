@@ -26,13 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_BehaviorInterface) {
 }
 
 /**
- * Phalcon\Mvc\Collection\Behavior
- *
- * @param array options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_BehaviorInterface, __construct);
-
-/**
  * This method receives the notifications from the EventsManager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_BehaviorInterface, notify);

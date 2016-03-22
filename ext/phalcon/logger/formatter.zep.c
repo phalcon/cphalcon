@@ -29,6 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Formatter, phalcon, logger_formatter, phalcon_logger_formatter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	zend_class_implements(phalcon_logger_formatter_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 	return SUCCESS;
 
 }
@@ -126,7 +127,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 			ZEPHIR_CONCAT_SVS(_4$$4, "{", key, "}");
 			zephir_array_update_zval(&replace, _4$$4, &value, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 54, message, replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 55, message, replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

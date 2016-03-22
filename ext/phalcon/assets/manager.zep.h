@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInlineCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 PHP_METHOD(Phalcon_Assets_Manager, outputInlineJs);
 PHP_METHOD(Phalcon_Assets_Manager, getCollections);
+PHP_METHOD(Phalcon_Assets_Manager, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -124,6 +125,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_outputinlinejs, 0, 0, 0)
 	ZEND_ARG_INFO(0, collectionName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_exists, 0, 0, 1)
+	ZEND_ARG_INFO(0, id)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, __construct, arginfo_phalcon_assets_manager___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Assets_Manager, setOptions, arginfo_phalcon_assets_manager_setoptions, ZEND_ACC_PUBLIC)
@@ -149,5 +154,6 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, outputJs, arginfo_phalcon_assets_manager_outputjs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, outputInlineJs, arginfo_phalcon_assets_manager_outputinlinejs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getCollections, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, exists, arginfo_phalcon_assets_manager_exists, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

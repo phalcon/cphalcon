@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value$$51, _25$$51);
 					ZEPHIR_SINIT_NVAR(_26$$52);
 					ZVAL_STRING(&_26$$52, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_27$$52, "addcslashes", &_28, 141, value$$51, &_26$$52);
+					ZEPHIR_CALL_FUNCTION(&_27$$52, "addcslashes", &_28, 148, value$$51, &_26$$52);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_29$$52);
 					ZEPHIR_CONCAT_SVS(_29$$52, "\"", _27$$52, "\", ");
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_VAR(_34$$53);
 				ZVAL_STRING(&_34$$53, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_35$$53, "addcslashes", &_28, 141, typeValues, &_34$$53);
+				ZEPHIR_CALL_FUNCTION(&_35$$53, "addcslashes", &_28, 148, typeValues, &_34$$53);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_36$$53);
 				ZEPHIR_CONCAT_SVS(_36$$53, "(\"", _35$$53, "\")");
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5$$5);
 			ZVAL_STRING(&_5$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 141, defaultValue, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 148, defaultValue, &_5$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7$$5);
 			ZEPHIR_CONCAT_SVS(_7$$5, " DEFAULT \"", _6$$5, "\"");
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5$$5);
 			ZVAL_STRING(&_5$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 141, defaultValue, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 148, defaultValue, &_5$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7$$5);
 			ZEPHIR_CONCAT_SVS(_7$$5, " DEFAULT \"", _6$$5, "\"");
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_8$$10);
 				ZVAL_STRING(&_8$$10, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_9$$10, "addcslashes", &_10, 141, defaultValue, &_8$$10);
+				ZEPHIR_CALL_FUNCTION(&_9$$10, "addcslashes", &_10, 148, defaultValue, &_8$$10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_11$$10);
 				ZEPHIR_CONCAT_SVS(_11$$10, " DEFAULT \"", _9$$10, "\"");
@@ -1461,14 +1461,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences) {
 
 
 	ZEPHIR_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
+	ZVAL_STRING(sql, "SELECT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
 	if (!(!schema) && Z_STRLEN_P(schema)) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		ZEPHIR_CONCAT_SVSVS(_0$$3, "CONSTRAINT_SCHEMA = '", schema, "' AND TABLE_NAME = '", table, "'");
+		ZEPHIR_CONCAT_SVSVS(_0$$3, "KCU.CONSTRAINT_SCHEMA = '", schema, "' AND KCU.TABLE_NAME = '", table, "'");
 		zephir_concat_self(&sql, _0$$3 TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_VAR(_1$$4);
-		ZEPHIR_CONCAT_SVS(_1$$4, "TABLE_NAME = '", table, "'");
+		ZEPHIR_CONCAT_SVS(_1$$4, "KCU.TABLE_NAME = '", table, "'");
 		zephir_concat_self(&sql, _1$$4 TSRMLS_CC);
 	}
 	RETURN_CCTOR(sql);

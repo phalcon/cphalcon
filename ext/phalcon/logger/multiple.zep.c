@@ -16,9 +16,9 @@
 #include "kernel/memory.h"
 #include "kernel/hash.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -33,6 +33,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Multiple) {
 	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_loggers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_logLevel"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -51,6 +53,14 @@ PHP_METHOD(Phalcon_Logger_Multiple, getFormatter) {
 	
 
 	RETURN_MEMBER(this_ptr, "_formatter");
+
+}
+
+PHP_METHOD(Phalcon_Logger_Multiple, getLogLevel) {
+
+	
+
+	RETURN_MEMBER(this_ptr, "_logLevel");
 
 }
 
@@ -87,7 +97,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) {
-		zephir_is_iterable(loggers, &_1$$3, &_0$$3, 0, 0, "phalcon/logger/multiple.zep", 59);
+		zephir_is_iterable(loggers, &_1$$3, &_0$$3, 0, 0, "phalcon/logger/multiple.zep", 61);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
@@ -98,6 +108,44 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Sets a global level
+ */
+PHP_METHOD(Phalcon_Logger_Multiple, setLogLevel) {
+
+	HashTable *_1$$3;
+	HashPosition _0$$3;
+	zval *level_param = NULL, *loggers = NULL, *logger = NULL, *_4, **_2$$3, *_3$$4 = NULL;
+	int level, ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &level_param);
+
+	level = zephir_get_intval(level_param);
+
+
+	ZEPHIR_OBS_VAR(loggers);
+	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	if (Z_TYPE_P(loggers) == IS_ARRAY) {
+		zephir_is_iterable(loggers, &_1$$3, &_0$$3, 0, 0, "phalcon/logger/multiple.zep", 77);
+		for (
+		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		) {
+			ZEPHIR_GET_HVALUE(logger, _2$$3);
+			ZEPHIR_INIT_NVAR(_3$$4);
+			ZVAL_LONG(_3$$4, level);
+			ZEPHIR_CALL_METHOD(NULL, logger, "setloglevel", NULL, 0, _3$$4);
+			zephir_check_call_status();
+		}
+	}
+	ZEPHIR_INIT_ZVAL_NREF(_4);
+	ZVAL_LONG(_4, level);
+	zephir_update_property_this(this_ptr, SL("_logLevel"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -130,7 +178,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 	ZEPHIR_OBS_VAR(loggers);
 	zephir_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) {
-		zephir_is_iterable(loggers, &_1$$3, &_0$$3, 0, 0, "phalcon/logger/multiple.zep", 75);
+		zephir_is_iterable(loggers, &_1$$3, &_0$$3, 0, 0, "phalcon/logger/multiple.zep", 93);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)

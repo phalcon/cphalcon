@@ -36,16 +36,6 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setCipher);
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getCipher);
 
 /**
- * Sets the encrypt/decrypt mode
- */
-ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setMode);
-
-/**
- * Returns the current encryption mode
- */
-ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getMode);
-
-/**
  * Sets the encryption key
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setKey);
@@ -79,9 +69,4 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, decryptBase64);
  * Returns a list of available cyphers
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAvailableCiphers);
-
-/**
- * Returns a list of available modes
- */
-ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAvailableModes);
 

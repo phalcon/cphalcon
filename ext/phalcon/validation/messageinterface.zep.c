@@ -26,15 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_MessageInterface) {
 }
 
 /**
- * Phalcon\Validation\Message constructor
- *
- * @param string message
- * @param string field
- * @param string type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, __construct);
-
-/**
  * Sets message type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, setType);

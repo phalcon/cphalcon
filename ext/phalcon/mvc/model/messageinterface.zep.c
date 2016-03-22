@@ -26,15 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MessageInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model\Message constructor
- *
- * @param string message
- * @param string field
- * @param string type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __construct);
-
-/**
  * Sets message type
  *
  * @param string type

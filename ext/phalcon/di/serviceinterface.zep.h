@@ -3,12 +3,6 @@ extern zend_class_entry *phalcon_di_serviceinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, definition)
-	ZEND_ARG_INFO(0, shared)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_setshared, 0, 0, 1)
 	ZEND_ARG_INFO(0, shared)
 ZEND_END_ARG_INFO()
@@ -32,7 +26,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface___set_state, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_serviceinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, __construct, arginfo_phalcon_di_serviceinterface___construct)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, setShared, arginfo_phalcon_di_serviceinterface_setshared)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, isShared, NULL)

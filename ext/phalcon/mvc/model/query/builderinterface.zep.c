@@ -21,16 +21,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Query, BuilderInterface, phalcon, mvc_model_query_builderinterface, phalcon_mvc_model_query_builderinterface_method_entry);
 
+	zend_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_OR"), "or" TSRMLS_CC);
+
+	zend_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_AND"), "and" TSRMLS_CC);
+
 	return SUCCESS;
 
 }
-
-/**
- * Phalcon\Mvc\Model\Query\Builder
- *
- * @param array params
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, __construct);
 
 /**
  * Sets the columns to be queried

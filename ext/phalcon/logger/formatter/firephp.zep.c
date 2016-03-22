@@ -35,7 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Firephp) {
 
 	zend_declare_property_bool(phalcon_logger_formatter_firephp_ce, SL("_enableLabels"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_logger_formatter_firephp_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 	return SUCCESS;
 
 }
@@ -193,21 +192,21 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_VAR(param$$4);
 		ZVAL_LONG(param$$4, 2);
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 150, param$$4);
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 157, param$$4);
 		zephir_check_call_status();
 		ZEPHIR_MAKE_REF(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 175, backtrace);
 		ZEPHIR_UNREF(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
-			zephir_array_fetch_string(&_4$$5, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 129 TSRMLS_CC);
+			zephir_array_fetch_string(&_4$$5, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 128 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("File"), &_4$$5, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_array_isset_string(lastTrace, SS("line"))) {
-			zephir_array_fetch_string(&_5$$6, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 133 TSRMLS_CC);
+			zephir_array_fetch_string(&_5$$6, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 132 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("Line"), &_5$$6, PH_COPY | PH_SEPARATE);
 		}
-		zephir_is_iterable(backtrace, &_7$$4, &_6$$4, 1, 0, "phalcon/logger/formatter/firephp.zep", 142);
+		zephir_is_iterable(backtrace, &_7$$4, &_6$$4, 1, 0, "phalcon/logger/formatter/firephp.zep", 141);
 		for (
 		  ; zephir_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_7$$4, &_6$$4)

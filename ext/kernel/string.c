@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -305,7 +305,7 @@ void zephir_camelize(zval *return_value, const zval *str) {
 }
 
 /**
- * Convert dash/underscored texts returning camelized
+ * Convert a camelized to a dash/underscored texts
  */
 void zephir_uncamelize(zval *return_value, const zval *str) {
 
@@ -314,7 +314,7 @@ void zephir_uncamelize(zval *return_value, const zval *str) {
 	char *marker, ch;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
-		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
+		zend_error(E_WARNING, "Invalid arguments supplied for uncamelize()");
 		return;
 	}
 
@@ -670,7 +670,8 @@ void zephir_fast_strtoupper(zval *return_value, zval *str) {
 /**
  * Checks if a zval string starts with a zval string
  */
-int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive) {
+int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive)
+{
 
 	int i;
 	int sensitive = 0;
@@ -710,7 +711,8 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 /**
  * Checks if a zval string starts with a string
  */
-int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length) {
+int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length)
+{
 
 	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
@@ -722,7 +724,8 @@ int zephir_start_with_str(const zval *str, char *compared, unsigned int compared
 /**
  * Checks if a string starts with other string
  */
-int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length) {
+int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length)
+{
 
 	if (compared_length > str_length) {
 		return 0;
@@ -1087,7 +1090,8 @@ void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
 /**
  * Creates a unique key to be used as index in a hash
  */
-void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC) {
+void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
+{
 
 	smart_str implstr = {0};
 
@@ -1109,7 +1113,6 @@ void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC) 
 		smart_str_free(&implstr);
 		RETURN_NULL();
 	}
-
 }
 
 /**

@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 	ZEPHIR_OBS_VAR(currentMessages);
 	zephir_read_property_this(&currentMessages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		if (ZEPHIR_IS_STRING(currentMessages, "array")) {
+		if (Z_TYPE_P(currentMessages) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(finalMessages);
 			zephir_fast_array_merge(finalMessages, &(currentMessages), &(messages) TSRMLS_CC);
 		} else {
