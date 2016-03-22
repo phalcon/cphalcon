@@ -836,4 +836,12 @@ class Manager
 	{
 		return this->_collections;
 	}
+
+	/**
+	 * Returns true or false if collection exists
+	 */
+	public function exists(string! id) -> bool
+	{
+		return isset this->_collections[id];
+	}
 }
