@@ -39,7 +39,7 @@ class Response extends PhResponse
         return parent::setStatusCode($code, $message);
     }
 
-    public function setHeaders($headers)
+    public function setHeaders(PhResponse\HeadersInterface $headers)
     {
         return parent::setHeaders($headers);
     }
@@ -49,7 +49,7 @@ class Response extends PhResponse
         return parent::getHeaders();
     }
 
-    public function setCookies($cookies)
+    public function setCookies(PhResponse\CookiesInterface $cookies)
     {
         return parent::setCookies($cookies);
     }

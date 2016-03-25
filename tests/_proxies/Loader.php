@@ -34,7 +34,7 @@ class Loader extends PhLoader
         return parent::getEventsManager();
     }
 
-    public function setExtensions($extensions)
+    public function setExtensions(array $extensions)
     {
         return parent::setExtensions($extensions);
     }
@@ -44,7 +44,7 @@ class Loader extends PhLoader
         return parent::getExtensions();
     }
 
-    public function registerNamespaces($namespaces, $merge = false)
+    public function registerNamespaces(array $namespaces, $merge = false)
     {
         return parent::registerNamespaces($namespaces, $merge);
     }
@@ -54,7 +54,7 @@ class Loader extends PhLoader
         return parent::getNamespaces();
     }
 
-    public function registerDirs($directories, $merge = false)
+    public function registerDirs(array $directories, $merge = false)
     {
         return parent::registerDirs($directories, $merge);
     }
@@ -64,7 +64,7 @@ class Loader extends PhLoader
         return parent::getDirs();
     }
 
-    public function registerClasses($classes, $merge = false)
+    public function registerClasses(array $classes, $merge = false)
     {
         return parent::registerClasses($classes, $merge);
     }

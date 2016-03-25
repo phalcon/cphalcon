@@ -13,7 +13,7 @@
     "require-dev": {
         "mustache/mustache": "~2.10",
         "twig/twig": "~1.24",
-        "codeception/codeception": "~2.1",
+        "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",
         "codeception/specify": "~0.4"
     },

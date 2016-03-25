@@ -38,8 +38,8 @@ class CollectionTest extends UnitTest
             $this->markTestSkipped('Warning: mongo extension is not loaded');
         }
 
-        /** @var \Codeception\Module\Phalcon2 $module */
-        $module = $this->getModule('Phalcon2');
+        /** @var \Codeception\Module\Phalcon $module */
+        $module = $this->getModule('Phalcon');
 
         /** @var \Phalcon\Mvc\Application $app */
         $app = $module->getApplication();

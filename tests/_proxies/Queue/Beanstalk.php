@@ -33,7 +33,7 @@ class Beanstalk extends PhBeanstalk
         return parent::connect();
     }
 
-    public function put($data, $options = null)
+    public function put($data, array $options = null)
     {
         return parent::put($data, $options);
     }

@@ -94,7 +94,7 @@ class Request extends PhRequest
         return parent::getRawBody();
     }
 
-    public function getJsonRawBody()
+    public function getJsonRawBody($associative = false)
     {
         return parent::getJsonRawBody();
     }

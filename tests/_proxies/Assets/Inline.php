@@ -33,7 +33,7 @@ class Inline extends PhInline
         return parent::setFilter($filter);
     }
 
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         return parent::setAttributes($attributes);
     }

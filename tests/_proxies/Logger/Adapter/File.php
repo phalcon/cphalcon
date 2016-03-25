@@ -38,7 +38,7 @@ class File extends PhFile
         return parent::getFormatter();
     }
 
-    public function logInternal($message, $type, $time, $context)
+    public function logInternal($message, $type, $time, array $context)
     {
         parent::logInternal($message, $type, $time, $context);
     }

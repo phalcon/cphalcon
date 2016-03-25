@@ -53,7 +53,7 @@ class Config extends PhConfig
         parent::offsetUnset($index);
     }
 
-    public function merge(Config $config)
+    public function merge(PhConfig $config)
     {
         return parent::merge($config);
     }
@@ -68,7 +68,7 @@ class Config extends PhConfig
         return parent::count();
     }
 
-    public static function __set_state($data)
+    public static function __set_state(array $data)
     {
         return parent::__set_state($data);
     }

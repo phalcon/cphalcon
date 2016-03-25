@@ -53,14 +53,14 @@ class Text extends PhText
         return parent::endsWith($str, $end, $ignoreCase);
     }
 
-    public static function lower($str)
+    public static function lower($str, $encoding = "UTF-8")
     {
-        return parent::lower($str);
+        return parent::lower($str, $encoding);
     }
 
-    public static function upper($str)
+    public static function upper($str, $encoding = "UTF-8")
     {
-        return parent::upper($str);
+        return parent::upper($str, $encoding);
     }
 
     public static function reduceSlashes($str)
