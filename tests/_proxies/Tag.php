@@ -24,12 +24,12 @@ use Phalcon\DiInterface;
  */
 class Tag extends PhTag
 {
-    public static function getEscaper($params)
+    public static function getEscaper(array $params)
     {
         return parent::getEscaper($params);
     }
 
-    public static function renderAttributes($code, $attributes)
+    public static function renderAttributes($code, array $attributes)
     {
         return parent::renderAttributes($code, $attributes);
     }
@@ -64,7 +64,7 @@ class Tag extends PhTag
         parent::setDefault($id, $value);
     }
 
-    public static function setDefaults($values, $merge = false)
+    public static function setDefaults(array $values, $merge = false)
     {
         parent::setDefaults($values, $merge);
     }

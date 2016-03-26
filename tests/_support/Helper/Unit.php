@@ -3,8 +3,8 @@
 namespace Helper;
 
 use Codeception\Module;
-use Codeception\TestCase;
 use Codeception\Specify\Config as SpecifyConfig;
+use Codeception\TestInterface;
 use Phalcon\Tag;
 
 /**
@@ -18,16 +18,16 @@ use Phalcon\Tag;
 class Unit extends Module
 {
     /**
-     * @var \Codeception\TestCase
+     * @var \Codeception\TestInterface
      */
     protected $test;
 
     /**
      * Executed before each test.
      *
-     * @param \Codeception\TestCase $test
+     * @param \Codeception\TestInterface $test
      */
-    public function _before(TestCase $test)
+    public function _before(TestInterface $test)
     {
         $this->test = $test;
 
@@ -37,9 +37,9 @@ class Unit extends Module
     /**
      * Executed after each test.
      *
-     * @param \Codeception\TestCase $test
+     * @param \Codeception\TestInterface $test
      */
-    public function _after(TestCase $test)
+    public function _after(TestInterface $test)
     {
     }
 

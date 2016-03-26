@@ -44,9 +44,9 @@ class Security extends PhSecurity
         return parent::getRandomBytes();
     }
 
-    public function getSaltBytes()
+    public function getSaltBytes($numberBytes = 0)
     {
-        return parent::getSaltBytes();
+        return parent::getSaltBytes($numberBytes);
     }
 
     public function hash($password, $workFactor = 0)
@@ -74,9 +74,9 @@ class Security extends PhSecurity
         return parent::getToken($numberBytes);
     }
 
-    public function checkToken($tokenKey = null, $tokenValue = null)
+    public function checkToken($tokenKey = null, $tokenValue = null, $destroyIfValid = true)
     {
-        return parent::checkToken($tokenKey, $tokenValue);
+        return parent::checkToken($tokenKey, $tokenValue, $destroyIfValid);
     }
 
     public function getSessionToken()

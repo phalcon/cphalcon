@@ -55,47 +55,47 @@ class Multiple extends PhMultiple
         parent::setLogLevel($level);
     }
 
-    public function log($type, $message = null, $context = null)
+    public function log($type, $message = null, array $context = null)
     {
         parent::log($type, $message, $context);
     }
 
-    public function critical($message, $context = null)
+    public function critical($message, array $context = null)
     {
         parent::critical($message, $context);
     }
 
-    public function emergency($message, $context = null)
+    public function emergency($message, array $context = null)
     {
         parent::emergency($message, $context);
     }
 
-    public function debug($message, $context = null)
+    public function debug($message, array $context = null)
     {
         parent::debug($message, $context);
     }
 
-    public function error($message, $context = null)
+    public function error($message, array $context = null)
     {
         parent::error($message, $context);
     }
 
-    public function info($message, $context = null)
+    public function info($message, array $context = null)
     {
         parent::info($message, $context);
     }
 
-    public function notice($message, $context = null)
+    public function notice($message, array $context = null)
     {
         parent::notice($message, $context);
     }
 
-    public function warning($message, $context = null)
+    public function warning($message, array $context = null)
     {
         parent::warning($message, $context);
     }
 
-    public function alert($message, $context = null)
+    public function alert($message, array $context = null)
     {
         parent::alert($message, $context);
     }
