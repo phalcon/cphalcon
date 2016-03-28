@@ -299,22 +299,22 @@ PHP_METHOD(Phalcon_Forms_Element, getValidators) {
 /**
  * Returns an array of prepared attributes for Phalcon\Tag helpers
  * according to the element parameters
- *
- * @param array attributes
- * @param boolean useChecked
- * @return array
  */
 PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool useChecked;
-	zval *attributes = NULL, *useChecked_param = NULL, *value = NULL, *name = NULL, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes = NULL, *currentValue = NULL, *_0$$10, *_1$$12;
+	zval *attributes_param = NULL, *useChecked_param = NULL, *value = NULL, *name = NULL, *widgetAttributes = NULL, *mergedAttributes = NULL, *defaultAttributes = NULL, *currentValue = NULL, *_0$$10, *_1$$12;
+	zval *attributes = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &attributes, &useChecked_param);
+	zephir_fetch_params(1, 0, 2, &attributes_param, &useChecked_param);
 
-	if (!attributes) {
-		attributes = ZEPHIR_GLOBAL(global_null);
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(attributes);
+		array_init(attributes);
+	} else {
+		zephir_get_arrval(attributes, attributes_param);
 	}
 	if (!useChecked_param) {
 		useChecked = 0;
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes) {
 
 	ZEPHIR_OBS_VAR(name);
 	zephir_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	if (Z_TYPE_P(attributes) != IS_ARRAY) {
+	if (1 != 1) {
 		ZEPHIR_INIT_VAR(widgetAttributes);
 		array_init(widgetAttributes);
 	} else {
@@ -486,10 +486,13 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOption) {
  */
 PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
-	zval *option, *defaultValue = NULL, *value = NULL, *_0;
+	zval *option_param = NULL, *defaultValue = NULL, *value = NULL, *_0;
+	zval *option = NULL;
 
-	zephir_fetch_params(0, 1, 1, &option, &defaultValue);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &option_param, &defaultValue);
 
+	zephir_get_strval(option, option_param);
 	if (!defaultValue) {
 		defaultValue = ZEPHIR_GLOBAL(global_null);
 	}
@@ -497,36 +500,34 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&value, _0, option, 1 TSRMLS_CC)) {
-		RETURN_CTORW(value);
+		RETURN_CTOR(value);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
-	return;
+	RETURN_MM();
 
 }
 
 /**
  * Sets options for the element
- *
- * @param array options
- * @return \Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, setUserOptions) {
 
-	zval *options;
+	zval *options_param = NULL;
+	zval *options = NULL;
 
-	zephir_fetch_params(0, 1, 0, &options);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options_param);
 
+	zephir_get_arrval(options, options_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
 /**
  * Returns the options for the element
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Forms_Element, getUserOptions) {
 

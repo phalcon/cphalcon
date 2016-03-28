@@ -9,7 +9,7 @@ modules:
         - Asserts
         - Db
         - Filesystem
-        - Phalcon2
+        - Phalcon
     config:
-        Phalcon2:
+        Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'

@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model\Transaction\Manager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, __construct);
-
-/**
  * Checks whether manager has an active transaction
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, has);

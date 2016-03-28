@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model\Query\Status
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, __construct);
-
-/**
  * Returns the model which executed the action
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getModel);

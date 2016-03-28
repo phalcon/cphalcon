@@ -15,6 +15,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed);
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, setNoArgumentsDefaultAction);
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, getNoArgumentsDefaultAction);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources);
 
@@ -56,24 +58,32 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory__allowordeny, 0, 0, 4)
 	ZEND_ARG_INFO(0, resourceName)
 	ZEND_ARG_INFO(0, access)
 	ZEND_ARG_INFO(0, action)
+	ZEND_ARG_INFO(0, func)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_allow, 0, 0, 3)
 	ZEND_ARG_INFO(0, roleName)
 	ZEND_ARG_INFO(0, resourceName)
 	ZEND_ARG_INFO(0, access)
+	ZEND_ARG_INFO(0, func)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_deny, 0, 0, 3)
 	ZEND_ARG_INFO(0, roleName)
 	ZEND_ARG_INFO(0, resourceName)
 	ZEND_ARG_INFO(0, access)
+	ZEND_ARG_INFO(0, func)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_isallowed, 0, 0, 3)
 	ZEND_ARG_INFO(0, roleName)
 	ZEND_ARG_INFO(0, resourceName)
 	ZEND_ARG_INFO(0, access)
+	ZEND_ARG_ARRAY_INFO(0, parameters, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_setnoargumentsdefaultaction, 0, 0, 1)
+	ZEND_ARG_INFO(0, defaultAccess)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry) {
@@ -89,6 +99,8 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry) {
 	PHP_ME(Phalcon_Acl_Adapter_Memory, allow, arginfo_phalcon_acl_adapter_memory_allow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, deny, arginfo_phalcon_acl_adapter_memory_deny, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, isAllowed, arginfo_phalcon_acl_adapter_memory_isallowed, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, setNoArgumentsDefaultAction, arginfo_phalcon_acl_adapter_memory_setnoargumentsdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, getNoArgumentsDefaultAction, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getRoles, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getResources, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END

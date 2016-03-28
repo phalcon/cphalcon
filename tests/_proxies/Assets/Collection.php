@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Proxy\Assets;
 
 use Phalcon\Assets\Collection as PhCollection;
+use Phalcon\Assets\FilterInterface;
 
 /**
  * \Phalcon\Test\Proxy\Assets\Collection
@@ -23,12 +24,12 @@ use Phalcon\Assets\Collection as PhCollection;
  */
 class Collection extends PhCollection
 {
-    public function add($resource)
+    public function add(\Phalcon\Assets\Resource $resource)
     {
         return parent::add($resource);
     }
 
-    public function addInline($code)
+    public function addInline(\Phalcon\Assets\Inline $code)
     {
         return parent::addInline($code);
     }
@@ -108,12 +109,12 @@ class Collection extends PhCollection
         return parent::setLocal($local);
     }
 
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         return parent::setAttributes($attributes);
     }
 
-    public function setFilters($filters)
+    public function setFilters(array $filters)
     {
         return parent::setFilter($filters);
     }
@@ -133,7 +134,7 @@ class Collection extends PhCollection
         return parent::getRealTargetPath($basePath);
     }
 
-    public function addFilter($filter)
+    public function addFilter(FilterInterface $filter)
     {
         return parent::addFilter($filter);
     }

@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Proxy\Assets;
 
+use Phalcon\Assets\Inline;
 use Phalcon\Assets\Manager as PhManager;
 
 /**
@@ -23,7 +24,7 @@ use Phalcon\Assets\Manager as PhManager;
  */
 class Manager extends PhManager
 {
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         return parent::setOptions($options);
     }
@@ -58,27 +59,27 @@ class Manager extends PhManager
         parent::addInlineJs($content, $filter, $attributes);
     }
 
-    public function addResourceByType($type, $resource)
+    public function addResourceByType($type, \Phalcon\Assets\Resource $resource)
     {
         parent::addResourceByType($type, $resource);
     }
 
-    public function addInlineCodeByType($type, $code)
+    public function addInlineCodeByType($type, \Phalcon\Assets\Inline $code)
     {
         parent::addInlineCodeByType($type, $code);
     }
 
-    public function addResource($resource)
+    public function addResource(\Phalcon\Assets\Resource $resource)
     {
         parent::addResource($resource);
     }
 
-    public function addInlineCode($code)
+    public function addInlineCode(Inline $code)
     {
         parent::addInlineCode($code);
     }
 
-    public function set($id, $collection)
+    public function set($id, \Phalcon\Assets\Collection $collection)
     {
         return parent::set($id, $collection);
     }
@@ -103,12 +104,12 @@ class Manager extends PhManager
         return parent::collection($name);
     }
 
-    public function output($collection, $callback, $type)
+    public function output(\Phalcon\Assets\Collection $collection, $callback, $type)
     {
         return parent::output($collection, $callback, $type);
     }
 
-    public function outputInline($collection, $type)
+    public function outputInline(\Phalcon\Assets\Collection $collection, $type)
     {
         return parent::outputInline($collection, $type);
     }
@@ -131,5 +132,10 @@ class Manager extends PhManager
     public function outputInlineJs($collectionName = null)
     {
         return parent::outputInlineJs($collectionName);
+    }
+
+    public function exists($id)
+    {
+        return parent::exists($id);
     }
 }

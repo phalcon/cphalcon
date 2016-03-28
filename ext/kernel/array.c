@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -971,7 +971,8 @@ int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index,
 /**
  * Appends every element of an array at the end of the left array
  */
-void zephir_merge_append(zval *left, zval *values){
+void zephir_merge_append(zval *left, zval *values)
+{
 
 	zval         **tmp;
 	HashTable      *arr_values;

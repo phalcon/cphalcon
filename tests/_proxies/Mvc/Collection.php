@@ -137,7 +137,7 @@ class Collection extends PhCollection
         return parent::create();
     }
 
-    public function createIfNotExist($criteria)
+    public function createIfNotExist(array $criteria)
     {
         return parent::createIfNotExist($criteria);
     }
@@ -167,7 +167,7 @@ class Collection extends PhCollection
         return parent::count($parameters);
     }
 
-    public static function aggregate($parameters = null)
+    public static function aggregate(array $parameters = null)
     {
         return parent::aggregate($parameters);
     }

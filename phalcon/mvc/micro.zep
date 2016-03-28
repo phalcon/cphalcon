@@ -887,7 +887,7 @@ class Micro extends Injectable implements \ArrayAccess
 		if typeof returnedValue == "string" {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 			response->setContent(returnedValue);
-			returnedValue->send();
+			response->send();
 		}
 
 		/**

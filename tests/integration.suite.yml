@@ -5,7 +5,7 @@ class_name: IntegrationTester
 modules:
     enabled:
         - Helper\Integration
-        - Phalcon2
+        - Phalcon
     config:
-        Phalcon2:
+        Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'

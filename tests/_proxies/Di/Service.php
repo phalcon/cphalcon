@@ -59,7 +59,7 @@ class Service extends PhService
         return parent::resolve($parameters, $dependencyInjector);
     }
 
-    public function setParameter($position, $parameter)
+    public function setParameter($position, array $parameter)
     {
         return parent::setParameter($position, $parameter);
     }
@@ -74,7 +74,7 @@ class Service extends PhService
         return parent::isResolved();
     }
 
-    public static function __set_state($attributes)
+    public static function __set_state(array $attributes)
     {
         return parent::__set_state($attributes);
     }

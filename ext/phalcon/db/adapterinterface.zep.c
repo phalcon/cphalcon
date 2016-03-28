@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_AdapterInterface) {
 }
 
 /**
- * Constructor for Phalcon\Db\Adapter
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, __construct);
-
-/**
  * Returns the first row in a SQL query result
  *
  * @param string sqlQuery

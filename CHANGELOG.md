@@ -1,7 +1,6 @@
 # [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2016-XX-XX)
 - PHP 5.3 is now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
-- Default encrypt mode in `Phalcon\Crypt` is now changed to `MCRYPT_MODE_CFB`
 - Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`
 - Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
 - Removed support for prefixes strategy in `Phalcon\Loader`
@@ -55,7 +54,9 @@
 - Added `Phalcon\Validation\Validator\Date`
 - Added `Phalcon\Db\Adapter\Pdo\Sqlrelay` class to support sql relay
 - Mcrypt is replaced with openssl in `Phalcon\Crypt`
+- Default encrypt algorithm in `Phalcon\Crypt` is now changed to `AES-256-CFB`
 - Removed methods setMode(), getMode(), getAvailableModes() in `Phalcon\CryptInterface`
+- Added `Phalcon\Assets\Manager::exists()` to check if collection exists
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)

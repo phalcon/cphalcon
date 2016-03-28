@@ -595,7 +595,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function send() -> <Response>
 	{
-		var headers, cookies, content, file;
+		var content, file;
 
 		if this->_sent {
 			throw new Exception("Response was already sent");

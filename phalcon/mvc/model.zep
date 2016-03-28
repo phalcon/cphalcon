@@ -431,7 +431,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
-		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, dataMapped;
+		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped;
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {

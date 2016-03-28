@@ -26,15 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface) {
 }
 
 /**
- * Phalcon\Di\ServiceInterface
- *
- * @param string name
- * @param mixed definition
- * @param boolean shared
- */
-ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, __construct);
-
-/**
  * Returns the service's name
  *
  * @param string
