@@ -55,36 +55,6 @@ class Sqlrelay extends PdoAdapter implements AdapterInterface
 	protected _dialectType;	
 
 	/**
-	 * Escapes a column/table/schema name
-	 *
-	 * <code>
-	 * echo $connection->escapeIdentifier('my_table'); // `my_table`
-	 * echo $connection->escapeIdentifier(['companies', 'name']); // `companies`.`name`
-	 * <code>
-	 *
-	 * @param string|array identifier
-	 */
-	public function escapeIdentifier(var identifier) -> string
-	{
-		var domain, name;
-
-		if typeof identifier == "array" {
-			let domain = identifier[0],
-				name = identifier[1];
-			if globals_get("db.escape_identifiers") {
-				return "`" . domain . "`.`" . name . "`";
-			}
-			return domain . "." . name;
-		}
-
-		if globals_get("db.escape_identifiers") {
-			return "`" . identifier . "`";
-		}
-
-		return identifier;
-	}
-
-	/**
 	 * Returns type of database system	 
 	 */
 	public function getType() -> string
@@ -297,14 +267,7 @@ class Sqlrelay extends PdoAdapter implements AdapterInterface
 						let definition["scale"] = (int) matchTwo;
 					}
 				}
-			}
-
-			/**
-			 * Check if the column is unsigned, only MySQL support this
-			 */
-			if memstr(columnType, "unsigned") {
-				let definition["unsigned"] = true;
-			}
+			}			
 
 			/**
 			 * Positions
@@ -352,121 +315,5 @@ class Sqlrelay extends PdoAdapter implements AdapterInterface
 		}
 
 		return columns;
-	}
-
-	/**
-	 * Lists table indexes
-	 *
-	 * <code>
-	 *   print_r($connection->describeIndexes('robots_parts'));
-	 * </code>
-	 *
-	 * @param  string table
-	 * @param  string schema
-	 * @return \Phalcon\Db\IndexInterface[]
-	 */
-	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
-	{
-		var indexes, index, keyName, indexType, indexObjects, columns, name;
-
-		let indexes = [];
-		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
-			let keyName = index["Key_name"];
-			let indexType = index["Index_type"];
-
-			if !isset indexes[keyName] {
-				let indexes[keyName] = [];
-			}
-
-			if !isset indexes[keyName]["columns"] {
-				let columns = [];
-			} else {
-				let columns = indexes[keyName]["columns"];
-			}
-
-			let columns[] = index["Column_name"];
-			let indexes[keyName]["columns"] = columns;
-
-			if keyName == "PRIMARY" {
-				let indexes[keyName]["type"] = "PRIMARY";
-			} elseif indexType == "FULLTEXT" {
-				let indexes[keyName]["type"] = "FULLTEXT";
-			} elseif index["Non_unique"] == 0 {
-				let indexes[keyName]["type"] = "UNIQUE";
-			} else {
-				let indexes[keyName]["type"] = null;
-			}
-		}
-
-		let indexObjects = [];
-		for name, index in indexes {
-			let indexObjects[name] = new Index(name, index["columns"], index["type"]);
-		}
-
-		return indexObjects;
-	}
-
-	/**
-	 * Lists table references
-	 *
-	 *<code>
-	 * print_r($connection->describeReferences('robots_parts'));
-	 *</code>
-	 */
-	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
-	{
-		var references, reference,
-			arrayReference, constraintName, referenceObjects, name,
-			referencedSchema, referencedTable, columns, referencedColumns,
-			referenceUpdate, referenceDelete;
-
-		let references = [];
-
-		for reference in this->fetchAll(this->_dialect->describeReferences(table, schema),Db::FETCH_NUM) {
-
-			let constraintName = reference[2];
-			if !isset references[constraintName] {
-				let referencedSchema  = reference[3];
-				let referencedTable   = reference[4];
-				let referenceUpdate   = reference[6];
-				let referenceDelete   = reference[7];
-				let columns           = [];
-				let referencedColumns = [];
-
-			} else {
-				let referencedSchema  = references[constraintName]["referencedSchema"];
-				let referencedTable   = references[constraintName]["referencedTable"];
-				let columns           = references[constraintName]["columns"];
-				let referencedColumns = references[constraintName]["referencedColumns"];
-				let referenceUpdate   = references[constraintName]["onUpdate"];
-				let referenceDelete   = references[constraintName]["onDelete"];
-			}
-
-			let columns[] = reference[1],
-				referencedColumns[] = reference[5];
-
-			let references[constraintName] = [
-				"referencedSchema"  : referencedSchema,
-				"referencedTable"   : referencedTable,
-				"columns"           : columns,
-				"referencedColumns" : referencedColumns,
-				"onUpdate"          : referenceUpdate,
-				"onDelete"          : referenceDelete
-			];
-		}
-
-		let referenceObjects = [];
-		for name, arrayReference in references {
-			let referenceObjects[name] = new Reference(name, [
-				"referencedSchema"  : arrayReference["referencedSchema"],
-				"referencedTable"   : arrayReference["referencedTable"],
-				"columns"           : arrayReference["columns"],
-				"referencedColumns" : arrayReference["referencedColumns"],
-				"onUpdate"          : arrayReference["onUpdate"],
-				"onDelete"          : arrayReference["onDelete"]
-			]);
-		}
-
-		return referenceObjects;
-	}
+	}	
 }
