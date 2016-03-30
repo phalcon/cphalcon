@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,7 +29,7 @@ use Phalcon\Cache\FrontendInterface;
  *
  * Allows to cache output fragments, PHP data or raw data to a redis backend
  *
- * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
+ * This adapter uses the special redis key "_PHCR" by default to store all the keys internally used by the adapter
  *
  *<code>
  *
@@ -44,6 +44,13 @@ use Phalcon\Cache\FrontendInterface;
  *		'port' => 6379,
  *		'auth' => 'foobared',
  *  	'persistent' => false
+ * ));
+ * 
+ * //You can also pass a redis client
+ * $redis = new \Redis();
+ * $redis->connect('localhost', 6379);
+ * $cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
+ *		'client' => $redis
  * ));
  *
  * //Cache arbitrary data
@@ -185,7 +192,9 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
 	{
-		var lastKey, frontend, cachedContent, preparedContent, ttl, success, specialKey, isBuffering;
+		var redis, lastKey, frontend, cachedContent, preparedContent, ttl, success, specialKey, isBuffering;
+
+		let redis = this->_getRedis();
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -221,9 +230,9 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if is_numeric(cachedContent) {
-			let success = this->_getRedis()->set(lastKey, cachedContent, ttl);
+			let success = redis->set(lastKey, cachedContent, ttl);
 		} else {
-			let success = this->_getRedis()->set(lastKey, preparedContent, ttl);
+			let success = redis->set(lastKey, preparedContent, ttl);
 		}
 		if !success {
 			throw new Exception("Failed storing the data in redis");
@@ -233,7 +242,7 @@ class Redis extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 		if specialKey != "" {
-			this->_getRedis()->sAdd(specialKey, lastKey);
+			redis->sAdd(specialKey, lastKey);
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -255,21 +264,22 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function delete(keyName)
 	{
-		var lastKey, specialKey;
+		var redis, lastKey, specialKey;
 
+		let redis = this->_getRedis();
 		let lastKey = this->_prefix . keyName;
 
 		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 		if specialKey != "" {
-			this->_getRedis()->sRem(specialKey, lastKey);
+			redis->sRem(specialKey, lastKey);
 		}
 
 		/**
 		* Delete the key from redis
 		*/
-		return this->_getRedis()->delete(lastKey);
+		return redis->delete(lastKey);
 	}
 
 	/**
@@ -383,7 +393,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function flush() -> boolean
 	{
-		var specialKey, keys, key;
+		var redis, specialKey, keys, key;
 
 		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
@@ -392,11 +402,12 @@ class Redis extends Backend implements BackendInterface
 			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
-		let keys = this->_getRedis()->sMembers(specialKey);
+		let redis = this->_getRedis();
+		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				this->_getRedis()->sRem(specialKey, key);
-				this->_getRedis()->delete(key);
+				redis->sRem(specialKey, key);
+				redis->delete(key);
 			}
 		}
 

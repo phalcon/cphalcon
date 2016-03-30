@@ -56,6 +56,7 @@
 - Default encrypt algorithm in `Phalcon\Crypt` is now changed to `AES-256-CFB`
 - Removed methods setMode(), getMode(), getAvailableModes() in `Phalcon\CryptInterface`
 - Added `Phalcon\Assets\Manager::exists()` to check if collection exists
+- Modify and refactor redis cache backend. Now redis cache backend supports `client` option which is a connected redis object; `_PHCR` prefix is deleted, and it is used as `statsKeys` by default
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
