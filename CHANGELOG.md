@@ -12,6 +12,7 @@
 - Fixed `Phalcon\Http\Response::redirect` bug[#11324](https://github.com/phalcon/cphalcon/issues/11324). Incorrect initialization local array of status codes
 - Fixed cache backends bug[#11322](https://github.com/phalcon/cphalcon/issues/11322) related to saving number 0
 - Fixed `Phalcon\Db\Dialect::escape` bug[#11359](https://github.com/phalcon/cphalcon/issues/11359). Added ability to use the database name with dots.
+- Fixed SQL error in `Paginator` when the query builder has set `groupBy()` specified by string
 
 # [2.0.9](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.9) (2015-11-24)
 - Fixed bug that double serializes data using Redis adapter
