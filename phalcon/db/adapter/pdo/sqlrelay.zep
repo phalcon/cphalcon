@@ -1,0 +1,319 @@
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
+
+namespace Phalcon\Db\Adapter\Pdo;
+
+use Phalcon\Db;
+use Phalcon\Db\Column;
+use Phalcon\Db\Index;
+use Phalcon\Db\Reference;
+use Phalcon\Db\IndexInterface;
+use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+
+/**
+ * Phalcon\Db\Adapter\Pdo\Sqlrelay
+ *
+ * Specific functions for the Sqlrelay
+ *
+ *<code>
+ *
+ * use Phalcon\Db\Adapter\Pdo\Sqlrelay;
+ *
+ * $config = [
+ *   "host"     => "192.168.0.11",
+ *   "port"     => 9000,
+ *   "username" => "sigma",
+ *   "backendType" => "mysql",
+ *   "password" => "secret"
+ * ];
+ *
+ * $connection = new Sqlrelay($config);
+ *</code>
+ */
+class Sqlrelay extends PdoAdapter implements AdapterInterface
+{
+
+	protected _type = "sqlrelay";
+
+	protected _dialectType;	
+
+	/**
+	 * Returns type of database system	 
+	 */
+	public function getType() -> string
+	{
+		return this->_dialectType;
+	}
+
+	/**
+	 * Returns an array of Phalcon\Db\Column objects describing a table
+	 *
+	 * <code>
+	 * print_r($connection->describeColumns("posts"));
+	 * </code>
+	 */
+	public function describeColumns(string table, string schema = null) -> <Column[]>
+	{
+		var columns, columnType, field, definition,
+			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
+
+		let oldColumn = null,
+			sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
+
+		let columns = [];
+
+		/**
+		 * Get the SQL to describe a table
+		 * We're using FETCH_NUM to fetch the columns
+		 * Get the describe
+		 * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
+		 */
+		for field in this->fetchAll(this->_dialect->describeColumns(table, schema), Db::FETCH_NUM) {
+
+			/**
+			 * By default the bind types is two
+			 */
+			let definition = ["bindType": Column::BIND_PARAM_STR];
+
+			/**
+			 * By checking every column type we convert it to a Phalcon\Db\Column
+			 */
+			let columnType = field[1];
+
+			loop {
+
+				/**
+				 * Smallint/Bigint/Integers/Int are int
+				 */
+				if memstr(columnType, "bigint") {
+					let definition["type"] = Column::TYPE_BIGINTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
+				 * Smallint/Bigint/Integers/Int are int
+				 */
+				if memstr(columnType, "int") {
+					let definition["type"] = Column::TYPE_INTEGER,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
+				 * Varchar are varchars
+				 */
+				if memstr(columnType, "varchar") {
+					let definition["type"] = Column::TYPE_VARCHAR;
+					break;
+				}
+
+				/**
+				 * Special type for datetime
+				 */
+				if memstr(columnType, "datetime") {
+					let definition["type"] = Column::TYPE_DATETIME;
+					break;
+				}
+
+				/**
+				 * Enum are treated as char
+				 */
+				if memstr(columnType, "enum") {
+					let definition["type"] = Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
+				 * Chars are chars
+				 */
+				if memstr(columnType, "char") {
+					let definition["type"] = Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
+				 * Date are dates
+				 */
+				if memstr(columnType, "date") {
+					let definition["type"] = Column::TYPE_DATE;
+					break;
+				}
+
+				/**
+				 * Timestamp are dates
+				 */
+				if memstr(columnType, "timestamp") {
+					let definition["type"] = Column::TYPE_TIMESTAMP;
+					break;
+				}
+
+				/**
+				 * Text are varchars
+				 */
+				if memstr(columnType, "text") {
+					let definition["type"] = Column::TYPE_TEXT;
+					break;
+				}
+
+				/**
+				 * Decimals are floats
+				 */
+				if memstr(columnType, "decimal"){
+					let definition["type"] = Column::TYPE_DECIMAL,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Doubles
+				 */
+				if memstr(columnType, "double"){
+					let definition["type"] = Column::TYPE_DOUBLE,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Float/Smallfloats/Decimals are float
+				 */
+				if memstr(columnType, "float") {
+					let definition["type"] = Column::TYPE_FLOAT,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Boolean
+				 */
+				if memstr(columnType, "bit") {
+					let definition["type"] = Column::TYPE_BOOLEAN,
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
+
+				/**
+				 * Tinyblob
+				 */
+				if memstr(columnType, "tinyblob") {
+					let definition["type"] = Column::TYPE_TINYBLOB,
+						definition["bindType"] = Column::BIND_PARAM_BOOL;
+					break;
+				}
+
+				/**
+				 * Mediumblob
+				 */
+				if memstr(columnType, "mediumblob") {
+					let definition["type"] = Column::TYPE_MEDIUMBLOB;
+					break;
+				}
+
+				/**
+				 * Longblob
+				 */
+				if memstr(columnType, "longblob") {
+					let definition["type"] = Column::TYPE_LONGBLOB;
+					break;
+				}
+
+				/**
+				 * Blob
+				 */
+				if memstr(columnType, "blob") {
+					let definition["type"] = Column::TYPE_BLOB;
+					break;
+				}
+
+				/**
+				 * By default is string
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR;
+				break;
+			}
+
+			/**
+			 * If the column type has a parentheses we try to get the column size from it
+			 */
+			if memstr(columnType, "(") {
+				let matches = null;
+				if preg_match(sizePattern, columnType, matches) {
+					if fetch matchOne, matches[1] {
+						let definition["size"] = (int) matchOne;
+					}
+					if fetch matchTwo, matches[2] {
+						let definition["scale"] = (int) matchTwo;
+					}
+				}
+			}			
+
+			/**
+			 * Positions
+			 */
+			if oldColumn == null {
+				let definition["first"] = true;
+			} else {
+				let definition["after"] = oldColumn;
+			}
+
+			/**
+			 * Check if the field is primary key
+			 */
+			if field[3] == "PRI" {
+				let definition["primary"] = true;
+			}
+
+			/**
+			 * Check if the column allows null values
+			 */
+			if field[2] == "NO" {
+				let definition["notNull"] = true;
+			}
+
+			/**
+			 * Check if the column is auto increment
+			 */
+			if field[5] == "auto_increment" {
+				let definition["autoIncrement"] = true;
+			}
+
+			/**
+			 * Check if the column is default values
+			 */
+			if typeof field[4] != "null" {
+				let definition["default"] = field[4];
+			}
+
+			/**
+			 * Every route is stored as a Phalcon\Db\Column
+			 */
+			let columnName = field[0],
+				columns[] = new Column(columnName, definition),
+				oldColumn = columnName;
+		}
+
+		return columns;
+	}	
+}

@@ -52,6 +52,7 @@
 - Added `Phalcon\Cache\Backend\Memcache::addServers` to enable pool of servers for memcache
 - Added `setLastModified` method to `Phalcon\Http\Response`
 - Added `Phalcon\Validation\Validator\Date`
+- Added `Phalcon\Db\Adapter\Pdo\Sqlrelay` class to support sql relay
 - Mcrypt is replaced with openssl in `Phalcon\Crypt`
 - Default encrypt algorithm in `Phalcon\Crypt` is now changed to `AES-256-CFB`
 - Removed methods setMode(), getMode(), getAvailableModes() in `Phalcon\CryptInterface`

@@ -86,7 +86,7 @@ abstract class Pdo extends Adapter
 	public function connect(descriptor = null)
 	{
 		var username, password, dsnParts, dsnAttributes,
-			persistent, options, key, value;
+			persistent, options, key, value, backendType;
 
 		if descriptor === null {
 			let descriptor = this->_descriptor;
@@ -99,6 +99,13 @@ abstract class Pdo extends Adapter
 			unset descriptor["username"];
 		} else {
 			let username = null;
+		}
+
+		/**
+		 * Check for backendType - used only in case of sqlrelay
+		 */
+		if fetch backendType, descriptor["backendType"] {
+			let this->_dialectType = backendType;
 		}
 
 		/**
