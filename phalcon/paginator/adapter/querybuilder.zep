@@ -167,7 +167,14 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		 */
 		var groups = totalBuilder->getGroupBy();
 		if !empty groups {
-			var groupColumn = implode(", ", groups);
+			var groupColumn;
+
+			if typeof groups === "string" {
+				let groupColumn = groups;
+			} else {
+				let groupColumn = implode(", ", groups);
+			}
+
 			totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
 		}
 
