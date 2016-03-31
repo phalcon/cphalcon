@@ -42,26 +42,26 @@ interface EscaperInterface
 	public function getEncoding();
 
 	/**
-     * Sets the HTML quoting type for htmlspecialchars
-     *
-     * @param int quoteType
-     */
+	 * Sets the HTML quoting type for htmlspecialchars
+	 *
+	 * @param int quoteType
+	 */
 	public function setHtmlQuoteType(quoteType);
 
 	/**
-     * Escapes a HTML string
-     *
-     * @param string text
-     * @return string
-     */
+	 * Escapes a HTML string
+	 *
+	 * @param string text
+	 * @return string
+	 */
 	public function escapeHtml(text);
 
 	/**
-     * Escapes a HTML attribute string
-     *
-     * @param string text
-     * @return string
-     */
+	 * Escapes a HTML attribute string
+	 *
+	 * @param string text
+	 * @return string
+	 */
 	public function escapeHtmlAttr(text);
 
 	/**
@@ -81,10 +81,10 @@ interface EscaperInterface
 	public function escapeJs(js);
 
 	/**
-     * Escapes a URL. Internally uses rawurlencode
-     *
-     * @param string url
-     * @return string
-     */
+	 * Escapes a URL. Internally uses rawurlencode
+	 *
+	 * @param string url
+	 * @return string
+	 */
 	public function escapeUrl(url);
 }
