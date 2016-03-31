@@ -52,6 +52,13 @@
 - Added `Phalcon\Cache\Backend\Memcache::addServers` to enable pool of servers for memcache
 - Added `setLastModified` method to `Phalcon\Http\Response`
 - Added `Phalcon\Validation\Validator\Date`
+- Added `\Phalcon\Queue\Beanstalk::ignore()` It removes the named tube from the watch list for the current connection.
+- Added `\Phalcon\Queue\Beanstalk::pauseTube()` Can delay any new job being reserved for a given time.
+- Added `\Phalcon\Queue\Beanstalk::kick()` It moves jobs into the ready queue. If there are any buried jobs, it will only kick buried jobs. Otherwise it will kick delayed jobs.
+- Added `\Phalcon\Queue\Beanstalk::listTubeUsed()` Returns the tube currently being used by the client.
+- Added `\Phalcon\Queue\Beanstalk::listTubesWatched()` Returns a list tubes currently being watched by the client.
+- Added `\Phalcon\Queue\Beanstalk::peekDelayed()` Return the delayed job with the shortest delay left.
+- Added `\Phalcon\Queue\Beanstalk::jobPeek()` Return job.
 - Mcrypt is replaced with openssl in `Phalcon\Crypt`
 - Default encrypt algorithm in `Phalcon\Crypt` is now changed to `AES-256-CFB`
 - Removed methods setMode(), getMode(), getAvailableModes() in `Phalcon\CryptInterface`

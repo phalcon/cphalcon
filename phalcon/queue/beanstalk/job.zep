@@ -14,12 +14,14 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Dmitry Korolev <chameleonweb2012@gmail.com>                   |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Queue\Beanstalk;
 
 use Phalcon\Queue\Beanstalk;
+use Phalcon\Queue\Beanstalk\Exception;
 
 /**
  * Phalcon\Queue\Beanstalk\Job
@@ -29,7 +31,7 @@ use Phalcon\Queue\Beanstalk;
 class Job
 {
 	/**
-	 * @var string
+	 * @var integer
 	 */
 	protected _id { get };
 
@@ -43,7 +45,7 @@ class Job
 	/**
 	 * Phalcon\Queue\Beanstalk\Job
 	 */
-	public function __construct(<Beanstalk> queue, string id, var body)
+	public function __construct(<Beanstalk> queue, int id, var body)
 	{
 		let this->_queue = queue;
 		let this->_id = id;
@@ -55,7 +57,7 @@ class Job
 	 */
 	public function delete() -> boolean
 	{
- 		var queue;
+		 var queue;
 
 		let queue = this->_queue;
 		queue->write("delete " . this->_id);
@@ -87,7 +89,7 @@ class Job
 		var queue;
 
 		let queue = this->_queue;
-		queue->write("bury " . this->_id . " " . priority);
+		queue->write("bury " . this->_id ." " . priority);
 		return queue->readStatus()[0] == "BURIED";
 	}
 
@@ -109,7 +111,12 @@ class Job
 	}
 
 	/**
-	 * Move the job to the ready queue if it is delayed or buried.
+	 * The kick-job command is a variant of kick that operates with a single 
+	 * job identified by its job id. If the given job id exists and is in a 
+	 * buried or delayed state, it will be moved to the ready queue of the the 
+	 * same tube where it currently belongs. 
+	 *
+	 * @return boolean
 	 */
 	public function kick() -> boolean
 	{
@@ -121,7 +128,24 @@ class Job
 	}
 
 	/**
-	 * Get stats of the job.
+	 * The stats-job command gives statistical information about the specified 
+	 * job if it exists.
+	 * 
+	 * <i>return array:</i><br><br>
+	 * <b>id</b> is the job id<br>
+	 * <b>tube</b> is the name of the tube that contains this job<br>
+	 * <b>state</b> is ready or delayed or reserved or buried<br>
+	 * <b>pri</b> is the priority value set by the put, release, or bury commands.<br>
+	 * <b>age</b> is the time in seconds since the put command that created this job.<br>
+	 * <b>time-left</b> is the number of seconds left until the server puts this job into the ready queue. This number is only meaningful if the job is reserved or delayed. If the job is reserved and this amount of time elapses before its state changes, it is considered to have timed out.<br>
+	 * <b>file</b> is the number of the earliest binlog file containing this job. If -b wasn't used, this will be 0.<br>
+	 * <b>reserves</b> is the number of times this job has been reserved.<br>
+	 * <b>timeouts</b> is the number of times this job has timed out during a reservation.<br>
+	 * <b>releases</b> is the number of times a client has released this job from a reservation.<br>
+	 * <b>buries</b> is the number of times this job has been buried.<br>
+	 * <b>kicks</b> is the number of times this job has been kicked.<br>
+	 * 
+	 * @return boolean | array
 	 */
 	public function stats() -> boolean|array
 	{
@@ -144,7 +168,7 @@ class Job
 	public function __wakeup()
 	{
 		if typeof this->_id != "string" {
-			throw new \Phalcon\Exception("Unexpected inconsistency in %s - possible break-in attempt!", "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()");
+			throw new Exception("Unexpected inconsistency in %s - possible break-in attempt!", "Phalcon\\Queue\\Beanstalk\\Job::__wakeup()");
 		}
 	}
 }
