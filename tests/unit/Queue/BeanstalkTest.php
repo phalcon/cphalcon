@@ -31,7 +31,7 @@ class BeanstalkTest extends BeanstalkBase
     const TUBE_NAME_2 = 'beanstalk-test-2';
     const TUBE_NAME_DEFAULT = 'default';
     const JOB_CLASS = 'Phalcon\Queue\Beanstalk\Job';
-    
+
     /**
      * Tests Beanstalk::getBody
      *
@@ -145,45 +145,40 @@ class BeanstalkTest extends BeanstalkBase
             }
         );
     }
-    
+
     /**
      * Test exceeded the maximum number of characters in the tube name
      *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
+     * @expectedException \Phalcon\Queue\Beanstalk\Exception
+     * @expectedExceptionMessage BAD_FORMAT
      */
     public function testShouldChooseException()
     {
-        try {
-            $tube = $this->client->choose(str_pad(self::TUBE_NAME_1, 201, 'over'));
-        } catch (Exception $e) {
-            $this->assertEquals("BAD_FORMAT", $e->getMessage());
-            return;
-        }
-        
-        $this->markTestSkipped("Not exception");
+        $this->client->choose(str_pad(self::TUBE_NAME_1, 201, 'over'));
     }
-    
+
     /**
      * watch command
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
     public function testShouldWatch()
     {
         $countWatchTubes = $this->client->watch(self::TUBE_NAME_1);
-        
+
         $this->assertNotEquals(false, $countWatchTubes);
         $this->assertEquals($countWatchTubes, 2);
     }
-    
+
     /**
      * choose -> put -> watch -> reserve -> delete
-     * 
+     *
      * @depends testShouldChoose
      * @depends testShouldWatch
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -192,18 +187,18 @@ class BeanstalkTest extends BeanstalkBase
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
         $this->assertNotEquals(false, $jobId);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
         $this->assertInstanceOf(self::JOB_CLASS, $job);
         $this->assertEquals($jobId, $job->getId());
-        
+
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -211,22 +206,22 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
-        
+
         $job = $this->client->peekReady();
         $this->assertInstanceOf(self::JOB_CLASS, $job);
         $this->assertEquals($jobId, $job->getId());
-        
+
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * choose -> put -> watch -> reserve-with-timeout -> delete
-     * 
+     *
      * @todo bad test, but have so far
-     * 
+     *
      * @depends testShouldChoose
      * @depends testShouldWatch
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -234,29 +229,29 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve(2);
         $this->assertInstanceOf(self::JOB_CLASS, $job);
         $this->assertEquals($jobId, $job->getId());
-        
+
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * many tubes watch
      * choose -> put -> choose -> put -> watch,watch -> reserve -> delete
-     * 
+     *
      * @depends testShouldChoose
      * @depends testShouldWatch
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
     public function testShouldPutAndReserveManyTubesAndDelete()
     {
         $tubes = [self::TUBE_NAME_1,self::TUBE_NAME_2];
-        
+
         $jobsId = [];
         foreach ($tubes as $tube) {
             $this->client->choose($tube);
@@ -264,28 +259,28 @@ class BeanstalkTest extends BeanstalkBase
             $this->assertNotEquals(false, $jobId);
             $jobsId[] = $jobId;
         }
-        
+
         $jobs = [];
         foreach ($tubes as $tubeWatch) {
             $this->client->watch($tubeWatch);
         }
-        
+
         while ($job = $this->client->reserve(1)) {
             $jobs[] = $job;
         }
-        
+
         $this->assertEquals(count($tubes), count($jobs));
-        
+
         foreach ($jobs as $k => $job) {
             $this->assertInstanceOf(self::JOB_CLASS, $jobs[$k]);
             $this->assertEquals($jobsId[$k], $jobs[$k]->getId());
             $this->assertTrue($jobs[$k]->delete());
         }
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -293,27 +288,27 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
-        
+
         $this->assertEquals('ready', (new Job($this->client, $jobId, ''))->stats()['state']);
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
         $this->assertInstanceOf(self::JOB_CLASS, $job);
         $this->assertEquals($jobId, $job->getId());
-        
+
         $this->assertEquals('reserved', $job->stats()['state']);
         $this->assertEquals(1, $job->stats()['reserves']);
-        
+
         $this->assertTrue($job->release());
         $this->assertEquals('ready', $job->stats()['state']);
         $this->assertEquals(1, $job->stats()['releases']);
-        
+
         $this->assertTrue($job->delete());
     }
-    
-    
+
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -321,14 +316,14 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
-        
+
         $this->assertEquals('ready', (new Job($this->client, $jobId, ''))->stats()['state']);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
         $this->assertEquals('reserved', $job->stats()['state']);
         $this->assertEquals(1, $job->stats()['reserves']);
-        
+
         $this->assertTrue($job->release(Beanstalk::DEFAULT_PRIORITY, 3));
         $this->assertEquals('delayed', $job->stats()['state']);
         $this->assertEquals(1, $job->stats()['releases']);
@@ -338,10 +333,10 @@ class BeanstalkTest extends BeanstalkBase
         $this->assertEquals('ready', $job->stats()['state']);
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -349,32 +344,32 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
-        
+
         $this->assertEquals('ready', (new Job($this->client, $jobId, ''))->stats()['state']);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
-        
+
         $this->assertTrue($job->bury(Beanstalk::DEFAULT_PRIORITY));
         $this->assertEquals('buried', $job->stats()['state']);
         $this->assertEquals(1, $job->stats()['buries']);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->peekBuried();
-        
+
         $this->assertInstanceOf(self::JOB_CLASS, $job);
         $this->assertEquals($jobId, $job->getId());
-        
+
         $this->assertTrue($job->kick());
         $this->assertEquals('ready', $job->stats()['state']);
         $this->assertEquals(1, $job->stats()['kicks']);
-        
+
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -386,21 +381,21 @@ class BeanstalkTest extends BeanstalkBase
         $this->assertEquals('delayed', $job->stats()['state']);
         sleep(3);
         $this->assertEquals('ready', $job->stats()['state']);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
-        
+
         $job = $this->client->reserve();
         $this->assertTrue($job->delete());
-        
+
         $jobId = $this->client->put('testPutInTube', ['delay' => 2]);
         $job = $this->client->peekDelayed();
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
      * @depends testShouldPutDelay
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -409,19 +404,19 @@ class BeanstalkTest extends BeanstalkBase
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube', ['delay' => 3]);
         $job = new Job($this->client, $jobId, '');
-        
+
         $this->assertTrue($job->kick());
         $this->assertEquals('ready', $job->stats()['state']);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutBuriedAfterPeekBuriedAndKick
      * @depends testShouldPutDelay
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -436,11 +431,11 @@ class BeanstalkTest extends BeanstalkBase
         $this->assertEquals('ready', $job->stats()['state']);
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutDelayAfterKick
      * @depends testShouldPutDelayAndPutBuriedAfterKick
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -449,22 +444,22 @@ class BeanstalkTest extends BeanstalkBase
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube', ['delay' => 3]);
         $job = new Job($this->client, $jobId, '');
-        
+
         $this->assertEquals(1, $this->client->kick(1));
         $this->assertEquals('ready', $job->stats()['state']);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
-        
+
         $this->assertTrue($job->bury(Beanstalk::DEFAULT_PRIORITY));
         $this->assertEquals(1, $this->client->kick(1));
         $this->assertEquals('ready', $job->stats()['state']);
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -472,7 +467,7 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube', ['ttr' => 10]);
-        
+
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
         sleep(2);
@@ -481,12 +476,12 @@ class BeanstalkTest extends BeanstalkBase
         $this->assertEquals(9, $job->stats()['time-left']);
         $this->assertTrue($job->delete());
     }
-    
+
     /**
      * list-tubes command
-     * 
+     *
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -496,10 +491,10 @@ class BeanstalkTest extends BeanstalkBase
         $tubes = $this->client->listTubes();
         $this->assertTrue(in_array(self::TUBE_NAME_1, $tubes));
     }
-    
+
     /**
      * @depends testShouldPutAndReserveAndDelete
-     * 
+     *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
      * @since  2016-02-23
      */
@@ -507,7 +502,7 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $jobId = $this->client->put('testPutInTube');
-        
+
         $this->assertNotEquals(false, $jobId);
         $job = $this->client->jobPeek($jobId);
         $this->assertInstanceOf(self::JOB_CLASS, $job);

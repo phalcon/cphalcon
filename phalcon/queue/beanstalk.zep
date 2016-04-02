@@ -553,25 +553,23 @@ class Beanstalk
 		}
 
 
-		self::errorDetection(data);
-
-		return data;
-	}
-
-	/**
-	 * error detection for response
-	 */
-	protected static function errorDetection(response)
-	{
-		if response === "UNKNOWN_COMMAND" {
+		if data === "UNKNOWN_COMMAND" {
 			throw new Exception("UNKNOWN_COMMAND");
-		} elseif response === "JOB_TOO_BIG" {
+		}
+
+		if data === "JOB_TOO_BIG" {
 			throw new Exception("JOB_TOO_BIG");
-		} elseif response === "BAD_FORMAT" {
+		}
+
+		if data === "BAD_FORMAT" {
 			throw new Exception("BAD_FORMAT");
-		} elseif response === "OUT_OF_MEMORY" {
+		}
+
+		if data === "OUT_OF_MEMORY" {
 			throw new Exception("OUT_OF_MEMORY");
 		}
+
+		return data;
 	}
 
 	/**
@@ -606,16 +604,19 @@ class Beanstalk
 		}
 
 		fclose(connection);
+		let this->_connection = null;
+
 		return true;
 	}
 
 	/**
 	 * Simply closes the connection.
-	 *
-	 * @return boolean
 	 */
-	public function quit()
+	public function quit() -> boolean
 	{
-		return (boolean)this->write("quit");
+		this->write("quit");
+		this->disconnect();
+
+		return typeof this->_connection != "resource";
 	}
 }
