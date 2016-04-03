@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -12,7 +12,7 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Serghei Iakovlev <sadhooklay@gmail.com>                       |
+ | Authors: Serghei Iakovlev <serghei@phalconphp.com>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -28,6 +28,7 @@ namespace Phalcon\Security;
  *
  * It supports following secure random number generators:
  *
+ * - random_bytes (PHP 7)
  * - libsodium
  * - openssl
  * - /dev/urandom
@@ -102,7 +103,7 @@ class Random
 	 *
 	 *  $bytes = $random->bytes();
 	 *  var_dump(bin2hex($bytes));
-	 *  // possible ouput: string(32) "00f6c04b144b41fad6a59111c126e1ee"
+	 *  // possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
 	 *</code>
 	 *
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -114,6 +115,10 @@ class Random
 		if len <= 0 {
 			let len = 16;
 		}
+
+        if function_exists("random_bytes") {
+            return random_bytes(len);
+        }
 
 		if function_exists("\\Sodium\\randombytes_buf") {
 			return \\Sodium\\randombytes_buf(len);
