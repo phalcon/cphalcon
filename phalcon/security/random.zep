@@ -116,9 +116,9 @@ class Random
 			let len = 16;
 		}
 
-        if function_exists("random_bytes") {
-            return random_bytes(len);
-        }
+		if function_exists("random_bytes") {
+			return random_bytes(len);
+		}
 
 		if function_exists("\\Sodium\\randombytes_buf") {
 			return \\Sodium\\randombytes_buf(len);
