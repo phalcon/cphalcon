@@ -265,7 +265,7 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 
 		$trace = join('-', $listener->getTrace());
-		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterInitialize-beforeException');
+		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterInitialize-beforeException-afterExecuteRoute-afterDispatch');
 	}
 
 	public function testBeforeExceptionEvent()
