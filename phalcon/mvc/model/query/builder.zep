@@ -91,6 +91,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _hiddenParamNumber = 0;
 
+	protected _fireAfterFetch;
+
 	/**
 	 * Phalcon\Mvc\Model\Query\Builder constructor
 	 */
@@ -101,7 +103,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes,
-			with, distinct, bind, bindTypes;
+			with, distinct, bind, bindTypes, fireAfterFetch;
 
 		if typeof params == "array" {
 
@@ -262,6 +264,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 */
 			if fetch sharedLock, params["shared_lock"] {
 				let this->_sharedLock = sharedLock;
+			}
+
+			/**
+			 * Assign FIRE AFTER FETCH
+			 */
+			if fetch fireAfterFetch, params["fireAfterFetch"] {
+				let this->_fireAfterFetch = fireAfterFetch;
 			}
 		} else {
 			if typeof params == "string" && params !== "" {
@@ -1407,6 +1416,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 		if typeof this->_sharedLock === "boolean" {
 			query->setSharedLock(this->_sharedLock);
+		}
+
+		if typeof this->_fireAfterFetch === "boolean" {
+			query->setFireAfterFetch(this->_fireAfterFetch);
 		}
 
 		return query;

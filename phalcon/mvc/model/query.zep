@@ -102,6 +102,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _sharedLock;
 
+	protected _fireAfterFetch = false;
+
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -2800,7 +2802,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Simple resultsets contains only complete objects
 			 */
-			return new Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+			return new Simple(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots, model, this->_fireAfterFetch);
 		}
 
 		/**
@@ -3491,6 +3493,29 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let this->_sharedLock = sharedLock;
 
 		return this;
+	}
+
+	/**
+	 * Set fire after fetch
+	 */
+	public function setFireAfterFetch(boolean fireAfterFetch = false) -> <Query>
+	{
+		if strpos("JOIN", this->_phql) !== false {
+			throw new Exception("Fireing after fetch is not implemented for joins.");
+		}
+		let this->_fireAfterFetch = fireAfterFetch;
+
+		return this;
+	}
+
+	/**
+	 * Returns fire after fetch
+	 *
+	 * @return bool
+	 */
+	public function getFireAfterFetch()
+	{
+		return this->_fireAfterFetch;
 	}
 
 	/**

@@ -63,6 +63,7 @@
 - Default encrypt algorithm in `Phalcon\Crypt` is now changed to `AES-256-CFB`
 - Removed methods setMode(), getMode(), getAvailableModes() in `Phalcon\CryptInterface`
 - Added `Phalcon\Assets\Manager::exists()` to check if collection exists
+- Added `fireAfterFetch` key in parameters of `Phalcon\Mvc\Model::find()`, `Phalcon\Mvc\Model::findFirst()` and method `Phalcon\Mvc\Model\Query::setFireAfterFetch()`. It will call `Phalcon\Mvc\Model::afterFetch()` even with columns. Also working on `Phalcon\Mvc\Model\Resultset\Simple::toArray()` method. Also `Phalcon\Mvc\Model\Resultset\Simple::toArray()` accepts additional parameter which will remove additional columns when `afterFetch()` is called.
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)

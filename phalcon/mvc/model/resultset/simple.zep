@@ -23,6 +23,10 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\BackendInterface;
+use ReflectionMethod;
+use ReflectionException;
+use Closure;
+use ArrayObject;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -36,9 +40,21 @@ class Simple extends Resultset
 
 	protected _model;
 
+	protected _realModel;
+
 	protected _columnMap;
 
 	protected _keepSnapshots = false;
+
+	protected _fireAfterFetch = false;
+
+	protected _closure = null;
+
+	protected _keysDifference = null;
+
+	protected _checkedRemoving = false;
+
+	protected _needsRemoving = false;
 
 	/**
 	 * Phalcon\Mvc\Model\Resultset\Simple constructor
@@ -48,11 +64,14 @@ class Simple extends Resultset
 	 * @param \Phalcon\Db\Result\Pdo|null result
 	 * @param \Phalcon\Cache\BackendInterface cache
 	 * @param boolean keepSnapshots
+	 * @param \Phalcon\Mvc\ModelInterface realModel
 	 */
-	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, keepSnapshots = null)
+	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, keepSnapshots = null, var realModel = null, bool fireAfterFetch = false)
 	{
 		let this->_model = model,
-			this->_columnMap = columnMap;
+			this->_columnMap = columnMap,
+			this->_realModel = realModel,
+			this->_fireAfterFetch = fireAfterFetch;
 
 		/**
 		 * Set if the returned resultset must keep the record snapshots
@@ -67,7 +86,8 @@ class Simple extends Resultset
 	 */
 	public final function current() -> <ModelInterface> | boolean
 	{
-		var row, hydrateMode, columnMap, activeRow, modelName;
+		var row, hydrateMode, columnMap, activeRow, modelName, closure,
+		countOriginal, countParsed, objectClosure, rowObject, key, value, arrayObject, arrayCopy, parsedKeys;
 
 		let activeRow = this->_activeRow;
 		if activeRow !== null {
@@ -96,6 +116,47 @@ class Simple extends Resultset
 		 * Get the resultset column map
 		 */
 		let columnMap = this->_columnMap;
+
+		if this->_fireAfterFetch && (this->_model instanceof \Phalcon\Mvc\Model\Row || this->_model instanceof \stdclass) {
+			if this->_closure == null {
+				let closure = this->_getAfterFetchClosure(this->_realModel, false);
+			}
+			else {
+				let closure = this->_closure; // if we already have closure use this closure
+			}
+			if closure != null {
+				let rowObject = new \stdclass();
+				for key, value in row {
+					let rowObject->{key} = value;
+				}
+				let objectClosure = closure->bindTo(rowObject);
+				{objectClosure}();
+				let arrayObject = new ArrayObject(rowObject);
+				let arrayCopy = arrayObject->getArrayCopy();
+				if !this->_checkedRemoving {
+					let this->_checkedRemoving = true;
+					let parsedKeys = get_object_vars(rowObject);
+					let countParsed = count(parsedKeys);
+					let countOriginal = count(row);
+					if countOriginal != countParsed {
+						if this->_keysDifference == null {
+							let this->_keysDifference = array_diff_key(arrayCopy,row);
+							let this->_needsRemoving = true;
+							// we can save some time by storing keys and then unset them instead of intersect each time
+						}
+					}
+				}
+				if this->_needsRemoving {
+					for key, value in this->_keysDifference {
+						unset(arrayCopy[key]);
+					}
+					let row = arrayCopy;
+				}
+				else {
+					let row = arrayCopy;
+				}
+			}
+		}
 
 		/**
 		 * Hydrate based on the current hydration
@@ -141,7 +202,6 @@ class Simple extends Resultset
 				let activeRow = Model::cloneResultMapHydrate(row, columnMap, hydrateMode);
 				break;
 		}
-
 		let this->_activeRow = activeRow;
 		return activeRow;
 	}
@@ -150,11 +210,14 @@ class Simple extends Resultset
 	 * Returns a complete resultset as an array, if the resultset has a big number of rows
 	 * it could consume more memory than currently it does. Export the resultset to an array
 	 * couldn't be faster with a large number of records
+	 *
+	 * @param bool removeAdditionalColumns
 	 */
-	public function toArray(boolean renameColumns = true) -> array
+	public function toArray(boolean removeAdditionalColumns = false, boolean renameColumns = true) -> array
 	{
-		var result, records, record, renamed, renamedKey,
-			key, value, renamedRecords, columnMap;
+		var result, records, renamedKey,
+			key, value, parsedRecords, columnMap, closure,
+			parsedRecord, countRecord, countParsedRecord, record, renamed, rowObject;
 
 		/**
 		 * If _rows is not present, fetchAll from database
@@ -181,46 +244,169 @@ class Simple extends Resultset
 			 * Get the resultset column map
 			 */
 			let columnMap = this->_columnMap;
-			if typeof columnMap != "array" {
+			if typeof columnMap != "array" && !this->_fireAfterFetch {
 				return records;
 			}
 
-			let renamedRecords = [];
+			let parsedRecords = [];
 			if typeof records == "array" {
+
+				if this->_fireAfterFetch {
+					if this->_closure != null {
+						let closure = this->_closure;
+					}
+					else {
+						let closure = this->_getAfterFetchClosure(this->_realModel, false);
+					}
+					if closure == null {
+						let this->_fireAfterFetch = false;
+						if typeof columnMap != "array" {
+							return records;
+						}
+					}
+				}
 
 				for record in records {
 
-					let renamed = [];
-					for key, value in record {
-
-						/**
-						 * Check if the key is part of the column map
-						 */
-						if !fetch renamedKey, columnMap[key] {
-							throw new Exception("Column '" . key . "' is not part of the column map");
+					if typeof columnMap == "array" {
+						let renamed = [];
+						if this->_fireAfterFetch {
+							let rowObject = new \stdclass();
 						}
+						for key, value in record {
 
-                        if typeof renamedKey == "array" {
+							/**
+							 * Check if the key is part of the column map
+							 */
+							if !fetch renamedKey, columnMap[key] {
+								throw new Exception("Column '" . key . "' is not part of the column map");
+							}
 
-		                    if !fetch renamedKey, renamedKey[0] {
-                	            throw new Exception("Column '" . key . "' is not part of the column map");
-                        	}
+							if typeof renamedKey == "array" {
+
+								if !fetch renamedKey, renamedKey[0] {
+									throw new Exception("Column '" . key . "' is not part of the column map");
+								}
+							}
+
+							let renamed[renamedKey] = value;
+							if this->_fireAfterFetch {
+								let rowObject->{renamedKey} = value;
+							}
 						}
-
-						let renamed[renamedKey] = value;
+						if !this->_fireAfterFetch {
+							let parsedRecords[] = renamed;
+						}
+						else {
+							let parsedRecord = this->_executeClosure(closure, rowObject);
+							// check if afterFetch is adding new records to record, if yes then record original records
+							if !this->_checkedRemoving {
+								let this->_checkedRemoving = false;
+								// we are just using count, i think it's enough and we don't need to use array_keys and compare result of each
+								let countRecord = count(renamed);
+								let countParsedRecord = count(parsedRecord);
+								// if user wants te remove additional columns then remove them using array_intersect_key
+								if countRecord != countParsedRecord {
+									let this->_needsRemoving = true;
+									if this->_keysDifference == null {
+										let this->_keysDifference = array_diff_key(parsedRecord, renamed);
+										// we can save some time by storing keys and then unset them instead of intersect each time
+									}
+								}
+							}
+							if removeAdditionalColumns && this->_needsRemoving {
+								for key, value in this->_keysDifference {
+									unset(parsedRecord[key]);
+								}
+							}
+							let parsedRecords[] = parsedRecord;
+						}
 					}
-
-					/**
-					 * Append the renamed records to the main array
-					 */
-					let renamedRecords[] = renamed;
+					else {
+						let parsedRecord = this->_executeClosure(closure, record);
+						if !this->_checkedRemoving {
+							let this->_checkedRemoving = false;
+							// we are just using count, i think it's enough and we don't need to use array_keys and compare result of each
+							let countRecord = count(record);
+							let countParsedRecord = count(parsedRecord);
+							// if user wants te remove additional columns then remove them using array_intersect_key
+							if countRecord != countParsedRecord {
+								let this->_needsRemoving = true;
+								if this->_keysDifference == null {
+									let this->_keysDifference = array_diff_key(parsedRecord, record);
+									// we can save some time by storing keys and then unset them instead of intersect each time
+								}
+							}
+						}
+						if removeAdditionalColumns && this->_needsRemoving {
+							for key,value in this->_keysDifference {
+								unset(parsedRecord[key]);
+							}
+						}
+						let parsedRecords[] = parsedRecord;
+					}
 				}
 			}
 
-			return renamedRecords;
+			return parsedRecords;
 		}
 
 		return records;
+	}
+
+	private function _executeClosure(<Closure> closure, var record) -> array
+	{
+		var rowObject, objectClosure, arrayObject, arrayCopy, key, value;
+
+		// for some odd reason casting (object)record is casting record to stdclass but it's also changing type record in function above
+		if typeof record == "array" {
+			let rowObject = new \stdclass();
+			for key, value in record {
+				let rowObject->{key} = value;
+			}
+		}
+		else {
+			let rowObject = record;
+		}
+		let objectClosure = closure->bindTo(rowObject);
+		{objectClosure}();
+		// in zephir casting object to array doesn't work, so we need to use ArrayObject, we could possibly save some time if we could just (array)rowObject
+		let arrayObject = new ArrayObject(rowObject);
+		let arrayCopy = arrayObject->getArrayCopy();
+		return arrayCopy;
+	}
+
+	private function _getAfterFetchClosure(object realModel, bool fromEventsManager = false)
+	{
+		var e, reflectionMethod, eventsManager, realModelName, modelsManager, eventsManagerName, closure;
+		try {
+			if !fromEventsManager {
+				let realModelName = get_class(realModel);
+				let reflectionMethod = new ReflectionMethod(realModelName,"afterFetch");
+				let closure = reflectionMethod->getClosure(realModel);
+				let this->_closure = closure;
+				return closure;
+			}
+			let modelsManager = realModel->getModelsManager();
+			if typeof modelsManager == "object" {
+				let eventsManager = modelsManager->getCustomEventsManager(realModel);
+				if typeof eventsManager == "object" {
+					let eventsManagerName = get_class(eventsManager);
+					let reflectionMethod = new ReflectionMethod(eventsManagerName,"afterFetch");
+					let closure = reflectionMethod->getClosure(eventsManager);
+					let this->_closure = closure;
+					return closure;
+				}
+				return null;
+			}
+			return null;
+		}
+		catch ReflectionException, e {
+			if !fromEventsManager {
+				return this->_getAfterFetchClosure(realModel, true);
+			}
+			return null;
+		}
 	}
 
 	/**
@@ -234,9 +420,15 @@ class Simple extends Resultset
 		return serialize([
 			"model"	   : this->_model,
 			"cache"	   : this->_cache,
-			"rows"		: this->toArray(false),
+			"rows"		: this->toArray(false, false),
 			"columnMap"   : this->_columnMap,
-			"hydrateMode" : this->_hydrateMode
+			"hydrateMode" : this->_hydrateMode,
+			"realModel" : this->_realModel,
+			"fireAfterFetch" : this->_fireAfterFetch,
+			"closure" : this->_closure,
+			"keysDifference" : this->_keysDifference,
+			"checkedRemoving" : this->_checkedRemoving,
+			"needsRemoving" : this->_needsRemoving
 		]);
 	}
 
@@ -257,6 +449,12 @@ class Simple extends Resultset
 			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnMap = resultset["columnMap"],
-			this->_hydrateMode = resultset["hydrateMode"];
+			this->_hydrateMode = resultset["hydrateMode"],
+			this->_realModel = resultset["realModel"],
+			this->_fireAfterFetch = resultset["fireAfterFetch"],
+			this->_closure = resultset["closure"],
+			this->_keysDifference = resultset["keysDifference"],
+			this->_checkedRemoving = resultset["checkedRemoving"],
+			this->_needsRemoving = resultset["needsRemoving"];
 	}
 }
