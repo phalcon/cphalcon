@@ -48,7 +48,7 @@ class FilterFloatTest extends Helper\FilterBase
         $this->specify(
             "sanitizing hex with float filter not correct",
             function () {
-                $this->sanitizer('float', '0xFFA', 0xFFA);
+                $this->sanitizer('float', 0xFFA, 0xFFA);
             }
         );
     }

@@ -98,7 +98,7 @@ class FilterIntegerTest extends Helper\FilterBase
         $this->specify(
             "sanitizing hex with int filter not correct",
             function () {
-                $this->sanitizer('int', '0xFFA', 0xFFA);
+                $this->sanitizer('int', 0xFFA, 0xFFA);
             }
         );
     }
