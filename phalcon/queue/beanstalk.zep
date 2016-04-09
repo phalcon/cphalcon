@@ -71,7 +71,7 @@ class Beanstalk
 	 * Default tube name
 	 * @const string
 	 */
-	const DEFAULT_TUBE = 'default';
+	const DEFAULT_TUBE = "default";
 
 	/**
 	 * Default connected host
@@ -87,17 +87,13 @@ class Beanstalk
 
 	/**
 	 * Connection resource
-	 *
 	 * @var resource
 	 */
 	protected _connection;
 
 	/**
-	 * Keys:
-	 * host - beanstalkd connect host
-	 * port - beanstalkd connect port
-	 *
-	 * @var array Description
+	 * Connection options
+	 * @var array
 	 */
 	protected _parameters;
 
@@ -122,6 +118,10 @@ class Beanstalk
 			let parameters["port"] = self::DEFAULT_PORT;
 		}
 
+		if !isset parameters["persistent"]  {
+			let parameters["persistent"] = false;
+		}
+
 		let this->_parameters = parameters;
 	}
 
@@ -130,7 +130,7 @@ class Beanstalk
 	 */
 	public function connect() -> resource
 	{
-		var connection, parameters, persistent, $function;
+		var connection, parameters;
 
 		let connection = this->_connection;
 		if typeof connection == "resource" {
@@ -142,17 +142,11 @@ class Beanstalk
 		/**
 		 * Check if the connection must be persistent
 		 */
-		if fetch persistent, parameters["persistent"] {
-			if persistent {
-				let $function = "pfsockopen";
-			} else {
-				let $function = "fsockopen";
-			}
+		if parameters["persistent"] {
+			let connection = pfsockopen(parameters["host"], parameters["port"], null, null);
 		} else {
-			let $function = "fsockopen";
+			let connection = fsockopen(parameters["host"], parameters["port"], null, null);
 		}
-
-		let connection = {$function}(parameters["host"], parameters["port"], null, null);
 
 		if typeof connection != "resource" {
 			throw new Exception("Can't connect to Beanstalk server");
