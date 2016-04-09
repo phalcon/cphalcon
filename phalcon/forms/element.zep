@@ -44,7 +44,7 @@ abstract class Element implements ElementInterface
 
 	protected _attributes;
 
-	protected _validators;
+	protected _validators = [];
 
 	protected _filters;
 
