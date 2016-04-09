@@ -37,7 +37,7 @@ class Validation extends Injectable implements ValidationInterface
 
 	protected _entity;
 
-	protected _validators { set };
+	protected _validators = [] { set };
 
 	protected _filters;
 
