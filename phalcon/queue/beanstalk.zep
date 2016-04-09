@@ -190,8 +190,7 @@ class Beanstalk
 		 * Create the command
 		 */
 		let length = strlen(serialized);
-		this->write("put " . priority . " " . delay . " " . ttr . " " . length);
-		this->write(serialized);
+		this->write("put " . priority . " " . delay . " " . ttr . " " . length . "\r\n" . serialized);
 
 		let response = this->readStatus();
 		let status = response[0];
