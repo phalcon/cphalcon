@@ -158,11 +158,12 @@ abstract class Element implements ElementInterface
 			let currentValidators = this->_validators;
 			if typeof currentValidators == "array" {
 				let mergedValidators = array_merge(currentValidators, validators);
-			} else {
-				let mergedValidators = validators;
 			}
-			let this->_validators = mergedValidators;
 		}
+		else {
+			let mergedValidators = validators;
+		}
+		let this->_validators = mergedValidators;
 		return this;
 	}
 
