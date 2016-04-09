@@ -30,7 +30,7 @@ use Phalcon\Queue\Beanstalk\Exception;
 class Job
 {
 	/**
-	 * @var integer
+	 * @var string
 	 */
 	protected _id { get };
 
@@ -44,7 +44,7 @@ class Job
 	/**
 	 * Phalcon\Queue\Beanstalk\Job
 	 */
-	public function __construct(<Beanstalk> queue, int id, var body)
+	public function __construct(<Beanstalk> queue, string id, var body)
 	{
 		let this->_queue = queue;
 		let this->_id = id;
