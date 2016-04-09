@@ -66,6 +66,12 @@
 - `Phalcon\Mvc\Model\Manager::load()` now can load models from aliased namespaces
 - `Phalcon\Mvc\Model\Transaction\Manager` now correctly keeps account of transactions [#11554](https://github.com/phalcon/cphalcon/issues/11554)
 - `Phalcon\Db\Dialect\Sqlite` now maps additional column types to SQLite columns equivalents.
+- `Phalcon\Security` is using now `Phalcon\Security\Random`
+- Enforced that `Phalcon\Security::getToken()` and `Phalcon\Security::getTokenKey()` return a random value per request not per call
+- `Phalcon\Security::getToken()` and `Phalcon\Security::getTokenKey()` are using now `Phalcon\Security::_numberBytes` instead of passed as a argument or hardcoded value
+- `Phalcon\Security::hash()` corrected not working CRYPT_STD_DES, CRYPT_EXT_DES, MD5, CRYPT_SHA256
+- `Phalcon\Security::hash()` CRYPT_SHA512 fixed wrong salt length
+- Added missing unit-tests for `Phalcon\Security`
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
