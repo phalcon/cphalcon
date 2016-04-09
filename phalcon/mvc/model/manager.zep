@@ -271,7 +271,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function load(string! modelName, boolean newInstance = false) -> <ModelInterface>
 	{
-		var model;
+		var model, colonPos, namespaceName, namespaceAlias, className;
+
+		/**
+		 * Check if a modelName is an alias
+		 */
+		let colonPos = strpos(modelName, ":");
+
+		if colonPos !== false {
+			let className = substr(modelName,colonPos+1);
+			let namespaceAlias = substr(modelName,0,colonPos);
+			let namespaceName = this->getNamespaceAlias(namespaceAlias);
+			let modelName = namespaceName."\\".className;
+		}
 
 		/**
 		 * Check if a model with the same is already loaded
