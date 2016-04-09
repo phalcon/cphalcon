@@ -420,7 +420,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function hasMessagesFor(string! name) -> boolean
 	{
-		return isset this->_messages[name];
+		return isset this->_messages[name] && this->_messages[name]->count() > 0;
 	}
 
 	/**
