@@ -740,7 +740,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 							var i = 0;
 							let vConditions = [];
 							for vTemp in value {
-								let vConditions[] = "[" . field . "] ".conditionOperador." :" . field . ":", bind[field] = binder . vTemp . binder;
+								let vConditions[] = "[" . field . "] ".conditionOperador." :" . field . i . ":", bind[field. i .] = binder . vTemp . binder;
+                                let i++;
 							}
 							let conditions[] = "(" . join(" OR ", vConditions) . ")";
 						} else {
