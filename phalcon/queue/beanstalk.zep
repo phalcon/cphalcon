@@ -275,7 +275,7 @@ class Beanstalk
 		this->write("ignore " . tube);
 
 		let response = this->readStatus();
-		if(response[0] != "WATCHING") {
+		if response[0] != "WATCHING" {
 			return false;
 		}
 
@@ -292,7 +292,7 @@ class Beanstalk
 		this->write("pause-tube " . tube . " " . delay);
 
 		let response = this->readStatus();
-		if(response[0] != "PAUSED") {
+		if response[0] != "PAUSED" {
 			return false;
 		}
 
@@ -309,7 +309,7 @@ class Beanstalk
 		this->write("kick " . bound);
 
 		let response = this->readStatus();
-		if(response[0] != "KICKED") {
+		if response[0] != "KICKED" {
 			return false;
 		}
 
@@ -377,7 +377,7 @@ class Beanstalk
 		this->write("list-tube-used");
 
 		let response = this->readStatus();
-		if (response[0] != "USING") {
+		if response[0] != "USING" {
 			return false;
 		}
 
@@ -394,7 +394,7 @@ class Beanstalk
 		this->write("list-tubes-watched");
 
 		let response = this->readYaml();
-		if(response[0] != "OK") {
+		if response[0] != "OK" {
 			return false;
 		}
 
@@ -442,12 +442,12 @@ class Beanstalk
 	{
 		var response;
 
-		if (!this->write("peek-delayed")) {
+		if !this->write("peek-delayed") {
 			return false;
 		}
 
 		let response = this->readStatus();
-		if (response[0] != "FOUND") {
+		if response[0] != "FOUND" {
 			return false;
 		}
 
@@ -465,7 +465,7 @@ class Beanstalk
 
 		let response = this->readStatus();
 
-		if (response[0] != "FOUND") {
+		if response[0] != "FOUND" {
 			return false;
 		}
 
