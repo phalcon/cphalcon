@@ -279,7 +279,7 @@ abstract class Text
 	/**
 	 * The callback function used in Phalcon\Text::dynamic to select a random text
 	 */
-	protected function dynamic_replace_callback(matches)
+	public static function dynamic_replace_callback(matches)
 	{
 		var words;
 		let words = explode(this->separator, matches[1]);
