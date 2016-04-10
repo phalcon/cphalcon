@@ -1,19 +1,19 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	 |
+ | with this package in the file docs/LICENSE.txt.						|
+ |																		|
+ | If you did not receive a copy of the license and are unable to		 |
+ | obtain it through the world-wide-web, please send an email			 |
+ | to license@phalconphp.com so we can send you a copy immediately.	   |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						 |
  +------------------------------------------------------------------------+
  */
 
@@ -35,12 +35,12 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  *
  *<code>
  *$robots = Robots::query()
- *    ->where("type = :type:")
- *    ->andWhere("year < 2000")
- *    ->bind(array("type" => "mechanical"))
- *    ->limit(5, 10)
- *    ->orderBy("name")
- *    ->execute();
+ *	->where("type = :type:")
+ *	->andWhere("year < 2000")
+ *	->bind(array("type" => "mechanical"))
+ *	->limit(5, 10)
+ *	->orderBy("name")
+ *	->execute();
  *</code>
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
@@ -111,7 +111,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 				let this->_params["bind"] = bind + bindParams;
 			} else {
 				let this->_params["bind"] = bindParams;
-			}			
+			}
 		} else {
 			let this->_params["bind"] = bindParams;
 		}
@@ -703,7 +703,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <Criteria>
 	{
 		var attribute, conditions, field, value, type, metaData,
-			model, dataTypes, bind, criteria, columnMap;
+			model, dataTypes, bind, criteria, columnMap, vTemp, vConditions, conditionOperador, binder;
 
 		let conditions = [];
 		if count(data) {
@@ -725,22 +725,27 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 				} else {
 					let attribute = field;
 				}
-
 				if fetch type, dataTypes[attribute] {
 					if value !== null && value !== "" {
-
+						let conditionOperador = " LIKE ";
+						let binder = "%";
 						if type == Column::TYPE_VARCHAR {
-							/**
-							 * For varchar types we use LIKE operator
-							 */
-							let conditions[] = "[" . field . "] LIKE :" . field . ":", bind[field] = "%" . value . "%";
-							continue;
+							let conditionOperador = " = ";
+							let binder = "";
 						}
-
 						/**
-						 * For the rest of data types we use a plain = operator
+						 * if we have our value is an array we want to search for more then one paramenter per field
 						 */
-						let conditions[] = "[" . field . "] = :" . field . ":", bind[field] = value;
+						if typeof value == "array" {
+							var i = 0;
+							let vConditions = [];
+							for vTemp in value {
+								let vConditions[] = "[" . field . "] ".conditionOperador." :" . field . ":", bind[field] = binder . vTemp . binder;
+							}
+							let conditions[] = "(" . join(" OR ", vConditions) . ")";
+						} else {
+							let conditions[] = "[" . field . "] ".conditionOperador." :" . field . ":", bind[field] = binder . vTemp . binder;
+						}
 					}
 				}
 			}
