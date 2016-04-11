@@ -33,6 +33,26 @@ class BeanstalkTest extends BeanstalkBase
     const JOB_CLASS = 'Phalcon\Queue\Beanstalk\Job';
 
     /**
+     * Tests Beanstalk connection
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-04-11
+     */
+    public function testShouldConnectAndDisconnect()
+    {
+        $this->specify(
+            "The Beanstalk connection does not work as expected",
+            function () {
+                $this->client->disconnect();
+
+                expect($this->client->disconnect())->false();
+                expect(is_resource($this->client->connect()))->true();
+                expect($this->client->disconnect())->true();
+            }
+        );
+    }
+
+    /**
      * Tests Beanstalk::getBody
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
