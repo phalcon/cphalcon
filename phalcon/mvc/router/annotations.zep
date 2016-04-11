@@ -135,7 +135,7 @@ class Annotations extends Router
 			if memstr(handler, "\\") {
 
 				if namespaceName !== null {
-					handler = namespaceName . "\\" . handler;
+					let handler = namespaceName . "\\" . handler;
 				}
 
 				/**
@@ -148,8 +148,8 @@ class Annotations extends Router
 			} else {
 
 				if namespaceName !== null {
-                    handler = namespaceName . "\\" . handler;
-                }
+                    			let handler = namespaceName . "\\" . handler;
+                		}
 
 				let controllerName = handler;
 			}
