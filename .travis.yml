@@ -64,7 +64,7 @@ before_script:
 script:
   - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
   - vendor/bin/codecept build
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run -v
 
 after_failure:
   - bash tests/_ci/after_failure.sh
