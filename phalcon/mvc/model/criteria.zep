@@ -727,25 +727,25 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 				}
 				if fetch type, dataTypes[attribute] {
 					if value !== null && value !== "" {
-						let conditionOperador = " LIKE ";
-						let binder = "%";
+						let conditionOperador = " = ";
+						let binder = "";
 						if type == Column::TYPE_VARCHAR {
-							let conditionOperador = " = ";
-							let binder = "";
+							let conditionOperador = " LIKE ";
+							let binder = "%%";
 						}
 						/**
 						 * if we have our value is an array we want to search for more then one paramenter per field
 						 */
-						if typeof value == "array" {
+						if typeof value == "array" && count(value) {
 							var i = 0;
 							let vConditions = [];
 							for vTemp in value {
 								let vConditions[] = "[" . field . "] ".conditionOperador." :" . field . i . ":", bind[field. i .] = binder . vTemp . binder;
-                                let i++;
+								let i++;
 							}
 							let conditions[] = "(" . join(" OR ", vConditions) . ")";
 						} else {
-							let conditions[] = "[" . field . "] ".conditionOperador." :" . field . ":", bind[field] = binder . vTemp . binder;
+							let conditions[] = "[" . field . "] ".conditionOperador." :" . field . ":", bind[field] = binder . value . binder;
 						}
 					}
 				}
