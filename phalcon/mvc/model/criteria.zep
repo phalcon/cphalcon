@@ -731,7 +731,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 						let binder = "";
 						if type == Column::TYPE_VARCHAR {
 							let conditionOperador = " LIKE ";
-							let binder = "%%";
+							let binder = "%";
 						}
 						/**
 						 * if we have our value is an array we want to search for more then one paramenter per field
@@ -740,7 +740,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 							var i = 0;
 							let vConditions = [];
 							for vTemp in value {
-								let vConditions[] = "[" . field . "] ".conditionOperador." :" . field . i . ":", bind[field. i .] = binder . vTemp . binder;
+								let vConditions[] = "[" . field . "] ".conditionOperador." :" . field . i . ":", bind[field . i] = binder . vTemp . binder;
 								let i++;
 							}
 							let conditions[] = "(" . join(" OR ", vConditions) . ")";
