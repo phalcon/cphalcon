@@ -126,7 +126,17 @@ class Annotations extends Router
 			 */
 			let handler = scope[1];
 
+			/** 
+			 * Get default namespace
+			 */
+			fetch namespaceName, this->_defaultNamespace;
+
+
 			if memstr(handler, "\\") {
+
+				if namespaceName !== null {
+					handler = namespaceName . "\\" . handler;
+				}
 
 				/**
 				 * Extract the real class name from the namespaced class
@@ -136,8 +146,12 @@ class Annotations extends Router
 				let controllerName = get_class_ns(handler),
 					namespaceName = get_ns_class(handler);
 			} else {
+
+				if namespaceName !== null {
+                    handler = namespaceName . "\\" . handler;
+                }
+
 				let controllerName = handler;
-				fetch namespaceName, this->_defaultNamespace;
 			}
 
 			let this->_routePrefix = null;
@@ -148,13 +162,6 @@ class Annotations extends Router
 			fetch moduleName, scope[2];
 
 			let sufixed = controllerName . controllerSuffix;
-
-			/**
-			 * Add namespace to class if one is set
-			 */
-			if namespaceName !== null {
-				let sufixed = namespaceName . "\\" . sufixed;
-			}
 
 			/**
 			 * Get the annotations from the class

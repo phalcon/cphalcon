@@ -1,14 +1,29 @@
 <?php
 
-namespace MyNamespace\Controllers;
-
-class NamespacedController
+namespace MyNamespace\Controllers 
 {
-	/**
-	 * @Get("/")
-	 */
-	public function indexAction()
+	class NamespacedController
 	{
+		/**
+		 * @Get("/")
+		 */
+		public function indexAction()
+		{
 
+		}
+	}
+}
+
+namespace MyNamespace\Controllers\Users
+{
+	class ManageController
+	{
+		/**
+		 * @Get("/")
+		 */
+		public function indexAction()
+		{
+
+		}
 	}
 }

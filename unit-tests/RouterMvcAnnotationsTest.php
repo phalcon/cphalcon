@@ -153,6 +153,14 @@ class RouterMvcAnnotationsTest extends PHPUnit_Framework_TestCase
 
 		$router = new Phalcon\Mvc\Router\Annotations(false);
 		$router->setDI($this->_getDI());
+		$router->setDefaultNamespace('MyNamespace\Controllers');
+		$router->addResource('Users/Manage', '/users/manage');
+		$router->handle('/users/manage');
+		$this->assertEquals(count($router->getRoutes()), 1);
+
+
+		$router = new Phalcon\Mvc\Router\Annotations(false);
+		$router->setDI($this->_getDI());
 		$router->addResource('MyNamespace\Controllers\Namespaced', '/namespaced');
 		$router->handle('/namespaced/');
 
