@@ -284,9 +284,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 		if count(transactions) {
 			let newTransactions = [];
 			for managedTransaction in transactions {
-				if managedTransaction == transaction {
-					let newTransactions[] = transaction,
-						this->_number--;
+				if managedTransaction != transaction {
+					let newTransactions[] = transaction;
+				}
+				else {
+					let this->_number--;
 				}
 			}
 			let this->_transactions = newTransactions;
