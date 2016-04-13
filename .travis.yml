@@ -48,8 +48,8 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
-  - zephir generate &> /dev/null
-
+  - '[[ "$TRAVIS_PHP_VERSION" == "7" ]] || zephir generate &> /dev/null'
+  - '[[ "$TRAVIS_PHP_VERSION" != "7" ]] || zephir generate --backend=ZendEngine3 &> /dev/null'
 
 before_script:
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
