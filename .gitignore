@@ -30,7 +30,6 @@ build/missing
 build/mkinstalldirs
 build/modules/
 build/phalcon.la
-build/phalcon.lo
 ext/.deps
 ext/Makefile
 ext/Makefile.fragments
@@ -43,15 +42,12 @@ ext/build/
 ext/config.guess
 ext/config.h
 ext/config.h.in
-ext/config.lo
 ext/config.log
 ext/config.nice
 ext/config.status
 ext/config.sub
 ext/config/.libs/
 ext/config/adapter/.libs/
-ext/config/adapter/ini.lo
-ext/config/exception.lo
 ext/configure
 ext/configure.in
 ext/install-sh
@@ -91,7 +87,6 @@ build/32bits/missing
 build/32bits/mkinstalldirs
 build/32bits/modules/
 build/32bits/phalcon.la
-build/32bits/phalcon.lo
 build/32bits/run-tests.php
 build/phalcon.o
 build/64bits/.deps
@@ -146,19 +141,18 @@ build/safe/missing
 build/safe/mkinstalldirs
 build/safe/modules/
 build/safe/phalcon.la
-build/safe/phalcon.lo
 build/safe/run-tests.php
 
 *.o
 *.lo
 *.loT
 *.gch
-.libs
+/.libs
+/ext/.libs
 build/t.dSYM/
 build/install2
 *~
 .DS_Store
-ext/.DS_Store
 .temp/
 composer.lock
 composer.phar
@@ -177,3 +171,4 @@ ext/phalcon/annotations/parser.out
 ext/phalcon/mvc/model/query/lemon
 ext/phalcon/mvc/model/query/parser.out
 /vendor/
+/ide/
