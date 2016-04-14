@@ -82,5 +82,3 @@ addons:
     packages:
       - gdb
       - re2c
-      - language-pack-uk # For Gettext tests
-      - language-pack-de # For Gettext tests
