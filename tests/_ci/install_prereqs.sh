@@ -40,13 +40,25 @@ install_extension() {
    return 0;
 }
 
-install_extension igbinary
 install_extension imagick
-install_extension yaml
-install_extension mongo
-enable_extension memcache
 enable_extension memcached
 
+case ${PHP_VER} in
+    "7.0")
+        # Beta version of yaml extension works on 7.0
+        install_extension yaml beta
+        # todo: compile igbinary for 7.0
+        ;;
+    "*")
+        install_extension yaml
+        # no memcache or mongo on 7.0
+        enable_extension memcache
+        install_extension mongo
+        # igbinary needs to be compiled for 7.0
+        install_extension igbinary
+        ;;
+esac
+ 
 case ${PHP_VER} in
     "5.4")
         install_extension apc
