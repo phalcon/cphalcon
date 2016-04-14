@@ -15,6 +15,9 @@
     "optimizer-dirs": [
         "optimizers"
     ],
+    "prototype-dir": {
+        "php7": "prototypes/php7"
+    },
     "constants-sources": [
         "ext/phalcon/mvc/model/query/scanner.h",
         "ext/phalcon/annotations/scanner.h",

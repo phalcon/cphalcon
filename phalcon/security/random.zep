@@ -311,8 +311,13 @@ class Random
 			throw new Exception("Require a positive integer > 0");
 		}
 
+		if function_exists("random_int") {
+			return random_int(0, len);
+		}
+
 		if function_exists("\\Sodium\\randombytes_uniform") {
-			return \\Sodium\\randombytes_uniform(len);
+			// \Sodium\randombytes_uniform will return a random integer between 0 and len - 1
+			return \\Sodium\\randombytes_uniform(len) + 1;
 		}
 
 		let hex = dechex(len);
