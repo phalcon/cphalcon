@@ -30,18 +30,16 @@ class FilterCustomTest extends Helper\FilterBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-30
      */
-    public function testSanitizeCustomIPv4FilterHex()
+    public function testSanitizeCustomIpv4FilterHex()
     {
         $this->specify(
             "custom filter does not return correct hex",
             function () {
-
                 $filter = new Filter();
 
                 $filter->add('ipv4', new IPv4());
 
-                $actual   = $filter->sanitize('00:1c:42:bf:71:22', 'ipv4');
-                expect($actual)->isEmpty();
+                expect($filter->sanitize('00:1c:42:bf:71:22', 'ipv4'))->isEmpty();
             }
         );
     }
@@ -52,7 +50,7 @@ class FilterCustomTest extends Helper\FilterBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-30
      */
-    public function testSanitizeCustomIPv4FilterIP()
+    public function testSanitizeCustomIpv4FilterIP()
     {
         $this->specify(
             "custom filter does not return correct IP",
@@ -126,5 +124,31 @@ class FilterCustomTest extends Helper\FilterBase
                 expect($actual)->equals($expected);
             }
         );
+    }
+
+    /**
+     * Tests a custom callable filter
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-04-15
+     * @issue  11581
+     */
+    public function testSanitizeCustomCallableFilterIp()
+    {
+        $this->specify(
+            "callable filter does not return correct IP",
+            function () {
+                $filter = new Filter();
+
+                $filter->add('ipv4', [$this, 'ipv4callback']);
+
+                expect($filter->sanitize('127.0.0.1', 'ipv4'))->equals('127.0.0.1');
+            }
+        );
+    }
+
+    public function ipv4callback($value)
+    {
+        return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
 }
