@@ -58,7 +58,7 @@ class BeanstalkTest extends BeanstalkBase
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
-    public function testBeanstalk()
+    public function testShouldGetBody()
     {
         $this->specify(
             "The getBody method does not return expected message",
@@ -83,7 +83,7 @@ class BeanstalkTest extends BeanstalkBase
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-17
      */
-    public function testChoose()
+    public function testShouldChooseTube()
     {
         $this->specify(
             "Unable to change the active tube",
@@ -100,7 +100,7 @@ class BeanstalkTest extends BeanstalkBase
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2015-05-11
      */
-    public function testStats()
+    public function testShouldGetStats()
     {
         $this->specify(
             "Unable get status",
@@ -121,7 +121,7 @@ class BeanstalkTest extends BeanstalkBase
         );
     }
 
-    public function testReleaseKickBury()
+    public function testShouldReleaseKickAndBury()
     {
         $this->specify(
             "Incorrect work with job queue",
@@ -196,7 +196,7 @@ class BeanstalkTest extends BeanstalkBase
     /**
      * choose -> put -> watch -> reserve -> delete
      *
-     * @depends testShouldChoose
+     * @depends testShouldChooseTube
      * @depends testShouldWatch
      *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
@@ -239,7 +239,7 @@ class BeanstalkTest extends BeanstalkBase
      *
      * @todo bad test, but have so far
      *
-     * @depends testShouldChoose
+     * @depends testShouldChooseTube
      * @depends testShouldWatch
      *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
@@ -262,7 +262,7 @@ class BeanstalkTest extends BeanstalkBase
      * many tubes watch
      * choose -> put -> choose -> put -> watch,watch -> reserve -> delete
      *
-     * @depends testShouldChoose
+     * @depends testShouldChooseTube
      * @depends testShouldWatch
      *
      * @author Dmitry Korolev <chameleonweb2012@gmail.com>
