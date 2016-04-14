@@ -26,5 +26,5 @@ extensions:
         - Codeception\Extension\RunFailed
 
 params:
-    # get params drom environment vars
+    # get params from environment vars
     - env
