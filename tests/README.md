@@ -163,9 +163,6 @@ You must not create protected or private methods.
 
 ## Help
 
-**Note:** Your system will **only** support the locales installed on your OS, in the **exact** format given by your OS.
-For Gettext tests you must have all locales installed that you use in tests. See `locale -a`
-
 **Note:** Cache unit-tests are slower than others tests because they use wait states (sleep command) to expire generated caches.
 
 The file `.travis.yml` contains full instructions to test Phalcon Framework on Ubuntu 12+
