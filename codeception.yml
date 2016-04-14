@@ -24,12 +24,7 @@ coverage:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-modules:
-    config:
-        Db:
-            dsn: 'mysql:host=localhost;dbname=phalcon_test'
-            user: 'root'
-            password: ''
-            populate: true
-            cleanup: false
-            dump: tests/_data/schemas/mysql/mysql.dump.sql
+
+params:
+    # get params drom environment vars
+    - env

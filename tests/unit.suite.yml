@@ -13,3 +13,14 @@ modules:
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
+        Db:
+            # get params drom environment vars
+            # Create it before running tests. For example:
+            # export TEST_DB_MYSQL_DSN="mysql:host=10.1.0.3.;dbname=phalcon_test"
+            # ...
+            dsn: %TEST_DB_MYSQL_DSN%
+            user: %TEST_DB_MYSQL_USER%
+            password: %TEST_DB_MYSQL_PASSWD%
+            populate: true
+            cleanup: false
+            dump: tests/_data/schemas/mysql/mysql.dump.sql
