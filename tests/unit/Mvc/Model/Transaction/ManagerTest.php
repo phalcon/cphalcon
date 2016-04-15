@@ -2,13 +2,14 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\Transaction;
 
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Test\Models\Select;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Mvc\Model\Transaction\Failed;
+use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager;
 
 /**
- * \Phalcon\Test\Unit\Mvc\CollectionTest
- * Tests the Phalcon\Mvc\Collection component
+ * \Phalcon\Test\Unit\Mvc\Model\Transaction\Manager
+ * Tests the Phalcon\Mvc\Model\Transaction\Manager component
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -35,23 +36,26 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Test does not remove transaction when rolled back",
             function () {
-                $tm = new TransactionManager();
+                $tm = new Manager;
+
                 $transaction = $tm->get(true);
+
                 $select = new Select();
                 $select->setTransaction($transaction);
-                $select->create(
-                    array(
-                        'name' => 'Crack of Dawn'
-                    )
-                );
-                expect($tm->count())->equals(1);
-                expect(count($tm->getTransactions()))->equals(1);
+                $select->create(['name' => 'Crack of Dawn']);
+
+
+                expect($this->tester->getProtectedProperty($tm, '_number'))->equals(1);
+                expect($this->tester->getProtectedProperty($tm, '_transactions'))->count(1);
+
                 try {
                     $transaction->rollback();
+                } catch(Failed $e) {
+                    // do nothing
                 }
-                catch(\Phalcon\Mvc\Model\Transaction\Failed $e) {}
-                expect($tm->count())->equals(0);
-                expect(count($tm->getTransactions()))->equals(0);
+
+                expect($this->tester->getProtectedProperty($tm, '_number'))->equals(0);
+                expect($this->tester->getProtectedProperty($tm, '_transactions'))->count(0);
             }
         );
     }
@@ -67,20 +71,21 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Test does not remove transaction when committed",
             function () {
-                $tm = new TransactionManager();
+                $tm = new Manager;
+
                 $transaction = $tm->get(true);
+
                 $select = new Select();
                 $select->setTransaction($transaction);
-                $select->create(
-                    array(
-                        'name'   => 'Crack of Dawn'
-                    )
-                );
-                expect($tm->count())->equals(1);
-                expect(count($tm->getTransactions()))->equals(1);
+                $select->create(['name' => 'Crack of Dawn']);
+
+                expect($this->tester->getProtectedProperty($tm, '_number'))->equals(1);
+                expect($this->tester->getProtectedProperty($tm, '_transactions'))->count(1);
+
                 $transaction->commit();
-                expect($tm->count())->equals(0);
-                expect(count($tm->getTransactions()))->equals(0);
+
+                expect($this->tester->getProtectedProperty($tm, '_number'))->equals(0);
+                expect($this->tester->getProtectedProperty($tm, '_transactions'))->count(0);
             }
         );
     }
