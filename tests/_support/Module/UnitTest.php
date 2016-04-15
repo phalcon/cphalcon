@@ -2,9 +2,9 @@
 
 namespace Phalcon\Test\Module;
 
-use Codeception\TestCase\Test;
 use UnitTester;
 use Codeception\Specify;
+use Codeception\Test\Unit;
 
 /**
  * \Phalcon\Test\Module\UnitTest.php
@@ -23,7 +23,7 @@ use Codeception\Specify;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class UnitTest extends Test
+class UnitTest extends Unit
 {
     use Specify;
 

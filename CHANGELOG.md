@@ -72,6 +72,7 @@
 - `Phalcon\Security::hash()` corrected not working CRYPT_STD_DES, CRYPT_EXT_DES, MD5, CRYPT_SHA256
 - `Phalcon\Security::hash()` CRYPT_SHA512 fixed wrong salt length
 - Added missing unit-tests for `Phalcon\Security`
+- Fixed `Filter::add` method handler [#11581](https://github.com/phalcon/cphalcon/issues/11581)
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)

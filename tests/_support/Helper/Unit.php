@@ -43,6 +43,15 @@ class Unit extends Module
     {
     }
 
+    public function getProtectedProperty($obj, $prop)
+    {
+        $reflection = new \ReflectionClass($obj);
+        $property = $reflection->getProperty($prop);
+        $property->setAccessible(true);
+
+        return $property->getValue($obj);
+    }
+
     /**
      * Returns a unique file name
      *
