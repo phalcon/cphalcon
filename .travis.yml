@@ -57,6 +57,7 @@ before_script:
   - php --ri phalcon
   - phpenv config-add tests/_ci/redis.ini # after compilation Zephir and Phalcon
   - php -m
+  - pecl list
   - ulimit -c unlimited -S || true
   - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   - stty cols 160
