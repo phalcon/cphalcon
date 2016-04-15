@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 DIR=$(readlink -enq $(dirname $0))
-PHP_VER=$(php -r 'echo substr(PHP_VERSION, 0, 3);');
-CFLAGS="-g0 -O0 -std=gnu90";
+CFLAGS="-O2 -g3 -fno-strict-aliasing -std=gnu90";
 
 pecl channel-update pecl.php.net
 
@@ -47,13 +46,12 @@ install_extension mongo
 enable_extension memcache
 enable_extension memcached
 
-case ${PHP_VER} in
-    "5.4")
-        install_extension apc
-        ;;
-    "*")
-        install_extension apcu beta
-        ;;
-esac
+if [ ${TRAVIS_PHP_VERSION} = "5.4" ]; then
+    ( printf "\n" | pecl upgrade apc &> /dev/null; enable_extension apc ) &
+elif [ ${TRAVIS_PHP_VERSION} = "7" ]; then
+    ( pecl config-set preferred_state beta; printf "\n" | pecl install -a apcu &> /dev/null && enable_extension apcu ) &
+else
+    ( printf "\n" | pecl install -a apcu-4.0.10 &> /dev/null; enable_extension apcu ) &
+fi
 
 wait

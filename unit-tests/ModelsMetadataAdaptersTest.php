@@ -195,6 +195,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataApc()
 	{
+		$this->markTestSkipped('Test skipped');
+
 		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
@@ -238,6 +240,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 	public function testMetadataXcache()
 	{
+		$this->markTestSkipped('Test skipped');
 		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');
