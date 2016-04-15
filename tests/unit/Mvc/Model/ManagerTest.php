@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wojtek
- * Date: 2016-04-09
- * Time: 20:03
- */
 
 namespace Phalcon\Test\Unit\Mvc\Model;
 
@@ -40,14 +34,12 @@ class ManagerTest extends UnitTest
     protected function _before()
     {
         parent::_before();
-        $module = $this->getModule('Phalcon');
 
         /** @var \Phalcon\Mvc\Application $app */
-        $app = $module->getApplication();
-
+        $app = $this->tester->getApplication();
         $this->modelsManager = $app->getDI()->getShared('modelsManager');
     }
-    
+
     public function testAliasedNamespacesRelations()
     {
         $this->specify(
