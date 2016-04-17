@@ -10,14 +10,14 @@ use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 
 /**
- * \Phalcon\Test\Unit\Mvc\ApplicationCest
+ * \Phalcon\Test\Integration\Mvc\ApplicationCest
  * Tests the Phalcon\Mvc\Application component
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc
+ * @package   Phalcon\Test\Integration\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
