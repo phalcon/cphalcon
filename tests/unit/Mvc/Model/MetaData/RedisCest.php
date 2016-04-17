@@ -5,11 +5,11 @@ namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
 use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Xcache;
+use Phalcon\Test\Proxy\Mvc\Model\Metadata\Redis;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\Metadata\XcacheCest
- * Tests the \Phalcon\Mvc\Model\Metadata\Xcache component
+ * \Phalcon\Test\Unit\Mvc\Model\Metadata\RedisCest
+ * Tests the \Phalcon\Mvc\Model\Metadata\Redis component
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -24,32 +24,31 @@ use Phalcon\Test\Proxy\Mvc\Model\Metadata\Xcache;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class XcacheCest
+class RedisCest
 {
     private $data;
 
     public function _before(UnitTester $I)
     {
-        if (!function_exists('xcache_get')) {
+        if (!extension_loaded('redis')) {
             throw new \PHPUnit_Framework_SkippedTestError(
-                'Warning: xcache extension is not loaded'
+                'Warning: redis extension is not loaded'
             );
         }
 
         $I->haveServiceInDi('modelsMetadata', function() {
-            return new Xcache([
-                'prefix'   => 'app\\',
-                'lifetime' => 60
+            return new Redis([
+                'host' => TEST_RS_HOST,
+                'port' => TEST_RS_PORT
             ]);
         }, true);
 
         $this->data = require PATH_FIXTURES . 'metadata/robots.php';
-        xcache_unset('$PMM$app\\');
     }
 
-    public function xcache(UnitTester $I)
+    public function redis(UnitTester $I)
     {
-        $I->wantTo('fetch metadata from xcache cache');
+        $I->wantTo('fetch metadata from redis database');
 
         /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
         $md = $I->grabServiceFromDi('modelsMetadata');
@@ -59,8 +58,8 @@ class XcacheCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], xcache_get('$PMM$app\meta-phalcon\test\models\robots-robots'));
-        $I->assertEquals($this->data['map-robots'], xcache_get('$PMM$app\map-phalcon\test\models\robots'));
+        $I->assertEquals($this->data['meta-robots-robots'], $md->read("meta-phalcon\\test\\models\\robots-robots"));
+        $I->assertEquals($this->data['map-robots'], $md->read("map-phalcon\\test\\models\\robots"));
 
         $I->assertFalse($md->isEmpty());
 

@@ -5,11 +5,11 @@ namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
 use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Xcache;
+use Phalcon\Test\Proxy\Mvc\Model\Metadata\Files;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\Metadata\XcacheCest
- * Tests the \Phalcon\Mvc\Model\Metadata\Xcache component
+ * \Phalcon\Test\Unit\Mvc\Model\Metadata\FilesCest
+ * Tests the \Phalcon\Mvc\Model\Metadata\Files component
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -24,32 +24,24 @@ use Phalcon\Test\Proxy\Mvc\Model\Metadata\Xcache;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class XcacheCest
+class FilesCest
 {
     private $data;
 
     public function _before(UnitTester $I)
     {
-        if (!function_exists('xcache_get')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
-                'Warning: xcache extension is not loaded'
-            );
-        }
-
         $I->haveServiceInDi('modelsMetadata', function() {
-            return new Xcache([
-                'prefix'   => 'app\\',
-                'lifetime' => 60
+            return new Files([
+                'metaDataDir' => PATH_CACHE,
             ]);
         }, true);
 
         $this->data = require PATH_FIXTURES . 'metadata/robots.php';
-        xcache_unset('$PMM$app\\');
     }
 
-    public function xcache(UnitTester $I)
+    public function files(UnitTester $I)
     {
-        $I->wantTo('fetch metadata from xcache cache');
+        $I->wantTo('fetch metadata from file cache');
 
         /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
         $md = $I->grabServiceFromDi('modelsMetadata');
@@ -59,12 +51,20 @@ class XcacheCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], xcache_get('$PMM$app\meta-phalcon\test\models\robots-robots'));
-        $I->assertEquals($this->data['map-robots'], xcache_get('$PMM$app\map-phalcon\test\models\robots'));
+        $I->amInPath(PATH_CACHE);
+
+        $I->seeFileFound('meta-phalcon_test_models_robots-robots.php');
+        $I->assertEquals($this->data['meta-robots-robots'], require PATH_CACHE . 'meta-phalcon_test_models_robots-robots.php');
+
+        $I->seeFileFound('map-phalcon_test_models_robots.php');
+        $I->assertEquals($this->data['map-robots'], require PATH_CACHE . 'map-phalcon_test_models_robots.php');
 
         $I->assertFalse($md->isEmpty());
 
         $md->reset();
         $I->assertTrue($md->isEmpty());
+
+        $I->deleteFile('meta-phalcon_test_models_robots-robots.php');
+        $I->deleteFile('map-phalcon_test_models_robots.php');
     }
 }
