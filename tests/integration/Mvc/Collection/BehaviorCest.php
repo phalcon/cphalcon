@@ -2,47 +2,18 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
-use Mongo;
-use MongoClient;
-use Phalcon\Di;
+use Helper\Collection;
 use IntegrationTester;
 use Phalcon\Test\Collections\Subs;
-use Phalcon\Mvc\Collection\Manager;
 
 class BehaviorCest
 {
-    /**
-     * Executed before each test
-     *
-     * @param IntegrationTester $I
-     */
-    public function _before(IntegrationTester $I)
-    {
-        if (!extension_loaded('mongo')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
-                'Warning: mongo extension is not loaded'
-            );
-        }
-
-        $I->haveServiceInDi('mongo', function() {
-            $dsn = sprintf('mongodb://%s:%s', TEST_DB_MONGO_HOST, TEST_DB_MONGO_PORT);
-
-            if (class_exists('MongoClient')) {
-                $mongo = new MongoClient($dsn);
-            } else {
-                $mongo = new Mongo($dsn);
-            }
-
-            return $mongo->selectDB(TEST_DB_MONGO_NAME);
-        }, true);
-
-        $I->haveServiceInDi('collectionManager', function() {
-            return new Manager();
-        }, true);
-    }
+    use Collection;
 
     public function behaviors(IntegrationTester $I)
     {
+        $this->setupMongo($I);
+
         $I->wantToTest('using behaviors with collections');
 
         // Timestampable
