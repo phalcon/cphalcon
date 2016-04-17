@@ -52,8 +52,8 @@ class MemcacheCest
 
         /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
         $md = $I->grabServiceFromDi('modelsMetadata');
-        $md->reset();
 
+        $md->reset();
         $I->assertTrue($md->isEmpty());
 
         Robots::findFirst();
