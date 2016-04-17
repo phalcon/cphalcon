@@ -18,74 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-require_once 'helpers/xcache.php';
-
 class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 {
-
-	private $_data = array(
-		'meta-robots-robots' => array(
-			0 => array(
-				0 => 'id',
-				1 => 'name',
-				2 => 'type',
-				3 => 'year',
-				4 => 'datetime',
-				5 => 'text'
-			),
-			1 => array(
-				0 => 'id',
-			),
-			2 => array(
-				0 => 'name',
-				1 => 'type',
-				2 => 'year',
-				3 => 'datetime',
-				4 => 'text'
-			),
-			3 => array(
-				0 => 'id',
-				1 => 'name',
-				2 => 'type',
-				3 => 'year',
-				4 => 'datetime',
-				5 => 'text'
-			),
-			4 => array(
-				'id' => 0,
-				'name' => 2,
-				'type' => 2,
-				'year' => 0,
-				'datetime' => 4,
-				'text' => 6
-			),
-			5 => array(
-				'id' => true,
-				'year' => true,
-			),
-			8 => 'id',
-			9 => array(
-				'id' => 1,
-				'name' => 2,
-				'type' => 2,
-				'year' => 1,
-				'datetime' => 2,
-				'text' => 2
-			),
-			10 => array(),
-			11 => array(),
-			12 => array(
-				'type' => 'mechanical',
-				'year' => 1900
-			),
-			13 => array(),
-		),
-		'map-robots' => array(
-			0 => null,
-			1 => null,
-		)
-	);
-
 	public function __construct()
 	{
 		spl_autoload_register(array($this, 'modelsAutoloader'));
@@ -144,46 +78,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($metaData->isEmpty());
 
 		Robots::findFirst();
-
-		$this->assertFalse($metaData->isEmpty());
-
-		$metaData->reset();
-		$this->assertTrue($metaData->isEmpty());
-
-		Robots::findFirst();
-	}
-
-	public function testMetadataSession()
-	{
-		@session_start();
-
-		require __DIR__ . '/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		$di = $this->_getDI();
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Session(array(
-				'prefix' => 'my-local-app'
-			));
-		});
-
-		$metaData = $di->getShared('modelsMetadata');
-
-		$metaData->reset();
-
-		$this->assertTrue($metaData->isEmpty());
-
-		Robots::findFirst();
-
-		$expectedSession = array(
-			'$PMM$my-local-app' => $this->_data
-		);
-
-		$this->assertEquals($_SESSION, $expectedSession);
 
 		$this->assertFalse($metaData->isEmpty());
 
