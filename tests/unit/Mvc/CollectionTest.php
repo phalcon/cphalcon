@@ -2,11 +2,9 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Mongo;
-use MongoClient;
+use Helper\Collection;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Collections\Songs;
-use Phalcon\Mvc\Collection\Manager as CollectionManager;
 
 /**
  * \Phalcon\Test\Unit\Mvc\CollectionTest
@@ -27,6 +25,8 @@ use Phalcon\Mvc\Collection\Manager as CollectionManager;
  */
 class CollectionTest extends UnitTest
 {
+    use Collection;
+
     /**
      * executed before each test
      */
@@ -34,25 +34,7 @@ class CollectionTest extends UnitTest
     {
         parent::_before();
 
-        if (!extension_loaded('mongo')) {
-            $this->markTestSkipped('Warning: mongo extension is not loaded');
-        }
-
-        $this->tester->haveServiceInDi('mongo', function() {
-            $dsn = sprintf('mongodb://%s:%s', TEST_DB_MONGO_HOST, TEST_DB_MONGO_PORT);
-
-            if (class_exists('MongoClient')) {
-                $mongo = new MongoClient($dsn);
-            } else {
-                $mongo = new Mongo($dsn);
-            }
-
-            return $mongo->selectDB(TEST_DB_MONGO_NAME);
-        }, true);
-
-        $this->tester->haveServiceInDi('collectionManager', function() {
-            return new CollectionManager();
-        }, true);
+        $this->setupMongo($this->tester);
     }
 
     /**
