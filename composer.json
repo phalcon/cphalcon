@@ -32,6 +32,7 @@
     "autoload-dev": {
         "psr-4": {
             "Phalcon\\Test\\Unit\\": "tests/unit/",
+            "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Proxy\\": "tests/_proxies/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/"
         }
