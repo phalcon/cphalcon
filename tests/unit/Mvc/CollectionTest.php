@@ -38,13 +38,7 @@ class CollectionTest extends UnitTest
             $this->markTestSkipped('Warning: mongo extension is not loaded');
         }
 
-        /** @var \Codeception\Module\Phalcon $module */
-        $module = $this->getModule('Phalcon');
-
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $module->getApplication();
-
-        $app->getDI()->setShared('mongo', function() {
+        $this->tester->haveServiceInDi('mongo', function() {
             $dsn = sprintf('mongodb://%s:%s', TEST_DB_MONGO_HOST, TEST_DB_MONGO_PORT);
 
             if (class_exists('MongoClient')) {
@@ -54,11 +48,11 @@ class CollectionTest extends UnitTest
             }
 
             return $mongo->selectDB(TEST_DB_MONGO_NAME);
-        });
+        }, true);
 
-        $app->getDI()->setShared('collectionManager', function() {
+        $this->tester->haveServiceInDi('collectionManager', function() {
             return new CollectionManager();
-        });
+        }, true);
     }
 
     /**
