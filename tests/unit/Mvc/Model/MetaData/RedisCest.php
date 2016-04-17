@@ -36,14 +36,12 @@ class RedisCest
             );
         }
 
-        /** @var \Phalcon\Di\FactoryDefault $di */
-        $di = $I->getApplication()->getDI();
-        $di->setShared('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function() {
             return new Redis([
                 'host' => TEST_RS_HOST,
                 'port' => TEST_RS_PORT
             ]);
-        });
+        }, true);
 
         $this->data = require PATH_FIXTURES . 'metadata/robots.php';
     }
@@ -52,12 +50,8 @@ class RedisCest
     {
         $I->wantTo('fetch metadata from redis database');
 
-        /**
-         * @var \Phalcon\Di\FactoryDefault $di
-         * @var \Phalcon\Mvc\Model\MetaData\Apc $md
-         */
-        $di = Di::getDefault();
-        $md = $di->get('modelsMetadata');
+        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        $md = $I->grabServiceFromDi('modelsMetadata');
         $md->reset();
 
         $I->assertTrue($md->isEmpty());

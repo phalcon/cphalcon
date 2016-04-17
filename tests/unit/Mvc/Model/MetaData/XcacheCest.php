@@ -36,14 +36,12 @@ class XcacheCest
             );
         }
 
-        /** @var \Phalcon\Di\FactoryDefault $di */
-        $di = $I->getApplication()->getDI();
-        $di->setShared('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function() {
             return new Xcache([
                 'prefix'   => 'app\\',
                 'lifetime' => 60
             ]);
-        });
+        }, true);
 
         $this->data = require PATH_FIXTURES . 'metadata/robots.php';
         xcache_unset('$PMM$app\\');
@@ -53,12 +51,8 @@ class XcacheCest
     {
         $I->wantTo('fetch metadata from xcache cache');
 
-        /**
-         * @var \Phalcon\Di\FactoryDefault $di
-         * @var \Phalcon\Mvc\Model\MetaData\Xcache $md
-         */
-        $di = Di::getDefault();
-        $md = $di->get('modelsMetadata');
+        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        $md = $I->grabServiceFromDi('modelsMetadata');
         $md->reset();
 
         $I->assertTrue($md->isEmpty());
