@@ -10,18 +10,10 @@ class BehaviorCest
 {
     use Collection;
 
-    /**
-     * Executed before each test
-     *
-     * @param IntegrationTester $I
-     */
-    public function _before(IntegrationTester $I)
-    {
-        $this->setupMongo($I);
-    }
-
     public function behaviors(IntegrationTester $I)
     {
+        $this->setupMongo($I);
+
         $I->wantToTest('using behaviors with collections');
 
         // Timestampable
