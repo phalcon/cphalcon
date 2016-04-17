@@ -314,45 +314,4 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 	}
-
-	public function testMetadataRedis()
-	{
-		require __DIR__ . '/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		if (!extension_loaded('redis')) {
-			$this->markTestSkipped('Warning: redis extension is not loaded');
-			return;
-		}
-
-		$di = $this->_getDI();
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Redis(array(
-				"host" => "localhost",
-				"port" => "6379"
-			));
-		});
-
-		$metaData = $di->getShared('modelsMetadata');
-
-		$metaData->reset();
-
-		$this->assertTrue($metaData->isEmpty());
-
-		Robots::findFirst();
-
-		$this->assertEquals($metaData->read("meta-robots-robots"), $this->_data['meta-robots-robots']);
-		$this->assertEquals($metaData->read("map-robots"), $this->_data['map-robots']);
-
-		$this->assertFalse($metaData->isEmpty());
-
-		$metaData->reset();
-		$this->assertTrue($metaData->isEmpty());
-
-		Robots::findFirst();
-	}
 }
