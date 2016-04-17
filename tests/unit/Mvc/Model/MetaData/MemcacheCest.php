@@ -5,11 +5,11 @@ namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
 use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Libmemcached;
+use Phalcon\Test\Proxy\Mvc\Model\Metadata\Memcache;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\Metadata\LibmemcachedCest
- * Tests the \Phalcon\Mvc\Model\Metadata\Libmemcached component
+ * \Phalcon\Test\Unit\Mvc\Model\Metadata\MemcacheCest
+ * Tests the \Phalcon\Mvc\Model\Metadata\Memcache component
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -24,27 +24,22 @@ use Phalcon\Test\Proxy\Mvc\Model\Metadata\Libmemcached;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class LibmemcachedCest
+class MemcacheCest
 {
     private $data;
 
     public function _before(UnitTester $I)
     {
-        if (!class_exists('Memcached')) {
+        if (!class_exists('Memcache')) {
             throw new \PHPUnit_Framework_SkippedTestError(
-                'Warning: Memcached class does not exist, test skipped'
+                'Warning: Memcache class does not exist, test skipped'
             );
         }
 
         $I->haveServiceInDi('modelsMetadata', function() {
-            return new Libmemcached([
-                'servers' => [
-                    [
-                        'host'   => TEST_MC_HOST,
-                        'port'   => TEST_MC_PORT,
-                        'weight' => 1,
-                    ]
-                ]
+            return new Memcache([
+                'host' => TEST_MC_HOST,
+                'port' => TEST_MC_PORT
             ]);
         }, true);
 
