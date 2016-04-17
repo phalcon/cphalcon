@@ -192,39 +192,4 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 	}
-
-	public function testMetadataFiles()
-	{
-		require __DIR__ . '/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped('Test skipped');
-			return;
-		}
-
-		$di = $this->_getDI();
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Files(array(
-				'metaDataDir' => __DIR__ . '/cache/',
-			));
-		});
-
-		$metaData = $di->getShared('modelsMetadata');
-
-		$metaData->reset();
-
-		$this->assertTrue($metaData->isEmpty());
-
-		Robots::findFirst();
-
-		$this->assertEquals(require __DIR__ . '/cache/meta-robots-robots.php', $this->_data['meta-robots-robots']);
-		$this->assertEquals(require __DIR__ . '/cache/map-robots.php', $this->_data['map-robots']);
-
-		$this->assertFalse($metaData->isEmpty());
-
-		$metaData->reset();
-		$this->assertTrue($metaData->isEmpty());
-
-		Robots::findFirst();
-	}
 }
