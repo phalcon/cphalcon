@@ -69,6 +69,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _conditions;
 
+	/**
+	 * @var array
+	 */
 	protected _group;
 
 	protected _having;
@@ -204,7 +207,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Assign GROUP clause
 			 */
 			if fetch groupClause, params["group"] {
-				let this->_group = groupClause;
+				this->groupBy(groupClause);
 			}
 
 			/**
@@ -983,7 +986,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function groupBy(var group) -> <Builder>
 	{
+		if typeof group == "string" {
+			let group = [group];
+		}
+
 		let this->_group = group;
+
 		return this;
 	}
 
