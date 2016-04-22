@@ -1075,7 +1075,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						let attributeField = firstPrimaryKey;
 					}
 
-					let conditions = "[" . model . "].[" . attributeField . "] = " . conditions,
+					let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = " . conditions,
 						noPrimary = false;
 				}
 			}
@@ -1112,11 +1112,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					if typeof columnAlias == "integer" {
 						let selectedColumns[] = column;
 					} else {
-						if memstr(columnAlias, "[") {
-							let selectedColumns[] = column . " AS " . columnAlias;
-						} else {
-							let selectedColumns[] = column . " AS [" . columnAlias . "]";
-						}
+						let selectedColumns[] = column . " AS " . this->autoescape(columnAlias);
 					}
 				}
 
@@ -1136,16 +1132,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let selectedColumns = [];
 				for modelColumnAlias, model in models {
 					if typeof modelColumnAlias == "integer" {
-						let selectedColumn = "[" . model . "].*";
+						let selectedColumn = this->autoescape(model) . ".*";
 					} else {
-						let selectedColumn = "[" . modelColumnAlias . "].*";
+						let selectedColumn = this->autoescape(modelColumnAlias) . ".*";
 					}
 					let selectedColumns[] = selectedColumn;
 				}
 
 				let phql .= join(", ", selectedColumns);
 			} else {
-				let phql .= "[" . models . "].*";
+				let phql .= this->autoescape(models) . ".*";
 			}
 		}
 
@@ -1158,17 +1154,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			for modelAlias, model in models {
 
 				if typeof modelAlias == "string" {
-					if memstr(model, "[") {
-						let selectedModel = model . " AS [" . modelAlias . "]";
-					} else {
-						let selectedModel = "[" . model . "] AS [" . modelAlias . "]";
-					}
+					let selectedModel = this->autoescape(model) . " AS " . this->autoescape(modelAlias);
 				} else {
-					if memstr(model, "[") {
-						let selectedModel = model;
-					} else {
-						let selectedModel = "[" . model . "]";
-					}
+					let selectedModel = this->autoescape(model);
 				}
 
 				let selectedModels[] = selectedModel;
@@ -1177,12 +1165,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			let phql .= " FROM " . join(", ", selectedModels);
 
 		} else {
-
-			if memstr(models, "[") {
-				let phql .= " FROM " . models . "";
-			} else {
-				let phql .= " FROM [" . models . "]";
-			}
+			let phql .= " FROM " . this->autoescape(models);
 		}
 
 		/**
@@ -1217,24 +1200,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				 * Create the join according to the type
 				 */
 				if joinType {
-					if memstr(joinModel, "[") {
-						let phql .= " " . joinType . " JOIN " . joinModel;
-					} else {
-						let phql .= " " . joinType . " JOIN [" . joinModel . "]";
-					}
+					let phql .= " " . joinType . " JOIN " . this->autoescape(joinModel);
 				} else {
-					if memstr(joinModel, "[") {
-						let phql .= " JOIN " . joinModel . "";
-					} else {
-						let phql .= " JOIN [" . joinModel . "]";
-					}
+					let phql .= " JOIN " . this->autoescape(joinModel);
 				}
 
 				/**
 				 * Alias comes first
 				 */
 				if joinAlias {
-					let phql .= " AS [" . joinAlias . "]";
+					let phql .= " AS " . this->autoescape(joinAlias);
 				}
 
 				/**
@@ -1258,37 +1233,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		let group = this->_group;
 		if group !== null {
-			if typeof group == "array" {
-				let groupItems = [];
-				for groupItem in group {
-					if is_numeric(groupItem) {
-						let groupItems[] = groupItem;
-					} else {
-						if memstr(groupItem, ".") {
-							let groupItems[] = groupItem;
-						} else {
-							let groupItems[] = "[" . groupItem . "]";
-						}
-					}
+			if typeof group == "string" {
+				if memstr(group, ",") {
+					let group = str_replace(" ", "", group);
 				}
-				let phql .= " GROUP BY " . join(", ", groupItems);
-			} else {
-				if is_numeric(group) {
-					let phql .= " GROUP BY ".group;
-				} else {
-					if memstr(group, ".") {
-						let phql .= " GROUP BY ".group;
-					} else {
-						if memstr(group, ",") {
-							let group = str_replace(" ", "", group);
-							let groupItems = explode(",", group);
-							let phql .= " GROUP BY [" . join("], [", groupItems) . "]";
-						} else {
-							let phql .= " GROUP BY [" . group . "]";
-						}
-					}
-				}
+
+				let group = explode(",", group);
 			}
+
+			let groupItems = [];
+			for groupItem in group {
+				let groupItems[] = this->autoescape(groupItem);
+			}
+
+			let phql .= " GROUP BY " . join(", ", groupItems);
 		}
 
 		let having = this->_having;
@@ -1306,15 +1264,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			if typeof order == "array" {
 				let orderItems = [];
 				for orderItem in order {
-					if is_numeric(orderItem) {
-						let orderItems[] = orderItem;
-					} else {
-						if memstr(orderItem, ".") {
-							let orderItems[] = orderItem;
-						} else {
-							let orderItems[] = "[" . orderItem . "]";
-						}
-					}
+					let orderItems[] = this->autoescape(orderItem);
 				}
 				let phql .= " ORDER BY " . join(", ", orderItems);
 			} else {
@@ -1410,5 +1360,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		return query;
+	}
+
+	/**
+	 * Automatically escapes identifiers but only if they need to be escaped.
+	 */
+	protected function autoescape(string identifier) -> string
+	{
+		if memstr(identifier, "[") || memstr(identifier, ".") || is_numeric(identifier) {
+			return identifier;
+		}
+
+		return "[" . identifier . "]";
 	}
 }
