@@ -1233,29 +1233,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		let group = this->_group;
 		if group !== null {
-			if typeof group == "array" {
-				let groupItems = [];
-				for groupItem in group {
-					let groupItems[] = this->autoescape(groupItem);
+			if typeof group == "string" {
+				if memstr(group, ",") {
+					let group = str_replace(" ", "", group);
 				}
-				let phql .= " GROUP BY " . join(", ", groupItems);
-			} else {
-				if is_numeric(group) {
-					let phql .= " GROUP BY ".group;
-				} else {
-					if memstr(group, ".") {
-						let phql .= " GROUP BY ".group;
-					} else {
-						if memstr(group, ",") {
-							let group = str_replace(" ", "", group);
-							let groupItems = explode(",", group);
-							let phql .= " GROUP BY [" . join("], [", groupItems) . "]";
-						} else {
-							let phql .= " GROUP BY " . this->autoescape(group);
-						}
-					}
-				}
+
+				let group = explode(",", group);
 			}
+
+			let groupItems = [];
+			for groupItem in group {
+				let groupItems[] = this->autoescape(groupItem);
+			}
+
+			let phql .= " GROUP BY " . join(", ", groupItems);
 		}
 
 		let having = this->_having;
