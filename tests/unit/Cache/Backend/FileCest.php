@@ -116,6 +116,12 @@ class FileCest
 
     public function dataIgbinary(UnitTester $I)
     {
+        if (!extension_loaded('igbinary')) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Warning: igbinary extension is not loaded'
+            );
+        }
+
         $I->wantTo("Use File cache with Igbinary frontend");
 
         $frontend = new Igbinary(['lifetime' => 600]);
