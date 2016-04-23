@@ -49,9 +49,9 @@ enable_extension memcached
 if [ ${TRAVIS_PHP_VERSION} = "5.4" ]; then
     ( printf "\n" | pecl upgrade apc &> /dev/null; enable_extension apc ) &
 elif [ ${TRAVIS_PHP_VERSION} = "7" ]; then
-    ( pecl config-set preferred_state beta; printf "\n" | pecl install -a apcu &> /dev/null && phpenv config-add "$DIR/apcu.ini" ) &
+    ( pecl config-set preferred_state beta; printf "\n" | pecl install -a apcu &> /dev/null && enable_extension apcu ) &
 else
-    ( printf "\n" | pecl install -a apcu-4.0.10 &> /dev/null && phpenv config-add "$DIR/apcu.ini" ) &
+    ( printf "\n" | pecl install -a apcu-4.0.10 &> /dev/null && enable_extension apcu ) &
 fi
 
 wait
