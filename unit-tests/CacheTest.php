@@ -131,67 +131,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		));
 	}
 
-
-	public function ytestMemoryCache()
-	{
-		$frontCache = new Phalcon\Cache\Frontend\None(array('lifetime' => 10));
-
-		$cache = new Phalcon\Cache\Backend\Memory($frontCache);
-
-		$this->assertFalse($cache->isStarted());
-
-		//Save
-		$cache->save('test-data', "nothing interesting");
-
-		//Get
-		$cachedContent = $cache->get('test-data');
-		$this->assertEquals($cachedContent, "nothing interesting");
-
-		//Save
-		$cache->save('test-data', "sure, nothing interesting");
-
-		//Get
-		$cachedContent = $cache->get('test-data');
-		$this->assertEquals($cachedContent, "sure, nothing interesting");
-
-		//Exists
-		$this->assertTrue($cache->exists('test-data'));
-
-		//Delete
-		$this->assertTrue($cache->delete('test-data'));
-
-		$string = str_repeat('a', 5000000);
-		$r1 = memory_get_usage();
-		$cache->save('test-data', $string);
-		$r2 = memory_get_usage();
-		$s1 = $cache->get('test-data');
-		$r3 = memory_get_usage();
-		$s2 = $cache->get('test-data');
-		$r4 = memory_get_usage();
-		$s3 = $cache->get('test-data');
-		$r5 = memory_get_usage();
-		//echo $r1, ' ', $r2, ' ', $r3, ' ', $r4, ' ', $r5, "\n";
-		$this->assertEquals($s1, $s2);
-		$this->assertEquals($s1, $s3);
-		$this->assertEquals(strlen($s1), 5000000);
-		$this->assertEquals($s1, $string);
-		$this->assertTrue($cache->delete('test-data'));
-
-		unset($s1, $s2, $s3);
-		gc_collect_cycles();
-		$r1 = memory_get_usage();
-		$s1 = $frontCache->afterRetrieve($string);
-		$r2 = memory_get_usage();
-		$s2 = $frontCache->afterRetrieve($string);
-		$r3 = memory_get_usage();
-		$s3 = $frontCache->afterRetrieve($string);
-		$r4 = memory_get_usage();
-		$this->assertEquals($s1, $s2);
-		$this->assertEquals($s1, $s3);
-		$this->assertEquals($s1, $string);
-		//echo $r1, ' ', $r2, ' ', $r3, ' ', $r4, "\n";
-	}
-
 	public function testMemoryCacheIncrAndDecr()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Output(array(
