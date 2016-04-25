@@ -1077,7 +1077,11 @@ group_list(R) ::= group_item(I) . {
 	R = I;
 }
 
-%destructor group_item { zval_ptr_dtor(&$$); }
+%destructor group_item {
+#if PHP_VERSION_ID < 70000
+	zval_ptr_dtor(&$$);
+#endif	
+}
 
 group_item(R) ::= expr(E) . {
 	R = E;

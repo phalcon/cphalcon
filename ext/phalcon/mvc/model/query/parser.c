@@ -1313,7 +1313,7 @@ static void pp_destructor(PPCODETYPE ppmajor, PPMINORTYPE *pppminor){
     case 126:
     case 129:
     case 132:
-// 1463 "parser.lemon"
+// 1467 "parser.lemon"
 {
 #if PHP_VERSION_ID < 70000
 	zval_ptr_dtor(&(pppminor->pp162));
@@ -1325,8 +1325,12 @@ static void pp_destructor(PPCODETYPE ppmajor, PPMINORTYPE *pppminor){
       break;
     case 124:
 // 1080 "parser.lemon"
-{ zval_ptr_dtor(&(pppminor->pp162)); }
-// 1330 "parser.c"
+{
+#if PHP_VERSION_ID < 70000
+	zval_ptr_dtor(&(pppminor->pp162));
+#endif	
+}
+// 1334 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1704,7 +1708,7 @@ static void pp_reduce(
 {
 	status->ret = ppmsp[0].minor.pp162;
 }
-// 1708 "parser.c"
+// 1712 "parser.c"
         break;
       case 1:
       case 2:
@@ -1730,14 +1734,14 @@ static void pp_reduce(
 {
 	ppgotominor.pp162 = ppmsp[0].minor.pp162;
 }
-// 1734 "parser.c"
+// 1738 "parser.c"
         break;
       case 5:
 // 584 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_select_statement(ppmsp[-6].minor.pp162, ppmsp[-5].minor.pp162, ppmsp[-2].minor.pp162, ppmsp[-4].minor.pp162, ppmsp[-3].minor.pp162, ppmsp[-1].minor.pp162, ppmsp[0].minor.pp162);
 }
-// 1741 "parser.c"
+// 1745 "parser.c"
         break;
       case 6:
 // 594 "parser.lemon"
@@ -1746,7 +1750,7 @@ static void pp_reduce(
   pp_destructor(26,&ppmsp[-5].minor);
   pp_destructor(27,&ppmsp[-2].minor);
 }
-// 1750 "parser.c"
+// 1754 "parser.c"
         break;
       case 7:
 // 604 "parser.lemon"
@@ -1754,7 +1758,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_distinct_all(1);
   pp_destructor(28,&ppmsp[0].minor);
 }
-// 1758 "parser.c"
+// 1762 "parser.c"
         break;
       case 8:
 // 608 "parser.lemon"
@@ -1762,7 +1766,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_distinct_all(0);
   pp_destructor(29,&ppmsp[0].minor);
 }
-// 1766 "parser.c"
+// 1770 "parser.c"
         break;
       case 9:
       case 20:
@@ -1781,7 +1785,7 @@ static void pp_reduce(
 {
 	ppgotominor.pp162 = NULL;
 }
-// 1785 "parser.c"
+// 1789 "parser.c"
         break;
       case 10:
       case 17:
@@ -1797,7 +1801,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_zval_list(ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(25,&ppmsp[-1].minor);
 }
-// 1801 "parser.c"
+// 1805 "parser.c"
         break;
       case 11:
       case 42:
@@ -1808,7 +1812,7 @@ static void pp_reduce(
 {
 	ppgotominor.pp162 = phql_ret_zval_list(ppmsp[0].minor.pp162, NULL);
 }
-// 1812 "parser.c"
+// 1816 "parser.c"
         break;
       case 12:
       case 140:
@@ -1817,7 +1821,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
   pp_destructor(17,&ppmsp[0].minor);
 }
-// 1821 "parser.c"
+// 1825 "parser.c"
         break;
       case 13:
 // 640 "parser.lemon"
@@ -1826,7 +1830,7 @@ static void pp_reduce(
   pp_destructor(31,&ppmsp[-1].minor);
   pp_destructor(17,&ppmsp[0].minor);
 }
-// 1830 "parser.c"
+// 1834 "parser.c"
         break;
       case 14:
 // 644 "parser.lemon"
@@ -1834,21 +1838,21 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_column_item(PHQL_T_EXPR, ppmsp[-2].minor.pp162, NULL, ppmsp[0].minor.pp0);
   pp_destructor(32,&ppmsp[-1].minor);
 }
-// 1838 "parser.c"
+// 1842 "parser.c"
         break;
       case 15:
 // 648 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_column_item(PHQL_T_EXPR, ppmsp[-1].minor.pp162, NULL, ppmsp[0].minor.pp0);
 }
-// 1845 "parser.c"
+// 1849 "parser.c"
         break;
       case 16:
 // 652 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_column_item(PHQL_T_EXPR, ppmsp[0].minor.pp162, NULL, NULL);
 }
-// 1852 "parser.c"
+// 1856 "parser.c"
         break;
       case 21:
       case 128:
@@ -1856,14 +1860,14 @@ static void pp_reduce(
 {
 	ppgotominor.pp162 = phql_ret_zval_list(ppmsp[-1].minor.pp162, ppmsp[0].minor.pp162);
 }
-// 1860 "parser.c"
+// 1864 "parser.c"
         break;
       case 24:
 // 709 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_join_item(ppmsp[-3].minor.pp162, ppmsp[-2].minor.pp162, ppmsp[-1].minor.pp162, ppmsp[0].minor.pp162);
 }
-// 1867 "parser.c"
+// 1871 "parser.c"
         break;
       case 25:
 // 719 "parser.lemon"
@@ -1871,7 +1875,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_qualified_name(NULL, NULL, ppmsp[0].minor.pp0);
   pp_destructor(32,&ppmsp[-1].minor);
 }
-// 1875 "parser.c"
+// 1879 "parser.c"
         break;
       case 26:
       case 46:
@@ -1881,7 +1885,7 @@ static void pp_reduce(
 {
 	ppgotominor.pp162 = phql_ret_qualified_name(NULL, NULL, ppmsp[0].minor.pp0);
 }
-// 1885 "parser.c"
+// 1889 "parser.c"
         break;
       case 28:
 // 737 "parser.lemon"
@@ -1890,7 +1894,7 @@ static void pp_reduce(
   pp_destructor(33,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1894 "parser.c"
+// 1898 "parser.c"
         break;
       case 29:
 // 741 "parser.lemon"
@@ -1899,7 +1903,7 @@ static void pp_reduce(
   pp_destructor(35,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1903 "parser.c"
+// 1907 "parser.c"
         break;
       case 30:
 // 745 "parser.lemon"
@@ -1909,7 +1913,7 @@ static void pp_reduce(
   pp_destructor(37,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1913 "parser.c"
+// 1917 "parser.c"
         break;
       case 31:
 // 749 "parser.lemon"
@@ -1918,7 +1922,7 @@ static void pp_reduce(
   pp_destructor(36,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1922 "parser.c"
+// 1926 "parser.c"
         break;
       case 32:
 // 753 "parser.lemon"
@@ -1928,7 +1932,7 @@ static void pp_reduce(
   pp_destructor(37,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1932 "parser.c"
+// 1936 "parser.c"
         break;
       case 33:
 // 757 "parser.lemon"
@@ -1937,7 +1941,7 @@ static void pp_reduce(
   pp_destructor(38,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1941 "parser.c"
+// 1945 "parser.c"
         break;
       case 34:
 // 761 "parser.lemon"
@@ -1947,7 +1951,7 @@ static void pp_reduce(
   pp_destructor(37,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1951 "parser.c"
+// 1955 "parser.c"
         break;
       case 35:
 // 765 "parser.lemon"
@@ -1956,7 +1960,7 @@ static void pp_reduce(
   pp_destructor(39,&ppmsp[-1].minor);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1960 "parser.c"
+// 1964 "parser.c"
         break;
       case 36:
 // 769 "parser.lemon"
@@ -1964,7 +1968,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_join_type(PHQL_T_INNERJOIN);
   pp_destructor(34,&ppmsp[0].minor);
 }
-// 1968 "parser.c"
+// 1972 "parser.c"
         break;
       case 37:
 // 779 "parser.lemon"
@@ -1972,7 +1976,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = ppmsp[0].minor.pp162;
   pp_destructor(40,&ppmsp[-1].minor);
 }
-// 1976 "parser.c"
+// 1980 "parser.c"
         break;
       case 39:
 // 794 "parser.lemon"
@@ -1984,7 +1988,7 @@ static void pp_reduce(
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 1988 "parser.c"
+// 1992 "parser.c"
         break;
       case 40:
 // 798 "parser.lemon"
@@ -1998,14 +2002,14 @@ static void pp_reduce(
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2002 "parser.c"
+// 2006 "parser.c"
         break;
       case 47:
 // 852 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_update_statement(ppmsp[-2].minor.pp162, ppmsp[-1].minor.pp162, ppmsp[0].minor.pp162);
 }
-// 2009 "parser.c"
+// 2013 "parser.c"
         break;
       case 48:
 // 862 "parser.lemon"
@@ -2014,7 +2018,7 @@ static void pp_reduce(
   pp_destructor(46,&ppmsp[-3].minor);
   pp_destructor(47,&ppmsp[-1].minor);
 }
-// 2018 "parser.c"
+// 2022 "parser.c"
         break;
       case 51:
 // 886 "parser.lemon"
@@ -2022,14 +2026,14 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_update_item(ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(3,&ppmsp[-1].minor);
 }
-// 2026 "parser.c"
+// 2030 "parser.c"
         break;
       case 53:
 // 902 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_delete_statement(ppmsp[-2].minor.pp162, ppmsp[-1].minor.pp162, ppmsp[0].minor.pp162);
 }
-// 2033 "parser.c"
+// 2037 "parser.c"
         break;
       case 54:
 // 912 "parser.lemon"
@@ -2038,7 +2042,7 @@ static void pp_reduce(
   pp_destructor(48,&ppmsp[-2].minor);
   pp_destructor(27,&ppmsp[-1].minor);
 }
-// 2042 "parser.c"
+// 2046 "parser.c"
         break;
       case 55:
 // 922 "parser.lemon"
@@ -2046,21 +2050,21 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_assoc_name(ppmsp[-2].minor.pp162, ppmsp[0].minor.pp0, NULL);
   pp_destructor(32,&ppmsp[-1].minor);
 }
-// 2050 "parser.c"
+// 2054 "parser.c"
         break;
       case 56:
 // 926 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_assoc_name(ppmsp[-1].minor.pp162, ppmsp[0].minor.pp0, NULL);
 }
-// 2057 "parser.c"
+// 2061 "parser.c"
         break;
       case 57:
 // 930 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_assoc_name(ppmsp[0].minor.pp162, NULL, NULL);
 }
-// 2064 "parser.c"
+// 2068 "parser.c"
         break;
       case 58:
 // 934 "parser.lemon"
@@ -2069,7 +2073,7 @@ static void pp_reduce(
   pp_destructor(32,&ppmsp[-3].minor);
   pp_destructor(49,&ppmsp[-1].minor);
 }
-// 2073 "parser.c"
+// 2077 "parser.c"
         break;
       case 59:
 // 938 "parser.lemon"
@@ -2080,7 +2084,7 @@ static void pp_reduce(
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2084 "parser.c"
+// 2088 "parser.c"
         break;
       case 60:
 // 942 "parser.lemon"
@@ -2090,7 +2094,7 @@ static void pp_reduce(
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2094 "parser.c"
+// 2098 "parser.c"
         break;
       case 61:
 // 946 "parser.lemon"
@@ -2098,7 +2102,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_assoc_name(ppmsp[-3].minor.pp162, ppmsp[-2].minor.pp0, ppmsp[0].minor.pp162);
   pp_destructor(49,&ppmsp[-1].minor);
 }
-// 2102 "parser.c"
+// 2106 "parser.c"
         break;
       case 62:
 // 950 "parser.lemon"
@@ -2108,7 +2112,7 @@ static void pp_reduce(
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2112 "parser.c"
+// 2116 "parser.c"
         break;
       case 63:
 // 954 "parser.lemon"
@@ -2116,7 +2120,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_assoc_name(ppmsp[-2].minor.pp162, NULL, ppmsp[0].minor.pp162);
   pp_destructor(49,&ppmsp[-1].minor);
 }
-// 2120 "parser.c"
+// 2124 "parser.c"
         break;
       case 68:
 // 998 "parser.lemon"
@@ -2124,7 +2128,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = ppmsp[0].minor.pp162;
   pp_destructor(50,&ppmsp[-1].minor);
 }
-// 2128 "parser.c"
+// 2132 "parser.c"
         break;
       case 70:
 // 1012 "parser.lemon"
@@ -2133,14 +2137,14 @@ static void pp_reduce(
   pp_destructor(51,&ppmsp[-2].minor);
   pp_destructor(52,&ppmsp[-1].minor);
 }
-// 2137 "parser.c"
+// 2141 "parser.c"
         break;
       case 74:
 // 1040 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_order_item(ppmsp[0].minor.pp162, 0);
 }
-// 2144 "parser.c"
+// 2148 "parser.c"
         break;
       case 75:
 // 1044 "parser.lemon"
@@ -2148,7 +2152,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_order_item(ppmsp[-1].minor.pp162, PHQL_T_ASC);
   pp_destructor(53,&ppmsp[0].minor);
 }
-// 2152 "parser.c"
+// 2156 "parser.c"
         break;
       case 76:
 // 1048 "parser.lemon"
@@ -2156,7 +2160,7 @@ static void pp_reduce(
 	ppgotominor.pp162 = phql_ret_order_item(ppmsp[-1].minor.pp162, PHQL_T_DESC);
   pp_destructor(54,&ppmsp[0].minor);
 }
-// 2160 "parser.c"
+// 2164 "parser.c"
         break;
       case 77:
 // 1058 "parser.lemon"
@@ -2165,276 +2169,276 @@ static void pp_reduce(
   pp_destructor(55,&ppmsp[-2].minor);
   pp_destructor(52,&ppmsp[-1].minor);
 }
-// 2169 "parser.c"
+// 2173 "parser.c"
         break;
       case 82:
-// 1092 "parser.lemon"
+// 1096 "parser.lemon"
 {
 	ppgotominor.pp162 = ppmsp[0].minor.pp162;
   pp_destructor(56,&ppmsp[-1].minor);
 }
-// 2177 "parser.c"
+// 2181 "parser.c"
         break;
       case 84:
-// 1106 "parser.lemon"
+// 1110 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_for_update_clause();
   pp_destructor(57,&ppmsp[-1].minor);
   pp_destructor(46,&ppmsp[0].minor);
 }
-// 2186 "parser.c"
+// 2190 "parser.c"
         break;
       case 86:
       case 90:
-// 1120 "parser.lemon"
+// 1124 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_limit_clause(ppmsp[0].minor.pp162, NULL);
   pp_destructor(58,&ppmsp[-1].minor);
 }
-// 2195 "parser.c"
+// 2199 "parser.c"
         break;
       case 87:
-// 1124 "parser.lemon"
+// 1128 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_limit_clause(ppmsp[0].minor.pp162, ppmsp[-2].minor.pp162);
   pp_destructor(58,&ppmsp[-3].minor);
   pp_destructor(25,&ppmsp[-1].minor);
 }
-// 2204 "parser.c"
+// 2208 "parser.c"
         break;
       case 88:
-// 1128 "parser.lemon"
+// 1132 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_limit_clause(ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(58,&ppmsp[-3].minor);
   pp_destructor(59,&ppmsp[-1].minor);
 }
-// 2213 "parser.c"
+// 2217 "parser.c"
         break;
       case 92:
       case 149:
-// 1150 "parser.lemon"
+// 1154 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_INTEGER, ppmsp[0].minor.pp0);
 }
-// 2221 "parser.c"
+// 2225 "parser.c"
         break;
       case 93:
       case 150:
-// 1154 "parser.lemon"
+// 1158 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_HINTEGER, ppmsp[0].minor.pp0);
 }
-// 2229 "parser.c"
+// 2233 "parser.c"
         break;
       case 94:
       case 156:
-// 1158 "parser.lemon"
+// 1162 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, ppmsp[0].minor.pp0);
 }
-// 2237 "parser.c"
+// 2241 "parser.c"
         break;
       case 95:
       case 157:
-// 1162 "parser.lemon"
+// 1166 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, ppmsp[0].minor.pp0);
 }
-// 2245 "parser.c"
+// 2249 "parser.c"
         break;
       case 96:
       case 158:
-// 1166 "parser.lemon"
+// 1170 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_placeholder_zval(PHQL_T_BPLACEHOLDER, ppmsp[0].minor.pp0);
 }
-// 2253 "parser.c"
+// 2257 "parser.c"
         break;
       case 97:
-// 1176 "parser.lemon"
+// 1180 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_MINUS, NULL, ppmsp[0].minor.pp162);
   pp_destructor(20,&ppmsp[-1].minor);
 }
-// 2261 "parser.c"
+// 2265 "parser.c"
         break;
       case 98:
-// 1180 "parser.lemon"
+// 1184 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_SUB, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(20,&ppmsp[-1].minor);
 }
-// 2269 "parser.c"
+// 2273 "parser.c"
         break;
       case 99:
-// 1184 "parser.lemon"
+// 1188 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_ADD, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(19,&ppmsp[-1].minor);
 }
-// 2277 "parser.c"
+// 2281 "parser.c"
         break;
       case 100:
-// 1188 "parser.lemon"
+// 1192 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_MUL, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(17,&ppmsp[-1].minor);
 }
-// 2285 "parser.c"
+// 2289 "parser.c"
         break;
       case 101:
-// 1192 "parser.lemon"
+// 1196 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_DIV, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(16,&ppmsp[-1].minor);
 }
-// 2293 "parser.c"
+// 2297 "parser.c"
         break;
       case 102:
-// 1196 "parser.lemon"
+// 1200 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_MOD, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(18,&ppmsp[-1].minor);
 }
-// 2301 "parser.c"
+// 2305 "parser.c"
         break;
       case 103:
-// 1200 "parser.lemon"
+// 1204 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_AND, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(9,&ppmsp[-1].minor);
 }
-// 2309 "parser.c"
+// 2313 "parser.c"
         break;
       case 104:
-// 1204 "parser.lemon"
+// 1208 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_OR, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(10,&ppmsp[-1].minor);
 }
-// 2317 "parser.c"
+// 2321 "parser.c"
         break;
       case 105:
-// 1208 "parser.lemon"
+// 1212 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_BITWISE_AND, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(13,&ppmsp[-1].minor);
 }
-// 2325 "parser.c"
+// 2329 "parser.c"
         break;
       case 106:
-// 1212 "parser.lemon"
+// 1216 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_BITWISE_OR, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(14,&ppmsp[-1].minor);
 }
-// 2333 "parser.c"
+// 2337 "parser.c"
         break;
       case 107:
-// 1216 "parser.lemon"
+// 1220 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_BITWISE_XOR, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(15,&ppmsp[-1].minor);
 }
-// 2341 "parser.c"
+// 2345 "parser.c"
         break;
       case 108:
-// 1220 "parser.lemon"
+// 1224 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_EQUALS, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(3,&ppmsp[-1].minor);
 }
-// 2349 "parser.c"
+// 2353 "parser.c"
         break;
       case 109:
-// 1224 "parser.lemon"
+// 1228 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_NOTEQUALS, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(4,&ppmsp[-1].minor);
 }
-// 2357 "parser.c"
+// 2361 "parser.c"
         break;
       case 110:
-// 1228 "parser.lemon"
+// 1232 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_LESS, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(5,&ppmsp[-1].minor);
 }
-// 2365 "parser.c"
+// 2369 "parser.c"
         break;
       case 111:
-// 1232 "parser.lemon"
+// 1236 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_GREATER, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(6,&ppmsp[-1].minor);
 }
-// 2373 "parser.c"
+// 2377 "parser.c"
         break;
       case 112:
-// 1236 "parser.lemon"
+// 1240 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_GREATEREQUAL, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(7,&ppmsp[-1].minor);
 }
-// 2381 "parser.c"
+// 2385 "parser.c"
         break;
       case 113:
-// 1240 "parser.lemon"
+// 1244 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_LESSEQUAL, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(8,&ppmsp[-1].minor);
 }
-// 2389 "parser.c"
+// 2393 "parser.c"
         break;
       case 114:
-// 1244 "parser.lemon"
+// 1248 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_LIKE, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(11,&ppmsp[-1].minor);
 }
-// 2397 "parser.c"
+// 2401 "parser.c"
         break;
       case 115:
-// 1248 "parser.lemon"
+// 1252 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_NLIKE, ppmsp[-3].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(23,&ppmsp[-2].minor);
   pp_destructor(11,&ppmsp[-1].minor);
 }
-// 2406 "parser.c"
+// 2410 "parser.c"
         break;
       case 116:
-// 1252 "parser.lemon"
+// 1256 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_ILIKE, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(12,&ppmsp[-1].minor);
 }
-// 2414 "parser.c"
+// 2418 "parser.c"
         break;
       case 117:
-// 1256 "parser.lemon"
+// 1260 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_NILIKE, ppmsp[-3].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(23,&ppmsp[-2].minor);
   pp_destructor(12,&ppmsp[-1].minor);
 }
-// 2423 "parser.c"
+// 2427 "parser.c"
         break;
       case 118:
       case 121:
-// 1260 "parser.lemon"
+// 1264 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_IN, ppmsp[-4].minor.pp162, ppmsp[-1].minor.pp162);
   pp_destructor(22,&ppmsp[-3].minor);
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2434 "parser.c"
+// 2438 "parser.c"
         break;
       case 119:
       case 122:
-// 1264 "parser.lemon"
+// 1268 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_NOTIN, ppmsp[-5].minor.pp162, ppmsp[-1].minor.pp162);
   pp_destructor(23,&ppmsp[-4].minor);
@@ -2442,37 +2446,37 @@ static void pp_reduce(
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2446 "parser.c"
+// 2450 "parser.c"
         break;
       case 120:
-// 1268 "parser.lemon"
+// 1272 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_SUBQUERY, ppmsp[-1].minor.pp162, NULL);
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2455 "parser.c"
+// 2459 "parser.c"
         break;
       case 123:
-// 1280 "parser.lemon"
+// 1284 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_EXISTS, NULL, ppmsp[-1].minor.pp162);
   pp_destructor(65,&ppmsp[-3].minor);
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2465 "parser.c"
+// 2469 "parser.c"
         break;
       case 124:
-// 1284 "parser.lemon"
+// 1288 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_AGAINST, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(1,&ppmsp[-1].minor);
 }
-// 2473 "parser.c"
+// 2477 "parser.c"
         break;
       case 125:
-// 1288 "parser.lemon"
+// 1292 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_CAST, ppmsp[-3].minor.pp162, phql_ret_raw_qualified_name(ppmsp[-1].minor.pp0, NULL));
   pp_destructor(66,&ppmsp[-5].minor);
@@ -2480,10 +2484,10 @@ static void pp_reduce(
   pp_destructor(32,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2484 "parser.c"
+// 2488 "parser.c"
         break;
       case 126:
-// 1292 "parser.lemon"
+// 1296 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_CONVERT, ppmsp[-3].minor.pp162, phql_ret_raw_qualified_name(ppmsp[-1].minor.pp0, NULL));
   pp_destructor(67,&ppmsp[-5].minor);
@@ -2491,148 +2495,148 @@ static void pp_reduce(
   pp_destructor(68,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2495 "parser.c"
+// 2499 "parser.c"
         break;
       case 127:
-// 1296 "parser.lemon"
+// 1300 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_CASE, ppmsp[-2].minor.pp162, ppmsp[-1].minor.pp162);
   pp_destructor(69,&ppmsp[-3].minor);
   pp_destructor(70,&ppmsp[0].minor);
 }
-// 2504 "parser.c"
+// 2508 "parser.c"
         break;
       case 130:
-// 1308 "parser.lemon"
+// 1312 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_WHEN, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(71,&ppmsp[-3].minor);
   pp_destructor(72,&ppmsp[-1].minor);
 }
-// 2513 "parser.c"
+// 2517 "parser.c"
         break;
       case 131:
-// 1312 "parser.lemon"
+// 1316 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_ELSE, ppmsp[0].minor.pp162, NULL);
   pp_destructor(73,&ppmsp[-1].minor);
 }
-// 2521 "parser.c"
+// 2525 "parser.c"
         break;
       case 133:
-// 1328 "parser.lemon"
+// 1332 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_func_call(ppmsp[-4].minor.pp0, ppmsp[-1].minor.pp162, ppmsp[-2].minor.pp162);
   pp_destructor(44,&ppmsp[-3].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2530 "parser.c"
+// 2534 "parser.c"
         break;
       case 134:
-// 1338 "parser.lemon"
+// 1342 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_distinct();
   pp_destructor(28,&ppmsp[0].minor);
 }
-// 2538 "parser.c"
+// 2542 "parser.c"
         break;
       case 142:
-// 1392 "parser.lemon"
+// 1396 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_ISNULL, ppmsp[-2].minor.pp162, NULL);
   pp_destructor(21,&ppmsp[-1].minor);
   pp_destructor(74,&ppmsp[0].minor);
 }
-// 2547 "parser.c"
+// 2551 "parser.c"
         break;
       case 143:
-// 1396 "parser.lemon"
+// 1400 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_ISNOTNULL, ppmsp[-3].minor.pp162, NULL);
   pp_destructor(21,&ppmsp[-2].minor);
   pp_destructor(23,&ppmsp[-1].minor);
   pp_destructor(74,&ppmsp[0].minor);
 }
-// 2557 "parser.c"
+// 2561 "parser.c"
         break;
       case 144:
-// 1400 "parser.lemon"
+// 1404 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_BETWEEN, ppmsp[-2].minor.pp162, ppmsp[0].minor.pp162);
   pp_destructor(2,&ppmsp[-1].minor);
 }
-// 2565 "parser.c"
+// 2569 "parser.c"
         break;
       case 145:
-// 1404 "parser.lemon"
+// 1408 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_NOT, NULL, ppmsp[0].minor.pp162);
   pp_destructor(23,&ppmsp[-1].minor);
 }
-// 2573 "parser.c"
+// 2577 "parser.c"
         break;
       case 146:
-// 1408 "parser.lemon"
+// 1412 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, ppmsp[0].minor.pp162);
   pp_destructor(24,&ppmsp[-1].minor);
 }
-// 2581 "parser.c"
+// 2585 "parser.c"
         break;
       case 147:
-// 1412 "parser.lemon"
+// 1416 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_expr(PHQL_T_ENCLOSED, ppmsp[-1].minor.pp162, NULL);
   pp_destructor(44,&ppmsp[-2].minor);
   pp_destructor(45,&ppmsp[0].minor);
 }
-// 2590 "parser.c"
+// 2594 "parser.c"
         break;
       case 151:
-// 1428 "parser.lemon"
+// 1432 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_STRING, ppmsp[0].minor.pp0);
 }
-// 2597 "parser.c"
+// 2601 "parser.c"
         break;
       case 152:
-// 1432 "parser.lemon"
+// 1436 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_DOUBLE, ppmsp[0].minor.pp0);
 }
-// 2604 "parser.c"
+// 2608 "parser.c"
         break;
       case 153:
-// 1436 "parser.lemon"
+// 1440 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
   pp_destructor(74,&ppmsp[0].minor);
 }
-// 2612 "parser.c"
+// 2616 "parser.c"
         break;
       case 154:
-// 1440 "parser.lemon"
+// 1444 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
   pp_destructor(77,&ppmsp[0].minor);
 }
-// 2620 "parser.c"
+// 2624 "parser.c"
         break;
       case 155:
-// 1444 "parser.lemon"
+// 1448 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
   pp_destructor(78,&ppmsp[0].minor);
 }
-// 2628 "parser.c"
+// 2632 "parser.c"
         break;
       case 159:
-// 1471 "parser.lemon"
+// 1475 "parser.lemon"
 {
 	ppgotominor.pp162 = phql_ret_qualified_name(NULL, ppmsp[-2].minor.pp0, ppmsp[0].minor.pp0);
   pp_destructor(31,&ppmsp[-1].minor);
 }
-// 2636 "parser.c"
+// 2640 "parser.c"
         break;
   };
   ppgoto = ppRuleInfo[ppruleno].lhs;
@@ -2741,7 +2745,7 @@ static void pp_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
-// 2745 "parser.c"
+// 2749 "parser.c"
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -3104,10 +3108,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	int scanner_status, status = SUCCESS, error_length, cache_level;
 	phql_scanner_state *state;
 	phql_scanner_token token;
-	unsigned long phql_key = 0;
 	void* phql_parser;
 	char *error;
+#if PHP_VERSION_ID < 70000
+    unsigned long phql_key = 0;
 	zval **temp_ast;
+#endif
 
 	if (!phql) {
 #if PHP_VERSION_ID < 70000
@@ -3121,18 +3127,16 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	cache_level = phalcon_globals_ptr->orm.cache_level;
 	if (cache_level >= 0) {
-
-		phql_key = zend_inline_hash_func(phql, phql_length + 1);
-
-		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
 #if PHP_VERSION_ID < 70000
+		phql_key = zend_inline_hash_func(phql, phql_length + 1);
+		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
 			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
 				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
 				Z_SET_REFCOUNT_P(*result, 1);
 				return SUCCESS;
 			}
-#endif
 		}
+#endif
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
