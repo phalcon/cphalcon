@@ -49,10 +49,7 @@ class TextUncamelizeTest extends UnitTest
                 ];
 
                 foreach ($uncamelizeTests as $input => $uncamelized) {
-
-                    $expected = $uncamelized;
-                    $actual   = Text::uncamelize($input);
-                    expect($actual)->equals($expected);
+                    expect(Text::uncamelize($input))->equals($uncamelized);
                 }
             }
         );

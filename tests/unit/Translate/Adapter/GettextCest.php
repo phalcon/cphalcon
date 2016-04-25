@@ -23,6 +23,11 @@ use Phalcon\Translate\Adapter\Gettext;
  */
 class GettextCest
 {
+    /**
+     * Executed before each test
+     *
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         if (!extension_loaded('gettext')) {

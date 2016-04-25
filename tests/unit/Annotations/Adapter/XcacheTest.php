@@ -31,7 +31,7 @@ class XcacheTest extends UnitTest
     {
         parent::_before();
 
-        if (!function_exists('xcache_get')) {
+        if (!function_exists('xcache_emulation') && !extension_loaded('gettext')) {
             $this->markTestSkipped('Warning: xcache extension is not loaded');
         }
 

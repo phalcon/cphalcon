@@ -3,8 +3,9 @@
 namespace Phalcon\Test\Unit\Cache\Backend;
 
 use UnitTester;
-use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Frontend\Output;
+use Phalcon\Cache\Frontend\Igbinary;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\FileCest
@@ -23,7 +24,6 @@ use Phalcon\Cache\Backend\File;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-
 class FileCest
 {
     public function outputFrontend(UnitTester $I)
@@ -111,7 +111,61 @@ class FileCest
 
             // Delete cache
             $I->dontSeeFileFound('unit_' . $cache->getKey('test_output'));
-            codecept_debug("Hello");
         }
+    }
+
+    public function dataIgbinary(UnitTester $I)
+    {
+        if (!extension_loaded('igbinary')) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Warning: igbinary extension is not loaded'
+            );
+        }
+
+        $I->wantTo("Use File cache with Igbinary frontend");
+
+        $frontend = new Igbinary(['lifetime' => 600]);
+        $backend  = new File($frontend, [
+            'cacheDir' => PATH_CACHE,
+            'prefix'   => 'igbinary_'
+        ]);
+
+        $I->assertFalse($backend->isStarted());
+
+        $backend->save('test-data', 'nothing interesting');
+
+        $I->amInPath(PATH_CACHE);
+
+        $I->seeFileFound('igbinary_' . $backend->getKey('test-data'));
+        $I->seeFileContentsEqual(igbinary_serialize('nothing interesting'));
+        $I->assertEquals('nothing interesting', $backend->get('test-data'));
+
+        $backend->save('test-data', 'something interesting');
+        $I->assertEquals('something interesting', $backend->get('test-data'));
+
+        $data = [
+            'null' => null,
+            'array' => [1, 2, 3, 4 => 5],
+            'string',
+            123.45,
+            6,
+            true,
+            false,
+            null,
+            0,
+            ""
+        ];
+
+        $serialized = igbinary_serialize($data);
+        $I->assertEquals($data, igbinary_unserialize($serialized));
+
+        $backend->save('test-data', $data);
+        $I->assertEquals($data, $backend->get('test-data'));
+
+        $I->assertTrue($backend->exists('test-data'));
+        $I->assertTrue($backend->delete('test-data'));
+
+        // Delete cache
+        $I->dontSeeFileFound('igbinary_' . $backend->getKey('test-data'));
     }
 }

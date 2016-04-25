@@ -28,9 +28,9 @@ class RandomTest extends UnitTest
      */
     protected function _before()
     {
-        if (!extension_loaded('openssl') && !extension_loaded('libsodium') && !file_exists('/dev/urandom')) {
+        if (!function_exists('random_bytes') && !extension_loaded('openssl') && !extension_loaded('libsodium') && !file_exists('/dev/urandom')) {
             $this->markTestSkipped(
-                'Warning: libsodium and openssl extensions is not loaded and /dev/urandom file does not exists'
+                'Warning: libsodium and openssl extensions is not loaded, /dev/urandom file does not exists and random_bytes function does not exists'
             );
         }
     }

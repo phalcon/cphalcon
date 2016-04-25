@@ -48,10 +48,7 @@ class TextCamelizeTest extends UnitTest
                 ];
 
                 foreach ($camelizeTests as $input => $camelized) {
-
-                    $expected = $camelized;
-                    $actual   = Text::camelize($input);
-                    expect($actual)->equals($expected);
+                    expect(Text::camelize($input))->equals($camelized);
                 }
             }
         );
