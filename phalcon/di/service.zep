@@ -126,7 +126,7 @@ class Service implements ServiceInterface
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
 		boolean found;
-		var shared, definition, sharedInstance, instance, builder;
+		var shared, definition, sharedInstance, instance, builder, reflectionFunction;
 
 		let shared = this->_shared;
 
@@ -174,7 +174,13 @@ class Service implements ServiceInterface
 					 * Bounds the closure to the current DI
 					 */
 					if typeof dependencyInjector == "object" {
-						let definition = \Closure::bind(definition, dependencyInjector);
+						let reflectionFunction = new \ReflectionFunction(definition);
+    						if (
+							reflectionFunction->getClosureScopeClass() === null ||
+							reflectionFunction->getClosureThis() !== null
+    						) {
+							let definition = \Closure::bind(definition, dependencyInjector);
+						}
 					}
 
 					if typeof parameters == "array" {
