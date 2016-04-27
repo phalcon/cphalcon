@@ -1,7 +1,9 @@
 #! /bin/sh
 
-rm -f *.o
-rm -f *.lo
+rm -f parser.o
+rm -f parser.lo
+rm -f scanner.o
+rm -f scanner.lo
 
 if [ ! -f lemon ]; then
 	gcc -g lemon.c -o lemon
