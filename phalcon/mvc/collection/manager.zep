@@ -186,7 +186,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 */
 	public function getConnectionService(<CollectionInterface> model) -> string
 	{
-               var service;
+               var service, entityName;
 
 		let service = "mongo";
 		let entityName = get_class(model);
