@@ -165,3 +165,5 @@ ext/phalcon/mvc/model/query/lemon
 ext/phalcon/mvc/model/query/parser.out
 /vendor/
 /ide/
+ext/phalcon/annotations/parser.php5.out
+ext/phalcon/annotations/parser.php7.out
