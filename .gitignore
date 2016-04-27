@@ -157,6 +157,7 @@ build/.gitignore
 build/README.md
 build/install-gentoo
 ext/phalcon/mvc/view/engine/volt/lemon
+ext/phalcon/mvc/view/engine/volt/lemon.dSYM/
 ext/phalcon/mvc/view/engine/volt/parser.out
 ext/phalcon/annotations/lemon
 ext/phalcon/annotations/lemon.dSYM/
@@ -167,3 +168,5 @@ ext/phalcon/mvc/model/query/parser.out
 /ide/
 ext/phalcon/annotations/parser.php5.out
 ext/phalcon/annotations/parser.php7.out
+ext/phalcon/mvc/view/engine/volt/parser.php5.out
+ext/phalcon/mvc/view/engine/volt/parser.php7.out
