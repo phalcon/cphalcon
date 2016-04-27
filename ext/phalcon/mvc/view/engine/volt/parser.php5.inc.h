@@ -9,7 +9,7 @@
 
 #include <ext/standard/php_smart_str.h>
 
-#include "parser.h"
+#include "parser.php5.h"
 #include "scanner.h"
 #include "volt.h"
 
@@ -18,23 +18,9 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
-#if PHP_VERSION_ID < 70000
 #define PHVOLT_DEFINE_INIT_ZVAL(var) zval *var; MAKE_STD_ZVAL(var);
-#else
-#define PHVOLT_DEFINE_INIT_ZVAL(var) zval *var = emalloc(sizeof(zval)); ZVAL_UNDEF(var);
-#endif
-
-#if PHP_VERSION_ID < 70000
 #define phvolt_add_assoc_stringl(var, index, str, len, copy) add_assoc_stringl(var, index, str, len, copy);
-#else
-#define phvolt_add_assoc_stringl(var, index, str, len, copy) add_assoc_stringl(var, index, str, len);
-#endif
-
-#if PHP_VERSION_ID < 70000
 #define PHVOLT_ADDREF_P(var) Z_ADDREF_P(var)
-#else
-#define PHVOLT_ADDREF_P(var) Z_TRY_ADDREF_P(var)
-#endif
 
 static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_scanner_state *state)
 {
@@ -442,7 +428,6 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
-#if PHP_VERSION_ID < 70000
 			{
 				HashPosition pos;
 				zend_hash_internal_pointer_reset_ex(list, &pos);
@@ -460,17 +445,6 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 				}
 				zval_ptr_dtor(&list_left);
 			}
-#else
-			{
-				zval *item;
-				ZEND_HASH_FOREACH_VAL(list, item) {
-
-					Z_TRY_ADDREF_P(item);
-					add_next_index_zval(ret, item);
-
-				} ZEND_HASH_FOREACH_END();
-			}
-#endif
 		} else {
 			add_next_index_zval(ret, list_left);
 		}
