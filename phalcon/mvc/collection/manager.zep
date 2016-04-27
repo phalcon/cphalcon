@@ -188,8 +188,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		let service = "mongo";
 		let entityName = get_class(model);
-		if isset connectionService[entityName] {
-			let service = connectionService[entityName];
+		if isset this->_connectionServices[entityName] {
+			let service = this->_connectionServices[entityName];
 		}
 		
 		return service;
