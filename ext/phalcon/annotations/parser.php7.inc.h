@@ -15,8 +15,7 @@
 #include "kernel/exception.h"
 
 #define phannot_add_assoc_stringl(var, index, str, len) add_assoc_stringl(var, index, str, len);
-#define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str);
-#define PHANNOT_IS_INTERNED(z) 1
+#define phannot_add_assoc_string(var, index, str) add_assoc_string(var, index, str);
 
 static void phannot_ret_literal_zval(zval *ret, int type, phannot_parser_token *T)
 {
@@ -98,6 +97,6 @@ static void phannot_ret_annotation(zval *ret, phannot_parser_token *name, zval *
 		add_assoc_zval(ret, "arguments", arguments);
 	}
 
-	phannot_add_assoc_string_copy(ret, "file", (char*)state->active_file, !PHANNOT_IS_INTERNED(state->active_file));
+	phannot_add_assoc_string(ret, "file", (char*) state->active_file);
 	add_assoc_long(ret, "line", state->active_line);
 }

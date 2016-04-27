@@ -2326,6 +2326,7 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 	if (processed_str.s) {
 		*ret     = estrndup(ZSTR_VAL(processed_str.s), ZSTR_LEN(processed_str.s));
 		*ret_len = ZSTR_LEN(processed_str.s);
+		smart_str_free(&processed_str);
 	} else {
 		*ret     = NULL;
 		*ret_len = 0;
@@ -2540,7 +2541,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	phannot_Free(phannot_parser, phannot_wrapper_free);
 
 	if (status != FAILURE) {
-		if (parser_status->status == PHANNOT_PARSING_OK) {			
+		if (parser_status->status == PHANNOT_PARSING_OK) {
 #if PHP_VERSION_ID < 70000
 			if (parser_status->ret) {
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
