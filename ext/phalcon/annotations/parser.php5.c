@@ -6,7 +6,7 @@
 #include <stdio.h>
 #line 28 "parser.php5.lemon"
 
-#include "parser.php5.inc.h";
+#include "parser.php5.inc.h"
 
 #line 12 "parser.php5.c"
 /* Next is all token values, in a form suitable for use by makeheaders.

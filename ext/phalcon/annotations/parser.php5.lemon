@@ -26,7 +26,7 @@
 %left COMMA .
 
 %include {
-#include "parser.php5.inc.h";
+#include "parser.php5.inc.h"
 }
 
 %syntax_error {

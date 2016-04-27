@@ -26,7 +26,7 @@
 %left COMMA .
 
 %include {
-#include "parser.php7.inc.h";
+#include "parser.php7.inc.h"
 }
 
 %syntax_error {
@@ -84,7 +84,7 @@
 }
 
 program ::= annotation_language(Q) . {
-	status->ret = Q;
+	ZVAL_ZVAL(status->ret, &Q, 1, 1);
 }
 
 %destructor annotation_language {
@@ -100,11 +100,11 @@ annotation_language(R) ::= annotation_list(L) . {
 }
 
 annotation_list(R) ::= annotation_list(L) annotation(S) . {
-	phannot_ret_zval_list(&R, L, S);
+	phannot_ret_zval_list(&R, &L, &S);
 }
 
 annotation_list(R) ::= annotation(S) . {
-	phannot_ret_zval_list(&R, NULL, S);
+	phannot_ret_zval_list(&R, NULL, &S);
 }
 
 %destructor annotation {
@@ -112,7 +112,7 @@ annotation_list(R) ::= annotation(S) . {
 }
 
 annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
-	phannot_ret_annotation(&R, I, L, status->scanner_state);
+	phannot_ret_annotation(&R, I, &L, status->scanner_state);
 }
 
 annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN PARENTHESES_CLOSE . {
@@ -128,11 +128,11 @@ annotation(R) ::= AT IDENTIFIER(I) . {
 }
 
 argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
-	phannot_ret_zval_list(&R, L, I);
+	phannot_ret_zval_list(&R, &L, &I);
 }
 
 argument_list(R) ::= argument_item(I) . {
-	phannot_ret_zval_list(&R, NULL, I);
+	phannot_ret_zval_list(&R, NULL, &I);
 }
 
 %destructor argument_item {
@@ -140,23 +140,23 @@ argument_list(R) ::= argument_item(I) . {
 }
 
 argument_item(R) ::= expr(E) . {
-	phannot_ret_named_item(&R, NULL, E);
+	phannot_ret_named_item(&R, NULL, &E);
 }
 
 argument_item(R) ::= STRING(S) EQUALS expr(E) . {
-	phannot_ret_named_item(&R, S, E);
+	phannot_ret_named_item(&R, S, &E);
 }
 
 argument_item(R) ::= STRING(S) COLON expr(E) . {
-	phannot_ret_named_item(&R, S, E);
+	phannot_ret_named_item(&R, S, &E);
 }
 
 argument_item(R) ::= IDENTIFIER(I) EQUALS expr(E) . {
-	phannot_ret_named_item(&R, I, E);
+	phannot_ret_named_item(&R, I, &E);
 }
 
 argument_item(R) ::= IDENTIFIER(I) COLON expr(E) . {
-	phannot_ret_named_item(&R, I, E);
+	phannot_ret_named_item(&R, I, &E);
 }
 
 %destructor expr {
@@ -200,9 +200,9 @@ expr(R) ::= TRUE . {
 }
 
 array(R) ::= BRACKET_OPEN argument_list(A) BRACKET_CLOSE . {
-	phannot_ret_array(&R, A);
+	phannot_ret_array(&R, &A);
 }
 
 array(R) ::= SBRACKET_OPEN argument_list(A) SBRACKET_CLOSE . {
-	phannot_ret_array(&R, A);
+	phannot_ret_array(&R, &A);
 }

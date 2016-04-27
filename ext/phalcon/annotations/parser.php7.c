@@ -6,7 +6,7 @@
 #include <stdio.h>
 #line 28 "parser.php7.lemon"
 
-#include "parser.php7.inc.h";
+#include "parser.php7.inc.h"
 
 #line 12 "parser.php7.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
@@ -626,7 +626,7 @@ static void yy_reduce(
       case 0:
 #line 86 "parser.php7.lemon"
 {
-	status->ret = yymsp[0].minor.yy8;
+	ZVAL_ZVAL(status->ret, &yymsp[0].minor.yy8, 1, 1);
 }
 #line 632 "parser.php7.c"
         break;
@@ -642,7 +642,7 @@ static void yy_reduce(
       case 2:
 #line 102 "parser.php7.lemon"
 {
-	phannot_ret_zval_list(&yygotominor.yy8, yymsp[-1].minor.yy8, yymsp[0].minor.yy8);
+	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-1].minor.yy8, &yymsp[0].minor.yy8);
 }
 #line 648 "parser.php7.c"
         break;
@@ -650,14 +650,14 @@ static void yy_reduce(
       case 8:
 #line 106 "parser.php7.lemon"
 {
-	phannot_ret_zval_list(&yygotominor.yy8, NULL, yymsp[0].minor.yy8);
+	phannot_ret_zval_list(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
 #line 656 "parser.php7.c"
         break;
       case 4:
 #line 114 "parser.php7.lemon"
 {
-	phannot_ret_annotation(&yygotominor.yy8, yymsp[-3].minor.yy0, yymsp[-1].minor.yy8, status->scanner_state);
+	phannot_ret_annotation(&yygotominor.yy8, yymsp[-3].minor.yy0, &yymsp[-1].minor.yy8, status->scanner_state);
   yy_destructor(2,&yymsp[-4].minor);
   yy_destructor(4,&yymsp[-2].minor);
   yy_destructor(5,&yymsp[0].minor);
@@ -685,7 +685,7 @@ static void yy_reduce(
       case 7:
 #line 130 "parser.php7.lemon"
 {
-	phannot_ret_zval_list(&yygotominor.yy8, yymsp[-2].minor.yy8, yymsp[0].minor.yy8);
+	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-2].minor.yy8, &yymsp[0].minor.yy8);
   yy_destructor(1,&yymsp[-1].minor);
 }
 #line 692 "parser.php7.c"
@@ -693,7 +693,7 @@ static void yy_reduce(
       case 9:
 #line 142 "parser.php7.lemon"
 {
-	phannot_ret_named_item(&yygotominor.yy8, NULL, yymsp[0].minor.yy8);
+	phannot_ret_named_item(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
 #line 699 "parser.php7.c"
         break;
@@ -701,7 +701,7 @@ static void yy_reduce(
       case 12:
 #line 146 "parser.php7.lemon"
 {
-	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, yymsp[0].minor.yy8);
+	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(7,&yymsp[-1].minor);
 }
 #line 708 "parser.php7.c"
@@ -710,7 +710,7 @@ static void yy_reduce(
       case 13:
 #line 150 "parser.php7.lemon"
 {
-	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, yymsp[0].minor.yy8);
+	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(8,&yymsp[-1].minor);
 }
 #line 717 "parser.php7.c"
@@ -770,7 +770,7 @@ static void yy_reduce(
       case 23:
 #line 202 "parser.php7.lemon"
 {
-	phannot_ret_array(&yygotominor.yy8, yymsp[-1].minor.yy8);
+	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(14,&yymsp[-2].minor);
   yy_destructor(15,&yymsp[0].minor);
 }
@@ -779,7 +779,7 @@ static void yy_reduce(
       case 24:
 #line 206 "parser.php7.lemon"
 {
-	phannot_ret_array(&yygotominor.yy8, yymsp[-1].minor.yy8);
+	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(16,&yymsp[-2].minor);
   yy_destructor(17,&yymsp[0].minor);
 }

@@ -8,7 +8,7 @@
 #include <stdio.h>
 // 28 "parser.php5.lemon"
 
-#include "parser.php5.inc.h";
+#include "parser.php5.inc.h"
 
 // 12 "parser.php5.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
@@ -1052,7 +1052,7 @@ void phannot_(
 #include <stdio.h>
 // 28 "parser.php7.lemon"
 
-#include "parser.php7.inc.h";
+#include "parser.php7.inc.h"
 
 // 12 "parser.php7.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
@@ -1672,7 +1672,7 @@ static void aa_reduce(
       case 0:
 // 86 "parser.php7.lemon"
 {
-	status->ret = aamsp[0].minor.aa8;
+	ZVAL_ZVAL(status->ret, &aamsp[0].minor.aa8, 1, 1);
 }
 // 632 "parser.php7.c"
         break;
@@ -1688,7 +1688,7 @@ static void aa_reduce(
       case 2:
 // 102 "parser.php7.lemon"
 {
-	phannot_ret_zval_list(&aagotominor.aa8, aamsp[-1].minor.aa8, aamsp[0].minor.aa8);
+	phannot_ret_zval_list(&aagotominor.aa8, &aamsp[-1].minor.aa8, &aamsp[0].minor.aa8);
 }
 // 648 "parser.php7.c"
         break;
@@ -1696,14 +1696,14 @@ static void aa_reduce(
       case 8:
 // 106 "parser.php7.lemon"
 {
-	phannot_ret_zval_list(&aagotominor.aa8, NULL, aamsp[0].minor.aa8);
+	phannot_ret_zval_list(&aagotominor.aa8, NULL, &aamsp[0].minor.aa8);
 }
 // 656 "parser.php7.c"
         break;
       case 4:
 // 114 "parser.php7.lemon"
 {
-	phannot_ret_annotation(&aagotominor.aa8, aamsp[-3].minor.aa0, aamsp[-1].minor.aa8, status->scanner_state);
+	phannot_ret_annotation(&aagotominor.aa8, aamsp[-3].minor.aa0, &aamsp[-1].minor.aa8, status->scanner_state);
   aa_destructor(2,&aamsp[-4].minor);
   aa_destructor(4,&aamsp[-2].minor);
   aa_destructor(5,&aamsp[0].minor);
@@ -1731,7 +1731,7 @@ static void aa_reduce(
       case 7:
 // 130 "parser.php7.lemon"
 {
-	phannot_ret_zval_list(&aagotominor.aa8, aamsp[-2].minor.aa8, aamsp[0].minor.aa8);
+	phannot_ret_zval_list(&aagotominor.aa8, &aamsp[-2].minor.aa8, &aamsp[0].minor.aa8);
   aa_destructor(1,&aamsp[-1].minor);
 }
 // 692 "parser.php7.c"
@@ -1739,7 +1739,7 @@ static void aa_reduce(
       case 9:
 // 142 "parser.php7.lemon"
 {
-	phannot_ret_named_item(&aagotominor.aa8, NULL, aamsp[0].minor.aa8);
+	phannot_ret_named_item(&aagotominor.aa8, NULL, &aamsp[0].minor.aa8);
 }
 // 699 "parser.php7.c"
         break;
@@ -1747,7 +1747,7 @@ static void aa_reduce(
       case 12:
 // 146 "parser.php7.lemon"
 {
-	phannot_ret_named_item(&aagotominor.aa8, aamsp[-2].minor.aa0, aamsp[0].minor.aa8);
+	phannot_ret_named_item(&aagotominor.aa8, aamsp[-2].minor.aa0, &aamsp[0].minor.aa8);
   aa_destructor(7,&aamsp[-1].minor);
 }
 // 708 "parser.php7.c"
@@ -1756,7 +1756,7 @@ static void aa_reduce(
       case 13:
 // 150 "parser.php7.lemon"
 {
-	phannot_ret_named_item(&aagotominor.aa8, aamsp[-2].minor.aa0, aamsp[0].minor.aa8);
+	phannot_ret_named_item(&aagotominor.aa8, aamsp[-2].minor.aa0, &aamsp[0].minor.aa8);
   aa_destructor(8,&aamsp[-1].minor);
 }
 // 717 "parser.php7.c"
@@ -1816,7 +1816,7 @@ static void aa_reduce(
       case 23:
 // 202 "parser.php7.lemon"
 {
-	phannot_ret_array(&aagotominor.aa8, aamsp[-1].minor.aa8);
+	phannot_ret_array(&aagotominor.aa8, &aamsp[-1].minor.aa8);
   aa_destructor(14,&aamsp[-2].minor);
   aa_destructor(15,&aamsp[0].minor);
 }
@@ -1825,7 +1825,7 @@ static void aa_reduce(
       case 24:
 // 206 "parser.php7.lemon"
 {
-	phannot_ret_array(&aagotominor.aa8, aamsp[-1].minor.aa8);
+	phannot_ret_array(&aagotominor.aa8, &aamsp[-1].minor.aa8);
   aa_destructor(16,&aamsp[-2].minor);
   aa_destructor(17,&aamsp[0].minor);
 }
