@@ -84,7 +84,7 @@
 }
 
 program ::= annotation_language(Q) . {
-	ZVAL_ZVAL(status->ret, &Q, 1, 1);
+	ZVAL_ZVAL(&status->ret, &Q, 1, 1);
 }
 
 %destructor annotation_language {

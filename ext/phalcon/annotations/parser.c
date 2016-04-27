@@ -1672,7 +1672,7 @@ static void aa_reduce(
       case 0:
 // 86 "parser.php7.lemon"
 {
-	ZVAL_ZVAL(status->ret, &aamsp[0].minor.aa8, 1, 1);
+	ZVAL_ZVAL(&status->ret, &aamsp[0].minor.aa8, 1, 1);
 }
 // 632 "parser.php7.c"
         break;
@@ -2391,7 +2391,9 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
+#if PHP_VERSION_ID < 70000
 	parser_status->ret = NULL;
+#endif
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
@@ -2538,18 +2540,18 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	phannot_Free(phannot_parser, phannot_wrapper_free);
 
 	if (status != FAILURE) {
-		if (parser_status->status == PHANNOT_PARSING_OK) {
+		if (parser_status->status == PHANNOT_PARSING_OK) {			
+#if PHP_VERSION_ID < 70000
 			if (parser_status->ret) {
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
-#if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
-#else
-				zval_dtor(parser_status->ret);
-#endif
 			} else {
 				array_init(*result);
 			}
+#else
+			ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+#endif
 		}
 	}
 

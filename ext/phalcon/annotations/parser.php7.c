@@ -626,7 +626,7 @@ static void yy_reduce(
       case 0:
 #line 86 "parser.php7.lemon"
 {
-	ZVAL_ZVAL(status->ret, &yymsp[0].minor.yy8, 1, 1);
+	ZVAL_ZVAL(&status->ret, &yymsp[0].minor.yy8, 1, 1);
 }
 #line 632 "parser.php7.c"
         break;
