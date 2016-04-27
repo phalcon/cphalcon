@@ -88,9 +88,7 @@ program ::= annotation_language(Q) . {
 }
 
 %destructor annotation_language {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 annotation_language(R) ::= annotation_list(L) . {
@@ -98,9 +96,7 @@ annotation_language(R) ::= annotation_list(L) . {
 }
 
 %destructor annotation_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 annotation_list(R) ::= annotation_list(L) annotation(S) . {
@@ -112,9 +108,7 @@ annotation_list(R) ::= annotation(S) . {
 }
 
 %destructor annotation {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
@@ -130,9 +124,7 @@ annotation(R) ::= AT IDENTIFIER(I) . {
 }
 
 %destructor argument_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
@@ -144,9 +136,7 @@ argument_list(R) ::= argument_item(I) . {
 }
 
 %destructor argument_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 argument_item(R) ::= expr(E) . {
@@ -170,9 +160,7 @@ argument_item(R) ::= IDENTIFIER(I) COLON expr(E) . {
 }
 
 %destructor expr {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 expr(R) ::= annotation(S) . {

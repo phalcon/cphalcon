@@ -2,13 +2,7 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#if PHP_VERSION_ID < 70000
 #include <ext/standard/php_smart_str.h>
-#else
-#include <ext/standard/php_smart_string.h>
-#include <zend_smart_str.h>
-#endif
-
 #include <main/spprintf.h>
 
 #include "parser.php5.h"
@@ -21,34 +15,13 @@
 static inline zval *phannot_alloc_zval()
 {
     zval *ret;
-
-#if PHP_VERSION_ID < 70000
     MAKE_STD_ZVAL(ret);
-#else
-    ret = emalloc(sizeof(zval));
-    ZVAL_UNDEF(ret);
-#endif
-
     return ret;
 }
 
-#if PHP_VERSION_ID < 70000
 #define phannot_add_assoc_stringl(var, index, str, len) add_assoc_stringl(var, index, str, len, 0);
-#else
-#define phannot_add_assoc_stringl(var, index, str, len) add_assoc_stringl(var, index, str, len);
-#endif
-
-#if PHP_VERSION_ID < 70000
 #define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str, copy);
-#else
-#define phannot_add_assoc_string_copy(var, index, str, copy) add_assoc_string(var, index, str);
-#endif
-
-#if PHP_VERSION_ID < 70000
 #define PHANNOT_IS_INTERNED(z) IS_INTERNED(z)
-#else
-#define PHANNOT_IS_INTERNED(z) 1
-#endif
 
 static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
 {
@@ -93,7 +66,6 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 
 		list = Z_ARRVAL_P(list_left);
 		if (zend_hash_index_exists(list, 0)) {
-#if PHP_VERSION_ID < 70000
             {
                 HashPosition pos;
                 zend_hash_internal_pointer_reset_ex(list, &pos);
@@ -110,19 +82,6 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
     			}
     			zval_ptr_dtor(&list_left);
             }
-#else
-            {
-                zval *item;
-                ZEND_HASH_FOREACH_VAL(list, item) {
-
-                    Z_TRY_ADDREF_P(item);
-                    add_next_index_zval(ret, item);
-
-                } ZEND_HASH_FOREACH_END();
-            }
-
-            zval_dtor(list_left);
-#endif
 		} else {
 			add_next_index_zval(ret, list_left);
 		}

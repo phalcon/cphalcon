@@ -2,16 +2,12 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#if PHP_VERSION_ID < 70000
-#include <ext/standard/php_smart_str.h>
-#else
 #include <ext/standard/php_smart_string.h>
 #include <zend_smart_str.h>
-#endif
 
 #include <main/spprintf.h>
 
-#include "parser.php7.h"
+#include "parser.h"
 #include "scanner.h"
 #include "annot.h"
 
