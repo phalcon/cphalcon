@@ -5,6 +5,7 @@
 - Added ability to setLogLevel on multiple logs [#10429](https://github.com/phalcon/cphalcon/pull/10429)
 - Fixed regression changes for `Phalcon\Translate\Adapter\Gettext::prepareOptions` [#11429](https://github.com/phalcon/cphalcon/issues/11429)
 - Fixed `Phalcon\Mvc\View\Engine\Volt::callMacro` bug. Now it's correctly calling `call_user_func_array` instead of `call_user_func`
+- Fixed undefined method call `Phalcon\Mvc\Collection\Manager::getConnectionService`. Now `Phalcon\Mvc\Collection::getConnectionService` works correctly in according to documentation
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
 - ORM: Added support for DATE columns in Oracle
