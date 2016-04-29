@@ -33,7 +33,6 @@ static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
 	add_assoc_long(ret, "type", type);
 	if (T) {
 		phannot_add_assoc_stringl(ret, "value", T->token, T->token_len);
-        efree(T->token);
 		efree(T);
 	}
 
@@ -103,7 +102,6 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
 		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);
-        efree(name->token);
 		efree(name);
 	}
 
@@ -120,8 +118,7 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 	add_assoc_long(ret, "type", PHANNOT_T_ANNOTATION);
 
 	if (name) {
-		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);
-        efree(name->token);
+		phannot_add_assoc_stringl(ret, "name", name->token, name->token_len);        
 		efree(name);
 	}
 
