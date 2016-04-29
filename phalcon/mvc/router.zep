@@ -363,6 +363,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		 * Routes are traversed in reversed order
 		 */
 		for route in reverse this->_routes {
+			let params = [],
+				matches = null;
 
 			/**
 			 * Look for HTTP method constraints
