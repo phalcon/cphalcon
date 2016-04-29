@@ -6085,7 +6085,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 
 	ZVAL_NULL(result);
 
-#if PHP_VERSION_ID < 70000
+#if PHP_VERSION_ID >= 70000    
     ZVAL_NULL(error_msg);
 #endif
 
