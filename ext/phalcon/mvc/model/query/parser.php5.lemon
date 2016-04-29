@@ -121,9 +121,7 @@ program ::= query_language(Q) . {
 }
 
 %destructor query_language {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 query_language(R) ::= select_statement(S) . {
@@ -143,9 +141,7 @@ query_language(R) ::= delete_statement(D) . {
 }
 
 %destructor select_statement {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
@@ -153,9 +149,7 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 }
 
 %destructor select_clause {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) join_list_or_null(J) . {
@@ -163,9 +157,7 @@ select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_
 }
 
 %destructor distinct_all {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 distinct_all(R) ::= DISTINCT . {
@@ -181,9 +173,7 @@ distinct_all(R) ::= . {
 }
 
 %destructor column_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 column_list(R) ::= column_list(L) COMMA column_item(C) . {
@@ -195,9 +185,7 @@ column_list(R) ::= column_item(I) . {
 }
 
 %destructor column_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 column_item(R) ::= TIMES . {
@@ -221,9 +209,7 @@ column_item(R) ::= expr(E) . {
 }
 
 %destructor associated_name_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 associated_name_list(R) ::= associated_name_list(L) COMMA associated_name(A) . {
@@ -243,9 +229,7 @@ join_list_or_null(R) ::= . {
 }
 
 %destructor join_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 join_list(R) ::= join_list(L) join_item(I) . {
@@ -257,9 +241,7 @@ join_list(R) ::= join_item(I) . {
 }
 
 %destructor join_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 join_item(R) ::= join_clause(C) . {
@@ -267,9 +249,7 @@ join_item(R) ::= join_clause(C) . {
 }
 
 %destructor join_clause {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 /** Join + conditions + alias */
@@ -278,9 +258,7 @@ join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) join_associated_nam
 }
 
 %destructor join_associated_name  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 join_associated_name(R) ::= AS IDENTIFIER(I) . {
@@ -296,9 +274,7 @@ join_associated_name(R) ::= . {
 }
 
 %destructor join_type {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 join_type(R) ::= INNER JOIN . {
@@ -338,9 +314,7 @@ join_type(R) ::= JOIN . {
 }
 
 %destructor join_conditions  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 join_conditions(R) ::= ON expr(E) . {
@@ -352,9 +326,7 @@ join_conditions(R) ::= . {
 }
 
 %destructor insert_statement {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 /* Insert */
@@ -367,9 +339,7 @@ insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) PARENTHESES_OPE
 }
 
 %destructor value_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 values_list(R) ::= values_list(L) COMMA value_item(I) . {
@@ -385,9 +355,7 @@ value_item(R) ::= expr(E) . {
 }
 
 %destructor field_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 field_list(R) ::= field_list(L) COMMA field_item(I) . {
@@ -399,9 +367,7 @@ field_list(R) ::= field_item(I) . {
 }
 
 %destructor field_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 field_item(R) ::= IDENTIFIER(I) . {
@@ -411,9 +377,7 @@ field_item(R) ::= IDENTIFIER(I) . {
 /* Update */
 
 %destructor update_statement {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
@@ -421,9 +385,7 @@ update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
 }
 
 %destructor update_clause {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
@@ -431,9 +393,7 @@ update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
 }
 
 %destructor update_item_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 update_item_list(R) ::= update_item_list(L) COMMA update_item(I) . {
@@ -445,9 +405,7 @@ update_item_list(R) ::= update_item(I) . {
 }
 
 %destructor update_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 update_item(R) ::= qualified_name(Q) EQUALS new_value(N) . {
@@ -461,9 +419,7 @@ new_value(R) ::= expr(E) . {
 /* Delete */
 
 %destructor delete_statement {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 delete_statement(R) ::= delete_clause(D) where_clause(W) limit_clause(L) . {
@@ -471,9 +427,7 @@ delete_statement(R) ::= delete_clause(D) where_clause(W) limit_clause(L) . {
 }
 
 %destructor delete_clause {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 delete_clause(R) ::= DELETE FROM associated_name(A) . {
@@ -481,9 +435,7 @@ delete_clause(R) ::= DELETE FROM associated_name(A) . {
 }
 
 %destructor associated_name {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) . {
@@ -523,9 +475,7 @@ associated_name(R) ::= aliased_or_qualified_name(Q) WITH with_item(W) . {
 }
 
 %destructor with_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 with_list(R) ::= with_list(L) COMMA with_item(I) . {
@@ -537,9 +487,7 @@ with_list(R) ::= with_item(I) . {
 }
 
 %destructor with_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 with_item(R) ::= IDENTIFIER(I) . {
@@ -547,9 +495,7 @@ with_item(R) ::= IDENTIFIER(I) . {
 }
 
 %destructor aliased_or_qualified_name {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 aliased_or_qualified_name(R) ::= qualified_name(Q) . {
@@ -557,9 +503,7 @@ aliased_or_qualified_name(R) ::= qualified_name(Q) . {
 }
 
 %destructor where_clause  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 where_clause(R) ::= WHERE expr(E) . {
@@ -571,9 +515,7 @@ where_clause(R) ::= . {
 }
 
 %destructor order_clause  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 order_clause(R) ::= ORDER BY order_list(O) . {
@@ -585,9 +527,7 @@ order_clause(R) ::= . {
 }
 
 %destructor order_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 order_list(R) ::= order_list(L) COMMA order_item(I) . {
@@ -599,9 +539,7 @@ order_list(R) ::= order_item(I) . {
 }
 
 %destructor order_item {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 order_item(R) ::= expr(O) . {
@@ -617,9 +555,7 @@ order_item(R) ::= expr(O) DESC . {
 }
 
 %destructor group_clause {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 group_clause(R) ::= GROUP BY group_list(G) . {
@@ -631,9 +567,7 @@ group_clause(R) ::= . {
 }
 
 %destructor group_list {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 group_list(R) ::= group_list(L) COMMA group_item(I) . {
@@ -645,9 +579,7 @@ group_list(R) ::= group_item(I) . {
 }
 
 %destructor group_item {
-#if PHP_VERSION_ID < 70000
 	zval_ptr_dtor(&$$);
-#endif
 }
 
 group_item(R) ::= expr(E) . {
@@ -655,9 +587,7 @@ group_item(R) ::= expr(E) . {
 }
 
 %destructor having_clause  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 having_clause(R) ::= HAVING expr(E) . {
@@ -669,9 +599,7 @@ having_clause(R) ::= . {
 }
 
 %destructor for_update_clause  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 for_update_clause(R) ::= FOR UPDATE . {
@@ -683,9 +611,7 @@ for_update_clause(R) ::= . {
 }
 
 %destructor select_limit_clause  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 select_limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
@@ -705,9 +631,7 @@ select_limit_clause(R) ::= . {
 }
 
 %destructor limit_clause  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
@@ -739,9 +663,7 @@ integer_or_placeholder(R) ::= BPLACEHOLDER(P) . {
 }
 
 %destructor expr {
-#if PHP_VERSION_ID < 70000
     zval_ptr_dtor(&$$);
-#endif
 }
 
 expr(R) ::= MINUS expr(E) . {
@@ -885,11 +807,7 @@ when_clause(R) ::= ELSE expr(E) . {
 }
 
 %destructor function_call {
-#if PHP_VERSION_ID < 70000
 	zval_ptr_dtor(&$$);
-#else
-	efree($$);
-#endif
 }
 
 expr(R) ::= function_call(F) . {
@@ -901,9 +819,7 @@ function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN distinct_or_null(D) argument
 }
 
 %destructor distinct_or_null  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 distinct_or_null(R) ::= DISTINCT . {
@@ -915,9 +831,7 @@ distinct_or_null(R) ::=  . {
 }
 
 %destructor argument_list_or_null  {
-#if PHP_VERSION_ID < 70000
     zephir_safe_zval_ptr_dtor($$);
-#endif
 }
 
 argument_list_or_null(R) ::= argument_list(L) . {
@@ -929,11 +843,7 @@ argument_list_or_null(R) ::= . {
 }
 
 %destructor argument_list {
-#if PHP_VERSION_ID < 70000
 	zval_ptr_dtor(&$$);
-#else
-	efree($$);
-#endif
 }
 
 argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
@@ -945,11 +855,7 @@ argument_list(R) ::= argument_item(I) . {
 }
 
 %destructor argument_item {
-#if PHP_VERSION_ID < 70000
 	zval_ptr_dtor(&$$);
-#else
-	efree($$);
-#endif
 }
 
 argument_item(R) ::= TIMES . {
@@ -1032,11 +938,7 @@ expr(R) ::= BPLACEHOLDER(P) . {
 }
 
 %destructor qualified_name {
-#if PHP_VERSION_ID < 70000
 	zval_ptr_dtor(&$$);
-#else
-	efree($$);
-#endif
 }
 
 qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {

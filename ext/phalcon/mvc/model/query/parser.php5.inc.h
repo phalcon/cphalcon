@@ -284,7 +284,6 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 
 	list = Z_ARRVAL_P(list_left);
 	if (zend_hash_index_exists(list, 0)) {
-#if PHP_VERSION_ID < 70000
         HashPosition pos;
 
 		zend_hash_internal_pointer_reset_ex(list, &pos);
@@ -301,7 +300,6 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 
 		}
 		zval_ptr_dtor(&list_left);
-#endif
 	} else {
 		add_next_index_zval(ret, list_left);
 	}
@@ -320,13 +318,16 @@ static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *ide
 
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
+	
 	if (column) {
 		add_assoc_zval(ret, "column", column);
 	}
+
 	if (identifier_column) {
 		phql_add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 0);
 		efree(identifier_column);
 	}
+
 	if (alias) {
 		phql_add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
 		efree(alias);
