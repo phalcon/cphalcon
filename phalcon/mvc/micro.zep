@@ -653,7 +653,22 @@ class Micro extends Injectable implements \ArrayAccess
 								 * Call the middleware
 								 */
 								let status = before->call(this);
-
+								
+								/**
+								 * Since status is being returned by middleware, 
+								 * it should be treated in order to stop execution flow if the returned value was false.
+								 * I believe this check is required here:
+								*/
+								
+								if status === false {
+									this->_stopped = true;
+								}
+								
+								/** 
+								 * Now, loop will skip any other beforeHandlers,
+								 * and the execution flow will be stopped.
+								*/
+									
 								/**
 								 * Reload the status
 								 * break the execution if the middleware was stopped
