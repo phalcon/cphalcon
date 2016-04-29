@@ -28,7 +28,11 @@ typedef struct _phql_parser_token {
 } phql_parser_token;
 
 typedef struct _phql_parser_status {
+#if PHP_VERSION_ID < 70000
 	zval *ret;
+#else
+	zval ret;
+#endif
 	char* phql;
 	unsigned int phql_length;
 	int status;
