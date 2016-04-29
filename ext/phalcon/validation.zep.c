@@ -49,6 +49,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 
 	zend_declare_property_null(phalcon_validation_ce, SL("_values"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	phalcon_validation_ce->create_object = zephir_init_properties_Phalcon_Validation;
+
 	zend_class_implements(phalcon_validation_ce TSRMLS_CC, 1, phalcon_validationinterface_ce);
 	return SUCCESS;
 
@@ -624,7 +626,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	zephir_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_camelize(_0$$3, field);
+		zephir_camelize(_0$$3, field, NULL  );
 		ZEPHIR_INIT_VAR(method);
 		ZEPHIR_CONCAT_SV(method, "get", _0$$3);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
@@ -747,6 +749,27 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 		}
 	}
 	RETURN_MM_BOOL(0);
+
+}
+
+zend_object_value zephir_init_properties_Phalcon_Validation(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1$$3;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_validators"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_validators"), _1$$3 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

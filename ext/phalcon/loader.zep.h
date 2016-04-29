@@ -19,7 +19,7 @@ PHP_METHOD(Phalcon_Loader, unregister);
 PHP_METHOD(Phalcon_Loader, autoLoad);
 PHP_METHOD(Phalcon_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Loader, getCheckedPath);
-static zend_object_value zephir_init_properties_Phalcon_Loader(zend_class_entry *class_type TSRMLS_DC);
+zend_object_value zephir_init_properties_Phalcon_Loader(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)

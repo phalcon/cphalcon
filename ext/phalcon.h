@@ -333,7 +333,6 @@
 #include "phalcon/security.zep.h"
 #include "phalcon/security/exception.zep.h"
 #include "phalcon/security/random.zep.h"
-#include "phalcon/session.zep.h"
 #include "phalcon/session/adapter/files.zep.h"
 #include "phalcon/session/adapter/libmemcached.zep.h"
 #include "phalcon/session/adapter/memcache.zep.h"

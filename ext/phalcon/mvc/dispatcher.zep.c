@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 }
 
 /**
- * Returns the lastest dispatched controller
+ * Returns the latest dispatched controller
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController) {
 

@@ -530,7 +530,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 					ZEPHIR_CPY_WRT(realClassName, taskName);
 				}
 				ZEPHIR_INIT_VAR(_1$$9);
-				zephir_uncamelize(_1$$9, realClassName);
+				zephir_uncamelize(_1$$9, realClassName, NULL  );
 				zephir_array_update_string(&routePaths, SL("task"), &_1$$9, PH_COPY | PH_SEPARATE);
 			}
 			if (Z_TYPE_P(actionName) != IS_NULL) {

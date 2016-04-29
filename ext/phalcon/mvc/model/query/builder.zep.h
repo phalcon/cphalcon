@@ -38,6 +38,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, autoescape);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
@@ -160,6 +161,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_groupby, 0, 0, 1)
 	ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_autoescape, 0, 0, 1)
+	ZEND_ARG_INFO(0, identifier)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, __construct, arginfo_phalcon_mvc_model_query_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setDI, arginfo_phalcon_mvc_model_query_builder_setdi, ZEND_ACC_PUBLIC)
@@ -196,5 +201,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getGroupBy, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getPhql, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getQuery, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, autoescape, arginfo_phalcon_mvc_model_query_builder_autoescape, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

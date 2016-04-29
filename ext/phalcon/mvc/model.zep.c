@@ -5253,7 +5253,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _invokeFinder) {
 			ZEPHIR_CPY_WRT(field, extraMethodFirst);
 		} else {
 			ZEPHIR_INIT_NVAR(field);
-			zephir_uncamelize(field, extraMethod);
+			zephir_uncamelize(field, extraMethod, NULL  );
 			if (!(zephir_array_isset(attributes, field))) {
 				ZEPHIR_INIT_VAR(_7$$15);
 				object_init_ex(_7$$15, phalcon_mvc_model_exception_ce);
@@ -5501,7 +5501,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _possibleSetter) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_camelize(_0, property);
+	zephir_camelize(_0, property, NULL  );
 	ZEPHIR_INIT_VAR(possibleSetter);
 	ZEPHIR_CONCAT_SV(possibleSetter, "set", _0);
 	if ((zephir_method_exists(this_ptr, possibleSetter TSRMLS_CC)  == SUCCESS)) {
@@ -5620,7 +5620,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
 		RETURN_CCTOR(result);
 	}
 	ZEPHIR_INIT_VAR(_4);
-	zephir_camelize(_4, property);
+	zephir_camelize(_4, property, NULL  );
 	ZEPHIR_INIT_VAR(method);
 	ZEPHIR_CONCAT_SV(method, "get", _4);
 	if ((zephir_method_exists(this_ptr, method TSRMLS_CC)  == SUCCESS)) {
