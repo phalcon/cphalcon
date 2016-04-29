@@ -25,7 +25,11 @@ typedef struct _phvolt_parser_token {
 } phvolt_parser_token;
 
 typedef struct _phvolt_parser_status {
+#if PHP_VERSION_ID < 70000
 	zval *ret;
+#else
+	zval ret;
+#endif	
 	phvolt_scanner_state *scanner_state;
 	int status;
 	unsigned int syntax_error_len;
