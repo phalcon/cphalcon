@@ -29,6 +29,7 @@ static void phvolt_ret_literal_zval(zval *ret, int type, phvolt_parser_token *T,
 	add_assoc_long(ret, "type", type);
 	if (T) {
 		phvolt_add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		efree(T->token);
 		efree(T);
 	}
 
@@ -86,10 +87,12 @@ static void phvolt_ret_for_statement(zval *ret, phvolt_parser_token *variable, p
 	add_assoc_long(ret, "type", PHVOLT_T_FOR);
 
 	phvolt_add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
+	efree(variable->token);
 	efree(variable);
 
 	if (key) {
 		phvolt_add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
+		efree(key->token);
 		efree(key);
 	}
 
@@ -179,6 +182,7 @@ static void phvolt_ret_block_statement(zval *ret, phvolt_parser_token *name, zva
 	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
 
 	phvolt_add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+	efree(name->token);
 	efree(name);
 
 	if (block_statements) {
@@ -197,6 +201,7 @@ static void phvolt_ret_macro_statement(zval *ret, phvolt_parser_token *macro_nam
 	add_assoc_long(ret, "type", PHVOLT_T_MACRO);
 
 	phvolt_add_assoc_stringl(ret, "name", macro_name->token, macro_name->token_len, 0);
+	efree(macro_name->token);
 	efree(macro_name);
 
 	if (parameters) {
@@ -218,6 +223,7 @@ static void phvolt_ret_macro_parameter(zval *ret, phvolt_parser_token *variable,
 	array_init(ret);
 
 	phvolt_add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
+	efree(variable->token);
 	efree(variable);
 
 	if (default_value) {
@@ -366,6 +372,7 @@ static void phvolt_ret_named_item(zval *ret, phvolt_parser_token *name, zval *ex
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
 		phvolt_add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		efree(name->token);
 		efree(name);
 	}
 
