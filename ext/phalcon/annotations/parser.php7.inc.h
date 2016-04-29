@@ -42,7 +42,6 @@ static void phannot_ret_array(zval *ret, zval *items)
 
 static void phannot_ret_zval_list(zval *ret, zval *list_left, zval *right_list)
 {
-
 	HashTable *list;
 
 	array_init(ret);
