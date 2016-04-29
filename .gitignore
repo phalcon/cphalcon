@@ -170,3 +170,5 @@ ext/phalcon/annotations/parser.php5.out
 ext/phalcon/annotations/parser.php7.out
 ext/phalcon/mvc/view/engine/volt/parser.php5.out
 ext/phalcon/mvc/view/engine/volt/parser.php7.out
+ext/phalcon/mvc/model/query/parser.php5.out
+ext/phalcon/mvc/model/query/parser.php7.out
