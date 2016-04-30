@@ -5178,7 +5178,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
+#if PHP_VERSION_ID < 70000
 	parser_status->ret = NULL;
+#else
+    ZVAL_UNDEF(&parser_status->ret);
+#endif
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
 	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
@@ -5593,10 +5597,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 #endif
 				}
 
-				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-				ZVAL_NULL(parser_status->ret);
 #if PHP_VERSION_ID < 70000
+                ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+                ZVAL_NULL(parser_status->ret);
 				zval_ptr_dtor(&parser_status->ret);
+#else
+                ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
 #endif
 
 				/**
@@ -5623,7 +5629,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				}
 
 			} else {
+#if PHP_VERSION_ID < 70000
 				efree(parser_status->ret);
+#endif
 			}
 		}
 	}
