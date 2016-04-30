@@ -24,6 +24,7 @@ static void phql_ret_literal_zval(zval *ret, int type, phql_parser_token *T)
 	add_assoc_long(ret, "type", type);
 	if (T) {
 		phql_add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		efree(T->token);
 		efree(T);
 	}
 }
@@ -33,6 +34,7 @@ static void phql_ret_placeholder_zval(zval *ret, int type, phql_parser_token *T)
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	phql_add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+	efree(T->token);
 	efree(T);
 }
 
@@ -44,15 +46,18 @@ static void phql_ret_qualified_name(zval *ret, phql_parser_token *A, phql_parser
 
 	if (A) {
 		phql_add_assoc_stringl(ret, "ns-alias", A->token, A->token_len, 0);
+		efree(A->token);
 		efree(A);
 	}
 
 	if (B) {
 		phql_add_assoc_stringl(ret, "domain", B->token, B->token_len, 0);
+		efree(B->token);
 		efree(B);
 	}
 
 	phql_add_assoc_stringl(ret, "name", C->token, C->token_len, 0);
+	efree(C->token);
 	efree(C);
 }
 
@@ -64,11 +69,13 @@ static void phql_ret_raw_qualified_name(zval *ret, phql_parser_token *A, phql_pa
 	if (B) {
 		phql_add_assoc_stringl(ret, "domain", A->token, A->token_len, 0);
 		phql_add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
+		efree(B->token);
 		efree(B);
 	} else {
 		phql_add_assoc_stringl(ret, "name", A->token, A->token_len, 0);
 	}
 
+	efree(A->token);
 	efree(A);
 }
 
@@ -253,11 +260,13 @@ static void phql_ret_column_item(zval *ret, int type, zval *column, phql_parser_
 
 	if (identifier_column) {
 		phql_add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 0);
+		efree(identifier_column->token);
 		efree(identifier_column);
 	}
 
 	if (alias) {
 		phql_add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
+		efree(alias->token);
 		efree(alias);
 	}
 }
@@ -270,6 +279,7 @@ static void phql_ret_assoc_name(zval *ret, zval *qualified_name, phql_parser_tok
 
 	if (alias) {
 		phql_add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
+		efree(alias->token);
 		efree(alias);
 	}
 
@@ -320,6 +330,7 @@ static void phql_ret_func_call(zval *ret, phql_parser_token *name, zval *argumen
 
 	add_assoc_long(ret, "type", PHQL_T_FCALL);
 	phql_add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+	efree(name->token);
 	efree(name);
 
 	if (arguments && Z_TYPE_P(arguments) != IS_UNDEF) {
