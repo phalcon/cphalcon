@@ -622,15 +622,25 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHQL_PARSING_OK) {
+#if PHP_VERSION_ID < 70000
 			if (parser_status->ret) {
+#else
+			if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
+#endif
 
 				/**
 				 * Set a unique id for the parsed ast
 				 */
 				if (phalcon_globals_ptr->orm.cache_level >= 1) {
+#if PHP_VERSION_ID < 70000
 					if (Z_TYPE_P(parser_status->ret) == IS_ARRAY) {
 						add_assoc_long(parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
 					}
+#else
+                    if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
+                        add_assoc_long(&parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
+                    }
+#endif
 				}
 
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
