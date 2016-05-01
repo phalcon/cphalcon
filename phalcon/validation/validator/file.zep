@@ -201,6 +201,7 @@ class File extends Validator
 				}
 			}
 		}
+		
 		return true;
 	}
 

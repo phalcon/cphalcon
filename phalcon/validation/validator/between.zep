@@ -66,7 +66,15 @@ class Between extends Validator
 				let message = validation->getDefaultMessage("Between");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Between", this->getOption("code")));
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"Between",
+					this->getOption("code")
+				)
+			);
+			
 			return false;
 		}
 

@@ -31,7 +31,6 @@ use Phalcon\Validation\Message\Group;
  */
 class Group implements \Countable, \ArrayAccess, \Iterator
 {
-
 	protected _position = 0;
 
 	protected _messages = [];
@@ -158,6 +157,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 				let finalMessages = messages;
 			}
 			let this->_messages = finalMessages;
+
 		} else {
 
 			/**

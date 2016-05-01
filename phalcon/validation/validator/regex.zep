@@ -47,10 +47,8 @@ class Regex extends Validator
 	{
 		var matches, failed, message, value, label, replacePairs;
 
-		/**
-		 * Regular expression is set in the option 'pattern'
-		 * Check if the value match using preg_match in the PHP userland
-		 */
+		// Regular expression is set in the option 'pattern'
+		// Check if the value match using preg_match in the PHP userland
 		let matches = null;
 		let value = validation->getValue(field);
 
@@ -73,7 +71,15 @@ class Regex extends Validator
 				let message = validation->getDefaultMessage("Regex");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Regex", this->getOption("code")));
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"Regex",
+					this->getOption("code")
+				)
+			);
+
 			return false;
 		}
 

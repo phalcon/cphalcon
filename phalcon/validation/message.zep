@@ -34,7 +34,7 @@ class Message implements MessageInterface
 	protected _message;
 
 	protected _field;
-	
+
 	protected _code;
 
 	/**
@@ -100,7 +100,7 @@ class Message implements MessageInterface
 	{
 		return this->_field;
 	}
-	
+
 	/**
 	 * Sets code for the message
 	 */
