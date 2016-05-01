@@ -163,8 +163,15 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 			/**
 			 * A group of messages is iterated and appended one-by-one to the current list
 			 */
-			for message in iterator(messages) {
+			//for message in iterator(messages) {
+			//	this->appendMessage(message);
+			//}
+
+			messages->rewind();
+			while messages->valid() {
+				let message = messages->current();
 				this->appendMessage(message);
+    			messages->next();
 			}
 		}
 	}
