@@ -53,6 +53,7 @@ before_install:
   - '[[ "$TRAVIS_PHP_VERSION" != "7" ]] || zephir generate --backend=ZendEngine3 &> /dev/null'
 
 before_script:
+  - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do gcc "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - php --ri phalcon
