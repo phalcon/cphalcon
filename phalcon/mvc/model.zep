@@ -4489,6 +4489,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		/**
+		 * Enables/Disables implicit join condition based on defined relationship
+		 */
+		if fetch enableImplicitJoins, options["enableImplicitJoins"] {
+			globals_set("orm.enable_implicit_joins", enableImplicitJoins);
+		}
+
+		/**
 		 * Enables/Disables automatic cast to original types on hydration
 		 */
 		if fetch castOnHydrate, options["castOnHydrate"] {
