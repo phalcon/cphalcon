@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	      |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)	      |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
  | with this package in the file docs/LICENSE.txt.						  |
@@ -24,6 +24,7 @@ use Phalcon\Mvc\Model;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
@@ -57,8 +58,8 @@ abstract class Resultset
 {
 
 	/**
-	* Phalcon\Db\ResultInterface or false for empty resultset
-	*/
+	 * Phalcon\Db\ResultInterface or false for empty resultset
+	 */
 	protected _result = false;
 
 	protected _cache;
@@ -385,7 +386,7 @@ abstract class Resultset
 	/**
 	 * Returns the error messages produced by a batch operation
 	 */
-	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
+	public function getMessages() -> <MessageInterface[]>
 	{
 		return this->_errorMessages;
 	}
@@ -416,6 +417,7 @@ abstract class Resultset
 
 				let connection = record->getWriteConnection(),
 					transaction = true;
+
 				connection->begin();
 			}
 
@@ -560,7 +562,8 @@ abstract class Resultset
 	}
 
     /**
-     * Returns serialised model objects as array for json_encode. Calls jsonSerialize on each object if present
+     * Returns serialised model objects as array for json_encode.
+	 * Calls jsonSerialize on each object if present
      *
      *<code>
      * $robots = Robots::find();
