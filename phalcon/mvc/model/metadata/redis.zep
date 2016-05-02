@@ -66,7 +66,7 @@ class Redis extends MetaData
 			let options = [];
 		}
 
-		if options["redis"] instanceof Redis {
+		if isset options["redis"] && options["redis"] instanceof Redis {
 			let this->_redis = options["redis"];
 		} else {
 			var ttl;
