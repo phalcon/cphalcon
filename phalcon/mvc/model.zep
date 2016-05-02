@@ -1394,7 +1394,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		// we append the messages to the current object
 		if typeof messages != "boolean" {
 
-			for message in iterator(messages) {
+			messages->rewind();
+
+			//for message in iterator(messages) {
+			while messages->valid() {
+
+				let message = messages->current();
+
 				this->appendMessage(
 					new Message(
 						message->getMessage(),
@@ -1402,6 +1408,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						message->getType()
 					)
 				);
+
+				messages->next();
 			}
 
 			// If there is a message, it returns false otherwise true

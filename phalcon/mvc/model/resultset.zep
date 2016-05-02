@@ -404,7 +404,14 @@ abstract class Resultset
 		var record, connection = null;
 
 		let transaction = false;
-		for record in iterator(this) {
+
+		this->rewind();
+
+		//for record in iterator(this) {
+
+		while this->valid() {
+
+			let record = this->current();
 
 			if transaction === false {
 
@@ -426,6 +433,7 @@ abstract class Resultset
 			 */
 			if typeof conditionCallback == "object" {
 				if call_user_func_array(conditionCallback, [record]) === false {
+					this->next();
 					continue;
 				}
 			}
@@ -468,7 +476,14 @@ abstract class Resultset
 		var record, connection = null;
 
 		let transaction = false;
-		for record in iterator(this) {
+
+		this->rewind();
+
+		//for record in iterator(this) {
+
+		while this->valid() {
+
+			let record = this->current();
 
 			if transaction === false {
 
@@ -481,6 +496,7 @@ abstract class Resultset
 
 				let connection = record->getWriteConnection(),
 					transaction = true;
+
 				connection->begin();
 			}
 
@@ -489,6 +505,7 @@ abstract class Resultset
 			 */
 			if typeof conditionCallback == "object" {
 				if call_user_func_array(conditionCallback, [record]) === false {
+					this->next();
 					continue;
 				}
 			}
@@ -510,6 +527,8 @@ abstract class Resultset
 				let transaction = false;
 				break;
 			}
+
+			this->next();
 		}
 
 		/**
@@ -543,7 +562,13 @@ abstract class Resultset
 		let records = [],
 			parameters = [];
 
-		for record in iterator(this) {
+		this->rewind();
+
+		//for record in iterator(this) {
+
+		while this->valid() {
+
+			let record = this->current();
 
 			let parameters[0] = record,
 				processedRecord = call_user_func_array(filter, parameters);
@@ -552,10 +577,12 @@ abstract class Resultset
 			 * Only add processed records to 'records' if the returned value is an array/object
 			 */
 			if typeof processedRecord != "object" && typeof processedRecord != "array" {
+				this->next();
 				continue;
 			}
 
 			let records[] = processedRecord;
+			this->next();
 		}
 
 		return records;
@@ -576,13 +603,23 @@ abstract class Resultset
     {
         var records, current;
         let records = [];
-        for current in iterator(this) {
+
+		this->rewind();
+        //for current in iterator(this) {
+
+		while this->valid() {
+
+			let current = this->current();
+
         	if typeof current == "object" && method_exists(current, "jsonSerialize") {
         		let records[] = current->{"jsonSerialize"}();
         	} else {
         	    let records[] = current;
         	}
+
+			this->next();
         }
+
         return records;
     }
 }

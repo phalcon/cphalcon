@@ -255,9 +255,15 @@ class Complex extends Resultset implements ResultsetInterface
 	{
 		var records, current;
 		let records = [];
-		for current in iterator(this) {
+
+		this->rewind();
+		//for current in iterator(this) {
+		while this->valid() {
+			let current = this->current();
 			let records[] = current;
+			this->next();
 		}
+		
 		return records;
 	}
 
