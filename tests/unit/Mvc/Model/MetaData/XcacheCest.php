@@ -30,7 +30,7 @@ class XcacheCest
 
     public function _before(UnitTester $I)
     {
-        if (!function_exists('xcache_emulation') && !extension_loaded('gettext')) {
+        if (!function_exists('xcache_emulation') && !function_exists('xcache_get')) {
             throw new \PHPUnit_Framework_SkippedTestError(
                 'Warning: xcache extension is not loaded'
             );
