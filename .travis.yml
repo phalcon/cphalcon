@@ -42,6 +42,7 @@ env:
 
 before_install:
   - export PATH=$PATH:~/bin;
+  - echo $TRAVIS_PHP_VERSION
   - travis_retry composer self-update
   - travis_retry composer --prefer-source install
   - travis_retry composer require phalcon/zephir:dev-master

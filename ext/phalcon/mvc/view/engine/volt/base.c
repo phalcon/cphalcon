@@ -206,7 +206,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 
 	ZVAL_NULL(result);
 
-#if PHP_VERSION_ID >= 70000    
+#if PHP_VERSION_ID >= 70000
     ZVAL_NULL(error_msg);
 #endif
 
@@ -784,9 +784,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				array_init(*result);
 			}
 #else
-            ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+            if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
+                ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+            } else {
+                array_init(*result);
+            }
 #endif
-
 		}
 	}
 
