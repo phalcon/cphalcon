@@ -46,47 +46,58 @@ class Redis extends MetaData
 
 	protected _ttl = 172800;
 
-	protected _redis = null;
+	protected _redis = null { get, set };
 
 	protected _metaData = [];
 
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Redis constructor
 	 *
+	 * if redis exist, use exist redis handle
+	 * if not exist, create a new instance of redis
+	 *
 	 * @param array options
 	 */
 	public function __construct(options = null)
 	{
-		var ttl;
+
 
 		if typeof options != "array" {
 			let options = [];
 		}
 
-		if !isset options["host"] {
-			let options["host"] = "127.0.0.1";
+		if options["redis"] instanceof Redis {
+			let this->_redis = options["redis"];
+		} else {
+			var ttl;
+
+			if !isset options["host"] {
+				let options["host"] = "127.0.0.1";
+			}
+
+			if !isset options["port"] {
+				let options["port"] = 6379;
+			}
+
+			if !isset options["persistent"] {
+				let options["persistent"] = 0;
+			}
+
+			if !isset options["statsKey"] {
+				let options["statsKey"] = "_PHCM_MM";
+			}
+
+			if fetch ttl, options["lifetime"] {
+				let this->_ttl = ttl;
+			}
+
+			let this->_redis = new Redis(
+				new FrontendData(["lifetime": this->_ttl]),
+				options
+			);
 		}
 
-		if !isset options["port"] {
-			let options["port"] = 6379;
-		}
 
-		if !isset options["persistent"] {
-			let options["persistent"] = 0;
-		}
-
-		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM_MM";
-		}
-
-		if fetch ttl, options["lifetime"] {
-			let this->_ttl = ttl;
-		}
-
-		let this->_redis = new Redis(
-			new FrontendData(["lifetime": this->_ttl]),
-			options
-		);
 	}
 
 	/**
