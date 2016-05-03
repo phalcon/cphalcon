@@ -51,7 +51,7 @@ before_install:
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
   - '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || zephir generate &> /dev/null'
-  - '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || zephir generate --backend=ZendEngine3 &> /dev/null'
+  - '[[ "$TRAVIS_PHP_VERSION" = "7.0" ]] || zephir generate --backend=ZendEngine3 &> /dev/null'
 
 before_script:
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do gcc "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
