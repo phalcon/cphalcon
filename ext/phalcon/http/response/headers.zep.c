@@ -151,10 +151,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 			if (!(ZEPHIR_IS_EMPTY(value))) {
 				ZEPHIR_INIT_LNVAR(_5$$5);
 				ZEPHIR_CONCAT_VSV(_5$$5, header, ": ", value);
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 238, _5$$5, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 233, _5$$5, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 238, header, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 233, header, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 			}
 		}
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(value, _2$$3);
-			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 239, key, value);
+			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 234, key, value);
 			zephir_check_call_status();
 		}
 	}
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 
 }
 
-static zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1$$3;
 

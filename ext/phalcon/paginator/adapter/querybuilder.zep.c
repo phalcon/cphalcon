@@ -192,8 +192,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	ZEPHIR_CALL_METHOD(&groups, totalBuilder, "getgroupby", NULL, 0);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(groups))) {
-		ZEPHIR_INIT_VAR(groupColumn$$8);
-		zephir_fast_join_str(groupColumn$$8, SL(", "), groups TSRMLS_CC);
+		if (Z_TYPE_P(groups) == IS_ARRAY) {
+			ZEPHIR_INIT_VAR(groupColumn$$8);
+			zephir_fast_join_str(groupColumn$$8, SL(", "), groups TSRMLS_CC);
+		} else {
+			ZEPHIR_CPY_WRT(groupColumn$$8, groups);
+		}
 		ZEPHIR_INIT_VAR(_3$$8);
 		ZVAL_NULL(_3$$8);
 		ZEPHIR_CALL_METHOD(&_2$$8, totalBuilder, "groupby", NULL, 0, _3$$8);

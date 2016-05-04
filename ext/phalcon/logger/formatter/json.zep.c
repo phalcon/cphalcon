@@ -29,7 +29,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Json, phalcon, logger_formatter_json, phalcon_logger_formatter_ce, phalcon_logger_formatter_json_method_entry, 0);
 
-	zend_class_implements(phalcon_logger_formatter_json_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 	return SUCCESS;
 
 }

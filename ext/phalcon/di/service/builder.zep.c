@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 	) {
 		ZEPHIR_GET_HMKEY(position, _1, _0);
 		ZEPHIR_GET_HVALUE(argument, _2);
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "_buildparameter", &_4, 178, dependencyInjector, position, argument);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "_buildparameter", &_4, 173, dependencyInjector, position, argument);
 		zephir_check_call_status();
 		zephir_array_append(&buildArguments, _3$$3, PH_SEPARATE, "phalcon/di/service/builder.zep", 117);
 	}
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	} else {
 		ZEPHIR_OBS_VAR(arguments);
 		if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "_buildparameters", &_1, 179, dependencyInjector, arguments);
+			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "_buildparameters", &_1, 174, dependencyInjector, arguments);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(instance);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(instance, className, _0$$8 TSRMLS_CC);
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				}
 				if (zephir_fast_count_int(arguments TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(_12$$18);
-					ZEPHIR_CALL_METHOD(&_13$$18, this_ptr, "_buildparameters", &_1, 179, dependencyInjector, arguments);
+					ZEPHIR_CALL_METHOD(&_13$$18, this_ptr, "_buildparameters", &_1, 174, dependencyInjector, arguments);
 					zephir_check_call_status();
 					ZEPHIR_CALL_USER_FUNC_ARRAY(_12$$18, methodCall, _13$$18);
 					zephir_check_call_status();
@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(&_24$$22, this_ptr, "_buildparameter", &_25, 178, dependencyInjector, propertyPosition, propertyValue);
+			ZEPHIR_CALL_METHOD(&_24$$22, this_ptr, "_buildparameter", &_25, 173, dependencyInjector, propertyPosition, propertyValue);
 			zephir_check_call_status();
 			zephir_update_property_zval_zval(instance, propertyName, _24$$22 TSRMLS_CC);
 		}
