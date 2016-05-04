@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -265,34 +265,27 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function getUniquePrefix() -> string
 	{
-		var prefix, calculatedPrefix;
-
-		let prefix = this->_prefix;
-
 		/**
 		 * If the unique prefix is not set we use a hash using the modified Berstein algotithm
 		 */
-		if !prefix {
-			let prefix = unique_path_key(this->_currentPath);
-			let this->_prefix = prefix;
+		if !this->_prefix {
+			let this->_prefix = unique_path_key(this->_currentPath);
 		}
 
 		/**
 		 * The user could use a closure generator
 		 */
-		if typeof prefix == "object" {
-			if prefix instanceof \Closure {
-				let calculatedPrefix = call_user_func_array(prefix, [this]),
-					this->_prefix = calculatedPrefix,
-					prefix = calculatedPrefix;
+		if typeof this->_prefix == "object" {
+			if this->_prefix instanceof \Closure {
+				let this->_prefix = call_user_func_array(this->_prefix, [this]);
 			}
 		}
 
-		if typeof prefix != "string" {
+		if typeof this->_prefix != "string" {
 			throw new Exception("The unique compilation prefix is invalid");
 		}
 
-		return prefix;
+		return this->_prefix;
 	}
 
 	/**
@@ -324,12 +317,8 @@ class Compiler implements InjectionAwareInterface
 				 * Services registered in the dependency injector container are availables always
 				 */
 				let dependencyInjector = this->_dependencyInjector;
-				if typeof dependencyInjector == "object" {
-					if dependencyInjector->has(variable) {
-						let exprCode .= "$this->" . variable;
-					} else {
-						let exprCode .= "$" . variable;
-					}
+				if typeof dependencyInjector == "object" && dependencyInjector->has(variable) {
+					let exprCode .= "$this->" . variable;
 				} else {
 					let exprCode .= "$" . variable;
 				}
@@ -514,7 +503,7 @@ class Compiler implements InjectionAwareInterface
 				}
 
 				if isset arrayHelpers[name] {
-					return "$this->tag->" . method . "(array(" . arguments . "))";
+					return "$this->tag->" . method . "([" . arguments . "])";
 				}
 				return "$this->tag->" . method . "(" . arguments . ")";
 			}
@@ -563,7 +552,7 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * By default it tries to call a macro
 			 */
-			return "$this->callMacro('" . name . "', array(" . arguments . "))";
+			return "$this->callMacro('" . name . "', [" . arguments . "])";
 		}
 
 		return this->expression(nameExpr) . "(" . arguments . ")";
@@ -1088,9 +1077,9 @@ class Compiler implements InjectionAwareInterface
 
 				case PHVOLT_T_ARRAY:
 					if isset expr["left"] {
-						let exprCode = "array(" . leftCode . ")";
+						let exprCode = "[" . leftCode . "]";
 					} else {
-						let exprCode = "array()";
+						let exprCode = "[]";
 					}
 					break;
 
@@ -1408,6 +1397,7 @@ class Compiler implements InjectionAwareInterface
 			let compilation .= "<?php $" . prefixLevel . "iterator = " . exprCode . "; ";
 			let compilation .= "$" . prefixLevel . "incr = 0; ";
 			let compilation .= "$" . prefixLevel . "loop = new stdClass(); ";
+			let compilation .= "$" . prefixLevel . "loop->self = &$" . prefixLevel . "loop; ";
 			let compilation .= "$" . prefixLevel . "loop->length = count($" . prefixLevel . "iterator); ";
 			let compilation .= "$" . prefixLevel . "loop->index = 1; ";
 			let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
@@ -1778,10 +1768,10 @@ class Compiler implements InjectionAwareInterface
 		 * Echo statement
 		 */
 		if this->_autoescape {
-			return "<?php echo $this->escaper->escapeHtml(" . exprCode . "); ?>";
+			return "<?= $this->escaper->escapeHtml(" . exprCode . ") ?>";
 		}
 
-		return "<?php echo " . exprCode . "; ?>";
+		return "<?= " . exprCode . " ?>";
 	}
 
 	/**
@@ -1789,7 +1779,7 @@ class Compiler implements InjectionAwareInterface
 	 */
 	public function compileInclude(array! statement) -> string
 	{
-		var pathExpr, path, view, subCompiler, finalPath, compilation, params;
+		var pathExpr, path, subCompiler, finalPath, compilation, params;
 
 		/**
 		 * Include statement
@@ -1815,12 +1805,7 @@ class Compiler implements InjectionAwareInterface
 				 */
 				let path = pathExpr["value"];
 
-				let view = this->_view;
-				if typeof view == "object" {
-					let finalPath = view->getViewsDir() . path;
-				} else {
-					let finalPath = path;
-				}
+				let finalPath = this->getFinalPath(path);
 
 				/**
 				 * Clone the original compiler
@@ -1930,13 +1915,9 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Bind the closure to the $this object allowing to call services, only PHP >= 5.4
+		 * Bind the closure to the $this object allowing to call services
 		 */
-		if is_php_version("5.3") {
-			let code .= " ?>";
-		} else {
-			let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
-		}
+		let code .= macroName . " = \\Closure::bind(" . macroName . ", $this); ?>";
 
 		return code;
 	}
@@ -1960,7 +1941,7 @@ class Compiler implements InjectionAwareInterface
 	{
 		var extended, blockMode, compilation, extensions,
 			statement, tempCompilation, type, blockName, blockStatements,
-			blocks, path, view, finalPath, subCompiler, level;
+			blocks, path, finalPath, subCompiler, level;
 
 		/**
 		 * Nothing to compile
@@ -2092,12 +2073,7 @@ class Compiler implements InjectionAwareInterface
 					 */
 					let path = statement["path"];
 
-					let view = this->_view;
-					if typeof view == "object" {
-						let finalPath = view->getViewsDir() . path["value"];
-					} else {
-						let finalPath = path["value"];
-					}
+					let finalPath = this->getFinalPath(path["value"]);
 
 					let extended = true;
 
@@ -2628,5 +2604,34 @@ class Compiler implements InjectionAwareInterface
 	{
 		var currentPath = "eval code";
 		return phvolt_parse_view(viewCode, currentPath);
+	}
+
+	/**
+	 * Gets the final path with VIEW
+	 */
+	protected function getFinalPath(string path)
+	{
+		var view, viewsDirs, viewsDir;
+		let view = this->_view;
+
+		if typeof view == "object" {
+			let viewsDirs = view->getViewsDir();
+
+			if typeof viewsDirs == "array" {
+				for viewsDir in viewsDirs {
+					if file_exists(viewsDir . path) {
+						return viewsDir . path;
+					}
+				}
+
+				// Otherwise, take the last viewsDir
+				return viewsDir . path;
+
+			} else {
+				return viewsDirs . path;
+			}
+		}
+
+		return path;
 	}
 }

@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
 }
 
 /**
- * Phalcon\Db\ReferenceInterface constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __construct);
-
-/**
  * Gets the index name
  *
  * @return string

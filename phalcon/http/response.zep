@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -66,9 +66,15 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function __construct(content = null, code = null, status = null)
 	{
+		/**
+		 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
+		 */
+		let this->_headers = new Headers();
+
 		if content !== null {
 			let this->_content = content;
 		}
+
 		if code !== null {
 			this->setStatusCode(code, status);
 		}
@@ -244,16 +250,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function getHeaders() -> <HeadersInterface>
 	{
-		var headers;
-		let headers = this->_headers;
-		if headers === null {
-			/**
-			 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
-			 */
-			let headers = new Headers(),
-				this->_headers = headers;
-		}
-		return headers;
+		return this->_headers;
 	}
 
 	/**
@@ -347,6 +344,32 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Sets Last-Modified header
+	 *
+	 *<code>
+	 *	$this->response->setLastModified(new DateTime());
+	 *</code>
+	 */
+	public function setLastModified(<\DateTime> datetime) -> <Response>
+	{
+		var date;
+
+		let date = clone datetime;
+
+		/**
+		 * All the Last-Modified times are sent in UTC
+		 * Change the timezone to utc
+		 */
+		date->setTimezone(new \DateTimeZone("UTC"));
+
+		/**
+		 * The 'Last-Modified' header sets this info
+		 */
+		this->setHeader("Last-Modified", date->format("D, d M Y H:i:s") . " GMT");
+		return this;
+	}
+
+	/**
 	 * Sets Cache headers to use HTTP cache
 	 *
 	 *<code>
@@ -389,13 +412,12 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setContentType(string contentType, charset = null) -> <Response>
 	{
-		var headers;
-		let headers = this->getHeaders();
 		if charset === null {
-			headers->set("Content-Type", contentType);
+			this->setHeader("Content-Type", contentType);
 		} else {
-			headers->set("Content-Type", contentType . "; charset=" . charset);
+			this->setHeader("Content-Type", contentType . "; charset=" . charset);
 		}
+
 		return this;
 	}
 
@@ -408,9 +430,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setEtag(string etag) -> <Response>
 	{
-		var headers;
-		let headers = this->getHeaders();
-		headers->set("Etag", etag);
+		this->setHeader("Etag", etag);
+
 		return this;
 	}
 
@@ -505,18 +526,16 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	/**
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
+	 * and also sets default header: Content-Type: "application/json; charset=UTF-8"
 	 *
 	 *<code>
 	 *	$response->setJsonContent(array("status" => "OK"));
 	 *</code>
-	 *
-	 * @param mixed content
-	 * @param int jsonOptions
-	 * @return \Phalcon\Http\Response
 	 */
-	public function setJsonContent(var content, jsonOptions = 0, depth = 512) -> <Response>
+	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <Response>
 	{
-		let this->_content = json_encode(content, jsonOptions, depth);
+		this->setContentType("application/json", "UTF-8");
+		this->setContent(json_encode(content, jsonOptions, depth));
 		return this;
 	}
 
@@ -553,11 +572,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function sendHeaders() -> <Response>
 	{
-		var headers;
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
-		}
+		this->_headers->send();
+
 		return this;
 	}
 
@@ -579,27 +595,15 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function send() -> <Response>
 	{
-		var headers, cookies, content, file;
+		var content, file;
 
 		if this->_sent {
 			throw new Exception("Response was already sent");
 		}
 
-		/**
-		 * Send headers
-		 */
-		let headers = this->_headers;
-		if typeof headers == "object" {
-			headers->send();
-		}
+		this->sendHeaders();
 
-		/**
-		 * Send Cookies/comment>
-		 */
-		let cookies = this->_cookies;
-		if typeof cookies == "object" {
-			cookies->send();
-		}
+		this->sendCookies();
 
 		/**
 		 * Output the response body
@@ -628,21 +632,19 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 */
 	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <Response>
 	{
-		var basePath, headers;
+		var basePath;
 
 		if typeof attachmentName != "string" {
-			let basePath = basename(filePath);
+			let basePath = basename(filePath);			
 		} else {
 			let basePath = attachmentName;
 		}
 
 		if attachment {
-			let headers = this->getHeaders();
-
-			headers->setRaw("Content-Description: File Transfer");
-			headers->setRaw("Content-Type: application/octet-stream");
-			headers->setRaw("Content-Disposition: attachment; filename=" . basePath);
-			headers->setRaw("Content-Transfer-Encoding: binary");
+			this->setRawHeader("Content-Description: File Transfer");
+			this->setRawHeader("Content-Type: application/octet-stream");
+			this->setRawHeader("Content-Disposition: attachment; filename=" . basePath);
+			this->setRawHeader("Content-Transfer-Encoding: binary");
 		}
 
 		let this->_file = filePath;

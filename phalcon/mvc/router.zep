@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -70,7 +70,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _action = null;
 
-	protected _params;
+	protected _params = [];
 
 	protected _routes;
 
@@ -88,7 +88,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _defaultAction;
 
-	protected _defaultParams;
+	protected _defaultParams = [];
 
 	protected _removeExtraSlashes;
 
@@ -125,9 +125,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			]);
 		}
 
-		let this->_params = [],
-			this->_defaultParams = [],
-			this->_routes = routes;
+		let this->_routes = routes;
 	}
 
 	/**
@@ -300,11 +298,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	public function getDefaults() -> array
 	{
 		return [
-			"namespace": this->_defaultNamespace,
-			"module": this->_defaultModule,
+			"namespace":  this->_defaultNamespace,
+			"module":     this->_defaultModule,
 			"controller": this->_defaultController,
-			"action": this->_defaultAction,
-			"params": this->_defaultParams
+			"action":     this->_defaultAction,
+			"params":     this->_defaultParams
 		];
 	}
 
@@ -365,6 +363,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		 * Routes are traversed in reversed order
 		 */
 		for route in reverse this->_routes {
+			let params = [],
+				matches = null;
 
 			/**
 			 * Look for HTTP method constraints
@@ -496,7 +496,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 				/**
 				 * Start from the default paths
 				 */
-				let paths = route->getPaths(), parts = paths;
+				let paths = route->getPaths(),
+					parts = paths;
 
 				/**
 				 * Check if the matches has variables
@@ -509,6 +510,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 					let converters = route->getConverters();
 
 					for part, position in paths {
+
+						if typeof part != "string" {
+							throw new Exception("Wrong key in paths: " . part);
+						}
+
+						if typeof position != "string" && typeof position != "integer" {
+							continue;
+						}
 
 						if fetch matchPosition, matches[position] {
 
@@ -534,6 +543,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
 									let parts[part] = call_user_func_array(converter, [position]);
+								}
+							} else {
+
+								/**
+								 * Remove the path if the parameter was not matched
+								 */
+								if typeof position == "integer" {
+									unset parts[part];
 								}
 							}
 						}

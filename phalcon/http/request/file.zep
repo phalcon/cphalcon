@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,21 +27,22 @@ use Phalcon\Http\Request\FileInterface;
  * Provides OO wrappers to the $_FILES superglobal
  *
  *<code>
- *	class PostsController extends \Phalcon\Mvc\Controller
- *	{
+ *use Phalcon\Mvc\Controller;
  *
- *		public function uploadAction()
- *		{
- *			//Check if the user has uploaded files
- *			if ($this->request->hasFiles() == true) {
- *				//Print the real file names and their sizes
- *				foreach ($this->request->getUploadedFiles() as $file){
- *					echo $file->getName(), " ", $file->getSize(), "\n";
- *				}
- *			}
- *		}
+ *class PostsController extends Controller
+ *{
  *
- *	}
+ *   public function uploadAction()
+ *   {
+ *      // Check if the user has uploaded files
+ *      if ($this->request->hasFiles() == true) {
+ *        // Print the real file names and their sizes
+ *        foreach ($this->request->getUploadedFiles() as $file) {
+ *            echo $file->getName(), " ", $file->getSize(), "\n";
+ *        }
+ *	    }
+ *   }
+ *}
  *</code>
  */
 class File implements FileInterface

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,15 +27,19 @@ namespace Phalcon;
  * are granted access to objects, as well as what operations are allowed on given objects.
  *
  *<code>
+ *  use Phalcon\Acl;
+ *  use Phalcon\Acl\Role;
+ *  use Phalcon\Acl\Resource;
+ *  use Phalcon\Acl\Adapter\Memory;
  *
- *	$acl = new \Phalcon\Acl\Adapter\Memory();
+ *	$acl = new Memory();
  *
  *	//Default action is deny access
- *	$acl->setDefaultAction(\Phalcon\Acl::DENY);
+ *	$acl->setDefaultAction(Acl::DENY);
  *
  *	//Create some roles
- *	$roleAdmins = new \Phalcon\Acl\Role('Administrators', 'Super-User role');
- *	$roleGuests = new \Phalcon\Acl\Role('Guests');
+ *	$roleAdmins = new Role('Administrators', 'Super-User role');
+ *	$roleGuests = new Role('Guests');
  *
  *	//Add "Guests" role to acl
  *	$acl->addRole($roleGuests);
@@ -44,7 +48,7 @@ namespace Phalcon;
  *	$acl->addRole('Designers');
  *
  *	//Define the "Customers" resource
- *	$customersResource = new \Phalcon\Acl\Resource('Customers', 'Customers management');
+ *	$customersResource = new Resource('Customers', 'Customers management');
  *
  *	//Add "customers" resource with a couple of operations
  *	$acl->addResource($customersResource, 'search');
@@ -64,7 +68,6 @@ namespace Phalcon;
  */
 abstract class Acl
 {
-
 	const ALLOW = 1;
 
 	const DENY = 0;

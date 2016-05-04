@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -169,6 +169,14 @@ class Service implements ServiceInterface
 			 */
 			if typeof definition == "object" {
 				if definition instanceof \Closure {
+
+					/**
+					 * Bounds the closure to the current DI
+					 */
+					if typeof dependencyInjector == "object" {
+						let definition = \Closure::bind(definition, dependencyInjector);
+					}
+
 					if typeof parameters == "array" {
 						let instance = call_user_func_array(definition, parameters);
 					} else {

@@ -1245,7 +1245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit) {
 /**
  * Returns the order clause in the criteria
  */
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder) {
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrderBy) {
 
 	zval *order = NULL, *_0;
 
@@ -1315,7 +1315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL;
 	zval *modelName = NULL, *operator = NULL, *_12$$10;
-	zval *dependencyInjector, *modelName_param = NULL, *data_param = NULL, *operator_param = NULL, *attribute = NULL, *conditions = NULL, *field = NULL, *value = NULL, *type = NULL, *metaData = NULL, *model = NULL, *dataTypes = NULL, *bind = NULL, *criteria = NULL, *columnMap = NULL, *_0$$3, *_1$$3 = NULL, **_5$$3, *_8$$9 = NULL, *_9$$9 = NULL, *_10$$8 = NULL, *_11$$10;
+	zval *dependencyInjector, *modelName_param = NULL, *data_param = NULL, *operator_param = NULL, *attribute = NULL, *conditions = NULL, *field = NULL, *value = NULL, *type = NULL, *metaData = NULL, *model = NULL, *dataTypes = NULL, *bind = NULL, *criteria = NULL, *columnMap = NULL, *_0$$3 = NULL, *_1$$3 = NULL, **_5$$3, *_8$$9 = NULL, *_9$$9 = NULL, *_10$$8 = NULL, *_11$$10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &dependencyInjector, &modelName_param, &data_param, &operator_param);
@@ -1361,7 +1361,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 			_2$$3 = zend_fetch_class(Z_STRVAL_P(_1$$3), Z_STRLEN_P(_1$$3), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(model, _2$$3);
 		if (zephir_has_constructor(model TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, model, "__construct", NULL, 0);
+			ZEPHIR_INIT_NVAR(_0$$3);
+			ZVAL_NULL(_0$$3);
+			ZEPHIR_CALL_METHOD(NULL, model, "__construct", NULL, 0, _0$$3, dependencyInjector);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD(&dataTypes, metaData, "getdatatypes", NULL, 0, model);
@@ -1422,12 +1424,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(_12$$10);
 		ZEPHIR_CONCAT_SVS(_12$$10, " ", operator, " ");
 		zephir_fast_join(_11$$10, _12$$10, conditions TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(NULL, criteria, "where", NULL, 308, _11$$10);
+		ZEPHIR_CALL_METHOD(NULL, criteria, "where", NULL, 321, _11$$10);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, criteria, "bind", NULL, 309, bind);
+		ZEPHIR_CALL_METHOD(NULL, criteria, "bind", NULL, 322, bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, criteria, "setmodelname", NULL, 304, modelName);
+	ZEPHIR_CALL_METHOD(NULL, criteria, "setmodelname", NULL, 312, modelName);
 	zephir_check_call_status();
 	RETURN_CCTOR(criteria);
 

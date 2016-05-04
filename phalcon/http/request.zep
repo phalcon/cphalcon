@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -21,9 +21,9 @@ namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Http\Request\Exception;
 use Phalcon\Http\Request\File;
+use Phalcon\Http\Request\Exception;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Http\Request
@@ -53,6 +53,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 	protected _filter;
 
 	protected _putCache;
+
+	protected _httpMethodParameterOverride = false { get, set };
 
 	/**
 	 * Sets the dependency injector
@@ -479,15 +481,40 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Gets HTTP method which request has been made
+	 *
+	 * If the X-HTTP-Method-Override header is set, and if the method is a POST,
+	 * then it is used to determine the "real" intended HTTP method.
+	 *
+	 * The _method request parameter can also be used to determine the HTTP method,
+	 * but only if setHttpMethodParameterOverride(true) has been called.
+	 *
+	 * The method is always an uppercased string.
 	 */
 	public final function getMethod() -> string
 	{
-		var requestMethod;
+		var headers, overridedMethod, spoofedMethod, requestMethod;
+		string returnMethod = "";
 
 		if fetch requestMethod, _SERVER["REQUEST_METHOD"] {
-			return requestMethod;
+			let returnMethod = requestMethod;
 		}
-		return "";
+
+		if "POST" === requestMethod {
+			let headers = this->getHeaders();
+			if fetch overridedMethod, headers["X-HTTP-METHOD-OVERRIDE"] {
+				let returnMethod = overridedMethod;
+			} elseif this->_httpMethodParameterOverride {
+				if fetch spoofedMethod, _REQUEST["_method"] {
+					let returnMethod = spoofedMethod;
+				}
+			}
+		}
+
+		if !this->isValidHttpMethod(returnMethod) {
+			let returnMethod = "GET";
+		}
+
+		return strtoupper(returnMethod);
 	}
 
 	/**
@@ -508,11 +535,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function isValidHttpMethod(string method) -> boolean
 	{
-		var lowerMethod;
-
-		let lowerMethod = strtoupper(method);
-
-		switch method {
+		switch strtoupper(method) {
 
 			case "GET":
 			case "POST":
@@ -546,17 +569,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		if typeof methods == "array" {
 			for method in methods {
-				if strict && !this->isValidHttpMethod(method) {
-					if typeof method == "string" {
-						throw new Exception("Invalid HTTP method: " . method);
-					} else {
-						throw new Exception("Invalid HTTP method: non-string");
-					}
-				}
-				if method == httpMethod {
+				if this->isMethod(method, strict) {
 					return true;
 				}
 			}
+
 			return false;
 		}
 

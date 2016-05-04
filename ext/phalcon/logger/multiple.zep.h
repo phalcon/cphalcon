@@ -5,8 +5,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Multiple);
 
 PHP_METHOD(Phalcon_Logger_Multiple, getLoggers);
 PHP_METHOD(Phalcon_Logger_Multiple, getFormatter);
+PHP_METHOD(Phalcon_Logger_Multiple, getLogLevel);
 PHP_METHOD(Phalcon_Logger_Multiple, push);
 PHP_METHOD(Phalcon_Logger_Multiple, setFormatter);
+PHP_METHOD(Phalcon_Logger_Multiple, setLogLevel);
 PHP_METHOD(Phalcon_Logger_Multiple, log);
 PHP_METHOD(Phalcon_Logger_Multiple, critical);
 PHP_METHOD(Phalcon_Logger_Multiple, emergency);
@@ -23,6 +25,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_setformatter, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, formatter, Phalcon\\Logger\\FormatterInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_setloglevel, 0, 0, 1)
+	ZEND_ARG_INFO(0, level)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_log, 0, 0, 1)
@@ -74,8 +80,10 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_logger_multiple_method_entry) {
 	PHP_ME(Phalcon_Logger_Multiple, getLoggers, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Multiple, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, getLogLevel, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Multiple, push, arginfo_phalcon_logger_multiple_push, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Multiple, setFormatter, arginfo_phalcon_logger_multiple_setformatter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Multiple, setLogLevel, arginfo_phalcon_logger_multiple_setloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Multiple, log, arginfo_phalcon_logger_multiple_log, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Multiple, critical, arginfo_phalcon_logger_multiple_critical, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Multiple, emergency, arginfo_phalcon_logger_multiple_emergency, ZEND_ACC_PUBLIC)

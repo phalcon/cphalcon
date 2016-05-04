@@ -27,11 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_FileInterface) {
 }
 
 /**
- * Phalcon\Http\Request\FileInterface constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, __construct);
-
-/**
  * Returns the file size of the uploaded file
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getSize);

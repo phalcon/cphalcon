@@ -126,7 +126,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getActionName);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getParams);
 
 /**
- * Returns the route that matchs the handled URI
+ * Returns the route that matches the handled URI
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatchedRoute);
 
@@ -136,7 +136,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatchedRoute);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatches);
 
 /**
- * Check if the router macthes any of the defined routes
+ * Check if the router matches any of the defined routes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, wasMatched);
 

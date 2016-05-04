@@ -70,6 +70,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSelectParsing()
 	{
+		$this->markTestSkipped("Test skipped: This test need to be refactored");
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped('Test skipped');

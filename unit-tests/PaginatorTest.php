@@ -90,139 +90,6 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testArrayPaginator()
-	{
-
-		$personas = array(
-			0 => array(
-				'name' => 'PETER'
-			),
-			1 => array(
-				'name' => 'PETER'
-			),
-			2 => array(
-				'name' => 'PETER'
-			),
-			3 => array(
-				'name' => 'PETER'
-			),
-			4 => array(
-				'name' => 'PETER'
-			),
-			5 => array(
-				'name' => 'PETER'
-			),
-			6 => array(
-				'name' => 'PETER'
-			),
-			7 => array(
-				'name' => 'PETER'
-			),
-			8 => array(
-				'name' => 'PETER'
-			),
-			9 => array(
-				'name' => 'PETER'
-			),
-			10 => array(
-				'name' => 'PETER'
-			),
-			11 => array(
-				'name' => 'PETER'
-			),
-			12 => array(
-				'name' => 'PETER'
-			),
-			13 => array(
-				'name' => 'PETER'
-			),
-			14 => array(
-				'name' => 'PETER'
-			),
-			15 => array(
-				'name' => 'PETER'
-			),
-			16 => array(
-				'name' => 'PETER'
-			),
-			17 => array(
-				'name' => 'PETER'
-			)
-		);
-
-		$paginator = new Phalcon\Paginator\Adapter\NativeArray(array(
-			'data' => $personas,
-			'limit' => 3,
-			'page' => 1
-		));
-
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 3);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 6);
-		$this->assertEquals($page->limit, 3);
-
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 6);
-
-		//Middle Page
-		$paginator->setCurrentPage(4);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 3);
-
-		$this->assertEquals($page->before, 3);
-		$this->assertEquals($page->next, 5);
-		$this->assertEquals($page->last, 6);
-
-		$this->assertEquals($page->current, 4);
-		$this->assertEquals($page->total_pages, 6);
-	}
-
-	public function testArrayPaginator_t445()
-	{
-
-		$paginator = new \Phalcon\Paginator\Adapter\NativeArray(array(
-			"data" => array_fill(0, 30, 'banana'),
-			"limit"=> 25,
-			"page" => 1,
-		));
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 25);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-		$this->assertEquals($page->limit, 25);
-
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 2);
-
-		$paginator->setCurrentPage(2);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 5);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-
-		$this->assertEquals($page->current, 2);
-		$this->assertEquals($page->total_pages, 2);
-	}
-
 	public function testModelPaginator()
 	{
 		require 'unit-tests/config.db.php';
@@ -440,12 +307,64 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_loadDI();
 
+		// test paginator with group by string value
+		$builder = $di['modelsManager']->createBuilder()
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->orderBy('cedula')
+					->groupBy('email');
+
+		$this->_paginatorBuilderTest($builder);
+
+		// test paginator with group by array value
 		$builder = $di['modelsManager']->createBuilder()
 					->columns('cedula, nombres')
 					->from('Personnes')
 					->orderBy('cedula')
 					->groupBy(['email']);
 
+		$this->_paginatorBuilderTest($builder);
+
+		// test of getter/setters of querybuilder adapter
+
+		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+			"builder" => $builder,
+			"limit"=> 10,
+			"page" => 1
+		));
+
+		$paginator->setCurrentPage(18);
+
+        // -- current page --
+		$currentPage = $paginator->getCurrentPage();
+		$this->assertEquals($currentPage, 18);
+
+		// -- limit --
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 10);
+
+		$setterResult = $paginator->setLimit(25);
+		$rowsLimit = $paginator->getLimit();
+		$this->assertEquals($rowsLimit, 25);
+		$this->assertEquals($setterResult, $paginator);
+
+		// -- builder --
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder, $queryBuilder);
+
+		$builder2 = $di['modelsManager']->createBuilder()
+			->columns('cedula, nombres')
+			->from('Personnes')
+			->groupBy(['email']);
+
+		$setterResult = $paginator->setQueryBuilder($builder2);
+		$queryBuilder = $paginator->getQueryBuilder();
+		$this->assertEquals($builder2, $queryBuilder);
+		$this->assertEquals($setterResult, $paginator);
+	}
+
+	private function _paginatorBuilderTest($builder)
+	{
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
 			"builder" => $builder,
 			"limit"=> 10,
@@ -507,34 +426,5 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInternalType('int', $page->total_items);
 		$this->assertInternalType('int', $page->total_pages);
-
-		// test of getter/setters of querybuilder adapter
-
-        // -- current page --
-		$currentPage = $paginator->getCurrentPage();
-		$this->assertEquals($currentPage, 18);
-
-		// -- limit --
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 10);
-
-		$setterResult = $paginator->setLimit(25);
-		$rowsLimit = $paginator->getLimit();
-		$this->assertEquals($rowsLimit, 25);
-		$this->assertEquals($setterResult, $paginator);
-
-		// -- builder --
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder, $queryBuilder);
-
-		$builder2 = $di['modelsManager']->createBuilder()
-			->columns('cedula, nombres')
-			->from('Personnes')
-			->groupBy(['email']);
-
-		$setterResult = $paginator->setQueryBuilder($builder2);
-		$queryBuilder = $paginator->getQueryBuilder();
-		$this->assertEquals($builder2, $queryBuilder);
-		$this->assertEquals($setterResult, $paginator);
 	}
 }

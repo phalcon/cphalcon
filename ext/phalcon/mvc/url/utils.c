@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,11 +30,17 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
+#if PHP_VERSION_ID < 70000
 #include <ext/standard/php_smart_str.h>
+#else
+#include <ext/standard/php_smart_string.h>
+#include <zend_smart_str.h>
+#endif
+
 #include <ext/standard/php_string.h>
 
-void phalcon_get_uri(zval *return_value, zval *path) {
-
+void phalcon_get_uri(zval *return_value, zval *path)
+{
 	int i, found = 0, mark = 0;
 	char *cursor, *str, ch;
 
@@ -54,7 +60,11 @@ void phalcon_get_uri(zval *return_value, zval *path) {
 					str = emalloc(mark - i + 1);
 					memcpy(str, Z_STRVAL_P(path) + i, mark - i);
 					str[mark - i] = '\0';
+#if PHP_VERSION_ID < 70000
 					ZVAL_STRINGL(return_value, str, mark - i, 0);
+#else
+					ZVAL_STRINGL(return_value, str, mark - i);
+#endif
 					return;
 				}
 			}
@@ -65,13 +75,17 @@ void phalcon_get_uri(zval *return_value, zval *path) {
 	RETURN_EMPTY_STRING();
 }
 
-zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker){
-
-	zval **zv, **tmp;
-	int result = FAILURE;
+zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker)
+{
 	unsigned int length = 0, variable_length, ch, j;
 	char *item = NULL, *cursor_var, *variable = NULL;
 	int not_valid = 0;
+#if PHP_VERSION_ID < 70000
+	int result = FAILURE;
+	zval **zv, **tmp;
+#else
+	zval *zv, *tmp;
+#endif
 
 	if (named) {
 		length = cursor - marker - 1;
@@ -111,6 +125,7 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 					item = variable;
 					length = variable_length;
 				}
+#if PHP_VERSION_ID < 70000
 				if (zend_hash_exists(Z_ARRVAL_P(replacements), item, length + 1)) {
 					if ((result = zend_hash_find(Z_ARRVAL_P(replacements), item, length + 1, (void**) &zv)) == SUCCESS) {
 						efree(item);
@@ -118,7 +133,17 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 						return *zv;
 					}
 				}
+#else
+				if (zend_hash_str_exists(Z_ARRVAL_P(replacements), item, length)) {
+					if ((zv = zend_hash_str_find(Z_ARRVAL_P(replacements), item, length)) != NULL) {
+						efree(item);
+						(*position)++;
+						return zv;
+					}
+				}
+#endif
 			} else {
+#if PHP_VERSION_ID < 70000
 				if ((result = zend_hash_index_find(Z_ARRVAL_P(paths), *position, (void**) &zv)) == SUCCESS) {
 					if (Z_TYPE_PP(zv) == IS_STRING) {
 						if (zend_hash_exists(Z_ARRVAL_P(replacements), Z_STRVAL_PP(zv), Z_STRLEN_PP(zv) + 1)) {
@@ -129,6 +154,18 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 						}
 					}
 				}
+#else
+				if ((zv = zend_hash_index_find(Z_ARRVAL_P(paths), *position)) != NULL) {
+					if (Z_TYPE_P(zv) == IS_STRING) {
+						if (zend_hash_str_exists(Z_ARRVAL_P(replacements), Z_STRVAL_P(zv), Z_STRLEN_P(zv))) {
+							if ((tmp = zend_hash_str_find(Z_ARRVAL_P(replacements), Z_STRVAL_P(zv), Z_STRLEN_P(zv))) != NULL) {
+								(*position)++;
+								return tmp;
+							}
+						}
+					}
+				}
+#endif
 			}
 		}
 
@@ -145,7 +182,8 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 /**
  * Replaces placeholders and named variables with their corresponding values in an array
  */
-void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
+void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC)
+{
 
 	char *cursor, *marker = NULL;
 	unsigned int bracket_count = 0, parentheses_count = 0, intermediate = 0;
@@ -177,7 +215,11 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 
 	if (!zend_hash_num_elements(Z_ARRVAL_P(paths))) {
+#if PHP_VERSION_ID < 70000
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(pattern) + i, Z_STRLEN_P(pattern) - i, 1);
+#else
+		ZVAL_STRINGL(return_value, Z_STRVAL_P(pattern) + i, Z_STRLEN_P(pattern) - i);
+#endif
 		return;
 	}
 
@@ -204,7 +246,11 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 							if (replace) {
 								use_copy = 0;
 								if (Z_TYPE_P(replace) != IS_STRING) {
+#if PHP_VERSION_ID < 70000
 									zend_make_printable_zval(replace, &replace_copy, &use_copy);
+#else
+									use_copy = zend_make_printable_zval(replace, &replace_copy);
+#endif
 									if (use_copy) {
 										replace = &replace_copy;
 									}
@@ -238,7 +284,11 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 							if (replace) {
 								use_copy = 0;
 								if (Z_TYPE_P(replace) != IS_STRING) {
+#if PHP_VERSION_ID < 70000
 									zend_make_printable_zval(replace, &replace_copy, &use_copy);
+#else
+									use_copy = zend_make_printable_zval(replace, &replace_copy);
+#endif
 									if (use_copy) {
 										replace = &replace_copy;
 									}
@@ -264,7 +314,11 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 						if (replace) {
 							use_copy = 0;
 							if (Z_TYPE_P(replace) != IS_STRING) {
+#if PHP_VERSION_ID < 70000
 								zend_make_printable_zval(replace, &replace_copy, &use_copy);
+#else
+								use_copy = zend_make_printable_zval(replace, &replace_copy);
+#endif
 								if (use_copy) {
 									replace = &replace_copy;
 								}
@@ -297,11 +351,19 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 	smart_str_0(&route_str);
 
+#if PHP_VERSION_ID < 70000
 	if (route_str.len) {
 		RETURN_STRINGL(route_str.c, route_str.len, 0);
 	} else {
 		smart_str_free(&route_str);
 		RETURN_EMPTY_STRING();
 	}
-
+#else
+	if (route_str.s) {
+		RETURN_STR(route_str.s);
+	} else {
+		smart_str_free(&route_str);
+		RETURN_EMPTY_STRING();
+	}
+#endif
 }

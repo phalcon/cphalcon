@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -672,9 +672,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->betweenWhere('price', 100.25, 200.50);
 	 *</code>
 	 */
-	public function betweenWhere(string! expr, var minimum, var maximum) -> <Builder>
+	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
+
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
 
 		let hiddenParam = this->_hiddenParamNumber,
 			nextHiddenParam = hiddenParam + 1;
@@ -690,7 +696,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard BETWEEN condition with bind params
 		 * Append the BETWEEN to the current conditions using and "and"
 		 */
-		this->andWhere(
+
+		this->{operatorMethod}(
 			expr . " BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
 			[minimumKey: minimum, maximumKey: maximum]
 		);
@@ -708,9 +715,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->notBetweenWhere('price', 100.25, 200.50);
 	 *</code>
 	 */
-	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Builder>
+	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
+
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
 
 		let hiddenParam = this->_hiddenParamNumber,
 			nextHiddenParam = hiddenParam + 1;
@@ -726,7 +739,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard BETWEEN condition with bind params
 		 * Append the NOT BETWEEN to the current conditions using and "and"
 		 */
-		this->andWhere(
+		this->{operatorMethod}(
 			expr . " NOT BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
 			[minimumKey: minimum, maximumKey: maximum]
 		);
@@ -744,13 +757,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->inWhere('id', [1, 2, 3]);
 	 *</code>
 	 */
-	public function inWhere(string! expr, array! values) -> <Builder>
+	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var key, queryKey, value, bindKeys, bindParams;
+		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
 
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
+
 		if !count(values) {
-			this->andWhere(expr . " != " . expr);
+			this->{operatorMethod}(expr . " != " . expr);
 			return this;
 		}
 
@@ -773,7 +792,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard IN condition with bind params
 		 * Append the IN to the current conditions using and "and"
 		 */
-		this->andWhere(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
+		this->{operatorMethod}(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
 
 		let this->_hiddenParamNumber = hiddenParam;
 
@@ -787,13 +806,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *	$builder->notInWhere('id', [1, 2, 3]);
 	 *</code>
 	 */
-	public function notInWhere(string! expr, array! values) -> <Builder>
+	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
 	{
-		var key, queryKey, value, bindKeys, bindParams;
+		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
 
+		if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+			throw new Exception(sprintf("Operator % is not available.", operator));
+		}
+
+		let operatorMethod = operator . "Where";
+
 		if !count(values) {
-			this->andWhere(expr . " != " . expr);
+			this->{operatorMethod}(expr . " != " . expr);
 			return this;
 		}
 
@@ -816,7 +841,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Create a standard NOT IN condition with bind params
 		 * Append the NOT IN to the current conditions using and "and"
 		 */
-		this->andWhere(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
+		this->{operatorMethod}(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
 
 		let this->_hiddenParamNumber = hiddenParam;
 
@@ -1025,7 +1050,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 * Get the models metadata service to obtain the column names, column map and primary key
 			 */
 			let metaData = dependencyInjector->getShared("modelsMetadata"),
-				modelInstance = new {model}(dependencyInjector);
+				modelInstance = new {model}(null, dependencyInjector);
 
 			let noPrimary = true,
 				primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
@@ -1050,7 +1075,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 						let attributeField = firstPrimaryKey;
 					}
 
-					let conditions = "[" . model . "].[" . attributeField . "] = " . conditions,
+					let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = " . conditions,
 						noPrimary = false;
 				}
 			}
@@ -1087,11 +1112,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 					if typeof columnAlias == "integer" {
 						let selectedColumns[] = column;
 					} else {
-						if memstr(columnAlias, "[") {
-							let selectedColumns[] = column . " AS " . columnAlias;
-						} else {
-							let selectedColumns[] = column . " AS [" . columnAlias . "]";
-						}
+						let selectedColumns[] = column . " AS " . this->autoescape(columnAlias);
 					}
 				}
 
@@ -1111,16 +1132,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let selectedColumns = [];
 				for modelColumnAlias, model in models {
 					if typeof modelColumnAlias == "integer" {
-						let selectedColumn = "[" . model . "].*";
+						let selectedColumn = this->autoescape(model) . ".*";
 					} else {
-						let selectedColumn = "[" . modelColumnAlias . "].*";
+						let selectedColumn = this->autoescape(modelColumnAlias) . ".*";
 					}
 					let selectedColumns[] = selectedColumn;
 				}
 
 				let phql .= join(", ", selectedColumns);
 			} else {
-				let phql .= "[" . models . "].*";
+				let phql .= this->autoescape(models) . ".*";
 			}
 		}
 
@@ -1133,17 +1154,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			for modelAlias, model in models {
 
 				if typeof modelAlias == "string" {
-					if memstr(model, "[") {
-						let selectedModel = model . " AS [" . modelAlias . "]";
-					} else {
-						let selectedModel = "[" . model . "] AS [" . modelAlias . "]";
-					}
+					let selectedModel = this->autoescape(model) . " AS " . this->autoescape(modelAlias);
 				} else {
-					if memstr(model, "[") {
-						let selectedModel = model;
-					} else {
-						let selectedModel = "[" . model . "]";
-					}
+					let selectedModel = this->autoescape(model);
 				}
 
 				let selectedModels[] = selectedModel;
@@ -1152,12 +1165,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			let phql .= " FROM " . join(", ", selectedModels);
 
 		} else {
-
-			if memstr(models, "[") {
-				let phql .= " FROM " . models . "";
-			} else {
-				let phql .= " FROM [" . models . "]";
-			}
+			let phql .= " FROM " . this->autoescape(models);
 		}
 
 		/**
@@ -1192,24 +1200,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				 * Create the join according to the type
 				 */
 				if joinType {
-					if memstr(joinModel, "[") {
-						let phql .= " " . joinType . " JOIN " . joinModel;
-					} else {
-						let phql .= " " . joinType . " JOIN [" . joinModel . "]";
-					}
+					let phql .= " " . joinType . " JOIN " . this->autoescape(joinModel);
 				} else {
-					if memstr(joinModel, "[") {
-						let phql .= " JOIN " . joinModel . "";
-					} else {
-						let phql .= " JOIN [" . joinModel . "]";
-					}
+					let phql .= " JOIN " . this->autoescape(joinModel);
 				}
 
 				/**
 				 * Alias comes first
 				 */
 				if joinAlias {
-					let phql .= " AS [" . joinAlias . "]";
+					let phql .= " AS " . this->autoescape(joinAlias);
 				}
 
 				/**
@@ -1233,37 +1233,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		let group = this->_group;
 		if group !== null {
-			if typeof group == "array" {
-				let groupItems = [];
-				for groupItem in group {
-					if is_numeric(groupItem) {
-						let groupItems[] = groupItem;
-					} else {
-						if memstr(groupItem, ".") {
-							let groupItems[] = groupItem;
-						} else {
-							let groupItems[] = "[" . groupItem . "]";
-						}
-					}
+			if typeof group == "string" {
+				if memstr(group, ",") {
+					let group = str_replace(" ", "", group);
 				}
-				let phql .= " GROUP BY " . join(", ", groupItems);
-			} else {
-				if is_numeric(group) {
-					let phql .= " GROUP BY ".group;
-				} else {
-					if memstr(group, ".") {
-						let phql .= " GROUP BY ".group;
-					} else {
-						if memstr(group, ",") {
-							let group = str_replace(" ", "", group);
-							let groupItems = explode(",", group);
-							let phql .= " GROUP BY [" . join("], [", groupItems) . "]";
-						} else {
-							let phql .= " GROUP BY [" . group . "]";
-						}
-					}
-				}
+
+				let group = explode(",", group);
 			}
+
+			let groupItems = [];
+			for groupItem in group {
+				let groupItems[] = this->autoescape(groupItem);
+			}
+
+			let phql .= " GROUP BY " . join(", ", groupItems);
 		}
 
 		let having = this->_having;
@@ -1281,15 +1264,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			if typeof order == "array" {
 				let orderItems = [];
 				for orderItem in order {
-					if is_numeric(orderItem) {
-						let orderItems[] = orderItem;
-					} else {
-						if memstr(orderItem, ".") {
-							let orderItems[] = orderItem;
-						} else {
-							let orderItems[] = "[" . orderItem . "]";
-						}
-					}
+					let orderItems[] = this->autoescape(orderItem);
 				}
 				let phql .= " ORDER BY " . join(", ", orderItems);
 			} else {
@@ -1345,7 +1320,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let phql .= " FOR UPDATE";
 			}
 		}
-		
+
 		return phql;
 	}
 
@@ -1366,7 +1341,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		/**
 		 * Gets Query instance from DI container
 		 */
-		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
+		let query = <QueryInterface> dependencyInjector->get(
+			"Phalcon\\Mvc\\Model\\Query",
+			[phql, dependencyInjector]
+		);
 
 		// Set default bind params
 		let bindParams = this->_bindParams;
@@ -1385,5 +1363,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		}
 
 		return query;
+	}
+
+	/**
+	 * Automatically escapes identifiers but only if they need to be escaped.
+	 */
+	final public function autoescape(string identifier) -> string
+	{
+		if memstr(identifier, "[") || memstr(identifier, ".") || is_numeric(identifier) {
+			return identifier;
+		}
+
+		return "[" . identifier . "]";
 	}
 }

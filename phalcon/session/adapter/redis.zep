@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,7 +20,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\None as FrontendNone;
 
@@ -49,7 +48,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * echo $session->get('var');
  *</code>
  */
-class Redis extends Adapter implements AdapterInterface
+class Redis extends Adapter
 {
 	protected _redis = null { get };
 

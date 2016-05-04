@@ -23,9 +23,9 @@
 
 
 /**
- * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
+ * Phalcon\Mvc\Model\MetaData\Strategy\Introspection
  *
- * Queries the table meta-data in order to instrospect the model's metadata
+ * Queries the table meta-data in order to introspect the model's metadata
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection) {
 

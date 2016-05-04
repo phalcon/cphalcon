@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -28,6 +28,7 @@ use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\Message as Message;
 
 /**
  * Phalcon\Mvc\Collection
@@ -50,7 +51,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 	protected _connection;
 
-	protected _errorMessages;
+	protected _errorMessages = [];
 
 	protected static _reserved;
 
@@ -231,15 +232,14 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function getSource() -> string
 	{
-		var source, collection;
+		var collection;
 
-		let source = this->_source;
-		if !source {
+		if !this->_source {
 			let collection = this;
-			let source = uncamelize(get_class_ns(collection));
-			let this->_source = source;
+			let this->_source = uncamelize(get_class_ns(collection));
 		}
-		return source;
+
+		return this->_source;
 	}
 
 	/**
@@ -266,14 +266,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function getConnection()
 	{
-		var connection;
-
-		let connection = this->_connection;
-		if typeof connection != "object" {
-			let connection = this->_modelsManager->getConnection(this);
-			let this->_connection = connection;
+		if typeof this->_connection != "object" {
+			let this->_connection = this->_modelsManager->getConnection(this);
 		}
-		return connection;
+
+		return this->_connection;
 	}
 
 	/**
@@ -305,7 +302,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * @param string attribute
 	 * @param mixed value
 	 */
-	public function writeAttribute(string! attribute, var value)
+	public function writeAttribute(string attribute, var value)
 	{
 		let this->{attribute} = value;
 	}
@@ -600,18 +597,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	{
 		var eventName;
 
-		if success === true {
+		if success {
 			if !disableEvents {
-
-				if exists === true {
+				if exists {
 					let eventName = "afterUpdate";
 				} else {
 					let eventName = "afterCreate";
 				}
+
 				this->fireEvent(eventName);
 
 				this->fireEvent("afterSave");
 			}
+
 			return success;
 		}
 
@@ -682,15 +680,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function validationHasFailed() -> boolean
 	{
-		var errorMessages;
-
-		let errorMessages = this->_errorMessages;
-		if typeof errorMessages == "array" {
-			if count(errorMessages) {
-				return true;
-			}
-		}
-		return false;
+		return (count(this->_errorMessages) > 0);
 	}
 
 	/**
@@ -836,12 +826,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	}
 
 	/**
-	 * Creates/Updates a collection based on the values in the attributes
+	 * Shared Code for CU Operations
+	 * Prepares Collection
 	 */
-	public function save() -> boolean
+
+	protected function prepareCU()
 	{
-		var dependencyInjector, connection, exists, source, data,
-			success, status, id, ok, collection, disableEvents;
+		var dependencyInjector, connection, source, collection;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -860,6 +851,18 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 */
 		let collection = connection->selectCollection(source);
 
+		return collection;
+	}
+
+	/**
+	 * Creates/Updates a collection based on the values in the attributes
+	 */
+	public function save() -> boolean
+	{
+		var exists, data, success, status, id, ok, collection;
+
+		let collection = this->prepareCU();
+
 		/**
 		 * Check the dirty state of the current operation to update the current operation
 		 */
@@ -876,12 +879,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 */
 		let this->_errorMessages = [];
 
-		let disableEvents = self::_disableEvents;
-
 		/**
 		 * Execute the preSave hook
 		 */
-		if this->_preSave(dependencyInjector, disableEvents, exists) === false {
+		if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
 			return false;
 		}
 
@@ -905,6 +906,200 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 					}
 				}
 			}
+		}
+
+		/**
+		 * Call the postSave hooks
+		 */
+		return this->_postSave(self::_disableEvents, success, exists);
+	}
+
+	/**
+	 * Creates a collection based on the values in the attributes
+	 */
+	public function create() -> boolean
+	{
+		var exists, data, success, status, id, ok, collection;
+
+		let collection = this->prepareCU();
+
+		/**
+		 * Check the dirty state of the current operation to update the current operation
+		 */
+		let exists = false;
+		let this->_operationMade = self::OP_CREATE;
+
+		/**
+		 * The messages added to the validator are reset here
+		 */
+		let this->_errorMessages = [];
+
+		/**
+		 * Execute the preSave hook
+		 */
+		if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
+			return false;
+		}
+
+		let data = this->toArray();
+
+		let success = false;
+
+		/**
+		 * We always use safe stores to get the success state
+		 * Save the document
+		 */
+		let status = collection->insert(data, ["w": true]);
+		if typeof status == "array" {
+			if fetch ok, status["ok"] {
+				if ok {
+					let success = true;
+					if exists === false {
+						if fetch id, data["_id"] {
+							let this->_id = id;
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Call the postSave hooks
+		 */
+		return this->_postSave(self::_disableEvents, success, exists);
+	}
+
+	/**
+	 * Creates a document based on the values in the attributes, if not found by criteria
+	 * Preferred way to avoid duplication is to create index on attribute
+	 *
+	 * $robot = new Robot();
+	 * $robot->name = "MyRobot";
+	 * $robot->type = "Droid";
+	 *
+	 * //create only if robot with same name and type does not exist
+	 * $robot->createIfNotExist( array( "name", "type" ) );
+	 */
+	public function createIfNotExist(array! criteria) -> boolean
+	{
+		var exists, data, keys, query,
+			success, status, doc, collection;
+
+		if empty criteria {
+			throw new Exception("Criteria parameter must be array with one or more attributes of the model");
+		}
+
+		/**
+		 * Choose a collection according to the collection name
+		 */
+		let collection = this->prepareCU();
+
+		/**
+		 * Assume non-existance to fire beforeCreate events - no update does occur anyway
+		 */
+		let exists = false;
+
+		/**
+		 * Reset current operation
+		 */
+
+		let this->_operationMade = self::OP_NONE;
+
+		/**
+		 * The messages added to the validator are reset here
+		 */
+		let this->_errorMessages = [];
+
+		/**
+		 * Execute the preSave hook
+		 */
+		if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
+			return false;
+		}
+
+		let keys = array_flip( criteria );
+		let data = this->toArray();
+
+		if array_diff_key( keys, data ) {
+			throw new Exception("Criteria parameter must be array with one or more attributes of the model");
+		}
+
+		let query = array_intersect_key( data, keys );
+
+		let success = false;
+
+		/**
+		 * $setOnInsert in conjunction with upsert ensures creating a new document
+		 * "new": false returns null if new document created, otherwise new or old document could be returned
+		 */
+		let status = collection->findAndModify(query,
+			["$setOnInsert": data],
+			null,
+			["new": false, "upsert": true]);
+		if status == null {
+			let doc = collection->findOne(query);
+			if typeof doc == "array" {
+				let success = true;
+				let this->_operationMade = self::OP_CREATE;
+				let this->_id = doc["_id"];
+			}
+		} else {
+			this->appendMessage( new Message("Document already exists") );
+		}
+
+		/**
+		 * Call the postSave hooks
+		 */
+		return this->_postSave(self::_disableEvents, success, exists);
+	}
+
+	/**
+	 * Creates/Updates a collection based on the values in the attributes
+	 */
+	public function update() -> boolean
+	{
+		var exists, data, success, status, ok, collection;
+
+		let collection = this->prepareCU();
+
+		/**
+		 * Check the dirty state of the current operation to update the current operation
+		 */
+		let exists = this->_exists(collection);
+
+		if !exists {
+			throw new Exception("The document cannot be updated because it doesn't exist");
+		}
+
+		let this->_operationMade = self::OP_UPDATE;
+
+		/**
+		 * The messages added to the validator are reset here
+		 */
+		let this->_errorMessages = [];
+
+		/**
+		 * Execute the preSave hook
+		 */
+		if this->_preSave(this->_dependencyInjector, self::_disableEvents, exists) === false {
+			return false;
+		}
+
+		let data = this->toArray();
+
+		let success = false;
+
+		/**
+		 * We always use safe stores to get the success state
+		 * Save the document
+		 */
+		let status = collection->update(["_id": $this->_id], data, ["w": true]);
+		if typeof status == "array" {
+			if fetch ok, status["ok"] {
+				if ok {
+					let success = true;
+				}
+			}
 		} else {
 			let success = false;
 		}
@@ -912,7 +1107,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		/**
 		 * Call the postSave hooks
 		 */
-		return this->_postSave(disableEvents, success, exists);
+		return this->_postSave(self::_disableEvents, success, exists);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,9 +29,11 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
@@ -269,14 +271,26 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function load(string! modelName, boolean newInstance = false) -> <ModelInterface>
 	{
-		var model;
+		var model, colonPos, namespaceName, namespaceAlias, className;
+
+		/**
+		 * Check if a modelName is an alias
+		 */
+		let colonPos = strpos(modelName, ":");
+
+		if colonPos !== false {
+			let className = substr(modelName,colonPos+1);
+			let namespaceAlias = substr(modelName,0,colonPos);
+			let namespaceName = this->getNamespaceAlias(namespaceAlias);
+			let modelName = namespaceName."\\".className;
+		}
 
 		/**
 		 * Check if a model with the same is already loaded
 		 */
 		if fetch model, this->_initialized[strtolower(modelName)] {
 			if newInstance {
-				return new {modelName}(this->_dependencyInjector, this);
+				return new {modelName}(null, this->_dependencyInjector, this);
 			}
 			model->reset();
 			return model;
@@ -286,7 +300,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Load it using an autoloader
 		 */
 		if class_exists(modelName) {
-			return new {modelName}(this->_dependencyInjector, this);
+			return new {modelName}(null, this->_dependencyInjector, this);
 		}
 
 		/**
@@ -557,7 +571,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Binds a behavior to a model
 	 */
-	public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior)
+	public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior)
 	{
 		var entityName, modelsBehaviors;
 
@@ -684,7 +698,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 			let lowerAlias = strtolower(alias);
 		} else {
-			let lowerAlias = referencedEntity;			
+			let lowerAlias = referencedEntity;
 		}
 
 		/**
@@ -1184,14 +1198,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Helper method to query records based on a relation definition
 	 *
-	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+	 * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{
 		var placeholders, referencedModel, intermediateModel,
 			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
-			findArguments, retrieveMethod, uniqueKey, records, arguments;
+			findArguments, retrieveMethod, uniqueKey, records, arguments, rows, firstRow;
 		boolean reusable;
 
 		/**
@@ -1251,6 +1265,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			builder->from(referencedModel);
 			builder->innerJoin(intermediateModel, join(" AND ", joinConditions));
 			builder->andWhere(join(" AND ", conditions), placeholders);
+
+			if method == "count" {
+				builder->columns("COUNT(*) AS rowcount");
+
+				let rows = builder->getQuery()->execute();
+
+				let firstRow = rows->getFirst();
+
+				return (int) firstRow->readAttribute("rowcount");
+			}
 
 			/**
 			 * Get the query
@@ -1738,5 +1762,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getNamespaceAliases() -> array
 	{
 		return this->_namespaceAliases;
+	}
+
+	/**
+ 	 * Destroys the current PHQL cache
+ 	 */
+	public function __destruct()
+	{
+		phalcon_orm_destroy_cache();
+		Query::clean();
 	}
 }

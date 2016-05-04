@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -41,7 +41,7 @@ class Dump
 
 	protected _detailed = false { get, set };
 
-	protected _methods = null;
+	protected _methods = [];
 
 	protected _styles;
 
@@ -56,8 +56,8 @@ class Dump
 			throw new Exception("The styles must be an array");
 		}
 		this->setStyles(styles);
-		let this->_methods = [],
-			this->_detailed = detailed;
+
+		let this->_detailed = detailed;
 	}
 
 

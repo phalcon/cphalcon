@@ -2,7 +2,7 @@
 
 #  Phalcon Framework
 #
-#  Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)
+#  Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
 #  with this package in the file docs/LICENSE.txt.
@@ -34,10 +34,10 @@ if [ $(gcc -dumpversion | cut -f1 -d.) -ge 4 ]; then
 	gcc $CFLAGS -fvisibility=hidden t.c -o t 2> t.t && export CFLAGS="$CFLAGS -fvisibility=hidden"
 fi
 
-#gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
+# gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
 rm -f t.t t.c t
 
-#Check processor architecture
+# Check processor architecture
 if [ -z $1 ]; then
 	DIR="32bits"
 	gcc gccarch.c -o gccarch
@@ -51,14 +51,17 @@ else
 	DIR=$1
 fi
 
-#Move to specified architecture
-cd $DIR
+# Version
+PHP_VERSION="php5"
 
-#Clean current compilation
+# Move to specified architecture
+cd "$PHP_VERSION/$DIR"
+
+# Clean current compilation
 if [ -f Makefile ]; then
 	make clean
 	phpize --clean
 fi
 
-#Perform the compilation
+# Perform the compilation
 phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

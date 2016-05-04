@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -21,7 +21,6 @@ namespace Phalcon\Session\Adapter;
 
 use Phalcon\Session\Adapter;
 use Phalcon\Session\Exception;
-use Phalcon\Session\AdapterInterface;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data as FrontendData;
 
@@ -52,7 +51,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * echo $session->get('var');
  *</code>
  */
-class Libmemcached extends Adapter implements AdapterInterface
+class Libmemcached extends Adapter
 {
 	protected _libmemcached = null { get };
 
@@ -65,7 +64,7 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 */
 	public function __construct(array options)
 	{
-		var servers, client, lifetime, prefix, statsKey;
+		var servers, client, lifetime, prefix, statsKey, persistentId;
 
 		if !fetch servers, options["servers"] {
 			throw new Exception("No servers given in options");
@@ -87,7 +86,11 @@ class Libmemcached extends Adapter implements AdapterInterface
 		}
 
 		if !fetch statsKey, options["statsKey"] {
-			let statsKey = null;
+			let statsKey = "";
+		}
+
+		if !fetch persistentId, options["persistent_id"] {
+			let persistentId = "phalcon-session";
 		}
 
 		let this->_libmemcached = new Libmemcached(
@@ -96,7 +99,8 @@ class Libmemcached extends Adapter implements AdapterInterface
 				"servers":  servers,
 				"client":   client,
 				"prefix":   prefix,
-				"statsKey": statsKey
+				"statsKey": statsKey,
+				"persistent_id": persistentId
 			]
 		);
 
@@ -143,15 +147,18 @@ class Libmemcached extends Adapter implements AdapterInterface
 	 */
 	public function destroy(string sessionId = null) ->boolean
 	{
-		var id;
+		var id, key;
 
 		if sessionId === null {
 			let id = this->getId();
 		} else {
 			let id = sessionId;
 		}
-
-		return this->_libmemcached->delete(id);
+		
+		for key, _ in _SESSION {
+			unset _SESSION[key];			
+		}
+		return this->_libmemcached->delete(id);		
 	}
 
 	/**

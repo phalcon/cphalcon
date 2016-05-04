@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ColumnInterface) {
 }
 
 /**
- * Phalcon\Db\ColumnInterface constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, __construct);
-
-/**
  * Returns schema's table related to column
  *
  * @return string

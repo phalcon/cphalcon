@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
@@ -59,6 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
 
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_code"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_mvc_model_message_ce TSRMLS_CC, 1, phalcon_mvc_model_messageinterface_ce);
 	return SUCCESS;
 
@@ -71,14 +73,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
  * @param string|array field
  * @param string type
  * @param \Phalcon\Mvc\ModelInterface model
+ * @param int|null code
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 
-	zval *message_param = NULL, *field = NULL, *type = NULL, *model = NULL;
+	int code;
+	zval *message_param = NULL, *field = NULL, *type = NULL, *model = NULL, *code_param = NULL, *_0;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &message_param, &field, &type, &model);
+	zephir_fetch_params(1, 1, 4, &message_param, &field, &type, &model, &code_param);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -99,11 +103,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	if (!model) {
 		model = ZEPHIR_GLOBAL(global_null);
 	}
+	if (!code_param) {
+		code = 0;
+	} else {
+		code = zephir_get_intval(code_param);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, code);
+	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
 	if (Z_TYPE_P(model) == IS_OBJECT) {
 		zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	}
@@ -233,6 +245,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 }
 
 /**
+ * Sets code for the message
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Message, setCode) {
+
+	zval *code_param = NULL, *_0;
+	int code;
+
+	zephir_fetch_params(0, 1, 0, &code_param);
+
+	code = zephir_get_intval(code_param);
+
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(_0, code);
+	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
  * Returns the model that produced the message
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
@@ -240,6 +272,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
 	
 
 	RETURN_MEMBER(this_ptr, "_model");
+
+}
+
+/**
+ * Returns the message code
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Message, getCode) {
+
+	
+
+	RETURN_MEMBER(this_ptr, "_code");
 
 }
 
@@ -260,7 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *_0, *_1, *_2;
+	zval *message_param = NULL, *_0, *_1, *_2, *_3;
 	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -270,10 +313,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
 
 	object_init_ex(return_value, phalcon_mvc_model_message_ce);
-	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 161 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 161 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 161 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 8, _0, _1, _2);
+	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 8, _0, _1, _2, _3);
 	zephir_check_call_status();
 	RETURN_MM();
 

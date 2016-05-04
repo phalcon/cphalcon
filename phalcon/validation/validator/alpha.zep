@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -48,10 +48,6 @@ class Alpha extends Validator
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
-
 		if !ctype_alpha(value) {
 
 			let label = this->getOption("label");
@@ -65,7 +61,7 @@ class Alpha extends Validator
 				let message = validation->getDefaultMessage("Alpha");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alpha"));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alpha", this->getOption("code")));
 			return false;
 		}
 

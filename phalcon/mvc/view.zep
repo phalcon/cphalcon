@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -112,7 +112,7 @@ class View extends Injectable implements ViewInterface
 
 	protected _partialsDir = "";
 
-	protected _viewsDir;
+	protected _viewsDirs;
 
 	protected _templatesBefore;
 
@@ -156,27 +156,70 @@ class View extends Injectable implements ViewInterface
 	}
 
 	/**
-	 * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
+	 * Checks if a path is absolute or not
 	 */
-	public function setViewsDir(string viewsDir) -> <View>
+	protected final function _isAbsolutePath(string path)
 	{
-		if (substr(viewsDir, -1) != DIRECTORY_SEPARATOR) {
-			let viewsDir = viewsDir . DIRECTORY_SEPARATOR;
+		if PHP_OS == "WINNT" {
+			return strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';
 		}
-		let this->_viewsDir = viewsDir;
+
+		return strlen(path) >= 1 && path[0] == '/';
+	}
+
+	/**
+	 * Sets the views directory. Depending of your platform,
+	 * always add a trailing slash or backslash
+	 */
+	public function setViewsDir(var viewsDir) -> <View>
+	{
+		var position, directory, directorySeparator, newViewsDir;
+
+		if typeof viewsDir != "string" && typeof viewsDir != "array" {
+			throw new Exception("Views directory must be a string or an array");
+		}
+
+		let directorySeparator = DIRECTORY_SEPARATOR;
+		if typeof viewsDir == "string" {
+
+			if substr(viewsDir, -1) != directorySeparator {
+				let viewsDir = viewsDir . directorySeparator;
+			}
+
+			let this->_viewsDirs = viewsDir;
+		} else {
+
+			let newViewsDir = [];
+			for position, directory in viewsDir {
+
+				if typeof directory != "string" {
+					throw new Exception("Views directory item must be a string");
+				}
+
+				if substr(directory, -1) != directorySeparator {
+					let newViewsDir[position] = directory . directorySeparator;
+				} else {
+					let newViewsDir[position] = directory;
+				}
+			}
+
+			let this->_viewsDirs = newViewsDir;
+		}
+
 		return this;
 	}
 
 	/**
 	 * Gets views directory
 	 */
-	public function getViewsDir() -> string
+	public function getViewsDir() -> string | array
 	{
-		return this->_viewsDir;
+		return this->_viewsDirs;
 	}
 
 	/**
-	 * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+	 * Sets the layouts sub-directory. Must be a directory under the views directory.
+	 * Depending of your platform, always add a trailing slash or backslash
 	 *
 	 *<code>
 	 * $view->setLayoutsDir('../common/layouts/');
@@ -197,7 +240,8 @@ class View extends Injectable implements ViewInterface
 	}
 
 	/**
-	 * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+	 * Sets a partials sub-directory. Must be a directory under the views directory.
+	 * Depending of your platform, always add a trailing slash or backslash
 	 *
 	 *<code>
 	 * $view->setPartialsDir('../common/partials/');
@@ -396,15 +440,8 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
 	{
-		var viewParams;
-
-		if merge {
-			let viewParams = this->_viewParams;
-			if typeof viewParams == "array" {
-				let this->_viewParams = array_merge(viewParams, params);
-			} else {
-				let this->_viewParams = params;
-			}
+		if merge && typeof this->_viewParams == "array" {
+			let this->_viewParams = array_merge(this->_viewParams, params);
 		} else {
 			let this->_viewParams = params;
 		}
@@ -437,12 +474,13 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function getVar(string! key)
 	{
-		var params, value;
-		let params = this->_viewParams;
-		if fetch value, params[key] {
-			return value;
+		var value;
+
+		if !fetch value, this->_viewParams[key] {
+			return null;
 		}
-		return null;
+
+		return value;
 	}
 
 	/**
@@ -578,100 +616,107 @@ class View extends Injectable implements ViewInterface
 			extension, engine, viewEnginePath;
 
 		let notExists = true,
-			viewsDir = this->_viewsDir,
 			basePath = this->_basePath,
-			viewsDirPath = basePath . viewsDir . viewPath;
+			viewParams = this->_viewParams,
+			eventsManager = <ManagerInterface> this->_eventsManager;
 
-		if typeof cache == "object" {
-			let renderLevel = (int) this->_renderLevel,
-				cacheLevel = (int) this->_cacheLevel;
+		for viewsDir in this->getViewsDirs() {
 
-			if renderLevel >= cacheLevel {
+			if !this->_isAbsolutePath(viewPath) {
+				let viewsDirPath = basePath . viewsDir . viewPath;
+			} else {
+				let viewsDirPath = viewPath;
+			}
 
-				/**
-				 * Check if the cache is started, the first time a cache is started we start the
-				 * cache
-				 */
-				if cache->isStarted() == false {
+			if typeof cache == "object" {
 
-					let key = null, lifetime = null;
+				let renderLevel = (int) this->_renderLevel,
+					cacheLevel = (int) this->_cacheLevel;
 
-					let viewOptions = this->_options;
+				if renderLevel >= cacheLevel {
 
 					/**
-					 * Check if the user has defined a different options to the default
+					 * Check if the cache is started, the first time a cache is started we start the
+					 * cache
 					 */
-					if typeof viewOptions == "array" {
-						if fetch cacheOptions, viewOptions["cache"] {
-							if typeof cacheOptions == "array" {
-								fetch key, cacheOptions["key"];
-								fetch lifetime, cacheOptions["lifetime"];
+					if !cache->isStarted() {
+
+						let key = null,
+							lifetime = null;
+
+						let viewOptions = this->_options;
+
+						/**
+						 * Check if the user has defined a different options to the default
+						 */
+						if typeof viewOptions == "array" {
+							if fetch cacheOptions, viewOptions["cache"] {
+								if typeof cacheOptions == "array" {
+									fetch key, cacheOptions["key"];
+									fetch lifetime, cacheOptions["lifetime"];
+								}
 							}
+						}
+
+						/**
+						 * If a cache key is not set we create one using a md5
+						 */
+						if key === null {
+							let key = md5(viewPath);
+						}
+
+						/**
+						 * We start the cache using the key set
+						 */
+						let cachedView = cache->start(key, lifetime);
+						if cachedView !== null {
+							let this->_content = cachedView;
+							return null;
 						}
 					}
 
 					/**
-					 * If a cache key is not set we create one using a md5
+					 * This method only returns true if the cache has not expired
 					 */
-					if key === null {
-						let key = md5(viewPath);
-					}
-
-					/**
-					 * We start the cache using the key set
-					 */
-					let cachedView = cache->start(key, lifetime);
-					if cachedView !== null {
-						let this->_content = cachedView;
+					if !cache->isFresh() {
 						return null;
 					}
 				}
-
-				/**
-				 * This method only returns true if the cache has not expired
-				 */
-				if !cache->isFresh() {
-					return null;
-				}
 			}
-		}
 
-		let viewParams = this->_viewParams,
-			eventsManager = <ManagerInterface> this->_eventsManager;
+			/**
+			 * Views are rendered in each engine
+			 */
+			for extension, engine in engines {
 
-		/**
-		 * Views are rendered in each engine
-		 */
-		for extension, engine in engines {
+				let viewEnginePath = viewsDirPath . extension;
+				if file_exists(viewEnginePath) {
 
-			let viewEnginePath = viewsDirPath . extension;
-			if file_exists(viewEnginePath) {
-
-				/**
-				 * Call beforeRenderView if there is a events manager available
-				 */
-				if typeof eventsManager == "object" {
-					let this->_activeRenderPath = viewEnginePath;
-					if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
-						continue;
+					/**
+					 * Call beforeRenderView if there is a events manager available
+					 */
+					if typeof eventsManager == "object" {
+						let this->_activeRenderPath = viewEnginePath;
+						if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
+							continue;
+						}
 					}
-				}
 
-				engine->render(viewEnginePath, viewParams, mustClean);
+					engine->render(viewEnginePath, viewParams, mustClean);
 
-				/**
-				 * Call afterRenderView if there is a events manager available
-				 */
-				let notExists = false;
-				if typeof eventsManager == "object" {
-					eventsManager->fire("view:afterRenderView", this);
+					/**
+					 * Call afterRenderView if there is a events manager available
+					 */
+					let notExists = false;
+					if typeof eventsManager == "object" {
+						eventsManager->fire("view:afterRenderView", this);
+					}
+					break;
 				}
-				break;
 			}
 		}
 
 		if notExists === true {
-
 			/**
 			 * Notify about not found views
 			 */
@@ -690,11 +735,11 @@ class View extends Injectable implements ViewInterface
 	 * Register templating engines
 	 *
 	 *<code>
-	 *$this->view->registerEngines(array(
+	 * $this->view->registerEngines(array(
 	 *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
 	 *  ".volt"  => "Phalcon\Mvc\View\Engine\Volt",
 	 *  ".mhtml" => "MyCustomEngine"
-	 *));
+	 * ));
 	 *</code>
 	 */
 	public function registerEngines(array! engines) -> <View>
@@ -709,27 +754,24 @@ class View extends Injectable implements ViewInterface
 	public function exists(string! view) -> boolean
 	{
 		var basePath, viewsDir, engines, extension;
-		boolean exists;
 
 		let basePath = this->_basePath,
-			viewsDir = this->_viewsDir,
 			engines = this->_registeredEngines;
 
 		if typeof engines != "array" {
-			let engines = [],
-				engines[".phtml"] = "Phalcon\\Mvc\\View\\Engine\\Php",
+			let engines = [".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"],
 				this->_registeredEngines = engines;
 		}
 
-		let exists = false;
-		for extension, _ in engines {
-			let exists = (boolean) file_exists(basePath . viewsDir . view . extension);
-			if exists {
-				break;
+		for viewsDir in this->getViewsDirs() {
+			for extension, _ in engines {
+				if file_exists(basePath . viewsDir . view . extension) {
+					return true;
+				}
 			}
 		}
 
-		return exists;
+		return false;
 	}
 
 	/**
@@ -803,8 +845,10 @@ class View extends Injectable implements ViewInterface
 			 * The 'picked' view is an array, where the first element is controller and the second the action
 			 */
 			let renderView = pickView[0];
-			if fetch pickViewAction, pickView[1] {
-				let layoutName = pickViewAction;
+			if layoutName === null {
+				if fetch pickViewAction, pickView[1] {
+					let layoutName = pickViewAction;
+				}
 			}
 		}
 
@@ -820,9 +864,12 @@ class View extends Injectable implements ViewInterface
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		/**
-		 * Create a virtual symbol table
+		 * Create a virtual symbol table.
+		 * Variables are shared across symbol tables in PHP5
 		 */
-		create_symbol_table();
+		if is_php_version("5") {
+			create_symbol_table();
+		}
 
 		/**
 		 * Call beforeRender if there is an events manager
@@ -930,12 +977,8 @@ class View extends Injectable implements ViewInterface
 			 * Store the data in the cache
 			 */
 			if typeof cache == "object" {
-				if cache->isStarted() == true {
-					if cache->isFresh() == true {
-						cache->save();
-					} else {
-						cache->stop();
-					}
+				if cache->isStarted() && cache->isFresh() {
+					cache->save();
 				} else {
 					cache->stop();
 				}
@@ -956,15 +999,17 @@ class View extends Injectable implements ViewInterface
 	 * Choose a different view to render instead of last-controller/last-action
 	 *
 	 * <code>
-	 * class ProductsController extends \Phalcon\Mvc\Controller
+	 * use Phalcon\Mvc\Controller;
+	 *
+	 * class ProductsController extends Controller
 	 * {
 	 *
 	 *    public function saveAction()
 	 *    {
 	 *
-	 *         //Do some save stuff...
+	 *         // Do some save stuff...
 	 *
-	 *         //Then show the list view
+	 *         // Then show the list view
 	 *         $this->view->pick("products/list");
 	 *    }
 	 * }
@@ -1200,18 +1245,11 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function getCache() -> <BackendInterface>
 	{
-		var cache;
-		let cache = this->_cache;
-		if cache {
-			if typeof cache != "object" {
-				let cache = this->_createCache(),
-					this->_cache = cache;
-			}
-		} else {
-			let cache = this->_createCache(),
-				this->_cache = cache;
+		if !this->_cache || typeof this->_cache != "object" {
+			let this->_cache = this->_createCache();
 		}
-		return cache;
+
+		return this->_cache;
 	}
 
 	/**
@@ -1260,7 +1298,7 @@ class View extends Injectable implements ViewInterface
 		} else {
 
 			/**
-			 * If 'options' isn't an array we enable the cache with the default options
+			 * If 'options' isn't an array we enable the cache with default options
 			 */
 			if options {
 				let this->_cacheLevel = self::LEVEL_MAIN_LAYOUT;
@@ -1383,12 +1421,21 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *  echo isset($this->view->products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @return boolean
 	 */
 	public function __isset(string! key) -> boolean
 	{
-		return isset(this->_viewParams[key]);
+		return isset this->_viewParams[key];
+	}
+
+	/**
+	 * Gets views directories
+	 */
+	protected function getViewsDirs() -> array
+	{
+		if typeof this->_viewsDirs === "string" {
+			return [this->_viewsDirs];
+		}
+
+		return this->_viewsDirs;
 	}
 }

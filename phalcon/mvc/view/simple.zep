@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -65,11 +65,9 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *
 	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = [])
 	{
-		if typeof options == "array" {
-			let this->_options = options;
-		}
+		let this->_options = options;
 	}
 
 	/**
@@ -355,12 +353,8 @@ class Simple extends Injectable implements ViewBaseInterface
 		 * Store the data in output into the cache
 		 */
 		if typeof cache == "object" {
-			if cache->isStarted() === true {
-				if cache->isFresh() === true {
-					cache->save();
-				} else {
-					cache->stop();
-				}
+			if cache->isStarted() && cache->isFresh() {
+				cache->save();
 			} else {
 				cache->stop();
 			}
@@ -503,15 +497,11 @@ class Simple extends Injectable implements ViewBaseInterface
 	 */
 	public function getCache() -> <BackendInterface>
 	{
-		var cache;
-
-		let cache = this->_cache;
-		if cache {
-			if typeof cache != "object" {
-				let cache = this->_createCache(), this->_cache = cache;
-			}
+		if this->_cache && typeof this->_cache != "object" {
+			let this->_cache = this->_createCache();
 		}
-		return cache;
+
+		return this->_cache;
 	}
 
 	/**
@@ -557,16 +547,8 @@ class Simple extends Injectable implements ViewBaseInterface
 	 */
 	public function setVars(array! params, boolean merge = true) -> <Simple>
 	{
-		var viewParams, mergedParams;
-
-		if merge {
-			let viewParams = this->_viewParams;
-			if typeof viewParams == "array" {
-				let mergedParams = array_merge(viewParams, params);
-			} else {
-				let mergedParams = params;
-			}
-			let this->_viewParams = mergedParams;
+		if merge && typeof this->_viewParams == "array" {
+			let this->_viewParams = array_merge(this->_viewParams, params);
 		} else {
 			let this->_viewParams = params;
 		}

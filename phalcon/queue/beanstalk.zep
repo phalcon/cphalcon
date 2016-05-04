@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Dmitry Korolev <chameleonweb2012@gmail.com>                   |
  +------------------------------------------------------------------------+
  */
 
@@ -42,16 +43,64 @@ use Phalcon\Queue\Beanstalk\Exception;
  */
 class Beanstalk
 {
+	/**
+	 * Seconds to wait before putting the job in the ready queue.
+	 * The job will be in the "delayed" state during this time.
+	 *
+	 * @const integer
+	 */
+	const DEFAULT_DELAY = 0;
+
+	/**
+	 * Jobs with smaller priority values will be scheduled before jobs with larger priorities.
+	 * The most urgent priority is 0, the least urgent priority is 4294967295.
+	 *
+	 * @const integer
+	 */
+	const DEFAULT_PRIORITY = 100;
+
+	/**
+	 * Time to run - number of seconds to allow a worker to run this job.
+	 * The minimum ttr is 1.
+	 *
+	 * @const integer
+	 */
+	const DEFAULT_TTR = 86400;
+
+	/**
+	 * Default tube name
+	 * @const string
+	 */
+	const DEFAULT_TUBE = "default";
+
+	/**
+	 * Default connected host
+	 * @const string
+	 */
+	const DEFAULT_HOST = "127.0.0.1";
+
+	/**
+	 * Default connected port
+	 * @const integer
+	 */
+	const DEFAULT_PORT = 11300;
+
+	/**
+	 * Connection resource
+	 * @var resource
+	 */
 	protected _connection;
 
+	/**
+	 * Connection options
+	 * @var array
+	 */
 	protected _parameters;
 
 	/**
 	 * Phalcon\Queue\Beanstalk
-	 *
-	 * @param array options
 	 */
-	public function __construct(var options = null)
+	public function __construct(array options = null)
 	{
 		var parameters;
 
@@ -62,11 +111,15 @@ class Beanstalk
 		}
 
 		if !isset parameters["host"] {
-			let parameters["host"] = "127.0.0.1";
+			let parameters["host"] = self::DEFAULT_HOST;
 		}
 
 		if !isset parameters["port"]  {
-			let parameters["port"] = 11300;
+			let parameters["port"] = self::DEFAULT_PORT;
+		}
+
+		if !isset parameters["persistent"]  {
+			let parameters["persistent"] = false;
 		}
 
 		let this->_parameters = parameters;
@@ -77,7 +130,7 @@ class Beanstalk
 	 */
 	public function connect() -> resource
 	{
-		var connection, parameters, persistent, $function;
+		var connection, parameters;
 
 		let connection = this->_connection;
 		if typeof connection == "resource" {
@@ -89,17 +142,11 @@ class Beanstalk
 		/**
 		 * Check if the connection must be persistent
 		 */
-		if fetch persistent, parameters["persistent"] {
-			if persistent {
-				let $function = "pfsockopen";
-			} else {
-			    let $function = "fsockopen";
-			}
+		if parameters["persistent"] {
+			let connection = pfsockopen(parameters["host"], parameters["port"], null, null);
 		} else {
-		    let $function = "fsockopen";
+			let connection = fsockopen(parameters["host"], parameters["port"], null, null);
 		}
-
-		let connection = {$function}(parameters["host"], parameters["port"], null, null);
 
 		if typeof connection != "resource" {
 			throw new Exception("Can't connect to Beanstalk server");
@@ -113,12 +160,9 @@ class Beanstalk
 	}
 
 	/**
-	 * Inserts jobs into the queue
-	 *
-	 * @param string data
-	 * @param array options
+	 * Puts a job on the queue using specified tube.
 	 */
-	public function put(var data, var options = null) -> string|boolean
+	public function put(var data, array options = null) -> int|boolean
 	{
 		var priority, delay, ttr, serialized, response, status, length;
 
@@ -126,15 +170,15 @@ class Beanstalk
 		 * Priority is 100 by default
 		 */
 		if !fetch priority, options["priority"] {
-			let priority = "100";
+			let priority = self::DEFAULT_PRIORITY;
 		}
 
 		if !fetch delay, options["delay"] {
-			let delay = "0";
+			let delay = self::DEFAULT_DELAY;
 		}
 
 		if !fetch ttr, options["ttr"] {
-			let ttr = "86400";
+			let ttr = self::DEFAULT_TTR;
 		}
 
 		/**
@@ -146,8 +190,7 @@ class Beanstalk
 		 * Create the command
 		 */
 		let length = strlen(serialized);
-		this->write("put " . priority . " " . delay . " " . ttr ." " . length);
-		this->write(serialized);
+		this->write("put " . priority . " " . delay . " " . ttr . " " . length . "\r\n" . serialized);
 
 		let response = this->readStatus();
 		let status = response[0];
@@ -156,11 +199,11 @@ class Beanstalk
 			return false;
 		}
 
-		return response[1];
+		return (int) response[1];
 	}
 
 	/**
-	 * Reserves a job in the queue
+	 * Reserves/locks a ready job from the specified tube.
 	 */
 	public function reserve(var timeout = null) -> boolean|<Job>
 	{
@@ -189,7 +232,7 @@ class Beanstalk
 	}
 
 	/**
-	 * Change the active tube. By default the tube is "default"
+	 * Change the active tube. By default the tube is "default".
 	 */
 	public function choose(string! tube) -> boolean|string
 	{
@@ -206,9 +249,9 @@ class Beanstalk
 	}
 
 	/**
-	 * Change the active tube. By default the tube is "default"
+	 * The watch command adds the named tube to the watch list for the current connection.
 	 */
-	public function watch(string! tube) -> boolean|string
+	public function watch(string! tube) -> boolean|int
 	{
 		var response;
 
@@ -219,11 +262,62 @@ class Beanstalk
 			return false;
 		}
 
-		return response[1];
+		return (int) response[1];
 	}
 
 	/**
-	 * Get stats of the Beanstalk server.
+	 * It removes the named tube from the watch list for the current connection.
+	 */
+	public function ignore(string! tube) -> boolean|int
+	{
+		var response;
+
+		this->write("ignore " . tube);
+
+		let response = this->readStatus();
+		if response[0] != "WATCHING" {
+			return false;
+		}
+
+		return (int) response[1];
+	}
+
+	/**
+	 * Can delay any new job being reserved for a given time.
+	 */
+	public function pauseTube(string! tube, int delay) -> boolean
+	{
+		var response;
+
+		this->write("pause-tube " . tube . " " . delay);
+
+		let response = this->readStatus();
+		if response[0] != "PAUSED" {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * The kick command applies only to the currently used tube.
+	 */
+	public function kick(int bound) -> boolean|int
+	{
+		var response;
+
+		this->write("kick " . bound);
+
+		let response = this->readStatus();
+		if response[0] != "KICKED" {
+			return false;
+		}
+
+		return (int) response[1];
+	}
+
+	/**
+	 * Gives statistical information about the system as a whole.
 	 */
 	public function stats() -> boolean|array
 	{
@@ -240,7 +334,7 @@ class Beanstalk
 	}
 
 	/**
-	 * Get stats of a tube.
+	 * Gives statistical information about the specified tube if it exists.
 	 */
 	public function statsTube(string! tube) -> boolean|array
 	{
@@ -257,13 +351,47 @@ class Beanstalk
 	}
 
 	/**
-	 * Get list of a tubes.
+	 * Returns a list of all existing tubes.
 	 */
 	public function listTubes() -> boolean|array
 	{
 		var response;
 
 		this->write("list-tubes");
+
+		let response = this->readYaml();
+		if response[0] != "OK" {
+			return false;
+		}
+
+		return response[2];
+	}
+
+	/**
+	 * Returns the tube currently being used by the client.
+	 */
+	public function listTubeUsed() -> boolean|string
+	{
+		var response;
+
+		this->write("list-tube-used");
+
+		let response = this->readStatus();
+		if response[0] != "USING" {
+			return false;
+		}
+
+		return response[1];
+	}
+
+	/**
+	 * Returns a list tubes currently being watched by the client.
+	 */
+	public function listTubesWatched() -> boolean|array
+	{
+		var response;
+
+		this->write("list-tubes-watched");
 
 		let response = this->readYaml();
 		if response[0] != "OK" {
@@ -291,7 +419,7 @@ class Beanstalk
 	}
 
 	/**
-	 * Return the next job in the list of buried jobs
+	 * Return the next job in the list of buried jobs.
 	 */
 	public function peekBuried() -> boolean|<Job>
 	{
@@ -300,6 +428,43 @@ class Beanstalk
 		this->write("peek-buried");
 
 		let response = this->readStatus();
+		if response[0] != "FOUND" {
+			return false;
+		}
+
+		return new Job(this, response[1], unserialize(this->read(response[2])));
+	}
+
+	/**
+	 * Return the next job in the list of buried jobs.
+	 */
+	public function peekDelayed() -> boolean|<Job>
+	{
+		var response;
+
+		if !this->write("peek-delayed") {
+			return false;
+		}
+
+		let response = this->readStatus();
+		if response[0] != "FOUND" {
+			return false;
+		}
+
+		return new Job(this, response[1], unserialize(this->read(response[2])));
+	}
+
+	/**
+	 * The peek commands let the client inspect a job in the system.
+	 */
+	public function jobPeek(int id) -> boolean|<Job>
+	{
+		var response;
+
+		this->write("peek " . id);
+
+		let response = this->readStatus();
+
 		if response[0] != "FOUND" {
 			return false;
 		}
@@ -372,15 +537,32 @@ class Beanstalk
 				return false;
 			}
 
-			let data = stream_get_line(connection, length + 2);
+			let data = rtrim(stream_get_line(connection, length + 2), "\r\n");
 			if stream_get_meta_data(connection)["timed_out"] {
 				throw new Exception("Connection timed out");
 			}
-
-			return rtrim(data, "\r\n");
+		} else {
+			let data = stream_get_line(connection, 16384, "\r\n");
 		}
 
-		return stream_get_line(connection, 16384, "\r\n");
+
+		if data === "UNKNOWN_COMMAND" {
+			throw new Exception("UNKNOWN_COMMAND");
+		}
+
+		if data === "JOB_TOO_BIG" {
+			throw new Exception("JOB_TOO_BIG");
+		}
+
+		if data === "BAD_FORMAT" {
+			throw new Exception("BAD_FORMAT");
+		}
+
+		if data === "OUT_OF_MEMORY" {
+			throw new Exception("OUT_OF_MEMORY");
+		}
+
+		return data;
 	}
 
 	/**
@@ -415,6 +597,19 @@ class Beanstalk
 		}
 
 		fclose(connection);
+		let this->_connection = null;
+
 		return true;
+	}
+
+	/**
+	 * Simply closes the connection.
+	 */
+	public function quit() -> boolean
+	{
+		this->write("quit");
+		this->disconnect();
+
+		return typeof this->_connection != "resource";
 	}
 }
