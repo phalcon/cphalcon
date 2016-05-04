@@ -25,8 +25,8 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache", "backend.zep.c backendinterface.zep.c frontendinterface.zep.c exception.zep.c multiple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "adapterinterface.zep.c adapter.zep.c readerinterface.zep.c annotation.zep.c collection.zep.c exception.zep.c reader.zep.c reflection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db", "adapter.zep.c dialectinterface.zep.c adapterinterface.zep.c dialect.zep.c columninterface.zep.c indexinterface.zep.c referenceinterface.zep.c resultinterface.zep.c column.zep.c exception.zep.c index.zep.c profiler.zep.c rawvalue.zep.c reference.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "formatterinterface.zep.c adapter.zep.c adapterinterface.zep.c formatter.zep.c exception.zep.c item.zep.c multiple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter", "pdo.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/logger", "adapter.zep.c adapterinterface.zep.c formatter.zep.c formatterinterface.zep.c exception.zep.c item.zep.c multiple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc", "entityinterface.zep.c viewbaseinterface.zep.c routerinterface.zep.c collectioninterface.zep.c controllerinterface.zep.c dispatcherinterface.zep.c modelinterface.zep.c router.zep.c urlinterface.zep.c viewinterface.zep.c application.zep.c collection.zep.c controller.zep.c dispatcher.zep.c micro.zep.c model.zep.c moduledefinitioninterface.zep.c url.zep.c view.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/session", "adapter.zep.c adapterinterface.zep.c baginterface.zep.c bag.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets", "filterinterface.zep.c inline.zep.c resource.zep.c collection.zep.c exception.zep.c manager.zep.c", "phalcon");
@@ -94,6 +94,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/interpolator", "associativearray.zep.c indexedarray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/message", "group.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c creditcard.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c creditcard.zep.c date.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
   ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE");
 }

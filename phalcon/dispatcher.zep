@@ -428,7 +428,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			// Check if the method exists in the handler
 			let actionMethod = actionName . actionSuffix;
 
-			if !method_exists(handler, actionMethod) {
+			if !is_callable([handler, actionMethod]) {
 
 				// Call beforeNotFoundAction
 				if typeof eventsManager == "object" {
@@ -503,13 +503,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
+			let this->_lastHandler = handler;
+
 			try {
 
 				// We update the latest value produced by the latest handler
-				let this->_returnedValue = call_user_func_array([handler, actionMethod], params),
-					this->_lastHandler = handler;
-
+				let this->_returnedValue = call_user_func_array([handler, actionMethod], params);
+					
 			} catch \Exception, e {
+
+				let this->_lastHandler = handler;
+
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
 						continue;

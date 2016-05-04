@@ -28,6 +28,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/dispatcherinterface.zep.c
+	phalcon/logger/formatterinterface.zep.c
 	phalcon/annotations/adapter.zep.c
 	phalcon/config.zep.c
 	phalcon/db/adapter/pdo.zep.c
@@ -36,7 +37,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/adapter.zep.c
 	phalcon/logger/adapterinterface.zep.c
 	phalcon/logger/formatter.zep.c
-	phalcon/logger/formatterinterface.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/session/adapter.zep.c
@@ -354,6 +354,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/between.zep.c
 	phalcon/validation/validator/confirmation.zep.c
 	phalcon/validation/validator/creditcard.zep.c
+	phalcon/validation/validator/date.zep.c
 	phalcon/validation/validator/digit.zep.c
 	phalcon/validation/validator/email.zep.c
 	phalcon/validation/validator/exclusionin.zep.c

@@ -293,6 +293,6 @@ class Volt extends Engine implements EngineInterface
 			throw new Exception("Macro '" . name . "' does not exist");
 		}
 
-		return call_user_func(macro, arguments);
+		return call_user_func_array(macro, arguments);
 	}
 }

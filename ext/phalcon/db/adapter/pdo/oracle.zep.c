@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect) {
 		ZEPHIR_OBS_NVAR(descriptor);
 		zephir_read_property_this(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY_CC);
 	}
-	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_oracle_ce, this_ptr, "connect", &_0, 143, descriptor);
+	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_oracle_ce, this_ptr, "connect", &_0, 138, descriptor);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(startup);
 	if (zephir_array_isset_string_fetch(&startup, descriptor, SS("startup"), 0 TSRMLS_CC)) {
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/oracle.zep", 199 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_23$$3);
 		object_init_ex(_23$$3, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _23$$3, "__construct", &_24, 142, columnName, definition);
+		ZEPHIR_CALL_METHOD(NULL, _23$$3, "__construct", &_24, 137, columnName, definition);
 		zephir_check_call_status();
 		zephir_array_append(&columns, _23$$3, PH_SEPARATE, "phalcon/db/adapter/pdo/oracle.zep", 204);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);

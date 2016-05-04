@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZVAL_STRING(_2$$3, "autoLoad", 1);
 		zephir_array_fast_append(_1$$3, _2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 287, _1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 282, _1$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZVAL_STRING(_2$$3, "autoLoad", 1);
 		zephir_array_fast_append(_1$$3, _2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 288, _1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 283, _1$$3);
 		zephir_check_call_status();
 		if (0) {
 			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							zephir_check_temp_parameter(_12$$12);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_FUNCTION(&_14$$11, "is_file", &_15, 289, filePath);
+						ZEPHIR_CALL_FUNCTION(&_14$$11, "is_file", &_15, 284, filePath);
 						zephir_check_call_status();
 						if (zephir_is_true(_14$$11)) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -579,7 +579,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 							zephir_check_temp_parameter(_31$$20);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_FUNCTION(&_33$$19, "is_file", &_15, 289, filePath);
+						ZEPHIR_CALL_FUNCTION(&_33$$19, "is_file", &_15, 284, filePath);
 						zephir_check_call_status();
 						if (zephir_is_true(_33$$19)) {
 							if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_check_temp_parameter(_45$$26);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_FUNCTION(&_47$$25, "is_file", &_15, 289, filePath);
+				ZEPHIR_CALL_FUNCTION(&_47$$25, "is_file", &_15, 284, filePath);
 				zephir_check_call_status();
 				if (zephir_is_true(_47$$25)) {
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

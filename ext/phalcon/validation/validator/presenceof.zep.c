@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4$$3);
 		ZVAL_STRING(_4$$3, "PresenceOf", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 438, _3$$3, field, _4$$3);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 434, _3$$3, field, _4$$3);
 		zephir_check_temp_parameter(_4$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _1$$3);

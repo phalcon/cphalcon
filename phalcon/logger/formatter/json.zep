@@ -20,14 +20,13 @@
 namespace Phalcon\Logger\Formatter;
 
 use Phalcon\Logger\Formatter;
-use Phalcon\Logger\FormatterInterface;
 
 /**
  * Phalcon\Logger\Formatter\Json
  *
  * Formats messages using JSON encoding
  */
-class Json extends Formatter implements FormatterInterface
+class Json extends Formatter
 {
 
 	/**

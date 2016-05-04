@@ -197,7 +197,7 @@ class Transaction implements TransactionInterface
 	 */
 	public function isManaged() -> boolean
 	{
-		return !this->_manager;
+		return typeof this->_manager == "object";
 	}
 
 	/**

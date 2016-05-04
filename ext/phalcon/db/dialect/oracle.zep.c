@@ -766,14 +766,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, viewName);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, viewName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 145, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 140, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='", _0$$3, "' AND OWNER='", _2$$3, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 145, viewName);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 140, viewName);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='", _3, "'");
 	RETURN_MM();
@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT VIEW_NAME FROM ALL_VIEWS WHERE OWNER='", _0$$3, "' ORDER BY VIEW_NAME");
 		RETURN_MM();
@@ -848,14 +848,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, tableName);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, tableName);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 145, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 140, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='", _0$$3, "' AND OWNER = '", _2$$3, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 145, tableName);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 140, tableName);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='", _3, "'");
 	RETURN_MM();
@@ -898,14 +898,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns) {
 
 
 	if (!ZEPHIR_IS_STRING(schema, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, table);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, table);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 145, schema);
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 140, schema);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", _0$$3, "' AND TC.OWNER = '", _2$$3, "' ORDER BY TC.COLUMN_ID");
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 145, table);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 140, table);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", _3, "' ORDER BY TC.COLUMN_ID");
 	RETURN_MM();
@@ -938,7 +938,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables) {
 
 
 	if (!ZEPHIR_IS_STRING(schemaName, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, schemaName);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, schemaName);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT TABLE_NAME, OWNER FROM ALL_TABLES WHERE OWNER='", _0$$3, "' ORDER BY OWNER, TABLE_NAME");
 		RETURN_MM();
@@ -979,14 +979,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes) {
 
 
 	if (!ZEPHIR_IS_STRING(schema, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, table);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, table);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 145, schema);
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 140, schema);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", _0$$3, "' AND IC.INDEX_OWNER = '", _2$$3, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 145, table);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_1, 140, table);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", _3, "'");
 	RETURN_MM();
@@ -1027,15 +1027,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences) {
 	ZEPHIR_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT AC.TABLE_NAME, CC.COLUMN_NAME, AC.CONSTRAINT_NAME, AC.R_OWNER, RCC.TABLE_NAME R_TABLE_NAME, RCC.COLUMN_NAME R_COLUMN_NAME FROM ALL_CONSTRAINTS AC JOIN ALL_CONS_COLUMNS CC ON AC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME JOIN ALL_CONS_COLUMNS RCC ON AC.R_OWNER = RCC.OWNER AND AC.R_CONSTRAINT_NAME = RCC.CONSTRAINT_NAME WHERE AC.CONSTRAINT_TYPE='R' ", 1);
 	if (!ZEPHIR_IS_STRING(schema, "")) {
-		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 145, schema);
+		ZEPHIR_CALL_CE_STATIC(&_0$$3, phalcon_text_ce, "upper", &_1, 140, schema);
 		zephir_check_call_status();
-		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 145, table);
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_text_ce, "upper", &_1, 140, table);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_CONCAT_SVSVS(_3$$3, "AND AC.OWNER='", _0$$3, "' AND AC.TABLE_NAME = '", _2$$3, "'");
 		zephir_concat_self(&sql, _3$$3 TSRMLS_CC);
 	} else {
-		ZEPHIR_CALL_CE_STATIC(&_4$$4, phalcon_text_ce, "upper", &_1, 145, table);
+		ZEPHIR_CALL_CE_STATIC(&_4$$4, phalcon_text_ce, "upper", &_1, 140, table);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5$$4);
 		ZEPHIR_CONCAT_SVS(_5$$4, "AND AC.TABLE_NAME = '", _4$$4, "'");
@@ -1143,11 +1143,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, prepareTable) {
 	}
 
 
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_text_ce, "upper", &_2, 145, table);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_text_ce, "upper", &_2, 140, table);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_2, 145, schema);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_text_ce, "upper", &_2, 140, schema);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_db_dialect_oracle_ce, this_ptr, "preparetable", &_0, 146, _1, _3, alias, escapeChar);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_db_dialect_oracle_ce, this_ptr, "preparetable", &_0, 141, _1, _3, alias, escapeChar);
 	zephir_check_call_status();
 	RETURN_MM();
 

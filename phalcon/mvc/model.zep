@@ -206,13 +206,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let metaData = this->_modelsMetaData;
 		if typeof metaData != "object" {
 
-			/**
-			 * Check if the DI is valid
-			 */
 			let dependencyInjector = <DiInterface> this->_dependencyInjector;
-			if typeof dependencyInjector != "object" {
-				throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-			}
 
 			/**
 			 * Obtain the models-metadata service from the DI
@@ -483,10 +477,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				// Try to find a possible getter
-				let possibleSetter = "set" . camelize(attributeField);
-				if method_exists(this, possibleSetter) {
-					this->{possibleSetter}(value);
-				} else {
+				if !this->_possibleSetter(attributeField, value) {
 					let this->{attributeField} = value;
 				}
 			}
@@ -1063,7 +1054,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let num = connection->fetchOne(
 			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
-			null,
+			\Phalcon\Db::FETCH_ASSOC,
 			uniqueParams,
 			uniqueTypes
 		);
@@ -1639,83 +1630,80 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
 
-		if count(relations) {
+		for relation in relations {
 
-			for relation in relations {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey !== false {
 
 				/**
-				 * Check if the relation has a virtual foreign key
+				 * By default action is restrict
 				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+				let action = Relation::NO_ACTION;
+
+				/**
+				 * Try to find a different action in the foreign key's options
+				 */
+				if typeof foreignKey == "array" {
+					if isset foreignKey["action"] {
+						let action = (int) foreignKey["action"];
+					}
+				}
+
+				/**
+				 * Check only if the operation is restrict
+				 */
+				if action == Relation::ACTION_CASCADE {
 
 					/**
-					 * By default action is restrict
+					 * Load a plain instance from the models manager
 					 */
-					let action = Relation::NO_ACTION;
+					let referencedModel = manager->load(relation->getReferencedModel());
+
+					let fields = relation->getFields(),
+						referencedFields = relation->getReferencedFields();
 
 					/**
-					 * Try to find a different action in the foreign key's options
+					 * Create the checking conditions. A relation can has many fields or a single one
 					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
+					let conditions = [], bindParams = [];
+
+					if typeof fields == "array" {
+						for position, field in fields {
+							fetch value, this->{field};
+							let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+								bindParams[] = value;
 						}
+					} else {
+						fetch value, this->{fields};
+						let conditions[] = "[" . referencedFields . "] = ?0",
+							bindParams[] = value;
 					}
 
 					/**
-					 * Check only if the operation is restrict
+					 * Check if the virtual foreign key has extra conditions
 					 */
-					if action == Relation::ACTION_CASCADE {
+					if fetch extraConditions, foreignKey["conditions"] {
+						let conditions[] = extraConditions;
+					}
 
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
+					/**
+					 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+					 * Let's make the checking
+					 */
+					let resultset = referencedModel->find([
+						join(" AND ", conditions),
+						"bind": bindParams
+					]);
 
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[". referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						let resultset = referencedModel->find([
-							join(" AND ", conditions),
-							"bind": bindParams
-						]);
-
-						/**
-						 * Delete the resultset
-						 * Stop the operation if needed
-						 */
-						if resultset->delete() === false {
-							return false;
-						}
+					/**
+					 * Delete the resultset
+					 * Stop the operation if needed
+					 */
+					if resultset->delete() === false {
+						return false;
 					}
 				}
 			}
@@ -1746,106 +1734,104 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We check if some of the hasOne/hasMany relations is a foreign key
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
-		if count(relations) {
 
-			let error = false;
-			for relation in relations {
+		let error = false;
+		for relation in relations {
+
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey !== false {
 
 				/**
-				 * Check if the relation has a virtual foreign key
+				 * By default action is restrict
 				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+				let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
-
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
+				/**
+				 * Try to find a different action in the foreign key's options
+				 */
+				if typeof foreignKey == "array" {
+					if isset foreignKey["action"] {
+						let action = (int) foreignKey["action"];
 					}
+				}
+
+				/**
+				 * Check only if the operation is restrict
+				 */
+				if action == Relation::ACTION_RESTRICT {
+
+					let relationClass = relation->getReferencedModel();
 
 					/**
-					 * Check only if the operation is restrict
+					 * Load a plain instance from the models manager
 					 */
-					if action == Relation::ACTION_RESTRICT {
+					let referencedModel = manager->load(relationClass);
 
-						let relationClass = relation->getReferencedModel();
+					let fields = relation->getFields(),
+						referencedFields = relation->getReferencedFields();
 
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relationClass);
+					/**
+					 * Create the checking conditions. A relation can has many fields or a single one
+					 */
+					let conditions = [], bindParams = [];
 
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
+					if typeof fields == "array" {
 
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
+						for position, field in fields {
+							fetch value, this->{field};
+							let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 								bindParams[] = value;
 						}
 
+					} else {
+						fetch value, this->{fields};
+						let conditions[] = "[" . referencedFields . "] = ?0",
+							bindParams[] = value;
+					}
+
+					/**
+					 * Check if the virtual foreign key has extra conditions
+					 */
+					if fetch extraConditions, foreignKey["conditions"] {
+						let conditions[] = extraConditions;
+					}
+
+					/**
+					 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+					 * Let's make the checking
+					 */
+					if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
 						/**
-						 * Check if the virtual foreign key has extra conditions
+						 * Create a new message
 						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
+						if !fetch message, foreignKey["message"] {
+							let message = "Record is referenced by model " . relationClass;
 						}
 
 						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
+						 * Create a message
 						 */
-						if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Create a new message
-							 */
-							if !fetch message, foreignKey["message"] {
-								let message = "Record is referenced by model " . relationClass;
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
+						this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+						let error = true;
+						break;
 					}
 				}
 			}
+		}
 
-			/**
-			 * Call validation fails event
-			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
-				}
-				return false;
+		/**
+		 * Call validation fails event
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
 			}
+			return false;
 		}
 
 		return true;
@@ -2817,7 +2803,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Create/Get the current database connection
 		 */
 		let writeConnection = this->getWriteConnection();
-
+		
+		/**
+		 * Fire the start event
+		 */
+		this->fireEvent("prepareSave");
+		
 		/**
 		 * Save related records in belongsTo relationships
 		 */
@@ -4143,12 +4134,63 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			return value;
 		}
 
-		/**
-		 * Fallback assigning the value to the instance
-		 */
+		// Use possible setter.
+		if this->_possibleSetter(property, value) {
+			return value;
+		}
+
+		// Throw an exception if there is an attempt to set a non-public property.
+		if !this->_isVisible(property) {
+			throw new Exception("Property '" . property . "' does not have a setter.");
+		}
+
 		let this->{property} = value;
 
 		return value;
+	}
+
+	/**
+	 * Check for, and attempt to use, possible setter.
+	 *
+	 * @param string property
+	 * @param mixed value
+	 * @return string
+	 */
+	protected final function _possibleSetter(string property, value)
+	{
+		var possibleSetter;
+
+		let possibleSetter = "set" . camelize(property);
+		if method_exists(this, possibleSetter) {
+			this->{possibleSetter}(value);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check whether a property is declared private or protected.
+	 * This is a stop-gap because we do not want to have to declare all properties.
+	 *
+	 * @param string property
+	 * @return boolean
+	 */
+	protected final function _isVisible(property)
+	{
+		var reflectionClass, reflectionProp, e;
+
+		//Try reflection on the property.
+		let reflectionClass = new \ReflectionClass(this);
+		try {
+			let reflectionProp = reflectionClass->getProperty(property);
+			if !reflectionProp->isPublic() {
+				return false;
+			}
+		} catch \Exception, e {
+			// The property doesn't exist.
+			return true;
+		}
+		return true;
 	}
 
 	/**

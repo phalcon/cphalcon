@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 
-	zval *_0 = NULL, *_1 = NULL;
+	zval *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
@@ -678,12 +678,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, _0, "remove", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "rand", NULL, 111);
-	zephir_check_call_status();
-	if (zephir_safe_mod_long_long(zephir_get_intval(_1), 100 TSRMLS_CC) == 0) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL, 0);
-		zephir_check_call_status();
-	}
 	RETURN_MM_BOOL(1);
 
 }

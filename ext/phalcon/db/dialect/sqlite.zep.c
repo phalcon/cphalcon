@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value$$25, _12$$25);
 					ZEPHIR_SINIT_NVAR(_13$$26);
 					ZVAL_STRING(&_13$$26, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_14$$26, "addcslashes", &_15, 144, value$$25, &_13$$26);
+					ZEPHIR_CALL_FUNCTION(&_14$$26, "addcslashes", &_15, 139, value$$25, &_13$$26);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_16$$26);
 					ZEPHIR_CONCAT_SVS(_16$$26, "\"", _14$$26, "\", ");
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_VAR(_21$$27);
 				ZVAL_STRING(&_21$$27, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_22$$27, "addcslashes", &_15, 144, typeValues, &_21$$27);
+				ZEPHIR_CALL_FUNCTION(&_22$$27, "addcslashes", &_15, 139, typeValues, &_21$$27);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_23$$27);
 				ZEPHIR_CONCAT_SVS(_23$$27, "(\"", _22$$27, "\")");
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_6$$5);
 			ZVAL_STRING(&_6$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "addcslashes", NULL, 144, defaultValue, &_6$$5);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "addcslashes", NULL, 139, defaultValue, &_6$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_8$$5);
 			ZEPHIR_CONCAT_SVS(_8$$5, " DEFAULT \"", _7$$5, "\"");
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_12$$12);
 				ZVAL_STRING(&_12$$12, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_13$$12, "addcslashes", &_14, 144, defaultValue, &_12$$12);
+				ZEPHIR_CALL_FUNCTION(&_13$$12, "addcslashes", &_14, 139, defaultValue, &_12$$12);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_15$$12);
 				ZEPHIR_CONCAT_SVS(_15$$12, " DEFAULT \"", _13$$12, "\"");
