@@ -69,12 +69,12 @@ class Abonnes extends Phalcon\Mvc\Model
 			'model' => $this
 		)));
 
-		$validator->validate('statut', new RegexValidator(array(
+		$validator->add('statut', new RegexValidator(array(
 			'pattern' => '/[A-Z]/',
 			'message' => "L'état ne correspond pas à l'expression régulière"
 		)));
 
-		$validator->validate('courrierElectronique', new StringLengthValidator(array(
+		$validator->add('courrierElectronique', new StringLengthValidator(array(
 			'min' => '7',
 			'max' => '50',
 			'messageMinimum' => "Le courrier électronique est trop court",

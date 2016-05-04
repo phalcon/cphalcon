@@ -41,6 +41,7 @@ env:
 
 before_install:
   - export PATH=$PATH:~/bin;
+  - 'echo $TRAVIS_PHP_VERSION'
   - travis_retry composer self-update
   - travis_retry composer --prefer-source install
   - travis_retry composer require phalcon/zephir:dev-master
@@ -48,14 +49,15 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
-  - '[[ "$TRAVIS_PHP_VERSION" == "7" ]] || zephir generate &> /dev/null'
-  - '[[ "$TRAVIS_PHP_VERSION" != "7" ]] || zephir generate --backend=ZendEngine3 &> /dev/null'
+  - 'if [ "$TRAVIS_PHP_VERSION" != "7.0" ]; then zephir generate; else echo "$TRAVIS_PHP_VERSION"; fi;'
+  - 'if [ "$TRAVIS_PHP_VERSION" = "7.0" ]; then zephir generate --backend=ZendEngine3; else echo "$TRAVIS_PHP_VERSION"; fi;'
 
 before_script:
+  - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do gcc "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - php --ri phalcon
-  - phpenv config-add tests/_ci/redis.ini # after compilation Zephir and Phalcon
+  - phpenv config-add tests/_ci/redis.ini # after compile Zephir and Phalcon
   - php -m
   - pecl list
   - ulimit -c unlimited -S || true
@@ -63,7 +65,7 @@ before_script:
   - stty cols 160
 
 script:
-  - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
+  - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v
 

@@ -362,7 +362,6 @@ zend_class_entry *phalcon_session_adapter_libmemcached_ce;
 zend_class_entry *phalcon_session_adapter_memcache_ce;
 zend_class_entry *phalcon_session_adapter_redis_ce;
 zend_class_entry *phalcon_session_bag_ce;
-zend_class_entry *phalcon_session_ce;
 zend_class_entry *phalcon_session_exception_ce;
 zend_class_entry *phalcon_tag_ce;
 zend_class_entry *phalcon_tag_exception_ce;
@@ -767,7 +766,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Security);
 	ZEPHIR_INIT(Phalcon_Security_Exception);
 	ZEPHIR_INIT(Phalcon_Security_Random);
-	ZEPHIR_INIT(Phalcon_Session);
 	ZEPHIR_INIT(Phalcon_Session_Adapter_Files);
 	ZEPHIR_INIT(Phalcon_Session_Adapter_Libmemcached);
 	ZEPHIR_INIT(Phalcon_Session_Adapter_Memcache);

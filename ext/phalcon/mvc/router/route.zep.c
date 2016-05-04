@@ -587,7 +587,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths) {
 					ZEPHIR_CPY_WRT(realClassName, controllerName);
 				}
 				ZEPHIR_INIT_VAR(_1$$9);
-				zephir_uncamelize(_1$$9, realClassName);
+				zephir_uncamelize(_1$$9, realClassName, NULL  );
 				zephir_array_update_string(&routePaths, SL("controller"), &_1$$9, PH_COPY | PH_SEPARATE);
 			}
 			if (Z_TYPE_P(actionName) != IS_NULL) {

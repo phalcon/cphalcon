@@ -1,0 +1,958 @@
+
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+%token_prefix PHQL_
+%token_type {phql_parser_token*}
+%default_type {zval}
+%extra_argument {phql_parser_status *status}
+%name phql_
+
+%right AGAINST .
+%left BETWEEN .
+%left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
+%left AND OR .
+%left LIKE ILIKE .
+%left BITWISE_AND BITWISE_OR BITWISE_XOR .
+%left DIVIDE TIMES MOD .
+%left PLUS MINUS .
+%left IS .
+%right IN .
+%right NOT BITWISE_NOT .
+%left COMMA .
+
+%include {
+#include "parser.php7.inc.h"
+}
+
+%syntax_error {
+	if (status->scanner_state->start_length) {
+		{
+
+			char *token_name = NULL;
+			int token_found = 0;
+			unsigned int token_length;
+			const phql_token_names *tokens = phql_tokens;
+			int active_token = status->scanner_state->active_token;
+			int near_length = status->scanner_state->start_length;
+
+			if (active_token) {
+
+				do {
+					if (tokens->code == active_token) {
+						token_name = tokens->name;
+						token_length = tokens->length;
+						token_found = 1;
+						break;
+					}
+					++tokens;
+				} while (tokens[0].code != 0);
+
+			}
+
+			if (!token_name) {
+				token_length = strlen("UNKNOWN");
+				token_name = estrndup("UNKNOWN", token_length);
+				token_found = 0;
+			}
+
+			status->syntax_error_len = 96 + status->token->len + token_length + near_length + status->phql_length;;
+			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+
+			if (near_length > 0) {
+				if (status->token->value) {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s', when parsing: %s (%d)", token_name, status->token->value, status->scanner_state->start, status->phql, status->phql_length);
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s', when parsing: %s (%d)", token_name, status->scanner_state->start, status->phql, status->phql_length);
+				}
+			} else {
+				if (active_token != PHQL_T_IGNORE) {
+					if (status->token->value) {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query, when parsing: %s (%d)", token_name, status->token->value, status->phql, status->phql_length);
+					} else {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query, when parsing: %s (%d)", token_name, status->phql, status->phql_length);
+					}
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of query");
+				}
+				status->syntax_error[status->syntax_error_len - 1] = '\0';
+			}
+
+			if (!token_found) {
+				if (token_name) {
+					efree(token_name);
+				}
+			}
+		}
+	} else {
+		status->syntax_error_len = strlen("Syntax error, unexpected EOF");
+		status->syntax_error = estrndup("Syntax error, unexpected EOF", status->syntax_error_len);
+	}
+
+	status->status = PHQL_PARSING_FAILED;
+}
+
+%token_destructor {
+	if ($$) {
+		if ($$->free_flag) {
+			efree($$->token);
+		}
+		efree($$);
+	}
+}
+
+program ::= query_language(Q) . {
+	ZVAL_ZVAL(&status->ret, &Q, 1, 1);
+}
+
+%destructor query_language {
+    zval_ptr_dtor(&$$);
+}
+
+query_language(R) ::= select_statement(S) . {
+	R = S;
+}
+
+query_language(R) ::= insert_statement(I) . {
+	R = I;
+}
+
+query_language(R) ::= update_statement(U) . {
+	R = U;
+}
+
+query_language(R) ::= delete_statement(D) . {
+	R = D;
+}
+
+%destructor select_statement {
+    zval_ptr_dtor(&$$);
+}
+
+select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
+	phql_ret_select_statement(&R, &S, &W, &O, &G, &H, &L, &F);
+}
+
+%destructor select_clause {
+    zval_ptr_dtor(&$$);
+}
+
+select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) join_list_or_null(J) . {
+	phql_ret_select_clause(&R, &D, &C, &A, &J);
+}
+
+%destructor distinct_all {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+distinct_all(R) ::= DISTINCT . {
+	phql_ret_distinct_all(&R, 1);
+}
+
+distinct_all(R) ::= ALL . {
+	phql_ret_distinct_all(&R, 0);
+}
+
+distinct_all(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor column_list {
+    zval_ptr_dtor(&$$);
+}
+
+column_list(R) ::= column_list(L) COMMA column_item(C) . {
+	phql_ret_zval_list(&R, &L, &C);
+}
+
+column_list(R) ::= column_item(I) . {
+	phql_ret_zval_list(&R, &I, NULL);
+}
+
+%destructor column_item {
+    zval_ptr_dtor(&$$);
+}
+
+column_item(R) ::= TIMES . {
+	phql_ret_column_item(&R, PHQL_T_STARALL, NULL, NULL, NULL);
+}
+
+column_item(R) ::= IDENTIFIER(I) DOT TIMES . {
+	phql_ret_column_item(&R, PHQL_T_DOMAINALL, NULL, I, NULL);
+}
+
+column_item(R) ::= expr(E) AS IDENTIFIER(I) . {
+	phql_ret_column_item(&R, PHQL_T_EXPR, &E, NULL, I);
+}
+
+column_item(R) ::= expr(E) IDENTIFIER(I) . {
+	phql_ret_column_item(&R, PHQL_T_EXPR, &E, NULL, I);
+}
+
+column_item(R) ::= expr(E) . {
+	phql_ret_column_item(&R, PHQL_T_EXPR, &E, NULL, NULL);
+}
+
+%destructor associated_name_list {
+    zval_ptr_dtor(&$$);
+}
+
+associated_name_list(R) ::= associated_name_list(L) COMMA associated_name(A) . {
+	phql_ret_zval_list(&R, &L, &A);
+}
+
+associated_name_list(R) ::= associated_name(L) . {
+	R = L;
+}
+
+join_list_or_null(R) ::= join_list(L) . {
+	R = L;
+}
+
+join_list_or_null(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor join_list {
+    zval_ptr_dtor(&$$);
+}
+
+join_list(R) ::= join_list(L) join_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+join_list(R) ::= join_item(I) . {
+	R = I;
+}
+
+%destructor join_item {
+    zval_ptr_dtor(&$$);
+}
+
+join_item(R) ::= join_clause(C) . {
+	R = C;
+}
+
+%destructor join_clause {
+    zval_ptr_dtor(&$$);
+}
+
+/** Join + conditions + alias */
+join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) join_associated_name(A) join_conditions(C) . {
+	phql_ret_join_item(&R, &T, &Q, &A, &C);
+}
+
+%destructor join_associated_name  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+join_associated_name(R) ::= AS IDENTIFIER(I) . {
+	phql_ret_qualified_name(&R, NULL, NULL, I);
+}
+
+join_associated_name(R) ::= IDENTIFIER(I) . {
+	phql_ret_qualified_name(&R, NULL, NULL, I);
+}
+
+join_associated_name(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor join_type {
+    zval_ptr_dtor(&$$);
+}
+
+join_type(R) ::= INNER JOIN . {
+	phql_ret_join_type(&R, PHQL_T_INNERJOIN);
+}
+
+join_type(R) ::= CROSS JOIN . {
+	phql_ret_join_type(&R, PHQL_T_CROSSJOIN);
+}
+
+join_type(R) ::= LEFT OUTER JOIN . {
+	phql_ret_join_type(&R, PHQL_T_LEFTJOIN);
+}
+
+join_type(R) ::= LEFT JOIN . {
+	phql_ret_join_type(&R, PHQL_T_LEFTJOIN);
+}
+
+join_type(R) ::= RIGHT OUTER JOIN . {
+	phql_ret_join_type(&R, PHQL_T_RIGHTJOIN);
+}
+
+join_type(R) ::= RIGHT JOIN . {
+	phql_ret_join_type(&R, PHQL_T_RIGHTJOIN);
+}
+
+join_type(R) ::= FULL OUTER JOIN . {
+	phql_ret_join_type(&R, PHQL_T_FULLJOIN);
+}
+
+join_type(R) ::= FULL JOIN . {
+	phql_ret_join_type(&R, PHQL_T_FULLJOIN);
+}
+
+join_type(R) ::= JOIN . {
+	phql_ret_join_type(&R, PHQL_T_INNERJOIN);
+}
+
+%destructor join_conditions  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+join_conditions(R) ::= ON expr(E) . {
+	R = E;
+}
+
+join_conditions(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor insert_statement {
+    zval_ptr_dtor(&$$);
+}
+
+/* Insert */
+insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) VALUES PARENTHESES_OPEN values_list(V) PARENTHESES_CLOSE . {
+	phql_ret_insert_statement(&R, &Q, NULL, &V);
+}
+
+insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) PARENTHESES_OPEN field_list(F) PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list(V) PARENTHESES_CLOSE . {
+	phql_ret_insert_statement(&R, &Q, &F, &V);
+}
+
+%destructor value_list {
+    zval_ptr_dtor(&$$);
+}
+
+values_list(R) ::= values_list(L) COMMA value_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+values_list(R) ::= value_item(I) . {
+	phql_ret_zval_list(&R, &I, NULL);
+}
+
+value_item(R) ::= expr(E) . {
+	R = E;
+}
+
+%destructor field_list {
+    zval_ptr_dtor(&$$);
+}
+
+field_list(R) ::= field_list(L) COMMA field_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+field_list(R) ::= field_item(I) . {
+	phql_ret_zval_list(&R, &I, NULL);
+}
+
+%destructor field_item {
+    zval_ptr_dtor(&$$);
+}
+
+field_item(R) ::= IDENTIFIER(I) . {
+	phql_ret_qualified_name(&R, NULL, NULL, I);
+}
+
+/* Update */
+
+%destructor update_statement {
+    zval_ptr_dtor(&$$);
+}
+
+update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
+	phql_ret_update_statement(&R, &U, &W, &L);
+}
+
+%destructor update_clause {
+    zval_ptr_dtor(&$$);
+}
+
+update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
+	phql_ret_update_clause(&R, &A, &U);
+}
+
+%destructor update_item_list {
+    zval_ptr_dtor(&$$);
+}
+
+update_item_list(R) ::= update_item_list(L) COMMA update_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+update_item_list(R) ::= update_item(I) . {
+	R = I;
+}
+
+%destructor update_item {
+    zval_ptr_dtor(&$$);
+}
+
+update_item(R) ::= qualified_name(Q) EQUALS new_value(N) . {
+	phql_ret_update_item(&R, &Q, &N);
+}
+
+new_value(R) ::= expr(E) . {
+	R = E;
+}
+
+/* Delete */
+
+%destructor delete_statement {
+    zval_ptr_dtor(&$$);
+}
+
+delete_statement(R) ::= delete_clause(D) where_clause(W) limit_clause(L) . {
+	phql_ret_delete_statement(&R, &D, &W, &L);
+}
+
+%destructor delete_clause {
+    zval_ptr_dtor(&$$);
+}
+
+delete_clause(R) ::= DELETE FROM associated_name(A) . {
+	phql_ret_delete_clause(&R, &A);
+}
+
+%destructor associated_name {
+    zval_ptr_dtor(&$$);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) . {
+	phql_ret_assoc_name(&R, &Q, I, NULL);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) . {
+	phql_ret_assoc_name(&R, &Q, I, NULL);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) . {
+	phql_ret_assoc_name(&R, &Q, NULL, NULL);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) WITH with_item(W) . {
+	phql_ret_assoc_name(&R, &Q, I, &W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) WITH PARENTHESES_OPEN with_list(W) PARENTHESES_CLOSE . {
+	phql_ret_assoc_name(&R, &Q, I, &W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) WITH PARENTHESES_OPEN with_list(W) PARENTHESES_CLOSE . {
+	phql_ret_assoc_name(&R, &Q, I, &W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) WITH with_item(W) . {
+	phql_ret_assoc_name(&R, &Q, I, &W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) WITH PARENTHESES_OPEN with_list(W) PARENTHESES_CLOSE . {
+	phql_ret_assoc_name(&R, &Q, NULL, &W);
+}
+
+associated_name(R) ::= aliased_or_qualified_name(Q) WITH with_item(W) . {
+	phql_ret_assoc_name(&R, &Q, NULL, &W);
+}
+
+%destructor with_list {
+    zval_ptr_dtor(&$$);
+}
+
+with_list(R) ::= with_list(L) COMMA with_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+with_list(R) ::= with_item(I) . {
+	R = I;
+}
+
+%destructor with_item {
+    zval_ptr_dtor(&$$);
+}
+
+with_item(R) ::= IDENTIFIER(I) . {
+	phql_ret_qualified_name(&R, NULL, NULL, I);
+}
+
+%destructor aliased_or_qualified_name {
+    zval_ptr_dtor(&$$);
+}
+
+aliased_or_qualified_name(R) ::= qualified_name(Q) . {
+	R = Q;
+}
+
+%destructor where_clause  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+where_clause(R) ::= WHERE expr(E) . {
+	R = E;
+}
+
+where_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor order_clause  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+order_clause(R) ::= ORDER BY order_list(O) . {
+	R = O;
+}
+
+order_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor order_list {
+    zval_ptr_dtor(&$$);
+}
+
+order_list(R) ::= order_list(L) COMMA order_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+order_list(R) ::= order_item(I) . {
+	R = I;
+}
+
+%destructor order_item {
+    zval_ptr_dtor(&$$);
+}
+
+order_item(R) ::= expr(O) . {
+	phql_ret_order_item(&R, &O, 0);
+}
+
+order_item(R) ::= expr(O) ASC . {
+	phql_ret_order_item(&R, &O, PHQL_T_ASC);
+}
+
+order_item(R) ::= expr(O) DESC . {
+	phql_ret_order_item(&R, &O, PHQL_T_DESC);
+}
+
+%destructor group_clause {
+    zval_ptr_dtor(&$$);
+}
+
+group_clause(R) ::= GROUP BY group_list(G) . {
+	R = G;
+}
+
+group_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor group_list {
+    zval_ptr_dtor(&$$);
+}
+
+group_list(R) ::= group_list(L) COMMA group_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+group_list(R) ::= group_item(I) . {
+	R = I;
+}
+
+%destructor group_item {
+	zval_ptr_dtor(&$$);
+}
+
+group_item(R) ::= expr(E) . {
+	R = E;
+}
+
+%destructor having_clause  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+having_clause(R) ::= HAVING expr(E) . {
+	R = E;
+}
+
+having_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor for_update_clause  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+for_update_clause(R) ::= FOR UPDATE . {
+	phql_ret_for_update_clause(&R);
+}
+
+for_update_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor select_limit_clause  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+select_limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
+	phql_ret_limit_clause(&R, &I, NULL);
+}
+
+select_limit_clause(R) ::= LIMIT integer_or_placeholder(O) COMMA integer_or_placeholder(I). {
+	phql_ret_limit_clause(&R, &I, &O);
+}
+
+select_limit_clause(R) ::= LIMIT integer_or_placeholder(I) OFFSET integer_or_placeholder(O). {
+	phql_ret_limit_clause(&R, &I, &O);
+}
+
+select_limit_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor limit_clause  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
+	phql_ret_limit_clause(&R, &I, NULL);
+}
+
+limit_clause(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+integer_or_placeholder(R) ::= INTEGER(I) . {
+	phql_ret_literal_zval(&R, PHQL_T_INTEGER, I);
+}
+
+integer_or_placeholder(R) ::= HINTEGER(I) . {
+	phql_ret_literal_zval(&R, PHQL_T_HINTEGER, I);
+}
+
+integer_or_placeholder(R) ::= NPLACEHOLDER(P) . {
+	phql_ret_placeholder_zval(&R, PHQL_T_NPLACEHOLDER, P);
+}
+
+integer_or_placeholder(R) ::= SPLACEHOLDER(P) . {
+	phql_ret_placeholder_zval(&R, PHQL_T_SPLACEHOLDER, P);
+}
+
+integer_or_placeholder(R) ::= BPLACEHOLDER(P) . {
+	phql_ret_placeholder_zval(&R, PHQL_T_BPLACEHOLDER, P);
+}
+
+%destructor expr {
+    zval_ptr_dtor(&$$);
+}
+
+expr(R) ::= MINUS expr(E) . {
+	phql_ret_expr(&R, PHQL_T_MINUS, NULL, &E);
+}
+
+expr(R) ::= expr(O1) MINUS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_SUB, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) PLUS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_ADD, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) TIMES expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_MUL, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) DIVIDE expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_DIV, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) MOD expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_MOD, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) AND expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_AND, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) OR expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_OR, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) BITWISE_AND expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_BITWISE_AND, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) BITWISE_OR expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_BITWISE_OR, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) BITWISE_XOR expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_BITWISE_XOR, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) EQUALS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_EQUALS, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_NOTEQUALS, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) LESS expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_LESS, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) GREATER expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_GREATER, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) GREATEREQUAL expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_GREATEREQUAL, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) LESSEQUAL expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_LESSEQUAL, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) LIKE expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_LIKE, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) NOT LIKE expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_NLIKE, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) ILIKE expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_ILIKE, &O1, &O2);
+}
+
+expr(R) ::= expr(O1) NOT ILIKE expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_NILIKE, &O1, &O2);
+}
+
+expr(R) ::= expr(E) IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_IN, &E, &L);
+}
+
+expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_NOTIN, &E, &L);
+}
+
+expr(R) ::= PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_SUBQUERY, &S, NULL);
+}
+
+expr(R) ::= expr(E) IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_IN, &E, &S);
+}
+
+expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_NOTIN, &E, &S);
+}
+
+expr(R) ::= EXISTS PARENTHESES_OPEN select_statement(S) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_EXISTS, NULL, &S);
+}
+
+expr(R) ::= expr(O1) AGAINST expr(O2) . {
+	phql_ret_expr(&R, PHQL_T_AGAINST, &O1, &O2);
+}
+
+expr(R) ::= CAST PARENTHESES_OPEN expr(E) AS IDENTIFIER(I) PARENTHESES_CLOSE . {
+	{
+		zval qualified;
+		phql_ret_raw_qualified_name(&qualified, I, NULL);
+		phql_ret_expr(&R, PHQL_T_CAST, &E, &qualified);
+	}
+}
+
+expr(R) ::= CONVERT PARENTHESES_OPEN expr(E) USING IDENTIFIER(I) PARENTHESES_CLOSE . {
+	{
+		zval qualified;
+		phql_ret_raw_qualified_name(&qualified, I, NULL);
+		phql_ret_expr(&R, PHQL_T_CONVERT, &E, &qualified);
+	}
+}
+
+expr(R) ::= CASE expr(E) when_clauses(W) END . {
+	phql_ret_expr(&R, PHQL_T_CASE, &E, &W);
+}
+
+when_clauses(R) ::= when_clauses(L) when_clause(W) . {
+	phql_ret_zval_list(&R, &L, &W);
+}
+
+when_clauses(R) ::= when_clause(W) . {
+	phql_ret_zval_list(&R, &W, NULL);
+}
+
+when_clause(R) ::= WHEN expr(E) THEN expr(T) . {
+	phql_ret_expr(&R, PHQL_T_WHEN, &E, &T);
+}
+
+when_clause(R) ::= ELSE expr(E) . {
+	phql_ret_expr(&R, PHQL_T_ELSE, &E, NULL);
+}
+
+%destructor function_call {
+	zval_ptr_dtor(&$$);
+}
+
+expr(R) ::= function_call(F) . {
+	R = F;
+}
+
+function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN distinct_or_null(D) argument_list_or_null(L) PARENTHESES_CLOSE . {
+	phql_ret_func_call(&R, I, &L, &D);
+}
+
+%destructor distinct_or_null  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+distinct_or_null(R) ::= DISTINCT . {
+	phql_ret_distinct(&R);
+}
+
+distinct_or_null(R) ::=  . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor argument_list_or_null  {
+    zephir_safe_zval_ptr_dtor($$);
+}
+
+argument_list_or_null(R) ::= argument_list(L) . {
+	R = L;
+}
+
+argument_list_or_null(R) ::= . {
+	ZVAL_UNDEF(&R);
+}
+
+%destructor argument_list {
+	zval_ptr_dtor(&$$);
+}
+
+argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
+	phql_ret_zval_list(&R, &L, &I);
+}
+
+argument_list(R) ::= argument_item(I) . {
+	phql_ret_zval_list(&R, &I, NULL);
+}
+
+%destructor argument_item {
+	zval_ptr_dtor(&$$);
+}
+
+argument_item(R) ::= TIMES . {
+	phql_ret_column_item(&R, PHQL_T_STARALL, NULL, NULL, NULL);
+}
+
+argument_item(R) ::= expr(E) . {
+	R = E;
+}
+
+expr(R) ::= expr(E) IS NULL . {
+	phql_ret_expr(&R, PHQL_T_ISNULL, &E, NULL);
+}
+
+expr(R) ::= expr(E) IS NOT NULL . {
+	phql_ret_expr(&R, PHQL_T_ISNOTNULL, &E, NULL);
+}
+
+expr(R) ::= expr(E) BETWEEN expr(L) . {
+	phql_ret_expr(&R, PHQL_T_BETWEEN, &E, &L);
+}
+
+expr(R) ::= NOT expr(E) . {
+	phql_ret_expr(&R, PHQL_T_NOT, NULL, &E);
+}
+
+expr(R) ::= BITWISE_NOT expr(E) . {
+	phql_ret_expr(&R, PHQL_T_BITWISE_NOT, NULL, &E);
+}
+
+expr(R) ::= PARENTHESES_OPEN expr(E) PARENTHESES_CLOSE . {
+	phql_ret_expr(&R, PHQL_T_ENCLOSED, &E, NULL);
+}
+
+expr(R) ::= qualified_name(Q) . {
+	R = Q;
+}
+
+expr(R) ::= INTEGER(I) . {
+	phql_ret_literal_zval(&R, PHQL_T_INTEGER, I);
+}
+
+expr(R) ::= HINTEGER(I) . {
+	phql_ret_literal_zval(&R, PHQL_T_HINTEGER, I);
+}
+
+expr(R) ::= STRING(S) . {
+	phql_ret_literal_zval(&R, PHQL_T_STRING, S);
+}
+
+expr(R) ::= DOUBLE(D) . {
+	phql_ret_literal_zval(&R, PHQL_T_DOUBLE, D);
+}
+
+expr(R) ::= NULL . {
+	phql_ret_literal_zval(&R, PHQL_T_NULL, NULL);
+}
+
+expr(R) ::= TRUE . {
+	phql_ret_literal_zval(&R, PHQL_T_TRUE, NULL);
+}
+
+expr(R) ::= FALSE . {
+	phql_ret_literal_zval(&R, PHQL_T_FALSE, NULL);
+}
+
+/* ?0 */
+expr(R) ::= NPLACEHOLDER(P) . {
+	phql_ret_placeholder_zval(&R, PHQL_T_NPLACEHOLDER, P);
+}
+
+/* :placeholder: */
+expr(R) ::= SPLACEHOLDER(P) . {
+	phql_ret_placeholder_zval(&R, PHQL_T_SPLACEHOLDER, P);
+}
+
+/* {placeholder} */
+expr(R) ::= BPLACEHOLDER(P) . {
+	phql_ret_placeholder_zval(&R, PHQL_T_BPLACEHOLDER, P);
+}
+
+%destructor qualified_name {
+	zval_ptr_dtor(&$$);
+}
+
+qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {
+	phql_ret_qualified_name(&R, NULL, A, B);
+}
+
+qualified_name(R) ::= IDENTIFIER(A) . {
+	phql_ret_qualified_name(&R, NULL, NULL, A);
+}

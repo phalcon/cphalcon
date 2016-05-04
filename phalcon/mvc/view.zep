@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -864,9 +864,12 @@ class View extends Injectable implements ViewInterface
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		/**
-		 * Create a virtual symbol table
+		 * Create a virtual symbol table.
+		 * Variables are shared across symbol tables in PHP5
 		 */
-		create_symbol_table();
+		if is_php_version("5") {
+			create_symbol_table();
+		}
 
 		/**
 		 * Call beforeRender if there is an events manager
@@ -1418,15 +1421,11 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *  echo isset($this->view->products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @return boolean
 	 */
 	public function __isset(string! key) -> boolean
 	{
-		return isset(this->_viewParams[key]);
+		return isset this->_viewParams[key];
 	}
-
 
 	/**
 	 * Gets views directories

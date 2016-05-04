@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework													  |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)	   |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)	   |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled	   |
   | with this package in the file docs/LICENSE.txt.						   |
@@ -228,7 +228,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
+#if PHP_VERSION_ID < 70000
 	parser_status->ret = NULL;
+#else
+    ZVAL_UNDEF(&parser_status->ret);
+#endif
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
 	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
@@ -622,21 +626,33 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHQL_PARSING_OK) {
+#if PHP_VERSION_ID < 70000
 			if (parser_status->ret) {
+#else
+			if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
+#endif
 
 				/**
 				 * Set a unique id for the parsed ast
 				 */
 				if (phalcon_globals_ptr->orm.cache_level >= 1) {
+#if PHP_VERSION_ID < 70000
 					if (Z_TYPE_P(parser_status->ret) == IS_ARRAY) {
 						add_assoc_long(parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
 					}
+#else
+                    if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
+                        add_assoc_long(&parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
+                    }
+#endif
 				}
 
-				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-				ZVAL_NULL(parser_status->ret);
 #if PHP_VERSION_ID < 70000
+                ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+                ZVAL_NULL(parser_status->ret);
 				zval_ptr_dtor(&parser_status->ret);
+#else
+                ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
 #endif
 
 				/**
@@ -663,7 +679,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				}
 
 			} else {
+#if PHP_VERSION_ID < 70000
 				efree(parser_status->ret);
+#endif
 			}
 		}
 	}

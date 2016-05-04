@@ -1,0 +1,11 @@
+git add phalcon/annotations/parser.c
+git add phalcon/annotations/parser.php5.c
+git add phalcon/annotations/parser.php5.lemon
+git add phalcon/annotations/parser.php7.c
+git add phalcon/annotations/parser.php7.lemon
+git add phalcon/annotations/scanner.c
+git add phalcon/annotations/annot.h
+git add phalcon/annotations/base.c
+git add phalcon/annotations/parser.php7.inc.h
+git add phalcon/mvc/view/engine/volt/parser.php7.inc.h
+git add phalcon/mvc/view/engine/volt/scanner.c

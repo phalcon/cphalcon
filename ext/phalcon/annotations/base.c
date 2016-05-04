@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -236,6 +236,7 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 	if (processed_str.s) {
 		*ret     = estrndup(ZSTR_VAL(processed_str.s), ZSTR_LEN(processed_str.s));
 		*ret_len = ZSTR_LEN(processed_str.s);
+		smart_str_free(&processed_str);
 	} else {
 		*ret     = NULL;
 		*ret_len = 0;
@@ -301,7 +302,9 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
+#if PHP_VERSION_ID < 70000
 	parser_status->ret = NULL;
+#endif
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
@@ -449,17 +452,17 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
+#if PHP_VERSION_ID < 70000
 			if (parser_status->ret) {
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
-#if PHP_VERSION_ID < 70000
 				zval_ptr_dtor(&parser_status->ret);
-#else
-				zval_dtor(parser_status->ret);
-#endif
 			} else {
 				array_init(*result);
 			}
+#else
+			ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+#endif
 		}
 	}
 

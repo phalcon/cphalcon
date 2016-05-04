@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework							  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -1387,12 +1387,29 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	protected function validate(<ValidationInterface> validator) -> boolean
 	{
 		var messages, message;
+
 		let messages = validator->validate(null, this);
 
-		// Call the validation, if it returns not the boolean we append the messages to the current object
+		// Call the validation, if it returns not the boolean
+		// we append the messages to the current object
 		if typeof messages != "boolean" {
-			for message in iterator(messages) {
-				this->appendMessage(new Message(message->getMessage(), message->getField(), message->getType()));
+
+			messages->rewind();
+
+			//for message in iterator(messages) {
+			while messages->valid() {
+
+				let message = messages->current();
+
+				this->appendMessage(
+					new Message(
+						message->getMessage(),
+						message->getField(),
+						message->getType()
+					)
+				);
+
+				messages->next();
 			}
 
 			// If there is a message, it returns false otherwise true
@@ -1414,13 +1431,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+     *      $validator = new Validation();
+	 *
+	 * 		$validator->validate('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *		));
+
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
@@ -2819,12 +2836,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Create/Get the current database connection
 		 */
 		let writeConnection = this->getWriteConnection();
-		
+
 		/**
 		 * Fire the start event
 		 */
 		this->fireEvent("prepareSave");
-		
+
 		/**
 		 * Save related records in belongsTo relationships
 		 */

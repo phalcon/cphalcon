@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -37,15 +37,16 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
  *
  *<code>
+ * use Phalcon\Mvc\Application;
  *
- * class Application extends \Phalcon\Mvc\Application
+ * class MyApp extends Application
  * {
  *
  *		/**
  *		 * Register the services here to make them general or register
  *		 * in the ModuleDefinition to make them module-specific
  *		 *\/
- *		protected function _registerServices()
+ *		protected function registerServices()
  *		{
  *
  *		}
@@ -68,7 +69,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  *		}
  *	}
  *
- *	$application = new Application();
+ *	$application = new MyApp();
  *	$application->main();
  *
  *</code>

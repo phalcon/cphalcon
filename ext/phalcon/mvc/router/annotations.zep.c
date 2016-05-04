@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		ZEPHIR_OBS_NVAR(moduleName);
 		zephir_array_isset_long_fetch(&moduleName, scope, 2, 0 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(sufixed);
-		ZEPHIR_CONCAT_VV(sufixed, handler, controllerSuffix);
+		ZEPHIR_CONCAT_VV(sufixed, controllerName, controllerSuffix);
 		if (Z_TYPE_P(namespaceName) != IS_NULL) {
 			ZEPHIR_INIT_LNVAR(_6$$11);
 			ZEPHIR_CONCAT_VSV(_6$$11, namespaceName, "\\", sufixed);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		zephir_check_call_status();
 		if (Z_TYPE_P(methodAnnotations) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(lowerControllerName);
-			zephir_uncamelize(lowerControllerName, controllerName);
+			zephir_uncamelize(lowerControllerName, controllerName, NULL  );
 			zephir_is_iterable(methodAnnotations, &_13$$16, &_12$$16, 0, 0, "phalcon/mvc/router/annotations.zep", 195);
 			for (
 			  ; zephir_hash_get_current_data_ex(_13$$16, (void**) &_14$$16, &_12$$16) == SUCCESS
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources) {
 
 }
 
-static zend_object_value zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_2, *_4, *_1$$3, *_3$$4, *_5$$5;
 

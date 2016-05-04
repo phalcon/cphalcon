@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 
 }
 
-static zend_object_value zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_2, *_4, *_1$$3, *_3$$4, *_5$$5;
 

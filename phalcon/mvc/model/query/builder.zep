@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -1341,7 +1341,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		/**
 		 * Gets Query instance from DI container
 		 */
-		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
+		let query = <QueryInterface> dependencyInjector->get(
+			"Phalcon\\Mvc\\Model\\Query",
+			[phql, dependencyInjector]
+		);
 
 		// Set default bind params
 		let bindParams = this->_bindParams;
@@ -1365,7 +1368,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Automatically escapes identifiers but only if they need to be escaped.
 	 */
-	protected function autoescape(string identifier) -> string
+	final public function autoescape(string identifier) -> string
 	{
 		if memstr(identifier, "[") || memstr(identifier, ".") || is_numeric(identifier) {
 			return identifier;

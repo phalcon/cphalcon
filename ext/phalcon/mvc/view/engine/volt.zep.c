@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 390, macro, arguments);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, macro, arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_12$$6);
 		ZVAL_STRING(_12$$6, "Identical", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _8$$6, "__construct", NULL, 452, _10$$6, field, _12$$6, _11$$6);
+		ZEPHIR_CALL_METHOD(NULL, _8$$6, "__construct", NULL, 455, _10$$6, field, _12$$6, _11$$6);
 		zephir_check_temp_parameter(_12$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _8$$6);

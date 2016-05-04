@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 		ZEPHIR_INIT_VAR(_1$$3);
 		ZEPHIR_INIT_VAR(_2$$3);
 		zephir_get_class_ns(_2$$3, collection, 0 TSRMLS_CC);
-		zephir_uncamelize(_1$$3, _2$$3);
+		zephir_uncamelize(_1$$3, _2$$3, NULL  );
 		zephir_update_property_this(this_ptr, SL("_source"), _1$$3 TSRMLS_CC);
 	}
 	RETURN_MM_MEMBER(this_ptr, "_source");
@@ -2158,7 +2158,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 
 }
 
-static zend_object_value zephir_init_properties_Phalcon_Mvc_Collection(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Mvc_Collection(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1$$3;
 

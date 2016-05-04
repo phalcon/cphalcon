@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 }
 
-static zend_object_value zephir_init_properties_Phalcon_Validation_Message_Group(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Validation_Message_Group(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1$$3;
 

@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 			ZEPHIR_CPY_WRT(filteredValue, value);
 		}
 		ZEPHIR_INIT_NVAR(_8$$4);
-		zephir_camelize(_8$$4, key);
+		zephir_camelize(_8$$4, key, NULL  );
 		ZEPHIR_INIT_NVAR(method);
 		ZEPHIR_CONCAT_SV(method, "set", _8$$4);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
@@ -584,7 +584,8 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
  */
 PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
 
-	zval *name_param = NULL, *_0;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL, *_0 = NULL, *_1 = NULL;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -602,8 +603,11 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, name));
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getmessagesfor", NULL, 0, name);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, _0, "count", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM_BOOL(ZEPHIR_GT_LONG(_1, 0));
 
 }
 
@@ -897,7 +901,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	}
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0$$4);
-		zephir_camelize(_0$$4, name);
+		zephir_camelize(_0$$4, name, NULL  );
 		ZEPHIR_INIT_VAR(method);
 		ZEPHIR_CONCAT_SV(method, "get", _0$$4);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
@@ -917,7 +921,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		}
 	}
 	ZEPHIR_INIT_VAR(_1);
-	zephir_camelize(_1, name);
+	zephir_camelize(_1, name, NULL  );
 	ZEPHIR_INIT_NVAR(method);
 	ZEPHIR_CONCAT_SV(method, "get", _1);
 	if ((zephir_method_exists(this_ptr, method TSRMLS_CC)  == SUCCESS)) {
@@ -1124,7 +1128,7 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 
 }
 
-static zend_object_value zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1$$3;
 

@@ -6,6 +6,7 @@ CFLAGS="-O2 -g3 -fno-strict-aliasing -std=gnu90";
 pecl channel-update pecl.php.net
 
 enable_extension() {
+
     if [ -z "$1" ]; then
         return 1;
     fi
@@ -18,6 +19,7 @@ enable_extension() {
 }
 
 install_extension() {
+
     if [ "$2" ]; then
         pecl config-set preferred_state beta;
     fi
@@ -39,19 +41,22 @@ install_extension() {
    return 0;
 }
 
-install_extension igbinary
 install_extension imagick
-install_extension yaml
-install_extension mongo
-enable_extension memcache
 enable_extension memcached
 
-if [ ${TRAVIS_PHP_VERSION} = "5.4" ]; then
+if [ ${TRAVIS_PHP_VERSION} != "7.0" ]; then
+    install_extension igbinary
+    install_extension yaml
+    install_extension mongo
+    enable_extension memcache
+fi
+
+if [ ${TRAVIS_PHP_VERSION} == "5.4" ]; then
     ( printf "\n" | pecl upgrade apc &> /dev/null; enable_extension apc ) &
-elif [ ${TRAVIS_PHP_VERSION} = "7" ]; then
-    ( pecl config-set preferred_state beta; printf "\n" | pecl install -a apcu &> /dev/null && phpenv config-add "$DIR/apcu.ini" ) &
+elif [ ${TRAVIS_PHP_VERSION} == "7.0" ]; then
+    ( mkdir -p /tmp/apcu && cd /tmp/apcu && git clone https://github.com/krakjoe/apcu /tmp/apcu && phpize && ./configure && make -j 4 && sudo make install && phpenv config-add "$DIR/apcu.ini" ) &
 else
-    ( printf "\n" | pecl install -a apcu-4.0.10 &> /dev/null && phpenv config-add "$DIR/apcu.ini" ) &
+    ( pecl install apcu &> /dev/null && phpenv config-add "$DIR/apcu.ini" ) &
 fi
 
 wait

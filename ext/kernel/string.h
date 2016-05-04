@@ -52,8 +52,8 @@ void zephir_fast_strip_tags(zval *return_value, zval *str);
 void zephir_fast_strtoupper(zval *return_value, zval *str);
 
 /** Camelize/Uncamelize */
-void zephir_camelize(zval *return_value, const zval *str);
-void zephir_uncamelize(zval *return_value, const zval *str);
+void zephir_camelize(zval *return_value, const zval *str, const zval *delimiter);
+void zephir_uncamelize(zval *return_value, const zval *str, const zval *delimiter);
 
 /** Starts/Ends with */
 int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive);

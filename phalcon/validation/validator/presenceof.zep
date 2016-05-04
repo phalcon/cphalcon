@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -60,7 +60,15 @@ class PresenceOf extends Validator
 				let message = validation->getDefaultMessage("PresenceOf");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "PresenceOf", this->getOption("code")));
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"PresenceOf",
+					this->getOption("code")
+				)
+			);
+			
 			return false;
 		}
 

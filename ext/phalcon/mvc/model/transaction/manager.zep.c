@@ -509,14 +509,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction) {
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(newTransactions);
 		array_init(newTransactions);
-		zephir_is_iterable(transactions, &_1$$3, &_0$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 292);
+		zephir_is_iterable(transactions, &_1$$3, &_0$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 294);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(managedTransaction, _2$$3);
-			if (ZEPHIR_IS_EQUAL(managedTransaction, transaction)) {
+			if (!ZEPHIR_IS_EQUAL(managedTransaction, transaction)) {
 				zephir_array_append(&newTransactions, transaction, PH_SEPARATE, "phalcon/mvc/model/transaction/manager.zep", 288);
+			} else {
 				RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("_number") TSRMLS_CC));
 			}
 		}
@@ -541,7 +542,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 	zephir_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (zephir_fast_count_int(transactions TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(transactions, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 308);
+		zephir_is_iterable(transactions, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/transaction/manager.zep", 310);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
