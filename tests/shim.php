@@ -23,6 +23,13 @@ if (!function_exists('xcache_get') && function_exists('apc_fetch')) {
         return $ok ? $result : null;
     }
 
+    function xcache_inc($key, $step = 1) {
+        $ok = false;
+        $result = apc_inc($key, $step, $ok);
+
+        return $ok ? $result : false;
+    }
+
     function xcache_set($key, $value, $ttl = 0) {
         return apc_store($key, $value, $ttl);
     }

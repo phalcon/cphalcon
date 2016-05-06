@@ -407,7 +407,7 @@ class BeanstalkTest extends BeanstalkBase
         $job = $this->client->reserve();
         $this->assertTrue($job->delete());
 
-        $jobId = $this->client->put('testPutInTube', ['delay' => 2]);
+        $this->client->put('testPutInTube', ['delay' => 2]);
         $job = $this->client->peekDelayed();
         $this->assertTrue($job->delete());
     }
@@ -443,7 +443,7 @@ class BeanstalkTest extends BeanstalkBase
     public function testShouldPutDelayAndPutBuriedAfterKick()
     {
         $this->client->choose(self::TUBE_NAME_1);
-        $jobId = $this->client->put('testPutInTube', ['delay' => 3]);
+        $this->client->put('testPutInTube', ['delay' => 3]);
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
         $this->assertTrue($job->bury(Beanstalk::DEFAULT_PRIORITY));
@@ -486,7 +486,7 @@ class BeanstalkTest extends BeanstalkBase
     public function testShouldPutAndTouch()
     {
         $this->client->choose(self::TUBE_NAME_1);
-        $jobId = $this->client->put('testPutInTube', ['ttr' => 10]);
+        $this->client->put('testPutInTube', ['ttr' => 10]);
 
         $this->client->watch(self::TUBE_NAME_1);
         $job = $this->client->reserve();
