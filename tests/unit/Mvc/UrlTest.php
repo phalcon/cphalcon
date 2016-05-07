@@ -264,7 +264,7 @@ class UrlTest extends UnitTest
                         ->equals("http://www.test.com/controller/action/param/colon:param");
                 
                 expect($url->get("http://www.example.com"))->equals('http://www.example.com');
-                expect($url->get("//www.test.com"))->equals('//www.example.com');
+                expect($url->get("//www.example.com"))->equals('//www.example.com');
                 expect($url->get("schema:example.com"))->equals('schema:example.com');
             }
         );
