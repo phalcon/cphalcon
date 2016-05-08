@@ -246,7 +246,7 @@ class UrlTest extends UnitTest
     }
     
     /**
-     * Test urls that contains colos in schema definition and as parameter
+     * Test urls that contains colons in schema definition and as parameter
      * 
      * @author Anton Melnik <melnik.anton2100@gmail.com>
      * @since 2016-05-07
