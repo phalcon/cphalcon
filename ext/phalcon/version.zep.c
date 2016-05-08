@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY, "phalcon/version.zep", 128 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(result);
 	ZEPHIR_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
-	ZEPHIR_CALL_STATIC(&suffix, "_getspecial", &_0, 448, special);
+	ZEPHIR_CALL_STATIC(&suffix, "_getspecial", &_0, 464, special);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(suffix, "")) {
 		ZEPHIR_INIT_VAR(_1$$3);
@@ -219,11 +219,11 @@ PHP_METHOD(Phalcon_Version, getId) {
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY, "phalcon/version.zep", 158 TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "%02s", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", &_2, 186, &_0, medium);
+	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", &_2, 192, &_0, medium);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_STRING(&_0, "%02s", 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", &_2, 186, &_0, minor);
+	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", &_2, 192, &_0, minor);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VVVVV(return_value, major, _1, _3, special, specialNumber);
 	RETURN_MM();
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Version, getPart) {
 		}
 		if (part == 3) {
 			zephir_array_fetch_long(&_1$$4, version, 3, PH_NOISY | PH_READONLY, "phalcon/version.zep", 187 TSRMLS_CC);
-			ZEPHIR_CALL_STATIC(&result, "_getspecial", &_0, 448, _1$$4);
+			ZEPHIR_CALL_STATIC(&result, "_getspecial", &_0, 464, _1$$4);
 			zephir_check_call_status();
 			break;
 		}

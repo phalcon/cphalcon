@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -31,7 +31,11 @@ typedef struct _phannot_parser_token {
 } phannot_parser_token;
 
 typedef struct _phannot_parser_status {
+#if PHP_VERSION_ID < 70000
 	zval *ret;
+#else
+	zval ret;
+#endif
 	phannot_scanner_state *scanner_state;
 	phannot_scanner_token *token;
 	char *syntax_error;

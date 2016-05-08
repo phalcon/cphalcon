@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 		ZVAL_STRING(_3$$8, "", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_3$$8, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, this_ptr, "__construct", &_4, 104, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, this_ptr, "__construct", &_4, 112, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 	}
 
 
-	if (!(zephir_is_true(keyName))) {
+	if (Z_TYPE_P(keyName) == IS_NULL) {
 		ZEPHIR_OBS_VAR(lastKey);
 		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_0$$3);
@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		ZEPHIR_OBS_NVAR(redis);
 		zephir_read_property_this(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 	}
-	if (!(zephir_is_true(content))) {
+	if (Z_TYPE_P(content) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(&cachedContent, frontend, "getcontent", NULL, 0);
 		zephir_check_call_status();
 	} else {
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		ZEPHIR_CALL_METHOD(&preparedContent, frontend, "beforestore", NULL, 0, cachedContent);
 		zephir_check_call_status();
 	}
-	if (!(zephir_is_true(lifetime))) {
+	if (Z_TYPE_P(lifetime) == IS_NULL) {
 		ZEPHIR_OBS_VAR(tmp);
 		zephir_read_property_this(&tmp, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (!(zephir_is_true(tmp))) {

@@ -34,7 +34,6 @@ use Phalcon\Validation\Message\Group;
  */
 class Form extends Injectable implements \Countable, \Iterator
 {
-
 	protected _position;
 
 	protected _entity;
@@ -276,8 +275,10 @@ class Form extends Injectable implements \Countable, \Iterator
 		 */
 		if typeof entity == "object" {
 			this->bind(data, entity);
-		} elseif typeof this->_entity == "object" {
-			this->bind(data, this->_entity);
+		} else {
+			if typeof this->_entity == "object" {
+				this->bind(data, this->_entity);
+			}
 		}
 
 		/**
@@ -318,17 +319,14 @@ class Form extends Injectable implements \Countable, \Iterator
 			}
 
 			let validation = this->getValidation();
+
 			if typeof validation == "object" {
 				if validation instanceof Validation {
-					/**
-					 * Set the validators to the validation
-					 */
+					// Set the validators to be validated
 					validation->setValidators(preparedValidators);
 				}
 			} else {
-				/**
-				 * Create an implicit validation
-				 */
+				// Create an implicit validation
 				let validation = new Validation(preparedValidators);
 			}
 
@@ -341,7 +339,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			 * Assign the filters to the validation
 			 */
 			if typeof filters == "array" {
-				validation->setFilters(element->getName(), filters);
+				validation->setFilters(name, filters);
 			}
 
 			/**
@@ -349,8 +347,8 @@ class Form extends Injectable implements \Countable, \Iterator
 			 */
 			let elementMessages = validation->validate(data, entity);
 			if count(elementMessages) {
-				let messages[element->getName()] = elementMessages,
-					notFailed = false;
+				let messages[name] = elementMessages;
+				let notFailed = false;
 			}
 		}
 
@@ -390,11 +388,13 @@ class Form extends Injectable implements \Countable, \Iterator
 		}
 
 		let group = new Group();
+
 		if typeof messages == "array" {
 			for elementMessages in messages {
 				group->appendMessages(elementMessages);
 			}
 		}
+
 		return group;
 	}
 
@@ -412,6 +412,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 		let group = new Group(),
 			this->_messages[name] = group;
+
 		return group;
 	}
 
@@ -420,7 +421,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function hasMessagesFor(string! name) -> boolean
 	{
-		return isset this->_messages[name];
+		return this->getMessagesFor(name)->count() > 0;
 	}
 
 	/**
@@ -456,14 +457,12 @@ class Form extends Injectable implements \Countable, \Iterator
 						/**
 						 * Add the element before position
 						 */
-						let elements[name] = element;
-						let elements[key] = value;
+						let elements[name] = element, elements[key] = value;
 					} else {
 						/**
 						 * Add the element after position
 						 */
-						let elements[key] = value;
-						let elements[name] = element;
+						let elements[key] = value, elements[name] = element;
 					}
 				} else {
 					/**

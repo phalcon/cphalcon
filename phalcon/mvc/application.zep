@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -37,15 +37,16 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
  *
  *<code>
+ * use Phalcon\Mvc\Application;
  *
- * class Application extends \Phalcon\Mvc\Application
+ * class MyApp extends Application
  * {
  *
  *		/**
  *		 * Register the services here to make them general or register
  *		 * in the ModuleDefinition to make them module-specific
  *		 *\/
- *		protected function _registerServices()
+ *		protected function registerServices()
  *		{
  *
  *		}
@@ -68,7 +69,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  *		}
  *	}
  *
- *	$application = new Application();
+ *	$application = new MyApp();
  *	$application->main();
  *
  *</code>
@@ -90,11 +91,8 @@ class Application extends BaseApplication
 
 	/**
 	 * Handles a MVC request
-	 *
-	 * @param string uri
-	 * @return \Phalcon\Http\ResponseInterface|boolean
 	 */
-	public function handle(uri = null) -> <ResponseInterface> | boolean
+	public function handle(string uri = null) -> <ResponseInterface> | boolean
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
@@ -214,11 +212,11 @@ class Application extends BaseApplication
 				 */
 				if fetch path, module["path"] {
 					if !class_exists(className, false) {
-						if file_exists(path) {
-							require path;
-						} else {
+						if !file_exists(path) {
 							throw new Exception("Module definition path '" . path . "' doesn't exist");
 						}
+
+						require path;
 					}
 				}
 
@@ -235,11 +233,11 @@ class Application extends BaseApplication
 				/**
 				 * A module definition object, can be a Closure instance
 				 */
-				if module instanceof \Closure {
-					let moduleObject = call_user_func_array(module, [dependencyInjector]);
-				} else {
+				if !(module instanceof \Closure) {
 					throw new Exception("Invalid module definition");
 				}
+
+				let moduleObject = call_user_func_array(module, [dependencyInjector]);
 			}
 
 			/**
@@ -314,11 +312,7 @@ class Application extends BaseApplication
 				/**
 				 * Check if the returned object is already a response
 				 */
-				if typeof possibleResponse == "object" {
-					let returnedResponse = possibleResponse instanceof ResponseInterface;
-				} else {
-					let returnedResponse = false;
-				}
+				let returnedResponse = ((typeof possibleResponse == "object") && (possibleResponse instanceof ResponseInterface));
 
 				/**
 				 * Calling afterHandleRequest
@@ -330,33 +324,31 @@ class Application extends BaseApplication
 				/**
 				 * If the dispatcher returns an object we try to render the view in auto-rendering mode
 				 */
-				if returnedResponse === false {
-					if implicitView === true {
-						if typeof controller == "object" {
+				if returnedResponse === false && implicitView === true {
+					if typeof controller == "object" {
 
-							let renderStatus = true;
+						let renderStatus = true;
+
+						/**
+						 * This allows to make a custom view render
+						 */
+						if typeof eventsManager == "object" {
+							let renderStatus = eventsManager->fire("application:viewRender", this, view);
+						}
+
+						/**
+						 * Check if the view process has been treated by the developer
+						 */
+						if renderStatus !== false {
 
 							/**
-							 * This allows to make a custom view render
+							 * Automatic render based on the latest controller executed
 							 */
-							if typeof eventsManager == "object" {
-								let renderStatus = eventsManager->fire("application:viewRender", this, view);
-							}
-
-							/**
-							 * Check if the view process has been treated by the developer
-							 */
-							if renderStatus !== false {
-
-								/**
-								 * Automatic render based on the latest controller executed
-								 */
-								view->render(
-									dispatcher->getControllerName(),
-									dispatcher->getActionName(),
-									dispatcher->getParams()
-								);
-							}
+							view->render(
+								dispatcher->getControllerName(),
+								dispatcher->getActionName(),
+								dispatcher->getParams()
+							);
 						}
 					}
 				}
@@ -368,7 +360,13 @@ class Application extends BaseApplication
 					view->finish();
 				}
 
-				if returnedResponse === false {
+				if returnedResponse === true {
+
+					/**
+					 * We don't need to create a response because there is one already created
+					 */
+					let response = possibleResponse;
+				} else {
 
 					let response = <ResponseInterface> dependencyInjector->getShared("response");
 					if implicitView === true {
@@ -378,13 +376,6 @@ class Application extends BaseApplication
 						 */
 						response->setContent(view->getContent());
 					}
-
-				} else {
-
-					/**
-					 * We don't need to create a response because there is one already created
-					 */
-					let response = possibleResponse;
 				}
 			}
 		}
@@ -397,7 +388,7 @@ class Application extends BaseApplication
 		}
 
 		/**
-		 * Headers and Cookies are automatically send
+		 * Headers and Cookies are automatically sent
 		 */
 		response->sendHeaders();
 		response->sendCookies();

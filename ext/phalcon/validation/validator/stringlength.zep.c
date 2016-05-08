@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		zephir_check_call_status();
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 360, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 373, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_NVAR(_3$$8);
 			object_init_ex(_3$$8, phalcon_validation_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_5$$8, "strtr", &_6, 54, message, replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_5$$8, "strtr", &_6, 55, message, replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_8$$8);
 			ZVAL_STRING(_8$$8, "code", ZEPHIR_TEMP_PARAM_COPY);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_8$$8);
 			ZVAL_STRING(_8$$8, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _3$$8, "__construct", &_9, 440, _5$$8, field, _8$$8, _7$$8);
+			ZEPHIR_CALL_METHOD(NULL, _3$$8, "__construct", &_9, 455, _5$$8, field, _8$$8, _7$$8);
 			zephir_check_temp_parameter(_8$$8);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$8);
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			}
 			ZEPHIR_INIT_NVAR(_11$$11);
 			object_init_ex(_11$$11, phalcon_validation_message_ce);
-			ZEPHIR_CALL_FUNCTION(&_13$$11, "strtr", &_6, 54, message, replacePairs);
+			ZEPHIR_CALL_FUNCTION(&_13$$11, "strtr", &_6, 55, message, replacePairs);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_15$$11);
 			ZVAL_STRING(_15$$11, "code", ZEPHIR_TEMP_PARAM_COPY);
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(_15$$11);
 			ZVAL_STRING(_15$$11, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _11$$11, "__construct", &_9, 440, _13$$11, field, _15$$11, _14$$11);
+			ZEPHIR_CALL_METHOD(NULL, _11$$11, "__construct", &_9, 455, _13$$11, field, _15$$11, _14$$11);
 			zephir_check_temp_parameter(_15$$11);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _11$$11);

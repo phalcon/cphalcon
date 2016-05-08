@@ -41,12 +41,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_getparam, 0, 0, 1)
 	ZEND_ARG_INFO(0, filters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_hasparam, 0, 0, 1)
+	ZEND_ARG_INFO(0, param)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_forward, 0, 0, 1)
 	ZEND_ARG_INFO(0, forward)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setActionSuffix, arginfo_phalcon_dispatcherinterface_setactionsuffix)
+	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getActionSuffix, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setDefaultNamespace, arginfo_phalcon_dispatcherinterface_setdefaultnamespace)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setDefaultAction, arginfo_phalcon_dispatcherinterface_setdefaultaction)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setNamespaceName, arginfo_phalcon_dispatcherinterface_setnamespacename)
@@ -57,6 +62,7 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getParams, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, setParam, arginfo_phalcon_dispatcherinterface_setparam)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getParam, arginfo_phalcon_dispatcherinterface_getparam)
+	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, hasParam, arginfo_phalcon_dispatcherinterface_hasparam)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, isFinished, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, getReturnedValue, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DispatcherInterface, dispatch, NULL)

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -69,6 +69,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	protected _handlerSuffix = "";
 
 	protected _actionSuffix = "Action";
+
+	protected _previousNamespaceName = null;
 
 	protected _previousHandlerName = null;
 
@@ -308,7 +310,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Returns value returned by the lastest dispatched action
+	 * Returns value returned by the latest dispatched action
 	 *
 	 * @return mixed
 	 */
@@ -333,6 +335,28 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 * @return object
 	 */
 	public function dispatch()
+	{
+		var handler, e;
+
+		try {
+			let handler = this->_dispatch();
+		} catch \Exception, e {
+			if this->{"_handleException"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		}
+
+		return handler;
+	}
+
+	/**
+	 * Dispatches a handle action taking into account the routing parameters
+	 *
+	 * @return object
+	 */
+	protected function _dispatch()
 	{
 		boolean hasService;
 		int numberDispatches;
@@ -452,7 +476,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			// Check if the method exists in the handler
 			let actionMethod = actionName . actionSuffix;
 
-			if !method_exists(handler, actionMethod) {
+			if !is_callable([handler, actionMethod]) {
 
 				// Call beforeNotFoundAction
 				if typeof eventsManager == "object" {
@@ -557,13 +581,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
+			let this->_lastHandler = handler;
 
 			try {
-
 				// We update the latest value produced by the latest handler
-				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params),
-					this->_lastHandler = handler;
-
+				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
 			} catch \Exception, e {
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
@@ -631,7 +653,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 		// Check if we need to forward to another namespace
 		if fetch namespaceName, forward["namespace"] {
-			let this->_namespaceName = namespaceName;
+			let this->_previousNamespaceName = this->_namespaceName,
+				this->_namespaceName = namespaceName;
 		}
 
 		// Check if we need to forward to another controller

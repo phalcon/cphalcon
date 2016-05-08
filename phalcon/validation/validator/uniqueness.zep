@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,22 +30,22 @@ use Phalcon\Mvc\Model;
  *
  * Check that a field is unique in the related table
  *
- *<code>
- *use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
- *$validator->add('username', new UniquenessValidator(array(
- *    'model' => new Users(),
- *    'message' => ':field must be unique'
- *)));
- *</code>
+ * $validator->add('username', new UniquenessValidator([
+ *     'model' => new Users(),
+ *     'message' => ':field must be unique'
+ * ]));
+ * </code>
  *
- * Different attribute from the field
- *<code>
- *$validator->add('username', new UniquenessValidator(array(
- *    'model' => new Users(),
- *    'attribute' => 'nick'
- *)));
- *</code>
+ * Different attribute from the field:
+ * <code>
+ * $validator->add('username', new UniquenessValidator([
+ *     'model' => new Users(),
+ *     'attribute' => 'nick'
+ * ]));
+ * </code>
  */
 class Uniqueness extends Validator
 {
@@ -84,13 +84,14 @@ class Uniqueness extends Validator
 			index, params, metaData, primaryField, className;
 
 		let value = validation->getValue(field),
-			record = this->getOption("model"),
-			attribute = this->getColumnNameReal(record, this->getOption("attribute", field)),
-			except = this->getOption("except");
+			record = this->getOption("model");
 
 		if empty record || typeof record != "object" {
 			throw new Exception("Model of record must be set to property \"model\"");
 		}
+
+		let attribute = this->getColumnNameReal(record, this->getOption("attribute", field)),
+			except = this->getOption("except");
 
 		let index  = 0;
 		let params = [

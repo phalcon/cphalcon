@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,9 +44,7 @@ use Phalcon\Mvc\Router\Exception;
  */
 class Annotations extends Router
 {
-	protected _handlers;
-
-	protected _processed = false;
+	protected _handlers = [];
 
 	protected _controllerSuffix = "Controller";
 
@@ -60,8 +58,8 @@ class Annotations extends Router
 	 */
 	public function addResource(string! handler, string! prefix = null) -> <Annotations>
 	{
-		let this->_handlers[] = [prefix, handler],
-			this->_processed = false;
+		let this->_handlers[] = [prefix, handler];
+
 		return this;
 	}
 
@@ -72,8 +70,7 @@ class Annotations extends Router
 	 */
 	public function addModuleResource(string! module, string! handler, string! prefix = null) -> <Annotations>
 	{
-		let this->_handlers[] = [prefix, handler, module],
-		this->_processed = false;
+		let this->_handlers[] = [prefix, handler, module];
 
 		return this;
 	}
@@ -86,7 +83,7 @@ class Annotations extends Router
 		var realUri, annotationsService, handlers, controllerSuffix,
 			scope, prefix, dependencyInjector, handler, controllerName,
 			lowerControllerName, namespaceName, moduleName, sufixed, handlerAnnotations,
-			classAnnotations, annotations, annotation, methodAnnotations, lowercased, method,
+			classAnnotations, annotations, annotation, methodAnnotations, method,
 			collection;
 
 		if !uri {
@@ -98,123 +95,104 @@ class Annotations extends Router
 			let realUri = uri;
 		}
 
-		if !this->_processed {
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Exception("A dependency injection container is required to access the 'annotations' service");
+		}
 
-			let annotationsService = null;
+		let annotationsService = dependencyInjector->getShared("annotations");
 
-			let handlers = this->_handlers;
-			if typeof handlers == "array" {
+		let handlers = this->_handlers;
 
-				let controllerSuffix = this->_controllerSuffix;
+		let controllerSuffix = this->_controllerSuffix;
 
-				for scope in handlers {
+		for scope in handlers {
 
-					if typeof scope == "array" {
+			if typeof scope != "array" {
+				continue;
+			}
 
-						/**
-						 * A prefix (if any) must be in position 0
-						 */
-						let prefix = scope[0];
+			/**
+			 * A prefix (if any) must be in position 0
+			 */
+			let prefix = scope[0];
 
-						if !empty prefix {
-							if !starts_with(realUri, prefix) {
-								continue;
-							}
-						}
+			if !empty prefix && !starts_with(realUri, prefix) {
+				continue;
+			}
 
-						if typeof annotationsService != "object" {
+			/**
+			 * The controller must be in position 1
+			 */
+			let handler = scope[1];
 
-							let dependencyInjector = <DiInterface> this->_dependencyInjector;
-							if typeof dependencyInjector != "object" {
-								throw new Exception("A dependency injection container is required to access the 'annotations' service");
-							}
+			if memstr(handler, "\\") {
 
-							let annotationsService = dependencyInjector->getShared("annotations");
-						}
+				/**
+				 * Extract the real class name from the namespaced class
+				 * The lowercased class name is used as controller
+				 * Extract the namespace from the namespaced class
+				 */
+				let controllerName = get_class_ns(handler),
+					namespaceName = get_ns_class(handler);
+			} else {
+				let controllerName = handler;
+				fetch namespaceName, this->_defaultNamespace;
+			}
 
-						/**
-						 * The controller must be in position 1
-						 */
-						let handler = scope[1];
+			let this->_routePrefix = null;
 
-						if memstr(handler, "\\") {
+			/**
+			 * Check if the scope has a module associated
+			 */
+			fetch moduleName, scope[2];
 
-							/**
-							 * Extract the real class name from the namespaced class
-							 * The lowercased class name is used as controller
-							 * Extract the namespace from the namespaced class
-							 */
-							let controllerName = get_class_ns(handler),
-								lowerControllerName = uncamelize(controllerName),
-								namespaceName = get_ns_class(handler);
+			let sufixed = controllerName . controllerSuffix;
 
-						} else {
-							let controllerName = handler,
-								lowerControllerName = uncamelize(controllerName);
-							fetch namespaceName, this->_defaultNamespace;
-						}
+			/**
+			 * Add namespace to class if one is set
+			 */
+			if namespaceName !== null {
+				let sufixed = namespaceName . "\\" . sufixed;
+			}
 
-						let this->_routePrefix = null;
+			/**
+			 * Get the annotations from the class
+			 */
+			let handlerAnnotations = annotationsService->get(sufixed);
 
-						/**
-						 * Check if the scope has a module associated
-						 */
-						fetch moduleName, scope[2];
+			if typeof handlerAnnotations != "object" {
+				continue;
+			}
 
-						let sufixed = handler . controllerSuffix;
-
-						/**
-						 * Add namespace to class if one is set
-						 */
-						if namespaceName !== null {
-							let sufixed = namespaceName . "\\" . sufixed;
-						}
-
-						/**
-						 * Get the annotations from the class
-						 */
-						let handlerAnnotations = annotationsService->get(sufixed);
-
-						/**
-						 * Process class annotations
-						 */
-						if typeof handlerAnnotations == "object" {
-
-							let classAnnotations = handlerAnnotations->getClassAnnotations();
-							if typeof classAnnotations == "object" {
-
-								/**
-								 * Process class annotations
-								 */
-								let annotations = classAnnotations->getAnnotations();
-								if typeof annotations == "array" {
-									for annotation in annotations {
-										this->processControllerAnnotation(controllerName, annotation);
-									}
-								}
-							}
-
-							/**
-							 * Process method annotations
-							 */
-							let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
-							if typeof methodAnnotations == "array" {
-								let lowercased = uncamelize(handler);
-								for method, collection in methodAnnotations {
-									if typeof collection == "object" {
-										for annotation in collection->getAnnotations() {
-											this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
-										}
-									}
-								}
-							}
-						}
-
+			/**
+			 * Process class annotations
+			 */
+			let classAnnotations = handlerAnnotations->getClassAnnotations();
+			if typeof classAnnotations == "object" {
+				let annotations = classAnnotations->getAnnotations();
+				if typeof annotations == "array" {
+					for annotation in annotations {
+						this->processControllerAnnotation(controllerName, annotation);
 					}
 				}
 			}
 
-			let this->_processed = true;
+			/**
+			 * Process method annotations
+			 */
+			let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
+			if typeof methodAnnotations == "array" {
+				let lowerControllerName = uncamelize(controllerName);
+
+				for method, collection in methodAnnotations {
+					if typeof collection == "object" {
+						for annotation in collection->getAnnotations() {
+							this->processActionAnnotation(moduleName, namespaceName, lowerControllerName, method, annotation);
+						}
+					}
+				}
+			}
 		}
 
 		/**
@@ -237,7 +215,7 @@ class Annotations extends Router
 	}
 
 	/**
-	 * Checks for annotations in the public methods of the controller	 
+	 * Checks for annotations in the public methods of the controller
 	 */
 	public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
 		<Annotation> annotation)
@@ -401,11 +379,9 @@ class Annotations extends Router
 
 	/**
 	 * Return the registered resources
-	 *
-	 * @return array
 	 */
-	public function getResources()
+	public function getResources() -> array
 	{
-		return (array) this->_handlers;
+		return this->_handlers;
 	}
 }

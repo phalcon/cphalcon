@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -252,16 +252,25 @@ void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_leng
 }
 
 /**
- * Convert dash/underscored texts returning camelized
+ * Convert dash/underscored texts returning camelized (an optional delimiter can be specified)
  */
-void zephir_camelize(zval *return_value, const zval *str) {
+void zephir_camelize(zval *return_value, const zval *str, const zval *delimiter) {
 
 	int i, len, first = 0;
 	smart_str camelize_str = {0};
-	char *marker, ch;
+	char *marker, ch, delim;
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
+		RETURN_EMPTY_STRING();
+	}
+
+	if (delimiter == NULL || Z_TYPE_P(delimiter) == IS_NULL) {
+		delim = '_';
+	} else if (Z_TYPE_P(delimiter) == IS_STRING && Z_STRLEN_P(delimiter) == 1) {
+		delim = *(Z_STRVAL_P(delimiter));
+	} else {
+		zend_error(E_WARNING, "Second argument passed to the camelize() must be a string of one character");
 		RETURN_EMPTY_STRING();
 	}
 
@@ -274,7 +283,7 @@ void zephir_camelize(zval *return_value, const zval *str) {
 
 		if (first == 0) {
 
-			if (ch == '-' || ch == '_') {
+			if (ch == delim) {
 				continue;
 			}
 
@@ -283,7 +292,7 @@ void zephir_camelize(zval *return_value, const zval *str) {
 			continue;
 		}
 
-		if (ch == '-' || ch == '_') {
+		if (ch == delim) {
 			if (i != (len - 1)) {
 				i++;
 				ch = marker[i];
@@ -305,17 +314,26 @@ void zephir_camelize(zval *return_value, const zval *str) {
 }
 
 /**
- * Convert dash/underscored texts returning camelized
+ * Convert a camelized to a dash/underscored texts (an optional delimiter can be specified)
  */
-void zephir_uncamelize(zval *return_value, const zval *str) {
+void zephir_uncamelize(zval *return_value, const zval *str, const zval *delimiter) {
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
-	char *marker, ch;
+	char *marker, ch, delim;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
-		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
-		return;
+		zend_error(E_WARNING, "Invalid arguments supplied for uncamelize()");
+		RETURN_EMPTY_STRING();
+	}
+
+	if (delimiter == NULL || Z_TYPE_P(delimiter) == IS_NULL) {
+		delim = '_';
+	} else if (Z_TYPE_P(delimiter) == IS_STRING && Z_STRLEN_P(delimiter) == 1) {
+		delim = *(Z_STRVAL_P(delimiter));
+	} else {
+		zend_error(E_WARNING, "Second argument passed to the uncamelize() must be a string of one character");
+		RETURN_EMPTY_STRING();
 	}
 
 	marker = Z_STRVAL_P(str);
@@ -329,7 +347,7 @@ void zephir_uncamelize(zval *return_value, const zval *str) {
 
 		if (ch >= 'A' && ch <= 'Z') {
 			if (i > 0) {
-				smart_str_appendc(&uncamelize_str, '_');
+				smart_str_appendc(&uncamelize_str, delim);
 			}
 			smart_str_appendc(&uncamelize_str, (*marker) + 32);
 		} else {
@@ -670,7 +688,8 @@ void zephir_fast_strtoupper(zval *return_value, zval *str) {
 /**
  * Checks if a zval string starts with a zval string
  */
-int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive) {
+int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive)
+{
 
 	int i;
 	int sensitive = 0;
@@ -710,7 +729,8 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 /**
  * Checks if a zval string starts with a string
  */
-int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length) {
+int zephir_start_with_str(const zval *str, char *compared, unsigned int compared_length)
+{
 
 	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
@@ -722,7 +742,8 @@ int zephir_start_with_str(const zval *str, char *compared, unsigned int compared
 /**
  * Checks if a string starts with other string
  */
-int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length) {
+int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length)
+{
 
 	if (compared_length > str_length) {
 		return 0;
@@ -1087,7 +1108,8 @@ void zephir_append_printable_array(smart_str *implstr, zval *value TSRMLS_DC) {
 /**
  * Creates a unique key to be used as index in a hash
  */
-void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC) {
+void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
+{
 
 	smart_str implstr = {0};
 
@@ -1109,7 +1131,6 @@ void zephir_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC) 
 		smart_str_free(&implstr);
 		RETURN_NULL();
 	}
-
 }
 
 /**

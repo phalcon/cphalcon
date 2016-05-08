@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -52,9 +52,7 @@ class StringLength extends Validator
 	{
 		var isSetMin, isSetMax, value, length, message, minimum, maximum, label, replacePairs;
 
-		/**
-		 * At least one of 'min' or 'max' must be set
-		 */
+		// At least one of 'min' or 'max' must be set
 		let isSetMin = this->hasOption("min"),
 			isSetMax = this->hasOption("max");
 
@@ -68,9 +66,7 @@ class StringLength extends Validator
 			let label = validation->getLabel(field);
 		}
 
-		/**
-		 * Check if mbstring is available to calculate the correct length
-		 */
+		// Check if mbstring is available to calculate the correct length
 		if function_exists("mb_strlen") {
 			let length = mb_strlen(value);
 		} else {
@@ -85,16 +81,23 @@ class StringLength extends Validator
 			let maximum = this->getOption("max");
 			if length > maximum {
 
-				/**
-				 * Check if the developer has defined a custom message
-				 */
-				let message = this->getOption("messageMaximum");
-								let replacePairs = [":field": label, ":max":  maximum];
+				// Check if the developer has defined a custom message
+				let message = this->getOption("messageMaximum"),
+					replacePairs = [":field": label, ":max":  maximum];
+
 				if empty message {
 					let message = validation->getDefaultMessage("TooLong");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooLong", this->getOption("code")));
+				validation->appendMessage(
+					new Message(
+						strtr(message, replacePairs),
+						field,
+						"TooLong",
+						this->getOption("code")
+					)
+				);
+
 				return false;
 			}
 		}
@@ -107,16 +110,23 @@ class StringLength extends Validator
 			let minimum = this->getOption("min");
 			if length < minimum {
 
-				/**
-				 * Check if the developer has defined a custom message
-				 */
-				let message = this->getOption("messageMinimum");
-				let replacePairs = [":field": label, ":min":  minimum];
+				// Check if the developer has defined a custom message
+				let message = this->getOption("messageMinimum"),
+					replacePairs = [":field": label, ":min":  minimum];
+
 				if empty message {
 					let message = validation->getDefaultMessage("TooShort");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "TooShort", this->getOption("code")));
+				validation->appendMessage(
+					new Message(
+						strtr(message, replacePairs),
+						field,
+						"TooShort",
+						this->getOption("code")
+					)
+				);
+
 				return false;
 			}
 		}

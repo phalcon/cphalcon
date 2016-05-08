@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -122,6 +122,14 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			loop {
 
 				/**
+				 * Enum are treated as char
+				 */
+				if memstr(columnType, "enum") {
+					let definition["type"] = Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
 				if memstr(columnType, "bigint") {
@@ -154,14 +162,6 @@ class Mysql extends PdoAdapter implements AdapterInterface
 				 */
 				if memstr(columnType, "datetime") {
 					let definition["type"] = Column::TYPE_DATETIME;
-					break;
-				}
-
-				/**
-				 * Enum are treated as char
-				 */
-				if memstr(columnType, "enum") {
-					let definition["type"] = Column::TYPE_CHAR;
 					break;
 				}
 

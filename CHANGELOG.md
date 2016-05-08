@@ -1,7 +1,6 @@
 # [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2016-XX-XX)
 - PHP 5.3 is now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
-- Default encrypt mode in `Phalcon\Crypt` is now changed to `MCRYPT_MODE_CFB`
 - Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`
 - Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
 - Removed support for prefixes strategy in `Phalcon\Loader`
@@ -20,14 +19,14 @@
 - Closures used as handlers in` Mvc\Micro` are now bound to the $app instance
 - Routes now can have an associated callback that can override the default dispatcher + view behavior
 - `Phalcon\Mvc\Model` now implements `JsonSerializable` making easy serialize model instances
-- When desctructing a `Mvc\Model\Manager` PHQL cache is clean
+- When destructing a `Mvc\Model\Manager` PHQL cache is clean
 - Method `isSetOption` in `Phalcon\Validation\ValidatorInterface` marked as deprecated, please use `hasOption`
 - Added internal check "allowEmpty" before calling a validator. If it option is true and the value of empty, the validator is skipped
 - Added default header: `Content-Type: "application/json; charset=UTF-8"` in method `Phalcon\Http\Response::setJsonContent`
 - Now `Phalcon\Events\Event` implements `Phalcon\Events\EventInterface`
 - `Phalcon\Events\Event::getCancelable` renamed to `Phalcon\Events\Event::isCancelable`
 - Removed `Phalcon\Events\Manager::dettachAll` in favor of `Phalcon\Events\Manager::detachAll`
-- `Phalcon\Mvc\Model\Criteria::getGroup` renamed to `Phalcon\Mvc\Model\Criteria::getGroupBy`
+- `Phalcon\Mvc\Model\Criteria::getOrder` renamed to `Phalcon\Mvc\Model\Criteria::getOrderBy`
 - Added method `getOption()` in `Phalcon\Mvc\Model\RelationInterface`
 - Added ability to spoof HTTP request method
 - Added FULLTEXT index type to `Phalcon\Db\Adapter\Pdo\Mysql`
@@ -41,16 +40,50 @@
 - Added `Phalcon\Dispatcher::hasParam()`.
 - `Phalcon\Cli\Console` and `Phalcon\Mvc\Application` now inherit `Phalcon\Application`.
 - Fixed `afterFetch` event not being sent to behaviors
-- Fixed issue with radio not being checked when default value is 0 [#11358] (https://github.com/phalcon/cphalcon/issues/11358)
+- Fixed issue with radio not being checked when default value is 0 [#11358](https://github.com/phalcon/cphalcon/issues/11358)
 - Fixed issue with `Model::__set` that was bypassing setters [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Fixed issue with `Model::__set` that was setting hidden attributes directly when setters are not declared [#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added `Phalcon\Cli\DispatcherInterface`, `Phalcon\Cli\TaskInterface`, `Phalcon\Cli\RouterInterface` and `Phalcon\Cli\Router\RouteInterface`.
-- Added methods update(), create() and createIfNotExist(array criteria) to `Phalcon\Mvc\Collection`
-- Added methods andHaving(), orHaving(), betweenHaving(), notBetweenHaving(), inHaving(), notInHaving() in `Phalcon\Mvc\Model\Query\Builder`
+- Added `Phalcon\Mvc\Collection::update`, `Phalcon\Mvc\Collection::create` and `Phalcon\Mvc\Collection::createIfNotExist`
+- Removed `__construct` from all interfaces [#11410](https://github.com/phalcon/cphalcon/issues/11410)
+- Fires the `dispatch:beforeException` event when there is any exception during dispatching [#11458](https://github.com/phalcon/cphalcon/issues/11458)
+- Added `OR` operator for `Phalcon\Mvc\Model\Query\Builder` methods: `betweenWhere`, `notBetweenWhere`, `inWhere` and `notInWhere`
+- Fixed bug of `destroy` method of `Phalcon\Session\Adapter\Libmemcached`
+- Added `Phalcon\Cache\Backend\Memcache::addServers` to enable pool of servers for memcache
+- Added `setLastModified` method to `Phalcon\Http\Response`
+- Added `Phalcon\Validation\Validator\Date`
+- Added `\Phalcon\Queue\Beanstalk::ignore()` It removes the named tube from the watch list for the current connection.
+- Added `\Phalcon\Queue\Beanstalk::pauseTube()` Can delay any new job being reserved for a given time.
+- Added `\Phalcon\Queue\Beanstalk::kick()` It moves jobs into the ready queue. If there are any buried jobs, it will only kick buried jobs. Otherwise it will kick delayed jobs.
+- Added `\Phalcon\Queue\Beanstalk::listTubeUsed()` Returns the tube currently being used by the client.
+- Added `\Phalcon\Queue\Beanstalk::listTubesWatched()` Returns a list tubes currently being watched by the client.
+- Added `\Phalcon\Queue\Beanstalk::peekDelayed()` Return the delayed job with the shortest delay left.
+- Added `\Phalcon\Queue\Beanstalk::jobPeek()` Return job.
+- Mcrypt is replaced with openssl in `Phalcon\Crypt`
+- Default encrypt algorithm in `Phalcon\Crypt` is now changed to `AES-256-CFB`
+- Removed methods setMode(), getMode(), getAvailableModes() in `Phalcon\CryptInterface`
+- Added `Phalcon\Assets\Manager::exists()` to check if collection exists
+- `Phalcon\Mvc\Model\Manager::load()` now can load models from aliased namespaces
+- `Phalcon\Mvc\Model\Transaction\Manager` now correctly keeps account of transactions [#11554](https://github.com/phalcon/cphalcon/issues/11554)
+- `Phalcon\Db\Dialect\Sqlite` now maps additional column types to SQLite columns equivalents.
+- `Phalcon\Security` is using now `Phalcon\Security\Random`
+- Enforced that `Phalcon\Security::getToken()` and `Phalcon\Security::getTokenKey()` return a random value per request not per call
+- `Phalcon\Security::getToken()` and `Phalcon\Security::getTokenKey()` are using now `Phalcon\Security::_numberBytes` instead of passed as a argument or hardcoded value
+- `Phalcon\Security::hash()` corrected not working CRYPT_STD_DES, CRYPT_EXT_DES, MD5, CRYPT_SHA256
+- `Phalcon\Security::hash()` CRYPT_SHA512 fixed wrong salt length
+- Added missing unit-tests for `Phalcon\Security`
+- Fixed `Filter::add` method handler [#11581](https://github.com/phalcon/cphalcon/issues/11581)
+- Removed `Phalcon\Session` [#11340](https://github.com/phalcon/cphalcon/issues/11340)
+- Phalcon\Tag::getTitle() shows a title depending on prependTitle and appendTitle
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
+- Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added a `prepareSave` event to model saving
 - Added support for OnUpdate and OnDelete foreign key events to the MySQL adapter
+- Added ability to setLogLevel on multiple logs [#10429](https://github.com/phalcon/cphalcon/pull/10429)
+- Fixed regression changes for `Phalcon\Translate\Adapter\Gettext::prepareOptions` [#11429](https://github.com/phalcon/cphalcon/issues/11429)
+- Fixed `Phalcon\Mvc\View\Engine\Volt::callMacro` bug. Now it's correctly calling `call_user_func_array` instead of `call_user_func`
+- Fixed undefined method call `Phalcon\Mvc\Collection\Manager::getConnectionService`. Now `Phalcon\Mvc\Collection::getConnectionService` works correctly in according to documentation
 
 # [2.0.10](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.10) (2016-02-04)
 - ORM: Added support for DATE columns in Oracle
@@ -252,7 +285,7 @@ belongs to the uniqueId or the whole session data
  - Added `Db\Adapter\Pdo::getErrorInfo()` to obtain the last error generated in a PDO connection
 
 # [1.3.4](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v1.3.4) (2014-10-28)
- - Fix improper access to \Phalcon\Debug::$_charset ([#2840](https://github.com/phalcon/cphalcon/issues/2840))
+ - Fix improper access to `\Phalcon\Debug::$_charset` ([#2840](https://github.com/phalcon/cphalcon/issues/2840))
  - Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
  - Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
  - Fix possible memory corruption when phalcon_concat_self does not properly separate values
@@ -267,7 +300,7 @@ belongs to the uniqueId or the whole session data
  - Fixed use columns as referenced columns in mysql createTable() reference...
  - [#2414](https://github.com/phalcon/cphalcon/issues/2414)  - Removed check for DBG in session/adapter
  - Updated Model::__set
- - [#1989](https://github.com/phalcon/cphalcon/issues/1989) Supported \Phaclon\Db\Index: TYPE
+ - [#1989](https://github.com/phalcon/cphalcon/issues/1989) Supported \Phalcon\Db\Index: TYPE
  - Updated Phalcon\Mvc\Model\Query\Builder::groupBy
  - Validation, setDefaultMessages fix
  - Fix pagination nativeArray test-unit failed
@@ -288,7 +321,7 @@ belongs to the uniqueId or the whole session data
  - Fix broken condition
  - Add Phalcon\Mvc\Model\MetaData\Strategy
  - Fix offsetUnset
- - Changing "file_exists" funciton for "is_file".
+ - Changing "file_exists" function for "is_file".
  - Fix bug about updated property for Phalcon\Session\*
  - [#2291](https://github.com/phalcon/cphalcon/issues/2291) Middlewares do not stop operation when before event triggered in Micro as documented http://docs.…
  - [#1608](https://github.com/phalcon/cphalcon/issues/1608) about Phalcon\Mvc\Router\Annotations
@@ -300,7 +333,7 @@ belongs to the uniqueId or the whole session data
  - [#2229](https://github.com/phalcon/cphalcon/issues/2229) (cast and convert not working)
  - Add method Phalcon\Assets\Collection::addFilter
  - Add Phalcon\Session\Adapter\memcache and Phalcon\Session\Adapter\Libmemcached
- - Add class Phalcon\Session\Adapter\Libemcached
+ - Add class Phalcon\Session\Adapter\Libmemcached
  - Add class Phalcon\Session\Adapter\Memcache
  - \Phalcon\Tag::XHTML5 was returning empty string
  - [#2278](https://github.com/phalcon/cphalcon/issues/2278) add Phalcon\Logger\Multiple::CRITICAL
@@ -315,7 +348,7 @@ belongs to the uniqueId or the whole session data
  - [#2111](https://github.com/phalcon/cphalcon/issues/2111) – replacing bindParam to bindValue to avoid unexpected reference changes
  - [#2002](https://github.com/phalcon/cphalcon/issues/2002) Tag::linkTo() to allow the addition of query string parameters
  - Added `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
- - Use phalcon_camelize for namesapce Add \Phalcon\Session\Adapter::setId Fixed [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\…
+ - Use phalcon_camelize for namespace Add \Phalcon\Session\Adapter::setId Fixed [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\…
  - [#2111](https://github.com/phalcon/cphalcon/issues/2111) – replacing bindParam to bindValue to avoid unexpected reference changes
  - Fix wrong issent() call on non Response objects
  - [#2236](https://github.com/phalcon/cphalcon/issues/2236)  - in mysql tinyint(1) is not boolean it's an int between 0 and 127
@@ -327,7 +360,7 @@ belongs to the uniqueId or the whole session data
  - Add `allowEmpty` option to \Phalcon\Mvc\Model\Validator\*
  - [#2002](https://github.com/phalcon/cphalcon/issues/2002) Tag::linkTo() to allow the addition of query string parameters
  - [#2018](https://github.com/phalcon/cphalcon/issues/2018) add method \Phalcon\Db\Result\Pdo::nextRowset
- - Use phalcon_camelize for namesapce
+ - Use phalcon_camelize for namespace
  - [#1932](https://github.com/phalcon/cphalcon/issues/1932) Phalcon\Http\Request\File extend SplFileInfo
 
 # [1.3.1](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v1.3.1) (2014-03-25)
@@ -369,7 +402,7 @@ belongs to the uniqueId or the whole session data
    - Fixed bug in phalcon_fix_path() ([#1601](https://github.com/phalcon/cphalcon/issues/1601))
    - Use native counterparts for memory_get_usage(), gettype(), json_encode(), json_decode(), session_XXX(), header(), headers_sent(), debug_backtrace(),
      lcfirst(), ob_XXX(), array_unshift(), array_values(), array_keys(), htmlentities() ([#836](https://github.com/phalcon/cphalcon/issues/836), [#847](https://github.com/phalcon/cphalcon/issues/847), [#936](https://github.com/phalcon/cphalcon/issues/936), [#945](https://github.com/phalcon/cphalcon/issues/945), [#1099](https://github.com/phalcon/cphalcon/issues/1099))
-   - Hash funcrions tailored for object handlers ([#842](https://github.com/phalcon/cphalcon/issues/842))
+   - Hash functions tailored for object handlers ([#842](https://github.com/phalcon/cphalcon/issues/842))
    - Optimization of calls to userland functions and methods ([#843](https://github.com/phalcon/cphalcon/issues/843), [#954](https://github.com/phalcon/cphalcon/issues/954))
    - Read/modify/update optimization on properties ([#848](https://github.com/phalcon/cphalcon/issues/848))
    - Added support for self/parent/static scopes in static properties ([#943](https://github.com/phalcon/cphalcon/issues/943))
@@ -591,7 +624,7 @@ belongs to the uniqueId or the whole session data
    - Fixed deprecation warnings in Phalcon\Mvc\Collection::save() and Phalcon\Mvc\Collection::delete() ([#1783](https://github.com/phalcon/cphalcon/issues/1783))
    - Phalcon\Mvc\Model\Behavior now implements Phalcon\Mvc\Model\BehaviorInterface ([#1852](https://github.com/phalcon/cphalcon/issues/1852))
    - Phalcon\Mvc\Model\Metadata now implements Phalcon\Mvc\Model\MetadataInterface ([#1852](https://github.com/phalcon/cphalcon/issues/1852))
-   - Phalcon\Mvc\Model\Valdator now implements Phalcon\Mvc\Model\ValidatorInterface ([#1852](https://github.com/phalcon/cphalcon/issues/1852))
+   - Phalcon\Mvc\Model\Validator now implements Phalcon\Mvc\Model\ValidatorInterface ([#1852](https://github.com/phalcon/cphalcon/issues/1852))
    - Phalcon\Mvc\View\Engine now implements Phalcon\Mvc\View\EngineInterface ([#1852](https://github.com/phalcon/cphalcon/issues/1852))
    - Phalcon\Mvc\Model\Validator::getOption()/getOptions()/isSetOption() methods are now public ([#1904](https://github.com/phalcon/cphalcon/issues/1904))
    - Phalcon\Mvc\Model::findFirst() now works when phqlLiterals is false ([#886](https://github.com/phalcon/cphalcon/issues/886))
@@ -812,7 +845,7 @@ belongs to the uniqueId or the whole session data
  - Support for complex expressions in GROUP BY clauses in PHQL
  - Now PHQL exceptions include the PHQL statement itself
  - Aliases for namespaces are now supported in PHQL
- - Acl\Memory was rewritted to make it simpler and faster, you may regenerate your serialized ACLs
+ - Acl\Memory was rewritten to make it simpler and faster, you may regenerate your serialized ACLs
  - Support for assigment operators +=, -=, *=, /= in Volt
  - Support for Profile-Guided optimization installation scripts (See blog)
  - Added Phalcon\Annotations\Adapter\Xcache to store annotations in Xcache
@@ -887,7 +920,7 @@ belongs to the uniqueId or the whole session data
  - Support for 'forelse' in Volt
  - Added support for loop variable context in Volt
  - Added whitespace control delimiters {%- -%} and {{- -}} to Volt
- - Suport for 'in' and 'not in' operators in Volt
+ - Support for 'in' and 'not in' operators in Volt
  - Added Phalcon\Mvc\Model::assign to assign an array of values to a model instance
  - Added Phalcon\Mvc\Model::refresh to refresh the state of a model
  - Added Phalcon\Logger\Adapter::setLogLevel to filter messages with greater or less priority

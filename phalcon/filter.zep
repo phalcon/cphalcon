@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -134,7 +134,7 @@ class Filter implements FilterInterface
 			/**
 			 * If the filter is a closure we call it in the PHP userland
 			 */
-			if filterObject instanceof \Closure || is_callable(filterObject) {
+			if (typeof filterObject == "object" && filterObject instanceof \Closure) || is_callable(filterObject) {
 				return call_user_func_array(filterObject, [value]);
 			}
 

@@ -43,7 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 	 */
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_logger_formatter_line_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 	return SUCCESS;
 
 }
@@ -165,19 +164,19 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	ZEPHIR_OBS_VAR(format);
 	zephir_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
-	if (zephir_memnstr_str(format, SL("%date%"), "phalcon/logger/formatter/line.zep", 81)) {
+	if (zephir_memnstr_str(format, SL("%date%"), "phalcon/logger/formatter/line.zep", 80)) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2$$3);
 		ZVAL_LONG(&_2$$3, timestamp);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "date", NULL, 291, _1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "date", NULL, 298, _1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_2$$3);
 		ZVAL_STRING(&_2$$3, "%date%", 0);
 		zephir_fast_str_replace(&_0$$3, &_2$$3, _3$$3, format TSRMLS_CC);
 		ZEPHIR_CPY_WRT(format, _0$$3);
 	}
-	if (zephir_memnstr_str(format, SL("%type%"), "phalcon/logger/formatter/line.zep", 88)) {
+	if (zephir_memnstr_str(format, SL("%type%"), "phalcon/logger/formatter/line.zep", 87)) {
 		ZEPHIR_INIT_VAR(_4$$4);
 		ZEPHIR_INIT_VAR(_6$$4);
 		ZVAL_LONG(_6$$4, type);

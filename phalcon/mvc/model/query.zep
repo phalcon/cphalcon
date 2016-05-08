@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -3076,7 +3076,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		connection->begin();
 
-		for record in iterator(records) {
+		records->rewind();
+
+		//for record in iterator(records) {
+		while records->valid() {
+
+			let record = records->current();
 
 			/**
 			 * We apply the executed values to every record found
@@ -3090,6 +3095,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				return new Status(false, record);
 			}
+
+			records->next();
 		}
 
 		/**
@@ -3153,7 +3160,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		connection->begin();
 
-		for record in iterator(records) {
+		//for record in iterator(records) {
+
+
+		records->rewind();
+
+		while records->valid() {
+
+			let record = records->current();
 
 			/**
 			 * We delete every record found
@@ -3167,6 +3181,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				return new Status(false, record);
 			}
+
+			records->next();
 		}
 
 		/**

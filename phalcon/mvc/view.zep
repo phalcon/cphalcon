@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -440,15 +440,8 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
 	{
-		var viewParams;
-
-		if merge {
-			let viewParams = this->_viewParams;
-			if typeof viewParams == "array" {
-				let this->_viewParams = array_merge(viewParams, params);
-			} else {
-				let this->_viewParams = params;
-			}
+		if merge && typeof this->_viewParams == "array" {
+			let this->_viewParams = array_merge(this->_viewParams, params);
 		} else {
 			let this->_viewParams = params;
 		}
@@ -481,12 +474,13 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function getVar(string! key)
 	{
-		var params, value;
-		let params = this->_viewParams;
-		if fetch value, params[key] {
-			return value;
+		var value;
+
+		if !fetch value, this->_viewParams[key] {
+			return null;
 		}
-		return null;
+
+		return value;
 	}
 
 	/**
@@ -645,9 +639,10 @@ class View extends Injectable implements ViewInterface
 					 * Check if the cache is started, the first time a cache is started we start the
 					 * cache
 					 */
-					if cache->isStarted() == false {
+					if !cache->isStarted() {
 
-						let key = null, lifetime = null;
+						let key = null,
+							lifetime = null;
 
 						let viewOptions = this->_options;
 
@@ -719,11 +714,9 @@ class View extends Injectable implements ViewInterface
 					break;
 				}
 			}
+		}
 
-			if notExists === false {
-				break;
-			}
-
+		if notExists === true {
 			/**
 			 * Notify about not found views
 			 */
@@ -871,9 +864,12 @@ class View extends Injectable implements ViewInterface
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		/**
-		 * Create a virtual symbol table
+		 * Create a virtual symbol table.
+		 * Variables are shared across symbol tables in PHP5
 		 */
-		create_symbol_table();
+		if is_php_version("5") {
+			create_symbol_table();
+		}
 
 		/**
 		 * Call beforeRender if there is an events manager
@@ -981,12 +977,8 @@ class View extends Injectable implements ViewInterface
 			 * Store the data in the cache
 			 */
 			if typeof cache == "object" {
-				if cache->isStarted() == true {
-					if cache->isFresh() == true {
-						cache->save();
-					} else {
-						cache->stop();
-					}
+				if cache->isStarted() && cache->isFresh() {
+					cache->save();
 				} else {
 					cache->stop();
 				}
@@ -1253,18 +1245,11 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function getCache() -> <BackendInterface>
 	{
-		var cache;
-		let cache = this->_cache;
-		if cache {
-			if typeof cache != "object" {
-				let cache = this->_createCache(),
-					this->_cache = cache;
-			}
-		} else {
-			let cache = this->_createCache(),
-				this->_cache = cache;
+		if !this->_cache || typeof this->_cache != "object" {
+			let this->_cache = this->_createCache();
 		}
-		return cache;
+
+		return this->_cache;
 	}
 
 	/**
@@ -1436,15 +1421,11 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *  echo isset($this->view->products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @return boolean
 	 */
 	public function __isset(string! key) -> boolean
 	{
-		return isset(this->_viewParams[key]);
+		return isset this->_viewParams[key];
 	}
-
 
 	/**
 	 * Gets views directories

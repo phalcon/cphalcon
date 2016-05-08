@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -167,7 +167,12 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		 */
 		var groups = totalBuilder->getGroupBy();
 		if !empty groups {
-			var groupColumn = implode(", ", groups);
+			var groupColumn;
+			if typeof groups == "array" {
+				let groupColumn = implode(", ", groups);
+			} else {
+				let groupColumn = groups;
+			}
 			totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
 		}
 

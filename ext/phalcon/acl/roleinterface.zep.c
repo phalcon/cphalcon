@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface) {
 }
 
 /**
- * Phalcon\Acl\Role constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, __construct);
-
-/**
  * Returns the role name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getName);

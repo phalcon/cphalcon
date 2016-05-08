@@ -28,7 +28,8 @@ use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\Email,
 	Phalcon\Validation\Validator\Between,
 	Phalcon\Validation\Validator\Url,
-	Phalcon\Validation\Validator\CreditCard;
+	Phalcon\Validation\Validator\CreditCard,
+	Phalcon\Validation\Validator\Date;
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
@@ -265,6 +266,67 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 					'_type' => 'CreditCard',
 					'_message' => 'Field number is not valid for a credit card number',
 					'_field' => 'number',
+					'_code' => '0',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+	}
+
+	public function providerValidDates()
+	{
+		return array(
+			array('2015-01-01', 'Y-m-d'),
+			array('01-01-2015', 'd-m-Y'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerValidDates
+	 */
+	public function testValidationDateValid($date, $format)
+	{
+		$validation = new Phalcon\Validation();
+
+		$validation->add('date', new Date(array('format' => $format)));
+
+		$messages = $validation->validate(array('date' => $date));
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function providerInvalidDates()
+	{
+		return array(
+			array('', 'Y-m-d'),
+			array(false, 'Y-m-d'),
+			array(null, 'Y-m-d'),
+			array(new stdClass, 'Y-m-d'),
+			array('2015-13-01', 'Y-m-d'),
+			array('2015-01-32', 'Y-m-d'),
+			array('2015-01', 'Y-m-d'),
+			array('2015-01-01', 'd-m-Y'),
+		);
+	}
+
+	/**
+	 * @dataProvider providerInvalidDates
+	 */
+	public function testValidationDateInvalid($date, $format)
+	{
+		$validation = new Phalcon\Validation();
+
+		$validation->add('date', new Date(array('format' => $format)));
+
+		$messages = $validation->validate(array('date' => $date));
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Date',
+					'_message' => 'Field date is not a valid date',
+					'_field' => 'date',
 					'_code' => '0',
 				))
 			)

@@ -12,13 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
-#include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
@@ -33,133 +33,14 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, Console, phalcon, cli_console, phalcon_cli_console_method_entry, 0);
-
-	zend_declare_property_null(phalcon_cli_console_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_declare_property_null(phalcon_cli_console_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_declare_property_null(phalcon_cli_console_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_declare_property_null(phalcon_cli_console_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Console, phalcon, cli_console, phalcon_application_ce, phalcon_cli_console_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_arguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_cli_console_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
-	zend_class_implements(phalcon_cli_console_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	phalcon_cli_console_ce->create_object = zephir_init_properties_Phalcon_Cli_Console;
 	return SUCCESS;
-
-}
-
-/**
- * Phalcon\Cli\Console constructor
- */
-PHP_METHOD(Phalcon_Cli_Console, __construct) {
-
-	zval *dependencyInjector = NULL, *_0, *_1;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &dependencyInjector);
-
-	if (!dependencyInjector) {
-		dependencyInjector = ZEPHIR_GLOBAL(global_null);
-	}
-
-
-	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
-		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
-	}
-	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
-	zephir_update_property_this(this_ptr, SL("_arguments"), _0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
-	array_init(_1);
-	zephir_update_property_this(this_ptr, SL("_options"), _1 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Sets the DependencyInjector container
- */
-PHP_METHOD(Phalcon_Cli_Console, setDI) {
-
-	zval *dependencyInjector;
-
-	zephir_fetch_params(0, 1, 0, &dependencyInjector);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
-
-}
-
-/**
- * Returns the internal dependency injector
- */
-PHP_METHOD(Phalcon_Cli_Console, getDI) {
-
-	
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
-
-}
-
-/**
- * Sets the events manager
- */
-PHP_METHOD(Phalcon_Cli_Console, setEventsManager) {
-
-	zval *eventsManager;
-
-	zephir_fetch_params(0, 1, 0, &eventsManager);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
-
-}
-
-/**
- * Returns the internal event manager
- */
-PHP_METHOD(Phalcon_Cli_Console, getEventsManager) {
-
-	
-
-	RETURN_MEMBER(this_ptr, "_eventsManager");
-
-}
-
-/**
- * Register an array of modules present in the console
- *
- *<code>
- *	$application->registerModules(array(
- *		'frontend' => array(
- *			'className' => 'Multiple\Frontend\Module',
- *			'path' => '../apps/frontend/Module.php'
- *		),
- *		'backend' => array(
- *			'className' => 'Multiple\Backend\Module',
- *			'path' => '../apps/backend/Module.php'
- *		)
- *	));
- *</code>
- */
-PHP_METHOD(Phalcon_Cli_Console, registerModules) {
-
-	zval *modules_param = NULL;
-	zval *modules = NULL;
-
-	zephir_fetch_params(0, 1, 0, &modules_param);
-
-	modules = modules_param;
-
-
-	zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 
 }
 
@@ -177,7 +58,8 @@ PHP_METHOD(Phalcon_Cli_Console, registerModules) {
  */
 PHP_METHOD(Phalcon_Cli_Console, addModules) {
 
-	zval *modules_param = NULL, *_0, *_1;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *modules_param = NULL, *_0;
 	zval *modules = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -187,21 +69,10 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
-	zephir_fast_array_merge(_0, &(modules), &(_1) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_modules"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Return the modules registered in the console
- */
-PHP_METHOD(Phalcon_Cli_Console, getModules) {
-
-	
-
-	RETURN_MEMBER(this_ptr, "_modules");
+	ZVAL_BOOL(_0, 1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "registermodules", NULL, 0, modules, _0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -212,7 +83,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 
 	zend_bool _5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *arguments_param = NULL, *dependencyInjector = NULL, *router = NULL, *eventsManager = NULL, *moduleName = NULL, *modules = NULL, *module = NULL, *path = NULL, *className = NULL, *moduleObject = NULL, *dispatcher = NULL, *task = NULL, *_0, *_3 = NULL, *_4 = NULL, *_15 = NULL, *_16 = NULL, *_17, *_1$$4 = NULL, *_2$$4, *_6$$6, *_7$$9 = NULL, *_8$$9, *_9$$11, *_10$$11, *_11$$14, *_12$$14, *_13$$16 = NULL, *_14$$16, *_18$$18 = NULL, *_19$$18, *_20$$20;
+	zval *arguments_param = NULL, *dependencyInjector = NULL, *router = NULL, *eventsManager = NULL, *moduleName = NULL, *modules = NULL, *module = NULL, *path = NULL, *className = NULL, *moduleObject = NULL, *dispatcher = NULL, *task = NULL, *_0, *_3 = NULL, *_4 = NULL, *_15 = NULL, *_16 = NULL, *_17, *_1$$4 = NULL, *_2$$4, *_6$$6, *_7$$10 = NULL, *_8$$10, *_9$$12, *_10$$12, *_11$$15, *_12$$15, *_13$$17 = NULL, *_14$$17, *_18$$19 = NULL, *_19$$19, *_20$$21;
 	zval *arguments = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -229,7 +100,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services", "phalcon/cli/console.zep", 152);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services", "phalcon/cli/console.zep", 69);
 		return;
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -265,46 +136,50 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	}
 	ZEPHIR_CALL_METHOD(&moduleName, router, "getmodulename", NULL, 0);
 	zephir_check_call_status();
+	if (!(zephir_is_true(moduleName))) {
+		ZEPHIR_OBS_NVAR(moduleName);
+		zephir_read_property_this(&moduleName, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+	}
 	if (zephir_is_true(moduleName)) {
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-			ZEPHIR_INIT_VAR(_8$$9);
-			ZVAL_STRING(_8$$9, "console:beforeStartModule", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_7$$9, eventsManager, "fire", NULL, 0, _8$$9, this_ptr, moduleName);
-			zephir_check_temp_parameter(_8$$9);
+			ZEPHIR_INIT_VAR(_8$$10);
+			ZVAL_STRING(_8$$10, "console:beforeStartModule", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_7$$10, eventsManager, "fire", NULL, 0, _8$$10, this_ptr, moduleName);
+			zephir_check_temp_parameter(_8$$10);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_7$$9)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_7$$10)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
 		ZEPHIR_OBS_VAR(modules);
 		zephir_read_property_this(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if (!(zephir_array_isset(modules, moduleName))) {
-			ZEPHIR_INIT_VAR(_9$$11);
-			object_init_ex(_9$$11, phalcon_cli_console_exception_ce);
-			ZEPHIR_INIT_VAR(_10$$11);
-			ZEPHIR_CONCAT_SVS(_10$$11, "Module '", moduleName, "' isn't registered in the console container");
-			ZEPHIR_CALL_METHOD(NULL, _9$$11, "__construct", NULL, 9, _10$$11);
+			ZEPHIR_INIT_VAR(_9$$12);
+			object_init_ex(_9$$12, phalcon_cli_console_exception_ce);
+			ZEPHIR_INIT_VAR(_10$$12);
+			ZEPHIR_CONCAT_SVS(_10$$12, "Module '", moduleName, "' isn't registered in the console container");
+			ZEPHIR_CALL_METHOD(NULL, _9$$12, "__construct", NULL, 9, _10$$12);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9$$11, "phalcon/cli/console.zep", 185 TSRMLS_CC);
+			zephir_throw_exception_debug(_9$$12, "phalcon/cli/console.zep", 109 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_OBS_VAR(module);
-		zephir_array_fetch(&module, modules, moduleName, PH_NOISY, "phalcon/cli/console.zep", 188 TSRMLS_CC);
+		zephir_array_fetch(&module, modules, moduleName, PH_NOISY, "phalcon/cli/console.zep", 112 TSRMLS_CC);
 		if (Z_TYPE_P(module) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Invalid module definition path", "phalcon/cli/console.zep", 190);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_console_exception_ce, "Invalid module definition path", "phalcon/cli/console.zep", 114);
 			return;
 		}
 		ZEPHIR_OBS_VAR(path);
 		if (zephir_array_isset_string_fetch(&path, module, SS("path"), 0 TSRMLS_CC)) {
 			if (!((zephir_file_exists(path TSRMLS_CC) == SUCCESS))) {
-				ZEPHIR_INIT_VAR(_11$$14);
-				object_init_ex(_11$$14, phalcon_cli_console_exception_ce);
-				ZEPHIR_INIT_VAR(_12$$14);
-				ZEPHIR_CONCAT_SVS(_12$$14, "Module definition path '", path, "' doesn't exist");
-				ZEPHIR_CALL_METHOD(NULL, _11$$14, "__construct", NULL, 9, _12$$14);
+				ZEPHIR_INIT_VAR(_11$$15);
+				object_init_ex(_11$$15, phalcon_cli_console_exception_ce);
+				ZEPHIR_INIT_VAR(_12$$15);
+				ZEPHIR_CONCAT_SVS(_12$$15, "Module definition path '", path, "' doesn't exist");
+				ZEPHIR_CALL_METHOD(NULL, _11$$15, "__construct", NULL, 9, _12$$15);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_11$$14, "phalcon/cli/console.zep", 195 TSRMLS_CC);
+				zephir_throw_exception_debug(_11$$15, "phalcon/cli/console.zep", 119 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -324,13 +199,12 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		ZEPHIR_CALL_METHOD(NULL, moduleObject, "registerservices", NULL, 0, dependencyInjector);
 		zephir_check_call_status();
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-			zephir_update_property_this(this_ptr, SL("_moduleObject"), moduleObject TSRMLS_CC);
-			ZEPHIR_INIT_VAR(_14$$16);
-			ZVAL_STRING(_14$$16, "console:afterStartModule", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_13$$16, eventsManager, "fire", NULL, 0, _14$$16, this_ptr, moduleObject);
-			zephir_check_temp_parameter(_14$$16);
+			ZEPHIR_INIT_VAR(_14$$17);
+			ZVAL_STRING(_14$$17, "console:afterStartModule", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_13$$17, eventsManager, "fire", NULL, 0, _14$$17, this_ptr, moduleObject);
+			zephir_check_temp_parameter(_14$$17);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_13$$16)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_13$$17)) {
 				RETURN_MM_BOOL(0);
 			}
 		}
@@ -357,22 +231,22 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_CALL_METHOD(NULL, dispatcher, "setoptions", NULL, 0, _17);
 	zephir_check_call_status();
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_19$$18);
-		ZVAL_STRING(_19$$18, "console:beforeHandleTask", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_18$$18, eventsManager, "fire", NULL, 0, _19$$18, this_ptr, dispatcher);
-		zephir_check_temp_parameter(_19$$18);
+		ZEPHIR_INIT_VAR(_19$$19);
+		ZVAL_STRING(_19$$19, "console:beforeHandleTask", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_18$$19, eventsManager, "fire", NULL, 0, _19$$19, this_ptr, dispatcher);
+		zephir_check_temp_parameter(_19$$19);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_18$$18)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_18$$19)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
 	ZEPHIR_CALL_METHOD(&task, dispatcher, "dispatch", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_20$$20);
-		ZVAL_STRING(_20$$20, "console:afterHandleTask", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _20$$20, this_ptr, task);
-		zephir_check_temp_parameter(_20$$20);
+		ZEPHIR_INIT_VAR(_20$$21);
+		ZVAL_STRING(_20$$21, "console:afterHandleTask", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _20$$21, this_ptr, task);
+		zephir_check_temp_parameter(_20$$21);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(task);
@@ -433,11 +307,11 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(arguments);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_1, 120, arguments);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_1, 128, arguments);
 		ZEPHIR_UNREF(arguments);
 		zephir_check_call_status();
 	}
-	zephir_is_iterable(arguments, &_3, &_2, 0, 0, "phalcon/cli/console.zep", 276);
+	zephir_is_iterable(arguments, &_3, &_2, 0, 0, "phalcon/cli/console.zep", 199);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -448,7 +322,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 			ZVAL_STRING(&_5$$5, "--", 0);
 			ZEPHIR_SINIT_NVAR(_6$$5);
 			ZVAL_LONG(&_6$$5, 2);
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "strncmp", &_8, 121, arg, &_5$$5, &_6$$5);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "strncmp", &_8, 129, arg, &_5$$5, &_6$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_LONG(_7$$5, 0)) {
 				ZEPHIR_SINIT_NVAR(_9$$6);
@@ -485,7 +359,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 				ZVAL_STRING(&_20$$9, "-", 0);
 				ZEPHIR_SINIT_NVAR(_21$$9);
 				ZVAL_LONG(&_21$$9, 1);
-				ZEPHIR_CALL_FUNCTION(&_22$$9, "strncmp", &_8, 121, arg, &_20$$9, &_21$$9);
+				ZEPHIR_CALL_FUNCTION(&_22$$9, "strncmp", &_8, 129, arg, &_20$$9, &_21$$9);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG(_22$$9, 0)) {
 					ZEPHIR_SINIT_NVAR(_23$$10);
@@ -494,30 +368,30 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 					zephir_substr(_24$$10, arg, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 					zephir_array_update_zval(&opts, _24$$10, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 				} else {
-					zephir_array_append(&args, arg, PH_SEPARATE, "phalcon/cli/console.zep", 268);
+					zephir_array_append(&args, arg, PH_SEPARATE, "phalcon/cli/console.zep", 191);
 				}
 			}
 		} else {
-			zephir_array_append(&args, arg, PH_SEPARATE, "phalcon/cli/console.zep", 272);
+			zephir_array_append(&args, arg, PH_SEPARATE, "phalcon/cli/console.zep", 195);
 		}
 	}
 	if (str) {
 		ZEPHIR_INIT_VAR(_25$$13);
-		ZEPHIR_CALL_CE_STATIC(&_26$$13, phalcon_cli_router_route_ce, "getdelimiter", &_27, 122);
+		ZEPHIR_CALL_CE_STATIC(&_26$$13, phalcon_cli_router_route_ce, "getdelimiter", &_27, 130);
 		zephir_check_call_status();
 		zephir_fast_join(_25$$13, _26$$13, args TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_arguments"), _25$$13 TSRMLS_CC);
 	} else {
 		if (zephir_fast_count_int(args TSRMLS_CC)) {
 			ZEPHIR_MAKE_REF(args);
-			ZEPHIR_CALL_FUNCTION(&_28$$15, "array_shift", &_1, 120, args);
+			ZEPHIR_CALL_FUNCTION(&_28$$15, "array_shift", &_1, 128, args);
 			ZEPHIR_UNREF(args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("task"), &_28$$15, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_fast_count_int(args TSRMLS_CC)) {
 			ZEPHIR_MAKE_REF(args);
-			ZEPHIR_CALL_FUNCTION(&_29$$16, "array_shift", &_1, 120, args);
+			ZEPHIR_CALL_FUNCTION(&_29$$16, "array_shift", &_1, 128, args);
 			ZEPHIR_UNREF(args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("action"), &_29$$16, PH_COPY | PH_SEPARATE);
@@ -531,6 +405,39 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), opts TSRMLS_CC);
 	RETURN_THIS();
+
+}
+
+zend_object_value zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_2, *_4, *_1$$3, *_3$$4, *_5$$5;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_options"), _1$$3 TSRMLS_CC);
+		}
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
+		if (Z_TYPE_P(_2) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_3$$4);
+			array_init(_3$$4);
+			zephir_update_property_this(this_ptr, SL("_modules"), _3$$4 TSRMLS_CC);
+		}
+		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
+		if (Z_TYPE_P(_4) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_5$$5);
+			array_init(_5$$5);
+			zephir_update_property_this(this_ptr, SL("_arguments"), _5$$5 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

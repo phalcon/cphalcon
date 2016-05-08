@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_4$$5);
 		object_init_ex(_4$$5, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6$$5, "strtr", NULL, 54, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6$$5, "strtr", NULL, 55, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8$$5);
 		ZVAL_STRING(_8$$5, "code", ZEPHIR_TEMP_PARAM_COPY);
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_8$$5);
 		ZVAL_STRING(_8$$5, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 440, _6$$5, field, _8$$5, _7$$5);
+		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 455, _6$$5, field, _8$$5, _7$$5);
 		zephir_check_temp_parameter(_8$$5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4$$5);

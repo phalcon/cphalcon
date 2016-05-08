@@ -782,7 +782,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
  *
  * <code>
  * //Updating existing robot
- * $success = $connection->update(
+ * $success = $connection->updateAsDict(
  *	 "robots",
  *	 array(
  *		  "name" => "New Astro Boy"

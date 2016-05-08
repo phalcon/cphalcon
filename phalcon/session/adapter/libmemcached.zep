@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -147,15 +147,18 @@ class Libmemcached extends Adapter
 	 */
 	public function destroy(string sessionId = null) ->boolean
 	{
-		var id;
+		var id, key;
 
 		if sessionId === null {
 			let id = this->getId();
 		} else {
 			let id = sessionId;
 		}
-
-		return this->_libmemcached->delete(id);
+		
+		for key, _ in _SESSION {
+			unset _SESSION[key];			
+		}
+		return this->_libmemcached->delete(id);		
 	}
 
 	/**

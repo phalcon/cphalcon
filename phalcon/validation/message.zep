@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -34,7 +34,7 @@ class Message implements MessageInterface
 	protected _message;
 
 	protected _field;
-	
+
 	protected _code;
 
 	/**
@@ -100,7 +100,7 @@ class Message implements MessageInterface
 	{
 		return this->_field;
 	}
-	
+
 	/**
 	 * Sets code for the message
 	 */

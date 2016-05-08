@@ -12,14 +12,16 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -70,6 +72,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_previousActionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_bool(phalcon_dispatcher_ce, SL("_modelBinding"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_dispatcher_ce->create_object = zephir_init_properties_Phalcon_Dispatcher;
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_NO_DI"), 0 TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_CYCLIC_ROUTING"), 1 TSRMLS_CC);
@@ -86,22 +91,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 	zend_class_implements(phalcon_dispatcher_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	zend_class_implements(phalcon_dispatcher_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
-
-}
-
-/**
- * Phalcon\Dispatcher constructor
- */
-PHP_METHOD(Phalcon_Dispatcher, __construct) {
-
-	zval *_0;
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
-	zephir_update_property_this(this_ptr, SL("_params"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -173,6 +162,17 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix) {
 
 	zephir_update_property_this(this_ptr, SL("_actionSuffix"), actionSuffix TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Gets the default action suffix
+ */
+PHP_METHOD(Phalcon_Dispatcher, getActionSuffix) {
+
+	
+
+	RETURN_MEMBER(this_ptr, "_actionSuffix");
 
 }
 
@@ -430,6 +430,25 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 }
 
 /**
+ * Check if a param exists
+ *
+ * @param  mixed param
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Dispatcher, hasParam) {
+
+	zval *param, *_0;
+
+	zephir_fetch_params(0, 1, 0, &param);
+
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset(_0, param));
+
+}
+
+/**
  * Returns the current method to be/executed in the dispatcher
  */
 PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
@@ -473,7 +492,7 @@ PHP_METHOD(Phalcon_Dispatcher, setReturnedValue) {
 }
 
 /**
- * Returns value returned by the lastest dispatched action
+ * Returns value returned by the latest dispatched action
  *
  * @return mixed
  */
@@ -486,16 +505,79 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
 }
 
 /**
+ * Enable/Disable model binding during dispatch
+ *
+ * @param boolean value
+ */
+PHP_METHOD(Phalcon_Dispatcher, setModelBinding) {
+
+	zval *value_param = NULL;
+	zend_bool value;
+
+	zephir_fetch_params(0, 1, 0, &value_param);
+
+	value = zephir_get_boolval(value_param);
+
+
+	if (value) {
+		zephir_update_property_this(this_ptr, SL("_modelBinding"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	} else {
+		zephir_update_property_this(this_ptr, SL("_modelBinding"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	}
+
+}
+
+/**
  * Dispatches a handle action taking into account the routing parameters
  *
  * @return object
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
-	zval *_49$$39 = NULL;
-	zval *value = NULL, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *params = NULL, *eventsManager = NULL, *actionSuffix = NULL, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *e = NULL, *_0, *_1$$3, *_2$$3, *_3$$4 = NULL, *_4$$4, *_5$$7 = NULL, *_6$$7 = NULL, *_10$$8 = NULL, *_11$$8 = NULL, *_13$$8, *_14$$6 = NULL, *_16$$12 = NULL, *_17$$12 = NULL, *_19$$13, *_22$$16 = NULL, *_23$$16 = NULL, *_25$$17, *_26$$19 = NULL, *_27$$19 = NULL, *_29$$20, *_30$$23 = NULL, *_31$$23 = NULL, *_33$$23, *_34$$22 = NULL, *_35$$22 = NULL, *_37$$26, *_38$$28 = NULL, *_39$$28 = NULL, *_41$$28, *_42$$31 = NULL, *_43$$31, *_44$$36 = NULL, *_45$$36 = NULL, *_47$$36, *_48$$39 = NULL, *_50$$40 = NULL, *_52$$41, *_53$$44 = NULL, *_54$$44 = NULL, *_56$$44, *_58$$47 = NULL, *_59$$47, *_60$$50;
+	zval *handler = NULL, *e = NULL, *_0$$4 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+
+	/* try_start_1: */
+
+		ZEPHIR_CALL_METHOD(&handler, this_ptr, "_dispatch", NULL, 0);
+		zephir_check_call_status_or_jump(try_end_1);
+
+	try_end_1:
+
+	if (EG(exception)) {
+		ZEPHIR_CPY_WRT(e, EG(exception));
+		if (zephir_instance_of_ev(e, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
+			zend_clear_exception(TSRMLS_C);
+			ZEPHIR_CALL_METHOD(&_0$$4, this_ptr, "_handleexception", NULL, 0, e);
+			zephir_check_call_status();
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_0$$4)) {
+				RETURN_MM_BOOL(0);
+			}
+			zephir_throw_exception_debug(e, "phalcon/dispatcher.zep", 346 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+	}
+	RETURN_CCTOR(handler);
+
+}
+
+/**
+ * Dispatches a handle action taking into account the routing parameters
+ *
+ * @return object
+ */
+PHP_METHOD(Phalcon_Dispatcher, _dispatch) {
+
+	HashTable *_53$$39;
+	HashPosition _52$$39;
+	zval *_30$$6 = NULL, *_60$$44 = NULL, *_62$$44 = NULL, *_63$$44 = NULL, *_68$$45 = NULL, *_70$$45 = NULL;
+	zval *value = NULL, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *params = NULL, *eventsManager = NULL, *actionSuffix = NULL, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *reflectionMethod = NULL, *methodParams = NULL, *className = NULL, *paramKey = NULL, *methodParam = NULL, *modelName = NULL, *bindModel = NULL, *e = NULL, *_0, *_1$$3, *_2$$3, *_3$$4 = NULL, *_4$$4, *_5$$7 = NULL, *_6$$7 = NULL, *_10$$8 = NULL, *_11$$8 = NULL, *_13$$8, *_14$$6 = NULL, *_49$$6, *_16$$12 = NULL, *_17$$12 = NULL, *_19$$13, *_22$$16 = NULL, *_23$$16 = NULL, *_25$$17, *_26$$19 = NULL, *_27$$19 = NULL, *_29$$20, *_31$$23 = NULL, *_32$$23 = NULL, *_34$$23, *_35$$22 = NULL, *_36$$22 = NULL, *_38$$26, *_39$$28 = NULL, *_40$$28 = NULL, *_42$$28, *_43$$31 = NULL, *_44$$31, *_45$$36 = NULL, *_46$$36 = NULL, *_48$$36, **_54$$39, *_55$$40 = NULL, *_56$$41 = NULL, *_57$$43 = NULL, _59$$43 = zval_used_for_init, *_61$$44 = NULL, *_64$$44 = NULL, _65$$42 = zval_used_for_init, *_66$$42 = NULL, *_69$$45 = NULL, *_71$$45 = NULL, *_72$$46 = NULL, *_74$$47 = NULL, *_76$$48, *_77$$51 = NULL, *_78$$51 = NULL, *_80$$51, *_82$$54 = NULL, *_83$$54, *_84$$57;
 	zend_bool hasService = 0, wasFresh;
-	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL, *_9 = NULL, *_12 = NULL, *_15 = NULL, *_18 = NULL, *_20 = NULL, *_21 = NULL, *_24 = NULL, *_28 = NULL, *_32 = NULL, *_36 = NULL, *_40 = NULL, *_46 = NULL, *_51 = NULL, *_55 = NULL, *_57 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL, *_9 = NULL, *_12 = NULL, *_15 = NULL, *_18 = NULL, *_20 = NULL, *_21 = NULL, *_24 = NULL, *_28 = NULL, *_33 = NULL, *_37 = NULL, *_41 = NULL, *_47 = NULL, *_50 = NULL, *_51 = NULL, *_58 = NULL, *_67 = NULL, *_73 = NULL, *_75 = NULL, *_79 = NULL, *_81 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS, numberDispatches = 0;
 
 	ZEPHIR_MM_GROW();
@@ -647,57 +729,61 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_INIT_NVAR(actionMethod);
 		ZEPHIR_CONCAT_VV(actionMethod, actionName, actionSuffix);
-		if (!((zephir_method_exists(handler, actionMethod TSRMLS_CC)  == SUCCESS))) {
+		ZEPHIR_INIT_NVAR(_30$$6);
+		zephir_create_array(_30$$6, 2, 0 TSRMLS_CC);
+		zephir_array_fast_append(_30$$6, handler);
+		zephir_array_fast_append(_30$$6, actionMethod);
+		if (!(zephir_is_callable(_30$$6 TSRMLS_CC))) {
 			if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-				ZEPHIR_INIT_NVAR(_31$$23);
-				ZVAL_STRING(_31$$23, "dispatch:beforeNotFoundAction", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(&_30$$23, eventsManager, "fire", &_32, 0, _31$$23, this_ptr);
-				zephir_check_temp_parameter(_31$$23);
+				ZEPHIR_INIT_NVAR(_32$$23);
+				ZVAL_STRING(_32$$23, "dispatch:beforeNotFoundAction", ZEPHIR_TEMP_PARAM_COPY);
+				ZEPHIR_CALL_METHOD(&_31$$23, eventsManager, "fire", &_33, 0, _32$$23, this_ptr);
+				zephir_check_temp_parameter(_32$$23);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_30$$23)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_31$$23)) {
 					continue;
 				}
-				_33$$23 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_33$$23)) {
+				_34$$23 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_34$$23)) {
 					continue;
 				}
 			}
-			ZEPHIR_INIT_LNVAR(_34$$22);
-			ZEPHIR_CONCAT_SVSVS(_34$$22, "Action '", actionName, "' was not found on handler '", handlerName, "'");
-			ZEPHIR_INIT_NVAR(_35$$22);
-			ZVAL_LONG(_35$$22, 5);
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "_throwdispatchexception", &_36, 0, _34$$22, _35$$22);
+			ZEPHIR_INIT_LNVAR(_35$$22);
+			ZEPHIR_CONCAT_SVSVS(_35$$22, "Action '", actionName, "' was not found on handler '", handlerName, "'");
+			ZEPHIR_INIT_NVAR(_36$$22);
+			ZVAL_LONG(_36$$22, 5);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "_throwdispatchexception", &_37, 0, _35$$22, _36$$22);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE_IDENTICAL(status)) {
-				_37$$26 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_37$$26)) {
+				_38$$26 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_38$$26)) {
 					continue;
 				}
 			}
 			break;
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(_39$$28);
-			ZVAL_STRING(_39$$28, "dispatch:beforeExecuteRoute", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_38$$28, eventsManager, "fire", &_40, 0, _39$$28, this_ptr);
-			zephir_check_temp_parameter(_39$$28);
+			ZEPHIR_INIT_NVAR(_40$$28);
+			ZVAL_STRING(_40$$28, "dispatch:beforeExecuteRoute", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_39$$28, eventsManager, "fire", &_41, 0, _40$$28, this_ptr);
+			zephir_check_temp_parameter(_40$$28);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_38$$28)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_39$$28)) {
 				continue;
 			}
-			_41$$28 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_41$$28)) {
+			_42$$28 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_42$$28)) {
 				continue;
 			}
 		}
 		if ((zephir_method_exists_ex(handler, SS("beforeexecuteroute") TSRMLS_CC) == SUCCESS)) {
-			ZEPHIR_CALL_METHOD(&_42$$31, handler, "beforeexecuteroute", NULL, 0, this_ptr);
+			ZEPHIR_CALL_METHOD(&_43$$31, handler, "beforeexecuteroute", NULL, 0, this_ptr);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_42$$31)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_43$$31)) {
 				continue;
 			}
-			_43$$31 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_43$$31)) {
+			_44$$31 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_44$$31)) {
 				continue;
 			}
 		}
@@ -707,32 +793,109 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				zephir_check_call_status();
 			}
 			if (zephir_is_true(eventsManager)) {
-				ZEPHIR_INIT_NVAR(_45$$36);
-				ZVAL_STRING(_45$$36, "dispatch:afterInitialize", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(&_44$$36, eventsManager, "fire", &_46, 0, _45$$36, this_ptr);
-				zephir_check_temp_parameter(_45$$36);
+				ZEPHIR_INIT_NVAR(_46$$36);
+				ZVAL_STRING(_46$$36, "dispatch:afterInitialize", ZEPHIR_TEMP_PARAM_COPY);
+				ZEPHIR_CALL_METHOD(&_45$$36, eventsManager, "fire", &_47, 0, _46$$36, this_ptr);
+				zephir_check_temp_parameter(_46$$36);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_44$$36)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_45$$36)) {
 					continue;
 				}
-				_47$$36 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_47$$36)) {
+				_48$$36 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_48$$36)) {
 					continue;
 				}
 			}
 		}
+		_49$$6 = zephir_fetch_nproperty_this(this_ptr, SL("_modelBinding"), PH_NOISY_CC);
+		if (ZEPHIR_IS_TRUE_IDENTICAL(_49$$6)) {
+			ZEPHIR_INIT_NVAR(reflectionMethod);
+			object_init_ex(reflectionMethod, zephir_get_internal_ce(SS("reflectionmethod") TSRMLS_CC));
+			ZEPHIR_CALL_METHOD(NULL, reflectionMethod, "__construct", &_50, 67, handlerClass, actionMethod);
+			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&methodParams, reflectionMethod, "getparameters", &_51, 68);
+			zephir_check_call_status();
+			zephir_is_iterable(methodParams, &_53$$39, &_52$$39, 0, 0, "phalcon/dispatcher.zep", 580);
+			for (
+			  ; zephir_hash_get_current_data_ex(_53$$39, (void**) &_54$$39, &_52$$39) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_53$$39, &_52$$39)
+			) {
+				ZEPHIR_GET_HMKEY(paramKey, _53$$39, _52$$39);
+				ZEPHIR_GET_HVALUE(methodParam, _54$$39);
+				ZEPHIR_CALL_METHOD(&_55$$40, methodParam, "getclass", NULL, 0);
+				zephir_check_call_status();
+				if (zephir_is_true(_55$$40)) {
+					ZEPHIR_CALL_METHOD(&_56$$41, methodParam, "getclass", NULL, 0);
+					zephir_check_call_status();
+					ZEPHIR_CALL_METHOD(&className, _56$$41, "getname", NULL, 0);
+					zephir_check_call_status();
+					if (Z_TYPE_P(className) == IS_STRING) {
+						if (ZEPHIR_IS_STRING(className, "Phalcon\\Mvc\\Model")) {
+							ZEPHIR_CALL_FUNCTION(&_57$$43, "class_implements", &_58, 69, handlerClass);
+							zephir_check_call_status();
+							ZEPHIR_SINIT_NVAR(_59$$43);
+							ZVAL_STRING(&_59$$43, "Phalcon\\Mvc\\Controller\\BindModelInterface", 0);
+							if (zephir_fast_in_array(&_59$$43, _57$$43 TSRMLS_CC)) {
+								ZEPHIR_INIT_NVAR(_60$$44);
+								zephir_create_array(_60$$44, 2, 0 TSRMLS_CC);
+								zephir_array_fast_append(_60$$44, handlerClass);
+								ZEPHIR_INIT_NVAR(_61$$44);
+								ZVAL_STRING(_61$$44, "getModelName", 1);
+								zephir_array_fast_append(_60$$44, _61$$44);
+								ZEPHIR_INIT_NVAR(modelName);
+								ZEPHIR_CALL_USER_FUNC(modelName, _60$$44);
+								zephir_check_call_status();
+								ZEPHIR_INIT_NVAR(_62$$44);
+								zephir_create_array(_62$$44, 2, 0 TSRMLS_CC);
+								zephir_array_fast_append(_62$$44, modelName);
+								ZEPHIR_INIT_NVAR(_61$$44);
+								ZVAL_STRING(_61$$44, "findFirst", 1);
+								zephir_array_fast_append(_62$$44, _61$$44);
+								ZEPHIR_INIT_NVAR(_63$$44);
+								zephir_create_array(_63$$44, 1, 0 TSRMLS_CC);
+								ZEPHIR_OBS_NVAR(_64$$44);
+								zephir_array_fetch(&_64$$44, params, paramKey, PH_NOISY, "phalcon/dispatcher.zep", 565 TSRMLS_CC);
+								zephir_array_fast_append(_63$$44, _64$$44);
+								ZEPHIR_INIT_NVAR(bindModel);
+								ZEPHIR_CALL_USER_FUNC_ARRAY(bindModel, _62$$44, _63$$44);
+								zephir_check_call_status();
+								zephir_array_update_zval(&params, paramKey, &bindModel, PH_COPY | PH_SEPARATE);
+								break;
+							}
+						}
+						ZEPHIR_SINIT_NVAR(_65$$42);
+						ZVAL_STRING(&_65$$42, "Phalcon\\Mvc\\Model", 0);
+						ZEPHIR_CALL_FUNCTION(&_66$$42, "is_subclass_of", &_67, 70, className, &_65$$42);
+						zephir_check_call_status();
+						if (zephir_is_true(_66$$42)) {
+							ZEPHIR_INIT_NVAR(_68$$45);
+							zephir_create_array(_68$$45, 2, 0 TSRMLS_CC);
+							zephir_array_fast_append(_68$$45, className);
+							ZEPHIR_INIT_NVAR(_69$$45);
+							ZVAL_STRING(_69$$45, "findFirst", 1);
+							zephir_array_fast_append(_68$$45, _69$$45);
+							ZEPHIR_INIT_NVAR(_70$$45);
+							zephir_create_array(_70$$45, 1, 0 TSRMLS_CC);
+							ZEPHIR_OBS_NVAR(_71$$45);
+							zephir_array_fetch(&_71$$45, params, paramKey, PH_NOISY, "phalcon/dispatcher.zep", 573 TSRMLS_CC);
+							zephir_array_fast_append(_70$$45, _71$$45);
+							ZEPHIR_INIT_NVAR(bindModel);
+							ZEPHIR_CALL_USER_FUNC_ARRAY(bindModel, _68$$45, _70$$45);
+							zephir_check_call_status();
+							zephir_array_update_zval(&params, paramKey, &bindModel, PH_COPY | PH_SEPARATE);
+							break;
+						}
+					}
+				}
+			}
+		}
+		zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 
 		/* try_start_1: */
 
-			ZEPHIR_INIT_NVAR(_48$$39);
-			ZEPHIR_INIT_NVAR(_49$$39);
-			zephir_create_array(_49$$39, 2, 0 TSRMLS_CC);
-			zephir_array_fast_append(_49$$39, handler);
-			zephir_array_fast_append(_49$$39, actionMethod);
-			ZEPHIR_CALL_USER_FUNC_ARRAY(_48$$39, _49$$39, params);
+			ZEPHIR_CALL_METHOD(&_72$$46, this_ptr, "callactionmethod", &_73, 0, handler, actionMethod, params);
 			zephir_check_call_status_or_jump(try_end_1);
-			zephir_update_property_this(this_ptr, SL("_returnedValue"), _48$$39 TSRMLS_CC);
-			zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_returnedValue"), _72$$46 TSRMLS_CC);
 
 		try_end_1:
 
@@ -740,56 +903,56 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_CPY_WRT(e, EG(exception));
 			if (zephir_instance_of_ev(e, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
 				zend_clear_exception(TSRMLS_C);
-				ZEPHIR_CALL_METHOD(&_50$$40, this_ptr, "_handleexception", &_51, 0, e);
+				ZEPHIR_CALL_METHOD(&_74$$47, this_ptr, "_handleexception", &_75, 0, e);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_FALSE_IDENTICAL(_50$$40)) {
-					_52$$41 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-					if (ZEPHIR_IS_FALSE_IDENTICAL(_52$$41)) {
+				if (ZEPHIR_IS_FALSE_IDENTICAL(_74$$47)) {
+					_76$$48 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+					if (ZEPHIR_IS_FALSE_IDENTICAL(_76$$48)) {
 						continue;
 					}
 				} else {
-					zephir_throw_exception_debug(e, "phalcon/dispatcher.zep", 518 TSRMLS_CC);
+					zephir_throw_exception_debug(e, "phalcon/dispatcher.zep", 593 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 			}
 		}
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(_54$$44);
-			ZVAL_STRING(_54$$44, "dispatch:afterExecuteRoute", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&_53$$44, eventsManager, "fire", &_55, 0, _54$$44, this_ptr, value);
-			zephir_check_temp_parameter(_54$$44);
+			ZEPHIR_INIT_NVAR(_78$$51);
+			ZVAL_STRING(_78$$51, "dispatch:afterExecuteRoute", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&_77$$51, eventsManager, "fire", &_79, 0, _78$$51, this_ptr, value);
+			zephir_check_temp_parameter(_78$$51);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_53$$44)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_77$$51)) {
 				continue;
 			}
-			_56$$44 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_56$$44)) {
+			_80$$51 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_80$$51)) {
 				continue;
 			}
-			ZEPHIR_INIT_NVAR(_54$$44);
-			ZVAL_STRING(_54$$44, "dispatch:afterDispatch", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", &_57, 0, _54$$44, this_ptr);
-			zephir_check_temp_parameter(_54$$44);
+			ZEPHIR_INIT_NVAR(_78$$51);
+			ZVAL_STRING(_78$$51, "dispatch:afterDispatch", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", &_81, 0, _78$$51, this_ptr);
+			zephir_check_temp_parameter(_78$$51);
 			zephir_check_call_status();
 		}
 		if ((zephir_method_exists_ex(handler, SS("afterexecuteroute") TSRMLS_CC) == SUCCESS)) {
-			ZEPHIR_CALL_METHOD(&_58$$47, handler, "afterexecuteroute", NULL, 0, this_ptr, value);
+			ZEPHIR_CALL_METHOD(&_82$$54, handler, "afterexecuteroute", NULL, 0, this_ptr, value);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_58$$47)) {
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_82$$54)) {
 				continue;
 			}
-			_59$$47 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE_IDENTICAL(_59$$47)) {
+			_83$$54 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE_IDENTICAL(_83$$54)) {
 				continue;
 			}
 		}
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_60$$50);
-		ZVAL_STRING(_60$$50, "dispatch:afterDispatchLoop", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _60$$50, this_ptr);
-		zephir_check_temp_parameter(_60$$50);
+		ZEPHIR_INIT_VAR(_84$$57);
+		ZVAL_STRING(_84$$57, "dispatch:afterDispatchLoop", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _84$$57, this_ptr);
+		zephir_check_temp_parameter(_84$$57);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(handler);
@@ -889,9 +1052,9 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass) {
 	zephir_read_property_this(&handlerName, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(namespaceName);
 	zephir_read_property_this(&namespaceName, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
-	if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 631))) {
+	if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 706))) {
 		ZEPHIR_INIT_VAR(camelizedClass);
-		zephir_camelize(camelizedClass, handlerName);
+		zephir_camelize(camelizedClass, handlerName, NULL  );
 	} else {
 		ZEPHIR_CPY_WRT(camelizedClass, handlerName);
 	}
@@ -907,6 +1070,35 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass) {
 		ZEPHIR_CONCAT_VV(handlerClass, camelizedClass, handlerSuffix);
 	}
 	RETURN_CCTOR(handlerClass);
+
+}
+
+PHP_METHOD(Phalcon_Dispatcher, callActionMethod) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params = NULL, *_0;
+	zval *actionMethod = NULL;
+	zval *handler, *actionMethod_param = NULL, *params_param = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &handler, &actionMethod_param, &params_param);
+
+	zephir_get_strval(actionMethod, actionMethod_param);
+	if (!params_param) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+	} else {
+	params = params_param;
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_create_array(_0, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(_0, handler);
+	zephir_array_fast_append(_0, actionMethod);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _0, params);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -932,6 +1124,27 @@ PHP_METHOD(Phalcon_Dispatcher, _resolveEmptyProperties) {
 	if (!(zephir_is_true(_4))) {
 		_5$$5 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultAction"), PH_NOISY_CC);
 		zephir_update_property_this(this_ptr, SL("_actionName"), _5$$5 TSRMLS_CC);
+	}
+
+}
+
+zend_object_value zephir_init_properties_Phalcon_Dispatcher(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1$$3;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_params"), _1$$3 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
 	}
 
 }

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -569,17 +569,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 		if typeof methods == "array" {
 			for method in methods {
-				if strict && !this->isValidHttpMethod(method) {
-					if typeof method == "string" {
-						throw new Exception("Invalid HTTP method: " . method);
-					} else {
-						throw new Exception("Invalid HTTP method: non-string");
-					}
-				}
-				if method == httpMethod {
+				if this->isMethod(method, strict) {
 					return true;
 				}
 			}
+
 			return false;
 		}
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Phalcon\Build;
 
 require __DIR__ . '/_resource/Phalcon/bootstrap.php';

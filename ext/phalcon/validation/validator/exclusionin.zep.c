@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_temp_parameter(_2$$4);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 359, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 372, value, domain, strict);
 	zephir_check_call_status();
 	if (zephir_is_true(_3)) {
 		ZEPHIR_INIT_VAR(_4$$6);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		}
 		ZEPHIR_INIT_NVAR(_4$$6);
 		object_init_ex(_4$$6, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6$$6, "strtr", NULL, 54, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6$$6, "strtr", NULL, 55, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8$$6);
 		ZVAL_STRING(_8$$6, "code", ZEPHIR_TEMP_PARAM_COPY);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_8$$6);
 		ZVAL_STRING(_8$$6, "ExclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", NULL, 440, _6$$6, field, _8$$6, _7$$6);
+		ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", NULL, 455, _6$$6, field, _8$$6, _7$$6);
 		zephir_check_temp_parameter(_8$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4$$6);

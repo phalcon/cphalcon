@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,7 +44,7 @@ abstract class Element implements ElementInterface
 
 	protected _attributes;
 
-	protected _validators;
+	protected _validators = [];
 
 	protected _filters;
 
@@ -158,11 +158,12 @@ abstract class Element implements ElementInterface
 			let currentValidators = this->_validators;
 			if typeof currentValidators == "array" {
 				let mergedValidators = array_merge(currentValidators, validators);
-			} else {
-				let mergedValidators = validators;
 			}
-			let this->_validators = mergedValidators;
 		}
+		else {
+			let mergedValidators = validators;
+		}
+		let this->_validators = mergedValidators;
 		return this;
 	}
 

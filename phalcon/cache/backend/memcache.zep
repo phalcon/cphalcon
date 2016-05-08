@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -115,6 +115,25 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		let this->_memcache = memcache;
+	}
+
+	/**
+	 * Add servers to memcache pool	 	
+	 */
+	public function addServers(string! host, int port, boolean persistent = false) -> boolean
+	{
+		var memcache, success;                
+		/**
+		 * Check if a connection is created or make a new one
+		 */
+		let memcache = this->_memcache;
+		if typeof memcache != "object" {
+		    this->_connect();
+		    let memcache = this->_memcache;
+		}		
+		let success = memcache->addServer(host, port, persistent);
+		let this->_memcache = memcache;
+		return success;
 	}
 
 	/**

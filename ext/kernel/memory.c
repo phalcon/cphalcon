@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -40,7 +40,7 @@
  *
  * The whole memory frame is an open double-linked list which start is an
  * allocated empty frame that points to the real first frame. The start
- * memory frame is globally accesed using ZEPHIR_GLOBAL(start_frame)
+ * memory frame is globally accessed using ZEPHIR_GLOBAL(start_frame)
  *
  * Not all methods must grow/restore the zephir_memory_entry.
  */
@@ -642,7 +642,7 @@ void ZEND_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC) {
 }
 
 /**
- * Cleans the zephir memory stack recursivery
+ * Cleans the zephir memory stack recursively
  */
 int ZEND_FASTCALL zephir_clean_restore_stack(TSRMLS_D) {
 

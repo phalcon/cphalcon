@@ -34,7 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, Timestampable, phalcon, mvc_model_behavior_timestampable, phalcon_mvc_model_behavior_ce, phalcon_mvc_model_behavior_timestampable_method_entry, 0);
 
-	zend_class_implements(phalcon_mvc_model_behavior_timestampable_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
 	return SUCCESS;
 
 }
@@ -76,14 +75,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	if (Z_TYPE_P(options) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(field);
 		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/mvc/model/behavior/timestampable.zep", 57);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/mvc/model/behavior/timestampable.zep", 56);
 			return;
 		}
 		ZEPHIR_INIT_VAR(timestamp);
 		ZVAL_NULL(timestamp);
 		ZEPHIR_OBS_VAR(format);
 		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 291, format);
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 298, format);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_VAR(generator);
@@ -102,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			zephir_time(timestamp);
 		}
 		if (Z_TYPE_P(field) == IS_ARRAY) {
-			zephir_is_iterable(field, &_2$$12, &_1$$12, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 95);
+			zephir_is_iterable(field, &_2$$12, &_1$$12, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 94);
 			for (
 			  ; zephir_hash_get_current_data_ex(_2$$12, (void**) &_3$$12, &_1$$12) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2$$12, &_1$$12)
