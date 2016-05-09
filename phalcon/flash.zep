@@ -117,7 +117,7 @@ abstract class Flash
 	 * $flash->success('The process was finished successfully');
 	 *</code>
 	 */
-	public function success(string message) -> string
+	public function success(var message) -> string
 	{
 		return this->{"message"}("success", message);
 	}
