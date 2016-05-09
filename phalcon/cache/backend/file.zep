@@ -457,7 +457,7 @@ class File extends Backend implements BackendInterface
 						throw new Exception("Cache directory could not be written");
 					}
 
-					return result;
+					return newValue;
 				}
 			}
 		}
@@ -535,7 +535,7 @@ class File extends Backend implements BackendInterface
 						throw new Exception("Cache directory can't be written");
 					}
 
-					return result;
+					return newValue;
 				}
 			}
 		}
