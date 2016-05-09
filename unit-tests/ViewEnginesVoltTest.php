@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -19,6 +19,12 @@
 */
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Mvc\View;
+use Phalcon\Escaper;
+use Phalcon\Mvc\Url;
+use Phalcon\Tag;
+use Phalcon\Di;
 
 class SomeObject implements Iterator, Countable
 {
@@ -1378,5 +1384,84 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
+	}
+
+	public function testVoltMacros()
+	{
+		$this->removeFiles([
+			'unit-tests/views/macro/hello.volt.php',
+			'unit-tests/views/macro/conditionaldate.volt.php',
+			'unit-tests/views/macro/my_input.volt.php',
+			'unit-tests/views/macro/error_messages.volt.php',
+			'unit-tests/views/macro/related_links.volt.php',
+		]);
+
+		Di::reset();
+
+		$view = new View;
+		$di = new Di;
+
+		$di->set('escaper', function() { return new Escaper; });
+		$di->set('tag', function() { return new Tag; });
+		$di->set('url', function() { return (new Url)->setBaseUri('/'); });
+
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+		$view->registerEngines([
+			'.volt' => 'Phalcon\Mvc\View\Engine\Volt'
+		]);
+
+		$view->start();
+		$view->render('macro', 'hello');
+		$view->finish();
+
+		$this->assertEquals('Hello World', $view->getContent());
+
+		$view->start();
+		$view->render('macro', 'conditionaldate');
+		$view->finish();
+
+		$this->assertEquals(sprintf('from <br/>%s, %s UTC', date('Y-m-d'), date('H:i')), $view->getContent());
+
+		$view->start();
+		$view->render('macro', 'my_input');
+		$view->finish();
+
+		$this->assertEquals('<p><input type="text" id="name" name="name" class="input-text" /></p>', $view->getContent());
+
+		$view->start();
+		$view->render('macro', 'error_messages');
+		$view->finish();
+
+		$this->assertEquals('<div><span class="error-type">Invalid</span><span class="error-field">name</span><span class="error-message">The name is invalid</span></div>', $view->getContent());
+
+		$view->setVar('links', array((object) array('url' => 'localhost', 'text' => 'Menu item', 'title' => 'Menu title')));
+
+		$view->start();
+		$view->render('macro', 'related_links');
+		$view->finish();
+
+		$this->assertEquals('<ul><li><a href="/localhost" title="Menu title">Menu item</a></li></ul>', $view->getContent());
+
+		$this->removeFiles([
+			'unit-tests/views/macro/hello.volt.php',
+			'unit-tests/views/macro/conditionaldate.volt.php',
+			'unit-tests/views/macro/my_input.volt.php',
+			'unit-tests/views/macro/error_messages.volt.php',
+			'unit-tests/views/macro/related_links.volt.php',
+		]);
+	}
+
+	protected function removeFiles($files)
+	{
+		if (!is_array($files)) {
+			$files = array($files);
+		}
+
+		foreach ($files as $file) {
+			if (file_exists($file) && is_readable($file)) {
+				@unlink($file);
+			}
+		}
 	}
 }
