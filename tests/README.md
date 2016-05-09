@@ -92,7 +92,7 @@ export TEST_DB_MYSQL_PORT="3306"
 export TEST_DB_MYSQL_USER="root"
 export TEST_DB_MYSQL_PASSWD=""
 export TEST_DB_MYSQL_NAME="phalcon_test"
-export TEST_DB_MYSQL_CHARSET="urf8"
+export TEST_DB_MYSQL_CHARSET="utf8"
 
 # Mongo
 export TEST_DB_MONGO_HOST="127.0.0.1"
