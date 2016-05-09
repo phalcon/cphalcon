@@ -452,7 +452,7 @@ class File extends Backend implements BackendInterface
 
 				if is_numeric(cachedContent) {
 					let newValue = cachedContent + value;
-					let result = ["created": time(), "lifetime": ttl, "content": newValue];
+					let result = json_encode(["created": time(), "lifetime": ttl, "content": newValue]);
 					if file_put_contents(cacheFile, result) === false {
 						throw new Exception("Cache directory could not be written");
 					}
@@ -530,7 +530,7 @@ class File extends Backend implements BackendInterface
 				if is_numeric(cachedContent) {
 
 					let newValue = cachedContent - value;
-					let result = ["created": time(), "lifetime": ttl, "content": newValue];
+					let result = json_encode(["created": time(), "lifetime": ttl, "content": newValue]);
 					if file_put_contents(cacheFile, result) === false {
 						throw new Exception("Cache directory can't be written");
 					}
