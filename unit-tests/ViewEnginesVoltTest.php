@@ -1126,11 +1126,16 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			return 'str_shuffle(' . $arguments . ')';
 		});
 
+		$volt->addFunction('strtotime', 'strtotime');
+
 		$compilation = $volt->compileString('{{ random() }}');
 		$this->assertEquals($compilation, '<?php echo mt_rand(); ?>');
 
 		$compilation = $volt->compileString('{{ shuffle("hello") }}');
 		$this->assertEquals($compilation, '<?php echo str_shuffle(\'hello\'); ?>');
+
+		$compilation = $volt->compileString('{{ strtotime("now") }}');
+		$this->assertEquals("<?php echo strtotime('now'); ?>", $compilation);
 
 	}
 
@@ -1394,6 +1399,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 			'unit-tests/views/macro/my_input.volt.php',
 			'unit-tests/views/macro/error_messages.volt.php',
 			'unit-tests/views/macro/related_links.volt.php',
+			'unit-tests/views/macro/strtotime.volt.php',
 		]);
 
 		Di::reset();
@@ -1407,9 +1413,15 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 
 		$view->setDI($di);
 		$view->setViewsDir('unit-tests/views/');
-		$view->registerEngines([
-			'.volt' => 'Phalcon\Mvc\View\Engine\Volt'
-		]);
+		$view->registerEngines(array(
+			'.volt' => function ($view, $di) {
+				$volt = new Volt($view, $di);
+				$compiler = $volt->getCompiler();
+				$compiler->addFunction('strtotime', 'strtotime');
+
+				return $volt;
+			}
+		));
 
 		$view->start();
 		$view->render('macro', 'hello');
@@ -1443,12 +1455,27 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 
 		$this->assertEquals('<ul><li><a href="/localhost" title="Menu title">Menu item</a></li></ul>', $view->getContent());
 
+		$view->setVar('date', new DateTime());
+
+		$view->start();
+		$view->render('macro', 'strtotime');
+		$view->finish();
+
+		$content = $view->getContent();
+		$content = explode('%', $content);
+
+		$this->assertEquals(3, count($content));
+		$this->assertEquals($content[0], $content[1]);
+		$this->assertEquals($content[1], $content[2]);
+		$this->assertEquals($content[2], $content[0]);
+
 		$this->removeFiles([
 			'unit-tests/views/macro/hello.volt.php',
 			'unit-tests/views/macro/conditionaldate.volt.php',
 			'unit-tests/views/macro/my_input.volt.php',
 			'unit-tests/views/macro/error_messages.volt.php',
 			'unit-tests/views/macro/related_links.volt.php',
+			'unit-tests/views/macro/strtotime.volt.php',
 		]);
 	}
 
