@@ -231,14 +231,17 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$cache->get('foo', -1);
 	}
 
-	public function testDataFileCacheGetUnexistingCache()
+	public function testDataFileCacheGetNonexistentCache()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
 			'cacheDir' => 'unit-tests/cache/'
 		));
-		$this->assertEquals($cache->get('foo', -1), null);
+		if ($cache->exists('foo')) {
+			$cache->delete('foo');
+		}
+		$this->assertEquals($cache->get('foo'), null);
 	}
 
 	/**
