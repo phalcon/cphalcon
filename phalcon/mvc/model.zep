@@ -4454,7 +4454,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
+			enableImplicitJoins;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4496,6 +4497,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if fetch phqlLiterals, options["phqlLiterals"] {
 			globals_set("orm.enable_literals", phqlLiterals);
+		}
+
+		/**
+		* Enables/Disables implicit join condition based on defined relationship
+		 */
+		if fetch enableImplicitJoins, options["enableImplicitJoins"] {
+			globals_set("orm.enable_implicit_joins", enableImplicitJoins);
 		}
 
 		/**
