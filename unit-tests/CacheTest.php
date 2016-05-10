@@ -207,6 +207,71 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @expectedException \Exception
 	 */
+	public function testDataFileCacheSaveNegativeLifetime()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+		$cache->save('foo', "1", -1);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testDataFileCacheGetNegativeLifetime()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+		$cache->save('foo', "1");
+		$cache->get('foo', -1);
+	}
+
+	public function testDataFileCacheGetUnexistingCache()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+		$this->assertEquals($cache->get('foo', -1), null);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testDataFileCacheIncrementNonNumeric()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+		$cache->save('foo', "a");
+		$cache->increment('foo', 1);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testDataFileCacheDecrementNonNumeric()
+	{
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+		$cache->save('foo', "a");
+		$cache->decrement('foo', 1);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
 	public function testDataFileCacheUnsafeKey()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
