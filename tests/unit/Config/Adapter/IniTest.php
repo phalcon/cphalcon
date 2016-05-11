@@ -79,7 +79,7 @@ class IniTest extends ConfigBase
             "Comparison of configurations returned a not identical result",
             function () {
                 $config = new Ini(PATH_DATA . 'config/config.ini');
-                expect($this->compareConfig($this->config, $config))->true();
+                $this->compareConfig($this->config, $config);
             }
         );
     }

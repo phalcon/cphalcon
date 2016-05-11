@@ -48,7 +48,7 @@ class YamlTest extends ConfigBase
             "Comparison of configurations returned a not identical result",
             function () {
                 $config = new Yaml(PATH_DATA . 'config/config.yml');
-                expect($this->compareConfig($this->config, $config))->true();
+                $this->compareConfig($this->config, $config);
             }
         );
     }

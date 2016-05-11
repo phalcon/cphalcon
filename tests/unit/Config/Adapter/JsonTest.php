@@ -36,7 +36,7 @@ class JsonTest extends ConfigBase
             "Comparison of configurations returned a not identical result",
             function () {
                 $config = new Json(PATH_DATA . 'config/config.json');
-                expect($this->compareConfig($this->config, $config))->true();
+                $this->compareConfig($this->config, $config);
             }
         );
     }
