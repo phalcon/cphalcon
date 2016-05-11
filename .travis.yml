@@ -18,7 +18,7 @@ services:
 
 before_install:
  - composer --prefer-source install
- - composer require phalcon/zephir:dev-master
+ - composer require phalcon/zephir:0.9.2
  - ./unit-tests/ci/install_prereqs.sh
  - ./unit-tests/ci/setup_dbs.sh
 
@@ -42,6 +42,7 @@ notifications:
     - andres@phalconphp.com
     - eduar@phalconphp.com
     - nikos@phalconphp.com
+    - serghei@phalconphp.com
 
 addons:
   apt:
