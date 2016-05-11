@@ -17,9 +17,7 @@ return array(
 		"test" => array(
 			"parent" => array(
 				"property" => 1,
-			),
-			"parent" => array(
 				"property2" => "yeah"
-			)
+			),
 		)
 	);
