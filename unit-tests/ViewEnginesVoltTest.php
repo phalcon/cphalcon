@@ -19,7 +19,9 @@
 */
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Forms\Element\Password;
 use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Forms\Form;
 use Phalcon\Mvc\View;
 use Phalcon\Escaper;
 use Phalcon\Mvc\Url;
@@ -1476,6 +1478,75 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 			'unit-tests/views/macro/error_messages.volt.php',
 			'unit-tests/views/macro/related_links.volt.php',
 			'unit-tests/views/macro/strtotime.volt.php',
+		]);
+	}
+
+	public function testVoltMacros_Issue_11771()
+	{
+		$this->removeFiles([
+			'unit-tests/views/macro/list.volt.php',
+			'unit-tests/views/macro/form_row.volt.php',
+		]);
+
+		Di::reset();
+
+		$view = new View;
+		$di = new Di;
+
+		$di->set('escaper', function() { return new Escaper; });
+		$di->set('tag', function() { return new Tag; });
+		$di->set('url', function() { return (new Url)->setBaseUri('/'); });
+
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+		$view->registerEngines(array(
+			'.volt' => function ($view, $di) { return new Volt($view, $di); }
+		));
+
+		$object = new stdClass();
+		$object->foo = "bar";
+		$object->baz = "buz";
+		$object->pi  = 3.14;
+		$object->ary = ["some array"];
+		$object->obj = clone $object;
+
+		$view->setVar('object', $object);
+
+		$view->start();
+		$view->render('macro', 'list');
+		$view->finish();
+
+		ob_start();
+		var_dump($object);
+		$actual = ob_get_clean();
+
+		// Trim xdebug first line (file path)
+		$actual   = substr($actual, strpos($actual, 'class'));
+		$expected = substr($view->getContent(), strpos($view->getContent(), 'class'));
+
+		$this->assertEquals($actual, $expected);
+
+		$form = new Form;
+		$form->add(new Password('password'));
+
+		$view->setVar('formLogin', $form);
+
+		$view->start();
+		$view->render('macro', 'form_row');
+		$view->finish();
+
+		$actual =<<<FORM
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="password">password:</label>
+    <div class="col-sm-6"><input type="password" id="password" name="password" class="form-control " /></div>
+</div>
+FORM;
+
+		$this->assertEquals($actual, $view->getContent());
+
+		$this->removeFiles([
+			'unit-tests/views/macro/list.volt.php',
+			'unit-tests/views/macro/form_row.volt.php',
 		]);
 	}
 
