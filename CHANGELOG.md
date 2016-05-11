@@ -1,5 +1,6 @@
 # [2.0.12](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.12) (????-??-??)
 - Fixed regression changes for `Phalcon\Mvc\View\Engine\Volt::callMacro` [#11745](https://github.com/phalcon/cphalcon/issues/11745)
+- Fixed the argument type of `Phalcon\Flash::success` [#11764](https://github.com/phalcon/cphalcon/pull/11764)
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (2016-05-04)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
