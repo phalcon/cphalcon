@@ -23,7 +23,6 @@ define('CONFKEY', 'secret');
 
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
-
     private $_config = array(
         "phalcon" => array(
             "baseuri" => "/phalcon/"
@@ -41,44 +40,28 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         "test" => array(
             "parent" => array(
                 "property" => 1,
+                "property2" => "yeah",
             ),
-            "parent" => array(
-                "property2" => "yeah"
-            )
         )
     );
 
-    private function _compareConfig($c, $config)
+    private function _compareConfig(array $actual, Phalcon\Config $expected)
     {
-        foreach ($c as $k => $v) {
-            $this->assertTrue(isset($config->$k));
-            if (is_array($v)) {
-                if (isset($config->$k)) {
-                    foreach ($v as $kk => $vv) {
-                        $this->assertTrue(isset($config->$k->$kk));
-                        if (isset($config->$k->$kk)) {
-                            if (is_array($vv)) {
-                                foreach ($vv as $kkk => $vvv) {
-                                    if (isset($config->$k->$kk->$kkk)) {
-                                        $this->assertTrue(isset($config->$k->$kk->$kkk));
-                                        $this->assertEquals($vvv, $config->$k->$kk->$kkk);
-                                    }
-                                }
-                            } else {
-                                $this->assertEquals($vv, $config->$k->$kk);
-                            }
-                        }
-                    }
-                }
+        $this->assertEquals($actual, $expected->toArray());
+
+        foreach ($actual as $key => $value) {
+            $this->assertTrue(isset($expected->$key));
+
+            if (is_array($value)) {
+                $this->_compareConfig($value, $expected->$key);
             }
         }
-        return true;
     }
 
     public function testIniConfig()
     {
         $config = new Phalcon\Config\Adapter\Ini('unit-tests/config/config.ini');
-        $this->assertTrue($this->_compareConfig($this->_config, $config));
+        $this->_compareConfig($this->_config, $config);
     }
 
     public function testStandardConfig()
@@ -89,7 +72,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testStandardConfigSimpleArray()
     {
-
         $expectedConfig = Phalcon\Config::__set_state(array(
             'database' => Phalcon\Config::__set_state(array(
                 'adapter' => 'Mysql',
@@ -123,7 +105,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testConfigMerge()
     {
-
         $config1 = new Phalcon\Config(array(
             "controllersDir" => "../x/y/z",
             "modelsDir" => "../x/y/z",
@@ -193,7 +174,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testConfigMergeArray()
     {
-
         $conf1 = array(
             "keys" => array(
                 "scott",
@@ -282,19 +262,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testPhpConfig()
     {
         $config = new Phalcon\Config\Adapter\Php('unit-tests/config/config.php');
-        $this->assertTrue($this->_compareConfig($this->_config, $config));
+        $this->_compareConfig($this->_config, $config);
     }
 
     public function testJsonConfig()
     {
         $config = new Phalcon\Config\Adapter\Json('unit-tests/config/config.json');
-        $this->assertTrue($this->_compareConfig($this->_config, $config));
+        $this->_compareConfig($this->_config, $config);
     }
 
     public function testYamlConfig()
     {
         $config = new Phalcon\Config\Adapter\Yaml('unit-tests/config/config.yml');
-        $this->assertTrue($this->_compareConfig($this->_config, $config));
+        $this->_compareConfig($this->_config, $config);
     }
 
     public function testYamlConfigCallback()
@@ -308,7 +288,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
                 return APPROOT . $value;
             }
         ));
-        $this->assertTrue($this->_compareConfig($this->_config, $config));
+        $this->_compareConfig($this->_config, $config);
     }
 
     public function testNumericConfig()

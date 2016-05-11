@@ -10,4 +10,5 @@ database:
   name: demo
 test:
   parent:
+    property: 1
     property2: yeah
