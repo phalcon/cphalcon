@@ -78,6 +78,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _modelBinding = false;
 
+	protected _boundModel = null;
+
 	const EXCEPTION_NO_DI = 0;
 
 	const EXCEPTION_CYCLIC_ROUTING = 1;
@@ -330,6 +332,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Gets a binded model
+	 */
+	public function getBoundModel() -> object
+	{
+		return this->_boundModel;
+	}
+
+	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
 	 * @return object
@@ -566,6 +576,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 									let modelName = call_user_func([handlerClass, "getModelName"]);
 									let bindModel = call_user_func_array([modelName, "findFirst"], [params[paramKey]]);
 									let params[paramKey] = bindModel;
+									let this->_boundModel = bindModel;
 									break;
 								}
 							}
@@ -574,10 +585,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
 								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);
 								let params[paramKey] = bindModel;
+								let this->_boundModel = bindModel;
 								break;
 							}
 						}
 					}
+				}
+			}
+			if typeof eventsManager == "object" {
+				if eventsManager->fire("dispatch:afterBinding", this) === false {
+					continue;
 				}
 			}
 
