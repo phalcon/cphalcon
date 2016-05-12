@@ -65,8 +65,6 @@ class Crypt implements CryptInterface
 
 	/**
 	 * Changes the padding scheme used
-	 *
-	 * @param int scheme
 	 */
 	public function setPadding(int! scheme) -> <CryptInterface>
 	{
@@ -128,9 +126,9 @@ class Crypt implements CryptInterface
 	/**
 	 * Pads texts before encryption
 	 *
-	 * @see http://www.di-mgt.com.au/cryptopad.html
+	 * @link http://www.di-mgt.com.au/cryptopad.html
 	 */
-	protected function _cryptPadText(string text, string! mode, int! blockSize, int! paddingType)
+	protected function _cryptPadText(string text, string! mode, int! blockSize, int! paddingType) -> string
 	{
 		int i;
 		var paddingSize = 0, padding = null;
@@ -190,15 +188,15 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Removes padding @a padding_type from @a text
-	 * If the function detects that the text was not padded, it will return it unmodified
+	 * Removes $paddingType padding from text
+	 * If the method detects that the text was not padded, it will return it unmodified
 	 *
 	 * @param string text Message to be unpadded
 	 * @param string mode Encryption mode; unpadding is applied only in CBC or ECB mode
 	 * @param int blockSize Cipher block size
 	 * @param int paddingType Padding scheme
 	 */
-	protected function _cryptUnpadText(string text, string! mode, int! blockSize, int! paddingType)
+	protected function _cryptUnpadText(string text, string! mode, int! blockSize, int! paddingType) -> string
 	{
 		var padding, last;
 		long length;
@@ -275,22 +273,17 @@ class Crypt implements CryptInterface
 				}
 				return "";
 
-			} else {
-				let paddingSize = 0;
 			}
-
 		}
 
-		if !paddingSize {
-			return text;
-		}
+		return text;
 	}
 
 	/**
 	 * Encrypts a text
 	 *
 	 *<code>
-	 *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
+	 * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
 	 *</code>
 	 */
 	public function encrypt(string! text, string! key = null) -> string
@@ -344,7 +337,7 @@ class Crypt implements CryptInterface
 	 * Decrypts an encrypted text
 	 *
 	 *<code>
-	 *	echo $crypt->decrypt($encrypted, "decrypt password");
+	 * echo $crypt->decrypt($encrypted, "decrypt password");
 	 *</code>
 	 */
 	public function decrypt(string! text, key = null) -> string
