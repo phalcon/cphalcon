@@ -63,6 +63,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
 	protected _behaviors;
 
+	protected _serviceName = "mongo" { get, set };
+
 	/**
 	 * Sets the DependencyInjector container
 	 */
@@ -188,7 +190,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		var service, entityName;
 
-		let service = "mongo";
+		let service = this->_serviceName;
 		let entityName = get_class(model);
 		if isset this->_connectionServices[entityName] {
 			let service = this->_connectionServices[entityName];
@@ -232,7 +234,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		var service, connectionService, connection, dependencyInjector, entityName;
 
-		let service = "mongo";
+		let service = this->_serviceName;
 		let connectionService = this->_connectionServices;
 		if typeof connectionService == "array" {
 			let entityName = get_class(model);

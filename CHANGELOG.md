@@ -75,6 +75,7 @@
 - Fixed `Filter::add` method handler [#11581](https://github.com/phalcon/cphalcon/issues/11581)
 - Removed `Phalcon\Session` [#11340](https://github.com/phalcon/cphalcon/issues/11340)
 - Phalcon\Tag::getTitle() shows a title depending on prependTitle and appendTitle
+- Using a settable variable for the Mongo Connection Service name instead of a hard coded string [#11725](https://github.com/phalcon/cphalcon/issues/11725)
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
