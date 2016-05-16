@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded) {
 		zephir_fast_strpos(_1$$4, haystack, needle, 0 );
 		RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(_1$$4));
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Invalid haystack", "phalcon/mvc/view/engine/volt.zep", 166);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Invalid haystack", "phalcon/mvc/view/engine/volt.zep", 165);
 	return;
 
 }
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion", "phalcon/mvc/view/engine/volt.zep", 205);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion", "phalcon/mvc/view/engine/volt.zep", 204);
 	return;
 
 }
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice) {
 			if (_1$$5) {
 				ZEPHIR_CALL_METHOD(&_2$$6, value, "current", &_3, 0);
 				zephir_check_call_status();
-				zephir_array_append(&slice, _2$$6, PH_SEPARATE, "phalcon/mvc/view/engine/volt.zep", 231);
+				zephir_array_append(&slice, _2$$6, PH_SEPARATE, "phalcon/mvc/view/engine/volt.zep", 230);
 			}
 			ZEPHIR_CALL_METHOD(NULL, value, "next", &_4, 0);
 			zephir_check_call_status();
@@ -445,7 +445,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro) {
 	zval *name = NULL, *_2$$3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name_param, &arguments_param);
+	zephir_fetch_params(1, 1, 1, &name_param, &arguments_param);
 
 	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
@@ -457,7 +457,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro) {
 		ZEPHIR_INIT_VAR(name);
 		ZVAL_EMPTY_STRING(name);
 	}
-	zephir_get_arrval(arguments, arguments_param);
+	if (!arguments_param) {
+		ZEPHIR_INIT_VAR(arguments);
+		array_init(arguments);
+	} else {
+		zephir_get_arrval(arguments, arguments_param);
+	}
 
 
 	ZEPHIR_OBS_VAR(macro);
@@ -469,11 +474,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro) {
 		ZEPHIR_CONCAT_SVS(_2$$3, "Macro '", name, "' does not exist");
 		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 9, _2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_1$$3, "phalcon/mvc/view/engine/volt.zep", 293 TSRMLS_CC);
+		zephir_throw_exception_debug(_1$$3, "phalcon/mvc/view/engine/volt.zep", 292 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, macro, arguments);
+	ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 373, macro, arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 

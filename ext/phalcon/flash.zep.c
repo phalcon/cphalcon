@@ -204,13 +204,11 @@ PHP_METHOD(Phalcon_Flash, notice) {
 PHP_METHOD(Phalcon_Flash, success) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *_0;
-	zval *message = NULL;
+	zval *message, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
+	zephir_fetch_params(1, 1, 0, &message);
 
-	zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
