@@ -113,6 +113,7 @@
 - Added `Phalcon\Text::underscore` - to make a phrase underscored instead of spaced
 - Added `Phalcon\Text::humanize` - to make an underscored or dashed phrase human-readable
 - Added ability to change document class to be returned in ODM through `class` option
+- Added new getter `Phalcon\Mvc\Model\Query\Builder::getJoins()` - to get join parts from query builder
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
