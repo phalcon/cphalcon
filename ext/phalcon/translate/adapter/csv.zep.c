@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
 
 }
 
-zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC) {
+static zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval *_0, *_1$$3;
 
