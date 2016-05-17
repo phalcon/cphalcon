@@ -76,6 +76,7 @@
 - Removed `Phalcon\Session` [#11340](https://github.com/phalcon/cphalcon/issues/11340)
 - Phalcon\Tag::getTitle() shows a title depending on prependTitle and appendTitle
 - Using a settable variable for the Mongo Connection Service name instead of a hard coded string [#11725](https://github.com/phalcon/cphalcon/issues/11725)
+- Added new getter `Phalcon\Mvc\Model\Query\Builder::getJoins()` - to get join parts from query builder
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
@@ -113,7 +114,6 @@
 - Added `Phalcon\Text::underscore` - to make a phrase underscored instead of spaced
 - Added `Phalcon\Text::humanize` - to make an underscored or dashed phrase human-readable
 - Added ability to change document class to be returned in ODM through `class` option
-- Added new getter `Phalcon\Mvc\Model\Query\Builder::getJoins()` - to get join parts from query builder
 
 # [2.0.8](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.8) (2015-09-19)
 - Added `Phalcon\Security\Random::base58` - to generate a random base58 string
