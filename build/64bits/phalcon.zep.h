@@ -430,7 +430,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages);
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions);
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption);
 static PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
@@ -7100,7 +7100,7 @@ static PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal);
 static PHP_METHOD(Phalcon_Assets_Collection, join);
 static PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath);
 static PHP_METHOD(Phalcon_Assets_Collection, addFilter);
-zend_object_value zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, resource, Phalcon\\Assets\\Resource, 0)
@@ -11597,7 +11597,7 @@ static PHP_METHOD(Phalcon_Http_Response_Headers, send);
 static PHP_METHOD(Phalcon_Http_Response_Headers, reset);
 static PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
 static PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
-zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headers_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -18097,7 +18097,7 @@ static PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, query);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists);
-zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC);
+static zend_object_value zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_csv___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)

@@ -182,7 +182,7 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "2.0.12"
+#define PHP_PHALCON_VERSION     "2.0.13"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
 #define PHP_PHALCON_ZEPVERSION  "0.9.2a-dev"
