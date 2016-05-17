@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -109,6 +108,13 @@ interface BuilderInterface
 	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function rightJoin(model, conditions = null, alias = null);
+
+	/**
+	 * Return join parts of the query
+	 *
+	 * @return array
+	 */
+	public function getJoins();
 
 	/**
 	 * Sets conditions for the query
