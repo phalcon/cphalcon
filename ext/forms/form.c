@@ -76,6 +76,8 @@ PHP_METHOD(Phalcon_Forms_Form, current);
 PHP_METHOD(Phalcon_Forms_Form, key);
 PHP_METHOD(Phalcon_Forms_Form, next);
 PHP_METHOD(Phalcon_Forms_Form, valid);
+PHP_METHOD(Phalcon_Forms_Form, appendMessage);
+PHP_METHOD(Phalcon_Forms_Form, appendMessages);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
@@ -167,6 +169,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_clear, 0, 0, 0)
 	ZEND_ARG_INFO(0, fields)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_appendmessage, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_appendmessages, 0, 0, 2)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_INFO(0, messages)
+ZEND_END_ARG_INFO()
+
 static const zend_function_entry phalcon_forms_form_method_entry[] = {
 	PHP_ME(Phalcon_Forms_Form, __construct, arginfo_phalcon_forms_form___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC)
@@ -198,6 +210,8 @@ static const zend_function_entry phalcon_forms_form_method_entry[] = {
 	PHP_ME(Phalcon_Forms_Form, key, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, next, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, valid, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, appendMessage, arginfo_phalcon_forms_form_appendmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, appendMessages, arginfo_phalcon_forms_form_appendmessages, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1317,4 +1331,82 @@ PHP_METHOD(Phalcon_Forms_Form, valid){
 	zend_object_iterator it;
 	it.data = getThis();
 	RETURN_BOOL(phalcon_forms_form_iterator_funcs.valid(&it TSRMLS_CC) == SUCCESS);
+}
+
+/**
+ * Appends a message to the form
+ *
+ *<code>
+ * $form->appendMessage('email', new Phalcon\Validation\Message('Must be not empty '));
+ *</code>
+ *
+ * @param string $field
+ * @param Phalcon\Validation\Message $message
+ * @return Phalcon\Forms\Form
+ */
+PHP_METHOD(Phalcon_Forms_Form, appendMessage){
+
+	zval *filed, *message;
+	zval *current_messages, *element_messages;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &filed, &message);
+	
+	current_messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);	
+	if (Z_TYPE_P(current_messages) != IS_ARRAY) {
+		array_init(current_messages);
+	}
+
+	if (!phalcon_array_isset_fetch(&element_messages, current_messages, filed)) {
+		PHALCON_INIT_VAR(element_messages);
+		object_init_ex(element_messages, phalcon_validation_message_group_ce);
+		PHALCON_CALL_METHOD(NULL, element_messages, "__construct");
+	}
+
+	PHALCON_CALL_METHOD(NULL, element_messages, "appendmessage", message);
+
+	phalcon_array_update_zval(&current_messages, filed, element_messages, PH_COPY | PH_SEPARATE);
+	phalcon_update_property_this(this_ptr, SL("_messages"), current_messages TSRMLS_CC);
+
+	RETURN_THIS();
+}
+
+/**
+ * Appends a messages to the form
+ *
+ *<code>
+ * $form->appendMessages('email', array(new Phalcon\Validation\Message('Must be not empty '), new Phalcon\Validation\Message('Must be an email address')));
+ *</code>
+ *
+ * @param string $field
+ * @param Phalcon\Validation\MessageInterface[] $messages
+ * @return Phalcon\Forms\Form
+ */
+PHP_METHOD(Phalcon_Forms_Form, appendMessages){
+
+	zval *filed, *messages;
+	zval *current_messages, *element_messages;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &filed, &messages);
+	
+	current_messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY TSRMLS_CC);	
+	if (Z_TYPE_P(current_messages) != IS_ARRAY) {
+		array_init(current_messages);
+	}
+
+	if (!phalcon_array_isset_fetch(&element_messages, current_messages, filed)) {
+		PHALCON_INIT_VAR(element_messages);
+		object_init_ex(element_messages, phalcon_validation_message_group_ce);
+		PHALCON_CALL_METHOD(NULL, element_messages, "__construct");
+	}
+
+	PHALCON_CALL_METHOD(NULL, element_messages, "appendmessages", messages);
+
+	phalcon_array_update_zval(&current_messages, filed, element_messages, PH_COPY | PH_SEPARATE);
+	phalcon_update_property_this(this_ptr, SL("_messages"), current_messages TSRMLS_CC);
+
+	RETURN_THIS();
 }
