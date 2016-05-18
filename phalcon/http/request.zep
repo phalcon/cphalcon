@@ -959,9 +959,16 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
 	 */
-	public function getBestLanguage() -> string
+	public function getBestLanguage(fullLanguage = false) -> string
 	{
-		return this->_getBestQuality(this->getLanguages(), "language");
+		if fullLanguage
+		{
+			return this->_getBestQuality(this->getLanguages(), "language");
+		}
+		else
+		{
+			return substr(this->_getBestQuality(this->getLanguages(), "language"), 0 ,2);
+		}
 	}
 
 

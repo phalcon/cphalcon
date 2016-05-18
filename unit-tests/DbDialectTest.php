@@ -140,6 +140,12 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				'onDelete' => 'CASCADE',
 				'onUpdate' => 'NO ACTION',
 			)),
+			'fk6' => new Reference("fk6", array(
+				'referencedSchema' => 'schema2',
+				'referencedTable' => 'ref_table',
+				'columns' => array('column1'),
+				'referencedColumns' => array('column2'),
+			)),
 		);
 	}
 
@@ -342,6 +348,15 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($reference5->getReferencedColumns(), array('column2'));
 		$this->assertEquals($reference5->getOnDelete(), 'CASCADE');
 		$this->assertEquals($reference5->getOnUpdate(), 'NO ACTION');
+		
+		$reference6 = $references['fk6'];
+		$this->assertEquals($reference6->getName(), 'fk6');
+		$this->assertEquals($reference6->getColumns(), array('column1'));
+		$this->assertEquals($reference6->getReferencedSchema(), 'schema2');
+		$this->assertEquals($reference6->getReferencedTable(), 'ref_table');
+		$this->assertEquals($reference6->getReferencedColumns(), array('column2'));
+		$this->assertEquals($reference6->getOnDelete(), 'CASCADE');
+		$this->assertEquals($reference6->getOnUpdate(), NULL);
 
 	}
 
@@ -533,7 +548,22 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= "	CONSTRAINT `fk3` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE\n";
 		$expected .= ")";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
-
+		
+		$definition['references'] = array(
+			$references['fk6']
+		);
+		$expected  = "CREATE TABLE `table` (\n";
+		$expected .= "	`column2` INT(18) UNSIGNED,\n";
+		$expected .= "	`column3` DECIMAL(10,2) NOT NULL,\n";
+		$expected .= "	`column1` VARCHAR(10),\n";
+		$expected .= "	PRIMARY KEY (`column3`),\n";
+		$expected .= "	CONSTRAINT `fk6` FOREIGN KEY (`column1`) REFERENCES `schema2`.`ref_table`(`column2`) ON DELETE CASCADE\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+		$definition['references'] = array(
+			$references['fk3']
+		);
+		
 		$definition = array(
 			'columns' => array(
 				$columns['column9'],
