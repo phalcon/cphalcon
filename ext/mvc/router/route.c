@@ -82,7 +82,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 
 	zval *pattern, *paths = NULL, *http_methods = NULL, *unique_id = NULL;
-	zval *route_id = NULL, *one, *next_id;
+	zval *route_id = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -112,22 +112,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	PHALCON_OBS_VAR(unique_id);
 	phalcon_read_static_property(&unique_id, SL("phalcon\\mvc\\router\\route"), SL("_uniqueId") TSRMLS_CC);
 	if (Z_TYPE_P(unique_id) == IS_NULL) {
-		PHALCON_INIT_NVAR(unique_id);
-		ZVAL_LONG(unique_id, 0);
+		ZVAL_LONG(unique_id, 0); /* This updates the value of the static property as well */
 	}
 	
-	/** 
-	 * TODO: Add a function that increase static members
-	 */
-	PHALCON_CPY_WRT(route_id, unique_id);
+	PHALCON_CPY_WRT_CTOR(route_id, unique_id); /* route_id is now separated from unique_id */
 	phalcon_update_property_this(this_ptr, SL("_id"), route_id TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
-	
-	PHALCON_INIT_VAR(next_id);
-	phalcon_add_function(next_id, unique_id, one TSRMLS_CC);
-	phalcon_update_static_property(SL("phalcon\\mvc\\router\\route"), SL("_uniqueId"), next_id TSRMLS_CC);
+	/* increment_function() will increment the value of the statis property as well */
+	increment_function(unique_id);
 	
 	PHALCON_MM_RESTORE();
 }
