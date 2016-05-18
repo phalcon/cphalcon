@@ -126,6 +126,7 @@ class Di implements DiInterface, EventsAwareInterface
 	public function remove(string! name)
 	{
 		unset this->_services[name];
+		unset this->_sharedInstances[name];
 	}
 
 	/**
@@ -374,7 +375,7 @@ class Di implements DiInterface, EventsAwareInterface
 	 */
 	public function offsetUnset(string! name) -> boolean
 	{
-		return false;
+		$this->remove(name);
 	}
 
 	/**
