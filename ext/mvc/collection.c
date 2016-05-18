@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 			/**
 			 * Assign the values to the base object
 			 */
-			PHALCON_RETURN_CALL_SELF("cloneresult", base, document);
+			PHALCON_RETURN_CALL_STATIC("cloneresult", base, document);
 			RETURN_MM();
 		}
 
@@ -759,7 +759,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		/**
 		 * Assign the values to the base object
 		 */
-		PHALCON_CALL_SELF(&collection_cloned, "cloneresult", base, document);
+		PHALCON_CALL_STATIC(&collection_cloned, "cloneresult", base, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE);
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1619,7 +1619,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
 	phalcon_array_append(&parameters, conditions, 0);
-	PHALCON_RETURN_CALL_SELF("findfirst", parameters);
+	PHALCON_RETURN_CALL_STATIC("findfirst", parameters);
 	RETURN_MM();
 }
 
@@ -1684,7 +1684,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	PHALCON_CALL_METHOD(&connection, collection, "getconnection");
 
 	unique = PHALCON_GLOBAL(z_true);
-	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
+	PHALCON_RETURN_CALL_STATIC("_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -1760,7 +1760,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	PHALCON_CALL_METHOD(&connection, collection, "getconnection");
 
 	unique = PHALCON_GLOBAL(z_false);
-	PHALCON_RETURN_CALL_SELF("_getresultset", parameters, collection, connection, unique);
+	PHALCON_RETURN_CALL_STATIC("_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -1805,7 +1805,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	}
 
 	PHALCON_CALL_METHOD(&connection, collection, "getconnection");
-	PHALCON_RETURN_CALL_SELF("_getgroupresultset", parameters, collection, connection);
+	PHALCON_RETURN_CALL_STATIC("_getgroupresultset", parameters, collection, connection);
 	RETURN_MM();
 }
 

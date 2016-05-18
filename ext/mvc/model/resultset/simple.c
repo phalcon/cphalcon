@@ -167,6 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 	zval *type, *result = NULL, *row = NULL, *rows = NULL, *dirty_state, *hydrate_mode;
 	zval *keep_snapshots, *column_map, *model, *active_row = NULL;
+        zend_class_entry *model_ce;
 
 	PHALCON_MM_GROW();
 
@@ -248,11 +249,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			 */
 			PHALCON_OBS_VAR(model);
 			phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
-	
-			/** 
-			 * Performs the standard hydration based on objects
-			 */
-			PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+
+			model_ce = Z_OBJCE_P(model);
+
+			if (instanceof_function_ex(model_ce, phalcon_mvc_model_ce, 0 TSRMLS_CC)) {
+	                        PHALCON_CALL_CE_STATIC(&active_row, model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+			} else {
+				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+			}
 			break;
 	
 		default:
