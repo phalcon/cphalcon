@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 
 	PHALCON_OBS_VAR(row_count);
 	phalcon_read_property_this(&row_count, this_ptr, SL("_rowCount"), PH_NOISY TSRMLS_CC);
-	if (PHALCON_IS_FALSE(row_count)) {
+	if (phalcon_compare_strict_bool(row_count, 0 TSRMLS_CC)) {
 	
 		PHALCON_OBS_VAR(connection);
 		phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY TSRMLS_CC);
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		/** 
 		 * We should get the count using a new statement :(
 		 */
-		if (PHALCON_IS_FALSE(row_count)) {
+		if (phalcon_compare_strict_bool(row_count, 0 TSRMLS_CC)) {
 	
 			/** 
 			 * SQLite/Oracle/SQLServer returns resultsets that to the client eyes (PDO) has an
