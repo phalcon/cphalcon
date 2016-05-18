@@ -25,6 +25,8 @@ use Phalcon\Acl\Role;
 use Phalcon\Acl\Resource;
 use Phalcon\Acl\Exception;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Acl\Roleable;
+use Phalcon\Acl\Resourceable;
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -134,6 +136,13 @@ class Memory extends Adapter
 	 * @var mixed
 	 */
 	protected _accessList;
+
+	/**
+     * Function List
+     *
+     * @var mixed
+     */
+	protected _func;
 
 	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
@@ -349,7 +358,7 @@ class Memory extends Adapter
 	/**
 	 * Checks if a role has access to a resource
 	 */
-	protected function _allowOrDeny(string roleName, string resourceName, var access, var action)
+	protected function _allowOrDeny(string roleName, string resourceName, var access, var action, var func)
 	{
 		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
 
@@ -378,6 +387,7 @@ class Memory extends Adapter
 
 				let accessKey = roleName . "!" .resourceName . "!" . accessName;
 				let this->_access[accessKey] = action;
+				let this->_func[accessKey] = func;
 
 				if accessName != "*" {
 					let accessKeyAll = roleName . "!" . resourceName . "!*";
@@ -402,6 +412,7 @@ class Memory extends Adapter
 			 * Define the access action for the specified accessKey
 			 */
 			let this->_access[accessKey] = action;
+			let this->_func[accessKey] = func;
 
 			if access != "*" {
 				let accessKey = roleName . "!" . resourceName . "!*";
@@ -438,15 +449,15 @@ class Memory extends Adapter
 	 * $acl->allow('*', '*', 'browse');
 	 * </code>
 	 */
-	public function allow(string roleName, string resourceName, var access)
+	public function allow(string roleName, string resourceName, var access, var func = null)
 	{
 		var innerRoleName;
 
 		if roleName != "*" {
-			return this->_allowOrDeny(roleName, resourceName, access, Acl::ALLOW);
+			return this->_allowOrDeny(roleName, resourceName, access, Acl::ALLOW, func);
 		} else {
 			for innerRoleName, _ in this->_rolesNames {
-				this->_allowOrDeny(innerRoleName, resourceName, access, Acl::ALLOW);
+				this->_allowOrDeny(innerRoleName, resourceName, access, Acl::ALLOW, func);
 			}
 		}
 	}
@@ -471,15 +482,15 @@ class Memory extends Adapter
 	 * $acl->deny('*', '*', 'browse');
 	 * </code>
 	 */
-	public function deny(string roleName, string resourceName, var access)
+	public function deny(string roleName, string resourceName, var access, var func = null)
 	{
 		var innerRoleName;
 
 		if roleName != "*" {
-			return this->_allowordeny(roleName, resourceName, access, Acl::DENY);
+			return this->_allowordeny(roleName, resourceName, access, Acl::DENY, func);
 		} else {
 			for innerRoleName, _ in this->_rolesNames {
-				this->_allowordeny(innerRoleName, resourceName, access, Acl::DENY);
+				this->_allowordeny(innerRoleName, resourceName, access, Acl::DENY, func);
 			}
 		}
 	}
@@ -495,17 +506,40 @@ class Memory extends Adapter
 	 * $acl->isAllowed('guests', '*', 'edit');
 	 * </code>
 	 */
-	public function isAllowed(string roleName, string resourceName, string access) -> boolean
+	public function isAllowed(var roleName, var resourceName, string access) -> boolean
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,
-			inheritedRoles;
+			inheritedRoles, funcAccess = null, resourceObject = null, roleObject = null, funcList;
+
+
+
+		if typeof roleName == "object" {
+			if(roleName instanceof Roleable){
+				let roleObject = roleName;
+				let roleName = roleObject->getRoleName();
+			}
+			else{
+				throw new Exception("Object passed as roleName must implement Roleable");
+			}
+		}
+
+		if typeof resourceName == "object" {
+			if(resourceName instanceof Resourceable){
+				let resourceObject = resourceName;
+				let resourceName = resourceObject->getResourceName();
+			}
+			else{
+				throw new Exception("Object passed as resourceName must implement Resourceable");
+			}
+		}
 
 		let this->_activeRole = roleName;
 		let this->_activeResource = resourceName;
 		let this->_activeAccess = access;
 		let accessList = this->_access;
 		let eventsManager = <EventsManager> this->_eventsManager;
+		let funcList = this->_func;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {
@@ -530,6 +564,10 @@ class Memory extends Adapter
 			let haveAccess = accessList[accessKey];
 		}
 
+		if isset funcList[accessKey] {
+			let funcAccess = funcList[accessKey];
+		}
+
 		/**
 		 * Check in the inherits roles
 		 */
@@ -547,6 +585,9 @@ class Memory extends Adapter
 						if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 						}
+						if isset funcList[accessKey] {
+                        	let funcAccess = funcList[accessKey];
+                        }
 					}
 				}
 			}
@@ -572,6 +613,9 @@ class Memory extends Adapter
 						/**
 						 * In the inherited roles
 						 */
+						if isset funcList[accessKey] {
+						 	let funcAccess = funcList[accessKey];
+						}
 						if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 							break;
@@ -601,6 +645,9 @@ class Memory extends Adapter
 						/**
 						 * In the inherited roles
 						 */
+						 if isset funcList[accessKey] {
+                          	let funcAccess = funcList[accessKey];
+                         }
 						 if isset accessList[accessKey] {
 							let haveAccess = accessList[accessKey];
 							break;
@@ -619,7 +666,16 @@ class Memory extends Adapter
 			return false;
 		}
 
-		return (haveAccess == Acl::ALLOW);
+		/**
+		 * If we have both objects and funcAccess call funcAccess too
+		 */
+
+		if (resourceObject != null && roleObject != null && funcAccess != null){
+		 	return (haveAccess == Acl::ALLOW) && call_user_func_array(funcAccess,[roleObject,resourceObject]);
+		}
+		else{
+			return (haveAccess == Acl::ALLOW);
+		}
 	}
 
 	/**

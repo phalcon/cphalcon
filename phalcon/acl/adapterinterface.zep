@@ -78,17 +78,17 @@ interface AdapterInterface
 	/**
 	 * Allow access to a role on a resource
 	 */
-	public function allow(string roleName, string resourceName, access);
+	public function allow(string roleName, string resourceName, access, func = null);
 
 	/**
 	 * Deny access to a role on a resource
 	 */
-	public function deny(string roleName, string resourceName, access);
+	public function deny(string roleName, string resourceName, access, func = null);
 
 	/**
 	 * Check whether a role is allowed to access an action from a resource
 	 */
-	public function isAllowed(string roleName, string resourceName, access) -> boolean;
+	public function isAllowed(roleName, resourceName, access) -> boolean;
 
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access
