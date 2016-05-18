@@ -69,6 +69,10 @@ class Redis extends Adapter implements AdapterInterface
 		if !isset options["port"] {
 			let options["port"] = 6379;
 		}
+		
+		if !isset options["index"] {
+			let options["index"] = 0;
+		}
 
 		if !isset options["persistent"] {
 			let options["persistent"] = false;
@@ -82,6 +86,14 @@ class Redis extends Adapter implements AdapterInterface
 			new FrontendNone(["lifetime": this->_lifetime]),
 			options
 		);
+		
+		if fetch index, options["index"] {
+			let success = redis->select(index);
+
+			if !success {
+				throw new Exception("Redisd server selected database failed");
+			}
+		}
 
 		session_set_save_handler(
 			[this, "open"],

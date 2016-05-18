@@ -69,6 +69,10 @@ class Redis extends MetaData
 			let options["port"] = 6379;
 		}
 
+		if !isset options["index"] {
+			let options["index"] = 0;
+		}
+
 		if !isset options["persistent"] {
 			let options["persistent"] = 0;
 		}
@@ -85,6 +89,14 @@ class Redis extends MetaData
 			new FrontendData(["lifetime": this->_ttl]),
 			options
 		);
+
+		if fetch index, options["index"] {
+			let success = redis->select(index);
+
+			if !success {
+				throw new Exception("Redisd server selected database failed");
+			}
+		}
 
 		let this->_metaData = [];
 	}
