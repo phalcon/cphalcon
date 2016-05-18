@@ -99,7 +99,11 @@
         "orm.ignore_unknown_columns": {
             "type": "bool",
             "default": false
-        }
+        },
+		"orm.try_ci_column_map": {
+			"type": "bool",
+			"default": false
+		}
     },
     "destructors": {
         "request": [
