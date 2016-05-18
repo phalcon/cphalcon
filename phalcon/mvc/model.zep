@@ -494,6 +494,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Attempts to find key case-insensitively
+	 */
+	private static function columnMapCIResolve(var columnMap, var key) -> string
+	{
+		var cmKey;
+		for cmKey in array_keys(columnMap) {
+			if strtolower(cmKey) == strtolower(key) {
+				return cmKey;
+			}
+		}
+		return key;
+	}
+	
+	/**
 	 * Assigns values to a model from an array returning a new model.
 	 *
 	 *<code>
@@ -530,6 +544,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					continue;
 				}
 
+				// Try to find case-insensitive key variant
+				if !isset columnMap[key] && globals_get("orm.try_ci_column_map") {
+					let key = self::columnMapCIResolve(columnMap, key);
+				}
+				
 				// Every field must be part of the column map
 				if !fetch attribute, columnMap[key] {
 					if !globals_get("orm.ignore_unknown_columns") {
@@ -638,6 +657,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			if typeof key == "string" {
 				if typeof columnMap == "array" {
 
+					// Try to find case-insensitive key variant
+					if !isset columnMap[key] && globals_get("orm.try_ci_column_map") {
+						let key = self::columnMapCIResolve(columnMap, key);
+					}
+				
 					/**
 					 * Every field must be part of the column map
 					 */
@@ -3612,6 +3636,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					continue;
 				}
 
+				// Try to find case-insensitive key variant
+				if !isset columnMap[key] && globals_get("orm.try_ci_column_map") {
+					let key = self::columnMapCIResolve(columnMap, key);
+				}
+				
 				/**
 				 * Every field must be part of the column map
 				 */
@@ -4406,6 +4435,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * Check if the columns must be renamed
 			 */
 			if typeof columnMap == "array" {
+				
+				// Try to find case-insensitive attribute variant
+				if !isset columnMap[attribute] && globals_get("orm.try_ci_column_map") {
+					let attribute = self::columnMapCIResolve(columnMap, attribute);
+				}
+				
 				if !fetch attributeField, columnMap[attribute] {
 					if !globals_get("orm.ignore_unknown_columns") {
 						throw new Exception("Column '" . attribute . "' doesn't make part of the column map");
@@ -4454,7 +4489,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
+			tryCIColumnMap;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4517,6 +4553,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
 			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+		}
+		
+		/**
+		 * Allows to try to find attributes in column map case-insensitively (needed for Oracle)
+		 */
+		if fetch tryCIColumnMap, options["tryCIColumnMap"] {
+			globals_set("orm.try_ci_column_map", tryCIColumnMap);
 		}
 	}
 
