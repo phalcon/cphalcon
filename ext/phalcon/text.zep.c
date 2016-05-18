@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Text, camelize) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_camelize(_0, str, NULL  );
+	zephir_camelize(_0, str);
 	RETURN_CCTOR(_0);
 
 }
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	zephir_uncamelize(_0, str, NULL  );
+	zephir_uncamelize(_0, str);
 	RETURN_CCTOR(_0);
 
 }

@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 			ZEPHIR_CPY_WRT(filteredValue, value);
 		}
 		ZEPHIR_INIT_NVAR(_6$$4);
-		zephir_camelize(_6$$4, key, NULL  );
+		zephir_camelize(_6$$4, key);
 		ZEPHIR_INIT_NVAR(method);
 		ZEPHIR_CONCAT_SV(method, "set", _6$$4);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	}
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0$$4);
-		zephir_camelize(_0$$4, name, NULL  );
+		zephir_camelize(_0$$4, name);
 		ZEPHIR_INIT_VAR(method);
 		ZEPHIR_CONCAT_SV(method, "get", _0$$4);
 		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
@@ -901,7 +901,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		}
 	}
 	ZEPHIR_INIT_VAR(_1);
-	zephir_camelize(_1, name, NULL  );
+	zephir_camelize(_1, name);
 	ZEPHIR_INIT_NVAR(method);
 	ZEPHIR_CONCAT_SV(method, "get", _1);
 	if ((zephir_method_exists(this_ptr, method TSRMLS_CC)  == SUCCESS)) {

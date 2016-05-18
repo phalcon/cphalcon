@@ -246,13 +246,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					ZEPHIR_INIT_NVAR(controllerName);
 					zephir_get_class_ns(controllerName, handler, 0 TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(lowerControllerName);
-					zephir_uncamelize(lowerControllerName, controllerName, NULL  );
+					zephir_uncamelize(lowerControllerName, controllerName);
 					ZEPHIR_INIT_NVAR(namespaceName);
 					zephir_get_ns_class(namespaceName, handler, 0 TSRMLS_CC);
 				} else {
 					ZEPHIR_CPY_WRT(controllerName, handler);
 					ZEPHIR_INIT_NVAR(lowerControllerName);
-					zephir_uncamelize(lowerControllerName, controllerName, NULL  );
+					zephir_uncamelize(lowerControllerName, controllerName);
 					ZEPHIR_INIT_NVAR(namespaceName);
 					ZVAL_NULL(namespaceName);
 				}
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					zephir_check_call_status();
 					if (Z_TYPE_P(methodAnnotations) == IS_ARRAY) {
 						ZEPHIR_INIT_NVAR(lowercased);
-						zephir_uncamelize(lowercased, handler, NULL  );
+						zephir_uncamelize(lowercased, handler);
 						zephir_is_iterable(methodAnnotations, &_10$$18, &_9$$18, 0, 0, "phalcon/mvc/router/annotations.zep", 198);
 						for (
 						  ; zephir_hash_get_current_data_ex(_10$$18, (void**) &_11$$18, &_9$$18) == SUCCESS

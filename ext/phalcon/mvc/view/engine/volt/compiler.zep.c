@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall) {
 			RETURN_MM_STRING("''", 1);
 		}
 		ZEPHIR_INIT_VAR(_9$$5);
-		zephir_camelize(_9$$5, name, NULL  );
+		zephir_camelize(_9$$5, name);
 		ZEPHIR_CALL_FUNCTION(&method, "lcfirst", NULL, 69, _9$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(className);
