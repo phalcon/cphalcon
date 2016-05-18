@@ -489,6 +489,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 	zval *columns = NULL, *quoted_column_list = NULL, *reference_name = NULL;
 	zval *referenced_schema = NULL, *referenced_columns = NULL;
 	zval *quoted_columns = NULL, *referenced_table = NULL;
+	zval *on_delete = NULL, *on_update = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -525,6 +526,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 	PHALCON_CALL_METHOD(&referenced_table, reference, "getreferencedtable");
 	PHALCON_SCONCAT_SVSVS(sql, "`", referenced_table, "`(", quoted_columns, ")");
 	
+	PHALCON_CALL_METHOD(&on_delete, reference, "getondelete");
+	if (on_delete && Z_TYPE_P(on_delete) == IS_STRING && Z_STRLEN_P(on_delete) > 0) {
+		PHALCON_SCONCAT_SV(sql, " ON DELETE ", on_delete);
+	}
+	PHALCON_CALL_METHOD(&on_update, reference, "getonupdate");
+	if (on_update && Z_TYPE_P(on_update) == IS_STRING && Z_STRLEN_P(on_update) > 0) {
+		PHALCON_SCONCAT_SV(sql, " ON UPDATE ", on_update);
+	}
+
 	RETURN_CTOR(sql);
 }
 
@@ -659,6 +669,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	zval *column_line = NULL, *attribute = NULL, *indexes, *index = NULL;
 	zval *index_name = NULL, *column_list = NULL, *referenced_column_list = NULL, *index_sql = NULL, *references;
 	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
+	zval *on_delete = NULL, *on_update = NULL;
 	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
 	zval *index_type = NULL;
 	HashTable *ah0, *ah1, *ah2;
@@ -806,12 +817,20 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_CALL_METHOD(&referenced_table, reference, "getreferencedtable");
 			PHALCON_CALL_METHOD(&referenced_columns, reference, "getreferencedcolumns");
 			PHALCON_CALL_METHOD(&referenced_column_list, this_ptr, "getcolumnlist", referenced_columns);
+			PHALCON_CALL_METHOD(&on_delete, reference, "getondelete");
+			PHALCON_CALL_METHOD(&on_update, reference, "getonupdate");
 	
 			PHALCON_INIT_NVAR(constaint_sql);
 			PHALCON_CONCAT_SVSVS(constaint_sql, "CONSTRAINT `", name, "` FOREIGN KEY (", column_list, ")");
 	
 			PHALCON_INIT_NVAR(reference_sql);
 			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES `", referenced_table, "`(", referenced_column_list, ")");
+			if (on_delete && Z_TYPE_P(on_delete) == IS_STRING && Z_STRLEN_P(on_delete) > 0) {
+				PHALCON_SCONCAT_SV(reference_sql, " ON DELETE ", on_delete);
+			}
+			if (on_update && Z_TYPE_P(on_update) == IS_STRING && Z_STRLEN_P(on_update) > 0) {
+				PHALCON_SCONCAT_SV(reference_sql, " ON UPDATE ", on_update);
+			}
 			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);

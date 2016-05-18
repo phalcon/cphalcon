@@ -29,6 +29,8 @@ static const zend_function_entry phalcon_db_referenceinterface_method_entry[] = 
 	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getColumns, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedTable, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getReferencedColumns, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getOnDelete, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Db_ReferenceInterface, getOnUpdate, NULL)
 	PHP_FE_END
 };
 
@@ -83,3 +85,17 @@ PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
+
+/**
+ * Gets the referenced on delete
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnDelete);
+
+/**
+ * Gets the referenced on update
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnUpdate);
