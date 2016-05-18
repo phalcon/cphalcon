@@ -51,6 +51,7 @@
 #include "cache/backend/memory.h"
 #include "cache/backend/mongo.h"
 #include "cache/backend/xcache.h"
+#include "cache/backend/redis.h"
 #include "cache/exception.h"
 #include "cache/frontendinterface.h"
 #include "cache/frontend/base64.h"
