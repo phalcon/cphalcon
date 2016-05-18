@@ -315,11 +315,23 @@ class Validation extends Injectable
 	}
 
 	/**
+	 *
 	 * Appends a message to the messages list
+	 *
+	 * @param  string	messageText
+	 * @param  array	replacePairs
+	 * @param  string       field
+	 * @param  string	type
+	 *
+	 * @return \Phalcon]Validation
+	 *
 	 */
-	public function appendMessage(<MessageInterface> message) -> <Validation>
+ 	public function appendMessage(messageText, replacePairs, field, type) -> <Validation>
 	{
+		let message = new Message(strtr(messageTest, replacePairs), field, type);
+
 		this->_messages->appendMessage(message);
+
 		return this;
 	}
 

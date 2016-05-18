@@ -65,7 +65,7 @@ class Digit extends Validator
 				let message = validation->getDefaultMessage("Digit");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit"));
+			validation->appendMessage(message, replacePairs, field, "Digit");
 			return false;
 		}
 
