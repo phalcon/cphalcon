@@ -690,6 +690,21 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 
 		/**
+		 * Update local variable handler_name and action_name if had been change after event: dispatch:beforeDispatch
+		 */
+		handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY TSRMLS_CC);
+		if (!zend_is_true(handler_name)) {
+			handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultHandler"), PH_NOISY TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
+		}
+		
+		action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY TSRMLS_CC);
+		if (!zend_is_true(action_name)) {
+			action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultAction"), PH_NOISY TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
+		}
+
+		/**
 		 * We don't camelize the classes if they are in namespaces
 		 */
 		if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
