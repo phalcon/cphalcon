@@ -404,9 +404,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 				 */
 				Z_SET_ISREF_P(cast_value);
 				if (phalcon_compare_strict_long(type, 1024 TSRMLS_CC)) {
-					PHALCON_CALL_METHOD(NULL, statement, "bindparam", parameter, cast_value);
+					PHALCON_CALL_METHOD(NULL, statement, "bindvalue", parameter, cast_value);
 				} else {
-					PHALCON_CALL_METHOD(NULL, statement, "bindparam", parameter, cast_value, type);
+					PHALCON_CALL_METHOD(NULL, statement, "bindvalue", parameter, cast_value, type);
 				}
 				Z_UNSET_ISREF_P(cast_value);
 
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 					ZVAL_LONG(type, 2 /* BIND_PARAM_STR */);
 				}
 				Z_SET_ISREF_P(value);
-				PHALCON_CALL_METHOD(NULL, statement, "bindparam", parameter, value, type);
+				PHALCON_CALL_METHOD(NULL, statement, "bindvalue", parameter, value, type);
 				Z_UNSET_ISREF_P(value);
 /*
 				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind type parameter");
@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 			}
 		} else {
 			Z_SET_ISREF_P(value);
-			PHALCON_CALL_METHOD(NULL, statement, "bindparam", parameter, value);
+			PHALCON_CALL_METHOD(NULL, statement, "bindvalue", parameter, value);
 			Z_UNSET_ISREF_P(value);
 		}
 
