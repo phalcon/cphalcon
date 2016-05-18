@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
-	zval *sql_statement, *bind_params = NULL, *bind_types = NULL;
+	zval *sql_statement, *bind_params = NULL, *bind_types = NULL, *affected_rows = NULL;
 	zval *events_manager, *event_name = NULL, *status = NULL, *pdo;
 	zval *statement = NULL, *new_statement = NULL;
 
@@ -498,16 +498,25 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		PHALCON_CALL_METHOD(&statement, pdo, "prepare", sql_statement);
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
 			PHALCON_CALL_METHOD(&new_statement, this_ptr, "executeprepared", statement, bind_params, bind_types);
+			PHALCON_CALL_METHOD(&affected_rows, new_statement, "rowcount");
 			PHALCON_CPY_WRT(statement, new_statement);
+		}
+		else {
+			PHALCON_INIT_VAR(affected_rows);
+			ZVAL_LONG(affected_rows, 0);
 		}
 	} else {
 		PHALCON_CALL_METHOD(&statement, pdo, "query", sql_statement);
+		PHALCON_CALL_METHOD(&affected_rows, statement, "rowcount");
 	}
 
 	/** 
 	 * Execute the afterQuery event if a EventsManager is available
 	 */
 	if (likely(Z_TYPE_P(statement) == IS_OBJECT)) {
+		if (Z_TYPE_P(affected_rows) == IS_LONG) {
+			phalcon_update_property_this(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
+		}
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "db:afterQuery", 1);
