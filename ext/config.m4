@@ -92,6 +92,13 @@ http/response/exception.c \
 http/response/headers.c \
 http/response/cookiesinterface.c \
 http/response/headersinterface.c \
+http/uri.c \
+http/client/exception.c \
+http/client/header.c \
+http/client/response.c \
+http/client/adapterinterface.c \
+http/client/adapter.c \
+http/client/adapter/curl.c \
 dispatcherinterface.c \
 di.c \
 loader/exception.c \
