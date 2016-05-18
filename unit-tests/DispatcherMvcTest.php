@@ -198,4 +198,20 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($value, 'index');
 	}
 
+	public function testIssues2270()
+	{
+		Phalcon\DI::reset();
+
+		$di = new \Phalcon\DI();
+
+		$dispatcher = new \Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$dispatcher->setDefaultNamespace('A\B\C');
+		$dispatcher->setControllerName('Test');
+		$dispatcher->setActionName('index');
+
+		$this->assertEquals('A\B\C\TestController', $dispatcher->getHandlerClass());
+	}
+
 }
