@@ -82,6 +82,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_rowsModels"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_rowsObjects"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_simple_ce TSRMLS_CC, 5, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -154,6 +156,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	 * Set if the returned resultset must keep the record snapshots
 	 */
 	phalcon_update_property_this(this_ptr, SL("_keepSnapshots"), keep_snapshots TSRMLS_CC);
+
+	phalcon_update_property_empty_array(this_ptr, SL("_models") TSRMLS_CC);
+	phalcon_update_property_empty_array(this_ptr, SL("_others") TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -166,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 	zval *type, *result = NULL, *row = NULL, *rows = NULL, *dirty_state, *hydrate_mode;
-	zval *keep_snapshots, *column_map, *model, *active_row = NULL;
+	zval *keep_snapshots, *column_map, *model, *active_row = NULL, *key = NULL, *rows_objects;
 
 	PHALCON_MM_GROW();
 
@@ -236,6 +241,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	 */
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY TSRMLS_CC);
+
+	PHALCON_CALL_SELF(&key, "key");
 	
 	/** 
 	 * Hydrate based on the current hydration
@@ -243,26 +250,45 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
-			/** 
-			 * this_ptr->model is the base entity
-			 */
-			PHALCON_OBS_VAR(model);
-			phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
-	
-			/** 
-			 * Performs the standard hydration based on objects
-			 */
-			PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+			PHALCON_OBS_VAR(rows_objects);
+			phalcon_read_property_this(&rows_objects, this_ptr, SL("_rowsModels"), PH_NOISY TSRMLS_CC);
+			if (!phalcon_array_isset(rows_objects, key)) {
+				/** 
+				 * this_ptr->model is the base entity
+				 */
+				PHALCON_OBS_VAR(model);
+				phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY TSRMLS_CC);
+		
+				/** 
+				 * Performs the standard hydration based on objects
+				 */
+				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+
+				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
+			} else {
+				PHALCON_OBS_NVAR(active_row);
+				phalcon_array_fetch(&active_row, rows_objects, key, PH_NOISY);
+			}
 			break;
 	
 		default:
-			/** 
-			 * Other kinds of hydrations
-			 */
-			PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode);
+			PHALCON_OBS_VAR(rows_objects);
+			phalcon_read_property_this(&rows_objects, this_ptr, SL("_rowsOthers"), PH_NOISY TSRMLS_CC);
+			if (!phalcon_array_isset_fetch(&active_row, rows_objects, key)) {
+				/** 
+				 * Other kinds of hydrations
+				 */
+				PHALCON_CALL_CE_STATIC(&active_row, phalcon_mvc_model_ce, "cloneresultmaphydrate", row, column_map, hydrate_mode);
+
+				phalcon_update_property_array(this_ptr, SL("_rowsModels"), key, active_row TSRMLS_CC);
+			} else {
+				PHALCON_OBS_NVAR(active_row);
+				phalcon_array_fetch(&active_row, rows_objects, key, PH_NOISY);
+			}
 			break;
 	
 	}
+
 	phalcon_update_property_this(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
