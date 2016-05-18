@@ -37,6 +37,9 @@ script:
 after_failure:
  - ./unit-tests/ci/after_failure.sh
 
+matrix:
+  fast_finish: true
+
 notifications:
   email:
     - andres@phalconphp.com
