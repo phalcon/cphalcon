@@ -19,6 +19,21 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Phalcon\Image\Exception;
+
+/**
+ * Phalcon\Image\Adapter\GD
+ *
+ * Image manipulation support. Allows images to be resized, cropped, etc.
+ *
+ *<code>
+ *	$image = new Phalcon\Image\Adapter\GD("upload/test.jpg");
+ *	$image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *	if ($image->save()) {
+ *		echo 'success';
+ *	}
+ *</code>
+ */
 class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterface
 {
 	protected static _checked = false;
@@ -32,7 +47,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 
 		if !function_exists("gd_info") {
-			throw new \Phalcon\Image\Exception("GD is either not installed or not enabled, check your configuration");
+			throw new Exception("GD is either not installed or not enabled, check your configuration");
 		}
 
 		let version = null;
@@ -46,7 +61,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 
 		if !version_compare(version, "2.0.1", ">=") {
-			throw new \Phalcon\Image\Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
+			throw new Exception("Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version);
 		}
 
 		let self::_checked = true;
@@ -94,9 +109,9 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 					break;
 				default:
 					if this->_mime {
-						throw new \Phalcon\Image\Exception("Installed GD does not support " . this->_mime . " images");
+						throw new Exception("Installed GD does not support " . this->_mime . " images");
 					} else {
-						throw new \Phalcon\Image\Exception("Installed GD does not support such images");
+						throw new Exception("Installed GD does not support such images");
 					}
 					break;
 			}
@@ -105,7 +120,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 
 		} else {
 			if !width || !height {
-				throw new \Phalcon\Image\Exception("Failed to create image from file " . this->_file);
+				throw new Exception("Failed to create image from file " . this->_file);
 			}
 
 			let this->_image = imagecreatetruecolor(width, height);
@@ -185,24 +200,86 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 		}
 	}
 
+	private function imagerotate(img, int degrees, bgColor, ignoreTransparent = 0) -> resource
+	{
+		var w, h, newImg;
+		int x, y, maxx, maxy;
+
+		let degrees = (360 - degrees) % 360;
+
+		let w = imagesx(img),
+			h = imagesy(img),
+			maxx = w - 1,
+			maxy = h - 1;
+
+		switch degrees {
+			case 90:
+				let newImg = imagecreatetruecolor(h, w),
+					x = 0;
+
+				while x < w {
+					let y = 0;
+
+					while y < h {
+						imagecopy(newImg, img, maxy - y, x, x, y, 1, 1);
+						let y++;
+					}
+					let x++;
+				}
+				break;
+			case 180:
+				let newImg = imagecreatetruecolor(w, h),
+					x = 0;
+
+				while x < w {
+					let y = 0;
+
+					while y < h {
+						imagecopy(newImg, img, maxx - x, maxy - y, x, y, 1, 1);
+						let y++;
+					}
+					let x++;
+				}
+				break;
+			case 270:
+				let newImg = imagecreatetruecolor(h, w),
+					x = 0;
+
+				while x < w {
+					let y = 0;
+
+					while y < h {
+						imagecopy(newImg, img, y, maxx - x, x, y, 1, 1);
+						let y++;
+					}
+					let x++;
+				}
+				break;
+			default:
+				return img;
+		}
+		return newImg;
+	}
+
 	protected function _rotate(int degrees)
 	{
-		var image, transparent, width, height;
+		var image, transparent;
 
 		let transparent = imagecolorallocatealpha(this->_image, 0, 0, 0, 127);
-		let image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+
+		if version_compare(PHP_VERSION, "5.3.3") < 0 {
+			let image = this->_image;
+			let image = this->imagerotate(this->_image, degrees, transparent, 1);
+		} else {
+			let image = imagerotate(this->_image, 360 - degrees, transparent, 1);
+			imagedestroy(this->_image);
+		}
 
 		imagesavealpha(image, TRUE);
 
-		let width  = imagesx(image);
-		let height = imagesy(image);
-
-		if imagecopymerge(this->_image, image, 0, 0, 0, 0, width, height, 100) {
-			imagedestroy(this->_image);
-			let this->_image = image;
-			let this->_width  = width;
-			let this->_height = height;
-		}
+		let this->_image = image,
+			this->_width  = imagesx(image),
+			this->_height = imagesy(image);
 	}
 
 	protected function _flip(int direction)
@@ -351,7 +428,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			}
 
 			if !s0 || !s1 || !s4 || !s5 {
-				throw new \Phalcon\Image\Exception("Call to imagettfbbox() failed");
+				throw new Exception("Call to imagettfbbox() failed");
 			}
 
 			let width  = abs(s4 - s0) + 10;
@@ -530,7 +607,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			return true;
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
+		throw new Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _render(string ext, int quality)
@@ -557,7 +634,7 @@ class Gd extends \Phalcon\Image\Adapter implements \Phalcon\Image\AdapterInterfa
 			return ob_get_clean();
 		}
 
-		throw new \Phalcon\Image\Exception("Installed GD does not support '" . ext . "' images");
+		throw new Exception("Installed GD does not support '" . ext . "' images");
 	}
 
 	protected function _create(int width, int height)
