@@ -194,6 +194,8 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Checks whether transaction is managed by a transaction manager
+	 *
+	 * @return boolean
 	 */
 	public function isManaged() -> boolean
 	{
