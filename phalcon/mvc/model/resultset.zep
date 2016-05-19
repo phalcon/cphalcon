@@ -455,6 +455,8 @@ abstract class Resultset
 				let transaction = false;
 				break;
 			}
+
+			this->next();
 		}
 
 		/**
