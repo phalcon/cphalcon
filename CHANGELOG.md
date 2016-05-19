@@ -1,3 +1,7 @@
+# [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
+- Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
+- Used Zephir v0.9.2
+
 # [2.0.12](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.12) (2016-05-16)
 - Fixed regression changes for `Phalcon\Mvc\View\Engine\Volt::callMacro` [#11745](https://github.com/phalcon/cphalcon/issues/11745)
 - Fixed the argument type of `Phalcon\Flash::success` [#11764](https://github.com/phalcon/cphalcon/pull/11764)
