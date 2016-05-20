@@ -501,6 +501,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Return join parts of the query
+	 *
+	 * @return array
+	 */
+	public function getJoins()
+	{
+		return this->_joins;
+	}
+
+	/**
 	 * Sets the query conditions
 	 *
 	 *<code>
@@ -1345,7 +1355,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				let phql .= " FOR UPDATE";
 			}
 		}
-		
+
 		return phql;
 	}
 
