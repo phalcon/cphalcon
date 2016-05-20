@@ -115,6 +115,13 @@ interface BuilderInterface
 	public function rightJoin(model, conditions = null, alias = null);
 
 	/**
+	 * Return join parts of the query
+	 *
+	 * @return array
+	 */
+	public function getJoins();
+
+	/**
 	 * Sets conditions for the query
 	 *
 	 * @param string conditions
