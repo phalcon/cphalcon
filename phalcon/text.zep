@@ -36,6 +36,8 @@ abstract class Text
 	const RANDOM_NUMERIC = 3;
 
 	const RANDOM_NOZERO = 4;
+	
+	protected separator;
 
 	/**
 	 * Converts strings to camelize style
@@ -265,16 +267,23 @@ abstract class Text
 		let rdS 	= preg_quote(rightDelimiter);
 		let pattern = "/" . ldS . "([^" . ldS . rdS . "]+)" . rdS . "/";
 		let result 	= text;
+		let this->separator = separator;
 
 		while memstr(result, leftDelimiter) {
-			let result = preg_replace_callback(pattern, function (matches) {
-				var words;
-				let words = explode("|", matches[1]);
-				return words[array_rand(words)];
-			}, result);
+			let result = preg_replace_callback(pattern, "self::dynamic_replace_callback", result);
 		}
 
 		return result;
+	}
+	
+	/**
+	 * The callback function used in Phalcon\Text::dynamic to select a random text
+	 */
+	public static function dynamic_replace_callback(matches)
+	{
+		var words;
+		let words = explode(this->separator, matches[1]);
+		return words[array_rand(words)];
 	}
 
 	/**
