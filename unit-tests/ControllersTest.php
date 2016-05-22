@@ -21,116 +21,119 @@
 class ControllersTest extends PHPUnit_Framework_TestCase
 {
 
-	public function testControllers()
-	{
-		$di = new Phalcon\DI();
+    public function testControllers()
+    {
+        $di = new Phalcon\DI();
 
-		$di->set('view', function(){
-			$view = new Phalcon\Mvc\View();
-			$view->setViewsDir('unit-tests/views/');
-			return $view;
-		});
+        $di->set('view', function () {
+            $view = new Phalcon\Mvc\View();
+            $view->setViewsDir('unit-tests/views/');
+            return $view;
+        });
 
-		$di->set('request', function(){
-			return new Phalcon\Http\Request();
-		});
+        $di->set('request', function () {
+            return new Phalcon\Http\Request();
+        });
 
-		$di->set('filter', function(){
-			return new Phalcon\Filter();
-		});
+        $di->set('filter', function () {
+            return new Phalcon\Filter();
+        });
 
-		if (!class_exists('Test4Controller', false)) {
-			require __DIR__ . '/controllers/Test4Controller.php';
-		}
+        if (!class_exists('Test4Controller', false)) {
+            require __DIR__ . '/controllers/Test4Controller.php';
+        }
 
-		$controller = new Test4Controller();
-		$controller->setDI($di);
+        $controller = new Test4Controller();
+        $controller->setDI($di);
 
-		$_POST['email'] = ';ans@ecom.com';
-		$this->assertEquals($controller->requestAction(), 'ans@ecom.com');
+        $_POST['email'] = ';ans@ecom.com';
+        $this->assertEquals($controller->requestAction(), 'ans@ecom.com');
 
-		$view = $di->getShared('view');
+        $view = $di->getShared('view');
 
-		$controller->viewAction();
-		$this->assertEquals(count($view->getParamsToView()), 1);
-	}
+        $controller->viewAction();
+        $this->assertEquals(count($view->getParamsToView()), 1);
+    }
 
-	public function testModelBinding()
-	{
-		require 'unit-tests/config.db.php';
-		if (empty($configMysql)) {
-			$this->markTestSkipped("Skipped");
-			return;
-		}
+    public function testModelBinding()
+    {
+        require 'unit-tests/config.db.php';
+        if (empty($configMysql)) {
+            $this->markTestSkipped("Skipped");
+            return;
+        }
 
-		Phalcon\DI::reset();
-		$di = new Phalcon\Di();
+        Phalcon\DI::reset();
+        $di = new Phalcon\Di();
 
-		$di->set('modelsManager', function() {
-			return new Phalcon\Mvc\Model\Manager();
-		});
+        $di->set('modelsManager', function () {
+            return new Phalcon\Mvc\Model\Manager();
+        });
 
-		$di->set('modelsMetadata', function() {
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+        $di->set('modelsMetadata', function () {
+            return new Phalcon\Mvc\Model\Metadata\Memory();
+        });
 
-		$di->set('db', function() {
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+        $di->set('db', function () {
+            require 'unit-tests/config.db.php';
+            return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+        }, true);
 
-		$dispatcher = new Phalcon\Mvc\Dispatcher();
-		$dispatcher->setModelBinding(true);
-		$dispatcher->setDI($di);
-		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+        $dispatcher = new Phalcon\Mvc\Dispatcher();
+        $dispatcher->setModelBinding(true);
+        $dispatcher->setDI($di);
+        $this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
 
-		$di->set('dispatcher', $dispatcher);
+        $di->set('dispatcher', $dispatcher);
 
-		if (!class_exists('People', false)) {
-			require __DIR__ . '/models/People.php';
-		}
+        if (!class_exists('People', false)) {
+            require __DIR__ . '/models/People.php';
+        }
 
-		if (!class_exists('Test10Controller', false)) {
-			require __DIR__ . '/controllers/Test10Controller.php';
-		}
+        if (!class_exists('Test10Controller', false)) {
+            require __DIR__ . '/controllers/Test10Controller.php';
+        }
 
-		if (!class_exists('Test9Controller', false)) {
-			require __DIR__ . '/controllers/Test9Controller.php';
-		}
+        if (!class_exists('Test9Controller', false)) {
+            require __DIR__ . '/controllers/Test9Controller.php';
+        }
 
-		//Model to test with
-		$model = People::findFirst();
+        //Model to test with
+        $model = People::findFirst();
 
-		$dispatcher->setControllerName('test10');
-		$dispatcher->setActionName('view');
-		$dispatcher->setParams(array(0 => $model->cedula));
+        $dispatcher->setControllerName('test10');
+        $dispatcher->setActionName('view');
+        $dispatcher->setParams(array(0 => $model->cedula));
 
-		$dispatcher->dispatch();
-		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
-		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+        $dispatcher->dispatch();
+        $this->assertInstanceOf('People', $dispatcher->getReturnedValue());
+        $this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
 
-		//Reset dispatcher
-		$dispatcher = new Phalcon\Mvc\Dispatcher();
-		$dispatcher->setDI($di);
-		$this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
+        //Reset dispatcher
+        $dispatcher = new Phalcon\Mvc\Dispatcher();
+        $dispatcher->setDI($di);
+        $this->assertInstanceOf('Phalcon\Di', $dispatcher->getDI());
 
-		$di->set('dispatcher', $dispatcher);
+        $di->set('dispatcher', $dispatcher);
 
-		$dispatcher->setControllerName('test9');
-		$dispatcher->setActionName('view');
-		$dispatcher->setParams(array(0 => $model->cedula));
+        $dispatcher->setControllerName('test9');
+        $dispatcher->setActionName('view');
+        $dispatcher->setParams(array(0 => $model->cedula));
 
-		try {
-			$dispatcher->dispatch();
-		}catch (Exception $e) {
-			$error = (bool) strpos($e->getMessage(), 'must be an instance of Phalcon\Mvc\Model');
-			$this->assertTrue($error);
-		}
+        try {
+            $dispatcher->dispatch();
+        } catch (Exception $e) {
+            $error = (bool) strpos($e->getMessage(), 'must be an instance of Phalcon\Mvc\Model');
+            $this->assertTrue($error);
+        } catch (TypeError $e) {
+            $error = (bool) strpos($e->getMessage(), 'must be an instance of Phalcon\Mvc\Model');
+            $this->assertTrue($error);
+        }
 
-		$dispatcher->setModelBinding(true);
-		$dispatcher->dispatch();
+        $dispatcher->setModelBinding(true);
+        $dispatcher->dispatch();
 
-		$this->assertInstanceOf('People', $dispatcher->getReturnedValue());
-		$this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
+        $this->assertInstanceOf('People', $dispatcher->getReturnedValue());
+        $this->assertEquals($dispatcher->getReturnedValue()->cedula, $model->cedula);
     }
 }
