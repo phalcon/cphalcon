@@ -144,7 +144,7 @@ class Random
 			}
 		}
 
-		throw new Exception("No random device");
+		throw new Exception("No random device avaiable");
 	}
 
 	/**

@@ -1,9 +1,9 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework							  |
+ | Phalcon Framework							                          |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled	  |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -43,6 +43,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\ValidationInterface;
+use Phalcon\Validation\Message\Group;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Validation\Message\Group as ValidationMessageGroup;
@@ -1396,7 +1397,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 			messages->rewind();
 
-			//for message in iterator(messages) {
+			// for message in iterator(messages) {
 			while messages->valid() {
 
 				let message = messages->current();
