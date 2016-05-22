@@ -15,7 +15,8 @@
         "twig/twig": "~1.24",
         "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",
-        "codeception/specify": "~0.4"
+        "codeception/specify": "~0.4",
+        "phalcon/zephir": "dev-master"
     },
     "minimum-stability": "dev",
     "license": "BSD-3-Clause",
