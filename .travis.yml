@@ -9,7 +9,7 @@ php:
   - 5.6
 
 cache:
-  - apt
+  apt: true
   directories:
     - vendor
     - $HOME/.composer/cache
