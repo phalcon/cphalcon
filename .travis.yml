@@ -10,8 +10,11 @@ php:
 
 cache:
   apt: true
+  ccache: true
+  timeout: 691200
   directories:
     - vendor
+    - $HOME/.ccache
     - $HOME/.composer/cache
 
 services:
@@ -41,6 +44,7 @@ env:
     - TEST_RS_HOST="127.0.0.1"
     - TEST_RS_PORT="6379"
     - ZEND_DONT_UNLOAD_MODULES=1
+    - CC="ccache gcc"
 
 before_install:
   - export PATH=$PATH:~/bin;
