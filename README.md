@@ -32,19 +32,19 @@ Prerequisite packages are:
 Ubuntu:
 
 ```bash
-sudo apt-get install php5-dev libpcre3-dev gcc make
+sudo apt-get install php5-dev libpcre3-dev gcc make re2c
 ```
 
 Suse:
 
 ```bash
-sudo zypper install php5-devel gcc make
+sudo zypper install php5-devel gcc make re2c
 ```
 
 CentOS/Fedora/RHEL
 
 ```bash
-sudo yum install php-devel pcre-devel gcc make
+sudo yum install php-devel pcre-devel gcc make re2c
 ```
 
 Compilation
