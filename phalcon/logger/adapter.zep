@@ -122,6 +122,7 @@ abstract class Adapter
 					message->getContext()
 				);
 			}
+			let this->_queue = [];
 		}
 
 		return this;
