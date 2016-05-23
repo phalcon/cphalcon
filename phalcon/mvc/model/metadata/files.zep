@@ -38,6 +38,8 @@ class Files extends MetaData
 
 	protected _metaDataDir = "./";
 
+	protected _metaDataFileMode = null;
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Files constructor
 	 *
@@ -46,9 +48,13 @@ class Files extends MetaData
 	public function __construct(options = null)
 	{
 		var metaDataDir;
+		var metaDataFileMode;
 		if typeof options == "array" {
 			if fetch metaDataDir, options["metaDataDir"] {
 				let this->_metaDataDir = metaDataDir;
+			}
+			if fetch metaDataFileMode, options["metaDataFileMode"] {
+				let this->_metaDataFileMode = metaDataFileMode;
 			}
 		}
 		let this->_metaData = [];
@@ -83,6 +89,10 @@ class Files extends MetaData
 		let path = this->_metaDataDir . prepare_virtual_path(key, "_") . ".php";
 		if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
 			throw new Exception("Meta-Data directory cannot be written");
+		}
+
+		if !is_null(this->_metaDataFileMode) {
+			chmod(path, this->_metaDataFileMode);
 		}
 	}
 }
