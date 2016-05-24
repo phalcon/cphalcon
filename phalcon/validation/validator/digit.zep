@@ -28,13 +28,20 @@ use Phalcon\Validation\Validator;
  *
  * Check for numeric character(s)
  *
- *<code>
- *use Phalcon\Validation\Validator\Digit as DigitValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
- *$validator->add('height', new DigitValidator(array(
- *   'message' => ':field must be numeric'
- *)));
- *</code>
+ * $validator->add('height', new DigitValidator([
+ *     'message' => ':field must be numeric'
+ * ]));
+ *
+ * $validator->add(['height', 'width'], new DigitValidator([
+ *     'message' => [
+ *         'height' => 'height must be numeric',
+ *         'width' => 'width must be numeric'
+ *     ]
+ * ]));
+ * </code>
  */
 class Digit extends Validator
 {
@@ -44,24 +51,35 @@ class Digit extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 
 		if !ctype_digit(value) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Digit");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit", this->getOption("code")));
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit", code));
 			return false;
 		}
 

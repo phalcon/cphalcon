@@ -28,13 +28,20 @@ use Phalcon\Validation\Validator;
  *
  * Validates that a value is not null or empty string
  *
- *<code>
- *use Phalcon\Validation\Validator\PresenceOf;
+ * <code>
+ * use Phalcon\Validation\Validator\PresenceOf;
  *
- *$validator->add('name', new PresenceOf(array(
- *   'message' => 'The name is required'
- *)));
- *</code>
+ * $validator->add('name', new PresenceOf([
+ *     'message' => 'The name is required'
+ * ]));
+ *
+ * $validator->add(['name', 'email'], new PresenceOf([
+ *     'message' => [
+ *         'name' => 'The name is required',
+ *         'email' => 'The email is required'
+ *     ]
+ * ]));
+ * </code>
  */
 class PresenceOf extends Validator
 {
@@ -44,20 +51,31 @@ class PresenceOf extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 		if value === null || value === "" {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("PresenceOf");
+			}
+
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
 			}
 
 			validation->appendMessage(
@@ -65,7 +83,7 @@ class PresenceOf extends Validator
 					strtr(message, replacePairs),
 					field,
 					"PresenceOf",
-					this->getOption("code")
+					code
 				)
 			);
 			
