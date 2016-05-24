@@ -33,10 +33,10 @@ namespace Phalcon\Security;
  * - openssl
  * - /dev/urandom
  *
- * A `Phalcon\Security\Random` could be mainly useful for:
+ * `Phalcon\Security\Random` could be mainly useful for:
  *
  * - Key generation (e.g. generation of complicated keys)
- * - Creating random passwords for new user accounts
+ * - Generating random passwords for new user accounts
  * - Encryption systems
  *
  *<code>
@@ -144,7 +144,7 @@ class Random
 			}
 		}
 
-		throw new Exception("No random device avaiable");
+		throw new Exception("No random device available");
 	}
 
 	/**
