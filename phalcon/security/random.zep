@@ -30,7 +30,7 @@ namespace Phalcon\Security;
  *
  * - random_bytes (PHP 7)
  * - libsodium
- * - openssl
+ * - openssl, libressl
  * - /dev/urandom
  *
  * `Phalcon\Security\Random` could be mainly useful for:
