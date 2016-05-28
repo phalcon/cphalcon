@@ -30,29 +30,32 @@ use Phalcon\Cache\BackendInterface;
  * Allows to cache output fragments using a file backend
  *
  *<code>
- *	//Cache the file for 2 days
- *	$frontendOptions = array(
- *		'lifetime' => 172800
- *	);
+ * use Phalcon\Cache\Backend\File;
+ * use Phalcon\Cache\Frontend\Output as FrontOutput;
  *
- *  //Create a output cache
- *  $frontCache = \Phalcon\Cache\Frontend\Output($frontOptions);
+ * // Cache the file for 2 days
+ * $frontendOptions = [
+ *     'lifetime' => 172800
+ * ];
  *
- *	//Set the cache directory
- *	$backendOptions = array(
- *		'cacheDir' => '../app/cache/'
- *	);
+ * // Create a output cache
+ * $frontCache = FrontOutput($frontOptions);
  *
- *  //Create the File backend
- *  $cache = new \Phalcon\Cache\Backend\File($frontCache, $backendOptions);
+ * // Set the cache directory
+ * $backendOptions = [
+ *     'cacheDir' => '../app/cache/'
+ * ];
  *
- *	$content = $cache->start('my-cache');
- *	if ($content === null) {
- *  	echo '<h1>', time(), '</h1>';
- *  	$cache->save();
- *	} else {
- *		echo $content;
- *	}
+ * // Create the File backend
+ * $cache = new File($frontCache, $backendOptions);
+ *
+ * $content = $cache->start('my-cache');
+ * if ($content === null) {
+ *     echo '<h1>', time(), '</h1>';
+ *     $cache->save();
+ * } else {
+ *     echo $content;
+ * }
  *</code>
  */
 class File extends Backend implements BackendInterface
@@ -172,7 +175,7 @@ class File extends Backend implements BackendInterface
 	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> void
+	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastKey, frontend, cacheDir, isBuffering, cacheFile, cachedContent, preparedContent, status;
 
@@ -226,6 +229,8 @@ class File extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return status;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -32,26 +32,27 @@ use Phalcon\Cache\FrontendInterface;
  * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
  *
  *<code>
+ * use Phalcon\Cache\Backend\Redis;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *    "lifetime" => 172800
- * ));
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- * //Create the Cache setting redis connection options
- * $cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
- *		'host' => 'localhost',
- *		'port' => 6379,
- *		'auth' => 'foobared',
- *  	'persistent' => false
- * ));
+ * // Create the Cache setting redis connection options
+ * $cache = new Redis($frontCache, [
+ *     'host' => 'localhost',
+ *     'port' => 6379,
+ *     'auth' => 'foobared',
+ *     'persistent' => false
+ * ]);
  *
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
- *
  *</code>
  */
 class Redis extends Backend implements BackendInterface
@@ -180,7 +181,7 @@ class Redis extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
@@ -267,6 +268,8 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return success;
 	}
 
 	/**

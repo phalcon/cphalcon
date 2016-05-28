@@ -29,21 +29,23 @@ use Phalcon\Cache\BackendInterface;
  * Allows to cache output fragments, PHP data and raw data using an APC backend
  *
  *<code>
- *	//Cache data for 2 days
- *	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *		'lifetime' => 172800
- *	));
+ * use Phalcon\Cache\Backend\Apc;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
- *  $cache = new \Phalcon\Cache\Backend\Apc($frontCache, array(
- *      'prefix' => 'app-data'
- *  ));
+ * // Cache data for 2 days
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- *	//Cache arbitrary data
- *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ * $cache = new Apc($frontCache, [
+ *     'prefix' => 'app-data'
+ * ]);
  *
- *	//Get data
- *	$data = $cache->get('my-data');
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
+ * // Get data
+ * $data = $cache->get('my-data');
  *</code>
  */
 class Apc extends Backend implements BackendInterface
@@ -79,9 +81,9 @@ class Apc extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true)
+	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering;
+		var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering, success;
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
@@ -119,7 +121,11 @@ class Apc extends Backend implements BackendInterface
 		/**
 		 * Call apc_store in the PHP userland since most of the time it isn't available at compile time
 		 */
-		apc_store(lastKey, preparedContent, ttl);
+		let success = apc_store(lastKey, preparedContent, ttl);
+
+		if !success {
+			throw new Exception("Failed storing data in apc");
+		}
 
 		let isBuffering = frontend->isBuffering();
 
@@ -132,6 +138,8 @@ class Apc extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return success;
 	}
 
 	/**

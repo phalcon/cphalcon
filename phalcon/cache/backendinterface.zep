@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,7 +26,6 @@ namespace Phalcon\Cache;
  */
 interface BackendInterface
 {
-
 	/**
 	 * Starts a cache. The keyname allows to identify the created fragment
 	 *
@@ -98,7 +97,7 @@ interface BackendInterface
 	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true);
+	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true) -> boolean;
 
 	/**
 	 * Deletes a value from the cache by its key
