@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,21 +30,23 @@ use Phalcon\Cache\FrontendInterface;
  * Allows to cache output fragments, PHP data and raw data using an XCache backend
  *
  *<code>
- *	//Cache data for 2 days
- *	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *		'lifetime' => 172800
- *	));
+ * use Phalcon\Cache\Backend\Xcache;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
- *  $cache = new \Phalcon\Cache\Backend\Xcache($frontCache, array(
- *      'prefix' => 'app-data'
- *  ));
+ * // Cache data for 2 days
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- *	//Cache arbitrary data
- *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ * $cache = new Xcache($frontCache, [
+ *     'prefix' => 'app-data'
+ * ]);
  *
- *	//Get data
- *	$data = $cache->get('my-data');
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
+ * // Get data
+ * $data = $cache->get('my-data');
  *</code>
  */
 class Xcache extends Backend implements BackendInterface
@@ -105,7 +107,7 @@ class Xcache extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
@@ -151,6 +153,10 @@ class Xcache extends Backend implements BackendInterface
 			let success = xcache_set(lastKey, preparedContent, tt1);
 		}
 
+		if !success {
+			throw new Exception("Failed storing the data in xcache");
+		}
+
 		let isBuffering = frontend->isBuffering();
 
 		if stopBuffer === true {
@@ -184,6 +190,8 @@ class Xcache extends Backend implements BackendInterface
 				xcache_set(specialKey, keys);
 			}
 		}
+
+		return success;
 	}
 
 	/**

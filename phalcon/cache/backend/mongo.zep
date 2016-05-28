@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,25 +30,26 @@ use Phalcon\Cache\FrontendInterface;
  * Allows to cache output fragments, PHP data or raw data to a MongoDb backend
  *
  *<code>
+ * use Phalcon\Cache\Backend\Mongo;
+ * use Phalcon\Cache\Frontend\Base64;
  *
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Base64(array(
- *		"lifetime" => 172800
- * ));
+ * $frontCache = new Base64([
+ *     'lifetime' => 172800
+ * ]);
  *
- * //Create a MongoDB cache
- * $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
- *		'server' => "mongodb://localhost",
- *      'db' => 'caches',
- *		'collection' => 'images'
- * ));
+ * // Create a MongoDB cache
+ * $cache = new Mongo($frontCache, [
+ *     'server' => "mongodb://localhost",
+ *     'db' => 'caches',
+ *     'collection' => 'images'
+ * ]);
  *
- * //Cache arbitrary data
+ * // Cache arbitrary data
  * $cache->save('my-data', file_get_contents('some-image.jpg'));
  *
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
- *
  *</code>
  */
 class Mongo extends Backend implements BackendInterface
@@ -56,13 +57,12 @@ class Mongo extends Backend implements BackendInterface
 
 	protected _collection = null;
 
-
 	/**
-	* Phalcon\Cache\Backend\Mongo constructor
-	*
-	* @param \Phalcon\Cache\FrontendInterface frontend
-	* @param array options
-	*/
+	 * Phalcon\Cache\Backend\Mongo constructor
+	 *
+	 * @param \Phalcon\Cache\FrontendInterface frontend
+	 * @param array options
+	 */
 	public function __construct(<FrontendInterface> frontend, options = null)
 	{
 		if !isset options["mongo"] {
@@ -83,10 +83,10 @@ class Mongo extends Backend implements BackendInterface
 	}
 
 	/**
-	* Returns a MongoDb collection based on the backend parameters
-	*
-	* @return MongoCollection
-	*/
+	 * Returns a MongoDb collection based on the backend parameters
+	 *
+	 * @return MongoCollection
+	 */
 	protected final function _getCollection()
 	{
 		var options, mongo, server, database, collection, mongoCollection;
@@ -126,16 +126,16 @@ class Mongo extends Backend implements BackendInterface
 			}
 
 			/**
-			* Retrieve the connection name
-			*/
+			 * Retrieve the connection name
+			 */
 			let collection = options["collection"];
 			if !collection || typeof collection != "string" {
 				throw new Exception("The backend requires a valid MongoDB collection");
 			}
 
 			/**
-			* Make the connection and get the collection
-			*/
+			 * Make the connection and get the collection
+			 */
 			let mongoCollection = mongo->selectDb(database)->selectCollection(collection),
 				this->_collection = mongoCollection;
 		}
@@ -185,11 +185,11 @@ class Mongo extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastkey, prefix, frontend, cachedContent, tmp, ttl,
 			collection, timestamp, conditions, document, preparedContent,
-			isBuffering, data;
+			isBuffering, data, success;
 
 		let conditions = [];
 		let data = [];
@@ -242,8 +242,7 @@ class Mongo extends Backend implements BackendInterface
 				let document["data"] = cachedContent;
 			}
 
-			collection->update(["_id": document["_id"]], document);
-
+			let success = collection->update(["_id": document["_id"]], document);
 		} else {
 
 			let data["key"] = lastkey,
@@ -255,7 +254,11 @@ class Mongo extends Backend implements BackendInterface
 				let data["data"] = cachedContent;
 			}
 
-			collection->insert(data);
+			let success = collection->insert(data);
+		}
+
+		if !success {
+			throw new Exception("Failed storing data in mongodb");
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -269,6 +272,8 @@ class Mongo extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return success;
 	}
 
 	/**
