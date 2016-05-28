@@ -80,6 +80,7 @@
 - Fixed `Phalcon\Db\Dialect\Oracle::prepareTable()` to correctly generate SQL for table aliases [#11799](https://github.com/phalcon/cphalcon/issues/11799)
 - Fixed `Phalcon\Mvc\Model\Resultset::update()` - removed endless loop queries
 - The cache backend adapters now returns boolean on call `Phalcon\Cache\BackendInterface::save`
+- Fixed the Session write callback [#11733](https://github.com/phalcon/cphalcon/issues/11733)
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)

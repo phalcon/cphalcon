@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -40,8 +40,8 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *         \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
  *         \Memcached::OPT_PREFIX_KEY => 'prefix.',
  *     ],
- *    'lifetime' => 3600,
- *    'prefix'   => 'my_'
+ *     'lifetime' => 3600,
+ *     'prefix'   => 'my_'
  * ]);
  *
  * $session->start();
@@ -77,7 +77,7 @@ class Libmemcached extends Adapter
 		if !fetch lifetime, options["lifetime"] {
 			let lifetime = 8600;
 		}
-		
+
 		// Memcached has an internal max lifetime of 30 days
 		let this->_lifetime = min(lifetime, 2592000);
 
@@ -137,9 +137,9 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function write(string sessionId, string data)
+	public function write(string sessionId, string data) -> boolean
 	{
-		this->_libmemcached->save(sessionId, data, this->_lifetime);
+		return this->_libmemcached->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
@@ -154,11 +154,11 @@ class Libmemcached extends Adapter
 		} else {
 			let id = sessionId;
 		}
-		
+
 		for key, _ in _SESSION {
-			unset _SESSION[key];			
+			unset _SESSION[key];
 		}
-		return this->_libmemcached->delete(id);		
+		return this->_libmemcached->delete(id);
 	}
 
 	/**
