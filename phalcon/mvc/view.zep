@@ -800,7 +800,7 @@ class View extends Injectable implements ViewInterface
 		/**
 		 * If the view is disabled we simply update the buffer from any output produced in the controller
 		 */
-		if this->_disabled != false {
+		if this->_disabled !== false {
 			let this->_content = ob_get_contents();
 			return false;
 		}
