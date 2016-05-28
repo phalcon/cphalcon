@@ -30,7 +30,7 @@ class Memory extends PhMemory
 
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true)
     {
-        parent::save($keyName, $content, $lifetime, $stopBuffer);
+        return parent::save($keyName, $content, $lifetime, $stopBuffer);
     }
 
     public function delete($keyName)

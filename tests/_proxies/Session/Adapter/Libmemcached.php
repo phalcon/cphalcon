@@ -45,7 +45,7 @@ class Libmemcached extends PhLibmemcached
 
     public function write($sessionId, $data)
     {
-        parent::write($sessionId, $data);
+        return parent::write($sessionId, $data);
     }
 
     public function destroy($sessionId = null)
