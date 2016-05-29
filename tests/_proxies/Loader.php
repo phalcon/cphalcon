@@ -64,6 +64,16 @@ class Loader extends PhLoader
         return parent::getDirs();
     }
 
+    public function registerFiles(array $files, $merge = false)
+    {
+        return parent::registerFiles($files, $merge);
+    }
+
+    public function getFiles()
+    {
+        return parent::getFiles();
+    }
+
     public function registerClasses(array $classes, $merge = false)
     {
         return parent::registerClasses($classes, $merge);

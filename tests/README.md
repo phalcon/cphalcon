@@ -87,6 +87,7 @@ export TEST_MC_HOST="127.0.0.1"
 export TEST_MC_PORT="11211"
 
 # MySQL
+export TEST_DB_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
 export TEST_DB_MYSQL_HOST="127.0.0.1"
 export TEST_DB_MYSQL_PORT="3306"
 export TEST_DB_MYSQL_USER="root"
