@@ -191,7 +191,7 @@ class Loader implements EventsAwareInterface
 	 */
 	public function getFiles() -> array
 	{
-		return $this->_files;
+		return this->_files;
 	}
 
 	/**
