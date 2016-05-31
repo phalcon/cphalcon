@@ -430,7 +430,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 * Requesting a complete resultset
 		 */
 		let collections = [];
-		for document in iterator_to_array(documentsCursor) {
+		for document in iterator_to_array(documentsCursor, false) {
 
 			/**
 			 * Assign the values to the base object
