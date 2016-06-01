@@ -62,6 +62,8 @@ class Loader implements EventsAwareInterface
 
 	protected _directories = null;
 
+	protected _files = null;
+
 	protected _registered = false;
 
 	/**
@@ -170,6 +172,29 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
+	 * Registers files that are "non-classes" hence need a "require". This is very useful for including files that only
+	 * have functions
+	 */
+	public function registerFiles(array! files, boolean merge = false) -> <Loader>
+	{
+		if merge && typeof this->_files == "array" {
+			let this->_files = array_merge(this->_files, files);
+		} else {
+			let this->_files = files;
+		}
+
+		return this;
+	}
+
+	/**
+	 * Returns the files currently registered in the autoloader
+	 */
+	public function getFiles() -> array
+	{
+		return this->_files;
+	}
+
+	/**
 	 * Register classes and their locations
 	 */
 	public function registerClasses(array! classes, boolean merge = false) -> <Loader>
@@ -196,8 +221,21 @@ class Loader implements EventsAwareInterface
 	 */
 	public function register() -> <Loader>
 	{
+		var eventsManager;
+
 		if this->_registered === false {
+			let eventsManager = this->_eventsManager;
+
+			/**
+			 * Loads individual files added using Loader->registerFiles()
+			 */
+			this->loadFiles();
+
+			/**
+			 * Registers directories & namespaces to PHP's autoload
+			 */
 			spl_autoload_register([this, "autoLoad"]);
+
 			let this->_registered = true;
 		}
 		return this;
@@ -213,6 +251,43 @@ class Loader implements EventsAwareInterface
 			let this->_registered = false;
 		}
 		return this;
+	}
+
+	/**
+	 * Checks if a file exists and then adds the file by doing virtual require
+	 */
+	public function loadFiles()
+	{
+		var filePath;
+
+		if typeof this->_files == "array" {
+
+			for filePath in this->_files {
+				if typeof this->_eventsManager == "object" {
+					let this->_checkedPath = filePath;
+						this->_eventsManager->fire("loader:beforeCheckPath", this, filePath);
+				}
+
+					/**
+					 * Check if the file specified even exists
+					 */
+					if is_file(filePath) {
+
+						/**
+						 * Call 'pathFound' event
+						 */
+						if typeof this->_eventsManager == "object" {
+							let this->_foundPath = filePath;
+							this->_eventsManager->fire("loader:pathFound", this, filePath);
+						}
+
+						/**
+						 * Simulate a require
+						 */
+						require filePath;
+					}
+				}
+			}
 	}
 
 	/**
