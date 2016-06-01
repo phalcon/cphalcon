@@ -81,6 +81,7 @@
 - Fixed `Phalcon\Mvc\Model\Resultset::update()` - removed endless loop queries
 - The cache backend adapters now returns boolean on call `Phalcon\Cache\BackendInterface::save`
 - Fixed the Session write callback [#11733](https://github.com/phalcon/cphalcon/issues/11733)
+- Added '\Phalcon\Loader::registerFiles' & '\Phalcon\Loader::getFiles'. This allows you to add files to the autoloader
 - Added `Phalcon\Security::hasLibreSsl` and `Phalcon\Security::getSslVersionNumber`
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)

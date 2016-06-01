@@ -64,7 +64,6 @@ class LoaderTest extends UnitTest
         set_include_path($this->includePath);
     }
 
-
     public function testNamespaces()
     {
         $this->specify(
@@ -144,6 +143,52 @@ class LoaderTest extends UnitTest
                 expect(new \Example\Adapter\LeCoolSome())->isInstanceOf('Example\Adapter\LeCoolSome');
 
                 $loader->unregister();
+            }
+        );
+    }
+
+    public function testFiles()
+    {
+        $this->specify(
+            "The loader does not load files correctly when using the files strategy",
+            function () {
+                // TEST CASE : Register the file and check if functions in the file is accessible
+                expect(function_exists('noClassFoo'))->false();
+                expect(function_exists('noClassBar'))->false();
+                expect(function_exists('noClass1Foo'))->false();
+                expect(function_exists('noClass1Bar'))->false();
+                expect(function_exists('noClass2Foo'))->false();
+                expect(function_exists('noClass2Bar'))->false();
+
+                $loader = new Loader();
+
+                $loader->registerFiles([
+                    PATH_DATA . 'vendor/Example/Other/NoClass.php',
+                    PATH_DATA . 'vendor/Example/Other/NoClass1.php'
+                ]);
+
+                $loader->registerFiles([
+                    PATH_DATA . 'vendor/Example/Other/NoClass2.php'
+                ], true);
+
+                $loader->register();
+
+                expect(function_exists('noClassFoo'))->true();
+                expect(function_exists('noClassBar'))->true();
+                expect(function_exists('noClass1Foo'))->true();
+                expect(function_exists('noClass1Bar'))->true();
+                expect(function_exists('noClass2Foo'))->true();
+                expect(function_exists('noClass2Bar'))->true();
+
+                // TEST CASE : We are going to un-register it, but the functions should still be accessible
+                $loader->unregister();
+
+                expect(function_exists('noClassFoo'))->true();
+                expect(function_exists('noClassBar'))->true();
+                expect(function_exists('noClass1Foo'))->true();
+                expect(function_exists('noClass1Bar'))->true();
+                expect(function_exists('noClass2Foo'))->true();
+                expect(function_exists('noClass2Bar'))->true();
             }
         );
     }
