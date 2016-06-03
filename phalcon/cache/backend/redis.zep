@@ -57,7 +57,6 @@ use Phalcon\Cache\FrontendInterface;
  */
 class Redis extends Backend implements BackendInterface
 {
-
 	protected _redis = null;
 
 	/**
@@ -143,10 +142,9 @@ class Redis extends Backend implements BackendInterface
 	 * Returns a cached content
 	 *
 	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
+	 * @param long lifetime
 	 */
-	public function get(keyName, lifetime = null)
+	public function get(keyName, lifetime = null) -> var | null
 	{
 		var redis, frontend, prefix, lastKey, cachedContent;
 
@@ -276,9 +274,8 @@ class Redis extends Backend implements BackendInterface
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(keyName) -> boolean
 	{
 		var redis, prefix, prefixedKey, lastKey, options, specialKey;
 
@@ -304,16 +301,15 @@ class Redis extends Backend implements BackendInterface
 		/**
 		* Delete the key from redis
 		*/
-		return redis->delete(lastKey);
+		return (bool) redis->delete(lastKey);
 	}
 
 	/**
 	 * Query the existing cached keys
 	 *
 	 * @param string prefix
-	 * @return array
 	 */
-	public function queryKeys(prefix = null)
+	public function queryKeys(prefix = null) -> array
 	{
 		var redis, options, keys, specialKey, key, value;
 
@@ -344,9 +340,11 @@ class Redis extends Backend implements BackendInterface
 					unset(keys[key]);
 				}
 			}
+
+			return keys;
 		}
 
-		return keys;
+		return [];
 	}
 
 	/**
@@ -386,11 +384,10 @@ class Redis extends Backend implements BackendInterface
 	/**
 	 * Increment of given $keyName by $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
+	 * @param long value
 	 */
-	public function increment(keyName = null, value = null)
+	public function increment(keyName = null, value = null) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -419,11 +416,10 @@ class Redis extends Backend implements BackendInterface
 	/**
 	 * Decrement of $keyName by given $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
+	 * @param long value
 	 */
-	public function decrement(keyName = null, value = null)
+	public function decrement(keyName = null, value = null) -> int
 	{
 		var redis, prefix, lastKey;
 
