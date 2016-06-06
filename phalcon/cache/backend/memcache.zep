@@ -82,8 +82,8 @@ class Memcache extends Backend implements BackendInterface
 			let options["persistent"] = false;
 		}
 
-		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM";
+		if !isset options["prefix"] {
+			let options["prefix"] = "_PHCM";
 		}
 
 		parent::__construct(frontend, options);
