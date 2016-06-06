@@ -87,8 +87,8 @@ class Redis extends Backend implements BackendInterface
 			let options["persistent"] = false;
 		}
 
-		if !isset options["statsKey"] || empty options["statsKey"] {
-			let options["statsKey"] = "_PHCR";
+		if !isset options["prefix"] || empty options["prefix"] {
+			let options["prefix"] = "_PHCR";
 		}
 
 		parent::__construct(frontend, options);
