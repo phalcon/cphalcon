@@ -63,6 +63,7 @@ class Ini extends Config
 		var iniConfig;
 
 		let iniConfig = parse_ini_file(filePath, true);
+		
 		if iniConfig === false {
 			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
 		}

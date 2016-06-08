@@ -85,7 +85,7 @@
 - Added `Phalcon\Security::hasLibreSsl` and `Phalcon\Security::getSslVersionNumber`
 - Added new setter `Phalcon\Escaper::setDoubleEncode()` - to allow setting/disabling double encoding
 - Added `Phalcon\Cache\Frontend\Msgpack` - Added Msgpack Support for Frontend Cache
-- Added `INI_SCANNER_TYPED` scanner mode for `parse_ini_file` in `Phalcon\Config\Adapter\Ini`
+- Added `INI_SCANNER_TYPED` in `parse_ini_file` in `Phalcon\Config\Adapter\Ini`
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
