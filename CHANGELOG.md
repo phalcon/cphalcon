@@ -84,6 +84,7 @@
 - Added '\Phalcon\Loader::registerFiles' & '\Phalcon\Loader::getFiles'. This allows you to add files to the autoloader
 - Added `Phalcon\Security::hasLibreSsl` and `Phalcon\Security::getSslVersionNumber`
 - Added new setter `Phalcon\Escaper::setDoubleEncode()` - to allow setting/disabling double encoding
+- Added  `Phalcon\Cache\Frontend\Msgpack` - Added Msgpack Support for Frontend Cache
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
