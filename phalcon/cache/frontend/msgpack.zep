@@ -26,43 +26,46 @@ use Phalcon\Cache\Exception;
  * Phalcon\Cache\Frontend\Msgpack
  *
  * Allows to cache native PHP data in a serialized form using msgpack extension
+ * This adapter uses a Msgpack frontend to store the cached content and requires msgpack extension.
+ *
+ * @link https://github.com/msgpack/msgpack-php
  *
  *<code>
+ * use Phalcon\Cache\Backend\File;
+ * use Phalcon\Cache\Frontend\Msgpack;
  *
- *	// Cache the files for 2 days using Msgpack frontend
- *	$frontCache = new \Phalcon\Cache\Frontend\Msgpack(array(
- *		"lifetime" => 172800
- *	));
+ * // Cache the files for 2 days using Msgpack frontend
+ * $frontCache = new Msgpack([
+ *     'lifetime' => 172800
+ * ]);
  *
- *	// Create the component that will cache "Msgpack" to a "File" backend
- *	// Set the cache file directory - important to keep the "/" at the end of
- *	// of the value for the folder
- *	$cache = new \Phalcon\Cache\Backend\File($frontCache, array(
- *		"cacheDir" => "../app/cache/"
- *	));
+ * // Create the component that will cache "Msgpack" to a "File" backend
+ * // Set the cache file directory - important to keep the "/" at the end of
+ * // of the value for the folder
+ * $cache = new File($frontCache, [
+ *     'cacheDir' => '../app/cache/'
+ * ]);
  *
- *	// Try to get cached records
- *	$cacheKey  = 'robots_order_id.cache';
- *	$robots    = $cache->get($cacheKey);
- *	if ($robots === null) {
+ * // Try to get cached records
+ * $cacheKey = 'robots_order_id.cache';
+ * $robots   = $cache->get($cacheKey);
+ * if ($robots === null) {
+ *     // $robots is null due to cache expiration or data do not exist
+ *     // Make the database call and populate the variable
+ *     $robots = Robots::find(['order' => 'id']);
  *
- *		// $robots is null due to cache expiration or data do not exist
- *		// Make the database call and populate the variable
- *		$robots = Robots::find(array("order" => "id"));
+ *     // Store it in the cache
+ *     $cache->save($cacheKey, $robots);
+ * }
  *
- *		// Store it in the cache
- *		$cache->save($cacheKey, $robots);
- *	}
- *
- *	// Use $robots :)
- *	foreach ($robots as $robot) {
- *		echo $robot->name, "\n";
- *	}
+ * // Use $robots
+ * foreach ($robots as $robot) {
+ *     echo $robot->name, "\n";
+ * }
  *</code>
  */
 class Msgpack extends Data implements FrontendInterface
 {
-
 	/**
 	 * Phalcon\Cache\Frontend\Msgpack constructor
 	 *
@@ -74,7 +77,7 @@ class Msgpack extends Data implements FrontendInterface
 		
 		if fetch lifetime, frontendOptions["lifetime"] {
 			if typeof lifetime !== "integer" {
-				throw new Exception("lifetime option should be a integer.");
+				throw new Exception("Option 'lifetime' must be a integer.");
 			}
 		}
 	}
@@ -108,7 +111,6 @@ class Msgpack extends Data implements FrontendInterface
 	 */
 	public function start()
 	{
-
 	}
 
 	/**
@@ -124,7 +126,6 @@ class Msgpack extends Data implements FrontendInterface
 	 */
 	public function stop()
 	{
-
 	}
 
 	/**
@@ -146,5 +147,4 @@ class Msgpack extends Data implements FrontendInterface
 	{
 		return msgpack_unpack(data);
 	}
-
 }
