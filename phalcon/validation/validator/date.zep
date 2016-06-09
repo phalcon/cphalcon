@@ -28,14 +28,25 @@ use Phalcon\Validation\Message;
  *
  * Checks if a value is a valid date
  *
- *<code>
+ * <code>
  * use Phalcon\Validation\Validator\Date as DateValidator;
  *
  * $validator->add('date', new DateValidator([
  *     'format' => 'd-m-Y',
  *     'message' => 'The date is invalid'
  * ]));
- *</code>
+ *
+ * $validator->add(['date','anotherDate'], new DateValidator([
+ *     'format' => [
+ *         'date' => 'd-m-Y',
+ *         'anotherDate' => 'Y-m-d'
+ *     ],
+ *     'message' => [
+ *         'date' => 'The date is invalid',
+ *         'anotherDate' => 'The another date is invalid'
+ *     ]
+ * ]));
+ * </code>
  */
 class Date extends Validator
 {
@@ -49,17 +60,27 @@ class Date extends Validator
         let value = validation->getValue(field);
         let format = this->getOption("format");
 
+        if typeof format == "array" {
+            let format = format[field];
+        }
+
         if empty format {
             let format = "Y-m-d";
         }
 
         if !this->checkDate(value, format) {
             let label = this->getOption("label");
+            if typeof label == "array" {
+                let label = label[field];
+            }
             if empty label {
                 let label = validation->getLabel(field);
             }
 
             let message = this->getOption("message");
+            if typeof message == "array" {
+                let message = message[field];
+            }
             let replacePairs = [":field": label];
             if empty message {
                 let message = validation->getDefaultMessage("Date");
