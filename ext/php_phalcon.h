@@ -14,7 +14,7 @@
 #define PHP_PHALCON_VERSION     "2.1.0r"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.9.3a-dev"
+#define PHP_PHALCON_ZEPVERSION  "0.9.3a-dev-97b5499534"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -64,10 +64,6 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/* Max recursion control */
 	unsigned int recursive_lock;
 
-	/* Global constants */
-	zval *global_true;
-	zval *global_false;
-	zval *global_null;
 	
 	zephir_struct_db db;
 
@@ -83,13 +79,14 @@ ZEND_END_MODULE_GLOBALS(phalcon)
 ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS
-	#define ZEPHIR_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
+	#define ZEPHIR_GLOBAL(v) ZEND_MODULE_GLOBALS_ACCESSOR(phalcon, v)
 #else
 	#define ZEPHIR_GLOBAL(v) (phalcon_globals.v)
 #endif
 
 #ifdef ZTS
-	#define ZEPHIR_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_ls))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
+	void ***tsrm_ls;
+	#define ZEPHIR_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_get_ls_cache()))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
 #else
 	#define ZEPHIR_VGLOBAL &(phalcon_globals)
 #endif

@@ -49,8 +49,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn) {
 PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value = NULL, *domain = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, *strict = NULL, *_0 = NULL, *_1 = NULL, *_3 = NULL, *_2$$4, *_4$$6 = NULL, *_6$$6 = NULL, *_7$$6 = NULL, *_8$$6 = NULL, *_5$$8;
+	zval field;
+	zval *validation, validation_sub, *field_param = NULL, value, domain, message, label, replacePairs, strict, _0, _1, _3, _2$$4, _4$$6, _6$$6, _7$$6, _8$$6, _5$$8;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&validation_sub);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&domain);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&label);
+	ZVAL_UNDEF(&replacePairs);
+	ZVAL_UNDEF(&strict);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_4$$6);
+	ZVAL_UNDEF(&_6$$6);
+	ZVAL_UNDEF(&_7$$6);
+	ZVAL_UNDEF(&_8$$6);
+	ZVAL_UNDEF(&_5$$8);
+	ZVAL_UNDEF(&field);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -60,87 +79,79 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
+		zephir_get_strval(&field, field_param);
 	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
+		ZEPHIR_INIT_VAR(&field);
+		ZVAL_EMPTY_STRING(&field);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "domain", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&domain, this_ptr, "getoption", NULL, 0, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "domain");
+	ZEPHIR_CALL_METHOD(&domain, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(domain) != IS_ARRAY) {
+	if (Z_TYPE_P(&domain) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 58);
 		return;
 	}
-	ZEPHIR_INIT_VAR(strict);
-	ZVAL_BOOL(strict, 0);
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_STRING(_0, "strict", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "hasoption", NULL, 0, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&strict);
+	ZVAL_BOOL(&strict, 0);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "strict");
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "hasoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (zephir_is_true(_1)) {
-		if (Z_TYPE_P(strict) != IS_BOOL) {
+	if (zephir_is_true(&_1)) {
+		if (((Z_TYPE_P(&strict) == IS_TRUE || Z_TYPE_P(&strict) == IS_FALSE) != 1)) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 64);
 			return;
 		}
-		ZEPHIR_INIT_VAR(_2$$4);
-		ZVAL_STRING(_2$$4, "strict", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getoption", NULL, 0, _2$$4);
-		zephir_check_temp_parameter(_2$$4);
+		ZEPHIR_INIT_VAR(&_2$$4);
+		ZVAL_STRING(&_2$$4, "strict");
+		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getoption", NULL, 0, &_2$$4);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 372, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 378, &value, &domain, &strict);
 	zephir_check_call_status();
-	if (!(zephir_is_true(_3))) {
-		ZEPHIR_INIT_VAR(_4$$6);
-		ZVAL_STRING(_4$$6, "label", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _4$$6);
-		zephir_check_temp_parameter(_4$$6);
+	if (!(zephir_is_true(&_3))) {
+		ZEPHIR_INIT_VAR(&_4$$6);
+		ZVAL_STRING(&_4$$6, "label");
+		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, &_4$$6);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
+		if (ZEPHIR_IS_EMPTY(&label)) {
+			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, &field);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(_4$$6);
-		ZVAL_STRING(_4$$6, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _4$$6);
-		zephir_check_temp_parameter(_4$$6);
+		ZEPHIR_INIT_NVAR(&_4$$6);
+		ZVAL_STRING(&_4$$6, "message");
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, &_4$$6);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(replacePairs);
-		zephir_create_array(replacePairs, 2, 0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&replacePairs);
+		zephir_create_array(&replacePairs, 2, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_NVAR(_4$$6);
-		zephir_fast_join_str(_4$$6, SL(", "), domain TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(&_4$$6);
+		zephir_fast_join_str(&_4$$6, SL(", "), &domain TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":domain"), &_4$$6, PH_COPY | PH_SEPARATE);
-		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_VAR(_5$$8);
-			ZVAL_STRING(_5$$8, "InclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _5$$8);
-			zephir_check_temp_parameter(_5$$8);
+		if (ZEPHIR_IS_EMPTY(&message)) {
+			ZEPHIR_INIT_VAR(&_5$$8);
+			ZVAL_STRING(&_5$$8, "InclusionIn");
+			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, &_5$$8);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(_4$$6);
-		object_init_ex(_4$$6, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6$$6, "strtr", NULL, 55, message, replacePairs);
+		ZEPHIR_INIT_NVAR(&_4$$6);
+		object_init_ex(&_4$$6, phalcon_validation_message_ce);
+		ZEPHIR_CALL_FUNCTION(&_6$$6, "strtr", NULL, 55, &message, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_8$$6);
-		ZVAL_STRING(_8$$6, "code", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_7$$6, this_ptr, "getoption", NULL, 0, _8$$6);
-		zephir_check_temp_parameter(_8$$6);
+		ZEPHIR_INIT_VAR(&_8$$6);
+		ZVAL_STRING(&_8$$6, "code");
+		ZEPHIR_CALL_METHOD(&_7$$6, this_ptr, "getoption", NULL, 0, &_8$$6);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(_8$$6);
-		ZVAL_STRING(_8$$6, "InclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", NULL, 455, _6$$6, field, _8$$6, _7$$6);
-		zephir_check_temp_parameter(_8$$6);
+		ZEPHIR_INIT_NVAR(&_8$$6);
+		ZVAL_STRING(&_8$$6, "InclusionIn");
+		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 461, &_6$$6, &field, &_8$$6, &_7$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4$$6);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

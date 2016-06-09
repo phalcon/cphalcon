@@ -38,7 +38,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_None) {
 PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 
 	zval *content_param = NULL;
-	zval *content = NULL;
+	zval content;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&content);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &content_param);
@@ -48,10 +51,10 @@ PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(content_param) == IS_STRING)) {
-		zephir_get_strval(content, content_param);
+		zephir_get_strval(&content, content_param);
 	} else {
-		ZEPHIR_INIT_VAR(content);
-		ZVAL_EMPTY_STRING(content);
+		ZEPHIR_INIT_VAR(&content);
+		ZVAL_EMPTY_STRING(&content);
 	}
 
 

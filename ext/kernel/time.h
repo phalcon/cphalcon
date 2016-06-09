@@ -24,7 +24,7 @@
 
 void zephir_time(zval *return_value);
 #ifdef HAVE_GETTIMEOFDAY
-void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC);
+void zephir_microtime(zval *return_value, zval *get_as_float);
 #endif
 
 #endif /* ZEPHIR_KERNEL_TIME_H */

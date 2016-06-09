@@ -55,18 +55,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
 
-	zval *options = NULL, *metaDataDir = NULL;
+	zval *options = NULL, options_sub, __$null, metaDataDir;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&options_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&metaDataDir);
 
 	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		options = ZEPHIR_GLOBAL(global_null);
+		options = &options_sub;
+		options = &__$null;
 	}
 
 
 	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_string_fetch(&metaDataDir, options, SS("metaDataDir"), 1 TSRMLS_CC)) {
-			zephir_update_property_this(this_ptr, SL("_metaDataDir"), metaDataDir TSRMLS_CC);
+		if (zephir_array_isset_string_fetch(&metaDataDir, options, SL("metaDataDir"), 1)) {
+			zephir_update_property_zval(this_ptr, SL("_metaDataDir"), &metaDataDir);
 		}
 	}
 
@@ -80,8 +86,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 
-	zval *key_param = NULL, *path = NULL, *_0, *_1, _2, *_3$$3 = NULL;
-	zval *key = NULL;
+	zval *key_param = NULL, path, _0, _1, _2, _3$$3;
+	zval key;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&path);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -91,23 +105,23 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_STRING(&_2, "_", 0);
-	zephir_prepare_virtual_path(_1, key, &_2 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
-	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
+	zephir_read_property(&_0, this_ptr, SL("_metaDataDir"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "_");
+	zephir_prepare_virtual_path(&_1, &key, &_2 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&path);
+	ZEPHIR_CONCAT_VVS(&path, &_0, &_1, ".php");
+	if ((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3$$3);
-		if (zephir_require_zval_ret(&_3$$3, path TSRMLS_CC) == FAILURE) {
+		if (zephir_require_zval_ret(&_3$$3, &path TSRMLS_CC) == FAILURE) {
 			RETURN_MM_NULL();
 		}
 		RETURN_CCTOR(_3$$3);
@@ -124,8 +138,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 
-	zval *key_param = NULL, *data, *path = NULL, *_0, *_1, _2, *_3, *_4 = NULL, *_5;
-	zval *key = NULL;
+	zval *key_param = NULL, *data, data_sub, path, _0, _1, _2, _3, _4, _5;
+	zval key;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&path);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
@@ -135,28 +160,28 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_STRING(&_2, "_", 0);
-	zephir_prepare_virtual_path(_1, key, &_2 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(path);
-	ZEPHIR_CONCAT_VVS(path, _0, _1, ".php");
-	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_INIT_NVAR(_4);
-	zephir_var_export_ex(_4, &data TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
-	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
-	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
+	zephir_read_property(&_0, this_ptr, SL("_metaDataDir"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "_");
+	zephir_prepare_virtual_path(&_1, &key, &_2 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&path);
+	ZEPHIR_CONCAT_VVS(&path, &_0, &_1, ".php");
+	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_INIT_NVAR(&_4);
+	zephir_var_export_ex(&_4, data TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&_5);
+	ZEPHIR_CONCAT_SVS(&_5, "<?php return ", &_4, "; ");
+	zephir_file_put_contents(&_3, &path, &_5 TSRMLS_CC);
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 86);
 		return;
 	}
@@ -164,23 +189,25 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 
 }
 
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Files(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Files(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval *_0, *_1$$3;
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 
 		ZEPHIR_MM_GROW();
 	
 	{
-		zval *this_ptr = NULL;
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1$$3);
-			array_init(_1$$3);
-			zephir_update_property_this(this_ptr, SL("_metaData"), _1$$3 TSRMLS_CC);
+		zephir_read_property(&_0, this_ptr, SL("_metaData"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("_metaData"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
+		return Z_OBJ_P(this_ptr);
 	}
 
 }

@@ -1,0 +1,161 @@
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Ivan Zubok <chi_no@ukr.net>                                   |
+ +------------------------------------------------------------------------+
+ */
+
+namespace Phalcon\Config\Adapter;
+
+use Phalcon\Config;
+use Phalcon\Config\Exception;
+
+/**
+ * Phalcon\Config\Adapter\Ini
+ *
+ * Reads ini files and converts them to Phalcon\Config objects.
+ *
+ * Given the next configuration file:
+ *
+ *<code>
+ * [database]
+ * adapter = Mysql
+ * host = localhost
+ * username = scott
+ * password = cheetah
+ * dbname = test_db
+ *
+ * [phalcon]
+ * controllersDir = "../app/controllers/"
+ * modelsDir = "../app/models/"
+ * viewsDir = "../app/views/"
+ * </code>
+ *
+ * You can read it as follows:
+ *
+ *<code>
+ * $config = new Phalcon\Config\Adapter\Ini("path/config.ini");
+ * echo $config->phalcon->controllersDir;
+ * echo $config->database->username;
+ *</code>
+ */
+class Inis extends Config
+{
+
+	/**
+	 * Phalcon\Config\Adapter\Ini constructor
+	 */
+	public function __construct(string! filePath)
+	{
+		var iniConfig, iniConfigRaw;
+
+		let iniConfig = parse_ini_file(filePath, true),
+		    iniConfigRaw = parse_ini_file(filePath, true, INI_SCANNER_RAW);
+		    
+		if iniConfig === false {
+			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
+		}
+
+		var config, section, sections, directives, path, lastValue;
+
+		let config = [];
+
+		for section, directives in iniConfig {
+			if typeof directives == "array" {
+				let sections = [];
+				for path, lastValue in directives {
+					let lastValue = cast(lastValue, iniConfigRaw[section][path]);
+					let sections[] = this->_parseIniString(path, lastValue);
+				}
+				if count(sections) {
+					let config[section] = call_user_func_array("array_merge_recursive", sections);
+				}
+			} else {
+				let config[section] = directives;
+			}
+		}
+
+		parent::__construct(config);
+	}
+
+	/**
+	 * Build multidimensional array from string
+	 *
+	 * <code>
+	 * $this->_parseIniString('path.hello.world', 'value for last key');
+	 *
+	 * // result
+	 * [
+	 *      'path' => [
+	 *          'hello' => [
+	 *              'world' => 'value for last key',
+	 *          ],
+	 *      ],
+	 * ];
+	 * </code>
+	 */
+	protected function _parseIniString(string! path, var value) -> array
+	{
+		var pos, key;
+		let pos = strpos(path, ".");
+
+		if pos === false {
+			return [path: value];
+		}
+
+		let key = substr(path, 0, pos);
+		let path = substr(path, pos + 1);
+
+		return [key: this->_parseIniString(path, value)];
+	}
+	
+    /**
+     * We have to cast values manually because parse_ini_file() has a poor implementation.
+     *
+     * @param mixed ini The array casted by `parse_ini_file`
+     * @param mixed raw The same array but with raw strings
+     * @return mixed
+     */
+    private function cast(ini, raw)
+    {
+        if typeof ini == "string" {
+            // Decode true
+            if ini == "1" && (raw === "true" || raw === "yes" || raw === "on") {
+                return true;
+            }
+
+            // Decode false
+            if ini === "" && (raw === "false" || raw === "no" || raw === "off") {
+                return false;
+            }
+
+            // Decode null
+            if ini === "" && raw === "null" {
+                return null;
+            }
+
+            // Decode float/int
+            if is_numeric(ini) {
+                if preg_match("/[.]+/", ini) {
+                    return (double) ini;
+                } else {
+                    return (int) ini;
+                }
+            }
+        }
+        return ini;
+    }
+}

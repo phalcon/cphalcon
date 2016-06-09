@@ -30,10 +30,10 @@
 typedef struct _zephir_memory_entry {
 	size_t pointer;
 	size_t capacity;
-	zval ***addresses;
+	zval **addresses;
 	size_t hash_pointer;
 	size_t hash_capacity;
-	zval ***hash_addresses;
+	zval **hash_addresses;
 	struct _zephir_memory_entry *prev;
 	struct _zephir_memory_entry *next;
 #ifndef ZEPHIR_RELEASE
@@ -45,7 +45,7 @@ typedef struct _zephir_memory_entry {
 /** Virtual Symbol Table */
 typedef struct _zephir_symbol_table {
 	struct _zephir_memory_entry *scope;
-	HashTable *symbol_table;
+	zend_array *symbol_table;
 	struct _zephir_symbol_table *prev;
 } zephir_symbol_table;
 
@@ -58,7 +58,7 @@ typedef struct _zephir_function_cache {
 
 typedef struct _zephir_fcall_cache_entry {
 	zend_function *f;
-	zend_uint times;
+	uint times;
 } zephir_fcall_cache_entry;
 
 #else
@@ -68,10 +68,6 @@ typedef zend_function zephir_fcall_cache_entry;
 #endif
 
 #define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
-
-#ifndef PHP_FE_END
-	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
 
 /** Define FASTCALL */
 #if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
@@ -89,28 +85,6 @@ typedef zend_function zephir_fcall_cache_entry;
 	if (zephir_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
 		return FAILURE; \
 	}
-
-/* Compatibility macros for PHP 5.3 */
-#ifndef PHP_FE_END
-#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
-
-#ifndef INIT_PZVAL_COPY
-#define INIT_PZVAL_COPY(z, v) \
-	ZVAL_COPY_VALUE(z, v); \
-	Z_SET_REFCOUNT_P(z, 1); \
-	Z_UNSET_ISREF_P(z);
-#endif
-
-#ifndef ZVAL_COPY_VALUE
-#define ZVAL_COPY_VALUE(z, v) \
-	(z)->value = (v)->value; \
-	Z_TYPE_P(z) = Z_TYPE_P(v);
-#endif
-
-#ifndef HASH_KEY_NON_EXISTENT
-# define HASH_KEY_NON_EXISTENT HASH_KEY_NON_EXISTANT
-#endif
 
 /** Macros for branch prediction */
 #define likely(x) EXPECTED(x)
@@ -165,7 +139,5 @@ typedef zend_function zephir_fcall_cache_entry;
 #else
 #define zephir_nts_static
 #endif
-
-#define ZEPHIR_STATIC
 
 #endif

@@ -51,7 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
  */
 PHP_METHOD(Phalcon_Db_RawValue, getValue) {
 
-	
+	ZEPHIR_INIT_THIS();
+
 
 	RETURN_MEMBER(this_ptr, "_value");
 
@@ -62,7 +63,8 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue) {
  */
 PHP_METHOD(Phalcon_Db_RawValue, __toString) {
 
-	
+	ZEPHIR_INIT_THIS();
+
 
 	RETURN_MEMBER(this_ptr, "_value");
 
@@ -73,9 +75,15 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString) {
  */
 PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 
-	zval *_3 = NULL;
+	zval _3;
 	zend_bool _0;
-	zval *value, *_1$$3, *_2$$4;
+	zval *value, value_sub, _1$$3, _2$$4;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &value);
@@ -87,19 +95,21 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 		_0 = ZEPHIR_IS_STRING(value, "");
 	}
 	if (_0) {
-		ZEPHIR_INIT_ZVAL_NREF(_1$$3);
-		ZVAL_STRING(_1$$3, "''", 1);
-		zephir_update_property_this(this_ptr, SL("_value"), _1$$3 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "''");
+		zephir_update_property_zval(this_ptr, SL("_value"), &_1$$3);
 		RETURN_MM_NULL();
 	}
 	if (Z_TYPE_P(value) == IS_NULL) {
-		ZEPHIR_INIT_ZVAL_NREF(_2$$4);
-		ZVAL_STRING(_2$$4, "NULL", 1);
-		zephir_update_property_this(this_ptr, SL("_value"), _2$$4 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_2$$4);
+		ZEPHIR_INIT_NVAR(&_2$$4);
+		ZVAL_STRING(&_2$$4, "NULL");
+		zephir_update_property_zval(this_ptr, SL("_value"), &_2$$4);
 		RETURN_MM_NULL();
 	}
-	zephir_get_strval(_3, value);
-	zephir_update_property_this(this_ptr, SL("_value"), _3 TSRMLS_CC);
+	zephir_get_strval(&_3, value);
+	zephir_update_property_zval(this_ptr, SL("_value"), &_3);
 	ZEPHIR_MM_RESTORE();
 
 }

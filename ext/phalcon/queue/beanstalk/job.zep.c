@@ -50,7 +50,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk_Job) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
 
-	
+	ZEPHIR_INIT_THIS();
+
 
 	RETURN_MEMBER(this_ptr, "_id");
 
@@ -60,7 +61,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody) {
 
-	
+	ZEPHIR_INIT_THIS();
+
 
 	RETURN_MEMBER(this_ptr, "_body");
 
@@ -71,18 +73,23 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
 
-	zval *id = NULL;
-	zval *queue, *id_param = NULL, *body;
+	zval id;
+	zval *queue, queue_sub, *id_param = NULL, *body, body_sub;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue_sub);
+	ZVAL_UNDEF(&body_sub);
+	ZVAL_UNDEF(&id);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &queue, &id_param, &body);
 
-	zephir_get_strval(id, id_param);
+	zephir_get_strval(&id, id_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_body"), body TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_queue"), queue);
+	zephir_update_property_zval(this_ptr, SL("_id"), &id);
+	zephir_update_property_zval(this_ptr, SL("_body"), body);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -92,22 +99,29 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 
-	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
+	zval queue, _0, _1, _2, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(queue);
-	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "delete ", _0);
-	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, 0, _1);
+	ZEPHIR_OBS_VAR(&queue);
+	zephir_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SV(&_1, "delete ", &_0);
+	ZEPHIR_CALL_METHOD(NULL, &queue, "write", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 64 TSRMLS_CC);
-	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "DELETED"));
+	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 64 TSRMLS_CC);
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_3, "DELETED"));
 
 }
 
@@ -118,8 +132,17 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 
-	zval *priority_param = NULL, *delay_param = NULL, *queue = NULL, *_0, _1, _2, *_3, *_4 = NULL, *_5;
+	zval *priority_param = NULL, *delay_param = NULL, queue, _0, _1, _2, _3, _4, _5;
 	int priority, delay, ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &priority_param, &delay_param);
@@ -136,21 +159,21 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 	}
 
 
-	ZEPHIR_OBS_VAR(queue);
-	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(&queue);
+	zephir_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_LONG(&_1, priority);
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_LONG(&_2, delay);
-	ZEPHIR_INIT_VAR(_3);
-	ZEPHIR_CONCAT_SVSVSV(_3, "release ", _0, " ", &_1, " ", &_2);
-	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, 0, _3);
+	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_CONCAT_SVSVSV(&_3, "release ", &_0, " ", &_1, " ", &_2);
+	ZEPHIR_CALL_METHOD(NULL, &queue, "write", NULL, 0, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, queue, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_4, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_5, _4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 78 TSRMLS_CC);
-	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_5, "RELEASED"));
+	zephir_array_fetch_long(&_5, &_4, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 78 TSRMLS_CC);
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_5, "RELEASED"));
 
 }
 
@@ -161,8 +184,16 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 
-	zval *priority_param = NULL, *queue = NULL, *_0, _1, *_2, *_3 = NULL, *_4;
+	zval *priority_param = NULL, queue, _0, _1, _2, _3, _4;
 	int priority, ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &priority_param);
@@ -174,19 +205,19 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 	}
 
 
-	ZEPHIR_OBS_VAR(queue);
-	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(&queue);
+	zephir_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_LONG(&_1, priority);
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_SVSV(_2, "bury ", _0, " ", &_1);
-	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, 0, _2);
+	ZEPHIR_INIT_VAR(&_2);
+	ZEPHIR_CONCAT_SVSV(&_2, "bury ", &_0, " ", &_1);
+	ZEPHIR_CALL_METHOD(NULL, &queue, "write", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, queue, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, _3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 92 TSRMLS_CC);
-	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_4, "BURIED"));
+	zephir_array_fetch_long(&_4, &_3, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 92 TSRMLS_CC);
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_4, "BURIED"));
 
 }
 
@@ -200,22 +231,29 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 
-	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
+	zval queue, _0, _1, _2, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(queue);
-	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "touch ", _0);
-	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, 0, _1);
+	ZEPHIR_OBS_VAR(&queue);
+	zephir_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SV(&_1, "touch ", &_0);
+	ZEPHIR_CALL_METHOD(NULL, &queue, "write", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 109 TSRMLS_CC);
-	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "TOUCHED"));
+	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 109 TSRMLS_CC);
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_3, "TOUCHED"));
 
 }
 
@@ -224,22 +262,29 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 
-	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
+	zval queue, _0, _1, _2, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(queue);
-	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "kick-job ", _0);
-	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, 0, _1);
+	ZEPHIR_OBS_VAR(&queue);
+	zephir_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SV(&_1, "kick-job ", &_0);
+	ZEPHIR_CALL_METHOD(NULL, &queue, "write", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, queue, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, &queue, "readstatus", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, _2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 121 TSRMLS_CC);
-	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_3, "KICKED"));
+	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 121 TSRMLS_CC);
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(&_3, "KICKED"));
 
 }
 
@@ -248,25 +293,33 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
 
-	zval *queue = NULL, *response = NULL, *_0, *_1, *_2, *_3;
+	zval queue, response, _0, _1, _2, _3;
 	int ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&queue);
+	ZVAL_UNDEF(&response);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(queue);
-	zephir_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_id"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "stats-job ", _0);
-	ZEPHIR_CALL_METHOD(NULL, queue, "write", NULL, 0, _1);
+	ZEPHIR_OBS_VAR(&queue);
+	zephir_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SV(&_1, "stats-job ", &_0);
+	ZEPHIR_CALL_METHOD(NULL, &queue, "write", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, queue, "readyaml", NULL, 0);
+	ZEPHIR_CALL_METHOD(&response, &queue, "readyaml", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_2, response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 135 TSRMLS_CC);
-	if (ZEPHIR_IS_STRING(_2, "NOT_FOUND")) {
+	zephir_array_fetch_long(&_2, &response, 0, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 135 TSRMLS_CC);
+	if (ZEPHIR_IS_STRING(&_2, "NOT_FOUND")) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_array_fetch_long(&_3, response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 139 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, &response, 2, PH_NOISY | PH_READONLY, "phalcon/queue/beanstalk/job.zep", 139 TSRMLS_CC);
 	RETURN_CTOR(_3);
 
 }
@@ -276,13 +329,16 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 
-	zval *_0;
+	zval _0;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_id"), PH_NOISY_CC);
-	if (Z_TYPE_P(_0) != IS_STRING) {
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_read_property(&_0, this_ptr, SL("_id"), PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_beanstalk_exception_ce, "Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!", "phalcon/queue/beanstalk/job.zep", 148);
 		return;
 	}
