@@ -168,7 +168,7 @@ class Dump
 			if variable instanceof Di {
 				// Skip debuging di
 				let output .= str_repeat(space, tab) . "[skipped]\n";
-			} elseif !this->detailed {
+			} elseif !this->_detailed {
 				// Debug only public properties
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
