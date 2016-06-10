@@ -45,7 +45,6 @@ use Phalcon\Validation\Validator;
  */
 class Alpha extends Validator
 {
-
 	/**
 	 * Executes the validation
 	 */
@@ -55,7 +54,7 @@ class Alpha extends Validator
 
 		let value = validation->getValue(field);
 
-		if !ctype_alpha(value) {
+		if preg_match("/[^[:alpha:]]/imu", value) {
 
 			let label = this->getOption("label");
 			if typeof label == "array" {
