@@ -39,6 +39,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  *     'persistent' => false,
  *     'lifetime'   => 3600,
  *     'prefix'     => 'my_'
+ *     'index'      => 1,
  * ]);
  *
  * $session->start();
