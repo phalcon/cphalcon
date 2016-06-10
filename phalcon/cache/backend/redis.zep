@@ -46,6 +46,7 @@ use Phalcon\Cache\FrontendInterface;
  *     'port' => 6379,
  *     'auth' => 'foobared',
  *     'persistent' => false
+ *     'index' => 0,
  * ]);
  *
  * // Cache arbitrary data
