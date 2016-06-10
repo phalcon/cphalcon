@@ -85,8 +85,9 @@
 - Added `Phalcon\Security::hasLibreSsl` and `Phalcon\Security::getSslVersionNumber`
 - Added new setter `Phalcon\Escaper::setDoubleEncode()` - to allow setting/disabling double encoding
 - Added  `Phalcon\Cache\Frontend\Msgpack` - Added Msgpack Support for Frontend Cache
-- `Phalcon\Debug\Dump` skip debuging di, fix detecting private/protected properties
+- `Phalcon\Debug\Dump` skip debugging di, fix detecting private/protected properties
 - Added option to validate multiple fields with one validator(fix uniqueness validator as well), also removes unnecessary `model => $this` in `Phalcon\Validation\Validator\Uniqueness`.
+- `Phalcon\Validation\Validator\Alpha` now correctly validates non-ASCII characters
 
 # [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
