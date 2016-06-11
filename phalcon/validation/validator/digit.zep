@@ -55,34 +55,33 @@ class Digit extends Validator
 
 		let value = validation->getValue(field);
 
-		if !ctype_digit(value) {
-
-			let label = this->getOption("label");
-			if typeof label == "array" {
-				let label = label[field];
-			}
-			if empty label {
-				let label = validation->getLabel(field);
-			}
-
-			let message = this->getOption("message");
-			if typeof message == "array" {
-				let message = message[field];
-			}
-			let replacePairs = [":field": label];
-			if empty message {
-				let message = validation->getDefaultMessage("Digit");
-			}
-
-			let code = this->getOption("code");
-			if typeof code == "array" {
-				let code = code[field];
-			}
-
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit", code));
-			return false;
+		if is_int(value) || ctype_digit(value) {
+				return true;
 		}
 
-		return true;
+				let label = this->getOption("label");
+				if typeof label == "array" {
+						let label = label[field];
+				}
+				if empty label {
+						let label = validation->getLabel(field);
+				}
+
+				let message = this->getOption("message");
+				if typeof message == "array" {
+						let message = message[field];
+				}
+				let replacePairs = [":field": label];
+				if empty message {
+						let message = validation->getDefaultMessage("Digit");
+				}
+
+				let code = this->getOption("code");
+				if typeof code == "array" {
+						let code = code[field];
+				}
+
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit", code));
+				return false;
 	}
 }
