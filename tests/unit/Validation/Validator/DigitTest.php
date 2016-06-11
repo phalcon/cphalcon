@@ -2,9 +2,9 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator\Digit;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Proxy\Validation\Validator\Digit;
 
 /**
  * \Phalcon\Test\Unit\Validation\Validator\DigitTest
@@ -34,14 +34,19 @@ class DigitTest extends UnitTest
      */
     public function testSingleField()
     {
-        $this->specify('Test digit validator with single field.', function () {
-            $validation = new Validation();
-            $validation->add('amount', new Digit());
-            $messages = $validation->validate(['amount' => '123']);
-            expect($messages->count())->equals(0);
-            $messages = $validation->validate(['amount' => '123abc']);
-            expect($messages->count())->equals(1);
-        });
+        $this->specify(
+            'The Digit Validator does not validate correctly',
+            function () {
+                $validation = new Validation();
+                $validation->add('amount', new Digit());
+
+                $messages = $validation->validate(['amount' => '123']);
+                expect($messages->count())->equals(0);
+
+                $messages = $validation->validate(['amount' => '123abc']);
+                expect($messages->count())->equals(1);
+            }
+        );
     }
 
     /**
@@ -52,24 +57,55 @@ class DigitTest extends UnitTest
      */
     public function testMultipleField()
     {
-        $this->specify('Test digit validator with multiple field', function () {
-            $validation = new Validation();
-            $validationMessages = [
-                'amount' => 'Amount must be digit.',
-                'price' => 'Price must be digit.',
-            ];
-            $validation->add(['amount', 'price'], new Digit([
-                'message' => $validationMessages,
-            ]));
-            $messages = $validation->validate(['amount'=>'123', 'price' => '123']);
-            expect($messages->count())->equals(0);
-            $messages = $validation->validate(['amount'=>'123abc', 'price' => '123']);
-            expect($messages->count())->equals(1);
-            expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['amount']);
-            $messages = $validation->validate(['amount'=>'123abc', 'price' => '123abc']);
-            expect($messages->count())->equals(2);
-            expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['amount']);
-            expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['price']);
-        });
+        $this->specify(
+            'The Digit Validator does not validate multiple field',
+            function () {
+                $validation = new Validation();
+                $validationMessages = [
+                    'amount' => 'Amount must be digit.',
+                    'price' => 'Price must be digit.',
+                ];
+                $validation->add(['amount', 'price'], new Digit([
+                    'message' => $validationMessages,
+                ]));
+
+                $messages = $validation->validate(['amount' => '123', 'price' => '123']);
+                expect($messages->count())->equals(0);
+
+                $messages = $validation->validate(['amount' => '123abc', 'price' => '123']);
+                expect($messages->count())->equals(1);
+                expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['amount']);
+
+                $messages = $validation->validate(['amount' => '123abc', 'price' => '123abc']);
+                expect($messages->count())->equals(2);
+                expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['amount']);
+                expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['price']);
+            }
+        );
+    }
+
+    public function testShouldValidateIntOrStringOfDigits()
+    {
+        $this->specify(
+            'The Digit Validator does not validate digits correctly',
+            function ($digit) {
+                $validation = new Validation();
+                $validation->add('amount', new Digit());
+
+                $messages = $validation->validate(['amount' => $digit]);
+
+                expect($messages)->count(0);
+            }, ['examples' => [
+                ['123'],
+                [123],
+                [PHP_INT_MAX],
+                [0xFFFFFF],
+                [100000],
+                [-100000],
+                [0],
+                ["0"],
+                ["00001233422003400"],
+            ]]
+        );
     }
 }
