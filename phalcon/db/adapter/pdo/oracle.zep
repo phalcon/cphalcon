@@ -225,7 +225,7 @@ class Oracle extends PdoAdapter implements AdapterInterface
 	 */
 	public function lastInsertId(string sequenceName = null) -> int
 	{
-		return this->fetchAll("SELECT " . sequenceName . ".CURRVAL FROM dual", \Phalcon\Db::FETCH_NUM)[0];
+		return this->fetchAll("SELECT " . sequenceName . ".CURRVAL FROM dual", \Phalcon\Db::FETCH_NUM)[0][0];
 	}
 
 	/**
