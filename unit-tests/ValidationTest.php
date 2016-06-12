@@ -33,38 +33,6 @@ use Phalcon\Validation\Validator\PresenceOf,
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
-
-	public function testValidationGroup()
-	{
-
-		$message1 = new Phalcon\Validation\Message('This a message #1', 'field1', 'Type1');
-		$message2 = new Phalcon\Validation\Message('This a message #2', 'field2', 'Type2');
-		$message3 = new Phalcon\Validation\Message('This a message #3', 'field3', 'Type3');
-
-		$messages = new Phalcon\Validation\Message\Group(array($message1, $message2));
-
-		$this->assertEquals(count($messages), 2);
-		$this->assertEquals($messages[0], $message1);
-		$this->assertEquals($messages[1], $message2);
-
-		$this->assertTrue(isset($messages[0]));
-		$this->assertTrue(isset($messages[1]));
-
-		$messages->appendMessage($message3);
-
-		$this->assertEquals($messages[2], $message3);
-
-		$number = 0;
-		foreach ($messages as $position => $message) {
-			$this->assertEquals($position, $number);
-			$this->assertEquals($messages[$position]->getMessage(), $message->getMessage());
-			$this->assertEquals($messages[$position]->getField(), $message->getField());
-			$this->assertEquals($messages[$position]->getType(), $message->getType());
-			$number++;
-		}
-		$this->assertEquals($number, 3);
-	}
-
 	public function testValidationPresenceOf()
 	{
 		$_POST = array();

@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
-use UnitTester;
 use Phalcon\Validation;
 use Codeception\Specify;
 use Phalcon\Test\Module\UnitTest;
