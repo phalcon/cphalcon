@@ -56,7 +56,7 @@ if [ ${TRAVIS_PHP_VERSION} == "5.4" ]; then
 elif [ ${TRAVIS_PHP_VERSION} == "7.0" ]; then
     ( mkdir -p /tmp/apcu && cd /tmp/apcu && git clone https://github.com/krakjoe/apcu /tmp/apcu && phpize && ./configure && make -j 4 && sudo make install && phpenv config-add "$DIR/apcu.ini" ) &
 else
-    ( pecl install apcu-4.0.11 &> /dev/null ) &
+    ( pecl install apcu-4.0.11 &> /dev/null && echo "apc.enable_cli=On" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ) &
 fi
 
 wait
