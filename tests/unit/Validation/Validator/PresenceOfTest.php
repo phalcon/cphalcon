@@ -2,8 +2,11 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
+use Phalcon\Validation\Message;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Validation\Message\Group;
+use Phalcon\Test\Proxy\Validation\Validator\PresenceOf;
 
 /**
  * \Phalcon\Test\Unit\Validation\Validator\PresenceOfTest
@@ -35,7 +38,7 @@ class PresenceOfTest extends UnitTest
     {
         $this->specify('Test presence of validator with single field.', function () {
             $validation = new Validation();
-            $validation->add('name', new Validation\Validator\PresenceOf());
+            $validation->add('name', new PresenceOf());
             $messages = $validation->validate(['name' => 'SomeValue']);
             expect($messages->count())->equals(0);
             $messages = $validation->validate(['name' => '']);
@@ -57,18 +60,52 @@ class PresenceOfTest extends UnitTest
                 'name' => 'Name cant be empty.',
                 'type' => 'Type cant be empty.',
             ];
-            $validation->add(['name', 'type'], new Validation\Validator\PresenceOf([
+            $validation->add(['name', 'type'], new PresenceOf([
                 'message' => $validationMessages,
             ]));
             $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
             expect($messages->count())->equals(0);
+
             $messages = $validation->validate(['name' => '', 'type' => 'SomeValue']);
             expect($messages->count())->equals(1);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
+
+            $expectedMessages = Group::__set_state([
+                '_messages' => [
+                    Message::__set_state([
+                        '_type' => 'PresenceOf',
+                        '_message' => 'Name cant be empty.',
+                        '_field' => 'name',
+                        '_code' => '0',
+                    ])
+                ],
+            ]);
+
+            expect($messages)->equals($expectedMessages);
+
             $messages = $validation->validate(['name' => '', 'type' => '']);
             expect($messages->count())->equals(2);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['type']);
+
+            $expectedMessages = Group::__set_state([
+                '_messages' => [
+                    Message::__set_state([
+                        '_type' => 'PresenceOf',
+                        '_message' => 'Name cant be empty.',
+                        '_field' => 'name',
+                        '_code' => '0',
+                    ]),
+                    Message::__set_state([
+                        '_type' => 'PresenceOf',
+                        '_message' => 'Type cant be empty.',
+                        '_field' => 'type',
+                        '_code' => '0',
+                    ])
+                ],
+            ]);
+
+            expect($messages)->equals($expectedMessages);
         });
     }
 }
