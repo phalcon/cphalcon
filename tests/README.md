@@ -156,7 +156,6 @@ You must not create protected or private methods.
 
 - [ ] Tests for foreign keys cascade in the ORM
 - [ ] Tests for many-to-many relations
-- [ ] Tests for macros in Volt
 - [ ] Tests for `+=`, `-=`, `*=`, `/=`, `++`, `--` in Volt
 - [ ] Tests for `Alc::allow('*', '*', 'index')`
 - [ ] Tests for `Alc::allow('*', '*', '*')`
