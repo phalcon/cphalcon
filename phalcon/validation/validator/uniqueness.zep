@@ -20,7 +20,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\CombinedFieldsValidator;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\Message;
 use Phalcon\Mvc\Model;
@@ -57,7 +57,7 @@ use Phalcon\Mvc\Model;
  * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
  * </code>
  */
-class Uniqueness extends Validator
+class Uniqueness extends CombinedFieldsValidator
 {
 	private columnMap = null;
 
