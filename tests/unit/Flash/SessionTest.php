@@ -6,6 +6,7 @@ use Codeception\Lib\Connector\PhalconMemorySession;
 use Phalcon\Test\Proxy\Flash\Session;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Di;
+use Phalcon\Escaper;
 
 /**
  * \Phalcon\Test\Unit\Flash\SessionTest
@@ -43,10 +44,63 @@ class SessionTest extends UnitTest
     {
         $flash = new Session($this->classes);
         $di = new Di();
+
         $di->setShared('session', new PhalconMemorySession());
+        $di->setShared('escaper', new Escaper());
+
         $flash->setDI($di);
 
         return $flash;
+    }
+
+    /**
+     * Tests auto escaping
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @issue  11448
+     * @since  2016-06-15
+     */
+    public function testShouldAutoEscapeHtml()
+    {
+        $this->specify(
+            "The output() method outputs HTML incorrectly",
+            function ($function) {
+                $flash = $this->getFlash();
+
+                $flash->setAutoescape(false);
+                $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
+                expect($flash->getMessages($function))
+                    ->equals(["<script>alert('This will execute as JavaScript!')</script>"]);
+
+                ob_start();
+                $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
+                $flash->output();
+                $actual = ob_get_contents();
+                ob_end_clean();
+
+                expect($actual)
+                    ->equals("<div class=\"{$function}Message\"><script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL);
+
+                $flash->setAutoescape(true);
+                $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
+                expect($flash->getMessages($function))
+                    ->equals(["<script>alert('This will execute as JavaScript!')</script>"]);
+
+                ob_start();
+                $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
+                $flash->output();
+                $actual = ob_get_contents();
+                ob_end_clean();
+
+                expect($actual)
+                    ->equals("<div class=\"{$function}Message\">&lt;script&gt;alert(&#039;This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL);
+            }, ['examples' => [
+                ['error'],
+                ['success'],
+                ['notice'],
+                ['warning'],
+            ]]
+        );
     }
 
     /**
