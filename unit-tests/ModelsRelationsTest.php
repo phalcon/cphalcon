@@ -382,11 +382,13 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$robotsParts = $robot->getRelationsRobotsParts();
 		$this->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
+		$this->assertInstanceOf('RelationsRobotsParts', $robotsParts->getFirst());
 
 		$robot = RelationsRobots::findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->relationsRobotsParts;
 		$this->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
+		$this->assertInstanceOf('RelationsRobotsParts', $robotsParts->getFirst());
 	}
 }
