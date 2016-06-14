@@ -110,7 +110,7 @@ class Ini extends Config
 		var pos, key;
 		let value = this->_cast(value);
 		let pos = strpos(path, ".");
-		
+
 		if pos === false {
 			return [path: value];
 		}
@@ -138,12 +138,12 @@ class Ini extends Config
         }
         if typeof ini == "string" {
             // Decode true
-            if ini === "true" || ini === "yes" || ini === "on"{
+            if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
                 return true;
             }
 
             // Decode false
-            if ini === "false" || ini === "no" || ini === "off"{
+            if ini === "false" || ini === "no" || strtolower(ini) === "off"{
                 return false;
             }
 
