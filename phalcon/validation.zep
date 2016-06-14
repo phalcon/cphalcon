@@ -25,7 +25,7 @@ use Phalcon\Validation\Exception;
 use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\ValidatorInterface;
-use Phalcon\Validation\Validator\Uniqueness;
+use Phalcon\Validation\CombinedFieldsValidator;
 
 /**
  * Phalcon\Validation
@@ -40,7 +40,7 @@ class Validation extends Injectable implements ValidationInterface
 
 	protected _validators = [] { set };
 
-	protected _uniquenessValidatorsCombinedFields;
+	protected _combinedFieldsValidators;
 
 	protected _filters;
 
@@ -59,10 +59,10 @@ class Validation extends Injectable implements ValidationInterface
 	{
 		if count(validators) {
 			let this->_validators = array_filter(validators, function(var element) {
-				return typeof element[0] != "array" || !(element[1] instanceof Uniqueness);
+				return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
 			});
-			let this->_uniquenessValidatorsCombinedFields = array_filter(validators, function(var element) {
-				return typeof element[0] == "array" && element[1] instanceof Uniqueness;
+			let this->_combinedFieldsValidators = array_filter(validators, function(var element) {
+				return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
 			});
 		}
 
@@ -85,10 +85,10 @@ class Validation extends Injectable implements ValidationInterface
 	 */
 	public function validate(var data = null, var entity = null) -> <Group>
 	{
-		var validators, messages, scope, field, validator, status, uniquenessValidatorsCombinedFields;
+		var validators, messages, scope, field, validator, status, combinedFieldsValidators;
 
 		let validators = this->_validators;
-		let uniquenessValidatorsCombinedFields = this->_uniquenessValidatorsCombinedFields;
+		let combinedFieldsValidators = this->_combinedFieldsValidators;
 
 		if typeof validators != "array" {
 			throw new Exception("There are no validators to validate");
@@ -159,8 +159,8 @@ class Validation extends Injectable implements ValidationInterface
 			}
 		}
 
-		if !empty uniquenessValidatorsCombinedFields {
-			for scope in uniquenessValidatorsCombinedFields {
+		if !empty combinedFieldsValidators {
+			for scope in combinedFieldsValidators {
 				if typeof scope != "array" {
 					throw new Exception("The validator scope is not valid");
 				}
@@ -212,8 +212,8 @@ class Validation extends Injectable implements ValidationInterface
 		var singleField;
 		if typeof field == "array" {
 			// Uniqueness validator for combination of fields is handled differently
-			if validator instanceof Uniqueness {
-				let this->_uniquenessValidatorsCombinedFields[] = [field, validator];
+			if validator instanceof CombinedFieldsValidator {
+				let this->_combinedFieldsValidators[] = [field, validator];
 			}
 			else {
 				for singleField in field {
@@ -249,8 +249,8 @@ class Validation extends Injectable implements ValidationInterface
 			if validator instanceof ValidatorInterface {
 				if typeof field == "array" {
 					// Uniqueness validator for combination of fields is handled differently
-					if validator instanceof Uniqueness {
-						let this->_uniquenessValidatorsCombinedFields[] = [field, validator];
+					if validator instanceof CombinedFieldsValidator {
+						let this->_combinedFieldsValidators[] = [field, validator];
 					}
 					else {
 						for singleField in field {
