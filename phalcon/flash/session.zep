@@ -42,7 +42,7 @@ class Session extends FlashBase implements FlashInterface
 		let dependencyInjector = <DiInterface> this->getDI();
 
 		let session = <SessionInterface> dependencyInjector->getShared("session"),
-		    messages = session->get("_flashMessages");
+			messages = session->get("_flashMessages");
 
 		if typeof type == "string" && isset(messages[type]) {
 			if !fetch returnMessages, messages[type] {
@@ -70,7 +70,7 @@ class Session extends FlashBase implements FlashInterface
 		var dependencyInjector, session;
 
 		let dependencyInjector = <DiInterface> this->getDI(),
-		    session = <SessionInterface> dependencyInjector->getShared("session");
+			session = <SessionInterface> dependencyInjector->getShared("session");
 
 		session->set("_flashMessages", messages);
 		return messages;
