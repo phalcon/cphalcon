@@ -91,6 +91,7 @@
 - `Phalcon\Validation\Validator\Digit` now correctly validates digits [#11374](https://github.com/phalcon/cphalcon/issues/11374)
 - Added `Phalcon\Validation\CombinedFieldsValidator`, validation will pass array of fields to this validator if needed
 - Added ability to autoescape Flash messages [#11448](https://github.com/phalcon/cphalcon/issues/11448)
+- Fixed `Phalcon\Config::merge` for working with php7
 
 # [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
 - Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
