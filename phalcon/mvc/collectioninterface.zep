@@ -30,7 +30,7 @@ interface CollectionInterface
 {
 
 	/**
-	 * Sets a value for the _id propery, creates a MongoId object if needed
+	 * Sets a value for the _id property, creates a MongoId object if needed
 	 *
 	 * @param mixed id
 	 */

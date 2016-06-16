@@ -279,7 +279,7 @@ abstract class Adapter implements EventsAwareInterface
 	}
 
 	/**
-	 * Inserts data into a table using custom RBDM SQL syntax
+	 * Inserts data into a table using custom RDBMS SQL syntax
 	 *
 	 * <code>
 	 * // Inserting a new robot

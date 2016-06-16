@@ -186,7 +186,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Replaces the model's name to its source name in a qualifed-name expression
+	 * Replaces the model's name to its source name in a qualified-name expression
 	 */
 	protected final function _getQualified(array! expr) -> array
 	{

@@ -121,7 +121,6 @@ class Volt extends Engine implements EngineInterface
 
 		if mustClean {
 			this->_view->setContent(ob_get_contents());
-			//ob_clean();
 		}
 	}
 
