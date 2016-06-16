@@ -41,24 +41,27 @@ abstract class Text
 	 * Converts strings to camelize style
 	 *
 	 * <code>
-	 *    echo Phalcon\Text::camelize('coco_bongo'); //CocoBongo
+	 *    echo Phalcon\Text::camelize('coco_bongo'); // CocoBongo
+	 *    echo Phalcon\Text::camelize('co_co-bon_go', '-'); // Co_coBon_go
+	 *    echo Phalcon\Text::camelize('co_co-bon_go', '_-'); // CoCoBonGo
 	 * </code>
 	 */
-	public static function camelize(string! str) -> string
+	public static function camelize(string! str, var delimiter = null) -> string
 	{
-		return str->camelize();
+		return str->camelize(delimiter);
 	}
 
 	/**
 	 * Uncamelize strings which are camelized
 	 *
 	 * <code>
-	 *    echo Phalcon\Text::uncamelize('CocoBongo'); //coco_bongo
+	 *    echo Phalcon\Text::uncamelize('CocoBongo'); // coco_bongo
+	 *    echo Phalcon\Text::uncamelize('CocoBongo', '-'); // coco-bongo
 	 * </code>
 	 */
-	public static function uncamelize(string! str) -> string
+	public static function uncamelize(string! str, var delimiter = null) -> string
 	{
-		return str->uncamelize();
+		return str->uncamelize(delimiter);
 	}
 
 	/**

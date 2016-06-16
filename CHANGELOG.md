@@ -92,6 +92,7 @@
 - Added `Phalcon\Validation\CombinedFieldsValidator`, validation will pass array of fields to this validator if needed
 - Added ability to autoescape Flash messages [#11448](https://github.com/phalcon/cphalcon/issues/11448)
 - Fixed `Phalcon\Config::merge` for working with php7
+- Added ability to use custom delimiter for `Phalcon\Text::camelize` and `Phalcon\Text::uncamelize` [#10396](https://github.com/phalcon/cphalcon/issues/10396)
 
 # [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
 - Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
