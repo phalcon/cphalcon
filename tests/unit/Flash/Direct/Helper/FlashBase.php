@@ -4,6 +4,8 @@ namespace Phalcon\Test\Unit\Flash\Direct\Helper;
 
 use Phalcon\Test\Proxy\Flash\Direct;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Di;
+use Phalcon\Escaper;
 
 /**
  * \Phalcon\Test\Unit\Flash\Direct\Helper\FlashBase
@@ -253,6 +255,27 @@ class FlashBase extends UnitTest
         $this->stringTest('warning');
         $this->notHtml     = false;
         $this->notImplicit = false;
+    }
+
+    /**
+     * Tests auto escaping
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @issue  11448
+     * @since  2016-06-15
+     */
+    public function testFlashDirectWithAutoEscaping()
+    {
+        $flash = new Direct($this->classes);
+
+        $flash->setAutomaticHtml(false);
+        $flash->setImplicitFlush(false);
+
+        expect($flash->success("<h1>Hello World!</h1>"))->equals('&lt;h1&gt;Hello World!&lt;/h1&gt;');
+
+        $flash->setAutoescape(false);
+
+        expect($flash->success("<h1>Hello World!</h1>"))->equals('<h1>Hello World!</h1>');
     }
 
     /**

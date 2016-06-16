@@ -1,19 +1,20 @@
 <?php
 
-namespace Phalcon\Test\Proxy\Flash;
+namespace Phalcon\Test\Proxy;
 
 use Phalcon\DiInterface;
-use Phalcon\Flash\Session as PhSession;
+use Phalcon\EscaperInterface;
+use Phalcon\Flash as PhFlash;
 
 /**
- * \Phalcon\Test\Proxy\Flash\Session
- * Flash Session proxy class for \Phalcon\Flash\Session
+ * \Phalcon\Test\Proxy\Flash
+ * Flash proxy class for \Phalcon\Flash
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Proxy\Flash
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @package   Phalcon\Test\Proxy
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -22,16 +23,41 @@ use Phalcon\Flash\Session as PhSession;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class Session extends PhSession
+abstract class Flash extends PhFlash
 {
-    public function message($type, $message)
+    public function __construct($cssClasses = null)
     {
-        parent::message($type, $message);
+        parent::__construct($cssClasses);
     }
 
-    public function output($remove = true)
+    public function getAutoescape()
     {
-        parent::output($remove);
+        return parent::getAutoescape();
+    }
+
+    public function setAutoescape($autoescape)
+    {
+        return parent::setAutoescape($autoescape);
+    }
+
+    public function getEscaperService()
+    {
+        return parent::getEscaperService();
+    }
+
+    public function setEscaperService(EscaperInterface $escaperService)
+    {
+        return parent::setEscaperService($escaperService);
+    }
+
+    public function setDI(DiInterface $dependencyInjector)
+    {
+        return parent::setDI($dependencyInjector);
+    }
+
+    public function getDI()
+    {
+        return parent::getDI();
     }
 
     public function setImplicitFlush($implicitFlush)
@@ -44,7 +70,7 @@ class Session extends PhSession
         return parent::setAutomaticHtml($automaticHtml);
     }
 
-    public function setCssClasses(array $cssClasses)
+    public function setCssClasses($cssClasses)
     {
         return parent::setCssClasses($cssClasses);
     }
@@ -72,5 +98,10 @@ class Session extends PhSession
     public function outputMessage($type, $message)
     {
         return parent::outputMessage($type, $message);
+    }
+
+    public function clear()
+    {
+        parent::clear();
     }
 }

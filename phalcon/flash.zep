@@ -21,6 +21,7 @@ namespace Phalcon;
 
 use Phalcon\Flash\Exception;
 use Phalcon\FlashInterface;
+use Phalcon\Di\InjectionAwareInterface;
 
 /**
  * Phalcon\Flash
@@ -32,7 +33,7 @@ use Phalcon\FlashInterface;
  * $flash->error("Cannot open the file");
  *</code>
  */
-abstract class Flash
+abstract class Flash implements InjectionAwareInterface
 {
 
 	protected _cssClasses;
@@ -40,6 +41,12 @@ abstract class Flash
 	protected _implicitFlush = true;
 
 	protected _automaticHtml = true;
+
+	protected _escaperService = null;
+
+	protected _autoescape = true;
+
+	protected _dependencyInjector = null;
 
 	protected _messages;
 
@@ -57,6 +64,74 @@ abstract class Flash
 			];
 		}
 		let this->_cssClasses = cssClasses;
+	}
+
+	/**
+	 * Returns the autoescape mode in generated html
+	 */
+	public function getAutoescape() -> bool
+	{
+			return this->_autoescape;
+	}
+
+	/**
+	 * Set the autoescape mode in generated html
+	 */
+	public function setAutoescape(boolean autoescape) -> <Flash>
+	{
+		let this->_autoescape = autoescape;
+		return this;
+	}
+
+	/**
+	 * Returns the Escaper Service
+	 */
+	public function getEscaperService() -> <EscaperInterface>
+	{
+		var escaper, dependencyInjector;
+
+		let escaper = this->_escaperService;
+		if typeof escaper != "object" {
+			let dependencyInjector = <DiInterface> this->getDI();
+
+			let escaper = <EscaperInterface> dependencyInjector->getShared("escaper"),
+				this->_escaperService = escaper;
+		}
+
+		return escaper;
+	}
+
+	/**
+	 * Sets the Escaper Service
+	 */
+	public function setEscaperService(<EscaperInterface> escaperService) -> <Flash>
+	{
+		let this->_escaperService = escaperService;
+		return this;
+	}
+
+	/**
+	 * Sets the dependency injector
+	 */
+	public function setDI(<DiInterface> dependencyInjector) -> <Flash>
+	{
+		let this->_dependencyInjector = dependencyInjector;
+		return this;
+	}
+
+	/**
+	 * Returns the internal dependency injector
+	 */
+	public function getDI() -> <DiInterface>
+	{
+		var di;
+		let di = this->_dependencyInjector;
+
+		if typeof di != "object" {
+			let di = Di::getDefault();
+		}
+
+		return di;
 	}
 
 	/**
@@ -148,9 +223,10 @@ abstract class Flash
 	{
 		boolean automaticHtml, implicitFlush;
 		var content, cssClasses, classes, typeClasses, eol, msg,
-			htmlMessage;
+			htmlMessage, autoEscape, escaper, preparedMsg;
 
-		let automaticHtml = (bool) this->_automaticHtml;
+		let automaticHtml = (bool) this->_automaticHtml,
+			autoEscape = (bool) this->_autoescape;
 
 		if automaticHtml === true {
 			let classes = this->_cssClasses;
@@ -164,6 +240,10 @@ abstract class Flash
 				let cssClasses = "";
 			}
 			let eol = PHP_EOL;
+		}
+
+		if autoEscape === true {
+			let escaper = this->getEscaperService();
 		}
 
 		let implicitFlush = (bool) this->_implicitFlush;
@@ -180,14 +260,19 @@ abstract class Flash
 			 * We create the message with implicit flush or other
 			 */
 			for msg in message {
+				if autoEscape === true {
+					let preparedMsg = escaper->escapeHtml(msg);
+				} else {
+					let preparedMsg = msg;
+				}
 
 				/**
 				 * We create the applying formatting or not
 				 */
 				if automaticHtml === true {
-					let htmlMessage = "<div" . cssClasses . ">" . msg . "</div>" . eol;
+					let htmlMessage = "<div" . cssClasses . ">" . preparedMsg . "</div>" . eol;
 				} else {
-					let htmlMessage = msg;
+					let htmlMessage = preparedMsg;
 				}
 
 				if implicitFlush === true {
@@ -206,14 +291,19 @@ abstract class Flash
 			}
 
 		} else {
+			if autoEscape === true {
+				let preparedMsg = escaper->escapeHtml(message);
+			} else {
+				let preparedMsg = message;
+			}
 
 			/**
 			 * We create the applying formatting or not
 			 */
 			if automaticHtml === true {
-				let htmlMessage = "<div" . cssClasses . ">" . message . "</div>" . eol;
+				let htmlMessage = "<div" . cssClasses . ">" . preparedMsg . "</div>" . eol;
 			} else {
-				let htmlMessage = message;
+				let htmlMessage = preparedMsg;
 			}
 
 			/**
