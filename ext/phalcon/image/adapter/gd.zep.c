@@ -1392,7 +1392,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _save) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_FUNCTION(&ext, "pathinfo", NULL, 74, file, &_0);
+	ZEPHIR_CALL_FUNCTION(&ext, "pathinfo", NULL, 76, file, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(ext))) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
@@ -1538,7 +1538,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, _render) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_fast_strtolower(_0, ext);
 	zephir_get_strval(ext, _0);
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 125);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 126);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "gif", 0);

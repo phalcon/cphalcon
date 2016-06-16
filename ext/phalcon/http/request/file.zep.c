@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 		if (zephir_is_true(_1$$3)) {
 			ZEPHIR_SINIT_VAR(_2$$4);
 			ZVAL_LONG(&_2$$4, 4);
-			ZEPHIR_CALL_FUNCTION(&_3$$4, "pathinfo", NULL, 74, name, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(&_3$$4, "pathinfo", NULL, 76, name, &_2$$4);
 			zephir_check_call_status();
 			zephir_update_property_this(this_ptr, SL("_extension"), _3$$4 TSRMLS_CC);
 		}
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getName) {
 }
 
 /**
- * Returns the temporal name of the uploaded file
+ * Returns the temporary name of the uploaded file
  */
 PHP_METHOD(Phalcon_Http_Request_File, getTempName) {
 

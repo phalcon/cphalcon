@@ -12,10 +12,13 @@ PHP_METHOD(Phalcon_Loader, prepareNamespace);
 PHP_METHOD(Phalcon_Loader, getNamespaces);
 PHP_METHOD(Phalcon_Loader, registerDirs);
 PHP_METHOD(Phalcon_Loader, getDirs);
+PHP_METHOD(Phalcon_Loader, registerFiles);
+PHP_METHOD(Phalcon_Loader, getFiles);
 PHP_METHOD(Phalcon_Loader, registerClasses);
 PHP_METHOD(Phalcon_Loader, getClasses);
 PHP_METHOD(Phalcon_Loader, register);
 PHP_METHOD(Phalcon_Loader, unregister);
+PHP_METHOD(Phalcon_Loader, loadFiles);
 PHP_METHOD(Phalcon_Loader, autoLoad);
 PHP_METHOD(Phalcon_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Loader, getCheckedPath);
@@ -43,6 +46,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerdirs, 0, 0, 1)
 	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerfiles, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, files, 0)
+	ZEND_ARG_INFO(0, merge)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_registerclasses, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, classes, 0)
 	ZEND_ARG_INFO(0, merge)
@@ -62,10 +70,13 @@ ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {
 	PHP_ME(Phalcon_Loader, getNamespaces, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerDirs, arginfo_phalcon_loader_registerdirs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getDirs, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Loader, registerFiles, arginfo_phalcon_loader_registerfiles, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Loader, getFiles, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerClasses, arginfo_phalcon_loader_registerclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getClasses, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, register, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, unregister, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Loader, loadFiles, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, autoLoad, arginfo_phalcon_loader_autoload, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getFoundPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getCheckedPath, NULL, ZEND_ACC_PUBLIC)

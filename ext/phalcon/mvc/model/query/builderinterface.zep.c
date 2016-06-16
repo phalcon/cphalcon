@@ -110,6 +110,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, rightJoin);
 
 /**
+ * Return join parts of the query
+ *
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getJoins);
+
+/**
  * Sets conditions for the query
  *
  * @param string conditions

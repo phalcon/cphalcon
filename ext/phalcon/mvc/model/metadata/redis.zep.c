@@ -30,15 +30,17 @@
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Redis(array(
- * 		'host' => '127.0.0.1',
- * 		'port' => 6379,
- * 		'persistent' => 0,
- * 		'statsKey' => '_PHCM_MM',
- * 		'lifetime' => 172800
- *	));
+ * use Phalcon\Mvc\Model\Metadata\Redis;
+ *
+ * $metaData = new Redis([
+ *     'host'       => '127.0.0.1',
+ *     'port'       => 6379,
+ *     'persistent' => 0,
+ *     'statsKey'   => '_PHCM_MM',
+ *     'lifetime'   => 172800,
+ *     'index'      => 2,
+ * ]);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis) {
@@ -204,7 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 	zephir_read_property_this(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/redis.zep", 130);
+		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/redis.zep", 132);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)

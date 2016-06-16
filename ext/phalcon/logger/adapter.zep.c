@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
 	HashTable *_3;
 	HashPosition _2;
-	zval *message = NULL, *_0, *_1, **_4, *_5$$4 = NULL, *_6$$4 = NULL, *_7$$4 = NULL, *_8$$4 = NULL;
+	zval *message = NULL, *_0, *_1, **_4, *_10, *_5$$4 = NULL, *_6$$4 = NULL, *_7$$4 = NULL, *_8$$4 = NULL;
 	zephir_fcall_cache_entry *_9 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 		zephir_update_property_this(this_ptr, SL("_transaction"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_queue"), PH_NOISY_CC);
-	zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/logger/adapter.zep", 124);
+	zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/logger/adapter.zep", 125);
 	for (
 	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -168,6 +168,9 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "loginternal", &_9, 0, _5$$4, _6$$4, _7$$4, _8$$4);
 		zephir_check_call_status();
 	}
+	ZEPHIR_INIT_VAR(_10);
+	array_init(_10);
+	zephir_update_property_this(this_ptr, SL("_queue"), _10 TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -184,7 +187,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback) {
 	ZEPHIR_OBS_VAR(transaction);
 	zephir_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!(zephir_is_true(transaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter.zep", 136);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter.zep", 139);
 		return;
 	}
 	if (0) {

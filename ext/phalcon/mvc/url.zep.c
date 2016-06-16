@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 			ZEPHIR_INIT_VAR(_2$$4);
 			ZEPHIR_INIT_VAR(_3$$4);
 			ZEPHIR_SINIT_VAR(_4$$4);
-			ZVAL_STRING(&_4$$4, "#^(//)|([a-z0-9]+://)|([a-z0-9]+:)#i", 0);
+			ZVAL_STRING(&_4$$4, "#^((//)|([a-z0-9]+://)|([a-z0-9]+:))#i", 0);
 			zephir_preg_match(_3$$4, &_4$$4, uri, _2$$4, 0, 0 , 0  TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(local);
 			if (zephir_is_true(_3$$4)) {
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 376, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 378, args);
 		zephir_check_call_status();
 		_25$$19 = Z_TYPE_P(queryString) == IS_STRING;
 		if (_25$$19) {

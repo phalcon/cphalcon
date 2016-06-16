@@ -25,13 +25,20 @@
  *
  * Checks if a value has a url format
  *
- *<code>
- *use Phalcon\Validation\Validator\Url as UrlValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Url as UrlValidator;
  *
- *$validator->add('url', new UrlValidator(array(
- *   'message' => ':field must be a url'
- *)));
- *</code>
+ * $validator->add('url', new UrlValidator([
+ *     'message' => ':field must be a url'
+ * ]));
+ *
+ * $validator->add(['url', 'homepage'], new UrlValidator([
+ *     'message' => [
+ *         'url' => 'url must be a url',
+ *         'homepage' => 'homepage must be a url'
+ *     ]
+ * ]));
+ * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url) {
 
@@ -48,7 +55,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, _0, *_1 = NULL, *_2$$3 = NULL, *_4$$3 = NULL, *_5$$3 = NULL, *_6$$3 = NULL, *_3$$5;
+	zval *validation, *field_param = NULL, *value = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, *code = NULL, _0, *_1 = NULL, *_2$$3 = NULL, *_7$$3 = NULL, *_8$$3, *_3$$4, *_4$$6, *_5$$7, *_6$$8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -77,6 +84,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _2$$3);
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
+		if (Z_TYPE_P(label) == IS_ARRAY) {
+			zephir_array_fetch(&_3$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 62 TSRMLS_CC);
+			ZEPHIR_CPY_WRT(label, _3$$4);
+		}
 		if (ZEPHIR_IS_EMPTY(label)) {
 			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
 			zephir_check_call_status();
@@ -86,29 +97,37 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _2$$3);
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
+		if (Z_TYPE_P(message) == IS_ARRAY) {
+			zephir_array_fetch(&_4$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 70 TSRMLS_CC);
+			ZEPHIR_CPY_WRT(message, _4$$6);
+		}
 		ZEPHIR_INIT_VAR(replacePairs);
 		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_VAR(_3$$5);
-			ZVAL_STRING(_3$$5, "Url", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _3$$5);
-			zephir_check_temp_parameter(_3$$5);
+			ZEPHIR_INIT_VAR(_5$$7);
+			ZVAL_STRING(_5$$7, "Url", ZEPHIR_TEMP_PARAM_COPY);
+			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _5$$7);
+			zephir_check_temp_parameter(_5$$7);
 			zephir_check_call_status();
 		}
 		ZEPHIR_INIT_NVAR(_2$$3);
+		ZVAL_STRING(_2$$3, "code", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, _2$$3);
+		zephir_check_temp_parameter(_2$$3);
+		zephir_check_call_status();
+		if (Z_TYPE_P(code) == IS_ARRAY) {
+			zephir_array_fetch(&_6$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 79 TSRMLS_CC);
+			ZEPHIR_CPY_WRT(code, _6$$8);
+		}
+		ZEPHIR_INIT_NVAR(_2$$3);
 		object_init_ex(_2$$3, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "strtr", NULL, 55, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "strtr", NULL, 55, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_6$$3);
-		ZVAL_STRING(_6$$3, "code", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "getoption", NULL, 0, _6$$3);
-		zephir_check_temp_parameter(_6$$3);
-		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(_6$$3);
-		ZVAL_STRING(_6$$3, "Url", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 455, _4$$3, field, _6$$3, _5$$3);
-		zephir_check_temp_parameter(_6$$3);
+		ZEPHIR_INIT_VAR(_8$$3);
+		ZVAL_STRING(_8$$3, "Url", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 459, _7$$3, field, _8$$3, code);
+		zephir_check_temp_parameter(_8$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2$$3);
 		zephir_check_call_status();

@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 				}
 			}
 		}
-		if (Z_TYPE_P(key) == IS_LONG) {
+		if (zephir_is_numeric(key)) {
 			ZEPHIR_CALL_FUNCTION(&key, "strval", &_7, 21, number);
 			zephir_check_call_status();
 			ZEPHIR_SEPARATE(number);

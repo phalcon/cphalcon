@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	}
 	ZEPHIR_INIT_VAR(collections);
 	array_init(collections);
-	ZEPHIR_CALL_FUNCTION(&_5, "iterator_to_array", NULL, 299, documentsCursor);
+	ZEPHIR_CALL_FUNCTION(&_5, "iterator_to_array", NULL, 299, documentsCursor, ZEPHIR_GLOBAL(global_false));
 	zephir_check_call_status();
 	zephir_is_iterable(_5, &_7, &_6, 0, 0, "phalcon/mvc/collection.zep", 441);
 	for (
@@ -2091,7 +2091,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 76, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 65, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2124,7 +2124,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 77, data);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 66, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);

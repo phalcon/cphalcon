@@ -49,11 +49,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message) {
 PHP_METHOD(Phalcon_Validation_Message, __construct) {
 
 	int code;
-	zval *message_param = NULL, *field_param = NULL, *type_param = NULL, *code_param = NULL, *_0;
-	zval *message = NULL, *field = NULL, *type = NULL;
+	zval *message_param = NULL, *field = NULL, *type_param = NULL, *code_param = NULL, *_0;
+	zval *message = NULL, *type = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &message_param, &field_param, &type_param, &code_param);
+	zephir_fetch_params(1, 1, 3, &message_param, &field, &type_param, &code_param);
 
 	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
@@ -65,11 +65,8 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
 		ZEPHIR_INIT_VAR(message);
 		ZVAL_EMPTY_STRING(message);
 	}
-	if (!field_param) {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
-	} else {
-		zephir_get_strval(field, field_param);
+	if (!field) {
+		field = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!type_param) {
 		ZEPHIR_INIT_VAR(type);
@@ -177,33 +174,21 @@ PHP_METHOD(Phalcon_Validation_Message, getMessage) {
  */
 PHP_METHOD(Phalcon_Validation_Message, setField) {
 
-	zval *field_param = NULL;
-	zval *field = NULL;
+	zval *field;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &field_param);
+	zephir_fetch_params(0, 1, 0, &field);
 
-	if (unlikely(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (likely(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
-	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
-	}
 
 
 	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
 /**
  * Returns field name related to message
  *
- * @return string
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Validation_Message, getField) {
 
@@ -274,7 +259,7 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 455, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 459, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

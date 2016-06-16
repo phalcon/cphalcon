@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 }
 
 /**
- * Checks if an option is defined
+ * Checks if an option has been defined
 
  * @deprecated since 2.1.0
  * @see \Phalcon\Validation\Validator::hasOption()
@@ -125,7 +125,8 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
-	zval *key_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL;
+	zend_bool _0$$4;
+	zval *key_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL, *fieldValue = NULL;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -149,6 +150,15 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_fetch(&value, options, key, 1 TSRMLS_CC)) {
+			_0$$4 = ZEPHIR_IS_STRING(key, "attribute");
+			if (_0$$4) {
+				_0$$4 = Z_TYPE_P(value) == IS_ARRAY;
+			}
+			if (_0$$4) {
+				if (zephir_array_isset_fetch(&fieldValue, value, key, 1 TSRMLS_CC)) {
+					RETURN_CTOR(fieldValue);
+				}
+			}
 			RETURN_CTOR(value);
 		}
 	}
