@@ -42,7 +42,8 @@ abstract class Text
 	 *
 	 * <code>
 	 *    echo Phalcon\Text::camelize('coco_bongo'); // CocoBongo
-	 *    echo Phalcon\Text::camelize('co_co-bon_go', '-'); // CocoBongo
+	 *    echo Phalcon\Text::camelize('co_co-bon_go', '-'); // Co_coBon_go
+	 *    echo Phalcon\Text::camelize('co_co-bon_go', '_-'); // CoCoBonGo
 	 * </code>
 	 */
 	public static function camelize(string! str, var delimiter = null) -> string
