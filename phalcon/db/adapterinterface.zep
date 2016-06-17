@@ -47,7 +47,7 @@ interface AdapterInterface
 	public function fetchAll(string! sqlQuery, fetchMode = 2, placeholders = null);
 
 	/**
-	 * Inserts data into a table using custom RBDM SQL syntax
+	 * Inserts data into a table using custom RDBMS SQL syntax
 	 *
 	 * @param 	string table
 	 * @param 	array values
@@ -58,7 +58,7 @@ interface AdapterInterface
 	public function insert(var table, array! values, fields = null, dataTypes = null);
 
 	/**
-	 * Updates data on a table using custom RBDM SQL syntax
+	 * Updates data on a table using custom RDBMS SQL syntax
 	 *
 	 * @param 	string table
 	 * @param 	array fields
@@ -70,7 +70,7 @@ interface AdapterInterface
 	public function update(var table, fields, values, whereCondition = null, dataTypes = null);
 
 	/**
-	 * Deletes data from a table using custom RBDM SQL syntax
+	 * Deletes data from a table using custom RDBMS SQL syntax
 	 *
 	 * @param  string table
 	 * @param  string whereCondition

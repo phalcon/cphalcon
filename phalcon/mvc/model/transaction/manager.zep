@@ -33,7 +33,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * databases, the transaction will not protect interaction among them.
  *
  * This class manages the objects that compose a transaction.
- * A trasaction produces a unique connection that is passed to every
+ * A transaction produces a unique connection that is passed to every
  * object part of the transaction.
  *
  *<code>
@@ -216,7 +216,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Commmits active transactions within the manager
+	 * Commits active transactions within the manager
 	 */
 	public function commit()
 	{
@@ -266,7 +266,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Notifies the manager about a commited transaction
+	 * Notifies the manager about a committed transaction
 	 */
 	public function notifyCommit(<TransactionInterface> transaction)
 	{

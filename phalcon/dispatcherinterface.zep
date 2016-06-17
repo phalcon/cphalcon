@@ -110,7 +110,7 @@ interface DispatcherInterface
 	public function isFinished() -> boolean;
 
 	/**
-	 * Returns value returned by the lastest dispatched action
+	 * Returns value returned by the latest dispatched action
 	 *
 	 * @return mixed
 	 */

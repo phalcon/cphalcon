@@ -50,7 +50,7 @@ interface DispatcherInterface extends DispatcherInterfaceBase
 	public function getTaskName() -> string;
 
 	/**
-	 * Returns the lastest dispatched controller
+	 * Returns the latest dispatched controller
 	 */
 	public function getLastTask() -> <TaskInterface>;
 

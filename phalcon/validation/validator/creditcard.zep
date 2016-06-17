@@ -26,7 +26,7 @@ use Phalcon\Validation\Message;
 /**
  * Phalcon\Validation\Validator\CreditCard
  *
- * Checks if a value has a valid creditcard number
+ * Checks if a value has a valid credit card number
  *
  * <code>
  * use Phalcon\Validation\Validator\CreditCard as CreditCardValidator;

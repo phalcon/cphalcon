@@ -411,7 +411,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns proccesed action name
+	 * Returns processed action name
 	 */
 	public function getActionName() -> string
 	{
@@ -419,7 +419,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns proccesed extra params
+	 * Returns processed extra params
 	 *
 	 * @return array
 	 */
@@ -429,7 +429,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns the route that matchs the handled URI
+	 * Returns the route that matches the handled URI
 	 */
 	public function getMatchedRoute() -> <RouteInterface>
 	{

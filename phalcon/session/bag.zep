@@ -73,7 +73,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	}
 
 	/**
-	 * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+	 * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
 	 */
 	public function initialize()
 	{
@@ -104,7 +104,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	}
 
 	/**
-	 * Destroyes the session bag
+	 * Destroys the session bag
 	 *
 	 *<code>
 	 * $user->destroy();
