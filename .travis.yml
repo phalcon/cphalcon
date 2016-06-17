@@ -7,9 +7,20 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
+
+git:
+  depth: 1
 
 cache:
-  - apt
+  apt: true
+  ccache: true
+  timeout: 691200
+  directories:
+    - .temp
+    - vendor
+    - $HOME/.ccache
+    - $HOME/.composer/cache
 
 services:
   - mongodb
@@ -38,22 +49,23 @@ env:
     - TEST_RS_HOST="127.0.0.1"
     - TEST_RS_PORT="6379"
     - ZEND_DONT_UNLOAD_MODULES=1
+    - CC="ccache gcc"
 
 before_install:
   - export PATH=$PATH:~/bin;
   - 'echo $TRAVIS_PHP_VERSION'
-  - travis_retry composer self-update
   - travis_retry composer --prefer-source install
   - travis_retry composer require phalcon/zephir:dev-master
   - bash tests/_ci/install_prereqs.sh
   - bash tests/_ci/setup_dbs.sh
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
+  - zephir help
   - 'if [ "$TRAVIS_PHP_VERSION" != "7.0" ]; then zephir generate; else echo "$TRAVIS_PHP_VERSION"; fi;'
   - 'if [ "$TRAVIS_PHP_VERSION" = "7.0" ]; then zephir generate --backend=ZendEngine3; else echo "$TRAVIS_PHP_VERSION"; fi;'
 
 before_script:
-  - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do gcc "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
+  - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - php --ri phalcon
