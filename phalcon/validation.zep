@@ -446,6 +446,10 @@ class Validation extends Injectable implements ValidationInterface
 	 */
 	public function appendMessage(<MessageInterface> message) -> <Validation>
 	{
+		if empty this->_messages {
+			throw new Exception("You can only append messages from validators");
+		}
+		
 		this->_messages->appendMessage(message);
 		return this;
 	}
