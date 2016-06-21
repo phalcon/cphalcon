@@ -108,7 +108,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, hasParam);
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, isFinished);
 
 /**
- * Returns value returned by the lastest dispatched action
+ * Returns value returned by the latest dispatched action
  *
  * @return mixed
  */

@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Bag, getDI) {
 }
 
 /**
- * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+ * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize) {
 
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 }
 
 /**
- * Destroyes the session bag
+ * Destroys the session bag
  *
  *<code>
  * $user->destroy();

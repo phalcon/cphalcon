@@ -41,7 +41,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, get);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, rollbackPendent);
 
 /**
- * Commmits active transactions within the manager
+ * Commits active transactions within the manager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, commit);
 
@@ -59,7 +59,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, rollback);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, notifyRollback);
 
 /**
- * Notifies the manager about a commited transaction
+ * Notifies the manager about a committed transaction
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, notifyCommit);
 

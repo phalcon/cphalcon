@@ -3705,7 +3705,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
  *  $robot = new Robots();
  *  $robot->create(array(
  *	  'type' => 'mechanical',
- *	  'name' => 'Astroy Boy',
+ *	  'name' => 'Astro Boy',
  *	  'year' => 1952
  *  ));
  *</code>

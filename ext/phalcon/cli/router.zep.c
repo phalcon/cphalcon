@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Cli_Router, getTaskName) {
 }
 
 /**
- * Returns proccesed action name
+ * Returns processed action name
  */
 PHP_METHOD(Phalcon_Cli_Router, getActionName) {
 
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Cli_Router, getActionName) {
 }
 
 /**
- * Returns proccesed extra params
+ * Returns processed extra params
  *
  * @return array
  */
@@ -563,7 +563,7 @@ PHP_METHOD(Phalcon_Cli_Router, getParams) {
 }
 
 /**
- * Returns the route that matchs the handled URI
+ * Returns the route that matches the handled URI
  */
 PHP_METHOD(Phalcon_Cli_Router, getMatchedRoute) {
 

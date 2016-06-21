@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow) {
 }
 
 /**
- * Replaces the model's name to its source name in a qualifed-name expression
+ * Replaces the model's name to its source name in a qualified-name expression
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 
