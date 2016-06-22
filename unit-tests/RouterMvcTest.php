@@ -701,62 +701,6 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function _testHostnameRegexRouter()
-	{
-		Phalcon\Mvc\Router\Route::reset();
-
-		$di = new Phalcon\DI();
-
-		$di->set('request', function(){
-			return new Phalcon\Http\Request();
-		});
-
-		$router = new Phalcon\Mvc\Router(false);
-
-		$router->setDI($di);
-
-		$router->add('/edit', array(
-			'controller' => 'posts3',
-			'action' => 'edit3'
-		));
-
-		$router->add('/edit', array(
-			'controller' => 'posts',
-			'action' => 'edit'
-		))->setHostname('([a-z]+).phalconphp.com');
-
-		$router->add('/edit', array(
-			'controller' => 'posts2',
-			'action' => 'edit2'
-		))->setHostname('mail.([a-z]+).com');
-
-		$routes = array(
-			array(
-				'hostname' => 'localhost',
-				'controller' => 'posts3'
-			),
-			array(
-				'hostname' => 'my.phalconphp.com',
-				'controller' => 'posts'
-			),
-			array(
-				'hostname' => null,
-				'controller' => 'posts3'
-			),
-			array(
-				'hostname' => 'my.mail.com',
-				'controller' => 'posts2'
-			),
-		);
-
-		foreach ($routes as $route) {
-			$_SERVER['HTTP_HOST'] = $route['hostname'];
-			$router->handle('/edit');
-			$this->assertEquals($router->getControllerName(), $route['controller']);
-		}
-
-	}
-
 	/**
 	 * @dataProvider hostnamedRoutesProvider
 	 */
