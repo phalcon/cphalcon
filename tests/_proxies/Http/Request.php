@@ -109,9 +109,9 @@ class Request extends PhRequest
         return parent::getServerName();
     }
 
-    public function getHttpHost()
+    public function getHttpHost($strict = false)
     {
-        return parent::getHttpHost();
+        return parent::getHttpHost($strict);
     }
 
     public function getClientAddress($trustForwardedHeader = false)

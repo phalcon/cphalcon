@@ -318,6 +318,29 @@ class RequestTest extends HttpBase
     public function testHttpRequestHttpHost()
     {
         $this->specify(
+            "http host without required server values does not return empty string",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', '');
+                $this->setServerVar('SERVER_NAME', '');
+                $this->setServerVar('SERVER_ADDR', '');
+
+                expect(is_string($request->getHttpHost()))->true();
+                expect($request->getHttpHost())->equals('');
+            }
+        );
+
+        $this->specify(
+            "http host with strict param does not return does not return valid host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
+
+                expect($request->getHttpHost(true))->equals('localhost');
+            }
+        );
+
+        $this->specify(
             "http host without http does not contain correct data",
             function () {
                 $request = $this->getRequestObject();
@@ -350,6 +373,42 @@ class RequestTest extends HttpBase
                 $this->setServerVar('SERVER_PORT', 443);
 
                 expect($request->getHttpHost())->equals('localhost');
+            }
+        );
+
+        $this->specify(
+            "http host with SERVER_ADDR value does not return expected host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', '');
+                $this->setServerVar('SERVER_NAME', '');
+                $this->setServerVar('SERVER_ADDR', '8.8.8.8');
+
+                expect($request->getHttpHost())->equals('8.8.8.8');
+            }
+        );
+
+        $this->specify(
+            "http host with SERVER_NAME value does not return expected host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', '');
+                $this->setServerVar('SERVER_NAME', 'some.domain');
+                $this->setServerVar('SERVER_ADDR', '8.8.8.8');
+
+                expect($request->getHttpHost())->equals('some.domain');
+            }
+        );
+
+        $this->specify(
+            "http host with HTTP_HOST value does not return expected host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', 'example.com');
+                $this->setServerVar('SERVER_NAME', 'some.domain');
+                $this->setServerVar('SERVER_ADDR', '8.8.8.8');
+
+                expect($request->getHttpHost())->equals('example.com');
             }
         );
     }
