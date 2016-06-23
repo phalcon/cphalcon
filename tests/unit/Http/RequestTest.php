@@ -337,7 +337,7 @@ class RequestTest extends HttpBase
                 $this->setServerVar('SERVER_NAME', 'localhost');
                 $this->setServerVar('SERVER_PORT', 80);
 
-                expect($request->getHttpHost())->equals('localhost:80');
+                expect($request->getHttpHost())->equals('localhost');
             }
         );
 

@@ -385,50 +385,47 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Gets information about schema, host and port used by the request
+	 * Gets host name used by the request.
+	 * Optionally validates and clean host name.
 	 */
-	public function getHttpHost() -> string
+	public function getHttpHost(bool strict = false) -> string
 	{
-		var httpHost, scheme, name, port;
+		var host;
 
 		/**
 		 * Get the server name from _SERVER['HTTP_HOST']
 		 */
-		let httpHost = this->getServer("HTTP_HOST");
-		if httpHost {
-			return httpHost;
+		let host = this->getServer("HTTP_HOST");
+		if !host {
+
+			/**
+			 * Get the server name from _SERVER['SERVER_NAME']
+			 */
+			let host = this->getServer("SERVER_NAME");
+			if !host {
+				/**
+				 * Get the server address from _SERVER['SERVER_ADDR']
+				 */
+				let host = this->getServer("SERVER_ADDR");
+			}
 		}
 
-		/**
-		 * Get current scheme
-		 */
-		let scheme = this->getScheme();
+		if strict {
+			/**
+			 * Cleanup. Force lowercase as per RFC 952/2181
+			 */
+			let host = strtolower(preg_replace("/:[[:digit:]]+$/", "", trim(host)));
 
-		/**
-		 * Get the server name from _SERVER['SERVER_NAME']
-		 */
-		let name = this->getServer("SERVER_NAME");
-
-		/**
-		 * Get the server port from _SERVER['SERVER_PORT']
-		 */
-		let port = this->getServer("SERVER_PORT");
-
-		/**
-		 * If is standard http we return the server name only
-		 */
-		if scheme == "http" && port == 80  {
-			return name;
+			/**
+			 * Host may contain only the ASCII letters 'a' through 'z' (in a case-insensitive manner),
+			 * the digits '0' through '9', and the hyphen ('-') as per RFC 952/2181
+			 */
+			if host && "" !== preg_replace("/[a-z0-9-]+\.?/", "", host) {
+				throw new \UnexpectedValueException("Invalid host " . host);
+			}
 		}
 
-		/**
-		 * If is standard secure http we return the server name only
-		 */
-		if scheme == "https" && port == "443" {
-			return name;
-		}
-
-		return name . ":" . port;
+		return host;
 	}
 
 	/**
