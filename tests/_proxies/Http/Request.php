@@ -164,6 +164,21 @@ class Request extends PhRequest
         return parent::isOptions();
     }
 
+    public function isConnect()
+    {
+        return parent::isConnect();
+    }
+
+    public function isTrace()
+    {
+        return parent::isTrace();
+    }
+
+    public function isPurge()
+    {
+        return parent::isPurge();
+    }
+
     public function hasFiles($onlySuccessful = false)
     {
         return parent::hasFiles($onlySuccessful);
