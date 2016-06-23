@@ -422,7 +422,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 				/**
 				 * No HTTP_HOST, maybe in CLI mode?
 				 */
-				if typeof currentHostName == "null" || currentHostName === ":" {
+				if !currentHostName {
 					continue;
 				}
 
