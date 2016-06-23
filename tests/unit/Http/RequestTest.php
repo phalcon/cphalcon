@@ -541,6 +541,20 @@ class RequestTest extends HttpBase
         $this->assertTrue($request->isMethod('GET'));
         $this->assertTrue($request->isMethod(['GET', 'POST']));
 
+        $_SERVER['REQUEST_METHOD'] = 'CONNECT';
+        $this->assertEquals($request->getMethod(), 'CONNECT');
+        $this->assertTrue($request->isConnect());
+        $this->assertFalse($request->isGet());
+
+        $_SERVER['REQUEST_METHOD'] = 'TRACE';
+        $this->assertEquals($request->getMethod(), 'TRACE');
+        $this->assertTrue($request->isTrace());
+        $this->assertFalse($request->isGet());
+
+        $_SERVER['REQUEST_METHOD'] = 'PURGE';
+        $this->assertEquals($request->getMethod(), 'PURGE');
+        $this->assertTrue($request->isPurge());
+        $this->assertFalse($request->isGet());
     }
 
     public function testHttpRequestContentType()

@@ -544,6 +544,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 			case "HEAD":
 			case "OPTIONS":
 			case "PATCH":
+			case "PURGE": // Squid and Varnish support
+			case "TRACE":
+			case "CONNECT":
 				return true;
 		}
 
@@ -638,6 +641,30 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function isOptions() -> boolean
 	{
 		return this->getMethod() === "OPTIONS";
+	}
+
+	/**
+	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+	 */
+	public function isPurge() -> boolean
+	{
+		return this->getMethod() === "PURGE";
+	}
+
+	/**
+	 * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+	 */
+	public function isTrace() -> boolean
+	{
+		return this->getMethod() === "TRACE";
+	}
+
+	/**
+	 * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+	 */
+	public function isConnect() -> boolean
+	{
+		return this->getMethod() === "CONNECT";
 	}
 
 	/**
