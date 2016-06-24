@@ -410,7 +410,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 		}
 
-		if strict {
+		if strict && host {
 			/**
 			 * Cleanup. Force lowercase as per RFC 952/2181
 			 */
@@ -425,7 +425,33 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 		}
 
-		return host;
+		return (string) host;
+	}
+
+	/**
+	 * Gets information about the port on which the request is made.
+	 */
+	public function getPort() -> int
+	{
+		var host, port, pos;
+
+		/**
+		 * Get the server name from _SERVER['HTTP_HOST']
+		 */
+		let host = this->getServer("HTTP_HOST");
+		if host {
+			if memstr(host, ":") {
+				let pos = strrpos(host, "");
+
+				if false !== pos {
+					return (int) substr(host, pos + 1);
+				}
+			}
+
+			return "https" === $this->getScheme() ? 443 : 80;
+		}
+
+		return (int) this->getServer("SERVER_PORT");
 	}
 
 	/**
