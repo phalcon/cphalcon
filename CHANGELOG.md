@@ -94,8 +94,9 @@
 - Fixed `Phalcon\Config::merge` for working with php7
 - Added ability to use custom delimiter for `Phalcon\Text::camelize` and `Phalcon\Text::uncamelize` [#10396](https://github.com/phalcon/cphalcon/issues/10396)
 - Added support of `CONNECT`, `TRACE` and `PURGE`  HTTP methods
-- Refactored `Phalcon\Http\Request::getHttpHost`. Now it always return host name or empty string. Optionally validates and clean host name.
+- Refactored `Phalcon\Http\Request::getHttpHost`. Now it always return host name or empty string. Optionally validates and clean host name [#2573](https://github.com/phalcon/cphalcon/issues/2573)
 - Added `Phalcon\Http\Request::getPort`. To get information about the port on which the request is made.
+- Added `Phalcon\Http\Request::setStrictHostCheck` and `Phalcon\Http\Request::isStrictHostCheck` to manage strict validation of host name.
 
 # [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
 - Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
