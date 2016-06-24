@@ -396,9 +396,9 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * - `$_SERVER['SERVER_ADDR']`
 	 *
 	 * Optionally `Request::getHttpHost` validates and clean host name.
-	 * The `$strict` value can be used force validation if the `Request::_strictHostCheck` field set to `false`.
+	 * The `Request::$_strictHostCheck` can be used to validate host name.
 	 *
-	 * Note: validation and cleaning has a negative performance impact because they uses regular expressions.
+	 * Note: validation and cleaning have a negative performance impact because they use regular expressions.
 	 *
 	 * <code>
 	 * use Phalcon\Http\Request;
@@ -411,15 +411,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * $_SERVER['HTTP_HOST'] = 'example.com:8080';
 	 * $request->getHttpHost(); // example.com:8080
 	 *
-	 * $_SERVER['HTTP_HOST'] = 'example.com:8080';
-	 * $request->getHttpHost(true); // example.com
-	 *
-	 * $_SERVER['HTTP_HOST'] = 'ExAmPlE.com';
-	 * $request->getHttpHost(true); // example.com
-	 *
-	 * $_SERVER['HTTP_HOST'] = 'ex=am~ple.com';
-	 * $request->getHttpHost(true); // UnexpectedValueException
-	 *
 	 * $request->setStrictHostCheck(true);
 	 * $_SERVER['HTTP_HOST'] = 'ex=am~ple.com';
 	 * $request->getHttpHost(); // UnexpectedValueException
@@ -428,11 +419,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * $request->getHttpHost(); // example.com
 	 * </code>
 	 */
-	public function getHttpHost(bool strict = false) -> string
+	public function getHttpHost() -> string
 	{
-		var host, globalStrict;
+		var host, strict;
 
-		let globalStrict = this->_strictHostCheck;
+		let strict = this->_strictHostCheck;
 
 		/**
 		 * Get the server name from _SERVER['HTTP_HOST']
@@ -452,7 +443,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 		}
 
-		if host && (strict || globalStrict) {
+		if host && strict {
 			/**
 			 * Cleanup. Force lowercase as per RFC 952/2181
 			 */
@@ -496,7 +487,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getPort() -> int
 	{
-		var host, port, pos;
+		var host, pos;
 
 		/**
 		 * Get the server name from _SERVER['HTTP_HOST']

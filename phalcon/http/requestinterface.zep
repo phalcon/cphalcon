@@ -133,7 +133,7 @@ interface RequestInterface
 	/**
 	 * Gets host name used by the request
 	 */
-	public function getHttpHost(bool strict = false) -> string;
+	public function getHttpHost() -> string;
 
 	/**
 	 * Gets information about the port on which the request is made
