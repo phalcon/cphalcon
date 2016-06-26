@@ -3,10 +3,10 @@
 namespace Phalcon\Test\Unit\Mvc;
 
 use Phalcon\Di;
-use Phalcon\Mvc\Router;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Proxy\Mvc\Router;
 
 /**
  * \Phalcon\Test\Unit\Mvc\RouterTest
