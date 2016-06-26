@@ -431,7 +431,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 				 */
 				if memstr(hostname, "(") {
 					if !memstr(hostname, "#") {
-						let regexHostName = "#^" . hostname . "$#";
+						let regexHostName = "#^" . hostname;
+						if !memstr(hostname, ":") {
+							let regexHostName .= "(:[[:digit:]]+)?";
+						}
+						let regexHostName .= "$#i";
 					} else {
 						let regexHostName = hostname;
 					}
