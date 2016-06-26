@@ -38,6 +38,137 @@ class RouterTest extends UnitTest
     }
 
     /**
+     * Tests routing by use Route::convert
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-12-25
+     */
+    public function testUsingRouteConverters()
+    {
+        $this->specify(
+            'The Route::convert doest not work as expected',
+            function ($route, $paths) {
+                $router= $this->getRouter();
+
+                $router->add('/{controller:[a-z\-]+}/{action:[a-z\-]+}/this-is-a-country')
+                    ->convert('controller', function($controller) {
+                        return str_replace('-', '', $controller);
+                    })
+                    ->convert('action', function($action){
+                        return str_replace('-', '', $action);
+                    });
+
+                $router->add('/([A-Z]+)/([0-9]+)', [
+                    'controller' => 1,
+                    'action' => 'default',
+                    'id' => 2,
+                ])->convert('controller', function($controller) {
+                    return strtolower($controller);
+                })->convert('action', function($action) {
+                    return $action == 'default' ? 'index' : $action;
+                })->convert('id', function($id) {
+                    return strrev($id);
+                });
+
+                $router->handle($route);
+
+                expect($router->wasMatched())->true();
+                expect($router->getControllerName())->equals($paths['controller']);
+                expect($router->getActionName())->equals($paths['action']);
+            }, ['examples' => $this->convertersProvider()]
+        );
+    }
+
+    /**
+     * Tests using callbacks before match route
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2013-01-08
+     */
+    public function testUsingCallbacksBeforeMatchRoute()
+    {
+        $this->specify(
+            'The Route::beforeMatch does not use callback as expected',
+            function () {
+                $router= $this->getRouter(false);
+                $trace = 0;
+
+                $router
+                    ->add('/static/route')
+                    ->beforeMatch(function() use (&$trace) {
+                        $trace++;
+                        return false;
+                    });
+
+                $router
+                    ->add('/static/route2')
+                    ->beforeMatch(function() use (&$trace) {
+                        $trace++;
+                        return true;
+                    });
+
+                $router->handle();
+                expect($router->wasMatched())->false();
+
+                $router->handle('/static/route');
+                expect($router->wasMatched())->false();
+
+                $router->handle('/static/route2');
+                expect($router->wasMatched())->true();
+
+                expect($trace)->equals(2);
+            }
+        );
+    }
+
+    /**
+     * Tests getting named route
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-08-27
+     */
+    public function testGettingNamedRoutes()
+    {
+        $this->specify(
+            'Getting named route does not return expect result',
+            function () {
+                $router= $this->getRouter(false);
+
+                $usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
+                $usersAdd = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
+
+                expect($router->getRouteByName('usersAdd'), $usersAdd);
+                // second check when the same route goes from name lookup
+                expect($router->getRouteByName('usersAdd'), $usersAdd);
+                expect($router->getRouteById(0), $usersFind);
+            }
+        );
+    }
+
+    /**
+     * Tests removing extra slashes
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-12-16
+     */
+    public function testRemovingExtraSlashes()
+    {
+        $this->specify(
+            'Removing extra slashes does not work as expected',
+            function ($route, $paths) {
+                $router= $this->getRouter();
+                $router->removeExtraSlashes(true);
+
+                $router->handle($route);
+
+                expect($router->wasMatched())->true();
+                expect($router->getControllerName())->equals($paths['controller']);
+                expect($router->getActionName())->equals($paths['action']);
+            }, ['examples' => $this->extraSlashesProvider()]
+        );
+    }
+
+    /**
      * Tests router
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
@@ -168,7 +299,7 @@ class RouterTest extends UnitTest
                 expect($router->getActionName())->equals($action);
                 expect($router->getParams())->equals($params);
 
-            }, ['examples' => $this->routerMethodProvider()]
+            }, ['examples' => $this->methodProvider()]
         );
     }
 
@@ -178,7 +309,7 @@ class RouterTest extends UnitTest
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2012-08-22
      */
-    public function testRouterParams()
+    public function testGettingRouterParams()
     {
         $this->specify(
             'Router does not matched correctly by using rote params',
@@ -195,7 +326,25 @@ class RouterTest extends UnitTest
                 expect($router->getActionName())->equals($action);
                 expect($router->getParams())->equals($params);
 
-            }, ['examples' => $this->routeParamsProvider()]
+            }, ['examples' => $this->paramsProvider()]
+        );
+    }
+
+    /**
+     * Tests adding a route to the router by using short path
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-01-16
+     */
+    public function testAddingRouteByUsingShortPaths()
+    {
+        $this->specify(
+            'Adding a route to the router by using short path does not produce expected paths',
+            function ($route, $path, $expected) {
+                $router = $this->getRouter(false);
+                $route = $router->add($route, $path);
+                expect($route->getPaths())->equals($expected);
+            }, ['examples' => $this->pathsProvider()]
         );
     }
 
@@ -235,14 +384,7 @@ class RouterTest extends UnitTest
                 $_SERVER['HTTP_HOST'] = $hostname;
                 $router->handle('/edit');
                 expect($router->getControllerName())->equals($expected);
-            }, ['examples' => [
-                ['localhost',         'posts3'],
-                ['my.phalconphp.com', 'posts' ],
-                [null,                'posts3'],
-                ['mail.example.com',  'posts2'],
-                ['some-domain.com',   'posts3'],
-                ['some.domain.net',   'posts4'],
-            ]]
+            }, ['examples' => $this->hostnameRegexProvider()]
         );
     }
 
@@ -283,15 +425,7 @@ class RouterTest extends UnitTest
                 $_SERVER['HTTP_HOST'] = $hostname . ($port ? ':' . $port : '');
                 $router->handle('/edit');
                 expect($router->getControllerName())->equals($expected);
-            }, ['examples' => [
-                ['localhost',         'posts3', null],
-                ['my.phalconphp.com', 'posts',  80 ],
-                ['my.phalconphp.com', 'posts',  8080],
-                [null,                'posts3', 8080],
-                ['mail.example.com',  'posts2', 9090],
-                ['some-domain.com',   'posts3', 9000],
-                ['some.domain.net',   'posts4', 0],
-            ]]
+            }, ['examples' => $this->hostnameRegexRouterWithHostPortProvider()]
         );
     }
 
@@ -326,12 +460,7 @@ class RouterTest extends UnitTest
                 $_SERVER['HTTP_HOST'] = $hostname;
                 $router->handle('/edit');
                 expect($router->getControllerName())->equals($expected);
-            }, ['examples' => [
-                ['localhost',          'posts3'],
-                [null,                 'posts3'],
-                ['my.phalconphp.com',  'posts'],
-                ['my2.phalconphp.com', 'posts2'],
-            ]]
+            }, ['examples' => $this->hostnameProvider()]
         );
     }
 
@@ -397,7 +526,156 @@ class RouterTest extends UnitTest
         );
     }
 
-    protected function routeParamsProvider()
+    protected function convertersProvider()
+    {
+        return [
+            [
+                '/some-controller/my-action-name/this-is-a-country',
+                [
+                    'controller' => 'somecontroller',
+                    'action' => 'myactionname',
+                    'params' => ['this-is-a-country']
+                ]
+            ],
+            [
+                '/BINARY/1101',
+                [
+                    'controller' => 'binary',
+                    'action' => 'index',
+                    'params' => [1011]
+                ]
+            ]
+        ];
+    }
+
+    protected function extraSlashesProvider()
+    {
+        return [
+            [
+                '/index/',
+                [
+                    'controller' => 'index',
+                    'action' => '',
+                ]
+            ],
+            [
+                '/session/start/',
+                [
+                    'controller' => 'session',
+                    'action' => 'start'
+                ]
+            ],
+            [
+                '/users/edit/100/',
+                [
+                    'controller' => 'users',
+                    'action' => 'edit'
+                ]
+            ]
+        ];
+    }
+
+    protected function pathsProvider()
+    {
+        return [
+            [
+                '/route0',
+                'Feed',
+                [
+                    'controller' => 'feed'
+                ]
+            ],
+            [
+                '/route1',
+                'Feed::get',
+                [
+                    'controller' => 'feed',
+                    'action' => 'get',
+                ]
+            ],
+            [
+                '/route2',
+                'News::Posts::show',
+                [
+                    'module' => 'News',
+                    'controller' => 'posts',
+                    'action' => 'show',
+                ]
+            ],
+            [
+                '/route3',
+                'MyApp\Controllers\Posts::show',
+                [
+                    'namespace' => 'MyApp\Controllers',
+                    'controller' => 'posts',
+                    'action' => 'show',
+                ]
+            ],
+            [
+                '/route3',
+                'MyApp\Controllers\::show',
+                [
+                    'controller' => '',
+                    'action' => 'show',
+                ]
+            ],
+            [
+                '/route3',
+                'News::MyApp\Controllers\Posts::show',
+                [
+                    'module' => 'News',
+                    'namespace' => 'MyApp\\Controllers',
+                    'controller' => 'posts',
+                    'action' => 'show',
+                ]
+            ],
+            [
+                '/route3',
+                '\Posts::show',
+                [
+                    'controller' => 'posts',
+                    'action' => 'show',
+                ]
+            ],
+        ];
+    }
+
+    protected function hostnameProvider()
+    {
+        return [
+            ['localhost',          'posts3'],
+            [null,                 'posts3'],
+            ['my.phalconphp.com',  'posts'],
+            ['my2.phalconphp.com', 'posts2'],
+        ];
+    }
+
+    protected function hostnameRegexRouterWithHostPortProvider()
+    {
+        return [
+            ['localhost',         'posts3', null],
+            ['my.phalconphp.com', 'posts',  80 ],
+            ['my.phalconphp.com', 'posts',  8080],
+            [null,                'posts3', 8080],
+            ['mail.example.com',  'posts2', 9090],
+            ['some-domain.com',   'posts3', 9000],
+            ['some.domain.net',   'posts4', 0],
+        ];
+    }
+
+    protected function hostnameRegexProvider()
+    {
+        return [
+            ['localhost',         'posts3'],
+            ['my.phalconphp.com', 'posts' ],
+            [null,                'posts3'],
+            ['mail.example.com',  'posts2'],
+            ['some-domain.com',   'posts3'],
+            ['some.domain.net',   'posts4'],
+        ];
+    }
+
+    protected function paramsProvider()
     {
         return [
             [
@@ -421,7 +699,7 @@ class RouterTest extends UnitTest
         ];
     }
 
-    protected function routerMethodProvider()
+    protected function methodProvider()
     {
         return [
             'NULL' => [
