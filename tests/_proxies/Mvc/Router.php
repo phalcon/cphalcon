@@ -81,7 +81,7 @@ class Router extends PhRouter
         return parent::setDefaultController($controllerName);
     }
 
-    public function setDefaultAction(array $actionName)
+    public function setDefaultAction($actionName)
     {
         return parent::setDefaultAction($actionName);
     }
@@ -118,7 +118,7 @@ class Router extends PhRouter
 
     public function addPut($pattern, $paths = null, $position = Router::POSITION_LAST)
     {
-        return parent::addPost($pattern, $paths, $position);
+        return parent::addPut($pattern, $paths, $position);
     }
 
     public function addPatch($pattern, $paths = null, $position = Router::POSITION_LAST)

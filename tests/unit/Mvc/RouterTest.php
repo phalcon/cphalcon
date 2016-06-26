@@ -43,14 +43,12 @@ class RouterTest extends UnitTest
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2013-01-17
      */
-    public function testRouterStandardBehaviour()
+    public function testMatchingWithTheRouter()
     {
         $this->specify(
-            'Router does not work as expected',
+            'Router does not matched correctly',
             function ($uri, $controller, $action, $params) {
                 $router = $this->getRouter();
-
-                $_GET['_url'] = '';
 
                 $router->add('/', [
                     'controller' => 'index',
@@ -112,6 +110,92 @@ class RouterTest extends UnitTest
                 expect($router->getActionName())->equals($action);
                 expect($router->getParams())->equals($params);
             }, ['examples' => $this->routerProvider()]
+        );
+    }
+
+    /**
+     * Tests router by using http method
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-08-22
+     */
+    public function testMatchingWithTheRouterByUsingHttpMethods()
+    {
+        $this->specify(
+            'Router does not matched correctly by using http method',
+            function ($method, $uri, $controller, $action, $params) {
+                $router = $this->getRouter();
+
+                $router->add('/docs/index', [
+                    'controller' => 'documentation2222',
+                    'action' => 'index'
+                ]);
+
+                $router->addPost('/docs/index', [
+                    'controller' => 'documentation3',
+                    'action' => 'index'
+                ]);
+
+                $router->addGet('/docs/index', [
+                    'controller' => 'documentation4',
+                    'action' => 'index'
+                ]);
+
+                $router->addPut('/docs/index', [
+                    'controller' => 'documentation5',
+                    'action' => 'index'
+                ]);
+
+                $router->addDelete('/docs/index', [
+                    'controller' => 'documentation6',
+                    'action' => 'index'
+                ]);
+
+                $router->addOptions('/docs/index', [
+                    'controller' => 'documentation7',
+                    'action' => 'index'
+                ]);
+
+                $router->addHead('/docs/index', [
+                    'controller' => 'documentation8',
+                    'action' => 'index'
+                ]);
+
+                $_SERVER['REQUEST_METHOD'] = $method;
+                $router->handle($uri);
+
+                expect($router->getControllerName())->equals($controller);
+                expect($router->getActionName())->equals($action);
+                expect($router->getParams())->equals($params);
+
+            }, ['examples' => $this->routerMethodProvider()]
+        );
+    }
+
+    /**
+     * Tests router by using rote params
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-08-22
+     */
+    public function testRouterParams()
+    {
+        $this->specify(
+            'Router does not matched correctly by using rote params',
+            function ($uri, $controller, $action, $params) {
+                $router = $this->getRouter();
+
+                $router->add('/some/{name}');
+                $router->add('/some/{name}/{id:[0-9]+}');
+                $router->add('/some/{name}/{id:[0-9]+}/{date}');
+
+                $router->handle($uri);
+
+                expect($router->getControllerName())->equals($controller);
+                expect($router->getActionName())->equals($action);
+                expect($router->getParams())->equals($params);
+
+            }, ['examples' => $this->routeParamsProvider()]
         );
     }
 
@@ -313,6 +397,85 @@ class RouterTest extends UnitTest
         );
     }
 
+    protected function routeParamsProvider()
+    {
+        return [
+            [
+                'uri' => '/some/hattie',
+                'controller' => '',
+                'action' => '',
+                'params' => ['name' => 'hattie']
+            ],
+            [
+                'uri' => '/some/hattie/100',
+                'controller' => '',
+                'action' => '',
+                'params' => ['name' => 'hattie', 'id' => 100]
+            ],
+            [
+                'uri' => '/some/hattie/100/2011-01-02',
+                'controller' => '',
+                'action' => '',
+                'params' => ['name' => 'hattie', 'id' => 100, 'date' => '2011-01-02']
+            ],
+        ];
+    }
+
+    protected function routerMethodProvider()
+    {
+        return [
+            'NULL' => [
+                'method' => null,
+                'uri' => '/documentation/index/hello',
+                'controller' => 'documentation',
+                'action' => 'index',
+                'params' => ['hello']
+            ],
+            'POST' => [
+                'method' => 'POST',
+                'uri' => '/docs/index',
+                'controller' => 'documentation3',
+                'action' => 'index',
+                'params' => []
+            ],
+            'GET' => [
+                'method' => 'GET',
+                'uri' => '/docs/index',
+                'controller' => 'documentation4',
+                'action' => 'index',
+                'params' => []
+            ],
+            'PUT' => [
+                'method' => 'PUT',
+                'uri' => '/docs/index',
+                'controller' => 'documentation5',
+                'action' => 'index',
+                'params' => []
+            ],
+            'DELETE' => [
+                'method' => 'DELETE',
+                'uri' => '/docs/index',
+                'controller' => 'documentation6',
+                'action' => 'index',
+                'params' => []
+            ],
+            'OPTIONS' => [
+                'method' => 'OPTIONS',
+                'uri' => '/docs/index',
+                'controller' => 'documentation7',
+                'action' => 'index',
+                'params' => []
+            ],
+            'HEAD' => [
+                'method' => 'HEAD',
+                'uri' => '/docs/index',
+                'controller' => 'documentation8',
+                'action' => 'index',
+                'params' => []
+            ]
+        ];
+    }
+
     protected function routerProvider()
     {
         return [
@@ -426,7 +589,7 @@ class RouterTest extends UnitTest
         $router = new Router($defaultRoutes);
 
         $di = new Di;
-        $di->set('request', function() {
+        $di->setShared('request', function() {
             return new Request;
         });
 
