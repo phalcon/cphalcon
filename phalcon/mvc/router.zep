@@ -865,7 +865,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	}
 
 	/**
-	 * Returns the route that matchs the handled URI
+	 * Returns the route that matches the handled URI
 	 */
 	public function getMatchedRoute() -> <RouteInterface>
 	{
@@ -881,7 +881,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	}
 
 	/**
-	 * Checks if the router macthes any of the defined routes
+	 * Checks if the router matches any of the defined routes
 	 */
 	public function wasMatched() -> boolean
 	{
