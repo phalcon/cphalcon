@@ -114,6 +114,21 @@ class Request extends PhRequest
         return parent::getHttpHost();
     }
 
+    public function getPort()
+    {
+        return parent::getPort();
+    }
+
+    public function setStrictHostCheck($flag = true)
+    {
+        return parent::setStrictHostCheck($flag);
+    }
+
+    public function isStrictHostCheck()
+    {
+        return parent::isStrictHostCheck();
+    }
+
     public function getClientAddress($trustForwardedHeader = false)
     {
         return parent::getClientAddress($trustForwardedHeader);

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -55,6 +55,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 	protected _putCache;
 
 	protected _httpMethodParameterOverride = false { get, set };
+
+	protected _strictHostCheck = false;
 
 	/**
 	 * Sets the dependency injector
@@ -385,50 +387,125 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Gets information about schema, host and port used by the request
+	 * Gets host name used by the request.
+	 *
+	 * `Request::getHttpHost` trying to find host name in following order:
+	 *
+	 * - `$_SERVER['HTTP_HOST']`
+	 * - `$_SERVER['SERVER_NAME']`
+	 * - `$_SERVER['SERVER_ADDR']`
+	 *
+	 * Optionally `Request::getHttpHost` validates and clean host name.
+	 * The `Request::$_strictHostCheck` can be used to validate host name.
+	 *
+	 * Note: validation and cleaning have a negative performance impact because they use regular expressions.
+	 *
+	 * <code>
+	 * use Phalcon\Http\Request;
+	 *
+	 * $request = new Request;
+	 *
+	 * $_SERVER['HTTP_HOST'] = 'example.com';
+	 * $request->getHttpHost(); // example.com
+	 *
+	 * $_SERVER['HTTP_HOST'] = 'example.com:8080';
+	 * $request->getHttpHost(); // example.com:8080
+	 *
+	 * $request->setStrictHostCheck(true);
+	 * $_SERVER['HTTP_HOST'] = 'ex=am~ple.com';
+	 * $request->getHttpHost(); // UnexpectedValueException
+	 *
+	 * $_SERVER['HTTP_HOST'] = 'ExAmPlE.com';
+	 * $request->getHttpHost(); // example.com
+	 * </code>
 	 */
 	public function getHttpHost() -> string
 	{
-		var httpHost, scheme, name, port;
+		var host, strict;
+
+		let strict = this->_strictHostCheck;
 
 		/**
 		 * Get the server name from _SERVER['HTTP_HOST']
 		 */
-		let httpHost = this->getServer("HTTP_HOST");
-		if httpHost {
-			return httpHost;
+		let host = this->getServer("HTTP_HOST");
+		if !host {
+
+			/**
+			 * Get the server name from _SERVER['SERVER_NAME']
+			 */
+			let host = this->getServer("SERVER_NAME");
+			if !host {
+				/**
+				 * Get the server address from _SERVER['SERVER_ADDR']
+				 */
+				let host = this->getServer("SERVER_ADDR");
+			}
 		}
 
-		/**
-		 * Get current scheme
-		 */
-		let scheme = this->getScheme();
+		if host && strict {
+			/**
+			 * Cleanup. Force lowercase as per RFC 952/2181
+			 */
+			let host = strtolower(trim(host));
+			if memstr(host, ":") {
+				let host = preg_replace("/:[[:digit:]]+$/", "", host);
+			}
 
-		/**
-		 * Get the server name from _SERVER['SERVER_NAME']
-		 */
-		let name = this->getServer("SERVER_NAME");
-
-		/**
-		 * Get the server port from _SERVER['SERVER_PORT']
-		 */
-		let port = this->getServer("SERVER_PORT");
-
-		/**
-		 * If is standard http we return the server name only
-		 */
-		if scheme == "http" && port == 80  {
-			return name;
+			/**
+			 * Host may contain only the ASCII letters 'a' through 'z' (in a case-insensitive manner),
+			 * the digits '0' through '9', and the hyphen ('-') as per RFC 952/2181
+			 */
+			if "" !== preg_replace("/[a-z0-9-]+\.?/", "", host) {
+				throw new \UnexpectedValueException("Invalid host " . host);
+			}
 		}
 
+		return (string) host;
+	}
+
+	/**
+	 * Sets if the `Request::getHttpHost` method must be use strict validation of host name or not
+	 */
+	public function setStrictHostCheck(bool flag = true) -> <Request>
+	{
+		let this->_strictHostCheck = flag;
+
+		return this;
+	}
+
+	/**
+	 * Checks if the `Request::getHttpHost` method will be use strict validation of host name or not
+	 */
+	public function isStrictHostCheck() -> boolean
+	{
+		return this->_strictHostCheck;
+	}
+
+	/**
+	 * Gets information about the port on which the request is made.
+	 */
+	public function getPort() -> int
+	{
+		var host, pos;
+
 		/**
-		 * If is standard secure http we return the server name only
+		 * Get the server name from _SERVER['HTTP_HOST']
 		 */
-		if scheme == "https" && port == "443" {
-			return name;
+		let host = this->getServer("HTTP_HOST");
+		if host {
+			if memstr(host, ":") {
+				let pos = strrpos(host, ":");
+
+				if false !== pos {
+					return (int) substr(host, pos + 1);
+				}
+			}
+
+			return "https" === $this->getScheme() ? 443 : 80;
 		}
 
-		return name . ":" . port;
+		return (int) this->getServer("SERVER_PORT");
 	}
 
 	/**
