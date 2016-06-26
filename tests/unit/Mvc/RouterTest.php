@@ -38,6 +38,84 @@ class RouterTest extends UnitTest
     }
 
     /**
+     * Tests router
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2013-01-17
+     */
+    public function testRouterStandardBehaviour()
+    {
+        $this->specify(
+            'Router does not work as expected',
+            function ($uri, $controller, $action, $params) {
+                $router = $this->getRouter();
+
+                $_GET['_url'] = '';
+
+                $router->add('/', [
+                    'controller' => 'index',
+                    'action' => 'index'
+                ]);
+
+                $router->add('/system/:controller/a/:action/:params', [
+                    'controller' => 1,
+                    'action' => 2,
+                    'params' => 3,
+                ]);
+
+                $router->add('/([a-z]{2})/:controller', [
+                    'controller' => 2,
+                    'action' => 'index',
+                    'language' => 1
+                ]);
+
+                $router->add('/admin/:controller/:action/:int', [
+                    'controller' => 1,
+                    'action' => 2,
+                    'id' => 3
+                ]);
+
+                $router->add('/posts/([0-9]{4})/([0-9]{2})/([0-9]{2})/:params', [
+                    'controller' => 'posts',
+                    'action' => 'show',
+                    'year' => 1,
+                    'month' => 2,
+                    'day' => 3,
+                    'params' => 4,
+                ]);
+
+                $router->add('/manual/([a-z]{2})/([a-z\.]+)\.html', [
+                    'controller' => 'manual',
+                    'action' => 'show',
+                    'language' => 1,
+                    'file' => 2
+                ]);
+
+                $router->add('/named-manual/{language:([a-z]{2})}/{file:[a-z\.]+}\.html', [
+                    'controller' => 'manual',
+                    'action' => 'show',
+                ]);
+
+                $router->add('/very/static/route', [
+                    'controller' => 'static',
+                    'action' => 'route'
+                ]);
+
+                $router->add('/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}', 'Feed::get');
+                $router->add('/posts/{year:[0-9]+}/s/{title:[a-z\-]+}', 'Posts::show');
+                $router->add('/posts/delete/{id}', 'Posts::delete');
+                $router->add('/show/{id:video([0-9]+)}/{title:[a-z\-]+}', 'Videos::show');
+
+                $router->handle($uri);
+
+                expect($router->getControllerName())->equals($controller);
+                expect($router->getActionName())->equals($action);
+                expect($router->getParams())->equals($params);
+            }, ['examples' => $this->routerProvider()]
+        );
+    }
+
+    /**
      * Tests setting host name by using regexp
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
@@ -48,7 +126,7 @@ class RouterTest extends UnitTest
         $this->specify(
             'The Router::getControllerName does not return correct controller by using regexp in host name',
             function ($hostname, $expected) {
-                $router = $this->getRouter();
+                $router = $this->getRouter(false);
 
                 $router->add('/edit', [
                     'controller' => 'posts3',
@@ -96,7 +174,7 @@ class RouterTest extends UnitTest
         $this->specify(
             'The Router::getControllerName does not return correct controller by using regexp in host name',
             function ($hostname, $expected, $port) {
-                $router = $this->getRouter();
+                $router = $this->getRouter(false);
 
                 $router->add('/edit', [
                     'controller' => 'posts3',
@@ -133,9 +211,219 @@ class RouterTest extends UnitTest
         );
     }
 
-    protected function getRouter()
+    /**
+     * Tests setting host name
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2013-04-15
+     */
+    public function testHostnameRouter()
     {
-        $router = new Router(false);
+        $this->specify(
+            'The Router::getControllerName does not return correct controller by using host name',
+            function ($hostname, $expected) {
+                $router = $this->getRouter(false);
+
+                $router->add('/edit', [
+                    'controller' => 'posts3',
+                    'action' => 'edit3'
+                ]);
+
+                $router->add('/edit', [
+                    'controller' => 'posts',
+                    'action' => 'edit'
+                ])->setHostname('my.phalconphp.com');
+
+                $router->add('/edit', [
+                    'controller' => 'posts2',
+                    'action' => 'edit2'
+                ])->setHostname('my2.phalconphp.com');
+
+                $_SERVER['HTTP_HOST'] = $hostname;
+                $router->handle('/edit');
+                expect($router->getControllerName())->equals($expected);
+            }, ['examples' => [
+                ['localhost',          'posts3'],
+                [null,                 'posts3'],
+                ['my.phalconphp.com',  'posts'],
+                ['my2.phalconphp.com', 'posts2'],
+            ]]
+        );
+    }
+
+    /**
+     * Tests setting notFound handler
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2013-03-01
+     */
+    public function testSettingNotFoundPaths()
+    {
+        $this->specify(
+            'Setting a group of paths to be returned when none of the defined routes are matched does not work as expected',
+            function () {
+                $router = $this->getRouter(false);
+
+                $router->notFound(
+                    [
+                        'module'     => 'module',
+                        'namespace'  => 'namespace',
+                        'controller' => 'controller',
+                        'action'     => 'action'
+                    ]
+                );
+
+                $router->handle();
+
+                expect($router->getControllerName())->equals('controller');
+                expect($router->getActionName())->equals('action');
+                expect($router->getModuleName())->equals('module');
+                expect($router->getNamespaceName())->equals('namespace');
+            }
+        );
+    }
+
+    /**
+     * Tests setting different URI source
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2013-04-07
+     */
+    public function testMatchingByUsingDifferentUriSource()
+    {
+        $this->specify(
+            'Matching uri when setting different uri source does not work as expected',
+            function () {
+                $router = $this->getRouter(false);
+
+                $_GET['_url'] = '/some/route';
+                expect($router->getRewriteUri())->equals('/some/route');
+
+                $router->setUriSource(Router::URI_SOURCE_GET_URL);
+                expect($router->getRewriteUri())->equals('/some/route');
+
+                $_SERVER['REQUEST_URI'] = '/some/route';
+                $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+
+                expect($router->getRewriteUri())->equals('/some/route');
+
+                $_SERVER['REQUEST_URI'] = '/some/route?x=1';
+                expect($router->getRewriteUri())->equals('/some/route');
+            }
+        );
+    }
+
+    protected function routerProvider()
+    {
+        return [
+            [
+                'uri' => '',
+                'controller' => 'index',
+                'action' => 'index',
+                'params' => []
+            ],
+            [
+                'uri' => '/',
+                'controller' => 'index',
+                'action' => 'index',
+                'params' => []
+            ],
+            [
+                'uri' => '/documentation/index/hellao/aaadpqñda/bbbAdld/cc-ccc',
+                'controller' => 'documentation',
+                'action' => 'index',
+                'params' => ['hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc']
+            ],
+            [
+                'uri' => '/documentation/index/',
+                'controller' => 'documentation',
+                'action' => 'index',
+                'params' => []
+            ],
+            [
+                'uri' => '/documentation/index',
+                'controller' => 'documentation',
+                'action' => 'index',
+                'params' => []
+            ],
+            [
+                'uri' => '/documentation/',
+                'controller' => 'documentation',
+                'action' => null,
+                'params' => []
+            ],
+            [
+                'uri' => '/documentation',
+                'controller' => 'documentation',
+                'action' => null,
+                'params' => []
+            ],
+            [
+                'uri' => '/system/admin/a/edit/hellao/aaadp',
+                'controller' => 'admin',
+                'action' => 'edit',
+                'params' => ['hellao', 'aaadp']
+            ],
+            [
+                'uri' => '/es/news',
+                'controller' => 'news',
+                'action' => 'index',
+                'params' => ['language' => 'es']
+            ],
+            [
+                'uri' => '/admin/posts/edit/100',
+                'controller' => 'posts',
+                'action' => 'edit',
+                'params' => ['id' => 100]
+            ],
+            [
+                'uri' => '/posts/2010/02/10/title/content',
+                'controller' => 'posts',
+                'action' => 'show',
+                'params' => ['year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content']
+            ],
+            [
+                'uri' => '/manual/en/translate.adapter.html',
+                'controller' => 'manual',
+                'action' => 'show',
+                'params' => ['language' => 'en', 'file' => 'translate.adapter']
+            ],
+            [
+                'uri' => '/named-manual/en/translate.adapter.html',
+                'controller' => 'manual',
+                'action' => 'show',
+                'params' => ['language' => 'en', 'file' => 'translate.adapter']
+            ],
+            [
+                'uri' => '/posts/1999/s/le-nice-title',
+                'controller' => 'posts',
+                'action' => 'show',
+                'params' => ['year' => '1999', 'title' => 'le-nice-title']
+            ],
+            [
+                'uri' => '/feed/fr/blog/diaporema.json',
+                'controller' => 'feed',
+                'action' => 'get',
+                'params' => ['lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json']
+            ],
+            [
+                'uri' => '/posts/delete/150',
+                'controller' => 'posts',
+                'action' => 'delete',
+                'params' => ['id' => '150']
+            ],
+            [
+                'uri' => '/very/static/route',
+                'controller' => 'static',
+                'action' => 'route',
+                'params' => []
+            ],
+        ];
+    }
+
+    protected function getRouter($defaultRoutes = true)
+    {
+        $router = new Router($defaultRoutes);
 
         $di = new Di;
         $di->set('request', function() {
