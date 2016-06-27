@@ -1,5 +1,8 @@
 <?php
+
 namespace Phalcon\Build;
+
+use Phalcon\Kernel;
 
 /**
  * Uses previously generated safe universal build and generates optimized build for a specific platform
@@ -52,13 +55,13 @@ class Generator_Optimized
             '32bit' => array(
                 'dir' => $output32Dir,
                 'hashFunc' => function ($string) {
-                    return \Phalcon\Kernel::preComputeHashKey32($string) . 'UL';
+                    return Kernel::preComputeHashKey32($string) . 'UL';
                 }
             ),
             '64bit' => array(
                 'dir' => $output64Dir,
                 'hashFunc' => function ($string) {
-                    return \Phalcon\Kernel::preComputeHashKey64($string) . 'UL';
+                    return Kernel::preComputeHashKey64($string) . 'UL';
                 }
             ),
         );
