@@ -129,9 +129,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerAddress);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerName);
 
 /**
- * Gets information about schema, host and port used by the request
+ * Gets host name used by the request
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHttpHost);
+
+/**
+ * Gets information about the port on which the request is made
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPort);
 
 /**
  * Gets most possibly client IPv4 Address. This methods search in $_SERVER['REMOTE_ADDR'] and optionally in $_SERVER['HTTP_X_FORWARDED_FOR']
@@ -185,6 +190,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isDelete);
  * Checks whether HTTP method is OPTIONS. if $_SERVER['REQUEST_METHOD']=='OPTIONS'
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isOptions);
+
+/**
+ * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isPurge);
+
+/**
+ * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isTrace);
+
+/**
+ * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isConnect);
 
 /**
  * Checks whether request include attached files

@@ -95,14 +95,14 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	if (zephir_fast_count_int(validators TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		ZEPHIR_INIT_NVAR(_0$$3);
-		zephir_create_closure_ex(_0$$3, NULL, phalcon_1__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", &_2, 458, validators, _0$$3);
+		zephir_create_closure_ex(_0$$3, NULL, phalcon_0__closure_ce, SS("__invoke") TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", &_2, 459, validators, _0$$3);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_validators"), _1$$3 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_INIT_NVAR(_3$$3);
-		zephir_create_closure_ex(_3$$3, NULL, phalcon_2__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_filter", &_2, 458, validators, _3$$3);
+		zephir_create_closure_ex(_3$$3, NULL, phalcon_1__closure_ce, SS("__invoke") TSRMLS_CC);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_filter", &_2, 459, validators, _3$$3);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_combinedFieldsValidators"), _4$$3 TSRMLS_CC);
 	}

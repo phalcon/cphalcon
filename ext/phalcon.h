@@ -377,6 +377,5 @@
 #include "phalcon/version.zep.h"
 #include "phalcon/0__closure.zep.h"
 #include "phalcon/1__closure.zep.h"
-#include "phalcon/2__closure.zep.h"
 
 #endif

@@ -381,8 +381,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/url.zep.c
 	phalcon/version.zep.c
 	phalcon/0__closure.zep.c
-	phalcon/1__closure.zep.c
-	phalcon/2__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/1__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

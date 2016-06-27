@@ -149,7 +149,6 @@ zend_class_entry *phalcon_mvc_view_exception_ce;
 zend_class_entry *phalcon_validation_combinedfieldsvalidator_ce;
 zend_class_entry *phalcon_0__closure_ce;
 zend_class_entry *phalcon_1__closure_ce;
-zend_class_entry *phalcon_2__closure_ce;
 zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_ce;
 zend_class_entry *phalcon_acl_exception_ce;
@@ -814,7 +813,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Version);
 	ZEPHIR_INIT(phalcon_0__closure);
 	ZEPHIR_INIT(phalcon_1__closure);
-	ZEPHIR_INIT(phalcon_2__closure);
 
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);
