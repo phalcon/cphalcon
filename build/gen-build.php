@@ -9,9 +9,9 @@ $rootDir = Util::normalize(__DIR__ . '/..');
 $buildDir = Util::normalize(__DIR__);
 
 if (version_compare(phpversion(), '7.0.0', '<')) {
-    $buildDir .= '/php5'
+    $buildDir .= '/php5';
 } else {
-    $buildDir .= '/php7'
+    $buildDir .= '/php7';
 }
 
 $generator = new Generator($rootDir, $buildDir);
