@@ -98,6 +98,7 @@
 - Added `Phalcon\Http\Request::getPort`. To get information about the port on which the request is made.
 - Added `Phalcon\Http\Request::setStrictHostCheck` and `Phalcon\Http\Request::isStrictHostCheck` to manage strict validation of host name.
 - Fixed matching host name by `Phalcon\Mvc\Route::handle` when using port on current host name [#2573](https://github.com/phalcon/cphalcon/issues/2573)
+- Fixed `Phalcon\Text:dynamic()` to allow custom separator [#11215](https://github.com/phalcon/cphalcon/issues/11215)
 
 # [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
 - Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
