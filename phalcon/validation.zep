@@ -446,7 +446,17 @@ class Validation extends Injectable implements ValidationInterface
 	 */
 	public function appendMessage(<MessageInterface> message) -> <Validation>
 	{
-		this->_messages->appendMessage(message);
+		var messages;
+
+		let messages = this->_messages;
+		if typeof messages != "object" {
+			let messages = new Group();
+		}
+
+		messages->appendMessage(message);
+
+		let this->_messages = messages;
+
 		return this;
 	}
 
