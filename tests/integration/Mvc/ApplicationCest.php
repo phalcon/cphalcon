@@ -28,25 +28,6 @@ use Phalcon\Di\FactoryDefault;
  */
 class ApplicationCest
 {
-    /**
-     * Executed before each test
-     *
-     * @param IntegrationTester $I
-     */
-    public function _before(IntegrationTester $I)
-    {
-        $loader = $I->grabServiceFromDi('loader');
-
-        $loader
-            ->registerDirs([PATH_DATA . 'controllers/'])
-            ->registerNamespaces([
-                'Phalcon\Test\Modules\Frontend\Controllers' => PATH_DATA . 'modules/frontend/controllers/',
-                'Phalcon\Test\Modules\Backend\Controllers'  => PATH_DATA . 'modules/backend/controllers/'
-            ]);
-
-        $loader->register();
-    }
-
     public function singleModule(IntegrationTester $I)
     {
         $I->wantTo('handle request and get content by using single modules strategy');
@@ -74,7 +55,7 @@ class ApplicationCest
         $_GET['_url'] = '/index';
 
         $di = new FactoryDefault();
-        $di->set('router', function(){
+        $di->set('router', function() {
             $router = new Router(false);
 
             $router->add('/index', [
@@ -111,7 +92,7 @@ class ApplicationCest
         $_GET['_url'] = '/login';
 
         $di = new FactoryDefault();
-        $di->set('router', function(){
+        $di->set('router', function() {
             $router = new Router(false);
 
             $router->add('/index', [
@@ -132,20 +113,22 @@ class ApplicationCest
         $application = new Application();
         $view = new View();
 
-        $application->registerModules(array(
+        $application->registerModules([
             'frontend' => function($di) use ($view) {
+                /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function() use ($view) {
                     $view->setViewsDir(PATH_DATA . 'modules/frontend/views/');
                     return $view;
                 });
             },
             'backend' => function($di) use ($view) {
+                /** @var \Phalcon\DiInterface $di */
                 $di->set('view', function() use($view) {
                     $view->setViewsDir(PATH_DATA . 'modules/backend/views/');
                     return $view;
                 });
             },
-        ));
+        ]);
 
         $application->setDI($di);
         $I->assertEquals('<html>here</html>' . PHP_EOL, $application->handle()->getContent());

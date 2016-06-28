@@ -30,6 +30,10 @@ class BagTest extends UnitTest
      */
     protected function _before()
     {
+        if (PHP_MAJOR_VERSION == 7) {
+            $this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+        }
+
         FactoryDefault::reset();
         new FactoryDefault;
     }

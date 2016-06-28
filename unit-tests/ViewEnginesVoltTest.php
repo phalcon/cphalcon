@@ -1393,6 +1393,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
 	public function testVoltMacros()
 	{
+		if (PHP_MAJOR_VERSION == 7) {
+			$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+		}
+
 		$this->removeFiles([
 			'unit-tests/views/macro/hello.volt.php',
 			'unit-tests/views/macro/conditionaldate.volt.php',
@@ -1459,6 +1463,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
 	}
 	public function testVoltMacros_Issue_11771()
 	{
+		if (PHP_MAJOR_VERSION == 7) {
+			$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+		}
+
 		$this->removeFiles([
 			'unit-tests/views/macro/list.volt.php',
 			'unit-tests/views/macro/form_row.volt.php',

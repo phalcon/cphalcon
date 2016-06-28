@@ -7,6 +7,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
 
 git:
   depth: 1
@@ -73,7 +74,6 @@ before_script:
   - pecl list
   - ulimit -c unlimited -S || true
   - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
-  - stty cols 160
 
 script:
   - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
