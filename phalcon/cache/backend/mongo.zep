@@ -145,12 +145,8 @@ class Mongo extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var frontend, prefixedKey, conditions,  document, cachedContent;
 

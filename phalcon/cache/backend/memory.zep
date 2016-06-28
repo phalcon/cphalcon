@@ -51,12 +51,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param 	string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var lastKey, cachedContent;
 
