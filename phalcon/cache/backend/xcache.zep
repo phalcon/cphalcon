@@ -74,12 +74,8 @@ class Xcache extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var frontend, prefixedKey, cachedContent;
 

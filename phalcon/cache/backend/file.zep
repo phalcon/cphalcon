@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -101,12 +101,8 @@ class File extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   int lifetime
-	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, ttl, cachedContent, ret;
 		int modifiedTime;
@@ -120,7 +116,7 @@ class File extends Backend implements BackendInterface
 
 		let cacheFile = cacheDir . prefixedKey;
 
-		if file_exists(cacheFile) == true {
+		if file_exists(cacheFile) === true {
 
 			let frontend = this->_frontend;
 
@@ -165,6 +161,8 @@ class File extends Backend implements BackendInterface
 				}
 			}
 		}
+
+		return null;
 	}
 
 	/**

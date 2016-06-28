@@ -141,11 +141,8 @@ class Redis extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param long lifetime
 	 */
-	public function get(keyName, lifetime = null) -> var | null
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var redis, frontend, prefix, lastKey, cachedContent;
 
