@@ -3,6 +3,7 @@
 use Phalcon\Config;
 use Phalcon\Loader;
 use Phalcon\Mvc\Url;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Application;
@@ -22,6 +23,19 @@ $di->setShared(
 );
 
 /**
+ * View
+ */
+$di->setShared(
+    'view',
+    function () {
+        $view = new View();
+        $view->setViewsDir(PATH_DATA . 'views/');
+
+        return $view;
+    }
+);
+
+/**
  * Autoloader
  */
 $config = $di['config'];
@@ -35,6 +49,10 @@ $loader->registerNamespaces(
         'Phalcon\Test\Collections' => $config->get('application')->collectionsDir,
     ]
 );
+
+$loader->registerDirs([
+    $config->get('application')->controllersDir,
+]);
 
 $loader->register();
 

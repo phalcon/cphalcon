@@ -5,8 +5,9 @@ return [
         'baseUri'   => '/',
         'staticUri' => '/',
         'timezone'  => 'UTC',
-        'modelsDir' => TESTS_PATH . '_data/models/',
-        'collectionsDir' => TESTS_PATH . '_data/collections/',
+        'modelsDir' => PATH_DATA . 'models/',
+        'collectionsDir' => PATH_DATA . 'collections/',
+        'controllersDir' => PATH_DATA . 'controllers/',
     ],
     'database' => [
         'adapter'  => 'Mysql',
