@@ -1,6 +1,6 @@
 {
     "name": "phalcon/cphalcon",
-    "description": "Web framework delivered as a C-extension for PHP",
+    "description": "Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.",
     "keywords": [
         "extension",
         "phalcon",
@@ -15,13 +15,15 @@
         "twig/twig": "~1.24",
         "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",
-        "codeception/specify": "~0.4"
+        "codeception/specify": "~0.4",
+        "phalcon/zephir": "dev-master"
     },
     "minimum-stability": "dev",
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Phalcon Team",
+            "email": "team@phalconphp.com",
             "homepage": "http://phalconphp.com/en/team"
         },
         {
@@ -47,6 +49,8 @@
         "source": "https://github.com/phalcon/cphalcon",
         "forum": "https://forum.phalconphp.com/",
         "docs": "http://docs.phalconphp.com/",
-        "irc": "irc://irc.freenode.org/phalconphp"
+        "wiki": "https://github.com/phalcon/cphalcon/wiki",
+        "irc": "irc://irc.freenode.org/phalconphp",
+        "rss" : "https://blog.phalconphp.com/rss"
     }
 }
