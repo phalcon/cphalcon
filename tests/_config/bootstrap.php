@@ -22,14 +22,16 @@ $di->setShared(
     }
 );
 
+$config = $di['config'];
+
 /**
  * View
  */
 $di->setShared(
     'view',
-    function () {
+    function () use ($config) {
         $view = new View();
-        $view->setViewsDir(PATH_DATA . 'views/');
+        $view->setViewsDir($config->get('application')->viewsDir);
 
         return $view;
     }
@@ -38,7 +40,6 @@ $di->setShared(
 /**
  * Autoloader
  */
-$config = $di['config'];
 $loader = new Loader();
 
 // Register the Library namespace as well as the common module
@@ -47,6 +48,8 @@ $loader->registerNamespaces(
     [
         'Phalcon\Test\Models'      => $config->get('application')->modelsDir,
         'Phalcon\Test\Collections' => $config->get('application')->collectionsDir,
+        'Phalcon\Test\Modules\Frontend\Controllers' => $config->get('application')->modulesDir . 'frontend/controllers/',
+        'Phalcon\Test\Modules\Backend\Controllers'  => $config->get('application')->modulesDir . 'backend/controllers/'
     ]
 );
 
