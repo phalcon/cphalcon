@@ -69,11 +69,8 @@ class File extends Backend implements BackendInterface
 
 	/**
 	 * Phalcon\Cache\Backend\File constructor
-	 *
-	 * @param	Phalcon\Cache\FrontendInterface frontend
-	 * @param	array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, array options)
 	{
 		var prefix, safekey;
 
@@ -104,8 +101,7 @@ class File extends Backend implements BackendInterface
 	 */
 	public function get(string keyName, int lifetime = null) -> var | null
 	{
-		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, ttl, cachedContent, ret;
-		int modifiedTime;
+		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, ttl, cachedContent, ret, modifiedTime;
 
 		let prefixedKey =  this->_prefix . this->getKey(keyName);
 		let this->_lastKey = prefixedKey;
@@ -134,13 +130,14 @@ class File extends Backend implements BackendInterface
 				let ttl = (int) lifetime;
 			}
 
+			clearstatcache(true, cacheFile);
 			let modifiedTime = (int) filemtime(cacheFile);
 
 			/**
 			 * Check if the file has expired
 			 * The content is only retrieved if the content has not expired
 			 */
-			if !(time() - ttl > modifiedTime) {
+			if modifiedTime + ttl > time() {
 
 				/**
 				 * Use file-get-contents to control that the openbase_dir can't be skipped
@@ -297,8 +294,7 @@ class File extends Backend implements BackendInterface
 	 */
 	public function exists(var keyName = null, int lifetime = null) -> boolean
 	{
-		var lastKey, prefix, cacheFile;
-		int ttl;
+		var lastKey, prefix, cacheFile, ttl, modifiedTime;
 
 		if !keyName {
 			let lastKey = this->_lastKey;
@@ -322,7 +318,10 @@ class File extends Backend implements BackendInterface
 					let ttl = (int) lifetime;
 				}
 
-				if filemtime(cacheFile) + ttl > time() {
+				clearstatcache(true, cacheFile);
+				let modifiedTime = (int) filemtime(cacheFile);
+
+				if modifiedTime + ttl > time() {
 					return true;
 				}
 			}
@@ -340,8 +339,8 @@ class File extends Backend implements BackendInterface
 	 */
 	public function increment(var keyName = null, int value = 1)
 	{
-		var prefixedKey, cacheFile, frontend, timestamp, lifetime, ttl,
-			cachedContent, result;
+		var prefixedKey, cacheFile, frontend, lifetime, ttl,
+			cachedContent, result, modifiedTime;
 
 		let prefixedKey = this->_prefix . this->getKey(keyName),
 			this->_lastKey = prefixedKey,
@@ -350,11 +349,6 @@ class File extends Backend implements BackendInterface
 		if file_exists(cacheFile) {
 
 			let frontend = this->_frontend;
-
-			/**
-			 * Check if the file has expired
-			 */
-			let timestamp = time();
 
 			/**
 			 * Take the lifetime from the frontend or read it from the set in start()
@@ -366,10 +360,14 @@ class File extends Backend implements BackendInterface
 				let ttl = lifetime;
 			}
 
+			clearstatcache(true, cacheFile);
+			let modifiedTime = (int) filemtime(cacheFile);
+
 			/**
+			 * Check if the file has expired
 			 * The content is only retrieved if the content has not expired
 			 */
-			if (timestamp - ttl) < filemtime(cacheFile) {
+			if modifiedTime + ttl > time() {
 
 				/**
 				 * Use file-get-contents to control that the openbase_dir can't be skipped
@@ -402,18 +400,13 @@ class File extends Backend implements BackendInterface
 	 */
 	public function decrement(var keyName = null, int value = 1)
 	{
-		var prefixedKey, cacheFile, timestamp, lifetime, ttl, cachedContent, result;
+		var prefixedKey, cacheFile, lifetime, ttl, cachedContent, result, modifiedTime;
 
 		let prefixedKey = this->_prefix . this->getKey(keyName),
 			this->_lastKey = prefixedKey,
 			cacheFile = this->_options["cacheDir"] . prefixedKey;
 
 		if file_exists(cacheFile) {
-
-			/**
-			 * Check if the file has expired
-			 */
-			let timestamp = time();
 
 			/**
 			 * Take the lifetime from the frontend or read it from the set in start()
@@ -425,10 +418,14 @@ class File extends Backend implements BackendInterface
 				let ttl = lifetime;
 			}
 
+			clearstatcache(true, cacheFile);
+			let modifiedTime = (int) filemtime(cacheFile);
+
 			/**
+			 * Check if the file has expired
 			 * The content is only retrieved if the content has not expired
 			 */
-			if (timestamp - ttl) < filemtime(cacheFile) {
+			if modifiedTime + ttl > time() {
 
 				/**
 				 * Use file-get-contents to control that the openbase_dir can't be skipped
@@ -496,10 +493,8 @@ class File extends Backend implements BackendInterface
 
 	/**
 	 * Set whether to use the safekey or not
-	 *
-	 * @return this
 	 */
-	public function useSafeKey(bool useSafeKey)
+	public function useSafeKey(bool useSafeKey) -> <File>
 	{
 		let this->_useSafeKey = useSafeKey;
 
