@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -23,6 +23,7 @@ use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\Mvc\View\EngineInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
 /**
@@ -31,10 +32,15 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * This component allows to render views without hierarchical levels
  *
  *<code>
- * $view = new \Phalcon\Mvc\View\Simple();
- * echo $view->render('templates/my-view', array('content' => $html));
- * //or with filename with extension
- * echo $view->render('templates/my-view.volt', array('content' => $html));
+ * use Phalcon\Mvc\View\Simple as View;
+ *
+ * $view = new View();
+ *
+ * // Render a view
+ * echo $view->render('templates/my-view', ['some' => $param]);
+ *
+ * // Or with filename with extension
+ * echo $view->render('templates/my-view.volt', ['parameter' => $here]);
  *</code>
  */
 class Simple extends Injectable implements ViewBaseInterface
@@ -48,6 +54,9 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	protected _viewParams;
 
+	/**
+	 * @var \Phalcon\Mvc\View\EngineInterface[]|false
+	 */
 	protected _engines = false;
 
 	protected _registeredEngines { get };
@@ -62,8 +71,6 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Phalcon\Mvc\View\Simple constructor
-	 *
-	 * @param array options
 	 */
 	public function __construct(array options = [])
 	{
@@ -90,11 +97,11 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Register templating engines
 	 *
 	 *<code>
-	 *$this->view->registerEngines(array(
-	 *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
-	 *  ".volt" => "Phalcon\Mvc\View\Engine\Volt",
-	 *  ".mhtml" => "MyCustomEngine"
-	 *));
+	 * $this->view->registerEngines([
+	 *  '.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+	 *  '.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+	 *  '.mhtml' => 'MyCustomEngine'
+	 * ]);
 	 *</code>
 	 */
 	public function registerEngines(array! engines)
@@ -201,7 +208,8 @@ class Simple extends Injectable implements ViewBaseInterface
 			}
 		}
 
-		let notExists = true, mustClean = true;
+		let notExists = true,
+			mustClean = true;
 
 		let viewsDirPath =  this->_viewsDir . path;
 
@@ -274,9 +282,8 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *
 	 * @param  string path
 	 * @param  array  params
-	 * @return string
 	 */
-	public function render(string! path, params = null)
+	public function render(string! path, params = null) -> string
 	{
 		var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
 
@@ -440,11 +447,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Sets the cache options
-	 *
-	 * @param  array options
-	 * @return \Phalcon\Mvc\View\Simple
 	 */
-	public function setCacheOptions(options) -> <Simple>
+	public function setCacheOptions(array options) -> <Simple>
 	{
 		let this->_cacheOptions = options;
 		return this;
@@ -508,13 +512,14 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Cache the actual view render to certain level
 	 *
 	 *<code>
-	 *  $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
+	 *  $this->view->cache(['key' => 'my-key', 'lifetime' => 86400]);
 	 *</code>
 	 */
 	public function cache(var options = true) -> <Simple>
 	{
 		if typeof options == "array" {
-			let this->_cache = true, this->_cacheOptions = options;
+			let this->_cache = true,
+				this->_cacheOptions = options;
 		} else {
 			if options {
 				let this->_cache = true;
@@ -542,7 +547,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Set all the render params
 	 *
 	 *<code>
-	 *	$this->view->setVars(array('products' => $products));
+	 *	$this->view->setVars(['products' => $products]);
 	 *</code>
 	 */
 	public function setVars(array! params, boolean merge = true) -> <Simple>
@@ -563,7 +568,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *	$this->view->setVar('products', $products);
 	 *</code>
 	 */
-	public function setVar(string! key, value) -> <Simple>
+	public function setVar(string! key, var value) -> <Simple>
 	{
 		let this->_viewParams[key] = value;
 		return this;
@@ -571,11 +576,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Returns a parameter previously set in the view
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
-	public function getVar(string! key)
+	public function getVar(string! key) -> var | null
 	{
 		var	value;
 		if fetch value, this->_viewParams[key] {
@@ -643,16 +645,14 @@ class Simple extends Injectable implements ViewBaseInterface
 	 *<code>
 	 *	echo $this->view->products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
-	public function __get(string! key)
+	public function __get(string! key) -> var | null
 	{
 		var value;
 		if fetch value, this->_viewParams[key] {
 			return value;
 		}
+
 		return null;
 	}
 }
