@@ -134,41 +134,6 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('Hey, this is a partial, also FooBar<br />Hey, this is a second partial, also FooBar', $view->render('test9/index'));
 	}
 
-	public function testRenderWithCache()
-	{
-		if (PHP_MAJOR_VERSION == 7) {
-			$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
-		}
-
-		// Create cache at first run
-		$view = new View;
-		$view->setViewsDir('unit-tests/views/');
-
-		$this->assertFalse($view->getCache()); // No cache before DI is set
-		$view->setDI($this->_getDI());
-		$this->assertEquals($view, $view->cache(array('key' => 'view_simple_cache')));
-
-		$cache = $view->getCache();
-		$this->assertInstanceOf('Phalcon\Cache\BackendInterface', $cache);
-		if (($cache instanceof BackendInterface) == false)
-			$this->fail('Expected BackendInterface');
-
-		$timeNow = time();
-		$view->setParamToView('a_cool_var', $timeNow);
-		$this->assertEquals("<p>$timeNow</p>", $view->render('test3/coolVar'));
-		unset($view, $cache);
-
-		// Re-use the cached contents
-		$view = new View;
-		$view->setViewsDir('unit-tests/views/');
-		$view->setDI($this->_getDI());
-		$view->cache(array('key' => 'view_simple_cache'));
-		$this->assertEquals("<p>$timeNow</p>", $view->render('test3/coolVar'));
-
-		// Cache should expire
-		$this->assertEquals("<p></p>", @$view->render('test3/coolVar'));
-	}
-
 	public function testGetRegisteredEngines()
 	{
 		$expected = array(
@@ -210,16 +175,6 @@ class ViewSimpleTest extends PHPUnit_Framework_TestCase
 		$view->setParamToView('name', 'FooBar');
 
 		$this->assertEquals('Hello FooBar', $view->render('test4/index.mhtml'));
-	}
-
-    // Setup viewCache service and DI
-	private function _getDI()
-	{
-		$di = new Di;
-		$frontendCache = new FrontendCache(array('lifetime' => 2));
-		$backendCache = new BackendCache($frontendCache, array('cacheDir' => 'unit-tests/cache/'));
-		$di->set('viewCache', $backendCache);
-		return $di;
 	}
 
 	public function tearDown()
