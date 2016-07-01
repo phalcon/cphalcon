@@ -67,7 +67,11 @@ class Session extends FlashBase implements FlashInterface, InjectionAwareInterfa
 		let session = <SessionInterface> dependencyInjector->getShared("session");
 		let messages = session->get("_flashMessages");
 
-		if typeof type == "string" && isset(messages[type]) {
+		if typeof type == "string" {
+			if !isset(messages[type]) {
+				return [];
+			}
+			
 			if !fetch returnMessages, messages[type] {
 				let returnMessages = [];
 			}
