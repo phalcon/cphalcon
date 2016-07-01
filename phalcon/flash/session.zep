@@ -68,7 +68,7 @@ class Session extends FlashBase implements FlashInterface, InjectionAwareInterfa
 		let messages = session->get("_flashMessages");
 
 		if typeof type == "string" {
-			if !isset(messages[type])) {
+			if !isset(messages[type]) {
 				return [];
 			}
 			
