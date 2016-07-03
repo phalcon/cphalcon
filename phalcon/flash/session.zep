@@ -45,20 +45,16 @@ class Session extends FlashBase implements FlashInterface
 			messages = session->get("_flashMessages");
 
 		if typeof type == "string" {
-			if !isset messages[type] {
-				return [];
+			if fetch returnMessages, messages[type] {
+				if remove === true {
+					unset(messages[type]);
+					session->set("_flashMessages", messages);
+				}
+
+				return returnMessages;
 			}
 
-			if !fetch returnMessages, messages[type] {
-				let returnMessages = [];
-			}
-
-			if remove === true {
-				unset(messages[type]);
-				session->set("_flashMessages", messages);
-			}
-
-			return returnMessages;
+			return [];
 		}
 
 		if remove === true {
