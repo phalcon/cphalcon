@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,14 +44,20 @@ class Session extends FlashBase implements FlashInterface
 		let session = <SessionInterface> dependencyInjector->getShared("session"),
 			messages = session->get("_flashMessages");
 
-		if typeof type == "string" && isset(messages[type]) {
+		if typeof type == "string" {
+			if !isset messages[type] {
+				return [];
+			}
+
 			if !fetch returnMessages, messages[type] {
 				let returnMessages = [];
 			}
+
 			if remove === true {
 				unset(messages[type]);
 				session->set("_flashMessages", messages);
 			}
+
 			return returnMessages;
 		}
 

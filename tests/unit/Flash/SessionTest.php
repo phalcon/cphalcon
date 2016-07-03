@@ -137,6 +137,27 @@ class SessionTest extends UnitTest
     }
 
     /**
+     * Tests getMessages in case of non existent type request
+     *
+     * @issue  11941
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-07-03
+     */
+    public function testGetNonExistentType()
+    {
+        $this->specify(
+            'The getMessages() method does not return an empty array in case of non existent type request',
+            function () {
+                $flash = $this->getFlash();
+                $flash->error('sample error');
+
+                expect($flash->getMessages('success', false))->equals([]);
+                verify_that(count($flash->getMessages()) === 1);
+            }
+        );
+    }
+
+    /**
      * Tests clear method
      *
      * @author Iván Guillén <zeopix@gmail.com>
