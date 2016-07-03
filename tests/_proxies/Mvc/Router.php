@@ -141,6 +141,21 @@ class Router extends PhRouter
         return parent::addHead($pattern, $paths, $position);
     }
 
+    public function addPurge($pattern, $paths = null, $position = Router::POSITION_LAST)
+    {
+        return parent::addPurge($pattern, $paths, $position);
+    }
+
+    public function addTrace($pattern, $paths = null, $position = Router::POSITION_LAST)
+    {
+        return parent::addTrace($pattern, $paths, $position);
+    }
+
+    public function addConnect($pattern, $paths = null, $position = Router::POSITION_LAST)
+    {
+        return parent::addConnect($pattern, $paths, $position);
+    }
+
     public function mount(GroupInterface $group)
     {
         return parent::mount($group);
