@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -92,7 +92,7 @@ interface RouterInterface
 	public function getMatches() -> array;
 
 	/**
-	 * Check if the router macthes any of the defined routes
+	 * Check if the router matches any of the defined routes
 	 */
 	public function wasMatched() -> boolean;
 

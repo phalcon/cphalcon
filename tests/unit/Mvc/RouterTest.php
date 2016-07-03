@@ -292,6 +292,21 @@ class RouterTest extends UnitTest
                     'action' => 'index'
                 ]);
 
+                $router->addPurge('/docs/index', [
+                    'controller' => 'documentation9',
+                    'action' => 'index'
+                ]);
+
+                $router->addTrace('/docs/index', [
+                    'controller' => 'documentation10',
+                    'action' => 'index'
+                ]);
+
+                $router->addConnect('/docs/index', [
+                    'controller' => 'documentation11',
+                    'action' => 'index'
+                ]);
+
                 $_SERVER['REQUEST_METHOD'] = $method;
                 $router->handle($uri);
 
@@ -750,7 +765,28 @@ class RouterTest extends UnitTest
                 'controller' => 'documentation8',
                 'action' => 'index',
                 'params' => []
-            ]
+            ],
+            'PURGE' => [
+                'method' => 'PURGE',
+                'uri' => '/docs/index',
+                'controller' => 'documentation9',
+                'action' => 'index',
+                'params' => []
+            ],
+            'TRACE' => [
+                'method' => 'TRACE',
+                'uri' => '/docs/index',
+                'controller' => 'documentation10',
+                'action' => 'index',
+                'params' => []
+            ],
+            'CONNECT' => [
+                'method' => 'CONNECT',
+                'uri' => '/docs/index',
+                'controller' => 'documentation11',
+                'action' => 'index',
+                'params' => []
+            ],
         ];
     }
 
