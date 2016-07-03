@@ -54,6 +54,7 @@ env:
 before_install:
   - export PATH=$PATH:~/bin;
   - 'echo $TRAVIS_PHP_VERSION'
+  - composer self-update -q
   - travis_retry composer --prefer-source install
   - travis_retry composer require phalcon/zephir:dev-master
   - bash tests/_ci/install_prereqs.sh
@@ -61,8 +62,8 @@ before_install:
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
   - zephir help
-  - 'if [ "$TRAVIS_PHP_VERSION" != "7.0" ]; then zephir generate; else echo "$TRAVIS_PHP_VERSION"; fi;'
-  - 'if [ "$TRAVIS_PHP_VERSION" = "7.0" ]; then zephir generate --backend=ZendEngine3; else echo "$TRAVIS_PHP_VERSION"; fi;'
+  - '[[ "$TRAVIS_PHP_VERSION" == "7.0" ]] || zephir generate'
+  - '[[ "$TRAVIS_PHP_VERSION" != "7.0" ]] || zephir generate --backend=ZendEngine3'
 
 before_script:
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
