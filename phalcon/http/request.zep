@@ -34,12 +34,20 @@ use Phalcon\Di\InjectionAwareInterface;
  * It packages the HTTP request environment.
  *
  *<code>
- *	$request = new \Phalcon\Http\Request();
- *	if ($request->isPost() == true) {
- *		if ($request->isAjax() == true) {
- *			echo 'Request was made using POST and AJAX';
- *		}
- *	}
+ * use Phalcon\Http\Request;
+ *
+ * $request = new Request();
+ *
+ * if ($request->isPost()) {
+ *     if ($request->isAjax()) {
+ *         echo 'Request was made using POST and AJAX';
+ *     }
+ * }
+ *
+ * $request->getServer('HTTP_HOST'); // retrieve SERVER variables
+ * $request->getMethod();            // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
+ * $request->getLanguages();         // an array of languages the client accepts
+ *
  *</code>
  *
  */
@@ -140,14 +148,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * If no parameters are given the $_GET superglobal is returned
 	 *
 	 *<code>
-	 *	//Returns value from $_GET["id"] without sanitizing
-	 *	$id = $request->getQuery("id");
+	 *	// Returns value from $_GET['id'] without sanitizing
+	 *	$id = $request->getQuery('id');
 	 *
-	 *	//Returns value from $_GET["id"] with sanitizing
-	 *	$id = $request->getQuery("id", "int");
+	 *	// Returns value from $_GET['id'] with sanitizing
+	 *	$id = $request->getQuery('id', 'int');
 	 *
-	 *	//Returns value from $_GET["id"] with a default value
-	 *	$id = $request->getQuery("id", null, 150);
+	 *	// Returns value from $_GET['id'] with a default value
+	 *	$id = $request->getQuery('id', null, 150);
 	 *</code>
 	 */
 	public function getQuery(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
