@@ -140,17 +140,17 @@ class Ini extends Config
             if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
                 return true;
             }
-
+    
             // Decode false
             if ini === "false" || ini === "no" || strtolower(ini) === "off"{
                 return false;
             }
-
+    
             // Decode null
             if ini === "null" {
                 return null;
             }
-
+    
             // Decode float/int
             if is_numeric(ini) {
                 if preg_match("/[.]+/", ini) {
@@ -161,5 +161,5 @@ class Ini extends Config
             }
         }
         return ini;
-	}
+    }
 }
