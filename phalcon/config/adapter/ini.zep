@@ -121,45 +121,45 @@ class Ini extends Config
 
 		return [key: this->_parseIniString(path, value)];
 	}
-	
-    /**
-     * We have to cast values manually because parse_ini_file() has a poor implementation.
-     *
-     * @param mixed ini The array casted by `parse_ini_file`
-     */
-    private function _cast(var ini) -> bool | null | double | int | string
-    {
-    	var key, val;
-        if typeof ini == "array" {
-        	for key, val in ini{
-                let ini[key] = this->_cast(val);
-            }
-        }
-        if typeof ini == "string" {
-            // Decode true
-            if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
-                return true;
-            }
-    
-            // Decode false
-            if ini === "false" || ini === "no" || strtolower(ini) === "off"{
-                return false;
-            }
-    
-            // Decode null
-            if ini === "null" {
-                return null;
-            }
-    
-            // Decode float/int
-            if is_numeric(ini) {
-                if preg_match("/[.]+/", ini) {
-                    return (double) ini;
-                } else {
-                    return (int) ini;
-                }
-            }
-        }
-        return ini;
-    }
+
+	/**
+	 * We have to cast values manually because parse_ini_file() has a poor implementation.
+	 *
+	 * @param mixed ini The array casted by `parse_ini_file`
+	 */
+	private function _cast(var ini) -> bool | null | double | int | string
+	{
+		var key, val;
+		if typeof ini == "array" {
+			for key, val in ini{
+				let ini[key] = this->_cast(val);
+			}
+		}
+		if typeof ini == "string" {
+			// Decode true
+			if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
+				return true;
+			}
+
+			// Decode false
+			if ini === "false" || ini === "no" || strtolower(ini) === "off"{
+				return false;
+			}
+
+			// Decode null
+			if ini === "null" {
+				return null;
+			}
+
+			// Decode float/int
+			if is_numeric(ini) {
+				if preg_match("/[.]+/", ini) {
+					return (double) ini;
+				} else {
+					return (int) ini;
+				}
+			}
+		}
+		return ini;
+	}
 }
