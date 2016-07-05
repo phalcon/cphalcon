@@ -67,3 +67,5 @@ ext/phalcon/mvc/model/query/parser.php7.out
 ext/phalcon/mvc/model/query/.libs/
 
 build/gccarch
+*.ghc
+*.phc

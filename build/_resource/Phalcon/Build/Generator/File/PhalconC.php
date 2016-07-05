@@ -184,10 +184,7 @@ class Generator_File_PhalconC
             }
 
             // Skip unneeded lines
-            if ((strncmp($line, '#include "', 10) == 0)
-                || (strncmp($line, 'ZEPHIR_DOC_METHOD', 18) == 0)
-                || (strncmp($line, '#line ', 6) == 0)
-            ) {
+            if ((strncmp($line, '#include "', 10) == 0) || (strncmp($line, '#include <', 10) == 0) || (strncmp($line, 'ZEPHIR_DOC_METHOD', 18) == 0) || (strncmp($line, '#line ', 6) == 0)) {
                 continue;
             }
 
