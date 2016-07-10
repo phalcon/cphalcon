@@ -18,7 +18,7 @@ cache:
   timeout: 691200
   directories:
     - .temp
-    - vendor
+    #- vendor
     - $HOME/.ccache
     - $HOME/.composer/cache
 
