@@ -99,7 +99,7 @@ class File extends Backend implements BackendInterface
 	/**
 	 * Returns a cached content
 	 */
-	public function get(string keyName, int lifetime = null) -> var | null
+	public function get(string keyName, var lifetime = null) -> var | null
 	{
 		var prefixedKey, cacheDir, cacheFile, frontend, lastLifetime, cachedContent, ret;
 		int createdTime, ttl;
@@ -138,6 +138,7 @@ class File extends Backend implements BackendInterface
 					} else {
 						let ttl = (int) lastLifetime;
 					}
+				}
 			} else {
 				let ttl = (int) lifetime;
 			}
@@ -637,3 +638,4 @@ class File extends Backend implements BackendInterface
 		return this;
 	}
 }
+
