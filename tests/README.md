@@ -87,12 +87,13 @@ export TEST_MC_HOST="127.0.0.1"
 export TEST_MC_PORT="11211"
 
 # MySQL
+export TEST_DB_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
 export TEST_DB_MYSQL_HOST="127.0.0.1"
 export TEST_DB_MYSQL_PORT="3306"
 export TEST_DB_MYSQL_USER="root"
 export TEST_DB_MYSQL_PASSWD=""
 export TEST_DB_MYSQL_NAME="phalcon_test"
-export TEST_DB_MYSQL_CHARSET="urf8"
+export TEST_DB_MYSQL_CHARSET="utf8"
 
 # Mongo
 export TEST_DB_MONGO_HOST="127.0.0.1"
@@ -155,7 +156,6 @@ You must not create protected or private methods.
 
 - [ ] Tests for foreign keys cascade in the ORM
 - [ ] Tests for many-to-many relations
-- [ ] Tests for macros in Volt
 - [ ] Tests for `+=`, `-=`, `*=`, `/=`, `++`, `--` in Volt
 - [ ] Tests for `Alc::allow('*', '*', 'index')`
 - [ ] Tests for `Alc::allow('*', '*', '*')`

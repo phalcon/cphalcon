@@ -3,9 +3,9 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Di;
+use Phalcon\Http\Request;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Proxy\Security;
-use Phalcon\Test\Proxy\Http\Request;
 use Codeception\Lib\Connector\PhalconMemorySession;
 
 /**
@@ -46,7 +46,7 @@ class SecurityTest extends UnitTest
     public function testSecurityConstants()
     {
         $this->specify(
-            "Security constants are not correct",
+            'Security constants are not correct',
             function () {
                 expect(Security::CRYPT_DEFAULT)->equals(0);
                 expect(Security::CRYPT_STD_DES)->equals(1);
@@ -71,30 +71,23 @@ class SecurityTest extends UnitTest
     public function testSecurityComputeHMAC()
     {
         $this->specify(
-            "The HMAC computation values are not identical",
-            function () {
+            'The HMAC computation values are not identical',
+            function ($key) {
                 $security = new Security();
-                $key      = md5('test', true);
-                $keys     = [
-                    substr($key, 0, strlen($key) / 2),
-                    $key,
-                    $key . $key
-                ];
 
                 $data = [];
                 for ($i = 1; $i < 256; ++$i) {
                     $data[] = str_repeat('a', $i);
                 }
 
-                foreach ($keys as $key) {
-                    foreach ($data as $text) {
-                        $actual   = $security->computeHmac($text, $key, 'md5');
-                        $expected = hash_hmac('md5', $text, $key);
-
-                        $this->assertSame($expected, $actual, "The HMAC computation values are not identical");
-                    }
+                foreach ($data as $text) {
+                    expect($security->computeHmac($text, $key, 'md5'))->equals(hash_hmac('md5', $text, $key));
                 }
-            }
+            }, ['examples' => [
+                [substr(md5('test', true), 0, strlen(md5('test', true)) / 2)],
+                [md5('test', true)],
+                [md5('test', true) . md5('test', true)],
+            ]]
         );
     }
 
@@ -104,7 +97,7 @@ class SecurityTest extends UnitTest
     public function testSecurityDefaults()
     {
         $this->specify(
-            "Security defaults are not correct",
+            'Security defaults are not correct',
             function () {        
                 $s = new Security();
                 expect($s->getDefaultHash())->equals(null);
@@ -120,12 +113,12 @@ class SecurityTest extends UnitTest
     }
 
     /**
-     * Tests getToken() and getTokenKey() for generating only one token per request
+     * Tests Security::getToken and Security::getTokenKey for generating only one token per request
      */
     public function testOneTokenPerRequest()
     {
         $this->specify(
-            "The getToken() and TokenKey() must return only one token per request",
+            "The Security::getToken and Security::getTokenKey must return only one token per request",
             function () {   
                 $di = $this->setupDI();  
 
@@ -151,12 +144,12 @@ class SecurityTest extends UnitTest
     }
 
     /**
-     * Tests checkToken() method
+     * Tests Security::checkToken
      */
     public function testCheckToken()
     {
         $this->specify(
-            "The checkToken() not working correct",
+            'The Security::checkToken works incorrectly',
             function () {   
                 $di = $this->setupDI(); 
 
@@ -167,7 +160,7 @@ class SecurityTest extends UnitTest
                 $tokenKey = $s->getTokenKey();
                 $token = $s->getToken();
 
-                $_POST = array($tokenKey => $token);
+                $_POST = [$tokenKey => $token];
 
                 expect($s->checkToken(null, null, false))->true();
                 expect($s->checkToken())->true();
@@ -179,14 +172,14 @@ class SecurityTest extends UnitTest
 
                 $s->destroyToken();
 
-                $_POST = array($tokenKey => $token);
+                $_POST = [$tokenKey => $token];
 
                 expect($s->checkToken())->false();
 
                 // Custom token key check
                 $token = $s->getToken();
 
-                $_POST = array('custom_key' => $token);
+                $_POST = ['custom_key' => $token];
 
                 expect($s->checkToken(null, null, false))->false();
                 expect($s->checkToken('other_custom_key', null, false))->false();
@@ -195,7 +188,7 @@ class SecurityTest extends UnitTest
                 // Custom token value check
                 $token = $s->getToken();
 
-                $_POST = array();
+                $_POST = [];
 
                 expect($s->checkToken(null, null, false))->false();
                 expect($s->checkToken('some_random_key', 'some_random_value', false))->false();
@@ -205,33 +198,28 @@ class SecurityTest extends UnitTest
     }
 
     /**
-     * Tests getSaltBytes() method
+     * Tests Security::getSaltBytes
      */
     public function testGetSaltBytes()
     {
         $this->specify(
-            "The getSaltBytes() not working correct",
+            'The Security::getSaltBytes works incorrectly',
             function () {   
                 $s = new Security();
 
-                $salt = $s->getSaltBytes();
-
-                expect(strlen($salt))->greaterOrEquals(16);          
-
-                $salt = $s->getSaltBytes(22);
-
-                expect(strlen($salt))->greaterOrEquals(22);     
+                expect(strlen($s->getSaltBytes()))->greaterOrEquals(16);          
+                expect(strlen($s->getSaltBytes(22)))->greaterOrEquals(22);     
             }
         ); 
     } 
 
     /**
-     * Tests password hash
+     * Tests Security::hash
      */
     public function testHash()
     {
         $this->specify(
-            "The hash() not working correct",
+            'The Security::hash works incorrectly',
             function () {   
                 $s = new Security();
 
@@ -268,28 +256,23 @@ class SecurityTest extends UnitTest
     } 
 
     /**
-     * Sets the environment
+     * Set up the environment.
+     *
+     * @return Di
      */
     private function setupDI() 
     {
         Di::reset();
+
         $di = new Di();
 
-        $di->set(
-            'session', 
-            function() {
-                return new PhalconMemorySession();
-            }, 
-            true
-        );
-            
-        $di->set(
-            'request', 
-            function() {
-                return new Request();
-            },
-            true
-        );
+        $di->setShared('session', function() {
+            return new PhalconMemorySession();
+        });
+
+        $di->setShared('request', function() {
+            return new Request();
+        });
 
         return $di;
     }

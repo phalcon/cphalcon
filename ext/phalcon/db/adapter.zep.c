@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchColumn) {
 }
 
 /**
- * Inserts data into a table using custom RBDM SQL syntax
+ * Inserts data into a table using custom RDBMS SQL syntax
  *
  * <code>
  * // Inserting a new robot

@@ -65,7 +65,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, getField);
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, __toString);
 
 /**
- * Magic __set_state helps to recover messsages from serialization
+ * Magic __set_state helps to recover messages from serialization
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, __set_state);
 

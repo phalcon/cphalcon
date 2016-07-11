@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -32,31 +32,32 @@ use Phalcon\Cache\FrontendInterface;
  * This adapter uses the special redis key "_PHCR" to store all the keys internally used by the adapter
  *
  *<code>
+ * use Phalcon\Cache\Backend\Redis;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *    "lifetime" => 172800
- * ));
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- * //Create the Cache setting redis connection options
- * $cache = new Phalcon\Cache\Backend\Redis($frontCache, array(
- *		'host' => 'localhost',
- *		'port' => 6379,
- *		'auth' => 'foobared',
- *  	'persistent' => false
- * ));
+ * // Create the Cache setting redis connection options
+ * $cache = new Redis($frontCache, [
+ *     'host' => 'localhost',
+ *     'port' => 6379,
+ *     'auth' => 'foobared',
+ *     'persistent' => false
+ *     'index' => 0,
+ * ]);
  *
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
- *
  *</code>
  */
 class Redis extends Backend implements BackendInterface
 {
-
 	protected _redis = null;
 
 	/**
@@ -140,12 +141,8 @@ class Redis extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var redis, frontend, prefix, lastKey, cachedContent;
 
@@ -180,7 +177,7 @@ class Redis extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
@@ -267,15 +264,16 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return success;
 	}
 
 	/**
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
-	public function delete(keyName)
+	public function delete(keyName) -> boolean
 	{
 		var redis, prefix, prefixedKey, lastKey, options, specialKey;
 
@@ -301,16 +299,15 @@ class Redis extends Backend implements BackendInterface
 		/**
 		* Delete the key from redis
 		*/
-		return redis->delete(lastKey);
+		return (bool) redis->delete(lastKey);
 	}
 
 	/**
 	 * Query the existing cached keys
 	 *
 	 * @param string prefix
-	 * @return array
 	 */
-	public function queryKeys(prefix = null)
+	public function queryKeys(prefix = null) -> array
 	{
 		var redis, options, keys, specialKey, key, value;
 
@@ -341,9 +338,11 @@ class Redis extends Backend implements BackendInterface
 					unset(keys[key]);
 				}
 			}
+
+			return keys;
 		}
 
-		return keys;
+		return [];
 	}
 
 	/**
@@ -383,11 +382,10 @@ class Redis extends Backend implements BackendInterface
 	/**
 	 * Increment of given $keyName by $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
+	 * @param long value
 	 */
-	public function increment(keyName = null, value = null)
+	public function increment(keyName = null, value = null) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -416,11 +414,10 @@ class Redis extends Backend implements BackendInterface
 	/**
 	 * Decrement of $keyName by given $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
+	 * @param long value
 	 */
-	public function decrement(keyName = null, value = null)
+	public function decrement(keyName = null, value = null) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -451,7 +448,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function flush() -> boolean
 	{
-		var options, specialKey, redis, keys, key, lastKey;
+		var options, specialKey, redis, keys, key;
 
 		let options = this->_options;
 
@@ -473,9 +470,8 @@ class Redis extends Backend implements BackendInterface
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = "_PHCR" . key;
 				redis->sRem(specialKey, key);
-				redis->delete(lastKey);
+				redis->delete(key);
 			}
 		}
 

@@ -15,7 +15,7 @@
 /**
  * Phalcon\Logger\FormatterInterface
  *
- * This interface must be implemented by formmaters in Phalcon\Logger
+ * This interface must be implemented by formatters in Phalcon\Logger
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_FormatterInterface) {
 

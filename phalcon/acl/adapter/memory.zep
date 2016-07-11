@@ -326,13 +326,13 @@ class Memory extends Adapter
 		if typeof accessList == "array" {
 			for accessName in accessList {
 				let accessKey = resourceName . "!" . accessName;
-				if !isset accessList[accessKey] {
+				if !isset this->_accessList[accessKey] {
 					let this->_accessList[accessKey] = exists;
 				}
 			}
 		} else {
 			let accessKey = resourceName . "!" . accessList;
-			if !isset accessList[accessKey] {
+			if !isset this->_accessList[accessKey] {
 				let this->_accessList[accessKey] = exists;
 			}
 		}
@@ -352,14 +352,14 @@ class Memory extends Adapter
 		if typeof accessList == "array" {
 			for accessName in accessList {
 				let accessKey = resourceName . "!" . accessName;
-				if isset accessList[accessKey] {
+				if isset this->_accessList[accessKey] {
 					unset this->_accessList[accessKey];
 				}
 			}
 		} else {
 			if typeof accessList == "string" {
 				let accessKey = resourceName . "!" . accessName;
-				if isset accessList[accessKey] {
+				if isset this->_accessList[accessKey] {
 					unset this->_accessList[accessKey];
 				}
 			}

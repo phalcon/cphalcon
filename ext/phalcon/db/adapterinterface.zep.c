@@ -46,7 +46,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchOne);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchAll);
 
 /**
- * Inserts data into a table using custom RBDM SQL syntax
+ * Inserts data into a table using custom RDBMS SQL syntax
  *
  * @param 	string table
  * @param 	array values
@@ -57,7 +57,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchAll);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 
 /**
- * Updates data on a table using custom RBDM SQL syntax
+ * Updates data on a table using custom RDBMS SQL syntax
  *
  * @param 	string table
  * @param 	array fields
@@ -69,7 +69,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
 
 /**
- * Deletes data from a table using custom RBDM SQL syntax
+ * Deletes data from a table using custom RDBMS SQL syntax
  *
  * @param  string table
  * @param  string whereCondition

@@ -318,6 +318,40 @@ class RequestTest extends HttpBase
     public function testHttpRequestHttpHost()
     {
         $this->specify(
+            "http host with empty server values does not return empty string",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', '');
+                $this->setServerVar('SERVER_NAME', '');
+                $this->setServerVar('SERVER_ADDR', '');
+
+                expect(is_string($request->getHttpHost()))->true();
+                expect($request->getHttpHost())->equals('');
+            }
+        );
+
+        $this->specify(
+            "http host without required server values does not return empty string",
+            function () {
+                $request = $this->getRequestObject();
+                unset($_SERVER['HTTP_HOST'],$_SERVER['SERVER_NAME'], $_SERVER['SERVER_ADDR']);
+
+                expect(is_string($request->getHttpHost()))->true();
+                expect($request->getHttpHost())->equals('');
+            }
+        );
+
+        $this->specify(
+            "The Request::getHttpHost without strict validation does not return expected host",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('SERVER_NAME', 'host@name');
+
+                expect($request->getHttpHost())->equals('host@name');
+            }
+        );
+
+        $this->specify(
             "http host without http does not contain correct data",
             function () {
                 $request = $this->getRequestObject();
@@ -337,7 +371,7 @@ class RequestTest extends HttpBase
                 $this->setServerVar('SERVER_NAME', 'localhost');
                 $this->setServerVar('SERVER_PORT', 80);
 
-                expect($request->getHttpHost())->equals('localhost:80');
+                expect($request->getHttpHost())->equals('localhost');
             }
         );
 
@@ -351,6 +385,170 @@ class RequestTest extends HttpBase
 
                 expect($request->getHttpHost())->equals('localhost');
             }
+        );
+
+        $this->specify(
+            "http host with SERVER_ADDR value does not return expected host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', '');
+                $this->setServerVar('SERVER_NAME', '');
+                $this->setServerVar('SERVER_ADDR', '8.8.8.8');
+
+                expect($request->getHttpHost())->equals('8.8.8.8');
+            }
+        );
+
+        $this->specify(
+            "http host with SERVER_NAME value does not return expected host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', '');
+                $this->setServerVar('SERVER_NAME', 'some.domain');
+                $this->setServerVar('SERVER_ADDR', '8.8.8.8');
+
+                expect($request->getHttpHost())->equals('some.domain');
+            }
+        );
+
+        $this->specify(
+            "http host with HTTP_HOST value does not return expected host name",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTP_HOST', 'example.com');
+                $this->setServerVar('SERVER_NAME', 'some.domain');
+                $this->setServerVar('SERVER_ADDR', '8.8.8.8');
+
+                expect($request->getHttpHost())->equals('example.com');
+            }
+        );
+    }
+
+    /**
+     * Tests strict host check
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-06-26
+     */
+    public function testHttpStrictHostCheck()
+    {
+        $this->specify(
+            "http host with strict param does not return does not return valid host name",
+            function () {
+                $request = $this->getRequestObject();
+                $request->setStrictHostCheck(true);
+                $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
+
+                expect($request->getHttpHost())->equals('localhost');
+            }
+        );
+
+        $this->specify(
+            "http host with strict param does not return does not return valid host name",
+            function () {
+                $request = $this->getRequestObject();
+                $request->setStrictHostCheck(false);
+                $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
+
+                expect($request->getHttpHost())->equals('LOCALHOST:80');
+            }
+        );
+
+        $this->specify(
+            "The Request::isStrictHostCheck does not return expected value",
+            function () {
+                $request = $this->getRequestObject();
+
+                expect($request->isStrictHostCheck())->false();
+
+                $request->setStrictHostCheck(true);
+                expect($request->isStrictHostCheck())->true();
+
+                $request->setStrictHostCheck(false);
+                expect($request->isStrictHostCheck())->false();
+            }
+        );
+    }
+
+    /**
+     * Tests Request::getPort
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-06-26
+     */
+    public function testHttpRequestPort()
+    {
+        $this->specify(
+            "http host with https on does not return expected port",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTPS', 'on');
+                $this->setServerVar('HTTP_HOST', 'example.com');
+
+                expect($request->getPort())->equals(443);
+            }
+        );
+
+        $this->specify(
+            "http host with https off does not return expected port",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTPS', 'off');
+                $this->setServerVar('HTTP_HOST', 'example.com');
+
+                expect($request->getPort())->equals(80);
+            }
+        );
+
+        $this->specify(
+            "http host with port on HTTP_HOST does not return expected port",
+            function () {
+                $request = $this->getRequestObject();
+                $this->setServerVar('HTTPS', 'off');
+                $this->setServerVar('HTTP_HOST', 'example.com:8080');
+
+                expect($request->getPort())->equals(8080);
+
+                $this->setServerVar('HTTPS', 'on');
+                $this->setServerVar('HTTP_HOST', 'example.com:8081');
+
+                expect($request->getPort())->equals(8081);
+
+                unset($_SERVER['HTTPS']);
+                $this->setServerVar('HTTP_HOST', 'example.com:8082');
+
+                expect($request->getPort())->equals(8082);
+            }
+        );
+    }
+
+    /**
+     * Tests getHttpHost by using invalid host
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-06-26
+     */
+    public function testInvalidHttpRequestHttpHost()
+    {
+        $this->specify(
+            "The Request::getHttpHost does not throws exception on strict host validation",
+            function ($host) {
+                $request = $this->getRequestObject();
+                $request->setStrictHostCheck(true);
+
+                $this->setServerVar('HTTP_HOST', $host);
+                $request->getHttpHost();
+            }, [
+                'throws' => 'UnexpectedValueException',
+                'examples' => [
+                    ['foo±bar±baz'  ],
+                    ['foo~bar~baz'  ],
+                    ['<foo-bar-baz>'],
+                    ['foo=bar=baz'  ],
+                    ['foobar/baz'   ],
+                    ['foo@bar'      ],
+                ]
+            ]
         );
     }
 
@@ -541,6 +739,20 @@ class RequestTest extends HttpBase
         $this->assertTrue($request->isMethod('GET'));
         $this->assertTrue($request->isMethod(['GET', 'POST']));
 
+        $_SERVER['REQUEST_METHOD'] = 'CONNECT';
+        $this->assertEquals($request->getMethod(), 'CONNECT');
+        $this->assertTrue($request->isConnect());
+        $this->assertFalse($request->isGet());
+
+        $_SERVER['REQUEST_METHOD'] = 'TRACE';
+        $this->assertEquals($request->getMethod(), 'TRACE');
+        $this->assertTrue($request->isTrace());
+        $this->assertFalse($request->isGet());
+
+        $_SERVER['REQUEST_METHOD'] = 'PURGE';
+        $this->assertEquals($request->getMethod(), 'PURGE');
+        $this->assertTrue($request->isPurge());
+        $this->assertFalse($request->isGet());
     }
 
     public function testHttpRequestContentType()

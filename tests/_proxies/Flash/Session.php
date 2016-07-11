@@ -24,16 +24,6 @@ use Phalcon\Flash\Session as PhSession;
  */
 class Session extends PhSession
 {
-    public function setDI(DiInterface $di)
-    {
-        parent::setDI($di);
-    }
-
-    public function getDI()
-    {
-        return parent::getDI();
-    }
-
     public function message($type, $message)
     {
         parent::message($type, $message);

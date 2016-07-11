@@ -51,7 +51,7 @@ interface DispatcherInterface extends DispatcherInterfaceBase
 	public function getControllerName() -> string;
 
 	/**
-	 * Returns the lastest dispatched controller
+	 * Returns the latest dispatched controller
 	 */
 	public function getLastController() -> <ControllerInterface>;
 

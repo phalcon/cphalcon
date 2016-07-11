@@ -121,7 +121,6 @@ class Volt extends Engine implements EngineInterface
 
 		if mustClean {
 			this->_view->setContent(ob_get_contents());
-			//ob_clean();
 		}
 	}
 
@@ -282,7 +281,7 @@ class Volt extends Engine implements EngineInterface
 	/**
 	 * Checks if a macro is defined and calls it
 	 */
-	public function callMacro(string! name, array arguments)
+	public function callMacro(string! name, array arguments = []) -> var
 	{
 		var macro;
 
@@ -290,6 +289,6 @@ class Volt extends Engine implements EngineInterface
 			throw new Exception("Macro '" . name . "' does not exist");
 		}
 
-		return call_user_func_array(macro, arguments);
+		return call_user_func(macro, arguments);
 	}
 }

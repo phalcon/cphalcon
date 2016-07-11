@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -498,6 +497,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	{
 		let this->_joins[] = [model, conditions, alias, "RIGHT"];
 		return this;
+	}
+
+	/**
+	 * Return join parts of the query
+	 *
+	 * @return array
+	 */
+	public function getJoins()
+	{
+		return this->_joins;
 	}
 
 	/**

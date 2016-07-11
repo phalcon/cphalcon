@@ -22,7 +22,7 @@ namespace Phalcon\Logger;
 /**
  * Phalcon\Logger\FormatterInterface
  *
- * This interface must be implemented by formmaters in Phalcon\Logger
+ * This interface must be implemented by formatters in Phalcon\Logger
  */
 interface FormatterInterface
 {

@@ -32,6 +32,10 @@ class FirephpTest extends UnitTest
      */
     public function _before()
     {
+        if (PHP_MAJOR_VERSION == 7) {
+            $this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+        }
+
         parent::_before();
 
         if (!extension_loaded('xdebug')) {

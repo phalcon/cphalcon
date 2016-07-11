@@ -391,11 +391,25 @@ class Oracle extends Dialect
 	 */
 	protected function prepareTable(string! table, string schema = null, string alias = null, string escapeChar = null) -> string
 	{
-		return parent::prepareTable(
-			Text::upper(table),
-			Text::upper(schema),
-			alias,
-			escapeChar
-		);
+		let table = Text::upper(table);
+		let schema = Text::upper(schema);
+	
+		let table = this->escape(table, escapeChar);
+
+		/**
+		 * Schema
+		 */
+		if schema != "" {
+			let table = this->escapeSchema(schema, escapeChar) . "." . table;
+		}
+
+		/**
+		 * Alias
+		 */
+		if alias != "" {
+			let table = table . " " . this->escape(alias, escapeChar);
+		}
+
+		return table;
 	}
 }

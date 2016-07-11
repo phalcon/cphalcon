@@ -244,6 +244,31 @@ class UrlTest extends UnitTest
             }
         );
     }
+    
+    /**
+     * Test urls that contains colons in schema definition and as parameter
+     * 
+     * @author Anton Melnik <melnik.anton2100@gmail.com>
+     * @since 2016-05-07
+     */
+    public function testUrlWithColons()
+    {
+        $this->specify(
+            "URL with colon is not correct",
+            function () {
+                $di = $this->setupDI();
+                $url = new Url();
+		$url->setBaseUri('http://www.test.com');
+                
+                expect($url->get("/controller/action/param/colon:param"))
+                        ->equals("http://www.test.com/controller/action/param/colon:param");
+                
+                expect($url->get("http://www.example.com"))->equals('http://www.example.com');
+                expect($url->get("//www.example.com"))->equals('//www.example.com');
+                expect($url->get("schema:example.com"))->equals('schema:example.com');
+            }
+        );
+    }
 
     /**
      * Sets the environment

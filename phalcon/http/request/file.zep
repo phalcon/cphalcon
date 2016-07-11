@@ -126,7 +126,7 @@ class File implements FileInterface
 	}
 
 	/**
-	 * Returns the temporal name of the uploaded file
+	 * Returns the temporary name of the uploaded file
 	 */
 	public function getTempName() -> string
 	{

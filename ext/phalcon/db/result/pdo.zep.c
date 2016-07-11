@@ -326,9 +326,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 
+	zephir_fcall_cache_entry *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *number_param = NULL, *connection = NULL, *pdo = NULL, *sqlStatement = NULL, *bindParams = NULL, *statement = NULL, *_0$$4 = NULL, *_1$$4;
-	long number;
+	long number, n = 0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &number_param);
@@ -336,7 +337,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 	number = zephir_get_intval(number_param);
 
 
-	 { pdo_stmt_t *stmt; long n; 
 	ZEPHIR_OBS_VAR(connection);
 	zephir_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	ZEPHIR_CALL_METHOD(&pdo, connection, "getinternalhandler", NULL, 0);
@@ -359,37 +359,16 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("_pdoStatement"), statement TSRMLS_CC);
-	
-
-		/**
-		 * This a fetch scroll to reach the desired position, however with a big number of records
-		 * maybe it may be very slow
-		 */
-#if PHP_VERSION_ID >= 70000
-		stmt = php_pdo_stmt_fetch_object(Z_OBJ_P((&statement)));
-#else
-		stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
-#endif
-		if (!stmt->dbh) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_FALSE;
+	n = -1;
+	number--;
+	while (1) {
+		if (!(n != number)) {
+			break;
 		}
-
-		n = -1;
-		number--;
-		while (n != number) {
-
-			if (!stmt->methods->fetcher(stmt, PDO_FETCH_ORI_NEXT, 0 TSRMLS_CC)) {
-				ZEPHIR_MM_RESTORE();
-				RETURN_NULL();
-			}
-
-			n++;
-		}
-
-		}
-
-		
+		ZEPHIR_CALL_METHOD(NULL, statement, "fetch", &_2, 0);
+		zephir_check_call_status();
+		n++;
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

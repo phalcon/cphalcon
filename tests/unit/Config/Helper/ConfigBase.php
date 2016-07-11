@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Config\Helper;
 
+use Phalcon\Config;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -44,31 +45,16 @@ class ConfigBase extends UnitTest
         ],
     ];
 
-    protected function compareConfig($c, $config)
+    protected function compareConfig(array $actual, Config $expected)
     {
-        foreach ($c as $k => $v) {
-            $this->assertTrue(isset($config->$k));
-            if (is_array($v)) {
-                if (isset($config->$k)) {
-                    foreach ($v as $kk => $vv) {
-                        $this->assertTrue(isset($config->$k->$kk));
-                        if (isset($config->$k->$kk)) {
-                            if (is_array($vv)) {
-                                foreach ($vv as $kkk => $vvv) {
-                                    if (isset($config->$k->$kk->$kkk)) {
-                                        $this->assertTrue(isset($config->$k->$kk->$kkk));
-                                        $this->assertEquals($vvv, $config->$k->$kk->$kkk);
-                                    }
-                                }
-                            } else {
-                                $this->assertEquals($vv, $config->$k->$kk);
-                            }
-                        }
-                    }
-                }
+        $this->assertEquals($actual, $expected->toArray());
+
+        foreach ($actual as $key => $value) {
+            $this->assertTrue(isset($expected->$key));
+
+            if (is_array($value)) {
+                $this->compareConfig($value, $expected->$key);
             }
         }
-
-        return true;
     }
 }

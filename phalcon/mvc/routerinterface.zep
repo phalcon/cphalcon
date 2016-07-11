@@ -96,6 +96,21 @@ interface RouterInterface
 	public function addHead(string! pattern, var paths = null) -> <RouteInterface>;
 
 	/**
+	 * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+	 */
+	public function addPurge(string! pattern, var paths = null) -> <RouteInterface>;
+
+	/**
+	 * Adds a route to the router that only match if the HTTP method is TRACE
+	 */
+	public function addTrace(string! pattern, var paths = null) -> <RouteInterface>;
+
+	/**
+	 * Adds a route to the router that only match if the HTTP method is CONNECT
+	 */
+	public function addConnect(string! pattern, var paths = null) -> <RouteInterface>;
+
+	/**
 	 * Mounts a group of routes in the router
 	 */
 	public function mount(<GroupInterface> group) -> <RouterInterface>;

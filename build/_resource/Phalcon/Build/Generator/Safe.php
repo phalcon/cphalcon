@@ -106,6 +106,7 @@ class Generator_Safe
     protected function processKernelGlobals()
     {
         $lines = array();
+
         foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
             if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
                 $content = file_get_contents('ext/' . $matches[1]);
@@ -114,6 +115,7 @@ class Generator_Safe
                 $lines[] = $line;
             }
         }
+
         file_put_contents($this->outputDir . '/php_phalcon.h', join('', $lines));
     }
 }

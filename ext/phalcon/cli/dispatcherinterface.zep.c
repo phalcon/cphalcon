@@ -47,7 +47,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setTaskName);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskName);
 
 /**
- * Returns the lastest dispatched controller
+ * Returns the latest dispatched controller
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getLastTask);
 

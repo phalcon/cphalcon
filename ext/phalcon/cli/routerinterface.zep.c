@@ -78,7 +78,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getActionName);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
 
 /**
- * Returns the route that matchs the handled URI
+ * Returns the route that matches the handled URI
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatchedRoute);
 

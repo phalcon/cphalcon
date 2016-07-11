@@ -40,7 +40,7 @@ class Message implements MessageInterface
 	/**
 	 * Phalcon\Validation\Message constructor
 	 */
-	public function __construct(string! message, string field = null, string type = null, int code = null)
+	public function __construct(string! message, var field = null, string type = null, int code = null)
 	{
 		let this->_message = message,
 			this->_field = field,
@@ -85,7 +85,7 @@ class Message implements MessageInterface
 	/**
 	 * Sets field name related to message
 	 */
-	public function setField(string! field) -> <Message>
+	public function setField(var field) -> <Message>
 	{
 		let this->_field = field;
 		return this;
@@ -94,7 +94,7 @@ class Message implements MessageInterface
 	/**
 	 * Returns field name related to message
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public function getField()
 	{

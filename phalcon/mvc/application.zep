@@ -297,7 +297,7 @@ class Application extends BaseApplication
 		/**
 		 * Returning false from an action cancels the view
 		 */
-		if typeof possibleResponse == "boolean" && possibleResponse == false {
+		if typeof possibleResponse == "boolean" && possibleResponse === false {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 		} else {
 

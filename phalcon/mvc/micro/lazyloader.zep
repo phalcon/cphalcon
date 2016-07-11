@@ -28,7 +28,9 @@ class LazyLoader
 {
 	protected _handler;
 
-	protected _definition;
+	protected _definition {
+		get
+	};
 
 	/**
 	 * Phalcon\Mvc\Micro\LazyLoader constructor

@@ -241,10 +241,10 @@ class Pdo implements ResultInterface
 	 *	$row = $result->fetch(); // Fetch third row
 	 *</code>
 	 */
-	public function dataSeek(long number)
+	public function dataSeek(long number) -> void
 	{
 		var connection, pdo, sqlStatement, bindParams, statement;
-		%{ { pdo_stmt_t *stmt; long n; }%
+		long n;
 
 		let connection = this->_connection,
 			pdo = connection->getInternalHandler(),
@@ -265,37 +265,11 @@ class Pdo implements ResultInterface
 
 		let this->_pdoStatement = statement;
 
-		%{
-
-		/**
-		 * This a fetch scroll to reach the desired position, however with a big number of records
-		 * maybe it may be very slow
-		 */
-#if PHP_VERSION_ID >= 70000
-		stmt = php_pdo_stmt_fetch_object(Z_OBJ_P((&statement)));
-#else
-		stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
-#endif
-		if (!stmt->dbh) {
-			ZEPHIR_MM_RESTORE();
-			RETURN_FALSE;
+		let n = -1, number--;
+		while n != number {
+			statement->$fetch();
+			let n++;
 		}
-
-		n = -1;
-		number--;
-		while (n != number) {
-
-			if (!stmt->methods->fetcher(stmt, PDO_FETCH_ORI_NEXT, 0 TSRMLS_CC)) {
-				ZEPHIR_MM_RESTORE();
-				RETURN_NULL();
-			}
-
-			n++;
-		}
-
-		}
-
-		}%
 	}
 
 	/**

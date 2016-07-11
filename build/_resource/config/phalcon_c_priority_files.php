@@ -3,13 +3,16 @@
 
 return array(
     // Header files
-    'phalcon/mvc/model/query/parser.h',
+    'phalcon/mvc/model/query/parser.php5.h',
+    'phalcon/mvc/model/query/parser.php7.h',
     'phalcon/mvc/model/query/scanner.h',
     'phalcon/mvc/model/query/phql.h',
-    'phalcon/mvc/view/engine/volt/parser.h',
+    'phalcon/mvc/view/engine/volt/parser.php5.h',
+    'phalcon/mvc/view/engine/volt/parser.php7.h',
     'phalcon/mvc/view/engine/volt/scanner.h',
     'phalcon/mvc/view/engine/volt/volt.h',
-    'phalcon/annotations/parser.h',
+    'phalcon/annotations/parser.php5.h',
+    'phalcon/annotations/parser.php7.h',
     'phalcon/annotations/scanner.h',
     'phalcon/annotations/annot.h',
     'kernel/main.h',

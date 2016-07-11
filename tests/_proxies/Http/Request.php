@@ -114,6 +114,21 @@ class Request extends PhRequest
         return parent::getHttpHost();
     }
 
+    public function getPort()
+    {
+        return parent::getPort();
+    }
+
+    public function setStrictHostCheck($flag = true)
+    {
+        return parent::setStrictHostCheck($flag);
+    }
+
+    public function isStrictHostCheck()
+    {
+        return parent::isStrictHostCheck();
+    }
+
     public function getClientAddress($trustForwardedHeader = false)
     {
         return parent::getClientAddress($trustForwardedHeader);
@@ -162,6 +177,21 @@ class Request extends PhRequest
     public function isOptions()
     {
         return parent::isOptions();
+    }
+
+    public function isConnect()
+    {
+        return parent::isConnect();
+    }
+
+    public function isTrace()
+    {
+        return parent::isTrace();
+    }
+
+    public function isPurge()
+    {
+        return parent::isPurge();
     }
 
     public function hasFiles($onlySuccessful = false)

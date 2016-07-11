@@ -5,8 +5,11 @@ return [
         'baseUri'   => '/',
         'staticUri' => '/',
         'timezone'  => 'UTC',
-        'modelsDir' => TESTS_PATH . '_data/models/',
-        'collectionsDir' => TESTS_PATH . '_data/collections/',
+        'viewsDir'  => PATH_DATA . 'views/',
+        'modelsDir' => PATH_DATA . 'models/',
+        'modulesDir' => PATH_DATA . 'modules/',
+        'collectionsDir' => PATH_DATA . 'collections/',
+        'controllersDir' => PATH_DATA . 'controllers/',
     ],
     'database' => [
         'adapter'  => 'Mysql',

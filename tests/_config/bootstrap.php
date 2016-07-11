@@ -3,6 +3,7 @@
 use Phalcon\Config;
 use Phalcon\Loader;
 use Phalcon\Mvc\Url;
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Application;
@@ -21,10 +22,24 @@ $di->setShared(
     }
 );
 
+$config = $di['config'];
+
+/**
+ * View
+ */
+$di->setShared(
+    'view',
+    function () use ($config) {
+        $view = new View();
+        $view->setViewsDir($config->get('application')->viewsDir);
+
+        return $view;
+    }
+);
+
 /**
  * Autoloader
  */
-$config = $di['config'];
 $loader = new Loader();
 
 // Register the Library namespace as well as the common module
@@ -33,8 +48,14 @@ $loader->registerNamespaces(
     [
         'Phalcon\Test\Models'      => $config->get('application')->modelsDir,
         'Phalcon\Test\Collections' => $config->get('application')->collectionsDir,
+        'Phalcon\Test\Modules\Frontend\Controllers' => $config->get('application')->modulesDir . 'frontend/controllers/',
+        'Phalcon\Test\Modules\Backend\Controllers'  => $config->get('application')->modulesDir . 'backend/controllers/'
     ]
 );
+
+$loader->registerDirs([
+    $config->get('application')->controllersDir,
+]);
 
 $loader->register();
 

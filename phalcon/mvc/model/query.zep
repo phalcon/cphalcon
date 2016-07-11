@@ -186,7 +186,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Replaces the model's name to its source name in a qualifed-name expression
+	 * Replaces the model's name to its source name in a qualified-name expression
 	 */
 	protected final function _getQualified(array! expr) -> array
 	{
@@ -3278,7 +3278,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 
 			/**
-			 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+			 * By default use use 3600 seconds (1 hour) as cache lifetime
 			 */
 			if !fetch lifetime, cacheOptions["lifetime"] {
 				let lifetime = 3600;
