@@ -51,12 +51,51 @@ class TextDynamicTest extends UnitTest
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
      */
-    public function testTextDynamicStringCustomDelimeter()
+    public function testTextDynamicStringCustomDelimiter()
     {
         $actual = Text::dynamic('(Hi|Hello), my name is a Bob!', '(', ')');
         expect($actual)->notContains('(');
         expect($actual)->notContains(')');
 
         expect(preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual))->equals(1);
+    }
+
+    /**
+     * Tests custom separator
+     *
+     * @issue  11215
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-06-27
+     */
+    public function testTextDynamicStringCustomSeparator()
+    {
+        $this->specify(
+            'Text::dynamic with custom separator does not return expected result',
+            function () {
+                $actual = Text::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
+
+                expect($actual)->notContains('{');
+                expect($actual)->notContains('}');
+                expect($actual)->notContains('=');
+
+                expect(preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual))->equals(1);
+
+                $actual = Text::dynamic("{Hi'Hello}, my name is a {Rob'Zyxep'Andres}!", '{', '}', "'");
+
+                expect($actual)->notContains('{');
+                expect($actual)->notContains('}');
+                expect($actual)->notContains("'");
+
+                expect(preg_match('/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/', $actual))->equals(1);
+
+                $actual = Text::dynamic('{Hi/Hello}, my name is a {Stanislav/Nikos}!', '{', '}', '/');
+
+                expect($actual)->notContains('{');
+                expect($actual)->notContains('}');
+                expect($actual)->notContains('/');
+
+                expect(preg_match('/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/', $actual))->equals(1);
+            }
+        );
     }
 }

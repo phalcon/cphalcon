@@ -6,6 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper);
 PHP_METHOD(Phalcon_Escaper, setEncoding);
 PHP_METHOD(Phalcon_Escaper, getEncoding);
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
+PHP_METHOD(Phalcon_Escaper, setDoubleEncode);
 PHP_METHOD(Phalcon_Escaper, detectEncoding);
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding);
 PHP_METHOD(Phalcon_Escaper, escapeHtml);
@@ -20,6 +21,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 0, 1)
 	ZEND_ARG_INFO(0, quoteType)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setdoubleencode, 0, 0, 1)
+	ZEND_ARG_INFO(0, doubleEncode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_detectencoding, 0, 0, 1)
@@ -54,6 +59,7 @@ ZEPHIR_INIT_FUNCS(phalcon_escaper_method_entry) {
 	PHP_ME(Phalcon_Escaper, setEncoding, arginfo_phalcon_escaper_setencoding, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Escaper, getEncoding, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Escaper, setHtmlQuoteType, arginfo_phalcon_escaper_sethtmlquotetype, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Escaper, setDoubleEncode, arginfo_phalcon_escaper_setdoubleencode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Escaper, detectEncoding, arginfo_phalcon_escaper_detectencoding, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Escaper, normalizeEncoding, arginfo_phalcon_escaper_normalizeencoding, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Escaper, escapeHtml, arginfo_phalcon_escaper_escapehtml, ZEND_ACC_PUBLIC)

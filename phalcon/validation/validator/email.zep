@@ -28,13 +28,20 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value has a correct e-mail format
  *
- *<code>
- *use Phalcon\Validation\Validator\Email as EmailValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Email as EmailValidator;
  *
- *$validator->add('email', new EmailValidator(array(
- *   'message' => 'The e-mail is not valid'
- *)));
- *</code>
+ * $validator->add('email', new EmailValidator([
+ *     'message' => 'The e-mail is not valid'
+ * ]));
+ *
+ * $validator->add(['email', 'anotherEmail'], new EmailValidator([
+ *     'message' => [
+ *         'email' => 'The e-mail is not valid',
+ *         'anotherEmail' => 'The another e-mail is not valid'
+ *     ]
+ * ]));
+ * </code>
  */
 class Email extends Validator
 {
@@ -44,24 +51,35 @@ class Email extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Email");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Email", this->getOption("code")));
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Email", code));
 			return false;
 		}
 

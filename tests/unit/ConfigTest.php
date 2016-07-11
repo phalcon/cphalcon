@@ -87,7 +87,7 @@ class ConfigTest extends ConfigBase
             "Comparison of configurations returned a not identical result",
             function () {
                 $config = new Config($this->config);
-                expect($this->compareConfig($this->config, $config))->true();
+                $this->compareConfig($this->config, $config);
             }
         );
     }

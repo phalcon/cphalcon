@@ -783,7 +783,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear) {
 }
 
 /**
- * Magic method __toString renders the widget without atttributes
+ * Magic method __toString renders the widget without attributes
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString) {
 

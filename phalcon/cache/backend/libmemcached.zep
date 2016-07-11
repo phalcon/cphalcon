@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -31,31 +31,34 @@ use Phalcon\Cache\Exception;
  * Per default persistent memcached connection pools are used.
  *
  *<code>
+ * use Phalcon\Cache\Backend\Libmemcached;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *    "lifetime" => 172800
- * ));
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- * //Create the Cache setting memcached connection options
- * $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, array(
- *     "servers" => array(
- *         array('host' => 'localhost',
- *               'port' => 11211,
- *               'weight' => 1),
- *     ),
- *     "client" => array(
- *         Memcached::OPT_HASH => Memcached::HASH_MD5,
- *         Memcached::OPT_PREFIX_KEY => 'prefix.',
- *     )
- * ));
+ * // Create the Cache setting memcached connection options
+ * $cache = new Libmemcached($frontCache, [
+ *     'servers' => [
+ *         [
+ *             'host' => 'localhost',
+ *             'port' => 11211,
+ *             'weight' => 1
+ *         ],
+ *     ],
+ *     'client' => [
+ *         \Memcached::OPT_HASH => Memcached::HASH_MD5,
+ *         \Memcached::OPT_PREFIX_KEY => 'prefix.',
+ *     ]
+ * ]);
  *
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
- *
  *</code>
  */
 class Libmemcached extends Backend implements BackendInterface
@@ -139,12 +142,8 @@ class Libmemcached extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var memcache, prefixedKey, cachedContent;
 
@@ -177,7 +176,7 @@ class Libmemcached extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, tt1, success, options,
 			specialKey, keys, isBuffering;
@@ -270,6 +269,8 @@ class Libmemcached extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return success;
 	}
 
 	/**

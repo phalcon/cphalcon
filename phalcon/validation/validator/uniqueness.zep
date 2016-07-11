@@ -20,7 +20,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\CombinedFieldsValidator;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\Message;
 use Phalcon\Mvc\Model;
@@ -46,15 +46,25 @@ use Phalcon\Mvc\Model;
  *     'attribute' => 'nick'
  * ]));
  * </code>
+ *
+ * In model:
+ * <code>
+ * $validator->add('username', new UniquenessValidator());
+ * </code>
+ *
+ * Combination of fields in model:
+ * <code>
+ * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
+ * </code>
  */
-class Uniqueness extends Validator
+class Uniqueness extends CombinedFieldsValidator
 {
 	private columnMap = null;
 
 	/**
 	 * Executes the validation
 	 */
-	public function validate(<Validation> validation, string! field) -> boolean
+	public function validate(<Validation> validation, var field) -> boolean
 	{
 		var message, label;
 
@@ -78,35 +88,81 @@ class Uniqueness extends Validator
 		return true;
 	}
 
-	protected function isUniqueness(<Validation> validation, string! field) -> boolean
+	protected function isUniqueness(<Validation> validation, var field) -> boolean
 	{
 		var value, record, attribute, except,
-			index, params, metaData, primaryField, className;
+			index, params, metaData, primaryField, className, singleField, fieldExcept, singleExcept, notInValues, exceptConditions;
 
-		let value = validation->getValue(field),
-			record = this->getOption("model");
-
-		if empty record || typeof record != "object" {
-			throw new Exception("Model of record must be set to property \"model\"");
-		}
-
-		let attribute = this->getColumnNameReal(record, this->getOption("attribute", field)),
-			except = this->getOption("except");
-
+		let exceptConditions = [];
 		let index  = 0;
 		let params = [
 			"conditions": [],
 			"bind": []
 		];
 
-		let params["conditions"][] = attribute . " = ?" . index;
-		let params["bind"][] = value;
-		let index++;
+		if typeof field != "array" {
+			let singleField = field;
+			let field = [];
+			let field[] = singleField;
+		}
 
-		if except {
-			let params["conditions"][] = attribute . " <> ?" . index;
-			let params["bind"][] = except;
+		for singleField in field {
+			let fieldExcept = null;
+			let notInValues = [];
+			let value = validation->getValue(singleField),
+				record = this->getOption("model");
+
+			if empty record || typeof record != "object" {
+				// check validation getEntity() method
+				let record = validation->getEntity();
+				if empty record {
+					throw new Exception("Model of record must be set to property \"model\"");
+				}
+			}
+
+			let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField)),
+				except = this->getOption("except");
+
+			let params["conditions"][] = attribute . " = ?" . index;
+			let params["bind"][] = value;
 			let index++;
+
+			if except {
+				if typeof except == "array" && count(field) > 1 {
+					if isset except[singleField] {
+						let fieldExcept = except[singleField];
+					}
+				}
+
+				if fieldExcept != null {
+					if typeof fieldExcept == "array" {
+						for singleExcept in fieldExcept {
+							let notInValues[] = "?" . index;
+							let params["bind"][] = singleExcept;
+							let index++;
+						}
+						let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
+					}
+					else {
+						let exceptConditions[] = attribute . " <> ?" . index;
+						let params["bind"][] = fieldExcept;
+						let index++;
+					}
+				}
+				elseif typeof except == "array" && count(field) == 1 {
+					for singleExcept in except {
+						let notInValues[] = "?" . index;
+						let params["bind"][] = singleExcept;
+						let index++;
+					}
+					let params["conditions"][] = attribute . " NOT IN (" . join(",", notInValues) . ")";
+				}
+				elseif count(field) == 1 {
+					let params["conditions"][] = attribute . " <> ?" . index;
+					let params["bind"][] = except;
+					let index++;
+				}
+			}
 		}
 
 		/**
@@ -123,6 +179,9 @@ class Uniqueness extends Validator
 		}
 
 		let className = get_class(record);
+		if !empty exceptConditions {
+			let params["conditions"][] = "(" . join(" OR ", exceptConditions) . ")";
+		}
 		let params["conditions"] = join(" AND ", params["conditions"]);
 
 		return {className}::count(params) == 0;

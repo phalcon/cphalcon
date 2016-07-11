@@ -42,7 +42,7 @@ interface ManagerInterface
 	public function rollbackPendent();
 
 	/**
-	 * Commmits active transactions within the manager
+	 * Commits active transactions within the manager
 	 */
 	public function commit();
 
@@ -60,7 +60,7 @@ interface ManagerInterface
 	public function notifyRollback(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
 
 	/**
-	 * Notifies the manager about a commited transaction
+	 * Notifies the manager about a committed transaction
 	 */
 	public function notifyCommit(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
 

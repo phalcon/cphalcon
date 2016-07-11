@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,17 +29,19 @@ use Phalcon\Cache\Exception;
  * Stores content in memory. Data is lost when the request is finished
  *
  *<code>
- *	//Cache data
- *	$frontCache = new \Phalcon\Cache\Frontend\Data();
+ * use Phalcon\Cache\Backend\Memory;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
- *  $cache = new \Phalcon\Cache\Backend\Memory($frontCache);
+ * // Cache data
+ * $frontCache = new FrontData();
  *
- *	//Cache arbitrary data
- *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ * $cache = new Memory($frontCache);
  *
- *	//Get data
- *	$data = $cache->get('my-data');
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
+ * // Get data
+ * $data = $cache->get('my-data');
  *</code>
  */
 class Memory extends Backend implements BackendInterface, \Serializable
@@ -49,12 +51,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param 	string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var lastKey, cachedContent;
 
@@ -83,7 +81,7 @@ class Memory extends Backend implements BackendInterface, \Serializable
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> void
+	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastKey, frontend, cachedContent, preparedContent, isBuffering;
 
@@ -119,6 +117,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 		}
 
 		let this->_started = false;
+
+		return true;
 	}
 
 	/**

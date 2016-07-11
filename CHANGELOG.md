@@ -75,8 +75,44 @@
 - Fixed `Filter::add` method handler [#11581](https://github.com/phalcon/cphalcon/issues/11581)
 - Removed `Phalcon\Session` [#11340](https://github.com/phalcon/cphalcon/issues/11340)
 - Phalcon\Tag::getTitle() shows a title depending on prependTitle and appendTitle
+- Using a settable variable for the Mongo Connection Service name instead of a hard coded string [#11725](https://github.com/phalcon/cphalcon/issues/11725)
+- Added new getter `Phalcon\Mvc\Model\Query\Builder::getJoins()` - to get join parts from query builder
+- Fixed `Phalcon\Db\Dialect\Oracle::prepareTable()` to correctly generate SQL for table aliases [#11799](https://github.com/phalcon/cphalcon/issues/11799)
+- Fixed `Phalcon\Mvc\Model\Resultset::update()` - removed endless loop queries
+- The cache backend adapters now returns boolean on call `Phalcon\Cache\BackendInterface::save`
+- Fixed the Session write callback [#11733](https://github.com/phalcon/cphalcon/issues/11733)
+- Added '\Phalcon\Loader::registerFiles' & '\Phalcon\Loader::getFiles'. This allows you to add files to the autoloader
+- Added `Phalcon\Security::hasLibreSsl` and `Phalcon\Security::getSslVersionNumber`
+- Added new setter `Phalcon\Escaper::setDoubleEncode()` - to allow setting/disabling double encoding
+- Added  `Phalcon\Cache\Frontend\Msgpack` - Added Msgpack Support for Frontend Cache
+- `Phalcon\Debug\Dump` skip debugging di, fix detecting private/protected properties
+- Added option to validate multiple fields with one validator(fix uniqueness validator as well), also removes unnecessary `model => $this` in `Phalcon\Validation\Validator\Uniqueness`.
+- `Phalcon\Validation\Validator\Alpha` now correctly validates non-ASCII characters [#11386](https://github.com/phalcon/cphalcon/issues/11386)
+- `Phalcon\Validation\Validator\Digit` now correctly validates digits [#11374](https://github.com/phalcon/cphalcon/issues/11374)
+- Added `Phalcon\Validation\CombinedFieldsValidator`, validation will pass array of fields to this validator if needed
+- Added ability to autoescape Flash messages [#11448](https://github.com/phalcon/cphalcon/issues/11448)
+- Fixed `Phalcon\Config::merge` for working with php7
+- Added ability to use custom delimiter for `Phalcon\Text::camelize` and `Phalcon\Text::uncamelize` [#10396](https://github.com/phalcon/cphalcon/issues/10396)
+- Added support of `CONNECT`, `TRACE` and `PURGE`  HTTP methods
+- Refactored `Phalcon\Http\Request::getHttpHost`. Now it always return host name or empty string. Optionally validates and clean host name [#2573](https://github.com/phalcon/cphalcon/issues/2573)
+- Added `Phalcon\Http\Request::getPort`. To get information about the port on which the request is made.
+- Added `Phalcon\Http\Request::setStrictHostCheck` and `Phalcon\Http\Request::isStrictHostCheck` to manage strict validation of host name.
+- Fixed matching host name by `Phalcon\Mvc\Route::handle` when using port on current host name [#2573](https://github.com/phalcon/cphalcon/issues/2573)
+- Fixed `Phalcon\Text:dynamic()` to allow custom separator [#11215](https://github.com/phalcon/cphalcon/issues/11215)
+- Fixed `Phalcon\Validation::appendMessage` to allow append message to the empty stack [#10405](https://github.com/phalcon/cphalcon/issues/10405)
+- Fixed `Phalcon\Session\Flash::getMessages`. Now it returns an empty array in case of non existent message type request [#11941](https://github.com/phalcon/cphalcon/issues/11941)
+- Amended `Phalcon\Mvc\RouterInterface` and `Phalcon\Mvc\Router`. Added missed `addPurge`, `addTrace` and `addConnect` methods
 
-# [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (????-??-??)
+# [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
+- Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
+- Used Zephir v0.9.2
+
+# [2.0.12](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.12) (2016-05-16)
+- Fixed regression changes for `Phalcon\Mvc\View\Engine\Volt::callMacro` [#11745](https://github.com/phalcon/cphalcon/issues/11745)
+- Fixed the argument type of `Phalcon\Flash::success` [#11764](https://github.com/phalcon/cphalcon/pull/11764)
+- Restored Phalcon\Text::camelize behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
+
+# [2.0.11](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.11) (2016-05-04)
 - Fix Model magic set functionality to maintain variable visibility and utilize setter methods.[#11286](https://github.com/phalcon/cphalcon/issues/11286)
 - Added a `prepareSave` event to model saving
 - Added support for OnUpdate and OnDelete foreign key events to the MySQL adapter

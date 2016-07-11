@@ -115,7 +115,11 @@ class Generator_File_PhalconC
      */
     protected function addStandardHeader($fileHandler)
     {
-        $header = include($this->configDir . '/phalcon_c_header.php');
+        if (version_compare(phpversion(), '7.0.0', '<')) {
+            $header = require $this->configDir . '/php5/phalcon_c_header.php';
+        } else {
+            $header = require $this->configDir . '/php7/phalcon_c_header.php';
+        }
         fwrite($fileHandler, PHP_EOL . $header . PHP_EOL);
     }
 
@@ -180,10 +184,7 @@ class Generator_File_PhalconC
             }
 
             // Skip unneeded lines
-            if ((strncmp($line, '#include "', 10) == 0)
-                || (strncmp($line, 'ZEPHIR_DOC_METHOD', 18) == 0)
-                || (strncmp($line, '#line ', 6) == 0)
-            ) {
+            if ((strncmp($line, '#include "', 10) == 0) || (strncmp($line, '#include <', 10) == 0) || (strncmp($line, 'ZEPHIR_DOC_METHOD', 18) == 0) || (strncmp($line, '#line ', 6) == 0)) {
                 continue;
             }
 
@@ -340,8 +341,7 @@ class Generator_File_PhalconC
 
             if (!$modified) {
                 if (preg_match('/^PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-                    $line = str_replace($matches[0], 'static PHP_METHOD(' . $matches[1] . ', ' . $matches[2] . ')',
-                        $line);
+                    $line = str_replace($matches[0], 'static PHP_METHOD(' . $matches[1] . ', ' . $matches[2] . ')', $line);
                 }
             }
 

@@ -28,40 +28,57 @@ use Phalcon\Validation\Validator;
  *
  * Check for alphabetic character(s)
  *
- *<code>
- *use Phalcon\Validation\Validator\Alpha as AlphaValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Alpha as AlphaValidator;
  *
- *$validator->add('username', new AlphaValidator(array(
- *   'message' => ':field must contain only letters'
- *)));
- *</code>
+ * $validator->add('username', new AlphaValidator([
+ *     'message' => ':field must contain only letters'
+ * ]));
+ *
+ * $validator->add(['username', 'name'], new AlphaValidator([
+ *     'message' => [
+ *         'username' => 'username must contain only letters',
+ *         'name' => 'name must contain only letters'
+ *    ]
+ * ]));
+ * </code>
  */
 class Alpha extends Validator
 {
-
 	/**
 	 * Executes the validation
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 
-		if !ctype_alpha(value) {
+		if preg_match("/[^[:alpha:]]/imu", value) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Alpha");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alpha", this->getOption("code")));
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alpha", code));
 			return false;
 		}
 

@@ -28,13 +28,20 @@ use Phalcon\Validation\Validator;
  *
  * Check for a valid numeric value
  *
- *<code>
- *use Phalcon\Validation\Validator\Numericality;
+ * <code>
+ * use Phalcon\Validation\Validator\Numericality;
  *
- *$validator->add('price', new Numericality(array(
- *   'message' => ':field is not numeric'
- *)));
- *</code>
+ * $validator->add('price', new Numericality([
+ *     'message' => ':field is not numeric'
+ * ]));
+ *
+ * $validator->add(['price', 'amount'], new Numericality([
+ *     'message' => [
+ *         'price' => 'price is not numeric',
+ *         'amount' => 'amount is not numeric'
+ *     ]
+ * ]));
+ * </code>
  */
 class Numericality extends Validator
 {
@@ -44,24 +51,35 @@ class Numericality extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 
 		if !preg_match("/^-?\d+\.?\d*$/", value) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Numericality");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Numericality", this->getOption("code")));
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Numericality", code));
 			return false;
 		}
 

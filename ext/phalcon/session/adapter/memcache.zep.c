@@ -28,12 +28,12 @@
  * use Phalcon\Session\Adapter\Memcache;
  *
  * $session = new Memcache([
- *    'uniqueId'   => 'my-private-app',
- *    'host'       => '127.0.0.1',
- *    'port'       => 11211,
- *    'persistent' => true,
- *    'lifetime'   => 3600,
- *    'prefix'     => 'my_'
+ *     'uniqueId'   => 'my-private-app',
+ *     'host'       => '127.0.0.1',
+ *     'port'       => 11211,
+ *     'persistent' => true,
+ *     'lifetime'   => 3600,
+ *     'prefix'     => 'my_'
  * ]);
  *
  * $session->start();
@@ -120,9 +120,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_OBS_VAR(_6);
 	zephir_read_property_this(&_6, this_ptr, SL("_lifetime"), PH_NOISY_CC);
 	zephir_array_update_string(&_5, SL("lifetime"), &_6, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 327, _5);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 328, _5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 330, _4, options);
+	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 331, _4, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _3 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_7);
@@ -161,9 +161,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_INIT_NVAR(_8);
 	ZVAL_STRING(_8, "gc", 1);
 	zephir_array_fast_append(_13, _8);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 427, _7, _9, _10, _11, _12, _13);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 431, _7, _9, _10, _11, _12, _13);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_14, 428, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, this_ptr, "__construct", &_14, 432, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -226,9 +226,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, write) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, _0, "save", NULL, 0, sessionId, data, _1);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "save", NULL, 0, sessionId, data, _1);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 
 }
 

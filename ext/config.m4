@@ -19,11 +19,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/element.zep.c
 	phalcon/mvc/model/validator.zep.c
 	phalcon/mvc/model/validatorinterface.zep.c
+	phalcon/cache/frontendinterface.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/cache/backend.zep.c
 	phalcon/cache/backendinterface.zep.c
 	phalcon/mvc/model/metadata.zep.c
-	phalcon/cache/frontendinterface.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapterinterface.zep.c
 	phalcon/db/adapter.zep.c
@@ -55,6 +55,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/application/exception.zep.c
 	phalcon/assets/inline.zep.c
 	phalcon/assets/resource.zep.c
+	phalcon/cache/frontend/data.zep.c
 	phalcon/di.zep.c
 	phalcon/dispatcher.zep.c
 	phalcon/flash.zep.c
@@ -74,7 +75,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/adapter.zep.c
 	phalcon/acl/roleinterface.zep.c
 	phalcon/annotations/readerinterface.zep.c
-	phalcon/cache/frontend/data.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
 	phalcon/cli/taskinterface.zep.c
 	phalcon/cryptinterface.zep.c
@@ -116,6 +116,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/exception.zep.c
 	phalcon/mvc/viewinterface.zep.c
 	phalcon/session/baginterface.zep.c
+	phalcon/validation/combinedfieldsvalidator.zep.c
 	phalcon/validation/messageinterface.zep.c
 	phalcon/validationinterface.zep.c
 	phalcon/acl.zep.c
@@ -157,6 +158,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/frontend/base64.zep.c
 	phalcon/cache/frontend/igbinary.zep.c
 	phalcon/cache/frontend/json.zep.c
+	phalcon/cache/frontend/msgpack.zep.c
 	phalcon/cache/frontend/none.zep.c
 	phalcon/cache/frontend/output.zep.c
 	phalcon/cache/multiple.zep.c
@@ -378,7 +380,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/uniqueness.zep.c
 	phalcon/validation/validator/url.zep.c
 	phalcon/version.zep.c
-	phalcon/0__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/0__closure.zep.c
+	phalcon/1__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

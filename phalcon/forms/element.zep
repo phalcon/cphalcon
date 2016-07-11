@@ -516,7 +516,7 @@ abstract class Element implements ElementInterface
 	}
 
 	/**
-	 * Magic method __toString renders the widget without atttributes
+	 * Magic method __toString renders the widget without attributes
 	 */
 	public function __toString() -> string
 	{

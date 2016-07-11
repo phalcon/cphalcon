@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
@@ -41,6 +42,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Mvc_Dispatcher, setDefaultController, arginfo_phalcon_mvc_dispatcher_setdefaultcontroller, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerName, arginfo_phalcon_mvc_dispatcher_setcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousControllerName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, getPreviousActionName, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Dispatcher, _throwDispatchException, arginfo_phalcon_mvc_dispatcher__throwdispatchexception, ZEND_ACC_PROTECTED)

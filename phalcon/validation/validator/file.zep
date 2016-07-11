@@ -28,18 +28,44 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value has a correct file
  *
- *<code>
- *use Phalcon\Validation\Validator\File as FileValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\File as FileValidator;
  *
- *$validator->add('file', new FileValidator(array(
- *   'maxSize' => '2M',
- *   'messageSize' => ':field exceeds the max filesize (:max)',
- *   'allowedTypes' => array('image/jpeg', 'image/png'),
- *   'messageType' => 'Allowed file types are :types',
- *   'maxResolution' => '800x600',
- *   'messageMaxResolution' => 'Max resolution of :field is :max'
- *)));
- *</code>
+ * $validator->add('file', new FileValidator([
+ *     'maxSize' => '2M',
+ *     'messageSize' => ':field exceeds the max filesize (:max)',
+ *     'allowedTypes' => array('image/jpeg', 'image/png'),
+ *     'messageType' => 'Allowed file types are :types',
+ *     'maxResolution' => '800x600',
+ *     'messageMaxResolution' => 'Max resolution of :field is :max'
+ * ]));
+ *
+ * $validator->add(['file', 'anotherFile'], new FileValidator([
+ *     'maxSize' => [
+ *         'file' => '2M',
+ *         'anotherFile' => '4M'
+ *     ],
+ *     'messageSize' => [
+ *         'file' => 'file exceeds the max filesize 2M',
+ *         'anotherFile' => 'anotherFile exceeds the max filesize 4M',
+ *     'allowedTypes' => [
+ *         'file' => ['image/jpeg', 'image/png'],
+ *         'anotherFile' => ['image/gif', 'image/bmp']
+ *     ],
+ *     'messageType' => [
+ *         'file' => 'Allowed file types are image/jpeg and image/png',
+ *         'anotherFile' => 'Allowed file types are image/gif and image/bmp'
+ *     ],
+ *     'maxResolution' => [
+ *         'file' => '800x600',
+ *         'anotherFile' => '1024x768'
+ *     ],
+ *     'messageMaxResolution' => [
+ *         'file' => 'Max resolution of file is 800x600',
+ *         'anotherFile' => 'Max resolution of file is 1024x768'
+ *     ]
+ * ]));
+ * </code>
  */
 class File extends Validator
 {
@@ -49,13 +75,22 @@ class File extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight;
+		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes, code;
 
 		let value = validation->getValue(field),
 			label = this->getOption("label");
 
+		if typeof label == "array" {
+			let label = label[field];
+		}
+
 		if empty label {
 			let label = validation->getLabel(field);
+		}
+
+		let code = this->getOption("code");
+		if typeof code == "array" {
+			let code = code[field];
 		}
 
 		// Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
@@ -64,11 +99,15 @@ class File extends Validator
 			let message = this->getOption("messageIniSize"),
 				replacePairs = [":field": label];
 
+			if typeof message == "array" {
+				let message = message[field];
+			}
+
 			if empty message {
 				let message = validation->getDefaultMessage("FileIniSize");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize", this->getOption("code")));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileIniSize", code));
 			return false;
 		}
 
@@ -77,11 +116,15 @@ class File extends Validator
 			let message = this->getOption("messageEmpty"),
 				replacePairs = [":field": label];
 
+			if typeof message == "array" {
+				let message = message[field];
+			}
+
 			if empty message {
 				let message = validation->getDefaultMessage("FileEmpty");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty", this->getOption("code")));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileEmpty", code));
 			return false;
 		}
 
@@ -90,11 +133,15 @@ class File extends Validator
 			let message = this->getOption("messageValid"),
 				replacePairs = [":field": label];
 
+			if typeof message == "array" {
+				let message = message[field];
+			}
+
 			if empty message {
 				let message = validation->getDefaultMessage("FileValid");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid", this->getOption("code")));
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileValid", code));
 			return false;
 		}
 
@@ -104,6 +151,10 @@ class File extends Validator
 				maxSize = this->getOption("maxSize"),
 				matches = NULL,
 				unit = "B";
+
+			if typeof maxSize == "array" {
+				let maxSize = maxSize[field];
+			}
 
 			preg_match("/^([0-9]+(?:\\.[0-9]+)?)(".implode("|", array_keys(byteUnits)).")?$/Di", maxSize, matches);
 
@@ -117,11 +168,15 @@ class File extends Validator
 				let message = this->getOption("messageSize"),
 					replacePairs = [":field": label, ":max": maxSize];
 
+				if typeof message == "array" {
+					let message = message[field];
+				}
+
 				if empty message {
 					let message = validation->getDefaultMessage("FileSize");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize", this->getOption("code")));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileSize", code));
 				return false;
 			}
 		}
@@ -129,6 +184,10 @@ class File extends Validator
 		if this->hasOption("allowedTypes") {
 
 			let types = this->getOption("allowedTypes");
+
+			if fetch fieldTypes, types[field] {
+				let types = fieldTypes;
+			}
 
 			if typeof types != "array" {
 				throw new \Phalcon\Validation\Exception("Option 'allowedTypes' must be an array");
@@ -147,11 +206,15 @@ class File extends Validator
 				let message = this->getOption("messageType"),
 					replacePairs = [":field": label, ":types": join(", ", types)];
 
+				if typeof message == "array" {
+					let message = message[field];
+				}
+
 				if empty message {
 					let message = validation->getDefaultMessage("FileType");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType", this->getOption("code")));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileType", code));
 				return false;
 			}
 		}
@@ -162,7 +225,11 @@ class File extends Validator
 				height = tmp[1];
 
 			if this->hasOption("minResolution") {
-				let minResolution = explode("x", this->getOption("minResolution")),
+				let minResolution = this->getOption("minResolution");
+				if typeof minResolution == "array" {
+					let minResolution = minResolution[field];
+				}
+				let minResolution = explode("x", minResolution),
 					minWidth = minResolution[0],
 					minHeight = minResolution[1];
 			} else {
@@ -172,31 +239,43 @@ class File extends Validator
 
 			if width < minWidth || height < minHeight {
 				let message = this->getOption("messageMinResolution"),
-					replacePairs = [":field": label, ":min": this->getOption("minResolution")];
+					replacePairs = [":field": label, ":min": minResolution];
+
+				if typeof message == "array" {
+					let message = message[field];
+				}
 
 				if empty message {
 					let message = validation->getDefaultMessage("FileMinResolution");
 				}
 
-				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution", this->getOption("code")));
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMinResolution", code));
 				return false;
 			}
 
 			if this->hasOption("maxResolution") {
 
-				let maxResolution = explode("x", this->getOption("maxResolution")),
+				let maxResolution = this->getOption("maxResolution");
+				if typeof maxResolution == "array" {
+					let maxResolution = maxResolution[field];
+				}
+				let maxResolution = explode("x", maxResolution),
 					maxWidth = maxResolution[0],
 					maxHeight = maxResolution[1];
 
 				if width > maxWidth || height > maxHeight {
 					let message = this->getOption("messageMaxResolution"),
-						replacePairs = [":field": label, ":max": this->getOption("maxResolution")];
+						replacePairs = [":field": label, ":max": maxResolution];
+
+					if typeof message == "array" {
+						let message = message[field];
+					}
 
 					if empty message {
 						let message = validation->getDefaultMessage("FileMaxResolution");
 					}
 
-					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution", this->getOption("code")));
+					validation->appendMessage(new Message(strtr(message, replacePairs), field, "FileMaxResolution", code));
 					return false;
 				}
 			}

@@ -29,7 +29,7 @@
  * databases, the transaction will not protect interaction among them.
  *
  * This class manages the objects that compose a transaction.
- * A trasaction produces a unique connection that is passed to every
+ * A transaction produces a unique connection that is passed to every
  * object part of the transaction.
  *
  *<code>
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 			ZEPHIR_INIT_VAR(_3$$4);
 			ZVAL_STRING(_3$$4, "rollbackPendent", 1);
 			zephir_array_fast_append(_2$$4, _3$$4);
-			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 369, _2$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 372, _2$$4);
 			zephir_check_call_status();
 		}
 		if (1) {
@@ -341,9 +341,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	} else {
 		ZVAL_BOOL(_6, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, 370, dependencyInjector, _6, _5);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "__construct", NULL, 373, dependencyInjector, _6, _5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, 371, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, transaction, "settransactionmanager", NULL, 374, this_ptr);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("_number") TSRMLS_CC));
@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent) {
 }
 
 /**
- * Commmits active transactions within the manager
+ * Commits active transactions within the manager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback) {
 }
 
 /**
- * Notifies the manager about a commited transaction
+ * Notifies the manager about a committed transaction
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
 

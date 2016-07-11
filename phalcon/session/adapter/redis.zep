@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -32,13 +32,14 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * use Phalcon\Session\Adapter\Redis;
  *
  * $session = new Redis([
- *    'uniqueId'   => 'my-private-app',
- *	  'host'       => 'localhost',
- *	  'port'       => 6379,
- *	  'auth'       => 'foobared',
- *    'persistent' => false,
- *    'lifetime'   => 3600,
- *    'prefix'     => 'my_'
+ *     'uniqueId'   => 'my-private-app',
+ *     'host'       => 'localhost',
+ *     'port'       => 6379,
+ *     'auth'       => 'foobared',
+ *     'persistent' => false,
+ *     'lifetime'   => 3600,
+ *     'prefix'     => 'my_'
+ *     'index'      => 1,
  * ]);
  *
  * $session->start();
@@ -121,9 +122,9 @@ class Redis extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function write(string sessionId, string data)
+	public function write(string sessionId, string data) -> boolean
 	{
-		this->_redis->save(sessionId, data, this->_lifetime);
+		return this->_redis->save(sessionId, data, this->_lifetime);
 	}
 
 	/**

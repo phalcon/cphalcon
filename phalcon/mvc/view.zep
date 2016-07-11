@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -35,16 +35,20 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * It provides a system of helpers, output filters, and variable escaping.
  *
  * <code>
- * //Setting views directory
- * $view = new \Phalcon\Mvc\View();
+ * use Phalcon\Mvc\View;
+ *
+ * $view = new View();
+ *
+ * // Setting views directory
  * $view->setViewsDir('app/views/');
  *
  * $view->start();
- * //Shows recent posts view (app/views/posts/recent.phtml)
+ *
+ * // Shows recent posts view (app/views/posts/recent.phtml)
  * $view->render('posts', 'recent');
  * $view->finish();
  *
- * //Printing views output
+ * // Printing views output
  * echo $view->getContent();
  * </code>
  */
@@ -300,12 +304,9 @@ class View extends Injectable implements ViewInterface
 	 * Disables a specific level of rendering
 	 *
 	 *<code>
-	 * //Render all levels except ACTION level
+	 * // Render all levels except ACTION level
 	 * $this->view->disableLevel(View::LEVEL_ACTION_VIEW);
 	 *</code>
-	 *
-	 * @param int|array level
-	 * @return \Phalcon\Mvc\View
 	 */
 	public function disableLevel(var level) -> <View>
 	{
@@ -362,9 +363,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Sets a template before the controller layout
-	 *
-	 * @param string|array templateBefore
-	 * @return \Phalcon\Mvc\View
 	 */
 	public function setTemplateBefore(var templateBefore) -> <View>
 	{
@@ -387,9 +385,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Sets a "template after" controller layout
-	 *
-	 * @param string|array templateAfter
-	 * @return \Phalcon\Mvc\View
 	 */
 	public function setTemplateAfter(var templateAfter) -> <View>
 	{
@@ -416,12 +411,8 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->setParamToView('products', $products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed value
-	 * @return \Phalcon\Mvc\View
 	 */
-	public function setParamToView(string! key, value) -> <View>
+	public function setParamToView(string! key, var value) -> <View>
 	{
 		let this->_viewParams[key] = value;
 		return this;
@@ -431,12 +422,8 @@ class View extends Injectable implements ViewInterface
 	 * Set all the render params
 	 *
 	 *<code>
-	 *	$this->view->setVars(array('products' => $products));
+	 *	$this->view->setVars(['products' => $products]);
 	 *</code>
-	 *
-	 * @param array params
-	 * @param boolean merge
-	 * @return \Phalcon\Mvc\View
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
 	{
@@ -455,12 +442,8 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->setVar('products', $products);
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed value
-	 * @return \Phalcon\Mvc\View
 	 */
-	public function setVar(string! key, value) -> <View>
+	public function setVar(string! key, var value) -> <View>
 	{
 		let this->_viewParams[key] = value;
 		return this;
@@ -468,9 +451,6 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns a parameter previously set in the view
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
 	public function getVar(string! key)
 	{
@@ -485,40 +465,32 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Returns parameters to views
-	 *
-	 * @return array
 	 */
-	public function getParamsToView()
+	public function getParamsToView() -> array
 	{
 		return this->_viewParams;
 	}
 
 	/**
 	 * Gets the name of the controller rendered
-	 *
-	 * @return string
 	 */
-	public function getControllerName()
+	public function getControllerName() -> string
 	{
 		return this->_controllerName;
 	}
 
 	/**
 	 * Gets the name of the action rendered
-	 *
-	 * @return string
 	 */
-	public function getActionName()
+	public function getActionName() -> string
 	{
 		return this->_actionName;
 	}
 
 	/**
 	 * Gets extra parameters of the action rendered
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}
@@ -735,11 +707,11 @@ class View extends Injectable implements ViewInterface
 	 * Register templating engines
 	 *
 	 *<code>
-	 * $this->view->registerEngines(array(
-	 *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
-	 *  ".volt"  => "Phalcon\Mvc\View\Engine\Volt",
-	 *  ".mhtml" => "MyCustomEngine"
-	 * ));
+	 * $this->view->registerEngines([
+	 *  '.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+	 *  '.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
+	 *  '.mhtml' => 'MyCustomEngine'
+	 * ]);
 	 *</code>
 	 */
 	public function registerEngines(array! engines) -> <View>
@@ -778,7 +750,7 @@ class View extends Injectable implements ViewInterface
 	 * Executes render process from dispatching data
 	 *
 	 *<code>
-	 * //Shows recent posts view (app/views/posts/recent.phtml)
+	 * // Shows recent posts view (app/views/posts/recent.phtml)
 	 * $view->start()->render('posts', 'recent')->finish();
 	 *</code>
 	 *
@@ -800,7 +772,7 @@ class View extends Injectable implements ViewInterface
 		/**
 		 * If the view is disabled we simply update the buffer from any output produced in the controller
 		 */
-		if this->_disabled != false {
+		if this->_disabled !== false {
 			let this->_content = ob_get_contents();
 			return false;
 		}
@@ -1014,9 +986,6 @@ class View extends Injectable implements ViewInterface
 	 *    }
 	 * }
 	 * </code>
-	 *
-	 * @param string|array renderView
-	 * @return \Phalcon\Mvc\View
 	 */
 	public function pick(var renderView) -> <View>
 	{
@@ -1045,20 +1014,16 @@ class View extends Injectable implements ViewInterface
 	 * Renders a partial view
 	 *
 	 * <code>
-	 * 	//Retrieve the contents of a partial
+	 * 	// Retrieve the contents of a partial
 	 * 	echo $this->getPartial('shared/footer');
 	 * </code>
 	 *
 	 * <code>
-	 * 	//Retrieve the contents of a partial with arguments
-	 * 	echo $this->getPartial('shared/footer', array('content' => $html));
+	 * 	// Retrieve the contents of a partial with arguments
+	 * 	echo $this->getPartial('shared/footer', ['content' => $html]);
 	 * </code>
-	 *
-	 * @param string partialPath
-	 * @param array params
-	 * @return string
 	 */
-	public function getPartial(string! partialPath, params = null) -> string
+	public function getPartial(string! partialPath, var params = null) -> string
 	{
 		// not liking the ob_* functions here, but it will greatly reduce the
 		// amount of double code.
@@ -1071,17 +1036,14 @@ class View extends Injectable implements ViewInterface
 	 * Renders a partial view
 	 *
 	 * <code>
-	 * 	//Show a partial inside another view
+	 * 	// Show a partial inside another view
 	 * 	$this->partial('shared/footer');
 	 * </code>
 	 *
 	 * <code>
-	 * 	//Show a partial inside another view with parameters
-	 * 	$this->partial('shared/footer', array('content' => $html));
+	 * 	// Show a partial inside another view with parameters
+	 * 	$this->partial('shared/footer', ['content' => $html]);
 	 * </code>
-	 *
-	 * @param string partialPath
-	 * @param array params
 	 */
 	public function partial(string! partialPath, var params = null)
 	{
@@ -1130,7 +1092,7 @@ class View extends Injectable implements ViewInterface
 	 * Perform the automatic rendering returning the output as a string
 	 *
 	 * <code>
-	 * 	$template = $this->view->getRender('products', 'show', array('products' => $products));
+	 * 	$template = $this->view->getRender('products', 'show', ['products' => $products]);
 	 * </code>
 	 *
 	 * @param string controllerName
@@ -1256,11 +1218,8 @@ class View extends Injectable implements ViewInterface
 	 * Cache the actual view render to certain level
 	 *
 	 *<code>
-	 *  $this->view->cache(array('key' => 'my-key', 'lifetime' => 86400));
+	 *  $this->view->cache(['key' => 'my-key', 'lifetime' => 86400]);
 	 *</code>
-	 *
-	 * @param boolean|array options
-	 * @return \Phalcon\Mvc\View
 	 */
 	public function cache(var options = true) -> <View>
 	{
@@ -1379,11 +1338,8 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	$this->view->products = $products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @param mixed value
 	 */
-	public function __set(string! key, value)
+	public function __set(string! key, var value)
 	{
 		let this->_viewParams[key] = value;
 	}
@@ -1394,11 +1350,8 @@ class View extends Injectable implements ViewInterface
 	 *<code>
 	 *	echo $this->view->products;
 	 *</code>
-	 *
-	 * @param string key
-	 * @return mixed
 	 */
-	public function __get(string! key)
+	public function __get(string! key) -> var | null
 	{
 		var value;
 		if fetch value, this->_viewParams[key] {

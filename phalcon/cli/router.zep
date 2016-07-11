@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -411,7 +411,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns proccesed action name
+	 * Returns processed action name
 	 */
 	public function getActionName() -> string
 	{
@@ -419,7 +419,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns proccesed extra params
+	 * Returns processed extra params
 	 *
 	 * @return array
 	 */
@@ -429,7 +429,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns the route that matchs the handled URI
+	 * Returns the route that matches the handled URI
 	 */
 	public function getMatchedRoute() -> <RouteInterface>
 	{
@@ -447,7 +447,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Checks if the router macthes any of the defined routes
+	 * Checks if the router matches any of the defined routes
 	 */
 	public function wasMatched() -> boolean
 	{

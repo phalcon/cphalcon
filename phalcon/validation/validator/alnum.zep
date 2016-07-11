@@ -28,13 +28,20 @@ use Phalcon\Validation\Message;
  *
  * Check for alphanumeric character(s)
  *
- *<code>
- *use Phalcon\Validation\Validator\Alnum as AlnumValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Alnum as AlnumValidator;
  *
- *$validator->add('username', new AlnumValidator(array(
- *   'message' => ':field must contain only alphanumeric characters'
- *)));
- *</code>
+ * $validator->add('username', new AlnumValidator([
+ *     'message' => ':field must contain only alphanumeric characters'
+ * ]));
+ *
+ * $validator->add(['username', 'name'], new AlnumValidator([
+ *     'message' => [
+ *         'username' => 'username must contain only alphanumeric characters',
+ *         'name' => 'name must contain only alphanumeric characters'
+ *     ]
+ * ]));
+ * </code>
  */
 class Alnum extends Validator
 {
@@ -44,24 +51,36 @@ class Alnum extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 
 		if !ctype_alnum(value) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label];
 			if empty message {
 				let message = validation->getDefaultMessage("Alnum");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum", this->getOption("code")));
+			let code = this->getOption("code");
+
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum", code));
 			return false;
 		}
 

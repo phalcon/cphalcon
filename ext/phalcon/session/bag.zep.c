@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Bag, getDI) {
 }
 
 /**
- * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+ * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize) {
 
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 }
 
 /**
- * Destroyes the session bag
+ * Destroys the session bag
  *
  *<code>
  * $user->destroy();
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 	}
 	object_init_ex(return_value, zephir_get_internal_ce(SS("arrayiterator") TSRMLS_CC));
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 429, _1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 433, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

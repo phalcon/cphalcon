@@ -20,7 +20,7 @@
 /**
  * Phalcon\Db\RawValue
  *
- * This class allows to insert/update raw data without quoting or formating.
+ * This class allows to insert/update raw data without quoting or formatting.
  *
  * The next example shows how to use the MySQL now() function as a field value.
  *
@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, RawValue, phalcon, db_rawvalue, phalcon_db_rawvalue_method_entry, 0);
 
 	/**
-	 * Raw value without quoting or formating
+	 * Raw value without quoting or formatting
 	 *
 	 * @var string
 	 */
@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 }
 
 /**
- * Raw value without quoting or formating
+ * Raw value without quoting or formatting
  */
 PHP_METHOD(Phalcon_Db_RawValue, getValue) {
 
@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue) {
 }
 
 /**
- * Raw value without quoting or formating
+ * Raw value without quoting or formatting
  */
 PHP_METHOD(Phalcon_Db_RawValue, __toString) {
 

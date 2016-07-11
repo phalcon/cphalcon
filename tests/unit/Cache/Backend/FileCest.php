@@ -28,6 +28,12 @@ class FileCest
 {
     public function outputFrontend(UnitTester $I)
     {
+        if (PHP_MAJOR_VERSION == 7) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Skipped in view of the experimental support for PHP 7.'
+            );
+        }
+
         $I->wantTo("Use File cache with Output frontend");
 
         for ($i = 0; $i < 2; $i++) {

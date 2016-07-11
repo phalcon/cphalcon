@@ -101,7 +101,7 @@ interface MetaDataInterface
 	public function getPrimaryKeyAttributes(<ModelInterface> model);
 
 	/**
-	 * Returns an arrau of fields which are not part of the primary key
+	 * Returns an array of fields which are not part of the primary key
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface model
 	 * @return array

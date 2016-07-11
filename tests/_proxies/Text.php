@@ -23,14 +23,14 @@ use Phalcon\Text as PhText;
  */
 class Text extends PhText
 {
-    public static function camelize($str)
+    public static function camelize($str, $delimiter = null)
     {
-        return parent::camelize($str);
+        return parent::camelize($str, $delimiter);
     }
 
-    public static function uncamelize($str)
+    public static function uncamelize($str, $delimiter = null)
     {
-        return parent::uncamelize($str);
+        return parent::uncamelize($str, $delimiter);
     }
 
     public static function increment($str, $separator = "_")

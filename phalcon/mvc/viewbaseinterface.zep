@@ -39,11 +39,8 @@ interface ViewBaseInterface
 
 	/**
 	 * Adds parameters to views (alias of setVar)
-	 *
-	 * @param string key
-	 * @param mixed value
 	 */
-	public function setParamToView(string! key, value);
+	public function setParamToView(string! key, var value);
 
 	/**
 	 * Adds parameters to views
@@ -65,10 +62,8 @@ interface ViewBaseInterface
 
 	/**
 	 * Cache the actual view render to certain level
-	 *
-	 * @param boolean|array options
 	 */
-	public function cache(options = true);
+	public function cache(var options = true);
 
 	/**
 	 * Externally sets the view content

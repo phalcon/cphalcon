@@ -1,11 +1,11 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework							  |
+ | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled	  |
+ | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
@@ -43,6 +43,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\ValidationInterface;
+use Phalcon\Validation\Message\Group;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Validation\Message\Group as ValidationMessageGroup;
@@ -504,12 +505,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *));
 	 *</code>
 	 *
-	 * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row base
+	 * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
 	 * @param array data
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
-	 * @return \Phalcon\Mvc\Model
 	 */
 	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
@@ -1396,7 +1396,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 			messages->rewind();
 
-			//for message in iterator(messages) {
+			// for message in iterator(messages) {
 			while messages->valid() {
 
 				let message = messages->current();
@@ -2975,7 +2975,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *  $robot = new Robots();
 	 *  $robot->create(array(
 	 *	  'type' => 'mechanical',
-	 *	  'name' => 'Astroy Boy',
+	 *	  'name' => 'Astro Boy',
 	 *	  'year' => 1952
 	 *  ));
 	 *</code>

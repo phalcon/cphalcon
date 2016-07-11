@@ -8,6 +8,7 @@ modules:
         - Helper\Integration
         - Asserts
         - Phalcon
+        - Filesystem
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'

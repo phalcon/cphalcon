@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -19,6 +19,14 @@
 */
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Forms\Element\Password;
+use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Forms\Form;
+use Phalcon\Mvc\View;
+use Phalcon\Escaper;
+use Phalcon\Mvc\Url;
+use Phalcon\Tag;
+use Phalcon\Di;
 
 class SomeObject implements Iterator, Countable
 {
@@ -1109,7 +1117,6 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 	public function testVoltUsersFunctions()
 	{
-
 		$volt = new Compiler();
 
 		//Single string function
@@ -1120,12 +1127,16 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			return 'str_shuffle(' . $arguments . ')';
 		});
 
+		$volt->addFunction('strtotime', 'strtotime');
+
 		$compilation = $volt->compileString('{{ random() }}');
 		$this->assertEquals($compilation, '<?= mt_rand() ?>');
 
 		$compilation = $volt->compileString('{{ shuffle("hello") }}');
 		$this->assertEquals($compilation, '<?= str_shuffle(\'hello\') ?>');
 
+		$compilation = $volt->compileString('{{ strtotime("now") }}');
+		$this->assertEquals("<?= strtotime('now') ?>", $compilation);
 	}
 
 	public function testVoltUsersFilters()
@@ -1380,6 +1391,133 @@ Clearly, the song is: <?= $this->getContent() ?>.
 		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
 	}
 
+	public function testVoltMacros()
+	{
+		if (PHP_MAJOR_VERSION == 7) {
+			$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+		}
+
+		$this->removeFiles([
+			'unit-tests/views/macro/hello.volt.php',
+			'unit-tests/views/macro/conditionaldate.volt.php',
+			'unit-tests/views/macro/my_input.volt.php',
+			'unit-tests/views/macro/error_messages.volt.php',
+			'unit-tests/views/macro/related_links.volt.php',
+			'unit-tests/views/macro/strtotime.volt.php',
+		]);
+		Di::reset();
+		$view = new View;
+		$di = new Di;
+		$di->set('escaper', function() { return new Escaper; });
+		$di->set('tag', function() { return new Tag; });
+		$di->set('url', function() { return (new Url)->setBaseUri('/'); });
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+		$view->registerEngines(array(
+			'.volt' => function ($view, $di) {
+				$volt = new Volt($view, $di);
+				$compiler = $volt->getCompiler();
+				$compiler->addFunction('strtotime', 'strtotime');
+				return $volt;
+			}
+		));
+		$view->start();
+		$view->render('macro', 'hello');
+		$view->finish();
+		$this->assertEquals('Hello World', $view->getContent());
+		$view->start();
+		$view->render('macro', 'conditionaldate');
+		$view->finish();
+		$this->assertEquals(sprintf('from <br/>%s, %s UTC', date('Y-m-d'), date('H:i')), $view->getContent());
+		$view->start();
+		$view->render('macro', 'my_input');
+		$view->finish();
+		$this->assertEquals('<p><input type="text" id="name" name="name" class="input-text" /></p>', $view->getContent());
+		$view->start();
+		$view->render('macro', 'error_messages');
+		$view->finish();
+		$this->assertEquals('<div><span class="error-type">Invalid</span><span class="error-field">name</span><span class="error-message">The name is invalid</span></div>', $view->getContent());
+		$view->setVar('links', array((object) array('url' => 'localhost', 'text' => 'Menu item', 'title' => 'Menu title')));
+		$view->start();
+		$view->render('macro', 'related_links');
+		$view->finish();
+		$this->assertEquals('<ul><li><a href="/localhost" title="Menu title">Menu item</a></li></ul>', $view->getContent());
+		$view->setVar('date', new DateTime());
+		$view->start();
+		$view->render('macro', 'strtotime');
+		$view->finish();
+		$content = $view->getContent();
+		$content = explode('%', $content);
+		$this->assertEquals(3, count($content));
+		$this->assertEquals($content[0], $content[1]);
+		$this->assertEquals($content[1], $content[2]);
+		$this->assertEquals($content[2], $content[0]);
+		$this->removeFiles([
+			'unit-tests/views/macro/hello.volt.php',
+			'unit-tests/views/macro/conditionaldate.volt.php',
+			'unit-tests/views/macro/my_input.volt.php',
+			'unit-tests/views/macro/error_messages.volt.php',
+			'unit-tests/views/macro/related_links.volt.php',
+			'unit-tests/views/macro/strtotime.volt.php',
+		]);
+	}
+	public function testVoltMacros_Issue_11771()
+	{
+		if (PHP_MAJOR_VERSION == 7) {
+			$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+		}
+
+		$this->removeFiles([
+			'unit-tests/views/macro/list.volt.php',
+			'unit-tests/views/macro/form_row.volt.php',
+		]);
+		Di::reset();
+		$view = new View;
+		$di = new Di;
+		$di->set('escaper', function() { return new Escaper; });
+		$di->set('tag', function() { return new Tag; });
+		$di->set('url', function() { return (new Url)->setBaseUri('/'); });
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+		$view->registerEngines(array(
+			'.volt' => function ($view, $di) { return new Volt($view, $di); }
+		));
+		$object = new stdClass();
+		$object->foo = "bar";
+		$object->baz = "buz";
+		$object->pi  = 3.14;
+		$object->ary = ["some array"];
+		$object->obj = clone $object;
+		$view->setVar('object', $object);
+		$view->start();
+		$view->render('macro', 'list');
+		$view->finish();
+		ob_start();
+		var_dump($object);
+		$actual = ob_get_clean();
+		// Trim xdebug first line (file path)
+		$actual   = substr($actual, strpos($actual, 'class'));
+		$expected = substr($view->getContent(), strpos($view->getContent(), 'class'));
+		$this->assertEquals($actual, $expected);
+		$form = new Form;
+		$form->add(new Password('password'));
+		$view->setVar('formLogin', $form);
+		$view->start();
+		$view->render('macro', 'form_row');
+		$view->finish();
+		$actual =<<<FORM
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="password">password:</label>
+    <div class="col-sm-6"><input type="password" id="password" name="password" class="form-control " /></div>
+</div>
+FORM;
+		$this->assertEquals($actual, $view->getContent());
+		$this->removeFiles([
+			'unit-tests/views/macro/list.volt.php',
+			'unit-tests/views/macro/form_row.volt.php',
+		]);
+	}
+
 	public function testVoltEngineLoopContext()
 	{
 		$volt = new Compiler();
@@ -1388,5 +1526,17 @@ Clearly, the song is: <?= $this->getContent() ?>.
 		eval('?>'.$compiled);
 		$result = ob_get_clean();
 		$this->assertEquals('12345', $result);
+	}
+
+	protected function removeFiles($files)
+	{
+		if (!is_array($files)) {
+			$files = array($files);
+		}
+		foreach ($files as $file) {
+			if (file_exists($file) && is_readable($file)) {
+				@unlink($file);
+			}
+		}
 	}
 }

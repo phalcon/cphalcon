@@ -153,6 +153,17 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 }
 
 /**
+ * Gets previous dispatched namespace name
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName) {
+
+	
+
+	RETURN_MEMBER(this_ptr, "_previousNamespaceName");
+
+}
+
+/**
  * Gets previous dispatched controller name
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
@@ -215,7 +226,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 9, _1$$3, _2$$3);
 		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0$$3, "phalcon/mvc/dispatcher.zep", 120 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$3, "phalcon/mvc/dispatcher.zep", 128 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -243,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 142 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 150 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

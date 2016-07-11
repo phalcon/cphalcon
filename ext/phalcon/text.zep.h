@@ -19,10 +19,12 @@ PHP_METHOD(Phalcon_Text, humanize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_camelize, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, delimiter)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_uncamelize, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
+	ZEND_ARG_INFO(0, delimiter)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_increment, 0, 0, 1)

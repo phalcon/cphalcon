@@ -29,14 +29,25 @@ use Phalcon\Validation\Message;
  *
  * Check if a value is included into a list of values
  *
- *<code>
- *use Phalcon\Validation\Validator\InclusionIn;
+ * <code>
+ * use Phalcon\Validation\Validator\InclusionIn;
  *
- *$validator->add('status', new InclusionIn(array(
- *   'message' => 'The status must be A or B',
- *   'domain' => array('A', 'B')
- *)));
- *</code>
+ * $validator->add('status', new InclusionIn([
+ *     'message' => 'The status must be A or B',
+ *     'domain' => array('A', 'B')
+ * ]));
+ *
+ * $validator->add(['status', 'type'], new InclusionIn([
+ *     'message' => [
+ *         'status' => 'The status must be A or B',
+ *         'type' => 'The status must be 1 or 2'
+ *     ],
+ *     'domain' => [
+ *         'status' => ['A', 'B'],
+ *         'type' => [1, 2]
+ *     ]
+ * ]));
+ * </code>
  */
 class InclusionIn extends Validator
 {
@@ -46,7 +57,7 @@ class InclusionIn extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, domain, message, label, replacePairs, strict;
+		var value, domain, message, label, replacePairs, strict, fieldDomain, code;
 
 		let value = validation->getValue(field);
 
@@ -54,17 +65,26 @@ class InclusionIn extends Validator
 		 * A domain is an array with a list of valid values
 		 */
 		let domain = this->getOption("domain");
+		if fetch fieldDomain, domain[field] {
+			if typeof fieldDomain == "array" {
+				let domain = fieldDomain;
+			}
+		}
 		if typeof domain != "array" {
 			throw new Exception("Option 'domain' must be an array");
 		}
 
 		let strict = false;
 		if this->hasOption("strict") {
+			let strict = this->getOption("strict");
+
+			if typeof strict == "array" {
+				let strict = strict[field];
+			}
+
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
-
-			let strict = this->getOption("strict");
 		}
 
 		/**
@@ -73,17 +93,28 @@ class InclusionIn extends Validator
 		if !in_array(value, domain, strict) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label, ":domain":  join(", ", domain)];
 			if empty message {
 				let message = validation->getDefaultMessage("InclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "InclusionIn", this->getOption("code")));
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "InclusionIn", code));
 			return false;
 		}
 
