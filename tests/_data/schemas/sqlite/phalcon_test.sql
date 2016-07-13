@@ -4464,11 +4464,12 @@ CREATE TABLE `robots` (
   `type` varchar(32) NOT NULL default 'mechanical',
   `year` int(11) NOT NULL default 1900,
   `datetime` datetime NOT NULL,
+  `deleted` datetime default NULL,
   `text` text NOT NULL
 );
-INSERT INTO "robots" VALUES(1,'Robotina','mechanical',1972,'1972/01/01 00:00:00','text');
-INSERT INTO "robots" VALUES(2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00','text');
-INSERT INTO "robots" VALUES(3,'Terminator','cyborg',2029,'2029/01/01 00:00:00','text');
+INSERT INTO "robots" VALUES(1,'Robotina','mechanical',1972,'1972/01/01 00:00:00',NULL,'text');
+INSERT INTO "robots" VALUES(2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00',NULL,'text');
+INSERT INTO "robots" VALUES(3,'Terminator','cyborg',2029,'2029/01/01 00:00:00',NULL,'text');
 CREATE TABLE `robots_parts` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `robots_id` int(10) NOT NULL,

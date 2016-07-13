@@ -123,9 +123,14 @@ class Uniqueness extends CombinedFieldsValidator
 			let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField)),
 				except = this->getOption("except");
 
-			let params["conditions"][] = attribute . " = ?" . index;
-			let params["bind"][] = value;
-			let index++;
+			if value != null {
+				let params["conditions"][] = attribute . " = ?" . index;
+				let params["bind"][] = value;
+				let index++;
+			}
+			else {
+				let params["conditions"][] = attribute . " IS NULL";
+			}
 
 			if except {
 				if typeof except == "array" && count(field) > 1 {

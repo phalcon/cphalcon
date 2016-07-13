@@ -163,6 +163,7 @@ CREATE TABLE robots (
     type character varying(32) DEFAULT 'mechanical'::character varying NOT NULL,
     year integer DEFAULT 1900 NOT NULL,
     datetime timestamp NOT NULL,
+    deleted timestamp DEFAULT NULL,
     text text NOT NULL
 );
 
@@ -6921,4 +6922,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-

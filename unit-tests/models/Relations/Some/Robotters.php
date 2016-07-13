@@ -23,6 +23,7 @@ class Robotters extends \Phalcon\Mvc\Model
 			'type' => 'theType',
 			'year' => 'theYear',
 			'datetime' => 'theDatetime',
+			'deleted' => 'theDeleted',
 			'text' => 'theText',
 		);
 	}
