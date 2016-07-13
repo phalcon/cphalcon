@@ -272,6 +272,7 @@ CREATE TABLE `robots` (
   `type` varchar(32) COLLATE utf8_unicode_ci NOT NULL default 'mechanical',
   `year` int(11) NOT NULL default 1900,
   `datetime` datetime NOT NULL,
+  `deleted` datetime DEFAULT NULL,
   `text` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -283,9 +284,9 @@ CREATE TABLE `robots` (
 
 LOCK TABLES `robots` WRITE;
 /*!40000 ALTER TABLE `robots` DISABLE KEYS */;
-INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00','text'),
-  (2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00','text'),
-  (3,'Terminator','cyborg',2029,'2029/01/01 00:00:00','text');
+INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00', null, 'text'),
+  (2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00', null, 'text'),
+  (3,'Terminator','cyborg',2029,'2029/01/01 00:00:00', null, 'text');
 /*!40000 ALTER TABLE `robots` ENABLE KEYS */;
 UNLOCK TABLES;
 

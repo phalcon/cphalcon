@@ -231,7 +231,8 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 			2 => 'type',
 			3 => 'year',
 			4 => 'datetime',
-			5 => 'text'
+			5 => 'deleted',
+			6 => 'text'
 		);
 
 		$attributes = $metaData->getAttributes($robots);
@@ -249,7 +250,8 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 			1 => 'type',
 			2 => 'year',
 			3 => 'datetime',
-			4 => 'text'
+			4 => 'deleted',
+			5 => 'text'
 		);
 
 		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);
@@ -258,8 +260,9 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($metaData->getIdentityField($robots), 'id');
 
 		$defValues = array(
-			'type' => 'mechanical',
-			'year' => 1900
+			'type'    => 'mechanical',
+			'year'    => 1900,
+			'deleted' => null
 		);
 
 		$modelDefValues = $metaData->getDefaultValues($robots);

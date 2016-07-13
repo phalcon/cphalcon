@@ -35,6 +35,11 @@ class Robots extends \Phalcon\Mvc\Model
 	public $datetime;
 
 	/**
+	 * @Column(type="datetime", nullable=true)
+	 */
+	public $deleted;
+
+	/**
 	 * @Column(type="text", nullable=false)
 	 */
 	protected $text;

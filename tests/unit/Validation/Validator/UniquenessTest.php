@@ -19,6 +19,7 @@ use Phalcon\Validation\Validator\Uniqueness;
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
+ * @author    Bas Stottelaar <basstottelaar@gmail.com>
  * @package   Phalcon\Test\Unit\Validation\Validator
  *
  * The contents of this file are subject to the New BSD License that is
@@ -46,6 +47,11 @@ class UniquenessTest extends UnitTest
     protected $anotherRobot;
 
     /**
+     * @var Robots
+     */
+    protected $deletedRobot;
+
+    /**
      * Tests uniqueness validator with single fields
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -64,6 +70,26 @@ class UniquenessTest extends UnitTest
     }
 
     /**
+     * Tests uniqueness validator with single field and a null value
+     *
+     * @author Bas Stottelaar <basstottelaar@gmail.com>
+     * @since  2016-07-13
+     */
+    public function testSingleFieldWithNull()
+    {
+        $this->specify('Test uniqueness with single field and a null value.', function () {
+            $validation = new Validation();
+            $validation->add('deleted', new Uniqueness());
+            $messages = $validation->validate(null, $this->robot);
+            expect($messages->count())->equals(1);
+            $messages = $validation->validate(null, $this->anotherRobot);
+            expect($messages->count())->equals(1);
+            $messages = $validation->validate(null, $this->deletedRobot);
+            expect($messages->count())->equals(0);
+        });
+    }
+
+    /**
      * Tests uniqueness validator with multiple fields
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -77,6 +103,26 @@ class UniquenessTest extends UnitTest
             $messages = $validation->validate(null, $this->robot);
             expect($messages->count())->equals(1);
             $messages = $validation->validate(null, $this->anotherRobot);
+            expect($messages->count())->equals(0);
+        });
+    }
+
+    /**
+     * Tests uniqueness validator with multiple fields and a null value
+     *
+     * @author Bas Stottelaar <basstottelaar@gmail.com>
+     * @since  2016-07-13
+     */
+    public function testMultipleFieldsWithNull()
+    {
+        $this->specify('Test uniqueness with combination of fields and a null value.', function () {
+            $validation = new Validation();
+            $validation->add(['type','deleted'], new Uniqueness());
+            $messages = $validation->validate(null, $this->robot);
+            expect($messages->count())->equals(1);
+            $messages = $validation->validate(null, $this->anotherRobot);
+            expect($messages->count())->equals(0);
+            $messages = $validation->validate(null, $this->deletedRobot);
             expect($messages->count())->equals(0);
         });
     }
@@ -179,6 +225,7 @@ class UniquenessTest extends UnitTest
             'type' => 'mechanical',
             'year' => 1972,
             'datetime' => (new DateTime())->format('Y-m-d H:i:s'),
+            'deleted' => null,
             'text' => 'text',
         ]);
         $this->anotherRobot = new Robots([
@@ -186,6 +233,15 @@ class UniquenessTest extends UnitTest
             'type' => 'hydraulic',
             'year' => 1952,
             'datetime' => (new DateTime())->format('Y-m-d H:i:s'),
+            'deleted' => null,
+            'text' => 'text',
+        ]);
+        $this->deletedRobot = new Robots([
+            'name' => 'Robotina',
+            'type' => 'mechanical',
+            'year' => 1972,
+            'datetime' => (new DateTime())->format('Y-m-d H:i:s'),
+            'deleted' => (new DateTime())->format('Y-m-d H:i:s'),
             'text' => 'text',
         ]);
     }
