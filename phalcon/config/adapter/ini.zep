@@ -62,7 +62,7 @@ class Ini extends Config
 	{
 		var iniConfig;
 
-		let iniConfig = parse_ini_file(filePath, true);
+		let iniConfig = parse_ini_file(filePath, true, INI_SCANNER_RAW);
 		if iniConfig === false {
 			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
 		}
@@ -75,13 +75,13 @@ class Ini extends Config
 			if typeof directives == "array" {
 				let sections = [];
 				for path, lastValue in directives {
-					let sections[] = this->_parseIniString(path, lastValue);
+					let sections[] = this->_parseIniString((string)path, lastValue);
 				}
 				if count(sections) {
 					let config[section] = call_user_func_array("array_merge_recursive", sections);
 				}
 			} else {
-				let config[section] = directives;
+				let config[section] = this->_cast(directives);
 			}
 		}
 
@@ -107,6 +107,7 @@ class Ini extends Config
 	protected function _parseIniString(string! path, var value) -> array
 	{
 		var pos, key;
+		let value = this->_cast(value);
 		let pos = strpos(path, ".");
 
 		if pos === false {
@@ -117,5 +118,45 @@ class Ini extends Config
 		let path = substr(path, pos + 1);
 
 		return [key: this->_parseIniString(path, value)];
+	}
+	/**
+	 * We have to cast values manually because parse_ini_file() has a poor implementation.
+	 *
+	 * @param mixed ini The array casted by `parse_ini_file`
+	 */
+	private function _cast(var ini) -> bool | null | double | int | string
+	{
+		var key, val;
+		if typeof ini == "array" {
+			for key, val in ini{
+				let ini[key] = this->_cast(val);
+			}
+		}
+		if typeof ini == "string" {
+			// Decode true
+			if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
+				return true;
+			}
+	
+			// Decode false
+			if ini === "false" || ini === "no" || strtolower(ini) === "off"{
+				return false;
+			}
+	
+			// Decode null
+			if ini === "null" {
+				return null;
+			}
+	
+			// Decode float/int
+			if is_numeric(ini) {
+				if preg_match("/[.]+/", ini) {
+					return (double) ini;
+				} else {
+					return (int) ini;
+				}
+			}
+		}
+		return ini;
 	}
 }
