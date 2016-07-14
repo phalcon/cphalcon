@@ -1566,7 +1566,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 						} else {
 
-							fetch value, this->{fields};
+							fetch value, this->{field};
 							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
 
