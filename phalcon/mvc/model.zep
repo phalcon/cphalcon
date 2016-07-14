@@ -1497,7 +1497,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			position, bindParams, extraConditions, message, fields,
 			referencedFields, field, referencedModel, value, allowNulls;
 		int action, numberNull;
-		boolean error, validateWithNulls = false;
+		boolean error, validateWithNulls;
 
 		/**
 		 * Get the models manager
@@ -1513,6 +1513,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let error = false;
 			for relation in belongsTo {
 
+				let validateWithNulls = false;
 				let foreignKey = relation->getForeignKey();
 				if foreignKey !== false {
 
@@ -1566,7 +1567,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 						} else {
 
-							fetch value, this->{field};
+							fetch value, this->{fields};
 							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
 
