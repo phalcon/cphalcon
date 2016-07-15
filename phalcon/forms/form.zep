@@ -710,4 +710,14 @@ class Form extends Injectable implements \Countable, \Iterator
 	{
 		return isset this->_elementsIndexed[this->_position];
 	}
+
+	/**
+	 * checks whether element with such a name exists in form definition
+	 *
+	 * @param string $name
+	 */
+	public function hasField(string name) -> boolean
+	{
+		return isset this->_elements[name];
+	}
 }

@@ -101,6 +101,9 @@ class FormTest extends UnitTest
                 expect($form->hasMessagesFor("telephone"))->true();
 
                 expect($form->hasMessagesFor("address"))->false();
+
+                expect($form->hasField("address"))->true();
+                expect($form->hasField("falseTest"))->false();
             }
         );
     }
