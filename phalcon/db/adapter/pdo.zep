@@ -85,8 +85,11 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(descriptor = null)
 	{
-		var username, password, dsnParts, dsnAttributes,
+		var eventsManager,
+			username, password, dsnParts, dsnAttributes,
 			persistent, options, key, value;
+
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		if descriptor === null {
 			let descriptor = this->_descriptor;
@@ -153,6 +156,13 @@ abstract class Pdo extends Adapter
 		 * Create the connection using PDO
 		 */
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+
+		/**
+		 * Execute the afterQuery event if a EventsManager is available
+		 */
+		if typeof eventsManager == "object" {
+			eventsManager->fire("db:afterQuery", this);
+		}
 	}
 
 	/**
