@@ -4246,6 +4246,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
 		if typeof relation == "object" {
 
+			/*
+			 Not fetch a relation if it is on CamelCase
+			 */
+			if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
+				return this->{lowerProperty};
+			}
 			/**
 			 * Get the related records
 			 */
