@@ -2,10 +2,11 @@
 
 namespace Phalcon\Test\Unit\Forms;
 
-use Phalcon\Test\Module\UnitTest;
-
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
+use Phalcon\Validation\Message;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\Validator\Regex;
 
 /**
@@ -43,65 +44,51 @@ class FormTest extends UnitTest
         parent::_after();
     }
 
-
-
+    /**
+     * Tests Form::hasMessagesFor
+     *
+     * @author Sid Roberts <Sid@SidRoberts.co.uk>
+     * @since  2016-04-03
+     */
     public function testFormHasMessagesFor()
     {
-        $this->specify(
-            "hasMessagesFor works",
-            function () {
-                //First element
-                $telephone = new Text("telephone");
+        $this->specify('Form::hasMessagesFor does not check correctly if the Group is empty', function () {
+            // First element
+            $telephone = new Text('telephone');
 
-                $telephone->addValidators(array(
-                    new Regex(array(
-                        'pattern' => '/\+44 [0-9]+ [0-9]+/',
-                        'message' => 'The telephone has an invalid format'
-                    ))
-                ));
+            $telephone->addValidators([
+                new Regex([
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format'
+                ])
+            ]);
 
-                //Second element
-                $address = new Text('address');
+            // Second element
+            $address = new Text('address');
+            $form = new Form();
 
-                $form = new Form();
+            $form->add($telephone);
+            $form->add($address);
 
-                $form->add($telephone);
-                $form->add($address);
+            expect($form->isValid(['telephone' => '12345', 'address' => 'hello']))->false();
 
-                expect($form->isValid(array(
-                    'telephone' => '12345',
-                    'address' => 'hello'
-                )))->false();
+            expect($form->getMessagesFor('telephone'))->equals(
+                Group::__set_state([
+                    '_messages' => [
+                        Message::__set_state([
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ])
+                    ],
+                ])
+            );
 
-                expect($form->getMessagesFor("telephone"))->equals(
-                    \Phalcon\Validation\Message\Group::__set_state(
-                        array(
-                            '_messages' => array(
-                                0 => \Phalcon\Validation\Message::__set_state(
-                                    array(
-                                        '_type' => 'Regex',
-                                        '_message' => 'The telephone has an invalid format',
-                                        '_field' => 'telephone',
-                                        '_code' => 0,
-                                    )
-                                ),
-                            ),
-                        )
-                    )
-                );
+            expect($form->getMessagesFor('address'))->equals(Group::__set_state(['_messages' => []]));
+            expect($form->hasMessagesFor('telephone'))->true();
+            expect($form->hasMessagesFor('address'))->false();
 
-                expect($form->getMessagesFor("address"))->equals(
-                    \Phalcon\Validation\Message\Group::__set_state(
-                        array(
-                            '_messages' => array(),
-                        )
-                    )
-                );
-
-                expect($form->hasMessagesFor("telephone"))->true();
-
-                expect($form->hasMessagesFor("address"))->false();
-            }
-        );
+        });
     }
 }
