@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -94,10 +94,6 @@ interface ElementInterface
 	/**
 	 * Returns an array of prepared attributes for Phalcon\Tag helpers
 	 * according to the element's parameters
-	 *
-	 * @param array attributes
-	 * @param boolean useChecked
-	 * @return array
 	 */
 	public function prepareAttributes(array attributes = null, boolean useChecked = false) -> array;
 
@@ -227,7 +223,6 @@ interface ElementInterface
 	 * Renders the element widget
 	 *
 	 * @param array attributes
-	 * @return string
 	 */
 	public function render(attributes = null) -> string;
 

@@ -427,7 +427,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Adds an element to the form
 	 */
-	public function add(<ElementInterface> element, string postion = null, boolean type = null) -> <Form>
+	public function add(<ElementInterface> element, string position = null, boolean type = null) -> <Form>
 	{
 		var name, key, value, elements;
 
@@ -441,7 +441,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		 */
 		element->setForm(this);
 
-		if postion == null || typeof this->_elements != "array" {
+		if position == null || typeof this->_elements != "array" {
 			/**
 			 * Append the element by its name
 			 */
@@ -452,7 +452,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			 * Walk elements and add the element to a particular position
 			 */
 			for key, value in this->_elements {
-				if key == postion {
+				if key == position {
 					if type {
 						/**
 						 * Add the element before position
@@ -549,7 +549,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getValue(string! name) -> var | null
 	{
-		var entity, method, value, data;
+		var entity, method, value, data, $internal, forbidden;
 
 		let entity = this->_entity;
 		let data = this->_data;
@@ -587,6 +587,29 @@ class Form extends Injectable implements \Countable, \Iterator
 			if fetch value, data[name] {
 				return value;
 			}
+		}
+
+		let forbidden = [
+			"validation" : true,
+			"action" : true,
+			"useroption" : true,
+			"useroptions" : true,
+			"entity" : true,
+			"elements" : true,
+			"messages" : true,
+			"messagesfor" : true,
+			"label" : true,
+			"value" : true,
+			"di" : true,
+			"eventsmanager" : true
+		];
+
+		/**
+		 * Check if the method is internal
+		 */
+		let $internal = strtolower(name);
+		if isset forbidden[$internal] {
+			return null;
 		}
 
 		/**
