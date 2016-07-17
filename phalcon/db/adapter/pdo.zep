@@ -59,7 +59,6 @@ abstract class Pdo extends Adapter
 	 */
 	public function __construct(array! descriptor)
 	{
-		this->connect(descriptor);
 		parent::__construct(descriptor);
 	}
 
@@ -177,7 +176,9 @@ abstract class Pdo extends Adapter
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
 	{
-		return this->_pdo->prepare(sqlStatement);
+		var pdo;
+		let pdo = this->getInternalHandler();
+		return pdo->prepare(sqlStatement);
 	}
 
 	/**
@@ -312,7 +313,7 @@ abstract class Pdo extends Adapter
 			}
 		}
 
-		let pdo = <\Pdo> this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -367,7 +368,7 @@ abstract class Pdo extends Adapter
 		 */
 		let affectedRows = 0;
 
-		let pdo = <\Pdo> this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -446,7 +447,9 @@ abstract class Pdo extends Adapter
 	 */
 	public function escapeString(string str) -> string
 	{
-		return this->_pdo->quote(str);
+		var pdo;
+		let pdo = this->getInternalHandler();
+		return pdo->quote(str);
 	}
 
 	/**
@@ -513,7 +516,7 @@ abstract class Pdo extends Adapter
 	public function lastInsertId(sequenceName = null) -> int | boolean
 	{
 		var pdo;
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -527,7 +530,7 @@ abstract class Pdo extends Adapter
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -585,7 +588,7 @@ abstract class Pdo extends Adapter
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -659,7 +662,7 @@ abstract class Pdo extends Adapter
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -743,7 +746,7 @@ abstract class Pdo extends Adapter
 	public function isUnderTransaction() -> boolean
 	{
 		var pdo;
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo == "object" {
 			return pdo->inTransaction();
 		}
@@ -755,6 +758,11 @@ abstract class Pdo extends Adapter
 	 */
 	public function getInternalHandler() -> <\Pdo>
 	{
+		var pdo;
+		let pdo = this->_pdo;
+		if typeof pdo != "object" {
+			this->connect();
+		}
 		return this->_pdo;
 	}
 
@@ -765,6 +773,8 @@ abstract class Pdo extends Adapter
 	 */
 	public function getErrorInfo()
 	{
-		return this->_pdo->errorInfo();
+		var pdo;
+		let pdo = this->getInternalHandler();
+		return pdo->errorInfo();
 	}
 }
