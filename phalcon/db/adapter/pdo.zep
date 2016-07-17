@@ -156,6 +156,8 @@ abstract class Pdo extends Adapter
 		 */
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
 
+		error_log("connect");
+
 		/**
 		 * Execute the afterConnect event if a EventsManager is available
 		 */
@@ -301,6 +303,8 @@ abstract class Pdo extends Adapter
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
+		let pdo = this->getInternalHandler();
+
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
 		 */
@@ -313,7 +317,6 @@ abstract class Pdo extends Adapter
 			}
 		}
 
-		let pdo = this->getInternalHandler();
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -350,6 +353,8 @@ abstract class Pdo extends Adapter
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
+		let pdo = this->getInternalHandler();
+
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
 		 */
@@ -368,7 +373,6 @@ abstract class Pdo extends Adapter
 		 */
 		let affectedRows = 0;
 
-		let pdo = this->getInternalHandler();
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -746,7 +750,7 @@ abstract class Pdo extends Adapter
 	public function isUnderTransaction() -> boolean
 	{
 		var pdo;
-		let pdo = this->getInternalHandler();
+		let pdo = this->_pdo;
 		if typeof pdo == "object" {
 			return pdo->inTransaction();
 		}
@@ -761,9 +765,11 @@ abstract class Pdo extends Adapter
 		var pdo;
 		let pdo = this->_pdo;
 		if typeof pdo != "object" {
+			error_log(typeof pdo);
 			this->connect();
+			let pdo = this->_pdo;
 		}
-		return this->_pdo;
+		return pdo;
 	}
 
 	/**
