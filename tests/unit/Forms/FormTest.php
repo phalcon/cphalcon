@@ -17,7 +17,7 @@ use Phalcon\Validation\Validator\Regex;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit
+ * @package   Phalcon\Test\Unit\Forms
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -28,22 +28,6 @@ use Phalcon\Validation\Validator\Regex;
  */
 class FormTest extends UnitTest
 {
-    /**
-     * executed before each test
-     */
-    protected function _before()
-    {
-        parent::_before();
-    }
-
-    /**
-     * executed after each test
-     */
-    protected function _after()
-    {
-        parent::_after();
-    }
-
     /**
      * Tests Form::hasMessagesFor
      *
@@ -90,5 +74,46 @@ class FormTest extends UnitTest
             expect($form->hasMessagesFor('address'))->false();
 
         });
+    }
+
+    /**
+     * Tests Form::render
+     *
+     * @issue  10398
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-07-17
+     */
+    public function testCreatingElementsWithNameSimilarToTheFormMethods()
+    {
+        $this->specify('Form::render does not return expected result', function ($name) {
+            $form  = new Form;
+            $element = new Text($name);
+
+            expect($element->getName())->equals($name);
+
+            $form->add($element);
+
+            expect($form->render($name))->equals(sprintf('<input type="text" id="%s" name="%s" />', $name, $name));
+            expect($form->getValue($name))->null();
+            expect($element->getValue())->null();
+        }, ['examples' => $this->nameLikeFormMethodsProvider()]);
+    }
+
+    protected function nameLikeFormMethodsProvider()
+    {
+        return [
+            ['validation'],
+            ['action'],
+            ['useroption'],
+            ['useroptions'],
+            ['entity'],
+            ['elements'],
+            ['messages'],
+            ['messagesfor'],
+            ['label'],
+            ['value'],
+            ['di'],
+            ['eventsmanager'],
+        ];
     }
 }
