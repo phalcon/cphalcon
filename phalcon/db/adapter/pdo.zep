@@ -156,8 +156,6 @@ abstract class Pdo extends Adapter
 		 */
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
 
-		error_log("connect");
-
 		/**
 		 * Execute the afterConnect event if a EventsManager is available
 		 */
@@ -765,7 +763,6 @@ abstract class Pdo extends Adapter
 		var pdo;
 		let pdo = this->_pdo;
 		if typeof pdo != "object" {
-			error_log(typeof pdo);
 			this->connect();
 			let pdo = this->_pdo;
 		}
