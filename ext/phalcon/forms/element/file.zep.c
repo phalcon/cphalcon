@@ -34,7 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_File) {
  * Renders the element widget returning html
  *
  * @param array attributes
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element_File, render) {
 
@@ -52,7 +51,7 @@ PHP_METHOD(Phalcon_Forms_Element_File, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "filefield", &_0, 205, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "filefield", &_0, 207, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Zamrony P. Juhara <zamronypj@yahoo.com>                       |
  +------------------------------------------------------------------------+
  */
 
@@ -75,6 +76,15 @@ interface ResponseInterface
 	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function setContentType(string contentType, charset = null) -> <ResponseInterface>;
+
+	/**
+	 * Sets the response content-length
+	 *
+	 * @param int contentLength
+	 * @param string charset
+	 * @return \Phalcon\Http\ResponseInterface
+	 */
+	public function setContentLength(int contentLength) -> <ResponseInterface>;
 
 	/**
 	 * Redirect by HTTP to another action or URL

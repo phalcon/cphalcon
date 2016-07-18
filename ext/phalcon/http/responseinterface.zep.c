@@ -74,6 +74,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
 
 /**
+ * Sets the response content-length
+ *
+ * @param int contentLength
+ * @param string charset
+ * @return \Phalcon\Http\ResponseInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentLength);
+
+/**
  * Redirect by HTTP to another action or URL
  *
  * @param string location

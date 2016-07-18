@@ -14,6 +14,7 @@ use Phalcon\Http\Response\Headers;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @author    Zamrony P. Juhara <zamronypj@yahoo.com>
  * @package   Phalcon\Test\Unit\Http
  *
  * The contents of this file are subject to the New BSD License that is
@@ -254,6 +255,31 @@ class ResponseTest extends HttpBase
                 $expected = Headers::__set_state(
                     [
                         '_headers' => ['Content-Type' => 'application/json']
+                    ]
+                );
+                expect($response->getHeaders())->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests the setContentLength
+     *
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2016-07-18
+     */
+    public function testHttpResponseSetContentLength()
+    {
+        $this->specify(
+            "setContentLength is not setting the header properly",
+            function () {
+                $response = $this->getResponseObject();
+                $response->resetHeaders();
+                $response->setContentLength(100);
+
+                $expected = Headers::__set_state(
+                    [
+                        '_headers' => ['Content-Length' => 100]
                     ]
                 );
                 expect($response->getHeaders())->equals($expected);
