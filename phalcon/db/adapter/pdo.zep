@@ -59,7 +59,6 @@ abstract class Pdo extends Adapter
 	 */
 	public function __construct(array! descriptor)
 	{
-		this->connect(descriptor);
 		parent::__construct(descriptor);
 	}
 
@@ -85,8 +84,11 @@ abstract class Pdo extends Adapter
 	 */
 	public function connect(descriptor = null)
 	{
-		var username, password, dsnParts, dsnAttributes,
+		var eventsManager,
+			username, password, dsnParts, dsnAttributes,
 			persistent, options, key, value;
+
+		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		if descriptor === null {
 			let descriptor = this->_descriptor;
@@ -153,6 +155,13 @@ abstract class Pdo extends Adapter
 		 * Create the connection using PDO
 		 */
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+
+		/**
+		 * Execute the afterConnect event if a EventsManager is available
+		 */
+		if typeof eventsManager == "object" {
+			eventsManager->fire("db:afterConnect", this);
+		}
 	}
 
 	/**
@@ -167,7 +176,9 @@ abstract class Pdo extends Adapter
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
 	{
-		return this->_pdo->prepare(sqlStatement);
+		var pdo;
+		let pdo = this->getInternalHandler();
+		return pdo->prepare(sqlStatement);
 	}
 
 	/**
@@ -290,6 +301,8 @@ abstract class Pdo extends Adapter
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
+		let pdo = this->getInternalHandler();
+
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
 		 */
@@ -302,7 +315,6 @@ abstract class Pdo extends Adapter
 			}
 		}
 
-		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -339,6 +351,8 @@ abstract class Pdo extends Adapter
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
+		let pdo = this->getInternalHandler();
+
 		/**
 		 * Execute the beforeQuery event if a EventsManager is available
 		 */
@@ -357,7 +371,6 @@ abstract class Pdo extends Adapter
 		 */
 		let affectedRows = 0;
 
-		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
 			let statement = pdo->prepare(sqlStatement);
 			if typeof statement == "object" {
@@ -436,7 +449,9 @@ abstract class Pdo extends Adapter
 	 */
 	public function escapeString(string str) -> string
 	{
-		return this->_pdo->quote(str);
+		var pdo;
+		let pdo = this->getInternalHandler();
+		return pdo->quote(str);
 	}
 
 	/**
@@ -503,7 +518,7 @@ abstract class Pdo extends Adapter
 	public function lastInsertId(sequenceName = null) -> int | boolean
 	{
 		var pdo;
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -517,7 +532,7 @@ abstract class Pdo extends Adapter
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -575,7 +590,7 @@ abstract class Pdo extends Adapter
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -649,7 +664,7 @@ abstract class Pdo extends Adapter
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
-		let pdo = this->_pdo;
+		let pdo = this->getInternalHandler();
 		if typeof pdo != "object" {
 			return false;
 		}
@@ -745,7 +760,13 @@ abstract class Pdo extends Adapter
 	 */
 	public function getInternalHandler() -> <\Pdo>
 	{
-		return this->_pdo;
+		var pdo;
+		let pdo = this->_pdo;
+		if typeof pdo != "object" {
+			this->connect();
+			let pdo = this->_pdo;
+		}
+		return pdo;
 	}
 
 	/**
@@ -755,6 +776,8 @@ abstract class Pdo extends Adapter
 	 */
 	public function getErrorInfo()
 	{
-		return this->_pdo->errorInfo();
+		var pdo;
+		let pdo = this->getInternalHandler();
+		return pdo->errorInfo();
 	}
 }
