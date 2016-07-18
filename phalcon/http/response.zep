@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Zamrony P. Juhara <zamronypj@yahoo.com>                       |
  +------------------------------------------------------------------------+
  */
 
@@ -418,6 +419,23 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		} else {
 			this->setHeader("Content-Type", contentType . "; charset=" . charset);
 		}
+
+		return this;
+	}
+
+	/**
+	 * Sets the response content-length
+	 *
+	 *<code>
+	 *	$response->setContentLength(2048);
+	 *</code>
+	 *
+	 * @param int contentLength
+	 * @return \Phalcon\Http\Response
+	 */
+	public function setContentLength(int contentLength) -> <Response>
+	{
+		this->setHeader("Content-Length", contentLength);
 
 		return this;
 	}

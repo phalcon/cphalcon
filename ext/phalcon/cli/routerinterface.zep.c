@@ -88,7 +88,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatchedRoute);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatches);
 
 /**
- * Check if the router macthes any of the defined routes
+ * Check if the router matches any of the defined routes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, wasMatched);
 

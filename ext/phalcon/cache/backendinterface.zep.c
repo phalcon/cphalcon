@@ -81,10 +81,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
 
 /**
  * Returns a cached content
- *
- * @param int|string keyName
- * @param   int lifetime
- * @return  mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
 

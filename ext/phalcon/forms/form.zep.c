@@ -461,16 +461,16 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		} else {
 			ZEPHIR_INIT_NVAR(validation);
 			object_init_ex(validation, phalcon_validation_ce);
-			ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_14, 215, preparedValidators);
+			ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_14, 217, preparedValidators);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD(&filters, element, "getfilters", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(filters) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_15, 216, name, filters);
+			ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_15, 218, name, filters);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_16, 217, data, entity);
+		ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_16, 219, data, entity);
 		zephir_check_call_status();
 		if (zephir_fast_count_int(elementMessages TSRMLS_CC)) {
 			zephir_array_update_zval(&messages, name, &elementMessages, PH_COPY | PH_SEPARATE);
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 		  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
 		) {
 			ZEPHIR_GET_HVALUE(elementMessages, _3$$5);
-			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 218, elementMessages);
+			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 220, elementMessages);
 			zephir_check_call_status();
 		}
 	}
@@ -618,17 +618,17 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 	HashPosition _3$$4;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool type, _0;
-	zval *postion = NULL;
-	zval *element, *postion_param = NULL, *type_param = NULL, *name = NULL, *key = NULL, *value = NULL, *elements = NULL, *_1, *_2$$4, **_5$$4;
+	zval *position = NULL;
+	zval *element, *position_param = NULL, *type_param = NULL, *name = NULL, *key = NULL, *value = NULL, *elements = NULL, *_1, *_2$$4, **_5$$4;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &element, &postion_param, &type_param);
+	zephir_fetch_params(1, 1, 2, &element, &position_param, &type_param);
 
-	if (!postion_param) {
-		ZEPHIR_INIT_VAR(postion);
-		ZVAL_EMPTY_STRING(postion);
+	if (!position_param) {
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_EMPTY_STRING(position);
 	} else {
-		zephir_get_strval(postion, postion_param);
+		zephir_get_strval(position, position_param);
 	}
 	if (!type_param) {
 		type = 0;
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, element, "setform", NULL, 0, this_ptr);
 	zephir_check_call_status();
-	_0 = ZEPHIR_IS_STRING(postion, "");
+	_0 = ZEPHIR_IS_STRING(position, "");
 	if (!(_0)) {
 		ZEPHIR_OBS_VAR(_1);
 		zephir_read_property_this(&_1, this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -660,7 +660,7 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _4$$4, _3$$4);
 			ZEPHIR_GET_HVALUE(value, _5$$4);
-			if (ZEPHIR_IS_EQUAL(key, postion)) {
+			if (ZEPHIR_IS_EQUAL(key, position)) {
 				if (type) {
 					zephir_array_update_zval(&elements, name, &element, PH_COPY | PH_SEPARATE);
 					zephir_array_update_zval(&elements, key, &value, PH_COPY | PH_SEPARATE);
@@ -870,7 +870,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 PHP_METHOD(Phalcon_Forms_Form, getValue) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *entity = NULL, *method = NULL, *value = NULL, *data = NULL, *_1, *_0$$4;
+	zval *name_param = NULL, *entity = NULL, *method = NULL, *value = NULL, *data = NULL, *internal = NULL, *forbidden = NULL, *_1, *_0$$4;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -917,6 +917,25 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		if (zephir_array_isset_fetch(&value, data, name, 0 TSRMLS_CC)) {
 			RETURN_CCTOR(value);
 		}
+	}
+	ZEPHIR_INIT_VAR(forbidden);
+	zephir_create_array(forbidden, 12, 0 TSRMLS_CC);
+	zephir_array_update_string(&forbidden, SL("validation"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("action"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("useroption"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("useroptions"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("entity"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("elements"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("messages"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("messagesfor"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("label"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("value"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("di"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&forbidden, SL("eventsmanager"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(internal);
+	zephir_fast_strtolower(internal, name);
+	if (zephir_array_isset(forbidden, internal)) {
+		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(_1);
 	zephir_camelize(_1, name, NULL  );
@@ -1016,7 +1035,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) == IS_ARRAY) {
-		zephir_is_iterable(elements, &_1$$3, &_0$$3, 0, 0, "phalcon/forms/form.zep", 655);
+		zephir_is_iterable(elements, &_1$$3, &_0$$3, 0, 0, "phalcon/forms/form.zep", 678);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
@@ -1066,7 +1085,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 219, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 221, _0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
