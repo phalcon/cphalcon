@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Zamrony P. Juhara <zamronypj@yahoo.com>                       |
  +------------------------------------------------------------------------+
  */
 
@@ -59,10 +60,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	/**
 	 * Phalcon\Http\Response constructor
-	 *
-	 * @param string content
-	 * @param int code
-	 * @param string status
 	 */
 	public function __construct(content = null, code = null, status = null)
 	{
@@ -279,10 +276,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *<code>
 	 *	$response->setHeader("Content-Type", "text/plain");
 	 *</code>
-	 *
-	 * @param string name
-	 * @param string value
-	 * @return \Phalcon\Http\Response
 	 */
 	public function setHeader(string name, value) -> <Response>
 	{
@@ -406,10 +399,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *	$response->setContentType('application/pdf');
 	 *	$response->setContentType('text/plain', 'UTF-8');
 	 *</code>
-	 *
-	 * @param string contentType
-	 * @param string charset
-	 * @return \Phalcon\Http\Response
 	 */
 	public function setContentType(string contentType, charset = null) -> <Response>
 	{
@@ -418,6 +407,20 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		} else {
 			this->setHeader("Content-Type", contentType . "; charset=" . charset);
 		}
+
+		return this;
+	}
+
+	/**
+	 * Sets the response content-length
+	 *
+	 *<code>
+	 *	$response->setContentLength(2048);
+	 *</code>
+	 */
+	public function setContentLength(int contentLength) -> <Response>
+	{
+		this->setHeader("Content-Length", contentLength);
 
 		return this;
 	}
@@ -452,11 +455,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 *		"controller" => "index"
 	 *	));
 	 *</code>
-	 *
-	 * @param string|array location
-	 * @param boolean externalRedirect
-	 * @param int statusCode
-	 * @return \Phalcon\Http\Response
 	 */
 	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
 	{
@@ -542,9 +540,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	/**
 	 * Appends a string to the HTTP response body
-	 *
-	 * @param string content
-	 * @return \Phalcon\Http\Response
 	 */
 	public function appendContent(content) -> <Response>
 	{
@@ -626,10 +621,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	/**
 	 * Sets an attached file to be sent at the end of the request
-	 *
-	 * @param string filePath
-	 * @param string attachmentName
-	 * @return \Phalcon\Http\Response
 	 */
 	public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <Response>
 	{
