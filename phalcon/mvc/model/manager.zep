@@ -1129,7 +1129,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var key, value, findParams;
 
 		if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
-			return ["(" . findParamsOne . ") AND " . findParamsTwo];
+			return ["(" . findParamsOne . ") AND (" . findParamsTwo . ")"];
 		}
 
 		let findParams = [];
@@ -1141,7 +1141,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 					if !isset findParams[0] {
 						let findParams[0] = value;
 					} else {
-						let findParams[0] = "(" . findParams[0] . ") AND " . value;
+						let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
 					}
 					continue;
 				}
@@ -1162,7 +1162,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 					if !isset findParams[0] {
 						let findParams[0] = value;
 					} else {
-						let findParams[0] = "(" . findParams[0] . ") AND " . value;
+						let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
 					}
 					continue;
 				}
@@ -1187,7 +1187,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 				if !isset findParams[0] {
 					let findParams[0] = findParamsTwo;
 				} else {
-					let findParams[0] = "(" . findParams[0] . ") AND " . findParamsTwo;
+					let findParams[0] = "(" . findParams[0] . ") AND (" . findParamsTwo . ")";
 				}
 			}
 		}

@@ -105,6 +105,7 @@
 - Fixed incorrect query when using NULL fields with `Phalcon\Validation\Validator\Uniqueness`
 - Fixed `Phalcon\Forms\Form::getValue`. Now Elements can have names that match with the internal Form getters [#10398](https://github.com/phalcon/cphalcon/issues/10398)
 - Add `setContentLength()` method to `Phalcon\Http\Response`
+- Fixed `Phalcon\Mvc\Model\Manager::_mergeFindParameters` - Merging conditions [#11987](https://github.com/phalcon/cphalcon/issues/11987)
 
 # [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
 - Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
