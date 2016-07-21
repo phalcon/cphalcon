@@ -308,7 +308,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Checks whether request has been made using SOAP
 	 */
-	public function isSoapRequested() -> boolean
+	public function isSoap() -> boolean
 	{
 		var contentType;
 
@@ -324,11 +324,27 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Alias of isSoap(). It will be deprecated in future versions
+	 */
+	deprecated public function isSoapRequested() -> boolean
+	{
+		return this->isSoap();
+	}
+
+	/**
 	 * Checks whether request has been made using any secure layer
 	 */
-	public function isSecureRequest() -> boolean
+	public function isSecure() -> boolean
 	{
 		return this->getScheme() === "https";
+	}
+
+	/**
+	 * Alias of isSecure(). It will be deprecated in future versions
+	 */
+	deprecated public function isSecureRequest() -> boolean
+	{
+		return this->isSecure();
 	}
 
 	/**
