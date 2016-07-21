@@ -326,7 +326,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Alias of isSoap(). It will be deprecated in future versions
 	 */
-	public function isSoapRequested() -> boolean
+	deprecated public function isSoapRequested() -> boolean
 	{
 		return this->isSoap();
 	}
@@ -342,7 +342,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Alias of isSecure(). It will be deprecated in future versions
 	 */
-	public function isSecureRequest() -> boolean
+	deprecated public function isSecureRequest() -> boolean
 	{
 		return this->isSecure();
 	}
