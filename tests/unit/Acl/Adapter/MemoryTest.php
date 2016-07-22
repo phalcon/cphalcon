@@ -535,4 +535,47 @@ class MemoryTest extends UnitTest
             }
         );
     }
+
+
+    /**
+     * Tests function in Acl Allow Method
+     *
+     * @issue   12004
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2016-07-22
+     */
+    public function testIssue12004()
+    {
+        $this->specify(
+            'Wildcard inheritance should work correctly.',
+            function () {
+                $acl = new Memory();
+
+                $acl->setDefaultAction(Acl::DENY);
+
+                $roleGuest = new Role("guest");
+                $roleUser = new Role("user");
+                $roleAdmin = new Role("admin");
+                $roleSuperAdmin = new Role("superadmin");
+
+                $acl->addRole($roleGuest);
+                $acl->addRole($roleUser, $roleGuest);
+                $acl->addRole($roleAdmin, $roleUser);
+                $acl->addRole($roleSuperAdmin, $roleAdmin);
+
+                $acl->addResource("payment", ["paypal", "facebook",]);
+
+                $acl->allow($roleGuest->getName(), "payment", "paypal");
+                $acl->allow($roleGuest->getName(), "payment", "facebook");
+
+                $acl->allow($roleUser->getName(), "payment", "*");
+
+                expect($acl->isAllowed($roleUser->getName(), "payment", "notSet"))->true();
+                expect($acl->isAllowed($roleUser->getName(), "payment", "*"))->true();
+                expect($acl->isAllowed($roleAdmin->getName(), "payment", "notSet"))->true();
+                expect($acl->isAllowed($roleAdmin->getName(), "payment", "*"))->true();
+            }
+        );
+    }
 }
