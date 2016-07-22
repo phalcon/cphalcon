@@ -371,7 +371,7 @@ class Memory extends Adapter
 	 */
 	protected function _allowOrDeny(string roleName, string resourceName, var access, var action, var func = null)
 	{
-		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, internalAccess;
+		var accessList, accessName, accessKey;
 
 		if !isset this->_rolesNames[roleName] {
 			throw new Exception("Role '" . roleName . "' does not exist in ACL");
@@ -381,9 +381,7 @@ class Memory extends Adapter
 			throw new Exception("Resource '" . resourceName . "' does not exist in ACL");
 		}
 
-		let defaultAccess = this->_defaultAccess;
 		let accessList = this->_accessList;
-		let internalAccess = this->_access;
 
 		if typeof access == "array" {
 
@@ -400,13 +398,6 @@ class Memory extends Adapter
 				let this->_access[accessKey] = action;
 				if func != null {
 				    let this->_func[accessKey] = func;
-				}
-
-				if accessName != "*" {
-					let accessKeyAll = roleName . "!" . resourceName . "!*";
-					if !isset internalAccess[accessKeyAll] {
-						let this->_access[accessKeyAll] = defaultAccess;
-					}
 				}
 			}
 
@@ -427,18 +418,6 @@ class Memory extends Adapter
 			let this->_access[accessKey] = action;
 			if func != null {
 				let this->_func[accessKey] = func;
-			}
-
-			if access != "*" {
-				let accessKey = roleName . "!" . resourceName . "!*";
-
-				/**
-				 * If there is no default action for all the rest actions in the resource set the
-				 * default one
-				 */
-				if !isset internalAccess[accessKey] {
-					let this->_access[accessKey] = this->_defaultAccess;
-				}
 			}
 
 		}
@@ -666,7 +645,7 @@ class Memory extends Adapter
 		}
 
 		if haveAccess == null {
-			return false;
+			return (this->_defaultAccess == Acl::ALLOW);
 		}
 
 		/**
