@@ -204,7 +204,7 @@ class Pdo implements ResultInterface
 			if rowCount === false {
 
 				/**
-				 * SQLite/Oracle/SQLServer returns resultsets that to the client eyes (PDO) has an arbitrary number of rows, so we need to perform an extra count to know that
+				 * SQLite/SQLServer returns resultsets that to the client eyes (PDO) has an arbitrary number of rows, so we need to perform an extra count to know that
 				 */
 				let sqlStatement = this->_sqlStatement;
 
