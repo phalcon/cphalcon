@@ -58,7 +58,7 @@ class Oracle extends PdoAdapter implements AdapterInterface
 		var startup, value, status;
 
 		if empty descriptor {
-			let descriptor = this->_descriptor;
+			let descriptor = (array) this->_descriptor;
 		}
 
 		let status = parent::connect(descriptor);

@@ -1114,10 +1114,8 @@ abstract class Adapter implements EventsAwareInterface
 
 	/**
 	 * Return descriptor used to connect to the active database
-	 *
-	 * @return array
 	 */
-	public function getDescriptor()
+	public function getDescriptor() -> array
 	{
 		return this->_descriptor;
 	}

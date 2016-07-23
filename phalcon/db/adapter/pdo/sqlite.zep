@@ -39,11 +39,7 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * <code>
  * use Phalcon\Db\Adapter\Pdo\Sqlite;
  *
- * $config = [
- *     'dbname' => '/tmp/test.sqlite'
- * ];
- *
- * $connection = new Sqlite($config);
+ * $connection = new Sqlite(['dbname' => '/tmp/test.sqlite']);
  * </code>
  */
 class Sqlite extends PdoAdapter implements AdapterInterface
@@ -62,7 +58,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 		var dbname;
 
 		if empty descriptor {
-			let descriptor = this->_descriptor;
+			let descriptor = (array) this->_descriptor;
 		}
 
 		if !fetch dbname, descriptor["dbname"] {
@@ -71,7 +67,7 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 
 		let descriptor["dsn"] = dbname;
 
-		parent::connect(descriptor);
+		return parent::connect(descriptor);
 	}
 
 	/**

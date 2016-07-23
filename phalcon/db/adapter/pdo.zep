@@ -50,6 +50,8 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * PDO Handler
+	 *
+	 * @var \Pdo
 	 */
 	protected _pdo;
 
@@ -68,24 +70,25 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
-	 * Call it when you need to restore a database connection
+	 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
+	 *
+	 * Call it when you need to restore a database connection.
 	 *
 	 *<code>
-	 * //Make a connection
-	 * $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-	 *  'host' => '192.168.0.11',
+	 * use Phalcon\Db\Adapter\Pdo\Mysql;
+	 *
+	 * // Make a connection
+	 * $connection = new Mysql([
+	 *  'host'     => 'localhost',
 	 *  'username' => 'sigma',
 	 *  'password' => 'secret',
-	 *  'dbname' => 'blog',
-	 * ));
+	 *  'dbname'   => 'blog',
+	 *  'port'     => 3306,
+	 * ]);
 	 *
-	 * //Reconnect
+	 * // Reconnect
 	 * $connection->connect();
 	 * </code>
-	 *
-	 * @param 	array descriptor
-	 * @return 	boolean
 	 */
 	public function connect(array descriptor = null) -> boolean
 	{
@@ -93,7 +96,7 @@ abstract class Pdo extends Adapter
 			persistent, options, key, value;
 
 		if empty descriptor {
-			let descriptor = this->_descriptor;
+			let descriptor = (array) this->_descriptor;
 		}
 
 		/**
@@ -157,6 +160,8 @@ abstract class Pdo extends Adapter
 		 * Create the connection using PDO
 		 */
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+
+		return true;
 	}
 
 	/**

@@ -59,10 +59,10 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	 */
 	public function connect(array descriptor = null) -> boolean
 	{
-		var schema, sql;
+		var schema, sql, status;
 
 		if empty descriptor {
-			let descriptor = this->_descriptor;
+			let descriptor = (array) this->_descriptor;
 		}
 
 		if fetch schema, descriptor["schema"] {
@@ -77,12 +77,14 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			}
 		}
 
-		parent::connect(descriptor);
+		let status = parent::connect(descriptor);
 
 		if ! empty schema {
 			let sql = "SET search_path TO '" . schema . "'";
 			this->execute(sql);
 		}
+
+		return status;
 	}
 
 	/**
