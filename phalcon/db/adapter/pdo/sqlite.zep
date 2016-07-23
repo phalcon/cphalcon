@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -35,13 +35,15 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * Phalcon\Db\Adapter\Pdo\Sqlite
  *
  * Specific functions for the Sqlite database system
+ *
  * <code>
+ * use Phalcon\Db\Adapter\Pdo\Sqlite;
  *
- * $config = array(
- *  "dbname" => "/tmp/test.sqlite"
- * );
+ * $config = [
+ *     'dbname' => '/tmp/test.sqlite'
+ * ];
  *
- * $connection = new \Phalcon\Db\Adapter\Pdo\Sqlite($config);
+ * $connection = new Sqlite($config);
  * </code>
  */
 class Sqlite extends PdoAdapter implements AdapterInterface
@@ -54,15 +56,12 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
-	 *
-	 * @param array $descriptor
-	 * @return boolean
 	 */
-	public function connect(descriptor = null)
+	public function connect(array descriptor = null) -> boolean
 	{
 		var dbname;
 
-		if descriptor === null {
+		if empty descriptor {
 			let descriptor = this->_descriptor;
 		}
 

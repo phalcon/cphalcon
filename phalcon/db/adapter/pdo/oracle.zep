@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,16 +29,17 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * Phalcon\Db\Adapter\Pdo\Oracle
  *
  * Specific functions for the Oracle database system
+ *
  * <code>
+ * use Phalcon\Db\Adapter\Pdo\Oracle;
  *
- * $config = array(
- *  "dbname" => "//localhost/dbname",
- *  "username" => "oracle",
- *  "password" => "oracle"
- * );
+ * $config = [
+ *   'dbname'   => '//localhost/dbname',
+ *   'username' => 'oracle',
+ *   'password' => 'oracle'
+ * ];
  *
- * $connection = new \Phalcon\Db\Adapter\Pdo\Oracle($config);
- *
+ * $connection = new Oracle($config);
  * </code>
  */
 class Oracle extends PdoAdapter implements AdapterInterface
@@ -51,22 +52,21 @@ class Oracle extends PdoAdapter implements AdapterInterface
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
-	 *
-	 * @param array descriptor
-	 * @return boolean
 	 */
-	public function connect(descriptor = null) -> boolean
+	public function connect(array descriptor = null) -> boolean
 	{
 		var startup, value, status;
 
-		if !descriptor {
+		if empty descriptor {
 			let descriptor = this->_descriptor;
 		}
 
 		let status = parent::connect(descriptor);
 
 		/**
-		 * Database session settings initiated with each HTTP request. Oracle behaviour depends on particular NLS* parameter. Check if the developer has defined custom startup or create one from scratch
+		 * Database session settings initiated with each HTTP request.
+		 * Oracle behaviour depends on particular NLS* parameter.
+		 * Check if the developer has defined custom startup or create one from scratch
 		 */
 		if fetch startup, descriptor["startup"] {
 			if typeof startup == "array" {
@@ -82,7 +82,9 @@ class Oracle extends PdoAdapter implements AdapterInterface
 	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
-	 * <code>print_r($connection->describeColumns("posts")); ?></code>
+	 * <code>
+	 * print_r($connection->describeColumns("posts"));
+	 * </code>
 	 */
 	public function describeColumns(string! table, string schema = null) -> <Column[]>
 	{

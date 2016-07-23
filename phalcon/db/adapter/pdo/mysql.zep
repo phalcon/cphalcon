@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -33,15 +33,14 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * Specific functions for the Mysql database system
  *
  *<code>
- *
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
- *   "host"     => "192.168.0.11",
- *   "dbname"   => "blog",
- *   "port"     => 3306,
- *   "username" => "sigma",
- *   "password" => "secret"
+ *   'host'     => 'localhost',
+ *   'dbname'   => 'blog',
+ *   'port'     => 3306,
+ *   'username' => 'sigma',
+ *   'password' => 'secret'
  * ];
  *
  * $connection = new Mysql($config);

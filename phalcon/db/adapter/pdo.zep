@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -31,14 +31,18 @@ use Phalcon\Db\Result\Pdo as ResultPdo;
  *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
  *
- *<code>
- *	$connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
- *		'host' => '192.168.0.11',
- *		'username' => 'sigma',
- *		'password' => 'secret',
- *		'dbname' => 'blog',
- *		'port' => '3306'
- *	));
+ * <code>
+ * use Phalcon\Db\Adapter\Pdo\Mysql;
+ *
+ * $config = [
+ *   'host'     => 'localhost',
+ *   'dbname'   => 'blog',
+ *   'port'     => 3306,
+ *   'username' => 'sigma',
+ *   'password' => 'secret'
+ * ];
+ *
+ * $connection = new Mysql($config);
  *</code>
  */
 abstract class Pdo extends Adapter
@@ -83,12 +87,12 @@ abstract class Pdo extends Adapter
 	 * @param 	array descriptor
 	 * @return 	boolean
 	 */
-	public function connect(descriptor = null)
+	public function connect(array descriptor = null) -> boolean
 	{
 		var username, password, dsnParts, dsnAttributes,
 			persistent, options, key, value;
 
-		if descriptor === null {
+		if empty descriptor {
 			let descriptor = this->_descriptor;
 		}
 
