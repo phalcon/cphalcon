@@ -91,6 +91,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addOptions);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addHead);
 
 /**
+ * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addPurge);
+
+/**
+ * Adds a route to the router that only match if the HTTP method is TRACE
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addTrace);
+
+/**
+ * Adds a route to the router that only match if the HTTP method is CONNECT
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, addConnect);
+
+/**
  * Mounts a group of routes in the router
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, mount);

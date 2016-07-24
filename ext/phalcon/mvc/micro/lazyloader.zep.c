@@ -38,6 +38,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
 
 }
 
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition) {
+
+	
+
+	RETURN_MEMBER(this_ptr, "_definition");
+
+}
+
 /**
  * Phalcon\Mvc\Micro\LazyLoader constructor
  */

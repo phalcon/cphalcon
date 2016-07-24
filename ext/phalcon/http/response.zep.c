@@ -64,10 +64,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response) {
 
 /**
  * Phalcon\Http\Response constructor
- *
- * @param string content
- * @param int code
- * @param string status
  */
 PHP_METHOD(Phalcon_Http_Response, __construct) {
 
@@ -138,7 +134,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_1, 1);
 		zephir_check_call_status();
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 101);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency injection object is required to access the 'url' service", "phalcon/http/response.zep", 98);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
@@ -182,7 +178,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	zephir_check_call_status();
 	if (Z_TYPE_P(currentHeadersRaw) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(currentHeadersRaw, &_2$$3, &_1$$3, 0, 0, "phalcon/http/response.zep", 133);
+		zephir_is_iterable(currentHeadersRaw, &_2$$3, &_1$$3, 0, 0, "phalcon/http/response.zep", 130);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
@@ -193,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 			if (_4$$4) {
 				ZEPHIR_SINIT_NVAR(_5$$4);
 				ZVAL_STRING(&_5$$4, "HTTP/", 0);
-				ZEPHIR_CALL_FUNCTION(&_6$$4, "strstr", &_7, 241, key, &_5$$4);
+				ZEPHIR_CALL_FUNCTION(&_6$$4, "strstr", &_7, 242, key, &_5$$4);
 				zephir_check_call_status();
 				_4$$4 = zephir_is_true(_6$$4);
 			}
@@ -205,7 +201,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
 		ZEPHIR_INIT_VAR(statusCodes);
-		zephir_create_array(statusCodes, 63, 0 TSRMLS_CC);
+		zephir_create_array(statusCodes, 67, 0 TSRMLS_CC);
 		add_index_stringl(statusCodes, 100, SL("Continue"), 1);
 		add_index_stringl(statusCodes, 101, SL("Switching Protocols"), 1);
 		add_index_stringl(statusCodes, 102, SL("Processing"), 1);
@@ -270,11 +266,11 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 		add_index_stringl(statusCodes, 510, SL("Not Extended"), 1);
 		add_index_stringl(statusCodes, 511, SL("Network Authentication Required"), 1);
 		if (!(zephir_array_isset_long(statusCodes, code))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/http/response.zep", 211);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/http/response.zep", 208);
 			return;
 		}
 		ZEPHIR_OBS_VAR(defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, statusCodes, code, PH_NOISY, "phalcon/http/response.zep", 214 TSRMLS_CC);
+		zephir_array_fetch_long(&defaultMessage, statusCodes, code, PH_NOISY, "phalcon/http/response.zep", 211 TSRMLS_CC);
 		zephir_get_strval(message, defaultMessage);
 	}
 	ZEPHIR_SINIT_VAR(_9);
@@ -383,10 +379,6 @@ PHP_METHOD(Phalcon_Http_Response, getCookies) {
  *<code>
  *	$response->setHeader("Content-Type", "text/plain");
  *</code>
- *
- * @param string name
- * @param string value
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, setHeader) {
 
@@ -621,10 +613,6 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified) {
  *	$response->setContentType('application/pdf');
  *	$response->setContentType('text/plain', 'UTF-8');
  *</code>
- *
- * @param string contentType
- * @param string charset
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType) {
 
@@ -657,6 +645,35 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 		zephir_check_temp_parameter(_3$$4);
 		zephir_check_call_status();
 	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Sets the response content-length
+ *
+ *<code>
+ *	$response->setContentLength(2048);
+ *</code>
+ */
+PHP_METHOD(Phalcon_Http_Response, setContentLength) {
+
+	zval *contentLength_param = NULL, *_0, *_1;
+	int contentLength, ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &contentLength_param);
+
+	contentLength = zephir_get_intval(contentLength_param);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "Content-Length", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_LONG(_1, contentLength);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, _0, _1);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
 	RETURN_THIS();
 
 }
@@ -705,11 +722,6 @@ PHP_METHOD(Phalcon_Http_Response, setEtag) {
  *		"controller" => "index"
  *	));
  *</code>
- *
- * @param string|array location
- * @param boolean externalRedirect
- * @param int statusCode
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, redirect) {
 
@@ -748,7 +760,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		if (_0$$5) {
 			ZEPHIR_SINIT_VAR(_1$$5);
 			ZVAL_STRING(&_1$$5, "://", 0);
-			ZEPHIR_CALL_FUNCTION(&_2$$5, "strstr", NULL, 241, location, &_1$$5);
+			ZEPHIR_CALL_FUNCTION(&_2$$5, "strstr", NULL, 242, location, &_1$$5);
 			zephir_check_call_status();
 			_0$$5 = zephir_is_true(_2$$5);
 		}
@@ -890,9 +902,6 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent) {
 
 /**
  * Appends a string to the HTTP response body
- *
- * @param string content
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, appendContent) {
 
@@ -985,7 +994,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 602);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/http/response.zep", 597);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "sendheaders", NULL, 0);
@@ -1004,7 +1013,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_1$$5 = (zephir_fast_strlen_ev(file)) ? 1 : 0;
 		}
 		if (_1$$5) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 242, file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 243, file);
 			zephir_check_call_status();
 		}
 	}
@@ -1019,10 +1028,6 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 /**
  * Sets an attached file to be sent at the end of the request
- *
- * @param string filePath
- * @param string attachmentName
- * @return \Phalcon\Http\Response
  */
 PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 

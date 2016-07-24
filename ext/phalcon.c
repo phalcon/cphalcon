@@ -37,14 +37,14 @@ zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 zend_class_entry *phalcon_cache_backendinterface_ce;
 zend_class_entry *phalcon_dispatcherinterface_ce;
 zend_class_entry *phalcon_annotations_adapterinterface_ce;
-zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_logger_formatterinterface_ce;
 zend_class_entry *phalcon_session_adapterinterface_ce;
-zend_class_entry *phalcon_db_adapterinterface_ce;
+zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_logger_adapterinterface_ce;
 zend_class_entry *phalcon_mvc_entityinterface_ce;
 zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
 zend_class_entry *phalcon_assets_filterinterface_ce;
+zend_class_entry *phalcon_db_adapterinterface_ce;
 zend_class_entry *phalcon_diinterface_ce;
 zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
 zend_class_entry *phalcon_mvc_viewbaseinterface_ce;
@@ -117,14 +117,14 @@ zend_class_entry *phalcon_forms_element_ce;
 zend_class_entry *phalcon_mvc_model_validator_ce;
 zend_class_entry *phalcon_cache_backend_ce;
 zend_class_entry *phalcon_mvc_model_metadata_ce;
-zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_annotations_adapter_ce;
 zend_class_entry *phalcon_config_ce;
-zend_class_entry *phalcon_db_adapter_pdo_ce;
-zend_class_entry *phalcon_db_dialect_ce;
+zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_logger_adapter_ce;
 zend_class_entry *phalcon_logger_formatter_ce;
 zend_class_entry *phalcon_session_adapter_ce;
+zend_class_entry *phalcon_db_adapter_pdo_ce;
+zend_class_entry *phalcon_db_dialect_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
 zend_class_entry *phalcon_paginator_adapter_ce;
 zend_class_entry *phalcon_translate_adapter_ce;
@@ -404,10 +404,10 @@ ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers", "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.db.force_casting", "0", PHP_INI_ALL, OnUpdateBool, db.force_casting, zend_phalcon_globals, phalcon_globals)
-
-
-
-
+	
+	
+	
+	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.events", "1", PHP_INI_ALL, OnUpdateBool, orm.events, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming", "1", PHP_INI_ALL, OnUpdateBool, orm.column_renaming, zend_phalcon_globals, phalcon_globals)
@@ -448,14 +448,14 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Cache_BackendInterface);
 	ZEPHIR_INIT(Phalcon_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Annotations_AdapterInterface);
-	ZEPHIR_INIT(Phalcon_Db_DialectInterface);
 	ZEPHIR_INIT(Phalcon_Logger_FormatterInterface);
 	ZEPHIR_INIT(Phalcon_Session_AdapterInterface);
-	ZEPHIR_INIT(Phalcon_Db_AdapterInterface);
+	ZEPHIR_INIT(Phalcon_Db_DialectInterface);
 	ZEPHIR_INIT(Phalcon_Logger_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_EntityInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_ResultsetInterface);
 	ZEPHIR_INIT(Phalcon_Assets_FilterInterface);
+	ZEPHIR_INIT(Phalcon_Db_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_DiInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_BehaviorInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_ViewBaseInterface);
@@ -528,14 +528,14 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Validator);
 	ZEPHIR_INIT(Phalcon_Cache_Backend);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData);
-	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter);
 	ZEPHIR_INIT(Phalcon_Config);
-	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo);
-	ZEPHIR_INIT(Phalcon_Db_Dialect);
+	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter);
 	ZEPHIR_INIT(Phalcon_Logger_Formatter);
 	ZEPHIR_INIT(Phalcon_Session_Adapter);
+	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo);
+	ZEPHIR_INIT(Phalcon_Db_Dialect);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exception);
 	ZEPHIR_INIT(Phalcon_Paginator_Adapter);
 	ZEPHIR_INIT(Phalcon_Translate_Adapter);

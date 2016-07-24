@@ -34,7 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Numeric) {
  * Renders the element widget returning html
  *
  * @param array $attributes
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element_Numeric, render) {
 
@@ -52,7 +51,7 @@ PHP_METHOD(Phalcon_Forms_Element_Numeric, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "numericfield", &_0, 207, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "numericfield", &_0, 208, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 
