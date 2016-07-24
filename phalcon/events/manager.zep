@@ -79,8 +79,8 @@ class Manager implements ManagerInterface
 			priorityQueue->insert(handler, priority);
 		} else {
 			// Append the events to the queue
-			let priorityQueue[] = handler;
-			let this->_events[eventType] = priorityQueue;
+			let priorityQueue[] = handler,
+				this->_events[eventType] = priorityQueue;
 		}
 
 	}
@@ -293,7 +293,6 @@ class Manager implements ManagerInterface
 						}
 					}
 				}
-
 			}
 
 		} else {
@@ -347,9 +346,7 @@ class Manager implements ManagerInterface
 									break;
 								}
 							}
-
 						}
-
 					}
 				}
 			}
@@ -408,7 +405,6 @@ class Manager implements ManagerInterface
 
 				// Call the events queue
 				let status = this->fireQueue(fireEvents, event);
-
 			}
 		}
 
@@ -425,7 +421,6 @@ class Manager implements ManagerInterface
 				// Call the events queue
 				let status = this->fireQueue(fireEvents, event);
 			}
-
 		}
 
 		return status;

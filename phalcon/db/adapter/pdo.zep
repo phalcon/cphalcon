@@ -306,7 +306,7 @@ abstract class Pdo extends Adapter
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
 				this->_sqlBindTypes = bindTypes;
-			if eventsManager->fire("db:beforeQuery", this, bindParams) === false {
+			if eventsManager->fire("db:beforeQuery", this) === false {
 				return false;
 			}
 		}
@@ -326,7 +326,7 @@ abstract class Pdo extends Adapter
 		 */
 		if typeof statement == "object" {
 			if typeof eventsManager == "object" {
-				eventsManager->fire("db:afterQuery", this, bindParams);
+				eventsManager->fire("db:afterQuery", this);
 			}
 			return new ResultPdo(this, statement, sqlStatement, bindParams, bindTypes);
 		}
@@ -356,7 +356,7 @@ abstract class Pdo extends Adapter
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
 				this->_sqlBindTypes = bindTypes;
-			if eventsManager->fire("db:beforeQuery", this, bindParams) === false {
+			if eventsManager->fire("db:beforeQuery", this) === false {
 				return false;
 			}
 		}
@@ -383,7 +383,7 @@ abstract class Pdo extends Adapter
 		if typeof affectedRows == "integer" {
 			let this->_affectedRows = affectedRows;
 			if typeof eventsManager == "object" {
-				eventsManager->fire("db:afterQuery", this, bindParams);
+				eventsManager->fire("db:afterQuery", this);
 			}
 		}
 
@@ -638,7 +638,6 @@ abstract class Pdo extends Adapter
 
 				return this->rollbackSavepoint(savepointName);
 			}
-
 		}
 
 		/**
