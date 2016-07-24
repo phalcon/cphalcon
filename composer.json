@@ -18,7 +18,6 @@
         "codeception/specify": "~0.4",
         "phalcon/zephir": "dev-master"
     },
-    "minimum-stability": "dev",
     "license": "BSD-3-Clause",
     "authors": [
         {
