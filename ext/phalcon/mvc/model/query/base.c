@@ -660,12 +660,13 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				 */
 				if (cache_level >= 0) {
 
-					if (!phalcon_globals_ptr->orm.parser_cache) {
-						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
-						zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
-					}
-
 #if PHP_VERSION_ID < 70000
+
+                    if (!phalcon_globals_ptr->orm.parser_cache) {
+                        ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
+                        zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
+                    }
+
 					Z_ADDREF_PP(result);
 
 					zend_hash_index_update(
