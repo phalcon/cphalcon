@@ -247,25 +247,10 @@ class Validation extends Injectable implements ValidationInterface
 
 		for validator in validators {
 			if validator instanceof ValidatorInterface {
-				if typeof field == "array" {
-					// Uniqueness validator for combination of fields is handled differently
-					if validator instanceof CombinedFieldsValidator {
-						let this->_combinedFieldsValidators[] = [field, validator];
-					}
-					else {
-						for singleField in field {
-							let this->_validators[] = [singleField, validator];
-						}
-					}
-				}
-				elseif typeof field == "string" {
-					let this->_validators[] = [field, validator];
-				}
-				else {
-					throw new Exception("Field must be passed as array of fields or string");
-				}
+				this->add(field, validator);
 			}
 		}
+
 		return this;
 	}
 
