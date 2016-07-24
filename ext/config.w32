@@ -59,8 +59,8 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/config/adapter", "ini.zep.c json.zep.c php.zep.c yaml.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/config", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/crypt", "exception.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter/pdo", "mysql.zep.c oracle.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/db/dialect", "mysql.zep.c oracle.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter/pdo", "mysql.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/db/dialect", "mysql.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/profiler", "item.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/result", "pdo.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/debug", "dump.zep.c exception.zep.c", "phalcon");

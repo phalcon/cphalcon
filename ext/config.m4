@@ -2,7 +2,7 @@ PHP_ARG_ENABLE(phalcon, whether to enable phalcon, [ --enable-phalcon   Enable P
 
 if test "$PHP_PHALCON" = "yes"; then
 
-	
+
 
 	if ! test "x" = "x"; then
 		PHP_EVAL_LIBLINE(, PHALCON_SHARED_LIBADD)
@@ -181,12 +181,10 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/crypt/exception.zep.c
 	phalcon/db.zep.c
 	phalcon/db/adapter/pdo/mysql.zep.c
-	phalcon/db/adapter/pdo/oracle.zep.c
 	phalcon/db/adapter/pdo/postgresql.zep.c
 	phalcon/db/adapter/pdo/sqlite.zep.c
 	phalcon/db/column.zep.c
 	phalcon/db/dialect/mysql.zep.c
-	phalcon/db/dialect/oracle.zep.c
 	phalcon/db/dialect/postgresql.zep.c
 	phalcon/db/dialect/sqlite.zep.c
 	phalcon/db/exception.zep.c
