@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
-use Helper\Collection;
+use Helper\CollectionTrait;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Test\Collections\Bookshelf\Books;
 
@@ -26,7 +26,7 @@ use Phalcon\Test\Collections\Bookshelf\Books;
  */
 class ClassChangeCest
 {
-    use Collection;
+    use CollectionTrait;
 
     public function change(UnitTester $I)
     {
