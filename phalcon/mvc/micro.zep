@@ -56,7 +56,7 @@ class Micro extends Injectable implements \ArrayAccess
 
 	protected _dependencyInjector;
 
-	protected _handlers;
+	protected _handlers = [];
 
 	protected _router;
 
@@ -1035,10 +1035,8 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	 * Returns the internal handlers attached to the application
-	 *
-	 * @return array
 	 */
-	public function getHandlers()
+	public function getHandlers() -> array
 	{
 		return this->_handlers;
 	}
