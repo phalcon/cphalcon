@@ -12,7 +12,7 @@ use Phalcon\Mvc\Collection\Manager;
  *
  * @package Helper
  */
-trait Collection
+trait CollectionTrait
 {
     /**
      * Executed before each test

@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Helper\Collection;
+use Helper\CollectionTrait;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Collections\Songs;
 
@@ -25,7 +25,7 @@ use Phalcon\Test\Collections\Songs;
  */
 class CollectionTest extends UnitTest
 {
-    use Collection;
+    use CollectionTrait;
 
     /**
      * executed before each test
@@ -292,6 +292,38 @@ class CollectionTest extends UnitTest
                 expect($song->update())->true();
                 expect(Songs::count())->equals(6);
                 expect(Songs::count([['name' => 'Hebenon Vial']]))->equals(0);
+            }
+        );
+    }
+
+    /**
+     * Tests Collection::findById
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-07-24
+     * @issue  12010
+     */
+    public function testShouldUseCorrectMongoId()
+    {
+        $this->specify(
+            'The Collection::findById does not return expected result',
+            function () {
+                $song = new Songs();
+                $song->artist = 'Jo Blankenburg';
+                $song->name = 'Valkyrie';
+                $song->create();
+
+                $mongoIdObject = $song->_id;
+
+                expect(Songs::findById($mongoIdObject->__toString()))->isInstanceOf('\Phalcon\Mvc\CollectionInterface');
+                expect(Songs::findById($mongoIdObject))->isInstanceOf('\Phalcon\Mvc\CollectionInterface');
+
+                expect(Songs::findById('qwerty-1234'))->null();
+                expect(Songs::findById('s'))->null();
+                expect(Songs::findById(str_repeat('0', 25)))->null();
+                expect(Songs::findById(''))->null();
+                expect(Songs::findById(null))->null();
+                expect(Songs::findById(false))->null();
             }
         );
     }
