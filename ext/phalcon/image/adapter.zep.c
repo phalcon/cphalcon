@@ -725,7 +725,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 		ZVAL_STRING(_6$$7, "/./", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_7$$7);
 		ZVAL_STRING(_7$$7, "$0$0", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_FUNCTION(&_8$$7, "preg_replace", NULL, 29, _6$$7, _7$$7, color);
+		ZEPHIR_CALL_FUNCTION(&_8$$7, "preg_replace", NULL, 39, _6$$7, _7$$7, color);
 		zephir_check_temp_parameter(_6$$7);
 		zephir_check_temp_parameter(_7$$7);
 		zephir_check_call_status();
@@ -814,7 +814,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 		ZVAL_STRING(_6$$4, "/./", ZEPHIR_TEMP_PARAM_COPY);
 		ZEPHIR_INIT_VAR(_7$$4);
 		ZVAL_STRING(_7$$4, "$0$0", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_FUNCTION(&_8$$4, "preg_replace", NULL, 29, _6$$4, _7$$4, color);
+		ZEPHIR_CALL_FUNCTION(&_8$$4, "preg_replace", NULL, 39, _6$$4, _7$$4, color);
 		zephir_check_temp_parameter(_6$$4);
 		zephir_check_temp_parameter(_7$$4);
 		zephir_check_call_status();

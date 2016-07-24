@@ -87,10 +87,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getValidators);
 /**
  * Returns an array of prepared attributes for Phalcon\Tag helpers
  * according to the element's parameters
- *
- * @param array attributes
- * @param boolean useChecked
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, prepareAttributes);
 
@@ -220,7 +216,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, clear);
  * Renders the element widget
  *
  * @param array attributes
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, render);
 

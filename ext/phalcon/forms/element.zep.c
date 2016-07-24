@@ -573,7 +573,6 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel) {
  * Generate the HTML to label the element
  *
  * @param array attributes
- * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element, label) {
 
@@ -648,8 +647,6 @@ PHP_METHOD(Phalcon_Forms_Element, setDefault) {
 
 /**
  * Returns the default value assigned to the element
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Forms_Element, getDefault) {
 
@@ -661,8 +658,6 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault) {
 
 /**
  * Returns the element value
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Forms_Element, getValue) {
 

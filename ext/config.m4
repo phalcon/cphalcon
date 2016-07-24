@@ -2,7 +2,7 @@ PHP_ARG_ENABLE(phalcon, whether to enable phalcon, [ --enable-phalcon   Enable P
 
 if test "$PHP_PHALCON" = "yes"; then
 
-
+	
 
 	if ! test "x" = "x"; then
 		PHP_EVAL_LIBLINE(, PHALCON_SHARED_LIBADD)
@@ -26,15 +26,12 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapterinterface.zep.c
-	phalcon/db/adapter.zep.c
-	phalcon/db/dialectinterface.zep.c
 	phalcon/logger/formatterinterface.zep.c
 	phalcon/session/adapterinterface.zep.c
 	phalcon/annotations/adapter.zep.c
 	phalcon/config.zep.c
-	phalcon/db/adapter/pdo.zep.c
-	phalcon/db/adapterinterface.zep.c
-	phalcon/db/dialect.zep.c
+	phalcon/db/adapter.zep.c
+	phalcon/db/dialectinterface.zep.c
 	phalcon/logger/adapter.zep.c
 	phalcon/logger/adapterinterface.zep.c
 	phalcon/logger/formatter.zep.c
@@ -42,6 +39,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/session/adapter.zep.c
 	phalcon/assets/filterinterface.zep.c
+	phalcon/db/adapter/pdo.zep.c
+	phalcon/db/adapterinterface.zep.c
+	phalcon/db/dialect.zep.c
 	phalcon/diinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c

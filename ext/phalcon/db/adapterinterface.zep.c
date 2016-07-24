@@ -13,7 +13,7 @@
 
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
+ * Phalcon\Db\AdapterInterface
  *
  * Interface for Phalcon\Db adapters
  */
@@ -254,11 +254,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialectType);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialect);
 
 /**
- * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+ * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
  * Call it when you need to restore a database connection
- *
- * @param 	array descriptor
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, connect);
 

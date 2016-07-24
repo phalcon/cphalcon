@@ -33,20 +33,21 @@
  * action of that controller should receive the request
  *
  *<code>
+ * use Phalcon\Mvc\Router;
  *
- *	$router = new Router();
+ * $router = new Router();
  *
- *	$router->add(
- *		"/documentation/{chapter}/{name}\.{type:[a-z]+}",
- *		array(
- *			"controller" => "documentation",
- *			"action"     => "show"
+ * $router->add(
+ *     '/documentation/{chapter}/{name}\.{type:[a-z]+}',
+ *     [
+ *         'controller' => 'documentation',
+ *         'action'     => 'show'
  *		)
  *	);
  *
- *	$router->handle();
+ * $router->handle();
  *
- *	echo $router->getControllerName();
+ * echo $router->getControllerName();
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router) {
@@ -145,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", &_3, 80, _2$$3, _1$$3);
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _0$$3, PH_SEPARATE, "phalcon/mvc/router.zep", 119);
+		zephir_array_append(&routes, _0$$3, PH_SEPARATE, "phalcon/mvc/router.zep", 120);
 		ZEPHIR_INIT_NVAR(_2$$3);
 		object_init_ex(_2$$3, phalcon_mvc_router_route_ce);
 		ZEPHIR_INIT_VAR(_4$$3);
@@ -158,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", &_3, 80, _5$$3, _4$$3);
 		zephir_check_temp_parameter(_5$$3);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _2$$3, PH_SEPARATE, "phalcon/mvc/router.zep", 125);
+		zephir_array_append(&routes, _2$$3, PH_SEPARATE, "phalcon/mvc/router.zep", 126);
 	}
 	zephir_update_property_this(this_ptr, SL("_routes"), routes TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -241,7 +242,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri) {
 		if (zephir_array_isset_string_fetch(&url, _SERVER, SS("REQUEST_URI"), 0 TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(urlParts);
 			zephir_fast_explode_str(urlParts, SL("?"), url, LONG_MAX TSRMLS_CC);
-			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/router.zep", 185 TSRMLS_CC);
+			zephir_array_fetch_long(&realUri, urlParts, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/router.zep", 186 TSRMLS_CC);
 			if (!(ZEPHIR_IS_EMPTY(realUri))) {
 				RETURN_CTOR(realUri);
 			}
@@ -414,10 +415,10 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction) {
  * This method must not be used to set a 404 route
  *
  *<code>
- * $router->setDefaults(array(
- *		'module' => 'common',
- *		'action' => 'index'
- * ));
+ * $router->setDefaults([
+ *     'module' => 'common',
+ *     'action' => 'index'
+ * ]);
  *</code>
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
@@ -482,10 +483,10 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults) {
  * Handles routing information received from the rewrite engine
  *
  *<code>
- * //Read the info from the rewrite engine
+ * // Read the info from the rewrite engine
  * $router->handle();
  *
- * //Manually passing an URL
+ * // Manually passing an URL
  * $router->handle('/posts/edit/1');
  *</code>
  */
@@ -558,7 +559,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		zephir_check_call_status();
 	}
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
-	zephir_is_iterable(_4, &_6, &_5, 0, 1, "phalcon/mvc/router.zep", 577);
+	zephir_is_iterable(_4, &_6, &_5, 0, 1, "phalcon/mvc/router.zep", 578);
 	for (
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_backwards_ex(_6, &_5)
@@ -575,7 +576,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				_8$$10 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				ZEPHIR_CPY_WRT(dependencyInjector, _8$$10);
 				if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service", "phalcon/mvc/router.zep", 382);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service", "phalcon/mvc/router.zep", 383);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_10$$10);
@@ -600,7 +601,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				_13$$14 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				ZEPHIR_CPY_WRT(dependencyInjector, _13$$14);
 				if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service", "phalcon/mvc/router.zep", 409);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service", "phalcon/mvc/router.zep", 410);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_15$$14);
@@ -617,11 +618,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			if (!(zephir_is_true(currentHostName))) {
 				continue;
 			}
-			if (zephir_memnstr_str(hostname, SL("("), "phalcon/mvc/router.zep", 432)) {
-				if (!(zephir_memnstr_str(hostname, SL("#"), "phalcon/mvc/router.zep", 433))) {
+			if (zephir_memnstr_str(hostname, SL("("), "phalcon/mvc/router.zep", 433)) {
+				if (!(zephir_memnstr_str(hostname, SL("#"), "phalcon/mvc/router.zep", 434))) {
 					ZEPHIR_INIT_NVAR(regexHostName);
 					ZEPHIR_CONCAT_SV(regexHostName, "#^", hostname);
-					if (!(zephir_memnstr_str(hostname, SL(":"), "phalcon/mvc/router.zep", 435))) {
+					if (!(zephir_memnstr_str(hostname, SL(":"), "phalcon/mvc/router.zep", 436))) {
 						zephir_concat_self_str(&regexHostName, SL("(:[[:digit:]]+)?") TSRMLS_CC);
 					}
 					zephir_concat_self_str(&regexHostName, SL("$#i") TSRMLS_CC);
@@ -648,7 +649,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		}
 		ZEPHIR_CALL_METHOD(&pattern, route, "getcompiledpattern", NULL, 0);
 		zephir_check_call_status();
-		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 461)) {
+		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 462)) {
 			ZEPHIR_INIT_NVAR(routeFound);
 			zephir_preg_match(routeFound, pattern, handledUri, matches, 0, 0 , 0  TSRMLS_CC);
 		} else {
@@ -667,7 +668,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			zephir_check_call_status();
 			if (Z_TYPE_P(beforeMatch) != IS_NULL) {
 				if (!(zephir_is_callable(beforeMatch TSRMLS_CC))) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "Before-Match callback is not callable in matched route", "phalcon/mvc/router.zep", 483);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "Before-Match callback is not callable in matched route", "phalcon/mvc/router.zep", 484);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_21$$29);
@@ -695,7 +696,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			if (Z_TYPE_P(matches) == IS_ARRAY) {
 				ZEPHIR_CALL_METHOD(&converters, route, "getconverters", NULL, 0);
 				zephir_check_call_status();
-				zephir_is_iterable(paths, &_25$$34, &_24$$34, 0, 0, "phalcon/mvc/router.zep", 566);
+				zephir_is_iterable(paths, &_25$$34, &_24$$34, 0, 0, "phalcon/mvc/router.zep", 567);
 				for (
 				  ; zephir_hash_get_current_data_ex(_25$$34, (void**) &_26$$34, &_24$$34) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_25$$34, &_24$$34)
@@ -709,7 +710,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 						ZEPHIR_CONCAT_SV(_28$$36, "Wrong key in paths: ", part);
 						ZEPHIR_CALL_METHOD(NULL, _27$$36, "__construct", &_29, 9, _28$$36);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(_27$$36, "phalcon/mvc/router.zep", 519 TSRMLS_CC);
+						zephir_throw_exception_debug(_27$$36, "phalcon/mvc/router.zep", 520 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -918,7 +919,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add) {
 			zephir_update_property_this(this_ptr, SL("_routes"), _0$$4 TSRMLS_CC);
 			break;
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "Invalid route position", "phalcon/mvc/router.zep", 702);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "Invalid route position", "phalcon/mvc/router.zep", 703);
 		return;
 	} while(0);
 
@@ -1207,6 +1208,126 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead) {
 }
 
 /**
+ * Adds a route to the router that only match if the HTTP method is PURGE (Squid and Varnish support)
+ */
+PHP_METHOD(Phalcon_Mvc_Router, addPurge) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *pattern_param = NULL, *paths = NULL, *position = NULL, *_0;
+	zval *pattern = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &pattern_param, &paths, &position);
+
+	if (unlikely(Z_TYPE_P(pattern_param) != IS_STRING && Z_TYPE_P(pattern_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
+	} else {
+		ZEPHIR_INIT_VAR(pattern);
+		ZVAL_EMPTY_STRING(pattern);
+	}
+	if (!paths) {
+		paths = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!position) {
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "PURGE", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 0, pattern, paths, _0, position);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Adds a route to the router that only match if the HTTP method is TRACE
+ */
+PHP_METHOD(Phalcon_Mvc_Router, addTrace) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *pattern_param = NULL, *paths = NULL, *position = NULL, *_0;
+	zval *pattern = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &pattern_param, &paths, &position);
+
+	if (unlikely(Z_TYPE_P(pattern_param) != IS_STRING && Z_TYPE_P(pattern_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
+	} else {
+		ZEPHIR_INIT_VAR(pattern);
+		ZVAL_EMPTY_STRING(pattern);
+	}
+	if (!paths) {
+		paths = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!position) {
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "TRACE", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 0, pattern, paths, _0, position);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
+ * Adds a route to the router that only match if the HTTP method is CONNECT
+ */
+PHP_METHOD(Phalcon_Mvc_Router, addConnect) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *pattern_param = NULL, *paths = NULL, *position = NULL, *_0;
+	zval *pattern = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 2, &pattern_param, &paths, &position);
+
+	if (unlikely(Z_TYPE_P(pattern_param) != IS_STRING && Z_TYPE_P(pattern_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'pattern' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(pattern_param) == IS_STRING)) {
+		zephir_get_strval(pattern, pattern_param);
+	} else {
+		ZEPHIR_INIT_VAR(pattern);
+		ZVAL_EMPTY_STRING(pattern);
+	}
+	if (!paths) {
+		paths = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!position) {
+		ZEPHIR_INIT_VAR(position);
+		ZVAL_LONG(position, 1);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "CONNECT", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 0, pattern, paths, _0, position);
+	zephir_check_temp_parameter(_0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+/**
  * Mounts a group of routes in the router
  */
 PHP_METHOD(Phalcon_Mvc_Router, mount) {
@@ -1224,13 +1345,13 @@ PHP_METHOD(Phalcon_Mvc_Router, mount) {
 	ZEPHIR_CALL_METHOD(&groupRoutes, group, "getroutes", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(groupRoutes TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The group of routes does not contain any routes", "phalcon/mvc/router.zep", 773);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The group of routes does not contain any routes", "phalcon/mvc/router.zep", 798);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&beforeMatch, group, "getbeforematch", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(beforeMatch) != IS_NULL) {
-		zephir_is_iterable(groupRoutes, &_1$$4, &_0$$4, 0, 0, "phalcon/mvc/router.zep", 785);
+		zephir_is_iterable(groupRoutes, &_1$$4, &_0$$4, 0, 0, "phalcon/mvc/router.zep", 810);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)
@@ -1243,7 +1364,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount) {
 	ZEPHIR_CALL_METHOD(&hostname, group, "gethostname", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(hostname) != IS_NULL) {
-		zephir_is_iterable(groupRoutes, &_4$$6, &_3$$6, 0, 0, "phalcon/mvc/router.zep", 794);
+		zephir_is_iterable(groupRoutes, &_4$$6, &_3$$6, 0, 0, "phalcon/mvc/router.zep", 819);
 		for (
 		  ; zephir_hash_get_current_data_ex(_4$$6, (void**) &_5$$6, &_3$$6) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_4$$6, &_3$$6)
@@ -1283,7 +1404,7 @@ PHP_METHOD(Phalcon_Mvc_Router, notFound) {
 		_0 = Z_TYPE_P(paths) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_router_exception_ce, "The not-found paths must be an array or string", "phalcon/mvc/router.zep", 813);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_router_exception_ce, "The not-found paths must be an array or string", "phalcon/mvc/router.zep", 838);
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_notFoundPaths"), paths TSRMLS_CC);
@@ -1422,7 +1543,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/router.zep", 912);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/router.zep", 937);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -1465,7 +1586,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/router.zep", 927);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/mvc/router.zep", 952);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
