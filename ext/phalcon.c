@@ -205,13 +205,11 @@ zend_class_entry *phalcon_config_exception_ce;
 zend_class_entry *phalcon_crypt_ce;
 zend_class_entry *phalcon_crypt_exception_ce;
 zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
-zend_class_entry *phalcon_db_adapter_pdo_oracle_ce;
 zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
 zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
 zend_class_entry *phalcon_db_ce;
 zend_class_entry *phalcon_db_column_ce;
 zend_class_entry *phalcon_db_dialect_mysql_ce;
-zend_class_entry *phalcon_db_dialect_oracle_ce;
 zend_class_entry *phalcon_db_dialect_postgresql_ce;
 zend_class_entry *phalcon_db_dialect_sqlite_ce;
 zend_class_entry *phalcon_db_exception_ce;
@@ -406,10 +404,10 @@ ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers", "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.db.force_casting", "0", PHP_INI_ALL, OnUpdateBool, db.force_casting, zend_phalcon_globals, phalcon_globals)
-	
-	
-	
-	
+
+
+
+
 	STD_PHP_INI_BOOLEAN("phalcon.orm.events", "1", PHP_INI_ALL, OnUpdateBool, orm.events, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.column_renaming", "1", PHP_INI_ALL, OnUpdateBool, orm.column_renaming, zend_phalcon_globals, phalcon_globals)
@@ -617,12 +615,10 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Crypt_Exception);
 	ZEPHIR_INIT(Phalcon_Db);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Mysql);
-	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Oracle);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Postgresql);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Sqlite);
 	ZEPHIR_INIT(Phalcon_Db_Column);
 	ZEPHIR_INIT(Phalcon_Db_Dialect_Mysql);
-	ZEPHIR_INIT(Phalcon_Db_Dialect_Oracle);
 	ZEPHIR_INIT(Phalcon_Db_Dialect_Postgresql);
 	ZEPHIR_INIT(Phalcon_Db_Dialect_Sqlite);
 	ZEPHIR_INIT(Phalcon_Db_Exception);
