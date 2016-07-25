@@ -9,23 +9,13 @@ $files = [
     'phalcon/mvc/model/query/scanner.h',
     'phalcon/mvc/model/query/phql.h',
     'phalcon/mvc/view/engine/volt/scanner.h',
-    'phalcon/mvc/view/engine/volt/volt.h'
-];
-
-if (PHP_MAJOR_VERSION == 5) {
-    $files[] = 'phalcon/mvc/model/query/parser.php5.h';
-    $files[] = 'phalcon/mvc/model/query/parser.php5.inc.h';
-    $files[] = 'phalcon/mvc/view/engine/volt/parser.php5.h';
-    $files[] = 'phalcon/mvc/view/engine/volt/parser.php5.inc.h';
-    $files[] = 'phalcon/annotations/parser.php5.h';
-    $files[] = 'phalcon/annotations/parser.php5.inc.h';
-} else {
-    $files[] = 'phalcon/mvc/model/query/parser.php7.h';
-    $files[] = 'phalcon/mvc/view/engine/volt/parser.php7.h';
-    $files[] = 'phalcon/annotations/parser.php7.h';
-}
-
- return array_merge($files, array(
+    'phalcon/mvc/view/engine/volt/volt.h',
+    'phalcon/mvc/model/query/parser.php' . PHP_MAJOR_VERSION . '.h',
+    'phalcon/mvc/model/query/parser.php' . PHP_MAJOR_VERSION . '.inc.h',
+    'phalcon/mvc/view/engine/volt/parser.php' . PHP_MAJOR_VERSION . '.h',
+    'phalcon/mvc/view/engine/volt/parser.php' . PHP_MAJOR_VERSION . '.inc.h',
+    'phalcon/annotations/parser.php' . PHP_MAJOR_VERSION . '.h',
+    'phalcon/annotations/parser.php' . PHP_MAJOR_VERSION . '.inc.h',
     'kernel/main.h',
     'kernel/memory.h',
     'kernel/exception.h',
@@ -72,4 +62,6 @@ if (PHP_MAJOR_VERSION == 5) {
     'kernel/exit.c',
     'phalcon/assets/filters/jsminifier.h',
     'phalcon/assets/filters/cssminifier.h',
-));
+];
+
+return $files;

@@ -64,5 +64,6 @@ return <<<HEADER
 #include <Zend/zend_builtin_functions.h>
 #include <Zend/zend_closures.h>
 #include <Zend/zend_multiply.h>
+#include <Zend/zend_generators.h>
 
 HEADER;

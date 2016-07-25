@@ -1,3 +1,4 @@
+
 PHP_ARG_ENABLE(phalcon, whether to enable phalcon, [ --enable-phalcon   Enable Phalcon])
 
 if test "$PHP_PHALCON" = "yes"; then
