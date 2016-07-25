@@ -10,7 +10,7 @@ if (!file_exists(__DIR__ . '/config.db.local.php')) {
 	);
 
 	// Skipped in view of the experimental support for PHP 7.
-	if (PHP_MAJOR_VERSION != 7) {
+	//if (PHP_MAJOR_VERSION != 7) {
 		$configPostgresql = array(
 			'host' => '127.0.0.1',
 			'username' => 'postgres',
@@ -18,7 +18,7 @@ if (!file_exists(__DIR__ . '/config.db.local.php')) {
 			'dbname' => 'phalcon_test',
 			'schema' => 'public'
 		);
-	}
+	//}
 
 	$configSqlite = array(
 		'dbname' => '/tmp/phalcon_test.sqlite',
