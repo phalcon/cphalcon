@@ -67,7 +67,7 @@ before_script:
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; $PHPIZE_BIN &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - php --ri phalcon
-  - phpenv config-add tests/_ci/redis.ini # after compile Zephir and Phalcon
+  - phpenv config-add tests/_ci/redis.ini
   - php -m
   - pecl list
   - ulimit -c unlimited -S || true

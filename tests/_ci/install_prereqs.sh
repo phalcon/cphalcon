@@ -2,7 +2,6 @@
 
 DIR=$(readlink -enq $(dirname $0))
 CFLAGS="-O2 -g3 -fno-strict-aliasing -std=gnu90";
-PHPIZE_BIN="$(which phpize 2> /dev/null || which phpize5 2> /dev/null)"
 
 pecl channel-update pecl.php.net
 
