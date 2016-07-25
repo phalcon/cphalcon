@@ -53,7 +53,6 @@ env:
 
 before_install:
   - export PATH=$PATH:~/bin;
-  - phpenv config-rm xdebug.ini
   - composer self-update -q
   - travis_retry composer --prefer-source install
   - bash tests/_ci/install_prereqs.sh
