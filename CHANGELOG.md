@@ -1,5 +1,5 @@
-# [2.1.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.1.0) (2016-XX-XX)
-- PHP 5.3 is now fully deprecated
+# [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v3.0.0) (2016-07-29)
+- PHP 5.3 and 5.4 are now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
 - Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`
 - Changed constructor of `Phalcon\Mvc\Model` to allow pass an array of initialization data
