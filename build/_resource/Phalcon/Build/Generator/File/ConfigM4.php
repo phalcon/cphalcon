@@ -26,7 +26,7 @@ class Generator_File_ConfigM4
      */
     public function __construct($sourceDir, $outputDir)
     {
-        $this->sourceFile = $sourceDir . '/config.m4';
+        $this->sourceFile = 'build/_resource/config/config.m4';
         $this->outputFile = $outputDir . '/config.m4';
     }
 
@@ -37,15 +37,6 @@ class Generator_File_ConfigM4
      */
     public function generate()
     {
-        $originalContent = file_get_contents($this->sourceFile);
-
-        // Remove all the c-files, mentioned in config - we have only phalcon.c to compile
-        $generatedContent = preg_replace(
-            '/phalcon_sources=.*PHP_NEW_EXTENSION\(phalcon,.*?\n/s',
-            "PHP_NEW_EXTENSION(phalcon, phalcon.zep.c, \$ext_shared)\n",
-            $originalContent
-        );
-
-        file_put_contents($this->outputFile, $generatedContent);
+        copy($this->sourceFile, $this->outputFile);
     }
 }

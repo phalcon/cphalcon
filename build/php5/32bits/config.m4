@@ -1,8 +1,7 @@
+
 PHP_ARG_ENABLE(phalcon, whether to enable phalcon, [ --enable-phalcon   Enable Phalcon])
 
 if test "$PHP_PHALCON" = "yes"; then
-
-	
 
 	if ! test "x" = "x"; then
 		PHP_EVAL_LIBLINE(, PHALCON_SHARED_LIBADD)
@@ -51,6 +50,5 @@ if test "$PHP_PHALCON" = "yes"; then
 
 	CPPFLAGS=$old_CPPFLAGS
 
-	PHP_INSTALL_HEADERS([ext/phalcon], [php_PHALCON.h])
-
+	PHP_INSTALL_HEADERS([ext/phalcon], [php_phalcon.h])
 fi

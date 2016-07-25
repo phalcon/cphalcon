@@ -69,8 +69,8 @@ class Generator_Safe
 
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
-        //$this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
-        //$this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
+        $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
+        $this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
     }
 
     /**
@@ -94,8 +94,8 @@ class Generator_Safe
         $includedHeaderFiles = $this->phalconH->generate();
         $this->phalconC->generate($includedHeaderFiles);
 
-        //$this->configM4->generate();
-        //$this->configW32->generate();
+        $this->configM4->generate();
+        $this->configW32->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
         $this->processKernelGlobals();

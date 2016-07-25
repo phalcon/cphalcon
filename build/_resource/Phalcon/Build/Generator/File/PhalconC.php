@@ -119,7 +119,7 @@ class Generator_File_PhalconC
      */
     protected function addStandardHeader($fileHandler)
     {
-        if (version_compare(phpversion(), '7.0.0', '<')) {
+        if (PHP_MAJOR_VERSION == 5) {
             $header = require $this->configDir . '/php5/phalcon_c_header.php';
         } else {
             $header = require $this->configDir . '/php7/phalcon_c_header.php';
@@ -241,8 +241,7 @@ class Generator_File_PhalconC
                 if (substr($itemPath, -2) != '.c') {
                     continue;
                 }
-                $relPath = substr($itemPath, $basePathLen);
-                if (isset($this->skipFiles[$relPath])) {
+                if (isset($this->skipFiles[$itemPath])) {
                     continue;
                 }
                 $files[] = $itemPath;
@@ -322,8 +321,6 @@ class Generator_File_PhalconC
                 $result[$fullPath] = true;
             }
         }
-
-        print_r($headers);
 
         return array_keys($result);
     }

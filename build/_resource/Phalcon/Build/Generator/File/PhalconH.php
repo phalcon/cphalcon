@@ -41,6 +41,7 @@ class Generator_File_PhalconH
     public function generate()
     {
         $fileHandle = fopen($this->outputFile, 'w');
+        
         $includedHeaderFiles = $this->appendFileAndReferencedHeaders($fileHandle, $this->sourceDir . '/phalcon.h');
         fclose($fileHandle);
 

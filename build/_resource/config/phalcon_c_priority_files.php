@@ -1,20 +1,31 @@
 <?php
 // These are priority files, their contents must be put into phalcon.c before any other source files
 
-return array(
-    // Header files
-    'phalcon/mvc/model/query/parser.php5.h',
-    'phalcon/mvc/model/query/parser.php7.h',
-    'phalcon/mvc/model/query/scanner.h',
-    'phalcon/mvc/model/query/phql.h',
-    'phalcon/mvc/view/engine/volt/parser.php5.h',
-    'phalcon/mvc/view/engine/volt/parser.php7.h',
-    'phalcon/mvc/view/engine/volt/scanner.h',
-    'phalcon/mvc/view/engine/volt/volt.h',
-    'phalcon/annotations/parser.php5.h',
-    'phalcon/annotations/parser.php7.h',
+$files = [
     'phalcon/annotations/scanner.h',
     'phalcon/annotations/annot.h',
+    'phalcon/mvc/url/utils.h',
+    'phalcon/mvc/model/orm.h',
+    'phalcon/mvc/model/query/scanner.h',
+    'phalcon/mvc/model/query/phql.h',
+    'phalcon/mvc/view/engine/volt/scanner.h',
+    'phalcon/mvc/view/engine/volt/volt.h'
+];
+
+if (PHP_MAJOR_VERSION == 5) {
+    $files[] = 'phalcon/mvc/model/query/parser.php5.h';
+    $files[] = 'phalcon/mvc/model/query/parser.php5.inc.h';
+    $files[] = 'phalcon/mvc/view/engine/volt/parser.php5.h';
+    $files[] = 'phalcon/mvc/view/engine/volt/parser.php5.inc.h';
+    $files[] = 'phalcon/annotations/parser.php5.h';
+    $files[] = 'phalcon/annotations/parser.php5.inc.h';
+} else {
+    $files[] = 'phalcon/mvc/model/query/parser.php7.h';
+    $files[] = 'phalcon/mvc/view/engine/volt/parser.php7.h';
+    $files[] = 'phalcon/annotations/parser.php7.h';
+}
+
+ return array_merge($files, array(
     'kernel/main.h',
     'kernel/memory.h',
     'kernel/exception.h',
@@ -59,6 +70,6 @@ return array(
     'kernel/iterator.c',
     'kernel/time.c',
     'kernel/exit.c',
-    'phalcon/assets/filters/cssminifier.c',
-    'phalcon/assets/filters/jsminifier.c',
-);
+    'phalcon/assets/filters/jsminifier.h',
+    'phalcon/assets/filters/cssminifier.h',
+));
