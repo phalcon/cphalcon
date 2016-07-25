@@ -6,7 +6,7 @@ Phalcon is an open source web framework delivered as a C extension for the PHP l
 Get Started
 -----------
 
-Phalcon is written in Zephir/C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, and Mac OS X. You can either download a binary package for the system of your choice or build it from source.
+Phalcon is written in [Zephir/C](http://zephir-lang.com/) with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS. You can either download a binary package for the system of your choice or build it from source.
 
 ### Windows
 
@@ -26,8 +26,8 @@ On a Unix-based platform you can easily compile and install the extension from s
 #### Requirements
 Prerequisite packages are:
 
-* PHP 5.4.x/5.5.x/5.6.x development resources
-* GCC compiler (Linux/Solaris) or Xcode (Mac)
+* PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
+* GCC compiler (Linux/Solaris/FreeBSD) or Xcode (MacOS)
 
 Ubuntu:
 
@@ -48,7 +48,7 @@ sudo yum install php-devel pcre-devel gcc make
 ```
 
 General Compilation
------------
+-------------------
 
 Follow these instructions to generate a binary extension for your platform:
 
@@ -71,20 +71,19 @@ Advanced compilation
 if you have specific php versions running
 
 ```bash
-git clone git://github.com/phalcon/cphalcon.git
-cd cphalcon/build/64bits  #<OR> cd cphalcon/build/32bits 
+git clone https://github.com/phalcon/cphalcon
+cd cphalcon/build/64bits  # <OR> cd cphalcon/build/32bits
 make clean
 phpize --clean
-_YOUR_PHP_INSTALITION_PATH_/bin/phpize  #Example: /opt/php-5.6.15/bin/phpize
-./configure --with-php-config=_YOUR_PHP_INSTALITION_PATH_/bin/php-config #Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+$YOUR_PHP_INSTALLATION_PATH/bin/phpize  # Example: /opt/php-5.6.15/bin/phpize
+./configure --with-php-config=$YOUR_PHP_INSTALLATION_PATH/bin/php-config # Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
 make && sudo make install
 ```
 
-open your **php.ini** ( for the specific version ) and add this line:
+Edit your **php.ini** (for the specific version) and add this line:
 
 ```bash
-extension=_PATH_TO_PHP_EXTENTIONS_/phalcon.so
-#Example: extension=/opt/php-5615/lib/php/extensions/no-debug-non-zts-20131226/phalcon.so
+extension=phalcon.so
 ```
 
 Save the file and **Restart the webserver**.
