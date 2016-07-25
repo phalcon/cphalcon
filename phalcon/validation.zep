@@ -243,7 +243,7 @@ class Validation extends Injectable implements ValidationInterface
 	 */
 	public function rules(var field, array! validators) -> <Validation>
 	{
-		var validator, singleField;
+		var validator;
 
 		for validator in validators {
 			if validator instanceof ValidatorInterface {
