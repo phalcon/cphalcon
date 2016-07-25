@@ -41,6 +41,21 @@ install_extension() {
    return 0;
 }
 
+install_igbinary_php7() {
+	git clone https://github.com/igbinary/igbinary7.git /tmp/igbinary
+	cd /tmp/igbinary;
+
+	$PHPIZE_BIN &> /dev/null
+	./configure CFLAGS="-O2 -g" --silent --enable-phalcon &> /dev/null
+
+	make --silent -j4 &> /dev/null
+	make --silent install
+
+	if [ -z $(php -m | grep igbinary) ]; then
+        phpenv config-add "$DIR/igbinary.ini"
+    fi
+}
+
 install_extension imagick
 enable_extension memcached
 
@@ -59,6 +74,7 @@ elif [ ${TRAVIS_PHP_VERSION} == "7.0" ]; then
 	printf "\n" | pecl install apcu_bc-beta
 	echo "apc.enable_cli=On" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 	printf "\n" | pecl install yaml-2.0.0RC8
+	install_igbinary_php7
 else
     ( pecl install apcu-4.0.11 &> /dev/null && echo "apc.enable_cli=On" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ) &
 fi
