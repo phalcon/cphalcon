@@ -58,7 +58,6 @@ elif [ ${TRAVIS_PHP_VERSION} == "7.0" ]; then
 	printf "\n" | pecl install apcu
 	printf "\n" | pecl install apcu_bc-beta
 	echo "apc.enable_cli=On" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
 	printf "\n" | pecl install yaml-2.0.0RC8
 else
     ( pecl install apcu-4.0.11 &> /dev/null && echo "apc.enable_cli=On" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ) &
