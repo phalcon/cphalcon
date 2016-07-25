@@ -70,6 +70,27 @@ class UniquenessTest extends UnitTest
     }
 
     /**
+     * Tests uniqueness validator with single fields and a converted value
+     *
+     * @author Bas Stottelaar <basstottelaar@gmail.com>
+     * @since  2016-07-25
+     */
+    public function testSingleFieldConvert()
+    {
+        $this->specify('Test uniqueness with single field and a converted value.', function () {
+            $validation = new Validation();
+            $validation->add('type', new Uniqueness([
+                'convert' => function (array $values) {
+                    $values['type'] = 'hydraulic'; // mechanical -> hydraulic
+                    return $values;
+                }
+            ]));
+            $messages = $validation->validate(null, $this->robot);
+            expect($messages->count())->equals(0);
+        });
+    }
+
+    /**
      * Tests uniqueness validator with single field and a null value
      *
      * @author Bas Stottelaar <basstottelaar@gmail.com>
@@ -103,6 +124,27 @@ class UniquenessTest extends UnitTest
             $messages = $validation->validate(null, $this->robot);
             expect($messages->count())->equals(1);
             $messages = $validation->validate(null, $this->anotherRobot);
+            expect($messages->count())->equals(0);
+        });
+    }
+
+    /**
+     * Tests uniqueness validator with multiple fields and a converted value
+     *
+     * @author Bas Stottelaar <basstottelaar@gmail.com>
+     * @since  2016-07-25
+     */
+    public function testMultipleFieldsConvert()
+    {
+        $this->specify('Test uniqueness with combination of fields and a converted value.', function () {
+            $validation = new Validation();
+            $validation->add(['name', 'type'], new Uniqueness([
+                'convert' => function (array $values) {
+                    $values['type'] = 'hydraulic'; // mechanical -> hydraulic
+                    return $values;
+                }
+            ]));
+            $messages = $validation->validate(null, $this->robot);
             expect($messages->count())->equals(0);
         });
     }
@@ -210,6 +252,31 @@ class UniquenessTest extends UnitTest
             expect($messages->count())->equals(0);
             $messages = $validation->validate(null, $this->anotherRobot);
             expect($messages->count())->equals(0);
+        });
+    }
+
+    /**
+     * Tests value conversion for returning an array.
+     *
+     * @author Bas Stottelaar <basstottelaar@gmail.com>
+     * @since  2016-07-25
+     */
+    public function testConvertArrayReturnsArray()
+    {
+        $this->specify('Test value conversion to return an array.', function () {
+            $validation = new Validation();
+            $validation->add('type', new Uniqueness([
+                'convert' => function (array $values) {
+                    ($values);
+                    return null;
+                }
+            ]));
+            try {
+                $validation->validate(null, $this->robot);
+                verify_that(false);
+            } catch (\Exception $e) {
+                verify_that(true);
+            }
         });
     }
 
