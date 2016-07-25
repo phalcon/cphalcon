@@ -1270,12 +1270,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
 		$compilation = file_get_contents('unit-tests/views/test10/import2.volt.php');
 		$this->assertEquals($compilation, '<div class="header"><h1>This is the title</h1></div>');
-
 	}
 
 	public function testVoltCompilerFileOptions()
 	{
-
 		$di = new Phalcon\DI();
 		$view = new Phalcon\Mvc\View();
 
@@ -1300,12 +1298,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
 		$this->assertTrue(file_exists($path));
 		$this->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');
 		$this->assertEquals($view->getContent(), 'Hello Lights!');
-
 	}
 
 	public function testVoltEngine()
 	{
-
 		@unlink('unit-tests/views/layouts/test10.volt.php');
 		@unlink('unit-tests/views/test10/index.volt.php');
 		@unlink('unit-tests/views/test10/other.volt.php');
@@ -1393,9 +1389,9 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
 	public function testVoltMacros()
 	{
-		if (PHP_MAJOR_VERSION == 7) {
-			$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
-		}
+		//if (PHP_MAJOR_VERSION == 7) {
+		//	$this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
+		//}
 
 		$this->removeFiles([
 			'unit-tests/views/macro/hello.volt.php',
@@ -1405,14 +1401,19 @@ Clearly, the song is: <?= $this->getContent() ?>.
 			'unit-tests/views/macro/related_links.volt.php',
 			'unit-tests/views/macro/strtotime.volt.php',
 		]);
+
 		Di::reset();
+
 		$view = new View;
 		$di = new Di;
 		$di->set('escaper', function() { return new Escaper; });
 		$di->set('tag', function() { return new Tag; });
 		$di->set('url', function() { return (new Url)->setBaseUri('/'); });
+
 		$view->setDI($di);
+
 		$view->setViewsDir('unit-tests/views/');
+
 		$view->registerEngines(array(
 			'.volt' => function ($view, $di) {
 				$volt = new Volt($view, $di);
@@ -1421,37 +1422,46 @@ Clearly, the song is: <?= $this->getContent() ?>.
 				return $volt;
 			}
 		));
+
 		$view->start();
 		$view->render('macro', 'hello');
 		$view->finish();
 		$this->assertEquals('Hello World', $view->getContent());
+
 		$view->start();
 		$view->render('macro', 'conditionaldate');
 		$view->finish();
 		$this->assertEquals(sprintf('from <br/>%s, %s UTC', date('Y-m-d'), date('H:i')), $view->getContent());
+
 		$view->start();
 		$view->render('macro', 'my_input');
 		$view->finish();
 		$this->assertEquals('<p><input type="text" id="name" name="name" class="input-text" /></p>', $view->getContent());
+
 		$view->start();
 		$view->render('macro', 'error_messages');
 		$view->finish();
 		$this->assertEquals('<div><span class="error-type">Invalid</span><span class="error-field">name</span><span class="error-message">The name is invalid</span></div>', $view->getContent());
+
 		$view->setVar('links', array((object) array('url' => 'localhost', 'text' => 'Menu item', 'title' => 'Menu title')));
 		$view->start();
 		$view->render('macro', 'related_links');
 		$view->finish();
 		$this->assertEquals('<ul><li><a href="/localhost" title="Menu title">Menu item</a></li></ul>', $view->getContent());
+
 		$view->setVar('date', new DateTime());
 		$view->start();
 		$view->render('macro', 'strtotime');
 		$view->finish();
+
 		$content = $view->getContent();
 		$content = explode('%', $content);
+
 		$this->assertEquals(3, count($content));
 		$this->assertEquals($content[0], $content[1]);
 		$this->assertEquals($content[1], $content[2]);
 		$this->assertEquals($content[2], $content[0]);
+
 		$this->removeFiles([
 			'unit-tests/views/macro/hello.volt.php',
 			'unit-tests/views/macro/conditionaldate.volt.php',
@@ -1471,6 +1481,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
 			'unit-tests/views/macro/list.volt.php',
 			'unit-tests/views/macro/form_row.volt.php',
 		]);
+
 		Di::reset();
 		$view = new View;
 		$di = new Di;

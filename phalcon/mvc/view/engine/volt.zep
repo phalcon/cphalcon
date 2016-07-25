@@ -32,7 +32,6 @@ use Phalcon\Mvc\View\Exception;
  */
 class Volt extends Engine implements EngineInterface
 {
-
 	protected _options;
 
 	protected _compiler;

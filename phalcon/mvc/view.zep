@@ -758,7 +758,7 @@ class View extends Injectable implements ViewInterface
 	 * @param string actionName
 	 * @param array params
 	 */
-	public function render(string! controllerName, string! actionName, params = null) -> <View>|boolean
+	public function render(string! controllerName, string! actionName, params = null) -> <View> | boolean
 	{
 		boolean silence, mustClean;
 		int renderLevel;
