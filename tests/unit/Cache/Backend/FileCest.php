@@ -86,10 +86,7 @@ class FileCest
             // First time cache
             $content = $cache->start('test_output');
             $I->assertTrue($cache->isStarted());
-
-            if ($content !== null) {
-                $I->assertTrue(false);
-            }
+            $I->assertNull($content);
 
             echo $time;
             $cache->save(null, null, null, true);
@@ -104,10 +101,7 @@ class FileCest
             // Same cache
             $content = $cache->start('test_output');
             $I->assertTrue($cache->isStarted());
-
-            if ($content === null) {
-                $I->assertTrue(false);
-            }
+            $I->assertNotNull($content);
 
             $I->assertEquals($time, $obContent);
 
@@ -120,10 +114,7 @@ class FileCest
 
             $content = $cache->start('test_output');
             $I->assertTrue($cache->isStarted());
-
-            if ($content !== null) {
-                $I->assertTrue(false);
-            }
+            $I->assertNull($content);
 
             echo $time2;
             $cache->save(null, null, null, true);

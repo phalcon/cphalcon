@@ -51,15 +51,8 @@ class SimpleCest
     {
         $I->wantToTest('Render by using simple view with cache');
 
-        if (PHP_MAJOR_VERSION == 7) {
-            throw new \PHPUnit_Framework_SkippedTestError(
-                'Skipped in view of the experimental support for PHP 7.'
-            );
-        }
-
         // Create cache at first run
         $view = new Simple;
-        codecept_debug(gettype($view->getParamsToView()));
         $view->setViewsDir(PATH_DATA . 'views/');
 
         // No cache before DI is set
@@ -92,6 +85,9 @@ class SimpleCest
         $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
 
         $I->assertNotEmpty($view->getContent());
+
+        usleep(2000001);
+        // Cache should expire
         $I->assertEquals("<p></p>", rtrim($view->render('test3/coolVar')));
 
         $I->deleteFile('view_simple_cache');
