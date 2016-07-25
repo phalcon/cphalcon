@@ -17,10 +17,7 @@ Makefile
 Makefile.fragments
 Makefile.global
 Makefile.objects
-*.m4
 autom4te.cache/
-build/
-config.*
 configure
 install-sh
 libtool

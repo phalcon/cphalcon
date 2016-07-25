@@ -85,13 +85,17 @@ class Generator_File_PhalconC
      */
     protected function composeSkipFiles(array $alreadyIncludedHeaders = array())
     {
-        $this->skipFiles = $alreadyIncludedHeaders;
+        foreach ($alreadyIncludedHeaders as $file) {
+            $this->skipFiles[realpath('ext/' . $file)] = true;
+        }
 
         // Add custom list of skipped files
         $files = include($this->configDir . '/phalcon_c_skip_files.php');
         foreach ($files as $file) {
-            $this->skipFiles[$file] = true;
+            $this->skipFiles[realpath('ext/' . $file)] = true;
         }
+
+        unset($this->skipFiles[0]);
 
         // Add phalcon.c, because it will be processed separately from other source files, i.e. appended at the very end
         $this->skipFiles['phalcon.c'] = true;
@@ -152,6 +156,7 @@ class Generator_File_PhalconC
         $cFiles = $this->getSortedSourceFilesToAppend($this->sourceDir);
 
         $hFiles = $this->extractReferencedHeaders($cFiles);
+
         foreach ($hFiles as $file) {
             $this->appendSource($fileHandler, $file);
         }
@@ -168,6 +173,10 @@ class Generator_File_PhalconC
      */
     private function appendSource($fileHandler, $path)
     {
+        if (!file_exists($path)) {
+            return;
+        }
+
         $openComment = false;
         foreach (file($path) as $line) {
             // Skip comments
@@ -217,6 +226,7 @@ class Generator_File_PhalconC
         $basePathLen = strlen($this->sourceDir  . '/');
         $flags = \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS;
         $iterator = new \FilesystemIterator($path, $flags);
+
         $dirs = array();
         $files = array();
         foreach ($iterator as $item) {
@@ -232,7 +242,7 @@ class Generator_File_PhalconC
                     continue;
                 }
                 $relPath = substr($itemPath, $basePathLen);
-                if (isset($this->skipFiles[$relPath])){
+                if (isset($this->skipFiles[$relPath])) {
                     continue;
                 }
                 $files[] = $itemPath;
@@ -259,6 +269,7 @@ class Generator_File_PhalconC
     protected function extractReferencedHeaders($files)
     {
         $result = array();
+        $headers = array();
         $sourceDirLen = strlen($this->sourceDir);
 
         foreach ($files as $file) {
@@ -269,42 +280,50 @@ class Generator_File_PhalconC
 
                 $headerFile = $matches[1];
 
-                if (strpos($headerFile, 'Zend/') !== false) {
-                    continue;
-                }
-
-                if (strpos($headerFile, 'main/') !== false) {
-                    continue;
-                }
-
-                if (strpos($headerFile, 'ext/') !== false) {
-                    continue;
-                }
-
                 if (strpos($headerFile, 'kernel/') !== false) {
                     continue;
                 }
 
+                if (strpos($headerFile, 'Zend/') !== false) {
+                    $headers[$headerFile] = true;
+                    continue;
+                }
+
+                if (strpos($headerFile, 'main/') !== false) {
+                    $headers[$headerFile] = true;
+                    continue;
+                }
+
+                if (strpos($headerFile, 'ext/') !== false) {
+                    $headers[$headerFile] = true;
+                    continue;
+                }
+
                 if (strpos($headerFile, 'php_') !== false) {
+                    $headers[$headerFile] = true;
                     continue;
                 }
 
                 if (strpos($headerFile, 'spl_') !== false) {
+                    $headers[$headerFile] = true;
                     continue;
                 }
 
-                $possiblePathFromCurrent = dirname($file) . '/' . $headerFile;
-                $relPath = file_exists($possiblePathFromCurrent)
-                    ? substr(Util::normalize($possiblePathFromCurrent), $sourceDirLen + 1)
-                    : $headerFile;
-                if (isset($this->skipFiles[$relPath])){
+                $possiblePathFromCurrent = Util::normalize('ext/' . $headerFile);
+                if ($possiblePathFromCurrent == "") {
                     continue;
                 }
 
-                $fullPath = $this->sourceDir . '/' . $relPath;
+                if (isset($this->skipFiles[$possiblePathFromCurrent])) {
+                    continue;
+                }
+
+                $fullPath = $possiblePathFromCurrent;
                 $result[$fullPath] = true;
             }
         }
+
+        print_r($headers);
 
         return array_keys($result);
     }

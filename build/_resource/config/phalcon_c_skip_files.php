@@ -1,7 +1,8 @@
 <?php
 // These are the files that must not be added to phalcon.c
+//
 
-return array(
+$skipFiles = array(
     // Included by phalcon.c header - see phalcon_c_header.php
     'config.h',
     'ext_config.h',
@@ -22,3 +23,11 @@ return array(
     'phalcon/mvc/model/query/lemon.c',
     'phalcon/mvc/view/engine/volt/lemon.c'
 );
+
+if (PHP_MAJOR_VERSION == 7) {
+    $skipFiles[] = 'phalcon/annotations/parser.php5.inc.h';
+} else {
+    $skipFiles[] = 'phalcon/annotations/parser.php7.inc.h';
+}
+
+return $skipFiles;
