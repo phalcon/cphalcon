@@ -8,7 +8,7 @@
         "high load"
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.5"
     },
     "require-dev": {
         "mustache/mustache": "~2.10",
