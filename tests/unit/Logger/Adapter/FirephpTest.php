@@ -42,8 +42,7 @@ class FirephpTest extends UnitTest
     /**
      * Tests logging by using Firephp
      *
-     * @link http://www.firephp.org/Wiki/Reference/Protocol
-     * @author serghei Iakovlev <andres@phalconphp.com>
+     * @author Serghei Iakovlev <andres@phalconphp.com>
      * @since  2016-01-28
      */
     public function testLoggerAdapterFirephpCreationDefault()
