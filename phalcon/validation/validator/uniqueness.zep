@@ -56,6 +56,18 @@ use Phalcon\Mvc\Model;
  * <code>
  * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
  * </code>
+ *
+ * It is possible to convert values before validation. This is useful in
+ * situations where values need to be converted to do the database lookup:
+ * <code>
+ * $validator->add('username', new UniquenessValidator([
+ *     'convert' => function (array $values) {
+ *         $values['username'] = strtolower($values['username']);
+ *
+ *         return $values;
+ *     }
+ * ]));
+ * </code>
  */
 class Uniqueness extends CombinedFieldsValidator
 {
@@ -90,7 +102,7 @@ class Uniqueness extends CombinedFieldsValidator
 
 	protected function isUniqueness(<Validation> validation, var field) -> boolean
 	{
-		var value, record, attribute, except,
+		var value, values, convert, record, attribute, except,
 			index, params, metaData, primaryField, className, singleField, fieldExcept, singleExcept, notInValues, exceptConditions;
 
 		let exceptConditions = [];
@@ -106,11 +118,26 @@ class Uniqueness extends CombinedFieldsValidator
 			let field[] = singleField;
 		}
 
+		let values = [];
+		let convert = this->getOption("convert");
+
+		for singleField in field {
+			let values[singleField] = validation->getValue(singleField);
+		}
+
+		if convert != null {
+			let values = {convert}(values);
+
+			if !is_array(values) {
+				throw new Exception("Value conversion must return an array");
+			}
+		}
+
 		for singleField in field {
 			let fieldExcept = null;
 			let notInValues = [];
-			let value = validation->getValue(singleField),
-				record = this->getOption("model");
+			let record = this->getOption("model");
+			let value = values[singleField];
 
 			if empty record || typeof record != "object" {
 				// check validation getEntity() method
