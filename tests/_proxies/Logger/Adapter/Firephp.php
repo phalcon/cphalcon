@@ -23,9 +23,6 @@ use Phalcon\Logger\Adapter\Firephp as PhFirephp;
  */
 class Firephp extends PhFirephp
 {
-    /**
-     * @return \Phalcon\Logger\FormatterInterface|\Phalcon\Logger\Formatter\Firephp
-     */
     public function getFormatter()
     {
         return parent::getFormatter();

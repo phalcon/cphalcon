@@ -4,9 +4,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Proxy\Logger\Adapter\Firephp;
-use Phalcon\Logger\Formatter\Line;
-use \Phalcon\Logger\Formatter\Json;
-use Phalcon\Logger;
 
 /**
  * \Phalcon\Test\Unit\Logger\Adapter\FirephpTest
@@ -42,13 +39,13 @@ class FirephpTest extends UnitTest
     /**
      * Tests logging by using Firephp
      *
-     * @author Serghei Iakovlev <andres@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-28
      */
     public function testLoggerAdapterFirephpCreationDefault()
     {
         $this->specify(
-            "logging logging by using Firephp does not work correctly",
+            'logging by using Firephp does not work correctly',
             function () {
                 $logger = new Firephp();
                 $logger->getFormatter()->setShowBacktrace(false);
