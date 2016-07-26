@@ -4,9 +4,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Proxy\Logger\Adapter\Firephp;
-use Phalcon\Logger\Formatter\Line;
-use \Phalcon\Logger\Formatter\Json;
-use Phalcon\Logger;
 
 /**
  * \Phalcon\Test\Unit\Logger\Adapter\FirephpTest
@@ -32,10 +29,6 @@ class FirephpTest extends UnitTest
      */
     public function _before()
     {
-        if (PHP_MAJOR_VERSION == 7) {
-            $this->markTestSkipped('Skipped in view of the experimental support for PHP 7.');
-        }
-
         parent::_before();
 
         if (!extension_loaded('xdebug')) {
@@ -46,14 +39,13 @@ class FirephpTest extends UnitTest
     /**
      * Tests logging by using Firephp
      *
-     * @link http://www.firephp.org/Wiki/Reference/Protocol
-     * @author serghei Iakovlev <andres@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-28
      */
     public function testLoggerAdapterFirephpCreationDefault()
     {
         $this->specify(
-            "logging logging by using Firephp does not work correctly",
+            'logging by using Firephp does not work correctly',
             function () {
                 $logger = new Firephp();
                 $logger->getFormatter()->setShowBacktrace(false);
