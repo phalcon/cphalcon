@@ -150,7 +150,9 @@ class Memory extends Backend implements BackendInterface, \Serializable
 	{
 		var data, index, keys;
 
-		let data = this->_data;
+		let data = this->_data,
+			keys = [];
+
 		if typeof data == "array" {
 			if !prefix {
 				let keys = (array) array_keys(data);
