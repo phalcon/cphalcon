@@ -26,6 +26,41 @@ use Phalcon\Cache\Frontend\Igbinary;
  */
 class FileCest
 {
+    public function checkFreshState(UnitTester $I)
+    {
+        $I->wantTo("Check fresh state by using file cache as backend");
+
+        $cache = new File(new Output(['lifetime' => 2]), ['cacheDir' => PATH_CACHE]);
+
+        $I->assertFalse($cache->isStarted());
+        $I->assertFalse($cache->isFresh());
+
+        ob_start();
+
+        $cache->start('start-keyname');
+        $I->assertTrue($cache->isStarted());
+
+        echo 'start-value';
+        $cache->save(null, null, null, true);
+
+        $I->assertTrue($cache->isFresh());
+
+        ob_get_contents();
+        ob_end_clean();
+
+        $I->assertTrue($cache->isFresh());
+        $cache->start('start-keyname');
+        $I->assertFalse($cache->isFresh());
+
+        sleep(2);
+
+        $cache->start('start-keyname');
+        $I->assertTrue($cache->isFresh());
+
+        $I->amInPath(PATH_CACHE);
+        $I->deleteFile('start-keyname');
+    }
+
     public function outputFrontend(UnitTester $I)
     {
         $I->wantTo("Use File cache with Output frontend");
