@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -122,9 +122,12 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		let builder = clone originalBuilder;
 
 		/**
-		 * We make a copy of the original builder to count the total of records
-		 */
-		let totalBuilder = clone builder;
+		* We make a copy of the original builder to count the total of records
+		*/
+		if false === isset(this->_config["totalCount"]) {
+
+			let totalBuilder = clone builder;
+		}
 
 		let limit = this->_limitRows;
 		let numberPage = (int) this->_page;
@@ -158,41 +161,52 @@ class QueryBuilder extends Adapter implements AdapterInterface
 		let items = query->execute();
 
 		/**
-		 * Change the queried columns by a COUNT(*)
-		 */
-		totalBuilder->columns("COUNT(*) [rowcount]");
+		* check if row count is defined in the config
+		*/
 
-		/**
-		 * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
-		 */
-		var groups = totalBuilder->getGroupBy();
-		if !empty groups {
-			var groupColumn;
-			if typeof groups == "array" {
-				let groupColumn = implode(", ", groups);
-			} else {
-				let groupColumn = groups;
-			}
-			totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
-		}
+		if fetch rowcount, this->_config["totalCount"] {
 
-		/**
-		 * Remove the 'ORDER BY' clause, PostgreSQL requires this
-		 */
-		totalBuilder->orderBy(null);
+			let rowcount = intval(rowcount);
+		} else {
 
-		/**
-		 * Obtain the PHQL for the total query
-		 */
-		let totalQuery = totalBuilder->getQuery();
+			/**
+			* Change the queried columns by a COUNT(*)
+			*/
+			totalBuilder->columns("COUNT(*) [rowcount]");
 
-		/**
-		 * Obtain the result of the total query
-		 */
-		let result = totalQuery->execute(),
-			row = result->getFirst(),
-			rowcount = row ? intval(row->rowcount) : 0,
-			totalPages = intval(ceil(rowcount / limit));
+            /**
+            * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
+            */
+            var groups = totalBuilder->getGroupBy();
+            if !empty groups {
+                var groupColumn;
+                if typeof groups == "array" {
+                    let groupColumn = implode(", ", groups);
+                } else {
+                    let groupColumn = groups;
+                }
+                totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
+            }
+
+            /**
+            * Remove the 'ORDER BY' clause, PostgreSQL requires this
+            */
+            totalBuilder->orderBy(null);
+
+            /**
+            * Obtain the PHQL for the total query
+            */
+            let totalQuery = totalBuilder->getQuery();
+
+            /**
+            * Obtain the row count from total query
+            */
+            let result = totalQuery->execute(),
+                row = result->getFirst(),
+                rowcount = row ? intval(row->rowcount) : 0;
+        }
+
+        let totalPages = intval(ceil(rowcount / limit));
 
 		if numberPage < totalPages {
 			let next = numberPage + 1;
