@@ -27,6 +27,26 @@ use Phalcon\Cache\Frontend\Output;
  */
 class SimpleCest
 {
+    public function testSetVars(IntegrationTester $I)
+    {
+        $I->wantToTest('Set and get View vars');
+
+        $view = new Simple;
+        $view->setViewsDir(PATH_DATA . 'views/');
+
+        $I->assertNull($view->getVar('some_var'));
+        $some_var = time();
+        $view->setParamToView('some_var', $some_var);
+
+
+        $I->assertNull($view->getVar('another_var'));
+        $another_var = uniqid();
+        $view->setVar('another_var', $another_var);
+
+        $I->assertEquals($some_var, $view->getVar('some_var'));
+        $I->assertEquals($another_var, $view->getVar('another_var'));
+    }
+
     public function testRenderWithCache(IntegrationTester $I)
     {
         $I->wantToTest('Render by using simple view with cache');
