@@ -17,6 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
+#include "ext/standard/php_var.h"
+
 const phql_token_names phql_tokens[] =
 {
   { SL("INTEGER"),			   PHQL_T_INTEGER },
@@ -98,15 +100,18 @@ const phql_token_names phql_tokens[] =
   { NULL, 0, 0 }
 };
 
-static void *phql_wrapper_alloc(size_t bytes) {
+static void *phql_wrapper_alloc(size_t bytes)
+{
 	return emalloc(bytes);
 }
 
-static void phql_wrapper_free(void *pointer) {
+static void phql_wrapper_free(void *pointer)
+{
 	efree(pointer);
 }
 
-static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status) {
+static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status)
+{
 
 	phql_parser_token *pToken;
 
@@ -124,7 +129,8 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 /**
  * Creates an error message when it's triggered by the scanner
  */
-static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC) {
+static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC)
+{
 
 	char *error = NULL, *error_part;
 	unsigned int length;
@@ -132,6 +138,8 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 
 #if PHP_VERSION_ID < 70000
 	MAKE_STD_ZVAL(*error_msg);
+#else
+    ZVAL_UNDEF(*error_msg);
 #endif
 
 	if (state->start) {
@@ -166,9 +174,14 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 /**
  * Executes the internal PHQL parser/tokenizer
  */
-int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
-
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC)
+{
+#if PHP_VERSION_ID < 70000
 	zval *error_msg = NULL;
+#else
+    zval err_msg, *error_msg = &err_msg;
+    ZVAL_UNDEF(error_msg);
+#endif
 
 	ZVAL_NULL(result);
 
@@ -183,8 +196,8 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 /**
  * Executes a PHQL parser/tokenizer
  */
-int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
-
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC)
+{
 	zend_phalcon_globals *phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
 	int scanner_status, status = SUCCESS, error_length, cache_level;
@@ -591,11 +604,15 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
+#if PHP_VERSION_ID < 70000
 				if (!*error_msg) {
-					if (!*error_msg) {
-						phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
-					}
+					phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
 				}
+#else                
+                if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
+                    phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+                }
+#endif
 				status = FAILURE;
 				break;
 
@@ -610,14 +627,16 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (parser_status->status != PHQL_PARSING_OK) {
 		status = FAILURE;
 		if (parser_status->syntax_error) {
-			if (!*error_msg) {
 #if PHP_VERSION_ID < 70000
+            if (!*error_msg) {
 				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+            }
 #else
+            if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
                 ZVAL_STRING(*error_msg, parser_status->syntax_error);
+            }
 #endif
-			}
 			efree(parser_status->syntax_error);
 		}
 	}
