@@ -10,6 +10,7 @@ modules:
         - Db
         - Filesystem
         - Phalcon
+        - Redis
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
@@ -24,3 +25,7 @@ modules:
             populate: true
             cleanup: false
             dump: tests/_data/schemas/mysql/mysql.dump.sql
+        Redis:
+            database: 0
+            host: %TEST_RS_HOST%
+            port: %TEST_RS_PORT%

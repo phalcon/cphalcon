@@ -1,3 +1,6 @@
+# [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-XX-XX)
+- Fixed Phalcon\Cache\Backend\Redis::flush in order to flush cache correctly
+
 # [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/v3.0.0) (2016-07-29)
 - PHP 5.3 and 5.4 are now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
