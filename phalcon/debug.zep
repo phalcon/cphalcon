@@ -26,7 +26,7 @@ namespace Phalcon;
  */
 class Debug
 {
-	public _uri = "//static.phalconphp.com/www/debug/2.0.0/";
+	public _uri = "//static.phalconphp.com/www/debug/3.0/";
 
 	public _theme = "default";
 
@@ -307,7 +307,8 @@ class Debug
 		var uri, sources;
 
 		let uri = this->_uri;
-		let sources  = "<link href=\"" . uri . "jquery/jquery-ui.css\" type=\"text/css\" rel=\"stylesheet\" />";
+		let sources  = "<link href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\" type=\"text/css\" rel=\"stylesheet\" />";
+		let sources .= "<link href=\"" . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css\" type=\"text/css\" rel=\"stylesheet\" />";
 		let sources .= "<link href=\"" . uri . "themes/default/style.css\" type=\"text/css\" rel=\"stylesheet\" />";
 		return sources;
 	}
@@ -320,9 +321,9 @@ class Debug
 		var uri, sources;
 
 		let uri = this->_uri;
-		let sources  = "<script type=\"text/javascript\" src=\"" . uri . "jquery/jquery.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "jquery/jquery-ui.js\"></script>";
-		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "jquery/jquery.scrollTo.js\"></script>";
+		let sources  = "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery/dist/jquery.min.js\"></script>";
+		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery-ui/jquery-ui.min.js\"></script>";
+		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js\"></script>";
 		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "prettify/prettify.js\"></script>";
 		let sources .= "<script type=\"text/javascript\" src=\"" . uri . "pretty.js\"></script>";
 		return sources;
