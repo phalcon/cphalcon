@@ -4967,8 +4967,6 @@ void phql_(
   +------------------------------------------------------------------------+
 */
 
-#include "ext/standard/php_var.h"
-
 const phql_token_names phql_tokens[] =
 {
   { SL("INTEGER"),			   PHQL_T_INTEGER },
@@ -5558,7 +5556,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (!*error_msg) {
 					phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
 				}
-#else                
+#else
                 if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
                     phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
                 }
