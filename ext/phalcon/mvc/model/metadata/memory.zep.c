@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -29,6 +29,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Memory, phalcon, mvc_model_metadata_memory, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_memory_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_model_metadata_memory_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_mvc_model_metadata_memory_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_MetaData_Memory;
 	return SUCCESS;
 
 }
@@ -40,20 +43,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
 
-	zval *options = NULL, *_0;
+	zval *options = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &options);
+	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
 		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
-	zephir_update_property_this(this_ptr, SL("_metaData"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -114,6 +112,27 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 
 
 	RETURN_MM_NULL();
+
+}
+
+zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Memory(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1$$3;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_metaData"), _1$$3 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

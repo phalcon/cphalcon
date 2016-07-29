@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -34,13 +34,13 @@ class Message implements MessageInterface
 	protected _message;
 
 	protected _field;
-	
+
 	protected _code;
 
 	/**
 	 * Phalcon\Validation\Message constructor
 	 */
-	public function __construct(string! message, string field = null, string type = null, int code = null)
+	public function __construct(string! message, var field = null, string type = null, int code = null)
 	{
 		let this->_message = message,
 			this->_field = field,
@@ -85,7 +85,7 @@ class Message implements MessageInterface
 	/**
 	 * Sets field name related to message
 	 */
-	public function setField(string! field) -> <Message>
+	public function setField(var field) -> <Message>
 	{
 		let this->_field = field;
 		return this;
@@ -94,13 +94,13 @@ class Message implements MessageInterface
 	/**
 	 * Returns field name related to message
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public function getField()
 	{
 		return this->_field;
 	}
-	
+
 	/**
 	 * Sets code for the message
 	 */

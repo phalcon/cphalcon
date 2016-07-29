@@ -10,11 +10,14 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "2.0.13",
-    "verbose": true,
+    "version": "3.0.0",
+    "verbose": false,
     "optimizer-dirs": [
         "optimizers"
     ],
+    "prototype-dir": {
+        "php7": "prototypes/php7"
+    },
     "constants-sources": [
         "ext/phalcon/mvc/model/query/scanner.h",
         "ext/phalcon/annotations/scanner.h",

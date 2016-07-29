@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -45,6 +45,8 @@ class Apc extends MetaData
 
 	protected _ttl = 172800;
 
+	protected _metaData = [];
+
 	/**
 	 * Phalcon\Mvc\Model\MetaData\Apc constructor
 	 *
@@ -62,8 +64,6 @@ class Apc extends MetaData
 				let this->_ttl = ttl;
 			}
 		}
-
-		let this->_metaData = [];
 	}
 
 	/**

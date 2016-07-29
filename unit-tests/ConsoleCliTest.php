@@ -173,7 +173,7 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$console->addModules($userModules);
+		$console->registerModules($userModules, true);
 
 		$this->assertEquals($console->getModules(), $expected);
 

@@ -151,6 +151,9 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($parts), 3);
 
+		$partsCount = $robot->countRelationsParts();
+		$this->assertEquals(3, $partsCount);
+
 		/** Passing parameters to magic methods **/
 		$robotsParts = $robot->getRelationsRobotsParts("parts_id = 1");
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');

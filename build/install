@@ -2,7 +2,7 @@
 
 #  Phalcon Framework
 #
-#  Copyright (c) 2011-2014 Phalcon Team (http://www.phalconphp.com)
+#  Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
 #  with this package in the file docs/LICENSE.txt.
@@ -18,6 +18,32 @@
 export CC="gcc"
 export CFLAGS="-march=native -mtune=native -O2 -fomit-frame-pointer"
 export CPPFLAGS="-DPHALCON_RELEASE"
+
+#PHP_CONFIG=`php-config --version`
+
+PHP_FULL_VERSION=`php-config --version`
+if [ $? != 0 ]; then
+	echo "php-config is not installed"
+	exit 1
+fi
+
+if [ "${PHP_FULL_VERSION:0:3}" == "5.3" ]; then
+	echo "php 5.3 is no longer supported"
+	exit 1
+fi
+
+if [ "${PHP_FULL_VERSION:0:3}" == "5.4" ]; then
+	echo "php 5.4 is no longer supported"
+	exit 1
+fi
+
+if [ "${PHP_FULL_VERSION:0:1}" == "5" ]; then
+	PHP_VERSION="php5"
+else
+	PHP_VERSION="php7"
+fi
+
+# Detect possible flags
 echo "int main() {}" > t.c
 gcc $CFLAGS t.c -o t 2> t.t
 if [ $? != 0 ]; then
@@ -34,10 +60,10 @@ if [ $(gcc -dumpversion | cut -f1 -d.) -ge 4 ]; then
 	gcc $CFLAGS -fvisibility=hidden t.c -o t 2> t.t && export CFLAGS="$CFLAGS -fvisibility=hidden"
 fi
 
-#gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
+# gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
 rm -f t.t t.c t
 
-#Check processor architecture
+# Check processor architecture
 if [ -z $1 ]; then
 	DIR="32bits"
 	gcc gccarch.c -o gccarch
@@ -51,14 +77,14 @@ else
 	DIR=$1
 fi
 
-#Move to specified architecture
-cd $DIR
+# Move to specified architecture
+cd "$PHP_VERSION/$DIR"
 
-#Clean current compilation
+# Clean current compilation
 if [ -f Makefile ]; then
 	make clean
 	phpize --clean
 fi
 
-#Perform the compilation
+# Perform the compilation
 phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

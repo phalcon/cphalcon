@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -186,7 +186,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Replaces the model's name to its source name in a qualifed-name expression
+	 * Replaces the model's name to its source name in a qualified-name expression
 	 */
 	protected final function _getQualified(array! expr) -> array
 	{
@@ -3076,7 +3076,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		connection->begin();
 
-		for record in iterator(records) {
+		records->rewind();
+
+		//for record in iterator(records) {
+		while records->valid() {
+
+			let record = records->current();
 
 			/**
 			 * We apply the executed values to every record found
@@ -3090,6 +3095,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				return new Status(false, record);
 			}
+
+			records->next();
 		}
 
 		/**
@@ -3153,7 +3160,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		connection->begin();
 
-		for record in iterator(records) {
+		//for record in iterator(records) {
+
+
+		records->rewind();
+
+		while records->valid() {
+
+			let record = records->current();
 
 			/**
 			 * We delete every record found
@@ -3167,6 +3181,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				return new Status(false, record);
 			}
+
+			records->next();
 		}
 
 		/**
@@ -3262,7 +3278,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 
 			/**
-			 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+			 * By default use use 3600 seconds (1 hour) as cache lifetime
 			 */
 			if !fetch lifetime, cacheOptions["lifetime"] {
 				let lifetime = 3600;
@@ -3558,5 +3574,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		throw new Exception("This type of statement generates multiple SQL statements");
+	}
+
+	/**
+	 * Destroys the internal PHQL cache
+	 */
+	public static function clean()
+	{
+		let self::_irPhqlCache = [];
 	}
 }

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -519,7 +519,18 @@ class Gd extends Adapter implements AdapterInterface
 		if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
 			let this->_type = 2;
 			let this->_mime = image_type_to_mime_type(this->_type);
-			imagejpeg(this->_image, file, quality);
+			
+
+			if quality >= 0 {
+				if quality < 1 {
+					let quality = 1;
+				} elseif quality > 100 {
+					let quality = 100;
+				}
+				imagejpeg(this->_image, file, quality);
+			} else {
+				imagejpeg(this->_image, file);
+			}
 			return true;
 		}
 		if strcmp(ext, "png") == 0 {
@@ -593,5 +604,4 @@ class Gd extends Adapter implements AdapterInterface
 			imagedestroy(image);
 		}
 	}
-
 }

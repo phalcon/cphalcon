@@ -139,6 +139,16 @@ class DispatcherListener
 
 }
 
+class DispatcherListenerWithException extends DispatcherListener
+{
+	public function beforeExecuteRoute(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
+	{
+		parent::beforeExecuteRoute($event, $dispatcher);
+
+		throw new Exception('Something went wrong in the route event.');
+	}
+}
+
 class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -256,5 +266,31 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 
 		$trace = join('-', $listener->getTrace());
 		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterInitialize-beforeException-afterExecuteRoute-afterDispatch');
+	}
+
+	public function testBeforeExceptionEvent()
+	{
+		$dispatcher = $this->_getDispatcher();
+
+		$listener = new DispatcherListenerWithException($this);
+		$listener->setExceptionMessage('Something went wrong in the route event.');
+		$listener->setExceptionType('Exception');
+
+		$eventsManager = new Phalcon\Events\Manager();
+		$eventsManager->attach('dispatch', $listener);
+
+		$dispatcher->setEventsManager($eventsManager);
+
+		//Normal flow events
+		$listener->setControllerName('test2');
+		$listener->setActionName('index');
+
+		$dispatcher->setControllerName('test2');
+		$dispatcher->setActionName('index');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch();
+
+		$trace = join('-', $listener->getTrace());
+		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-beforeException');
 	}
 }

@@ -33,7 +33,7 @@ Contributions to Phalcon should be made in the form of GitHub pull requests. Eac
   commits.
 
 - Add tests relevant to the fixed bug or new feature. See our [testing
-  guide](https://github.com/phalcon/cphalcon/blob/master/unit-tests/README.md) for more information.
+  guide](https://github.com/phalcon/cphalcon/blob/master/tests/README.md) for more information.
 
 - Phalcon 2 is written in [Zephir](http://zephir-lang.com/), please do not submit
   commits that modify C generated files directly or those whose functionality/fixes

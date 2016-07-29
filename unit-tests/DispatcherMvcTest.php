@@ -189,6 +189,47 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$value = $dispatcher->getActionName();
 		$this->assertEquals($value, 'other');
 
+		$value = $dispatcher->getPreviousNamespaceName();
+		$this->assertEquals($value, '');
+
+		$value = $dispatcher->getPreviousControllerName();
+		$this->assertEquals($value, 'test2');
+
+		$value = $dispatcher->getPreviousActionName();
+		$this->assertEquals($value, 'index');
+	}
+
+	public function testDispatcherForward2()
+	{
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		//$di->set('response', new \Phalcon\Http\Response());
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		$di->set('dispatcher', $dispatcher);
+
+		$dispatcher->setControllerName('test2');
+		$dispatcher->setActionName('index');
+		$dispatcher->setParams(array());
+
+		$dispatcher->forward(array('namespace' => 'MyNamespace\Controllers', 'controller' => 'namespaced', 'action' => 'index'));
+
+		$value = $dispatcher->getNamespaceName();
+		$this->assertEquals($value, 'MyNamespace\Controllers');
+
+		$value = $dispatcher->getControllerName();
+		$this->assertEquals($value, 'namespaced');
+
+		$value = $dispatcher->getActionName();
+		$this->assertEquals($value, 'index');
+
+		$value = $dispatcher->getPreviousNamespaceName();
+		$this->assertEquals($value, '');
+
 		$value = $dispatcher->getPreviousControllerName();
 		$this->assertEquals($value, 'test2');
 
@@ -236,6 +277,22 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 
 		$value = $dispatcher->getControllerClass();
 		$this->assertEquals('Foo\IndexController', $value);
+	}
+
+	public function testCallActionMethod()
+	{
+		$di = new \Phalcon\DI\FactoryDefault();
+
+		$dispatcher = new \Phalcon\Mvc\Dispatcher();
+
+		$di->setShared("dispatcher", $dispatcher);
+
+		$dispatcher->setDI($di);
+
+		$mainTask = new Test2Controller();
+		$mainTask->setDI($di);
+
+		$this->assertEquals($dispatcher->callActionMethod($mainTask, 'anotherTwoAction', [1, 2]), 3);
 	}
 
 	public function testLastController()

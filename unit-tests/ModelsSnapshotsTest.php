@@ -87,6 +87,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'type' => 'mechanical',
 				'year' => '1972',
 				'datetime' => '1972-01-01 00:00:00',
+				'deleted' => null,
 				'text' => 'text'
 			),
 			2 => array(
@@ -95,6 +96,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'type' => 'mechanical',
 				'year' => '1952',
 				'datetime' => '1952-01-01 00:00:00',
+				'deleted' => null,
 				'text' => 'text'
 			),
 			3 => array(
@@ -103,6 +105,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'type' => 'cyborg',
 				'year' => '2029',
 				'datetime' => '2029-01-01 00:00:00',
+				'deleted' => null,
 				'text' => 'text'
 			)
 		);
@@ -143,6 +146,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'theType' => 'mechanical',
 				'theYear' => '1972',
 				'theDatetime' => '1972-01-01 00:00:00',
+				'theDeleted' => null,
 				'theText' => 'text',
 			),
 			2 => array(
@@ -151,6 +155,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'theType' => 'mechanical',
 				'theYear' => '1952',
 				'theDatetime' => '1952-01-01 00:00:00',
+				'theDeleted' => null,
 				'theText' => 'text',
 			),
 			3 => array(
@@ -159,6 +164,7 @@ class ModelsSnapshotsTest extends PHPUnit_Framework_TestCase
 				'theType' => 'cyborg',
 				'theYear' => '2029',
 				'theDatetime' => '2029-01-01 00:00:00',
+				'theDeleted' => null,
 				'theText' => 'text',
 			)
 		);

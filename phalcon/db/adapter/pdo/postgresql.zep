@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,17 +30,20 @@ use Phalcon\Db\Exception;
  * Phalcon\Db\Adapter\Pdo\Postgresql
  *
  * Specific functions for the Postgresql database system
+ *
  * <code>
+ * use Phalcon\Db\Adapter\Pdo\Postgresql;
  *
- * $config = array(
- *  "host" => "192.168.0.11",
- *  "dbname" => "blog",
- *  "username" => "postgres",
- *  "password" => ""
- * );
+ * $config = [
+ *   'host'     => 'localhost',
+ *   'dbname'   => 'blog',
+ *   'port'     => 5432,
+ *   'username' => 'postgres',
+ *   'password' => 'secret'
+ * ];
  *
- * $connection = new \Phalcon\Db\Adapter\Pdo\Postgresql($config);
  *
+ * $connection = new Postgresql($config);
  * </code>
  */
 class Postgresql extends PdoAdapter implements AdapterInterface
@@ -53,16 +56,13 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	/**
 	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection.
-	 *
-	 * @param array $descriptor
-	 * @return boolean
 	 */
-	public function connect(descriptor = null)
+	public function connect(array descriptor = null) -> boolean
 	{
-		var schema, sql;
+		var schema, sql, status;
 
-		if descriptor === null {
-			let descriptor = this->_descriptor;
+		if empty descriptor {
+			let descriptor = (array) this->_descriptor;
 		}
 
 		if fetch schema, descriptor["schema"] {
@@ -77,12 +77,14 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			}
 		}
 
-		parent::connect(descriptor);
+		let status = parent::connect(descriptor);
 
 		if ! empty schema {
 			let sql = "SET search_path TO '" . schema . "'";
 			this->execute(sql);
 		}
+
+		return status;
 	}
 
 	/**

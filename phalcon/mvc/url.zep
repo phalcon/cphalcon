@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -185,7 +185,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
 		if local == null {
 			if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
-				if preg_match("#^(//)|([a-z0-9]+://)|([a-z0-9]+:)#i", uri) {
+				if preg_match("#^((//)|([a-z0-9]+://)|([a-z0-9]+:))#i", uri) {
 					let local = false;
 				} else {
 					let local = true;

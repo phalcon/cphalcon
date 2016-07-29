@@ -238,6 +238,26 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), '<!DOCTYPE html><html>here</html>' . PHP_EOL);
 	}
 
+	public function testLayoutAndPick()
+	{
+		$view = new View();
+		$view->setViewsDir('unit-tests/views/');
+		// Pick string
+		$view->start();
+		$view->setLayout('test6');
+		$view->pick('test3/other');
+		$view->render('test3', 'another');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>' . PHP_EOL);
+		// Pick array
+		$view->start();
+		$view->setLayout('test6');
+		$view->pick(array('test3/other'));
+		$view->render('test3', 'another');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>' . PHP_EOL);
+	}
+
 	public function testPartials()
 	{
 

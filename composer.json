@@ -1,6 +1,6 @@
 {
     "name": "phalcon/cphalcon",
-    "description": "Web framework delivered as a C-extension for PHP",
+    "description": "Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.",
     "keywords": [
         "extension",
         "phalcon",
@@ -8,15 +8,21 @@
         "high load"
     ],
     "require": {
-        "php": "~5.3"
+        "php": ">=5.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+        "mustache/mustache": "~2.10",
+        "twig/twig": "~1.24",
+        "codeception/codeception": "~2.2",
+        "codeception/verify": "~0.3",
+        "codeception/specify": "~0.4",
+        "phalcon/zephir": "dev-master"
     },
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Phalcon Team",
+            "email": "team@phalconphp.com",
             "homepage": "http://phalconphp.com/en/team"
         },
         {
@@ -24,11 +30,26 @@
             "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
         }
     ],
+    "autoload-dev": {
+        "psr-4": {
+            "Phalcon\\Test\\Unit\\": "tests/unit/",
+            "Phalcon\\Test\\Integration\\": "tests/integration/",
+            "Phalcon\\Test\\Proxy\\": "tests/_proxies/",
+            "Phalcon\\Test\\Module\\": "tests/_support/Module/"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "php vendor/bin/codecept build"
+        ]
+    },
     "support": {
         "issues": "https://github.com/phalcon/cphalcon/issues",
         "source": "https://github.com/phalcon/cphalcon",
         "forum": "https://forum.phalconphp.com/",
         "docs": "http://docs.phalconphp.com/",
-        "irc": "irc://irc.freenode.org/phalconphp"
+        "wiki": "https://github.com/phalcon/cphalcon/wiki",
+        "irc": "irc://irc.freenode.org/phalconphp",
+        "rss" : "https://blog.phalconphp.com/rss"
     }
 }

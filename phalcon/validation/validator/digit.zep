@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -28,13 +28,20 @@ use Phalcon\Validation\Validator;
  *
  * Check for numeric character(s)
  *
- *<code>
- *use Phalcon\Validation\Validator\Digit as DigitValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
- *$validator->add('height', new DigitValidator(array(
- *   'message' => ':field must be numeric'
- *)));
- *</code>
+ * $validator->add('height', new DigitValidator([
+ *     'message' => ':field must be numeric'
+ * ]));
+ *
+ * $validator->add(['height', 'width'], new DigitValidator([
+ *     'message' => [
+ *         'height' => 'height must be numeric',
+ *         'width' => 'width must be numeric'
+ *     ]
+ * ]));
+ * </code>
  */
 class Digit extends Validator
 {
@@ -44,31 +51,37 @@ class Digit extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs;
+		var value, message, label, replacePairs, code;
 
 		let value = validation->getValue(field);
 
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
+		if is_int(value) || ctype_digit(value) {
+				return true;
 		}
 
-		if !ctype_digit(value) {
+				let label = this->getOption("label");
+				if typeof label == "array" {
+						let label = label[field];
+				}
+				if empty label {
+						let label = validation->getLabel(field);
+				}
 
-			let label = this->getOption("label");
-			if empty label {
-				let label = validation->getLabel(field);
-			}
+				let message = this->getOption("message");
+				if typeof message == "array" {
+						let message = message[field];
+				}
+				let replacePairs = [":field": label];
+				if empty message {
+						let message = validation->getDefaultMessage("Digit");
+				}
 
-			let message = this->getOption("message");
-			let replacePairs = [":field": label];
-			if empty message {
-				let message = validation->getDefaultMessage("Digit");
-			}
+				let code = this->getOption("code");
+				if typeof code == "array" {
+						let code = code[field];
+				}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit"));
-			return false;
-		}
-
-		return true;
+				validation->appendMessage(new Message(strtr(message, replacePairs), field, "Digit", code));
+				return false;
 	}
 }

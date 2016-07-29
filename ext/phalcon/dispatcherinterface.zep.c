@@ -31,6 +31,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DispatcherInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setActionSuffix);
 
 /**
+ * Gets the default action suffix
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getActionSuffix);
+
+/**
  * Sets the default namespace
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setDefaultNamespace);
@@ -90,12 +95,20 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParam);
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getParam);
 
 /**
+ * Check if a param exists
+ *
+ * @param  mixed param
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, hasParam);
+
+/**
  * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, isFinished);
 
 /**
- * Returns value returned by the lastest dispatched action
+ * Returns value returned by the latest dispatched action
  *
  * @return mixed
  */

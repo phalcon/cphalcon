@@ -47,7 +47,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerName);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getControllerName);
 
 /**
- * Returns the lastest dispatched controller
+ * Returns the latest dispatched controller
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController);
 

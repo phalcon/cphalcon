@@ -1,8 +1,9 @@
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -11,7 +12,7 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Serghei Iakovlev <sadhooklay@gmail.com>                       |
+ | Authors: Serghei Iakovlev <serghei@phalconphp.com>                     |
  +------------------------------------------------------------------------+
  */
 
@@ -27,14 +28,15 @@ namespace Phalcon\Security;
  *
  * It supports following secure random number generators:
  *
+ * - random_bytes (PHP 7)
  * - libsodium
- * - openssl
+ * - openssl, libressl
  * - /dev/urandom
  *
- * A `Phalcon\Security\Random` could be mainly useful for:
+ * `Phalcon\Security\Random` could be mainly useful for:
  *
  * - Key generation (e.g. generation of complicated keys)
- * - Creating random passwords for new user accounts
+ * - Generating random passwords for new user accounts
  * - Encryption systems
  *
  *<code>
@@ -101,7 +103,7 @@ class Random
 	 *
 	 *  $bytes = $random->bytes();
 	 *  var_dump(bin2hex($bytes));
-	 *  // possible ouput: string(32) "00f6c04b144b41fad6a59111c126e1ee"
+	 *  // possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
 	 *</code>
 	 *
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -112,6 +114,10 @@ class Random
 
 		if len <= 0 {
 			let len = 16;
+		}
+
+		if function_exists("random_bytes") {
+			return random_bytes(len);
 		}
 
 		if function_exists("\\Sodium\\randombytes_buf") {
@@ -138,7 +144,7 @@ class Random
 			}
 		}
 
-		throw new Exception("No random device");
+		throw new Exception("No random device available");
 	}
 
 	/**
@@ -305,8 +311,13 @@ class Random
 			throw new Exception("Require a positive integer > 0");
 		}
 
+		if function_exists("random_int") {
+			return random_int(0, len);
+		}
+
 		if function_exists("\\Sodium\\randombytes_uniform") {
-			return \\Sodium\\randombytes_uniform(len);
+			// \Sodium\randombytes_uniform will return a random integer between 0 and len - 1
+			return \\Sodium\\randombytes_uniform(len) + 1;
 		}
 
 		let hex = dechex(len);
@@ -325,7 +336,7 @@ class Random
 		do {
 			let rnd = this->bytes(strlen(bin));
 			let rnd = substr_replace(rnd, chr(ord(substr(rnd, 0, 1)) & mask), 0, 1);
-		} while (bin < rnd);
+		} while bin < rnd;
 
 		let ret = unpack("H*", rnd);
 

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -63,6 +63,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
 	protected _behaviors;
 
+	protected _serviceName = "mongo" { get, set };
+
 	/**
 	 * Sets the DependencyInjector container
 	 */
@@ -105,11 +107,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
 	/**
 	 * Returns a custom events manager related to a model
-	 *
-	 * @param \Phalcon\Mvc\CollectionInterface $model
-	 * @return \Phalcon\Events\ManagerInterface
 	 */
-	public function getCustomEventsManager(<CollectionInterface> model) //-> <\Phalcon\Events\ManagerInterface>
+	public function getCustomEventsManager(<CollectionInterface> model) -> var | null
 	{
 		var customEventsManager, className;
 
@@ -120,6 +119,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 				return customEventsManager[className];
 			}
 		}
+
+		return null;
 	}
 
 	/**
@@ -188,7 +189,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		var service, entityName;
 
-		let service = "mongo";
+		let service = this->_serviceName;
 		let entityName = get_class(model);
 		if isset this->_connectionServices[entityName] {
 			let service = this->_connectionServices[entityName];
@@ -232,7 +233,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	{
 		var service, connectionService, connection, dependencyInjector, entityName;
 
-		let service = "mongo";
+		let service = this->_serviceName;
 		let connectionService = this->_connectionServices;
 		if typeof connectionService == "array" {
 			let entityName = get_class(model);

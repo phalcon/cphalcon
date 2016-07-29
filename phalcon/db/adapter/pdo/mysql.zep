@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -33,15 +33,14 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * Specific functions for the Mysql database system
  *
  *<code>
- *
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
- *   "host"     => "192.168.0.11",
- *   "dbname"   => "blog",
- *   "port"     => 3306,
- *   "username" => "sigma",
- *   "password" => "secret"
+ *   'host'     => 'localhost',
+ *   'dbname'   => 'blog',
+ *   'port'     => 3306,
+ *   'username' => 'sigma',
+ *   'password' => 'secret'
  * ];
  *
  * $connection = new Mysql($config);
@@ -359,11 +358,12 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 */
 	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
 	{
-		var indexes, index, keyName, indexObjects, columns, name;
+		var indexes, index, keyName, indexType, indexObjects, columns, name;
 
 		let indexes = [];
 		for index in this->fetchAll(this->_dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
 			let keyName = index["Key_name"];
+			let indexType = index["Index_type"];
 
 			if !isset indexes[keyName] {
 				let indexes[keyName] = [];
@@ -380,6 +380,8 @@ class Mysql extends PdoAdapter implements AdapterInterface
 
 			if keyName == "PRIMARY" {
 				let indexes[keyName]["type"] = "PRIMARY";
+			} elseif indexType == "FULLTEXT" {
+				let indexes[keyName]["type"] = "FULLTEXT";
 			} elseif index["Non_unique"] == 0 {
 				let indexes[keyName]["type"] = "UNIQUE";
 			} else {

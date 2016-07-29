@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -31,14 +31,18 @@ use Phalcon\Db\Result\Pdo as ResultPdo;
  *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
  *
- *<code>
- *	$connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
- *		'host' => '192.168.0.11',
- *		'username' => 'sigma',
- *		'password' => 'secret',
- *		'dbname' => 'blog',
- *		'port' => '3306'
- *	));
+ * <code>
+ * use Phalcon\Db\Adapter\Pdo\Mysql;
+ *
+ * $config = [
+ *   'host'     => 'localhost',
+ *   'dbname'   => 'blog',
+ *   'port'     => 3306,
+ *   'username' => 'sigma',
+ *   'password' => 'secret'
+ * ];
+ *
+ * $connection = new Mysql($config);
  *</code>
  */
 abstract class Pdo extends Adapter
@@ -46,6 +50,8 @@ abstract class Pdo extends Adapter
 
 	/**
 	 * PDO Handler
+	 *
+	 * @var \Pdo
 	 */
 	protected _pdo;
 
@@ -64,32 +70,33 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
-	 * Call it when you need to restore a database connection
+	 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
+	 *
+	 * Call it when you need to restore a database connection.
 	 *
 	 *<code>
-	 * //Make a connection
-	 * $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-	 *  'host' => '192.168.0.11',
+	 * use Phalcon\Db\Adapter\Pdo\Mysql;
+	 *
+	 * // Make a connection
+	 * $connection = new Mysql([
+	 *  'host'     => 'localhost',
 	 *  'username' => 'sigma',
 	 *  'password' => 'secret',
-	 *  'dbname' => 'blog',
-	 * ));
+	 *  'dbname'   => 'blog',
+	 *  'port'     => 3306,
+	 * ]);
 	 *
-	 * //Reconnect
+	 * // Reconnect
 	 * $connection->connect();
 	 * </code>
-	 *
-	 * @param 	array descriptor
-	 * @return 	boolean
 	 */
-	public function connect(descriptor = null)
+	public function connect(array descriptor = null) -> boolean
 	{
 		var username, password, dsnParts, dsnAttributes,
 			persistent, options, key, value;
 
-		if descriptor === null {
-			let descriptor = this->_descriptor;
+		if empty descriptor {
+			let descriptor = (array) this->_descriptor;
 		}
 
 		/**
@@ -153,6 +160,8 @@ abstract class Pdo extends Adapter
 		 * Create the connection using PDO
 		 */
 		let this->_pdo = new \Pdo(this->_type . ":" . dsnAttributes, username, password, options);
+
+		return true;
 	}
 
 	/**
@@ -297,7 +306,7 @@ abstract class Pdo extends Adapter
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
 				this->_sqlBindTypes = bindTypes;
-			if eventsManager->fire("db:beforeQuery", this, bindParams) === false {
+			if eventsManager->fire("db:beforeQuery", this) === false {
 				return false;
 			}
 		}
@@ -317,7 +326,7 @@ abstract class Pdo extends Adapter
 		 */
 		if typeof statement == "object" {
 			if typeof eventsManager == "object" {
-				eventsManager->fire("db:afterQuery", this, bindParams);
+				eventsManager->fire("db:afterQuery", this);
 			}
 			return new ResultPdo(this, statement, sqlStatement, bindParams, bindTypes);
 		}
@@ -347,7 +356,7 @@ abstract class Pdo extends Adapter
 			let this->_sqlStatement = sqlStatement,
 				this->_sqlVariables = bindParams,
 				this->_sqlBindTypes = bindTypes;
-			if eventsManager->fire("db:beforeQuery", this, bindParams) === false {
+			if eventsManager->fire("db:beforeQuery", this) === false {
 				return false;
 			}
 		}
@@ -374,7 +383,7 @@ abstract class Pdo extends Adapter
 		if typeof affectedRows == "integer" {
 			let this->_affectedRows = affectedRows;
 			if typeof eventsManager == "object" {
-				eventsManager->fire("db:afterQuery", this, bindParams);
+				eventsManager->fire("db:afterQuery", this);
 			}
 		}
 
@@ -629,7 +638,6 @@ abstract class Pdo extends Adapter
 
 				return this->rollbackSavepoint(savepointName);
 			}
-
 		}
 
 		/**

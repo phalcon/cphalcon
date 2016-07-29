@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -35,12 +35,12 @@ use Phalcon\Mvc\Model\MessageInterface;
  *
  *    public function beforeSave()
  *    {
- *      if (this->name == 'Peter') {
- *        text = "A robot cannot be named Peter";
- *        field = "name";
- *        type = "InvalidValue";
- *        message = new Message(text, field, type);
- *        this->appendMessage(message);
+ *      if ($this->name == 'Peter') {
+ *        $text = "A robot cannot be named Peter";
+ *        $field = "name";
+ *        $type = "InvalidValue";
+ *        $message = new Message($text, $field, $type);
+ *        $this->appendMessage($message);
  *     }
  *   }
  *
@@ -59,6 +59,8 @@ class Message implements MessageInterface
 
 	protected _model;
 
+	protected _code;
+
 	/**
 	 * Phalcon\Mvc\Model\Message constructor
 	 *
@@ -66,12 +68,14 @@ class Message implements MessageInterface
 	 * @param string|array field
 	 * @param string type
 	 * @param \Phalcon\Mvc\ModelInterface model
+         * @param int|null code
 	 */
-	public function __construct(string! message, field = null, type = null, model = null)
+	public function __construct(string! message, field = null, type = null, model = null, int code = null)
 	{
 		let this->_message = message,
 			this->_field = field,
-			this->_type = type;
+			this->_type = type,
+			this->_code = code;
 		if typeof model == "object" {
 			let this->_model = model;
 		}
@@ -138,11 +142,28 @@ class Message implements MessageInterface
 	}
 
 	/**
+	 * Sets code for the message
+	 */
+	public function setCode(int code) -> <Message>
+	{
+		let this->_code = code;
+		return this;
+	}
+
+	/**
 	 * Returns the model that produced the message
 	 */
 	public function getModel() -> <ModelInterface>
 	{
 		return this->_model;
+	}
+
+	/**
+	 * Returns the message code
+	 */
+	public function getCode() -> int
+	{
+		return this->_code;
 	}
 
 	/**
@@ -158,6 +179,6 @@ class Message implements MessageInterface
 	 */
 	public static function __set_state(array! message) -> <Message>
 	{
-		return new self(message["_message"], message["_field"], message["_type"]);
+		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
 	}
 }

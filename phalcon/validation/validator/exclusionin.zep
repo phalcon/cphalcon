@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,14 +29,25 @@ use Phalcon\Validation\Exception;
  *
  * Check if a value is not included into a list of values
  *
- *<code>
- *use Phalcon\Validation\Validator\ExclusionIn;
+ * <code>
+ * use Phalcon\Validation\Validator\ExclusionIn;
  *
- *$validator->add('status', new ExclusionIn(array(
- *   'message' => 'The status must not be A or B',
- *   'domain' => array('A', 'B')
- *)));
- *</code>
+ * $validator->add('status', new ExclusionIn([
+ *     'message' => 'The status must not be A or B',
+ *     'domain' => ['A', 'B']
+ * ]));
+ *
+ * $validator->add(['status', 'type'], new ExclusionIn([
+ *     'message' => [
+ *         'status' => 'The status must not be A or B',
+ *         'type' => 'The type must not be 1 or 2'
+ *     ],
+ *     'domain' => [
+ *         'status' => ['A', 'B'],
+ *         'type' => [1, 2]
+ *     ]
+ * ]));
+ * </code>
  */
 class ExclusionIn extends Validator
 {
@@ -46,29 +57,35 @@ class ExclusionIn extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, domain, message, label, replacePairs, strict;
+		var value, domain, message, label, replacePairs, strict, fieldDomain, code;
 
 		let value = validation->getValue(field);
-
-		if this->isSetOption("allowEmpty") && empty value {
-			return true;
-		}
 
 		/**
 		 * A domain is an array with a list of valid values
 		 */
 		let domain = this->getOption("domain");
+		if fetch fieldDomain, domain[field] {
+			if typeof fieldDomain == "array" {
+				let domain = fieldDomain;
+			}
+		}
 		if typeof domain != "array" {
 			throw new Exception("Option 'domain' must be an array");
 		}
 		
 		let strict = false;
-		if this->isSetOption("strict") {
+		if this->hasOption("strict") {
+
+			let strict = this->getOption("strict");
+
+			if typeof strict == "array" {
+				let strict = strict[field];
+			}
+
 			if typeof strict != "boolean" {
 			    throw new Exception("Option 'strict' must be a boolean");
 			}
-
-			let strict = this->getOption("strict");
 		}
 
 		/**
@@ -77,17 +94,28 @@ class ExclusionIn extends Validator
 		if in_array(value, domain, strict) {
 
 			let label = this->getOption("label");
+			if typeof label == "array" {
+				let label = label[field];
+			}
 			if empty label {
 				let label = validation->getLabel(field);
 			}
 
 			let message = this->getOption("message");
+			if typeof message == "array" {
+				let message = message[field];
+			}
 			let replacePairs = [":field": label, ":domain":  join(", ", domain)];
 			if empty message {
 				let message = validation->getDefaultMessage("ExclusionIn");
 			}
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn"));
+			let code = this->getOption("code");
+			if typeof code == "array" {
+				let code = code[field];
+			}
+
+			validation->appendMessage(new Message(strtr(message, replacePairs), field, "ExclusionIn", code));
 			return false;
 		}
 

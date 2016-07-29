@@ -1,6 +1,26 @@
 # Codeception Test Suite Configuration
-
-# suite for unit (internal) tests.
-class_name: CodeGuy
+#
+# Suite for unit (internal) tests.
+class_name: UnitTester
 modules:
-    enabled: [Asserts, UnitHelper]
+    # enabled modules and helpers
+    enabled:
+        - Helper\Unit
+        - Asserts
+        - Db
+        - Filesystem
+        - Phalcon
+    config:
+        Phalcon:
+            bootstrap: 'tests/_config/bootstrap.php'
+        Db:
+            # get params from environment vars
+            # Create it before running tests. For example:
+            # export TEST_DB_MYSQL_DSN="mysql:host=10.1.0.3.;dbname=phalcon_test"
+            # ...
+            dsn: %TEST_DB_MYSQL_DSN%
+            user: %TEST_DB_MYSQL_USER%
+            password: %TEST_DB_MYSQL_PASSWD%
+            populate: true
+            cleanup: false
+            dump: tests/_data/schemas/mysql/mysql.dump.sql
