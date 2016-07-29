@@ -224,8 +224,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 
 	ZEPHIR_OBS_VAR(data);
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(keys);
+	array_init(keys);
 	if (Z_TYPE_P(data) == IS_ARRAY) {
-		ZEPHIR_INIT_VAR(keys);
+		ZEPHIR_INIT_NVAR(keys);
 		if (!(zephir_is_true(prefix))) {
 			ZEPHIR_INIT_VAR(_0$$4);
 			zephir_array_keys(_0$$4, data TSRMLS_CC);
@@ -234,14 +236,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 		} else {
 			array_init(keys);
 			ZEPHIR_INIT_VAR(_2$$5);
-			zephir_is_iterable(data, &_4$$5, &_3$$5, 0, 0, "phalcon/cache/backend/memory.zep", 162);
+			zephir_is_iterable(data, &_4$$5, &_3$$5, 0, 0, "phalcon/cache/backend/memory.zep", 164);
 			for (
 			  ; zephir_hash_get_current_data_ex(_4$$5, (void**) &_5$$5, &_3$$5) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_4$$5, &_3$$5)
 			) {
 				ZEPHIR_GET_HMKEY(index, _4$$5, _3$$5);
 				ZEPHIR_GET_HVALUE(_2$$5, _5$$5);
-				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 160);
+				zephir_array_append(&keys, index, PH_SEPARATE, "phalcon/cache/backend/memory.zep", 162);
 			}
 		}
 	}
@@ -441,10 +443,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, unserialize) {
 	ZEPHIR_CALL_FUNCTION(&unserialized, "unserialize", NULL, 66, data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(unserialized) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Unserialized data must be an array", "phalcon/cache/backend/memory.zep", 295);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Unserialized data must be an array", "phalcon/cache/backend/memory.zep", 297);
 		return;
 	}
-	zephir_array_fetch_string(&_0, unserialized, SL("frontend"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/memory.zep", 298 TSRMLS_CC);
+	zephir_array_fetch_string(&_0, unserialized, SL("frontend"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/memory.zep", 300 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_frontend"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
