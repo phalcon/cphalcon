@@ -2,9 +2,9 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Mvc\Model\Criteria;
-use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\Models\AlbumORama\Albums;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\ManagerTest
@@ -27,10 +27,9 @@ use Phalcon\Test\Module\UnitTest;
 class ModelTest extends UnitTest
 {
     /**
-     * @var Manager
+     * @var \Phalcon\Mvc\Model\Manager
      */
     private $modelsManager;
-
 
     protected function _before()
     {
@@ -39,7 +38,7 @@ class ModelTest extends UnitTest
         $app = $this->tester->getApplication();
         $this->modelsManager = $app->getDI()->getShared('modelsManager');
     }
-    
+
     public function testCamelCaseRelation()
     {
         $this->specify(
@@ -47,9 +46,42 @@ class ModelTest extends UnitTest
             function () {
                 $this->modelsManager->registerNamespaceAlias('AlbumORama','Phalcon\Test\Models\AlbumORama');
                 $album = Albums::findFirst();
+
                 $album->artist->name = 'NotArtist';
                 expect($album->artist->name)->equals($album->Artist->name);
             }
         );
+    }
+
+    /**
+     * Tests find with empty conditions + bind and limit.
+     *
+     * @issue  11919
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-07-29
+     */
+    public function testEmptyConditions()
+    {
+        $this->specify(
+            'The Model::find with empty conditions + bind and limit return wrong result',
+            function () {
+                $album = Albums::find([
+                    'conditions' => '',
+                    'bind'       => [],
+                    'limit'      => 10
+                ]);
+
+                expect($album)->isInstanceOf(Simple::class);
+                expect(ini_get('opcache.enable_cli'))->equals(1);
+
+                expect($album->getFirst())->isInstanceOf(Albums::class);
+
+                expect($album->getFirst()->toArray())->equals([
+                    'id' => 1,
+                    'artists_id' => 1,
+                    'name' => 'Born to Die',
+                ]);
+            }
+         );
     }
 }
