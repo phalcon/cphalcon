@@ -31,7 +31,6 @@ use Phalcon\Cache\BackendInterface;
  * This class builds every complete object as it is required
  */
 class Simple extends Resultset
-	implements \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable
 {
 
 	protected _model;
