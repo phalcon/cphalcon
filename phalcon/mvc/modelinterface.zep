@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -142,10 +142,9 @@ interface ModelInterface
 	/**
 	 * Allows to query a set of records that match the specified conditions
 	 *
-	 * @param 	array parameters
-	 * @return  Phalcon\Mvc\Model\ResultsetInterface
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	public static function find(parameters = null);
+	public static function find(var parameters = null);
 
 	/**
 	 * Allows to query the first record that match the specified conditions
@@ -156,7 +155,7 @@ interface ModelInterface
 	public static function findFirst(parameters = null);
 
 	/**
-	 * Create a criteria for a especific model
+	 * Create a criteria for a specific model
 	 *
 	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return \Phalcon\Mvc\Model\CriteriaInterface
@@ -172,7 +171,7 @@ interface ModelInterface
 	public static function count(parameters = null);
 
 	/**
-	 * Allows to calculate a summatory on a column that match the specified conditions
+	 * Allows to calculate a sum on a column that match the specified conditions
 	 *
 	 * @param array parameters
 	 * @return double
@@ -249,7 +248,7 @@ interface ModelInterface
 	public function save(data = null, whiteList = null);
 
 	/**
-	 * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
 	 * @param  array data
@@ -259,7 +258,7 @@ interface ModelInterface
 	public function create(data = null, whiteList = null);
 
 	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
 	 * @param  array data
