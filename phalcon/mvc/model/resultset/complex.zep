@@ -191,7 +191,7 @@ class Complex extends Resultset implements ResultsetInterface
 						break;
 
 					default:
-						// Other kinds of hydrations
+						// Other kinds of hydration
 						let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
 						break;
 				}
@@ -257,13 +257,13 @@ class Complex extends Resultset implements ResultsetInterface
 		let records = [];
 
 		this->rewind();
-		//for current in iterator(this) {
+
 		while this->valid() {
 			let current = this->current();
 			let records[] = current;
 			this->next();
 		}
-		
+
 		return records;
 	}
 

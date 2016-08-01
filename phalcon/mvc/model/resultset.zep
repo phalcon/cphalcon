@@ -37,19 +37,19 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  *
  * <code>
  *
- * //Using a standard foreach
- * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+ * // Using a standard foreach
+ * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
  * foreach ($robots as robot) {
- *  echo robot->name, "\n";
+ *     echo robot->name, "\n";
  * }
  *
- * //Using a while
- * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+ * // Using a while
+ * $robots = Robots::find(["type='virtual'", 'order' => 'name');
  * $robots->rewind();
  * while ($robots->valid()) {
- *  $robot = $robots->current();
- *  echo $robot->name, "\n";
- *  $robots->next();
+ *     $robot = $robots->current();
+ *     echo $robot->name, "\n";
+ *     $robots->next();
  * }
  * </code>
  */
@@ -407,8 +407,6 @@ abstract class Resultset
 
 		this->rewind();
 
-		//for record in iterator(this) {
-
 		while this->valid() {
 
 			let record = this->current();
@@ -480,8 +478,6 @@ abstract class Resultset
 		let transaction = false;
 
 		this->rewind();
-
-		//for record in iterator(this) {
 
 		while this->valid() {
 
@@ -566,8 +562,6 @@ abstract class Resultset
 
 		this->rewind();
 
-		//for record in iterator(this) {
-
 		while this->valid() {
 
 			let record = this->current();
@@ -607,10 +601,8 @@ abstract class Resultset
         let records = [];
 
 		this->rewind();
-        //for current in iterator(this) {
 
 		while this->valid() {
-
 			let current = this->current();
 
         	if typeof current == "object" && method_exists(current, "jsonSerialize") {
