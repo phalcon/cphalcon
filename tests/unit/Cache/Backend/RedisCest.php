@@ -6,6 +6,7 @@ use UnitTester;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Backend\Redis;
+use Phalcon\Cache\Frontend\Output;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\RedisCest
@@ -135,7 +136,7 @@ class RedisCest
     public function delete(UnitTester $I)
     {
         $I->wantTo(/** @lang text */
-            'Delete from cache by Redis as cache backend'
+            'Delete from cache by using Redis as cache backend'
         );
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
@@ -153,7 +154,7 @@ class RedisCest
 
     public function flush(UnitTester $I)
     {
-        $I->wantTo('Flush cache using by Redis as cache backend');
+        $I->wantTo('Flush cache using by using Redis as cache backend');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
             'host'     => TEST_RS_HOST,
@@ -181,7 +182,7 @@ class RedisCest
 
     public function queryKeys(UnitTester $I)
     {
-        $I->wantTo('Get cache keys by Redis as cache backend');
+        $I->wantTo('Get cache keys by using Redis as cache backend');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
             'host'     => TEST_RS_HOST,
@@ -205,7 +206,7 @@ class RedisCest
 
     public function queryKeysWithoutStatsKey(UnitTester $I)
     {
-        $I->wantTo('I want to get exception during the attempt getting cache keys by Redis as cache backend without statsKey');
+        $I->wantTo('Catch exception during the attempt getting cache keys by using Redis as cache backend without statsKey');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
             'host' => TEST_RS_HOST,
@@ -218,5 +219,44 @@ class RedisCest
                 $cache->queryKeys();
             }
         );
+    }
+
+    public function output(UnitTester $I)
+    {
+        $I->wantTo('');
+
+        $time = date('H:i:s');
+        $cache = new Redis(new Output(['lifetime' => 2]), [
+            'host' => TEST_RS_HOST,
+            'port' => TEST_RS_PORT,
+        ]);
+
+        ob_start();
+
+        // First time cache
+        $content = $cache->start('test-output');
+        $I->assertNull($content);
+
+        echo $time;
+        $cache->save(null, null, null, true);
+
+        $obContent = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertEquals($time, $obContent);
+        $I->seeInRedis('_PHCR' . 'test-output', $time);
+
+        // Expect same cache
+        $content = $cache->start('test-output');
+        $I->assertNotNull($content);
+
+        $I->assertEquals($time, $obContent);
+        $I->seeInRedis('_PHCR' . 'test-output', $time);
+
+        sleep(2);
+        $content = $cache->start('test-output');
+
+        $I->assertNull($content);
+        $I->dontSeeInRedis('_PHCR' . 'test-output');
     }
 }
