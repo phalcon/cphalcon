@@ -720,30 +720,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to query a set of records that match the specified conditions
 	 *
 	 * <code>
-	 *
-	 * //How many robots are there?
+	 * // How many robots are there?
 	 * $robots = Robots::find();
-	 * echo "There are ", count($robots), "\n";
+	 * echo 'There are ', count($robots), "\n";
 	 *
-	 * //How many mechanical robots are there?
+	 * // How many mechanical robots are there?
 	 * $robots = Robots::find("type='mechanical'");
-	 * echo "There are ", count($robots), "\n";
+	 * echo 'There are ', count($robots), "\n";
 	 *
-	 * //Get and print virtual robots ordered by name
-	 * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+	 * // Get and print virtual robots ordered by name
+	 * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
 	 * foreach ($robots as $robot) {
-	 *	   echo $robot->name, "\n";
+	 *     echo $robot->name, "\n";
 	 * }
 	 *
-	 * //Get first 100 virtual robots ordered by name
-	 * $robots = Robots::find(array("type='virtual'", "order" => "name", "limit" => 100));
+	 * // Get first 100 virtual robots ordered by name
+	 * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
 	 * foreach ($robots as $robot) {
-	 *	   echo $robot->name, "\n";
+	 *     echo $robot->name, "\n";
 	 * }
 	 * </code>
-	 *
-	 * @param 	array parameters
-	 * @return  Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
@@ -1189,7 +1185,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to calculate a summatory on a column that match the specified conditions
+	 * Allows to calculate a sum on a column that match the specified conditions
 	 *
 	 * <code>
 	 *
@@ -2960,7 +2956,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
@@ -3004,7 +3000,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
