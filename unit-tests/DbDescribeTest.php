@@ -561,6 +561,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'm2m_parts',
 			'm2m_robots',
 			'm2m_robots_parts',
+			'package_details',
+			'packages',
 			'parts',
 			'personas',
 			'personnes',

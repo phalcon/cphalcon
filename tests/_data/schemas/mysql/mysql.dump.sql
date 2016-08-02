@@ -443,6 +443,47 @@ CREATE TABLE `issue_11036` (
   UNIQUE KEY `issue_11036_token_UNIQUE` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `packages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `packages` (
+  `reference_type_id` int(11) NOT NULL,
+  `reference_id` int(10) unsigned NOT NULL,
+  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `updated` int(10) unsigned NOT NULL,
+  `deleted` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`reference_type_id`,`reference_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `packages` (`reference_type_id`, `reference_id`, `title`, `created`, `updated`, `deleted`) VALUES
+  (1, 1,  'Private Package #1',   0,  0,  NULL),
+  (1, 2,  'Private Package #2',   0,  0,  NULL),
+  (2, 1,  'Public Package #1',    0,  0,  NULL);
+
+DROP TABLE IF EXISTS `package_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `package_details` (
+  `reference_type_id` int(11) NOT NULL,
+  `reference_id` int(10) unsigned NOT NULL,
+  `type` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `updated` int(10) unsigned NOT NULL,
+  `deleted` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`reference_type_id`,`reference_id`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `package_details` (`reference_type_id`, `reference_id`, `type`, `value`, `created`, `updated`, `deleted`) VALUES
+  (1, 1,  'detail',   'private package #1 - detail',  0,  0,  NULL),
+  (1, 1,  'option',   'private package #1 - option',  0,  0,  NULL),
+  (1, 2,  'detail',   'private package #2 - detail',  0,  0,  NULL),
+  (1, 2,  'option',   'private package #2 - option',  0,  0,  NULL),
+  (2, 1,  'coupon',   'public package #1 - coupon',   0,  0,  NULL),
+  (2, 1,  'detail',   'public package #1 - detail',   0,  0,  NULL),
+  (2, 1,  'option',   'public package #1 - option',   0,  0,  NULL);
+
 DROP TABLE IF EXISTS `childs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

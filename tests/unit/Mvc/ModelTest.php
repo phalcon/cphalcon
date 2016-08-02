@@ -2,7 +2,9 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\AlbumORama\Albums;
 
@@ -83,5 +85,29 @@ class ModelTest extends UnitTest
                 ]);
             }
          );
+    }
+
+    /**
+     * Tests Model::hasMany by using multi relation column
+     *
+     * @issue  12035
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-08-02
+     */
+    public function testMultiRelationColumn()
+    {
+        $this->specify(
+            'The Model::hasMany by using multi relation column does not work as expected',
+            function () {
+                $list = Packages::find();
+                foreach ($list as $item) {
+                    expect($item)->isInstanceOf(Packages::class);
+                    expect($item->details)->isInstanceOf(Simple::class);
+                    expect($item->details->valid())->true();
+                    expect($item->details->count())->greaterOrEquals(2);
+                    expect($item->details->getFirst())->isInstanceOf(PackageDetails::class);
+                }
+            }
+        );
     }
 }
