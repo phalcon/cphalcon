@@ -183,6 +183,7 @@ class Memcache extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = this->_prefix . keyName;
+			let this->_lastKey = this->_prefix . keyName;
 		}
 
 		if !lastKey {

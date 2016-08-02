@@ -85,6 +85,7 @@ class Apc extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = "_PHCA" . this->_prefix . keyName;
+			let this->_lastKey = "_PHCA" . this->_prefix . keyName;
 		}
 
 		if !lastKey {
