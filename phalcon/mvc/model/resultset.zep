@@ -93,7 +93,6 @@ abstract class Resultset
 	/**
 	 * Phalcon\Mvc\Model\Resultset constructor
 	 *
-	 * @param array columnTypes
 	 * @param \Phalcon\Db\ResultInterface|false result
 	 * @param \Phalcon\Cache\BackendInterface cache
 	 */
@@ -102,8 +101,8 @@ abstract class Resultset
 		var rowCount, rows;
 
 		/**
-		* 'false' is given as result for empty result-sets
-		*/
+		 * 'false' is given as result for empty result-sets
+		 */
 		if typeof result != "object" {
 			let this->_count = 0;
 			let this->_rows = [];
@@ -134,8 +133,8 @@ abstract class Resultset
 		let this->_count = rowCount;
 
 		/**
-		* Empty result-set
-		*/
+		 * Empty result-set
+		 */
 		if rowCount == 0 {
 			let this->_rows = [];
 			return;
@@ -146,8 +145,8 @@ abstract class Resultset
 		 */
 		if rowCount <= 32 {
 			/**
-			* Fetch ALL rows from database
-			*/
+			 * Fetch ALL rows from database
+			 */
 			let rows = result->fetchAll();
 			if typeof rows == "array" {
 				let this->_rows = rows;
