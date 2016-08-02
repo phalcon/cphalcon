@@ -189,6 +189,7 @@ class Redis extends Backend implements BackendInterface
 			let prefix = this->_prefix;
 			let prefixedKey = prefix . keyName;
 			let lastKey = "_PHCR" . prefixedKey;
+			let this->_lastKey = "_PHCR" . prefixedKey;
 		}
 
 		if !lastKey {
