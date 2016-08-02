@@ -100,6 +100,13 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` (`id`, `document_id`, `customer_id`, `email`, `status`, `created_at`) VALUES
+  ('1', '1', '1', 'foo@bar.baz', 'A', NOW()),
+  ('2', '1', '3', 'foo@bar.baz', 'A', NOW()),
+  ('3', '1', '3', 'foo@bar.baz', 'A', NOW()),
+  ('4', '1', '3', 'foo@bar.baz', 'I', NOW()),
+  ('5', '3', '2', 'foo@bar.baz', 'X', NOW()),
+  ('6', '4', '4', 'foo@bar.baz', 'A', NOW());
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,6 +503,26 @@ CREATE TABLE `childs` (
   `group` INT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`id`, `name`) VALUES
+  (1, 'Andres Gutierrez'),
+  (2, 'Serghei Iakovlev'),
+  (3, 'Nikolaos Dimopoulos'),
+  (4, 'Eduar Carvajal');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 
 /*!40101 SET character_set_client = @saved_cs_client */;
 
