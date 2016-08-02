@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,12 +26,6 @@ namespace Phalcon\Mvc\Model\Transaction;
  */
 interface ManagerInterface
 {
-
-	/**
-	 * Phalcon\Mvc\Model\Transaction\Manager
-	 */
-	public function __construct(<\Phalcon\DiInterface> dependencyInjector = null);
-
 	/**
 	 * Checks whether manager has an active transaction
 	 */
@@ -48,7 +42,7 @@ interface ManagerInterface
 	public function rollbackPendent();
 
 	/**
-	 * Commmits active transactions within the manager
+	 * Commits active transactions within the manager
 	 */
 	public function commit();
 
@@ -66,7 +60,7 @@ interface ManagerInterface
 	public function notifyRollback(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
 
 	/**
-	 * Notifies the manager about a commited transaction
+	 * Notifies the manager about a committed transaction
 	 */
 	public function notifyCommit(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
 

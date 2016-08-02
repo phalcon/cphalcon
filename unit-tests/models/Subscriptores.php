@@ -1,12 +1,13 @@
 <?php
 
-use Phalcon\Mvc\Model\Validator\PresenceOf as PresenceOfValidator;
-use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
-use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
-use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
-use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
-use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
-use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf as PresenceOfValidator;
+use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\ExclusionIn as ExclusionInValidator;
+use Phalcon\Validation\Validator\InclusionIn as InclusionInValidator;
+use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+use Phalcon\Validation\Validator\Regex as RegexValidator;
+use Phalcon\Validation\Validator\StringLength as StringLengthValidator;
 
 use Phalcon\Mvc\Model\Message as Message;
 
@@ -31,43 +32,34 @@ class Subscriptores extends Phalcon\Mvc\Model
 
 	public function validation()
 	{
+		$validator = new Validation();
 
-		$this->validate(new PresenceOfValidator(array(
-			'field' => 'created_at'
-		)));
+		$validator->add('created_at', new PresenceOfValidator());
 
-		$this->validate(new StringLengthValidator(array(
-			'field' => 'email',
+		$validator->add('email', new StringLengthValidator(array(
 			'min' => '7',
 			'max' => '50'
 		)));
 
-		$this->validate(new EmailValidator(array(
-			'field' => 'email'
-		)));
+		$validator->add('email', new EmailValidator());
 
-		$this->validate(new ExclusionInValidator(array(
-			'field' => 'status',
+		$validator->add('status', new ExclusionInValidator(array(
 			'domain' => array('X', 'Z')
 		)));
 
-		$this->validate(new InclusionInValidator(array(
-			'field' => 'status',
+		$validator->add('status', new InclusionInValidator(array(
 			'domain' => array('P', 'I', 'w')
 		)));
 
-		$this->validate(new UniquenessValidator(array(
-			'field' => 'email'
+		$validator->add('email', new UniquenessValidator(array(
+			'model' => $this
 		)));
 
-		$this->validate(new RegexValidator(array(
-			'field' => 'status',
+		$validator->add('status', new RegexValidator(array(
 			'pattern' => '/[A-Z]/'
 		)));
 
-		if ($this->validationHasFailed() == true) {
-			return false;
-		}
+		return $this->validate($validator);
 	}
 
 }

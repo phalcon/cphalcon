@@ -1,0 +1,208 @@
+
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+%token_prefix PHANNOT_
+%token_type {phannot_parser_token*}
+%default_type {zval*}
+%extra_argument {phannot_parser_status *status}
+%name phannot_
+
+%left COMMA .
+
+%include {
+#include "parser.php5.inc.h"
+}
+
+%syntax_error {
+	if (status->scanner_state->start_length) {
+		char *token_name = NULL;
+		const phannot_token_names *tokens = phannot_tokens;
+		uint active_token = status->scanner_state->active_token;
+		uint near_length = status->scanner_state->start_length;
+
+		if (active_token) {
+			do {
+				if (tokens->code == active_token) {
+					token_name = tokens->name;
+					break;
+				}
+				++tokens;
+			} while (tokens[0].code != 0);
+		}
+
+		if (!token_name) {
+			token_name  = "UNKNOWN";
+		}
+
+		if (near_length > 0) {
+			if (status->token->value) {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, status->scanner_state->active_file, status->scanner_state->active_line);
+			} else {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, status->scanner_state->active_file, status->scanner_state->active_line);
+			}
+		} else {
+			if (active_token != PHANNOT_T_IGNORE) {
+				if (status->token->value) {
+					spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, status->scanner_state->active_file, status->scanner_state->active_line);
+				} else {
+					spprintf(&status->syntax_error, 0, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, status->scanner_state->active_file, status->scanner_state->active_line);
+				}
+			} else {
+				spprintf(&status->syntax_error, 0, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d", status->scanner_state->active_file, status->scanner_state->active_line);
+			}
+		}
+	} else {
+		spprintf(&status->syntax_error, 0, "Syntax error, unexpected EOF in %s", status->scanner_state->active_file);
+	}
+
+	status->status = PHANNOT_PARSING_FAILED;
+}
+
+%token_destructor {
+	if ($$) {
+		if ($$->free_flag) {
+			efree($$->token);
+		}
+		efree($$);
+	}
+}
+
+program ::= annotation_language(Q) . {
+	status->ret = Q;
+}
+
+%destructor annotation_language {
+    zval_ptr_dtor(&$$);
+}
+
+annotation_language(R) ::= annotation_list(L) . {
+	R = L;
+}
+
+%destructor annotation_list {
+    zval_ptr_dtor(&$$);
+}
+
+annotation_list(R) ::= annotation_list(L) annotation(S) . {
+	R = phannot_ret_zval_list(L, S);
+}
+
+annotation_list(R) ::= annotation(S) . {
+	R = phannot_ret_zval_list(NULL, S);
+}
+
+%destructor annotation {
+    zval_ptr_dtor(&$$);
+}
+
+annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
+	R = phannot_ret_annotation(I, L, status->scanner_state);
+}
+
+annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN PARENTHESES_CLOSE . {
+	R = phannot_ret_annotation(I, NULL, status->scanner_state);
+}
+
+annotation(R) ::= AT IDENTIFIER(I) . {
+	R = phannot_ret_annotation(I, NULL, status->scanner_state);
+}
+
+%destructor argument_list {
+    zval_ptr_dtor(&$$);
+}
+
+argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
+	R = phannot_ret_zval_list(L, I);
+}
+
+argument_list(R) ::= argument_item(I) . {
+	R = phannot_ret_zval_list(NULL, I);
+}
+
+%destructor argument_item {
+    zval_ptr_dtor(&$$);
+}
+
+argument_item(R) ::= expr(E) . {
+	R = phannot_ret_named_item(NULL, E);
+}
+
+argument_item(R) ::= STRING(S) EQUALS expr(E) . {
+	R = phannot_ret_named_item(S, E);
+}
+
+argument_item(R) ::= STRING(S) COLON expr(E) . {
+	R = phannot_ret_named_item(S, E);
+}
+
+argument_item(R) ::= IDENTIFIER(I) EQUALS expr(E) . {
+	R = phannot_ret_named_item(I, E);
+}
+
+argument_item(R) ::= IDENTIFIER(I) COLON expr(E) . {
+	R = phannot_ret_named_item(I, E);
+}
+
+%destructor expr {
+    zval_ptr_dtor(&$$);
+}
+
+expr(R) ::= annotation(S) . {
+	R = S;
+}
+
+expr(R) ::= array(A) . {
+	R = A;
+}
+
+expr(R) ::= IDENTIFIER(I) . {
+	R = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, I);
+}
+
+expr(R) ::= INTEGER(I) . {
+	R = phannot_ret_literal_zval(PHANNOT_T_INTEGER, I);
+}
+
+expr(R) ::= STRING(S) . {
+	R = phannot_ret_literal_zval(PHANNOT_T_STRING, S);
+}
+
+expr(R) ::= DOUBLE(D) . {
+	R = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, D);
+}
+
+expr(R) ::= NULL . {
+	R = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
+}
+
+expr(R) ::= FALSE . {
+	R = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
+}
+
+expr(R) ::= TRUE . {
+	R = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
+}
+
+array(R) ::= BRACKET_OPEN argument_list(A) BRACKET_CLOSE . {
+	R = phannot_ret_array(A);
+}
+
+array(R) ::= SBRACKET_OPEN argument_list(A) SBRACKET_CLOSE . {
+	R = phannot_ret_array(A);
+}

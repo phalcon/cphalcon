@@ -37,9 +37,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getViewsDir);
 
 /**
  * Adds parameters to views (alias of setVar)
- *
- * @param string key
- * @param mixed value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setParamToView);
 
@@ -63,8 +60,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getCache);
 
 /**
  * Cache the actual view render to certain level
- *
- * @param boolean|array options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, cache);
 

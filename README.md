@@ -6,7 +6,7 @@ Phalcon is an open source web framework delivered as a C extension for the PHP l
 Get Started
 -----------
 
-Phalcon is written in Zephir/C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, and Mac OS X. You can either download a binary package for the system of your choice or build it from source.
+Phalcon is written in [Zephir/C](http://zephir-lang.com/) with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS. You can either download a binary package for the system of your choice or build it from source.
 
 ### Windows
 
@@ -26,8 +26,8 @@ On a Unix-based platform you can easily compile and install the extension from s
 #### Requirements
 Prerequisite packages are:
 
-* PHP 5.4.x/5.5.x/5.6.x development resources
-* GCC compiler (Linux/Solaris) or Xcode (Mac)
+* PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
+* GCC compiler (Linux/Solaris/FreeBSD) or Xcode (MacOS)
 
 Ubuntu:
 
@@ -47,8 +47,8 @@ CentOS/Fedora/RHEL
 sudo yum install php-devel pcre-devel gcc make
 ```
 
-Compilation
------------
+General Compilation
+-------------------
 
 Follow these instructions to generate a binary extension for your platform:
 
@@ -64,7 +64,38 @@ Add the extension to your php.ini:
 extension=phalcon.so
 ```
 
-Finally, restart the webserver.
+Finally, **restart the webserver**.
+
+Advanced compilation
+--------------
+if you have specific php versions running
+
+```bash
+git clone https://github.com/phalcon/cphalcon
+cd cphalcon/build/64bits  # <OR> cd cphalcon/build/32bits
+make clean
+phpize --clean
+$YOUR_PHP_INSTALLATION_PATH/bin/phpize  # Example: /opt/php-5.6.15/bin/phpize
+./configure --with-php-config=$YOUR_PHP_INSTALLATION_PATH/bin/php-config # Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+make && sudo make install
+```
+
+Edit your **php.ini** (for the specific version) and add this line:
+
+```bash
+extension=phalcon.so
+```
+
+Save the file and **Restart the webserver**.
+
+Vagrant
+--------------
+https://github.com/phalcon/vagrant
+
+OSX MAMP ready extensions
+--------------
+
+https://github.com/majksner/php-phalcon-mamp
 
 External Links
 --------------
@@ -80,7 +111,7 @@ Current Build Status
 
 Phalcon Framework is built under the Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
 
-[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
+[![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
 
 Meet the Incubator
 -----------

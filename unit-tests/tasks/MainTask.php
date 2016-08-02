@@ -13,8 +13,11 @@ class MainTask extends \Phalcon\CLI\Task
         return $this->di['registry']->data;
     }
 
-    public function helloAction($world = "", $symbol = "!")
+    public function helloAction($params = array())
     {
+        $world  = isset($params[0]) ? $params[0] : "";
+        $symbol = isset($params[1]) ? $params[1] : "!";
+
         return "Hello " . $world . $symbol;
     }
 }

@@ -101,6 +101,32 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 				'notNull' => true,
 				'default' => 'CURRENT_TIMESTAMP',
 			)),
+			'column14' => new Column("column14", array(
+				'type' => Column::TYPE_TINYBLOB,
+				'notNull' => true
+			)),
+			'column15' => new Column("column15", array(
+				'type' => Column::TYPE_MEDIUMBLOB,
+				'notNull' => true
+			)),
+			'column16' => new Column("column16", array(
+				'type' => Column::TYPE_BLOB,
+				'notNull' => true
+			)),
+			'column17' => new Column("column17", array(
+				'type' => Column::TYPE_LONGBLOB,
+				'notNull' => true
+			)),
+			'column18' => new Column("column18", array(
+				'type' => Column::TYPE_BOOLEAN,
+			)),
+			'column19' => new Column("column19", array(
+				'type' => Column::TYPE_DOUBLE,
+			)),
+			'column20' => new Column("column20", array(
+				'type' => Column::TYPE_DOUBLE,
+				'unsigned' => true
+			))
 		);
 	}
 
@@ -111,6 +137,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 			'index2' => new Index("index2", array('column1', 'column2')),
 			'PRIMARY' => new Index("PRIMARY", array('column3')),
 			'index4' => new Index("index4", array('column4'), 'UNIQUE'),
+			'index5' => new Index("index5", array('column7'), 'FULLTEXT'),
 		);
 	}
 
@@ -285,6 +312,47 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($column13->getType(), Column::TYPE_TIMESTAMP);
 		$this->assertTrue($column13->isNotNull());
 		$this->assertEquals($column13->getDefault(), 'CURRENT_TIMESTAMP');
+
+		//Tinyblob column
+		$column14 = $columns['column14'];
+		$this->assertEquals($column14->getName(), 'column14');
+		$this->assertEquals($column14->getType(), Column::TYPE_TINYBLOB);
+		$this->assertTrue($column14->isNotNull());
+
+		//Mediumblob column
+		$column15 = $columns['column15'];
+		$this->assertEquals($column15->getName(), 'column15');
+		$this->assertEquals($column15->getType(), Column::TYPE_MEDIUMBLOB);
+		$this->assertTrue($column15->isNotNull());
+
+		//Blob column
+		$column16 = $columns['column16'];
+		$this->assertEquals($column16->getName(), 'column16');
+		$this->assertEquals($column16->getType(), Column::TYPE_BLOB);
+		$this->assertTrue($column16->isNotNull());
+
+		//Longblob column
+		$column17 = $columns['column17'];
+		$this->assertEquals($column17->getName(), 'column17');
+		$this->assertEquals($column17->getType(), Column::TYPE_LONGBLOB);
+		$this->assertTrue($column17->isNotNull());
+
+		//Boolean column
+		$column18 = $columns['column18'];
+		$this->assertEquals($column18->getName(), 'column18');
+		$this->assertEquals($column18->getType(), Column::TYPE_BOOLEAN);
+
+		//Double column
+		$column19 = $columns['column19'];
+		$this->assertEquals($column19->getName(), 'column19');
+		$this->assertEquals($column19->getType(), Column::TYPE_DOUBLE);
+		$this->assertFalse($column19->isUnsigned());
+
+		//Unsigned double column
+		$column20 = $columns['column20'];
+		$this->assertEquals($column20->getName(), 'column20');
+		$this->assertEquals($column20->getType(), Column::TYPE_DOUBLE);
+		$this->assertTrue($column20->isUnsigned());
 	}
 
 	public function testIndexes()
@@ -308,6 +376,11 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($index4->getName(), 'index4');
 		$this->assertEquals($index4->getColumns(), array('column4'));
 		$this->assertEquals($index4->getType(), 'UNIQUE');
+
+		$index5 = $indexes['index5'];
+		$this->assertEquals($index5->getName(), 'index5');
+		$this->assertEquals($index5->getColumns(), array('column7'));
+		$this->assertEquals($index5->getType(), 'FULLTEXT');
 
 	}
 
@@ -800,14 +873,6 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='database.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position");$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='database.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position");$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='database.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position");
 	}
 
-	public function testOracleDialect()
-	{
-		$dialect = new \Phalcon\Db\Dialect\Oracle();
-
-		// issue 11359
-		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = 'TABLE' AND TC.OWNER = 'DATABASE.NAME.WITH.DOTS' ORDER BY TC.COLUMN_ID");
-	}
-
 	public function testSQLiteDialect()
 	{
 		$dialect = new \Phalcon\Db\Dialect\Sqlite();
@@ -829,6 +894,13 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->getColumnDefinition($columns['column9']), 'VARCHAR(10)');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column10']), 'INTEGER');
 		$this->assertEquals($dialect->getColumnDefinition($columns['column13']), 'TIMESTAMP');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column14']), 'TINYBLOB');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column15']), 'MEDIUMBLOB');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column16']), 'BLOB');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column17']), 'LONGBLOB');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column18']), 'TINYINT');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column19']), 'DOUBLE');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column20']), 'DOUBLE UNSIGNED');
 
 		//Add Columns
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column1']), 'ALTER TABLE "table" ADD COLUMN "column1" VARCHAR(10)');
@@ -853,6 +925,20 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column10']), 'ALTER TABLE "schema"."table" ADD COLUMN "column10" INTEGER DEFAULT "10"');
 		$this->assertEquals($dialect->addColumn('table', null,     $columns['column13']), 'ALTER TABLE "table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column13']), 'ALTER TABLE "schema"."table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column14']), 'ALTER TABLE "table" ADD COLUMN "column14" TINYBLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column14']), 'ALTER TABLE "schema"."table" ADD COLUMN "column14" TINYBLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column15']), 'ALTER TABLE "table" ADD COLUMN "column15" MEDIUMBLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column15']), 'ALTER TABLE "schema"."table" ADD COLUMN "column15" MEDIUMBLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column16']), 'ALTER TABLE "table" ADD COLUMN "column16" BLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column16']), 'ALTER TABLE "schema"."table" ADD COLUMN "column16" BLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column17']), 'ALTER TABLE "table" ADD COLUMN "column17" LONGBLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column17']), 'ALTER TABLE "schema"."table" ADD COLUMN "column17" LONGBLOB NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column18']), 'ALTER TABLE "table" ADD COLUMN "column18" TINYINT');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column18']), 'ALTER TABLE "schema"."table" ADD COLUMN "column18" TINYINT');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column19']), 'ALTER TABLE "table" ADD COLUMN "column19" DOUBLE');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column19']), 'ALTER TABLE "schema"."table" ADD COLUMN "column19" DOUBLE');
+		$this->assertEquals($dialect->addColumn('table', null,     $columns['column20']), 'ALTER TABLE "table" ADD COLUMN "column20" DOUBLE UNSIGNED');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column20']), 'ALTER TABLE "schema"."table" ADD COLUMN "column20" DOUBLE UNSIGNED');
 
 		//Modify Columns
 		try {
@@ -1011,6 +1097,43 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		$expected .= ")";
 		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
+		$definition = array(
+			'columns' => array(
+				$columns['column14'],
+				$columns['column16'],
+			)
+		);
+
+		$expected  = "CREATE TABLE \"table\" (\n";
+		$expected .= "	`column14` TINYBLOB NOT NULL,\n";
+		$expected .= "	`column16` BLOB NOT NULL\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		$definition = array(
+			'columns' => array(
+				$columns['column18'],
+			)
+		);
+
+		$expected  = "CREATE TABLE \"table\" (\n";
+		$expected .= "	`column18` TINYINT\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
+		$definition = array(
+			'columns' => array(
+				$columns['column19'],
+				$columns['column20'],
+			)
+		);
+
+		$expected  = "CREATE TABLE \"table\" (\n";
+		$expected .= "	`column19` DOUBLE,\n";
+		$expected .= "	`column20` DOUBLE UNSIGNED\n";
+		$expected .= ")";
+		$this->assertEquals($dialect->createTable('table', null, $definition), $expected);
+
 		// issue 11359
 		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "PRAGMA table_info('table')");
 	}
@@ -1055,19 +1178,19 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals($dialect->listViews(), 'SELECT viewname AS view_name FROM pg_views WHERE schemaname = \'public\' ORDER BY view_name');
 
-		// SQLite
-		$dialect = new \Phalcon\Db\Dialect\Sqlite();
+	// SQLite
+	$dialect = new \Phalcon\Db\Dialect\Sqlite();
 
-		//Create View
-		$this->assertEquals($dialect->createView('test_view', $definition, null), 'CREATE VIEW "test_view" AS SELECT 1');
-		$this->assertEquals($dialect->createView('test_view', $definition, 'schema'), 'CREATE VIEW "schema"."test_view" AS SELECT 1');
+	//Create View
+	$this->assertEquals($dialect->createView('test_view', $definition, null), 'CREATE VIEW "test_view" AS SELECT 1');
+	$this->assertEquals($dialect->createView('test_view', $definition, 'schema'), 'CREATE VIEW "schema"."test_view" AS SELECT 1');
 
-		//Drop View
-		$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW "test_view"');
-		$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS "test_view"');
-		$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW "schema"."test_view"');
-		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS "schema"."test_view"');
+	//Drop View
+	$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW "test_view"');
+	$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS "test_view"');
+	$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW "schema"."test_view"');
+	$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS "schema"."test_view"');
 
-		$this->assertEquals($dialect->listViews(), "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name");
+	$this->assertEquals($dialect->listViews(), "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name");
 	}
 }

@@ -28,13 +28,14 @@
  * use Phalcon\Session\Adapter\Redis;
  *
  * $session = new Redis([
- *    'uniqueId'   => 'my-private-app',
- *	  'host'       => 'localhost',
- *	  'port'       => 6379,
- *	  'auth'       => 'foobared',
- *    'persistent' => false,
- *    'lifetime'   => 3600,
- *    'prefix'     => 'my_'
+ *     'uniqueId'   => 'my-private-app',
+ *     'host'       => 'localhost',
+ *     'port'       => 6379,
+ *     'auth'       => 'foobared',
+ *     'persistent' => false,
+ *     'lifetime'   => 3600,
+ *     'prefix'     => 'my_'
+ *     'index'      => 1,
  * ]);
  *
  * $session->start();
@@ -52,7 +53,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Redis) {
 
 	zend_declare_property_long(phalcon_session_adapter_redis_ce, SL("_lifetime"), 8600, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_session_adapter_redis_ce TSRMLS_CC, 1, phalcon_session_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 0, _4);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 315, _3, options);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 333, _3, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_redis"), _2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_6);
@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 	ZEPHIR_INIT_NVAR(_7);
 	ZVAL_STRING(_7, "gc", 1);
 	zephir_array_fast_append(_12, _7);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 408, _6, _8, _9, _10, _11, _12);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 432, _6, _8, _9, _10, _11, _12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_redis_ce, this_ptr, "__construct", &_13, 409, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_redis_ce, this_ptr, "__construct", &_13, 433, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -232,9 +232,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, write) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_redis"), PH_NOISY_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_lifetime"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, _0, "save", NULL, 0, sessionId, data, _1);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "save", NULL, 0, sessionId, data, _1);
 	zephir_check_call_status();
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 
 }
 

@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, getDefaultValue);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, 0)
-	ZEND_ARG_INFO(0, descriptor)
+	ZEND_ARG_ARRAY_INFO(0, descriptor, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describecolumns, 0, 0, 1)

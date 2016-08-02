@@ -30,15 +30,17 @@
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Redis(array(
- * 		'host' => '127.0.0.1',
- * 		'port' => 6379,
- * 		'persistent' => 0,
- * 		'statsKey' => '_PHCM_MM',
- * 		'lifetime' => 172800
- *	));
+ * use Phalcon\Mvc\Model\Metadata\Redis;
+ *
+ * $metaData = new Redis([
+ *     'host'       => '127.0.0.1',
+ *     'port'       => 6379,
+ *     'persistent' => 0,
+ *     'statsKey'   => '_PHCM_MM',
+ *     'lifetime'   => 172800,
+ *     'index'      => 2,
+ * ]);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis) {
@@ -49,6 +51,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis) {
 
 	zend_declare_property_null(phalcon_mvc_model_metadata_redis_ce, SL("_redis"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(phalcon_mvc_model_metadata_redis_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_mvc_model_metadata_redis_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_MetaData_Redis;
 	return SUCCESS;
 
 }
@@ -62,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 
 	zval *_6;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *options = NULL, *ttl = NULL, *_4, *_5, *_7, *_8, *_0$$4, *_1$$5, *_2$$6, *_3$$7;
+	zval *options = NULL, *ttl = NULL, *_4, *_5, *_7, *_0$$4, *_1$$5, *_2$$6, *_3$$7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options);
@@ -110,14 +115,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 	ZEPHIR_OBS_VAR(_7);
 	zephir_read_property_this(&_7, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_6, SL("lifetime"), &_7, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 311, _6);
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 329, _6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 315, _5, options);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 333, _5, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_redis"), _4 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_8);
-	array_init(_8);
-	zephir_update_property_this(this_ptr, SL("_metaData"), _8 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -204,7 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 	zephir_read_property_this(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/redis.zep", 130);
+		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/redis.zep", 132);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
@@ -218,9 +220,30 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, this_ptr, "reset", &_5, 313);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, this_ptr, "reset", &_5, 331);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+
+}
+
+zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Redis(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval *_0, *_1$$3;
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval *this_ptr = NULL;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_metaData"), _1$$3 TSRMLS_CC);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJVAL_P(this_ptr);
+	}
 
 }
 

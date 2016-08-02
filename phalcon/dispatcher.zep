@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -54,7 +54,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _actionName = null;
 
-	protected _params;
+	protected _params = [];
 
 	protected _returnedValue = null;
 
@@ -70,9 +70,13 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _actionSuffix = "Action";
 
+	protected _previousNamespaceName = null;
+
 	protected _previousHandlerName = null;
 
 	protected _previousActionName = null;
+
+	protected _modelBinding = false;
 
 	const EXCEPTION_NO_DI = 0;
 
@@ -85,14 +89,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	const EXCEPTION_INVALID_PARAMS = 4;
 
 	const EXCEPTION_ACTION_NOT_FOUND = 5;
-
-	/**
-	 * Phalcon\Dispatcher constructor
-	 */
-	public function __construct()
-	{
-		let this->_params = [];
-	}
 
 	/**
 	 * Sets the dependency injector
@@ -132,6 +128,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	public function setActionSuffix(string actionSuffix)
 	{
 		let this->_actionSuffix = actionSuffix;
+	}
+
+	/**
+	 * Gets the default action suffix
+	 */
+	public function getActionSuffix() -> string
+	{
+		return this->_actionSuffix;
 	}
 
 	/**
@@ -269,6 +273,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Check if a param exists
+	 *
+	 * @param  mixed param
+	 * @return boolean
+	 */
+	public function hasParam(param) -> boolean
+	{
+		return isset this->_params[param];
+	}
+
+	/**
 	 * Returns the current method to be/executed in the dispatcher
 	 */
 	public function getActiveMethod() -> string
@@ -295,7 +310,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Returns value returned by the lastest dispatched action
+	 * Returns value returned by the latest dispatched action
 	 *
 	 * @return mixed
 	 */
@@ -305,17 +320,50 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Enable/Disable model binding during dispatch
+	 *
+	 * @param boolean value
+	 */
+	public function setModelBinding(boolean value)
+	{
+		let this->_modelBinding = value;
+	}
+
+	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
 	 * @return object
 	 */
 	public function dispatch()
 	{
+		var handler, e;
+
+		try {
+			let handler = this->_dispatch();
+		} catch \Exception, e {
+			if this->{"_handleException"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		}
+
+		return handler;
+	}
+
+	/**
+	 * Dispatches a handle action taking into account the routing parameters
+	 *
+	 * @return object
+	 */
+	protected function _dispatch()
+	{
 		boolean hasService;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			actionSuffix, handlerClass, status, actionMethod,
+			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
+			className, paramKey, methodParam, modelName, bindModel,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -503,17 +551,42 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
+			if this->_modelBinding === true {
+				//Check if we can bind a model based on what the controller action is expecting
+				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
+				let methodParams = reflectionMethod->getParameters();
+
+				for paramKey, methodParam in methodParams {
+					if methodParam->getClass() {
+						let className = methodParam->getClass()->getName();
+						if typeof className == "string" {
+							//If we are in a base class and the child implements BindModelInterface we getModelName
+							if className == "Phalcon\\Mvc\\Model" {
+								if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
+									let modelName = call_user_func([handlerClass, "getModelName"]);
+									let bindModel = call_user_func_array([modelName, "findFirst"], [params[paramKey]]);
+									let params[paramKey] = bindModel;
+									break;
+								}
+							}
+
+							//Check if Model is defined
+							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
+								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);
+								let params[paramKey] = bindModel;
+								break;
+							}
+						}
+					}
+				}
+			}
+
 			let this->_lastHandler = handler;
 
 			try {
-
 				// We update the latest value produced by the latest handler
-				let this->_returnedValue = call_user_func_array([handler, actionMethod], params);
-					
+				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
 			} catch \Exception, e {
-
-				let this->_lastHandler = handler;
-
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
 						continue;
@@ -580,7 +653,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 		// Check if we need to forward to another namespace
 		if fetch namespaceName, forward["namespace"] {
-			let this->_namespaceName = namespaceName;
+			let this->_previousNamespaceName = this->_namespaceName,
+				this->_namespaceName = namespaceName;
 		}
 
 		// Check if we need to forward to another controller
@@ -650,6 +724,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		}
 
 		return handlerClass;
+	}
+
+	public function callActionMethod(handler, string actionMethod, array! params = [])
+	{
+		return call_user_func_array([handler, actionMethod], params);
 	}
 
 	/**

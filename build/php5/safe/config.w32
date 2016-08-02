@@ -1,0 +1,8 @@
+
+ARG_ENABLE("phalcon", "enable phalcon", "no");
+
+if (PHP_PHALCON != "no") {
+  EXTENSION("phalcon", "phalcon.zep.c", null, "-I"+configure_module_dirname);
+  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("LDFLAGS", "/LTCG");
+}

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -101,7 +101,7 @@ interface MetaDataInterface
 	public function getPrimaryKeyAttributes(<ModelInterface> model);
 
 	/**
-	 * Returns an arrau of fields which are not part of the primary key
+	 * Returns an array of fields which are not part of the primary key
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface model
 	 * @return array

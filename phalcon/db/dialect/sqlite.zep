@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -54,6 +54,9 @@ class Sqlite extends Dialect
 			let type = column->getTypeReference();
 		}
 
+		// SQLite has dynamic column typing. The conversion below maximizes
+		// compatibility with other DBMS's while following the type affinity
+		// rules: http://www.sqlite.org/datatype3.html.
 		switch type {
 
 			case Column::TYPE_INTEGER:
@@ -107,9 +110,57 @@ class Sqlite extends Dialect
 				}
 				break;
 
+			case Column::TYPE_BOOLEAN:
+				if empty columnSql {
+					let columnSql .= "TINYINT";
+				}
+				break;
+
 			case Column::TYPE_FLOAT:
 				if empty columnSql {
 					let columnSql .= "FLOAT";
+				}
+				break;
+
+			case Column::TYPE_DOUBLE:
+				if empty columnSql {
+					let columnSql .= "DOUBLE";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
+			case Column::TYPE_BIGINTEGER:
+				if empty columnSql {
+					let columnSql .= "BIGINT";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
+			case Column::TYPE_TINYBLOB:
+				if empty columnSql {
+					let columnSql .= "TINYBLOB";
+				}
+				break;
+
+			case Column::TYPE_BLOB:
+				if empty columnSql {
+					let columnSql .= "BLOB";
+				}
+				break;
+
+			case Column::TYPE_MEDIUMBLOB:
+				if empty columnSql {
+					let columnSql .= "MEDIUMBLOB";
+				}
+				break;
+
+			case Column::TYPE_LONGBLOB:
+				if empty columnSql {
+					let columnSql .= "LONGBLOB";
 				}
 				break;
 
@@ -483,7 +534,7 @@ class Sqlite extends Dialect
 		string sql;
 
 		let sql = "SELECT sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ". this->escape(table) ." COLLATE NOCASE";
-		
+
 		if keyName {
 			let sql .= " AND name = ". this->escape(keyName) ." COLLATE NOCASE";
 		}

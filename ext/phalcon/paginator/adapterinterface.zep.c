@@ -26,11 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_AdapterInterface) {
 }
 
 /**
- * Phalcon\Paginator\AdapterInterface constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, __construct);
-
-/**
  * Set the current page number
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);

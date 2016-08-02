@@ -253,15 +253,27 @@ void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_leng
 
 /**
  * Convert dash/underscored texts returning camelized
+ * (an optional delimiter can be specified as character-mask as for ltrim)
  */
-void zephir_camelize(zval *return_value, const zval *str) {
+void zephir_camelize(zval *return_value, const zval *str, const zval *delimiter) {
 
-	int i, len, first = 0;
+	int i, len, delim_len, pre_del = 1;
 	smart_str camelize_str = {0};
-	char *marker, ch;
+	char *marker, ch, *delim;
 
 	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
+		RETURN_EMPTY_STRING();
+	}
+
+	if (delimiter == NULL || Z_TYPE_P(delimiter) == IS_NULL) {
+		delim = "_-";
+		delim_len = 2;
+	} else if (Z_TYPE_P(delimiter) == IS_STRING && Z_STRLEN_P(delimiter) > 0) {
+		delim = Z_STRVAL_P(delimiter);
+		delim_len = Z_STRLEN_P(delimiter);
+	} else {
+		zend_error(E_WARNING, "The second argument passed to the camelize() must be a string containing at least one character");
 		RETURN_EMPTY_STRING();
 	}
 
@@ -269,30 +281,18 @@ void zephir_camelize(zval *return_value, const zval *str) {
 	len    = Z_STRLEN_P(str);
 
 	for (i = 0; i < len; i++) {
-
 		ch = marker[i];
 
-		if (first == 0) {
-
-			if (ch == '-' || ch == '_') {
-				continue;
-			}
-
-			first = 1;
+		if (memchr(delim, ch, delim_len)) {
+			pre_del = 1;
+			continue;
+		}
+		if (pre_del == 1) {
 			smart_str_appendc(&camelize_str, toupper(ch));
-			continue;
+			pre_del = 0;
+		} else {
+			smart_str_appendc(&camelize_str, tolower(ch));
 		}
-
-		if (ch == '-' || ch == '_') {
-			if (i != (len - 1)) {
-				i++;
-				ch = marker[i];
-				smart_str_appendc(&camelize_str, toupper(ch));
-			}
-			continue;
-		}
-
-		smart_str_appendc(&camelize_str, tolower(ch));
 	}
 
 	smart_str_0(&camelize_str);
@@ -305,17 +305,26 @@ void zephir_camelize(zval *return_value, const zval *str) {
 }
 
 /**
- * Convert a camelized to a dash/underscored texts
+ * Convert a camelized to a dash/underscored texts (an optional delimiter can be specified)
  */
-void zephir_uncamelize(zval *return_value, const zval *str) {
+void zephir_uncamelize(zval *return_value, const zval *str, const zval *delimiter) {
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
-	char *marker, ch;
+	char *marker, ch, delim;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		zend_error(E_WARNING, "Invalid arguments supplied for uncamelize()");
-		return;
+		RETURN_EMPTY_STRING();
+	}
+
+	if (delimiter == NULL || Z_TYPE_P(delimiter) == IS_NULL) {
+		delim = '_';
+	} else if (Z_TYPE_P(delimiter) == IS_STRING && Z_STRLEN_P(delimiter) == 1) {
+		delim = *(Z_STRVAL_P(delimiter));
+	} else {
+		zend_error(E_WARNING, "Second argument passed to the uncamelize() must be a string of one character");
+		RETURN_EMPTY_STRING();
 	}
 
 	marker = Z_STRVAL_P(str);
@@ -329,7 +338,7 @@ void zephir_uncamelize(zval *return_value, const zval *str) {
 
 		if (ch >= 'A' && ch <= 'Z') {
 			if (i > 0) {
-				smart_str_appendc(&uncamelize_str, '_');
+				smart_str_appendc(&uncamelize_str, delim);
 			}
 			smart_str_appendc(&uncamelize_str, (*marker) + 32);
 		} else {

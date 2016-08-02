@@ -1,31 +1,31 @@
 
 extern zend_class_entry *phalcon_db_dialect_mysql_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL);
+ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Mysql);
 
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addColumn);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, modifyColumn);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropColumn);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addIndex);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropIndex);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, addForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropTable);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, createView);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, dropView);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, viewExists);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeColumns);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, listTables);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, listViews);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeIndexes);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, _getTableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
@@ -152,28 +152,28 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql__gettableoptions, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry) {
-	PHP_ME(Phalcon_Db_Dialect_MySQL, getColumnDefinition, arginfo_phalcon_db_dialect_mysql_getcolumndefinition, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, addColumn, arginfo_phalcon_db_dialect_mysql_addcolumn, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, modifyColumn, arginfo_phalcon_db_dialect_mysql_modifycolumn, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, dropColumn, arginfo_phalcon_db_dialect_mysql_dropcolumn, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, addIndex, arginfo_phalcon_db_dialect_mysql_addindex, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, dropIndex, arginfo_phalcon_db_dialect_mysql_dropindex, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, addPrimaryKey, arginfo_phalcon_db_dialect_mysql_addprimarykey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, dropPrimaryKey, arginfo_phalcon_db_dialect_mysql_dropprimarykey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, addForeignKey, arginfo_phalcon_db_dialect_mysql_addforeignkey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, dropForeignKey, arginfo_phalcon_db_dialect_mysql_dropforeignkey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, createTable, arginfo_phalcon_db_dialect_mysql_createtable, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, dropTable, arginfo_phalcon_db_dialect_mysql_droptable, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, createView, arginfo_phalcon_db_dialect_mysql_createview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, dropView, arginfo_phalcon_db_dialect_mysql_dropview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, viewExists, arginfo_phalcon_db_dialect_mysql_viewexists, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, describeColumns, arginfo_phalcon_db_dialect_mysql_describecolumns, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, listTables, arginfo_phalcon_db_dialect_mysql_listtables, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, listViews, arginfo_phalcon_db_dialect_mysql_listviews, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, describeIndexes, arginfo_phalcon_db_dialect_mysql_describeindexes, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, describeReferences, arginfo_phalcon_db_dialect_mysql_describereferences, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_MySQL, _getTableOptions, arginfo_phalcon_db_dialect_mysql__gettableoptions, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnDefinition, arginfo_phalcon_db_dialect_mysql_getcolumndefinition, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addColumn, arginfo_phalcon_db_dialect_mysql_addcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, modifyColumn, arginfo_phalcon_db_dialect_mysql_modifycolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropColumn, arginfo_phalcon_db_dialect_mysql_dropcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addIndex, arginfo_phalcon_db_dialect_mysql_addindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropIndex, arginfo_phalcon_db_dialect_mysql_dropindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addPrimaryKey, arginfo_phalcon_db_dialect_mysql_addprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropPrimaryKey, arginfo_phalcon_db_dialect_mysql_dropprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addForeignKey, arginfo_phalcon_db_dialect_mysql_addforeignkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropForeignKey, arginfo_phalcon_db_dialect_mysql_dropforeignkey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, createTable, arginfo_phalcon_db_dialect_mysql_createtable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropTable, arginfo_phalcon_db_dialect_mysql_droptable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, createView, arginfo_phalcon_db_dialect_mysql_createview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropView, arginfo_phalcon_db_dialect_mysql_dropview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, viewExists, arginfo_phalcon_db_dialect_mysql_viewexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, describeColumns, arginfo_phalcon_db_dialect_mysql_describecolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, listTables, arginfo_phalcon_db_dialect_mysql_listtables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, listViews, arginfo_phalcon_db_dialect_mysql_listviews, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, describeIndexes, arginfo_phalcon_db_dialect_mysql_describeindexes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, describeReferences, arginfo_phalcon_db_dialect_mysql_describereferences, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, _getTableOptions, arginfo_phalcon_db_dialect_mysql__gettableoptions, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

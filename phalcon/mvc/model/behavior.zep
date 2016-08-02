@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,13 +20,14 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 
 /**
  * Phalcon\Mvc\Model\Behavior
  *
  * This is an optional base class for ORM behaviors
  */
-abstract class Behavior
+abstract class Behavior implements BehaviorInterface
 {
 	protected _options;
 

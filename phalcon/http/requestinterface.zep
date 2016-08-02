@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -131,9 +131,14 @@ interface RequestInterface
 	public function getServerName() -> string;
 
 	/**
-	 * Gets information about schema, host and port used by the request
+	 * Gets host name used by the request
 	 */
 	public function getHttpHost() -> string;
+
+	/**
+	 * Gets information about the port on which the request is made
+	 */
+	public function getPort() -> int;
 
 	/**
 	 * Gets most possibly client IPv4 Address. This methods search in $_SERVER['REMOTE_ADDR'] and optionally in $_SERVER['HTTP_X_FORWARDED_FOR']
@@ -187,6 +192,21 @@ interface RequestInterface
 	 * Checks whether HTTP method is OPTIONS. if $_SERVER['REQUEST_METHOD']=='OPTIONS'
 	 */
 	public function isOptions() -> boolean;
+
+	/**
+	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+	 */
+	public function isPurge() -> boolean;
+
+	/**
+	 * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+	 */
+	public function isTrace() -> boolean;
+
+	/**
+	 * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+	 */
+	public function isConnect() -> boolean;
 
 	/**
 	 * Checks whether request include attached files

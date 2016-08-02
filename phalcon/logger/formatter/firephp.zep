@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -119,11 +119,7 @@ class Firephp extends Formatter
 
 		if this->_showBacktrace {
 			var param, backtraceItem, key;
-			let param = false;
-
-			if !version_compare(PHP_VERSION, "5.3.6", "<") {
-				let param = DEBUG_BACKTRACE_IGNORE_ARGS;
-			}
+			let param = DEBUG_BACKTRACE_IGNORE_ARGS;
 
 			let backtrace = debug_backtrace(param),
 				lastTrace = end(backtrace);

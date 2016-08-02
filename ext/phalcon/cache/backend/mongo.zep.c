@@ -30,25 +30,26 @@
  * Allows to cache output fragments, PHP data or raw data to a MongoDb backend
  *
  *<code>
+ * use Phalcon\Cache\Backend\Mongo;
+ * use Phalcon\Cache\Frontend\Base64;
  *
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Base64(array(
- *		"lifetime" => 172800
- * ));
+ * $frontCache = new Base64([
+ *     'lifetime' => 172800
+ * ]);
  *
- * //Create a MongoDB cache
- * $cache = new \Phalcon\Cache\Backend\Mongo($frontCache, array(
- *		'server' => "mongodb://localhost",
- *      'db' => 'caches',
- *		'collection' => 'images'
- * ));
+ * // Create a MongoDB cache
+ * $cache = new Mongo($frontCache, [
+ *     'server' => "mongodb://localhost",
+ *     'db' => 'caches',
+ *     'collection' => 'images'
+ * ]);
  *
- * //Cache arbitrary data
+ * // Cache arbitrary data
  * $cache->save('my-data', file_get_contents('some-image.jpg'));
  *
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
- *
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Mongo) {
@@ -96,7 +97,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The parameter 'collection' is required", "phalcon/cache/backend/mongo.zep", 79);
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_mongo_ce, this_ptr, "__construct", &_0, 107, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_mongo_ce, this_ptr, "__construct", &_0, 113, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -139,10 +140,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			}
 			ZEPHIR_INIT_NVAR(mongo);
 			object_init_ex(mongo, zephir_get_internal_ce(SS("mongoclient") TSRMLS_CC));
-			if (zephir_has_constructor(mongo TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, mongo, "__construct", NULL, 0, server);
-				zephir_check_call_status();
-			}
+			ZEPHIR_CALL_METHOD(NULL, mongo, "__construct", NULL, 0, server);
+			zephir_check_call_status();
 		}
 		ZEPHIR_OBS_VAR(database);
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 123 TSRMLS_CC);
@@ -176,22 +175,22 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 
 /**
  * Returns a cached content
- *
- * @param int|string keyName
- * @param   long lifetime
- * @return  mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 
 	zval *_1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName, *lifetime = NULL, *frontend = NULL, *prefixedKey = NULL, *conditions = NULL, *document = NULL, *cachedContent = NULL, *_0, *_2, *_3 = NULL;
+	int lifetime, ZEPHIR_LAST_CALL_STATUS;
+	zval *keyName_param = NULL, *lifetime_param = NULL, *frontend = NULL, *prefixedKey = NULL, *conditions = NULL, *document = NULL, *cachedContent = NULL, *_0, *_2, *_3 = NULL;
+	zval *keyName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
+	zephir_fetch_params(1, 1, 1, &keyName_param, &lifetime_param);
 
-	if (!lifetime) {
-		lifetime = ZEPHIR_GLOBAL(global_null);
+	zephir_get_strval(keyName, keyName_param);
+	if (!lifetime_param) {
+		lifetime = 0;
+	} else {
+		lifetime = zephir_get_intval(lifetime_param);
 	}
 
 
@@ -210,7 +209,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 	zephir_time(_2);
 	zephir_array_update_string(&_1, SL("$gt"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&conditions, SL("time"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&document, _3, "findone", NULL, 0, conditions);
 	zephir_check_call_status();
@@ -224,7 +223,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get) {
 			zephir_check_call_status();
 			RETURN_MM();
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is corrupt", "phalcon/cache/backend/mongo.zep", 173);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is corrupt", "phalcon/cache/backend/mongo.zep", 169);
 			return;
 		}
 	}
@@ -245,7 +244,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	zval *_1$$13;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool stopBuffer;
-	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastkey = NULL, *prefix = NULL, *frontend = NULL, *cachedContent = NULL, *tmp = NULL, *ttl = NULL, *collection = NULL, *timestamp = NULL, *conditions = NULL, *document = NULL, *preparedContent = NULL, *isBuffering = NULL, *data = NULL, *_0, *_2$$13;
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastkey = NULL, *prefix = NULL, *frontend = NULL, *cachedContent = NULL, *tmp = NULL, *ttl = NULL, *collection = NULL, *timestamp = NULL, *conditions = NULL, *document = NULL, *preparedContent = NULL, *isBuffering = NULL, *data = NULL, *success = NULL, *_0, *_2$$13;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer_param);
@@ -280,7 +279,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 		ZEPHIR_CONCAT_VV(lastkey, prefix, keyName);
 	}
 	if (!(zephir_is_true(lastkey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/mongo.zep", 205);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/mongo.zep", 201);
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
@@ -307,7 +306,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	} else {
 		ZEPHIR_CPY_WRT(ttl, lifetime);
 	}
-	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	zephir_time(_0);
@@ -326,9 +325,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 		ZEPHIR_INIT_VAR(_1$$13);
 		zephir_create_array(_1$$13, 1, 0 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(_2$$13);
-		zephir_array_fetch_string(&_2$$13, document, SL("_id"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 245 TSRMLS_CC);
+		zephir_array_fetch_string(&_2$$13, document, SL("_id"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 241 TSRMLS_CC);
 		zephir_array_update_string(&_1$$13, SL("_id"), &_2$$13, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, collection, "update", NULL, 0, _1$$13, document);
+		ZEPHIR_CALL_METHOD(&success, collection, "update", NULL, 0, _1$$13, document);
 		zephir_check_call_status();
 	} else {
 		zephir_array_update_string(&data, SL("key"), &lastkey, PH_COPY | PH_SEPARATE);
@@ -338,8 +337,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 		} else {
 			zephir_array_update_string(&data, SL("data"), &cachedContent, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_CALL_METHOD(NULL, collection, "insert", NULL, 0, data);
+		ZEPHIR_CALL_METHOD(&success, collection, "insert", NULL, 0, data);
 		zephir_check_call_status();
+	}
+	if (!(zephir_is_true(success))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing data in mongodb", "phalcon/cache/backend/mongo.zep", 257);
+		return;
 	}
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering", NULL, 0);
 	zephir_check_call_status();
@@ -355,7 +358,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save) {
 	} else {
 		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_CCTOR(success);
 
 }
 
@@ -376,7 +379,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	zephir_create_array(_1, 1, 0 TSRMLS_CC);
@@ -386,7 +389,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete) {
 	zephir_array_update_string(&_1, SL("key"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(NULL, _0, "remove", NULL, 0, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "rand", NULL, 111);
+	ZEPHIR_CALL_FUNCTION(&_4, "rand", NULL, 118);
 	zephir_check_call_status();
 	if (zephir_safe_mod_long_long(zephir_get_intval(_4), 100 TSRMLS_CC) == 0) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "gc", NULL, 0);
@@ -426,12 +429,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	if (zephir_is_true(prefix)) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		object_init_ex(_0$$3, zephir_get_internal_ce(SS("mongoregex") TSRMLS_CC));
-		if (zephir_has_constructor(_0$$3 TSRMLS_CC)) {
-			ZEPHIR_INIT_VAR(_1$$3);
-			ZEPHIR_CONCAT_SVS(_1$$3, "/^", prefix, "/");
-			ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 0, _1$$3);
-			zephir_check_call_status();
-		}
+		ZEPHIR_INIT_VAR(_1$$3);
+		ZEPHIR_CONCAT_SVS(_1$$3, "/^", prefix, "/");
+		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 0, _1$$3);
+		zephir_check_call_status();
 		zephir_array_update_string(&conditions, SL("key"), &_0$$3, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_2);
@@ -440,7 +441,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	zephir_time(_3);
 	zephir_array_update_string(&_2, SL("$gt"), &_3, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&conditions, SL("time"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&collection, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_4);
 	zephir_create_array(_4, 1, 0 TSRMLS_CC);
@@ -455,7 +456,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 			_5->funcs->get_current_data(_5, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
 			ZEPHIR_CPY_WRT(item, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
-		zephir_is_iterable(item, &_7$$4, &_6$$4, 0, 0, "phalcon/cache/backend/mongo.zep", 317);
+		zephir_is_iterable(item, &_7$$4, &_6$$4, 0, 0, "phalcon/cache/backend/mongo.zep", 318);
 		for (
 		  ; zephir_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_7$$4, &_6$$4)
@@ -463,7 +464,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 			ZEPHIR_GET_HMKEY(key, _7$$4, _6$$4);
 			ZEPHIR_GET_HVALUE(value, _8$$4);
 			if (ZEPHIR_IS_STRING(key, "key")) {
-				zephir_array_append(&keys, value, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 314);
+				zephir_array_append(&keys, value, PH_SEPARATE, "phalcon/cache/backend/mongo.zep", 315);
 			}
 		}
 	}
@@ -505,7 +506,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists) {
 		ZEPHIR_CONCAT_VV(lastKey, _0$$4, keyName);
 	}
 	if (zephir_is_true(lastKey)) {
-		ZEPHIR_CALL_METHOD(&_1$$5, this_ptr, "_getcollection", NULL, 110);
+		ZEPHIR_CALL_METHOD(&_1$$5, this_ptr, "_getcollection", NULL, 117);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$5);
 		zephir_create_array(_3$$5, 2, 0 TSRMLS_CC);
@@ -536,7 +537,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, gc) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	zephir_create_array(_1, 1, 0 TSRMLS_CC);
@@ -578,7 +579,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, _0, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	zephir_create_array(_2, 1, 0 TSRMLS_CC);
@@ -587,7 +588,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(modifiedTime);
 	if (!(zephir_array_isset_string_fetch(&modifiedTime, document, SS("time"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 373);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 374);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_3);
@@ -595,7 +596,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment) {
 	if (ZEPHIR_LT(_3, modifiedTime)) {
 		ZEPHIR_OBS_VAR(cachedContent);
 		if (!(zephir_array_isset_string_fetch(&cachedContent, document, SS("data"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 382);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 383);
 			return;
 		}
 		if (zephir_is_numeric(cachedContent)) {
@@ -636,7 +637,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, _0, keyName);
 	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	zephir_create_array(_2, 1, 0 TSRMLS_CC);
@@ -645,7 +646,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(modifiedTime);
 	if (!(zephir_array_isset_string_fetch(&modifiedTime, document, SS("time"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 412);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 413);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_3);
@@ -653,7 +654,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement) {
 	if (ZEPHIR_LT(_3, modifiedTime)) {
 		ZEPHIR_OBS_VAR(cachedContent);
 		if (!(zephir_array_isset_string_fetch(&cachedContent, document, SS("data"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 421);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache is currupted", "phalcon/cache/backend/mongo.zep", 422);
 			return;
 		}
 		if (zephir_is_numeric(cachedContent)) {
@@ -678,7 +679,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, flush) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 110);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_getcollection", NULL, 117);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, _0, "remove", NULL, 0);
 	zephir_check_call_status();

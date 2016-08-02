@@ -26,6 +26,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_setcontenttype, 0,
 	ZEND_ARG_INFO(0, charset)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_setcontentlength, 0, 0, 1)
+	ZEND_ARG_INFO(0, contentLength)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_redirect, 0, 0, 0)
 	ZEND_ARG_INFO(0, location)
 	ZEND_ARG_INFO(0, externalRedirect)
@@ -58,6 +62,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_responseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setExpires, arginfo_phalcon_http_responseinterface_setexpires)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setNotModified, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setContentType, arginfo_phalcon_http_responseinterface_setcontenttype)
+	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setContentLength, arginfo_phalcon_http_responseinterface_setcontentlength)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, redirect, arginfo_phalcon_http_responseinterface_redirect)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setContent, arginfo_phalcon_http_responseinterface_setcontent)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setJsonContent, arginfo_phalcon_http_responseinterface_setjsoncontent)

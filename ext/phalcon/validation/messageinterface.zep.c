@@ -26,15 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_MessageInterface) {
 }
 
 /**
- * Phalcon\Validation\Message constructor
- *
- * @param string message
- * @param string field
- * @param string type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, __construct);
-
-/**
  * Sets message type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, setType);
@@ -74,7 +65,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, getField);
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, __toString);
 
 /**
- * Magic __set_state helps to recover messsages from serialization
+ * Magic __set_state helps to recover messages from serialization
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, __set_state);
 

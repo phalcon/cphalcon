@@ -63,7 +63,10 @@ class PhalconIsBasicCharsetOptimizer extends OptimizerAbstract
 		$context->headersManager->add('kernel/filter');
 
 		$resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
-		$context->codePrinter->output('zephir_is_basic_charset(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');');
+
+		$symbol = $context->backend->getVariableCode($symbolVariable);
+		$context->codePrinter->output('zephir_is_basic_charset(' . $symbol . ', ' . $resolvedParams[0] . ');');
+
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
 	}
 

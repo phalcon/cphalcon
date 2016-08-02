@@ -22,7 +22,7 @@
 /**
  * Phalcon\Flash\Direct
  *
- * This is a variant of the Phalcon\Flash that inmediately outputs any message passed to it
+ * This is a variant of the Phalcon\Flash that immediately outputs any message passed to it
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 		}
 	}
 	if (remove) {
-		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, this_ptr, "clear", &_3, 193);
+		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, this_ptr, "clear", &_3, 202);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

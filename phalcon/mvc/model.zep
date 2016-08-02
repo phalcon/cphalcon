@@ -1,11 +1,11 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework							  |
+ | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled	  |
+ | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
@@ -41,8 +41,12 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\ValidationInterface;
+use Phalcon\Validation\Message\Group;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Validation\Message\Group as ValidationMessageGroup;
 
 /**
  * Phalcon\Mvc\Model
@@ -75,7 +79,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * </code>
  *
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
 
 	protected _dependencyInjector;
@@ -121,7 +125,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Phalcon\Mvc\Model constructor
 	 */
-	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -160,7 +164,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
 		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}();
+			this->{"onConstruct"}(data);
+		}
+
+		if typeof data == "array" {
+			this->assign(data);
 		}
 	}
 
@@ -424,7 +432,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
-		var key, keyMapped, value, attribute, attributeField, possibleSetter, metaData, columnMap, dataMapped;
+		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped;
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {
@@ -502,7 +510,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param array columnMap
 	 * @param int dirtyState
 	 * @param boolean keepSnapshots
-	 * @return \Phalcon\Mvc\Model
 	 */
 	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
@@ -590,8 +597,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(instance, "afterFetch") {
-			instance->{"afterFetch"}();
+		if method_exists(instance, "fireEvent") {
+			instance->{"fireEvent"}("afterFetch");
 		}
 
 		return instance;
@@ -704,9 +711,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
 		 */
-		if method_exists(instance, "afterFetch") {
-			instance->{"afterFetch"}();
-		}
+		(<ModelInterface> instance)->fireEvent("afterFetch");
 
 		return instance;
 	}
@@ -1054,7 +1059,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let num = connection->fetchOne(
 			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
-			\Phalcon\Db::FETCH_ASSOC,
+			null,
 			uniqueParams,
 			uniqueTypes
 		);
@@ -1334,9 +1339,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Appends a customized message on the validation process
 	 *
 	 * <code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Message as Message;
 	 *
-	 * class Robots extends \Phalcon\Mvc\Model
+	 * class Robots extends Model
 	 * {
 	 *
 	 *   public function beforeSave()
@@ -1359,58 +1365,79 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *use Phalcon\Mvc\Model;
+	 *use Phalcon\Validation;
+	 *use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+	 * 		$validator = new Validation();
+	 * 		$validator->add('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
 	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
 	 */
-	protected function validate(<Model\ValidatorInterface> validator) -> <Model>
+	protected function validate(<ValidationInterface> validator) -> boolean
 	{
-		var message;
+		var messages, message;
 
-		/**
-		 * Call the validation, if it returns false we append the messages to the current object
-		 */
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
+		let messages = validator->validate(null, this);
+
+		// Call the validation, if it returns not the boolean
+		// we append the messages to the current object
+		if typeof messages != "boolean" {
+
+			messages->rewind();
+
+			// for message in iterator(messages) {
+			while messages->valid() {
+
+				let message = messages->current();
+
+				this->appendMessage(
+					new Message(
+						message->getMessage(),
+						message->getField(),
+						message->getType()
+					)
+				);
+
+				messages->next();
 			}
+
+			// If there is a message, it returns false otherwise true
+			return !count(messages);
 		}
 
-		return this;
+		return messages;
 	}
 
 	/**
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
+	 *use Phalcon\Mvc\Model;
 	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Model
+	 *class Subscriptors extends Model
 	 *{
 	 *
 	 *	public function validation()
 	 *  {
-	 * 		$this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
+     *      $validator = new Validation();
+	 *
+	 * 		$validator->validate('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if ($this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
+	 *		));
+
+	 *		return $this->validate($validator);
 	 *	}
 	 *}
 	 *</code>
@@ -1456,6 +1483,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 			return filtered;
 		}
+
 		return this->_errorMessages;
 	}
 
@@ -1463,7 +1491,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
 	 * to verify that inserted/updated values are present in the related entity
 	 */
-	protected function _checkForeignKeysRestrict() -> boolean
+	protected final function _checkForeignKeysRestrict() -> boolean
 	{
 		var manager, belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
@@ -1612,7 +1640,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
 	 */
-	protected function _checkForeignKeysReverseCascade() -> boolean
+	protected final function _checkForeignKeysReverseCascade() -> boolean
 	{
 		var manager, relations, relation, foreignKey,
 			resultset, conditions, bindParams, referencedModel,
@@ -1630,80 +1658,83 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
 
-		for relation in relations {
+		if count(relations) {
 
-			/**
-			 * Check if the relation has a virtual foreign key
-			 */
-			let foreignKey = relation->getForeignKey();
-			if foreignKey !== false {
+			for relation in relations {
 
 				/**
-				 * By default action is restrict
+				 * Check if the relation has a virtual foreign key
 				 */
-				let action = Relation::NO_ACTION;
+				let foreignKey = relation->getForeignKey();
+				if foreignKey !== false {
 
-				/**
-				 * Try to find a different action in the foreign key's options
-				 */
-				if typeof foreignKey == "array" {
-					if isset foreignKey["action"] {
-						let action = (int) foreignKey["action"];
+					/**
+					 * By default action is restrict
+					 */
+					let action = Relation::NO_ACTION;
+
+					/**
+					 * Try to find a different action in the foreign key's options
+					 */
+					if typeof foreignKey == "array" {
+						if isset foreignKey["action"] {
+							let action = (int) foreignKey["action"];
+						}
 					}
-				}
-
-				/**
-				 * Check only if the operation is restrict
-				 */
-				if action == Relation::ACTION_CASCADE {
 
 					/**
-					 * Load a plain instance from the models manager
+					 * Check only if the operation is restrict
 					 */
-					let referencedModel = manager->load(relation->getReferencedModel());
+					if action == Relation::ACTION_CASCADE {
 
-					let fields = relation->getFields(),
-						referencedFields = relation->getReferencedFields();
+						/**
+						 * Load a plain instance from the models manager
+						 */
+						let referencedModel = manager->load(relation->getReferencedModel());
 
-					/**
-					 * Create the checking conditions. A relation can has many fields or a single one
-					 */
-					let conditions = [], bindParams = [];
+						let fields = relation->getFields(),
+							referencedFields = relation->getReferencedFields();
 
-					if typeof fields == "array" {
-						for position, field in fields {
-							fetch value, this->{field};
-							let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+						/**
+						 * Create the checking conditions. A relation can has many fields or a single one
+						 */
+						let conditions = [], bindParams = [];
+
+						if typeof fields == "array" {
+							for position, field in fields {
+								fetch value, this->{field};
+								let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+									bindParams[] = value;
+							}
+						} else {
+							fetch value, this->{fields};
+							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
 						}
-					} else {
-						fetch value, this->{fields};
-						let conditions[] = "[" . referencedFields . "] = ?0",
-							bindParams[] = value;
-					}
 
-					/**
-					 * Check if the virtual foreign key has extra conditions
-					 */
-					if fetch extraConditions, foreignKey["conditions"] {
-						let conditions[] = extraConditions;
-					}
+						/**
+						 * Check if the virtual foreign key has extra conditions
+						 */
+						if fetch extraConditions, foreignKey["conditions"] {
+							let conditions[] = extraConditions;
+						}
 
-					/**
-					 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-					 * Let's make the checking
-					 */
-					let resultset = referencedModel->find([
-						join(" AND ", conditions),
-						"bind": bindParams
-					]);
+						/**
+						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+						 * Let's make the checking
+						 */
+						let resultset = referencedModel->find([
+							join(" AND ", conditions),
+							"bind": bindParams
+						]);
 
-					/**
-					 * Delete the resultset
-					 * Stop the operation if needed
-					 */
-					if resultset->delete() === false {
-						return false;
+						/**
+						 * Delete the resultset
+						 * Stop the operation if needed
+						 */
+						if resultset->delete() === false {
+							return false;
+						}
 					}
 				}
 			}
@@ -1716,7 +1747,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
 	 */
-	protected function _checkForeignKeysReverseRestrict() -> boolean
+	protected final function _checkForeignKeysReverseRestrict() -> boolean
 	{
 		boolean error;
 		var manager, relations, foreignKey, relation,
@@ -1734,104 +1765,106 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We check if some of the hasOne/hasMany relations is a foreign key
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
+		if count(relations) {
 
-		let error = false;
-		for relation in relations {
-
-			/**
-			 * Check if the relation has a virtual foreign key
-			 */
-			let foreignKey = relation->getForeignKey();
-			if foreignKey !== false {
+			let error = false;
+			for relation in relations {
 
 				/**
-				 * By default action is restrict
+				 * Check if the relation has a virtual foreign key
 				 */
-				let action = Relation::ACTION_RESTRICT;
+				let foreignKey = relation->getForeignKey();
+				if foreignKey !== false {
 
-				/**
-				 * Try to find a different action in the foreign key's options
-				 */
-				if typeof foreignKey == "array" {
-					if isset foreignKey["action"] {
-						let action = (int) foreignKey["action"];
+					/**
+					 * By default action is restrict
+					 */
+					let action = Relation::ACTION_RESTRICT;
+
+					/**
+					 * Try to find a different action in the foreign key's options
+					 */
+					if typeof foreignKey == "array" {
+						if isset foreignKey["action"] {
+							let action = (int) foreignKey["action"];
+						}
 					}
-				}
-
-				/**
-				 * Check only if the operation is restrict
-				 */
-				if action == Relation::ACTION_RESTRICT {
-
-					let relationClass = relation->getReferencedModel();
 
 					/**
-					 * Load a plain instance from the models manager
+					 * Check only if the operation is restrict
 					 */
-					let referencedModel = manager->load(relationClass);
+					if action == Relation::ACTION_RESTRICT {
 
-					let fields = relation->getFields(),
-						referencedFields = relation->getReferencedFields();
+						let relationClass = relation->getReferencedModel();
 
-					/**
-					 * Create the checking conditions. A relation can has many fields or a single one
-					 */
-					let conditions = [], bindParams = [];
+						/**
+						 * Load a plain instance from the models manager
+						 */
+						let referencedModel = manager->load(relationClass);
 
-					if typeof fields == "array" {
+						let fields = relation->getFields(),
+							referencedFields = relation->getReferencedFields();
 
-						for position, field in fields {
-							fetch value, this->{field};
-							let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						/**
+						 * Create the checking conditions. A relation can has many fields or a single one
+						 */
+						let conditions = [], bindParams = [];
+
+						if typeof fields == "array" {
+
+							for position, field in fields {
+								fetch value, this->{field};
+								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+									bindParams[] = value;
+							}
+
+						} else {
+							fetch value, this->{fields};
+							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
 						}
 
-					} else {
-						fetch value, this->{fields};
-						let conditions[] = "[" . referencedFields . "] = ?0",
-							bindParams[] = value;
-					}
-
-					/**
-					 * Check if the virtual foreign key has extra conditions
-					 */
-					if fetch extraConditions, foreignKey["conditions"] {
-						let conditions[] = extraConditions;
-					}
-
-					/**
-					 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-					 * Let's make the checking
-					 */
-					if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
 						/**
-						 * Create a new message
+						 * Check if the virtual foreign key has extra conditions
 						 */
-						if !fetch message, foreignKey["message"] {
-							let message = "Record is referenced by model " . relationClass;
+						if fetch extraConditions, foreignKey["conditions"] {
+							let conditions[] = extraConditions;
 						}
 
 						/**
-						 * Create a message
+						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+						 * Let's make the checking
 						 */
-						this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-						let error = true;
-						break;
+						if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+							/**
+							 * Create a new message
+							 */
+							if !fetch message, foreignKey["message"] {
+								let message = "Record is referenced by model " . relationClass;
+							}
+
+							/**
+							 * Create a message
+							 */
+							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+							let error = true;
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		/**
-		 * Call validation fails event
-		 */
-		if error === true {
-			if globals_get("orm.events") {
-				this->fireEvent("onValidationFails");
-				this->_cancelOperation();
+			/**
+			 * Call validation fails event
+			 */
+			if error === true {
+				if globals_get("orm.events") {
+					this->fireEvent("onValidationFails");
+					this->_cancelOperation();
+				}
+				return false;
 			}
-			return false;
 		}
 
 		return true;
@@ -2803,12 +2836,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Create/Get the current database connection
 		 */
 		let writeConnection = this->getWriteConnection();
-		
+
 		/**
 		 * Fire the start event
 		 */
 		this->fireEvent("prepareSave");
-		
+
 		/**
 		 * Save related records in belongsTo relationships
 		 */
@@ -2942,7 +2975,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *  $robot = new Robots();
 	 *  $robot->create(array(
 	 *	  'type' => 'mechanical',
-	 *	  'name' => 'Astroy Boy',
+	 *	  'name' => 'Astro Boy',
 	 *	  'year' => 1952
 	 *  ));
 	 *</code>
@@ -4008,7 +4041,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Execute the query
 		 */
 		return {modelName}::{type}([
-			"conditions": field . " = ?0",
+			"conditions": "[" . field . "] = ?0",
 			"bind"	    : [value]
 		]);
 	}
@@ -4213,6 +4246,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let relation = <RelationInterface> manager->getRelationByAlias(modelName, lowerProperty);
 		if typeof relation == "object" {
 
+			/*
+			 Not fetch a relation if it is on CamelCase
+			 */
+			if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
+				return this->{lowerProperty};
+			}
 			/**
 			 * Get the related records
 			 */
@@ -4398,6 +4437,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return data;
+	}
+
+	/**
+	* Serializes the object for json_encode
+	*
+	*<code>
+	* echo json_encode($robot);
+	*</code>
+	*
+	* @return array
+	*/
+	public function jsonSerialize() -> array
+	{
+		return this->toArray();
 	}
 
 	/**

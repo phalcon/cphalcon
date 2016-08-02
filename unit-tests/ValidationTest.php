@@ -33,150 +33,6 @@ use Phalcon\Validation\Validator\PresenceOf,
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
-
-	public function testValidationGroup()
-	{
-
-		$message1 = new Phalcon\Validation\Message('This a message #1', 'field1', 'Type1');
-		$message2 = new Phalcon\Validation\Message('This a message #2', 'field2', 'Type2');
-		$message3 = new Phalcon\Validation\Message('This a message #3', 'field3', 'Type3');
-
-		$messages = new Phalcon\Validation\Message\Group(array($message1, $message2));
-
-		$this->assertEquals(count($messages), 2);
-		$this->assertEquals($messages[0], $message1);
-		$this->assertEquals($messages[1], $message2);
-
-		$this->assertTrue(isset($messages[0]));
-		$this->assertTrue(isset($messages[1]));
-
-		$messages->appendMessage($message3);
-
-		$this->assertEquals($messages[2], $message3);
-
-		$number = 0;
-		foreach ($messages as $position => $message) {
-			$this->assertEquals($position, $number);
-			$this->assertEquals($messages[$position]->getMessage(), $message->getMessage());
-			$this->assertEquals($messages[$position]->getField(), $message->getField());
-			$this->assertEquals($messages[$position]->getType(), $message->getType());
-			$number++;
-		}
-		$this->assertEquals($number, 3);
-	}
-
-	public function testValidationPresenceOf()
-	{
-		$_POST = array();
-
-		$validation = new Phalcon\Validation();
-
-		$validation->add('name', new PresenceOf());
-
-		$validation->add('last_name', new PresenceOf());
-
-		$validation->add('number', new PresenceOf());
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'Field name is required',
-					'_field' => 'name',
-					'_code' => '0',
-				)),
-				1 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'Field last_name is required',
-					'_field' => 'last_name',
-					'_code' => '0',
-				)),
-				2 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'Field number is required',
-					'_field' => 'number',
-					'_code' => '0',
-				)),
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST['last_name'] = 'Walter';
-
-		$_POST['number'] = '0';
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'Field name is required',
-					'_field' => 'name',
-					'_code' => '0',
-				))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-	}
-
-	public function testValidationPresenceOfCustomMessage()
-	{
-		$_POST = array();
-
-		$validation = new Phalcon\Validation();
-
-		$validation->add('name', new PresenceOf(array(
-			'message' => 'The name is required'
-		)));
-
-		$validation->add('last_name', new PresenceOf(array(
-			'message' => 'The last name is required'
-		)));
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'The name is required',
-					'_field' => 'name',
-					'_code' => '0',
-				)),
-				1 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'The last name is required',
-					'_field' => 'last_name',
-					'_code' => '0',
-				)),
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST['last_name'] = 'Walter';
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'PresenceOf',
-					'_message' => 'The name is required',
-					'_field' => 'name',
-					'_code' => '0',
-				))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-	}
-
 	public function testValidationIdentical()
 	{
 		$_POST = array();
@@ -1140,5 +996,78 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 	{
 		$validation = new \Phalcon\Validation();
 		$this->assertEmpty($validation->getDefaultMessage('_notexistentvalidationmessage_'));
+	}
+
+	public function testOptionAllowEmpty()
+	{
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Confirmation',
+					'_message' => 'Field password must be the same as password2',
+					'_field' => 'password',
+					'_code' => '0',
+				)),
+			)
+		));
+
+		// allowEmpty: true
+		$validation = new Phalcon\Validation();
+		$validation->add('password', new Confirmation(array(
+			'allowEmpty' => true,
+			'with'		 => 'password2'
+		)));
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => 'test123',
+			'password2' => 'test123'
+		))), 0);
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => null,
+			'password2' => 'test123'
+		))), 0);
+		// END
+
+		// allowEmpty: false
+		$validation = new Phalcon\Validation();
+		$validation->add('password', new Confirmation(array(
+			'allowEmpty' => false,
+			'with'		 => 'password2'
+		)));
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => 'test123',
+			'password2' => 'test123'
+		))), 0);
+
+		$messages = $validation->validate(array(
+			'password'  => null,
+			'password2' => 'test123'
+		));
+
+		$this->assertEquals(count($messages), 1);
+		$this->assertEquals($messages, $expectedMessages);
+		// END
+
+		// allowEmpty: DEFAULT
+		$validation = new Phalcon\Validation();
+		$validation->add('password', new Confirmation(array(
+			'with'		 => 'password2'
+		)));
+
+		$this->assertEquals(count($validation->validate(array(
+			'password'  => 'test123',
+			'password2' => 'test123'
+		))), 0);
+
+		$messages = $validation->validate(array(
+			'password'  => null,
+			'password2' => 'test123'
+		));
+
+		$this->assertEquals(count($messages), 1);
+		$this->assertEquals($messages, $expectedMessages);
+		// END
 	}
 }

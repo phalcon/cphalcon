@@ -26,15 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MessageInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model\Message constructor
- *
- * @param string message
- * @param string field
- * @param string type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __construct);
-
-/**
  * Sets message type
  *
  * @param string type
@@ -82,7 +73,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getField);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __toString);
 
 /**
- * Magic __set_state helps to recover messsages from serialization
+ * Magic __set_state helps to recover messages from serialization
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __set_state);
 

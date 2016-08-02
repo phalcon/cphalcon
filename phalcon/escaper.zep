@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -44,6 +44,8 @@ class Escaper implements EscaperInterface
 	protected _htmlEscapeMap = null;
 
 	protected _htmlQuoteType = 3;
+	
+	protected _doubleEncode = true;
 
 	/**
 	 * Sets the encoding to be used by the escaper
@@ -75,6 +77,18 @@ class Escaper implements EscaperInterface
 	public function setHtmlQuoteType(int quoteType) -> void
 	{
 		let this->_htmlQuoteType = quoteType;
+	}
+	
+	/**
+	 * Sets the double_encode to be used by the escaper
+	 *
+	 *<code>
+	 * $escaper->setDoubleEncode(false);
+	 *</code>
+	 */
+	public function setDoubleEncode(boolean doubleEncode) -> void
+	{
+		let this->_doubleEncode = doubleEncode;
 	}
 
 	/**
@@ -140,7 +154,7 @@ class Escaper implements EscaperInterface
 	 */
 	public function escapeHtml(string text) -> string
 	{
-		return htmlspecialchars(text, this->_htmlQuoteType, this->_encoding);
+		return htmlspecialchars(text, this->_htmlQuoteType, this->_encoding, this->_doubleEncode);
 	}
 
 	/**
@@ -148,7 +162,7 @@ class Escaper implements EscaperInterface
 	 */
 	public function escapeHtmlAttr(string attribute) -> string
 	{
-		return htmlspecialchars(attribute, ENT_QUOTES, this->_encoding);
+		return htmlspecialchars(attribute, ENT_QUOTES, this->_encoding, this->_doubleEncode);
 	}
 
 	/**

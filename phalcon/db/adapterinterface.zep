@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,18 +20,12 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
+ * Phalcon\Db\AdapterInterface
  *
  * Interface for Phalcon\Db adapters
  */
 interface AdapterInterface
 {
-
-	/**
-	 * Constructor for Phalcon\Db\Adapter
-	 */
-	public function __construct(array! descriptor);
-
 	/**
 	 * Returns the first row in a SQL query result
 	 *
@@ -53,7 +47,7 @@ interface AdapterInterface
 	public function fetchAll(string! sqlQuery, fetchMode = 2, placeholders = null);
 
 	/**
-	 * Inserts data into a table using custom RBDM SQL syntax
+	 * Inserts data into a table using custom RDBMS SQL syntax
 	 *
 	 * @param 	string table
 	 * @param 	array values
@@ -64,7 +58,7 @@ interface AdapterInterface
 	public function insert(var table, array! values, fields = null, dataTypes = null);
 
 	/**
-	 * Updates data on a table using custom RBDM SQL syntax
+	 * Updates data on a table using custom RDBMS SQL syntax
 	 *
 	 * @param 	string table
 	 * @param 	array fields
@@ -76,7 +70,7 @@ interface AdapterInterface
 	public function update(var table, fields, values, whereCondition = null, dataTypes = null);
 
 	/**
-	 * Deletes data from a table using custom RBDM SQL syntax
+	 * Deletes data from a table using custom RDBMS SQL syntax
 	 *
 	 * @param  string table
 	 * @param  string whereCondition
@@ -261,13 +255,10 @@ interface AdapterInterface
 	public function getDialect() -> <DialectInterface>;
 
 	/**
-	 * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+	 * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
 	 * Call it when you need to restore a database connection
-	 *
-	 * @param 	array descriptor
-	 * @return 	boolean
 	 */
-	public function connect(descriptor = null);
+	public function connect(array descriptor = null) -> boolean;
 
 	/**
 	 * Sends SQL statements to the database server returning the success state.

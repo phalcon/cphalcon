@@ -17,10 +17,7 @@ Makefile
 Makefile.fragments
 Makefile.global
 Makefile.objects
-*.m4
 autom4te.cache/
-build/
-config.*
 configure
 install-sh
 libtool
@@ -30,3 +27,12 @@ mkinstalldirs
 modules/
 run-tests.php
 coverage/
+
+php5/64bits/acinclude.m4
+php5/64bits/aclocal.m4
+php5/64bits/build/
+php5/64bits/config.guess
+php5/64bits/config.h
+php5/64bits/config.nice
+php5/64bits/config.status
+php5/64bits/config.sub

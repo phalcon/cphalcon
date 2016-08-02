@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -18,6 +18,8 @@
  */
 
 namespace Phalcon\Debug;
+
+use Phalcon\Di;
 
 /**
  * Phalcon\Debug\Dump
@@ -41,7 +43,7 @@ class Dump
 
 	protected _detailed = false { get, set };
 
-	protected _methods = null;
+	protected _methods = [];
 
 	protected _styles;
 
@@ -56,8 +58,8 @@ class Dump
 			throw new Exception("The styles must be an array");
 		}
 		this->setStyles(styles);
-		let this->_methods = [],
-			this->_detailed = detailed;
+
+		let this->_detailed = detailed;
 	}
 
 
@@ -163,12 +165,17 @@ class Dump
 			}
 			let output .= " (\n";
 
-			if !this->_detailed {
+			if variable instanceof Di {
+				// Skip debuging di
+				let output .= str_repeat(space, tab) . "[skipped]\n";
+			} elseif !this->_detailed {
+				// Debug only public properties
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
 					let output .= this->output(value, "", tab + 1) . "\n";
 				}
 			} else {
+				// Debug all properties
 				do {
 
 					let attr = each(variable);
@@ -183,7 +190,7 @@ class Dump
 					if !key {
 						continue;
 					}
-					let key = explode(chr(ord("\x00")), key),
+					let key = explode(chr(0), key),
 						type = "public";
 
 					if isset key[1] {

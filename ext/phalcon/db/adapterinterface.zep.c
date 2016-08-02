@@ -13,7 +13,7 @@
 
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
+ * Phalcon\Db\AdapterInterface
  *
  * Interface for Phalcon\Db adapters
  */
@@ -24,11 +24,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_AdapterInterface) {
 	return SUCCESS;
 
 }
-
-/**
- * Constructor for Phalcon\Db\Adapter
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, __construct);
 
 /**
  * Returns the first row in a SQL query result
@@ -51,7 +46,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchOne);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchAll);
 
 /**
- * Inserts data into a table using custom RBDM SQL syntax
+ * Inserts data into a table using custom RDBMS SQL syntax
  *
  * @param 	string table
  * @param 	array values
@@ -62,7 +57,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchAll);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 
 /**
- * Updates data on a table using custom RBDM SQL syntax
+ * Updates data on a table using custom RDBMS SQL syntax
  *
  * @param 	string table
  * @param 	array fields
@@ -74,7 +69,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
 
 /**
- * Deletes data from a table using custom RBDM SQL syntax
+ * Deletes data from a table using custom RDBMS SQL syntax
  *
  * @param  string table
  * @param  string whereCondition
@@ -259,11 +254,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialectType);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialect);
 
 /**
- * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+ * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
  * Call it when you need to restore a database connection
- *
- * @param 	array descriptor
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, connect);
 

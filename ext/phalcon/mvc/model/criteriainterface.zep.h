@@ -94,7 +94,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getWhere, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getConditions, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getLimit, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getOrder, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getParams, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, execute, NULL)
 	PHP_FE_END

@@ -26,17 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface) {
 }
 
 /**
- * Phalcon\Mvc\Model\Relation constructor
- *
- * @param int type
- * @param string referencedModel
- * @param string|array fields
- * @param string|array referencedFields
- * @param array options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, __construct);
-
-/**
  * Sets the intermediate model dat for has-*-through relations
  *
  * @param string|array intermediateFields
@@ -80,6 +69,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getReferencedFields);
  * @return string|array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
+
+/**
+ * Returns an option by the specified name
+ * If the option doesn't exist null is returned
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOption);
 
 /**
  * Check whether the relation act as a foreign key

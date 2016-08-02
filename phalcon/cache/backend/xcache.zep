@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,21 +30,23 @@ use Phalcon\Cache\FrontendInterface;
  * Allows to cache output fragments, PHP data and raw data using an XCache backend
  *
  *<code>
- *	//Cache data for 2 days
- *	$frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *		'lifetime' => 172800
- *	));
+ * use Phalcon\Cache\Backend\Xcache;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
- *  $cache = new \Phalcon\Cache\Backend\Xcache($frontCache, array(
- *      'prefix' => 'app-data'
- *  ));
+ * // Cache data for 2 days
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- *	//Cache arbitrary data
- *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ * $cache = new Xcache($frontCache, [
+ *     'prefix' => 'app-data'
+ * ]);
  *
- *	//Get data
- *	$data = $cache->get('my-data');
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
+ * // Get data
+ * $data = $cache->get('my-data');
  *</code>
  */
 class Xcache extends Backend implements BackendInterface
@@ -63,7 +65,8 @@ class Xcache extends Backend implements BackendInterface
 		}
 
 		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCX";
+			// Disable tracking of cached keys per default
+			let options["statsKey"] = "";
 		}
 
 		parent::__construct(frontend, options);
@@ -71,12 +74,8 @@ class Xcache extends Backend implements BackendInterface
 
 	/**
 	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
 	 */
-	public function get(var keyName, lifetime = null)
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var frontend, prefixedKey, cachedContent;
 
@@ -104,7 +103,7 @@ class Xcache extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true)
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastKey, frontend, cachedContent, preparedContent, tmp, tt1, success, isBuffering,
 			options, keys, specialKey;
@@ -150,6 +149,10 @@ class Xcache extends Backend implements BackendInterface
 			let success = xcache_set(lastKey, preparedContent, tt1);
 		}
 
+		if !success {
+			throw new Exception("Failed storing the data in xcache");
+		}
+
 		let isBuffering = frontend->isBuffering();
 
 		if stopBuffer === true {
@@ -169,18 +172,22 @@ class Xcache extends Backend implements BackendInterface
 				throw new Exception("Unexpected inconsistency in options");
 			}
 
-			/**
-			 * xcache_list() is available only to the administrator (unless XCache was
-			 * patched). We have to update the list of the stored keys.
-			 */
-			let keys = xcache_get(specialKey);
-			if typeof keys != "array" {
-				let keys = [];
-			}
+			if specialKey != "" {
+				/**
+				 * xcache_list() is available only to the administrator (unless XCache was
+				 * patched). We have to update the list of the stored keys.
+				 */
+				let keys = xcache_get(specialKey);
+				if typeof keys != "array" {
+					let keys = [];
+				}
 
-			let keys[lastKey] = tt1;
-			xcache_set(specialKey, keys);
+				let keys[lastKey] = tt1;
+				xcache_set(specialKey, keys);
+			}
 		}
+
+		return success;
 	}
 
 	/**
@@ -199,14 +206,16 @@ class Xcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let keys = xcache_get(specialKey);
-		if typeof keys != "array" {
-			let keys = [];
+		if specialKey != "" {
+			let keys = xcache_get(specialKey);
+			if typeof keys != "array" {
+				let keys = [];
+			}
+
+			unset keys[prefixedKey];
+
+			xcache_set(specialKey, keys);
 		}
-
-		unset keys[prefixedKey];
-
-		xcache_set(specialKey, keys);
 	}
 
 	/**
@@ -229,6 +238,10 @@ class Xcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		let retval = [];
@@ -348,6 +361,10 @@ class Xcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, this->_options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		let keys = xcache_get(specialKey);

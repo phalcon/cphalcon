@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -36,16 +36,6 @@ interface CryptInterface
 	 * Returns the current cipher
 	 */
 	public function getCipher() -> string;
-
-	/**
-	 * Sets the encrypt/decrypt mode
-	 */
-	public function setMode(string! mode) -> <CryptInterface>;
-
-	/**
-	 * Returns the current encryption mode
-	 */
-	public function getMode() -> string;
 
 	/**
 	 * Sets the encryption key
@@ -82,8 +72,4 @@ interface CryptInterface
 	 */
 	public function getAvailableCiphers() -> array;
 
-	/**
-	 * Returns a list of available modes
-	 */
-	public function getAvailableModes() -> array;
 }

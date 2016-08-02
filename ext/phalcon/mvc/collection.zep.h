@@ -33,7 +33,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation);
 PHP_METHOD(Phalcon_Mvc_Collection, _exists);
 PHP_METHOD(Phalcon_Mvc_Collection, getMessages);
 PHP_METHOD(Phalcon_Mvc_Collection, appendMessage);
+PHP_METHOD(Phalcon_Mvc_Collection, prepareCU);
 PHP_METHOD(Phalcon_Mvc_Collection, save);
+PHP_METHOD(Phalcon_Mvc_Collection, create);
+PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist);
+PHP_METHOD(Phalcon_Mvc_Collection, update);
 PHP_METHOD(Phalcon_Mvc_Collection, findById);
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst);
 PHP_METHOD(Phalcon_Mvc_Collection, find);
@@ -46,6 +50,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, skipOperation);
 PHP_METHOD(Phalcon_Mvc_Collection, toArray);
 PHP_METHOD(Phalcon_Mvc_Collection, serialize);
 PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
+zend_object_value zephir_init_properties_Phalcon_Mvc_Collection(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
@@ -139,6 +144,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_appendmessage, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Mvc\\Model\\MessageInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_createifnotexist, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, criteria, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_findbyid, 0, 0, 1)
 	ZEND_ARG_INFO(0, id)
 ZEND_END_ARG_INFO()
@@ -208,7 +217,11 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_collection_method_entry) {
 	PHP_ME(Phalcon_Mvc_Collection, _exists, arginfo_phalcon_mvc_collection__exists, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Collection, getMessages, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, appendMessage, arginfo_phalcon_mvc_collection_appendmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, prepareCU, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Collection, save, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, create, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, createIfNotExist, arginfo_phalcon_mvc_collection_createifnotexist, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Collection, update, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection, findById, arginfo_phalcon_mvc_collection_findbyid, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection, findFirst, arginfo_phalcon_mvc_collection_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Collection, find, arginfo_phalcon_mvc_collection_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

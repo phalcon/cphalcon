@@ -26,17 +26,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface) {
 }
 
 /**
- * Phalcon\Db\Result\Pdo constructor
- *
- * @param \Phalcon\Db\AdapterInterface connection
- * @param \PDOStatement result
- * @param string sqlStatement
- * @param array bindParams
- * @param array bindTypes
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, __construct);
-
-/**
  * Allows to executes the statement again. Some database systems don't support scrollable cursors,
  * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
  *

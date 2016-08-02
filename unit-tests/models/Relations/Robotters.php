@@ -23,6 +23,7 @@ class Robotters extends Model
 			'type' => 'theType',
 			'year' => 'theYear',
 			'datetime' => 'theDatetime',
+			'deleted' => 'theDeleted',
 			'text' => 'theText',
 		);
 	}

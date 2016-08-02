@@ -27,11 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_ResourceInterface) {
 }
 
 /**
- * Phalcon\Acl\ResourceInterface constructor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, __construct);
-
-/**
  * Returns the resource name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, getName);

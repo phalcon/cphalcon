@@ -26,12 +26,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_BagInterface) {
 }
 
 /**
- * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+ * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, initialize);
 
 /**
- * Destroyes the session bag
+ * Destroys the session bag
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, destroy);
 

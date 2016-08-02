@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,15 +26,22 @@ use Phalcon\Validation\Message;
 /**
  * Phalcon\Validation\Validator\CreditCard
  *
- * Checks if a value has a valid creditcard number
+ * Checks if a value has a valid credit card number
  *
- *<code>
- *use Phalcon\Validation\Validator\CreditCard as CreditCardValidator;
+ * <code>
+ * use Phalcon\Validation\Validator\CreditCard as CreditCardValidator;
  *
- *$validator->add('creditcard', new CreditCardValidator(array(
- *   'message' => 'The credit card number is not valid'
- *)));
- *</code>
+ * $validator->add('creditcard', new CreditCardValidator([
+ *     'message' => 'The credit card number is not valid'
+ * ]));
+ *
+ * $validator->add(['creditcard', 'secondCreditCard'], new CreditCardValidator([
+ *     'message' => [
+ *         'creditcard' => 'The credit card number is not valid',
+ *         'secondCreditCard' => 'The second credit card number is not valid'
+ *     ]
+ * ]));
+ * </code>
  */
 class CreditCard extends Validator
 {
@@ -43,7 +50,7 @@ class CreditCard extends Validator
      */
     public function validate(<Validation> validation, string! field) -> boolean
     {
-        var message, label, replacePairs, value, valid;
+        var message, label, replacePairs, value, valid, code;
 
         let value = validation->getValue(field);
 
@@ -51,17 +58,28 @@ class CreditCard extends Validator
 
         if !valid {
             let label = this->getOption("label");
+            if typeof label == "array" {
+                let label = label[field];
+            }
             if empty label {
             	let label = validation->getLabel(field);
             }
 
             let message = this->getOption("message");
+            if typeof message == "array" {
+                let message = message[field];
+            }
             let replacePairs = [":field": label];
             if empty message {
             	let message = validation->getDefaultMessage("CreditCard");
             }
 
-            validation->appendMessage(new Message(strtr(message, replacePairs), field, "CreditCard"));
+            let code = this->getOption("code");
+            if typeof code == "array" {
+                let code = code[field];
+            }
+
+            validation->appendMessage(new Message(strtr(message, replacePairs), field, "CreditCard", code));
             return false;
         }
 

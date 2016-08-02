@@ -35,16 +35,16 @@ use Phalcon\Logger\Formatter\Firephp as FirePhpFormatter;
  * use Phalcon\Logger\Adapter\Firephp;
  * use Phalcon\Logger;
  *
- * $logger = new Firephp("");
- * $logger->log(Logger::ERROR, "This is an error");
- * $logger->error("This is another error");
+ * $logger = new Firephp();
+ * $logger->log(Logger::ERROR, 'This is an error');
+ * $logger->error('This is another error');
  *</code>
  */
 class Firephp extends Adapter implements AdapterInterface
 {
-	private static _initialized;
+	private _initialized = false;
 
-	private static _index;
+	private _index = 1;
 
 	/**
 	 * Returns the internal formatter
@@ -60,30 +60,25 @@ class Firephp extends Adapter implements AdapterInterface
 
 	/**
 	 * Writes the log to the stream itself
-	 *
-	 * @link http://www.firephp.org/Wiki/Reference/Protocol
 	 */
 	public function logInternal(string message, int type, int time, array context) -> void
 	{
-		var chunk, format, chString, content, key;
+		var chunk, format, chString, content, key, index;
 
-		if self::_index === null {
-			let self::_index = 1;
-		}
-
-		if self::_initialized !== true {
+		if !this->_initialized {
 			header("X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2");
 			header("X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3");
 			header("X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1");
 
-			let self::_initialized = true;
+			let this->_initialized = true;
 		}
 
 		let format = this->getFormatter()->format(message, type, time, context),
-			chunk = str_split(format, 4500);
+			chunk = str_split(format, 4500),
+			index = this->_index;
 
 		for key, chString in chunk {
-			let content = "X-Wf-1-1-1-" . self::_index . ": " . chString;
+			let content = "X-Wf-1-1-1-" . (string) index . ": " . chString;
 
 			if isset(chunk[key + 1]) {
 				let content .= "|\\";
@@ -91,8 +86,10 @@ class Firephp extends Adapter implements AdapterInterface
 
 			header(content);
 
-			let self::_index = self::_index + 1;
+			let index++;
 		}
+
+		let this->_index = index;
 	}
 
 	/**

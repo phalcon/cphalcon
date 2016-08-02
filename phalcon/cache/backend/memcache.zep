@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -32,25 +32,26 @@ use Phalcon\Cache\FrontendInterface;
  * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
  *
  *<code>
+ * use Phalcon\Cache\Backend\Memcache;
+ * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Data(array(
- *    "lifetime" => 172800
- * ));
+ * $frontCache = new FrontData([
+ *     'lifetime' => 172800
+ * ]);
  *
- * //Create the Cache setting memcached connection options
- * $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
- *		'host' => 'localhost',
- *		'port' => 11211,
- *  	'persistent' => false
- * ));
+ * // Create the Cache setting memcached connection options
+ * $cache = new Memcache($frontCache, [
+ *     'host' => 'localhost',
+ *     'port' => 11211,
+ *     'persistent' => false
+ * ]);
  *
- * //Cache arbitrary data
- * $cache->save('my-data', array(1, 2, 3, 4, 5));
+ * // Cache arbitrary data
+ * $cache->save('my-data', [1, 2, 3, 4, 5]);
  *
- * //Get data
+ * // Get data
  * $data = $cache->get('my-data');
- *
  *</code>
  */
 class Memcache extends Backend implements BackendInterface
@@ -83,7 +84,8 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		if !isset options["statsKey"] {
-			let options["statsKey"] = "_PHCM";
+			// Disable tracking of cached keys per default
+			let options["statsKey"] = "";
 		}
 
 		parent::__construct(frontend, options);
@@ -117,13 +119,28 @@ class Memcache extends Backend implements BackendInterface
 	}
 
 	/**
-	 * Returns a cached content
-	 *
-	 * @param int|string keyName
-	 * @param   long lifetime
-	 * @return  mixed
+	 * Add servers to memcache pool
 	 */
-	public function get(var keyName, var lifetime = null)
+	public function addServers(string! host, int port, boolean persistent = false) -> boolean
+	{
+		var memcache, success;
+		/**
+		 * Check if a connection is created or make a new one
+		 */
+		let memcache = this->_memcache;
+		if typeof memcache != "object" {
+		    this->_connect();
+		    let memcache = this->_memcache;
+		}
+		let success = memcache->addServer(host, port, persistent);
+		let this->_memcache = memcache;
+		return success;
+	}
+
+	/**
+	 * Returns a cached content
+	 */
+	public function get(string keyName, int lifetime = null) -> var | null
 	{
 		var memcache, prefixedKey, cachedContent, retrieve;
 
@@ -157,7 +174,7 @@ class Memcache extends Backend implements BackendInterface
 	 * @param long lifetime
 	 * @param boolean stopBuffer
 	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true)
+	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastKey, frontend, memcache, cachedContent, preparedContent, tmp, ttl, success, options,
 			specialKey, keys, isBuffering;
@@ -225,7 +242,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Update the stats key
 			 */
@@ -251,6 +268,8 @@ class Memcache extends Backend implements BackendInterface
 		}
 
 		let this->_started = false;
+
+		return success;
 	}
 
 	/**
@@ -276,11 +295,13 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let keys = memcache->get(specialKey);
+		if specialKey != "" {
+			let keys = memcache->get(specialKey);
 
-		if typeof keys == "array" {
-			unset keys[prefixedKey];
-			memcache->set(specialKey, keys);
+			if typeof keys == "array" {
+				unset keys[prefixedKey];
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		/**
@@ -311,6 +332,10 @@ class Memcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		/**
@@ -448,6 +473,10 @@ class Memcache extends Backend implements BackendInterface
 
 		if !fetch specialKey, options["statsKey"] {
 			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
 		}
 
 		/**
