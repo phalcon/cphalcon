@@ -195,7 +195,7 @@ class Mongo extends Backend implements BackendInterface
 		} else {
 			let prefix = this->_prefix;
 			let lastkey = prefix . keyName;
-			let this->_lastkey = prefix . keyName;
+			let this->_lastKey = lastKey;
 		}
 
 		if !lastkey {

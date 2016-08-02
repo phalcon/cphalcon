@@ -178,7 +178,7 @@ class File extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = this->_prefix . this->getKey(keyName);
-			let this->_lastKey = this->_prefix . this->getKey(keyName);
+			let this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
