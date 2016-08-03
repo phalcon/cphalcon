@@ -72,6 +72,7 @@ before_script:
   - pecl list
   - ulimit -c unlimited -S || true
   - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
+  - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
   - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/

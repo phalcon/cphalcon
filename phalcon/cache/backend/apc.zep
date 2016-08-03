@@ -85,7 +85,7 @@ class Apc extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let lastKey = "_PHCA" . this->_prefix . keyName;
-			let this->_lastKey = "_PHCA" . this->_prefix . keyName;
+			let this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -259,7 +259,7 @@ class Apc extends Backend implements BackendInterface
 	}
 
 	/**
-	 * Immediately invalidates all existing items.
+ 	 * Immediately invalidates all existing items.
 	 */
 	public function flush() -> boolean
 	{

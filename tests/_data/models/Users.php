@@ -1,20 +1,17 @@
 <?php
 
-namespace Phalcon\Test\Models\AlbumORama;
+namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
 /**
- * \Phalcon\Test\Models\AlbumORama\Albums
- * Albums model class
- *
- * @method static findFirst($parameters = null)
+ * \Phalcon\Test\Models\Users
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Models\AlbumORama
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @package   Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -23,10 +20,8 @@ use Phalcon\Mvc\Model;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class Albums extends Model
+class Users extends Model
 {
-	public function initialize()
-	{
-		$this->belongsTo('artists_id', 'AlbumORama:Artists', 'id', ['alias' => 'artist']);
-	}
+    public $id;
+    public $name;
 }

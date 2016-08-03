@@ -114,74 +114,74 @@ class Mongo extends Backend implements BackendInterface
 					throw new Exception("The backend requires a valid MongoDB connection string");
 				}
 
-				let mongo = new \MongoClient(server);
-			}
+          let mongo = new \MongoClient(server);
+        }
 
-			/**
-			 * Check if the database name is a string
-			 */
-			let database = options["db"];
-			if !database || typeof database != "string" {
-				throw new Exception("The backend requires a valid MongoDB db");
-			}
+        /**
+         * Check if the database name is a string
+         */
+        let database = options["db"];
+        if !database || typeof database != "string" {
+          throw new Exception("The backend requires a valid MongoDB db");
+        }
 
-			/**
-			 * Retrieve the connection name
-			 */
-			let collection = options["collection"];
-			if !collection || typeof collection != "string" {
-				throw new Exception("The backend requires a valid MongoDB collection");
-			}
+        /**
+         * Retrieve the connection name
+         */
+        let collection = options["collection"];
+        if !collection || typeof collection != "string" {
+          throw new Exception("The backend requires a valid MongoDB collection");
+        }
 
-			/**
-			 * Make the connection and get the collection
-			 */
-			let mongoCollection = mongo->selectDb(database)->selectCollection(collection),
-				this->_collection = mongoCollection;
-		}
+        /**
+         * Make the connection and get the collection
+         */
+        let mongoCollection = mongo->selectDb(database)->selectCollection(collection),
+          this->_collection = mongoCollection;
+      }
 
-		return mongoCollection;
-	}
+      return mongoCollection;
+    }
 
-	/**
-	 * Returns a cached content
-	 */
-	public function get(string keyName, int lifetime = null) -> var | null
-	{
-		var frontend, prefixedKey, conditions,  document, cachedContent;
+    /**
+     * Returns a cached content
+     */
+    public function get(string keyName, int lifetime = null) -> var | null
+    {
+      var frontend, prefixedKey, conditions,  document, cachedContent;
 
-		let conditions = [];
-		let frontend = this->_frontend;
-		let prefixedKey = this->_prefix . keyName;
-		let this->_lastKey = prefixedKey;
+      let conditions = [];
+      let frontend = this->_frontend;
+      let prefixedKey = this->_prefix . keyName;
+      let this->_lastKey = prefixedKey;
 
-		let conditions["key"] = prefixedKey;
-		let conditions["time"] = ["$gt": time()];
+      let conditions["key"] = prefixedKey;
+      let conditions["time"] = ["$gt": time()];
 
-		let document = this->_getCollection()->findOne(conditions);
-		if typeof document == "array" {
-			if fetch cachedContent, document["data"] {
-				if is_numeric(cachedContent) {
-					return cachedContent;
-				}
-				return frontend->afterRetrieve(cachedContent);
-			} else {
-				throw new Exception("The cache is corrupt");
-			}
-		}
+      let document = this->_getCollection()->findOne(conditions);
+      if typeof document == "array" {
+        if fetch cachedContent, document["data"] {
+          if is_numeric(cachedContent) {
+            return cachedContent;
+          }
+          return frontend->afterRetrieve(cachedContent);
+        } else {
+          throw new Exception("The cache is corrupt");
+        }
+      }
 
-		return null;
-	}
+      return null;
+    }
 
-	/**
-	 * Stores cached content into the file backend and stops the frontend
-	 *
-	 * @param int|string keyName
-	 * @param string content
-	 * @param long lifetime
-	 * @param boolean stopBuffer
-	 */
-	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
+    /**
+     * Stores cached content into the file backend and stops the frontend
+     *
+     * @param int|string keyName
+     * @param string content
+     * @param long lifetime
+     * @param boolean stopBuffer
+     */
+    public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
 		var lastkey, prefix, frontend, cachedContent, tmp, ttl,
 			collection, timestamp, conditions, document, preparedContent,
@@ -195,7 +195,7 @@ class Mongo extends Backend implements BackendInterface
 		} else {
 			let prefix = this->_prefix;
 			let lastkey = prefix . keyName;
-			let this->_lastKey = prefix . keyName;
+			let this->_lastKey = lastkey;
 		}
 
 		if !lastkey {
