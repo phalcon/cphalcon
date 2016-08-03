@@ -1,4 +1,6 @@
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-XX-XX)
+- Fixed Phalcon\Cache\Backend\Redis::flush in order to flush cache correctly
+- Add the \_lastKey update when call `save` method for all backend cache [#12050](https://github.com/phalcon/cphalcon/issues/12050)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly
 - Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to correct using multi relation column [#12035](https://github.com/phalcon/cphalcon/issues/12035)
 - Fixed `Phalcon\Acl\Resource`. Now it implements `Phalcon\Acl\ResourceInterface` [#11959](https://github.com/phalcon/cphalcon/issues/11959)
