@@ -177,7 +177,8 @@ class File extends Backend implements BackendInterface
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->_prefix . this->getKey(keyName);
+			let lastKey = this->_prefix . this->getKey(keyName),
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
