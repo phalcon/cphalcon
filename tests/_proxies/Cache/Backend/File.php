@@ -34,7 +34,6 @@ class File extends PhFile
         return parent::get($keyName, $lifetime);
     }
 
-
     public function save($keyName = null, $content = null, $lifetime = null, $stopBuffer = true)
     {
         return parent::save($keyName, $content, $lifetime, $stopBuffer);

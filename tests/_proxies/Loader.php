@@ -69,6 +69,11 @@ class Loader extends PhLoader
         return parent::registerFiles($files, $merge);
     }
 
+    protected function prepareNamespace(array $namespace)
+    {
+        return parent::prepareNamespace($namespace);
+    }
+
     public function getFiles()
     {
         return parent::getFiles();

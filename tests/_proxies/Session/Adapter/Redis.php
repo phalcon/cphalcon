@@ -23,7 +23,7 @@ use Phalcon\Session\Adapter\Redis as PhRedis;
  */
 class Redis extends PhRedis
 {
-    public function __construct($options = null)
+    public function __construct(array $options = null)
     {
         return parent::__construct($options);
     }

@@ -3,7 +3,9 @@
 namespace Phalcon\Test\Proxy\Assets;
 
 use Phalcon\Assets\Inline;
+use Phalcon\Assets\Collection;
 use Phalcon\Assets\Manager as PhManager;
+use Phalcon\Assets\Resource as PhResource;
 
 /**
  * \Phalcon\Test\Proxy\Assets\Manager
@@ -59,17 +61,17 @@ class Manager extends PhManager
         parent::addInlineJs($content, $filter, $attributes);
     }
 
-    public function addResourceByType($type, \Phalcon\Assets\Resource $resource)
+    public function addResourceByType($type, PhResource $resource)
     {
         parent::addResourceByType($type, $resource);
     }
 
-    public function addInlineCodeByType($type, \Phalcon\Assets\Inline $code)
+    public function addInlineCodeByType($type, Inline $code)
     {
         parent::addInlineCodeByType($type, $code);
     }
 
-    public function addResource(\Phalcon\Assets\Resource $resource)
+    public function addResource(PhResource $resource)
     {
         parent::addResource($resource);
     }
@@ -79,7 +81,7 @@ class Manager extends PhManager
         parent::addInlineCode($code);
     }
 
-    public function set($id, \Phalcon\Assets\Collection $collection)
+    public function set($id, Collection $collection)
     {
         return parent::set($id, $collection);
     }
@@ -104,12 +106,12 @@ class Manager extends PhManager
         return parent::collection($name);
     }
 
-    public function output(\Phalcon\Assets\Collection $collection, $callback, $type)
+    public function output(Collection $collection, $callback, $type)
     {
         return parent::output($collection, $callback, $type);
     }
 
-    public function outputInline(\Phalcon\Assets\Collection $collection, $type)
+    public function outputInline(Collection $collection, $type)
     {
         return parent::outputInline($collection, $type);
     }

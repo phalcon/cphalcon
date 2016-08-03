@@ -23,7 +23,7 @@ use Phalcon\Queue\Beanstalk as PhBeanstalk;
  */
 class Beanstalk extends PhBeanstalk
 {
-    public function __construct($options = null)
+    public function __construct(array $options = null)
     {
         parent::__construct($options);
     }
