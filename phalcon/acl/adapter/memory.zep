@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -28,6 +28,8 @@ use Phalcon\Acl\Exception;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Acl\RoleAware;
 use Phalcon\Acl\ResourceAware;
+use Phalcon\Acl\RoleInterface;
+use Phalcon\Acl\ResourceInterface;
 
 /**
  * Phalcon\Acl\Adapter\Memory
@@ -700,7 +702,7 @@ class Memory extends Adapter
 					// We dont have any parameters so check default action
 					if count(parametersForFunction) == 0 {
 						if numberOfRequiredParameters > 0 {
-							trigger_error("You didnt provide any parameters when check ".roleName." can ".access." " .resourceName.". We will use default action when no arguments.");
+							trigger_error("You didn't provide any parameters when check ".roleName." can ".access." " .resourceName.". We will use default action when no arguments.");
 							return (haveAccess == Acl::ALLOW) && (this->_noArgumentsDefaultAction == Acl::ALLOW);
 						}
 						// Number of required parameters == 0 so call funcAccess without any arguments
@@ -712,7 +714,7 @@ class Memory extends Adapter
 					}
 					// We dont have enough parameters
 					else {
-						throw new Exception("You didnt provide all necessary parameters for defined function when check ".roleName." can ".access." ".resourceName);
+						throw new Exception("You didn't provide all necessary parameters for defined function when check ".roleName." can ".access." ".resourceName);
 					}
 			}
 		}
@@ -738,7 +740,7 @@ class Memory extends Adapter
 	/**
 	 * Return an array with every role registered in the list
 	 */
-	public function getRoles() -> <Role[]>
+	public function getRoles() -> <RoleInterface[]>
 	{
 		return this->_roles;
 	}
@@ -746,7 +748,7 @@ class Memory extends Adapter
 	/**
 	 * Return an array with every resource registered in the list
 	 */
-	public function getResources() -> <$Resource[]>
+	public function getResources() -> <ResourceInterface[]>
 	{
 		return this->_resources;
 	}
