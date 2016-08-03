@@ -23,7 +23,7 @@ use Phalcon\Session\Adapter\Libmemcached as PhLibmemcached;
  */
 class Libmemcached extends PhLibmemcached
 {
-    public function __construct($options = null)
+    public function __construct(array $options = null)
     {
         return parent::__construct($options);
     }

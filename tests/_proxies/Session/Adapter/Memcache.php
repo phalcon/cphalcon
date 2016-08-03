@@ -23,7 +23,7 @@ use Phalcon\Session\Adapter\Memcache as PhMemcache;
  */
 class Memcache extends PhMemcache
 {
-    public function __construct($options = null)
+    public function __construct(array $options = null)
     {
         return parent::__construct($options);
     }

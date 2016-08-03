@@ -23,7 +23,7 @@ use Phalcon\Paginator\Adapter\NativeArray as PhNativeArray;
  */
 class NativeArray extends PhNativeArray
 {
-    public function __construct($config)
+    public function __construct(array $config)
     {
         parent::__construct($config);
     }
