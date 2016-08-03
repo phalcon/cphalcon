@@ -549,39 +549,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
-		//List tables
-		$expectedTables = array (
-			'albums',
-			'artists',
-			'childs',
-			'customers',
-			'issue_11036',
-			'issue_1534',
-			'issue_2019',
-			'm2m_parts',
-			'm2m_robots',
-			'm2m_robots_parts',
-			'package_details',
-			'packages',
-			'parts',
-			'personas',
-			'personnes',
-			'ph_select',
-			'prueba',
-			'robots',
-			'robots_parts',
-			'songs',
-			'subscriptores',
-			'tipo_documento',
-			'users',
-		);
-
-		$tables = $connection->listTables();
-		$this->assertEquals($tables, $expectedTables);
-
-		$tables = $connection->listTables('phalcon_test');
-		$this->assertEquals($tables, $expectedTables);
-
 		//Table exist
 		$this->assertEquals($connection->tableExists('personas'), 1);
 		$this->assertEquals($connection->tableExists('noexist'), 0);
