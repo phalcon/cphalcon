@@ -108,7 +108,8 @@ class Apc extends Backend implements BackendInterface
 			if lifetime === null {
 				let ttl = frontend->getLifetime();
 			} else {
-				let ttl = lifetime;
+				let ttl = lifetime,
+					this->_lastKey = lastKey;
 			}
 		} else {
 			let ttl = lifetime;

@@ -88,7 +88,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->_prefix . keyName;
+			let lastKey = this->_prefix . keyName,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {

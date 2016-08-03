@@ -179,16 +179,16 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
+		var prefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
 			let prefixedKey = substr(lastKey, 5);
 		} else {
-			let prefix = this->_prefix;
-			let prefixedKey = prefix . keyName;
-			let lastKey = "_PHCR" . prefixedKey;
+			let prefixedKey = this->_prefix . keyName,
+				lastKey = "_PHCR" . prefixedKey,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {

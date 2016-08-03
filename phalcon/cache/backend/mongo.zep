@@ -183,7 +183,7 @@ class Mongo extends Backend implements BackendInterface
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var lastkey, prefix, frontend, cachedContent, tmp, ttl,
+		var lastkey, frontend, cachedContent, tmp, ttl,
 			collection, timestamp, conditions, document, preparedContent,
 			isBuffering, data, success;
 
@@ -193,8 +193,8 @@ class Mongo extends Backend implements BackendInterface
 		if keyName === null {
 			let lastkey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastkey = prefix . keyName;
+			let lastkey = this->_prefix . keyName,
+				this->_lastKey = lastkey;
 		}
 
 		if !lastkey {
