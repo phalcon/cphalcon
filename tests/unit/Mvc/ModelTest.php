@@ -2,7 +2,11 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use Phalcon\Test\Models\Users;
+use Phalcon\Test\Models\Customers;
+use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\AlbumORama\Albums;
 
@@ -83,5 +87,74 @@ class ModelTest extends UnitTest
                 ]);
             }
          );
+    }
+
+    /**
+     * Tests Model::hasMany by using multi relation column
+     *
+     * @issue  12035
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-08-02
+     */
+    public function testMultiRelationColumn()
+    {
+        $this->specify(
+            'The Model::hasMany by using multi relation column does not work as expected',
+            function () {
+                $list = Packages::find();
+                foreach ($list as $item) {
+                    expect($item)->isInstanceOf(Packages::class);
+                    expect($item->details)->isInstanceOf(Simple::class);
+                    expect($item->details->valid())->true();
+                    expect($item->details->count())->greaterOrEquals(2);
+                    expect($item->details->getFirst())->isInstanceOf(PackageDetails::class);
+                }
+            }
+        );
+    }
+
+    /**
+     * Tests reusing Model relation
+     *
+     * @issue  11991
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-08-03
+     */
+    public function testReusableRelation()
+    {
+        $this->specify(
+            'Reusing relations does not work correctly',
+            function () {
+                $customers = Customers::find([
+                    'document_id = :did: AND status = :status: AND customer_id <> :did:',
+                    'bind' => ['did' => 1, 'status' => 'A']
+                ]);
+
+                expect($customers)->isInstanceOf(Simple::class);
+                expect(count($customers))->equals(2);
+
+                expect($customers[0]->user)->isInstanceOf(Users::class);
+                expect($customers[0]->user)->isInstanceOf(Users::class);
+                expect($customers[0]->user)->isInstanceOf(Users::class);
+
+                expect($customers[1]->user)->isInstanceOf(Users::class);
+                expect($customers[1]->user)->isInstanceOf(Users::class);
+                expect($customers[1]->user)->isInstanceOf(Users::class);
+
+                expect($customers->getFirst())->isInstanceOf(Customers::class);
+
+                expect($customers[1]->user->name)->equals('Nikolaos Dimopoulos');
+                expect($customers[1]->user->name)->equals('Nikolaos Dimopoulos');
+                expect($customers[1]->user->name)->equals('Nikolaos Dimopoulos');
+
+                expect($customers->getFirst()->user->name)->equals('Nikolaos Dimopoulos');
+                expect($customers->getFirst()->user->name)->equals('Nikolaos Dimopoulos');
+                expect($customers->getFirst()->user->name)->equals('Nikolaos Dimopoulos');
+
+                expect($customers[0]->user->name)->equals('Nikolaos Dimopoulos');
+                expect($customers[0]->user->name)->equals('Nikolaos Dimopoulos');
+                expect($customers[0]->user->name)->equals('Nikolaos Dimopoulos');
+            }
+        );
     }
 }
