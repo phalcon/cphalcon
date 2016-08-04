@@ -59,6 +59,8 @@ class MysqlTest extends UnitTest
                     'artists',
                     'childs',
                     'customers',
+                    'issue12071_body',
+                    'issue12071_head',
                     'issue_11036',
                     'issue_1534',
                     'issue_2019',

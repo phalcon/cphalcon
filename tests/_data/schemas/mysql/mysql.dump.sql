@@ -526,6 +526,30 @@ UNLOCK TABLES;
 
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `issue12071_head`;
+CREATE TABLE `issue12071_head` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `issue12071_head` WRITE;
+/*!40000 ALTER TABLE `issue12071_head` DISABLE KEYS */;
+INSERT INTO `issue12071_head` VALUES (1);
+INSERT INTO `issue12071_head` VALUES (2);
+/*!40000 ALTER TABLE `issue12071_head` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `issue12071_body`;
+CREATE TABLE `issue12071_body` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `head_1_id` INT,
+  `head_2_id` INT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `issue12071_body_head_1_fkey` FOREIGN KEY (`head_1_id`) REFERENCES `issue12071_head` (`id`),
+  CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
