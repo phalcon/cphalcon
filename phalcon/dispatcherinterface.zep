@@ -64,10 +64,8 @@ interface DispatcherInterface
 
 	/**
 	 * Sets action params to be dispatched
-	 *
-	 * @param array params
 	 */
-	public function setParams(params);
+	public function setParams(array! params);
 
 	/**
 	 * Gets action params
@@ -112,8 +110,6 @@ interface DispatcherInterface
 
 	/**
 	 * Forwards the execution flow to another controller/action
-	 *
-	 * @param array forward
 	 */
-	public function forward(forward);
+	public function forward(array! forward);
 }
