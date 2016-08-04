@@ -803,8 +803,10 @@ class View extends Injectable implements ViewInterface
 			 * The 'picked' view is an array, where the first element is controller and the second the action
 			 */
 			let renderView = pickView[0];
-			if fetch pickViewAction, pickView[1] {
-				let layoutName = pickViewAction;
+			if layoutName === null {
+				if fetch pickViewAction, pickView[1] {
+					let layoutName = pickViewAction;
+				}
 			}
 		}
 
