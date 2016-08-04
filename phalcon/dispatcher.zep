@@ -521,6 +521,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				} else {
 					throw e;
 				}
+			} finally {
+				let this->_lastHandler = handler;
 			}
 
 			// Calling afterExecuteRoute
