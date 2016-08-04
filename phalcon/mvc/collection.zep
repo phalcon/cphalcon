@@ -50,7 +50,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 	protected _connection;
 
-	protected _errorMessages;
+	protected _errorMessages = [];
 
 	protected static _reserved;
 
@@ -231,15 +231,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function getSource() -> string
 	{
-		var source, collection;
+		var collection;
 
-		let source = this->_source;
-		if !source {
+		if !this->_source {
 			let collection = this;
-			let source = uncamelize(get_class_ns(collection));
-			let this->_source = source;
+
+			let this->_source = uncamelize(get_class_ns(collection));
 		}
-		return source;
+
+		return this->_source;
 	}
 
 	/**
@@ -266,14 +266,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function getConnection()
 	{
-		var connection;
-
-		let connection = this->_connection;
-		if typeof connection != "object" {
-			let connection = this->_modelsManager->getConnection(this);
-			let this->_connection = connection;
+		if typeof this->_connection != "object" {
+			let this->_connection = this->_modelsManager->getConnection(this);
 		}
-		return connection;
+
+		return this->_connection;
 	}
 
 	/**
@@ -600,18 +597,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	{
 		var eventName;
 
-		if success === true {
+		if success {
 			if !disableEvents {
-
-				if exists === true {
+				if exists {
 					let eventName = "afterUpdate";
 				} else {
 					let eventName = "afterCreate";
 				}
+
 				this->fireEvent(eventName);
 
 				this->fireEvent("afterSave");
 			}
+
 			return success;
 		}
 
@@ -682,15 +680,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function validationHasFailed() -> boolean
 	{
-		var errorMessages;
-
-		let errorMessages = this->_errorMessages;
-		if typeof errorMessages == "array" {
-			if count(errorMessages) {
-				return true;
-			}
-		}
-		return false;
+		return (count(this->_errorMessages) > 0);
 	}
 
 	/**

@@ -129,21 +129,15 @@ class Volt extends Engine implements EngineInterface
 	 */
 	public function length(var item) -> int
 	{
-		var length;
-
-		let length = 0;
-
 		if typeof item == "object" || typeof item == "array" {
-			let length = count(item);
-		} else {
-			if function_exists("mb_strlen") {
-				let length = mb_strlen(item);
-			} else {
-				let length = strlen(item);
-			}
+			return count(item);
 		}
 
-		return length;
+		if function_exists("mb_strlen") {
+			return mb_strlen(item);
+		}
+
+		return strlen(item);
 	}
 
 	/**

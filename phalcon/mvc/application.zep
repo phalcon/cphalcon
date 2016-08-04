@@ -185,7 +185,7 @@ class Application extends Injectable
 	 * @param string uri
 	 * @return \Phalcon\Http\ResponseInterface|boolean
 	 */
-	public function handle(uri = null) -> <ResponseInterface> | boolean
+	public function handle(string uri = null) -> <ResponseInterface> | boolean
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
@@ -264,11 +264,11 @@ class Application extends Injectable
 				 */
 				if fetch path, module["path"] {
 					if !class_exists(className, false) {
-						if file_exists(path) {
-							require path;
-						} else {
+						if !file_exists(path) {
 							throw new Exception("Module definition path '" . path . "' doesn't exist");
 						}
+
+						require path;
 					}
 				}
 
@@ -285,11 +285,11 @@ class Application extends Injectable
 				/**
 				 * A module definition object, can be a Closure instance
 				 */
-				if module instanceof \Closure {
-					let moduleObject = call_user_func_array(module, [dependencyInjector]);
-				} else {
+				if !(module instanceof \Closure) {
 					throw new Exception("Invalid module definition");
 				}
+
+				let moduleObject = call_user_func_array(module, [dependencyInjector]);
 			}
 
 			/**
@@ -350,15 +350,11 @@ class Application extends Injectable
 		if typeof possibleResponse == "boolean" && possibleResponse == false {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
 		} else {
-			if typeof possibleResponse == "object" {
 
-				/**
-				 * Check if the returned object is already a response
-				 */
-				let returnedResponse = possibleResponse instanceof ResponseInterface;
-			} else {
-				let returnedResponse = false;
-			}
+			/**
+			 * Check if the returned object is already a response
+			 */
+			let returnedResponse = ((typeof possibleResponse == "object") && (possibleResponse instanceof ResponseInterface));
 
 			/**
 			 * Calling afterHandleRequest
@@ -370,33 +366,31 @@ class Application extends Injectable
 			/**
 			 * If the dispatcher returns an object we try to render the view in auto-rendering mode
 			 */
-			if returnedResponse === false {
-				if implicitView === true {
-					if typeof controller == "object" {
+			if returnedResponse === false && implicitView === true {
+				if typeof controller == "object" {
 
-						let renderStatus = true;
+					let renderStatus = true;
+
+					/**
+					 * This allows to make a custom view render
+					 */
+					if typeof eventsManager == "object" {
+						let renderStatus = eventsManager->fire("application:viewRender", this, view);
+					}
+
+					/**
+					 * Check if the view process has been treated by the developer
+					 */
+					if renderStatus !== false {
 
 						/**
-						 * This allows to make a custom view render
+						 * Automatic render based on the latest controller executed
 						 */
-						if typeof eventsManager == "object" {
-							let renderStatus = eventsManager->fire("application:viewRender", this, view);
-						}
-
-						/**
-						 * Check if the view process has been treated by the developer
-						 */
-						if renderStatus !== false {
-
-							/**
-							 * Automatic render based on the latest controller executed
-							 */
-							view->render(
-								dispatcher->getControllerName(),
-								dispatcher->getActionName(),
-								dispatcher->getParams()
-							);
-						}
+						view->render(
+							dispatcher->getControllerName(),
+							dispatcher->getActionName(),
+							dispatcher->getParams()
+						);
 					}
 				}
 			}
