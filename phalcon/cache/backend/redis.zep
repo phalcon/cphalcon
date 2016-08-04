@@ -71,6 +71,10 @@ class Redis extends Backend implements BackendInterface
 			let options = [];
 		}
 
+		if isset options["redis"] && typeof options["redis"] == "object" {
+			let this->_redis = options["redis"];
+		}
+
 		if !isset options["host"] {
 			let options["host"] = "127.0.0.1";
 		}
@@ -87,7 +91,7 @@ class Redis extends Backend implements BackendInterface
 			let options["persistent"] = false;
 		}
 
-		if !isset options["statsKey"] || empty options["statsKey"] {
+		if !isset options["statsKey"] {
 			let options["statsKey"] = "_PHCR";
 		}
 
@@ -156,7 +160,7 @@ class Redis extends Backend implements BackendInterface
 
 		let frontend = this->_frontend;
 		let prefix = this->_prefix;
-		let lastKey = "_PHCR" . prefix . keyName;
+		let lastKey = prefix . keyName;
 		let this->_lastKey = lastKey;
 		let cachedContent = redis->get(lastKey);
 
@@ -186,11 +190,11 @@ class Redis extends Backend implements BackendInterface
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
-			let prefixedKey = substr(lastKey, 5);
+			let prefixedKey = lastKey;
 		} else {
 			let prefix = this->_prefix;
 			let prefixedKey = prefix . keyName;
-			let lastKey = "_PHCR" . prefixedKey;
+			let lastKey = prefixedKey;
 		}
 
 		if !lastKey {
@@ -247,13 +251,13 @@ class Redis extends Backend implements BackendInterface
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
-
-		redis->sAdd(specialKey, prefixedKey);
+		if specialKey != "" {
+			redis->sAdd(specialKey, prefixedKey);
+		}
 
 		let isBuffering = frontend->isBuffering();
 
@@ -286,16 +290,16 @@ class Redis extends Backend implements BackendInterface
 
 		let prefix = this->_prefix;
 		let prefixedKey = prefix . keyName;
-		let lastKey = "_PHCR" . prefixedKey;
+		let lastKey = prefixedKey;
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
-
-		redis->sRem(specialKey, prefixedKey);
+		if specialKey != "" {
+			redis->sRem(specialKey, prefixedKey);
+		}
 
 		/**
 		* Delete the key from redis
@@ -322,11 +326,13 @@ class Redis extends Backend implements BackendInterface
 
 		let options = this->_options;
 
-		if !isset options["statsKey"] {
+		if !fetch specialKey, options["statsKey"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let specialKey = options["statsKey"];
+		if specialKey == "" {
+			throw new Exception("Cached keys were disabled (options['statsKey'] == ''), you shouldn't use this function");
+		}
 
 		/**
 		* Get the key from redis
@@ -358,7 +364,7 @@ class Redis extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = prefix . keyName;
 		}
 
 		if lastKey {
@@ -399,7 +405,7 @@ class Redis extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
 		}
 
@@ -432,7 +438,7 @@ class Redis extends Backend implements BackendInterface
 			let lastKey = this->_lastKey;
 		} else {
 			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
 		}
 
@@ -468,7 +474,7 @@ class Redis extends Backend implements BackendInterface
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = "_PHCR" . key;
+				let lastKey = key;
 				redis->sRem(specialKey, key);
 				redis->delete(lastKey);
 			}
