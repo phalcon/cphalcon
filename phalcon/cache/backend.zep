@@ -28,13 +28,21 @@ use Phalcon\Cache\FrontendInterface;
  */
 abstract class Backend
 {
-
+	/**
+	 * @var \Phalcon\Cache\FrontendInterface
+	 */
 	protected _frontend { get, set };
 
+	/**
+	 * @var array
+	 */
 	protected _options { get, set };
 
 	protected _prefix = "";
 
+	/**
+	 * @var string
+	 */
 	protected _lastKey = "" { get, set };
 
 	protected _lastLifetime = null;
