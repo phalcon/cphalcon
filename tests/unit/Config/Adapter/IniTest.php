@@ -25,6 +25,38 @@ use Phalcon\Config\Adapter\Ini;
 class IniTest extends ConfigBase
 {
     /**
+     * Tests constants in option values
+     * @author zytzagoo
+     * @since  2016-08-03
+     */
+    public function testConstants()
+    {
+        $this->specify(
+            "Constants in option values are not parsed properly",
+            function () {
+                define('TEST_CONST', 'foo');
+
+                $expected = [
+                    'test' => 'foo',
+                    'path' => 'foo/something/else',
+                    'section' => [
+                        'test' => 'foo',
+                        'path' => 'foo/another-thing/somewhere',
+                        'parent' => [
+                            'property' => 'foo',
+                            'property2' =>'foohello'
+                        ]
+                    ]
+                ];
+
+                $config = new Ini(PATH_DATA . 'config/config-with-constants.ini');
+
+                expect($config->toArray())->equals($expected);
+            }
+        );
+    }
+
+    /**
      * Tests toArray method
      *
      * @author kjdev

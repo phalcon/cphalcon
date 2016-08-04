@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
 		ZEPHIR_INIT_VAR(statusCodes);
-		zephir_create_array(statusCodes, 67, 0 TSRMLS_CC);
+		zephir_create_array(statusCodes, 63, 0 TSRMLS_CC);
 		add_index_stringl(statusCodes, 100, SL("Continue"), 1);
 		add_index_stringl(statusCodes, 101, SL("Switching Protocols"), 1);
 		add_index_stringl(statusCodes, 102, SL("Processing"), 1);
