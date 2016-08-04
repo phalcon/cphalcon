@@ -127,10 +127,8 @@ abstract class Adapter implements EventsAwareInterface
 		 */
 		if typeof dialectClass == "string" {
 			let this->_dialect = new {dialectClass}();
-		} else {
-			if typeof dialectClass == "object" {
-				let this->_dialect = dialectClass;
-			}
+		} elseif typeof dialectClass == "object" {
+			let this->_dialect = dialectClass;
 		}
 
 		let this->_descriptor = descriptor;
