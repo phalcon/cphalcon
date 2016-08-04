@@ -9,6 +9,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\BodyParts\Body;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\ManagerTest
@@ -156,5 +157,34 @@ class ModelTest extends UnitTest
                 expect($customers[0]->user->name)->equals('Nikolaos Dimopoulos');
             }
         );
+    }
+
+    /**
+     * Tests virtual foreign keys.
+     *
+     * When having multiple virtual foreign keys, check of the first one should
+     * affect the check of the next one.
+     *
+     * @issue  12071
+     * @author Radek Crlik <radekcrlik@gmail.com>
+     * @since  2016-08-03
+    */
+    public function testInvalidVirtualForeignKeys()
+    {
+        $this->specify(
+            'The Model::save with multiple virtual foreign keys and invalid entity',
+            function () {
+                $body = new Body();
+
+                $body->head_1_id = null;
+                $body->head_2_id = 999;
+
+                // PDOException should'n be thrown
+                expect($body->save())->equals(false);
+
+                expect($body->getMessages())->count(1);
+                expect($body->getMessages()[0]->getMessage())->equals('Second head does not exists');
+            }
+         );
     }
 }
