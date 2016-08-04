@@ -280,6 +280,24 @@ class DbTest extends PHPUnit_Framework_TestCase
 		//Check for auto-increment column
 		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
+		// Create Table
+		$definition = array(
+			'columns' => array(
+				'column1' => new Phalcon\Db\Column("column1", array(
+					'type' => Phalcon\Db\Column::TYPE_VARCHAR,
+					'size' => 10
+				)),
+				'column2' => new Phalcon\Db\Column("column2", array(
+					'type' => Phalcon\Db\Column::TYPE_INTEGER,
+					'size' => 18,
+					'unsigned' => true,
+					'notNull' => false
+				)),
+			)
+		);
+		$success = $connection->createTable('table', null, $definition);
+		$this->assertTrue($success);
+
 		// Create View
 		$success = $connection->createView('phalcon_test_view', array('sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three'));
 		$this->assertTrue($success);
