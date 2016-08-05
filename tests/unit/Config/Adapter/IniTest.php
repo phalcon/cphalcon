@@ -32,7 +32,7 @@ class IniTest extends ConfigBase
     public function testConstants()
     {
         $this->specify(
-            "Constants in option values are not parsed properly",
+            "Constants in option values are not parsed properly with explicit INI_SCANNER_NORMAL mode",
             function () {
                 define('TEST_CONST', 'foo');
 
@@ -49,7 +49,7 @@ class IniTest extends ConfigBase
                     ]
                 ];
 
-                $config = new Ini(PATH_DATA . 'config/config-with-constants.ini');
+                $config = new Ini(PATH_DATA . 'config/config-with-constants.ini', INI_SCANNER_NORMAL);
 
                 expect($config->toArray())->equals($expected);
             }
