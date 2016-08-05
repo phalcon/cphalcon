@@ -51,6 +51,15 @@ use Phalcon\Config\Exception;
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *</code>
+ *
+ * PHP constants may also be parsed in the ini file, so if you define a constant
+ * as an ini value before calling the constructor, the constant's value will be
+ * integrated into the results. To use it this way you must specify the optional
+ * second parameter as INI_SCANNER_NORMAL when calling the constructor:
+ *
+ * <code>
+ *  $config = new Phalcon\Config\Adapter\Ini("path/config-with-constants.ini", INI_SCANNER_NORMAL);
+ * </code>
  */
 class Ini extends Config
 {
@@ -58,11 +67,16 @@ class Ini extends Config
 	/**
 	 * Phalcon\Config\Adapter\Ini constructor
 	 */
-	public function __construct(string! filePath)
+	public function __construct(string! filePath, mode = null)
 	{
 		var iniConfig;
 
-		let iniConfig = parse_ini_file(filePath, true, INI_SCANNER_RAW);
+		// Default to INI_SCANNER_RAW if not specified
+		if null === mode {
+			let mode = INI_SCANNER_RAW;
+		}
+
+		let iniConfig = parse_ini_file(filePath, true, mode);
 		if iniConfig === false {
 			throw new Exception("Configuration file " . basename(filePath) . " can't be loaded");
 		}
