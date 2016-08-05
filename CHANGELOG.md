@@ -1,6 +1,7 @@
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-XX-XX)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly
 - Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to correct using multi relation column [#12035](https://github.com/phalcon/cphalcon/issues/12035)
+- `Phalcon\Config\Adapter\Ini` constructor can now specify `parse_ini_file()` scanner mode [#12079](https://github.com/phalcon/cphalcon/pull/12079)
 
 # [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/v3.0.0) (2016-07-29)
 - PHP 5.3 and 5.4 are now fully deprecated
