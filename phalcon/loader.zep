@@ -1,4 +1,3 @@
-
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -65,6 +64,8 @@ class Loader implements EventsAwareInterface
 	protected _files = null;
 
 	protected _registered = false;
+
+	protected _prependLoader = false;
 
 	/**
 	 * Sets the events manager
@@ -217,6 +218,24 @@ class Loader implements EventsAwareInterface
 	}
 
 	/**
+	 * Enable Prepending of Autoload
+	 */
+	public function setPrepend(boolean prependLoader) -> <Loader>
+	{
+	    let this->_prependLoader = prependLoader;
+
+	    return this;
+	}
+
+    /**
+     * Retrieve Current Prepend Mode
+     */
+	public function canPrepend() -> boolean
+	{
+	    return this->_prependLoader;
+	}
+
+	/**
 	 * Register the autoload method
 	 */
 	public function register() -> <Loader>
@@ -234,7 +253,7 @@ class Loader implements EventsAwareInterface
 			/**
 			 * Registers directories & namespaces to PHP's autoload
 			 */
-			spl_autoload_register([this, "autoLoad"]);
+			spl_autoload_register([this, "autoLoad"], true, this->canPrepend());
 
 			let this->_registered = true;
 		}
