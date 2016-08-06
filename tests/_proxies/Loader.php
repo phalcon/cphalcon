@@ -113,4 +113,14 @@ class Loader extends PhLoader
     {
         return parent::getCheckedPath();
     }
+
+    public function canPrepend()
+    {
+        return parent::canPrepend();
+    }
+
+    public function setPrepend($prependLoader)
+    {
+        return parent::setPrepend($prependLoader);
+    }
 }
