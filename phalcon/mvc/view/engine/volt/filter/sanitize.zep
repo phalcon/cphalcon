@@ -1,32 +1,22 @@
 namespace Phalcon\Mvc\View\Engine\Volt\Filter;
 
-
-use Phalcon\Filter\UserFilterInterface;
+use Phalcon\Mvc\View\Engine\Volt\Filter\FilterInterface;
 /**
  * Phalcon\Mvc\View\Engine\Volt\Filter\Sanitize
  *
  *<code>
- *  $compiler = new \Phalcon\Mvc\View\Engine\Volt\Filter\Sanitize();
- *  $compiler->filter('<html><body></body></html>');
+ *  $filter = new \Phalcon\Mvc\View\Engine\Volt\Filter\Sanitize();
+ *  $filter->filter('<html><body></body></html>');
  *</code>
  */
-class Sanitize extends UserFilterInterface
+class Sanitize extends FilterInterface
 {
 
-    protected function filter(viewCode) {
-        let search = [
-            '/\>\r?\n\s*(\r?\n)?/',  // strip whitespaces after tags, except space
-            '/[^\S ]+\</s',  // strip whitespaces before tags, except space
-            '/(\s)+/s'       // shorten multiple whitespace sequences
-        ];
-        let replace = [
-            '>',
-            '<',
-            '\\1'
-        ];
-        
-
-        return preg_replace(search, replace, viewCode));
+    public function filter(string! viewCode) -> string {
+       let viewCode = preg_replace("/\>\r?\n\s*(\r?\n)?/", ">", viewCode);
+       let viewCode = preg_replace("/[^\S ]+\</s", "<", viewCode);
+       let viewCode = preg_replace( "/(\s)+/s", "\\1", viewCode);
+        return viewCode;
     }
 
 }

@@ -2317,7 +2317,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string|array
 	 */
-	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false, filter = null)
+	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false, filterObject = null)
 	{
 		var viewCode, compilation, finalCompilation;
 
@@ -2343,19 +2343,20 @@ class Compiler implements InjectionAwareInterface
 		let this->_currentPath = path;
 		let compilation = this->_compileSource(viewCode, extendsMode);
 
-		if filter !== null {
-			if typeof filter == "string" {
-				if !empty filter {
-					filter = new {filter}();
+		if filterObject != null {
+			if typeof filterObject == "string" {
+				if !empty filterObject {
+					let filterObject = <Filter\FilterInterface> new {filterObject}();
 				}
 			}
 
-			if typeof filter == 'object'{
-				if filter instanceof \Phalcon\Filter\UserFilterInterface {
-					compilation = filter.filter(compilation);
+			if typeof filterObject == "object" {
+				if filterObject instanceof Filter\FilterInterface {
+						let compilation = filterObject->filter(compilation);
 				}
 			}
 		}
+		
 		/**
 		 * We store the file serialized if it's an array of blocks
 		 */
@@ -2465,13 +2466,13 @@ class Compiler implements InjectionAwareInterface
 				}
 			}
 
-						/**
+			/**
 			 * filters the code after compilation
 			 */
 			if isset options["filter"] {
-				let filter = options["filter"];
-				if typeof filter != "string" {
-					if typeof filter != "object" {
+				let filterObject = options["filter"];
+				if typeof filterObject != "string" {
+					if typeof filterObject != "object" {
 						throw new Exception("'filter' must be a string or a filter");
 					}
 				}
