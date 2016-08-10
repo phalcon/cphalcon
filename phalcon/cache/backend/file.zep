@@ -199,16 +199,16 @@ class File extends Backend implements BackendInterface
 			let cachedContent = content;
 		}
 
-		let preparedContent = frontend->beforeStore(cachedContent);
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
+		}
 
 		/**
 		 * We use file_put_contents to respect open-base-dir directive
 		 */
-		if !is_numeric(cachedContent) {
-			let status = file_put_contents(cacheFile, preparedContent);
-		} else {
-			let status = file_put_contents(cacheFile, cachedContent);
-		}
+		let status = file_put_contents(cacheFile, preparedContent);
 
 		if status === false {
 			throw new Exception("Cache file ". cacheFile . " could not be written");

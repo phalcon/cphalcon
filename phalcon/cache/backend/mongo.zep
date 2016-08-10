@@ -210,6 +210,8 @@ class Mongo extends Backend implements BackendInterface
 
 		if !is_numeric(cachedContent) {
 			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
 		}
 
 		if lifetime === null {
@@ -229,28 +231,14 @@ class Mongo extends Backend implements BackendInterface
 			document = collection->findOne(conditions);
 
 		if typeof document == "array" {
-
-			let document["time"] = timestamp;
-
-			if !is_numeric(cachedContent) {
-				let document["data"] = preparedContent;
-			} else {
-				let document["data"] = cachedContent;
-			}
-
-			let success = collection->update(["_id": document["_id"]], document);
+			let document["time"] = timestamp,
+				document["data"] = preparedContent,
+				success = collection->update(["_id": document["_id"]], document);
 		} else {
-
 			let data["key"] = lastkey,
-				data["time"] = timestamp;
-
-			if !is_numeric(cachedContent) {
-				let data["data"] = preparedContent;
-			} else {
-				let data["data"] = cachedContent;
-			}
-
-			let success = collection->insert(data);
+				data["time"] = timestamp,
+				data["data"] = preparedContent,
+				success = collection->insert(data);
 		}
 
 		if !success {

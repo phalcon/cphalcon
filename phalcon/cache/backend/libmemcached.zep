@@ -214,6 +214,8 @@ class Libmemcached extends Backend implements BackendInterface
 		 */
 		if !is_numeric(cachedContent) {
 			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
 		}
 
 		if lifetime === null {
@@ -228,11 +230,7 @@ class Libmemcached extends Backend implements BackendInterface
 			let tt1 = lifetime;
 		}
 
-		if is_numeric(cachedContent) {
-			let success = memcache->set(lastKey, cachedContent, tt1);
-		} else {
-			let success = memcache->set(lastKey, preparedContent, tt1);
-		}
+		let success = memcache->set(lastKey, preparedContent, tt1);
 
 		if !success {
 			throw new Exception("Failed storing data in memcached, error code: " . memcache->getResultCode());
