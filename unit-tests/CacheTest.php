@@ -326,23 +326,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return true;
 	}
 
-	public function testApcDecrement()
-	{
-		$ready = $this->_prepareApc();
-		if (!$ready) {
-			return false;
-		}
-
-		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 20));
-		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
-		$cache->delete('decrement');
-
-		apc_store('_PHCAdecrement', 100);
-		$this->assertEquals(99, $cache->decrement('decrement'));
-		$this->assertEquals(97, $cache->decrement('decrement', 2));
-		$this->assertEquals(87, $cache->decrement('decrement', 10));
-	}
-
 	public function testOutputApcCache()
 	{
 
