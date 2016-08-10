@@ -80,4 +80,37 @@ class ApcCest
         $I->assertEquals(200, $cache->increment('increment-2', 103));
         $I->assertEquals(200, apc_fetch($key));
     }
+
+    public function decrement(UnitTester $I)
+    {
+        $I->wantTo('Decrement counter by using APC as cache backend');
+
+        $key   = '_PHCA' . 'decrement';
+        $cache = new Apc(new Data(['lifetime' => 20]));
+
+        apc_store($key, 100);
+
+        $I->assertEquals(99, $cache->decrement('decrement'));
+        $I->assertEquals(99, apc_fetch($key));
+
+        $I->assertEquals(96, $cache->decrement('decrement', 3));
+        $I->assertEquals(96, apc_fetch($key));
+
+        $I->assertEquals(90, $cache->decrement('decrement', 6));
+        $I->assertEquals(90, apc_fetch($key));
+
+        $key = '_PHCA' . 'decrement-2';
+        $cache->save('decrement-2', 90);
+
+        $I->assertEquals(90, apc_fetch($key));
+
+        $I->assertEquals(89, $cache->decrement('decrement-2'));
+        $I->assertEquals(89, apc_fetch($key));
+
+        $I->assertEquals(78, $cache->decrement('decrement-2', 11));
+        $I->assertEquals(78, apc_fetch($key));
+
+        $I->assertEquals(8, $cache->decrement('decrement-2', 70));
+        $I->assertEquals(8, apc_fetch($key));
+    }
 }
