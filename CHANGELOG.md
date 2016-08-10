@@ -5,6 +5,7 @@
 - Fixed `save` method for all cache backends. Now it updates the `_lastKey` property correctly [#12050](https://github.com/phalcon/cphalcon/issues/12050)
 - Fixed virtual foreign key check when having multiple keys [#12071](https://github.com/phalcon/cphalcon/issues/12071)
 - `Phalcon\Config\Adapter\Ini` constructor can now specify `parse_ini_file()` scanner mode [#12079](https://github.com/phalcon/cphalcon/pull/12079)
+- Fixed `Phalcon\Cache\Backend\Apc::save` due to which the `Apc::increment`/`Apc::decrement` could not be used properly [#12109](https://github.com/phalcon/cphalcon/issues/12109)
 
 # [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/v3.0.0) (2016-07-29)
 - PHP 5.3 and 5.4 are now fully deprecated
