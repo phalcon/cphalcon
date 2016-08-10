@@ -104,10 +104,14 @@ class Memory extends Backend implements BackendInterface, \Serializable
 			let cachedContent = content;
 		}
 
-		let preparedContent = frontend->beforeStore(cachedContent),
-			this->_data[lastKey] = preparedContent;
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
+		}
 
-		let isBuffering = frontend->isBuffering();
+		let this->_data[lastKey] = preparedContent,
+			isBuffering = frontend->isBuffering();
 
 		if stopBuffer === true {
 			frontend->stop();

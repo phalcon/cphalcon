@@ -217,6 +217,8 @@ class Redis extends Backend implements BackendInterface
 		 */
 		if !is_numeric(cachedContent) {
 			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
 		}
 
 		if lifetime === null {
@@ -231,11 +233,7 @@ class Redis extends Backend implements BackendInterface
 			let tt1 = lifetime;
 		}
 
-		if is_numeric(cachedContent) {
-			let success = redis->set(lastKey, cachedContent);
-		} else {
-			let success = redis->set(lastKey, preparedContent);
-		}
+		let success = redis->set(lastKey, preparedContent);
 
 		if !success {
 			throw new Exception("Failed storing the data in redis");
