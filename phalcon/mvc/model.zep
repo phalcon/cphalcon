@@ -2310,207 +2310,213 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
-	{
-		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
-			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
-			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
-		boolean useDynamicUpdate, changed;
+     protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
+ 	{
+ 		var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field,
+ 			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
+ 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
+ 		boolean useDynamicUpdate, changed;
 
-		let bindSkip = Column::BIND_SKIP,
-			fields = [],
-			values = [],
-			bindTypes = [],
-			manager = <ManagerInterface> this->_modelsManager;
+ 		let bindSkip = Column::BIND_SKIP,
+ 			fields = [],
+ 			values = [],
+ 			bindTypes = [],
+ 			manager = <ManagerInterface> this->_modelsManager;
 
-		/**
-		 * Check if the model must use dynamic update
-		 */
-		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
+ 		/**
+ 		 * Check if the model must use dynamic update
+ 		 */
+ 		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
 
-		if useDynamicUpdate {
-			let snapshot = this->_snapshot;
-			if typeof snapshot != "array" {
-				let useDynamicUpdate = false;
-			}
-		}
+ 		if useDynamicUpdate {
+ 			let snapshot = this->_snapshot;
+ 			if typeof snapshot != "array" {
+ 				let useDynamicUpdate = false;
+ 			}
+ 		}
 
-		let bindDataTypes = metaData->getBindTypes(this),
-			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
-			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+ 		let dataTypes = metaData->getDataTypes(this),
+             bindDataTypes = metaData->getBindTypes(this),
+ 			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
+ 			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
+ 		if globals_get("orm.column_renaming") {
+ 			let columnMap = metaData->getColumnMap(this);
+ 		} else {
+ 			let columnMap = null;
+ 		}
 
-		/**
-		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
-		 */
-		for field in nonPrimary {
+ 		/**
+ 		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
+ 		 */
+ 		for field in nonPrimary {
 
-			if !isset automaticAttributes[field] {
+ 			if !isset automaticAttributes[field] {
 
-				/**
-				 * Check a bind type for field to update
-				 */
-				if !fetch bindType, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' have not defined a bind data type");
-				}
+ 				/**
+ 				 * Check a bind type for field to update
+ 				 */
+ 				if !fetch bindType, bindDataTypes[field] {
+ 					throw new Exception("Column '" . field . "' have not defined a bind data type");
+ 				}
 
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
+ 				/**
+ 				 * Check if the model has a column map
+ 				 */
+ 				if typeof columnMap == "array" {
+ 					if !fetch attributeField, columnMap[field] {
+ 						throw new Exception("Column '" . field . "' isn't part of the column map");
+ 					}
+ 				} else {
+ 					let attributeField = field;
+ 				}
 
-				/**
-				 * Get the field's value
-				 * If a field isn't set we pass a null value
-				 */
-				if fetch value, this->{attributeField} {
+ 				/**
+ 				 * Get the field's value
+ 				 * If a field isn't set we pass a null value
+ 				 */
+ 				if fetch value, this->{attributeField} {
 
-					/**
-					 * When dynamic update is not used we pass every field to the update
-					 */
-					if !useDynamicUpdate {
-						let fields[] = field, values[] = value;
-						let bindTypes[] = bindType;
-					} else {
+ 					/**
+ 					 * When dynamic update is not used we pass every field to the update
+ 					 */
+ 					if !useDynamicUpdate {
+ 						let fields[] = field, values[] = value;
+ 						let bindTypes[] = bindType;
+ 					} else {
 
-						/**
-						 * If the field is not part of the snapshot we add them as changed
-						 */
-						if !fetch snapshotValue, snapshot[attributeField] {
-							let changed = true;
-						} else {
-							/**
-							 * See https://github.com/phalcon/cphalcon/issues/3247
-							 * Take a TEXT column with value '4' and replace it by
-							 * the value '4.0'. For PHP '4' and '4.0' are the same.
-							 * We can't use simple comparison...
-							 *
-							 * We must use the type of snapshotValue.
-							 */
-							if value === null {
-								let changed = snapshotValue !== null;
-							} else {
-								if snapshotValue === null {
-									let changed = true;
-								} else {
-									switch bindType {
+ 						/**
+ 						 * If the field is not part of the snapshot we add them as changed
+ 						 */
+ 						if !fetch snapshotValue, snapshot[attributeField] {
+ 							let changed = true;
+ 						} else {
+ 							/**
+ 							 * See https://github.com/phalcon/cphalcon/issues/3247
+ 							 * Take a TEXT column with value '4' and replace it by
+ 							 * the value '4.0'. For PHP '4' and '4.0' are the same.
+ 							 * We can't use simple comparison...
+ 							 *
+ 							 * We must use the type of snapshotValue.
+ 							 */
+ 							if value === null {
+ 								let changed = snapshotValue !== null;
+ 							} else {
+ 								if snapshotValue === null {
+ 									let changed = true;
+ 								} else {
 
-										case Column::TYPE_BOOLEAN:
-											let changed = (boolean) snapshotValue !== (boolean) value;
-											break;
+                                     if !fetch dataType, dataTypes[field] {
+                                         throw new Exception("Column '" . field . "' have not defined a data type");
+                                     }
 
-										case Column::TYPE_INTEGER:
-											let changed = (int) snapshotValue !== (int) value;
-											break;
+ 									switch dataType {
 
-										case Column::TYPE_DECIMAL:
-										case Column::TYPE_FLOAT:
-											let changed = floatval(snapshotValue) !== floatval(value);
-											break;
+ 										case Column::TYPE_BOOLEAN:
+ 											let changed = (boolean) snapshotValue !== (boolean) value;
+ 											break;
 
-										case Column::TYPE_DATE:
-										case Column::TYPE_VARCHAR:
-										case Column::TYPE_DATETIME:
-										case Column::TYPE_CHAR:
-										case Column::TYPE_TEXT:
-										case Column::TYPE_VARCHAR:
-										case Column::TYPE_BIGINTEGER:
-											let changed = (string) snapshotValue !== (string) value;
-											break;
+ 										case Column::TYPE_INTEGER:
+ 											let changed = (int) snapshotValue !== (int) value;
+ 											break;
 
-										/**
-										 * Any other type is not really supported...
-										 */
-										default:
-											let changed = value != snapshotValue;
-									}
-								}
-							}
-						}
+ 										case Column::TYPE_DECIMAL:
+ 										case Column::TYPE_FLOAT:
+ 											let changed = floatval(snapshotValue) !== floatval(value);
+ 											break;
 
-						/**
-						 * Only changed values are added to the SQL Update
-						 */
-						if changed {
-							let fields[] = field, values[] = value;
-							let bindTypes[] = bindType;
-						}
-					}
+ 										case Column::TYPE_DATE:
+ 										case Column::TYPE_VARCHAR:
+ 										case Column::TYPE_DATETIME:
+ 										case Column::TYPE_CHAR:
+ 										case Column::TYPE_TEXT:
+ 										case Column::TYPE_VARCHAR:
+ 										case Column::TYPE_BIGINTEGER:
+ 											let changed = (string) snapshotValue !== (string) value;
+ 											break;
 
-				} else {
-					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
-				}
-			}
-		}
+ 										/**
+ 										 * Any other type is not really supported...
+ 										 */
+ 										default:
+ 											let changed = value != snapshotValue;
+ 									}
+ 								}
+ 							}
+ 						}
 
-		/**
-		 * If there is no fields to update we return true
-		 */
-		if !count(fields) {
-			return true;
-		}
+ 						/**
+ 						 * Only changed values are added to the SQL Update
+ 						 */
+ 						if changed {
+ 							let fields[] = field, values[] = value;
+ 							let bindTypes[] = bindType;
+ 						}
+ 					}
 
-		let uniqueKey = this->_uniqueKey,
-			uniqueParams = this->_uniqueParams,
-			uniqueTypes = this->_uniqueTypes;
+ 				} else {
+ 					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
+ 				}
+ 			}
+ 		}
 
-		/**
-		 * When unique params is null we need to rebuild the bind params
-		 */
-		if typeof uniqueParams != "array" {
+ 		/**
+ 		 * If there is no fields to update we return true
+ 		 */
+ 		if !count(fields) {
+ 			return true;
+ 		}
 
-			let primaryKeys = metaData->getPrimaryKeyAttributes(this);
+ 		let uniqueKey = this->_uniqueKey,
+ 			uniqueParams = this->_uniqueParams,
+ 			uniqueTypes = this->_uniqueTypes;
 
-			/**
-			 * We can't create dynamic SQL without a primary key
-			 */
-			if !count(primaryKeys) {
-				throw new Exception("A primary key must be defined in the model in order to perform the operation");
-			}
+ 		/**
+ 		 * When unique params is null we need to rebuild the bind params
+ 		 */
+ 		if typeof uniqueParams != "array" {
 
-			let uniqueParams = [];
-			for field in primaryKeys {
+ 			let primaryKeys = metaData->getPrimaryKeyAttributes(this);
 
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
+ 			/**
+ 			 * We can't create dynamic SQL without a primary key
+ 			 */
+ 			if !count(primaryKeys) {
+ 				throw new Exception("A primary key must be defined in the model in order to perform the operation");
+ 			}
 
-				if fetch value, this->{attributeField} {
-					let uniqueParams[] = value;
-				} else {
-					let uniqueParams[] = null;
-				}
-			}
-		}
+ 			let uniqueParams = [];
+ 			for field in primaryKeys {
 
-		/**
-		 * We build the conditions as an array
-		 * Perform the low level update
-		 */
-		return connection->update(table, fields, values, [
-			"conditions": uniqueKey,
-			"bind"	  : uniqueParams,
-			"bindTypes" : uniqueTypes
-		], bindTypes);
-	}
+ 				/**
+ 				 * Check if the model has a column map
+ 				 */
+ 				if typeof columnMap == "array" {
+ 					if !fetch attributeField, columnMap[field] {
+ 						throw new Exception("Column '" . field . "' isn't part of the column map");
+ 					}
+ 				} else {
+ 					let attributeField = field;
+ 				}
+
+ 				if fetch value, this->{attributeField} {
+ 					let uniqueParams[] = value;
+ 				} else {
+ 					let uniqueParams[] = null;
+ 				}
+ 			}
+ 		}
+
+ 		/**
+ 		 * We build the conditions as an array
+ 		 * Perform the low level update
+ 		 */
+ 		return connection->update(table, fields, values, [
+ 			"conditions": uniqueKey,
+ 			"bind"	  : uniqueParams,
+ 			"bindTypes" : uniqueTypes
+ 		], bindTypes);
+ 	}
 
 	/**
 	 * Saves related records that must be stored prior to save the master record
