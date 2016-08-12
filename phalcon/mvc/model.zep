@@ -4176,8 +4176,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		// Throw an exception if there is an attempt to set a non-public property.
-		if !this->_isVisible(property) {
-			throw new Exception("Property '" . property . "' does not have a setter.");
+		if property_exists(this, property) {
+			let manager = this->getModelsManager();
+			if !manager->isVisibleModelProperty(this, property) {
+				throw new Exception("Property '" . property . "' does not have a setter.");
+			}
 		}
 
 		let this->{property} = value;
@@ -4202,31 +4205,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Check whether a property is declared private or protected.
-	 * This is a stop-gap because we do not want to have to declare all properties.
-	 *
-	 * @param string property
-	 * @return boolean
-	 */
-	protected final function _isVisible(property)
-	{
-		var reflectionClass, reflectionProp, e;
-
-		//Try reflection on the property.
-		let reflectionClass = new \ReflectionClass(this);
-		try {
-			let reflectionProp = reflectionClass->getProperty(property);
-			if !reflectionProp->isPublic() {
-				return false;
-			}
-		} catch \Exception, e {
-			// The property doesn't exist.
-			return true;
-		}
-		return true;
 	}
 
 	/**
