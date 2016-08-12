@@ -32,7 +32,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter", "pdo.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator", "adapter.zep.c adapterinterface.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate", "adapter.zep.c adapterinterface.zep.c interpolatorinterface.zep.c exception.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "adapterinterface.zep.c adapter.zep.c roleinterface.zep.c exception.zep.c resource.zep.c resourceaware.zep.c resourceinterface.zep.c role.zep.c roleaware.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "adapterinterface.zep.c adapter.zep.c resourceinterface.zep.c roleinterface.zep.c exception.zep.c resource.zep.c resourceaware.zep.c role.zep.c roleaware.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache/frontend", "data.zep.c base64.zep.c igbinary.zep.c json.zep.c msgpack.zep.c none.zep.c output.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image", "adapter.zep.c adapterinterface.zep.c exception.zep.c", "phalcon");

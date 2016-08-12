@@ -546,7 +546,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
 			break;
 		} while(0);
 
-		_32$$3 = (paddingSize) ? 1 : 0;
+		_32$$3 = ((paddingSize) ? 1 : 0);
 		if (_32$$3) {
 			_32$$3 = paddingSize <= blockSize;
 		}

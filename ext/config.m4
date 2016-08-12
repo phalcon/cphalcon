@@ -73,6 +73,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engineinterface.zep.c
 	phalcon/translate/interpolatorinterface.zep.c
 	phalcon/acl/adapter.zep.c
+	phalcon/acl/resourceinterface.zep.c
 	phalcon/acl/roleinterface.zep.c
 	phalcon/annotations/readerinterface.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
@@ -124,7 +125,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/exception.zep.c
 	phalcon/acl/resource.zep.c
 	phalcon/acl/resourceaware.zep.c
-	phalcon/acl/resourceinterface.zep.c
 	phalcon/acl/role.zep.c
 	phalcon/acl/roleaware.zep.c
 	phalcon/annotations/adapter/apc.zep.c

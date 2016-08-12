@@ -40,6 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
 	 */
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_acl_resource_ce TSRMLS_CC, 1, phalcon_acl_resourceinterface_ce);
 	return SUCCESS;
 
 }

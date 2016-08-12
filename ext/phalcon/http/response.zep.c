@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(message, "")) {
 		ZEPHIR_INIT_VAR(statusCodes);
-		zephir_create_array(statusCodes, 67, 0 TSRMLS_CC);
+		zephir_create_array(statusCodes, 63, 0 TSRMLS_CC);
 		add_index_stringl(statusCodes, 100, SL("Continue"), 1);
 		add_index_stringl(statusCodes, 101, SL("Switching Protocols"), 1);
 		add_index_stringl(statusCodes, 102, SL("Processing"), 1);
@@ -1010,7 +1010,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 		zephir_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
 		_1$$5 = Z_TYPE_P(file) == IS_STRING;
 		if (_1$$5) {
-			_1$$5 = (zephir_fast_strlen_ev(file)) ? 1 : 0;
+			_1$$5 = ((zephir_fast_strlen_ev(file)) ? 1 : 0);
 		}
 		if (_1$$5) {
 			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 243, file);

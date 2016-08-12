@@ -149,8 +149,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	} else {
 		ZEPHIR_CPY_WRT(cachedContent, content);
 	}
-	ZEPHIR_CALL_METHOD(&preparedContent, frontend, "beforestore", NULL, 0, cachedContent);
-	zephir_check_call_status();
+	if (!(zephir_is_numeric(cachedContent))) {
+		ZEPHIR_CALL_METHOD(&preparedContent, frontend, "beforestore", NULL, 0, cachedContent);
+		zephir_check_call_status();
+	} else {
+		ZEPHIR_CPY_WRT(preparedContent, cachedContent);
+	}
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
 		ZEPHIR_OBS_NVAR(lifetime);
 		zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
@@ -159,6 +163,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
+			zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 		}
 	} else {
 		ZEPHIR_CPY_WRT(ttl, lifetime);
@@ -166,7 +171,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 	ZEPHIR_CALL_FUNCTION(&success, "apc_store", NULL, 89, lastKey, preparedContent, ttl);
 	zephir_check_call_status();
 	if (!(zephir_is_true(success))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing data in apc", "phalcon/cache/backend/apc.zep", 123);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing data in apc", "phalcon/cache/backend/apc.zep", 128);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&isBuffering, frontend, "isbuffering", NULL, 0);
@@ -385,7 +390,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 		ZVAL_LONG(&_4$$5, 5);
 		ZEPHIR_INIT_NVAR(_5$$5);
 		zephir_substr(_5$$5, key, 5 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		zephir_array_append(&keys, _5$$5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 228);
+		zephir_array_append(&keys, _5$$5, PH_SEPARATE, "phalcon/cache/backend/apc.zep", 233);
 	}
 	_3->funcs->dtor(_3 TSRMLS_CC);
 	RETURN_CCTOR(keys);
@@ -467,7 +472,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush) {
 			_0->funcs->get_current_data(_0, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
 			ZEPHIR_CPY_WRT(item, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
-		zephir_array_fetch_string(&_4$$3, item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apc.zep", 268 TSRMLS_CC);
+		zephir_array_fetch_string(&_4$$3, item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apc.zep", 273 TSRMLS_CC);
 		ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", &_5, 111, _4$$3);
 		zephir_check_call_status();
 	}

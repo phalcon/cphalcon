@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 
 	_0 = Z_TYPE_P(placeholders) == IS_ARRAY;
 	if (_0) {
-		_0 = (zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0;
+		_0 = ((zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0);
 	}
 	if (_0) {
 		zephir_is_iterable(placeholders, &_2$$3, &_1$$3, 0, 0, "phalcon/translate/interpolator/associativearray.zep", 38);

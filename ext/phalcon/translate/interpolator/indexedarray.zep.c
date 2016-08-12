@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 
 	_0 = Z_TYPE_P(placeholders) == IS_ARRAY;
 	if (_0) {
-		_0 = (zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0;
+		_0 = ((zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0);
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(placeholders);

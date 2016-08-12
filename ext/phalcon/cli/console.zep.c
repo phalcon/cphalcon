@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	array_init(handleArgs);
 	_0 = shift;
 	if (_0) {
-		_0 = (zephir_fast_count_int(arguments TSRMLS_CC)) ? 1 : 0;
+		_0 = ((zephir_fast_count_int(arguments TSRMLS_CC)) ? 1 : 0);
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(arguments);
