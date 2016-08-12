@@ -7,6 +7,7 @@
 - `Phalcon\Config\Adapter\Ini` constructor can now specify `parse_ini_file()` scanner mode [#12079](https://github.com/phalcon/cphalcon/pull/12079)
 - Fixed `Phalcon\Cache\Backend\Apc::save` due to which the `Apc::increment`/`Apc::decrement` could not be used properly [#12109](https://github.com/phalcon/cphalcon/issues/12109)
 - Fixed `Phalcon\Mvc\Model\Criteria::inWhere` so that now the second parameter can be an empty array [#10676](https://github.com/phalcon/cphalcon/issues/10676)
+- Fixed ORM related memory leak [#12115](https://github.com/phalcon/cphalcon/issues/12115), [#11995](https://github.com/phalcon/cphalcon/issues/11995), [#12116](https://github.com/phalcon/cphalcon/issues/12116)
 
 # [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/v3.0.0) (2016-07-29)
 - PHP 5.3 and 5.4 are now fully deprecated

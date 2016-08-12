@@ -25,7 +25,7 @@ class Parts extends Model
 {
     public function initialize()
     {
-        $this->hasMany('id', __NAMESPACE__ . '\RobotsParts', 'parts_id', [
+        $this->hasMany('id', RobotsParts::class, 'parts_id', [
             'foreignKey' => ['message' => 'Parts cannot be deleted because is referenced by a Robot']
         ]);
     }

@@ -25,9 +25,9 @@ class RobotsParts extends Model
 {
     public function initialize()
     {
-        $this->belongsTo('parts_id', __NAMESPACE__ . '\Parts', 'id', ['foreignKey' => true]);
+        $this->belongsTo('parts_id', Parts::class, 'id', ['foreignKey' => true]);
 
-        $this->belongsTo('robots_id', __NAMESPACE__ . '\Robots', 'id', [
+        $this->belongsTo('robots_id', Robots::class, 'id', [
             'foreignKey' => ['message' => 'The robot code does not exist']
         ]);
     }

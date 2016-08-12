@@ -39,6 +39,9 @@ class Customers extends Model
     public $credit_line;
     public $created_at;
 
+    protected $protected_field;
+    private $private_field;
+
     public function initialize()
     {
         $this->hasOne('customer_id', Users::class, 'id', ['alias' => 'user', 'reusable' => true]);
