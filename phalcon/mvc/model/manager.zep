@@ -72,6 +72,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
 	protected _aliases;
 
+	protected _modelVisibility = [];
+
 	/**
 	 * Has many relations
 	 */
@@ -326,7 +328,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> boolean
 	{
-		var properties = get_object_vars(model);
+		var properties, modelVisibility, className;
+
+		let modelVisibility = this->_modelVisibility,
+			className = get_class(model);
+
+		if !isset modelVisibility[className] {
+			let modelVisibility[className] = get_object_vars(model);
+		}
+
+		let properties = modelVisibility[className];
 
 		return array_key_exists(property, properties);
 	}
