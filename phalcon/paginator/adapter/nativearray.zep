@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -28,20 +28,22 @@ use Phalcon\Paginator\AdapterInterface;
  *
  * Pagination using a PHP array as source of data
  *
- *<code>
- *	$paginator = new \Phalcon\Paginator\Adapter\NativeArray(
- *		array(
- *			"data"  => array(
- *				array('id' => 1, 'name' => 'Artichoke'),
- *				array('id' => 2, 'name' => 'Carrots'),
- *				array('id' => 3, 'name' => 'Beet'),
- *				array('id' => 4, 'name' => 'Lettuce'),
- *				array('id' => 5, 'name' => '')
- *			),
- *			"limit" => 2,
- *			"page"  => $currentPage
- *		)
- *	);
+ * <code>
+ * use Phalcon\Paginator\Adapter\NativeArray;
+ *
+ * $paginator = new NativeArray(
+ *     [
+ *         'data'  => array(
+ *             ['id' => 1, 'name' => 'Artichoke'],
+ *             ['id' => 2, 'name' => 'Carrots'],
+ *             ['id' => 3, 'name' => 'Beet'],
+ *             ['id' => 4, 'name' => 'Lettuce'],
+ *             ['id' => 5, 'name' => '']
+ *         ],
+ *         'limit' => 2,
+ *         'page'  => $currentPage,
+ *     ]
+ * );
  *</code>
  *
  */
