@@ -1301,12 +1301,19 @@ class View extends Injectable implements ViewInterface
 		var activeRenderPath;
 		int viewsDirsCount;
 
-		let viewsDirsCount = count(this->getViewsDirs());
+		let viewsDirsCount = count(this->getViewsDirs()),
+			activeRenderPath = this->_activeRenderPaths;
 
 		if viewsDirsCount === 1 {
-			let activeRenderPath = this->_activeRenderPaths[0];
-		} else {
-			let activeRenderPath = this->_activeRenderPaths;
+			if typeof activeRenderPath == "array" {
+				if count(activeRenderPath) {
+					let activeRenderPath = activeRenderPath[0];
+				}
+			}
+		}
+
+		if typeof activeRenderPath == "null" {
+			let activeRenderPath = "";
 		}
 
 		return activeRenderPath;
