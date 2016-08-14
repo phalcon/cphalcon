@@ -396,32 +396,6 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), '<div class="action">Action</div>');
 	}
 
-	/**
-	 * @covers \Phalcon\Mvc\View::getActiveRenderPath
-	 */
-	public function testGetActiveRenderPath()
-	{
-		$di = new \Phalcon\Di;
-		$listener = new ViewAfterRenderListener;
-		$eventsManager = new \Phalcon\Events\Manager;
-		$eventsManager->attach('view', $listener);
-
-		$view = new View;
-		$view->setDI($di);
-		$view->setEventsManager($eventsManager);
-		$view->setBasePath(__DIR__.'/../');
-		$view->setViewsDir('unit-tests/views/');
-		$view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-		$view->start();
-		$view->render('test15', 'index');
-		$view->finish();
-
-		$expectedPath = realpath('unit-tests/views/');
-		$this->assertEquals($expectedPath . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml',
-			realpath($view->getContent()));
-	}
-
 	public function testIssue907()
 	{
 		$view = new View();
