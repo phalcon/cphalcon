@@ -1057,13 +1057,13 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
  * // Get and print virtual robots ordered by name
  * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
  * foreach ($robots as $robot) {
- *     echo $robot->name, "\n";
+ *	 echo $robot->name, "\n";
  * }
  *
  * // Get first 100 virtual robots ordered by name
  * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
  * foreach ($robots as $robot) {
- *     echo $robot->name, "\n";
+ *	 echo $robot->name, "\n";
  * }
  * </code>
  */
@@ -2013,7 +2013,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate) {
  *
  *	public function validation()
  *  {
- *      $validator = new Validation();
+ *	  $validator = new Validation();
  *
  * 		$validator->validate('status', new ExclusionIn(array(
  *			'domain' => array('A', 'I')
