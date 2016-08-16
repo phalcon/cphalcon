@@ -1,4 +1,5 @@
 > Questions should go to https://forum.phalconphp.com
+> Documentation issues should go to https://github.com/phalcon/docs/issues
 
 ### Expected and Actual Behavior
 

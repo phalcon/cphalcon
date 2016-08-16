@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -71,6 +71,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	protected _writeConnectionServices;
 
 	protected _aliases;
+
+	protected _modelVisibility = [];
 
 	/**
 	 * Has many relations
@@ -315,6 +317,29 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function setModelSource(<ModelInterface> model, string! source) -> void
 	{
 		let this->_sources[get_class_lower(model)] = source;
+	}
+
+	/**
+	 * Check whether a model property is declared as public.
+	 *
+	 * <code>
+	 * $isPublic = $manager->isVisibleModelProperty(new Robots(), 'name');
+	 * </code>
+	 */
+	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> boolean
+	{
+		var properties, modelVisibility, className;
+
+		let modelVisibility = this->_modelVisibility,
+			className = get_class(model);
+
+		if !isset modelVisibility[className] {
+			let modelVisibility[className] = get_object_vars(model);
+		}
+
+		let properties = modelVisibility[className];
+
+		return array_key_exists(property, properties);
 	}
 
 	/**

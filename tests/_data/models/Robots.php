@@ -25,6 +25,6 @@ class Robots extends Model
 {
     public function initialize()
     {
-        $this->hasMany('id', __NAMESPACE__ . '\RobotsParts', 'robots_id', ['foreignKey' => true]);
+        $this->hasMany('id',RobotsParts::class, 'robots_id', ['foreignKey' => true, 'reusable' => false, 'alias' => 'parts']);
     }
 }

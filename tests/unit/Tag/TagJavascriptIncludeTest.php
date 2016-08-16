@@ -82,7 +82,7 @@ class TagJavascriptIncludeTest extends UnitTest
 
                 Tag::resetInput();
                 $options  = ['js/phalcon.js'];
-                $expected = '<script type="text/javascript" src="js/phalcon.js"></script>' . PHP_EOL;
+                $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
                 $actual   = Tag::javascriptInclude($options, 'hello');
 
                 expect($actual)->equals($expected);

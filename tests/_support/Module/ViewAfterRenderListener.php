@@ -2,18 +2,17 @@
 
 namespace Phalcon\Test\Module;
 
-use UnitTester;
-use Codeception\Specify;
-use Codeception\Test\Unit;
+use Phalcon\Mvc\View;
+use Phalcon\Events\Event;
 
 /**
- * \Phalcon\Test\Module\UnitTest
- * Base class for all Unit tests
+ * \Phalcon\Test\Module\ViewAfterRenderListener
+ * The View afterRenderView listener
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @author    Serghei Iakovlev <nikos@phalconphp.com>
  * @package   Phalcon\Test\Module
  *
  * The contents of this file are subject to the New BSD License that is
@@ -23,35 +22,26 @@ use Codeception\Test\Unit;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class UnitTest extends Unit
+class ViewAfterRenderListener
 {
-    use Specify;
+    protected $levels = [];
 
-    /**
-     * UnitTester Object
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
-     * executed before each test
-     */
-    protected function _before()
+    public function afterRenderView(Event $event, View $view)
     {
+        if ('afterRenderView' == $event->getType()) {
+            $this->levels[] = $view->getCurrentRenderLevel();
+        }
+
+        return true;
     }
 
-    /**
-     * executed after each test
-     */
-    protected function _after()
+    public function reset()
     {
+        $this->levels = [];
     }
 
-    /**
-     * @return UnitTester
-     */
-    public function getTester()
+    public function getLevels()
     {
-        return $this->tester;
+        return join(',', $this->levels);
     }
 }

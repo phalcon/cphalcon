@@ -4,7 +4,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -31,10 +31,11 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 {
 
 	/**
-	 *
 	 * @param array $expression
 	 * @param Call $call
 	 * @param CompilationContext $context
+	 * @return bool|CompiledExpression
+	 * @throws CompilerException
 	 */
 	public function optimize(array $expression, Call $call, CompilationContext $context)
 	{
@@ -72,7 +73,7 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 		$symbol = $context->backend->getVariableCode($symbolVariable);
 		$context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
 
-        $call->checkTempParameters($context);
+		$call->checkTempParameters($context);
 		$call->addCallStatusOrJump($context);
 
 		return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
