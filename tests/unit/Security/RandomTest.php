@@ -214,11 +214,6 @@ class RandomTest extends UnitTest
 
                 $random = new Random();
 
-                $getSize = function($len) {
-                    // Size formula: 4 *( $len / 3) and this need to be rounded up to a multiple of 4.
-                    return (int)(round(4*($len/3))%4 === 0) ? round(4*($len/3)) : round((4*($len/3)+4/2)/4)*4;
-                };
-
                 $isValid = function($base64, $padding = false) {
                     $pattern = $padding ? "a-z0-9_=-" : "a-z0-9_-";
                     return (preg_match("#[^$pattern]+#i", $base64) === 0);
@@ -226,16 +221,13 @@ class RandomTest extends UnitTest
 
                 foreach ($lens as $len) {
                     $actual = $random->base64Safe($len);
-                    expect(strlen($actual))->lessOrEquals($getSize($len));
                     expect($isValid($actual))->true();
                 }
 
                 $actual = $random->base64Safe();
-                expect(strlen($actual))->lessOrEquals($getSize(16));
                 expect($isValid($actual))->true();
 
                 $actual = $random->base64Safe(null, true);
-                expect(strlen($actual))->lessOrEquals($getSize(16));
                 expect($isValid($actual, true))->true();
             }
         );
