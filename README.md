@@ -65,19 +65,29 @@ Add the extension to your php.ini:
 extension=phalcon.so
 ```
 
-Finally, **restart the webserver**.
+Finally, **restart the web server**.
 
 Advanced compilation
---------------
+--------------------
 if you have specific php versions running
 
 ```bash
 git clone https://github.com/phalcon/cphalcon
-cd cphalcon/build/64bits  # <OR> cd cphalcon/build/32bits
+cd cphalcon/build/64bits  # or cd cphalcon/build/32bits
+
 make clean
-phpize --clean
-$YOUR_PHP_INSTALLATION_PATH/bin/phpize  # Example: /opt/php-5.6.15/bin/phpize
-./configure --with-php-config=$YOUR_PHP_INSTALLATION_PATH/bin/php-config # Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+
+CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
+
+# Example: /opt/php-5.6.15/bin/phpize --clean
+$CUSTOM_PHP_INSTALLATION_PATH/bin/phpize --clean
+
+# Example: /opt/php-5.6.15/bin/phpize
+$CUSTOM_PHP_INSTALLATION_PATH/bin/phpize
+
+# Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+./configure --with-php-config=$CUSTOM_PHP_INSTALLATION_PATH/bin/php-config
+
 make && sudo make install
 ```
 
@@ -87,14 +97,14 @@ Edit your **php.ini** (for the specific version) and add this line:
 extension=phalcon.so
 ```
 
-Save the file and **Restart the webserver**.
+Save the file and **Restart the web server**.
 
 Vagrant
---------------
+-------
 https://github.com/phalcon/vagrant
 
 OSX MAMP ready extensions
---------------
+-------------------------
 
 https://github.com/majksner/php-phalcon-mamp
 
@@ -115,7 +125,7 @@ Phalcon Framework is built under the Travis CI service. Every commit pushed to t
 [![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
 
 Meet the Incubator
------------
+------------------
 Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
 
 Just give it a try and help us improve Phalcon even more!
