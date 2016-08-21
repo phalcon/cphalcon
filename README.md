@@ -15,7 +15,7 @@ To install Phalcon on Windows:
 1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
 3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
-4. Finally, restart your webserver
+4. Finally, restart your web server
 
 **Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
 
@@ -24,6 +24,7 @@ To install Phalcon on Windows:
 On a Unix-based platform you can easily compile and install the extension from sources.
 
 #### Requirements
+
 Prerequisite packages are:
 
 * PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
@@ -77,6 +78,7 @@ cd cphalcon/build/64bits  # or cd cphalcon/build/32bits
 
 make clean
 
+# Example: /opt/php-5.6.15
 CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
 
 # Example: /opt/php-5.6.15/bin/phpize --clean

@@ -106,14 +106,6 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	/**
 	 * The plural version of gettext().
 	 * Some languages have more than one form for plural messages dependent on the count.
-	 *
-	 * @param  string  msgid1
-	 * @param  string  msgid2
-	 * @param  int     count
-	 * @param  array   placeholders
-	 * @param  string  domain
-	 *
-	 * @return string
 	 */
 	public function nquery(string! msgid1, string! msgid2, int! count, placeholders = null, string! domain = null) -> string
 	{
@@ -157,12 +149,12 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 *
 	 * <code>
 	 * // Set the directory path
-	 * $gettext->setDirectory("/path/to/the/messages");
+	 * $gettext->setDirectory('/path/to/the/messages');
 	 *
 	 * // Set the domains and directories path
 	 * $gettext->setDirectory([
-	 *    "messages" => "/path/to/the/messages",
-	 *    "another" => "/path/to/the/another"
+	 *    'messages' => '/path/to/the/messages',
+	 *    'another'  => '/path/to/the/another'
 	 * ]);
 	 * </code>
 	 *
@@ -198,7 +190,7 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 * $gettext->setLocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
 	 * </code>
 	 */
-	public function setLocale(int! category, string! locale) -> string|boolean
+	public function setLocale(int! category, string! locale) -> string | boolean
 	{
 		let this->_locale   = call_user_func_array("setlocale", func_get_args());
 		let this->_category = category;
@@ -235,7 +227,7 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	/**
 	 * Gets default options
 	 */
-	private function getOptionsDefault() -> array
+	protected function getOptionsDefault() -> array
 	{
 		return [
 			"category": LC_ALL,
