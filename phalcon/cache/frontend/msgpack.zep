@@ -74,14 +74,13 @@ class Msgpack extends Data implements FrontendInterface
 	public function __construct(frontendOptions = null)
 	{
 		var lifetime;
-		
+
 		if fetch lifetime, frontendOptions["lifetime"] {
 			if typeof lifetime !== "integer" {
-				throw new Exception("Option 'lifetime' must be a integer.");
+				throw new Exception("Option 'lifetime' must be an integer");
 			}
 		}
 	}
-
 
 	/**
 	 * Returns the cache lifetime

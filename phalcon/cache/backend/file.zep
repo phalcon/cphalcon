@@ -38,7 +38,7 @@ use Phalcon\Cache\BackendInterface;
  *     'lifetime' => 172800
  * ];
  *
- * // Create a output cache
+ * // Create an output cache
  * $frontCache = FrontOutput($frontOptions);
  *
  * // Set the cache directory

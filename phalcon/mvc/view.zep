@@ -666,7 +666,7 @@ class View extends Injectable implements ViewInterface
 				if file_exists(viewEnginePath) {
 
 					/**
-					 * Call beforeRenderView if there is a events manager available
+					 * Call beforeRenderView if there is an events manager available
 					 */
 					if typeof eventsManager == "object" {
 						let this->_activeRenderPaths = [viewEnginePath];
@@ -678,7 +678,7 @@ class View extends Injectable implements ViewInterface
 					engine->render(viewEnginePath, viewParams, mustClean);
 
 					/**
-					 * Call afterRenderView if there is a events manager available
+					 * Call afterRenderView if there is an events manager available
 					 */
 					let notExists = false;
 					if typeof eventsManager == "object" {

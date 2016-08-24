@@ -88,7 +88,7 @@ abstract class Validator
 	}
 
 	/**
-	 * Check whether a option has been defined in the validator options
+	 * Check whether an option has been defined in the validator options
 	 */
 	public function isSetOption(string! option) -> boolean
 	{

@@ -2013,7 +2013,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 							}
 
 							/**
-							 * A implicit PresenceOf message is created
+							 * An implicit PresenceOf message is created
 							 */
 							let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
 								error = true;

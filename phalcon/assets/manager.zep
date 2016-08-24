@@ -100,7 +100,7 @@ class Manager
 	}
 
 	/**
-	 * Adds a inline Css to the 'css' collection
+	 * Adds an inline Css to the 'css' collection
 	 */
 	public function addInlineCss(string content, filter = true, var attributes = null) -> <Manager>
 	{
@@ -123,7 +123,7 @@ class Manager
 	}
 
 	/**
-	 * Adds a inline javascript to the 'js' collection
+	 * Adds an inline javascript to the 'js' collection
 	 */
 	public function addInlineJs(string content, filter = true, attributes = null) -> <Manager>
 	{
@@ -156,7 +156,7 @@ class Manager
 	}
 
 	/**
-	 * Adds a inline code by its type
+	 * Adds an inline code by its type
 	 */
 	public function addInlineCodeByType(string! type, <$Inline> code) -> <Manager>
 	{

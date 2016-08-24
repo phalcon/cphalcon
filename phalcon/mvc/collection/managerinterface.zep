@@ -91,7 +91,7 @@ interface ManagerInterface
 	public function getConnection(<CollectionInterface> model) -> <AdapterInterface>;
 
 	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
+	 * Receives events generated in the models and dispatches them to an events-manager if available
 	 * Notify the behaviors that are listening in the model
 	 */
 	public function notifyEvent(string! eventName, <CollectionInterface> model);

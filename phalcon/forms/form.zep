@@ -508,7 +508,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	}
 
 	/**
-	 * Generate the label of a element added to the form including HTML
+	 * Generate the label of an element added to the form including HTML
 	 */
 	public function label(string! name, array attributes = null) -> string
 	{

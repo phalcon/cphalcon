@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Model\Query;
 
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\MessageInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\StatusInterface
@@ -34,13 +35,12 @@ interface StatusInterface
 	public function getModel() -> <ModelInterface>;
 
 	/**
-	 * Returns the messages produced by a operation failed
+	 * Returns the messages produced by an operation failed
 	 */
-	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>;
+	public function getMessages() -> <MessageInterface[]>;
 
 	/**
 	 * Allows to check if the executed operation was successful
 	 */
 	public function success() -> boolean;
-
 }

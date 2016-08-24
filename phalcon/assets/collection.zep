@@ -69,7 +69,7 @@ class Collection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Adds a inline code to the collection
+	 * Adds an inline code to the collection
 	 */
 	public function addInline(<$Inline> code) -> <Collection>
 	{
@@ -83,7 +83,7 @@ class Collection implements \Countable, \Iterator
 	public function addCss(string! path, var local = null, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
-		
+
 		if typeof local == "boolean" {
 			let collectionLocal = local;
 		} else {
@@ -102,12 +102,12 @@ class Collection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Adds a inline CSS to the collection
+	 * Adds an inline CSS to the collection
 	 */
 	public function addInlineCss(string content, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionAttributes;
-		
+
 		if typeof attributes == "array" {
 			let collectionAttributes = attributes;
 		} else {
@@ -149,7 +149,7 @@ class Collection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Adds a inline javascript to the collection
+	 * Adds an inline javascript to the collection
 	 */
 	public function addInlineJs(string content, boolean filter = true, attributes = null) -> <Collection>
 	{

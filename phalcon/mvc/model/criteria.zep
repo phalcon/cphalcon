@@ -155,7 +155,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds a INNER join to the query
+	 * Adds an INNER join to the query
 	 *
 	 *<code>
 	 *	$criteria->join('Robots');
@@ -185,7 +185,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds a INNER join to the query
+	 * Adds an INNER join to the query
 	 *
 	 *<code>
 	 *	$criteria->innerJoin('Robots');
