@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom) {
 }
 
 /**
- * Adds a INNER join to the query
+ * Adds an INNER join to the query
  *
  *<code>
  *  // Inner Join model 'Robots' with automatic conditions and alias
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join) {
 }
 
 /**
- * Adds a INNER join to the query
+ * Adds an INNER join to the query
  *
  *<code>
  *  // Inner Join model 'Robots' with automatic conditions and alias
@@ -810,7 +810,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere) {
 }
 
 /**
- * Appends a condition to the current conditions using a OR operator
+ * Appends a condition to the current conditions using an OR operator
  *
  *<code>
  *	$builder->orWhere('name = "Peter"');
@@ -1294,7 +1294,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere) {
 }
 
 /**
- * Sets a ORDER BY condition clause
+ * Sets an ORDER BY condition clause
  *
  *<code>
  *	$builder->orderBy('Robots.name');
@@ -1402,7 +1402,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving) {
 }
 
 /**
- * Sets a LIMIT clause, optionally a offset clause
+ * Sets a LIMIT clause, optionally an offset clause
  *
  *<code>
  *	$builder->limit(100);

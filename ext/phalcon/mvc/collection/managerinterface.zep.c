@@ -84,7 +84,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isUsingImplicitObject
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getConnection);
 
 /**
- * Receives events generated in the models and dispatches them to a events-manager if available
+ * Receives events generated in the models and dispatches them to an events-manager if available
  * Notify the behaviors that are listening in the model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, notifyEvent);

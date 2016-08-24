@@ -769,7 +769,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 }
 
 /**
- * Generate the label of a element added to the form including HTML
+ * Generate the label of an element added to the form including HTML
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 

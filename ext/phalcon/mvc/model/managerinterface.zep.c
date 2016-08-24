@@ -279,7 +279,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBehavior);
 
 /**
- * Receives events generated in the models and dispatches them to a events-manager if available
+ * Receives events generated in the models and dispatches them to an events-manager if available
  * Notify the behaviors that are listening in the model
  *
  * @param string $eventName
@@ -288,7 +288,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBehavior);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 
 /**
- * Dispatch a event to the listeners and behaviors
+ * Dispatch an event to the listeners and behaviors
  * This method expects that the endpoint listeners/behaviors returns true
  * meaning that a least one is implemented
  *

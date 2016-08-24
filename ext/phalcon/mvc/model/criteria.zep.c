@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns) {
 }
 
 /**
- * Adds a INNER join to the query
+ * Adds an INNER join to the query
  *
  *<code>
  *	$criteria->join('Robots');
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 }
 
 /**
- * Adds a INNER join to the query
+ * Adds an INNER join to the query
  *
  *<code>
  *	$criteria->innerJoin('Robots');

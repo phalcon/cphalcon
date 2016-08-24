@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn) {
 }
 
 /**
- * Transforms an intermediate representation for a expression into a database system valid expression
+ * Transforms an intermediate representation for an expression into a database system valid expression
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
@@ -1689,7 +1689,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving) {
 }
 
 /**
- * Resolve a ORDER BY clause
+ * Resolve an ORDER BY clause
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy) {
 

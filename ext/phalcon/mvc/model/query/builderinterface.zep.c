@@ -69,7 +69,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, addFrom);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 
 /**
- * Adds a INNER join to the query
+ * Adds an INNER join to the query
  *
  * @param string model
  * @param string conditions
@@ -79,7 +79,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 
 /**
- * Adds a INNER join to the query
+ * Adds an INNER join to the query
  *
  * @param string model
  * @param string conditions
@@ -137,7 +137,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, where);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
 
 /**
- * Appends a condition to the current conditions using a OR operator
+ * Appends a condition to the current conditions using an OR operator
  *
  * @param string conditions
  * @param array bindParams
@@ -184,7 +184,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getWhere);
 
 /**
- * Sets a ORDER BY condition clause
+ * Sets an ORDER BY condition clause
  *
  * @param string orderBy
  * @return \Phalcon\Mvc\Model\Query\BuilderInterface

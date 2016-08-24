@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getConnectionService) {
 }
 
 /**
- * Receives events generated in the models and dispatches them to a events-manager if available
+ * Receives events generated in the models and dispatches them to an events-manager if available
  * Notify the behaviors that are listening in the model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
@@ -896,7 +896,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 }
 
 /**
- * Dispatch a event to the listeners and behaviors
+ * Dispatch an event to the listeners and behaviors
  * This method expects that the endpoint listeners/behaviors returns true
  * meaning that a least one was implemented
  */

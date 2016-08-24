@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified) {
 }
 
 /**
- * Resolves a expression in a single call argument
+ * Resolves an expression in a single call argument
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument) {
 
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument) {
 }
 
 /**
- * Resolves a expression in a single call argument
+ * Resolves an expression in a single call argument
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression) {
 
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCaseExpression) {
 }
 
 /**
- * Resolves a expression in a single call argument
+ * Resolves an expression in a single call argument
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall) {
 
