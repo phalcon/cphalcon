@@ -1,3 +1,5 @@
+# [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-XX-XX)
+
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly
 - Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to correct using multi relation column [#12035](https://github.com/phalcon/cphalcon/issues/12035)

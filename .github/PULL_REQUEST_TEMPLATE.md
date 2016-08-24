@@ -8,7 +8,7 @@ Please also check the following points are being met:
 
 - [ ] Make sure that the PR passes in Travis CI to make the process more efficient.
 - [ ] Only use tabs for indentation.
-- [ ] if needed, rebase to the proper branch before submitting your pull request.
+- [ ] If needed, rebase to the proper branch before submitting your pull request.
       If it doesn't merge cleanly with master you may be asked to rebase your changes.
 - [ ] Don't put submodule updates in your pull request unless they are to landed commits.
 - [ ] Add tests relevant to the fixed bug or new feature. See our testing guide for
