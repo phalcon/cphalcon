@@ -15,7 +15,7 @@ To install Phalcon on Windows:
 1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
 3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
-4. Finally, restart your webserver
+4. Finally, restart your web server
 
 **Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
 
@@ -24,6 +24,7 @@ To install Phalcon on Windows:
 On a Unix-based platform you can easily compile and install the extension from sources.
 
 #### Requirements
+
 Prerequisite packages are:
 
 * PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
@@ -65,19 +66,30 @@ Add the extension to your php.ini:
 extension=phalcon.so
 ```
 
-Finally, **restart the webserver**.
+Finally, **restart the web server**.
 
 Advanced compilation
---------------
+--------------------
 if you have specific php versions running
 
 ```bash
 git clone https://github.com/phalcon/cphalcon
-cd cphalcon/build/64bits  # <OR> cd cphalcon/build/32bits
+cd cphalcon/build/64bits  # or cd cphalcon/build/32bits
+
 make clean
-phpize --clean
-$YOUR_PHP_INSTALLATION_PATH/bin/phpize  # Example: /opt/php-5.6.15/bin/phpize
-./configure --with-php-config=$YOUR_PHP_INSTALLATION_PATH/bin/php-config # Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+
+# Example: /opt/php-5.6.15
+CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
+
+# Example: /opt/php-5.6.15/bin/phpize --clean
+$CUSTOM_PHP_INSTALLATION_PATH/bin/phpize --clean
+
+# Example: /opt/php-5.6.15/bin/phpize
+$CUSTOM_PHP_INSTALLATION_PATH/bin/phpize
+
+# Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
+./configure --with-php-config=$CUSTOM_PHP_INSTALLATION_PATH/bin/php-config
+
 make && sudo make install
 ```
 
@@ -87,14 +99,14 @@ Edit your **php.ini** (for the specific version) and add this line:
 extension=phalcon.so
 ```
 
-Save the file and **Restart the webserver**.
+Save the file and **Restart the web server**.
 
 Vagrant
---------------
+-------
 https://github.com/phalcon/vagrant
 
 OSX MAMP ready extensions
---------------
+-------------------------
 
 https://github.com/majksner/php-phalcon-mamp
 
@@ -115,7 +127,7 @@ Phalcon Framework is built under the Travis CI service. Every commit pushed to t
 [![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
 
 Meet the Incubator
------------
+------------------
 Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
 
 Just give it a try and help us improve Phalcon even more!

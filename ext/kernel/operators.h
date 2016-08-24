@@ -116,7 +116,7 @@ void zephir_convert_to_object(zval *op);
 long zephir_get_intval_ex(const zval *op);
 long zephir_get_charval_ex(const zval *op);
 double zephir_get_doubleval_ex(const zval *op);
-zend_bool zephir_get_boolval_ex(const zval *op);
+zend_bool zephir_get_boolval_ex(zval *op);
 
 int zephir_is_numeric_ex(const zval *op);
 

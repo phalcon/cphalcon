@@ -14,6 +14,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema);
@@ -65,6 +66,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
+zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
@@ -99,6 +101,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setmodelsource, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_INFO(0, source)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getmodelsource, 0, 0, 1)
@@ -360,6 +367,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Manager, getLastInitialized, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, load, arginfo_phalcon_mvc_model_manager_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setModelSource, arginfo_phalcon_mvc_model_manager_setmodelsource, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, isVisibleModelProperty, arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getModelSource, arginfo_phalcon_mvc_model_manager_getmodelsource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setModelSchema, arginfo_phalcon_mvc_model_manager_setmodelschema, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getModelSchema, arginfo_phalcon_mvc_model_manager_getmodelschema, ZEND_ACC_PUBLIC)

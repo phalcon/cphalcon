@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 	}
 	object_init_ex(return_value, zephir_get_internal_ce(SS("arrayiterator") TSRMLS_CC));
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 434, _1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 435, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

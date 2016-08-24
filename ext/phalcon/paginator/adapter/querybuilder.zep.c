@@ -28,17 +28,21 @@
  *
  * Pagination using a PHQL query builder as source of data
  *
- *<code>
- *  $builder = $this->modelsManager->createBuilder()
- *                   ->columns('id, name')
- *                   ->from('Robots')
- *                   ->orderBy('name');
+ * <code>
+ * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
- *  $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
- *      "builder" => $builder,
- *      "limit"=> 20,
- *      "page" => 1
- *  ));
+ * $builder = $this->modelsManager->createBuilder()
+ *                 ->columns('id, name')
+ *                 ->from('Robots')
+ *                 ->orderBy('name');
+ *
+ * $paginator = new QueryBuilder(
+ *     [
+ *         'builder' => $builder,
+ *         'limit'   => 20,
+ *         'page'    => 1,
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
@@ -78,12 +82,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	ZEPHIR_OBS_VAR(builder);
 	if (!(zephir_array_isset_string_fetch(&builder, config, SS("builder"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 67);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 71);
 		return;
 	}
 	ZEPHIR_OBS_VAR(limit);
 	if (!(zephir_array_isset_string_fetch(&limit, config, SS("limit"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 75);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, 0, builder);

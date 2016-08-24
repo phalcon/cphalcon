@@ -13,7 +13,7 @@
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |		  Eduar Carvajal <eduar@phalconphp.com>                   |
  +------------------------------------------------------------------------+
  */
 
@@ -731,13 +731,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * // Get and print virtual robots ordered by name
 	 * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
 	 * foreach ($robots as $robot) {
-	 *     echo $robot->name, "\n";
+	 *	 echo $robot->name, "\n";
 	 * }
 	 *
 	 * // Get first 100 virtual robots ordered by name
 	 * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
 	 * foreach ($robots as $robot) {
-	 *     echo $robot->name, "\n";
+	 *	 echo $robot->name, "\n";
 	 * }
 	 * </code>
 	 */
@@ -1427,7 +1427,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *	public function validation()
 	 *  {
-     *      $validator = new Validation();
+	 *	  $validator = new Validation();
 	 *
 	 * 		$validator->validate('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
@@ -2310,7 +2310,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param string|array table
 	 * @return boolean
 	 */
-     protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
+	 protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
  	{
  		var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field,
  			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
@@ -2336,7 +2336,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		}
 
  		let dataTypes = metaData->getDataTypes(this),
-             bindDataTypes = metaData->getBindTypes(this),
+			 bindDataTypes = metaData->getBindTypes(this),
  			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
  			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
@@ -2406,9 +2406,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  									let changed = true;
  								} else {
 
-                                     if !fetch dataType, dataTypes[field] {
-                                         throw new Exception("Column '" . field . "' have not defined a data type");
-                                     }
+									 if !fetch dataType, dataTypes[field] {
+										 throw new Exception("Column '" . field . "' have not defined a data type");
+									 }
 
  									switch dataType {
 
@@ -2512,9 +2512,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 * Perform the low level update
  		 */
  		return connection->update(table, fields, values, [
- 			"conditions": uniqueKey,
- 			"bind"	  : uniqueParams,
- 			"bindTypes" : uniqueTypes
+ 			"conditions" : uniqueKey,
+ 			"bind"	     : uniqueParams,
+ 			"bindTypes"  : uniqueTypes
  		], bindTypes);
  	}
 
@@ -4045,7 +4045,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		return {modelName}::{type}([
 			"conditions": "[" . field . "] = ?0",
-			"bind"	    : [value]
+			"bind"		: [value]
 		]);
 	}
 

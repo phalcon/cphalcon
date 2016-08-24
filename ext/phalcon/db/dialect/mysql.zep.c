@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value$$51, _25$$51);
 					ZEPHIR_SINIT_NVAR(_26$$52);
 					ZVAL_STRING(&_26$$52, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_27$$52, "addcslashes", &_28, 151, value$$51, &_26$$52);
+					ZEPHIR_CALL_FUNCTION(&_27$$52, "addcslashes", &_28, 153, value$$51, &_26$$52);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_29$$52);
 					ZEPHIR_CONCAT_SVS(_29$$52, "\"", _27$$52, "\", ");
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_VAR(_34$$53);
 				ZVAL_STRING(&_34$$53, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_35$$53, "addcslashes", &_28, 151, typeValues, &_34$$53);
+				ZEPHIR_CALL_FUNCTION(&_35$$53, "addcslashes", &_28, 153, typeValues, &_34$$53);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_36$$53);
 				ZEPHIR_CONCAT_SVS(_36$$53, "(\"", _35$$53, "\")");
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5$$5);
 			ZVAL_STRING(&_5$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 151, defaultValue, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 153, defaultValue, &_5$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7$$5);
 			ZEPHIR_CONCAT_SVS(_7$$5, " DEFAULT \"", _6$$5, "\"");
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_5$$5);
 			ZVAL_STRING(&_5$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 151, defaultValue, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "addcslashes", NULL, 153, defaultValue, &_5$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_7$$5);
 			ZEPHIR_CONCAT_SVS(_7$$5, " DEFAULT \"", _6$$5, "\"");
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_8$$10);
 				ZVAL_STRING(&_8$$10, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_9$$10, "addcslashes", &_10, 151, defaultValue, &_8$$10);
+				ZEPHIR_CALL_FUNCTION(&_9$$10, "addcslashes", &_10, 153, defaultValue, &_8$$10);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_11$$10);
 				ZEPHIR_CONCAT_SVS(_11$$10, " DEFAULT \"", _9$$10, "\"");

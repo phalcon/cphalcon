@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 			zephir_array_update_string(&descriptor, SL("password"), &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_postgresql_ce, this_ptr, "connect", &_5, 150, descriptor);
+	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_postgresql_ce, this_ptr, "connect", &_5, 152, descriptor);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(schema))) {
 		ZEPHIR_INIT_VAR(sql);
@@ -355,7 +355,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 323 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_46$$3);
 		object_init_ex(_46$$3, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _46$$3, "__construct", &_47, 149, columnName, definition);
+		ZEPHIR_CALL_METHOD(NULL, _46$$3, "__construct", &_47, 151, columnName, definition);
 		zephir_check_call_status();
 		zephir_array_append(&columns, _46$$3, PH_SEPARATE, "phalcon/db/adapter/pdo/postgresql.zep", 324);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
