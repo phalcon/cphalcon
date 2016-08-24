@@ -203,9 +203,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	phql_scanner_token token;
 	void* phql_parser;
 	char *error;
-#if PHP_VERSION_ID < 70000
     unsigned long phql_key = 0;
+#if PHP_VERSION_ID < 70000
 	zval **temp_ast;
+#else
+    zval *temp_ast;
 #endif
 
 	if (!phql) {
@@ -220,16 +222,22 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	cache_level = phalcon_globals_ptr->orm.cache_level;
 	if (cache_level >= 0) {
-#if PHP_VERSION_ID < 70000
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
+#if PHP_VERSION_ID < 70000
 			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
 				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
 				Z_SET_REFCOUNT_P(*result, 1);
 				return SUCCESS;
 			}
-		}
+#else
+            if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
+                ZVAL_ZVAL(*result, temp_ast, 1, 0);
+                Z_TRY_ADDREF_P(*result);
+                return SUCCESS;
+            }
 #endif
+		}
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
@@ -677,12 +685,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				 */
 				if (cache_level >= 0) {
 
-#if PHP_VERSION_ID < 70000
-
                     if (!phalcon_globals_ptr->orm.parser_cache) {
                         ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
                         zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
                     }
+
+#if PHP_VERSION_ID < 70000
 
 					Z_ADDREF_PP(result);
 
@@ -693,6 +701,14 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 						sizeof(zval *),
 						NULL
 					);
+#else
+                    Z_TRY_ADDREF_P(*result);
+
+                    zend_hash_index_update(
+                        phalcon_globals_ptr->orm.parser_cache,
+                        phql_key,
+                        *result
+                    );
 #endif
 				}
 
