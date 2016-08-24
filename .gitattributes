@@ -1,7 +1,7 @@
 docs/* linguist-documentation
 
-*.h linguist-language=C
-*.c linguist-language=C
+*.zep.h linguist-language=C
+*.zep.c linguist-language=C
 
 ext/* linguist-vendored
 build/* linguist-vendored
