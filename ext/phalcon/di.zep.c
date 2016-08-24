@@ -471,7 +471,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			}
 			_6$$6 = Z_TYPE_P(parameters) == IS_ARRAY;
 			if (_6$$6) {
-				_6$$6 = (zephir_fast_count_int(parameters TSRMLS_CC)) ? 1 : 0;
+				_6$$6 = ((zephir_fast_count_int(parameters TSRMLS_CC)) ? 1 : 0);
 			}
 			if (_6$$6) {
 				ZEPHIR_INIT_NVAR(instance);

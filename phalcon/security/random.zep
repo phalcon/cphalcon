@@ -248,10 +248,11 @@ class Random
 	{
 		var s;
 
-		let s = preg_replace("#[^a-z0-9_=-]+#i", "", this->base64(len));
+		let s = strtr(base64_encode(this->base64(len)), "+/", "-_");
+		let s = preg_replace("#[^a-z0-9_=-]+#i", "", s);
 
 		if !padding {
-			return trim(s, "=");
+			return rtrim(s, "=");
 		}
 
 		return s;

@@ -360,7 +360,7 @@ class Loader implements EventsAwareInterface
 						let filePath = fixedDirectory . fileName . "." . extension;
 
 						/**
-						 * Check if a events manager is available
+						 * Check if an events manager is available
 						 */
 						if typeof eventsManager == "object" {
 							let this->_checkedPath = filePath;

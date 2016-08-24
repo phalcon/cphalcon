@@ -24,48 +24,43 @@
  *
  * Allows to cache output fragments captured with ob_* functions
  *
- *<code>
- * <?php
- *
- * //Create an Output frontend. Cache the files for 2 days
- * $frontCache = new \Phalcon\Cache\Frontend\Output(array(
- *   "lifetime" => 172800
- * ));
- *
- * // Create the component that will cache from the "Output" to a "File" backend
- * // Set the cache file directory - it's important to keep the "/" at the end of
- * // the value for the folder
- * $cache = new \Phalcon\Cache\Backend\File($frontCache, array(
- *     "cacheDir" => "../app/cache/"
- * ));
- *
- * // Get/Set the cache file to ../app/cache/my-cache.html
- * $content = $cache->start("my-cache.html");
- *
- * // If $content is null then the content will be generated for the cache
- * if ($content === null) {
- *
- *     //Print date and time
- *     echo date("r");
- *
- *     //Generate a link to the sign-up action
- *     echo Phalcon\Tag::linkTo(
- *         array(
- *             "user/signup",
- *             "Sign Up",
- *             "class" => "signup-button"
- *         )
- *     );
- *
- *     // Store the output into the cache file
- *     $cache->save();
- *
- * } else {
- *
- *     // Echo the cached output
- *     echo $content;
- * }
- *</code>
+*<code>
+* use Phalcon\Tag;
+* use Phalcon\Cache\Backend\File;
+* use Phalcon\Cache\Frontend\Output;
+*
+* // Create an Output frontend. Cache the files for 2 days
+* $frontCache = new Output(['lifetime' => 172800]));
+*
+* // Create the component that will cache from the "Output" to a "File" backend
+* // Set the cache file directory - it's important to keep the "/" at the end of
+* // the value for the folder
+* $cache = new File($frontCache, ['cacheDir' => '../app/cache/']);
+*
+* // Get/Set the cache file to ../app/cache/my-cache.html
+* $content = $cache->start('my-cache.html');
+*
+* // If $content is null then the content will be generated for the cache
+* if (null === $content) {
+*     // Print date and time
+*     echo date('r');
+*
+*     // Generate a link to the sign-up action
+*     echo Tag::linkTo(
+*         [
+*             'user/signup',
+*             'Sign Up',
+*             'class' => 'signup-button'
+*         ]
+*     );
+*
+*     // Store the output into the cache file
+*     $cache->save();
+* } else {
+*     // Echo the cached output
+*     echo $content;
+* }
+*</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Output) {
 
@@ -143,7 +138,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
 	} else {
 		zephir_update_property_this(this_ptr, SL("_buffering"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 127);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 129);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -163,7 +158,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_contents", NULL, 128);
+		ZEPHIR_RETURN_CALL_FUNCTION("ob_get_contents", NULL, 130);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -183,7 +178,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 129);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 131);
 		zephir_check_call_status();
 	}
 	if (0) {

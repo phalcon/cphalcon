@@ -135,11 +135,11 @@ class FileCest
             $I->assertEquals($time2, $obContent2);
 
             // Check keys
-            $keys = $cache->queryKeys();
-            $I->assertEquals($keys, [
-                'unit_' . $cache->getKey('test_output'),
-                '.gitignore'
-            ]);
+            $actual = $cache->queryKeys();
+
+            $I->assertTrue(2 === count($actual));
+            $I->assertArrayHasKey('.gitignore', array_flip($actual));
+            $I->assertArrayHasKey('unit_' . $cache->getKey('test_output'), array_flip($actual));
 
             $I->assertTrue($cache->exists('test_output'));
             $I->assertTrue($cache->delete('test_output'));

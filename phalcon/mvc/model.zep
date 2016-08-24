@@ -13,7 +13,7 @@
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |		  Eduar Carvajal <eduar@phalconphp.com>                   |
  +------------------------------------------------------------------------+
  */
 
@@ -720,30 +720,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to query a set of records that match the specified conditions
 	 *
 	 * <code>
-	 *
-	 * //How many robots are there?
+	 * // How many robots are there?
 	 * $robots = Robots::find();
-	 * echo "There are ", count($robots), "\n";
+	 * echo 'There are ', count($robots), "\n";
 	 *
-	 * //How many mechanical robots are there?
+	 * // How many mechanical robots are there?
 	 * $robots = Robots::find("type='mechanical'");
-	 * echo "There are ", count($robots), "\n";
+	 * echo 'There are ', count($robots), "\n";
 	 *
-	 * //Get and print virtual robots ordered by name
-	 * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+	 * // Get and print virtual robots ordered by name
+	 * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
 	 * foreach ($robots as $robot) {
-	 *	   echo $robot->name, "\n";
+	 *	 echo $robot->name, "\n";
 	 * }
 	 *
-	 * //Get first 100 virtual robots ordered by name
-	 * $robots = Robots::find(array("type='virtual'", "order" => "name", "limit" => 100));
+	 * // Get first 100 virtual robots ordered by name
+	 * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
 	 * foreach ($robots as $robot) {
-	 *	   echo $robot->name, "\n";
+	 *	 echo $robot->name, "\n";
 	 * }
 	 * </code>
-	 *
-	 * @param 	array parameters
-	 * @return  Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
@@ -1189,7 +1185,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to calculate a summatory on a column that match the specified conditions
+	 * Allows to calculate a sum on a column that match the specified conditions
 	 *
 	 * <code>
 	 *
@@ -1431,7 +1427,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *	public function validation()
 	 *  {
-     *      $validator = new Validation();
+	 *	  $validator = new Validation();
 	 *
 	 * 		$validator->validate('status', new ExclusionIn(array(
 	 *			'domain' => array('A', 'I')
@@ -1497,7 +1493,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			position, bindParams, extraConditions, message, fields,
 			referencedFields, field, referencedModel, value, allowNulls;
 		int action, numberNull;
-		boolean error, validateWithNulls = false;
+		boolean error, validateWithNulls;
 
 		/**
 		 * Get the models manager
@@ -1513,6 +1509,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let error = false;
 			for relation in belongsTo {
 
+				let validateWithNulls = false;
 				let foreignKey = relation->getForeignKey();
 				if foreignKey !== false {
 
@@ -2016,7 +2013,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 							}
 
 							/**
-							 * A implicit PresenceOf message is created
+							 * An implicit PresenceOf message is created
 							 */
 							let this->_errorMessages[] = new Message(attributeField . " is required", attributeField, "PresenceOf"),
 								error = true;
@@ -2313,207 +2310,213 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param string|array table
 	 * @return boolean
 	 */
-	protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
-	{
-		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
-			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
-			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
-		boolean useDynamicUpdate, changed;
+	 protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
+ 	{
+ 		var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field,
+ 			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
+ 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
+ 		boolean useDynamicUpdate, changed;
 
-		let bindSkip = Column::BIND_SKIP,
-			fields = [],
-			values = [],
-			bindTypes = [],
-			manager = <ManagerInterface> this->_modelsManager;
+ 		let bindSkip = Column::BIND_SKIP,
+ 			fields = [],
+ 			values = [],
+ 			bindTypes = [],
+ 			manager = <ManagerInterface> this->_modelsManager;
 
-		/**
-		 * Check if the model must use dynamic update
-		 */
-		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
+ 		/**
+ 		 * Check if the model must use dynamic update
+ 		 */
+ 		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
 
-		if useDynamicUpdate {
-			let snapshot = this->_snapshot;
-			if typeof snapshot != "array" {
-				let useDynamicUpdate = false;
-			}
-		}
+ 		if useDynamicUpdate {
+ 			let snapshot = this->_snapshot;
+ 			if typeof snapshot != "array" {
+ 				let useDynamicUpdate = false;
+ 			}
+ 		}
 
-		let bindDataTypes = metaData->getBindTypes(this),
-			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
-			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+ 		let dataTypes = metaData->getDataTypes(this),
+			 bindDataTypes = metaData->getBindTypes(this),
+ 			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
+ 			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
-		if globals_get("orm.column_renaming") {
-			let columnMap = metaData->getColumnMap(this);
-		} else {
-			let columnMap = null;
-		}
+ 		if globals_get("orm.column_renaming") {
+ 			let columnMap = metaData->getColumnMap(this);
+ 		} else {
+ 			let columnMap = null;
+ 		}
 
-		/**
-		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
-		 */
-		for field in nonPrimary {
+ 		/**
+ 		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
+ 		 */
+ 		for field in nonPrimary {
 
-			if !isset automaticAttributes[field] {
+ 			if !isset automaticAttributes[field] {
 
-				/**
-				 * Check a bind type for field to update
-				 */
-				if !fetch bindType, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' have not defined a bind data type");
-				}
+ 				/**
+ 				 * Check a bind type for field to update
+ 				 */
+ 				if !fetch bindType, bindDataTypes[field] {
+ 					throw new Exception("Column '" . field . "' have not defined a bind data type");
+ 				}
 
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
+ 				/**
+ 				 * Check if the model has a column map
+ 				 */
+ 				if typeof columnMap == "array" {
+ 					if !fetch attributeField, columnMap[field] {
+ 						throw new Exception("Column '" . field . "' isn't part of the column map");
+ 					}
+ 				} else {
+ 					let attributeField = field;
+ 				}
 
-				/**
-				 * Get the field's value
-				 * If a field isn't set we pass a null value
-				 */
-				if fetch value, this->{attributeField} {
+ 				/**
+ 				 * Get the field's value
+ 				 * If a field isn't set we pass a null value
+ 				 */
+ 				if fetch value, this->{attributeField} {
 
-					/**
-					 * When dynamic update is not used we pass every field to the update
-					 */
-					if !useDynamicUpdate {
-						let fields[] = field, values[] = value;
-						let bindTypes[] = bindType;
-					} else {
+ 					/**
+ 					 * When dynamic update is not used we pass every field to the update
+ 					 */
+ 					if !useDynamicUpdate {
+ 						let fields[] = field, values[] = value;
+ 						let bindTypes[] = bindType;
+ 					} else {
 
-						/**
-						 * If the field is not part of the snapshot we add them as changed
-						 */
-						if !fetch snapshotValue, snapshot[attributeField] {
-							let changed = true;
-						} else {
-							/**
-							 * See https://github.com/phalcon/cphalcon/issues/3247
-							 * Take a TEXT column with value '4' and replace it by
-							 * the value '4.0'. For PHP '4' and '4.0' are the same.
-							 * We can't use simple comparison...
-							 *
-							 * We must use the type of snapshotValue.
-							 */
-							if value === null {
-								let changed = snapshotValue !== null;
-							} else {
-								if snapshotValue === null {
-									let changed = true;
-								} else {
-									switch bindType {
+ 						/**
+ 						 * If the field is not part of the snapshot we add them as changed
+ 						 */
+ 						if !fetch snapshotValue, snapshot[attributeField] {
+ 							let changed = true;
+ 						} else {
+ 							/**
+ 							 * See https://github.com/phalcon/cphalcon/issues/3247
+ 							 * Take a TEXT column with value '4' and replace it by
+ 							 * the value '4.0'. For PHP '4' and '4.0' are the same.
+ 							 * We can't use simple comparison...
+ 							 *
+ 							 * We must use the type of snapshotValue.
+ 							 */
+ 							if value === null {
+ 								let changed = snapshotValue !== null;
+ 							} else {
+ 								if snapshotValue === null {
+ 									let changed = true;
+ 								} else {
 
-										case Column::TYPE_BOOLEAN:
-											let changed = (boolean) snapshotValue !== (boolean) value;
-											break;
+									 if !fetch dataType, dataTypes[field] {
+										 throw new Exception("Column '" . field . "' have not defined a data type");
+									 }
 
-										case Column::TYPE_INTEGER:
-											let changed = (int) snapshotValue !== (int) value;
-											break;
+ 									switch dataType {
 
-										case Column::TYPE_DECIMAL:
-										case Column::TYPE_FLOAT:
-											let changed = floatval(snapshotValue) !== floatval(value);
-											break;
+ 										case Column::TYPE_BOOLEAN:
+ 											let changed = (boolean) snapshotValue !== (boolean) value;
+ 											break;
 
-										case Column::TYPE_DATE:
-										case Column::TYPE_VARCHAR:
-										case Column::TYPE_DATETIME:
-										case Column::TYPE_CHAR:
-										case Column::TYPE_TEXT:
-										case Column::TYPE_VARCHAR:
-										case Column::TYPE_BIGINTEGER:
-											let changed = (string) snapshotValue !== (string) value;
-											break;
+ 										case Column::TYPE_INTEGER:
+ 											let changed = (int) snapshotValue !== (int) value;
+ 											break;
 
-										/**
-										 * Any other type is not really supported...
-										 */
-										default:
-											let changed = value != snapshotValue;
-									}
-								}
-							}
-						}
+ 										case Column::TYPE_DECIMAL:
+ 										case Column::TYPE_FLOAT:
+ 											let changed = floatval(snapshotValue) !== floatval(value);
+ 											break;
 
-						/**
-						 * Only changed values are added to the SQL Update
-						 */
-						if changed {
-							let fields[] = field, values[] = value;
-							let bindTypes[] = bindType;
-						}
-					}
+ 										case Column::TYPE_DATE:
+ 										case Column::TYPE_VARCHAR:
+ 										case Column::TYPE_DATETIME:
+ 										case Column::TYPE_CHAR:
+ 										case Column::TYPE_TEXT:
+ 										case Column::TYPE_VARCHAR:
+ 										case Column::TYPE_BIGINTEGER:
+ 											let changed = (string) snapshotValue !== (string) value;
+ 											break;
 
-				} else {
-					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
-				}
-			}
-		}
+ 										/**
+ 										 * Any other type is not really supported...
+ 										 */
+ 										default:
+ 											let changed = value != snapshotValue;
+ 									}
+ 								}
+ 							}
+ 						}
 
-		/**
-		 * If there is no fields to update we return true
-		 */
-		if !count(fields) {
-			return true;
-		}
+ 						/**
+ 						 * Only changed values are added to the SQL Update
+ 						 */
+ 						if changed {
+ 							let fields[] = field, values[] = value;
+ 							let bindTypes[] = bindType;
+ 						}
+ 					}
 
-		let uniqueKey = this->_uniqueKey,
-			uniqueParams = this->_uniqueParams,
-			uniqueTypes = this->_uniqueTypes;
+ 				} else {
+ 					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
+ 				}
+ 			}
+ 		}
 
-		/**
-		 * When unique params is null we need to rebuild the bind params
-		 */
-		if typeof uniqueParams != "array" {
+ 		/**
+ 		 * If there is no fields to update we return true
+ 		 */
+ 		if !count(fields) {
+ 			return true;
+ 		}
 
-			let primaryKeys = metaData->getPrimaryKeyAttributes(this);
+ 		let uniqueKey = this->_uniqueKey,
+ 			uniqueParams = this->_uniqueParams,
+ 			uniqueTypes = this->_uniqueTypes;
 
-			/**
-			 * We can't create dynamic SQL without a primary key
-			 */
-			if !count(primaryKeys) {
-				throw new Exception("A primary key must be defined in the model in order to perform the operation");
-			}
+ 		/**
+ 		 * When unique params is null we need to rebuild the bind params
+ 		 */
+ 		if typeof uniqueParams != "array" {
 
-			let uniqueParams = [];
-			for field in primaryKeys {
+ 			let primaryKeys = metaData->getPrimaryKeyAttributes(this);
 
-				/**
-				 * Check if the model has a column map
-				 */
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
+ 			/**
+ 			 * We can't create dynamic SQL without a primary key
+ 			 */
+ 			if !count(primaryKeys) {
+ 				throw new Exception("A primary key must be defined in the model in order to perform the operation");
+ 			}
 
-				if fetch value, this->{attributeField} {
-					let uniqueParams[] = value;
-				} else {
-					let uniqueParams[] = null;
-				}
-			}
-		}
+ 			let uniqueParams = [];
+ 			for field in primaryKeys {
 
-		/**
-		 * We build the conditions as an array
-		 * Perform the low level update
-		 */
-		return connection->update(table, fields, values, [
-			"conditions": uniqueKey,
-			"bind"	  : uniqueParams,
-			"bindTypes" : uniqueTypes
-		], bindTypes);
-	}
+ 				/**
+ 				 * Check if the model has a column map
+ 				 */
+ 				if typeof columnMap == "array" {
+ 					if !fetch attributeField, columnMap[field] {
+ 						throw new Exception("Column '" . field . "' isn't part of the column map");
+ 					}
+ 				} else {
+ 					let attributeField = field;
+ 				}
+
+ 				if fetch value, this->{attributeField} {
+ 					let uniqueParams[] = value;
+ 				} else {
+ 					let uniqueParams[] = null;
+ 				}
+ 			}
+ 		}
+
+ 		/**
+ 		 * We build the conditions as an array
+ 		 * Perform the low level update
+ 		 */
+ 		return connection->update(table, fields, values, [
+ 			"conditions" : uniqueKey,
+ 			"bind"	     : uniqueParams,
+ 			"bindTypes"  : uniqueTypes
+ 		], bindTypes);
+ 	}
 
 	/**
 	 * Saves related records that must be stored prior to save the master record
@@ -2960,7 +2963,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
@@ -3004,7 +3007,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
@@ -4042,7 +4045,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		return {modelName}::{type}([
 			"conditions": "[" . field . "] = ?0",
-			"bind"	    : [value]
+			"bind"		: [value]
 		]);
 	}
 
@@ -4173,8 +4176,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		// Throw an exception if there is an attempt to set a non-public property.
-		if !this->_isVisible(property) {
-			throw new Exception("Property '" . property . "' does not have a setter.");
+		if property_exists(this, property) {
+			let manager = this->getModelsManager();
+			if !manager->isVisibleModelProperty(this, property) {
+				throw new Exception("Property '" . property . "' does not have a setter.");
+			}
 		}
 
 		let this->{property} = value;
@@ -4199,31 +4205,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Check whether a property is declared private or protected.
-	 * This is a stop-gap because we do not want to have to declare all properties.
-	 *
-	 * @param string property
-	 * @return boolean
-	 */
-	protected final function _isVisible(property)
-	{
-		var reflectionClass, reflectionProp, e;
-
-		//Try reflection on the property.
-		let reflectionClass = new \ReflectionClass(this);
-		try {
-			let reflectionProp = reflectionClass->getProperty(property);
-			if !reflectionProp->isPublic() {
-				return false;
-			}
-		} catch \Exception, e {
-			// The property doesn't exist.
-			return true;
-		}
-		return true;
 	}
 
 	/**

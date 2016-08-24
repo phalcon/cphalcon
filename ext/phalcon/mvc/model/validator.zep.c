@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 }
 
 /**
- * Check whether a option has been defined in the validator options
+ * Check whether an option has been defined in the validator options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 

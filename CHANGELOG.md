@@ -1,4 +1,18 @@
-# [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v3.0.0) (2016-07-29)
+# [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-XX-XX)
+- Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly
+- Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to correct using multi relation column [#12035](https://github.com/phalcon/cphalcon/issues/12035)
+- Fixed `Phalcon\Acl\Resource`. Now it implements `Phalcon\Acl\ResourceInterface` [#11959](https://github.com/phalcon/cphalcon/issues/11959)
+- Fixed `save` method for all cache backends. Now it updates the `_lastKey` property correctly [#12050](https://github.com/phalcon/cphalcon/issues/12050)
+- Fixed virtual foreign key check when having multiple keys [#12071](https://github.com/phalcon/cphalcon/issues/12071)
+- `Phalcon\Config\Adapter\Ini` constructor can now specify `parse_ini_file()` scanner mode [#12079](https://github.com/phalcon/cphalcon/pull/12079)
+- Fixed `Phalcon\Cache\Backend\Apc::save` due to which the `Apc::increment`/`Apc::decrement` could not be used properly [#12109](https://github.com/phalcon/cphalcon/issues/12109)
+- Fixed `Phalcon\Mvc\Model\Criteria::inWhere` so that now the second parameter can be an empty array [#10676](https://github.com/phalcon/cphalcon/issues/10676)
+- Fixed ORM related memory leak [#12115](https://github.com/phalcon/cphalcon/issues/12115), [#11995](https://github.com/phalcon/cphalcon/issues/11995), [#12116](https://github.com/phalcon/cphalcon/issues/12116)
+- Fixed incorrect `Phalcon\Mvc\View::getActiveRenderPath` behavior [#12139](https://github.com/phalcon/cphalcon/issues/12139)
+- Fixed `Phalcon\Security\Random::base64Safe` so that now the method returns correct safe string [#12141](https://github.com/phalcon/cphalcon/issues/12141)
+- Fixed the `Phalcon\Translate\Adapter\Gettext::getOptionsDefault` visibility [#12157](https://github.com/phalcon/cphalcon/issues/12157)
+
+# [3.0.0](https://github.com/phalcon/cphalcon/releases/tag/v3.0.0) (2016-07-29)
 - PHP 5.3 and 5.4 are now fully deprecated
 - `Phalcon\Mvc\Model\Validation` is now deprecated in favor of `Phalcon\Validation`
 - Changed default hash algorithm in `Phalcon\Security` to `CRYPT_BLOWFISH_Y`

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,17 +27,20 @@ use Phalcon\Paginator\AdapterInterface;
 /**
  * Phalcon\Paginator\Adapter\Model
  *
- * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base
- *<code>
- *	$paginator = new \Phalcon\Paginator\Adapter\Model(
- *		array(
- *			"data"  => Robots::find(),
- *			"limit" => 25,
- *			"page"  => $currentPage
- *		)
- *	);
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base.
  *
- *  $paginate = $paginator->getPaginate();
+ * <code>
+ * use Phalcon\Paginator\Adapter\Model;
+ *
+ * $paginator = new Model(
+ *     [
+ *         'data'  => Robots::find(),
+ *         'limit' => 25,
+ *         'page'  => $currentPage
+ *     ]
+ * );
+ *
+ * $paginate = $paginator->getPaginate();
  *</code>
  */
 class Model extends Adapter implements AdapterInterface
@@ -69,7 +72,7 @@ class Model extends Adapter implements AdapterInterface
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 */
-	public function getPaginate() -> <\stdclass>
+	public function getPaginate() -> <\stdClass>
 	{
 		var config, items, pageItems, page;
 		int pageNumber, show, n, start, lastShowPage,

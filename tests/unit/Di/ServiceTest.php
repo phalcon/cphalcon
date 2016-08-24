@@ -2,9 +2,8 @@
 
 namespace Phalcon\Test\Unit\Di;
 
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Di\Service;
 use Phalcon\Di;
+use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Di\ServiceTest
@@ -34,6 +33,7 @@ class ServiceTest extends UnitTest
 
         require_once PATH_DATA . 'di/SomeService.php';
     }
+
     /**
      * Tests resolving service
      *

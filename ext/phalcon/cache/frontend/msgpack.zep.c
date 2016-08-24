@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, __construct) {
 	ZEPHIR_OBS_VAR(lifetime);
 	if (zephir_array_isset_string_fetch(&lifetime, frontendOptions, SS("lifetime"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(lifetime) != IS_LONG) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Option 'lifetime' must be a integer.", "phalcon/cache/frontend/msgpack.zep", 80);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Option 'lifetime' must be an integer", "phalcon/cache/frontend/msgpack.zep", 80);
 			return;
 		}
 	}
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 0, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 127, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 0, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 128, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -461,16 +461,16 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		} else {
 			ZEPHIR_INIT_NVAR(validation);
 			object_init_ex(validation, phalcon_validation_ce);
-			ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_14, 216, preparedValidators);
+			ZEPHIR_CALL_METHOD(NULL, validation, "__construct", &_14, 218, preparedValidators);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD(&filters, element, "getfilters", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(filters) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_15, 217, name, filters);
+			ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_15, 219, name, filters);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_16, 218, data, entity);
+		ZEPHIR_CALL_METHOD(&elementMessages, validation, "validate", &_16, 220, data, entity);
 		zephir_check_call_status();
 		if (zephir_fast_count_int(elementMessages TSRMLS_CC)) {
 			zephir_array_update_zval(&messages, name, &elementMessages, PH_COPY | PH_SEPARATE);
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 		  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
 		) {
 			ZEPHIR_GET_HVALUE(elementMessages, _3$$5);
-			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 219, elementMessages);
+			ZEPHIR_CALL_METHOD(NULL, group, "appendmessages", &_4, 221, elementMessages);
 			zephir_check_call_status();
 		}
 	}
@@ -769,7 +769,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 }
 
 /**
- * Generate the label of a element added to the form including HTML
+ * Generate the label of an element added to the form including HTML
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 
@@ -1085,7 +1085,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 220, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 222, _0);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

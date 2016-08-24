@@ -111,7 +111,8 @@ class Xcache extends Backend implements BackendInterface
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = "_PHCX" . this->_prefix . keyName;
+			let lastKey = "_PHCX" . this->_prefix . keyName,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -127,6 +128,8 @@ class Xcache extends Backend implements BackendInterface
 
 		if !is_numeric(cachedContent) {
 			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
 		}
 
 		/**
@@ -143,11 +146,7 @@ class Xcache extends Backend implements BackendInterface
 			let tt1 = lifetime;
 		}
 
-		if is_numeric(cachedContent) {
-			let success = xcache_set(lastKey, cachedContent, tt1);
-		} else {
-			let success = xcache_set(lastKey, preparedContent, tt1);
-		}
+		let success = xcache_set(lastKey, preparedContent, tt1);
 
 		if !success {
 			throw new Exception("Failed storing the data in xcache");

@@ -24,17 +24,20 @@
 /**
  * Phalcon\Paginator\Adapter\Model
  *
- * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base
- *<code>
- *	$paginator = new \Phalcon\Paginator\Adapter\Model(
- *		array(
- *			"data"  => Robots::find(),
- *			"limit" => 25,
- *			"page"  => $currentPage
- *		)
- *	);
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a base.
  *
- *  $paginate = $paginator->getPaginate();
+ * <code>
+ * use Phalcon\Paginator\Adapter\Model;
+ *
+ * $paginator = new Model(
+ *     [
+ *         'data'  => Robots::find(),
+ *         'limit' => 25,
+ *         'page'  => $currentPage
+ *     ]
+ * );
+ *
+ * $paginate = $paginator->getPaginate();
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model) {
@@ -91,19 +94,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_OBS_VAR(config);
 	zephir_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(items);
-	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/model.zep", 80 TSRMLS_CC);
+	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/model.zep", 83 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(_1);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 84);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 87);
 		return;
 	}
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
 	if (show <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 94);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 97);
 		return;
 	}
 	n = zephir_fast_count_int(items TSRMLS_CC);
@@ -138,7 +141,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			}
 			ZEPHIR_CALL_METHOD(&_5$$11, items, "current", &_6, 0);
 			zephir_check_call_status();
-			zephir_array_append(&pageItems, _5$$11, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 121);
+			zephir_array_append(&pageItems, _5$$11, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 124);
 			if (i >= show) {
 				break;
 			}

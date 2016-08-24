@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 376, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 377, value, domain, strict);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_INIT_VAR(_5$$9);

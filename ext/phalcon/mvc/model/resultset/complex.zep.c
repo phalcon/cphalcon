@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 367, result, cache);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 368, result, cache);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 		if (!(zephir_is_true(_0))) {
 			break;
 		}
-		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 368);
+		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 369);
 		zephir_check_call_status();
 		zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset/complex.zep", 263);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_3, 0);

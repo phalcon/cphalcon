@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\Customers;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\ManagerTest
@@ -51,6 +52,31 @@ class ManagerTest extends UnitTest
                     expect($album->artist)->isInstanceOf('Phalcon\Test\Models\AlbumORama\Artists');
                 }
             }
+        );
+    }
+
+    /**
+     * Tests Manager::isVisibleModelProperty
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-08-12
+     */
+    public function testModelPublicProperties()
+    {
+        $this->specify(
+            'The Manager::isVisibleModelProperty does not check public property correctly',
+            function ($property, $expected) {
+                expect($this->modelsManager->isVisibleModelProperty(new Customers, $property))->equals($expected);
+            }, ['examples' => [
+                ['id', true],
+                ['document_id', true],
+                ['customer_id', true],
+                ['first_name', true],
+                ['some_field', false],
+                ['', false],
+                ['protected_field', false],
+                ['private_field', false],
+            ]]
         );
     }
 }

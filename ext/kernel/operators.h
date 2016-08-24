@@ -32,6 +32,7 @@
 #define ZEPHIR_IS_LONG_IDENTICAL(op1, op2)   (Z_TYPE_P(op1) == IS_LONG && Z_LVAL_P(op1) == op2)
 #define ZEPHIR_IS_DOUBLE_IDENTICAL(op1, op2) (Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) == op2)
 #define ZEPHIR_IS_STRING_IDENTICAL(op1, op2) (Z_TYPE_P(op1) == IS_STRING && zephir_compare_strict_string(op1, op2, strlen(op2)))
+#define ZEPHIR_IS_BOOL_IDENTICAL(op1, op2) (Z_TYPE_P(op1) == IS_BOOL && zephir_compare_strict_bool(op1, op2 TSRMLS_CC))
 
 /** strict boolean comparison */
 #define ZEPHIR_IS_FALSE(var)       ((Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)) || zephir_compare_strict_bool(var, 0 TSRMLS_CC))
@@ -42,8 +43,8 @@
 
 #define ZEPHIR_IS_NOT_FALSE(var)   (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var)))
 #define ZEPHIR_IS_NOT_TRUE(var)    (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)))
-#define ZEPHIR_IS_BOOL(op1, op2)   ((Z_TYPE_P(op1) == IS_BOOL && Z_BVAL_P(op1) == op2) || zephir_compare_strict_bool(op1, op2 TSRMLS_CC))
-#define ZEPHIR_IS_BOOL_VALUE(op1, op2) ((Z_TYPE_P(op1) == IS_TRUE || Z_TYPE_P(op1) == IS_FALSE) && zephir_compare_strict_bool(op1, op2))
+#define ZEPHIR_IS_BOOL(op1, op2)   zephir_compare_strict_bool(op1, op2 TSRMLS_CC)
+#define ZEPHIR_IS_BOOL_VALUE(op1, op2) zephir_compare_strict_bool(op1, op2 TSRMLS_CC)
 
 /** SQL null empty **/
 #define ZEPHIR_IS_EMPTY(var)       (Z_TYPE_P(var) == IS_NULL || ZEPHIR_IS_FALSE(var) || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)) || !zend_is_true(var))
@@ -113,8 +114,9 @@ int zephir_compare_strict_bool(zval *op1, zend_bool op2 TSRMLS_DC);
 void zephir_cast(zval *result, zval *var, zend_uint type);
 void zephir_convert_to_object(zval *op);
 long zephir_get_intval_ex(const zval *op);
+long zephir_get_charval_ex(const zval *op);
 double zephir_get_doubleval_ex(const zval *op);
-zend_bool zephir_get_boolval_ex(const zval *op);
+zend_bool zephir_get_boolval_ex(zval *op);
 
 int zephir_is_numeric_ex(const zval *op);
 
@@ -157,6 +159,7 @@ long zephir_safe_mod_double_zval(double op1, zval *op2 TSRMLS_DC);
 #define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
 #define zephir_get_doubleval(z) (Z_TYPE_P(z) == IS_DOUBLE ? Z_DVAL_P(z) : zephir_get_doubleval_ex(z))
 #define zephir_get_boolval(z) (Z_TYPE_P(z) == IS_BOOL ? Z_BVAL_P(z) : zephir_get_boolval_ex(z))
+#define zephir_get_charval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_charval_ex(z))
 
 #ifndef PHP_WIN32
 

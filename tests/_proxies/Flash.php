@@ -70,7 +70,7 @@ abstract class Flash extends PhFlash
         return parent::setAutomaticHtml($automaticHtml);
     }
 
-    public function setCssClasses($cssClasses)
+    public function setCssClasses(array $cssClasses)
     {
         return parent::setCssClasses($cssClasses);
     }

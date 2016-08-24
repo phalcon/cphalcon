@@ -179,16 +179,16 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var prefixedKey, lastKey, prefix, frontend, redis, cachedContent, preparedContent,
+		var prefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
 			tmp, tt1, success, options, specialKey, isBuffering;
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
 			let prefixedKey = substr(lastKey, 5);
 		} else {
-			let prefix = this->_prefix;
-			let prefixedKey = prefix . keyName;
-			let lastKey = "_PHCR" . prefixedKey;
+			let prefixedKey = this->_prefix . keyName,
+				lastKey = "_PHCR" . prefixedKey,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -217,6 +217,8 @@ class Redis extends Backend implements BackendInterface
 		 */
 		if !is_numeric(cachedContent) {
 			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
 		}
 
 		if lifetime === null {
@@ -231,11 +233,7 @@ class Redis extends Backend implements BackendInterface
 			let tt1 = lifetime;
 		}
 
-		if is_numeric(cachedContent) {
-			let success = redis->set(lastKey, cachedContent);
-		} else {
-			let success = redis->set(lastKey, preparedContent);
-		}
+		let success = redis->set(lastKey, preparedContent);
 
 		if !success {
 			throw new Exception("Failed storing the data in redis");
@@ -448,7 +446,7 @@ class Redis extends Backend implements BackendInterface
 	 */
 	public function flush() -> boolean
 	{
-		var options, specialKey, redis, keys, key;
+		var options, specialKey, redis, keys, key, lastKey;
 
 		let options = this->_options;
 
@@ -470,8 +468,9 @@ class Redis extends Backend implements BackendInterface
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
+				let lastKey = "_PHCR" . key;
 				redis->sRem(specialKey, key);
-				redis->delete(key);
+				redis->delete(lastKey);
 			}
 		}
 

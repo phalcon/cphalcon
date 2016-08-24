@@ -10,11 +10,11 @@ if [ -z $(which sudo 2> /dev/null) ]; then
 fi
 
 if [ -f Makefile ]; then
-	sudo make --silent clean
+	sudo make -s clean
 	sudo ${phpize_bin} --silent --clean
 fi
 
 ${phpize_bin} --silent
 
 ./configure --silent --enable-phalcon
-make --silent && sudo make --silent install
+make -s && sudo make -s install

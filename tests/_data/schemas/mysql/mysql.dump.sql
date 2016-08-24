@@ -100,6 +100,13 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` (`id`, `document_id`, `customer_id`, `email`, `status`, `created_at`) VALUES
+  ('1', '1', '1', 'foo@bar.baz', 'A', NOW()),
+  ('2', '1', '3', 'foo@bar.baz', 'A', NOW()),
+  ('3', '1', '3', 'foo@bar.baz', 'A', NOW()),
+  ('4', '1', '3', 'foo@bar.baz', 'I', NOW()),
+  ('5', '3', '2', 'foo@bar.baz', 'X', NOW()),
+  ('6', '4', '4', 'foo@bar.baz', 'A', NOW());
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -443,6 +450,47 @@ CREATE TABLE `issue_11036` (
   UNIQUE KEY `issue_11036_token_UNIQUE` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `packages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `packages` (
+  `reference_type_id` int(11) NOT NULL,
+  `reference_id` int(10) unsigned NOT NULL,
+  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `updated` int(10) unsigned NOT NULL,
+  `deleted` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`reference_type_id`,`reference_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `packages` (`reference_type_id`, `reference_id`, `title`, `created`, `updated`, `deleted`) VALUES
+  (1, 1,  'Private Package #1',   0,  0,  NULL),
+  (1, 2,  'Private Package #2',   0,  0,  NULL),
+  (2, 1,  'Public Package #1',    0,  0,  NULL);
+
+DROP TABLE IF EXISTS `package_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `package_details` (
+  `reference_type_id` int(11) NOT NULL,
+  `reference_id` int(10) unsigned NOT NULL,
+  `type` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `updated` int(10) unsigned NOT NULL,
+  `deleted` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`reference_type_id`,`reference_id`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `package_details` (`reference_type_id`, `reference_id`, `type`, `value`, `created`, `updated`, `deleted`) VALUES
+  (1, 1,  'detail',   'private package #1 - detail',  0,  0,  NULL),
+  (1, 1,  'option',   'private package #1 - option',  0,  0,  NULL),
+  (1, 2,  'detail',   'private package #2 - detail',  0,  0,  NULL),
+  (1, 2,  'option',   'private package #2 - option',  0,  0,  NULL),
+  (2, 1,  'coupon',   'public package #1 - coupon',   0,  0,  NULL),
+  (2, 1,  'detail',   'public package #1 - detail',   0,  0,  NULL),
+  (2, 1,  'option',   'public package #1 - option',   0,  0,  NULL);
+
 DROP TABLE IF EXISTS `childs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -456,7 +504,51 @@ CREATE TABLE `childs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`id`, `name`) VALUES
+  (1, 'Andres Gutierrez'),
+  (2, 'Serghei Iakovlev'),
+  (3, 'Nikolaos Dimopoulos'),
+  (4, 'Eduar Carvajal');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `issue12071_head`;
+CREATE TABLE `issue12071_head` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `issue12071_head` WRITE;
+/*!40000 ALTER TABLE `issue12071_head` DISABLE KEYS */;
+INSERT INTO `issue12071_head` VALUES (1);
+INSERT INTO `issue12071_head` VALUES (2);
+/*!40000 ALTER TABLE `issue12071_head` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `issue12071_body`;
+CREATE TABLE `issue12071_body` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `head_1_id` INT,
+  `head_2_id` INT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `issue12071_body_head_1_fkey` FOREIGN KEY (`head_1_id`) REFERENCES `issue12071_head` (`id`),
+  CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

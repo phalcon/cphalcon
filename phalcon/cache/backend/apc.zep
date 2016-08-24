@@ -98,7 +98,11 @@ class Apc extends Backend implements BackendInterface
 			let cachedContent = content;
 		}
 
-		let preparedContent = frontend->beforeStore(cachedContent);
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
+		}
 
 		/**
 		 * Take the lifetime from the frontend or read it from the set in start()
@@ -108,7 +112,8 @@ class Apc extends Backend implements BackendInterface
 			if lifetime === null {
 				let ttl = frontend->getLifetime();
 			} else {
-				let ttl = lifetime;
+				let ttl = lifetime,
+					this->_lastKey = lastKey;
 			}
 		} else {
 			let ttl = lifetime;

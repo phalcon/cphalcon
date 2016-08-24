@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -71,6 +71,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	protected _writeConnectionServices;
 
 	protected _aliases;
+
+	protected _modelVisibility = [];
 
 	/**
 	 * Has many relations
@@ -318,6 +320,29 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Check whether a model property is declared as public.
+	 *
+	 * <code>
+	 * $isPublic = $manager->isVisibleModelProperty(new Robots(), 'name');
+	 * </code>
+	 */
+	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> boolean
+	{
+		var properties, modelVisibility, className;
+
+		let modelVisibility = this->_modelVisibility,
+			className = get_class(model);
+
+		if !isset modelVisibility[className] {
+			let modelVisibility[className] = get_object_vars(model);
+		}
+
+		let properties = modelVisibility[className];
+
+		return array_key_exists(property, properties);
+	}
+
+	/**
 	 * Returns the mapped source for a model
 	 */
 	public function getModelSource(<ModelInterface> model) -> string
@@ -472,7 +497,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
-	 * Receives events generated in the models and dispatches them to a events-manager if available
+	 * Receives events generated in the models and dispatches them to an events-manager if available
 	 * Notify the behaviors that are listening in the model
 	 */
 	public function notifyEvent(string! eventName, <ModelInterface> model)
@@ -529,7 +554,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
-	 * Dispatch a event to the listeners and behaviors
+	 * Dispatch an event to the listeners and behaviors
 	 * This method expects that the endpoint listeners/behaviors returns true
 	 * meaning that a least one was implemented
 	 */
@@ -1298,7 +1323,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 * Compound relation
 			 */
 			let referencedFields = relation->getReferencedFields();
-			for refPosition, field in relation->getReferencedFields() {
+			for refPosition, field in relation->getFields() {
 				let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
 					placeholders["APR" . refPosition] = record->readAttribute(field);
 			}

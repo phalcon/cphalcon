@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 		_2$$3 = zephir_array_isset_long(number, 1);
 		if (_2$$3) {
 			zephir_array_fetch_long(&_3$$3, number, 1, PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 125 TSRMLS_CC);
-			_2$$3 = (zephir_fast_strlen_ev(_3$$3)) ? 1 : 0;
+			_2$$3 = ((zephir_fast_strlen_ev(_3$$3)) ? 1 : 0);
 		}
 		if (_2$$3) {
 			zephir_array_fetch_long(&_4$$4, number, 1, PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 126 TSRMLS_CC);
@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn) {
 }
 
 /**
- * Transforms an intermediate representation for a expression into a database system valid expression
+ * Transforms an intermediate representation for an expression into a database system valid expression
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
@@ -1689,7 +1689,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving) {
 }
 
 /**
- * Resolve a ORDER BY clause
+ * Resolve an ORDER BY clause
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy) {
 

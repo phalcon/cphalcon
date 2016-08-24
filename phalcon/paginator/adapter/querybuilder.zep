@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,17 +29,21 @@ use Phalcon\Paginator\Exception;
  *
  * Pagination using a PHQL query builder as source of data
  *
- *<code>
- *  $builder = $this->modelsManager->createBuilder()
- *                   ->columns('id, name')
- *                   ->from('Robots')
- *                   ->orderBy('name');
+ * <code>
+ * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
- *  $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
- *      "builder" => $builder,
- *      "limit"=> 20,
- *      "page" => 1
- *  ));
+ * $builder = $this->modelsManager->createBuilder()
+ *                 ->columns('id, name')
+ *                 ->from('Robots')
+ *                 ->orderBy('name');
+ *
+ * $paginator = new QueryBuilder(
+ *     [
+ *         'builder' => $builder,
+ *         'limit'   => 20,
+ *         'page'    => 1,
+ *     ]
+ * );
  *</code>
  */
 class QueryBuilder extends Adapter implements AdapterInterface

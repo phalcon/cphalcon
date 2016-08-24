@@ -31,7 +31,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getModel);
 
 /**
- * Returns the messages produced by a operation failed
+ * Returns the messages produced by an operation failed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_StatusInterface, getMessages);
 

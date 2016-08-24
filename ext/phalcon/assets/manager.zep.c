@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 }
 
 /**
- * Adds a inline Css to the 'css' collection
+ * Adds an inline Css to the 'css' collection
  */
 PHP_METHOD(Phalcon_Assets_Manager, addInlineCss) {
 
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
 }
 
 /**
- * Adds a inline javascript to the 'js' collection
+ * Adds an inline javascript to the 'js' collection
  */
 PHP_METHOD(Phalcon_Assets_Manager, addInlineJs) {
 
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 }
 
 /**
- * Adds a inline code by its type
+ * Adds an inline code by its type
  */
 PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 

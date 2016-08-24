@@ -243,7 +243,7 @@ class Simple extends Injectable implements ViewBaseInterface
 			if viewEnginePath {
 
 				/**
-				 * Call beforeRenderView if there is a events manager available
+				 * Call beforeRenderView if there is an events manager available
 				 */
 				if typeof eventsManager == "object" {
 					if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
@@ -254,7 +254,7 @@ class Simple extends Injectable implements ViewBaseInterface
 				engine->render(viewEnginePath, params, mustClean);
 
 				/**
-				 * Call afterRenderView if there is a events manager available
+				 * Call afterRenderView if there is an events manager available
 				 */
 				let notExists = false;
 				if typeof eventsManager == "object" {

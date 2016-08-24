@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZVAL_STRING(_2$$3, "autoLoad", 1);
 		zephir_array_fast_append(_1$$3, _2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 293, _1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 295, _1$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZVAL_STRING(_2$$3, "autoLoad", 1);
 		zephir_array_fast_append(_1$$3, _2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 294, _1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 296, _1$$3);
 		zephir_check_call_status();
 		if (0) {
 			zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -484,7 +484,7 @@ PHP_METHOD(Phalcon_Loader, loadFiles) {
 				zephir_check_temp_parameter(_7$$5);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_FUNCTION(&_8$$4, "is_file", &_9, 295, filePath);
+			ZEPHIR_CALL_FUNCTION(&_8$$4, "is_file", &_9, 297, filePath);
 			zephir_check_call_status();
 			if (zephir_is_true(_8$$4)) {
 				ZEPHIR_OBS_NVAR(_10$$6);
@@ -620,7 +620,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 						zephir_check_temp_parameter(_15$$13);
 						zephir_check_call_status();
 					}
-					ZEPHIR_CALL_FUNCTION(&_17$$12, "is_file", &_18, 295, filePath);
+					ZEPHIR_CALL_FUNCTION(&_17$$12, "is_file", &_18, 297, filePath);
 					zephir_check_call_status();
 					if (zephir_is_true(_17$$12)) {
 						if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -673,7 +673,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					zephir_check_temp_parameter(_29$$19);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_FUNCTION(&_31$$18, "is_file", &_18, 295, filePath);
+				ZEPHIR_CALL_FUNCTION(&_31$$18, "is_file", &_18, 297, filePath);
 				zephir_check_call_status();
 				if (zephir_is_true(_31$$18)) {
 					if (Z_TYPE_P(eventsManager) == IS_OBJECT) {

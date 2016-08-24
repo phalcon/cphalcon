@@ -7,7 +7,7 @@ use Codeception\Specify;
 use Codeception\Test\Unit;
 
 /**
- * \Phalcon\Test\Module\UnitTest.php
+ * \Phalcon\Test\Module\UnitTest
  * Base class for all Unit tests
  *
  * @copyright (c) 2011-2016 Phalcon Team

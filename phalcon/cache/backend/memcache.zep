@@ -182,7 +182,8 @@ class Memcache extends Backend implements BackendInterface
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->_prefix . keyName;
+			let lastKey = this->_prefix . keyName,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -209,7 +210,11 @@ class Memcache extends Backend implements BackendInterface
 		/**
 		 * Prepare the content in the frontend
 		 */
-		let preparedContent = frontend->beforeStore(cachedContent);
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
+		}
 
 		if lifetime === null {
 			let tmp = this->_lastLifetime;
@@ -226,11 +231,7 @@ class Memcache extends Backend implements BackendInterface
 		/**
 		* We store without flags
 		*/
-		if is_numeric(cachedContent) {
-			let success = memcache->set(lastKey, cachedContent, 0, ttl);
-		} else {
-			let success = memcache->set(lastKey, preparedContent, 0, ttl);
-		}
+		let success = memcache->set(lastKey, preparedContent, 0, ttl);
 
 		if !success {
 			throw new Exception("Failed storing data in memcached");

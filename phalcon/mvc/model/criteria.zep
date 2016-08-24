@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -33,15 +33,15 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst()
  * using an object-oriented interface.
  *
- *<code>
- *$robots = Robots::query()
- *    ->where("type = :type:")
- *    ->andWhere("year < 2000")
- *    ->bind(array("type" => "mechanical"))
- *    ->limit(5, 10)
- *    ->orderBy("name")
- *    ->execute();
- *</code>
+ * <code>
+ * $robots = Robots::query()
+ *     ->where('type = :type:')
+ *     ->andWhere('year < 2000')
+ *     ->bind(['type' => 'mechanical'])
+ *     ->limit(5, 10)
+ *     ->orderBy('name')
+ *     ->execute();
+ * </code>
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
@@ -155,7 +155,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds a INNER join to the query
+	 * Adds an INNER join to the query
 	 *
 	 *<code>
 	 *	$criteria->join('Robots');
@@ -185,7 +185,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds a INNER join to the query
+	 * Adds an INNER join to the query
 	 *
 	 *<code>
 	 *	$criteria->innerJoin('Robots');
@@ -432,19 +432,22 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Appends an IN condition to the current conditions
 	 *
-	 *<code>
-	 *	$criteria->inWhere('id', [1, 2, 3]);
-	 *</code>
+	 * <code>
+	 *     $criteria->inWhere('id', [1, 2, 3]);
+	 * </code>
 	 */
 	public function inWhere(string! expr, array! values) -> <Criteria>
 	{
 		var hiddenParam, bindParams, bindKeys, value, key, queryKey;
 
+		if !count(values) {
+			this->andWhere(expr . " != " . expr);
+			return this;
+		}
+
 		let hiddenParam = this->_hiddenParamNumber;
 
-		let bindParams = [];
-		let bindKeys = [];
-
+		let bindParams = [], bindKeys = [];
 		for value in values {
 
 			/**

@@ -300,7 +300,7 @@ abstract class Pdo extends Adapter
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
 		/**
-		 * Execute the beforeQuery event if a EventsManager is available
+		 * Execute the beforeQuery event if an EventsManager is available
 		 */
 		if typeof eventsManager == "object" {
 			let this->_sqlStatement = sqlStatement,
@@ -322,7 +322,7 @@ abstract class Pdo extends Adapter
 		}
 
 		/**
-		 * Execute the afterQuery event if a EventsManager is available
+		 * Execute the afterQuery event if an EventsManager is available
 		 */
 		if typeof statement == "object" {
 			if typeof eventsManager == "object" {
@@ -349,7 +349,7 @@ abstract class Pdo extends Adapter
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
 		/**
-		 * Execute the beforeQuery event if a EventsManager is available
+		 * Execute the beforeQuery event if an EventsManager is available
 		 */
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 		if typeof eventsManager == "object" {

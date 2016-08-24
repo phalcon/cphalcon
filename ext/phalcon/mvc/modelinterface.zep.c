@@ -135,8 +135,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
 /**
  * Allows to query a set of records that match the specified conditions
  *
- * @param 	array parameters
- * @return  Phalcon\Mvc\Model\ResultsetInterface
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 
@@ -149,7 +148,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 
 /**
- * Create a criteria for a especific model
+ * Create a criteria for a specific model
  *
  * @param \Phalcon\DiInterface dependencyInjector
  * @return \Phalcon\Mvc\Model\CriteriaInterface
@@ -165,7 +164,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, query);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, count);
 
 /**
- * Allows to calculate a summatory on a column that match the specified conditions
+ * Allows to calculate a sum on a column that match the specified conditions
  *
  * @param array parameters
  * @return double
@@ -242,7 +241,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getMessages);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
 
 /**
- * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
+ * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
  * Returning true on success or false otherwise.
  *
  * @param  array data
@@ -252,7 +251,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
 
 /**
- * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
+ * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
  * Returning true on success or false otherwise.
  *
  * @param  array data

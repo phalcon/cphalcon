@@ -331,7 +331,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Resolves a expression in a single call argument
+	 * Resolves an expression in a single call argument
 	 */
 	protected final function _getCallArgument(array! argument) -> array
 	{
@@ -342,7 +342,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Resolves a expression in a single call argument
+	 * Resolves an expression in a single call argument
 	 */
 	protected final function _getCaseExpression(array! expr) -> array
 	{
@@ -372,7 +372,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Resolves a expression in a single call argument
+	 * Resolves an expression in a single call argument
 	 */
 	protected final function _getFunctionCall(array! expr) -> array
 	{
@@ -2423,7 +2423,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			if fetch uniqueId, ast["id"] {
 				if fetch irPhql, self::_irPhqlCache[uniqueId] {
 					if typeof irPhql == "array" {
-						//Assign the type to the query
+						// Assign the type to the query
 						let this->_type = ast["type"];
 						return irPhql;
 					}

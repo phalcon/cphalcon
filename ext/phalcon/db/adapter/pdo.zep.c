@@ -816,7 +816,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 		zephir_check_call_status();
 		RETURN_MM();
 	} else {
-		_3$$6 = (transactionLevel) ? 1 : 0;
+		_3$$6 = ((transactionLevel) ? 1 : 0);
 		if (_3$$6) {
 			_3$$6 = nesting;
 		}
@@ -893,7 +893,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 		zephir_check_call_status();
 		RETURN_MM();
 	} else {
-		_3$$7 = (transactionLevel) ? 1 : 0;
+		_3$$7 = ((transactionLevel) ? 1 : 0);
 		if (_3$$7) {
 			_3$$7 = nesting;
 		}
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 		zephir_check_call_status();
 		RETURN_MM();
 	} else {
-		_3$$7 = (transactionLevel) ? 1 : 0;
+		_3$$7 = ((transactionLevel) ? 1 : 0);
 		if (_3$$7) {
 			_3$$7 = nesting;
 		}

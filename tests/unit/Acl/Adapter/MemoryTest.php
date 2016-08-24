@@ -516,17 +516,17 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Admins', 'Members');
                 $acl->addResource('Post', array('update'));
 
-                $guest = new \TestRoleAware(1,'Guests');
-                $member = new \TestRoleAware(2,'Members');
+                $guest = new \TestRoleAware(1, 'Guests');
+                $member = new \TestRoleAware(2, 'Members');
                 $anotherMember = new \TestRoleAware(3, 'Members');
                 $admin = new \TestRoleAware(4, 'Admins');
                 $model = new \TestResourceAware(2, 'Post');
 
-                $acl->deny('Guests','Post','update');
-                $acl->allow('Members','Post','update',function(\TestRoleAware $user,\TestResourceAware $model){
+                $acl->deny('Guests', 'Post', 'update');
+                $acl->allow('Members', 'Post', 'update', function(\TestRoleAware $user, \TestResourceAware $model) {
                     return $user->getId() == $model->getUser();
                 });
-                $acl->allow('Admins','Post','update');
+                $acl->allow('Admins', 'Post', 'update');
 
                 expect($acl->isAllowed($guest, $model, 'update'))->false();
                 expect($acl->isAllowed($member, $model, 'update'))->true();
@@ -535,7 +535,6 @@ class MemoryTest extends UnitTest
             }
         );
     }
-
 
     /**
      * Tests function in Acl Allow Method
@@ -575,6 +574,101 @@ class MemoryTest extends UnitTest
                 expect($acl->isAllowed($roleUser->getName(), "payment", "*"))->true();
                 expect($acl->isAllowed($roleAdmin->getName(), "payment", "notSet"))->true();
                 expect($acl->isAllowed($roleAdmin->getName(), "payment", "*"))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests function in Acl Allow Method without arguments
+     *
+     * @issue   12094
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2016-06-05
+     */
+    public function testAclAllowFunctionNoArguments()
+    {
+        $this->specify(
+            'The function in allow should be called and isAllowed should return correct values when using function in allow method',
+            function () {
+                require_once PATH_DATA . 'acl/TestResourceAware.php';
+                require_once PATH_DATA . 'acl/TestRoleAware.php';
+
+                $acl = new Memory;
+                $acl->setDefaultAction(Acl::ALLOW);
+                $acl->setNoArgumentsDefaultAction(Acl::DENY);
+                $acl->addRole('Guests');
+                $acl->addRole('Members', 'Guests');
+                $acl->addRole('Admins', 'Members');
+                $acl->addResource('Post', array('update'));
+
+                $guest = new \TestRoleAware(1, 'Guests');
+                $member = new \TestRoleAware(2, 'Members');
+                $anotherMember = new \TestRoleAware(3, 'Members');
+                $admin = new \TestRoleAware(4, 'Admins');
+                $model = new \TestResourceAware(2, 'Post');
+
+                $acl->allow('Guests', 'Post', 'update', function($parameter) {
+                    return $parameter % 2 == 0;
+                });
+                $acl->allow('Members', 'Post', 'update', function($parameter) {
+                    return $parameter % 2 == 0;
+                });
+                $acl->allow('Admins', 'Post', 'update');
+                
+                expect(@$acl->isAllowed($guest, $model, 'update'))->false();
+                expect(@$acl->isAllowed($member, $model, 'update'))->false();
+                expect(@$acl->isAllowed($anotherMember, $model, 'update'))->false();
+                expect(@$acl->isAllowed($admin, $model, 'update'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests function in Acl Allow Method without arguments
+     *
+     * @issue   12094
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2016-06-05
+     *
+     * @expectedException           PHPUnit_Framework_Exception
+     * @expectedExceptionMessage You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments.
+     */
+    public function testAclAllowFunctionNoArgumentsWithWarning()
+    {
+        $this->specify(
+            'The function in allow should be called and isAllowed should return correct values when using function in allow method',
+            function () {
+                require_once PATH_DATA . 'acl/TestResourceAware.php';
+                require_once PATH_DATA . 'acl/TestRoleAware.php';
+
+                $acl = new Memory;
+                $acl->setDefaultAction(Acl::ALLOW);
+                $acl->setNoArgumentsDefaultAction(Acl::DENY);
+                $acl->addRole('Guests');
+                $acl->addRole('Members', 'Guests');
+                $acl->addRole('Admins', 'Members');
+                $acl->addResource('Post', array('update'));
+
+                $guest = new \TestRoleAware(1, 'Guests');
+                $member = new \TestRoleAware(2, 'Members');
+                $anotherMember = new \TestRoleAware(3, 'Members');
+                $admin = new \TestRoleAware(4, 'Admins');
+                $model = new \TestResourceAware(2, 'Post');
+
+                $acl->allow('Guests', 'Post', 'update', function($parameter) {
+                    return $parameter % 2 == 0;
+                });
+                $acl->allow('Members', 'Post', 'update', function($parameter) {
+                    return $parameter % 2 == 0;
+                });
+                $acl->allow('Admins', 'Post', 'update');
+
+                expect($acl->isAllowed($guest, $model, 'update'))->false();
+                expect($acl->isAllowed($member, $model, 'update'))->false();
+                expect($acl->isAllowed($anotherMember, $model, 'update'))->false();
+                expect($acl->isAllowed($admin, $model, 'update'))->true();
             }
         );
     }

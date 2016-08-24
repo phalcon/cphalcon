@@ -23,7 +23,7 @@ use Phalcon\Config as PhConfig;
  */
 class Config extends PhConfig
 {
-    public function __construct($arrayConfig = null)
+    public function __construct(array $arrayConfig = null)
     {
         parent::__construct($arrayConfig);
     }

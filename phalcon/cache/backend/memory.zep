@@ -88,7 +88,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->_prefix . keyName;
+			let lastKey = this->_prefix . keyName,
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -103,10 +104,14 @@ class Memory extends Backend implements BackendInterface, \Serializable
 			let cachedContent = content;
 		}
 
-		let preparedContent = frontend->beforeStore(cachedContent),
-			this->_data[lastKey] = preparedContent;
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
+		}
 
-		let isBuffering = frontend->isBuffering();
+		let this->_data[lastKey] = preparedContent,
+			isBuffering = frontend->isBuffering();
 
 		if stopBuffer === true {
 			frontend->stop();

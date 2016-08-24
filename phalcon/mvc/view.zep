@@ -666,7 +666,7 @@ class View extends Injectable implements ViewInterface
 				if file_exists(viewEnginePath) {
 
 					/**
-					 * Call beforeRenderView if there is a events manager available
+					 * Call beforeRenderView if there is an events manager available
 					 */
 					if typeof eventsManager == "object" {
 						let this->_activeRenderPaths = [viewEnginePath];
@@ -678,7 +678,7 @@ class View extends Injectable implements ViewInterface
 					engine->render(viewEnginePath, viewParams, mustClean);
 
 					/**
-					 * Call afterRenderView if there is a events manager available
+					 * Call afterRenderView if there is an events manager available
 					 */
 					let notExists = false;
 					if typeof eventsManager == "object" {
@@ -1301,12 +1301,19 @@ class View extends Injectable implements ViewInterface
 		var activeRenderPath;
 		int viewsDirsCount;
 
-		let viewsDirsCount = count(this->getViewsDirs());
+		let viewsDirsCount = count(this->getViewsDirs()),
+			activeRenderPath = this->_activeRenderPaths;
 
 		if viewsDirsCount === 1 {
-			let activeRenderPath = this->_activeRenderPaths[0];
-		} else {
-			let activeRenderPath = this->_activeRenderPaths;
+			if typeof activeRenderPath == "array" {
+				if count(activeRenderPath) {
+					let activeRenderPath = activeRenderPath[0];
+				}
+			}
+		}
+
+		if typeof activeRenderPath == "null" {
+			let activeRenderPath = "";
 		}
 
 		return activeRenderPath;

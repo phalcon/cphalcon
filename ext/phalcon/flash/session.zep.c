@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_5, 202);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_5, 204);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Flash_Session, clear) {
 	ZVAL_BOOL(_0, 1);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_getsessionmessages", NULL, 0, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_1, 202);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_1, 204);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

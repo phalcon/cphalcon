@@ -38,7 +38,7 @@ use Phalcon\Cache\BackendInterface;
  *     'lifetime' => 172800
  * ];
  *
- * // Create a output cache
+ * // Create an output cache
  * $frontCache = FrontOutput($frontOptions);
  *
  * // Set the cache directory
@@ -177,7 +177,8 @@ class File extends Backend implements BackendInterface
 		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let lastKey = this->_prefix . this->getKey(keyName);
+			let lastKey = this->_prefix . this->getKey(keyName),
+				this->_lastKey = lastKey;
 		}
 
 		if !lastKey {
@@ -198,16 +199,16 @@ class File extends Backend implements BackendInterface
 			let cachedContent = content;
 		}
 
-		let preparedContent = frontend->beforeStore(cachedContent);
+		if !is_numeric(cachedContent) {
+			let preparedContent = frontend->beforeStore(cachedContent);
+		} else {
+			let preparedContent = cachedContent;
+		}
 
 		/**
 		 * We use file_put_contents to respect open-base-dir directive
 		 */
-		if !is_numeric(cachedContent) {
-			let status = file_put_contents(cacheFile, preparedContent);
-		} else {
-			let status = file_put_contents(cacheFile, cachedContent);
-		}
+		let status = file_put_contents(cacheFile, preparedContent);
 
 		if status === false {
 			throw new Exception("Cache file ". cacheFile . " could not be written");

@@ -5,14 +5,16 @@ namespace Phalcon\Test\Models\AlbumORama;
 use Phalcon\Mvc\Model;
 
 /**
- * \Phalcon\Test\Models\AlbumORama\Albums.php
+ * \Phalcon\Test\Models\AlbumORama\Albums
  * Albums model class
+ *
+ * @method static findFirst($parameters = null)
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Models\AlbumORama\Albums
+ * @package   Phalcon\Test\Models\AlbumORama
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -25,8 +27,6 @@ class Albums extends Model
 {
 	public function initialize()
 	{
-		$this->belongsTo('artists_id', 'AlbumORama:Artists', 'id', array(
-			'alias' => 'artist'
-		));
+		$this->belongsTo('artists_id', 'AlbumORama:Artists', 'id', ['alias' => 'artist']);
 	}
 }

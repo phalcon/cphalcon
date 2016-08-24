@@ -64,7 +64,7 @@ class PresenceOf extends Validator implements ValidatorInterface
 		}
 
 		/**
-		 * A value is null when it is identical to null or a empty string
+		 * A value is null when it is identical to null or an empty string
 		 */
 		let value = record->readAttribute(field);
 		if is_null(value) || (is_string(value) && !strlen(value)) {

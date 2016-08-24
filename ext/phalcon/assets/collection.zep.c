@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 }
 
 /**
- * Adds a inline code to the collection
+ * Adds an inline code to the collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInline) {
 
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 }
 
 /**
- * Adds a inline CSS to the collection
+ * Adds an inline CSS to the collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 }
 
 /**
- * Adds a inline javascript to the collection
+ * Adds an inline javascript to the collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 

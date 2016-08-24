@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_INFO(0, mode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini__parseinistring, 0, 0, 2)

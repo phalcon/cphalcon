@@ -246,7 +246,7 @@ abstract class Dialect implements DialectInterface
 	}
 
 	/**
-	 * Transforms an intermediate representation for a expression into a database system valid expression
+	 * Transforms an intermediate representation for an expression into a database system valid expression
 	 */
 	public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string
 	{
@@ -866,7 +866,7 @@ abstract class Dialect implements DialectInterface
 	}
 
 	/**
-	 * Resolve a ORDER BY clause
+	 * Resolve an ORDER BY clause
 	 */
 	protected final function getSqlExpressionOrderBy(var expression, string escapeChar = null, bindCounts = null) -> string
 	{
@@ -924,7 +924,7 @@ abstract class Dialect implements DialectInterface
 			}
 
 			/**
-			 * Check for a OFFSET condition
+			 * Check for an OFFSET condition
 			 */
 			if fetch offset, value["offset"] && typeof offset == "array" {
 				let offset = this->getSqlExpression(offset, escapeChar, bindCounts);

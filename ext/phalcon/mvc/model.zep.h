@@ -86,7 +86,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __call);
 PHP_METHOD(Phalcon_Mvc_Model, __callStatic);
 PHP_METHOD(Phalcon_Mvc_Model, __set);
 PHP_METHOD(Phalcon_Mvc_Model, _possibleSetter);
-PHP_METHOD(Phalcon_Mvc_Model, _isVisible);
 PHP_METHOD(Phalcon_Mvc_Model, __get);
 PHP_METHOD(Phalcon_Mvc_Model, __isset);
 PHP_METHOD(Phalcon_Mvc_Model, serialize);
@@ -395,10 +394,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__possiblesetter, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__isvisible, 0, 0, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___get, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
@@ -503,7 +498,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, __callStatic, arginfo_phalcon_mvc_model___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, __set, arginfo_phalcon_mvc_model___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, _possibleSetter, arginfo_phalcon_mvc_model__possiblesetter, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model, _isVisible, arginfo_phalcon_mvc_model__isvisible, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model, __get, arginfo_phalcon_mvc_model___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, __isset, arginfo_phalcon_mvc_model___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, serialize, NULL, ZEND_ACC_PUBLIC)
