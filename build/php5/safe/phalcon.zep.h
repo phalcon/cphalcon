@@ -4503,6 +4503,17 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_acl_resourceinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Acl_ResourceInterface);
+
+ZEPHIR_INIT_FUNCS(phalcon_acl_resourceinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getDescription, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, __toString, NULL)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_acl_roleinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface);
@@ -6985,17 +6996,6 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_resourceaware_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_acl_resourceinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Acl_ResourceInterface);
-
-ZEPHIR_INIT_FUNCS(phalcon_acl_resourceinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getName, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, getDescription, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Acl_ResourceInterface, __toString, NULL)
-	PHP_FE_END
-};
-
 zend_class_entry *phalcon_acl_role_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Role);
@@ -8947,6 +8947,7 @@ static PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_INFO(0, mode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini__parseinistring, 0, 0, 2)
@@ -13563,7 +13564,6 @@ static PHP_METHOD(Phalcon_Mvc_Model, __call);
 static PHP_METHOD(Phalcon_Mvc_Model, __callStatic);
 static PHP_METHOD(Phalcon_Mvc_Model, __set);
 static PHP_METHOD(Phalcon_Mvc_Model, _possibleSetter);
-static PHP_METHOD(Phalcon_Mvc_Model, _isVisible);
 static PHP_METHOD(Phalcon_Mvc_Model, __get);
 static PHP_METHOD(Phalcon_Mvc_Model, __isset);
 static PHP_METHOD(Phalcon_Mvc_Model, serialize);
@@ -13872,10 +13872,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__possiblesetter, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__isvisible, 0, 0, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___get, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
@@ -13980,7 +13976,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, __callStatic, arginfo_phalcon_mvc_model___callstatic, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, __set, arginfo_phalcon_mvc_model___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, _possibleSetter, arginfo_phalcon_mvc_model__possiblesetter, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model, _isVisible, arginfo_phalcon_mvc_model__isvisible, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model, __get, arginfo_phalcon_mvc_model___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, __isset, arginfo_phalcon_mvc_model___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, serialize, NULL, ZEND_ACC_PUBLIC)
@@ -14267,6 +14262,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema);
@@ -14318,6 +14314,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
+zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
@@ -14352,6 +14349,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setmodelsource, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_INFO(0, source)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getmodelsource, 0, 0, 1)
@@ -14613,6 +14615,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Manager, getLastInitialized, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, load, arginfo_phalcon_mvc_model_manager_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setModelSource, arginfo_phalcon_mvc_model_manager_setmodelsource, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Manager, isVisibleModelProperty, arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getModelSource, arginfo_phalcon_mvc_model_manager_getmodelsource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, setModelSchema, arginfo_phalcon_mvc_model_manager_setmodelschema, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getModelSchema, arginfo_phalcon_mvc_model_manager_getmodelschema, ZEND_ACC_PUBLIC)
@@ -18450,7 +18453,7 @@ ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_gettext_method_entry) {
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, setDirectory, arginfo_phalcon_translate_adapter_gettext_setdirectory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, setLocale, arginfo_phalcon_translate_adapter_gettext_setlocale, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Translate_Adapter_Gettext, prepareOptions, arginfo_phalcon_translate_adapter_gettext_prepareoptions, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Translate_Adapter_Gettext, getOptionsDefault, NULL, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Translate_Adapter_Gettext, getOptionsDefault, NULL, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
