@@ -110,26 +110,18 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			/**
 			 * By default the bind types is two
 			 */
-			let definition = ["bindType": Column::BIND_PARAM_STR];
+			let definition = ["type": Column::TYPE_VARCHAR, "bindType": Column::BIND_PARAM_STR];
 
 			/**
 			 * By checking every column type we convert it to a Phalcon\Db\Column
 			 */
-			let columnType = field[1],
+			let columnName = field[0],
+				columnType = field[1],
 				charSize = field[2],
 				numericSize = field[3],
 				numericScale = field[4];
 
 			loop {
-
-				/**
-				 * Smallint(1) is boolean
-				 */
-				if memstr(columnType, "smallint(1)") {
-					let definition["type"] = Column::TYPE_BOOLEAN,
-						definition["bindType"] = Column::BIND_PARAM_BOOL;
-					break;
-				}
 
 				/**
 				 * Bigint
@@ -153,28 +145,24 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Varchar
+				 * Float
 				 */
-				if memstr(columnType, "varying") {
-					let definition["type"] = Column::TYPE_VARCHAR,
-						definition["size"] = charSize;
+				if memstr(columnType, "float") || memstr(columnType, "real") {
+					let definition["type"] = Column::TYPE_FLOAT,
+						definition["isNumeric"] = true,
+						definition["size"] = numericSize,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 					break;
 				}
 
 				/**
-				 * Special type for datetime
+				 * Double
 				 */
-				if memstr(columnType, "date") {
-					let definition["type"] = Column::TYPE_DATE,
-						definition["size"] = 0;
-					break;
-				}
-
-				/**
-				 * Timestamp
-				 */
-				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_TIMESTAMP;
+				if memstr(columnType, "double") {
+					let definition["type"] = Column::TYPE_DOUBLE,
+						definition["isNumeric"] = true,
+						definition["size"] = numericSize,
+						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 					break;
 				}
 
@@ -191,25 +179,20 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Chars are chars
+				 * Char / Varchar
 				 */
 				if memstr(columnType, "char") {
-					let definition["type"] = Column::TYPE_CHAR,
-						definition["size"] = charSize;
+					if memstr(columnType, "var") {
+						let definition["type"] = Column::TYPE_VARCHAR;
+					} else {
+						let definition["type"] = Column::TYPE_CHAR;
+					}
+					let definition["size"] = charSize;
 					break;
 				}
 
 				/**
-				 * Date
-				 */
-				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_DATETIME,
-						definition["size"] = 0;
-					break;
-				}
-
-				/**
-				 * Text are varchars
+				 * Text
 				 */
 				if memstr(columnType, "text") {
 					let definition["type"] = Column::TYPE_TEXT,
@@ -218,13 +201,28 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 				}
 
 				/**
-				 * Float/Smallfloats/Decimals are float
+				 * Date
 				 */
-				if memstr(columnType, "float") {
-					let definition["type"] = Column::TYPE_FLOAT,
-						definition["isNumeric"] = true,
-						definition["size"] = numericSize,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+				if memstr(columnType, "date") {
+					let definition["type"] = Column::TYPE_DATE,
+						definition["size"] = 0;
+					break;
+				}
+
+				/**
+				 * Timestamp
+				 */
+				if memstr(columnType, "timestamp") {
+					let definition["type"] = Column::TYPE_TIMESTAMP;
+					break;
+				}
+
+				/**
+				 * Time
+				 */
+				if memstr(columnType, "time") {
+					let definition["type"] = Column::TYPE_DATETIME,
+						definition["size"] = 0;
 					break;
 				}
 
@@ -263,15 +261,13 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 					break;
 				}
 
-				/**
-				 * By default is string
-				 */
-				let definition["type"] = Column::TYPE_VARCHAR;
 				break;
 			}
 
 			/**
-			 * Check if the column is unsigned, only MySQL support this
+			 * Check if the column is unsigned
+			 * Although only MySQL supports this now, keep this
+			 * in case PostgreSQL supports this in the future
 			 */
 			if memstr(columnType, "unsigned") {
 				let definition["unsigned"] = true;
@@ -320,8 +316,7 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 			/**
 			 * Every route is stored as a Phalcon\Db\Column
 			 */
-			let columnName = field[0],
-				columns[] = new Column(columnName, definition),
+			let columns[] = new Column(columnName, definition),
 				oldColumn = columnName;
 		}
 
