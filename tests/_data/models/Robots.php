@@ -25,6 +25,7 @@ class Robots extends Model
 {
     public function initialize()
     {
+        $this->keepSnapshots(true);
         $this->hasMany('id',RobotsParts::class, 'robots_id', ['foreignKey' => true, 'reusable' => false, 'alias' => 'parts']);
     }
 }

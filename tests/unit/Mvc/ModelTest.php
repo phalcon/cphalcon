@@ -2,6 +2,9 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use Phalcon\Cache\Backend\Apc;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Packages;
@@ -186,5 +189,40 @@ class ModelTest extends UnitTest
                 expect($body->getMessages()[0]->getMessage())->equals('Second head does not exists');
             }
          );
+    }
+
+    /**
+     * Tests serializing model while using cache and keeping snapshots
+     *
+     * The snapshot should be saved while using cache
+     *
+     * @issue  12170, 12000
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-08-26
+     */
+    public function testSerializeSnapshotCache()
+    {
+        $this->specify(
+            'Snapshot data should be saved while saving model to cache',
+            function () {
+                $cache = new Apc(new Data(['lifetime' => 20]));
+                $robot = Robots::findFirst();
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->getSnapshotData())->notEmpty();
+                $cache->save('robot', $robot);
+                /** @var Robots $robot */
+                $robot = $cache->get('robot');
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->getSnapshotData())->notEmpty();
+                expect($robot->getSnapshotData())->equals($robot->toArray());
+                $robot->text = 'abc';
+                $cache->save('robot', $robot);
+                /** @var Robots $robot */
+                $robot = $cache->get('robot');
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->getSnapshotData())->notEmpty();
+                expect($robot->getSnapshotData())->notEquals($robot->toArray());
+            }
+        );
     }
 }
