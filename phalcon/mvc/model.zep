@@ -4303,7 +4303,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Use the standard serialize function to serialize the array data
 		 */
-		return serialize(this->toArray());
+		var attributes, snapshot, manager;
+
+		let attributes = this->toArray(),
+		    manager = <ManagerInterface> this->getModelsManager();
+
+		if manager->isKeepingSnapshots(this) {
+			let snapshot = this->_snapshot;
+			/**
+			 * If attributes is not the same as snapshot then save snapshot too
+			 */
+			if attributes != snapshot {
+				return serialize(["_attributes": attributes, "_snapshot": snapshot]);
+			}
+		}
+
+		return serialize(attributes);
 	}
 
 	/**
@@ -4311,7 +4326,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function unserialize(string! data)
 	{
-		var attributes, dependencyInjector, manager, key, value;
+		var attributes, dependencyInjector, manager, key, value, snapshot;
 
 		let attributes = unserialize(data);
 		if typeof attributes == "array" {
@@ -4346,6 +4361,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * Try to initialize the model
 			 */
 			manager->initialize(this);
+			if manager->isKeepingSnapshots(this) {
+				if fetch snapshot, attributes["_snapshot"] {
+					let this->_snapshot = snapshot;
+					let attributes = attributes["_attributes"];
+				}
+				else {
+					let this->_snapshot = attributes;
+				}
+			}
 
 			/**
 			 * Update the objects attributes
