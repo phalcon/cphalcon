@@ -7,9 +7,6 @@ environment:
   PHP_SDK: c:\projects\php-sdk
   PHP_DEVPACK: c:\projects\php-devpack
 
-cache:
-  - vendor -> composer.json
-
 os: Windows Server 2012
 clone_folder: c:\projects\phalcon
 
