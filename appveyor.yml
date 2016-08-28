@@ -1,0 +1,65 @@
+environment:
+  matrix:
+  - PHP_VERSION: latest
+    PHP_DEP_VER: 5.6
+  BUILD_PLATFORM: x86
+  PHP_VC: 11
+  PHP_SDK: c:\projects\php-sdk
+  PHP_DEVPACK: c:\projects\php-devpack
+
+cache:
+  - vendor -> composer.json
+
+os: Windows Server 2012
+clone_folder: c:\projects\phalcon
+
+matrix:
+  fast_finish: true
+
+install:
+  - echo Setting PHP version...
+  - ps: >-
+      If ($env:PHP_VERSION -Match "latest") {
+        Start-FileDownload 'http://windows.php.net/downloads/releases/sha1sum.txt'
+        $env:PHP_VERSION=type sha1sum.txt | where { $_ -match "php-(5\.6\.\d+)-src" } | foreach { $matches[1] }
+        $env:version='{build}-$(PHP_VERSION)'
+      } Else {
+        $env:version='{build}-$(PHP_VERSION)'
+      }
+  - echo Initializing Build...
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git submodule update --init --recursive
+  - echo Preparing zephir win32 build...
+  - echo Downloading PHP source code [%PHP_VERSION%]
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
+  - cd ..
+  - 'mkdir php && mv php.zip php\php.zip && cd php'
+  - 7z.exe x php.zip | FIND /V "ing  "
+  - cd ..
+  - echo Downloading PHP-SDK
+  - mkdir php-sdk && cd php-sdk
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
+  - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
+  - cd ..
+  - echo Downloading PHP-Devel-Pack
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
+  - 7z.exe x php-dev.zip | FIND /V "ing  "
+  - mv php-%PHP_VERSION%-devel-VC11-%BUILD_PLATFORM% php-devpack
+  - echo Building PHP [%PHP_VERSION%]
+  - '%PHP_SDK%\bin\phpsdk_setvars'
+  - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
+  - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
+  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\ext\Release_TS\php_test.dll >> php.ini'
+  - 'echo extension=php_openssl.dll >> php.ini'
+  - 'echo extension=php_pdo_sqlite.dll >> php.ini'
+  - 'set PATH=%cd%;%PATH%'
+  - echo Building Phalcon
+
+build_script:
+  - 'nmake'
+
+on_failure :
+  - 'dir'
+
+artifacts:
+  - path: parser\Release\php_phalcon.dll
