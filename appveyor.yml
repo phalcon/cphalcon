@@ -48,8 +48,8 @@ install:
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
   - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
-  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\ext\Release_TS\php_test.dll >> php.ini'
   - 'echo extension=php_openssl.dll >> php.ini'
+  - 'echo extension=php_mbstring.dll >> php.ini'
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
