@@ -39,11 +39,6 @@
             "Phalcon\\Test\\Module\\": "tests/_support/Module/"
         }
     },
-    "scripts": {
-        "post-update-cmd": [
-            "php vendor/bin/codecept build"
-        ]
-    },
     "support": {
         "issues": "https://github.com/phalcon/cphalcon/issues",
         "source": "https://github.com/phalcon/cphalcon",
