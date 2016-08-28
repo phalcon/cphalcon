@@ -53,12 +53,13 @@ install:
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - if not exist vendor (php -r "readfile('https://getcomposer.org/installer');" | php & php composer.phar --prefer-source install)
+  - 'type compile-errors.log'
+  - 'type compile.log'
 
 build_script:
-  - 'echo %PATH%'
-  - '%PHP_SDK%\bin\phpsdk_setvars'
-  - 'buildconf'
-  - 'nmake'
+  - 'vendor\bin\zephir build'
 
 on_failure :
   - 'dir'
