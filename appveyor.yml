@@ -74,8 +74,8 @@ build_script:
   - nmake
 
 on_finish:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - ps: Push-AppveyorArtifact build\php5\safe\phalcon.zep.c
+  - cd %APPVEYOR_BUILD_FOLDER%  
+  - ps: Push-AppveyorArtifact build\php5\safe\Release_TS\php_phalcon.dll
 
 on_failure :
   - 'dir'
