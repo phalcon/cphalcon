@@ -51,6 +51,7 @@ install:
   - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
   - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
+  - 'echo extension=php_curl.dll >> php.ini'
   - 'echo extension=php_openssl.dll >> php.ini'
   - 'echo extension=php_mbstring.dll >> php.ini'
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
@@ -67,9 +68,8 @@ install:
   - 'vendor\bin\zephir help'
 
 build_script:
-  - 'vendor\bin\zephir build'
-  - 'type compile-errors.log'
-  - 'type compile.log'
+  - 'vendor\bin\zephir generate'
+  - 'php build\gen-build.php'
 
 artifacts:
   - path: ext\Release_TS\php_phalcon.dll
