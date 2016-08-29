@@ -59,7 +59,6 @@ install:
   - 'echo extension=php_gettext.dll >> php.ini'
   - 'echo extension=php_gd2.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
-  - dir %APPVEYOR_BUILD_FOLDER%\..\php\ext
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
   - cd %APPVEYOR_BUILD_FOLDER%
@@ -70,9 +69,13 @@ install:
 build_script:
   - 'vendor\bin\zephir generate'
   - 'php build\gen-build.php'
+  - 'cd build\php5\safe'
+  - '%PHP_DEVPACK%\\phpize'
+  - configure --enable-phalcon
+  - nmake
 
 artifacts:
-  - path: ext\Release_TS\php_phalcon.dll
+  - path: build\php5\safe\Release_TS\php_phalcon.dll
 
 on_failure :
   - 'dir'
