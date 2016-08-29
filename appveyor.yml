@@ -29,7 +29,7 @@ install:
       }
   - echo Initializing Build...
   - cd %APPVEYOR_BUILD_FOLDER%
-  - ps: Start-FileDownload http://zephir-win.s3-website-us-east-1.amazonaws.com/php_zephir_parser.dll
+  - ps: Start-FileDownload http://zephir-win.s3-website-us-east-1.amazonaws.com/x86/php_zephir_parser.dll
   - git submodule update --init --recursive
   - echo Downloading PHP source code [%PHP_VERSION%]
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
