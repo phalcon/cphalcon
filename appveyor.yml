@@ -56,8 +56,9 @@ install:
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
   - 'echo extension=php_fileinfo.dll >> php.ini'
   - 'echo extension=php_gettext.dll >> php.ini'
-  - 'echo extension=php_gd.dll >> php.ini'
+  - 'echo extension=php_gd2.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
+  - dir %APPVEYOR_BUILD_FOLDER%\..\php\ext
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
   - cd %APPVEYOR_BUILD_FOLDER%
@@ -67,6 +68,13 @@ install:
 
 build_script:
   - 'vendor\bin\zephir build'
+  - 'type compile-errors.log'
+  - 'type compile.log'
+
+artifacts:
+  - path: ext\Release_TS\php_phalcon.dll
 
 on_failure :
   - 'dir'
+  - 'type compile-errors.log'
+  - 'type compile.log'
