@@ -53,6 +53,7 @@ install:
   - 'echo extension=php_openssl.dll >> php.ini'
   - 'echo extension=php_mbstring.dll >> php.ini'
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
+  - 'echo memory_limit=256M >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
   - cd %APPVEYOR_BUILD_FOLDER%
