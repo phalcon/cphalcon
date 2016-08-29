@@ -49,6 +49,10 @@ CentOS/Fedora/RHEL
 sudo yum install php-devel pcre-devel gcc make
 ```
 
+Gentoo:
+
+Follow the instructions here https://github.com/smoke/phalcon-gentoo-overlay#get-started
+
 General Compilation
 -------------------
 
