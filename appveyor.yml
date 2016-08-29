@@ -48,11 +48,15 @@ install:
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
+  - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
   - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
   - 'echo extension=php_openssl.dll >> php.ini'
   - 'echo extension=php_mbstring.dll >> php.ini'
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
+  - 'echo extension=php_fileinfo.dll >> php.ini'
+  - 'echo extension=php_gettext.dll >> php.ini'
+  - 'echo extension=php_gd.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
