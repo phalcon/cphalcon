@@ -82,5 +82,3 @@ on_finish:
 
 on_failure :
   - 'dir'
-  - 'type compile-errors.log'
-  - 'type compile.log'
