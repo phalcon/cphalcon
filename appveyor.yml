@@ -77,6 +77,9 @@ build_script:
 artifacts:
   - path: build\php5\safe\Release_TS\php_phalcon.dll
 
+on_finish:
+  - ps: Push-AppveyorArtifact build\php5\safe\phalcon.zep.c
+
 on_failure :
   - 'dir'
   - 'type compile-errors.log'
