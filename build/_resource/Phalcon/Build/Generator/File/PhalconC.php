@@ -86,14 +86,14 @@ class Generator_File_PhalconC
     protected function composeSkipFiles(array $alreadyIncludedHeaders = array())
     {
         foreach ($alreadyIncludedHeaders as $file) {
-            $path = Utils::normalize('ext/' . $file);
+            $path = Util::normalize('ext/' . $file);
             $this->skipFiles[$path] = true;
         }
 
         // Add custom list of skipped files
         $files = include($this->configDir . '/phalcon_c_skip_files.php');
         foreach ($files as $file) {
-            $path = Utils::normalize('ext/' . $file);
+            $path = Util::normalize('ext/' . $file);
             $this->skipFiles[$path] = true;
         }
 
