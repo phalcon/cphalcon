@@ -74,10 +74,8 @@ build_script:
   - configure --enable-phalcon
   - nmake
 
-artifacts:
-  - path: build\php5\safe\Release_TS\php_phalcon.dll
-
 on_finish:
+  - cd %APPVEYOR_BUILD_FOLDER%
   - ps: Push-AppveyorArtifact build\php5\safe\phalcon.zep.c
 
 on_failure :
