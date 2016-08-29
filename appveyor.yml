@@ -67,8 +67,6 @@ install:
   - 'vendor\bin\zephir help'
 
 build_script:
-  - 'vendor\bin\zephir generate'
-  - 'php build\gen-build.php'
   - 'cd build\php5\safe'
   - '%PHP_DEVPACK%\\phpize'
   - configure --enable-phalcon
