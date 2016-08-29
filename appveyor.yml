@@ -7,6 +7,9 @@ environment:
   PHP_SDK: c:\projects\php-sdk
   PHP_DEVPACK: c:\projects\php-devpack
 
+cache:
+  - vendor -> composer.json
+
 os: Windows Server 2012
 clone_folder: c:\projects\phalcon
 
@@ -45,6 +48,7 @@ install:
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
   - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
+  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
   - 'echo extension=php_openssl.dll >> php.ini'
   - 'echo extension=php_mbstring.dll >> php.ini'
   - 'echo extension=php_pdo_sqlite.dll >> php.ini'
@@ -52,8 +56,7 @@ install:
   - echo Building Phalcon
   - cd %APPVEYOR_BUILD_FOLDER%
   - if not exist vendor (php -r "readfile('https://getcomposer.org/installer');" | php & php composer.phar update")
-  - 'type compile-errors.log'
-  - 'type compile.log'
+  - 'vendor\bin\zephir help'
 
 build_script:
   - 'vendor\bin\zephir build'
