@@ -7,8 +7,6 @@ environment:
   matrix:
     - BUILD_PLATFORM: x86
       PHP_VC: 11
-    - BUILD_PLATFORM: x64
-      PHP_VC: 11
 
 cache:
   - vendor -> composer.json
