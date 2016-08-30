@@ -223,7 +223,7 @@ class RedisCest
 
     public function output(UnitTester $I)
     {
-        $I->wantTo('');
+        $I->wantTo('Cache output fragments by using Redis as cache backend');
 
         $time = date('H:i:s');
         $cache = new Redis(new Output(['lifetime' => 2]), [
