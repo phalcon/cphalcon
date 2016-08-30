@@ -473,7 +473,7 @@ class Memcache extends Backend implements BackendInterface
 		let options = this->_options;
 
 		if !fetch specialKey, options["statsKey"] {
-			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
+			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		if specialKey == "" {
@@ -488,8 +488,10 @@ class Memcache extends Backend implements BackendInterface
 			for key, _ in keys {
 				memcache->delete(key);
 			}
-			memcache->set(specialKey, keys);
 		}
+
+		memcache->delete(specialKey);
+
 		return true;
 	}
 
