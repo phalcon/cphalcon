@@ -34,20 +34,6 @@ class UnitTest extends Unit
     protected $tester;
 
     /**
-     * executed before each test
-     */
-    protected function _before()
-    {
-    }
-
-    /**
-     * executed after each test
-     */
-    protected function _after()
-    {
-    }
-
-    /**
      * @return UnitTester
      */
     public function getTester()
