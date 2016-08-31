@@ -136,6 +136,10 @@ class Igbinary extends Data implements FrontendInterface
 	 */
 	public function afterRetrieve(var data) -> var
 	{
+		if is_numeric(data) {
+			return data;
+		}
+
 		return igbinary_unserialize(data);
 	}
 

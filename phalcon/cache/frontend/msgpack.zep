@@ -140,6 +140,10 @@ class Msgpack extends Data implements FrontendInterface
 	 */
 	public function afterRetrieve(var data) -> var
 	{
+		if is_numeric(data) {
+			return data;
+		}
+
 		return msgpack_unpack(data);
 	}
 }
