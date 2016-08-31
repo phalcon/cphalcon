@@ -122,9 +122,6 @@ class Base64 implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
-	 * @return string
 	 */
 	public function beforeStore(var data) -> string
 	{
@@ -133,11 +130,8 @@ class Base64 implements FrontendInterface
 
 	/**
 	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
-	 * @return mixed
 	 */
-	public function afterRetrieve(var data) -> string
+	public function afterRetrieve(var data) -> var
 	{
 		return base64_decode(data);
 	}

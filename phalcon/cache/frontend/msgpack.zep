@@ -129,20 +129,16 @@ class Msgpack extends Data implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
 	 */
-	public function beforeStore(data) -> string
+	public function beforeStore(var data) -> string
 	{
 		return msgpack_pack(data);
 	}
 
 	/**
 	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
 	 */
-	public function afterRetrieve(data) -> string
+	public function afterRetrieve(var data) -> var
 	{
 		return msgpack_unpack(data);
 	}

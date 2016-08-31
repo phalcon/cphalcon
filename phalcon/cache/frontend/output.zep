@@ -141,9 +141,6 @@ class Output implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
-	 * @return string
 	 */
 	public function beforeStore(var data) -> string
 	{
@@ -152,11 +149,8 @@ class Output implements FrontendInterface
 
 	/**
 	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
-	 * @return mixed
 	 */
-	public function afterRetrieve(var data)
+	public function afterRetrieve(var data) -> var
 	{
 		return data;
 	}
