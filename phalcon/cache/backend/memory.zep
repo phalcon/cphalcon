@@ -134,11 +134,15 @@ class Memory extends Backend implements BackendInterface, \Serializable
 	 */
 	public function delete(var keyName) -> boolean
 	{
-		var key;
+		var key, data;
 
-		let key = this->_prefix . keyName;
-		if isset this->_data[key] {
-			unset this->_data[key];
+		let key = this->_prefix . keyName,
+			data = this->_data;
+
+		if isset data[key] {
+			unset data[key];
+			let this->_data = data;
+
 			return true;
 		}
 
@@ -202,9 +206,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 	 *
 	 * @param  string keyName
 	 * @param  long lifetime
-	 * @return long
 	 */
-	public function increment(keyName = null, value = null)
+	public function increment(keyName = null, value = null) -> int | null
 	{
 		var lastKey, prefix, cachedContent, result;
 
@@ -239,9 +242,8 @@ class Memory extends Backend implements BackendInterface, \Serializable
 	 *
 	 * @param  string keyName
 	 * @param  long value
-	 * @return long
 	 */
-	public function decrement(keyName = null, value = null)
+	public function decrement(keyName = null, value = null) -> int | null
 	{
 		var lastKey, prefix, cachedContent, result;
 

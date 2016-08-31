@@ -132,8 +132,12 @@ class Data implements FrontendInterface
 	/**
 	 * Unserializes data after retrieval
 	 */
-	public function afterRetrieve(var data)
+	public function afterRetrieve(var data) -> var
 	{
+		if is_numeric(data) {
+			return data;
+		}
+
 		return unserialize(data);
 	}
 }
