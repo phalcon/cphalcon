@@ -125,23 +125,21 @@ class Igbinary extends Data implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
-	 * @return string
 	 */
-	public function beforeStore(data) -> string
+	public function beforeStore(var data) -> string
 	{
 		return igbinary_serialize(data);
 	}
 
 	/**
 	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
-	 * @return mixed
 	 */
-	public function afterRetrieve(data) -> string
+	public function afterRetrieve(var data) -> var
 	{
+		if is_numeric(data) {
+			return data;
+		}
+
 		return igbinary_unserialize(data);
 	}
 

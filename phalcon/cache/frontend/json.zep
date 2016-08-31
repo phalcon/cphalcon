@@ -119,23 +119,18 @@ class Json implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
-	 * @return string
 	 */
-	public function beforeStore(data) -> string
+	public function beforeStore(var data) -> string
 	{
 		return json_encode(data);
 	}
 
 	/**
 	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
-	 * @return mixed
 	 */
-	public function afterRetrieve(data)
+	public function afterRetrieve(var data) -> var
 	{
+
 		return json_decode(data);
 	}
 }

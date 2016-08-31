@@ -3,6 +3,9 @@
 - Fixed `Phalcon\Http\Response\Headers::send` to send correct status header [#12179](https://github.com/phalcon/cphalcon/issues/12179)
 - Fixed `Phalcon\Mvc\Model::setSnapshotData`, `Phalcon\Mvc\Model\Resultset\Simple::toArray` by fixing an issue like `fetch a, a[key]` using Zephir [#11205](https://github.com/phalcon/cphalcon/issues/11205), [#12147](https://github.com/phalcon/cphalcon/issues/12147)
 - Fixed `Phalcon\Cache\Backend\Memcache::flush` to remove all query keys after flush memcached [#12182](https://github.com/phalcon/cphalcon/issues/12182)
+- Fixed `Phalcon\Cache\Backend\Memory::delete` to correct remove items from  `Phalcon\Cache\Backend\Memory::$_data`
+- Fixed `Phalcon\Cache\Frontend\Data::afterRetrieve`, `Phalcon\Cache\Frontend\Igbinary::afterRetrieve`, `Phalcon\Cache\Frontend\Msgpack::afterRetrieve` to unserialize only raw data [#12186](https://github.com/phalcon/cphalcon/issues/12186)
+
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly

@@ -104,8 +104,6 @@ class None implements FrontendInterface
 
 	/**
 	 * Prepare data to be stored
-	 *
-	 * @param mixed $data
 	 */
 	public function beforeStore(var data)
 	{
@@ -114,10 +112,8 @@ class None implements FrontendInterface
 
 	/**
 	 * Prepares data to be retrieved to user
-	 *
-	 * @param mixed $data
 	 */
-	public function afterRetrieve(var data)
+	public function afterRetrieve(var data) -> var
 	{
 		return data;
 	}
