@@ -614,7 +614,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
 	{
-		var hydrateArray, hydrateObject, key, value, attribute;
+		var hydrateArray, hydrateObject, key, value, attribute, attributeName;
 
 		/**
 		 * If there is no column map and the hydration mode is arrays return the data as it is
@@ -649,10 +649,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						}
 					}
 
-					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrateArray[attribute] = value;
+					/**
+					 * Attribute can store info about his type
+					 */
+					if (typeof attribute == "array") {
+						let attributeName = attribute[0];
 					} else {
-						let hydrateObject->{attribute} = value;
+						let attributeName = attribute;
+					}
+
+					if hydrationMode == Resultset::HYDRATE_ARRAYS {
+						let hydrateArray[attributeName] = value;
+					} else {
+						let hydrateObject->{attributeName} = value;
 					}
 				} else {
 					if hydrationMode == Resultset::HYDRATE_ARRAYS {
