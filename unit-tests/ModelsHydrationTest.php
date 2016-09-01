@@ -72,8 +72,11 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$this->_executeTestsNormal($di);
+		$this->_executeTestsNormalCastHydrate($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsRenamedCastHydrate($di);
 		$this->_executeTestsNormalComplex($di);
+		$this->_executeTestsNormalComplexCastHydrate($di);
 	}
 
 	public function testModelsPostgresql()
@@ -92,8 +95,11 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$this->_executeTestsNormal($di);
+		$this->_executeTestsNormalCastHydrate($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsRenamedCastHydrate($di);
 		$this->_executeTestsNormalComplex($di);
+		$this->_executeTestsNormalComplexCastHydrate($di);
 	}
 
 	public function testModelsSQLite()
@@ -112,8 +118,11 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$this->_executeTestsNormal($di);
+		$this->_executeTestsNormalCastHydrate($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsRenamedCastHydrate($di);
 		$this->_executeTestsNormalComplex($di);
+		$this->_executeTestsNormalComplexCastHydrate($di);
 	}
 
 	protected function _executeTestsNormal($di)
@@ -327,6 +336,227 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals(get_class($row->robotsParts), 'stdClass');
 		}
 
+	}
+
+	protected function _executeTestsNormalCastHydrate($di)
+	{
+		Phalcon\Mvc\Model::setup(['castOnHydrate' => true]);
+
+		$number = 0;
+
+		$robots = Robots::find();
+
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_object($robot));
+			$this->assertEquals(get_class($robot), 'Robots');
+			$number++;
+		}
+
+		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_object($robot));
+			$this->assertEquals(get_class($robot), 'Robots');
+			$number++;
+		}
+
+		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_array($robot));
+			$this->assertEquals(7, count($robot));
+			$number++;
+		}
+
+		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_object($robot));
+			$this->assertEquals(get_class($robot), 'stdClass');
+			$number++;
+		}
+
+		$this->assertEquals($number, 12);
+
+		$number = 0;
+
+		$people = People::find(array('limit' => 33));
+
+		foreach ($people as $person) {
+			$this->assertTrue(is_object($person));
+			$this->assertEquals(get_class($person), 'People');
+			$number++;
+		}
+
+		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($people as $person) {
+			$this->assertTrue(is_object($person));
+			$this->assertEquals(get_class($person), 'People');
+			$number++;
+		}
+
+		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($people as $person) {
+			$this->assertTrue(is_array($person));
+			$number++;
+		}
+
+		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($people as $person) {
+			$this->assertTrue(is_object($person));
+			$this->assertEquals(get_class($person), 'stdClass');
+			$number++;
+		}
+
+		$this->assertEquals($number, 33 * 4);
+
+		Phalcon\Mvc\Model::setup(['castOnHydrate' => false]);
+	}
+
+	protected function _executeTestsRenamedCastHydrate($di)
+	{
+		Phalcon\Mvc\Model::setup(['castOnHydrate' => true]);
+
+		$number = 0;
+
+		$robots = Robotters::find();
+
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_object($robot));
+			$this->assertEquals(get_class($robot), 'Robotters');
+			$number++;
+		}
+
+		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_object($robot));
+			$this->assertEquals(get_class($robot), 'Robotters');
+			$number++;
+		}
+
+		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_array($robot));
+			$this->assertEquals(count($robot), 7);
+			$number++;
+		}
+
+		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($robots as $robot) {
+			$this->assertTrue(is_object($robot));
+			$this->assertEquals(get_class($robot), 'stdClass');
+			$number++;
+		}
+
+		$this->assertEquals($number, 12);
+
+		$number = 0;
+
+		$people = Personers::find(array('limit' => 33));
+
+		foreach ($people as $person) {
+			$this->assertTrue(is_object($person));
+			$this->assertEquals(get_class($person), 'Personers');
+			$number++;
+		}
+
+		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($people as $person) {
+			$this->assertTrue(is_object($person));
+			$this->assertEquals(get_class($person), 'Personers');
+			$number++;
+		}
+
+		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+
+		foreach ($people as $person) {
+			$this->assertTrue(is_array($person));
+			$this->assertTrue(isset($person['navnes']));
+			$number++;
+		}
+
+		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($people as $person) {
+			$this->assertTrue(is_object($person));
+			$this->assertEquals(get_class($person), 'stdClass');
+			$this->assertTrue(isset($person->navnes));
+			$number++;
+		}
+
+		$this->assertEquals($number, 33 * 4);
+
+		Phalcon\Mvc\Model::setup(['castOnHydrate' => false]);
+	}
+
+	protected function _executeTestsNormalComplexCastHydrate($di)
+	{
+		Phalcon\Mvc\Model::setup(['castOnHydrate' => true]);
+
+		$result = $di->get('modelsManager')->executeQuery('SELECT id FROM Robots');
+
+		//Scalar complex query
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($result as $row) {
+			$this->assertTrue(is_array($row));
+			$this->assertTrue(is_numeric($row['id']));
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'stdClass');
+			$this->assertTrue(is_numeric($row->id));
+		}
+
+		//Complex resultset including scalars and complete objects
+		$result = $di->get('modelsManager')->executeQuery('SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts');
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+			$this->assertEquals(gettype($row->robots), 'object');
+			$this->assertEquals(get_class($row->robots), 'Robots');
+			$this->assertEquals(gettype($row->robotsParts), 'object');
+			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+			$this->assertEquals(gettype($row->robots), 'object');
+			$this->assertEquals(get_class($row->robots), 'Robots');
+			$this->assertEquals(gettype($row->robotsParts), 'object');
+			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($result as $row) {
+			$this->assertTrue(is_array($row));
+			$this->assertTrue(is_numeric($row['id']));
+			$this->assertEquals(gettype($row['robots']), 'array');
+			$this->assertEquals(count($row['robots']), 7);
+			$this->assertEquals(gettype($row['robotsParts']), 'array');
+			$this->assertEquals(count($row['robotsParts']), 3);
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'stdClass');
+			$this->assertTrue(is_numeric($row->id));
+			$this->assertEquals(gettype($row->robots), 'object');
+			$this->assertEquals(get_class($row->robots), 'stdClass');
+			$this->assertEquals(gettype($row->robotsParts), 'object');
+			$this->assertEquals(get_class($row->robotsParts), 'stdClass');
+		}
+
+		Phalcon\Mvc\Model::setup(['castOnHydrate' => false]);
 	}
 
 }
