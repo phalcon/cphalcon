@@ -73,6 +73,10 @@ class ModelTest extends UnitTest
         $this->specify(
             'The Model::find with empty conditions + bind and limit return wrong result',
             function () {
+                if (!ini_get('opcache.enable_cli')) {
+                    $this->markTestSkipped("The " . __METHOD__ . " requires enabled opcache in CLI mode");
+                }
+
                 $album = Albums::find([
                     'conditions' => '',
                     'bind'       => [],
@@ -80,10 +84,7 @@ class ModelTest extends UnitTest
                 ]);
 
                 expect($album)->isInstanceOf(Simple::class);
-                expect(ini_get('opcache.enable_cli'))->equals(1);
-
                 expect($album->getFirst())->isInstanceOf(Albums::class);
-
                 expect($album->getFirst()->toArray())->equals([
                     'id' => 1,
                     'artists_id' => 1,
