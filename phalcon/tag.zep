@@ -340,15 +340,30 @@ class Tag
 	}
 
 	/**
-	 * Resets the request and internal values to avoid those fields will have any default value
+	 * Resets the request and internal values to avoid those fields will have any default value.
+	 *
+	 * <code>
+	 * use Phalcon\Tag;
+	 *
+	 * $_POST = ['a' => '1', 'b' => '2'];
+	 * Tag::resetInput();
+	 *
+	 * print_r($_POST); // []
+	 * </code>
 	 */
 	public static function resetInput() -> void
 	{
-		let self::_displayValues = [], {"_POST"} = [];
-		let self::_documentTitle = null;
-		let self::_documentAppendTitle = null;
-		let self::_documentPrependTitle = null;
-		let self::_documentTitleSeparator = null;
+		var key;
+
+		for key, _ in _POST {
+			unset _POST[key];
+		}
+
+		let self::_displayValues = [],
+			self::_documentTitle = null,
+			self::_documentAppendTitle = null,
+			self::_documentPrependTitle = null,
+			self::_documentTitleSeparator = null;
 	}
 
 	/**

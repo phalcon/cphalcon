@@ -391,7 +391,7 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * Returns the number of affected rows by the lastest INSERT/UPDATE/DELETE executed in the database system
+	 * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE executed in the database system
 	 *
 	 *<code>
 	 *	$connection->execute("DELETE FROM robots");
