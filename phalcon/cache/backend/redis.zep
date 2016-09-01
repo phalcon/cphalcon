@@ -132,7 +132,7 @@ class Redis extends Backend implements BackendInterface
 			let success = redis->select(index);
 
 			if !success {
-				throw new Exception("Redisd server selected database failed");
+				throw new Exception("Redis server selected database failed");
 			}
 		}
 
