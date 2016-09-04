@@ -145,7 +145,14 @@ class Config implements \ArrayAccess, \Countable
 	 * Merges a configuration into the current one
 	 *
 	 *<code>
-	 * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
+	 * $appConfig = new \Phalcon\Config(
+	 *     [
+	 *         'database' => [
+	 *             'host' => 'localhost'
+	 *         ]
+	 *     ]
+	 * );
+	 *
 	 * $globalConfig->merge($appConfig);
 	 *</code>
 	 */
