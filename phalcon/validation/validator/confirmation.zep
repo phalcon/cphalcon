@@ -43,7 +43,7 @@ use Phalcon\Validation\Validator;
  *         'email' => 'Email  doesn\'t match confirmation'
  *     ],
  *     'with' => [
- *         'password => 'confirmPassword',
+ *         'password' => 'confirmPassword',
  *         'email' => 'confirmEmail'
  *     ]
  * ]));
@@ -80,7 +80,7 @@ class Confirmation extends Validator
 
 			let labelWith = this->getOption("labelWith");
 			if typeof labelWith == "array" {
-				let labelWith = labelWith[field];
+				let labelWith = labelWith[fieldWith];
 			}
 			if empty labelWith {
 				let labelWith = validation->getLabel(fieldWith);
