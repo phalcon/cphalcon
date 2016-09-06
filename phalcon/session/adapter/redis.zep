@@ -140,7 +140,7 @@ class Redis extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_redis->delete(id);
+		return this->_redis->exists(id) ? this->_redis->delete(id) : true;
 	}
 
 	/**

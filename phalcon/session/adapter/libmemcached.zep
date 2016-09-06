@@ -158,7 +158,7 @@ class Libmemcached extends Adapter
 		for key, _ in _SESSION {
 			unset _SESSION[key];
 		}
-		return this->_libmemcached->delete(id);
+		return this->_libmemcached->exists(id) ? this->_libmemcached->delete(id) : true;
 	}
 
 	/**

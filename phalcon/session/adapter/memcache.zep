@@ -132,7 +132,7 @@ class Memcache extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_memcache->delete(id);
+		return this->_memcache->exists(id) ? this->_memcache->delete(id) : true;
 	}
 
 	/**
