@@ -6,6 +6,7 @@
 - Fixed `Phalcon\Cache\Backend\Memory::delete` to correct remove items from  `Phalcon\Cache\Backend\Memory::$_data`
 - Fixed `Phalcon\Cache\Frontend\Data::afterRetrieve`, `Phalcon\Cache\Frontend\Igbinary::afterRetrieve`, `Phalcon\Cache\Frontend\Msgpack::afterRetrieve` to unserialize only raw data [#12186](https://github.com/phalcon/cphalcon/issues/12186)
 - Fixed `Phalcon\Mvc\Model::cloneResultMapHydrate` to correct create array/objects from data by column map with types [#12191](https://github.com/phalcon/cphalcon/issues/12191)
+- Fixed `Phalcon\Validation\Validator\Confirmation::validate` to use `fieldWith` instead of `field` wehen looking up the value for labelWith.
 
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
