@@ -7,6 +7,7 @@ use Phalcon\Dispatcher;
 use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
+use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleController;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Dispatcher\DispatcherEventsTest
@@ -60,6 +61,41 @@ class DispatcherTest extends BaseDispatcher
                     'indexAction',
                     'afterExecuteRoute',
                     'afterExecuteRoute-method',
+                    'afterDispatch',
+                    'afterDispatchLoop'
+                ]);
+            }
+        );
+    }
+
+    /**
+     * Tests the default order of dispatch events for basic execution with no custom method handlers
+     *
+     * @author Mark Johnson <mark@techpivot.net>
+     * @since  2016-09-01
+     */
+    public function testDefaultDispatchLoopEventsWithNoHandlers()
+    {
+        $this->specify(
+            'The order of dispatch events is not correct',
+            function () {
+                $dispatcher = $this->getDispatcher();
+				$dispatcher->setControllerName('dispatcher-test-default-simple');
+                $handler = $dispatcher->dispatch();
+
+                expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
+                expect($dispatcher->getControllerName())->equals('dispatcher-test-default-simple');
+                expect($dispatcher->getActionName())->equals('index');
+                expect($dispatcher->wasForwarded())->false();
+                expect($dispatcher->getControllerClass())->equals(DispatcherTestDefaultSimpleController::class);
+                expect($handler)->isInstanceOf(DispatcherTestDefaultSimpleController::class);
+
+                expect($this->getDispatcherListener()->getTrace())->equals([
+                    'beforeDispatchLoop',
+                    'beforeDispatch',
+                    'beforeExecuteRoute',
+                    'indexAction',
+                    'afterExecuteRoute',
                     'afterDispatch',
                     'afterDispatchLoop'
                 ]);

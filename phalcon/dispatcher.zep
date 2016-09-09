@@ -536,7 +536,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			// Call the "initialize" method just once per request
-			if wasFresh === true {
+			if wasFresh === true && method_exists(handler, "initialize") {
 				try {
 					let this->_isControllerInitialize = true;
 					handler->initialize();
