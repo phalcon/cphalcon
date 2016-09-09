@@ -17,7 +17,7 @@ settings:
     colors: true
     # Tests (especially functional) can take a lot of memory
     # We set a high limit for them by default.
-    memory_limit: 1024M
+    memory_limit: 1536M
 coverage:
     # Disable Code Coverage by default to speed up Travis tests
    enabled: false
