@@ -60,7 +60,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	/**
 	 * Sets the default task suffix
 	 */
-	public function setTaskSuffix(string taskSuffix)
+	public function setTaskSuffix(string taskSuffix) -> void
 	{
 		let this->_handlerSuffix = taskSuffix;
 	}
@@ -68,7 +68,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	/**
 	 * Sets the default task name
 	 */
-	public function setDefaultTask(string taskName)
+	public function setDefaultTask(string taskName) -> void
 	{
 		let this->_defaultHandler = taskName;
 	}
@@ -76,7 +76,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	/**
 	 * Sets the task name to be dispatched
 	 */
-	public function setTaskName(string taskName)
+	public function setTaskName(string taskName) -> void
 	{
 		let this->_handlerName = taskName;
 	}
@@ -138,7 +138,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	/**
 	 * Set the options to be dispatched
 	 */
-	public function setOptions(array options)
+	public function setOptions(array options) -> void
 	{
 		let this->_options = options;
 	}

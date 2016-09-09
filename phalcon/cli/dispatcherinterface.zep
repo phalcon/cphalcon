@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -32,17 +32,17 @@ interface DispatcherInterface extends DispatcherInterfaceBase
 	/**
 	 * Sets the default task suffix
 	 */
-	public function setTaskSuffix(string taskSuffix);
+	public function setTaskSuffix(string taskSuffix) -> void;
 
 	/**
 	 * Sets the default task name
 	 */
-	public function setDefaultTask(string taskName);
+	public function setDefaultTask(string taskName) -> void;
 
 	/**
 	 * Sets the task name to be dispatched
 	 */
-	public function setTaskName(string taskName);
+	public function setTaskName(string taskName) -> void;
 
 	/**
 	 * Gets last dispatched task name
