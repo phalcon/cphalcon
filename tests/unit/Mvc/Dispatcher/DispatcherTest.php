@@ -706,19 +706,19 @@ class DispatcherTest extends BaseDispatcher
                 } catch (Exception $exception) {
                     $caughtException = true;
                     expect($exception->getMessage())->equals('Custom error in before exception');
-                } finally {
-                    expect($beforeExceptionHandled)->true();
-                    expect($caughtException)->true();
-
-                    // The string properties get updated
-                    expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
-                    expect($dispatcher->getControllerName())->equals('dispatcher-test-default-two');
-                    expect($dispatcher->getActionName())->equals('index');
-                    expect($dispatcher->getControllerClass())->equals(DispatcherTestDefaultTwoController::class);
-
-                    // But not the last controller since dispatching didn't take place
-                    expect($dispatcher->getLastController())->isInstanceOf(DispatcherTestDefaultController::class);
                 }
+
+                expect($beforeExceptionHandled)->true();
+                expect($caughtException)->true();
+
+                // The string properties get updated
+                expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
+                expect($dispatcher->getControllerName())->equals('dispatcher-test-default-two');
+                expect($dispatcher->getActionName())->equals('index');
+                expect($dispatcher->getControllerClass())->equals(DispatcherTestDefaultTwoController::class);
+
+                // But not the last controller since dispatching didn't take place
+                expect($dispatcher->getLastController())->isInstanceOf(DispatcherTestDefaultController::class);
             }
         );
     }

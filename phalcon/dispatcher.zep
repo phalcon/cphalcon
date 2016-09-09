@@ -226,8 +226,12 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *
 	 * @param array params
 	 */
-	public function setParams(array params) -> void
+	public function setParams(params) -> void
 	{
+		// @todo Remove in 4.0.x and ensure params is of type "array"
+		if typeof params !== "array" {
+			throw new PhalconException("Parameters must be an array");
+		}
 		let this->_params = params;
 	}
 
@@ -698,12 +702,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *  ]);
 	 * </code>
 	 */
-	public function forward(array forward) -> void
+	public function forward(forward) -> void
 	{
 		var namespaceName, controllerName, params, actionName, taskName;
 
 		if this->_isControllerInitialize === true {
 			throw new PhalconException("Forwarding inside a controller's initialize() method is forbidden");
+		}
+		
+		// @todo Remove in 4.0.x and ensure forward is of type "array"
+		if typeof forward !== "array" {
+			throw new PhalconException("Forward parameter must be an Array");
 		}
 		
 		// Save current values as previous to ensure calls to getPrevious methods don't return <tt>null</tt>.

@@ -70,7 +70,7 @@ interface DispatcherInterface
 	/**
 	 * Sets action params to be dispatched
 	 */
-	public function setParams(array params) -> void;
+	public function setParams(params) -> void;
 
 	/**
 	 * Gets action params
@@ -126,5 +126,5 @@ interface DispatcherInterface
 	/**
 	 * Forwards the execution flow to another controller/action
 	 */
-	public function forward(array forward) -> void;
+	public function forward(forward) -> void;
 }
