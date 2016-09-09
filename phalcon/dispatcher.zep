@@ -136,7 +136,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Sets the default action suffix
 	 */
-	public function setActionSuffix(string actionSuffix)
+	public function setActionSuffix(string actionSuffix) -> void
 	{
 		let this->_actionSuffix = actionSuffix;
 	}
@@ -152,7 +152,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Sets the module where the controller is (only informative)
 	 */
-	public function setModuleName(string moduleName)
+	public function setModuleName(string moduleName) -> void
 	{
 		let this->_moduleName = moduleName;
 	}
@@ -168,7 +168,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Sets the namespace where the controller class is
 	 */
-	public function setNamespaceName(string namespaceName)
+	public function setNamespaceName(string namespaceName) -> void
 	{
 		let this->_namespaceName = namespaceName;
 	}
@@ -184,7 +184,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Sets the default namespace
 	 */
-	public function setDefaultNamespace(string namespaceName)
+	public function setDefaultNamespace(string namespaceName) -> void
 	{
 		let this->_defaultNamespace = namespaceName;
 	}
@@ -200,7 +200,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Sets the default action name
 	 */
-	public function setDefaultAction(string actionName)
+	public function setDefaultAction(string actionName) -> void
 	{
 		let this->_defaultAction = actionName;
 	}
@@ -208,7 +208,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Sets the action name to be dispatched
 	 */
-	public function setActionName(string actionName)
+	public function setActionName(string actionName) -> void
 	{
 		let this->_actionName = actionName;
 	}
@@ -226,7 +226,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *
 	 * @param array params
 	 */
-	public function setParams(array params)
+	public function setParams(array params) -> void
 	{
 		let this->_params = params;
 	}
@@ -245,7 +245,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 * @param  mixed param
 	 * @param  mixed value
 	 */
-	public function setParam(var param, var value)
+	public function setParam(var param, var value) -> void
 	{
 		let this->_params[param] = value;
 	}
@@ -339,9 +339,9 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
-	 * @return object|false  Returns the dispatched handler class (the Controller for Mvc dispatching or or a Task 
-	 *						 for Cli dispatching) or <tt>false</tt> if an exception occurred and the operation was 
-	 *		                 stopped by returning <tt>false</tt> in the exception handler.
+	 * @return object|false  Returns the dispatched handler class (the Controller for Mvc dispatching or a Task 
+	 *                       for Cli dispatching) or <tt>false</tt> if an exception occurred and the operation was 
+	 *                       stopped by returning <tt>false</tt> in the exception handler.
 	 */
 	public function dispatch()
 	{
@@ -698,7 +698,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *  ]);
 	 * </code>
 	 */
-	public function forward(array forward)
+	public function forward(array forward) -> void
 	{
 		var namespaceName, controllerName, params, actionName, taskName;
 

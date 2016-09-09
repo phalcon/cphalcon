@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc;
+namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use Exception;
 use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
@@ -9,13 +9,13 @@ use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
  * \Phalcon\Test\Unit\Mvc\Dispatcher\DispatcherBeforeDispatchTest
  * Tests the \Phalcon\Dispatcher and Phalcon\Mvc\Dispatcher "beforeDispatch" event.
  *
- * @see https://docs.phalconphp.com/en/latest/reference/dispatching.html
+ * @link https://docs.phalconphp.com/en/latest/reference/dispatching.html
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit
+ * @package   Phalcon\Test\Unit\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -188,10 +188,10 @@ class DispatcherBeforeDispatchTest extends BaseDispatcher
                 $dispatcherListener = $this->getDispatcherListener();
 
                 $dispatcher->getEventsManager()->attach('dispatch:beforeDispatch', function() use (&$forwarded) {
-                  	if ($forwarded === false) {
-						$forwarded = true;
-                    	throw new Exception('beforeDispatch exception occurred');
-					}
+                    if ($forwarded === false) {
+                        $forwarded = true;
+                        throw new Exception('beforeDispatch exception occurred');
+                    }
                 });
                 $dispatcher->getEventsManager()->attach('dispatch:beforeException', function($event, $dispatcher) use ($dispatcherListener) {
                     $dispatcherListener->trace('beforeException: custom before exception forward');
@@ -205,14 +205,14 @@ class DispatcherBeforeDispatchTest extends BaseDispatcher
                     'beforeDispatch',
                     'beforeException: beforeDispatch exception occurred',
                     'beforeException: custom before exception forward',
-					'beforeDispatch',
+                    'beforeDispatch',
                     'beforeExecuteRoute',
-					'beforeExecuteRoute-method',
+                    'beforeExecuteRoute-method',
                     'initialize-method',
                     'afterInitialize',
                     'index2Action',
                     'afterExecuteRoute',
-					'afterExecuteRoute-method',
+                    'afterExecuteRoute-method',
                     'afterDispatch',
                     'afterDispatchLoop'
                 ]);

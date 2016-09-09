@@ -30,7 +30,7 @@ interface DispatcherInterface
 	/**
 	 * Sets the default action suffix
 	 */
-	public function setActionSuffix(string actionSuffix);
+	public function setActionSuffix(string actionSuffix) -> void;
 
 	/**
 	 * Gets the default action suffix
@@ -40,27 +40,27 @@ interface DispatcherInterface
 	/**
 	 * Sets the default namespace
 	 */
-	public function setDefaultNamespace(string defaultNamespace);
+	public function setDefaultNamespace(string defaultNamespace) -> void;
 
 	/**
 	 * Sets the default action name
 	 */
-	public function setDefaultAction(string actionName);
+	public function setDefaultAction(string actionName) -> void;
 
 	/**
 	 * Sets the namespace which the controller belongs to
 	 */
-	public function setNamespaceName(string namespaceName);
+	public function setNamespaceName(string namespaceName) -> void;
 
 	/**
 	 * Sets the module name which the application belongs to
 	 */
-	public function setModuleName(string moduleName);
+	public function setModuleName(string moduleName) -> void;
 
 	/**
 	 * Sets the action name to be dispatched
 	 */
-	public function setActionName(string actionName);
+	public function setActionName(string actionName) -> void;
 
 	/**
 	 * Gets last dispatched action name
@@ -70,7 +70,7 @@ interface DispatcherInterface
 	/**
 	 * Sets action params to be dispatched
 	 */
-	public function setParams(array params);
+	public function setParams(array params) -> void;
 
 	/**
 	 * Gets action params
@@ -83,7 +83,7 @@ interface DispatcherInterface
 	 * @param  mixed param
 	 * @param  mixed value
 	 */
-	public function setParam(param, value);
+	public function setParam(param, value) -> void;
 
 	/**
 	 * Gets a param by its name or numeric index
@@ -117,12 +117,14 @@ interface DispatcherInterface
 	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
-	 * @return object
+	 * @return object|false  Returns the dispatched handler class (the Controller for Mvc dispatching or a Task 
+	 *                       for Cli dispatching) or <tt>false</tt> if an exception occurred and the operation was 
+	 *                       stopped by returning <tt>false</tt> in the exception handler.
 	 */
 	public function dispatch();
 
 	/**
 	 * Forwards the execution flow to another controller/action
 	 */
-	public function forward(array forward);
+	public function forward(array forward) -> void;
 }

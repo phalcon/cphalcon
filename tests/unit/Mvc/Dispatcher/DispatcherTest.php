@@ -13,13 +13,13 @@ use Phalcon\Test\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleControlle
  * \Phalcon\Test\Unit\Mvc\Dispatcher\DispatcherEventsTest
  * Tests the core functionality of the \Phalcon\Dispatcher and Phalcon\Mvc\Dispatcher classes.
  *
- * @see https://docs.phalconphp.com/en/latest/reference/dispatching.html
+ * @link https://docs.phalconphp.com/en/latest/reference/dispatching.html
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit
+ * @package   Phalcon\Test\Unit\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -80,7 +80,7 @@ class DispatcherTest extends BaseDispatcher
             'The order of dispatch events is not correct',
             function () {
                 $dispatcher = $this->getDispatcher();
-				$dispatcher->setControllerName('dispatcher-test-default-simple');
+                $dispatcher->setControllerName('dispatcher-test-default-simple');
                 $handler = $dispatcher->dispatch();
 
                 expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
@@ -352,7 +352,7 @@ class DispatcherTest extends BaseDispatcher
 
                 try {
                     $dispatcher->dispatch();
-               } catch (Exception $exception) {
+                } catch (Exception $exception) {
                     expect($exception->getCode())->equals(Dispatcher::EXCEPTION_CYCLIC_ROUTING);
                 }
             }
@@ -605,8 +605,8 @@ class DispatcherTest extends BaseDispatcher
      */
     public function testManualCallAction()
     {
-		$this->specify(
-        	'Manually calling the dispatcher action should work similarly to dispaching without any events dispatch.',
+        $this->specify(
+            'Manually calling the dispatcher action should work similarly to dispaching without any events dispatch.',
             function () {
                 $multiply = [ 5, 6 ];
 
@@ -617,8 +617,8 @@ class DispatcherTest extends BaseDispatcher
 
                 expect($returnValue)->equals(30);
                 expect($this->getDispatcherListener()->getTrace())->equals([
-					'multiplyAction'
-				]);
+                    'multiplyAction'
+                ]);
             }
         );
     }
@@ -631,26 +631,26 @@ class DispatcherTest extends BaseDispatcher
      */
     public function testLastHandlerExceptionForward()
     {
-		$this->specify(
-        	'Handling an exception with a new dispatch forward should not bubble the exception.',
+        $this->specify(
+            'Handling an exception with a new dispatch forward should not bubble the exception.',
             function () {
                 $beforeExceptionHandled = false;
 
                 $dispatcher = $this->getDispatcher();
                 $dispatcher->setActionName('exception');
                 $dispatcher->getEventsManager()->attach('dispatch:beforeException', function($event, $dispatcher) use (&$beforeExceptionHandled) {
-					$beforeExceptionHandled = true;
+                    $beforeExceptionHandled = true;
 
-    				expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
+                    expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
                     expect($dispatcher->getControllerName())->equals('dispatcher-test-default');
                     expect($dispatcher->getActionName())->equals('exception');
                     expect($dispatcher->getControllerClass())->equals(DispatcherTestDefaultController::class);
                     expect($dispatcher->getLastController())->isInstanceOf(DispatcherTestDefaultController::class);
 
-					$dispatcher->forward([
-					    'controller' => 'dispatcher-test-default-two',
-					    'action' => 'index'
-					]);
+                    $dispatcher->forward([
+                        'controller' => 'dispatcher-test-default-two',
+                        'action' => 'index'
+                    ]);
 
                     return false;
                 });
@@ -707,16 +707,16 @@ class DispatcherTest extends BaseDispatcher
                     $caughtException = true;
                     expect($exception->getMessage())->equals('Custom error in before exception');
                 } finally {
-					expect($beforeExceptionHandled)->true();
+                    expect($beforeExceptionHandled)->true();
                     expect($caughtException)->true();
 
-					// The string properties get updated
+                    // The string properties get updated
                     expect($dispatcher->getNamespaceName())->equals('Phalcon\Test\Unit\Mvc\Dispatcher\Helper');
                     expect($dispatcher->getControllerName())->equals('dispatcher-test-default-two');
                     expect($dispatcher->getActionName())->equals('index');
                     expect($dispatcher->getControllerClass())->equals(DispatcherTestDefaultTwoController::class);
 
-					// But not the last controller since dispatching didn't take place
+                    // But not the last controller since dispatching didn't take place
                     expect($dispatcher->getLastController())->isInstanceOf(DispatcherTestDefaultController::class);
                 }
             }

@@ -13,7 +13,7 @@ use Phalcon\Mvc\Controller;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Http\Helper
+ * @package   Phalcon\Test\Unit\Mvc\Dispatcher\Helper
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
