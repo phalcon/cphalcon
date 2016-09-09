@@ -86,7 +86,7 @@ script:
   - vendor/bin/codecept build
   # Run XDebug tests first, then remove xdebug and run the remaining tests. This will help with
   # performance and memory usage.
-  - vendor/bin/codecept run -v unit/Logger/Adapter/FirephpTest
+  - vendor/bin/codecept run -v tests/unit/Logger/Adapter/FirephpTest
   - phpenv config-rm xdebug.ini
   - vendor/bin/codecept run -v
 
