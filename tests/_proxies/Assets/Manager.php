@@ -81,7 +81,7 @@ class Manager extends PhManager
         parent::addInlineCode($code);
     }
 
-    public function set($id, Collection $collection)
+    public function set($id, PhCollection $collection)
     {
         return parent::set($id, $collection);
     }
