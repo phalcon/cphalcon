@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -35,7 +35,7 @@ class Syslog extends Formatter
 	 * @param string message
 	 * @param int type
 	 * @param int timestamp
-	 * @param array $context
+	 * @param array context
 	 * @return array
 	 */
 	public function format(message, int type, int timestamp, var context = null) -> array
