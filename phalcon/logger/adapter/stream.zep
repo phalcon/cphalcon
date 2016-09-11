@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -30,12 +30,16 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  *
  * Sends logs to a valid PHP stream
  *
- *<code>
- *	$logger = new \Phalcon\Logger\Adapter\Stream("php://stderr");
- *	$logger->log("This is a message");
- *	$logger->log(\Phalcon\Logger::ERROR, "This is an error");
- *	$logger->error("This is another error");
- *</code>
+ * <code>
+ * use Phalcon\Logger;
+ * use Phalcon\Logger\Adapter\Stream;
+ *
+ * $logger = new Stream('php://stderr');
+ *
+ * $logger->log('This is a message');
+ * $logger->log(Logger::ERROR, 'This is an error');
+ * $logger->error('This is another error');
+ * </code>
  */
 class Stream extends Adapter implements AdapterInterface
 {
