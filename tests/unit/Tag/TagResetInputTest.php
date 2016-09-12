@@ -37,6 +37,25 @@ class TagResetInputTest extends UnitTest
     }
 
     /**
+     * Tests reset _POST
+     *
+     * @issue  12099
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-09-01
+     */
+    public function testResetPost()
+    {
+        $this->specify(
+            'The Tag::resetInput does not clear _POST',
+            function () {
+                $_POST = ['a' => '1', 'b' => '2'];
+                Tag::resetInput();
+                expect($_POST)->equals([]);
+            }
+        );
+    }
+
+    /**
      * Tests resetInput with setDefault
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -48,7 +67,7 @@ class TagResetInputTest extends UnitTest
             "resetInput with setDefault returns invalid HTML Strict",
             function () {
 
-                Tag::setDoctype(Tag::XHTML10_STRICT);
+                Tag::setDocType(Tag::XHTML10_STRICT);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" name="x_name" '
@@ -70,7 +89,7 @@ class TagResetInputTest extends UnitTest
             "resetInput with setDefault returns invalid HTML XHTML",
             function () {
 
-                Tag::setDoctype(Tag::HTML5);
+                Tag::setDocType(Tag::HTML5);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" '
@@ -101,7 +120,7 @@ class TagResetInputTest extends UnitTest
             "resetInput with displayTo returns invalid HTML Strict",
             function () {
 
-                Tag::setDoctype(Tag::XHTML10_STRICT);
+                Tag::setDocType(Tag::XHTML10_STRICT);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" name="x_name" '
@@ -123,7 +142,7 @@ class TagResetInputTest extends UnitTest
             "resetInput with displayTo returns invalid HTML XHTML",
             function () {
 
-                Tag::setDoctype(Tag::HTML5);
+                Tag::setDocType(Tag::HTML5);
 
                 $options  = 'x_name';
                 $expected = '<input type="text" id="x_name" name="x_name" '
