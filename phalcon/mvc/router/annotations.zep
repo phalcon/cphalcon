@@ -42,7 +42,7 @@ use Phalcon\Mvc\Router\Exception;
  *         $router->addResource('Robots', '/robots');
  *
  *         return $router;
- *     };
+ *     }
  * );
  * </code>
  */
