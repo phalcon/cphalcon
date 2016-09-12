@@ -57,6 +57,8 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 
 	protected _customEventsManager;
 
+	protected _databaseName;
+
 	protected _connectionServices;
 
 	protected _implicitObjectsIds;
@@ -121,6 +123,22 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 		}
 
 		return null;
+	}
+
+	/**
+	 * Sets the mongo database name
+	 */
+	public function setDatabaseName(string! databaseName) -> void
+	{
+		let this->_databaseName = databaseName;
+	}
+
+	/**
+	 * Returns the mongo database name
+	 */
+	public function getDatabaseName() -> <ManagerInterface>
+	{
+		return this->_databaseName;
 	}
 
 	/**
@@ -227,7 +245,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	 * Returns the connection related to a model
 	 *
 	 * @param \Phalcon\Mvc\CollectionInterface $model
-	 * @return \Mongo
+	 * @return \MongoDB\Driver\Manager
 	 */
 	public function getConnection(<CollectionInterface> model)
 	{

@@ -99,7 +99,7 @@ class CollectionTest extends UnitTest
 
                 expect(is_array($songs))->true();
                 expect($songs)->count(1);
-                expect($songs[0]->_id)->isInstanceOf('MongoId');
+                expect($songs[0]->_id)->isInstanceOf('MongoDB\BSON\ObjectID');
                 expect($songs[0]->artist)->equals('Radiohead');
                 expect($songs[0]->name)->equals('Lotus Flower');
 
@@ -112,7 +112,7 @@ class CollectionTest extends UnitTest
 
                 expect(is_array($songs))->true();
                 expect($songs)->count(2);
-                expect($songs[1]->_id)->isInstanceOf('MongoId');
+                expect($songs[1]->_id)->isInstanceOf('MongoDB\BSON\ObjectID');
                 expect($songs[1]->artist)->equals('Massive Attack');
                 expect($songs[1]->name)->equals('Teardrop');
                 expect((string) $songs[0]->_id)->notEquals((string) $songs[1]->_id);
@@ -126,7 +126,7 @@ class CollectionTest extends UnitTest
 
                 expect(is_array($songs))->true();
                 expect($songs)->count(3);
-                expect($songs[2]->_id)->isInstanceOf('MongoId');
+                expect($songs[2]->_id)->isInstanceOf('MongoDB\BSON\ObjectID');
                 expect($songs[2]->artist)->equals('Massive Attack');
                 expect($songs[2]->name)->equals('Paradise Circus');
                 expect((string) $songs[0]->_id)->notEquals((string) $songs[1]->_id);

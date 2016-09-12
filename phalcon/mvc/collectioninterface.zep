@@ -68,7 +68,7 @@ interface CollectionInterface
 	/**
 	 * Returns a cloned collection
 	 */
-	public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>;
+	public static function cloneResult(<CollectionInterface> collection, object! document) -> <CollectionInterface>;
 
 	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
