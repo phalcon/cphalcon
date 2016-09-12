@@ -97,7 +97,7 @@ class Collection extends PhCollection
         return parent::writeAttribute($attribute, $value);
     }
 
-    public static function cloneResult(CollectionInterface $collection, array $document)
+    public static function cloneResult(CollectionInterface $collection, $document)
     {
         return parent::cloneResult($collection, $document);
     }

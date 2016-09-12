@@ -21,7 +21,7 @@ trait CollectionTrait
      */
     protected function setupMongo(Actor $I)
     {
-        if (!extension_loaded('mongo')) {
+        if (!extension_loaded('mongodb')) {
             throw new \PHPUnit_Framework_SkippedTestError(
                 'Warning: mongo extension is not loaded'
             );
@@ -29,18 +29,14 @@ trait CollectionTrait
 
         $I->haveServiceInDi('mongo', function() {
             $dsn = sprintf('mongodb://%s:%s', TEST_DB_MONGO_HOST, TEST_DB_MONGO_PORT);
-
-            if (class_exists('MongoClient')) {
-                $mongo = new MongoClient($dsn);
-            } else {
-                $mongo = new Mongo($dsn);
-            }
-
-            return $mongo->selectDB(TEST_DB_MONGO_NAME);
+            return new \MongoDB\Driver\Manager($dsn);
         }, true);
 
         $I->haveServiceInDi('collectionManager', function() {
-            return new Manager();
+            $manger = new Manager();
+            $manger->setDatabaseName(TEST_DB_MONGO_NAME);
+
+            return $manger;
         }, true);
     }
 }

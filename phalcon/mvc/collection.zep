@@ -79,6 +79,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let dependencyInjector = Di::getDefault();
 		}
 
+		if ! extension_loaded("mongodb") {
+			throw new Exception("MongoDB extension is not loaded! see http://pecl.php.net/package/mongodb .");
+		}
+
 		if typeof dependencyInjector != "object" {
 			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
 		}
@@ -123,26 +127,25 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		var mongoId;
 
 		if typeof id != "object" {
-
 			/**
 			 * Check if the model use implicit ids
 			 */
 			if this->_modelsManager->isUsingImplicitObjectIds(this) {
-				let mongoId = new \MongoId(id);
+				let mongoId = static::_getMongoId(id);
 			} else {
 				let mongoId = id;
 			}
-
 		} else {
 			let mongoId = id;
 		}
+
 		let this->_id = mongoId;
 	}
 
 	/**
 	 * Returns the value of the _id property
 	 *
-	 * @return \MongoId
+	 * @return \MongoDB\BSON\ObjectID
 	 */
 	public function getId()
 	{
@@ -232,11 +235,14 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function getSource() -> string
 	{
-		var collection;
+		var dbname;
 
 		if !this->_source {
-			let collection = this;
-			let this->_source = uncamelize(get_class_ns(collection));
+			let dbname = this->_modelsManager->getDatabaseName();
+			if empty(dbname) {
+				throw new Exception("database name is empty!");
+			}
+    		let this->_source = dbname . "." . uncamelize(get_class_ns(this));
 		}
 
 		return this->_source;
@@ -310,13 +316,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Returns a cloned collection
 	 */
-	public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>
+	public static function cloneResult(<CollectionInterface> collection, object! document) -> <CollectionInterface>
 	{
-		var clonedCollection, key, value;
+		var clonedCollection;
 
 		let clonedCollection = clone collection;
-		for key, value in document {
-			clonedCollection->writeAttribute(key, value);
+
+		if typeof document == "object" {
+			var props, prop, value;
+			let props = get_object_vars(document);
+
+			for prop, value in props {
+				clonedCollection->writeAttribute(prop, value);
+			}
 		}
 
 		if method_exists(clonedCollection, "afterFetch") {
@@ -331,14 +343,17 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *
 	 * @param array params
 	 * @param \Phalcon\Mvc\Collection collection
-	 * @param \MongoDb connection
+	 * @param \MongoDb\Driver\Manager connection
 	 * @param boolean unique
 	 * @return array
 	 */
 	protected static function _getResultset(var params, <CollectionInterface> collection, connection, boolean unique)
 	{
-		var source, mongoCollection, conditions, base, documentsCursor,
-			fields, skip, limit, sort, document, collections, className;
+		var source, conditions, queryOptions, base, documentsCursor, mongoDocuments,
+			fields, skip, limit, sort, document, collections, className, mongoQuery;
+
+    	let queryOptions = [];
+		let source = collection->getSource();
 
 		/**
 		 * Check if "class" clause was defined
@@ -353,15 +368,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let base = collection;
 		}
 
-		let source = collection->getSource();
 		if empty source {
 			throw new Exception("Method getSource() returns empty string");
-		}
-
-		let mongoCollection = connection->selectCollection(source);
-
-		if typeof mongoCollection != "object" {
-			throw new Exception("Couldn't select mongo collection");
 		}
 
 		/**
@@ -381,44 +389,52 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 * Perform the find
 		 */
 		if fetch fields, params["fields"] {
-			let documentsCursor = mongoCollection->find(conditions, fields);
-		} else {
-			let documentsCursor = mongoCollection->find(conditions);
+			let queryOptions["projection"] = fields;
 		}
 
 		/**
 		 * Check if a "limit" clause was defined
 		 */
 		if fetch limit, params["limit"] {
-			documentsCursor->limit(limit);
+			let queryOptions["limit"] = limit;
 		}
 
 		/**
 		 * Check if a "sort" clause was defined
 		 */
 		if fetch sort, params["sort"] {
-			documentsCursor->sort(sort);
+			let queryOptions["sort"] = sort;
 		}
 
 		/**
 		 * Check if a "skip" clause was defined
 		 */
 		if fetch skip, params["skip"] {
-			documentsCursor->skip(skip);
+			let queryOptions["skip"] = skip;
 		}
+
+    	if count(queryOptions) > 0 {
+    		let mongoQuery = new \MongoDB\Driver\Query(conditions, queryOptions);
+    	} else {
+    		let mongoQuery = new \MongoDB\Driver\Query(conditions);
+    	}
+
+		/**
+		 * @var \MongoDb\Driver\Cursor mongoCursor
+		 */
+    	let documentsCursor = connection->executeQuery(source, mongoQuery);
+    	let mongoDocuments = documentsCursor->toArray();
 
 		if unique === true {
 
-			/**
-			 * Requesting a single result
-			 */
-			documentsCursor->rewind();
-
-			let document = documentsCursor->current();
-
-			if typeof document != "array" {
+			if count(mongoDocuments) == 0 {
 				return false;
 			}
+
+			/**
+			 * Requesting a single result
+     		 */
+			let document = mongoDocuments[0];
 
 			/**
 			 * Assign the values to the base object
@@ -430,7 +446,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 * Requesting a complete resultset
 		 */
 		let collections = [];
-		for document in iterator_to_array(documentsCursor, false) {
+		for document in mongoDocuments {
 
 			/**
 			 * Assign the values to the base object
@@ -446,19 +462,21 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *
 	 * @param array params
 	 * @param \Phalcon\Mvc\Collection collection
-	 * @param \MongoDb connection
+	 * @param \MongoDb\Driver\Manager connection
 	 * @return int
 	 */
 	protected static function _getGroupResultset(params, <Collection> collection, connection) -> int
 	{
-		var source, mongoCollection, conditions, limit, sort, documentsCursor;
+		var source, mongoQuery, conditions, queryOptions,
+			mongoId, limit, sort, skip, documentsCursor;
 
 		let source = collection->getSource();
+		let queryOptions = [];
+		let conditions = [];
+
 		if empty source {
 			throw new Exception("Method getSource() returns empty string");
 		}
-
-		let mongoCollection = connection->selectCollection(source);
 
 		/**
 		 * Convert the string to an array
@@ -469,41 +487,50 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			}
 		}
 
-		if isset params["limit"] || isset params["sort"] || isset params["skip"] {
+		if fetch mongoId, conditions["_id"] {
+    		let conditions["_id"] = static::_getMongoId(mongoId);
+		}
 
-			/**
-			 * Perform the find
-			 */
-			let documentsCursor = mongoCollection->find(conditions);
+		if isset params["limit"] || isset params["sort"] || isset params["skip"] {
 
 			/**
 			 * Check if a "limit" clause was defined
 			 */
 			if fetch limit, params["limit"] {
-				documentsCursor->limit(limit);
+				let queryOptions["limit"] = limit;
 			}
 
 			/**
 			 * Check if a "sort" clause was defined
 			 */
 			if fetch sort, params["sort"] {
-				documentsCursor->sort(sort);
+				let queryOptions["sort"] = sort;
 			}
 
 			/**
 			 * Check if a "skip" clause was defined
 			 */
-			if fetch sort, params["skip"] {
-				documentsCursor->skip(sort);
+			if fetch skip, params["skip"] {
+				let queryOptions["skip"] = skip;
 			}
 
 			/**
-			 * Only "count" is supported
+			 * Perform the find
 			 */
-			return count(documentsCursor);
+			let mongoQuery = new \MongoDB\Driver\Query(conditions, queryOptions);
+		} else {
+    		/**
+     		 * Perform the find
+     		 */
+    		let mongoQuery = new \MongoDB\Driver\Query(conditions);
 		}
 
-		return mongoCollection->count(conditions);
+    	/**
+ 		 * Only "count" is supported
+ 		 */
+    	let documentsCursor = connection->executeQuery(source, mongoQuery);
+
+    	return count(documentsCursor->toArray());
 	}
 
 	/**
@@ -618,6 +645,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		}
 
 		this->_cancelOperation(disableEvents);
+
 		return false;
 	}
 
@@ -749,33 +777,22 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * @param \MongoCollection collection
 	 * @return boolean
 	 */
-	protected function _exists(collection) -> boolean
+	protected function _exists(collection = null) -> boolean
 	{
-		var id, mongoId;
+		var checkCollection, mongoId;
 
-		if !fetch id, this->_id {
+    	let checkCollection = this;
+    	if typeof collection == "object" {
+        	let checkCollection = collection;
+    	}
+
+		if ! fetch mongoId, checkCollection->_id {
 			return false;
 		}
 
-		if typeof id == "object" {
-			let mongoId = id;
-		} else {
+    	let mongoId = static::_getMongoId(mongoId);
 
-			/**
-			 * Check if the model use implicit ids
-			 */
-			if this->_modelsManager->isUsingImplicitObjectIds(this) {
-				let mongoId = new \MongoId(id);
-				let this->_id = mongoId;
-			} else {
-				let mongoId = id;
-			}
-		}
-
-		/**
-		 * Perform the count using the function provided by the driver
-		 */
-		return collection->count(["_id": mongoId]) > 0;
+    	return static::count([ "conditions": ["_id": mongoId] ]) > 0;
 	}
 
 	/**
@@ -826,47 +843,16 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	}
 
 	/**
-	 * Shared Code for CU Operations
-	 * Prepares Collection
-	 */
-
-	protected function prepareCU()
-	{
-		var dependencyInjector, connection, source, collection;
-
-		let dependencyInjector = this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-		}
-
-		let source = this->getSource();
-		if empty source {
-			throw new Exception("Method getSource() returns empty string");
-		}
-
-		let connection = this->getConnection();
-
-		/**
-		 * Choose a collection according to the collection name
-		 */
-		let collection = connection->selectCollection(source);
-
-		return collection;
-	}
-
-	/**
 	 * Creates/Updates a collection based on the values in the attributes
 	 */
 	public function save() -> boolean
 	{
-		var exists, data, success, status, id, ok, collection;
-
-		let collection = this->prepareCU();
+		var exists, data, success, status, id, mongoBulkWrite, writeResult;
 
 		/**
 		 * Check the dirty state of the current operation to update the current operation
 		 */
-		let exists = this->_exists(collection);
+		let exists = this->_exists();
 
 		if exists === false {
 			let this->_operationMade = self::OP_CREATE;
@@ -894,18 +880,27 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 * We always use safe stores to get the success state
 		 * Save the document
 		 */
-		let status = collection->save(data, ["w": true]);
-		if typeof status == "array" {
-			if fetch ok, status["ok"] {
-				if ok {
-					let success = true;
-					if exists === false {
-						if fetch id, data["_id"] {
-							let this->_id = id;
-						}
-					}
-				}
-			}
+    	let mongoBulkWrite = new \MongoDB\Driver\BulkWrite(["ordered": true]);
+    	if this->_operationMade == self::OP_CREATE {
+        	mongoBulkWrite->insert(data);
+    	} else {
+        	mongoBulkWrite->update(["_id" : this->_id], data, ["w": true]);
+    	}
+    	let writeResult = this->getConnection()->executeBulkWrite(this->getSource(), mongoBulkWrite);
+
+    	if this->_operationMade == self::OP_CREATE {
+        	let status = writeResult->getInsertedCount();
+    	} else {
+        	let status = writeResult->getModifiedCount();
+    	}
+
+		if status > 0 {
+        	let success = true;
+        	if exists === false {
+            	if fetch id, data["_id"] {
+                	let this->_id = static::_getMongoId(id);
+            	}
+        	}
 		}
 
 		/**
@@ -919,9 +914,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function create() -> boolean
 	{
-		var exists, data, success, status, id, ok, collection;
-
-		let collection = this->prepareCU();
+		var exists, data, success, id, mongoBulkWrite, writeResult;
 
 		/**
 		 * Check the dirty state of the current operation to update the current operation
@@ -945,23 +938,37 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 		let success = false;
 
+
+    	if fetch id, data["_id"] {
+        	/**
+         	* Check if the model use implicit ids
+         	*/
+        	if this->_modelsManager->isUsingImplicitObjectIds(this) {
+            	let id = static::_getMongoId(id);
+            	let data["_id"] = id;
+        	} else {
+            	let data["_id"] = id;
+        	}
+    	} else {
+        	let id = static::_getMongoId(id);
+        	let data["_id"] = id;
+    	}
+
 		/**
 		 * We always use safe stores to get the success state
 		 * Save the document
 		 */
-		let status = collection->insert(data, ["w": true]);
-		if typeof status == "array" {
-			if fetch ok, status["ok"] {
-				if ok {
-					let success = true;
-					if exists === false {
-						if fetch id, data["_id"] {
-							let this->_id = id;
-						}
-					}
-				}
-			}
-		}
+    	let mongoBulkWrite = new \MongoDB\Driver\BulkWrite(["ordered": true]);
+    	mongoBulkWrite->insert(data);
+
+    	let writeResult = this->getConnection()->executeBulkWrite(this->getSource(), mongoBulkWrite);
+
+    	if writeResult->getInsertedCount() > 0 {
+        	let success = true;
+        	if exists === false {
+            	let this->_id = id;
+        	}
+    	}
 
 		/**
 		 * Call the postSave hooks
@@ -982,17 +989,12 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function createIfNotExist(array! criteria) -> boolean
 	{
-		var exists, data, keys, query,
-			success, status, doc, collection;
+		var exists, data, keys, query, queryResult, mongoQuery, mongoCursor,
+			id, success, doc, bulkWrite, writeResult;
 
 		if empty criteria {
 			throw new Exception("Criteria parameter must be array with one or more attributes of the model");
 		}
-
-		/**
-		 * Choose a collection according to the collection name
-		 */
-		let collection = this->prepareCU();
 
 		/**
 		 * Assume non-existance to fire beforeCreate events - no update does occur anyway
@@ -1002,7 +1004,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		/**
 		 * Reset current operation
 		 */
-
 		let this->_operationMade = self::OP_NONE;
 
 		/**
@@ -1017,7 +1018,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			return false;
 		}
 
-		let keys = array_flip( criteria );
+		let keys = array_flip(criteria);
 		let data = this->toArray();
 
 		if array_diff_key( keys, data ) {
@@ -1028,23 +1029,41 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 		let success = false;
 
+    	/**
+     	 * try to find the document using query
+     	 */
+    	let mongoQuery = new \MongoDB\Driver\Query(query);
+    	let mongoCursor = this->getConnection()->executeQuery( this->getSource(), mongoQuery );
+    	let queryResult = mongoCursor->toArray();
+
+    	if fetch doc, queryResult[0] {
+        	if fetch id, doc->_id {
+            	if typeof id == "object" {
+                	let exists = true;
+            	}
+        	}
+    	}
+
 		/**
 		 * $setOnInsert in conjunction with upsert ensures creating a new document
 		 * "new": false returns null if new document created, otherwise new or old document could be returned
 		 */
-		let status = collection->findAndModify(query,
-			["$setOnInsert": data],
-			null,
-			["new": false, "upsert": true]);
-		if status == null {
-			let doc = collection->findOne(query);
-			if typeof doc == "array" {
-				let success = true;
-				let this->_operationMade = self::OP_CREATE;
-				let this->_id = doc["_id"];
-			}
-		} else {
+		if exists {
 			this->appendMessage( new Message("Document already exists") );
+		} else {
+        	let bulkWrite = new \MongoDB\Driver\BulkWrite( [ "ordered" : true ] );
+        	bulkWrite->update( query, data, [ "new": true, "upsert": true ] );
+        	let writeResult = this->getConnection()->executeBulkWrite(this->getSource(), bulkWrite );
+			if writeResult->getUpsertedCount() > 0 {
+            	let mongoQuery = new \MongoDB\Driver\Query(query);
+            	let mongoCursor = this->getConnection()->executeQuery( this->getSource(), mongoQuery );
+            	let doc = mongoCursor->toArray()[0];
+            	if fetch id, doc->_id{
+                	let success = true;
+                	let this->_operationMade = self::OP_CREATE;
+                	let this->_id = id;
+            	}
+			}
 		}
 
 		/**
@@ -1058,16 +1077,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function update() -> boolean
 	{
-		var exists, data, success, status, ok, collection;
-
-		let collection = this->prepareCU();
+		var exists, data, success,
+			mongoBulkWrite, writeResult;
 
 		/**
 		 * Check the dirty state of the current operation to update the current operation
 		 */
-		let exists = this->_exists(collection);
+		let exists = this->_exists();
 
-		if !exists {
+		if ! exists {
 			throw new Exception("The document cannot be updated because it doesn't exist");
 		}
 
@@ -1093,13 +1111,12 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		 * We always use safe stores to get the success state
 		 * Save the document
 		 */
-		let status = collection->update(["_id": $this->_id], data, ["w": true]);
-		if typeof status == "array" {
-			if fetch ok, status["ok"] {
-				if ok {
-					let success = true;
-				}
-			}
+		let mongoBulkWrite = new \MongoDB\Driver\BulkWrite(["ordered": true]);
+		mongoBulkWrite->update(["_id": this->_id], data, ["w": true]);
+    	let writeResult = this->getConnection()->executeBulkWrite(this->getSource(), mongoBulkWrite);
+
+		if writeResult->getModifiedCount() > 0 {
+        	let success = true;
 		} else {
 			let success = false;
 		}
@@ -1114,8 +1131,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Find a document by its id (_id)
 	 *
 	 * <code>
-	 * // Find user by using \MongoId object
-	 * $user = Users::findById(new \MongoId('545eb081631d16153a293a66'));
+	 * // Find user by using \MongoDB\BSON\ObjectID object
+	 * $user = Users::findById(new \MongoDB\BSON\ObjectID('545eb081631d16153a293a66'));
 	 *
 	 * // Find user by using id as sting
 	 * $user = Users::findById('45cbc4a0e4123f6920000002');
@@ -1124,14 +1141,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * if ($user = Users::findById($_POST['id'])) {
 	 *     // ...
 	 * }
-	 * </code>
+	 *
+	 * @return \Phalcon\Mvc\Connection|null
 	 */
 	public static function findById(var id) -> <Collection> | null
 	{
 		var className, collection, mongoId;
 
 		if typeof id != "object" {
-			if !preg_match("/^[a-f\d]{24}$/i", id) {
+			if !preg_match("/^[a-f0-9]{24}$/i", id) {
 				return null;
 			}
 
@@ -1143,7 +1161,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			 * Check if the model use implicit ids
 			 */
 			if collection->getCollectionManager()->isUsingImplicitObjectIds(collection) {
-				let mongoId = new \MongoId(id);
+				let mongoId = static::_getMongoId(id);
 			} else {
 				let mongoId = id;
 			}
@@ -1152,7 +1170,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let mongoId = id;
 		}
 
-		return static::findFirst([["_id": mongoId]]);
+		return static::findFirst([ "conditions": ["_id": mongoId] ]);
 	}
 
 	/**
@@ -1178,10 +1196,12 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *
 	 * // Get first robot by id (_id)
 	 * $robot = Robots::findFirst([
-	 *     ['_id' => new \MongoId('45cbc4a0e4123f6920000002')]
+	 *     ['_id' => new \MongoDB\BSON\ObjectID('45cbc4a0e4123f6920000002')]
 	 * ]);
 	 * echo 'The robot id is ', $robot->_id, "\n";
 	 * </code>
+	 *
+	 * @return \Phalcon\Mvc\Connection|[]
 	 */
 	public static function findFirst(array parameters = null) -> array
 	{
@@ -1230,13 +1250,17 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *	   echo $robot->name, "\n";
 	 * }
 	 * </code>
+	 *
+	 * @return \Phalcon\Mvc\Connection[]|[]
 	 */
 	public static function find(array parameters = null) -> array
 	{
 		var className, collection;
 
 		let className = get_called_class();
+
 		let collection = new {className}();
+
 		return static::_getResultset(parameters, collection, collection->getConnection(), false);
 	}
 
@@ -1246,6 +1270,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *<code>
 	 * echo 'There are ', Robots::count(), ' robots';
 	 *</code>
+	 *
+	 * @return int
 	 */
 	public static function count(array parameters = null) -> array
 	{
@@ -1265,7 +1291,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public static function aggregate(array parameters = null) -> array
 	{
-		var className, model, connection, source;
+		var className, model, connection, source, dbName,
+			collectionName, _tmp, mongoCommand, mongoResult, arrayResult;
 
 		let className = get_called_class();
 
@@ -1278,7 +1305,22 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			throw new Exception("Method getSource() returns empty string");
 		}
 
-		return connection->selectCollection(source)->aggregate(parameters);
+		let _tmp = explode(".", source);
+		let dbName = _tmp[0];
+		let collectionName = _tmp[1];
+
+    	let mongoCommand = new \MongoDB\Driver\Command([
+        	"aggregate": collectionName,
+        	"pipeline": parameters
+    	]);
+    	let mongoResult = connection->executeCommand(dbName, mongoCommand);
+    	let arrayResult = mongoResult->toArray();
+
+    	if arrayResult[0]->ok == 1 {
+        	return arrayResult[0]->result;
+    	} else {
+        	return [];
+    	}
 	}
 
 	/**
@@ -1286,45 +1328,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public static function summatory(string! field, conditions = null, finalize = null) -> array
 	{
-		var className, model, connection, source, collection, initial,
-			reduce, group, retval, firstRetval;
-
-		let className = get_called_class();
-
-		let model = new {className}();
-
-		let connection = model->getConnection();
-
-		let source = model->getSource();
-		if empty source {
-			throw new Exception("Method getSource() returns empty string");
-		}
-
-		let collection = connection->selectCollection(source);
-
-		/**
-		 * Uses a javascript hash to group the results
-		 */
-		let initial = ["summatory": []];
-
-		/**
-		 * Uses a javascript hash to group the results, however this is slow with larger datasets
-		 */
-		let reduce = "function (curr, result) { if (typeof result.summatory[curr." . field . "] === \"undefined\") { result.summatory[curr." . field . "] = 1; } else { result.summatory[curr." . field . "]++; } }";
-
-		let group = collection->group([], initial, reduce);
-
-		if fetch retval, group["retval"] {
-			if fetch firstRetval, retval[0] {
-				if isset firstRetval["summatory"] {
-					return firstRetval["summatory"];
-				}
-				return firstRetval;
-			}
-			return retval;
-		}
-
-		return [];
+    	//  FIXME: (>_<)
+    	throw new Exception("Ooops, this method temporarily unavailable!");
 	}
 
 	/**
@@ -1341,8 +1346,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	public function delete() -> boolean
 	{
-		var disableEvents, status, id, connection, source,
-			collection, mongoId, success, ok;
+		var disableEvents, id, connection, source,
+			mongoId, success, mongoBulkWrite, mongoWriteResult;
 
 		if !fetch id, this->_id {
 			throw new Exception("The document cannot be deleted because it doesn't exist");
@@ -1367,11 +1372,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			throw new Exception("Method getSource() returns empty string");
 		}
 
-		/**
-		 * Get the \MongoCollection
-		 */
-		let collection = connection->selectCollection(source);
-
 		if typeof id == "object" {
 			let mongoId = id;
 		} else {
@@ -1379,7 +1379,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			 * Is the collection using implicit object Ids?
 			 */
 			if this->_modelsManager->isUsingImplicitObjectIds(this) {
-				let mongoId = new \MongoId(id);
+				let mongoId = static::_getMongoId(id);
 			} else {
 				let mongoId = id;
 			}
@@ -1390,24 +1390,20 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		/**
 		 * Remove the instance
 		 */
-		let status = collection->remove(["_id": mongoId], ["w": true]);
-		if typeof status != "array" {
-			return false;
-		}
+
+		let mongoBulkWrite = new \MongoDB\Driver\BulkWrite(["ordered": true]);
+		mongoBulkWrite->delete(["_id": mongoId]);
+		let mongoWriteResult = this->getConnection()->executeBulkWrite(this->getSource(), mongoBulkWrite);
 
 		/**
 		 * Check the operation status
 		 */
-		if fetch ok, status["ok"] {
-			if ok {
-				let success = true;
-				if !disableEvents {
-					this->fireEvent("afterDelete");
-				}
-			}
-		} else {
-			let success = false;
-		}
+    	if mongoWriteResult->getDeletedCount() > 0 {
+        	let success = true;
+        	if !disableEvents {
+            	this->fireEvent("afterDelete");
+        	}
+    	}
 
 		return success;
 	}
@@ -1515,5 +1511,29 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 				let this->{key} = value;
 			}
 		}
+	}
+
+	/**
+	 * Get or generate mongoId
+	 * @return \MongoDB\BSON\ObjectID
+	 */
+	private static function _getMongoId(mongoId = null)
+	{
+		var oid;
+
+		if mongoId == null {
+			return new \MongoDB\BSON\ObjectID();
+		} else {
+			if typeof mongoId == "string" {
+				return new \MongoDB\BSON\ObjectID(mongoId);
+			}
+			if typeof mongoId == "array" {
+				if fetch oid, mongoId["oid"] {
+					return new \MongoDB\BSON\ObjectID(oid);
+				}
+			}
+		}
+
+		return mongoId;
 	}
 }
