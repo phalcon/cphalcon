@@ -128,7 +128,7 @@ class Redis extends Backend implements BackendInterface
 			}
 		}
 
-		if fetch index, options["index"] {
+		if fetch index, options["index"] && index > 0 {
 			let success = redis->select(index);
 
 			if !success {
