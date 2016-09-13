@@ -49,7 +49,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 	protected _expire;
 
-	protected _path = "/";
+	protected _path;
 
 	protected _domain;
 
@@ -68,7 +68,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	 * @param string domain
 	 * @param boolean httpOnly
 	 */
-	public function __construct(string! name, var value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null)
+	public function __construct(string! name, var value = null, expire = 0, path = null, secure = null, domain = null, httpOnly = null)
 	{
 		let this->_name = name;
 
