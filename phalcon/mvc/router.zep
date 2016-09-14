@@ -37,7 +37,7 @@ use Phalcon\Events\EventsAwareInterface;
  * decomposing it into parameters to determine which module, controller, and
  * action of that controller should receive the request
  *
- *<code>
+ * <code>
  * use Phalcon\Mvc\Router;
  *
  * $router = new Router();
@@ -47,13 +47,13 @@ use Phalcon\Events\EventsAwareInterface;
  *     [
  *         'controller' => 'documentation',
  *         'action'     => 'show'
- *		)
- *	);
+ *      ]
+ *  );
  *
  * $router->handle();
  *
  * echo $router->getControllerName();
- *</code>
+ * </code>
  */
 class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
 {
@@ -195,9 +195,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Sets the URI source. One of the URI_SOURCE_* constants
 	 *
-	 *<code>
-	 *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-	 *</code>
+	 * <code>
+	 * $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+	 * </code>
 	 */
 	public function setUriSource(var uriSource) -> <RouterInterface>
 	{
