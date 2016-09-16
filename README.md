@@ -134,4 +134,4 @@ Just give it a try and help us improve Phalcon even more!
 
 License
 -------
-Phalcon is open source software licensed under the New BSD License. See the LICENSE.txt file for more
+Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more
