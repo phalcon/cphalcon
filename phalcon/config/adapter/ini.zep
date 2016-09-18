@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -138,7 +138,7 @@ class Ini extends Config
 	 *
 	 * @param mixed ini The array casted by `parse_ini_file`
 	 */
-	private function _cast(var ini) -> bool | null | double | int | string
+	protected function _cast(var ini) -> bool | null | double | int | string
 	{
 		var key, val;
 		if typeof ini == "array" {
@@ -151,17 +151,17 @@ class Ini extends Config
 			if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
 				return true;
 			}
-	
+
 			// Decode false
 			if ini === "false" || ini === "no" || strtolower(ini) === "off"{
 				return false;
 			}
-	
+
 			// Decode null
 			if ini === "null" {
 				return null;
 			}
-	
+
 			// Decode float/int
 			if is_numeric(ini) {
 				if preg_match("/[.]+/", ini) {
