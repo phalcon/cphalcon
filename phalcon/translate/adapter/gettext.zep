@@ -27,6 +27,17 @@ use Phalcon\Translate\Adapter;
 /**
  * Phalcon\Translate\Adapter\Gettext
  *
+ * <code>
+ * use Phalcon\Translate\Adapter\Gettext;
+ *
+ * $adapter = new Gettext([
+ *     'locale'        => 'de_DE.UTF-8',
+ *     'defaultDomain' => 'translations',
+ *     'directory'     => '/path/to/application/locales',
+ *     'category'      => LC_MESSAGES,
+ * ]);
+ * </code>
+ *
  * Allows translate using gettext
  */
 class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
