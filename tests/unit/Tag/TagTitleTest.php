@@ -63,6 +63,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle($value);
 
                 expect(Tag::getTitle())->equals("<title>{$value}</title>" . PHP_EOL);
+                
+                expect(Tag::getTitle(false))->equals("{$value}" . PHP_EOL);
             }
         );
     }
@@ -95,6 +97,13 @@ class TagTitleTest extends UnitTest
                 Tag::appendTitle('Class');
 
                 expect(Tag::getTitle())->equals("<title>Title|Class</title>" . PHP_EOL);
+                
+                Tag::setTitle('Main');
+                Tag::setTitleSeparator(' - ');
+                Tag::appendTitle('Category');
+                Tag::appendTitle('Title');
+                
+                expect(Tag::getTitle())->equals("<title>Main - Category - Title</title>" . PHP_EOL);
 
                 Tag::resetInput();
             }
@@ -125,6 +134,13 @@ class TagTitleTest extends UnitTest
                 Tag::prependTitle('Class');
 
                 expect(Tag::getTitle())->equals('<title>Class|Title</title>' . PHP_EOL);
+                
+                Tag::setTitle('Main');
+                Tag::setTitleSeparator(' - ');
+                Tag::prependTitle('Category');
+                Tag::prependTitle('Title');
+                
+                expect(Tag::getTitle())->equals("<title>Title - Category - Main</title>" . PHP_EOL);
             }
         );
     }
