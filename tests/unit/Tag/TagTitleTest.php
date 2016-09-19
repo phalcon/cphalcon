@@ -43,8 +43,6 @@ class TagTitleTest extends UnitTest
                 $expected = "<title>Hello &lt;/title&gt;&lt;script&gt;alert(&#039;Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;</title>" . PHP_EOL;
 
                 expect(Tag::getTitle())->equals($expected);
-                
-                expect(Tag::getTitle(false))->equals("{$value}" . PHP_EOL);
             }
         );
     }
@@ -65,6 +63,8 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle($value);
 
                 expect(Tag::getTitle())->equals("<title>{$value}</title>" . PHP_EOL);
+                
+                expect(Tag::getTitle(false))->equals("{$value}" . PHP_EOL);
             }
         );
     }
