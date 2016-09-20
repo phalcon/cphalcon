@@ -1073,13 +1073,22 @@ class Tag
 	/**
 	 * Prepends a text to current document title
 	 */
-	public static function prependTitle(string title) -> void
+	public static function prependTitle(var title) -> void
 	{
+		var prepend = [];
 		if self::_documentPrependTitle !== null {
-			let self::_documentPrependTitle = title . self::_documentTitleSeparator . self::_documentPrependTitle;
-		} else {
-			let self::_documentPrependTitle = title ;
+			let prepend = self::_documentPrependTitle ;
 		}
+		
+		if typeof title == "array" {
+			let prepend = title;
+		} else {
+			if typeof title == "string" {
+				array_unshift(prepend, title) ;
+			}
+		}
+		
+		let self::_documentPrependTitle = prepend ;
 	}
 
 	/**
@@ -1101,13 +1110,13 @@ class Tag
 		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
 		let items = [];
 		let output = "";
-		let documentPrependTitle = escaper->escapeHtml(self::_documentPrependTitle);
+		let documentPrependTitle = self::_documentPrependTitle;
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
 		let documentAppendTitle = escaper->escapeHtml(self::_documentAppendTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
-			let items[] = documentPrependTitle;
+			let items[] = escaper->escapeHtml(implode(documentTitleSeparator, documentPrependTitle));
 		}
 
 		if !empty documentTitle {
