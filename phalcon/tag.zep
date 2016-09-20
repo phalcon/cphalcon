@@ -1123,9 +1123,9 @@ class Tag
 		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
 		let items = [];
 		let output = "";
-		let documentPrependTitle = escaper->escapeHtml(self::_documentPrependTitle);
+		let documentPrependTitle = self::_documentPrependTitle;
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
-		let documentAppendTitle = escaper->escapeHtml(self::_documentAppendTitle);
+		let documentAppendTitle = self::_documentAppendTitle;
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
