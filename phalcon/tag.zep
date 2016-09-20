@@ -1061,24 +1061,46 @@ class Tag
 	/**
 	 * Appends a text to current document title
 	 */
-	public static function appendTitle(string title) -> void
+	public static function appendTitle(var title) -> void
 	{
+		var append = [];
 		if self::_documentAppendTitle !== null {
-			let self::_documentAppendTitle = self::_documentAppendTitle . self::_documentTitleSeparator . title ;
+			let append = self::_documentAppendTitle ;
+		}
+		
+		if typeof title == array {
+			let append = title;
 		} else {
-			let self::_documentAppendTitle = title ;
+			if typeof title == string {
+				let append[] = title;
+			}
+		}
+		
+		if !empty append {
+			let self::_documentAppendTitle = append ;
 		}
 	}
 
 	/**
 	 * Prepends a text to current document title
 	 */
-	public static function prependTitle(string title) -> void
+	public static function prependTitle(var title) -> void
 	{
+		var prepend = [];
 		if self::_documentPrependTitle !== null {
-			let self::_documentPrependTitle = title . self::_documentTitleSeparator . self::_documentPrependTitle;
+			let prepend = self::_documentPrependTitle ;
+		}
+		
+		if typeof title == array {
+			let prepend = title;
 		} else {
-			let self::_documentPrependTitle = title ;
+			if typeof title == string {
+				array_unshift(prepend, title) ;
+			}
+		}
+		
+		if !empty prepend {
+			let self::_documentPrependTitle = prepend ;
 		}
 	}
 
@@ -1107,7 +1129,7 @@ class Tag
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
-			let items[] = documentPrependTitle;
+			let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentPrependTitle) );
 		}
 
 		if !empty documentTitle {
@@ -1115,7 +1137,7 @@ class Tag
 		}
 
 		if !empty documentAppendTitle {
-			let items[] = documentAppendTitle;
+			let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentAppendTitle) );
 		}
 
 		if empty documentTitleSeparator {
