@@ -1061,46 +1061,24 @@ class Tag
 	/**
 	 * Appends a text to current document title
 	 */
-	public static function appendTitle(var title) -> void
+	public static function appendTitle(string title) -> void
 	{
-		var append = [];
 		if self::_documentAppendTitle !== null {
-			let append = self::_documentAppendTitle ;
-		}
-		
-		if typeof title == array {
-			let append = title;
+			let self::_documentAppendTitle = self::_documentAppendTitle . self::_documentTitleSeparator . title ;
 		} else {
-			if typeof title == string {
-				let append[] = title;
-			}
-		}
-		
-		if !empty append {
-			let self::_documentAppendTitle = append ;
+			let self::_documentAppendTitle = title ;
 		}
 	}
 
 	/**
 	 * Prepends a text to current document title
 	 */
-	public static function prependTitle(var title) -> void
+	public static function prependTitle(string title) -> void
 	{
-		var prepend = [];
 		if self::_documentPrependTitle !== null {
-			let prepend = self::_documentPrependTitle ;
-		}
-		
-		if typeof title == array {
-			let prepend = title;
+			let self::_documentPrependTitle = title . self::_documentTitleSeparator . self::_documentPrependTitle;
 		} else {
-			if typeof title == string {
-				array_unshift(prepend, title) ;
-			}
-		}
-		
-		if !empty prepend {
-			let self::_documentPrependTitle = prepend ;
+			let self::_documentPrependTitle = title ;
 		}
 	}
 
@@ -1123,13 +1101,13 @@ class Tag
 		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
 		let items = [];
 		let output = "";
-		let documentPrependTitle = self::_documentPrependTitle;
+		let documentPrependTitle = escaper->escapeHtml(self::_documentPrependTitle);
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
-		let documentAppendTitle = self::_documentAppendTitle;
+		let documentAppendTitle = escaper->escapeHtml(self::_documentAppendTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
-			// let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentPrependTitle) );
+			let items[] = documentPrependTitle;
 		}
 
 		if !empty documentTitle {
@@ -1137,7 +1115,7 @@ class Tag
 		}
 
 		if !empty documentAppendTitle {
-			// let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentAppendTitle) );
+			let items[] = documentAppendTitle;
 		}
 
 		if empty documentTitleSeparator {
