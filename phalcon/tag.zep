@@ -1061,13 +1061,22 @@ class Tag
 	/**
 	 * Appends a text to current document title
 	 */
-	public static function appendTitle(string title) -> void
+	public static function appendTitle(var title) -> void
 	{
+		var append = [];
 		if self::_documentAppendTitle !== null {
-			let self::_documentAppendTitle = self::_documentAppendTitle . self::_documentTitleSeparator . title ;
-		} else {
-			let self::_documentAppendTitle = title ;
+			let append = self::_documentAppendTitle ;
 		}
+		
+		if typeof title == "array" {
+			let append = title;
+		} else {
+			if typeof title == "string" {
+				let append[] = title;
+			}
+		}
+		
+		let self::_documentAppendTitle = append ;
 	}
 
 	/**
@@ -1112,7 +1121,7 @@ class Tag
 		let output = "";
 		let documentPrependTitle = self::_documentPrependTitle;
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
-		let documentAppendTitle = escaper->escapeHtml(self::_documentAppendTitle);
+		let documentAppendTitle = self::_documentAppendTitle;
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
@@ -1124,7 +1133,7 @@ class Tag
 		}
 
 		if !empty documentAppendTitle {
-			let items[] = documentAppendTitle;
+			let items[] = escaper->escapeHtml(implode(documentTitleSeparator, documentAppendTitle));
 		}
 
 		if empty documentTitleSeparator {
