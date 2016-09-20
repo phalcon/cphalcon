@@ -1063,7 +1063,11 @@ class Tag
 	 */
 	public static function appendTitle(string title) -> void
 	{
-		let self::_documentAppendTitle = title;
+		if self::_documentAppendTitle !== null {
+			let self::_documentAppendTitle = self::_documentAppendTitle . self::_documentTitleSeparator . title ;
+		} else {
+			let self::_documentAppendTitle = title ;
+		}
 	}
 
 	/**
@@ -1071,7 +1075,11 @@ class Tag
 	 */
 	public static function prependTitle(string title) -> void
 	{
-		let self::_documentPrependTitle = title;
+		if self::_documentPrependTitle !== null {
+			let self::_documentPrependTitle = title . self::_documentTitleSeparator . self::_documentPrependTitle;
+		} else {
+			let self::_documentPrependTitle = title ;
+		}
 	}
 
 	/**
