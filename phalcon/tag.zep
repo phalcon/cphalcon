@@ -1076,6 +1076,10 @@ class Tag
 			}
 		}
 		
+		if empty append {
+			append = null ;
+		}
+		
 		let self::_documentAppendTitle = append ;
 	}
 
@@ -1095,6 +1099,10 @@ class Tag
 			if typeof title == "string" {
 				array_unshift(prepend, title) ;
 			}
+		}
+		
+		if empty prepend {
+			prepend = null ;
 		}
 		
 		let self::_documentPrependTitle = prepend ;
