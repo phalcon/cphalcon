@@ -1129,7 +1129,7 @@ class Tag
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
-			let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentPrependTitle) );
+			// let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentPrependTitle) );
 		}
 
 		if !empty documentTitle {
@@ -1137,7 +1137,7 @@ class Tag
 		}
 
 		if !empty documentAppendTitle {
-			let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentAppendTitle) );
+			// let items[] = escaper->escapeHtml( implode(documentTitleSeparator, documentAppendTitle) );
 		}
 
 		if empty documentTitleSeparator {
