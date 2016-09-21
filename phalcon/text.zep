@@ -37,6 +37,8 @@ abstract class Text
 
 	const RANDOM_NOZERO = 4;
 
+	const RANDOM_DISTINCT = 5;
+
 	/**
 	 * Converts strings to camelize style
 	 *
@@ -115,6 +117,10 @@ abstract class Text
 
 			case Text::RANDOM_NOZERO:
 				let pool = range(1, 9);
+				break;
+
+			case Text::RANDOM_DISTINCT:
+				let pool = "2345679ACDEFHJKLMNPRSTUVWXYZ";
 				break;
 
 			default:
