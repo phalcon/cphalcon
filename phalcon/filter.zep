@@ -35,33 +35,38 @@ use Phalcon\Filter\Exception;
  *	$filter->sanitize("hello<<", "string"); // returns "hello"
  *	$filter->sanitize("!100a019", "int"); // returns "100019"
  *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
+ *	$filter->sanitize(1, "boolean"); // returns TRUE
  *</code>
  */
 class Filter implements FilterInterface
 {
-	const FILTER_EMAIL      = "email";
+	const FILTER_EMAIL        = "email";
 
-	const FILTER_ABSINT     = "absint";
+	const FILTER_ABSINT       = "absint";
 
-	const FILTER_INT        = "int";
+	const FILTER_INT          = "int";
 
-	const FILTER_INT_CAST   = "int!";
+	const FILTER_INT_CAST     = "int!";
 
-	const FILTER_STRING     = "string";
+	const FILTER_STRING       = "string";
 
-	const FILTER_FLOAT      = "float";
+	const FILTER_FLOAT        = "float";
 
-	const FILTER_FLOAT_CAST = "float!";
+	const FILTER_FLOAT_CAST   = "float!";
 
-	const FILTER_ALPHANUM   = "alphanum";
+	const FILTER_ALPHANUM     = "alphanum";
 
-	const FILTER_TRIM       = "trim";
+	const FILTER_TRIM         = "trim";
 
-	const FILTER_STRIPTAGS  = "striptags";
+	const FILTER_STRIPTAGS    = "striptags";
 
-	const FILTER_LOWER      = "lower";
+	const FILTER_LOWER        = "lower";
 
-	const FILTER_UPPER      = "upper";
+	const FILTER_UPPER        = "upper";
+	
+	const FILTER_BOOLEAN      = "boolean";
+	
+	const FILTER_BOOLEAN_CAST = "boolean!";
 
 	protected _filters;
 
@@ -103,6 +108,10 @@ class Filter implements FilterInterface
 					} else {
 						let value = this->_sanitize(value, filter);
 					}
+					/**
+					 * Account for any filters that may return a null value
+					 */
+					if (value === null) {break;}
 				}
 			}
 			return value;
@@ -209,6 +218,17 @@ class Filter implements FilterInterface
 				}
 				return strtoupper(value);
 
+			case Filter::FILTER_BOOLEAN:
+				/**
+				 * Must break, as it may return a null value
+				 */
+				return is_bool($value) ? $value : null;
+				break;
+				
+			case Filter::FILTER_BOOLEAN_CAST:
+
+				return boolval($value);
+			
 			default:
 				throw new Exception("Sanitize filter '" . filter . "' is not supported");
 		}
