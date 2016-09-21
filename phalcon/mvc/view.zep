@@ -40,12 +40,12 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * $view = new View();
  *
  * // Setting views directory
- * $view->setViewsDir('app/views/');
+ * $view->setViewsDir("app/views/");
  *
  * $view->start();
  *
  * // Shows recent posts view (app/views/posts/recent.phtml)
- * $view->render('posts', 'recent');
+ * $view->render("posts", "recent");
  * $view->finish();
  *
  * // Printing views output
@@ -226,7 +226,7 @@ class View extends Injectable implements ViewInterface
 	 * Depending of your platform, always add a trailing slash or backslash
 	 *
 	 *<code>
-	 * $view->setLayoutsDir('../common/layouts/');
+	 * $view->setLayoutsDir("../common/layouts/");
 	 *</code>
 	 */
 	public function setLayoutsDir(string layoutsDir) -> <View>
@@ -248,7 +248,7 @@ class View extends Injectable implements ViewInterface
 	 * Depending of your platform, always add a trailing slash or backslash
 	 *
 	 *<code>
-	 * $view->setPartialsDir('../common/partials/');
+	 * $view->setPartialsDir("../common/partials/");
 	 *</code>
 	 */
 	public function setPartialsDir(string partialsDir) -> <View>
@@ -269,7 +269,7 @@ class View extends Injectable implements ViewInterface
 	 * Sets base path. Depending of your platform, always add a trailing slash or backslash
 	 *
 	 * <code>
-	 * 	$view->setBasePath(__DIR__ . '/');
+	 * 	$view->setBasePath(__DIR__ . "/");
 	 * </code>
 	 */
 	public function setBasePath(string basePath) -> <View>
@@ -290,8 +290,10 @@ class View extends Injectable implements ViewInterface
 	 * Sets the render level for the view
 	 *
 	 * <code>
-	 * 	//Render the view related to the controller only
-	 * 	$this->view->setRenderLevel(View::LEVEL_LAYOUT);
+	 * // Render the view related to the controller only
+	 * $this->view->setRenderLevel(
+	 *     View::LEVEL_LAYOUT
+	 * );
 	 * </code>
 	 */
 	public function setRenderLevel(int level) -> <View>
@@ -305,7 +307,9 @@ class View extends Injectable implements ViewInterface
 	 *
 	 *<code>
 	 * // Render all levels except ACTION level
-	 * $this->view->disableLevel(View::LEVEL_ACTION_VIEW);
+	 * $this->view->disableLevel(
+	 *     View::LEVEL_ACTION_VIEW
+	 * );
 	 *</code>
 	 */
 	public function disableLevel(var level) -> <View>
@@ -322,8 +326,8 @@ class View extends Injectable implements ViewInterface
 	 * Sets default view name. Must be a file without extension in the views directory
 	 *
 	 * <code>
-	 * 	//Renders as main view views-dir/base.phtml
-	 * 	$this->view->setMainView('base');
+	 * // Renders as main view views-dir/base.phtml
+	 * $this->view->setMainView("base");
 	 * </code>
 	 */
 	public function setMainView(string viewPath) -> <View>
@@ -344,7 +348,7 @@ class View extends Injectable implements ViewInterface
 	 * Change the layout to be used instead of using the name of the latest controller name
 	 *
 	 * <code>
-	 * 	$this->view->setLayout('main');
+	 * $this->view->setLayout("main");
 	 * </code>
 	 */
 	public function setLayout(string layout) -> <View>
@@ -409,7 +413,7 @@ class View extends Injectable implements ViewInterface
 	 * Adds parameters to views (alias of setVar)
 	 *
 	 *<code>
-	 *	$this->view->setParamToView('products', $products);
+	 * $this->view->setParamToView("products", $products);
 	 *</code>
 	 */
 	public function setParamToView(string! key, var value) -> <View>
@@ -422,7 +426,11 @@ class View extends Injectable implements ViewInterface
 	 * Set all the render params
 	 *
 	 *<code>
-	 *	$this->view->setVars(['products' => $products]);
+	 * $this->view->setVars(
+	 *     [
+	 *         "products" => $products,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
@@ -440,7 +448,7 @@ class View extends Injectable implements ViewInterface
 	 * Set a single view parameter
 	 *
 	 *<code>
-	 *	$this->view->setVar('products', $products);
+	 * $this->view->setVar("products", $products);
 	 *</code>
 	 */
 	public function setVar(string! key, var value) -> <View>
@@ -710,11 +718,13 @@ class View extends Injectable implements ViewInterface
 	 * Register templating engines
 	 *
 	 *<code>
-	 * $this->view->registerEngines([
-	 *  '.phtml' => 'Phalcon\Mvc\View\Engine\Php',
-	 *  '.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
-	 *  '.mhtml' => 'MyCustomEngine'
-	 * ]);
+	 * $this->view->registerEngines(
+	 *     [
+	 *         ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
+	 *         ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
+	 *         ".mhtml" => "MyCustomEngine",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function registerEngines(array! engines) -> <View>
@@ -754,7 +764,7 @@ class View extends Injectable implements ViewInterface
 	 *
 	 *<code>
 	 * // Shows recent posts view (app/views/posts/recent.phtml)
-	 * $view->start()->render('posts', 'recent')->finish();
+	 * $view->start()->render("posts", "recent")->finish();
 	 *</code>
 	 *
 	 * @param string controllerName
@@ -978,10 +988,8 @@ class View extends Injectable implements ViewInterface
 	 *
 	 * class ProductsController extends Controller
 	 * {
-	 *
 	 *    public function saveAction()
 	 *    {
-	 *
 	 *         // Do some save stuff...
 	 *
 	 *         // Then show the list view
@@ -1017,13 +1025,18 @@ class View extends Injectable implements ViewInterface
 	 * Renders a partial view
 	 *
 	 * <code>
-	 * 	// Retrieve the contents of a partial
-	 * 	echo $this->getPartial('shared/footer');
+	 * // Retrieve the contents of a partial
+	 * echo $this->getPartial("shared/footer");
 	 * </code>
 	 *
 	 * <code>
-	 * 	// Retrieve the contents of a partial with arguments
-	 * 	echo $this->getPartial('shared/footer', ['content' => $html]);
+	 * // Retrieve the contents of a partial with arguments
+	 * echo $this->getPartial(
+	 *     "shared/footer",
+	 *     [
+	 *         "content" => $html,
+	 *     ]
+	 * );
 	 * </code>
 	 */
 	public function getPartial(string! partialPath, var params = null) -> string
@@ -1039,13 +1052,18 @@ class View extends Injectable implements ViewInterface
 	 * Renders a partial view
 	 *
 	 * <code>
-	 * 	// Show a partial inside another view
-	 * 	$this->partial('shared/footer');
+	 * // Show a partial inside another view
+	 * $this->partial("shared/footer");
 	 * </code>
 	 *
 	 * <code>
-	 * 	// Show a partial inside another view with parameters
-	 * 	$this->partial('shared/footer', ['content' => $html]);
+	 * // Show a partial inside another view with parameters
+	 * $this->partial(
+	 *     "shared/footer",
+	 *     [
+	 *         "content" => $html,
+	 *     ]
+	 * );
 	 * </code>
 	 */
 	public function partial(string! partialPath, var params = null)
@@ -1095,7 +1113,13 @@ class View extends Injectable implements ViewInterface
 	 * Perform the automatic rendering returning the output as a string
 	 *
 	 * <code>
-	 * 	$template = $this->view->getRender('products', 'show', ['products' => $products]);
+	 * $template = $this->view->getRender(
+	 *     "products",
+	 *     "show",
+	 *     [
+	 *         "products" => $products,
+	 *     ]
+	 * );
 	 * </code>
 	 *
 	 * @param string controllerName
@@ -1221,7 +1245,12 @@ class View extends Injectable implements ViewInterface
 	 * Cache the actual view render to certain level
 	 *
 	 *<code>
-	 *  $this->view->cache(['key' => 'my-key', 'lifetime' => 86400]);
+	 * $this->view->cache(
+	 *     [
+	 *         "key"      => "my-key",
+	 *         "lifetime" => 86400,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function cache(var options = true) -> <View>
@@ -1276,7 +1305,7 @@ class View extends Injectable implements ViewInterface
 	 * Externally sets the view content
 	 *
 	 *<code>
-	 *	$this->view->setContent("<h1>hello</h1>");
+	 * $this->view->setContent("<h1>hello</h1>");
 	 *</code>
 	 */
 	public function setContent(string content) -> <View>
@@ -1357,7 +1386,7 @@ class View extends Injectable implements ViewInterface
 	 * Magic method to pass variables to the views
 	 *
 	 *<code>
-	 *	$this->view->products = $products;
+	 * $this->view->products = $products;
 	 *</code>
 	 */
 	public function __set(string! key, var value)
@@ -1369,7 +1398,7 @@ class View extends Injectable implements ViewInterface
 	 * Magic method to retrieve a variable passed to the view
 	 *
 	 *<code>
-	 *	echo $this->view->products;
+	 * echo $this->view->products;
 	 *</code>
 	 */
 	public function __get(string! key) -> var | null
@@ -1393,7 +1422,7 @@ class View extends Injectable implements ViewInterface
 	 * Magic method to retrieve if a variable is set in the view
 	 *
 	 *<code>
-	 *  echo isset($this->view->products);
+	 * echo isset($this->view->products);
 	 *</code>
 	 */
 	public function __isset(string! key) -> boolean

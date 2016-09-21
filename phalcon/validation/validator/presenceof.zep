@@ -31,16 +31,29 @@ use Phalcon\Validation\Validator;
  * <code>
  * use Phalcon\Validation\Validator\PresenceOf;
  *
- * $validator->add('name', new PresenceOf([
- *     'message' => 'The name is required'
- * ]));
+ * $validator->add(
+ *     "name",
+ *     new PresenceOf(
+ *         [
+ *             "message" => "The name is required",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['name', 'email'], new PresenceOf([
- *     'message' => [
- *         'name' => 'The name is required',
- *         'email' => 'The email is required'
- *     ]
- * ]));
+ * $validator->add(
+ *     [
+ *         "name",
+ *         "email",
+ *     ],
+ *     new PresenceOf(
+ *         [
+ *             "message" => [
+ *                 "name"  => "The name is required",
+ *                 "email" => "The email is required",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class PresenceOf extends Validator

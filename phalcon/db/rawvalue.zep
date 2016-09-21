@@ -27,10 +27,12 @@ namespace Phalcon\Db;
  * The next example shows how to use the MySQL now() function as a field value.
  *
  *<code>
- *	$subscriber = new Subscribers();
- *	$subscriber->email = 'andres@phalconphp.com';
- *	$subscriber->createdAt = new \Phalcon\Db\RawValue('now()');
- *	$subscriber->save();
+ * $subscriber = new Subscribers();
+ *
+ * $subscriber->email     = "andres@phalconphp.com";
+ * $subscriber->createdAt = new \Phalcon\Db\RawValue("now()");
+ *
+ * $subscriber->save();
  *</code>
  */
 class RawValue

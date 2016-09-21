@@ -35,11 +35,11 @@ use Phalcon\Db\Result\Pdo as ResultPdo;
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
- *   'host'     => 'localhost',
- *   'dbname'   => 'blog',
- *   'port'     => 3306,
- *   'username' => 'sigma',
- *   'password' => 'secret'
+ *     "host"     => "localhost",
+ *     "dbname"   => "blog",
+ *     "port"     => 3306,
+ *     "username" => "sigma",
+ *     "password" => "secret",
  * ];
  *
  * $connection = new Mysql($config);
@@ -78,13 +78,15 @@ abstract class Pdo extends Adapter
 	 * use Phalcon\Db\Adapter\Pdo\Mysql;
 	 *
 	 * // Make a connection
-	 * $connection = new Mysql([
-	 *  'host'     => 'localhost',
-	 *  'username' => 'sigma',
-	 *  'password' => 'secret',
-	 *  'dbname'   => 'blog',
-	 *  'port'     => 3306,
-	 * ]);
+	 * $connection = new Mysql(
+	 *     [
+	 *         "host"     => "localhost",
+	 *         "username" => "sigma",
+	 *         "password" => "secret",
+	 *         "dbname"   => "blog",
+	 *         "port"     => 3306,
+	 *     ]
+	 * );
 	 *
 	 * // Reconnect
 	 * $connection->connect();
@@ -170,8 +172,19 @@ abstract class Pdo extends Adapter
 	 *<code>
 	 * use Phalcon\Db\Column;
 	 *
-	 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
-	 * $result = $connection->executePrepared($statement, ['name' => 'Voltron'], ['name' => Column::BIND_PARAM_INT]);
+	 * $statement = $db->prepare(
+	 *     "SELECT * FROM robots WHERE name = :name"
+	 * );
+	 *
+	 * $result = $connection->executePrepared(
+	 *     $statement,
+	 *     [
+	 *         "name" => "Voltron",
+	 *     ],
+	 *     [
+	 *         "name" => Column::BIND_PARAM_INT,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function prepare(string! sqlStatement) -> <\PDOStatement>
@@ -185,8 +198,19 @@ abstract class Pdo extends Adapter
 	 *<code>
 	 * use Phalcon\Db\Column;
 	 *
-	 * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
-	 * $result = $connection->executePrepared($statement, ['name' => 'Voltron'], ['name' => Column::BIND_PARAM_INT]);
+	 * $statement = $db->prepare(
+	 *     "SELECT * FROM robots WHERE name = :name"
+	 * );
+	 *
+	 * $result = $connection->executePrepared(
+	 *     $statement,
+	 *     [
+	 *         "name" => "Voltron",
+	 *     ],
+	 *     [
+	 *         "name" => Column::BIND_PARAM_INT,
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param \PDOStatement statement
@@ -288,9 +312,17 @@ abstract class Pdo extends Adapter
 	 * Use this method only when the SQL statement sent to the server is returning rows
 	 *
 	 *<code>
-	 *	//Querying data
-	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");
-	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
+	 * // Querying data
+	 * $resultset = $connection->query(
+	 *     "SELECT * FROM robots WHERE type = 'mechanical'"
+	 * );
+	 *
+	 * $resultset = $connection->query(
+	 *     "SELECT * FROM robots WHERE type = ?",
+	 *     [
+	 *         "mechanical",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
@@ -339,9 +371,18 @@ abstract class Pdo extends Adapter
 	 * Use this method only when the SQL statement sent to the server doesn't return any rows
 	 *
 	 *<code>
-	 *	//Inserting data
-	 *	$success = $connection->execute("INSERT INTO robots VALUES (1, 'Astro Boy')");
-	 *	$success = $connection->execute("INSERT INTO robots VALUES (?, ?)", array(1, 'Astro Boy'));
+	 * // Inserting data
+	 * $success = $connection->execute(
+	 *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
+	 * );
+	 *
+	 * $success = $connection->execute(
+	 *     "INSERT INTO robots VALUES (?, ?)",
+	 *     [
+	 *         1,
+	 *         "Astro Boy",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
@@ -394,8 +435,11 @@ abstract class Pdo extends Adapter
 	 * Returns the number of affected rows by the lastest INSERT/UPDATE/DELETE executed in the database system
 	 *
 	 *<code>
-	 *	$connection->execute("DELETE FROM robots");
-	 *	echo $connection->affectedRows(), ' were deleted';
+	 * $connection->execute(
+	 *     "DELETE FROM robots"
+	 * );
+	 *
+	 * echo $connection->affectedRows(), " were deleted";
 	 *</code>
 	 */
 	public function affectedRows() -> int
@@ -421,8 +465,16 @@ abstract class Pdo extends Adapter
 	 * Escapes a column/table/schema name
 	 *
 	 *<code>
-	 *	$escapedTable = $connection->escapeIdentifier('robots');
-	 *	$escapedTable = $connection->escapeIdentifier(['store', 'robots']);
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     "robots"
+	 * );
+	 *
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     [
+	 *         "store",
+	 *         "robots",
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param string identifier
@@ -440,7 +492,7 @@ abstract class Pdo extends Adapter
 	 * Escapes a value to avoid SQL injections according to the active charset in the connection
 	 *
 	 *<code>
-	 *	$escapedStr = $connection->escapeString('some dangerous value');
+	 * $escapedStr = $connection->escapeString("some dangerous value");
 	 *</code>
 	 */
 	public function escapeString(string str) -> string
@@ -452,7 +504,14 @@ abstract class Pdo extends Adapter
 	 * Converts bound parameters such as :name: or ?1 into PDO bind params ?
 	 *
 	 *<code>
-	 * print_r($connection->convertBoundParams('SELECT * FROM robots WHERE name = :name:', array('Bender')));
+	 * print_r(
+	 *     $connection->convertBoundParams(
+	 *         "SELECT * FROM robots WHERE name = :name:",
+	 *         [
+	 *             "Bender",
+	 *         ]
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function convertBoundParams(string! sql, array params = []) -> array
@@ -495,14 +554,20 @@ abstract class Pdo extends Adapter
 	 * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
 	 *
 	 *<code>
-	 * //Inserting a new robot
+	 * // Inserting a new robot
 	 * $success = $connection->insert(
 	 *     "robots",
-	 *     array("Astro Boy", 1952),
-	 *     array("name", "year")
+	 *     [
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
 	 * );
 	 *
-	 * //Getting the generated id
+	 * // Getting the generated id
 	 * $id = $connection->lastInsertId();
 	 *</code>
 	 *
@@ -734,8 +799,12 @@ abstract class Pdo extends Adapter
 	 * Checks whether the connection is under a transaction
 	 *
 	 *<code>
-	 *	$connection->begin();
-	 *	var_dump($connection->isUnderTransaction()); //true
+	 * $connection->begin();
+	 *
+	 * // true
+	 * var_dump(
+	 *     $connection->isUnderTransaction()
+	 * );
 	 *</code>
 	 */
 	public function isUnderTransaction() -> boolean

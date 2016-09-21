@@ -30,23 +30,26 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * Allows to validate if a filed have a value different of null and empty string ("")
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\PresenceOf;
+ * use Phalcon\Mvc\Model\Validator\PresenceOf;
  *
- *class Subscriptors extends \Phalcon\Mvc\Model
- *{
+ * class Subscriptors extends \Phalcon\Mvc\Model
+ * {
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new PresenceOf(
+ *                 [
+ *                     "field"   => "name",
+ *                     "message" => "The name is required",
+ *                 ]
+ *             )
+ *         );
  *
- *  public function validation()
- *  {
- *      $this->validate(new PresenceOf(array(
- *          "field" => 'name',
- *          "message" => 'The name is required'
- *      )));
- *      if ($this->validationHasFailed() == true) {
- *          return false;
- *      }
- *  }
- *
- *}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
 class PresenceOf extends Validator implements ValidatorInterface

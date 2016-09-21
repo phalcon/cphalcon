@@ -31,19 +31,17 @@ use Phalcon\Cli\Dispatcher\Exception;
  * instantiating a task and calling an action on it.
  *
  *<code>
+ * $di = new \Phalcon\Di();
  *
- *	$di = new \Phalcon\Di();
+ * $dispatcher = new \Phalcon\Cli\Dispatcher();
  *
- *	$dispatcher = new \Phalcon\Cli\Dispatcher();
+ * $dispatcher->setDi($di);
  *
- *  $dispatcher->setDi(di);
+ * $dispatcher->setTaskName("posts");
+ * $dispatcher->setActionName("index");
+ * $dispatcher->setParams([]);
  *
- *	$dispatcher->setTaskName('posts');
- *	$dispatcher->setActionName('index');
- *	$dispatcher->setParams(array());
- *
- *	$handle = dispatcher->dispatch();
- *
+ * $handle = $dispatcher->dispatch();
  *</code>
  */
 class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface

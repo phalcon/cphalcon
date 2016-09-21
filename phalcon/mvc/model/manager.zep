@@ -50,9 +50,12 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  *
  * $di = new Di();
  *
- * $di->set('modelsManager', function() {
- *      return new ModelsManager();
- * });
+ * $di->set(
+ *     "modelsManager",
+ *     function() {
+ *         return new ModelsManager();
+ *     }
+ * );
  *
  * $robot = new Robots($di);
  * </code>
@@ -323,7 +326,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Check whether a model property is declared as public.
 	 *
 	 * <code>
-	 * $isPublic = $manager->isVisibleModelProperty(new Robots(), 'name');
+	 * $isPublic = $manager->isVisibleModelProperty(
+	 *     new Robots(),
+	 *     "name"
+	 * );
 	 * </code>
 	 */
 	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> boolean
@@ -1521,7 +1527,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Gets all the belongsTo relations defined in a model
 	 *
 	 *<code>
-	 *	$relations = $modelsManager->getBelongsTo(new Robots());
+	 * $relations = $modelsManager->getBelongsTo(
+	 *     new Robots()
+	 * );
 	 *</code>
 	 */
 	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array

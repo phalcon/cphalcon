@@ -32,23 +32,29 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *<code>
  * use Phalcon\Session\Adapter\Libmemcached;
  *
- * $session = new Libmemcached([
- *     'servers' => [
- *         ['host' => 'localhost', 'port' => 11211, 'weight' => 1],
- *     ],
- *     'client' => [
- *         \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
- *         \Memcached::OPT_PREFIX_KEY => 'prefix.',
- *     ],
- *     'lifetime' => 3600,
- *     'prefix'   => 'my_'
- * ]);
+ * $session = new Libmemcached(
+ *     [
+ *         "servers" => [
+ *             [
+ *                 "host"   => "localhost",
+ *                 "port"   => 11211,
+ *                 "weight" => 1,
+ *             ],
+ *         ],
+ *         "client" => [
+ *             \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
+ *             \Memcached::OPT_PREFIX_KEY => "prefix.",
+ *         ],
+ *         "lifetime" => 3600,
+ *         "prefix"   => "my_",
+ *     ]
+ * );
  *
  * $session->start();
  *
- * $session->set('var', 'some-value');
+ * $session->set("var", "some-value");
  *
- * echo $session->get('var');
+ * echo $session->get("var");
  *</code>
  */
 class Libmemcached extends Adapter

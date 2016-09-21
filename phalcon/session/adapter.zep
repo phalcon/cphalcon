@@ -69,7 +69,11 @@ abstract class Adapter implements AdapterInterface
 	 * Sets session's options
 	 *
 	 *<code>
-	 *	$session->setOptions(['uniqueId' => 'my-private-app']);
+	 * $session->setOptions(
+	 *     [
+	 *         "uniqueId" => "my-private-app",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setOptions(array! options)
@@ -120,7 +124,7 @@ abstract class Adapter implements AdapterInterface
 	 * Gets a session variable from an application context
 	 *
 	 *<code>
-	 *	$session->get('auth', 'yes');
+	 * $session->get("auth", "yes");
 	 *</code>
 	 */
 	public function get(string index, var defaultValue = null, boolean remove = false) -> var
@@ -148,7 +152,7 @@ abstract class Adapter implements AdapterInterface
 	 * Sets a session variable in an application context
 	 *
 	 *<code>
-	 *	$session->set('auth', 'yes');
+	 * $session->set("auth", "yes");
 	 *</code>
 	 */
 	public function set(string index, var value)
@@ -168,7 +172,9 @@ abstract class Adapter implements AdapterInterface
 	 * Check whether a session variable is set in an application context
 	 *
 	 *<code>
-	 *	var_dump($session->has('auth'));
+	 * var_dump(
+	 *     $session->has("auth")
+	 * );
 	 *</code>
 	 */
 	public function has(string index) -> boolean
@@ -187,7 +193,7 @@ abstract class Adapter implements AdapterInterface
 	 * Removes a session variable from an application context
 	 *
 	 *<code>
-	 *	$session->remove('auth');
+	 * $session->remove("auth");
 	 *</code>
 	 */
 	public function remove(string index)
@@ -207,7 +213,7 @@ abstract class Adapter implements AdapterInterface
 	 * Returns active session id
 	 *
 	 *<code>
-	 *	echo $session->getId();
+	 * echo $session->getId();
 	 *</code>
 	 */
 	public function getId() -> string
@@ -219,7 +225,7 @@ abstract class Adapter implements AdapterInterface
 	 * Set the current session id
 	 *
 	 *<code>
-	 *	$session->setId($id);
+	 * $session->setId($id);
 	 *</code>
 	 */
 	public function setId(string id)
@@ -231,7 +237,9 @@ abstract class Adapter implements AdapterInterface
 	 * Check whether the session has been started
 	 *
 	 *<code>
-	 *	var_dump($session->isStarted());
+	 * var_dump(
+	 *     $session->isStarted()
+	 * );
 	 *</code>
 	 */
 	public function isStarted() -> boolean
@@ -243,8 +251,13 @@ abstract class Adapter implements AdapterInterface
 	 * Destroys the active session
 	 *
 	 *<code>
-	 *	var_dump($session->destroy());
-	 *	var_dump($session->destroy(true));
+	 * var_dump(
+	 *     $session->destroy()
+	 * );
+	 *
+	 * var_dump(
+	 *     $session->destroy(true)
+	 * );
 	 *</code>
 	 */
 	public function destroy(boolean removeData = false) -> boolean
@@ -272,11 +285,13 @@ abstract class Adapter implements AdapterInterface
 	 * Returns the status of the current session.
 	 *
 	 *<code>
-	 *	var_dump($session->status());
+	 * var_dump(
+	 *     $session->status()
+	 * );
 	 *
-	 *  if ($session->status() !== $session::SESSION_ACTIVE) {
-	 *      $session->start();
-	 *  }
+	 * if ($session->status() !== $session::SESSION_ACTIVE) {
+	 *     $session->start();
+	 * }
 	 *</code>
 	 */
 	public function status() -> int

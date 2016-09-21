@@ -38,17 +38,32 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * <code>
  *
  * // Using a standard foreach
- * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
+ * $robots = Robots::find(
+ *     [
+ *         "type = 'virtual'",
+ *         "order" => "name",
+ *     ]
+ * );
+ *
  * foreach ($robots as robot) {
  *     echo robot->name, "\n";
  * }
  *
  * // Using a while
- * $robots = Robots::find(["type='virtual'", 'order' => 'name');
+ * $robots = Robots::find(
+ *     [
+ *         "type = 'virtual'",
+ *         "order" => "name",
+ *     ]
+ * );
+ *
  * $robots->rewind();
+ *
  * while ($robots->valid()) {
  *     $robot = $robots->current();
+ *
  *     echo $robot->name, "\n";
+ *
  *     $robots->next();
  * }
  * </code>
@@ -542,11 +557,13 @@ abstract class Resultset
 	 * Filters a resultset returning only those the developer requires
 	 *
 	 *<code>
-	 * $filtered = $robots->filter(function($robot){
-	 *		if ($robot->id < 3) {
-	 *			return $robot;
-	 *		}
-	 *	});
+	 * $filtered = $robots->filter(
+	 *     function ($robot) {
+	 *         if ($robot->id < 3) {
+	 *             return $robot;
+	 *         }
+	 *     }
+	 * );
 	 *</code>
 	 *
 	 * @param callback filter

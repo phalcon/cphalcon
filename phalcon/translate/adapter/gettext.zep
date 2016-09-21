@@ -30,12 +30,14 @@ use Phalcon\Translate\Adapter;
  * <code>
  * use Phalcon\Translate\Adapter\Gettext;
  *
- * $adapter = new Gettext([
- *     'locale'        => 'de_DE.UTF-8',
- *     'defaultDomain' => 'translations',
- *     'directory'     => '/path/to/application/locales',
- *     'category'      => LC_MESSAGES,
- * ]);
+ * $adapter = new Gettext(
+ *     [
+ *         "locale"        => "de_DE.UTF-8",
+ *         "defaultDomain" => "translations",
+ *         "directory"     => "/path/to/application/locales",
+ *         "category"      => LC_MESSAGES,
+ *     ]
+ * );
  * </code>
  *
  * Allows translate using gettext
@@ -160,13 +162,15 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 *
 	 * <code>
 	 * // Set the directory path
-	 * $gettext->setDirectory('/path/to/the/messages');
+	 * $gettext->setDirectory("/path/to/the/messages");
 	 *
 	 * // Set the domains and directories path
-	 * $gettext->setDirectory([
-	 *    'messages' => '/path/to/the/messages',
-	 *    'another'  => '/path/to/the/another'
-	 * ]);
+	 * $gettext->setDirectory(
+	 *     [
+	 *         "messages" => "/path/to/the/messages",
+	 *         "another"  => "/path/to/the/another",
+	 *     ]
+	 * );
 	 * </code>
 	 *
 	 * @param string|array directory The directory path or an array of directories and domains
@@ -195,10 +199,10 @@ class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
 	 *
 	 * <code>
 	 * // Set locale to Dutch
-	 * $gettext->setLocale(LC_ALL, 'nl_NL');
+	 * $gettext->setLocale(LC_ALL, "nl_NL");
 	 *
 	 * // Try different possible locale names for german
-	 * $gettext->setLocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
+	 * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
 	 * </code>
 	 */
 	public function setLocale(int! category, string! locale) -> string | boolean

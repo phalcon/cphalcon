@@ -31,19 +31,24 @@ use Phalcon\Mvc\Model\Exception;
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Libmemcached(array(
- *		'servers' => array(
- *         array('host' => 'localhost', 'port' => 11211, 'weight' => 1),
- *     ),
- *     'client' => array(
- *         Memcached::OPT_HASH => Memcached::HASH_MD5,
- *         Memcached::OPT_PREFIX_KEY => 'prefix.',
- *     ),
- *    'lifetime' => 3600,
- *    'prefix' => 'my_'
- *	));
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Libmemcached(
+ *     [
+ *         "servers" => [
+ *             [
+ *                 "host"   => "localhost",
+ *                 "port"   => 11211,
+ *                 "weight" => 1,
+ *             ],
+ *         ],
+ *         "client" => [
+ *             Memcached::OPT_HASH       => Memcached::HASH_MD5,
+ *             Memcached::OPT_PREFIX_KEY => "prefix.",
+ *         ],
+ *         "lifetime" => 3600,
+ *         "prefix"   => "my_",
+ *     ]
+ * );
  *</code>
  */
 class Libmemcached extends MetaData

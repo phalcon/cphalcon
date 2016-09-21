@@ -30,43 +30,53 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * Validates that a value is ipv4 address in valid range
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Ip;
+ * use Phalcon\Mvc\Model\Validator\Ip;
  *
- *class Data extends Phalcon\Mvc\Model
- *{
+ * class Data extends Phalcon\Mvc\Model
+ * {
+ *     public function validation()
+ *     {
+ *         // Any pubic IP
+ *         $this->validate(
+ *             new IP(
+ *                 [
+ *                     "field"         => "server_ip",
+ *                     "version"       => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
+ *                     "allowReserved" => false,   // False if not specified. Ignored for v6
+ *                     "allowPrivate"  => false,   // False if not specified
+ *                     "message"       => "IP address has to be correct",
+ *                 ]
+ *             )
+ *         );
  *
- *  public function validation()
- *  {
- *      // Any pubic IP
- *      $this->validate(new IP(array(
- *          'field'             => 'server_ip',
- *          'version'           => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
- *          'allowReserved'     => false,   // False if not specified. Ignored for v6
- *          'allowPrivate'      => false,   // False if not specified
- *          'message'           => 'IP address has to be correct'
- *      )));
+ *         // Any public v4 address
+ *         $this->validate(
+ *             new IP(
+ *                 [
+ *                     "field"   => "ip_4",
+ *                     "version" => IP::VERSION_4,
+ *                     "message" => "IP address has to be correct",
+ *                 ]
+ *             )
+ *         );
  *
- *      // Any public v4 address
- *      $this->validate(new IP(array(
- *          'field'             => 'ip_4',
- *          'version'           => IP::VERSION_4,
- *          'message'           => 'IP address has to be correct'
- *      )));
+ *         // Any v6 address
+ *         $this->validate(
+ *             new IP(
+ *                 [
+ *                     "field"        => "ip6",
+ *                     "version"      => IP::VERSION_6,
+ *                     "allowPrivate" => true,
+ *                     "message"      => "IP address has to be correct",
+ *                 ]
+ *             )
+ *         );
  *
- *      // Any v6 address
- *      $this->validate(new IP(array(
- *          'field'             => 'ip6',
- *          'version'           => IP::VERSION_6,
- *          'allowPrivate'      => true,
- *          'message'           => 'IP address has to be correct'
- *      )));
- *
- *      if ($this->validationHasFailed() == true) {
- *          return false;
- *      }
- *  }
- *
- *}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
 class Ip extends Validator implements ValidatorInterface

@@ -31,9 +31,11 @@ use Phalcon\Mvc\Model\Exception;
  * You can query the meta-data by printing $_SESSION['$PMM$']
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Session(array(
- *    'prefix' => 'my-app-id'
- * ));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Session(
+ *     [
+ *        "prefix" => "my-app-id",
+ *     ]
+ * );
  *</code>
  */
 class Session extends MetaData

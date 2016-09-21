@@ -35,13 +35,12 @@ use Phalcon\Db\Exception;
  * use Phalcon\Db\Adapter\Pdo\Postgresql;
  *
  * $config = [
- *   'host'     => 'localhost',
- *   'dbname'   => 'blog',
- *   'port'     => 5432,
- *   'username' => 'postgres',
- *   'password' => 'secret'
+ *     "host"     => "localhost",
+ *     "dbname"   => "blog",
+ *     "port"     => 5432,
+ *     "username" => "postgres",
+ *     "password" => "secret",
  * ];
- *
  *
  * $connection = new Postgresql($config);
  * </code>
@@ -91,7 +90,9 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>
-	 * print_r($connection->describeColumns("posts"));
+	 * print_r(
+	 *     $connection->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string table, string schema = null) -> <Column[]>
@@ -414,11 +415,19 @@ class Postgresql extends PdoAdapter implements AdapterInterface
 	 * Returns the default identity value to be inserted in an identity column
 	 *
 	 *<code>
-	 * //Inserting a new robot with a valid default value for the column 'id'
+	 * // Inserting a new robot with a valid default value for the column 'id'
 	 * $success = $connection->insert(
 	 *     "robots",
-	 *     array($connection->getDefaultIdValue(), "Astro Boy", 1952),
-	 *     array("id", "name", "year")
+	 *     [
+	 *         $connection->getDefaultIdValue(),
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *         "year",
+	 *     ]
 	 * );
 	 *</code>
 	 */

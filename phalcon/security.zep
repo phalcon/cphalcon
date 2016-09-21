@@ -31,15 +31,16 @@ use Phalcon\Session\AdapterInterface as SessionInterface;
  * This component provides a set of functions to improve the security in Phalcon applications
  *
  *<code>
- *	$login = $this->request->getPost('login');
- *	$password = $this->request->getPost('password');
+ * $login    = $this->request->getPost("login");
+ * $password = $this->request->getPost("password");
  *
- *	$user = Users::findFirstByLogin($login);
- *	if ($user) {
- *		if ($this->security->checkHash($password, $user->password)) {
- *			//The password is valid
- *		}
- *	}
+ * $user = Users::findFirstByLogin($login);
+ *
+ * if ($user) {
+ *     if ($this->security->checkHash($password, $user->password)) {
+ *         // The password is valid
+ *     }
+ * }
  *</code>
  */
 class Security implements InjectionAwareInterface

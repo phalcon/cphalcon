@@ -32,21 +32,34 @@ use Phalcon\Validation\Validator;
  * <code>
  * use Phalcon\Validation\Validator\Confirmation;
  *
- * $validator->add('password', new Confirmation([
- *     'message' => 'Password doesn\'t match confirmation',
- *     'with' => 'confirmPassword'
- * ]));
+ * $validator->add(
+ *     "password",
+ *     new Confirmation(
+ *         [
+ *             "message" => "Password doesn't match confirmation",
+ *             "with"    => "confirmPassword",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['password', 'email'], new Confirmation([
- *     'message' => [
- *         'password' => 'Password doesn\'t match confirmation',
- *         'email' => 'Email  doesn\'t match confirmation'
+ * $validator->add(
+ *     [
+ *         "password",
+ *         "email",
  *     ],
- *     'with' => [
- *         'password' => 'confirmPassword',
- *         'email' => 'confirmEmail'
- *     ]
- * ]));
+ *     new Confirmation(
+ *         [
+ *             "message" => [
+ *                 "password" => "Password doesn't match confirmation",
+ *                 "email"    => "Email doesn't match confirmation",
+ *             ],
+ *             "with" => [
+ *                 "password" => "confirmPassword",
+ *                 "email"    => "confirmEmail",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class Confirmation extends Validator

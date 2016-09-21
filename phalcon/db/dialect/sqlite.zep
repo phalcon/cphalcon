@@ -473,8 +473,9 @@ class Sqlite extends Dialect
 	 * Generates SQL checking for the existence of a schema.table
 	 *
 	 * <code>
-	 *    echo $dialect->tableExists("posts", "blog");
-	 *    echo $dialect->tableExists("posts");
+	 * echo $dialect->tableExists("posts", "blog");
+	 *
+	 * echo $dialect->tableExists("posts");
 	 * </code>
 	 */
 	public function tableExists(string! tableName, string schemaName = null) -> string
@@ -494,7 +495,9 @@ class Sqlite extends Dialect
 	 * Generates SQL describing a table
 	 *
 	 * <code>
-	 *    print_r($dialect->describeColumns("posts"));
+	 * print_r(
+	 *     $dialect->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string! table, string schema = null) -> string
@@ -506,7 +509,9 @@ class Sqlite extends Dialect
 	 * List all tables in database
 	 *
 	 * <code>
-	 *     print_r($dialect->listTables("blog"))
+	 * print_r(
+	 *     $dialect->listTables("blog")
+	 * );
 	 * </code>
 	 */
 	public function listTables(string schemaName = null) -> string
@@ -526,7 +531,9 @@ class Sqlite extends Dialect
 	 * Generates the SQL to get query list of indexes
 	 *
 	 * <code>
-	 *     print_r($dialect->listIndexesSql("blog"))
+	 * print_r(
+	 *     $dialect->listIndexesSql("blog")
+	 * );
 	 * </code>
 	 */
 	public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string

@@ -34,31 +34,44 @@ use Phalcon\Validation\Message;
  * <code>
  * use Phalcon\Validation\Validator\StringLength as StringLength;
  *
- * $validation->add('name_last', new StringLength([
- *     'max' => 50,
- *     'min' => 2,
- *     'messageMaximum' => 'We don\'t like really long names',
- *     'messageMinimum' => 'We want more than just their initials'
- * ]));
+ * $validation->add(
+ *     "name_last",
+ *     new StringLength(
+ *         [
+ *             "max"            => 50,
+ *             "min"            => 2,
+ *             "messageMaximum" => "We don't like really long names",
+ *             "messageMinimum" => "We want more than just their initials",
+ *         ]
+ *     )
+ * );
  *
- * $validation->add(['name_last', 'name_first'], new StringLength([
- *     'max' => [
- *         'name_last' => 50,
- *         'name_first' => 40
+ * $validation->add(
+ *     [
+ *         "name_last",
+ *         "name_first",
  *     ],
- *     'min' => [
- *         'name_last' => 2,
- *         'name_first' => 4
- *     ],
- *     'messageMaximum' => [
- *         'name_last' => 'We don\'t like really long last names',
- *         'name_first' => 'We don\'t like really long first names'
- *     ],
- *     'messageMinimum' => [
- *         'name_last' => 'We don\'t like too short last names',
- *         'name_first' => 'We don\'t like too short first names',
- *     ]
- * ]));
+ *     new StringLength(
+ *         [
+ *             "max" => [
+ *                 "name_last"  => 50,
+ *                 "name_first" => 40,
+ *             ],
+ *             "min" => [
+ *                 "name_last"  => 2,
+ *                 "name_first" => 4,
+ *             ],
+ *             "messageMaximum" => [
+ *                 "name_last"  => "We don't like really long last names",
+ *                 "name_first" => "We don't like really long first names",
+ *             ],
+ *             "messageMinimum" => [
+ *                 "name_last"  => "We don't like too short last names",
+ *                 "name_first" => "We don't like too short first names",
+ *             ]
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class StringLength extends Validator

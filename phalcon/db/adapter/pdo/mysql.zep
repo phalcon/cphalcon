@@ -36,11 +36,11 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
- *   'host'     => 'localhost',
- *   'dbname'   => 'blog',
- *   'port'     => 3306,
- *   'username' => 'sigma',
- *   'password' => 'secret'
+ *     "host"     => "localhost",
+ *     "dbname"   => "blog",
+ *     "port"     => 3306,
+ *     "username" => "sigma",
+ *     "password" => "secret",
  * ];
  *
  * $connection = new Mysql($config);
@@ -57,8 +57,16 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 * Escapes a column/table/schema name
 	 *
 	 * <code>
-	 * echo $connection->escapeIdentifier('my_table'); // `my_table`
-	 * echo $connection->escapeIdentifier(['companies', 'name']); // `companies`.`name`
+	 * // `my_table`
+	 * echo $connection->escapeIdentifier("my_table");
+	 *
+	 * // `companies`.`name`
+	 * echo $connection->escapeIdentifier(
+	 *     [
+	 *         "companies",
+	 *         "name",
+	 *     ]
+	 * );
 	 * <code>
 	 *
 	 * @param string|array identifier
@@ -87,7 +95,9 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>
-	 * print_r($connection->describeColumns("posts"));
+	 * print_r(
+	 *     $connection->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string table, string schema = null) -> <Column[]>
@@ -349,7 +359,9 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 * Lists table indexes
 	 *
 	 * <code>
-	 *   print_r($connection->describeIndexes('robots_parts'));
+	 * print_r(
+	 *     $connection->describeIndexes("robots_parts")
+	 * );
 	 * </code>
 	 *
 	 * @param  string table
@@ -401,7 +413,9 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 * Lists table references
 	 *
 	 *<code>
-	 * print_r($connection->describeReferences('robots_parts'));
+	 * print_r(
+	 *     $connection->describeReferences("robots_parts")
+	 * );
 	 *</code>
 	 */
 	public function describeReferences(string! table, string! schema = null) -> <Reference[]>

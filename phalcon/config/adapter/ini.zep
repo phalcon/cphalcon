@@ -47,7 +47,8 @@ use Phalcon\Config\Exception;
  * You can read it as follows:
  *
  *<code>
- * $config = new Phalcon\Config\Adapter\Ini("path/config.ini");
+ * $config = new \Phalcon\Config\Adapter\Ini("path/config.ini");
+ *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *</code>
@@ -58,7 +59,10 @@ use Phalcon\Config\Exception;
  * second parameter as INI_SCANNER_NORMAL when calling the constructor:
  *
  * <code>
- *  $config = new Phalcon\Config\Adapter\Ini("path/config-with-constants.ini", INI_SCANNER_NORMAL);
+ * $config = new \Phalcon\Config\Adapter\Ini(
+ *     "path/config-with-constants.ini",
+ *     INI_SCANNER_NORMAL
+ * );
  * </code>
  */
 class Ini extends Config
@@ -106,13 +110,13 @@ class Ini extends Config
 	 * Build multidimensional array from string
 	 *
 	 * <code>
-	 * $this->_parseIniString('path.hello.world', 'value for last key');
+	 * $this->_parseIniString("path.hello.world", "value for last key");
 	 *
 	 * // result
 	 * [
-	 *      'path' => [
-	 *          'hello' => [
-	 *              'world' => 'value for last key',
+	 *      "path" => [
+	 *          "hello" => [
+	 *              "world" => "value for last key",
 	 *          ],
 	 *      ],
 	 * ];

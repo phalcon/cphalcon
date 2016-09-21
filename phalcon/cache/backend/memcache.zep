@@ -36,22 +36,27 @@ use Phalcon\Cache\FrontendInterface;
  * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new FrontData([
- *     'lifetime' => 172800
- * ]);
+ * $frontCache = new FrontData(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
  * // Create the Cache setting memcached connection options
- * $cache = new Memcache($frontCache, [
- *     'host' => 'localhost',
- *     'port' => 11211,
- *     'persistent' => false
- * ]);
+ * $cache = new Memcache(
+ *     $frontCache,
+ *     [
+ *         "host"       => "localhost",
+ *         "port"       => 11211,
+ *         "persistent" => false,
+ *     ]
+ * );
  *
  * // Cache arbitrary data
- * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * $cache->save("my-data", [1, 2, 3, 4, 5]);
  *
  * // Get data
- * $data = $cache->get('my-data');
+ * $data = $cache->get("my-data");
  *</code>
  */
 class Memcache extends Backend implements BackendInterface

@@ -35,11 +35,11 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  *
  * <code>
  * $robots = Robots::query()
- *     ->where('type = :type:')
- *     ->andWhere('year < 2000')
- *     ->bind(['type' => 'mechanical'])
+ *     ->where("type = :type:")
+ *     ->andWhere("year < 2000")
+ *     ->bind(["type" => "mechanical"])
  *     ->limit(5, 10)
- *     ->orderBy('name')
+ *     ->orderBy("name")
  *     ->execute();
  * </code>
  */
@@ -142,7 +142,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Sets the columns to be queried
 	 *
 	 *<code>
-	 *	$criteria->columns(array('id', 'name'));
+	 * $criteria->columns(
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param string|array columns
@@ -158,10 +163,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Adds an INNER join to the query
 	 *
 	 *<code>
-	 *	$criteria->join('Robots');
-	 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id');
-	 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
-	 *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+	 * $criteria->join("Robots");
+	 * $criteria->join("Robots", "r.id = RobotsParts.robots_id");
+	 * $criteria->join("Robots", "r.id = RobotsParts.robots_id", "r");
+	 * $criteria->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
 	 *</code>
 	 */
 	public function join(string! model, var conditions = null, var alias = null, var type = null) -> <Criteria>
@@ -188,9 +193,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Adds an INNER join to the query
 	 *
 	 *<code>
-	 *	$criteria->innerJoin('Robots');
-	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
-	 *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * $criteria->innerJoin("Robots");
+	 * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
+	 * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 */
 	public function innerJoin(string! model, var conditions = null, var alias = null) -> <Criteria>
@@ -202,7 +207,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Adds a LEFT join to the query
 	 *
 	 *<code>
-	 *	$criteria->leftJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 */
 	public function leftJoin(string! model, var conditions = null, var alias = null) -> <Criteria>
@@ -214,7 +219,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Adds a RIGHT join to the query
 	 *
 	 *<code>
-	 *	$criteria->rightJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 */
 	public function rightJoin(string! model, conditions = null, alias = null) -> <Criteria>
@@ -355,7 +360,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends a BETWEEN condition to the current conditions
 	 *
 	 *<code>
-	 *	$criteria->betweenWhere('price', 100.25, 200.50);
+	 * $criteria->betweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
 	public function betweenWhere(string! expr, var minimum, var maximum) -> <Criteria>
@@ -392,7 +397,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends a NOT BETWEEN condition to the current conditions
 	 *
 	 *<code>
-	 *	$criteria->notBetweenWhere('price', 100.25, 200.50);
+	 * $criteria->notBetweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
 	public function notBetweenWhere(string! expr, var minimum, var maximum) -> <Criteria>
@@ -433,7 +438,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends an IN condition to the current conditions
 	 *
 	 * <code>
-	 *     $criteria->inWhere('id', [1, 2, 3]);
+	 * $criteria->inWhere("id", [1, 2, 3]);
 	 * </code>
 	 */
 	public function inWhere(string! expr, array! values) -> <Criteria>
@@ -477,7 +482,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Appends a NOT IN condition to the current conditions
 	 *
 	 *<code>
-	 *	$criteria->notInWhere('id', [1, 2, 3]);
+	 * $criteria->notInWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
 	public function notInWhere(string! expr, array! values) -> <Criteria>

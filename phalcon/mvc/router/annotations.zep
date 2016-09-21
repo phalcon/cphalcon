@@ -33,13 +33,13 @@ use Phalcon\Mvc\Router\Exception;
  * use Phalcon\Mvc\Router\Annotations;
  *
  * $di->setShared(
- *     'router',
+ *     "router",
  *     function() {
  *         // Use the annotations router
  *         $router = new Annotations(false);
  *
  *         // This will do the same as above but only if the handled uri starts with /robots
- *         $router->addResource('Robots', '/robots');
+ *         $router->addResource("Robots", "/robots");
  *
  *         return $router;
  *     }
@@ -92,7 +92,7 @@ class Annotations extends Router
 
 		if !uri {
 			/**
-			 * If 'uri' isn't passed as parameter it reads _GET['_url']
+			 * If 'uri' isn't passed as parameter it reads $_GET["_url"]
 			 */
 			let realUri = this->getRewriteUri();
 		} else {

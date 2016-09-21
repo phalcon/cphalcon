@@ -89,8 +89,8 @@ class Manager
 	* Adds a Css resource to the 'css' collection
 	*
 	*<code>
-	*	$assets->addCss('css/bootstrap.css');
-	*	$assets->addCss('http://bootstrap.my-cdn.com/style.css', false);
+	*	$assets->addCss("css/bootstrap.css");
+	*	$assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
 	*</code>
 	*/
 	public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
@@ -112,8 +112,8 @@ class Manager
 	 * Adds a javascript resource to the 'js' collection
 	 *
 	 *<code>
-	 *	$assets->addJs('scripts/jquery.js');
-	 *	$assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
+	 * $assets->addJs("scripts/jquery.js");
+	 * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
 	 *</code>
 	 */
 	public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
@@ -135,7 +135,9 @@ class Manager
 	 * Adds a resource by its type
 	 *
 	 *<code>
-	 *	$assets->addResourceByType('css', new \Phalcon\Assets\Resource\Css('css/style.css'));
+	 * $assets->addResourceByType("css",
+	 *     new \Phalcon\Assets\Resource\Css("css/style.css")
+	 * );
 	 *</code>
 	 */
 	public function addResourceByType(string! type, <$Resource> $resource) -> <Manager>
@@ -179,7 +181,9 @@ class Manager
 	 * Adds a raw resource to the manager
 	 *
 	 *<code>
-	 * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
+	 * $assets->addResource(
+	 *     new Phalcon\Assets\Resource("css", "css/style.css")
+	 * );
 	 *</code>
 	 */
 	public function addResource(<$Resource> $resource) -> <Manager>
@@ -207,7 +211,7 @@ class Manager
 	 * Sets a collection in the Assets Manager
 	 *
 	 *<code>
-	 * $assets->set('js', $collection);
+	 * $assets->set("js", $collection);
 	 *</code>
 	 */
 	public function set(string! id, <Collection> collection) -> <Manager>
@@ -220,7 +224,7 @@ class Manager
 	* Returns a collection by its id
 	*
 	*<code>
-	* $scripts = $assets->get('js');
+	* $scripts = $assets->get("js");
 	*</code>
 	*/
 	public function get(string! id) -> <Collection>

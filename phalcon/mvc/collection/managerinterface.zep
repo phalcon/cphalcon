@@ -35,9 +35,12 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * <code>
  * $di = new \Phalcon\Di();
  *
- * $di->set('collectionManager', function() {
- *      return new \Phalcon\Mvc\Collection\Manager();
- * });
+ * $di->set(
+ *     "collectionManager",
+ *     function() {
+ *         return new \Phalcon\Mvc\Collection\Manager();
+ *     }
+ * );
  *
  * $robot = new Robots(di);
  * </code>

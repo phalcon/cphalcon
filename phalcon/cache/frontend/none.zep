@@ -29,32 +29,40 @@ use Phalcon\Cache\FrontendInterface;
  *<code>
  *<?php
  *
- *	//Create a None Cache
- *	$frontCache = new \Phalcon\Cache\Frontend\None();
+ * //Create a None Cache
+ * $frontCache = new \Phalcon\Cache\Frontend\None();
  *
- *	// Create the component that will cache "Data" to a "Memcached" backend
- *	// Memcached connection settings
- *	$cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
- *		"host" => "localhost",
- *		"port" => "11211"
- *	));
+ * // Create the component that will cache "Data" to a "Memcached" backend
+ * // Memcached connection settings
+ * $cache = new \Phalcon\Cache\Backend\Memcache(
+ *     $frontCache,
+ *     [
+ *         "host" => "localhost",
+ *         "port" => "11211",
+ *     ]
+ * );
  *
- *	// This Frontend always return the data as it's returned by the backend
- *	$cacheKey = 'robots_order_id.cache';
- *	$robots    = $cache->get($cacheKey);
- *	if ($robots === null) {
+ * $cacheKey = "robots_order_id.cache";
  *
- *		// This cache doesn't perform any expiration checking, so the data is always expired
- *		// Make the database call and populate the variable
- *		$robots = Robots::find(array("order" => "id"));
+ * // This Frontend always return the data as it's returned by the backend
+ * $robots = $cache->get($cacheKey);
  *
- *		$cache->save($cacheKey, $robots);
- *	}
+ * if ($robots === null) {
+ *     // This cache doesn't perform any expiration checking, so the data is always expired
+ *     // Make the database call and populate the variable
+ *     $robots = Robots::find(
+ *         [
+ *             "order" => "id",
+ *         ]
+ *     );
  *
- *	// Use $robots :)
- *	foreach ($robots as $robot) {
- *		echo $robot->name, "\n";
- *	}
+ *     $cache->save($cacheKey, $robots);
+ * }
+ *
+ * // Use $robots :)
+ * foreach ($robots as $robot) {
+ *     echo $robot->name, "\n";
+ * }
  *</code>
  */
 class None implements FrontendInterface

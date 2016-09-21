@@ -51,9 +51,13 @@ use Phalcon\Di\InjectionAwareInterface;
  * $di->set("request", "Phalcon\Http\Request", true);
  *
  * //Using an anonymous function
- * $di->set("request", function(){
- *	  return new \Phalcon\Http\Request();
- * }, true);
+ * $di->set(
+ *     "request",
+ *     function () {
+ *         return new \Phalcon\Http\Request();
+ *     },
+ *     true
+ * );
  *
  * $request = $di->getRequest();
  *</code>
@@ -332,7 +336,7 @@ class Di implements DiInterface
 	 * Allows to register a shared service using the array syntax
 	 *
 	 *<code>
-	 *	$di["request"] = new \Phalcon\Http\Request();
+	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 *
 	 * @param string name
@@ -349,7 +353,7 @@ class Di implements DiInterface
 	 * Allows to obtain a shared service using the array syntax
 	 *
 	 *<code>
-	 *	var_dump($di["request"]);
+	 * var_dump($di["request"]);
 	 *</code>
 	 */
 	public function offsetGet(string! name) -> var
