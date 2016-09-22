@@ -111,7 +111,9 @@ class Filter implements FilterInterface
 					/**
 					 * Account for any filters that may return a null value
 					 */
-					if (value === null) {break;}
+					if value === null {
+						break;
+					}
 				}
 			}
 			return value;
