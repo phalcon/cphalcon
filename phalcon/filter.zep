@@ -224,12 +224,12 @@ class Filter implements FilterInterface
 				/**
 				 * Must break, as it may return a null value
 				 */
-				return is_bool($value) ? $value : null;
+				return is_bool(value) ? value : null;
 				break;
 				
 			case Filter::FILTER_BOOLEAN_CAST:
 
-				return boolval($value);
+				return boolval(value);
 			
 			default:
 				throw new Exception("Sanitize filter '" . filter . "' is not supported");
