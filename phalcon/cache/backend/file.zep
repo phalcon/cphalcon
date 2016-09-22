@@ -35,7 +35,7 @@ use Phalcon\Cache\BackendInterface;
  *
  * // Cache the file for 2 days
  * $frontendOptions = [
- *     'lifetime' => 172800
+ *     "lifetime" => 172800,
  * ];
  *
  * // Create an output cache
@@ -43,15 +43,17 @@ use Phalcon\Cache\BackendInterface;
  *
  * // Set the cache directory
  * $backendOptions = [
- *     'cacheDir' => '../app/cache/'
+ *     "cacheDir" => "../app/cache/",
  * ];
  *
  * // Create the File backend
  * $cache = new File($frontCache, $backendOptions);
  *
- * $content = $cache->start('my-cache');
+ * $content = $cache->start("my-cache");
+ *
  * if ($content === null) {
- *     echo '<h1>', time(), '</h1>';
+ *     echo "<h1>", time(), "</h1>";
+ *
  *     $cache->save();
  * } else {
  *     echo $content;

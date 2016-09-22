@@ -27,34 +27,48 @@ use Phalcon\Cache\FrontendInterface;
  * Allows to cache native PHP data in a serialized form
  *
  *<code>
- *  use Phalcon\Cache\Backend\File;
- *  use Phalcon\Cache\Frontend\Data;
+ * use Phalcon\Cache\Backend\File;
+ * use Phalcon\Cache\Frontend\Data;
  *
- *  // Cache the files for 2 days using a Data frontend
- *  $frontCache = new Data(['lifetime' => 172800]);
+ * // Cache the files for 2 days using a Data frontend
+ * $frontCache = new Data(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
- *  // Create the component that will cache "Data" to a 'File' backend
- *  // Set the cache file directory - important to keep the '/' at the end of
- *  // of the value for the folder
- *  $cache = new File($frontCache, ['cacheDir' => '../app/cache/']);
+ * // Create the component that will cache "Data" to a 'File' backend
+ * // Set the cache file directory - important to keep the '/' at the end of
+ * // of the value for the folder
+ * $cache = new File(
+ *     $frontCache,
+ *     [
+ *         "cacheDir" => "../app/cache/",
+ *     ]
+ * );
  *
- *  // Try to get cached records
- *  $cacheKey = 'robots_order_id.cache';
- *  $robots   = $cache->get($cacheKey);
+ * $cacheKey = "robots_order_id.cache";
  *
- *  if ($robots === null) {
- *      // $robots is null due to cache expiration or data does not exist
- *      // Make the database call and populate the variable
- *      $robots = Robots::find(['order' => 'id']);
+ * // Try to get cached records
+ * $robots = $cache->get($cacheKey);
  *
- *      // Store it in the cache
- *      $cache->save($cacheKey, $robots);
- *  }
+ * if ($robots === null) {
+ *     // $robots is null due to cache expiration or data does not exist
+ *     // Make the database call and populate the variable
+ *     $robots = Robots::find(
+ *         [
+ *             "order" => "id",
+ *         ]
+ *     );
  *
- *  // Use $robots :)
- *  foreach ($robots as $robot) {
- *      echo $robot->name, "\n";
- *  }
+ *     // Store it in the cache
+ *     $cache->save($cacheKey, $robots);
+ * }
+ *
+ * // Use $robots :)
+ * foreach ($robots as $robot) {
+ *     echo $robot->name, "\n";
+ * }
  *</code>
  */
 class Data implements FrontendInterface

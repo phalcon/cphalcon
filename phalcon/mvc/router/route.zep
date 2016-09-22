@@ -139,8 +139,14 @@ class Route implements RouteInterface
 	 * Set one or more HTTP methods that constraint the matching of the route
 	 *
 	 *<code>
-	 * $route->via('GET');
-	 * $route->via(array('GET', 'POST'));
+	 * $route->via("GET");
+	 *
+	 * $route->via(
+	 *     [
+	 *         "GET",
+	 *         "POST",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function via(var httpMethods) -> <Route>
@@ -434,9 +440,12 @@ class Route implements RouteInterface
 	 * Sets the route's name
 	 *
 	 *<code>
-	 * $router->add('/about', array(
-	 *     'controller' => 'about'
-	 * ))->setName('about');
+	 * $router->add(
+	 *     "/about",
+	 *     [
+	 *         "controller" => "about",
+	 *     ]
+	 * )->setName("about");
 	 *</code>
 	 */
 	public function setName(string name) -> <Route>
@@ -451,16 +460,22 @@ class Route implements RouteInterface
 	 * If the callback returns false the route is treated as not matched
 	 *
 	 *<code>
-	 * $router->add('/login', array(
-     *  'module'     => 'admin',
-     *  'controller' => 'session'
-     * ))->beforeMatch(function ($uri, $route) {
-     *   // Check if the request was made with Ajax
-     *   if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'xmlhttprequest') {
-     *      return false;
-     *   }
-     *     return true;
-     * });
+	 * $router->add(
+	 *     "/login",
+	 *     [
+     *         "module"     => "admin",
+     *         "controller" => "session",
+     *     ]
+     * )->beforeMatch(
+     *     function ($uri, $route) {
+     *         // Check if the request was made with Ajax
+     *         if ($_SERVER["HTTP_X_REQUESTED_WITH"] === "xmlhttprequest") {
+     *             return false;
+     *         }
+     *
+     *         return true;
+     *     }
+     * );
 	 *</code>
 	 */
 	public function beforeMatch(var callback) -> <Route>
@@ -481,9 +496,14 @@ class Route implements RouteInterface
 	 * Allows to set a callback to handle the request directly in the route
 	 *
 	 *<code>
-	 *$router->add("/help", array())->match(function () {
-	 *	  return $this->getResponse()->redirect('https://support.google.com/', true);
-	 *});
+	 * $router->add(
+	 *     "/help",
+	 *     []
+	 * )->match(
+	 *     function () {
+	 *         return $this->getResponse()->redirect("https://support.google.com/", true);
+	 *     }
+	 * );
 	 *</code>
 	 */
 	public function match(var callback) -> <Route>
@@ -550,8 +570,8 @@ class Route implements RouteInterface
 	 * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
 	 *
 	 *<code>
-	 * $route->setHttpMethods('GET');
-	 * $route->setHttpMethods(array('GET', 'POST'));
+	 * $route->setHttpMethods("GET");
+	 * $route->setHttpMethods(["GET", "POST"]);
 	 *</code>
 	 */
 	public function setHttpMethods(var httpMethods) -> <Route>
@@ -572,7 +592,7 @@ class Route implements RouteInterface
 	 * Sets a hostname restriction to the route
 	 *
 	 *<code>
-	 * $route->setHostname('localhost');
+	 * $route->setHostname("localhost");
 	 *</code>
 	 */
 	public function setHostname(string! hostname) -> <Route>

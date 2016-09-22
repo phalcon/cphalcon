@@ -30,40 +30,55 @@ class Version
 
 	/**
 	 * The constant referencing the major version. Returns 0
+	 *
 	 * <code>
-	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MAJOR);
+	 * echo Phalcon\Version::getPart(
+	 *     Phalcon\Version::VERSION_MAJOR
+	 * );
 	 * </code>
 	 */
 	const VERSION_MAJOR = 0;
 
 	/**
 	 * The constant referencing the major version. Returns 1
+	 *
 	 * <code>
-	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MEDIUM);
+	 * echo Phalcon\Version::getPart(
+	 *     Phalcon\Version::VERSION_MEDIUM
+	 * );
 	 * </code>
 	 */
 	const VERSION_MEDIUM = 1;
 
 	/**
 	 * The constant referencing the major version. Returns 2
+	 *
 	 * <code>
-	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MINOR);
+	 * echo Phalcon\Version::getPart(
+	 *     Phalcon\Version::VERSION_MINOR
+	 * );
 	 * </code>
 	 */
 	const VERSION_MINOR = 2;
 
 	/**
 	 * The constant referencing the major version. Returns 3
+	 *
 	 * <code>
-	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_SPECIAL);
+	 * echo Phalcon\Version::getPart(
+	 *     Phalcon\Version::VERSION_SPECIAL
+	 * );
 	 * </code>
 	 */
 	const VERSION_SPECIAL = 3;
 
 	/**
 	 * The constant referencing the major version. Returns 4
+	 *
 	 * <code>
-	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_SPECIAL_NUMBER);
+	 * echo Phalcon\Version::getPart(
+	 *     Phalcon\Version::VERSION_SPECIAL_NUMBER
+	 * );
 	 * </code>
 	 */
 	const VERSION_SPECIAL_NUMBER = 4;
@@ -165,7 +180,9 @@ class Version
 	 * it will return the full version
 	 *
 	 * <code>
-	 * echo Phalcon\Version::getPart(Phalcon\Version::VERSION_MAJOR);
+	 * echo Phalcon\Version::getPart(
+	 *     Phalcon\Version::VERSION_MAJOR
+	 * );
 	 * </code>
 	 */
 	public static function getPart(int part) -> string

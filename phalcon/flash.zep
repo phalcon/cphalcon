@@ -165,7 +165,7 @@ abstract class Flash implements InjectionAwareInterface
 	 * Shows a HTML error message
 	 *
 	 *<code>
-	 * $flash->error('This is an error');
+	 * $flash->error("This is an error");
 	 *</code>
 	 */
 	public function error(var message) -> string
@@ -177,7 +177,7 @@ abstract class Flash implements InjectionAwareInterface
 	 * Shows a HTML notice/information message
 	 *
 	 *<code>
-	 * $flash->notice('This is an information');
+	 * $flash->notice("This is an information");
 	 *</code>
 	 */
 	public function notice(var message) -> string
@@ -189,7 +189,7 @@ abstract class Flash implements InjectionAwareInterface
 	 * Shows a HTML success message
 	 *
 	 *<code>
-	 * $flash->success('The process was finished successfully');
+	 * $flash->success("The process was finished successfully");
 	 *</code>
 	 */
 	public function success(var message) -> string
@@ -201,7 +201,7 @@ abstract class Flash implements InjectionAwareInterface
 	 * Shows a HTML warning message
 	 *
 	 *<code>
-	 * $flash->warning('Hey, this is important');
+	 * $flash->warning("Hey, this is important");
 	 *</code>
 	 */
 	public function warning(var message) -> string
@@ -213,7 +213,7 @@ abstract class Flash implements InjectionAwareInterface
 	 * Outputs a message formatting it with HTML
 	 *
 	 *<code>
-	 * $flash->outputMessage('error', message);
+	 * $flash->outputMessage("error", $message);
 	 *</code>
 	 *
 	 * @param string|array message

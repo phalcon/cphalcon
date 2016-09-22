@@ -34,11 +34,11 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  * use Phalcon\Logger;
  * use Phalcon\Logger\Adapter\Stream;
  *
- * $logger = new Stream('php://stderr');
+ * $logger = new Stream("php://stderr");
  *
- * $logger->log('This is a message');
- * $logger->log(Logger::ERROR, 'This is an error');
- * $logger->error('This is another error');
+ * $logger->log("This is a message");
+ * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->error("This is another error");
  * </code>
  */
 class Stream extends Adapter implements AdapterInterface

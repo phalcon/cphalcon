@@ -27,16 +27,18 @@ use Phalcon\Di;
  * Dumps information about a variable(s)
  *
  * <code>
- *    $foo = 123;
- *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
- *</code>
+ * $foo = 123;
+ *
+ * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
+ * </code>
  *
  * <code>
- *    $foo = "string";
- *    $bar = ["key" => "value"];
- *    $baz = new stdClass();
- *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
- *</code>
+ * $foo = "string";
+ * $bar = ["key" => "value"];
+ * $baz = new stdClass();
+ *
+ * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
+ * </code>
  */
 class Dump
 {
@@ -260,7 +262,7 @@ class Dump
 	 * Returns an HTML string of information about a single variable.
 	 *
 	 * <code>
-	 *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
+	 * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
 	 * </code>
 	 */
 	public function variable(var variable, string name = null) -> string
@@ -276,11 +278,12 @@ class Dump
 	 * variables, each wrapped in a "pre" tag.
 	 *
 	 * <code>
-	 *    $foo = "string";
-	 *    $bar = ["key" => "value"];
-	 *    $baz = new stdClass();
-	 *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
-	 *</code>
+	 * $foo = "string";
+	 * $bar = ["key" => "value"];
+	 * $baz = new stdClass();
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
+	 * </code>
 	 *
 	 * @param mixed variable
 	 * @param ...
@@ -301,11 +304,16 @@ class Dump
 	 * Returns an JSON string of information about a single variable.
 	 *
 	 * <code>
-	 *    $foo = ["key" => "value"];
-	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
-	 *    $foo = new stdClass();
-	 *    $foo->bar = 'buz';
-	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 * $foo = [
+	 *     "key" => "value",
+	 * ];
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 *
+	 * $foo = new stdClass();
+	 * $foo->bar = "buz";
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
 	 * </code>
 	 *
 	 * @param mixed variable

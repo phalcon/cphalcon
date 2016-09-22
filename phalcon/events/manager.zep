@@ -359,7 +359,7 @@ class Manager implements ManagerInterface
 	 * Fires an event in the events manager causing the active listeners to be notified about it
 	 *
 	 *<code>
-	 *	$eventsManager->fire('db', $connection);
+	 *	$eventsManager->fire("db", $connection);
 	 *</code>
 	 *
 	 * @param string eventType

@@ -31,7 +31,11 @@ use Phalcon\Annotations\Exception;
  *<code>
  * use Phalcon\Annotations\Adapter\Files;
  *
- * $annotations = new Files(['annotationsDir' => 'app/cache/annotations/']);
+ * $annotations = new Files(
+ *     [
+ *         "annotationsDir" => "app/cache/annotations/",
+ *     ]
+ * );
  *</code>
  */
 class Files extends Adapter

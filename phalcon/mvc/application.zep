@@ -41,37 +41,38 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  *
  * class MyApp extends Application
  * {
+ *     /**
+ *      * Register the services here to make them general or register
+ *      * in the ModuleDefinition to make them module-specific
+ *      *\/
+ *     protected function registerServices()
+ *     {
  *
- *		/**
- *		 * Register the services here to make them general or register
- *		 * in the ModuleDefinition to make them module-specific
- *		 *\/
- *		protected function registerServices()
- *		{
+ *     }
  *
- *		}
+ *     /**
+ *      * This method registers all the modules in the application
+ *      *\/
+ *     public function main()
+ *     {
+ *         $this->registerModules(
+ *             [
+ *                 "frontend" => [
+ *                     "className" => "Multiple\\Frontend\\Module",
+ *                     "path"      => "../apps/frontend/Module.php",
+ *                 ],
+ *                 "backend" => [
+ *                     "className" => "Multiple\\Backend\\Module",
+ *                     "path"      => "../apps/backend/Module.php",
+ *                 ],
+ *             ]
+ *         );
+ *     }
+ * }
  *
- *		/**
- *		 * This method registers all the modules in the application
- *		 *\/
- *		public function main()
- *		{
- *			$this->registerModules(array(
- *				'frontend' => array(
- *					'className' => 'Multiple\Frontend\Module',
- *					'path' => '../apps/frontend/Module.php'
- *				),
- *				'backend' => array(
- *					'className' => 'Multiple\Backend\Module',
- *					'path' => '../apps/backend/Module.php'
- *				)
- *			));
- *		}
- *	}
+ * $application = new MyApp();
  *
- *	$application = new MyApp();
- *	$application->main();
- *
+ * $application->main();
  *</code>
  */
 class Application extends BaseApplication

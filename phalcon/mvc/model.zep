@@ -65,19 +65,23 @@ use Phalcon\Validation\Message\Group as ValidationMessageGroup;
  *
  * <code>
  * $robot = new Robots();
- * $robot->type = 'mechanical';
- * $robot->name = 'Astro Boy';
+ *
+ * $robot->type = "mechanical";
+ * $robot->name = "Astro Boy";
  * $robot->year = 1952;
- * if ($robot->save() == false) {
- *  echo "Umh, We can store robots: ";
- *  foreach ($robot->getMessages() as $message) {
- *	 echo message;
- *  }
+ *
+ * if ($robot->save() === false) {
+ *     echo "Umh, We can store robots: ";
+ *
+ *     $messages = $robot->getMessages();
+ *
+ *     foreach ($messages as $message) {
+ *         echo message;
+ *     }
  * } else {
- *  echo "Great, a new robot was saved successfully!";
+ *     echo "Great, a new robot was saved successfully!";
  * }
  * </code>
- *
  */
 abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
@@ -244,36 +248,39 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sets a transaction related to the Model instance
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
-	 *use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
+	 * use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
+	 * use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 	 *
-	 *try {
+	 * try {
+	 *     $txManager = new TxManager();
 	 *
-	 *  $txManager = new TxManager();
+	 *     $transaction = $txManager->get();
 	 *
-	 *  $transaction = $txManager->get();
+	 *     $robot = new Robots();
 	 *
-	 *  $robot = new Robots();
-	 *  $robot->setTransaction($transaction);
-	 *  $robot->name = 'WALL·E';
-	 *  $robot->created_at = date('Y-m-d');
-	 *  if ($robot->save() == false) {
-	 *	  $transaction->rollback("Can't save robot");
-	 *  }
+	 *     $robot->setTransaction($transaction);
 	 *
-	 *  $robotPart = new RobotParts();
-	 *  $robotPart->setTransaction($transaction);
-	 *  $robotPart->type = 'head';
-	 *  if ($robotPart->save() == false) {
-	 *	  $transaction->rollback("Robot part cannot be saved");
-	 *  }
+	 *     $robot->name       = "WALL·E";
+	 *     $robot->created_at = date("Y-m-d");
 	 *
-	 *  $transaction->commit();
+	 *     if ($robot->save() === false) {
+	 *         $transaction->rollback("Can't save robot");
+	 *     }
 	 *
-	 *} catch (TxFailed $e) {
-	 *  echo 'Failed, reason: ', $e->getMessage();
-	 *}
+	 *     $robotPart = new RobotParts();
 	 *
+	 *     $robotPart->setTransaction($transaction);
+	 *
+	 *     $robotPart->type = "head";
+	 *
+	 *     if ($robotPart->save() === false) {
+	 *         $transaction->rollback("Robot part cannot be saved");
+	 *     }
+	 *
+	 *     $transaction->commit();
+	 * } catch (TxFailed $e) {
+	 *     echo "Failed, reason: ", $e->getMessage();
+	 * }
 	 *</code>
 	 */
 	public function setTransaction(<TransactionInterface> transaction) -> <Model>
@@ -408,22 +415,34 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Assigns values to a model from an array
 	 *
 	 * <code>
-	 * $robot->assign(array(
-	 *	'type' => 'mechanical',
-	 *	'name' => 'Astro Boy',
-	 *	'year' => 1952
-	 * ));
+	 * $robot->assign(
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
 	 *
-	 * //assign by db row, column map needed
-	 * $robot->assign($dbRow, array(
-	 *	'db_type' => 'type',
-	 *	'db_name' => 'name',
-	 *	'db_year' => 'year'
-	 * ));
+	 * // Assign by db row, column map needed
+	 * $robot->assign(
+	 *     $dbRow,
+	 *     [
+	 *         "db_type" => "type",
+	 *         "db_name" => "name",
+	 *         "db_year" => "year",
+	 *     ]
+	 * );
 	 *
-	 * //allow assign only name and year
-	 * $robot->assign($_POST, null, array('name', 'year');
-	 *</code>
+	 * // Allow assign only name and year
+	 * $robot->assign(
+	 *     $_POST,
+	 *     null,
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
+	 * </code>
 	 *
 	 * @param array data
 	 * @param array dataColumnMap array to transform keys of data to another
@@ -498,11 +517,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Assigns values to a model from an array returning a new model.
 	 *
 	 *<code>
-	 *$robot = \Phalcon\Mvc\Model::cloneResultMap(new Robots(), array(
-	 *  'type' => 'mechanical',
-	 *  'name' => 'Astro Boy',
-	 *  'year' => 1952
-	 *));
+	 * $robot = \Phalcon\Mvc\Model::cloneResultMap(
+	 *     new Robots(),
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
@@ -684,11 +706,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Assigns values to a model from an array returning a new model
 	 *
 	 *<code>
-	 *$robot = Phalcon\Mvc\Model::cloneResult(new Robots(), array(
-	 *  'type' => 'mechanical',
-	 *  'name' => 'Astro Boy',
-	 *  'year' => 1952
-	 *));
+	 * $robot = Phalcon\Mvc\Model::cloneResult(
+	 *     new Robots(),
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface $base
@@ -731,20 +756,37 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * <code>
 	 * // How many robots are there?
 	 * $robots = Robots::find();
-	 * echo 'There are ', count($robots), "\n";
+	 *
+	 * echo "There are ", count($robots), "\n";
 	 *
 	 * // How many mechanical robots are there?
-	 * $robots = Robots::find("type='mechanical'");
-	 * echo 'There are ', count($robots), "\n";
+	 * $robots = Robots::find(
+	 *     "type = 'mechanical'"
+	 * );
+	 *
+	 * echo "There are ", count($robots), "\n";
 	 *
 	 * // Get and print virtual robots ordered by name
-	 * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
+	 * $robots = Robots::find(
+	 *     [
+	 *         "type = 'virtual'",
+	 *         "order" => "name",
+	 *     ]
+	 * );
+	 *
 	 * foreach ($robots as $robot) {
 	 *	 echo $robot->name, "\n";
 	 * }
 	 *
 	 * // Get first 100 virtual robots ordered by name
-	 * $robots = Robots::find(["type='virtual'", 'order' => 'name', 'limit' => 100]);
+	 * $robots = Robots::find(
+	 *     [
+	 *         "type = 'virtual'",
+	 *         "order" => "name",
+	 *         "limit" => 100,
+	 *     ]
+	 * );
+	 *
 	 * foreach ($robots as $robot) {
 	 *	 echo $robot->name, "\n";
 	 * }
@@ -818,19 +860,27 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to query the first record that match the specified conditions
 	 *
 	 * <code>
-	 *
-	 * //What's the first robot in robots table?
+	 * // What's the first robot in robots table?
 	 * $robot = Robots::findFirst();
+	 *
 	 * echo "The robot name is ", $robot->name;
 	 *
-	 * //What's the first mechanical robot in robots table?
-	 * $robot = Robots::findFirst("type='mechanical'");
+	 * // What's the first mechanical robot in robots table?
+	 * $robot = Robots::findFirst(
+	 *     "type = 'mechanical'"
+	 * );
+	 *
 	 * echo "The first mechanical robot name is ", $robot->name;
 	 *
-	 * //Get first virtual robot ordered by name
-	 * $robot = Robots::findFirst(array("type='virtual'", "order" => "name"));
-	 * echo "The first virtual robot name is ", $robot->name;
+	 * // Get first virtual robot ordered by name
+	 * $robot = Robots::findFirst(
+	 *     [
+	 *         "type = 'virtual'",
+	 *         "order" => "name",
+	 *     ]
+	 * );
 	 *
+	 * echo "The first virtual robot name is ", $robot->name;
 	 * </code>
 	 *
 	 * @param string|array parameters
@@ -1168,15 +1218,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to count how many records match the specified conditions
 	 *
 	 * <code>
-	 *
-	 * //How many robots are there?
+	 * // How many robots are there?
 	 * $number = Robots::count();
+	 *
 	 * echo "There are ", $number, "\n";
 	 *
-	 * //How many mechanical robots are there?
+	 * // How many mechanical robots are there?
 	 * $number = Robots::count("type = 'mechanical'");
-	 * echo "There are ", $number, " mechanical robots\n";
 	 *
+	 * echo "There are ", $number, " mechanical robots\n";
 	 * </code>
 	 *
 	 * @param array parameters
@@ -1197,15 +1247,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to calculate a sum on a column that match the specified conditions
 	 *
 	 * <code>
+	 * // How much are all robots?
+	 * $sum = Robots::sum(
+	 *     [
+	 *         "column" => "price",
+	 *     ]
+	 * );
 	 *
-	 * //How much are all robots?
-	 * $sum = Robots::sum(array('column' => 'price'));
 	 * echo "The total price of robots is ", $sum, "\n";
 	 *
-	 * //How much are mechanical robots?
-	 * $sum = Robots::sum(array("type = 'mechanical'", 'column' => 'price'));
-	 * echo "The total price of mechanical robots is  ", $sum, "\n";
+	 * // How much are mechanical robots?
+	 * $sum = Robots::sum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "price",
+	 *     ]
+	 * );
 	 *
+	 * echo "The total price of mechanical robots is  ", $sum, "\n";
 	 * </code>
 	 *
 	 * @param array parameters
@@ -1220,15 +1279,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to get the maximum value of a column that match the specified conditions
 	 *
 	 * <code>
+	 * // What is the maximum robot id?
+	 * $id = Robots::maximum(
+	 *     [
+	 *         "column" => "id",
+	 *     ]
+	 * );
 	 *
-	 * //What is the maximum robot id?
-	 * $id = Robots::maximum(array('column' => 'id'));
 	 * echo "The maximum robot id is: ", $id, "\n";
 	 *
-	 * //What is the maximum id of mechanical robots?
-	 * $sum = Robots::maximum(array("type='mechanical'", 'column' => 'id'));
-	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
+	 * // What is the maximum id of mechanical robots?
+	 * $sum = Robots::maximum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "id",
+	 *     ]
+	 * );
 	 *
+	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
 	 * </code>
 	 *
 	 * @param array parameters
@@ -1243,15 +1311,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to get the minimum value of a column that match the specified conditions
 	 *
 	 * <code>
+	 * // What is the minimum robot id?
+	 * $id = Robots::minimum(
+	 *     [
+	 *         "column" => "id",
+	 *     ]
+	 * );
 	 *
-	 * //What is the minimum robot id?
-	 * $id = Robots::minimum(array('column' => 'id'));
 	 * echo "The minimum robot id is: ", $id;
 	 *
-	 * //What is the minimum id of mechanical robots?
-	 * $sum = Robots::minimum(array("type='mechanical'", 'column' => 'id'));
-	 * echo "The minimum robot id of mechanical robots is ", $id;
+	 * // What is the minimum id of mechanical robots?
+	 * $sum = Robots::minimum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "id",
+	 *     ]
+	 * );
 	 *
+	 * echo "The minimum robot id of mechanical robots is ", $id;
 	 * </code>
 	 *
 	 * @param array parameters
@@ -1266,15 +1343,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Allows to calculate the average value on a column matching the specified conditions
 	 *
 	 * <code>
+	 * // What's the average price of robots?
+	 * $average = Robots::average(
+	 *     [
+	 *         "column" => "price",
+	 *     ]
+	 * );
 	 *
-	 * //What's the average price of robots?
-	 * $average = Robots::average(array('column' => 'price'));
 	 * echo "The average price is ", $average, "\n";
 	 *
-	 * //What's the average price of mechanical robots?
-	 * $average = Robots::average(array("type='mechanical'", 'column' => 'price'));
-	 * echo "The average price of mechanical robots is ", $average, "\n";
+	 * // What's the average price of mechanical robots?
+	 * $average = Robots::average(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "price",
+	 *     ]
+	 * );
 	 *
+	 * echo "The average price of mechanical robots is ", $average, "\n";
 	 * </code>
 	 *
 	 * @param array parameters
@@ -1349,14 +1435,16 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * class Robots extends Model
 	 * {
+	 *     public function beforeSave()
+	 *     {
+	 *         if ($this->name === "Peter") {
+	 *             $message = new Message(
+	 *                 "Sorry, but a robot cannot be named Peter"
+	 *             );
 	 *
-	 *   public function beforeSave()
-	 *   {
-	 *	 if ($this->name == 'Peter') {
-	 *		$message = new Message("Sorry, but a robot cannot be named Peter");
-	 *		$this->appendMessage($message);
-	 *	 }
-	 *   }
+	 *             $this->appendMessage($message);
+	 *         }
+	 *     }
 	 * }
 	 * </code>
 	 */
@@ -1370,23 +1458,31 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model;
-	 *use Phalcon\Validation;
-	 *use Phalcon\Validation\Validator\ExclusionIn;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Validation;
+	 * use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 *class Subscriptors extends Model
-	 *{
+	 * class Subscriptors extends Model
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $validator = new Validation();
 	 *
-	 *	public function validation()
-	 *  {
-	 * 		$validator = new Validation();
-	 * 		$validator->add('status', new ExclusionIn(array(
-	 *			'domain' => array('A', 'I')
-	 *		)));
+	 *         $validator->add(
+	 *             "status",
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "domain" => [
+	 *                         "A",
+	 *                         "I",
+	 *                     ],
+	 *                 ]
+	 *             )
+	 *         );
 	 *
-	 *		return $this->validate($validator);
-	 *	}
-	 *}
+	 *         return $this->validate($validator);
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function validate(<ValidationInterface> validator) -> boolean
@@ -1428,23 +1524,30 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model;
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends Model
-	 *{
+	 * class Subscriptors extends Model
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $validator = new Validation();
 	 *
-	 *	public function validation()
-	 *  {
-	 *	  $validator = new Validation();
+	 *         $validator->validate(
+	 *             "status",
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "domain" => [
+	 *                         "A",
+	 *                         "I",
+	 *                     ],
+	 *                 ]
+	 *             )
+	 *         );
 	 *
-	 * 		$validator->validate('status', new ExclusionIn(array(
-	 *			'domain' => array('A', 'I')
-	 *		));
-
-	 *		return $this->validate($validator);
-	 *	}
-	 *}
+	 *         return $this->validate($validator);
+	 *     }
+	 * }
 	 *</code>
 	 */
 	public function validationHasFailed() -> boolean
@@ -1461,18 +1564,23 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Returns array of validation messages
 	 *
 	 *<code>
-	 *	$robot = new Robots();
-	 *	$robot->type = 'mechanical';
-	 *	$robot->name = 'Astro Boy';
-	 *	$robot->year = 1952;
-	 *	if ($robot->save() == false) {
-	 *  	echo "Umh, We can't store robots right now ";
-	 *  	foreach ($robot->getMessages() as $message) {
-	 *			echo $message;
-	 *		}
-	 *	} else {
-	 *  	echo "Great, a new robot was saved successfully!";
-	 *	}
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * if ($robot->save() === false) {
+	 *     echo "Umh, We can't store robots right now ";
+	 *
+	 *     $messages = $robot->getMessages();
+	 *
+	 *     foreach ($messages as $message) {
+	 *         echo $message;
+	 *     }
+	 * } else {
+	 *     echo "Great, a new robot was saved successfully!";
+	 * }
 	 * </code>
 	 */
 	public function getMessages(var filter = null) -> <MessageInterface[]>
@@ -2816,17 +2924,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 *
 	 *<code>
-	 *	//Creating a new robot
-	 *	$robot = new Robots();
-	 *	$robot->type = 'mechanical';
-	 *	$robot->name = 'Astro Boy';
-	 *	$robot->year = 1952;
-	 *	$robot->save();
+	 * // Creating a new robot
+	 * $robot = new Robots();
 	 *
-	 *	//Updating a robot name
-	 *	$robot = Robots::findFirst("id=100");
-	 *	$robot->name = "Biomass";
-	 *	$robot->save();
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->save();
+	 *
+	 * // Updating a robot name
+	 * $robot = Robots::findFirst("id = 100");
+	 *
+	 * $robot->name = "Biomass";
+	 *
+	 * $robot->save();
 	 *</code>
 	 *
 	 * @param array data
@@ -2976,20 +3088,25 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
-	 *	//Creating a new robot
-	 *	$robot = new Robots();
-	 *	$robot->type = 'mechanical';
-	 *	$robot->name = 'Astro Boy';
-	 *	$robot->year = 1952;
-	 *	$robot->create();
+	 * // Creating a new robot
+	 * $robot = new Robots();
 	 *
-	 *  //Passing an array to create
-	 *  $robot = new Robots();
-	 *  $robot->create(array(
-	 *	  'type' => 'mechanical',
-	 *	  'name' => 'Astro Boy',
-	 *	  'year' => 1952
-	 *  ));
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->create();
+	 *
+	 * // Passing an array to create
+	 * $robot = new Robots();
+	 *
+	 * $robot->create(
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function create(var data = null, var whiteList = null) -> boolean
@@ -3020,10 +3137,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
-	 *	//Updating a robot name
-	 *	$robot = Robots::findFirst("id=100");
-	 *	$robot->name = "Biomass";
-	 *	$robot->update();
+	 * // Updating a robot name
+	 * $robot = Robots::findFirst("id = 100");
+	 *
+	 * $robot->name = "Biomass";
+	 *
+	 * $robot->update();
 	 *</code>
 	 */
 	public function update(var data = null, var whiteList = null) -> boolean
@@ -3053,12 +3172,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 *
 	 * <code>
-	 *$robot = Robots::findFirst("id=100");
-	 *$robot->delete();
+	 * $robot = Robots::findFirst("id=100");
 	 *
-	 *foreach (Robots::find("type = 'mechanical'") as $robot) {
-	 *   $robot->delete();
-	 *}
+	 * $robot->delete();
+	 *
+	 * $robots = Robots::find("type = 'mechanical'");
+	 *
+	 * foreach ($robots as $robot) {
+	 *     $robot->delete();
+	 * }
 	 * </code>
 	 */
 	public function delete() -> boolean
@@ -3293,7 +3415,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Reads an attribute value by its name
 	 *
 	 * <code>
-	 * echo $robot->readAttribute('name');
+	 * echo $robot->readAttribute("name");
 	 * </code>
 	 */
 	public function readAttribute(string! attribute)
@@ -3309,7 +3431,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Writes an attribute value by its name
 	 *
 	 *<code>
-	 * 	$robot->writeAttribute('name', 'Rosey');
+	 * $robot->writeAttribute("name", "Rosey");
 	 *</code>
 	 */
 	public function writeAttribute(string! attribute, var value)
@@ -3322,16 +3444,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated INSERT/UPDATE statement
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->skipAttributes(array('price'));
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->skipAttributes(
+	 *             [
+	 *                 "price",
+	 *             ]
+	 *         );
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function skipAttributes(array! attributes)
@@ -3353,16 +3478,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated INSERT statement
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->skipAttributesOnCreate(array('created_at'));
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->skipAttributesOnCreate(
+	 *             [
+	 *                 "created_at",
+	 *             ]
+	 *         );
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function skipAttributesOnCreate(array! attributes) -> void
@@ -3382,16 +3510,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated UPDATE statement
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->skipAttributesOnUpdate(array('modified_in'));
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->skipAttributesOnUpdate(
+	 *             [
+	 *                 "modified_in",
+	 *             ]
+	 *         );
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function skipAttributesOnUpdate(array! attributes) -> void
@@ -3411,16 +3542,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated UPDATE statement
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->allowEmptyStringValues(array('name'));
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->allowEmptyStringValues(
+	 *             [
+	 *                 "name",
+	 *             ]
+	 *         );
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function allowEmptyStringValues(array! attributes) -> void
@@ -3439,16 +3573,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a 1-1 relation between two models
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->hasOne('id', 'RobotsDescription', 'robots_id');
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->hasOne("id", "RobotsDescription", "robots_id");
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -3460,17 +3593,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a relation reverse 1-1  between two models
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class RobotsParts extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->belongsTo('robots_id', 'Robots', 'id');
-	 *   }
-	 *
-	 *}
+	 * class RobotsParts extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->belongsTo("robots_id", "Robots", "id");
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -3482,16 +3613,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a relation 1-n between two models
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   $this->hasMany('id', 'RobotsParts', 'robots_id');
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->hasMany("id", "RobotsParts", "robots_id");
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -3503,24 +3633,23 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a relation n-n between two models through an intermediate relation
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *class Robots extends \Phalcon\Mvc\Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *	   //Setup a many-to-many relation to Parts through RobotsParts
-	 *	   $this->hasManyToMany(
-	 *			'id',
-	 *			'RobotsParts',
-	 *			'robots_id',
-	 *			'parts_id',
-	 *			'Parts',
-	 *			'id'
-	 *		);
-	 *   }
-	 *}
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         // Setup a many-to-many relation to Parts through RobotsParts
+	 *         $this->hasManyToMany(
+	 *             "id",
+	 *             "RobotsParts",
+	 *             "robots_id",
+	 *             "parts_id",
+	 *             "Parts",
+	 *             "id",
+	 *         );
+	 *     }
+	 * }
 	 *</code>
 	 *
 	 * @param	string|array fields
@@ -3551,24 +3680,27 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setups a behavior in a model
 	 *
 	 *<code>
-	 *<?php
+	 * <?php
 	 *
-	 *use Phalcon\Mvc\Model;
-	 *use Phalcon\Mvc\Model\Behavior\Timestampable;
+	 * use Phalcon\Mvc\Model;
+	 * use Phalcon\Mvc\Model\Behavior\Timestampable;
 	 *
-	 *class Robots extends Model
-	 *{
-	 *
-	 *   public function initialize()
-	 *   {
-	 *		$this->addBehavior(new Timestampable(array(
-	 *			'onCreate' => array(
-	 *				'field' => 'created_at',
-	 *				'format' => 'Y-m-d'
-	 *			)
-	 *		)));
-	 *   }
-	 *}
+	 * class Robots extends Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->addBehavior(
+	 *             new Timestampable(
+	 *                [
+	 *                    "onCreate" => [
+	 *                         "field"  => "created_at",
+	 *                         "format" => "Y-m-d",
+	 * 	                   ],
+	 *                 ]
+	 *             )
+	 *         );
+	 *     }
+	 * }
 	 *</code>
 	 */
 	public function addBehavior(<BehaviorInterface> behavior) -> void
@@ -3580,17 +3712,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sets if the model must keep the original record snapshot in memory
 	 *
 	 *<code>
-	 *<?php
-	 *use Phalcon\Mvc\Model;
+	 * <?php
 	 *
-	 *class Robots extends Model
-	 *{
+	 * use Phalcon\Mvc\Model;
 	 *
-	 *   public function initialize()
-	 *   {
-	 *		$this->keepSnapshots(true);
-	 *   }
-	 *}
+	 * class Robots extends Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->keepSnapshots(true);
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function keepSnapshots(boolean keepSnapshot) -> void
@@ -3862,17 +3994,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sets if a model must use dynamic update instead of the all-field update
 	 *
 	 *<code>
-	 *<?php
-	 *use Phalcon\Mvc\Model;
+	 * <?php
 	 *
-	 *class Robots extends Model
-	 *{
+	 * use Phalcon\Mvc\Model;
 	 *
-	 *   public function initialize()
-	 *   {
-	 *		$this->useDynamicUpdate(true);
-	 *   }
-	 *}
+	 * class Robots extends Model
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->useDynamicUpdate(true);
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
@@ -4393,7 +4525,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Returns a simple representation of the object that can be used with var_dump
 	 *
 	 *<code>
-	 * var_dump($robot->dump());
+	 * var_dump(
+	 *     $robot->dump()
+	 * );
 	 *</code>
 	 */
 	public function dump() -> array
@@ -4405,7 +4539,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Returns the instance as an array representation
 	 *
 	 *<code>
-	 * print_r($robot->toArray());
+	 * print_r(
+	 *     $robot->toArray()
+	 * );
 	 *</code>
 	 *
 	 * @param array $columns

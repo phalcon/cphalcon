@@ -32,11 +32,13 @@ use Phalcon\Queue\Beanstalk\Exception;
  * <code>
  * use Phalcon\Queue\Beanstalk;
  *
- * $queue = new Beanstalk([
- *     'host'       => '127.0.0.1',
- *     'port'       => 11300,
- *     'persistent' => true,
- * ]);
+ * $queue = new Beanstalk(
+ *     [
+ *         "host"       => "127.0.0.1",
+ *         "port"       => 11300,
+ *         "persistent" => true,
+ *     ]
+ * );
  * </code>
  *
  * @link http://www.igvita.com/2010/05/20/scalable-work-queues-with-beanstalk/

@@ -34,14 +34,17 @@ use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
  * use Phalcon\Logger\Adapter\Syslog;
  *
  * // LOG_USER is the only valid log type under Windows operating systems
- * $logger = new Syslog('ident', [
- *     'option'   => LOG_CONS | LOG_NDELAY | LOG_PID,
- *     'facility' => LOG_USER
- * ]);
+ * $logger = new Syslog(
+ *     "ident",
+ *     [
+ *         "option"   => LOG_CONS | LOG_NDELAY | LOG_PID,
+ *         "facility" => LOG_USER,
+ *     ]
+ * );
  *
- * $logger->log('This is a message');
- * $logger->log(Logger::ERROR, 'This is an error');
- * $logger->error('This is another error');
+ * $logger->log("This is a message");
+ * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->error("This is another error");
  *</code>
  */
 class Syslog extends Adapter implements AdapterInterface

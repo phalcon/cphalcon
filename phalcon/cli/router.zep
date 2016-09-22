@@ -33,15 +33,18 @@ use Phalcon\Cli\Router\Exception;
  * action of that task should receive the request</p>
  *
  *<code>
- *	$router = new \Phalcon\Cli\Router();
- *	$router->handle(array(
- *		'module' => 'main',
- *		'task' => 'videos',
- *		'action' => 'process'
- *	));
- *	echo $router->getTaskName();
- *</code>
+ * $router = new \Phalcon\Cli\Router();
  *
+ * $router->handle(
+ *     [
+ *         "module" => "main",
+ *         "task"   => "videos",
+ *         "action" => "process",
+ *     ]
+ * );
+ *
+ * echo $router->getTaskName();
+ *</code>
  */
 class Router implements \Phalcon\Di\InjectionAwareInterface
 {
@@ -144,10 +147,12 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * This method must not be used to set a 404 route
 	 *
 	 *<code>
-	 * $router->setDefaults(array(
-	 *		'module' => 'common',
-	 *		'action' => 'index'
-	 * ));
+	 * $router->setDefaults(
+	 *     [
+	 *         "module" => "common",
+	 *         "action" => "index",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setDefaults(array! defaults) -> <Router>
@@ -378,7 +383,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * Adds a route to the router
 	 *
 	 *<code>
-	 * $router->add('/about', 'About::main');
+	 * $router->add("/about", "About::main");
 	 *</code>
 	 *
 	 * @param string pattern

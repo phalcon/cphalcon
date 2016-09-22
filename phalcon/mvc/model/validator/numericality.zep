@@ -30,22 +30,25 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * Allows to validate if a field has a valid numeric format
  *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Numericality as NumericalityValidator;
+ * use Phalcon\Mvc\Model\Validator\Numericality as NumericalityValidator;
  *
- *class Products extends \Phalcon\Mvc\Model
- *{
+ * class Products extends \Phalcon\Mvc\Model
+ * {
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new NumericalityValidator(
+ *                 [
+ *                     "field" => "price",
+ *                 ]
+ *             )
+ *         );
  *
- *  public function validation()
- *  {
- *      $this->validate(new NumericalityValidator(array(
- *          "field" => 'price'
- *      )));
- *      if ($this->validationHasFailed() == true) {
- *          return false;
- *      }
- *  }
- *
- *}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
 class Numericality extends Validator implements ValidatorInterface

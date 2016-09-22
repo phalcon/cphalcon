@@ -553,8 +553,9 @@ class Mysql extends Dialect
 	 * Generates SQL checking for the existence of a schema.table
 	 *
 	 * <code>
-	 *    echo $dialect->tableExists("posts", "blog");
-	 *    echo $dialect->tableExists("posts");
+	 * echo $dialect->tableExists("posts", "blog");
+	 *
+	 * echo $dialect->tableExists("posts");
 	 * </code>
 	 */
 	public function tableExists(string! tableName, string schemaName = null) -> string
@@ -580,7 +581,9 @@ class Mysql extends Dialect
 	 * Generates SQL describing a table
 	 *
 	 * <code>
-	 *    print_r($dialect->describeColumns("posts"));
+	 * print_r(
+	 *     $dialect->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string! table, string schema = null) -> string
@@ -592,7 +595,9 @@ class Mysql extends Dialect
 	 * List all tables in database
 	 *
 	 * <code>
-	 *     print_r($dialect->listTables("blog"))
+	 * print_r(
+	 *     $dialect->listTables("blog")
+	 * );
 	 * </code>
 	 */
 	public function listTables(string schemaName = null) -> string

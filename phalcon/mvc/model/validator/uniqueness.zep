@@ -32,23 +32,27 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * present more than once in the existing records of the related table
  *
  *<code>
- *use Phalcon\Mvc\Model;
- *use Phalcon\Mvc\Model\Validator\Uniqueness;
+ * use Phalcon\Mvc\Model;
+ * use Phalcon\Mvc\Model\Validator\Uniqueness;
  *
- *class Subscriptors extends Model
- *{
+ * class Subscriptors extends Model
+ * {
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new Uniqueness(
+ *                 [
+ *                     "field"   => "email",
+ *                     "message" => "Value of field 'email' is already present in another record",
+ *                 ]
+ *             )
+ *         );
  *
- *  public function validation()
- *  {
- *      $this->validate(new Uniqueness(array(
- *          "field"   => "email",
- *          "message" => "Value of field 'email' is already present in another record"
- *      )));
- *      if ($this->validationHasFailed() == true) {
- *          return false;
- *      }
- *  }
- *}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
 class Uniqueness extends Validator implements ValidatorInterface

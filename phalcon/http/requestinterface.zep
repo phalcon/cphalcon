@@ -101,7 +101,7 @@ interface RequestInterface
 	public function getScheme() -> string;
 
 	/**
-	 * Checks whether request has been made using ajax. Checks if $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'
+	 * Checks whether request has been made using ajax. Checks if $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"
 	 */
 	public function isAjax() -> boolean;
 
@@ -141,7 +141,7 @@ interface RequestInterface
 	public function getPort() -> int;
 
 	/**
-	 * Gets most possibly client IPv4 Address. This methods search in $_SERVER['REMOTE_ADDR'] and optionally in $_SERVER['HTTP_X_FORWARDED_FOR']
+	 * Gets most possibly client IPv4 Address. This methods search in $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
 	public function getClientAddress(boolean trustForwardedHeader = false) -> string;
 
@@ -164,47 +164,47 @@ interface RequestInterface
 	public function isMethod(methods, boolean strict = false) -> boolean;
 
 	/**
-	 * Checks whether HTTP method is POST. if $_SERVER['REQUEST_METHOD']=='POST'
+	 * Checks whether HTTP method is POST. if $_SERVER["REQUEST_METHOD"] === "POST"
 	 */
 	public function isPost() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is GET. if $_SERVER['REQUEST_METHOD']=='GET'
+	 * Checks whether HTTP method is GET. if $_SERVER["REQUEST_METHOD"] === "GET"
 	 */
 	public function isGet() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is PUT. if $_SERVER['REQUEST_METHOD']=='PUT'
+	 * Checks whether HTTP method is PUT. if $_SERVER["REQUEST_METHOD"] === "PUT"
 	 */
 	public function isPut() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is HEAD. if $_SERVER['REQUEST_METHOD']=='HEAD'
+	 * Checks whether HTTP method is HEAD. if $_SERVER["REQUEST_METHOD"] === "HEAD"
 	 */
 	public function isHead() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is DELETE. if $_SERVER['REQUEST_METHOD']=='DELETE'
+	 * Checks whether HTTP method is DELETE. if $_SERVER["REQUEST_METHOD"] === "DELETE"
 	 */
 	public function isDelete() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is OPTIONS. if $_SERVER['REQUEST_METHOD']=='OPTIONS'
+	 * Checks whether HTTP method is OPTIONS. if $_SERVER["REQUEST_METHOD"] === "OPTIONS"
 	 */
 	public function isOptions() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if _SERVER["REQUEST_METHOD"]==="PURGE"
+	 * Checks whether HTTP method is PURGE (Squid and Varnish support). if $_SERVER["REQUEST_METHOD"] === "PURGE"
 	 */
 	public function isPurge() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is TRACE. if _SERVER["REQUEST_METHOD"]==="TRACE"
+	 * Checks whether HTTP method is TRACE. if $_SERVER["REQUEST_METHOD"] === "TRACE"
 	 */
 	public function isTrace() -> boolean;
 
 	/**
-	 * Checks whether HTTP method is CONNECT. if _SERVER["REQUEST_METHOD"]==="CONNECT"
+	 * Checks whether HTTP method is CONNECT. if $_SERVER["REQUEST_METHOD"] === "CONNECT"
 	 */
 	public function isConnect() -> boolean;
 
@@ -227,44 +227,44 @@ interface RequestInterface
 	public function getHTTPReferer() -> string;
 
 	/**
-	 * Gets array with mime/types and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT']
+	 * Gets array with mime/types and their quality accepted by the browser/client from $_SERVER["HTTP_ACCEPT"]
 	 */
 	public function getAcceptableContent() -> array;
 
 	/**
-	 * Gets best mime/type accepted by the browser/client from $_SERVER['HTTP_ACCEPT']
+	 * Gets best mime/type accepted by the browser/client from $_SERVER["HTTP_ACCEPT"]
 	 */
 	public function getBestAccept() -> string;
 
 	/**
-	 * Gets charsets array and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT_CHARSET']
+	 * Gets charsets array and their quality accepted by the browser/client from $_SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
 	public function getClientCharsets() -> array;
 
 	/**
-	 * Gets best charset accepted by the browser/client from $_SERVER['HTTP_ACCEPT_CHARSET']
+	 * Gets best charset accepted by the browser/client from $_SERVER["HTTP_ACCEPT_CHARSET"]
 	 */
 	public function getBestCharset() -> string;
 
 	/**
-	 * Gets languages array and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT_LANGUAGE']
+	 * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
 	 */
 	public function getLanguages() -> array;
 
 	/**
-	 * Gets best language accepted by the browser/client from $_SERVER['HTTP_ACCEPT_LANGUAGE']
+	 * Gets best language accepted by the browser/client from $_SERVER["HTTP_ACCEPT_LANGUAGE"]
 	 */
 	public function getBestLanguage() -> string;
 
 	/**
-	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
 	 *
 	 * @return array
 	 */
 	public function getBasicAuth();
 
 	/**
-	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
 	 */
 	public function getDigestAuth() -> array;
 }

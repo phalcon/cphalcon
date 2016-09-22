@@ -34,22 +34,30 @@ use Phalcon\Cache\FrontendInterface;
  * use Phalcon\Cache\Frontend\Base64;
  *
  * // Cache data for 2 days
- * $frontCache = new Base64([
- *     'lifetime' => 172800
- * ]);
+ * $frontCache = new Base64(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
  * // Create a MongoDB cache
- * $cache = new Mongo($frontCache, [
- *     'server' => "mongodb://localhost",
- *     'db' => 'caches',
- *     'collection' => 'images'
- * ]);
+ * $cache = new Mongo(
+ *     $frontCache,
+ *     [
+ *         "server"     => "mongodb://localhost",
+ *         "db"         => "caches",
+ *         "collection" => "images",
+ *     ]
+ * );
  *
  * // Cache arbitrary data
- * $cache->save('my-data', file_get_contents('some-image.jpg'));
+ * $cache->save(
+ *     "my-data",
+ *     file_get_contents("some-image.jpg")
+ * );
  *
  * // Get data
- * $data = $cache->get('my-data');
+ * $data = $cache->get("my-data");
  *</code>
  */
 class Mongo extends Backend implements BackendInterface

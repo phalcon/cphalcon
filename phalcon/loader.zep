@@ -28,21 +28,23 @@ use Phalcon\Events\EventsAwareInterface;
  * This component helps to load your project classes automatically based on some conventions
  *
  *<code>
- * //Creates the autoloader
- * $loader = new Loader();
+ * // Creates the autoloader
+ * $loader = new \Phalcon\Loader();
  *
- * //Register some namespaces
- * $loader->registerNamespaces(array(
- *   'Example\Base' => 'vendor/example/base/',
- *   'Example\Adapter' => 'vendor/example/adapter/',
- *   'Example' => 'vendor/example/'
- * ));
+ * // Register some namespaces
+ * $loader->registerNamespaces(
+ *     [
+ *         "Example\\Base"    => "vendor/example/base/",
+ *         "Example\\Adapter" => "vendor/example/adapter/",
+ *         "Example"          => "vendor/example/",
+ *     ]
+ * );
  *
- * //register autoloader
+ * // Register autoloader
  * $loader->register();
  *
- * //Requiring this class will automatically include file vendor/example/adapter/Some.php
- * $adapter = Example\Adapter\Some();
+ * // Requiring this class will automatically include file vendor/example/adapter/Some.php
+ * $adapter = new \Example\Adapter\Some();
  *</code>
  */
 class Loader implements EventsAwareInterface

@@ -37,10 +37,12 @@ use Phalcon\Di\InjectionAwareInterface;
  * HTTP responses are usually composed by headers and body.
  *
  *<code>
- *	$response = new \Phalcon\Http\Response();
- *	$response->setStatusCode(200, "OK");
- *	$response->setContent("<html><body>Hello</body></html>");
- *	$response->send();
+ * $response = new \Phalcon\Http\Response();
+ *
+ * $response->setStatusCode(200, "OK");
+ * $response->setContent("<html><body>Hello</body></html>");
+ *
+ * $response->send();
  *</code>
  */
 class Response implements ResponseInterface, InjectionAwareInterface
@@ -106,7 +108,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets the HTTP response code
 	 *
 	 *<code>
-	 *	$response->setStatusCode(404, "Not Found");
+	 * $response->setStatusCode(404, "Not Found");
 	 *</code>
 	 */
 	public function setStatusCode(int code, string message = null) -> <Response>
@@ -226,7 +228,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Returns the status code
 	 *
 	 *<code>
-	 *	print_r($response->getStatusCode());
+	 * print_r(
+	 *     $response->getStatusCode()
+	 * );
 	 *</code>
 	 */
 	public function getStatusCode() -> array
@@ -274,7 +278,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Overwrites a header in the response
 	 *
 	 *<code>
-	 *	$response->setHeader("Content-Type", "text/plain");
+	 * $response->setHeader("Content-Type", "text/plain");
 	 *</code>
 	 */
 	public function setHeader(string name, value) -> <Response>
@@ -289,7 +293,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Send a raw header to the response
 	 *
 	 *<code>
-	 *	$response->setRawHeader("HTTP/1.1 404 Not Found");
+	 * $response->setRawHeader("HTTP/1.1 404 Not Found");
 	 *</code>
 	 */
 	public function setRawHeader(string header) -> <Response>
@@ -315,7 +319,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets an Expires header in the response that allows to use the HTTP cache
 	 *
 	 *<code>
-	 *	$this->response->setExpires(new DateTime());
+	 * $this->response->setExpires(
+	 *     new DateTime()
+	 * );
 	 *</code>
 	 */
 	public function setExpires(<\DateTime> datetime) -> <Response>
@@ -341,7 +347,9 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets Last-Modified header
 	 *
 	 *<code>
-	 *	$this->response->setLastModified(new DateTime());
+	 * $this->response->setLastModified(
+	 *     new DateTime()
+	 * );
 	 *</code>
 	 */
 	public function setLastModified(<\DateTime> datetime) -> <Response>
@@ -367,7 +375,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets Cache headers to use HTTP cache
 	 *
 	 *<code>
-	 *	$this->response->setCache(60);
+	 * $this->response->setCache(60);
 	 *</code>
 	 */
 	public function setCache(int! minutes) -> <Response>
@@ -396,8 +404,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets the response content-type mime, optionally the charset
 	 *
 	 *<code>
-	 *	$response->setContentType('application/pdf');
-	 *	$response->setContentType('text/plain', 'UTF-8');
+	 * $response->setContentType("application/pdf");
+	 * $response->setContentType("text/plain", "UTF-8");
 	 *</code>
 	 */
 	public function setContentType(string contentType, charset = null) -> <Response>
@@ -415,7 +423,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets the response content-length
 	 *
 	 *<code>
-	 *	$response->setContentLength(2048);
+	 * $response->setContentLength(2048);
 	 *</code>
 	 */
 	public function setContentLength(int contentLength) -> <Response>
@@ -429,7 +437,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Set a custom ETag
 	 *
 	 *<code>
-	 *	$response->setEtag(md5(time()));
+	 * $response->setEtag(md5(time()));
 	 *</code>
 	 */
 	public function setEtag(string etag) -> <Response>
@@ -443,17 +451,19 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Redirect by HTTP to another action or URL
 	 *
 	 *<code>
-	 *  //Using a string redirect (internal/external)
-	 *	$response->redirect("posts/index");
-	 *	$response->redirect("http://en.wikipedia.org", true);
-	 *	$response->redirect("http://www.example.com/new-location", true, 301);
+	 * // Using a string redirect (internal/external)
+	 * $response->redirect("posts/index");
+	 * $response->redirect("http://en.wikipedia.org", true);
+	 * $response->redirect("http://www.example.com/new-location", true, 301);
 	 *
-	 *	//Making a redirection based on a named route
-	 *	$response->redirect(array(
-	 *		"for" => "index-lang",
-	 *		"lang" => "jp",
-	 *		"controller" => "index"
-	 *	));
+	 * // Making a redirection based on a named route
+	 * $response->redirect(
+	 *     [
+	 *         "for"        => "index-lang",
+	 *         "lang"       => "jp",
+	 *         "controller" => "index",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function redirect(location = null, boolean externalRedirect = false, int statusCode = 302) -> <Response>
@@ -514,7 +524,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Sets HTTP response body
 	 *
 	 *<code>
-	 *	response->setContent("<h1>Hello!</h1>");
+	 * $response->setContent("<h1>Hello!</h1>");
 	 *</code>
 	 */
 	public function setContent(string content) -> <Response>
@@ -528,7 +538,11 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * and also sets default header: Content-Type: "application/json; charset=UTF-8"
 	 *
 	 *<code>
-	 *	$response->setJsonContent(array("status" => "OK"));
+	 * $response->setJsonContent(
+	 *     [
+	 *         "status" => "OK",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <Response>

@@ -51,7 +51,9 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Gets an attribute a message using the array syntax
 	 *
 	 *<code>
-	 * print_r($messages[0]);
+	 * print_r(
+	 *     $messages[0]
+	 * );
 	 *</code>
 	 *
 	 * @param int index
@@ -70,7 +72,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Sets an attribute using the array-syntax
 	 *
 	 *<code>
-	 * $messages[0] = new \Phalcon\Validation\Message('This is a message');
+	 * $messages[0] = new \Phalcon\Validation\Message("This is a message");
 	 *</code>
 	 *
 	 * @param int index
@@ -88,7 +90,9 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Checks if an index exists
 	 *
 	 *<code>
-	 * var_dump(isset($message['database']));
+	 * var_dump(
+	 *     isset($message["database"])
+	 * );
 	 *</code>
 	 *
 	 * @param int index
@@ -103,7 +107,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Removes a message from the list
 	 *
 	 *<code>
-	 * unset($message['database']);
+	 * unset($message["database"]);
 	 *</code>
 	 *
 	 * @param string index
@@ -120,7 +124,9 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * Appends a message to the group
 	 *
 	 *<code>
-	 * $messages->appendMessage(new \Phalcon\Validation\Message('This is a message'));
+	 * $messages->appendMessage(
+	 *     new \Phalcon\Validation\Message("This is a message")
+	 * );
 	 *</code>
 	 */
 	public function appendMessage(<MessageInterface> message)

@@ -30,23 +30,26 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * Check if a value is included into a list of values
  *
  *<code>
- *	use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
+ * use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
  *
- *	class Subscriptors extends \Phalcon\Mvc\Model
- *	{
+ * class Subscriptors extends \Phalcon\Mvc\Model
+ * {
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new InclusionInValidator(
+ *                 [
+ *                     "field"  => "status",
+ *                     "domain" => ["A", "I"],
+ *                 ]
+ *             )
+ *         );
  *
- *		public function validation()
- *		{
- *			$this->validate(new InclusionInValidator(array(
- *				"field" => 'status',
- *				'domain' => array('A', 'I')
- *			)));
- *			if ($this->validationHasFailed() == true) {
- *				return false;
- *			}
- *		}
- *
- *	}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
 class Inclusionin extends Validator implements ValidatorInterface

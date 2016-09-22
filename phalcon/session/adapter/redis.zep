@@ -31,22 +31,24 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  *<code>
  * use Phalcon\Session\Adapter\Redis;
  *
- * $session = new Redis([
- *     'uniqueId'   => 'my-private-app',
- *     'host'       => 'localhost',
- *     'port'       => 6379,
- *     'auth'       => 'foobared',
- *     'persistent' => false,
- *     'lifetime'   => 3600,
- *     'prefix'     => 'my_'
- *     'index'      => 1,
- * ]);
+ * $session = new Redis(
+ *     [
+ *         "uniqueId"   => "my-private-app",
+ *         "host"       => "localhost",
+ *         "port"       => 6379,
+ *         "auth"       => "foobared",
+ *         "persistent" => false,
+ *         "lifetime"   => 3600,
+ *         "prefix"     => "my",
+ *         "index"      => 1,
+ *     ]
+ * );
  *
  * $session->start();
  *
- * $session->set('var', 'some-value');
+ * $session->set("var", "some-value");
  *
- * echo $session->get('var');
+ * echo $session->get("var");
  *</code>
  */
 class Redis extends Adapter

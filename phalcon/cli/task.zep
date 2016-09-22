@@ -31,23 +31,19 @@ use Phalcon\Di\Injectable;
  * The Task class should at least have a "mainAction" method
  *
  *<code>
+ * class HelloTask extends \Phalcon\Cli\Task
+ * {
+ *     // This action will be executed by default
+ *     public function mainAction()
+ *     {
  *
- *class HelloTask extends \Phalcon\Cli\Task
- *{
+ *     }
  *
- *  // This action will be executed by default
- *  public function mainAction()
- *  {
+ *     public function findAction()
+ *     {
  *
- *  }
- *
- *  public function findAction()
- *  {
- *
- *  }
- *
- *}
- *
+ *     }
+ * }
  *</code>
  */
 class Task extends Injectable implements TaskInterface

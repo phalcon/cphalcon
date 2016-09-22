@@ -36,8 +36,9 @@ use Phalcon\Logger\Formatter\Firephp as FirePhpFormatter;
  * use Phalcon\Logger;
  *
  * $logger = new Firephp();
- * $logger->log(Logger::ERROR, 'This is an error');
- * $logger->error('This is another error');
+ *
+ * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->error("This is another error");
  *</code>
  */
 class Firephp extends Adapter implements AdapterInterface

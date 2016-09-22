@@ -39,7 +39,11 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * <code>
  * use Phalcon\Db\Adapter\Pdo\Sqlite;
  *
- * $connection = new Sqlite(['dbname' => '/tmp/test.sqlite']);
+ * $connection = new Sqlite(
+ *     [
+ *         "dbname" => "/tmp/test.sqlite",
+ *     ]
+ * );
  * </code>
  */
 class Sqlite extends PdoAdapter implements AdapterInterface
@@ -74,7 +78,9 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>
-	 * print_r($connection->describeColumns("posts"));
+	 * print_r(
+	 *     $connection->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string table, string schema = null) -> <Column[]>
@@ -290,7 +296,9 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * Lists table indexes
 	 *
 	 * <code>
-	 *   print_r($connection->describeIndexes('robots_parts'));
+	 * print_r(
+	 *     $connection->describeIndexes("robots_parts")
+	 * );
 	 * </code>
 	 *
 	 * @param  string table
@@ -408,11 +416,17 @@ class Sqlite extends PdoAdapter implements AdapterInterface
 	 * Returns the default value to make the RBDM use the default value declared in the table definition
 	 *
 	 *<code>
-	 * //Inserting a new robot with a valid default value for the column 'year'
+	 * // Inserting a new robot with a valid default value for the column 'year'
 	 * $success = $connection->insert(
-	 *	 "robots",
-	 *	 array("Astro Boy", $connection->getDefaultValue()),
-	 *	 array("name", "year")
+	 *     "robots",
+	 *     [
+	 *         "Astro Boy",
+	 *         $connection->getDefaultValue(),
+	 *     ],
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
 	 * );
 	 *</code>
 	 */

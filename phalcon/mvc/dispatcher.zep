@@ -34,18 +34,17 @@ use Phalcon\Dispatcher as BaseDispatcher;
  * instantiating a controller and calling an action of that controller.
  *
  *<code>
+ * $di = new \Phalcon\Di();
  *
- *	$di = new \Phalcon\Di();
+ * $dispatcher = new \Phalcon\Mvc\Dispatcher();
  *
- *	$dispatcher = new \Phalcon\Mvc\Dispatcher();
+ * $dispatcher->setDI($di);
  *
- *  $dispatcher->setDI($di);
+ * $dispatcher->setControllerName("posts");
+ * $dispatcher->setActionName("index");
+ * $dispatcher->setParams([]);
  *
- *	$dispatcher->setControllerName('posts');
- *	$dispatcher->setActionName('index');
- *	$dispatcher->setParams(array());
- *
- *	$controller = $dispatcher->dispatch();
+ * $controller = $dispatcher->dispatch();
  *</code>
  */
 class Dispatcher extends BaseDispatcher implements DispatcherInterface

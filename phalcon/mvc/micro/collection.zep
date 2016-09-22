@@ -25,19 +25,18 @@ namespace Phalcon\Mvc\Micro;
  * Groups Micro-Mvc handlers as controllers
  *
  *<code>
- *
  * $app = new \Phalcon\Mvc\Micro();
  *
  * $collection = new Collection();
  *
- * $collection->setHandler(new PostsController());
+ * $collection->setHandler(
+ *     new PostsController()
+ * );
  *
- * $collection->get('/posts/edit/{id}', 'edit');
+ * $collection->get("/posts/edit/{id}", "edit");
  *
  * $app->mount($collection);
- *
  *</code>
- *
  */
 class Collection implements CollectionInterface
 {

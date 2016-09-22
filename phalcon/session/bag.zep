@@ -30,9 +30,10 @@ use Phalcon\Di\InjectionAwareInterface;
  * you can easily create groups of session variables into the application
  *
  *<code>
- *	$user = new \Phalcon\Session\Bag('user');
- *	$user->name = "Kimbra Johnson";
- *	$user->age  = 22;
+ * $user = new \Phalcon\Session\Bag("user");
+ *
+ * $user->name = "Kimbra Johnson";
+ * $user->age  = 22;
  *</code>
  */
 class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, \ArrayAccess, \Countable
@@ -123,7 +124,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * Sets a value in the session bag
 	 *
 	 *<code>
-	 * $user->set('name', 'Kimbra');
+	 * $user->set("name", "Kimbra");
 	 *</code>
 	 */
 	public function set(string! property, var value)
@@ -152,7 +153,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * Obtains a value from the session bag optionally setting a default value
 	 *
 	 *<code>
-	 * echo $user->get('name', 'Kimbra');
+	 * echo $user->get("name", "Kimbra");
 	 *</code>
 	 */
 	public function get(string! property, var defaultValue = null)
@@ -192,7 +193,9 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * Check whether a property is defined in the internal bag
 	 *
 	 *<code>
-	 * var_dump($user->has('name'));
+	 * var_dump(
+	 *     $user->has("name")
+	 * );
 	 *</code>
 	 */
 	public function has(string! property) -> boolean
@@ -208,7 +211,9 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * Magic isset to check whether a property is defined in the bag
 	 *
 	 *<code>
-	 * var_dump(isset($user['name']));
+	 * var_dump(
+	 *     isset($user["name"])
+	 * );
 	 *</code>
 	 */
 	public function __isset(string! property) -> boolean
@@ -220,7 +225,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * Removes a property from the internal bag
 	 *
 	 *<code>
-	 * $user->remove('name');
+	 * $user->remove("name");
 	 *</code>
 	 */
 	public function remove(string! property) -> boolean
@@ -242,7 +247,7 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 * Magic unset to remove items using the array syntax
 	 *
 	 *<code>
-	 * unset($user['name']);
+	 * unset($user["name"]);
 	 *</code>
 	 */
 	public function __unset(string! property) -> boolean

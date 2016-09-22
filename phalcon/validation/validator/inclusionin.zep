@@ -32,21 +32,34 @@ use Phalcon\Validation\Message;
  * <code>
  * use Phalcon\Validation\Validator\InclusionIn;
  *
- * $validator->add('status', new InclusionIn([
- *     'message' => 'The status must be A or B',
- *     'domain' => array('A', 'B')
- * ]));
+ * $validator->add(
+ *     "status",
+ *     new InclusionIn(
+ *         [
+ *             "message" => "The status must be A or B",
+ *             "domain"  => ["A", "B"],
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['status', 'type'], new InclusionIn([
- *     'message' => [
- *         'status' => 'The status must be A or B',
- *         'type' => 'The status must be 1 or 2'
+ * $validator->add(
+ *     [
+ *         "status",
+ *         "type",
  *     ],
- *     'domain' => [
- *         'status' => ['A', 'B'],
- *         'type' => [1, 2]
- *     ]
- * ]));
+ *     new InclusionIn(
+ *         [
+ *             "message" => [
+ *                 "status" => "The status must be A or B",
+ *                 "type"   => "The status must be 1 or 2",
+ *             ],
+ *             "domain" => [
+ *                 "status" => ["A", "B"],
+ *                 "type"   => [1, 2],
+ *             ]
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class InclusionIn extends Validator

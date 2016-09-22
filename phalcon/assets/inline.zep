@@ -25,7 +25,7 @@ namespace Phalcon\Assets;
  * Represents an inline asset
  *
  *<code>
- * $inline = new \Phalcon\Assets\Inline('js', 'alert("hello world");');
+ * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  *</code>
  */
 class $Inline
