@@ -11,6 +11,7 @@
 - Fixed `Phalcon\Config\Adapter\Ini::_cast` to allow create extended config adapters [#12230](https://github.com/phalcon/cphalcon/issues/12230).
 - Fixed `Phalcon\Tag::appendTitle`, `Phalcon\Tag::prependTitle` to stack title prepending and appending [#12233](https://github.com/phalcon/cphalcon/issues/12233).
 - Fixed `Phalcon\Debug::getVersion` to provide valid link to the latest Phalcon major version [#12215](https://github.com/phalcon/cphalcon/issues/12215)
+- Fixed `Phalcon\Session\Adapter\Libmemcached::read`, `Phalcon\Session\Adapter\Libmemcached::destroy`, `Phalcon\Session\Adapter\Memcache::read`, `Phalcon\Session\Adapter\Memcache::destroy`, `Phalcon\Session\Adapter\Redis::read` and `Phalcon\Session\Adapter\Redis::destroy` in accordance with the `session_set_save_handler` API [#12206](https://github.com/phalcon/cphalcon/pull/12206)
 
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
