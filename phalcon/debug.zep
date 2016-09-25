@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -280,6 +280,7 @@ class Debug
 
 	/**
 	 * Returns the major framework's version
+	 * @deprecated Will be removed in 4.0.0
 	 */
 	public function getMajorVersion() -> string
 	{
@@ -294,9 +295,16 @@ class Debug
 	 */
 	public function getVersion() -> string
 	{
-		return "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"//docs.phalconphp.com/en/" .
-			this->getMajorVersion() . "/\">" .
-			\Phalcon\Version::get() . "</a></div>";
+		var link;
+
+		let link = [
+			"action": "https://docs.phalconphp.com/en/" . Version::getPart(Version::VERSION_MAJOR) . ".0.0/",
+			"text"  : Version::get(),
+			"local" : false,
+			"target": "_new"
+		];
+
+		return "<div class='version'>Phalcon Framework " . Tag::linkTo(link) . "</div>";
 	}
 
 	/**
