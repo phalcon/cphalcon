@@ -108,9 +108,9 @@ class Memcache extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read(string sessionId) -> var
+	public function read(string sessionId) -> string
 	{
-		return this->_memcache->get(sessionId, this->_lifetime);
+		return (string) this->_memcache->get(sessionId, this->_lifetime);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Memcache extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_memcache->delete(id);
+		return this->_memcache->exists(id) ? this->_memcache->delete(id) : true;
 	}
 
 	/**

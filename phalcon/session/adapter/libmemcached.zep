@@ -135,9 +135,9 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read(string sessionId) -> var
+	public function read(string sessionId) -> string
 	{
-		return this->_libmemcached->get(sessionId, this->_lifetime);
+		return (string) this->_libmemcached->get(sessionId, this->_lifetime);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function destroy(string sessionId = null) ->boolean
+	public function destroy(string sessionId = null) -> boolean
 	{
 		var id, key;
 
@@ -164,7 +164,8 @@ class Libmemcached extends Adapter
 		for key, _ in _SESSION {
 			unset _SESSION[key];
 		}
-		return this->_libmemcached->delete(id);
+
+		return this->_libmemcached->exists(id) ? this->_libmemcached->delete(id) : true;
 	}
 
 	/**

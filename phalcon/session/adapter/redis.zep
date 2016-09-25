@@ -116,9 +116,9 @@ class Redis extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read(sessionId) -> var
+	public function read(sessionId) -> string
 	{
-		return this->_redis->get(sessionId, this->_lifetime);
+		return (string) this->_redis->get(sessionId, this->_lifetime);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Redis extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_redis->delete(id);
+		return this->_redis->exists(id) ? this->_redis->delete(id) : true;
 	}
 
 	/**
