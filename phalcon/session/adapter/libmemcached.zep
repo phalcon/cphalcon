@@ -135,9 +135,9 @@ class Libmemcached extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read(string sessionId) -> var
+	public function read(string sessionId) -> string
 	{
-		return this->_libmemcached->get(sessionId, this->_lifetime);
+		return (string) this->_libmemcached->get(sessionId, this->_lifetime);
 	}
 
 	/**
