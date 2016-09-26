@@ -61,6 +61,14 @@ defined('TEST_DB_MYSQL_PASSWD')  || define('TEST_DB_MYSQL_PASSWD',  getenv('TEST
 defined('TEST_DB_MYSQL_NAME')    || define('TEST_DB_MYSQL_NAME',    getenv('TEST_DB_MYSQL_NAME')    ?: 'phalcon_test');
 defined('TEST_DB_MYSQL_CHARSET') || define('TEST_DB_MYSQL_CHARSET', getenv('TEST_DB_MYSQL_CHARSET') ?: 'utf8');
 
+// Postgresql
+defined('TEST_DB_POSTGRESQL_HOST')    || define('TEST_DB_POSTGRESQL_HOST',    getenv('TEST_DB_POSTGRESQL_HOST')    ?: '127.0.0.1');
+defined('TEST_DB_POSTGRESQL_PORT')    || define('TEST_DB_POSTGRESQL_PORT',    getenv('TEST_DB_POSTGRESQL_PORT')    ?: 5432);
+defined('TEST_DB_POSTGRESQL_USER')    || define('TEST_DB_POSTGRESQL_USER',    getenv('TEST_DB_POSTGRESQL_USER')    ?: 'postgres');
+defined('TEST_DB_POSTGRESQL_PASSWD')  || define('TEST_DB_POSTGRESQL_PASSWD',  getenv('TEST_DB_POSTGRESQL_PASSWD')  ?: '');
+defined('TEST_DB_POSTGRESQL_NAME')    || define('TEST_DB_POSTGRESQL_NAME',    getenv('TEST_DB_POSTGRESQL_NAME')    ?: 'phalcon_test');
+defined('TEST_DB_POSTGRESQL_SCHEMA') || define('TEST_DB_POSTGRESQL_SCHEMA', getenv('TEST_DB_POSTGRESQL_SCHEMA') ?: 'public');
+
 // Mongo
 defined('TEST_DB_MONGO_HOST') || define('TEST_DB_MONGO_HOST', getenv('TEST_DB_MONGO_HOST') ?: '127.0.0.1');
 defined('TEST_DB_MONGO_PORT') || define('TEST_DB_MONGO_PORT', getenv('TEST_DB_MONGO_PORT') ?: 27017);

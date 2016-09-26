@@ -54,7 +54,7 @@ class ValidationTest extends UnitTest
      */
     public function testWithEntityAndFilter()
     {
-        $this->specify('Tests validate method with entity and filters', function () {
+        $this->specify('Validation filters are not working with entity', function () {
             $users = new Users([
                 'name' => ' '
             ]);
@@ -86,7 +86,7 @@ class ValidationTest extends UnitTest
      */
     public function testFilteringEntity()
     {
-        $this->specify('Tests if validate method filters entity', function() {
+        $this->specify('Validation filters are not saving value to entity', function() {
             $users = new Users([
                 'name' => 'SomeName      '
             ]);
