@@ -19,9 +19,9 @@ matrix:
 
 install:
   - echo Setting PHP version...
+  - appveyor DownloadFile http://windows.php.net/downloads/releases/sha1sum.txt
   - ps: >-
       If ($env:PHP_VERSION -Match "latest") {
-        Start-FileDownload 'http://windows.php.net/downloads/releases/sha1sum.txt'
         $env:PHP_VERSION=type sha1sum.txt | where { $_ -match "php-(5\.6\.\d+)-src" } | foreach { $matches[1] }
         $env:version='{build}-$(PHP_VERSION)'
       } Else {
@@ -29,7 +29,7 @@ install:
       }
   - echo Initializing Build...
   - cd %APPVEYOR_BUILD_FOLDER%
-  - ps: Start-FileDownload http://zephir-win.s3-website-us-east-1.amazonaws.com/x86/php_zephir_parser.dll
+  - appveyor DownloadFile http://zephir-win.s3-website-us-east-1.amazonaws.com/x86/php_zephir_parser.dll
   - git submodule update --init --recursive
   - echo Downloading PHP source code [%PHP_VERSION%]
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
