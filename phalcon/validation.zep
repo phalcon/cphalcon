@@ -474,13 +474,14 @@ class Validation extends Injectable implements ValidationInterface
 	{
 		var entity, method, value, data, values,
 			filters, fieldFilters, dependencyInjector,
-			filterService;
+			filterService, camelizedField;
 
 		let entity = this->_entity;
 
 		//  If the entity is an object use it to retrieve the values
 		if typeof entity == "object" {
-			let method = "get" . camelize(field);
+			let camelizedField = camelize(field);
+			let method = "get" . camelizedField;
 			if method_exists(entity, method) {
 				let value = entity->{method}();
 			} else {
@@ -494,30 +495,30 @@ class Validation extends Injectable implements ValidationInterface
 					}
 				}
 			}
-			return value;
 		}
+		else {
+			let data = this->_data;
 
-		let data = this->_data;
-
-		if typeof data != "array" && typeof data != "object" {
-			throw new Exception("There is no data to validate");
-		}
-
-		// Check if there is a calculated value
-		let values = this->_values;
-		if fetch value, values[field] {
-			return value;
-		}
-
-		let value = null;
-		if typeof data == "array" {
-			if isset data[field] {
-				let value = data[field];
+			if typeof data != "array" && typeof data != "object" {
+				throw new Exception("There is no data to validate");
 			}
-		} else {
-			if typeof data == "object" {
-				if isset data->{field} {
-					let value = data->{field};
+
+			// Check if there is a calculated value
+			let values = this->_values;
+			if fetch value, values[field] {
+				return value;
+			}
+
+			let value = null;
+			if typeof data == "array" {
+				if isset data[field] {
+					let value = data[field];
+				}
+			} else {
+				if typeof data == "object" {
+					if isset data->{field} {
+						let value = data->{field};
+					}
 				}
 			}
 		}
@@ -546,13 +547,35 @@ class Validation extends Injectable implements ValidationInterface
 						throw new Exception("Returned 'filter' service is invalid");
 					}
 
-					return filterService->sanitize(value, fieldFilters);
+					let value = filterService->sanitize(value, fieldFilters);
+
+					/**
+					 * Set filtered value in entity
+					 */
+					if typeof entity == "object" {
+						let method = "set" . camelizedField;
+						if method_exists(entity, method) {
+							entity->{method}(value);
+						} else {
+							if method_exists(entity, "writeAttribute") {
+								entity->writeAttribute(field, value);
+							} else {
+								if property_exists(entity, field) {
+									let entity->{field} = value;
+								}
+							}
+						}
+					}
+
+					return value;
 				}
 			}
 		}
 
-		// Cache the calculated value
-		let this->_values[field] = value;
+		// Cache the calculated value only if it's not entity
+		if typeof entity != "object" {
+			let this->_values[field] = value;
+		}
 
 		return value;
 	}
