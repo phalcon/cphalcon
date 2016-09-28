@@ -657,32 +657,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
-		//List tables
-		$expectedTables = array (
-			'customers',
-			'images',
-			'parts',
-			'personas',
-			'personnes',
-			'prueba',
-			'robots',
-			'robots_parts',
-			'subscriptores',
-			'tipo_documento',
-		);
-
-		$tables = $connection->listTables();
-		$this->assertEquals($tables, $expectedTables);
-
-		$tables = $connection->listTables('public');
-		$this->assertEquals($tables, $expectedTables);
-
-		//Table exist
-		$this->assertEquals($connection->tableExists('personas'), 1);
-		$this->assertEquals($connection->tableExists('noexist'), 0);
-		$this->assertEquals($connection->tableExists('personas', 'public'), 1);
-		$this->assertEquals($connection->tableExists('personas', 'test'), 0);
-
 		//Columns
 		$expectedDescribe = $this->getExpectedColumnsPostgresql();
 

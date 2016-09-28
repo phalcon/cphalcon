@@ -53,7 +53,7 @@ class MysqlTest extends UnitTest
     public function testListTables()
     {
         $this->specify(
-            'Mysql::listTables does not return correct result',
+            'List all tables on a database does not return correct result',
             function () {
                 $expected = [
                     'albums',
@@ -98,9 +98,12 @@ class MysqlTest extends UnitTest
     public function testDescribeReferencesColumnsCount()
     {
         $this->specify(
-            'Mysql::describeReferences return wrong number of columns in Phalcon\Db\Reference',
+            'The table references list contains wrong number of columns',
             function() {
-                $references = $this->connection->describeReferences("robots_parts", TEST_DB_MYSQL_NAME);
+                $references = $this->connection->describeReferences('robots_parts', TEST_DB_MYSQL_NAME);
+                expect($references)->count(2);
+                expect($this->connection->describeReferences('robots_parts', null))->count(2);
+
                 /** @var Reference $reference */
                 foreach($references as $reference) {
                     expect($reference->getColumns())->count(1);
