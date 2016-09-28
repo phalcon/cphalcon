@@ -2,12 +2,13 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
-use Phalcon\Db\Adapter\Pdo\Postgresql;
+use Phalcon\Db\Column;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Db\Adapter\Pdo\Postgresql;
 
 /**
- * \Phalcon\Test\Unit\Db\Adapter\Pdo\Postgresql
+ * \Phalcon\Test\Unit\Db\Adapter\Pdo\PostgresqlTest
  * Tests the \Phalcon\Db\Adapter\Pdo\Postgresql component
  *
  * @copyright (c) 2011-2016 Phalcon Team
@@ -54,13 +55,72 @@ class PostgresqlTest extends UnitTest
     public function testDescribeReferencesColumnsCount()
     {
         $this->specify(
-            'Postgresql::describeReferences return wrong number of columns in Phalcon\Db\Reference',
+            'The table references list contains wrong number of columns',
             function() {
-                $references = $this->connection->describeReferences("robots_parts", TEST_DB_POSTGRESQL_NAME);
+                $references = $this->connection->describeReferences('robots_parts', TEST_DB_POSTGRESQL_SCHEMA);
+                expect($references)->count(2);
+
                 /** @var Reference $reference */
                 foreach($references as $reference) {
                     expect($reference->getColumns())->count(1);
                 }
+            }
+        );
+    }
+
+    /**
+     * Tests Postgresql::describeColumns for Postgresql autoincrement column
+     *
+     * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-09-28
+     */
+    public function testDescribeAutoIncrementColumns()
+    {
+        $this->specify(
+            'The table columns array contains incorrect initialized objects',
+            function () {
+                $columns = [
+                    Column::__set_state([
+                        '_columnName'    => 'id',
+                        '_schemaName'    => null,
+                        '_type'          => 14,
+                        '_typeReference' => -1,
+                        '_typeValues'    => null,
+                        '_isNumeric'     => true,
+                        '_size'          => 0,
+                        '_scale'         => 0,
+                        '_default'       => "nextval('images_id_seq'::regclass)",
+                        '_unsigned'      => false,
+                        '_notNull'       => true,
+                        '_primary'       => false,
+                        '_autoIncrement' => true,
+                        '_first'         => true,
+                        '_after'         => null,
+                        '_bindType'      => 1,
+                    ]),
+                    Column::__set_state([
+                        '_columnName'    => 'base64',
+                        '_schemaName'    => null,
+                        '_type'          => 6,
+                        '_typeReference' => -1,
+                        '_typeValues'    => null,
+                        '_isNumeric'     => false,
+                        '_size'          => null,
+                        '_scale'         => 0,
+                        '_default'       => null,
+                        '_unsigned'      => false,
+                        '_notNull'       => false,
+                        '_primary'       => false,
+                        '_autoIncrement' => false,
+                        '_first'         => false,
+                        '_after'         => 'id',
+                        '_bindType'      => 2,
+                    ]),
+                ];
+
+                expect($this->connection->describeColumns('images', null))->equals($columns);
+                expect($this->connection->describeColumns('images', TEST_DB_POSTGRESQL_SCHEMA))->equals($columns);
             }
         );
     }

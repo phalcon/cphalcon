@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -569,6 +569,10 @@ class Column implements ColumnInterface
 	 */
 	public function hasDefault() -> boolean
 	{
+		if this->isAutoIncrement() {
+			return false;
+		}
+
 		return this->_default !== null;
 	}
 }
