@@ -47,6 +47,58 @@ class PostgresqlTest extends UnitTest
     }
 
     /**
+     * Tests Postgresql::listTables
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-09-29
+     */
+    public function testListTables()
+    {
+        $this->specify(
+            'List all tables on a database does not return correct result',
+            function () {
+                $expected = [
+                    'customers',
+                    'images',
+                    'parts',
+                    'personas',
+                    'personnes',
+                    'prueba',
+                    'robots',
+                    'robots_parts',
+                    'subscriptores',
+                    'tipo_documento',
+                ];
+
+                expect($this->connection->listTables())->equals($expected);
+                expect($this->connection->listTables(TEST_DB_POSTGRESQL_SCHEMA))->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests Postgresql::listTables
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-09-29
+     */
+    public function testTableExists()
+    {
+        $this->specify(
+            'Failed check for existence of a schema.table',
+            function ($table, $schema, $expected) {
+                expect($this->connection->tableExists($table, $schema))->equals($expected);
+            }, ['examples' => [
+                ['personas', null, true ],
+                ['personas', TEST_DB_POSTGRESQL_SCHEMA, true],
+                ['noexist',  null, false],
+                ['noexist',  TEST_DB_POSTGRESQL_SCHEMA, false],
+                ['personas', 'test', false],
+            ]]
+        );
+    }
+
+    /**
      * Tests Postgresql::describeReferences
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -57,11 +109,14 @@ class PostgresqlTest extends UnitTest
         $this->specify(
             'The table references list contains wrong number of columns',
             function() {
-                $references = $this->connection->describeReferences('robots_parts', TEST_DB_POSTGRESQL_SCHEMA);
-                expect($references)->count(2);
+                $referencesWithoutSchema = $this->connection->describeReferences('robots_parts');
+                $referencesWithSchema = $this->connection->describeReferences('robots_parts', TEST_DB_POSTGRESQL_SCHEMA);
+
+                expect($referencesWithoutSchema)->equals($referencesWithSchema);
+                expect($referencesWithoutSchema)->count(2);
 
                 /** @var Reference $reference */
-                foreach($references as $reference) {
+                foreach($referencesWithoutSchema as $reference) {
                     expect($reference->getColumns())->count(1);
                 }
             }
