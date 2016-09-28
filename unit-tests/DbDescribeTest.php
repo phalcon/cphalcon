@@ -649,7 +649,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 	public function testDbPostgresql()
 	{
-
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
 			$this->markTestSkipped("Skipped");
@@ -660,15 +659,16 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array (
-			0 => 'customers',
-			1 => 'parts',
-			2 => 'personas',
-			3 => 'personnes',
-			4 => 'prueba',
-			5 => 'robots',
-			6 => 'robots_parts',
-			7 => 'subscriptores',
-			8 => 'tipo_documento',
+			'customers',
+			'images',
+			'parts',
+			'personas',
+			'personnes',
+			'prueba',
+			'robots',
+			'robots_parts',
+			'subscriptores',
+			'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
