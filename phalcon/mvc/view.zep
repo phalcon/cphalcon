@@ -108,7 +108,7 @@ class View extends Injectable implements ViewInterface
 
 	protected _disabledLevels;
 
-	protected _viewParams = [];
+	protected _viewParams;
 
 	protected _layout;
 
@@ -118,9 +118,9 @@ class View extends Injectable implements ViewInterface
 
 	protected _viewsDirs;
 
-	protected _templatesBefore = [];
+	protected _templatesBefore;
 
-	protected _templatesAfter = [];
+	protected _templatesAfter;
 
 	protected _engines = false;
 
@@ -149,10 +149,14 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Phalcon\Mvc\View constructor
+	 *
+	 * @param array options
 	 */
-	public function __construct(array options = [])
+	public function __construct(options = null)
 	{
-		let this->_options = options;
+		if typeof options == "array" {
+			let this->_options = options;
+		}
 	}
 
 	/**
@@ -375,7 +379,7 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function cleanTemplateBefore() -> <View>
 	{
-		let this->_templatesBefore = [];
+		let this->_templatesBefore = null;
 		return this;
 	}
 
@@ -397,7 +401,7 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function cleanTemplateAfter() -> <View>
 	{
-		let this->_templatesAfter = [];
+		let this->_templatesAfter = null;
 		return this;
 	}
 
@@ -423,7 +427,7 @@ class View extends Injectable implements ViewInterface
 	 */
 	public function setVars(array! params, boolean merge = true) -> <View>
 	{
-		if merge {
+		if merge && typeof this->_viewParams == "array" {
 			let this->_viewParams = array_merge(this->_viewParams, params);
 		} else {
 			let this->_viewParams = params;
@@ -618,10 +622,12 @@ class View extends Injectable implements ViewInterface
 						/**
 						 * Check if the user has defined a different options to the default
 						 */
-						if fetch cacheOptions, viewOptions["cache"] {
-							if typeof cacheOptions == "array" {
-								fetch key, cacheOptions["key"];
-								fetch lifetime, cacheOptions["lifetime"];
+						if typeof viewOptions == "array" {
+							if fetch cacheOptions, viewOptions["cache"] {
+								if typeof cacheOptions == "array" {
+									fetch key, cacheOptions["key"];
+									fetch lifetime, cacheOptions["lifetime"];
+								}
 							}
 						}
 
@@ -883,15 +889,19 @@ class View extends Injectable implements ViewInterface
 			 */
 			if renderLevel >= self::LEVEL_BEFORE_TEMPLATE  {
 				if !isset disabledLevels[self::LEVEL_BEFORE_TEMPLATE] {
-					let this->_currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE;
+					let this->_currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE,
+						templatesBefore = this->_templatesBefore;
 
-					let templatesBefore = this->_templatesBefore;
-
-					let silence = false;
-					for templateBefore in templatesBefore {
-						this->_engineRender(engines, layoutsDir . templateBefore, silence, mustClean, cache);
+					/**
+					 * Templates before must be an array
+					 */
+					if typeof templatesBefore == "array" {
+						let silence = false;
+						for templateBefore in templatesBefore {
+							this->_engineRender(engines, layoutsDir . templateBefore, silence, mustClean, cache);
+						}
+						let silence = true;
 					}
-					let silence = true;
 				}
 			}
 
@@ -912,13 +922,17 @@ class View extends Injectable implements ViewInterface
 				if !isset disabledLevels[self::LEVEL_AFTER_TEMPLATE] {
 					let this->_currentRenderLevel = self::LEVEL_AFTER_TEMPLATE;
 
+					/**
+					 * Templates after must be an array
+					 */
 					let templatesAfter = this->_templatesAfter;
-
-					let silence = false;
-					for templateAfter in templatesAfter {
-						this->_engineRender(engines, layoutsDir . templateAfter, silence, mustClean, cache);
+					if typeof templatesAfter == "array" {
+						let silence = false;
+						for templateAfter in templatesAfter {
+							this->_engineRender(engines, layoutsDir . templateAfter, silence, mustClean, cache);
+						}
+						let silence = true;
 					}
-					let silence = true;
 				}
 			}
 
@@ -1044,10 +1058,14 @@ class View extends Injectable implements ViewInterface
 		if typeof params == "array" {
 
 			/**
-			 * Merge the new params as parameters
+			 * Merge or assign the new params as parameters
 			 */
 			let viewParams = this->_viewParams;
-			let this->_viewParams = array_merge(viewParams, params);
+			if typeof viewParams == "array" {
+				let this->_viewParams = array_merge(viewParams, params);
+			} else {
+				let this->_viewParams = params;
+			}
 
 			/**
 			 * Create a virtual symbol table
@@ -1160,10 +1178,11 @@ class View extends Injectable implements ViewInterface
 		let cacheService = "viewCache";
 
 		let viewOptions = this->_options;
-
-		if fetch cacheOptions, viewOptions["cache"] {
-			if isset cacheOptions["service"] {
-				let cacheService = cacheOptions["service"];
+		if typeof viewOptions == "array" {
+			if fetch cacheOptions, viewOptions["cache"] {
+				if isset cacheOptions["service"] {
+					let cacheService = cacheOptions["service"];
+				}
 			}
 		}
 
@@ -1322,8 +1341,8 @@ class View extends Injectable implements ViewInterface
 			this->_renderLevel = self::LEVEL_MAIN_LAYOUT,
 			this->_cacheLevel = self::LEVEL_NO_RENDER,
 			this->_content = null,
-			this->_templatesBefore = [],
-			this->_templatesAfter = [];
+			this->_templatesBefore = null,
+			this->_templatesAfter = null;
 		return this;
 	}
 
