@@ -40,15 +40,15 @@ class Validation extends Injectable implements ValidationInterface
 
 	protected _validators = [] { set };
 
-	protected _combinedFieldsValidators = [];
+	protected _combinedFieldsValidators;
 
-	protected _filters = [];
+	protected _filters;
 
 	protected _messages;
 
 	protected _defaultMessages;
 
-	protected _labels = [];
+	protected _labels;
 
 	protected _values;
 
@@ -159,35 +159,37 @@ class Validation extends Injectable implements ValidationInterface
 			}
 		}
 
-		for scope in combinedFieldsValidators {
-			if typeof scope != "array" {
-				throw new Exception("The validator scope is not valid");
-			}
+		if !empty combinedFieldsValidators {
+			for scope in combinedFieldsValidators {
+				if typeof scope != "array" {
+					throw new Exception("The validator scope is not valid");
+				}
 
-			let field = scope[0],
-				validator = scope[1];
+				let field = scope[0],
+					validator = scope[1];
 
-			if typeof validator != "object" {
-				throw new Exception("One of the validators is not valid");
-			}
+				if typeof validator != "object" {
+					throw new Exception("One of the validators is not valid");
+				}
 
-			if typeof validator != "object" {
-				throw new Exception("One of the validators is not valid");
-			}
+				if typeof validator != "object" {
+					throw new Exception("One of the validators is not valid");
+				}
 
-			/**
-			 * Call internal validations, if it returns true, then skip the current validator
-			 */
-			if this->preChecking(field, validator) {
-				continue;
-			}
+				/**
+				 * Call internal validations, if it returns true, then skip the current validator
+				 */
+				if this->preChecking(field, validator) {
+					continue;
+				}
 
-			/**
-			 * Check if the validation must be canceled if this validator fails
-			 */
-			if validator->validate(this, field) === false {
-				if validator->getOption("cancelOnFail") {
-					break;
+				/**
+				 * Check if the validation must be canceled if this validator fails
+				 */
+				if validator->validate(this, field) === false {
+					if validator->getOption("cancelOnFail") {
+						break;
+					}
 				}
 			}
 		}
@@ -364,9 +366,13 @@ class Validation extends Injectable implements ValidationInterface
 			"Date": "Field :field is not a valid date"
 		];
 
-		let this->_defaultMessages = array_merge(defaultMessages, messages);
+		if count(messages) {
+			let this->_defaultMessages = array_merge(defaultMessages, messages);
+			return this->_defaultMessages;
+		}
 
-		return this->_defaultMessages;
+		let this->_defaultMessages = defaultMessages;
+		return defaultMessages;
 	}
 
 	/**
@@ -408,17 +414,15 @@ class Validation extends Injectable implements ValidationInterface
 	public function getLabel(var field)
 	{
 		var labels, value;
-
 		let labels = this->_labels;
-
-		if typeof field == "array" {
+		if typeof labels == "array" && typeof field != "array" {
+			if fetch value, labels[field] {
+				return value;
+			}
+		}
+		elseif typeof field == "array" {
 			return join(", ", field);
 		}
-
-		if fetch value, labels[field] {
-			return value;
-		}
-
 		return field;
 	}
 
@@ -528,25 +532,27 @@ class Validation extends Injectable implements ValidationInterface
 		}
 
 		let filters = this->_filters;
+		if typeof filters == "array" {
 
-		if fetch fieldFilters, filters[field] {
+			if fetch fieldFilters, filters[field] {
 
-			if fieldFilters {
+				if fieldFilters {
 
-				let dependencyInjector = this->getDI();
-				if typeof dependencyInjector != "object" {
-					let dependencyInjector = Di::getDefault();
+					let dependencyInjector = this->getDI();
 					if typeof dependencyInjector != "object" {
-						throw new Exception("A dependency injector is required to obtain the 'filter' service");
+						let dependencyInjector = Di::getDefault();
+						if typeof dependencyInjector != "object" {
+							throw new Exception("A dependency injector is required to obtain the 'filter' service");
+						}
 					}
-				}
 
-				let filterService = dependencyInjector->getShared("filter");
-				if typeof filterService != "object" {
-					throw new Exception("Returned 'filter' service is invalid");
-				}
+					let filterService = dependencyInjector->getShared("filter");
+					if typeof filterService != "object" {
+						throw new Exception("Returned 'filter' service is invalid");
+					}
 
-				return filterService->sanitize(value, fieldFilters);
+					return filterService->sanitize(value, fieldFilters);
+				}
 			}
 		}
 
