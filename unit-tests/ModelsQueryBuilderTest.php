@@ -171,6 +171,62 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
+						->columns(array('Robots.name', 'SUM(Robots.price)'))
+						->from('Robots')
+						->groupBy('Robots.name')
+						->having('SUM(Robots.price) > 1000')
+						->andHaving('SUM(Robots.price) < 2000')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) AND (SUM(Robots.price) < 2000)');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('Robots.name', 'SUM(Robots.price)'))
+						->from('Robots')
+						->groupBy('Robots.name')
+						->having('SUM(Robots.price) > 1000')
+						->orHaving('SUM(Robots.price) = 0')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) OR (SUM(Robots.price) = 0)');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('Robots.name', 'SUM(Robots.price)'))
+						->from('Robots')
+						->groupBy('Robots.name')
+						->betweenHaving('SUM(Robots.price)', 500, 1000)
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING SUM(Robots.price) BETWEEN :AP0: AND :AP1:');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('Robots.name', 'SUM(Robots.price)'))
+						->from('Robots')
+						->groupBy('Robots.name')
+						->notBetweenHaving('SUM(Robots.price)', 500, 1000)
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING SUM(Robots.price) NOT BETWEEN :AP0: AND :AP1:');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('Robots.name', 'SUM(Robots.price)'))
+						->from('Robots')
+						->groupBy('Robots.name')
+						->inHaving('SUM(Robots.price)', array(10, 100, 1000))
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:)');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->columns(array('Robots.name', 'SUM(Robots.price)'))
+						->from('Robots')
+						->groupBy('Robots.name')
+						->notInHaving('SUM(Robots.price)', array(10, 100, 1000))
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:)');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
 						->from('Robots')
 						->join('RobotsParts')
 						->getPhql();
