@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -173,7 +173,7 @@ class Postgresql extends Dialect
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
-		var sql, defaultValue, columnDefinition;
+		var sql, columnDefinition;
 
 		let columnDefinition = this->getColumnDefinition(column);
 
@@ -181,14 +181,7 @@ class Postgresql extends Dialect
 		let sql .= "\"" . column->getName() . "\" " . columnDefinition;
 
 		if column->hasDefault() {
-			let defaultValue = column->getDefault();
-			if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-				let sql .= " DEFAULT " . (defaultValue ? "true" : "false");
-			} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-				let sql .= " DEFAULT CURRENT_TIMESTAMP";
-			} else {
-				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-			}
+			let sql .= " DEFAULT " . this->_castDefault(column);
 		}
 
 		if column->isNotNull() {
@@ -205,22 +198,25 @@ class Postgresql extends Dialect
 	{
 		var sql = "", sqlAlterTable, defaultValue, columnDefinition;
 
-		let columnDefinition = this->getColumnDefinition(column);
-		let sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
-		let currentColumn = currentColumn == null ? column : currentColumn; 
+		let columnDefinition = this->getColumnDefinition(column),
+			sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
 
-		//Rename
-		if column->getName() != currentColumn->getName() {
+		if typeof currentColumn != "object" {
+			let currentColumn = column;
+		}
+
+		// Rename
+		if column->getName() !== currentColumn->getName() {
 			let sql .= sqlAlterTable . " RENAME COLUMN \"" . currentColumn->getName() . "\" TO \"" . column->getName() . "\";";
 		}
 
-		//Change type
-		if column->getType() != currentColumn->getType() {
+		// Change type
+		if column->getType() !== currentColumn->getType() {
 			let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" TYPE " . columnDefinition . ";";
 		}
 
-		//NULL
-		if column->isNotNull() != currentColumn->isNotNull() {
+		// NULL
+		if column->isNotNull() !== currentColumn->isNotNull() {
 			if column->isNotNull() {
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET NOT NULL;";
 			} else {
@@ -228,20 +224,18 @@ class Postgresql extends Dialect
 			}
 		}
 
-		//DEFAULT
-		if column->getDefault() != currentColumn->getDefault() {
-			if !column->hasDefault() && !empty currentColumn->getDefault() {
+		// DEFAULT
+		if column->getDefault() !== currentColumn->getDefault() {
+			if empty column->getDefault() && !empty currentColumn->getDefault() {
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP DEFAULT;";
 			}
 
 			if column->hasDefault() {
-				let defaultValue = column->getDefault();
+				let defaultValue = this->_castDefault(column);
 				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-					let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . (defaultValue ? "true" : "false");
-				} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT CURRENT_TIMESTAMP";
+					let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
 				} else {
-					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
 				}
 			}
 		}
@@ -378,13 +372,11 @@ class Postgresql extends Dialect
 			 * Add a Default clause
 			 */
 			if column->hasDefault() {
-				let defaultValue = column->getDefault();
+				let defaultValue = this->_castDefault(column);
 				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-					let sql .= " DEFAULT " . (defaultValue ? "true" : "false");
-				} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+					let sql .= " DEFAULT " . defaultValue;
 				} else {
-					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+					let columnLine .= " DEFAULT " . defaultValue;
 				}
 			}
 
@@ -476,7 +468,7 @@ class Postgresql extends Dialect
 	}
 
 	/**
-	 * Generates SQL to drop a view
+	 * Generates SQL to drop a table
 	 */
 	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
 	{
@@ -632,6 +624,36 @@ class Postgresql extends Dialect
 	{
 		return "";
 	}
+
+	protected function _castDefault(<ColumnInterface> column) -> string
+	{
+		var defaultValue, preparedValue, columnDefinition, columnType;
+
+		let defaultValue = column->getDefault(),
+			columnDefinition = this->getColumnDefinition(column),
+			columnType = column->getType();
+
+		if memstr(strtoupper(columnDefinition), "BOOLEAN") {
+			return defaultValue ? "true" : "false";
+		}
+
+		if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+			return "CURRENT_TIMESTAMP";
+		}
+
+		if columnType === Column::TYPE_INTEGER ||
+			columnType === Column::TYPE_BIGINTEGER ||
+			columnType === Column::TYPE_DECIMAL ||
+			columnType === Column::TYPE_FLOAT ||
+			columnType === Column::TYPE_DOUBLE {
+			let preparedValue = (string) defaultValue;
+		} else {
+			let preparedValue = "'" . addcslashes(defaultValue, "\'") . "'";
+		}
+
+		return preparedValue;
+	}
+
 	protected function _getTableOptions(array! definition) -> string
 	{
 		return "";
