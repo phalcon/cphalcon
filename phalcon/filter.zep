@@ -111,13 +111,9 @@ class Filter implements FilterInterface
 					/**
 					 * Account for any filters that may return a null value
 					 */
-<<<<<<< HEAD
-					if (value === null) {break;}
-=======
 					if value === null {
 						break;
 					}
->>>>>>> f506ca6c0b6c502cfa3096a7d6a4256d8e38be56
 				}
 			}
 			return value;
@@ -228,20 +224,11 @@ class Filter implements FilterInterface
 				/**
 				 * Must break, as it may return a null value
 				 */
-<<<<<<< HEAD
-				return is_bool($value) ? $value : null;
-=======
 				return is_bool(value) ? value : null;
->>>>>>> f506ca6c0b6c502cfa3096a7d6a4256d8e38be56
 				break;
 				
 			case Filter::FILTER_BOOLEAN_CAST:
-
-<<<<<<< HEAD
-				return boolval($value);
-=======
 				return boolval(value);
->>>>>>> f506ca6c0b6c502cfa3096a7d6a4256d8e38be56
 			
 			default:
 				throw new Exception("Sanitize filter '" . filter . "' is not supported");
