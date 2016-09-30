@@ -156,11 +156,11 @@ class Postgresql extends Dialect
 						var value, valueSql;
 						let valueSql = "";
 						for value in typeValues {
-							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+							let valueSql .= "'" . addcslashes(value, "\'") . "', ";
 						}
 						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
 					} else {
-						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+						let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
 					}
 				}
 		}
