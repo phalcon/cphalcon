@@ -15,6 +15,7 @@
 - Fixed `Phalcon\Validation::getValue()` to use filters when having entity
 - Fixed `Phalcon\Db\Dialect\Mysql::describeReferences()` and `Phalcon\Db\Dialect\Postgresql::describeReferences()` to return proper sql
 - Fixed `Phalcon\Db\Column::hasDefault` to return `false` for autoincrement columns [phalcon/phalcon-devtools#853](https://github.com/phalcon/phalcon-devtools/issues/853)
+- Fixed `Phalcon\Db\Dialect\Postgresql::createTable`, `Phalcon\Db\Dialect\Postgresql::addColumn`, `Phalcon\Db\Dialect\Postgresql::modifyColumn` to correct escape default values [#12267](https://github.com/phalcon/cphalcon/issues/12267), [phalcon/phalcon-devtools#859](https://github.com/phalcon/phalcon-devtools/issues/859)
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly
