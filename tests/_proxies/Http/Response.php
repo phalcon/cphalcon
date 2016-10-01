@@ -74,7 +74,7 @@ class Response extends PhResponse
         return parent::resetHeaders();
     }
 
-    public function setExpires(\Datetime $datetime)
+    public function setExpires(\DateTime $datetime)
     {
         return parent::setExpires($datetime);
     }

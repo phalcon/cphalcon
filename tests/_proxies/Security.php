@@ -64,14 +64,14 @@ class Security extends PhSecurity
         return parent::isLegacyHash($passwordHash);
     }
 
-    public function getTokenKey($numberBytes = null)
+    public function getTokenKey()
     {
-        return parent::getTokenKey($numberBytes);
+        return parent::getTokenKey();
     }
 
-    public function getToken($numberBytes = null)
+    public function getToken()
     {
-        return parent::getToken($numberBytes);
+        return parent::getToken();
     }
 
     public function checkToken($tokenKey = null, $tokenValue = null, $destroyIfValid = true)
