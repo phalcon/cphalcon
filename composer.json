@@ -11,8 +11,10 @@
         "php": ">=5.5"
     },
     "require-dev": {
-        "mustache/mustache": "~2.10",
-        "twig/twig": "~1.24",
+        "phpdocumentor/reflection-docblock": "^2.0.4",
+        "phpunit/phpunit": "4.8.*",
+        "mustache/mustache": "~2.11",
+        "twig/twig": "~1.25",
         "predis/predis": "^1.0",
         "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",

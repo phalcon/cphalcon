@@ -4,7 +4,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -170,6 +170,7 @@ if (!extension_loaded('phalcon')) {
 try {
 	if (isset($_SERVER['argv'][1])) {
 		$file = $_SERVER['argv'][1];
+		/** @noinspection PhpIncludeInspection */
 		require $_SERVER['argv'][1];
 		if (isset($_SERVER['argv'][2])) {
 			$className = $_SERVER['argv'][2];
@@ -187,6 +188,7 @@ try {
 			foreach ($suite->testsuite->file as $file) {
 				$fileName = (string) $file;
 				if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $fileName, $matches)) {
+					/** @noinspection PhpIncludeInspection */
 					require $fileName;
 					PHPUnit_Framework_TestCase::main($matches[1]);
 				} else {
@@ -205,10 +207,12 @@ try {
 
 if (function_exists('xhprof_enable')) {
 
-	$xhprof_data = xhprof_disable('/tmp');
+	$xhprof_data = xhprof_disable();
 
 	$XHPROF_ROOT = "/var/www/xhprof/";
+	/** @noinspection PhpIncludeInspection */
 	include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
+	/** @noinspection PhpIncludeInspection */
 	include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
 
 	$xhprof_runs = new XHProfRuns_Default();

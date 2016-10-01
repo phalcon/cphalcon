@@ -2,12 +2,12 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
-use Phalcon\Test\Proxy\Assets\Manager;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Assets\Resource\Css;
-use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Assets\Filters\Jsmin;
+use Phalcon\Test\Proxy\Assets\Manager;
 
 /**
  * \Phalcon\Test\Unit\Assets\ManagerTest
