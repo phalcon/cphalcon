@@ -225,11 +225,7 @@ class Loader implements EventsAwareInterface
 	 */
 	public function register() -> <Loader>
 	{
-		var eventsManager;
-
 		if this->_registered === false {
-			let eventsManager = this->_eventsManager;
-
 			/**
 			 * Loads individual files added using Loader->registerFiles()
 			 */
