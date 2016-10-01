@@ -313,7 +313,7 @@ class MemoryTest extends UnitTest
                 $acl->setDefaultAction(Acl::DENY);
 
                 $acl->addRole($aclRole);
-                $acl->addResource($aclResource, array('search', 'destroy'));
+                $acl->addResource($aclResource, ['search', 'destroy']);
 
                 $expected = Acl::DENY;
                 $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
@@ -363,7 +363,7 @@ class MemoryTest extends UnitTest
                 $acl->setDefaultAction(Acl::DENY);
 
                 $acl->addRole($aclRole);
-                $acl->addResource($aclResource, array('search', 'destroy'));
+                $acl->addResource($aclResource, ['search', 'destroy']);
 
                 $acl->allow('Administrators', 'Customers', 'search');
                 $acl->deny('Administrators', 'Customers', 'destroy');
@@ -449,11 +449,11 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Guests');
                 $acl->addRole('Members', 'Guests');
 
-                $acl->addResource('Login', array('help', 'index'));
+                $acl->addResource('Login', ['help', 'index']);
 
                 $acl->allow('Guests', 'Login', '*');
-                $acl->deny('Guests', 'Login', array('help'));
-                $acl->deny('Members', 'Login', array('index'));
+                $acl->deny('Guests', 'Login', ['help']);
+                $acl->deny('Members', 'Login', ['index']);
 
                 $actual = (bool)$acl->isAllowed('Members', 'Login', 'index');
                 expect($actual)->false();
@@ -514,7 +514,7 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Guests');
                 $acl->addRole('Members', 'Guests');
                 $acl->addRole('Admins', 'Members');
-                $acl->addResource('Post', array('update'));
+                $acl->addResource('Post', ['update']);
 
                 $guest = new \TestRoleAware(1, 'Guests');
                 $member = new \TestRoleAware(2, 'Members');
@@ -600,7 +600,7 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Guests');
                 $acl->addRole('Members', 'Guests');
                 $acl->addRole('Admins', 'Members');
-                $acl->addResource('Post', array('update'));
+                $acl->addResource('Post', ['update']);
 
                 $guest = new \TestRoleAware(1, 'Guests');
                 $member = new \TestRoleAware(2, 'Members');
@@ -615,7 +615,7 @@ class MemoryTest extends UnitTest
                     return $parameter % 2 == 0;
                 });
                 $acl->allow('Admins', 'Post', 'update');
-                
+
                 expect(@$acl->isAllowed($guest, $model, 'update'))->false();
                 expect(@$acl->isAllowed($member, $model, 'update'))->false();
                 expect(@$acl->isAllowed($anotherMember, $model, 'update'))->false();
@@ -649,7 +649,7 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Guests');
                 $acl->addRole('Members', 'Guests');
                 $acl->addRole('Admins', 'Members');
-                $acl->addResource('Post', array('update'));
+                $acl->addResource('Post', ['update']);
 
                 $guest = new \TestRoleAware(1, 'Guests');
                 $member = new \TestRoleAware(2, 'Members');
@@ -669,6 +669,62 @@ class MemoryTest extends UnitTest
                 expect($acl->isAllowed($member, $model, 'update'))->false();
                 expect($acl->isAllowed($anotherMember, $model, 'update'))->false();
                 expect($acl->isAllowed($admin, $model, 'update'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests acl with adding new rule for role after adding wildcard rule
+     *
+     * @issue   2648
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2016-10-01
+     */
+    public function testWildCardLastRole()
+    {
+        $this->specify(
+            "Cant add acl rule to existing role after ading wildcard rule",
+            function () {
+                $acl = new Memory();
+                $acl->addRole(new Role("Guests"));
+                $acl->addResource(new Resource('Post'), ['index', 'update', 'create']);
+
+                $acl->allow('Guests', 'Post', 'create');
+                $acl->allow('*', 'Post', 'index');
+                $acl->allow('Guests', 'Post', 'update');
+
+                expect($acl->isAllowed('Guests', 'Post', 'create'))->true();
+                expect($acl->isAllowed('Guests', 'Post', 'index'))->true();
+                expect($acl->isAllowed('Guests', 'Post', 'update'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests adding wildcard rule second time
+     *
+     * @issue   2648
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2016-10-01
+     */
+    public function testWildCardSecondTime()
+    {
+        $this->specify(
+            "Cant add acl rule to existing wildcard role",
+            function () {
+                $acl = new Memory();
+                $acl->addRole(new Role("Guests"));
+                $acl->addResource(new Resource('Post'), ['index', 'update', 'create']);
+
+                $acl->allow('Guests', 'Post', 'create');
+                $acl->allow('*', 'Post', 'index');
+                $acl->allow('*', 'Post', 'update');
+
+                expect($acl->isAllowed('Guests', 'Post', 'create'))->true();
+                expect($acl->isAllowed('Guests', 'Post', 'index'))->true();
+                expect($acl->isAllowed('Guests', 'Post', 'update'))->true();
             }
         );
     }
