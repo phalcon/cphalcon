@@ -46,8 +46,8 @@ class MemcacheCest
             'port' => TEST_MC_PORT,
         ]);
 
-        $I->dontSeeInMemcache($key);
-        $I->haveInMemcache($key, 1);
+        $I->dontSeeInMemcached($key);
+        $I->haveInMemcached($key, 1);
 
         $I->assertEquals(2, $cache->increment($key));
         $I->seeInMemcached($key, 2);
@@ -71,8 +71,8 @@ class MemcacheCest
             'port' => TEST_MC_PORT,
         ]);
 
-        $I->dontSeeInMemcache($key);
-        $I->haveInMemcache($key, 100);
+        $I->dontSeeInMemcached($key);
+        $I->haveInMemcached($key, 100);
 
         $I->assertEquals(99, $cache->decrement($key));
         $I->seeInMemcached($key, 99);
@@ -98,14 +98,14 @@ class MemcacheCest
             'port' => TEST_MC_PORT,
         ]);
 
-        $I->haveInMemcache($key, serialize($data));
+        $I->haveInMemcached($key, serialize($data));
         $I->assertEquals($data, $cache->get('data-get'));
 
         $I->assertNull($cache->get('non-existent-key'));
 
         $data = 'sure, nothing interesting';
 
-        $I->haveInMemcache($key, serialize($data));
+        $I->haveInMemcached($key, serialize($data));
         $I->assertEquals($data, $cache->get('data-get'));
 
         $I->assertNull($cache->get('non-existent-key-2'));
@@ -125,14 +125,14 @@ class MemcacheCest
             'port' => TEST_MC_PORT,
         ]);
 
-        $I->dontSeeInMemcache($key);
+        $I->dontSeeInMemcached($key);
         $cache->save('data-save', $data);
 
         $I->seeInMemcached($key, serialize($data));
 
         $data = 'sure, nothing interesting';
 
-        $I->dontSeeInMemcache('non-existent-key', serialize($data));
+        $I->dontSeeInMemcached('non-existent-key', serialize($data));
 
         $cache->save('data-save', $data);
         $I->seeInMemcached($key, serialize($data));
@@ -153,10 +153,10 @@ class MemcacheCest
 
         $I->assertFalse($cache->delete('non-existent-keys'));
 
-        $I->haveInMemcache('some-key-to-delete', 1);
+        $I->haveInMemcached('some-key-to-delete', 1);
 
         $I->assertTrue($cache->delete('some-key-to-delete'));
-        $I->dontSeeInMemcache('some-key-to-delete');
+        $I->dontSeeInMemcached('some-key-to-delete');
 
         $I->clearMemcache();
     }
@@ -178,21 +178,21 @@ class MemcacheCest
         $key1 = 'data-flush-1';
         $key2 = 'data-flush-2';
 
-        $I->haveInMemcache($key1, 1);
-        $I->haveInMemcache($key2, 2);
+        $I->haveInMemcached($key1, 1);
+        $I->haveInMemcached($key2, 2);
 
         $cache->save('data-flush-1', 1);
         $cache->save('data-flush-2', 3);
 
-        $I->assertArrayHasKey('data-flush-1', $I->grabFromMemcached('_PHCM'));
-        $I->assertArrayHasKey('data-flush-2', $I->grabFromMemcached('_PHCM'));
+        $I->assertArrayHasKey('data-flush-1', $I->grabValueFromMemcached('_PHCM'));
+        $I->assertArrayHasKey('data-flush-2', $I->grabValueFromMemcached('_PHCM'));
 
         $I->assertTrue($cache->flush());
 
-        $I->dontSeeInMemcache($key1);
-        $I->dontSeeInMemcache($key2);
+        $I->dontSeeInMemcached($key1);
+        $I->dontSeeInMemcached($key2);
 
-        $I->assertFalse($I->grabFromMemcached('_PHCM'));
+        $I->assertFalse($I->grabValueFromMemcached('_PHCM'));
 
         $I->clearMemcache();
     }
@@ -207,11 +207,11 @@ class MemcacheCest
             'statsKey' => '_PHCM',
         ]);
 
-        $I->haveInMemcache('_PHCM' . 'a', 1);
-        $I->haveInMemcache('_PHCM' . 'b', 2);
-        $I->haveInMemcache('_PHCM' . 'c', 3);
+        $I->haveInMemcached('_PHCM' . 'a', 1);
+        $I->haveInMemcached('_PHCM' . 'b', 2);
+        $I->haveInMemcached('_PHCM' . 'c', 3);
 
-        $I->haveInMemcache('_PHCM', ['a' => 20, 'b' => 20, 'c' => 20]);
+        $I->haveInMemcached('_PHCM', ['a' => 20, 'b' => 20, 'c' => 20]);
 
         $keys = $cache->queryKeys();
         sort($keys);
@@ -276,7 +276,7 @@ class MemcacheCest
         $content = $cache->start('test-output');
 
         $I->assertNull($content);
-        $I->dontSeeInMemcache('test-output');
+        $I->dontSeeInMemcached('test-output');
 
         $I->clearMemcache();
     }
