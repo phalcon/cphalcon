@@ -230,4 +230,49 @@ class SimpleTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests the View setters and getters
+     *
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
+     */
+    public function testSettersAndGetters()
+    {
+        $this->specify(
+            'The View setters and getters does not work as expected',
+            function () {
+                $view = new Simple;
+
+                $view->foo = 'bar';
+                expect('bar')->equals($view->foo);
+
+                expect($view)->equals($view->setVar('foo1', 'bar1'));
+                expect('bar1')->equals($view->getVar('foo1'));
+
+                $expectedVars = array('foo2' => 'bar2', 'foo3' => 'bar3');
+                expect($view)->equals($view->setVars($expectedVars));
+                expect('bar2')->equals($view->foo2);
+                expect('bar3')->equals($view->foo3);
+                expect($view)->equals($view->setVars($expectedVars, false));
+
+                expect($view)->equals($view->setParamToView('foo4', 'bar4'));
+
+                $expectedParamsToView = ['foo2' => 'bar2', 'foo3' => 'bar3', 'foo4' => 'bar4'];
+                expect($expectedParamsToView)->equals($view->getParamsToView());
+
+                expect($view)->equals($view->setContent('<h1>hello</h1>'));
+                expect('<h1>hello</h1>')->equals($view->getContent());
+
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                expect(PATH_DATA . 'views' . DIRECTORY_SEPARATOR)->equals($view->getViewsDir());
+
+                $expectedCacheOptions = ['lifetime' => 86400, 'key' => 'simple-cache'];
+
+                verify_not($view->getCacheOptions());
+                expect($view)->equals($view->setCacheOptions($expectedCacheOptions));
+                expect($expectedCacheOptions)->equals($view->getCacheOptions());
+            }
+        );
+    }
 }
