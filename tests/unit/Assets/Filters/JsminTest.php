@@ -27,7 +27,7 @@ class JsminTest extends UnitTest
     /**
      * Tests jsmin filter with non-string param
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminWithNonStringParam()
@@ -45,7 +45,7 @@ class JsminTest extends UnitTest
     /**
      * Tests jsmin filter with unterminated comment
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminUnterminatedComment()
@@ -63,7 +63,7 @@ class JsminTest extends UnitTest
     /**
      * Tests jsmin filter with unterminated string literal
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminUnterminatedStringLiteral()
@@ -81,7 +81,7 @@ class JsminTest extends UnitTest
     /**
      * Tests jsmin filter with unterminated Regular Expression literal
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminUnterminatedRegexpLiteral()
@@ -99,7 +99,7 @@ class JsminTest extends UnitTest
     /**
      * Tests jsmin filter with empty string
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminEmptyString()
@@ -117,7 +117,7 @@ class JsminTest extends UnitTest
     /**
      * Tests jsmin filter with comment
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testFilterJsminComment()
@@ -135,7 +135,7 @@ class JsminTest extends UnitTest
     /**
      * Tests cssmin filter
      *
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
      */
     public function testAssetsFilterJsmin()

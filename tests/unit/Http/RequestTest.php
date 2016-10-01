@@ -94,7 +94,7 @@ class RequestTest extends HttpBase
      * Tests getHeader
      *
      * @issue  2294
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-19
      */
     public function testHttpRequestCustomHeaderGet()
