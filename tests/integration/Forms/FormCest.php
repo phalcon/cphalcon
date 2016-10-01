@@ -5,9 +5,13 @@ namespace Phalcon\Test\Integration\Forms;
 use Phalcon\Tag;
 use IntegrationTester;
 use Phalcon\Forms\Form;
+use Phalcon\Validation\Message;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\Password;
+use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\StringLength;
 
 /**
  * \Phalcon\Test\Integration\Forms\FormCest
@@ -100,5 +104,64 @@ class FormCest
         $I->assertEquals('<input type="email" id="email" name="email">', $form->render('email'));
 
         $I->assertEquals(['passwd' => 'secret', 'name' => 'Andres Gutierrez'], $_POST);
+    }
+
+    /**
+     * Tests clearing the Form Elements by using Form::isValid
+     *
+     * @issue  11978
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-10-01
+     * @param  IntegrationTester $I
+     */
+    public function clearFormElementsAndUsingValidation(IntegrationTester $I)
+    {
+        $password = new Password('password', ['placeholder' => 'Insert your Password']);
+
+        $password->addValidators(
+            [
+                new PresenceOf(['message' => 'The field is required', 'cancelOnFail' => true]),
+                new StringLength(['min' => 7, 'messageMinimum' => 'The text is too short']),
+            ]
+        );
+
+        $form = new Form;
+        $form->add($password);
+
+        $I->assertNull($form->get('password')->getValue());
+
+        $input = '<input type="password" id="password" name="password" placeholder="Insert your Password">';
+        $I->assertEquals($input, $form->render('password'));
+
+        $_POST = ['password' => 'secret'];
+
+        $I->assertEquals('secret', $form->get('password')->getValue());
+
+        $input = '<input type="password" id="password" name="password" value="secret" placeholder="Insert your Password">';
+        $I->assertEquals($input, $form->render('password'));
+
+        $I->assertFalse($form->isValid($_POST));
+
+        $actual = $form->getMessages();
+        $expected = Group::__set_state([
+            '_position' => 0,
+            '_messages' => [
+                Message::__set_state([
+                    '_type' => 'TooShort',
+                    '_message' => 'The text is too short',
+                    '_field' => 'password',
+                    '_code' => '0',
+                ])
+            ],
+        ]);
+
+        $I->assertEquals($actual, $expected);
+
+        $form->clear(['password']);
+
+        $I->assertNull($form->get('password')->getValue());
+
+        $input = '<input type="password" id="password" name="password" placeholder="Insert your Password">';
+        $I->assertEquals($input, $form->render('password'));
     }
 }
