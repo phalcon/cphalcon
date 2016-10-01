@@ -10,6 +10,7 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Validation\Message\Group;
+use Phalcon\Test\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
@@ -107,7 +108,7 @@ class FormCest
     }
 
     /**
-     * Tests clearing the Form Elements by using Form::isValid
+     * Tests clearing the Form Elements and using Form::isValid
      *
      * @issue  11978
      * @author Serghei Iakovlev <serghei@phalconphp.com>
@@ -163,5 +164,78 @@ class FormCest
 
         $input = '<input type="password" id="password" name="password" placeholder="Insert your Password">';
         $I->assertEquals($input, $form->render('password'));
+
+        $I->assertEquals(['password' => 'secret'], $_POST);
+    }
+
+    /**
+     * Tests clearing the Form Elements by using Form::bind
+     *
+     * @issue  11978
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-10-01
+     * @param  IntegrationTester $I
+     */
+    public function clearFormElementsByUsingFormBind(IntegrationTester $I)
+    {
+        $name = new Text('sel_name');
+        $text = new Text('sel_text');
+
+        $form = new Form;
+        $form
+            ->add($name)
+            ->add($text);
+
+        $entity = new MvcModel;
+
+        $I->assertNull(Tag::getValue('sel_name'));
+        $I->assertNull($form->getValue('sel_name'));
+        $I->assertNull($form->get('sel_name')->getValue());
+        $I->assertNull($name->getValue());
+
+        Tag::setDefault('sel_name', 'Please specify name');
+        $_POST = ['sel_name' => 'Some Name', 'sel_text' => 'Some Text'];
+
+        $form->bind($_POST, $entity);
+
+        $I->assertEquals('Some Name', $entity->getName());
+        $I->assertEquals('Some Text', $entity->getText());
+
+        $I->assertEquals('Some Name', $form->getValue('sel_name'));
+        $I->assertEquals('Some Name', $form->get('sel_name')->getValue());
+        $I->assertEquals('Some Name', $name->getValue());
+
+        $I->assertEquals('Some Text', $form->getValue('sel_text'));
+        $I->assertEquals('Some Text', $form->get('sel_text')->getValue());
+        $I->assertEquals('Some Text', $text->getValue());
+
+        $form->clear(['sel_name']);
+
+        $I->assertNull(Tag::getValue('sel_name'));
+        $I->assertNull($form->getValue('sel_name'));
+        $I->assertNull($form->get('sel_name')->getValue());
+        $I->assertNull($name->getValue());
+
+        $I->assertEquals('Some Text', $form->getValue('sel_text'));
+        $I->assertEquals('Some Text', $form->get('sel_text')->getValue());
+        $I->assertEquals('Some Text', $text->getValue());
+
+        $form->clear(['non_existent', 'another_filed']);
+
+        $I->assertEquals('Some Text', $form->getValue('sel_text'));
+        $I->assertEquals('Some Text', $form->get('sel_text')->getValue());
+        $I->assertEquals('Some Text', $text->getValue());
+
+        $form->clear();
+
+        $I->assertNull(Tag::getValue('sel_text'));
+        $I->assertNull($form->getValue('sel_text'));
+        $I->assertNull($form->get('sel_text')->getValue());
+        $I->assertNull($text->getValue());
+
+        $I->assertEquals('Some Name', $entity->getName());
+        $I->assertEquals('Some Text', $entity->getText());
+
+        $I->assertEquals(['sel_name' => 'Some Name', 'sel_text' => 'Some Text'], $_POST);
     }
 }
