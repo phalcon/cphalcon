@@ -18,6 +18,7 @@
 - Fixed `Phalcon\Db\Dialect\Postgresql::createTable`, `Phalcon\Db\Dialect\Postgresql::addColumn`, `Phalcon\Db\Dialect\Postgresql::modifyColumn` to correct escape default values [#12267](https://github.com/phalcon/cphalcon/issues/12267), [phalcon/phalcon-devtools#859](https://github.com/phalcon/phalcon-devtools/issues/859)
 - Fixed `Phalcon\Forms\Form::bind` to clean form elements [#11978](https://github.com/phalcon/cphalcon/issues/11978), [#12165](https://github.com/phalcon/cphalcon/issues/12165), [#12099](https://github.com/phalcon/cphalcon/issues/12099), [#10044](https://github.com/phalcon/cphalcon/issues/10044)
 - Fixed `Phalcon\Tag::resetInput` for proper use without attempts to clear `$_POST` [#12099](https://github.com/phalcon/cphalcon/issues/12099)
+- Fixed `Phalcon\Db\Dialect\Mysql` and `Phalcon\Db\Dialect\Postresql` to correctly check schema in missing methods
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly

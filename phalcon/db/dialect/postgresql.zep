@@ -542,7 +542,7 @@ class Postgresql extends Dialect
 		if schemaName {
 			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
 		}
-		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "'";
+		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='public'";
 	}
 
 	/**
@@ -611,7 +611,7 @@ class Postgresql extends Dialect
 		if schema {
 			let sql .= "tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
 		} else {
-			let sql .= "tc.table_name='" . table . "'";
+			let sql .= "tc.table_schema = 'public' AND tc.table_name='" . table . "'";
 		}
 
 		return sql;
