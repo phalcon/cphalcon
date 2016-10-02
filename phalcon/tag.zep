@@ -301,7 +301,7 @@ class Tag
 	}
 
 	/**
-	 * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from _POST
+	 * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
 	 *
 	 * @param string name
 	 * @return boolean
@@ -316,7 +316,7 @@ class Tag
 
 	/**
 	 * Every helper calls this function to check whether a component has a predefined
-	 * value using Phalcon\Tag::setDefault or value from _POST
+	 * value using Phalcon\Tag::setDefault or value from $_POST
 	 *
 	 * @param string name
 	 * @param array params
@@ -344,15 +344,16 @@ class Tag
 	}
 
 	/**
-	 * Resets the request and internal values to avoid those fields will have any default value
+	 * Resets the request and internal values to avoid those fields will have any default value.
+	 * @deprecated Will be removed in 4.0.0
 	 */
 	public static function resetInput() -> void
 	{
-		let self::_displayValues = [], {"_POST"} = [];
-		let self::_documentTitle = null;
-		let self::_documentAppendTitle = null;
-		let self::_documentPrependTitle = null;
-		let self::_documentTitleSeparator = null;
+		let self::_displayValues = [],
+			self::_documentTitle = null,
+			self::_documentAppendTitle = null,
+			self::_documentPrependTitle = null,
+			self::_documentTitleSeparator = null;
 	}
 
 	/**
@@ -394,12 +395,20 @@ class Tag
 	 *     ]
 	 * );
 	 *
+	 * echo Phalcon\Tag::linkTo(
+	 *     [
+	 *         "action" => "http://phalconphp.com/",
+	 *         "text"   => "Phalcon Home",
+	 *         "local"  => false,
+	 *         "target" => "_new"
+	 *     ]
+	 * );
+	 *
 	 *</code>
 	 *
 	 * @param array|string parameters
 	 * @param string text
 	 * @param boolean local
-	 * @return string
 	 */
 	public static function linkTo(parameters, text = null, local = true) -> string
 	{
