@@ -426,4 +426,40 @@ class PostgresqlTest extends UnitTest
             }, ['examples' => $this->getCreateTable()]
         );
     }
+
+    /**
+     * Tests Postgresql::viewExists
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-10-02
+     */
+    public function testViewExists()
+    {
+        $this->specify(
+            'The SQL generated to check existence of view is incorrect',
+            function ($schema, $expected) {
+                $dialect = new Postgresql();
+
+                expect($dialect->viewExists('view', $schema))->equals($expected);
+            }, ['examples' => $this->getViewExists()]
+        );
+    }
+
+    /**
+     * Tests Postgresql::describeReferences
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-10-02
+     */
+    public function testDescribeReferences()
+    {
+        $this->specify(
+            'The SQL generated to describe references is incorrect',
+            function ($schema, $expected) {
+                $dialect = new Postgresql();
+
+                expect($dialect->describeReferences('table', $schema))->equals($expected);
+            }, ['examples' => $this->getDescribeReferences()]
+        );
+    }
 }
