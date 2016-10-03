@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\TextArea
  *
  * Component TEXTAREA for forms
  */
-class TextArea extends Element implements ElementInterface
+class TextArea extends Element
 {
 
 	/**
