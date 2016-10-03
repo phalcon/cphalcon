@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag\Select;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\Select
  *
  * Component SELECT (choice) for forms
  */
-class Select extends Element implements ElementInterface
+class Select extends Element
 {
 
 	protected _optionsValues;

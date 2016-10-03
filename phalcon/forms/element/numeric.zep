@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\Numeric
  *
  * Component INPUT[type=number] for forms
  */
-class Numeric extends Element implements ElementInterface
+class Numeric extends Element
 {
 
 	/**

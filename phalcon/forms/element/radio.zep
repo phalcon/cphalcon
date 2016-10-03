@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\Radio
  *
  * Component INPUT[type=radio] for forms
  */
-class Radio extends Element implements ElementInterface
+class Radio extends Element
 {
 
 	/**
