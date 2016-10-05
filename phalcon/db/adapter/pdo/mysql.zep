@@ -120,6 +120,14 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "char") {
 				/**
+				* Special type for datetime
+				*/
+				if memstr(columnType, "time") {
+					let definition["type"] = Column::TYPE_TIME;
+					break;
+				}
+
+				/**
 				 * Chars are chars
 				 */
 				let definition["type"] = Column::TYPE_CHAR;
