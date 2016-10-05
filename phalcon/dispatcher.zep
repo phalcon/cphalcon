@@ -340,7 +340,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 		try {
 			let handler = this->_dispatch();
-		} catch \Exception, e {
+		} catch \Error, e {
+			if this->{"_handleError"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		} catch \Throwable, e {
+			if this->{"_handleThrowable"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		 } catch \Exception, e {
 			if this->{"_handleException"}(e) === false {
 				return false;
 			}
@@ -586,7 +598,23 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			try {
 				// We update the latest value produced by the latest handler
 				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
-			} catch \Exception, e {
+			} catch \Error, e {
+				if this->{"_handleError"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				} else {
+					throw e;
+				}
+			} catch \Throwable, e {
+				if this->{"_handleThrowable"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				} else {
+					throw e;
+				}
+			 } catch \Exception, e {
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
 						continue;

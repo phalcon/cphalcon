@@ -164,6 +164,37 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Handles a user throwable
+	 */
+	protected function _handleThrowable(<\Throwable> throwable)
+	{
+		var eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("dispatch:beforeThrowable", this, throwable) === false {
+				if throwable instanceof \Exception && this->_handleException(throwable) === false {
+					return false;
+				}
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Handles a user error
+	 */
+	protected function _handleError(<\Throwable> error)
+	{
+		var eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("dispatch:beforeError", this, error) === false {
+				return false;
+			}
+		}
+	}
+
+	/**
 	 * Possible controller class name that will be located to dispatch the request
 	 */
 	public function getControllerClass() -> string
