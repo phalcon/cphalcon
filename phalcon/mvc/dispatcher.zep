@@ -183,7 +183,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
 	/**
 	 * Handles a user error
 	 */
-	protected function _handleError(<\Throwable> error)
+	protected function _handleError(<\Error> error)
 	{
 		var eventsManager;
 		let eventsManager = <ManagerInterface> this->_eventsManager;
