@@ -30,10 +30,13 @@ use Phalcon\Mvc\Model\Exception;
  *
  * Simply validates specified string length constraints
  *
+ * This validator is only for use with Phalcon\Mvc\Collection. If you are using
+ * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ *
  *<code>
  * use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
  *
- * class Subscriptors extends \Phalcon\Mvc\Model
+ * class Subscriptors extends \Phalcon\Mvc\Collection
  * {
  *     public function validation()
  *     {
