@@ -1525,7 +1525,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 *<code>
 	 * use Phalcon\Mvc\Model;
-	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Validation;
+	 * use Phalcon\Validation\Validator\ExclusionIn;
 	 *
 	 * class Subscriptors extends Model
 	 * {
