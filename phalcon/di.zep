@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -45,18 +45,20 @@ use Phalcon\Di\InjectionAwareInterface;
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  *
  *<code>
- * $di = new \Phalcon\Di();
+ * use Phalcon\Di;
+ * use Phalcon\Http\Request;
  *
- * //Using a string definition
- * $di->set("request", "Phalcon\Http\Request", true);
+ * $di = new Di();
  *
- * //Using an anonymous function
- * $di->set(
+ * // Using a string definition
+ * $di->set("request", Request::class, true);
+ *
+ * // Using an anonymous function
+ * $di->setShared(
  *     "request",
  *     function () {
- *         return new \Phalcon\Http\Request();
- *     },
- *     true
+ *         return new Request();
+ *     }
  * );
  *
  * $request = $di->getRequest();
@@ -64,7 +66,6 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 class Di implements DiInterface
 {
-
 	/**
 	 * List of registered services
 	 */
@@ -338,10 +339,6 @@ class Di implements DiInterface
 	 *<code>
 	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
-	 *
-	 * @param string name
-	 * @param mixed definition
-	 * @return boolean
 	 */
 	public function offsetSet(string! name, var definition) -> boolean
 	{
@@ -371,9 +368,6 @@ class Di implements DiInterface
 
 	/**
 	 * Magic method to get or set services using setters/getters
-	 *
-	 * @param string method
-	 * @param array arguments
 	 */
 	public function __call(string! method, arguments = null) -> var|null
 	{
