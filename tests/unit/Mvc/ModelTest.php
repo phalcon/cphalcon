@@ -8,6 +8,8 @@ use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Packages;
+use Phalcon\Test\Models\UsersWithEvent;
+use Phalcon\Test\Models\UsersWithListener;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
@@ -223,6 +225,51 @@ class ModelTest extends UnitTest
                 expect($robot)->isInstanceOf(Robots::class);
                 expect($robot->getSnapshotData())->notEmpty();
                 expect($robot->getSnapshotData())->notEquals($robot->toArray());
+            }
+        );
+    }
+
+    /**
+     * Tests model events configured by external listener
+     *
+     * @author Mateusz Blaszczyk <mateusz.blaszczyk@live.com>
+     */
+    public function testModelEventsByListener()
+    {
+        $this->specify(
+            'Test model events by listener',
+            function () {
+                $usersWithListener = new UsersWithListener();
+                $usersWithListener->name = 'test user before event';
+                expect($usersWithListener->name)->equals('test user before event');
+
+                $usersWithListener->save();
+
+                expect($usersWithListener->name)->equals('test user after event');
+
+            }
+        );
+    }
+
+    /**
+     * Tests model events configured by internal configuration
+     * (like in docs: https://docs.phalconphp.com/pl/latest/reference/model-events.html#using-a-custom-events-manager)
+     *
+     * @author Mateusz Blaszczyk <mateusz.blaszczyk@live.com>
+     */
+    public function testModelEventsByInternalConfiguration()
+    {
+        $this->specify(
+            'Test model events by internal configuration',
+            function () {
+                $usersWithListener = new UsersWithEvent();
+                $usersWithListener->name = 'test user before event';
+                expect($usersWithListener->name)->equals('test user before event');
+
+                $usersWithListener->save();
+
+                expect($usersWithListener->name)->equals('test user after event');
+
             }
         );
     }
