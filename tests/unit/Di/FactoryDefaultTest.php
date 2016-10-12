@@ -70,6 +70,13 @@ class FactoryDefaultTest extends UnitTest
         );
     }
 
+    /**
+     * It tests injecting 15 services to another service, because it cause
+     * segmentation fault in version 3.0.1
+     *
+     * @author Mateusz Blaszczyk <mateusz.blaszczyk@live.com>
+     * @since  2016-10-12
+     */
     public function testInject15Services()
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . '../../_data/di/ManyServices.php';
@@ -206,7 +213,7 @@ class FactoryDefaultTest extends UnitTest
                     ]
                 ]);
 
-                expect($factoryDefault->get('ExampleService')->get())->isInstanceOf('ExampleService');
+                expect($factoryDefault->get('ExampleService'))->isInstanceOf('ExampleService');
             }
         );
     }

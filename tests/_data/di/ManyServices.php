@@ -2,12 +2,13 @@
 use Phalcon\Di\Injectable;
 
 /**
- * SomeService class
+ * ManyServices class
+ *
+ * Resource class for \Phalcon\Test\Unit\Di\FactoryDefaultTest::testInject15Services
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Mateusz Blaszczyk <mateusz.blaszczyk@live.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -52,9 +53,5 @@ class ExampleService extends Injectable
         OService $OService
     )
     {
-    }
-
-    public function get(){
-        return true;
     }
 }
