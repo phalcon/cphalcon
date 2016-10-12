@@ -25,7 +25,7 @@ cache:
   timeout: 691200
   directories:
     - .temp
-    - vendor
+    #- vendor
     - $HOME/.ccache
     - $HOME/.composer/cache
 
@@ -66,9 +66,10 @@ env:
 
 before_install:
   - export PATH=$PATH:~/bin;
+  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
   - composer self-update -q
   - travis_retry composer --prefer-source install
-  - bash tests/_ci/install_prereqs.sh
+  - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/setup_dbs.sh
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
@@ -89,7 +90,7 @@ before_script:
 script:
   - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
   - vendor/bin/codecept build
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run -v tests/unit/Cache/Backend/ApcCest.php
 
 after_failure:
   - bash tests/_ci/after_failure.sh

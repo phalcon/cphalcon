@@ -12,6 +12,7 @@ modules:
         - Phalcon
         - Redis
         - Memcache
+        - Phalcon\Test\Module\Apc
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
