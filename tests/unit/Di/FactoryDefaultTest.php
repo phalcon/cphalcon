@@ -69,4 +69,145 @@ class FactoryDefaultTest extends UnitTest
             ]]
         );
     }
+
+    public function testInject15Services()
+    {
+        require_once __DIR__ . DIRECTORY_SEPARATOR . '../../_data/di/ManyServices.php';
+        
+        $this->specify(
+            "FactoryDefault can injext 15 services to another service",
+            function () {
+                $params = null;
+                $factoryDefault = new FactoryDefault();
+
+                $factoryDefault->setShared('AService', [
+                    'className' => 'AService',
+                ]);
+
+                $factoryDefault->setShared('BService', [
+                    'className' => 'BService',
+                ]);
+
+                $factoryDefault->setShared('CService', [
+                    'className' => 'CService',
+                ]);
+
+                $factoryDefault->setShared('DService', [
+                    'className' => 'DService',
+                ]);
+
+                $factoryDefault->setShared('EService', [
+                    'className' => 'EService',
+                ]);
+
+                $factoryDefault->setShared('FService', [
+                    'className' => 'FService',
+                ]);
+
+                $factoryDefault->setShared('GService', [
+                    'className' => 'GService',
+                ]);
+
+                $factoryDefault->setShared('HService', [
+                    'className' => 'HService',
+                ]);
+
+                $factoryDefault->setShared('IService', [
+                    'className' => 'IService',
+                ]);
+
+                $factoryDefault->setShared('JService', [
+                    'className' => 'JService',
+                ]);
+
+                $factoryDefault->setShared('KService', [
+                    'className' => 'KService',
+                ]);
+
+                $factoryDefault->setShared('LService', [
+                    'className' => 'LService',
+                ]);
+
+                $factoryDefault->setShared('MService', [
+                    'className' => 'MService',
+                ]);
+
+                $factoryDefault->setShared('NService', [
+                    'className' => 'NService',
+                ]);
+
+                $factoryDefault->setShared('OService', [
+                    'className' => 'OService',
+                ]);
+                
+                $factoryDefault->setShared('ExampleService', [
+                    'className' => 'ExampleService',
+                    'arguments' => [
+                        [
+                            'type' => 'service',
+                            'name' => 'AService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'BService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'CService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'DService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'EService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'FService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'GService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'HService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'IService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'JService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'KService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'LService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'MService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'NService',
+                        ],
+                        [
+                            'type' => 'service',
+                            'name' => 'OService',
+                        ]
+                    ]
+                ]);
+
+                expect($factoryDefault->get('ExampleService')->get())->isInstanceOf('ExampleService');
+            }
+        );
+    }
 }
