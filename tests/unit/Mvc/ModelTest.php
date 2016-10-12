@@ -5,6 +5,8 @@ namespace Phalcon\Test\Unit\Mvc;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Packages;
+use Phalcon\Test\Models\UsersWithEvent;
+use Phalcon\Test\Models\UsersWithListener;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
@@ -186,5 +188,39 @@ class ModelTest extends UnitTest
                 expect($body->getMessages()[0]->getMessage())->equals('Second head does not exists');
             }
          );
+    }
+
+    public function testModelEventsByListener()
+    {
+        $this->specify(
+            'Test model events by listener',
+            function () {
+                $usersWithListener = new UsersWithListener();
+                $usersWithListener->name = 'test user before event';
+                expect($usersWithListener->name)->equals('test user before event');
+
+                $usersWithListener->save();
+
+                expect($usersWithListener->name)->equals('test user after event');
+
+            }
+        );
+    }
+
+    public function testModelEventsByInternalConfiguration()
+    {
+        $this->specify(
+            'Test model events by internal configuration',
+            function () {
+                $usersWithListener = new UsersWithEvent();
+                $usersWithListener->name = 'test user before event';
+                expect($usersWithListener->name)->equals('test user before event');
+
+                $usersWithListener->save();
+
+                expect($usersWithListener->name)->equals('test user after event');
+
+            }
+        );
     }
 }
