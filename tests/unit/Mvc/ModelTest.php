@@ -229,6 +229,11 @@ class ModelTest extends UnitTest
         );
     }
 
+    /**
+     * Tests model events configured by external listener
+     *
+     * @author Mateusz Blaszczyk <mateusz.blaszczyk@live.com>
+     */
     public function testModelEventsByListener()
     {
         $this->specify(
@@ -246,6 +251,12 @@ class ModelTest extends UnitTest
         );
     }
 
+    /**
+     * Tests model events configured by internal configuration
+     * (like in docs: https://docs.phalconphp.com/pl/latest/reference/model-events.html#using-a-custom-events-manager)
+     *
+     * @author Mateusz Blaszczyk <mateusz.blaszczyk@live.com>
+     */
     public function testModelEventsByInternalConfiguration()
     {
         $this->specify(
