@@ -247,54 +247,26 @@ abstract class Flash implements InjectionAwareInterface
 		}
 
 		let implicitFlush = (bool) this->_implicitFlush;
-		if typeof message == "array" {
 
-			/**
-			 * We create the message with implicit flush or other
-			 */
-			if implicitFlush === false {
-				let content = "";
-			}
+		if typeof message != "array" {
+			let message = [message];
+		}
 
-			/**
-			 * We create the message with implicit flush or other
-			 */
-			for msg in message {
-				if autoEscape === true {
-					let preparedMsg = escaper->escapeHtml(msg);
-				} else {
-					let preparedMsg = msg;
-				}
+		/**
+		 * We create the message with implicit flush or other
+		 */
+		if implicitFlush === false {
+			let content = "";
+		}
 
-				/**
-				 * We create the applying formatting or not
-				 */
-				if automaticHtml === true {
-					let htmlMessage = "<div" . cssClasses . ">" . preparedMsg . "</div>" . eol;
-				} else {
-					let htmlMessage = preparedMsg;
-				}
-
-				if implicitFlush === true {
-					echo htmlMessage;
-				} else {
-					let content .= htmlMessage;
-					let this->_messages[] = htmlMessage;
-				}
-			}
-
-			/**
-			 * We return the message as string if the implicitFlush is turned off
-			 */
-			if implicitFlush === false {
-				return content;
-			}
-
-		} else {
+		/**
+		 * We create the message with implicit flush or other
+		 */
+		for msg in message {
 			if autoEscape === true {
-				let preparedMsg = escaper->escapeHtml(message);
+				let preparedMsg = escaper->escapeHtml(msg);
 			} else {
-				let preparedMsg = message;
+				let preparedMsg = msg;
 			}
 
 			/**
@@ -306,15 +278,19 @@ abstract class Flash implements InjectionAwareInterface
 				let htmlMessage = preparedMsg;
 			}
 
-			/**
-			 * We return the message as string if the implicit_flush is turned off
-			 */
 			if implicitFlush === true {
 				echo htmlMessage;
 			} else {
+				let content .= htmlMessage;
 				let this->_messages[] = htmlMessage;
-				return htmlMessage;
 			}
+		}
+
+		/**
+		 * We return the message as string if the implicitFlush is turned off
+		 */
+		if implicitFlush === false {
+			return content;
 		}
 	}
 
