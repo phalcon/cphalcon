@@ -1715,18 +1715,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function executeQuery(string! phql, var placeholders = null, var types = null) -> <QueryInterface>
 	{
-		var dependencyInjector, query;
+		var query;
 
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injection object is required to access ORM services");
-		}
-
-		/**
-		 * Gets Query instance from DI container
-		 */
-		let query = <QueryInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query", [phql, dependencyInjector]);
-		let this->_lastQuery = query;
+		let query = this->createQuery(phql);
 
 		if typeof placeholders == "array" {
 			query->setBindParams(placeholders);
