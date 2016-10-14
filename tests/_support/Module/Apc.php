@@ -204,9 +204,9 @@ class Apc extends CodeceptionModule
         $success = false;
 
         if (function_exists('apcu_fetch')) {
-            $data = apcu_fetch($key);
+            $data = apcu_fetch($key, $success);
         } else {
-            $data = apc_fetch($key);
+            $data = apc_fetch($key, $success);
         }
 
         $this->debugSection('Fetching a stored variable', $success ? 'OK' : 'FAILED');

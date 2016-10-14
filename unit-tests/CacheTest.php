@@ -206,49 +206,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache->delete('test-output'));
 	}
 
-	public function testDataApcCache()
-	{
-		$ready = $this->_prepareApc();
-		if (!$ready) {
-			return false;
-		}
-
-		$frontCache = new Phalcon\Cache\Frontend\Data();
-
-		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
-
-		$data = array(1, 2, 3, 4, 5);
-
-		$cache->save('test-data', $data);
-
-		$cachedContent = $cache->get('test-data');
-		$this->assertEquals($cachedContent, $data);
-
-		$cache->save('test-data', "sure, nothing interesting");
-
-		$cachedContent = $cache->get('test-data');
-		$this->assertEquals($cachedContent, "sure, nothing interesting");
-
-		$this->assertTrue($cache->delete('test-data'));
-
-		$cache->save('a', 1);
-		$cache->save('long-key', 'long-val');
-		$cache->save('bcd', 3);
-
-		$keys = $cache->queryKeys();
-		sort($keys);
-
-		$this->assertEquals($keys, array('a', 'bcd', 'long-key'));
-		$this->assertEquals($cache->queryKeys('long'), array('long-key'));
-
-		$this->assertTrue($cache->delete('a'));
-		$this->assertTrue($cache->delete('long-key'));
-		$this->assertTrue($cache->delete('bcd'));
-
-		$keys = $cache->queryKeys();
-		$this->assertEquals(count($keys), 0);
-	}
-
 	protected function _prepareMongo()
 	{
 

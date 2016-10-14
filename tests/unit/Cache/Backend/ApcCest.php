@@ -53,7 +53,7 @@ class ApcCest
 
     public function increment(UnitTester $I)
     {
-        $I->wantTo('Increment counter by using APC as cache backend');
+        $I->wantTo('Increment counter by using APC(u) as cache backend');
 
         $key   = '_PHCA' . 'increment';
         $cache = new Apc(new Data(['lifetime' => 20]));
@@ -87,7 +87,7 @@ class ApcCest
 
     public function decrement(UnitTester $I)
     {
-        $I->wantTo('Decrement counter by using APC as cache backend');
+        $I->wantTo('Decrement counter by using APC(u) as cache backend');
 
         $key   = '_PHCA' . 'decrement';
         $cache = new Apc(new Data(['lifetime' => 20]));
@@ -117,5 +117,82 @@ class ApcCest
 
         $I->assertEquals(7, $cache->decrement('decrement-2', 40));
         $I->seeInApc($key, 7);
+    }
+
+    public function get(UnitTester $I)
+    {
+        $I->wantTo('Get data by using APC(u) as cache backend');
+
+        $key = '_PHCA' . 'data-get';
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+
+        $cache = new Apc(new Data(['lifetime' => 20]));
+
+        $I->haveInApc($key, serialize($data));
+        $I->assertEquals($data, $cache->get('data-get'));
+
+        $I->assertNull($cache->get('non-existent-key'));
+
+        $data = 'sure, nothing interesting';
+
+        $I->haveInApc($key, serialize($data));
+        $I->assertEquals($data, $cache->get('data-get'));
+
+        $I->assertNull($cache->get('non-existent-key-2'));
+    }
+
+    public function save(UnitTester $I)
+    {
+        $I->wantTo('Save data by using APC(u) as cache backend');
+
+        $key = '_PHCA' . 'data-save';
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+
+        $cache = new Apc(new Data(['lifetime' => 20]));
+
+        $I->dontSeeInApc($key);
+        $cache->save('data-save', $data);
+
+        $I->seeInApc($key, serialize($data));
+
+        $data = 'sure, nothing interesting';
+
+        $I->dontSeeInApc('non-existent-key', serialize($data));
+
+        $cache->save('data-save', $data);
+        $I->seeInApc($key, serialize($data));
+    }
+
+    public function delete(UnitTester $I)
+    {
+        $I->wantTo(/** @lang text */
+            'Delete from cache by using APC(u) as cache backend'
+        );
+
+        $key = '_PHCA' . 'data-delete';
+        $cache = new Apc(new Data(['lifetime' => 20]));
+
+        $I->assertFalse($cache->delete('non-existent-keys'));
+
+        $I->haveInApc($key, 1);
+
+        $I->assertTrue($cache->delete('data-delete'));
+        $I->dontSeeInApc($key);
+    }
+
+    public function queryKeys(UnitTester $I)
+    {
+        $I->wantTo('Get cache keys by using APC(u) as cache backend');
+
+        $cache = new Apc(new Data(['lifetime' => 20]));
+
+        $I->haveInApc('_PHCA' . 'a', 1);
+        $I->haveInApc('_PHCA' . 'b', 2);
+        $I->haveInApc('_PHCA' . 'c', 3);
+
+        $keys = $cache->queryKeys();
+        sort($keys);
+
+        $I->assertEquals($keys, ['a', 'b', 'c']);
     }
 }
