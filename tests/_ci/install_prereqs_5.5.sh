@@ -24,12 +24,12 @@ install_extension() {
 }
 
 install_extension imagick
+enable_extension memcache
 enable_extension memcached
 install_extension igbinary
 install_extension yaml
 install_extension mongo
 
 printf "\n" | pecl install apcu-4.0.11 &> /dev/null
-phpenv config-add "$DIR/apcu.ini"
 
-echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+echo "apc.enable_cli=On" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
