@@ -2,28 +2,28 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Cache\Backend\Apc;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
-use Phalcon\Test\Models\Customers;
+use Phalcon\Cache\Backend\Apc;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\BodyParts\Body;
+use Phalcon\Test\Models\AlbumORama\Albums;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\ManagerTest
- * Tests the Phalcon\Mvc\Model\Manager component
+ * \Phalcon\Test\Unit\Mvc\ModelTest
+ * Tests the Phalcon\Mvc\Model component
  *
  * @copyright (c) 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
- * @package   Phalcon\Test\Unit\Mvc\Model
+ * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -52,7 +52,7 @@ class ModelTest extends UnitTest
         $this->specify(
             "CamelCase relation calls should be the same cache",
             function () {
-                $this->modelsManager->registerNamespaceAlias('AlbumORama','Phalcon\Test\Models\AlbumORama');
+                $this->modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
                 $album = Albums::findFirst();
 
                 $album->artist->name = 'NotArtist';
@@ -70,13 +70,15 @@ class ModelTest extends UnitTest
      */
     public function testEmptyConditions()
     {
+        if (!ini_get('opcache.enable_cli')) {
+            $this->markTestSkipped(
+                'Warning: opcache.enable_cli must be set to "On"'
+            );
+        }
+
         $this->specify(
             'The Model::find with empty conditions + bind and limit return wrong result',
             function () {
-                if (!ini_get('opcache.enable_cli')) {
-                    $this->markTestSkipped("The " . __METHOD__ . " requires enabled opcache in CLI mode");
-                }
-
                 $album = Albums::find([
                     'conditions' => '',
                     'bind'       => [],
@@ -203,6 +205,24 @@ class ModelTest extends UnitTest
      */
     public function testSerializeSnapshotCache()
     {
+        if (!extension_loaded('apc')) {
+            $this->markTestSkipped(
+                'Warning: apc extension is not loaded'
+            );
+        }
+
+        if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
+            $this->markTestSkipped(
+                'Warning: apc.enable_cli must be set to "On"'
+            );
+        }
+
+        if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
+            );
+        }
+
         $this->specify(
             'Snapshot data should be saved while saving model to cache',
             function () {

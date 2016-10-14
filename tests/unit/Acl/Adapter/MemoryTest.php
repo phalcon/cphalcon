@@ -2,11 +2,12 @@
 
 namespace Phalcon\Test\Unit\Acl\Adapter;
 
-use Phalcon\Test\Proxy\Acl\Adapter\Memory;
-use Phalcon\Test\Proxy\Acl\Resource;
-use Phalcon\Test\Proxy\Acl\Role;
 use Phalcon\Acl;
+use PHPUnit_Framework_Exception;
+use Phalcon\Test\Proxy\Acl\Role;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Proxy\Acl\Resource;
+use Phalcon\Test\Proxy\Acl\Adapter\Memory;
 
 /**
  * \Phalcon\Test\Unit\Acl\Adapter\MemoryTest
@@ -409,7 +410,7 @@ class MemoryTest extends UnitTest
                 $this->tester->cleanFile(PATH_CACHE, $filename);
 
                 $acl = unserialize($contents);
-                $actual = ($acl instanceof \Phalcon\Acl\Adapter\Memory);
+                $actual = ($acl instanceof Memory);
                 expect($actual)->true();
 
                 $actual = $acl->isRole('Administrators');
@@ -631,9 +632,6 @@ class MemoryTest extends UnitTest
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-06-05
-     *
-     * @expectedException           PHPUnit_Framework_Exception
-     * @expectedExceptionMessage You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments.
      */
     public function testAclAllowFunctionNoArgumentsWithWarning()
     {
@@ -669,7 +667,13 @@ class MemoryTest extends UnitTest
                 expect($acl->isAllowed($member, $model, 'update'))->false();
                 expect($acl->isAllowed($anotherMember, $model, 'update'))->false();
                 expect($acl->isAllowed($admin, $model, 'update'))->true();
-            }
+            },
+            [
+                'throws' => [
+                    PHPUnit_Framework_Exception::class,
+                    "You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments."
+                ]
+            ]
         );
     }
 
@@ -684,7 +688,7 @@ class MemoryTest extends UnitTest
     public function testWildCardLastRole()
     {
         $this->specify(
-            "Cant add acl rule to existing role after ading wildcard rule",
+            "Cant add acl rule to existing role after adding wildcard rule",
             function () {
                 $acl = new Memory();
                 $acl->addRole(new Role("Guests"));
@@ -712,7 +716,7 @@ class MemoryTest extends UnitTest
     public function testWildCardSecondTime()
     {
         $this->specify(
-            "Cant add acl rule to existing wildcard role",
+            "Can't add acl rule to existing wildcard role",
             function () {
                 $acl = new Memory();
                 $acl->addRole(new Role("Guests"));

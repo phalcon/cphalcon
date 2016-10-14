@@ -66,9 +66,10 @@ env:
 
 before_install:
   - export PATH=$PATH:~/bin;
+  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
   - composer self-update -q
   - travis_retry composer --prefer-source install
-  - bash tests/_ci/install_prereqs.sh
+  - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/setup_dbs.sh
   - bash tests/_ci/install_zephir.sh
   - bash tests/_ci/install_beanstalkd.sh
