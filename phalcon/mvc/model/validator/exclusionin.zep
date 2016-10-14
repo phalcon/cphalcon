@@ -29,10 +29,13 @@ use Phalcon\Mvc\Model\Exception;
  *
  * Check if a value is not included into a list of values
  *
+ * This validator is only for use with Phalcon\Mvc\Collection. If you are using
+ * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ *
  *<code>
  * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
  *
- * class Subscriptors extends \Phalcon\Mvc\Model
+ * class Subscriptors extends \Phalcon\Mvc\Collection
  * {
  *     public function validation()
  *     {
