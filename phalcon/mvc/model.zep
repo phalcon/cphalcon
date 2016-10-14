@@ -4037,10 +4037,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call the 'getRelationRecords' in the models manager
 		 */
-		return call_user_func_array(
-			[manager, "getRelationRecords"],
-			[relation, null, this, arguments]
-		);
+		return manager->getRelationRecords(relation, null, this, arguments);
 	}
 
 	/**
@@ -4082,9 +4079,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if typeof relation == "object" {
 			fetch extraArgs, arguments[0];
-			return call_user_func_array(
-				[manager, "getRelationRecords"],
-				[relation, queryMethod, this, extraArgs]
+
+			return manager->getRelationRecords(
+				relation,
+				queryMethod,
+				this,
+				extraArgs
 			);
 		}
 
@@ -4378,10 +4378,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * Get the related records
 			 */
-			let result = call_user_func_array(
-				[manager, "getRelationRecords"],
-				[relation, null, this, null]
-			);
+			let result = manager->getRelationRecords(relation, null, this, null);
 
 			/**
 			 * Assign the result to the object
