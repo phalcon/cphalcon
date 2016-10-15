@@ -180,15 +180,59 @@ class ApcCest
         $I->dontSeeInApc($key);
     }
 
+    public function flush(UnitTester $I)
+    {
+        $I->wantTo('Flush all cache by using APC(u) as cache backend');
+
+        $cache = new Apc(new Data(['lifetime' => 20]));
+
+        $key1 = '_PHCA' . 'app-data' . 'data-flush-1';
+        $key2 = '_PHCA' . 'app-data' . 'data-flush-2';
+        $key3 = '_PHCA' . 'data-flush-3';
+
+        $I->haveInApc([$key1 => 1, $key2 => 2, $key3 => 3], null);
+
+        $I->assertTrue($cache->flush());
+
+        $I->dontSeeInApc($key1);
+        $I->dontSeeInApc($key2);
+        $I->dontSeeInApc($key3);
+
+        $I->assertEquals(false, $I->grabValueFromApc($key3));
+    }
+
+    /**
+     * @issue 12153
+     * @param UnitTester $I
+     */
+    public function flushByPrefix(UnitTester $I)
+    {
+        $I->wantTo('Flush prefixed keys from cache by using APC(u) as cache backend');
+
+        $prefix = 'app-data';
+        $cache = new Apc(new Data(['lifetime' => 20]), ['prefix' => $prefix]);
+
+        $key1 = '_PHCA' . 'app-data' . 'data-flush-1';
+        $key2 = '_PHCA' . 'app-data' . 'data-flush-2';
+        $key3 = '_PHCA' . 'data-flush-3';
+
+        $I->haveInApc([$key1 => 1, $key2 => 2, $key3 => 3], null);
+
+        $I->assertTrue($cache->flush());
+
+        $I->dontSeeInApc($key1);
+        $I->dontSeeInApc($key2);
+
+        $I->assertEquals(3, $I->grabValueFromApc($key3));
+    }
+
     public function queryKeys(UnitTester $I)
     {
         $I->wantTo('Get cache keys by using APC(u) as cache backend');
 
         $cache = new Apc(new Data(['lifetime' => 20]));
 
-        $I->haveInApc('_PHCA' . 'a', 1);
-        $I->haveInApc('_PHCA' . 'b', 2);
-        $I->haveInApc('_PHCA' . 'c', 3);
+        $I->haveInApc(['_PHCAa' => 1, '_PHCAb' => 2, '_PHCAc' => 3], null);
 
         $keys = $cache->queryKeys();
         sort($keys);
