@@ -268,13 +268,26 @@ class Apc extends Backend implements BackendInterface
 	}
 
 	/**
- 	 * Immediately invalidates all existing items.
+	 * Immediately invalidates all existing items.
+	 *
+	 * <code>
+	 * use Phalcon\Cache\Backend\Apc;
+	 *
+	 * $cache = new Apc($frontCache, ["prefix" => "app-data"]);
+	 *
+	 * $cache->save("my-data", [1, 2, 3, 4, 5]);
+	 *
+	 * // 'my-data' and all other used keys are deleted
+	 * $cache->flush();
+	 * </code>
 	 */
 	public function flush() -> boolean
 	{
-		var item;
+		var item, prefixPattern;
 
-		for item in iterator(new \APCIterator("user")) {
+		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
+
+		for item in iterator(new \APCIterator("user", prefixPattern)) {
 			apc_delete(item["key"]);
 		}
 
