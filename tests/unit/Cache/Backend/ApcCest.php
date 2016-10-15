@@ -197,8 +197,6 @@ class ApcCest
         $I->dontSeeInApc($key1);
         $I->dontSeeInApc($key2);
         $I->dontSeeInApc($key3);
-
-        $I->assertEquals(false, $I->grabValueFromApc($key3));
     }
 
     /**

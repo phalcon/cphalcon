@@ -167,7 +167,7 @@ class MemcacheCest
      */
     public function flush(UnitTester $I)
     {
-        $I->wantTo('Flush cache using by using Memcache as cache backend');
+        $I->wantTo('Flush cache by using Memcache as cache backend');
 
         $cache = new Memcache(new Data(['lifetime' => 20]), [
             'host'     => TEST_MC_HOST,
@@ -182,7 +182,7 @@ class MemcacheCest
         $I->haveInMemcached($key2, 2);
 
         $cache->save('data-flush-1', 1);
-        $cache->save('data-flush-2', 3);
+        $cache->save('data-flush-2', 2);
 
         $I->assertArrayHasKey('data-flush-1', $I->grabValueFromMemcached('_PHCM'));
         $I->assertArrayHasKey('data-flush-2', $I->grabValueFromMemcached('_PHCM'));

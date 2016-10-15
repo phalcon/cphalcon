@@ -837,29 +837,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($cache->exists('data2'));
 	}
 
-	public function testCacheApcFlush()
-	{
-		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
-
-		// Apc
-		$ready = $this->_prepareApc();
-		if (!$ready) {
-			return false;
-		}
-
-		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
-
-		$data = array(1, 2, 3, 4, 5);
-
-		$cache->save('data', "1");
-		$cache->save('data2', "2");
-
-		$this->assertTrue($cache->flush());
-
-		$this->assertFalse($cache->exists('data'));
-		$this->assertFalse($cache->exists('data2'));
-	}
-
 	public function testCacheMongoFlush()
 	{
 		// Mongo
