@@ -154,7 +154,7 @@ class RedisCest
 
     public function flush(UnitTester $I)
     {
-        $I->wantTo('Flush cache using by using Redis as cache backend');
+        $I->wantTo('Flush cache by using Redis as cache backend');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
             'host'     => TEST_RS_HOST,
@@ -172,7 +172,7 @@ class RedisCest
         $I->haveInRedis('set', '_PHCR', 'data-flush-2');
 
         $cache->save('data-flush-1', 1);
-        $cache->save('data-flush-2', 3);
+        $cache->save('data-flush-2', 2);
 
         $I->assertTrue($cache->flush());
 
