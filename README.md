@@ -62,7 +62,7 @@ sudo ./install
 
 Add the extension to your php.ini:
 
-```bash
+```ini
 extension=phalcon.so
 ```
 
@@ -70,16 +70,17 @@ Finally, **restart the web server**.
 
 Advanced compilation
 --------------------
-if you have specific php versions running
+If you have specific php versions running
 
 ```bash
 git clone https://github.com/phalcon/cphalcon
-cd cphalcon/build/64bits  # or cd cphalcon/build/32bits
+# or cd cphalcon/build/32bits
+cd cphalcon/build/64bits
 
 make clean
 
 # Example: /opt/php-5.6.15
-CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
+export CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
 
 # Example: /opt/php-5.6.15/bin/phpize --clean
 $CUSTOM_PHP_INSTALLATION_PATH/bin/phpize --clean
@@ -95,7 +96,7 @@ make && sudo make install
 
 Edit your **php.ini** (for the specific version) and add this line:
 
-```bash
+```ini
 extension=phalcon.so
 ```
 
