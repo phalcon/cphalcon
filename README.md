@@ -14,10 +14,18 @@ To install Phalcon on Windows:
 
 1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
-3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
+3. Edit your **php.ini** file and add this line:
+
+   ```ini
+   extension=php_phalcon.dll
+   ```
 4. Finally, restart your web server
 
-**Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
+**Hint:** To ensure that your Phalcon installation was successful, debug with
+```php
+<?php phpinfo(); ?>
+```
+and search for a section mentioning the Phalcon extension.
 
 ### Linux/Unix/Mac
 
@@ -29,7 +37,7 @@ Prerequisite packages are:
 
 * PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
 * GCC compiler (Linux/Solaris/FreeBSD) or Xcode (MacOS)
-* [`re2c`](http://re2c.org)
+* [`re2c`](http://re2c.org) >= 0.13
 
 Ubuntu:
 
@@ -60,7 +68,7 @@ cd cphalcon/build
 sudo ./install
 ```
 
-Add the extension to your php.ini:
+Add the extension to your **php.ini**:
 
 ```ini
 extension=phalcon.so
