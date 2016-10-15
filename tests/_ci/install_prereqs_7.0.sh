@@ -61,6 +61,7 @@ install_apcu_bc() {
 	make --silent install
 }
 
+install_extension mongodb
 install_extension imagick
 enable_extension memcached
 
