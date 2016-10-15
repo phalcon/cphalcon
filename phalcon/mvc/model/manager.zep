@@ -440,14 +440,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	protected function _getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
 	{
-		var dependencyInjector, service = null, connection;
+		var dependencyInjector, service, connection;
 
-		/**
-		 * Check if the model has a custom connection service
-		 */
-		if typeof connectionServices == "array" {
-			fetch service, connectionServices[get_class_lower(model)];
-		}
+		let service = this->_getConnectionService(model, connectionServices);
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -457,11 +452,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Request the connection service from the DI
 		 */
-		if service {
-			let connection = <AdapterInterface> dependencyInjector->getShared(service);
-		} else {
-			let connection = <AdapterInterface> dependencyInjector->getShared("db");
-		}
+		let connection = <AdapterInterface> dependencyInjector->getShared(service);
 
 		if typeof connection != "object" {
 			throw new Exception("Invalid injected connection service");
