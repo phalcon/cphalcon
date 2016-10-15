@@ -66,13 +66,11 @@ class Apc extends CodeceptionModule
      *
      * Example:
      *
-     * ``` php
-     * <?php
+     * <code>
      * $users_count = $I->grabValueFromApc('users_count');
-     * ?>
-     * ```
+     * </code>
      *
-     * @param string|array $key
+     * @param string|string[] $key
      * @return mixed
      */
     public function grabValueFromApc($key)
@@ -88,27 +86,26 @@ class Apc extends CodeceptionModule
      *
      * Examples:
      *
-     * ``` php
-     * <?php
+     * <code>
      * // With only one argument, only checks the key exists
      * $I->seeInApc('users_count');
      *
      * // Checks a 'users_count' exists and has the value 200
      * $I->seeInApc('users_count', 200);
-     * ?>
-     * ```
+     * </code>
      *
-     * @param $key
-     * @param $value
+     * @param string|string[] $key
+     * @param mixed $value
      */
     public function seeInApc($key, $value = null)
     {
         if (null === $value) {
             $this->assertTrue($this->exists($key), "Cannot find key '$key' in APC(u).");
-        } else {
-            $actual = $this->grabValueFromApc($key);
-            $this->assertEquals($value, $actual, "Cannot find key '$key' in APC(u) with the provided value.");
+            return;
         }
+
+        $actual = $this->grabValueFromApc($key);
+        $this->assertEquals($value, $actual, "Cannot find key '$key' in APC(u) with the provided value.");
     }
 
     /**
@@ -116,41 +113,61 @@ class Apc extends CodeceptionModule
      *
      * Examples:
      *
-     * ``` php
-     * <?php
+     * <code>
      * // With only one argument, only checks the key does not exist
      * $I->dontSeeInApc('users_count');
      *
      * // Checks a 'users_count' exists does not exist or its value is not the one provided
      * $I->dontSeeInApc('users_count', 200);
-     * ?>
-     * ```
+     * </code>
      *
-     * @param $key
-     * @param $value
+     * @param string|string[] $key
+     * @param mixed $value
      */
     public function dontSeeInApc($key, $value = null)
     {
         if (null === $value) {
             $this->assertFalse($this->exists($key), "The key '$key' exists in APC(u).");
-        } else {
-            $actual = $this->grabValueFromApc($key);
-            if (false !== $actual) {
-                $this->assertEquals($value, $actual, "The key '$key' exists in APC(u) with the provided value.");
-            }
+            return;
+        }
+
+        $actual = $this->grabValueFromApc($key);
+        if (false !== $actual) {
+            $this->assertEquals($value, $actual, "The key '$key' exists in APC(u) with the provided value.");
         }
     }
 
     /**
      * Stores an item `$value` with `$key` on the APC(u).
      *
-     * @param string $key
+     * Examples:
+     *
+     * <code>
+     * // Array
+     * $I->haveInApc('users', ['name' => 'miles', 'email' => 'miles@davis.com']);
+     *
+     * // Object
+     * $I->haveInApc('user', UserRepository::findFirst());
+     *
+     * // Key as array of 'key => value'
+     * $entries = [];
+     * $entries['key1'] = 'value1';
+     * $entries['key2'] = 'value2';
+     * $entries['key3'] = ['value3a','value3b'];
+     * $entries['key4'] = 4;
+     * $I->haveInApc($entries, null);
+     * </code>
+     *
+     * @param string|array $key
      * @param mixed $value
      * @param int $expiration
+     * @return mixed
      */
     public function haveInApc($key, $value, $expiration = null)
     {
-        $this->assertTrue($this->store($key, $value,$expiration));
+        $this->store($key, $value, $expiration);
+
+        return $key;
     }
 
     /**
@@ -179,7 +196,7 @@ class Apc extends CodeceptionModule
     /**
      * Checks if entry exists
      *
-     * @param mixed $key
+     * @param string|string[] $key
      *
      * @return bool|\string[]
      */
@@ -195,7 +212,7 @@ class Apc extends CodeceptionModule
     /**
      * Fetch a stored variable from the cache
      *
-     * @param string $key
+     * @param string|string[] $key
      *
      * @return mixed
      */
@@ -217,7 +234,7 @@ class Apc extends CodeceptionModule
     /**
      * Cache a variable in the data store.
      *
-     * @param mixed $key
+     * @param string|array $key
      * @param mixed $var
      * @param int $ttl
      *
