@@ -3807,105 +3807,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function hasChanged(var fieldName = null) -> boolean
 	{
 		var snapshot, metaData, columnMap, allAttributes, value,
-			originalValue, name;
+			originalValue, name, changedFields;
 
-		let snapshot = this->_snapshot;
-		if typeof snapshot != "array" {
-			throw new Exception("The record doesn't have a valid data snapshot");
-		}
-
-		/**
-		 * Dirty state must be DIRTY_PERSISTENT to make the checking
-		 */
-		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
-		}
-
-		/**
-		 * Return the models meta-data
-		 */
-		let metaData = this->getModelsMetaData();
-
-		/**
-		 * The reversed column map is an array if the model has a column map
-		 */
-		let columnMap = metaData->getReverseColumnMap(this);
-
-		/**
-		 * Data types are field indexed
-		 */
-		if typeof columnMap != "array" {
-			let allAttributes = metaData->getDataTypes(this);
-		} else {
-			let allAttributes = columnMap;
-		}
+		let changedFields = this->getChangedFields();
 
 		/**
 		 * If a field was specified we only check it
 		 */
 		if typeof fieldName == "string" {
-
-			/**
-			 * We only make this validation over valid fields
-			 */
-			if typeof columnMap == "array" {
-				if !isset columnMap[fieldName] {
-					throw new Exception("The field '" . fieldName . "' is not part of the model");
-				}
-			} else {
-				if !isset allAttributes[fieldName] {
-					throw new Exception("The field '" . fieldName . "' is not part of the model");
-				}
-			}
-
-			/**
-			 * The field is not part of the model, throw exception
-			 */
-			if !fetch value, this->{fieldName} {
-				throw new Exception("The field '" . fieldName . "' is not defined on the model");
-			}
-
-			/**
-			 * The field is not part of the data snapshot, throw exception
-			 */
-			if !fetch originalValue, snapshot[fieldName] {
-				throw new Exception("The field '" . fieldName . "' was not found in the snapshot");
-			}
-
-			/**
-			 * Check if the field has changed
-			 */
-			return value != originalValue;
+			return in_array(fieldName, changedFields);
 		}
 
-		/**
-		 * Check every attribute in the model
-		 */
-		for name, _ in allAttributes {
-
-			/**
-			 * If some attribute is not present in the snapshot, we assume the record as changed
-			 */
-			if !fetch originalValue, snapshot[name] {
-				return true;
-			}
-
-			/**
-			 * If some attribute is not present in the model, we assume the record as changed
-			 */
-			if !fetch value, this->{name} {
-				return true;
-			}
-
-			/**
-			 * Check if the field has changed
-			 */
-			if value != originalValue {
-				return true;
-			}
-		}
-
-		return false;
+		return count(changedFields) > 0;
 	}
 
 	/**
