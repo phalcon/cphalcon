@@ -1613,131 +1613,130 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We check if some of the belongsTo relations act as virtual foreign key
 		 */
 		let belongsTo = manager->getBelongsTo(this);
-		if count(belongsTo) {
 
-			let error = false;
-			for relation in belongsTo {
+		let error = false;
+		for relation in belongsTo {
 
-				let validateWithNulls = false;
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			let validateWithNulls = false;
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_RESTRICT {
-
-						/**
-						 * Load the referenced model if needed
-						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
-
-						/**
-						 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
-						 */
-						let conditions = [], bindParams = [];
-
-						let numberNull = 0,
-							fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						if typeof fields == "array" {
-							/**
-							 * Create a compound condition
-							 */
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-								if typeof value == "null" {
-									let numberNull++;
-								}
-							}
-
-							let validateWithNulls = numberNull == count(fields);
-
-						} else {
-
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-
-							if typeof value == "null" {
-								let validateWithNulls = true;
-							}
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * Check if the relation definition allows nulls
-						 */
-						if validateWithNulls {
-							if fetch allowNulls, foreignKey["allowNulls"] {
-								let validateWithNulls = (boolean) allowNulls;
-							} else {
-								let validateWithNulls = false;
-							}
-						}
-
-						/**
-						 * We don't trust the actual values in the object and pass the values using bound parameters
-						 * Let's make the checking
-						 */
-						if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Get the user message or produce a new one
-							 */
-							if !fetch message, foreignKey["message"] {
-								if typeof fields == "array" {
-									let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
-								} else {
-									let message = "Value of field \"" . fields . "\" does not exist on referenced table";
-								}
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
-
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
 			/**
-			 * Call 'onValidationFails' if the validation fails
+			 * Check only if the operation is restrict
 			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
-				}
-				return false;
+			if action != Relation::ACTION_RESTRICT {
+				continue;
 			}
+
+			/**
+			 * Load the referenced model if needed
+			 */
+			let referencedModel = manager->load(relation->getReferencedModel());
+
+			/**
+			 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
+			 */
+			let conditions = [], bindParams = [];
+
+			let numberNull = 0,
+				fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			if typeof fields == "array" {
+				/**
+				 * Create a compound condition
+				 */
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+					if typeof value == "null" {
+						let numberNull++;
+					}
+				}
+
+				let validateWithNulls = numberNull == count(fields);
+
+			} else {
+
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+
+				if typeof value == "null" {
+					let validateWithNulls = true;
+				}
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * Check if the relation definition allows nulls
+			 */
+			if validateWithNulls {
+				if fetch allowNulls, foreignKey["allowNulls"] {
+					let validateWithNulls = (boolean) allowNulls;
+				} else {
+					let validateWithNulls = false;
+				}
+			}
+
+			/**
+			 * We don't trust the actual values in the object and pass the values using bound parameters
+			 * Let's make the checking
+			 */
+			if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Get the user message or produce a new one
+				 */
+				if !fetch message, foreignKey["message"] {
+					if typeof fields == "array" {
+						let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
+					} else {
+						let message = "Value of field \"" . fields . "\" does not exist on referenced table";
+					}
+				}
+
+				/**
+				 * Create a message
+				 */
+				this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call 'onValidationFails' if the validation fails
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
+			}
+			return false;
 		}
 
 		return true;
@@ -1764,87 +1763,85 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
 
-		if count(relations) {
+		for relation in relations {
 
-			for relation in relations {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-				/**
-				 * Check if the relation has a virtual foreign key
-				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::NO_ACTION;
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::NO_ACTION;
-
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_CASCADE {
-
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[". referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						let resultset = referencedModel->find([
-							join(" AND ", conditions),
-							"bind": bindParams
-						]);
-
-						/**
-						 * Delete the resultset
-						 * Stop the operation if needed
-						 */
-						if resultset->delete() === false {
-							return false;
-						}
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
+			/**
+			 * Check only if the operation is restrict
+			 */
+			if action != Relation::ACTION_CASCADE {
+				continue;
+			}
+
+			/**
+			 * Load a plain instance from the models manager
+			 */
+			let referencedModel = manager->load(relation->getReferencedModel());
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+			} else {
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			let resultset = referencedModel->find([
+				join(" AND ", conditions),
+				"bind": bindParams
+			]);
+
+			/**
+			 * Delete the resultset
+			 * Stop the operation if needed
+			 */
+			if resultset->delete() === false {
+				return false;
+			}
 		}
 
 		return true;
@@ -1871,106 +1868,106 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We check if some of the hasOne/hasMany relations is a foreign key
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
-		if count(relations) {
 
-			let error = false;
-			for relation in relations {
+		let error = false;
+		for relation in relations {
 
-				/**
-				 * Check if the relation has a virtual foreign key
-				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_RESTRICT {
-
-						let relationClass = relation->getReferencedModel();
-
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relationClass);
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Create a new message
-							 */
-							if !fetch message, foreignKey["message"] {
-								let message = "Record is referenced by model " . relationClass;
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
 			/**
-			 * Call validation fails event
+			 * Check only if the operation is restrict
 			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
-				}
-				return false;
+			if action != Relation::ACTION_RESTRICT {
+				continue;
 			}
+
+			let relationClass = relation->getReferencedModel();
+
+			/**
+			 * Load a plain instance from the models manager
+			 */
+			let referencedModel = manager->load(relationClass);
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+
+			} else {
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Create a new message
+				 */
+				if !fetch message, foreignKey["message"] {
+					let message = "Record is referenced by model " . relationClass;
+				}
+
+				/**
+				 * Create a message
+				 */
+				this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call validation fails event
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
+			}
+			return false;
 		}
 
 		return true;
