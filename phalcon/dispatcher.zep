@@ -26,6 +26,8 @@ use Phalcon\DispatcherInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Mvc\Model\Binder;
+use Phalcon\Mvc\Model\BinderInterface;
 
 /**
  * Phalcon\Dispatcher
@@ -77,6 +79,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	protected _previousActionName = null;
 
 	protected _modelBinding = false;
+
+	protected _modelBinder = null;
 
 	const EXCEPTION_NO_DI = 0;
 
@@ -322,11 +326,61 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * Enable/Disable model binding during dispatch
 	 *
-	 * @param boolean value
+	 * <code>
+	 * $di->set('dispatcher', function() {
+	 *     $dispatcher = new Dispatcher();
+	 *
+	 *     $dispatcher->setModelBinding(true, 'cache');
+	 *     return $dispatcher;
+	 * });
+	 * </code>
 	 */
-	public function setModelBinding(boolean value)
+	public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
 	{
+		var dependencyInjector;
+
+		if typeof cache == "string" {
+			let dependencyInjector = this->_dependencyInjector;
+			let cache = dependencyInjector->get(cache);
+		}
+
 		let this->_modelBinding = value;
+		if value {
+			let this->_modelBinder = new Binder(cache);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Enable model binding during dispatch
+	 *
+	 * <code>
+	 * $di->set('dispatcher', function() {
+	 *     $dispatcher = new Dispatcher();
+	 *
+	 *     $dispatcher->setModelBinder(new Binder(), 'cache');
+	 *     return $dispatcher;
+	 * });
+	 * </code>
+	 */
+	public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
+	{
+		var dependencyInjector;
+
+		if typeof cache == "string" {
+			let dependencyInjector = this->_dependencyInjector;
+			let cache = dependencyInjector->get(cache);
+		}
+
+		if cache != null {
+			modelBinder->setCache(cache);
+		}
+
+		let this->_modelBinding = true;
+		let this->_modelBinder = modelBinder;
+
+		return this;
 	}
 
 	/**
@@ -362,9 +416,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
-			className, paramKey, methodParam, modelName, bindModel,
-			wasFresh = false, e;
+			actionSuffix, handlerClass, status, actionMethod, modelBinder, wasFresh = false,
+			e, bindCacheKey;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -551,34 +604,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				}
 			}
 
-			if this->_modelBinding === true {
-				//Check if we can bind a model based on what the controller action is expecting
-				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
-				let methodParams = reflectionMethod->getParameters();
-
-				for paramKey, methodParam in methodParams {
-					if methodParam->getClass() {
-						let className = methodParam->getClass()->getName();
-						if typeof className == "string" {
-							//If we are in a base class and the child implements BindModelInterface we getModelName
-							if className == "Phalcon\\Mvc\\Model" {
-								if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
-									let modelName = call_user_func([handlerClass, "getModelName"]);
-									let bindModel = call_user_func_array([modelName, "findFirst"], [params[paramKey]]);
-									let params[paramKey] = bindModel;
-									break;
-								}
-							}
-
-							//Check if Model is defined
-							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
-								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);
-								let params[paramKey] = bindModel;
-								break;
-							}
-						}
-					}
-				}
+			if this->_modelBinding {
+				let modelBinder = this->_modelBinder;
+				let bindCacheKey = "_PHMB_" . handlerClass . "_" . actionMethod;
+				let params = modelBinder->bindToHandler(handler, params, bindCacheKey, actionMethod);
 			}
 
 			let this->_lastHandler = handler;
@@ -734,6 +763,32 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	public function callActionMethod(handler, string actionMethod, array! params = [])
 	{
 		return call_user_func_array([handler, actionMethod], params);
+	}
+
+	/**
+	 * Returns bound models from binder instance
+	 *
+	 * <code>
+	 * class UserController extends Controller
+	 * {
+	 *     public function showAction(User $user)
+	 *     {
+	 *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
+	 *     }
+	 * }
+	 * </code>
+	 */
+	public function getBoundModels() -> array
+	{
+		var modelBinder;
+
+		let modelBinder = this->_modelBinder;
+
+		if modelBinder != null {
+			return modelBinder->getBoundModels();
+		}
+
+		return [];
 	}
 
 	/**
