@@ -1493,31 +1493,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		// Call the validation, if it returns not the boolean
 		// we append the messages to the current object
-		if typeof messages != "boolean" {
-
-			messages->rewind();
-
-			// for message in iterator(messages) {
-			while messages->valid() {
-
-				let message = messages->current();
-
-				this->appendMessage(
-					new Message(
-						message->getMessage(),
-						message->getField(),
-						message->getType()
-					)
-				);
-
-				messages->next();
-			}
-
-			// If there is a message, it returns false otherwise true
-			return !count(messages);
+		if typeof messages == "boolean" {
+			return messages;
 		}
 
-		return messages;
+		for message in iterator(messages) {
+			this->appendMessage(
+				new Message(
+					message->getMessage(),
+					message->getField(),
+					message->getType()
+				)
+			);
+		}
+
+		// If there is a message, it returns false otherwise true
+		return !count(messages);
 	}
 
 	/**
