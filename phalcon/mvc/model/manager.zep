@@ -1431,25 +1431,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var belongsTo, keyRelation, relations;
 
 		let belongsTo = this->_hasMany;
-		if typeof belongsTo == "array" {
-
-			/**
-			 * Check if there is a relation between them
-			 */
-			let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-			if !isset belongsTo[keyRelation] {
-				return false;
-			}
-
-			/**
-			 * "relations" is an array with all the belongsTo relationships to that model
-			 * Perform the query
-			 */
-			let relations = belongsTo[keyRelation];
-			return this->getRelationRecords(relations[0], method, record, parameters);
+		if typeof belongsTo != "array" {
+			return false;
 		}
 
-		return false;
+		/**
+		 * Check if there is a relation between them
+		 */
+		let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+		if !fetch relations, belongsTo[keyRelation] {
+			return false;
+		}
+
+		/**
+		 * "relations" is an array with all the belongsTo relationships to that model
+		 * Perform the query
+		 */
+		return this->getRelationRecords(relations[0], method, record, parameters);
 	}
 
 	/**
@@ -1461,25 +1459,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var hasMany, keyRelation, relations;
 
 		let hasMany = this->_hasMany;
-		if typeof hasMany == "array" {
-
-			/**
-			 * Check if there is a relation between them
-			 */
-			let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-			if !isset hasMany[keyRelation] {
-				return false;
-			}
-
-			/**
-			 * "relations" is an array with all the hasMany relationships to that model
-			 * Perform the query
-			 */
-			let relations = hasMany[keyRelation];
-			return this->getRelationRecords(relations[0], method, record, parameters);
+		if typeof hasMany != "array" {
+			return false;
 		}
 
-		return false;
+		/**
+		 * Check if there is a relation between them
+		 */
+		let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+		if !fetch relations, hasMany[keyRelation] {
+			return false;
+		}
+
+		/**
+		 * "relations" is an array with all the hasMany relationships to that model
+		 * Perform the query
+		 */
+		return this->getRelationRecords(relations[0], method, record, parameters);
 	}
 
 	/**
@@ -1491,25 +1487,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var hasOne, keyRelation, relations;
 
 		let hasOne = this->_hasOne;
-		if typeof hasOne == "array" {
-
-			/**
-			 * Check if there is a relation between them
-			 */
-			let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-			if !isset hasOne[keyRelation] {
-				return false;
-			}
-
-			/**
-			 * "relations" is an array with all the belongsTo relationships to that model
-			 * Perform the query
-			 */
-			let relations = hasOne[keyRelation];
-			return this->getRelationRecords(relations[0], method, record, parameters);
+		if typeof hasOne != "array" {
+			return false;
 		}
 
-		return false;
+		/**
+		 * Check if there is a relation between them
+		 */
+		let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+		if !fetch relations, hasOne[keyRelation] {
+			return false;
+		}
+
+		/**
+		 * "relations" is an array with all the belongsTo relationships to that model
+		 * Perform the query
+		 */
+		return this->getRelationRecords(relations[0], method, record, parameters);
 	}
 
 	/**
