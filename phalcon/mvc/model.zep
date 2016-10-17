@@ -3450,16 +3450,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function skipAttributes(array! attributes)
 	{
-		var keysAttributes, metaData, attribute;
-
-		let keysAttributes = [];
-		for attribute in attributes {
-			let keysAttributes[attribute] = null;
-		}
-
-		let metaData = this->getModelsMetaData();
-		metaData->setAutomaticCreateAttributes(this, keysAttributes);
-		metaData->setAutomaticUpdateAttributes(this, keysAttributes);
+		this->skipAttributesOnCreate(attributes);
+		this->skipAttributesOnUpdate(attributes);
 	}
 
 	/**
