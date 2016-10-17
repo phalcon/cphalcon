@@ -118,7 +118,8 @@ class Redis extends Adapter
 	 */
 	public function read(sessionId) -> string
 	{
-		return (string) this->_redis->get(sessionId, this->_lifetime);
+	    let res = (string) this->_redis->get(sessionId, this->_lifetime);
+        return res == null ? "" : res;
 	}
 
 	/**
