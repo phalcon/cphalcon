@@ -397,10 +397,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function setConnectionService(<ModelInterface> model, string! connectionService) -> void
 	{
-		var entityName;
-		let entityName = get_class_lower(model),
-			this->_readConnectionServices[entityName] = connectionService,
-			this->_writeConnectionServices[entityName] = connectionService;
+		this->setReadConnectionService(model, connectionService);
+		this->setWriteConnectionService(model, connectionService);
 	}
 
 	/**
