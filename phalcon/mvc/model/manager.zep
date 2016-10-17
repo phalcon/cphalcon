@@ -1517,14 +1517,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array
 	{
-		var belongsToSingle, relations;
-		let belongsToSingle = this->_belongsToSingle;
-		if typeof belongsToSingle == "array" {
-			if fetch relations, belongsToSingle[get_class_lower(model)] {
-				return relations;
-			}
+		var relations;
+
+		if !fetch relations, this->_belongsToSingle[get_class_lower(model)] {
+			return [];
 		}
-		return [];
+
+		return relations;
 	}
 
 	/**
@@ -1532,15 +1531,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]> | array
 	{
-		var hasManySingle, relations;
-		let hasManySingle = this->_hasManySingle;
-		if typeof hasManySingle == "array" {
-			if fetch relations, hasManySingle[get_class_lower(model)] {
-				return relations;
-			}
+		var relations;
 
+		if !fetch relations, this->_hasManySingle[get_class_lower(model)] {
+			return [];
 		}
-		return [];
+
+		return relations;
 	}
 
 	/**
@@ -1548,14 +1545,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getHasOne(<ModelInterface> model) -> array
 	{
-		var hasOneSingle, relations;
-		let hasOneSingle = this->_hasOneSingle;
-		if typeof hasOneSingle == "array" {
-			if fetch relations, hasOneSingle[get_class_lower(model)] {
-				return relations;
-			}
+		var relations;
+
+		if !fetch relations, this->_hasOneSingle[get_class_lower(model)] {
+			return [];
 		}
-		return [];
+
+		return relations;
 	}
 
 	/**
@@ -1563,14 +1559,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getHasManyToMany(<ModelInterface> model) -> <RelationInterface[]> | array
 	{
-		var hasManyToManySingle, relations;
-		let hasManyToManySingle = this->_hasManyToManySingle;
-		if typeof hasManyToManySingle == "array" {
-			if fetch relations, hasManyToManySingle[get_class_lower(model)] {
-				return relations;
-			}
+		var relations;
+
+		if !fetch relations, this->_hasManyToManySingle[get_class_lower(model)] {
+			return [];
 		}
-		return [];
+
+		return relations;
 	}
 
 	/**
