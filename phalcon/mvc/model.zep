@@ -3795,8 +3795,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function hasChanged(var fieldName = null) -> boolean
 	{
-		var snapshot, metaData, columnMap, allAttributes, value,
-			originalValue, name, changedFields;
+		var changedFields;
 
 		let changedFields = this->getChangedFields();
 
