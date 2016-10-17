@@ -18,7 +18,7 @@
         "predis/predis": "^1.0",
         "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",
-        "codeception/specify": "~0.4",
+        "codeception/specify": "0.4.3",
         "phalcon/zephir": "dev-master"
     },
     "license": "BSD-3-Clause",
