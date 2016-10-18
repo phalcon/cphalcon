@@ -60,6 +60,10 @@ We use the following settings of these services:
 * Host: `127.0.0.1`
 * Port: `11211`
 
+**SQLite**
+
+* DB Name: `tests/_output/tests/phalcon_test.sqlite`
+
 **MySQL**
 
 * Host: `127.0.0.1`
@@ -100,6 +104,9 @@ export TEST_BT_PORT="11300"
 # Memcached
 export TEST_MC_HOST="127.0.0.1"
 export TEST_MC_PORT="11211"
+
+# SQLite
+export TEST_DB_SQLITE_NAME="/tmp/phalcon_test.sqlite"
 
 # MySQL
 export TEST_DB_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
