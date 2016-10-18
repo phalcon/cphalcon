@@ -53,6 +53,9 @@ defined('TEST_BT_PORT') || define('TEST_BT_PORT', getenv('TEST_BT_PORT') ?: 1130
 defined('TEST_MC_HOST') || define('TEST_MC_HOST', getenv('TEST_MC_HOST') ?: '127.0.0.1');
 defined('TEST_MC_PORT') || define('TEST_MC_PORT', getenv('TEST_MC_PORT') ?: 11211);
 
+// SQLite
+defined('TEST_DB_SQLITE_NAME') || define('TEST_DB_SQLITE_NAME', getenv('TEST_DB_SQLITE_NAME') ?: PATH_OUTPUT . 'phalcon_test.sqlite');
+
 // MySQL
 defined('TEST_DB_MYSQL_HOST')    || define('TEST_DB_MYSQL_HOST',    getenv('TEST_DB_MYSQL_HOST')    ?: '127.0.0.1');
 defined('TEST_DB_MYSQL_PORT')    || define('TEST_DB_MYSQL_PORT',    getenv('TEST_DB_MYSQL_PORT')    ?: 3306);
