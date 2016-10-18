@@ -1631,38 +1631,29 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | boolean
 	{
-		var keyRelation, belongsTo, hasMany, hasOne, relations;
+		var keyRelation, relations;
 
 		let keyRelation = strtolower(first) . "$" . strtolower(second);
 
 		/**
 		 * Check if it's a belongs-to relationship
 		 */
-		let belongsTo = this->_belongsTo;
-		if typeof belongsTo == "array" {
-			if fetch relations, belongsTo[keyRelation] {
-				return relations;
-			}
+		if fetch relations, this->_belongsTo[keyRelation] {
+			return relations;
 		}
 
 		/**
 		 * Check if it's a has-many relationship
 		 */
-		let hasMany = this->_hasMany;
-		if typeof hasMany == "array" {
-			if fetch relations, hasMany[keyRelation] {
-				return relations;
-			}
+		if fetch relations, this->_hasMany[keyRelation] {
+			return relations;
 		}
 
 		/**
 		 * Check whether it's a has-one relationship
 		 */
-		let hasOne = this->_hasOne;
-		if typeof hasOne == "array" {
-			if fetch relations, hasOne[keyRelation] {
-				return relations;
-			}
+		if fetch relations, this->_hasOne[keyRelation] {
+			return relations;
 		}
 
 		return false;
