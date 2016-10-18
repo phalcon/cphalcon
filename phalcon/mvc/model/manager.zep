@@ -353,20 +353,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getModelSource(<ModelInterface> model) -> string
 	{
-		var sources, entityName, source;
+		var entityName;
 
 		let entityName = get_class_lower(model);
 
-		let sources = this->_sources;
-		if typeof sources == "array" {
-			if fetch source, sources[entityName] {
-				return source;
-			}
+		if !isset this->_sources[entityName] {
+			let this->_sources[entityName] = uncamelize(get_class_ns(model));
 		}
 
-		let source = uncamelize(get_class_ns(model)),
-			this->_sources[entityName] = source;
-		return source;
+		return this->_sources[entityName];
 	}
 
 	/**
