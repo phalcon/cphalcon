@@ -3760,12 +3760,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 				let snapshot[attribute] = value;
 			}
-
-			let this->_snapshot = snapshot;
-			return null;
+		} else {
+			let snapshot = data;
 		}
 
-		let this->_snapshot = data;
+		let this->_snapshot = snapshot;
 	}
 
 	/**
