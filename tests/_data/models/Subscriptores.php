@@ -66,7 +66,7 @@ class Subscriptores extends Model
 
             ->add('email', new StringLength(['min' => '7', 'max' => '50']))
             ->add('email', new Email())
-            ->add('email', new Uniqueness(['model' => $this]))
+            ->add('email', new Uniqueness())
 
             ->add('status', new ExclusionIn(['domain' => ['P', 'I', 'w']]))
             ->add('status', new InclusionIn(['domain' => ['A', 'y', 'Z']]))
