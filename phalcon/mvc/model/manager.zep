@@ -542,24 +542,20 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function missingMethod(<ModelInterface> model, string! eventName, var data)
 	{
-		var behaviors, modelsBehaviors, result, eventsManager, behavior;
+		var modelsBehaviors, result, eventsManager, behavior;
 
 		/**
 		 * Dispatch events to the global events manager
 		 */
-		let behaviors = this->_behaviors;
-		if typeof behaviors == "array" {
+		if fetch modelsBehaviors, this->_behaviors[get_class_lower(model)] {
 
-			if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
-
-				/**
-				 * Notify all the events on the behavior
-				 */
-				for behavior in modelsBehaviors {
-					let result = behavior->missingMethod(model, eventName, data);
-					if result !== null {
-						return result;
-					}
+			/**
+			 * Notify all the events on the behavior
+			 */
+			for behavior in modelsBehaviors {
+				let result = behavior->missingMethod(model, eventName, data);
+				if result !== null {
+					return result;
 				}
 			}
 		}
