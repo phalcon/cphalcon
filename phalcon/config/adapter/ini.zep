@@ -96,7 +96,7 @@ class Ini extends Config
 					let sections[] = this->_parseIniString((string)path, lastValue);
 				}
 				if count(sections) {
-					let config[section] = call_user_func_array("array_merge_recursive", sections);
+					let config[section] = call_user_func_array([this, "_array_merge_recursive_distinct"], sections);
 				}
 			} else {
 				let config[section] = this->_cast(directives);
@@ -104,6 +104,54 @@ class Ini extends Config
 		}
 
 		parent::__construct(config);
+	}
+
+	/**
+	 * Marge arrays recursively and distinct
+	 *
+	 * Merges any number of arrays / parameters recursively, replacing
+	 * entries with string keys with values from latter arrays.
+	 * If the entry or the next value to be assigned is an array, then it
+	 * automagically treats both arguments as an array.
+	 * Numeric entries are appended, not replaced, but only if they are
+	 * unique
+	 *
+	 * @param  array $array1 Initial array to merge.
+	 * @param  array ...     Variable list of arrays to recursively merge.
+	 *
+	 * @link   http://www.php.net/manual/en/function.array-merge-recursive.php#96201
+	 * @author Mark Roduner <mark.roduner@gmail.com>
+	 * @modified Hina Chen <hinablue@gmail.com>
+	*/
+	protected function _array_merge_recursive_distinct() -> array
+	{
+		var arrays, base, append, key, value;
+
+		let arrays = func_get_args();
+		let base = array_shift(arrays);
+
+		if typeof base != "array" {
+			let base = empty(base) ? [] : [base];
+		}
+
+		for append in arrays {
+			if typeof append != "array" {
+				let append = [append];
+			}
+			for key, value in append {
+				if typeof value == "array" || (array_key_exists(key, base) && typeof base[key] == "array") {
+					let base[key] = call_user_func_array([this, "_array_merge_recursive_distinct"], [base[key], append[key]]);
+				} elseif is_numeric(key) {
+					if !in_array(value, base) {
+						let base[key] = value;
+					}
+				} else {
+					let base[key] = value;
+				}
+			}
+		}
+
+		return base;
 	}
 
 	/**
