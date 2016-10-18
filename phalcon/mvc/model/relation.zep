@@ -157,14 +157,7 @@ class Relation implements RelationInterface
 	 */
 	public function isForeignKey() -> boolean
 	{
-		var options;
-		let options = this->_options;
-		if typeof options == "array" {
-			if isset options["foreignKey"] {
-				return true;
-			}
-		}
-		return false;
+		return isset this->_options["foreignKey"];
 	}
 
 	/**
