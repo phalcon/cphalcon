@@ -377,14 +377,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getModelSchema(<ModelInterface> model) -> string
 	{
-		var schemas, schema;
-		let schemas = this->_schemas;
-		if typeof schemas == "array" {
-			if fetch schema, schemas[get_class_lower(model)] {
-				return schema;
-			}
+		var schema;
+
+		if !fetch schema, this->_schemas[get_class_lower(model)] {
+			return "";
 		}
-		return "";
+
+		return schema;
 	}
 
 	/**
