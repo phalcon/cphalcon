@@ -492,26 +492,22 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function notifyEvent(string! eventName, <ModelInterface> model)
 	{
-		var status, behavior, modelsBehaviors, eventsManager,
-			customEventsManager, behaviors;
+		var status, behavior, modelsBehaviors, eventsManager, customEventsManager;
 
 		let status = null;
 
 		/**
 		 * Dispatch events to the global events manager
 		 */
-		let behaviors = this->_behaviors;
-		if typeof behaviors == "array" {
-			if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
+		if fetch modelsBehaviors, this->_behaviors[get_class_lower(model)] {
 
-				/**
-				 * Notify all the events on the behavior
-				 */
-				for behavior in modelsBehaviors {
-					let status = behavior->notify(eventName, model);
-					if status === false {
-						return false;
-					}
+			/**
+			 * Notify all the events on the behavior
+			 */
+			for behavior in modelsBehaviors {
+				let status = behavior->notify(eventName, model);
+				if status === false {
+					return false;
 				}
 			}
 		}
@@ -530,13 +526,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * A model can has a specific events manager for it
 		 */
-		let customEventsManager = this->_customEventsManager;
-		if typeof customEventsManager == "array" {
-			if fetch customEventsManager, customEventsManager[get_class_lower(model)] {
-				let status = customEventsManager->fire("model:" . eventName, model);
-				if status === false {
-					return false;
-				}
+		if fetch customEventsManager, this->_customEventsManager[get_class_lower(model)] {
+			let status = customEventsManager->fire("model:" . eventName, model);
+			if status === false {
+				return false;
 			}
 		}
 
