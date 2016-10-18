@@ -476,13 +476,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var connection;
 
-		if typeof connectionServices == "array" {
-			if fetch connection, connectionServices[get_class_lower(model)] {
-				return connection;
-			}
+		if !fetch connection, connectionServices[get_class_lower(model)] {
+			return "db";
 		}
 
-		return "db";
+		return connection;
 	}
 
 	/**
