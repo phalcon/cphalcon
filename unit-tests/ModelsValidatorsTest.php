@@ -81,7 +81,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
-		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
 	}
 
@@ -100,7 +99,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		}, true);
 
-		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
 	}
 
@@ -121,7 +119,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return $conn;
 		}, true);
 
-		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
 	}
 

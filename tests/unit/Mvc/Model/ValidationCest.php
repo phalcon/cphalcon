@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 use UnitTester;
 use Phalcon\Di;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Test\Unit\Mvc\Model\Helpers\Validation;
 
@@ -68,6 +69,46 @@ class ValidationCest extends Validation
                 'port'     => TEST_DB_POSTGRESQL_PORT,
             ]);
         });
+
+        $this->success($I);
+        $this->presenceOf($I);
+        $this->email($I);
+        $this->emailWithDot($I);
+        $this->exclusionIn($I);
+        $this->inclusionIn($I);
+        $this->uniqueness1($I);
+        $this->uniqueness2($I);
+        $this->regex($I);
+        $this->tooLong($I);
+        $this->tooShort($I);
+
+        $di->remove('db');
+        $di->setShared('db', $connection);
+    }
+
+    public function sqlite(UnitTester $I)
+    {
+        $I->wantToTest("Model validation by using SQLite as RDBMS");
+
+        /** @var \Phalcon\Di\FactoryDefault $di */
+        $di = Di::getDefault();
+
+        $connection = $di->getShared('db');
+        $di->remove('db');
+
+        $di->setShared('db', function () {
+            $connection = new Sqlite(['dbname' => TEST_DB_SQLITE_NAME]);
+
+            /** @var \PDO $pdo */
+            $pdo = $connection->getInternalHandler();
+            $pdo->sqliteCreateFunction('now', function () {
+                return date('Y-m-d H:i:s');
+            });
+
+            return $connection;
+        });
+
+        Di::setDefault($di);
 
         $this->success($I);
         $this->presenceOf($I);
