@@ -1407,18 +1407,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
 		-> <ResultsetInterface> | boolean
 	{
-		var belongsTo, keyRelation, relations;
-
-		let belongsTo = this->_hasMany;
-		if typeof belongsTo != "array" {
-			return false;
-		}
+		var keyRelation, relations;
 
 		/**
 		 * Check if there is a relation between them
 		 */
 		let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-		if !fetch relations, belongsTo[keyRelation] {
+		if !fetch relations, this->_hasMany[keyRelation] {
 			return false;
 		}
 
@@ -1435,18 +1430,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
 		-> <ResultsetInterface> | boolean
 	{
-		var hasMany, keyRelation, relations;
-
-		let hasMany = this->_hasMany;
-		if typeof hasMany != "array" {
-			return false;
-		}
+		var keyRelation, relations;
 
 		/**
 		 * Check if there is a relation between them
 		 */
 		let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-		if !fetch relations, hasMany[keyRelation] {
+		if !fetch relations, this->_hasMany[keyRelation] {
 			return false;
 		}
 
@@ -1463,18 +1453,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
 		-> <ModelInterface> | boolean
 	{
-		var hasOne, keyRelation, relations;
-
-		let hasOne = this->_hasOne;
-		if typeof hasOne != "array" {
-			return false;
-		}
+		var keyRelation, relations;
 
 		/**
 		 * Check if there is a relation between them
 		 */
 		let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-		if !fetch relations, hasOne[keyRelation] {
+		if !fetch relations, this->_hasOne[keyRelation] {
 			return false;
 		}
 
