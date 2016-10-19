@@ -1111,14 +1111,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean
 	{
-		var aliases, relation;
-		let aliases = this->_aliases;
-		if typeof aliases == "array" {
-			if fetch relation, aliases[strtolower(modelName . "$" . alias)] {
-				return relation;
-			}
+		var relation;
+
+		if !fetch relation, this->_aliases[strtolower(modelName . "$" . alias)] {
+			return false;
 		}
-		return false;
+
+		return relation;
 	}
 
 	/**
