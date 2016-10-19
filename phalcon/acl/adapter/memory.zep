@@ -622,6 +622,7 @@ class Memory extends Adapter
 			 */
 			if isset accessList[accessKey] {
 				let haveAccess = accessList[accessKey];
+				fetch funcAccess, funcList[accessKey];
 			} else {
 				if typeof inheritedRoles == "array" {
 					for inheritedRole in inheritedRoles {
@@ -652,6 +653,7 @@ class Memory extends Adapter
 			 */
 			if isset accessList[accessKey] {
 				let haveAccess = accessList[accessKey];
+				fetch funcAccess, funcList[accessKey];
 			} else {
 				if typeof inheritedRoles == "array" {
 					for inheritedRole in inheritedRoles {
