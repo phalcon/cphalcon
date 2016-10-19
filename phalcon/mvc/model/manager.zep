@@ -1560,8 +1560,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getRelations(string! modelName) -> <RelationInterface[]>
 	{
-		var entityName, allRelations, relations,
-			belongsTo, relation, hasOne, hasMany;
+		var entityName, allRelations, relations, relation;
 
 		let entityName = strtolower(modelName),
 			allRelations = [];
@@ -1569,36 +1568,27 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Get belongs-to relations
 		 */
-		let belongsTo = this->_belongsToSingle;
-		if typeof belongsTo == "array" {
-			if fetch relations, belongsTo[entityName] {
-				for relation in relations {
-					let allRelations[] = relation;
-				}
+		if fetch relations, this->_belongsToSingle[entityName] {
+			for relation in relations {
+				let allRelations[] = relation;
 			}
 		}
 
 		/**
 		 * Get has-many relations
 		 */
-		let hasMany = this->_hasManySingle;
-		if typeof hasMany == "array" {
-			if fetch relations, hasMany[entityName] {
-				for relation in relations {
-					let allRelations[] = relation;
-				}
+		if fetch relations, this->_hasManySingle[entityName] {
+			for relation in relations {
+				let allRelations[] = relation;
 			}
 		}
 
 		/**
 		 * Get has-one relations
 		 */
-		let hasOne = this->_hasOneSingle;
-		if typeof hasOne == "array" {
-			if fetch relations, hasOne[entityName] {
-				for relation in relations {
-					let allRelations[] = relation;
-				}
+		if fetch relations, this->_hasOneSingle[entityName] {
+			for relation in relations {
+				let allRelations[] = relation;
 			}
 		}
 
