@@ -3958,28 +3958,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Calling count if the method starts with "count"
 		 */
-		if typeof relation != "object" {
-			if starts_with(method, "count") {
-				let queryMethod = "count",
-					relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
-			}
+		elseif starts_with(method, "count") {
+			let queryMethod = "count",
+				relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
 		}
 
 		/**
 		 * If the relation was found perform the query via the models manager
 		 */
-		if typeof relation == "object" {
-			fetch extraArgs, arguments[0];
-
-			return manager->getRelationRecords(
-				relation,
-				queryMethod,
-				this,
-				extraArgs
-			);
+		if typeof relation != "object" {
+			return null;
 		}
 
-		return null;
+		fetch extraArgs, arguments[0];
+
+		return manager->getRelationRecords(
+			relation,
+			queryMethod,
+			this,
+			extraArgs
+		);
 	}
 
 	/**
