@@ -4005,21 +4005,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Check if the method starts with "find"
 		 */
-		if extraMethod === null {
-			if starts_with(method, "findBy") {
-				let type = "find",
-					extraMethod = substr(method, 6);
-			}
+		elseif starts_with(method, "findBy") {
+			let type = "find",
+				extraMethod = substr(method, 6);
 		}
 
 		/**
 		 * Check if the method starts with "count"
 		 */
-		if extraMethod === null {
-			if starts_with(method, "countBy") {
-				let type = "count",
-					extraMethod = substr(method, 7);
-			}
+		elseif starts_with(method, "countBy") {
+			let type = "count",
+				extraMethod = substr(method, 7);
 		}
 
 		/**
