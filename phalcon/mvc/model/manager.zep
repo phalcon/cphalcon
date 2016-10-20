@@ -283,34 +283,33 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let colonPos = strpos(modelName, ":");
 
 		if colonPos !== false {
-			let className = substr(modelName,colonPos+1);
-			let namespaceAlias = substr(modelName,0,colonPos);
+			let className = substr(modelName, colonPos + 1);
+			let namespaceAlias = substr(modelName, 0, colonPos);
 			let namespaceName = this->getNamespaceAlias(namespaceAlias);
-			let modelName = namespaceName."\\".className;
-		}
-
-		/**
-		 * Check if a model with the same is already loaded
-		 */
-		if fetch model, this->_initialized[strtolower(modelName)] {
-			if newInstance {
-				return new {modelName}(null, this->_dependencyInjector, this);
-			}
-			model->reset();
-			return model;
-		}
-
-		/**
-		 * Load it using an autoloader
-		 */
-		if class_exists(modelName) {
-			return new {modelName}(null, this->_dependencyInjector, this);
+			let modelName = namespaceName . "\\" . className;
 		}
 
 		/**
 		 * The model doesn't exist throw an exception
 		 */
-		throw new Exception("Model '" . modelName . "' could not be loaded");
+		if !class_exists(modelName) {
+			throw new Exception("Model '" . modelName . "' could not be loaded");
+		}
+
+		/**
+		 * Check if a model with the same is already loaded
+		 */
+		if !newInstance {
+			if fetch model, this->_initialized[strtolower(modelName)] {
+				model->reset();
+				return model;
+			}
+		}
+
+		/**
+		 * Load it using an autoloader
+		 */
+		return new {modelName}(null, this->_dependencyInjector, this);
 	}
 
 	/**
