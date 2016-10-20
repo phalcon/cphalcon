@@ -218,13 +218,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public function getStrategy() -> <StrategyInterface>
 	{
-		var strategy;
-		let strategy = this->_strategy;
-		if typeof strategy == "null" {
-			let strategy = new Introspection(),
-				this->_strategy = strategy;
+		if typeof this->_strategy == "null" {
+			let this->_strategy = new Introspection();
 		}
-		return strategy;
+
+		return this->_strategy;
 	}
 
 	/**
