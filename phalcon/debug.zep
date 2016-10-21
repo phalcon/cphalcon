@@ -420,24 +420,20 @@ class Debug
 		 */
 		if fetch traceArgs, trace["args"] {
 
-			if count(traceArgs) {
-				let arguments = [];
-				for argument in traceArgs {
-
-					/**
-					 * Every argument is generated using _getVarDump
-					 * Append the HTML generated to the argument's list
-					 */
-					let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
-				}
+			let arguments = [];
+			for argument in traceArgs {
 
 				/**
-				 * Join all the arguments
+				 * Every argument is generated using _getVarDump
+				 * Append the HTML generated to the argument's list
 				 */
-				let html .= "(" . join(", ", arguments)  . ")";
-			} else {
-				let html .= "()";
+				let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
 			}
+
+			/**
+			 * Join all the arguments
+			 */
+			let html .= "(" . join(", ", arguments)  . ")";
 		}
 
 		/**
