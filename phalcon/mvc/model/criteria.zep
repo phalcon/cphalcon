@@ -232,7 +232,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
 	{
-		var currentBindParams, mergedParams, mergedParamsTypes, currentBindTypes;
+		var currentBindParams, currentBindTypes;
 
 		let this->_params["conditions"] = conditions;
 
@@ -241,11 +241,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		 */
 		if typeof bindParams == "array" {
 			if fetch currentBindParams, this->_params["bind"] {
-				let mergedParams = array_merge(currentBindParams, bindParams);
+				let this->_params["bind"] = array_merge(currentBindParams, bindParams);
 			} else {
-				let mergedParams = bindParams;
+				let this->_params["bind"] = bindParams;
 			}
-			let this->_params["bind"] = mergedParams;
 		}
 
 		/**
@@ -253,11 +252,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		 */
 		if typeof bindTypes == "array" {
 			if fetch currentBindTypes, this->_params["bindTypes"] {
-				let mergedParamsTypes = array_merge(currentBindTypes, bindTypes);
+				let this->_params["bindTypes"] = array_merge(currentBindTypes, bindTypes);
 			} else {
-				let mergedParamsTypes = bindTypes;
+				let this->_params["bindTypes"] = bindTypes;
 			}
-			let this->_params["bindTypes"] = mergedParamsTypes;
 		}
 
 		return this;
@@ -279,40 +277,13 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
 	{
-		var currentBindParams, mergedParams, mergedParamsTypes, currentBindTypes, params, currentConditions;
+		var currentConditions;
 
-		let params = this->_params;
-		if fetch currentConditions, params["conditions"] {
-			let this->_params["conditions"] = "(" . currentConditions . ") AND (" . conditions . ")";
-		} else {
-			let this->_params["conditions"] = conditions;
+		if fetch currentConditions, this->_params["conditions"] {
+			let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
 		}
 
-		/**
-		 * Update or merge existing bound parameters
-		 */
-		if typeof bindParams == "array" {
-			if fetch currentBindParams, params["bind"] {
-				let mergedParams = array_merge(currentBindParams, bindParams);
-			} else {
-				let mergedParams = bindParams;
-			}
-			let this->_params["bind"] = mergedParams;
-		}
-
-		/**
-		 * Update or merge existing bind types parameters
-		 */
-		if typeof bindTypes == "array" {
-			if fetch currentBindTypes, params["bindTypes"] {
-				let mergedParamsTypes = array_merge(currentBindTypes, bindTypes);
-			} else {
-				let mergedParamsTypes = bindTypes;
-			}
-			let this->_params["bindTypes"] = mergedParamsTypes;
-		}
-
-		return this;
+		return this->where(conditions, bindParams, bindTypes);
 	}
 
 	/**
@@ -320,40 +291,13 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
 	{
-		var currentBindParams, mergedParams, mergedParamsTypes, currentBindTypes, params, currentConditions;
+		var currentConditions;
 
-		let params = this->_params;
-		if fetch currentConditions, params["conditions"] {
-			let this->_params["conditions"] = "(" . currentConditions . ") OR (" . conditions . ")";
-		} else {
-			let this->_params["conditions"] = conditions;
+		if fetch currentConditions, this->_params["conditions"] {
+			let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
 		}
 
-		/**
-		 * Update or merge existing bound parameters
-		 */
-		if typeof bindParams == "array" {
-			if fetch currentBindParams, params["bind"] {
-				let mergedParams = array_merge(currentBindParams, bindParams);
-			} else {
-				let mergedParams = bindParams;
-			}
-			let this->_params["bind"] = mergedParams;
-		}
-
-		/**
-		 * Update or merge existing bind types parameters
-		 */
-		if typeof bindTypes == "array" {
-			if fetch currentBindTypes, params["bindTypes"] {
-				let mergedParamsTypes = array_merge(currentBindTypes, bindTypes);
-			} else {
-				let mergedParamsTypes = bindTypes;
-			}
-			let this->_params["bindTypes"] = mergedParamsTypes;
-		}
-
-		return this;
+		return this->where(conditions, bindParams, bindTypes);
 	}
 
 	/**
