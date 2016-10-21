@@ -359,7 +359,7 @@ class Imagick extends Adapter implements AdapterInterface
 			watermark = new \Imagick();
 
 		watermark->readImageBlob(image->render());
-		watermark->setImageOpacity(opacity);
+		watermark->evaluateImage(\Imagick::EVALUATE_MULTIPLY, opacity, \Imagick::CHANNEL_ALPHA);
 
 		this->_image->setIteratorIndex(0);
 
