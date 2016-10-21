@@ -33,16 +33,44 @@ class IdenticalTest extends UnitTest
      */
     public function testSingleField()
     {
-        $this->specify('Test identical validator with single field.', function () {
-            $validation = new Validation();
-            $validation->add('name', new Validation\Validator\Identical([
-                'accepted' => 'SomeValue',
-            ]));
-            $messages = $validation->validate(['name' => 'SomeValue']);
-            expect($messages->count())->equals(0);
-            $messages = $validation->validate(['name' => 'SomeValue123']);
-            expect($messages->count())->equals(1);
-        });
+        $this->specify(
+            'Test identical validator with single field.',
+            function () {
+                $validation = new Validation();
+
+                $validation->add(
+                    'name',
+                    new Validation\Validator\Identical(
+                        [
+                            'accepted' => 'SomeValue',
+                        ]
+                    )
+                );
+
+                $messages = $validation->validate(['name' => 'SomeValue']);
+                expect($messages->count())->equals(0);
+
+                $messages = $validation->validate(['name' => 'SomeValue123']);
+                expect($messages->count())->equals(1);
+
+                $expectedMessages = Validation\Message\Group::__set_state(
+                    [
+                        '_messages' => [
+                            0 => Validation\Message::__set_state(
+                                [
+                                    '_type'    => 'Identical',
+                                    '_message' => 'Field name does not have the expected value',
+                                    '_field'   => 'name',
+                                    '_code'    => '0',
+                                ]
+                            )
+                        ]
+                    ]
+                );
+
+                expect($expectedMessages)->equals($messages);
+            }
+        );
     }
 
     /**
@@ -109,5 +137,48 @@ class IdenticalTest extends UnitTest
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['anotherName']);
         });
+    }
+
+    public function testCustomMessage()
+    {
+        $this->specify(
+            'Test Identical validator works with a custom message.',
+            function () {
+                $validation = new Validation();
+
+                $validation->add(
+                    'name',
+                    new Validation\Validator\Identical(
+                        [
+                            'accepted' => 'Peter',
+                            'message'  => 'The name must be peter',
+                        ]
+                    )
+                );
+
+                $messages = $validation->validate([]);
+
+                $expectedMessages = Validation\Message\Group::__set_state(
+                    [
+                        '_messages' => [
+                            0 => Validation\Message::__set_state(
+                                [
+                                    '_type'    => 'Identical',
+                                    '_message' => 'The name must be peter',
+                                    '_field'   => 'name',
+                                    '_code'    => '0',
+                                ]
+                            )
+                        ]
+                    ]
+                );
+
+                expect($expectedMessages)->equals($messages);
+
+                $messages = $validation->validate(['name' => 'Peter']);
+
+                expect($messages)->count(0);
+            }
+        );
     }
 }

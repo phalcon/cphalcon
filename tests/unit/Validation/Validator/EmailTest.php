@@ -34,14 +34,37 @@ class EmailTest extends UnitTest
      */
     public function testSingleField()
     {
-        $this->specify('Test email validator with single field.', function () {
-            $validation = new Validation();
-            $validation->add('email', new Email());
-            $messages = $validation->validate(['email' => 'test@somemail.com']);
-            expect($messages->count())->equals(0);
-            $messages = $validation->validate(['email' => 'rootlocalhost']);
-            expect($messages->count())->equals(1);
-        });
+        $this->specify(
+            'Test email validator with single field.',
+            function () {
+                $validation = new Validation();
+
+                $validation->add('email', new Email());
+
+                $messages = $validation->validate(['email' => 'test@somemail.com']);
+                expect($messages->count())->equals(0);
+
+                $messages = $validation->validate(['email' => 'rootlocalhost']);
+                expect($messages->count())->equals(1);
+
+                $expectedMessages = Validation\Message\Group::__set_state(
+                    [
+                        '_messages' => [
+                            0 => Validation\Message::__set_state(
+                                [
+                                    '_type'    => 'Email',
+                                    '_message' => 'Field email must be an email address',
+                                    '_field'   => 'email',
+                                    '_code'    => 0,
+                                ]
+                            )
+                        ]
+                    ]
+                );
+
+                expect($expectedMessages)->equals($messages);
+            }
+        );
     }
 
     /**
@@ -71,5 +94,49 @@ class EmailTest extends UnitTest
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['email']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['anotherEmail']);
         });
+    }
+
+    public function testCustomMessage()
+    {
+        $this->specify(
+            'Test Email validator works with a custom message.',
+            function () {
+                $validation = new Validation();
+
+                $validation->add(
+                    'email',
+                    new Email(
+                        [
+                           'message' => 'The email is not valid'
+                        ]
+                    )
+                );
+
+                $messages = $validation->validate([]);
+
+                $expectedMessages = Validation\Message\Group::__set_state(
+                    [
+                        '_messages' => [
+                            0 => Validation\Message::__set_state(
+                                [
+                                    '_type' => 'Email',
+                                    '_message' => 'The email is not valid',
+                                    '_field' => 'email',
+                                    '_code' => '0',
+                                ]
+                            )
+                        ]
+                    ]
+                );
+
+                $this->assertEquals($expectedMessages, $messages);
+
+                $messages = $validation->validate(['email' => 'x=1']);
+                expect($expectedMessages)->equals($messages);
+
+                $messages = $validation->validate(['email' => 'x.x@hotmail.com']);
+                expect($messages)->count(0);
+            }
+        );
     }
 }
