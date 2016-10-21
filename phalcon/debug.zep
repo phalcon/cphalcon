@@ -169,32 +169,21 @@ class Debug
 		let dump = [];
 		for k, v in argument {
 
-			if is_scalar(v) {
-				if v == "" {
-					let varDump = "[" . k . "] =&gt; (empty string)";
-				} else {
-					let varDump = "[" . k . "] =&gt; " . this->_escapeString(v);
-				}
-				let dump[] = varDump;
-				continue;
+			if v == "" {
+				let varDump = "(empty string)";
+			} elseif is_scalar(v) {
+				let varDump = this->_escapeString(v);
+			} elseif typeof v == "array" {
+				let varDump = "Array(" . this->_getArrayDump(v, n + 1) . ")";
+			} elseif typeof v == "object" {
+				let varDump = "Object(" . get_class(v) . ")";
+			} elseif typeof v == "null" {
+				let varDump = "null";
+			} else {
+				let varDump = v;
 			}
 
-			if typeof v == "array" {
-				let dump[] = "[" . k . "] =&gt; Array(" . this->_getArrayDump(v, n + 1) . ")";
-				continue;
-			}
-
-			if typeof v == "object" {
-				let dump[] = "[" . k . "] =&gt; Object(" . get_class(v) . ")";
-				continue;
-			}
-
-			if typeof v == "null" {
-				let dump[] = "[" . k . "] =&gt; null";
-				continue;
-			}
-
-			let dump[] = "[" . k . "] =&gt; " . v;
+			let dump[] = "[" . k . "] =&gt; " . varDump;
 		}
 
 		return join(", ", dump);
