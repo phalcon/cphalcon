@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Mvc;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Robotters;
 use Phalcon\Test\Models\Boutique;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Models\Packages;
@@ -366,6 +367,164 @@ class ModelTest extends UnitTest
 
                     expect($row->toArray())->equals($array);
                 }
+            }
+        );
+    }
+
+    public function testMassAssignmentNormal()
+    {
+        $this->specify(
+            "Models can't properly assign properties",
+            function () {
+                $robot = new Robots();
+
+                $success = $robot->save(
+                    [
+                        "type" => "mechanical",
+                        "year" => 2018,
+                    ]
+                );
+
+                expect($success)->false();
+                expect($robot->type)->equals("mechanical");
+                expect($robot->year)->equals(2018);
+
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "type" => "mechanical",
+                        "year" => 2018,
+                    ]
+                );
+
+                expect($robot->type)->equals("mechanical");
+                expect($robot->year)->equals(2018);
+
+                //not assigns nonexistent fields
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "field1" => "mechanical",
+                        "field2" => 2018,
+                    ]
+                );
+
+                expect(empty($robot->field1))->true();
+                expect(empty($robot->field2))->true();
+
+                //white list
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "type" => "mechanical",
+                        "year" => 2018,
+                    ],
+                    null,
+                    ["type"]
+                );
+
+                expect($robot->type)->equals("mechanical");
+                expect(empty($robot->year))->true();
+
+                //white list
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "typeFromClient" => "mechanical",
+                        "yearFromClient" => 2018,
+                    ],
+                    [
+                        "typeFromClient" => "type",
+                        "yearFromClient" => "year",
+                    ],
+                    ["type"]
+                );
+
+                expect($robot->type)->equals("mechanical");
+                expect(empty($robot->year))->true();
+            }
+        );
+    }
+
+    public function testMassAssignmentRenamed()
+    {
+        $this->specify(
+            "Models can't properly assign properties using a column map",
+            function () {
+                $robot = new Robotters();
+
+                $success = $robot->save(
+                    [
+                        "theType" => "mechanical",
+                        "theYear" => 2018,
+                    ]
+                );
+
+                expect($success)->false();
+                expect($robot->theType)->equals("mechanical");
+                expect($robot->theYear)->equals(2018);
+
+                //assign uses column renaming
+                $robot = new Robotters();
+
+                $robot->assign(
+                    [
+                        "theType" => "mechanical",
+                        "theYear" => 2018,
+                    ]
+                );
+
+                expect($robot->theType)->equals("mechanical");
+                expect($robot->theYear)->equals(2018);
+
+                //not assigns nonexistent fields
+                $robot = new Robotters();
+
+                $robot->assign(
+                    [
+                        "field1" => "mechanical",
+                        "field2" => 2018,
+                    ]
+                );
+
+                expect(empty($robot->field1))->true();
+                expect(empty($robot->field2))->true();
+
+                //white list
+                $robot = new Robotters();
+                $robot->assign(
+                    [
+                        "theType" => "mechanical",
+                        "theYear" => 2018
+                    ],
+                    null,
+                    ["theType"]
+                );
+
+                expect($robot->theType)->equals("mechanical");
+                expect(empty($robot->theYear))->true();
+
+                //white list & custom mapping
+                $robot = new Robotters();
+
+                $robot->assign(
+                    [
+                        "theTypeFromClient" => "mechanical",
+                        "theYearFromClient" => 2018
+                    ],
+                    [
+                        "theTypeFromClient" => "theType",
+                        "theYearFromClient" => "theYear",
+                    ],
+                    ["theType"]
+                );
+
+                expect($robot->theType)->equals("mechanical");
+                expect(empty($robot->theYear))->true();
             }
         );
     }
