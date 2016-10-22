@@ -40,7 +40,7 @@ class RegexTest extends UnitTest
 
                 $validation->add(
                     'car_plate',
-                    new Regex(
+                    new Validation\Validator\Regex(
                         [
                             'pattern' => '/[A-Z]{3}\-[0-9]{3}/'
                         ]
@@ -147,7 +147,7 @@ class RegexTest extends UnitTest
 
                 $validation->add(
                     'car_plate',
-                    new Regex(
+                    new Validation\Validator\Regex(
                         [
                             'pattern' => '/[A-Z]{3}\-[0-9]{3}/',
                             'message' => 'The car plate is not valid'
