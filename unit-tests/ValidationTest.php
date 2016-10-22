@@ -276,73 +276,6 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($messages), 0);
 	}
 
-	public function testValidationBetween()
-	{
-		$validation = new Phalcon\Validation();
-
-		$validation->add('price', new Between(array(
-			'minimum' => 1,
-			'maximum' => 3
-		)));
-
-		$messages = $validation->validate(['price' => 5]);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'Between',
-					'_message' => 'Field price must be within the range of 1 to 3',
-					'_field' => 'price',
-					'_code' => '0',
-				))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate([]);
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate(['price' => 2]);
-
-		$this->assertEquals(count($messages), 0);
-	}
-
-	public function testValidationBetweenCustomMessage()
-	{
-		$validation = new Phalcon\Validation();
-
-		$validation->add('price', new Between(array(
-			'minimum' => 1,
-			'maximum' => 3,
-			'message' => 'The price must be between 1 and 3'
-		)));
-
-		$messages = $validation->validate(['price' => 5]);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'Between',
-					'_message' => 'The price must be between 1 and 3',
-					'_field' => 'price',
-					'_code' => '0',
-				))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate([]);
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate(['price' => 2]);
-
-		$this->assertEquals(count($messages), 0);
-	}
-
 	public function testValidationMixed()
 	{
 		$validation = new Phalcon\Validation();
@@ -457,64 +390,6 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertEquals($filtered, $expectedMessages);
-	}
-
-	public function testValidationUrl()
-	{
-		$validation = new Phalcon\Validation();
-
-		$validation->add('url', new Url());
-
-		$messages = $validation->validate([]);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-						'_type' => 'Url',
-						'_message' => 'Field url must be a url',
-						'_field' => 'url',
-						'_code' => 0,
-					))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate(['url' => 'x=1']);
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate(['url' => 'http://phalconphp.com']);
-		$this->assertEquals(count($messages), 0);
-	}
-
-	public function testValidationUrlCustomMessage()
-	{
-		$validation = new Phalcon\Validation();
-
-		$validation->add('url', new Url(array(
-			'message' => 'The url is not valid'
-		)));
-
-		$messages = $validation->validate([]);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-						'_type' => 'Url',
-						'_message' => 'The url is not valid',
-						'_field' => 'url',
-						'_code' => '0',
-					))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate(['url' => 'x=1']);
-		$this->assertEquals($expectedMessages, $messages);
-
-		$messages = $validation->validate(['url' => 'http://phalconphp.com']);
-		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationSetLabels()
