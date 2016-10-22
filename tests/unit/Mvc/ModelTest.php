@@ -528,4 +528,50 @@ class ModelTest extends UnitTest
             }
         );
     }
+
+    public function testFindersNormal()
+    {
+        $this->specify(
+            "Models can't be found properly",
+            function () {
+                $robot = Robots::findFirstById(1);
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->id)->equals(1);
+
+                $robot = Robots::findFirstById(2);
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->id)->equals(2);
+
+                $robots = Robots::findByType('mechanical');
+                expect($robots)->count(2);
+                expect($robots[0]->id)->equals(1);
+
+                $number = Robots::countByType('mechanical');
+                expect($number)->equals(2);
+            }
+        );
+    }
+
+    public function testFindersRenamed()
+    {
+        $this->specify(
+            "Models can't be found properly when using a column map",
+            function () {
+                $robot = Robotters::findFirstByCode(1);
+                expect($robot)->isInstanceOf(Robotters::class);
+                expect($robot->code)->equals(1);
+
+                $robot = Robotters::findFirstByCode(2);
+                expect($robot)->isInstanceOf(Robotters::class);
+                expect($robot->code)->equals(2);
+
+                $robots = Robotters::findByTheType('mechanical');
+                expect($robots)->count(2);
+                expect($robots[0]->code)->equals(1);
+
+                $number = Robotters::countByTheType('mechanical');
+                expect($number)->equals(2);
+            }
+        );
+    }
 }
