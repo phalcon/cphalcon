@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Mvc;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Boutique;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
@@ -243,6 +244,48 @@ class ModelTest extends UnitTest
                 expect($robot)->isInstanceOf(Robots::class);
                 expect($robot->getSnapshotData())->notEmpty();
                 expect($robot->getSnapshotData())->notEquals($robot->toArray());
+            }
+        );
+    }
+
+    public function testGettersAndSetters()
+    {
+        $this->specify(
+            "Model getters and setters don't work",
+            function () {
+                $robot = Boutique\Robots::findFirst();
+
+                $testText = "executeSetGet Test";
+
+                $robot->assign(
+                    [
+                        "text" => $testText,
+                    ]
+                );
+
+                expect($robot->text)->equals($testText . $robot::setterEpilogue);
+                expect($robot->text)->equals($robot->getText());
+
+                $testText = "executeSetGet Test 2";
+
+                $robot->text = $testText;
+
+                expect($robot->text)->equals($testText . $robot::setterEpilogue);
+                expect($robot->text)->equals($robot->getText());
+
+                $testText = "executeSetGet Test 3";
+                $robot = new Boutique\Robots();
+
+                try {
+                    $exception_thrown = false;
+                    $robot->serial = '1234';
+                } catch (\Exception $e) {
+                    $exception_thrown = true;
+
+                    expect($e->getMessage())->equals("Property 'serial' does not have a setter.");
+                }
+
+                expect($exception_thrown)->true();
             }
         );
     }
