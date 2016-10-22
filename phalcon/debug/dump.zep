@@ -56,9 +56,6 @@ class Dump
 	 */
 	public function __construct(array styles = null, boolean detailed = false)
 	{
-		if styles && typeof styles != "array" {
-			throw new Exception("The styles must be an array");
-		}
 		this->setStyles(styles);
 
 		let this->_detailed = detailed;

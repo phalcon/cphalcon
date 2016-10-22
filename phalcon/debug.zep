@@ -169,32 +169,21 @@ class Debug
 		let dump = [];
 		for k, v in argument {
 
-			if is_scalar(v) {
-				if v == "" {
-					let varDump = "[" . k . "] =&gt; (empty string)";
-				} else {
-					let varDump = "[" . k . "] =&gt; " . this->_escapeString(v);
-				}
-				let dump[] = varDump;
-				continue;
+			if v == "" {
+				let varDump = "(empty string)";
+			} elseif is_scalar(v) {
+				let varDump = this->_escapeString(v);
+			} elseif typeof v == "array" {
+				let varDump = "Array(" . this->_getArrayDump(v, n + 1) . ")";
+			} elseif typeof v == "object" {
+				let varDump = "Object(" . get_class(v) . ")";
+			} elseif typeof v == "null" {
+				let varDump = "null";
+			} else {
+				let varDump = v;
 			}
 
-			if typeof v == "array" {
-				let dump[] = "[" . k . "] =&gt; Array(" . this->_getArrayDump(v, n + 1) . ")";
-				continue;
-			}
-
-			if typeof v == "object" {
-				let dump[] = "[" . k . "] =&gt; Object(" . get_class(v) . ")";
-				continue;
-			}
-
-			if typeof v == "null" {
-				let dump[] = "[" . k . "] =&gt; null";
-				continue;
-			}
-
-			let dump[] = "[" . k . "] =&gt; " . v;
+			let dump[] = "[" . k . "] =&gt; " . varDump;
 		}
 
 		return join(", ", dump);
@@ -431,24 +420,20 @@ class Debug
 		 */
 		if fetch traceArgs, trace["args"] {
 
-			if count(traceArgs) {
-				let arguments = [];
-				for argument in traceArgs {
-
-					/**
-					 * Every argument is generated using _getVarDump
-					 * Append the HTML generated to the argument's list
-					 */
-					let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
-				}
+			let arguments = [];
+			for argument in traceArgs {
 
 				/**
-				 * Join all the arguments
+				 * Every argument is generated using _getVarDump
+				 * Append the HTML generated to the argument's list
 				 */
-				let html .= "(" . join(", ", arguments)  . ")";
-			} else {
-				let html .= "()";
+				let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
 			}
+
+			/**
+			 * Join all the arguments
+			 */
+			let html .= "(" . join(", ", arguments)  . ")";
 		}
 
 		/**
