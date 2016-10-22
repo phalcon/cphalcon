@@ -289,4 +289,84 @@ class ModelTest extends UnitTest
             }
         );
     }
+
+    public function testSerialize()
+    {
+        $this->specify(
+            "Models aren't serialized or unserialized properly",
+            function () {
+                $robot = Robots::findFirst();
+
+                $serialized = serialize($robot);
+                $robot = unserialize($serialized);
+
+                expect($robot->save())->true();
+            }
+        );
+    }
+
+    public function testJsonSerialize()
+    {
+        $this->specify(
+            "Single models aren't JSON serialized or JSON unserialized properly",
+            function () {
+                // Single model object json serialization
+                $robot = Robots::findFirst();
+
+                $json = json_encode($robot);
+
+                expect(is_string($json))->true();
+                expect(strlen($json) > 10)->true(); // make sure result is not "{ }"
+
+                $array = json_decode($json, true);
+
+                expect($robot->toArray())->equals($array);
+            }
+        );
+
+        $this->specify(
+            "Model resultsets aren't JSON serialized or JSON unserialized properly",
+            function () {
+                // Result-set serialization
+                $robots = Robots::find();
+
+                $json = json_encode($robots);
+
+                expect(is_string($json))->true();
+                expect(strlen($json) > 50)->true(); // make sure result is not "{ }"
+
+                $array = json_decode($json, true);
+
+                expect($robots->toArray())->equals($array);
+            }
+        );
+
+        $this->specify(
+            "Single row resultsets aren't JSON serialized or JSON unserialized properly",
+            function () {
+                $robot = Robots::findFirst();
+
+                // Single row serialization
+                $result = $this->modelsManager->executeQuery(
+                    "SELECT id FROM " . Robots::class . " LIMIT 1"
+                );
+
+                expect($result)->isInstanceOf('Phalcon\Mvc\Model\Resultset\Simple');
+
+                foreach ($result as $row) {
+                    expect($row)->isInstanceOf('Phalcon\Mvc\Model\Row');
+                    expect($row->id)->equals($robot->id);
+
+                    $json = json_encode($row);
+
+                    expect(is_string($json))->true();
+                    expect(strlen($json) > 5)->true(); // make sure result is not "{ }"
+
+                    $array = json_decode($json, true);
+
+                    expect($row->toArray())->equals($array);
+                }
+            }
+        );
+    }
 }
