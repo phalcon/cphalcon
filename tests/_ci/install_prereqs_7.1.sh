@@ -40,7 +40,7 @@ install_igbinary() {
 
 install_apcu() {
 	# See https://github.com/krakjoe/apcu/issues/203
-	git clone -q https://github.com/krakjoe/apcu -b v5.1.5 /tmp/apcu
+	git clone -q https://github.com/krakjoe/apcu -b v5.1.7 /tmp/apcu
 	cd /tmp/apcu
 
 	$PHPIZE_BIN &> /dev/null
