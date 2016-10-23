@@ -7,7 +7,6 @@ class AboutController
      */
     public function teamAction()
     {
-
     }
 
     /**
@@ -15,6 +14,5 @@ class AboutController
      */
     public function teamPostAction()
     {
-
     }
 }

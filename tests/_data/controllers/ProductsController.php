@@ -7,15 +7,14 @@ class ProductsController
      */
     public function indexAction()
     {
-
     }
 
     /**
      * @Get("/products/edit/{id:[0-9]+}", name="edit-product")
+     * @param int $id
      */
     public function editAction($id)
     {
-
     }
 
     /**
@@ -23,6 +22,5 @@ class ProductsController
      */
     public function saveAction()
     {
-
     }
 }

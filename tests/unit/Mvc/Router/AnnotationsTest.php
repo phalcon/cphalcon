@@ -2,9 +2,14 @@
 
 namespace Phalcon\Test\Unit\Mvc\Router;
 
+use Phalcon\Di;
+use Phalcon\Http\Request;
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Annotations\Adapter\Memory;
 
-require_once TESTS_PATH . '/../unit-tests/controllers/AnnotationController.php';
+require_once PATH_DATA . '/controllers/AnnotationController.php';
 
 /**
  * \Phalcon\Test\Unit\Mvc\Router\AnnotationsTest
@@ -27,22 +32,20 @@ class RouterAnnotationsTest extends UnitTest
 {
     public function _getDI()
     {
-        $di = new \Phalcon\DI();
+        $di = new Di();
 
-        $di["request"] = new \Phalcon\Http\Request();
-        $di["annotations"] = new \Phalcon\Annotations\Adapter\Memory();
+        $di["request"] = new Request();
+        $di["annotations"] = new Memory();
 
         return $di;
     }
-
-
 
     public function testRouterFullResources()
     {
         $this->specify(
             "The Annotations Router doesn't work properly",
-            function () {
-                $router = new \Phalcon\Mvc\Router\Annotations(false);
+            function ($uri, $method, $controller, $action, $params) {
+                $router = new Annotations(false);
 
                 $router->setDI($this->_getDI());
 
@@ -54,9 +57,7 @@ class RouterAnnotationsTest extends UnitTest
 
                 expect($router->getRoutes())->count(6);
 
-
-
-                $router = new \Phalcon\Mvc\Router\Annotations(false);
+                $router = new Annotations(false);
 
                 $router->setDI($this->_getDI());
 
@@ -68,9 +69,7 @@ class RouterAnnotationsTest extends UnitTest
 
                 expect($router->getRoutes())->count(5);
 
-
-
-                $router = new \Phalcon\Mvc\Router\Annotations(false);
+                $router = new Annotations(false);
 
                 $router->setDI($this->_getDI());
 
@@ -82,9 +81,7 @@ class RouterAnnotationsTest extends UnitTest
 
                 expect($router->getRoutes())->count(1);
 
-
-
-                $router = new \Phalcon\Mvc\Router\Annotations(false);
+                $router = new Annotations(false);
 
                 $router->setDI($this->_getDI());
 
@@ -92,9 +89,7 @@ class RouterAnnotationsTest extends UnitTest
 
                 $router->handle("/namespaced/");
 
-
-
-                $router = new \Phalcon\Mvc\Router\Annotations(false);
+                $router = new Annotations(false);
 
                 $router->setDI($this->_getDI());
 
@@ -107,17 +102,23 @@ class RouterAnnotationsTest extends UnitTest
 
                 expect($router->getRoutes())->count(9);
 
-
-
                 $route = $router->getRouteByName("save-robot");
                 expect(is_object($route))->true();
-                expect($route)->isInstanceOf("Phalcon\\Mvc\\Router\\Route");
+                expect($route)->isInstanceOf(Route::class);
 
                 $route = $router->getRouteByName("save-product");
                 expect(is_object($route))->true();
-                expect($route)->isInstanceOf("Phalcon\\Mvc\\Router\\Route");
+                expect($route)->isInstanceOf(Route::class);
 
-                $routes = [
+                $_SERVER["REQUEST_METHOD"] = $method;
+                $router->handle($uri);
+
+                expect($router->getControllerName())->equals($controller);
+                expect($router->getActionName())->equals($action);
+                expect($router->getParams())->equals($params);
+                expect($router->isExactControllerName())->true();
+            }, [
+                'examples' => [
                     [
                         "uri"        => "/products/save",
                         "method"     => "PUT",
@@ -188,18 +189,8 @@ class RouterAnnotationsTest extends UnitTest
                         "action"     => "index",
                         "params"     => [],
                     ],
-                ];
-
-                foreach ($routes as $route) {
-                    $_SERVER["REQUEST_METHOD"] = $route["method"];
-                    $router->handle($route["uri"]);
-
-                    expect($router->getControllerName())->equals($route["controller"]);
-                    expect($router->getActionName())->equals($route["action"]);
-                    expect($router->getParams())->equals($route["params"]);
-                    expect($router->isExactControllerName())->true();
-                }
-            }
+                ]
+            ]
         );
     }
 }

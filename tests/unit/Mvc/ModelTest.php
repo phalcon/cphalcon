@@ -5,11 +5,12 @@ namespace Phalcon\Test\Unit\Mvc;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\Boutique;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\Frontend\Data;
+use Phalcon\Test\Models\Boutique;
 use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\Robotters;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
@@ -257,37 +258,23 @@ class ModelTest extends UnitTest
                 $robot = Boutique\Robots::findFirst();
 
                 $testText = "executeSetGet Test";
+                $robot->assign(["text" => $testText]);
 
-                $robot->assign(
-                    [
-                        "text" => $testText,
-                    ]
-                );
-
-                expect($robot->text)->equals($testText . $robot::setterEpilogue);
+                expect($robot->text)->equals($testText . $robot::SETTER_EPILOGUE);
                 expect($robot->text)->equals($robot->getText());
 
                 $testText = "executeSetGet Test 2";
-
                 $robot->text = $testText;
 
-                expect($robot->text)->equals($testText . $robot::setterEpilogue);
+                expect($robot->text)->equals($testText . $robot::SETTER_EPILOGUE);
                 expect($robot->text)->equals($robot->getText());
 
-                $testText = "executeSetGet Test 3";
                 $robot = new Boutique\Robots();
-
-                try {
-                    $exception_thrown = false;
-                    $robot->serial = '1234';
-                } catch (\Exception $e) {
-                    $exception_thrown = true;
-
-                    expect($e->getMessage())->equals("Property 'serial' does not have a setter.");
-                }
-
-                expect($exception_thrown)->true();
-            }
+                $robot->serial = '1234';
+            }, ['throws' => [
+                Exception::class,
+                "Property 'serial' does not have a setter."
+            ]]
         );
     }
 
@@ -313,15 +300,11 @@ class ModelTest extends UnitTest
             function () {
                 // Single model object json serialization
                 $robot = Robots::findFirst();
-
                 $json = json_encode($robot);
 
                 expect(is_string($json))->true();
                 expect(strlen($json) > 10)->true(); // make sure result is not "{ }"
-
-                $array = json_decode($json, true);
-
-                expect($robot->toArray())->equals($array);
+                expect($robot->toArray())->equals(json_decode($json, true));
             }
         );
 
@@ -335,10 +318,7 @@ class ModelTest extends UnitTest
 
                 expect(is_string($json))->true();
                 expect(strlen($json) > 50)->true(); // make sure result is not "{ }"
-
-                $array = json_decode($json, true);
-
-                expect($robots->toArray())->equals($array);
+                expect($robots->toArray())->equals(json_decode($json, true));
             }
         );
 
@@ -362,10 +342,7 @@ class ModelTest extends UnitTest
 
                     expect(is_string($json))->true();
                     expect(strlen($json) > 5)->true(); // make sure result is not "{ }"
-
-                    $array = json_decode($json, true);
-
-                    expect($row->toArray())->equals($array);
+                    expect($row->toArray())->equals(json_decode($json, true));
                 }
             }
         );
@@ -401,7 +378,7 @@ class ModelTest extends UnitTest
                 expect($robot->type)->equals("mechanical");
                 expect($robot->year)->equals(2018);
 
-                //not assigns nonexistent fields
+                // not assigns nonexistent fields
                 $robot = new Robots();
 
                 $robot->assign(
@@ -414,7 +391,7 @@ class ModelTest extends UnitTest
                 expect(empty($robot->field1))->true();
                 expect(empty($robot->field2))->true();
 
-                //white list
+                // white list
                 $robot = new Robots();
 
                 $robot->assign(
@@ -429,7 +406,7 @@ class ModelTest extends UnitTest
                 expect($robot->type)->equals("mechanical");
                 expect(empty($robot->year))->true();
 
-                //white list
+                // white list
                 $robot = new Robots();
 
                 $robot->assign(
@@ -468,7 +445,7 @@ class ModelTest extends UnitTest
                 expect($robot->theType)->equals("mechanical");
                 expect($robot->theYear)->equals(2018);
 
-                //assign uses column renaming
+                // assign uses column renaming
                 $robot = new Robotters();
 
                 $robot->assign(
@@ -481,7 +458,7 @@ class ModelTest extends UnitTest
                 expect($robot->theType)->equals("mechanical");
                 expect($robot->theYear)->equals(2018);
 
-                //not assigns nonexistent fields
+                // not assigns nonexistent fields
                 $robot = new Robotters();
 
                 $robot->assign(
@@ -494,7 +471,7 @@ class ModelTest extends UnitTest
                 expect(empty($robot->field1))->true();
                 expect(empty($robot->field2))->true();
 
-                //white list
+                // white list
                 $robot = new Robotters();
                 $robot->assign(
                     [
@@ -508,7 +485,7 @@ class ModelTest extends UnitTest
                 expect($robot->theType)->equals("mechanical");
                 expect(empty($robot->theYear))->true();
 
-                //white list & custom mapping
+                // white list & custom mapping
                 $robot = new Robotters();
 
                 $robot->assign(
@@ -545,9 +522,7 @@ class ModelTest extends UnitTest
                 $robots = Robots::findByType('mechanical');
                 expect($robots)->count(2);
                 expect($robots[0]->id)->equals(1);
-
-                $number = Robots::countByType('mechanical');
-                expect($number)->equals(2);
+                expect(Robots::countByType('mechanical'))->equals(2);
             }
         );
     }
@@ -568,9 +543,8 @@ class ModelTest extends UnitTest
                 $robots = Robotters::findByTheType('mechanical');
                 expect($robots)->count(2);
                 expect($robots[0]->code)->equals(1);
+                expect(Robotters::countByTheType('mechanical'))->equals(2);
 
-                $number = Robotters::countByTheType('mechanical');
-                expect($number)->equals(2);
             }
         );
     }
