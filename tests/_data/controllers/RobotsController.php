@@ -10,15 +10,14 @@ class RobotsController
      */
     public function indexAction()
     {
-
     }
 
     /**
      * @Get("/edit/{id:[0-9]+}", name="edit-robot")
+     * @param int $id
      */
     public function editAction($id)
     {
-
     }
 
     /**
@@ -26,6 +25,5 @@ class RobotsController
      */
     public function saveAction()
     {
-
     }
 }

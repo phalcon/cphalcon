@@ -7,7 +7,7 @@ use Phalcon\Mvc\Model;
 /**
  * \Phalcon\Test\Models\Head
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Radek Crlík <radekcrlik@gmail.com>
  * @package   Phalcon\Test\Models\BodyParts
@@ -21,11 +21,10 @@ use Phalcon\Mvc\Model;
  */
 class Head extends Model
 {
+    public $id;
 
-	public $id;
-
-	public function initialize()
-	{
-		$this->setSource('issue12071_head');
-	}
+    public function initialize()
+    {
+        $this->setSource('issue12071_head');
+    }
 }

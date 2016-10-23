@@ -7,6 +7,5 @@ class MainController
      */
     public function indexAction()
     {
-
     }
 }

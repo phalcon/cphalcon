@@ -5,10 +5,9 @@ namespace Phalcon\Test\Models\AlbumORama;
 use Phalcon\Mvc\Model;
 
 /**
- * \Phalcon\Test\Models\AlbumORama\Artists.php
- * Artists model class
+ * \Phalcon\Test\Models\AlbumORama\Artists
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -23,10 +22,13 @@ use Phalcon\Mvc\Model;
  */
 class Artists extends Model
 {
-	public function initialize()
-	{
-		$this->hasMany('id', 'AlbumORama:Albums', 'artists_id', array(
-			'alias' => 'albums'
-		));
-	}
+    public function initialize()
+    {
+        $this->hasMany(
+            'id',
+            'AlbumORama:Albums',
+            'artists_id',
+            ['alias' => 'albums']
+        );
+    }
 }

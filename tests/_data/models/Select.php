@@ -5,10 +5,9 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * \Phalcon\Test\Models\Select.php
- * Select model class
+ * \Phalcon\Test\Models\Select
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
