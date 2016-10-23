@@ -36,6 +36,12 @@ if (!file_exists(PROJECT_PATH . 'vendor/autoload.php')) {
 include_once PROJECT_PATH . 'vendor/autoload.php';
 include_once TESTS_PATH . 'shim.php';
 
+$kernel = \AspectMock\Kernel::getInstance();
+$kernel->init([
+    'debug' => true,
+    'includePaths' => [__DIR__.'/../src']
+]);
+
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);
     ini_set('xdebug.collect_params', 0);
