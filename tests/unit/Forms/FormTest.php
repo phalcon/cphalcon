@@ -28,6 +28,57 @@ use Phalcon\Validation\Validator\Regex;
  */
 class FormTest extends UnitTest
 {
+    public function testCount()
+    {
+        $this->specify(
+            "Form::count does not return the correct number",
+            function () {
+                $form = new Form();
+
+                $form->add(
+                    new Text("name")
+                );
+
+                $form->add(
+                    new Text("telephone")
+                );
+
+                expect($form)->count(2);
+                expect($form->count())->equals(2);
+            }
+        );
+    }
+
+    public function testLabels()
+    {
+        $this->specify(
+            "Form::getLabel and Form::label do not return the correct values",
+            function () {
+                $form = new Form();
+
+                $form->add(
+                    new Text("name")
+                );
+
+                $telephone = new Text("telephone");
+
+                $telephone->setLabel("The Telephone");
+
+                $form->add($telephone);
+
+                expect($form->getLabel("name"))->equals("name");
+                expect($form->getLabel("telephone"))->equals("The Telephone");
+
+                expect($form->label("name"))->equals("<label for=\"name\">name</label>");
+                expect($form->label("telephone"))->equals("<label for=\"telephone\">The Telephone</label>");
+
+                // https://github.com/phalcon/cphalcon/issues/1029
+                expect($form->label("name", ["class" => "form-control"]))->equals("<label for=\"name\" class=\"form-control\">name</label>");
+                expect($form->label("telephone", ["class" => "form-control"]))->equals("<label for=\"telephone\" class=\"form-control\">The Telephone</label>");
+            }
+        );
+    }
+
     /**
      * Tests Form::hasMessagesFor
      *

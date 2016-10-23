@@ -48,13 +48,11 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testValidationCreditCardValid($number)
 	{
-		$_POST = array('number' => $number);
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('number', new CreditCard());
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['number' => $number]);
 
 		$this->assertEquals(count($messages), 0);
 	}
@@ -75,13 +73,11 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testValidationCreditCardInvalid($number)
 	{
-		$_POST = array('number' => $number);
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('number', new CreditCard());
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['number' => $number]);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -160,15 +156,13 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 	public function testValidationStringLengthMinimum()
 	{
-		$_POST = array();
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('name', new StringLength(array(
 			'min' => 3
 		)));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate([]);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -183,23 +177,17 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('name' => 'p');
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'p']);
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('name' => 'peter');
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'peter']);
 
 		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationStringLengthMinimumCustomMessage()
 	{
-		$_POST = array();
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('name', new StringLength(array(
@@ -207,7 +195,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'messageMinimum' => 'The message is too short'
 		)));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate([]);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -222,30 +210,24 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('name' => 'p');
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'p']);
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('name' => 'peter');
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'peter']);
 
 		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationStringLengthMaximum()
 	{
-		$_POST = array('name' => 'Johannes');
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('name', new StringLength(array(
 			'max' => 4
 		)));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'Johannes']);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -260,17 +242,13 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('name' => 'a');
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'a']);
 
 		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationStringLengthMaximumCustomMessage()
 	{
-		$_POST = array('name' => 'Johannes');
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('name', new StringLength(array(
@@ -278,7 +256,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			'messageMaximum' => 'The message is too long'
 		)));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'Johannes']);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -293,95 +271,13 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('name' => 'pet');
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals(count($messages), 0);
-	}
-
-	public function testValidationBetween()
-	{
-		$_POST = array('price' => 5);
-
-		$validation = new Phalcon\Validation();
-
-		$validation->add('price', new Between(array(
-			'minimum' => 1,
-			'maximum' => 3
-		)));
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'Between',
-					'_message' => 'Field price must be within the range of 1 to 3',
-					'_field' => 'price',
-					'_code' => '0',
-				))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array();
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array('price' => 2);
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals(count($messages), 0);
-	}
-
-	public function testValidationBetweenCustomMessage()
-	{
-		$_POST = array('price' => 5);
-
-		$validation = new Phalcon\Validation();
-
-		$validation->add('price', new Between(array(
-			'minimum' => 1,
-			'maximum' => 3,
-			'message' => 'The price must be between 1 and 3'
-		)));
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'Between',
-					'_message' => 'The price must be between 1 and 3',
-					'_field' => 'price',
-					'_code' => '0',
-				))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array();
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array('price' => 2);
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => 'pet']);
 
 		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationMixed()
 	{
-
 		$validation = new Phalcon\Validation();
 
 		$validation
@@ -395,7 +291,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 				'message' => 'The login is required'
 			)));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate([]);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -425,7 +321,6 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 	public function testValidationCancelOnFail()
 	{
-
 		$validation = new Phalcon\Validation();
 
 		$validation
@@ -440,7 +335,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 				'message' => 'The login is required'
 			)));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate([]);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
@@ -464,7 +359,6 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 	public function testValidationFiltering()
 	{
-
 		$validation = new Phalcon\Validation();
 
 		$validation->setDI(new Phalcon\DI\FactoryDefault());
@@ -480,9 +374,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$validation->setFilters('name', 'trim');
 		$validation->setFilters('email', 'trim');
 
-		$_POST = array('name' => '  ', 'email' => '    ');
-
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['name' => '  ', 'email' => '    ']);
 
 		$this->assertEquals(count($messages), 2);
 
@@ -498,88 +390,10 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertEquals($filtered, $expectedMessages);
-
-		$_POST = array();
-	}
-
-	public function testValidationUrl()
-	{
-		$_POST = array();
-
-		$validation = new Phalcon\Validation();
-
-		$validation->add('url', new Url());
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-						'_type' => 'Url',
-						'_message' => 'Field url must be a url',
-						'_field' => 'url',
-						'_code' => 0,
-					))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array('url' => 'x=1');
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array('url' => 'http://phalconphp.com');
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals(count($messages), 0);
-	}
-
-	public function testValidationUrlCustomMessage()
-	{
-		$_POST = array();
-
-		$validation = new Phalcon\Validation();
-
-		$validation->add('url', new Url(array(
-			'message' => 'The url is not valid'
-		)));
-
-		$messages = $validation->validate($_POST);
-
-		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
-			'_messages' => array(
-				0 => Phalcon\Validation\Message::__set_state(array(
-						'_type' => 'Url',
-						'_message' => 'The url is not valid',
-						'_field' => 'url',
-						'_code' => '0',
-					))
-			)
-		));
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array('url' => 'x=1');
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals($expectedMessages, $messages);
-
-		$_POST = array('url' => 'http://phalconphp.com');
-
-		$messages = $validation->validate($_POST);
-
-		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationSetLabels()
 	{
-		$_POST = array('email' => '', 'firstname' => '');
-
 		$validation = new Phalcon\Validation();
 
 		$validation->add('email', new PresenceOf(array(
@@ -599,7 +413,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$validation->setLabels(array('firstname' => 'First name'));
 
-		$messages = $validation->validate($_POST);
+		$messages = $validation->validate(['email' => '', 'firstname' => '']);
 
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(

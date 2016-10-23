@@ -150,18 +150,6 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function testFormPrepareAttributesNoDefault()
-	{
-		$element1 = new Text("name");
-
-		$element1->setLabel('name');
-
-		$this->assertEquals(
-			$element1->prepareAttributes(array('class' => 'big-input')),
-			array('name', 'class' => 'big-input')
-		);
-	}
-
 	public function testFormElementRender()
 	{
 
@@ -176,48 +164,14 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<input type="radio" id="radio" name="radio" value="0" />', (string)$element2);
 	}
 
-	public function testForm()
-	{
-
-		$form = new Form();
-
-		$form->add(new Text("name"));
-
-		$form->add(new Text("telephone"));
-
-		$this->assertEquals(count($form), 2);
-		$this->assertEquals($form->count(), 2);
-	}
-
 	public function testFormIndirectElementRender()
 	{
-
 		$form = new Form();
 
 		$form->add(new Text("name"));
 
 		$this->assertEquals($form->render('name'), '<input type="text" id="name" name="name" />');
 		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" id="name" name="name" class="big-input" />');
-	}
-
-	public function testFormLabels()
-	{
-
-		$form = new Form();
-
-		$form->add(new Text("name"));
-
-		$telephone = new Text("telephone");
-
-		$telephone->setLabel("The Telephone");
-
-		$form->add($telephone);
-
-		$this->assertEquals($form->getLabel('name'), 'name');
-		$this->assertEquals($form->getLabel('telephone'), 'The Telephone');
-
-		$this->assertEquals($form->label('name'), '<label for="name">name</label>');
-		$this->assertEquals($form->label('telephone'), '<label for="telephone">The Telephone</label>');
 	}
 
 	public function testFormValidator()
@@ -457,20 +411,6 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($entity->getAddress(), 'hello');
 	}
 
-	public function testIssues1029()
-	{
-		$form = new Form();
-		$form->add(new Text("name"));
-
-		$telephone = new Text("telephone");
-		$telephone->setLabel("The Telephone");
-
-		$form->add($telephone);
-
-		$this->assertEquals($form->label('name', array('class' => 'form-control')), '<label for="name" class="form-control">name</label>');
-		$this->assertEquals($form->label('telephone', array('class' => 'form-control')), '<label for="telephone" class="form-control">The Telephone</label>');
-	}
-
 	public function testIssue1190()
 	{
 		$object = new stdClass();
@@ -480,15 +420,6 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form->add(new Phalcon\Forms\Element\Text("title"));
 		$actual   = $form->render('title');
 		$expected = '<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />';
-		$this->assertEquals($actual, $expected);
-	}
-
-	public function testIssue1210()
-	{
-		$e = new \Phalcon\Forms\Element\Text('test');
-		$e->setLabel('Test');
-		$actual   = $e->label();
-		$expected = '<label for="test">Test</label>';
 		$this->assertEquals($actual, $expected);
 	}
 
@@ -508,15 +439,6 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->assertEquals($result, $data);
-	}
-
-	public function testIssue2045()
-	{
-		$element = new \Phalcon\Forms\Element\Text("name");
-		$element->setAttributes(array('class' => 'big-input'));
-		$element->setAttribute("id", NULL);
-
-		$this->assertEquals('<input type="text" name="name" class="big-input" />', $element->render());
 	}
 
 	public function testCorrectlyAddOptionToSelectElementIfParameterIsAnArray()

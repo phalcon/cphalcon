@@ -59,4 +59,68 @@ class TextTest extends UnitTest
             ['eventsmanager'],
         ];
     }
+
+    public function testIssue1210()
+    {
+        $this->specify(
+            "Labels are not properly rendered",
+            function () {
+                $element = new Text("test");
+
+                $element->setLabel("Test");
+
+                $actual   = $element->label();
+                $expected = '<label for="test">Test</label>';
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    public function testIssue2045()
+    {
+        $this->specify(
+            "Attributes are not properly rendered",
+            function () {
+                $element = new Text("name");
+
+                $element->setAttributes(
+                    [
+                        "class" => "big-input",
+                    ]
+                );
+
+                $element->setAttribute("id", null);
+
+                $expected = '<input type="text" name="name" class="big-input" />';
+
+                expect($element->render())->equals($expected);
+            }
+        );
+    }
+
+    public function testPrepareAttributesNoDefault()
+    {
+        $this->specify(
+            "Prepared attributes are not properly rendered",
+            function () {
+                $element1 = new Text("name");
+
+                $element1->setLabel("name");
+
+                $actual = $element1->prepareAttributes(
+                    [
+                        "class" => "big-input",
+                    ]
+                );
+
+                $expected = [
+                    "name",
+                    "class" => "big-input",
+                ];
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 }

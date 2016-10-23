@@ -670,4 +670,151 @@ class ViewTest extends UnitTest
             }
         );
     }
+
+    public function testSettersAndGetters()
+    {
+        $this->specify(
+            "View getters and setters don't work",
+            function () {
+                $view = new View();
+
+                expect($view)->equals($view->setBasePath(PATH_DATA));
+
+                $view->foo = "bar";
+                expect("bar")->equals($view->foo);
+
+                expect($view)->equals($view->setVar("foo1", "bar1"));
+                expect("bar1")->equals($view->getVar("foo1"));
+
+                $expectedVars = ["foo2" => "bar2", "foo3" => "bar3"];
+                expect($view)->equals($view->setVars($expectedVars));
+                expect("bar2")->equals($view->foo2);
+                expect("bar3")->equals($view->foo3);
+                expect($view)->equals($view->setVars($expectedVars, false));
+
+                expect($view)->equals($view->setParamToView("foo4", "bar4"));
+
+                $expectedParamsToView = ["foo2" => "bar2", "foo3" => "bar3", "foo4" => "bar4"];
+                expect($expectedParamsToView)->equals($view->getParamsToView());
+
+                expect($view)->equals($view->setContent("<h1>hello</h1>"));
+                expect("<h1>hello</h1>")->equals($view->getContent());
+
+                expect($view)->equals($view->setViewsDir("views/"));
+                expect("views/")->equals($view->getViewsDir());
+
+                expect($view)->equals($view->setLayoutsDir("views/layouts/"));
+                expect("views/layouts/")->equals($view->getLayoutsDir());
+
+                expect($view)->equals($view->setPartialsDir("views/partials/"));
+                expect("views/partials/")->equals($view->getPartialsDir());
+
+                expect($view)->equals($view->disableLevel(View::LEVEL_MAIN_LAYOUT));
+                expect($view)->equals($view->setRenderLevel(View::LEVEL_ACTION_VIEW));
+                expect(View::LEVEL_ACTION_VIEW)->equals($view->getRenderLevel());
+
+                expect($view)->equals($view->setMainView("html5"));
+                expect("html5")->equals($view->getMainView());
+
+                expect($view)->equals($view->setLayout("test2"));
+                expect("test2")->equals($view->getLayout());
+
+                expect($view)->equals($view->setTemplateBefore("before"));
+                expect($view)->equals($view->setTemplateAfter("after"));
+                expect($view)->equals($view->cleanTemplateBefore());
+                expect($view)->equals($view->cleanTemplateAfter());
+
+                $view->start();
+                $view->render("test2", "index");
+                $view->finish();
+
+                expect("test2")->equals($view->getControllerName());
+                expect("index")->equals($view->getActionName());
+            }
+        );
+    }
+
+    /**
+     * @covers \Phalcon\Mvc\View::__isset
+     */
+    public function testViewParamIsset()
+    {
+        $this->specify(
+            "Setting View parameters doesn't work",
+            function () {
+                $view = new View();
+
+                $view->setViewsDir(PATH_DATA . "views" . DIRECTORY_SEPARATOR);
+
+                $view->set_param = "something";
+
+                $content = $view->getRender("test16", "index");
+
+                expect($content)->equals("<html>1</html>" . PHP_EOL);
+            }
+        );
+    }
+
+    public function testDisableLevels()
+    {
+        $this->specify(
+            "Disabling view levels doesn't work as expected",
+            function () {
+                $view = $this->_getViewDisabled();
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_ACTION_VIEW);
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="controller-layout"><div class="before-layout"></div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_BEFORE_TEMPLATE);
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="controller-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_LAYOUT);
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="before-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_AFTER_TEMPLATE);
+
+                expect($view->getContent())->equals('<html><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_MAIN_LAYOUT);
+
+                expect($view->getContent())->equals('<div class="after-layout"><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></div>');
+
+                $view = $this->_getViewDisabled(
+                    [
+                        View::LEVEL_BEFORE_TEMPLATE => true,
+                        View::LEVEL_LAYOUT          => true,
+                        View::LEVEL_AFTER_TEMPLATE  => true,
+                        View::LEVEL_MAIN_LAYOUT     => true,
+                    ]
+                );
+
+                expect($view->getContent())->equals('<div class="action">Action</div>');
+            }
+        );
+    }
+
+    protected function _getViewDisabled($level = null)
+    {
+        $view = new View();
+
+        $view->setViewsDir(PATH_DATA . "views" . DIRECTORY_SEPARATOR);
+
+        $view->setTemplateAfter("after");
+        $view->setTemplateBefore("before");
+
+        if ($level !== null) {
+            $view->disableLevel($level);
+        }
+
+        $view->start();
+        $view->render("test13", "index");
+        $view->finish();
+
+        return $view;
+    }
 }

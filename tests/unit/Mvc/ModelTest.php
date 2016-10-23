@@ -5,6 +5,8 @@ namespace Phalcon\Test\Unit\Mvc;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Robotters;
+use Phalcon\Test\Models\Boutique;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
@@ -243,6 +245,332 @@ class ModelTest extends UnitTest
                 expect($robot)->isInstanceOf(Robots::class);
                 expect($robot->getSnapshotData())->notEmpty();
                 expect($robot->getSnapshotData())->notEquals($robot->toArray());
+            }
+        );
+    }
+
+    public function testGettersAndSetters()
+    {
+        $this->specify(
+            "Model getters and setters don't work",
+            function () {
+                $robot = Boutique\Robots::findFirst();
+
+                $testText = "executeSetGet Test";
+
+                $robot->assign(
+                    [
+                        "text" => $testText,
+                    ]
+                );
+
+                expect($robot->text)->equals($testText . $robot::setterEpilogue);
+                expect($robot->text)->equals($robot->getText());
+
+                $testText = "executeSetGet Test 2";
+
+                $robot->text = $testText;
+
+                expect($robot->text)->equals($testText . $robot::setterEpilogue);
+                expect($robot->text)->equals($robot->getText());
+
+                $testText = "executeSetGet Test 3";
+                $robot = new Boutique\Robots();
+
+                try {
+                    $exception_thrown = false;
+                    $robot->serial = '1234';
+                } catch (\Exception $e) {
+                    $exception_thrown = true;
+
+                    expect($e->getMessage())->equals("Property 'serial' does not have a setter.");
+                }
+
+                expect($exception_thrown)->true();
+            }
+        );
+    }
+
+    public function testSerialize()
+    {
+        $this->specify(
+            "Models aren't serialized or unserialized properly",
+            function () {
+                $robot = Robots::findFirst();
+
+                $serialized = serialize($robot);
+                $robot = unserialize($serialized);
+
+                expect($robot->save())->true();
+            }
+        );
+    }
+
+    public function testJsonSerialize()
+    {
+        $this->specify(
+            "Single models aren't JSON serialized or JSON unserialized properly",
+            function () {
+                // Single model object json serialization
+                $robot = Robots::findFirst();
+
+                $json = json_encode($robot);
+
+                expect(is_string($json))->true();
+                expect(strlen($json) > 10)->true(); // make sure result is not "{ }"
+
+                $array = json_decode($json, true);
+
+                expect($robot->toArray())->equals($array);
+            }
+        );
+
+        $this->specify(
+            "Model resultsets aren't JSON serialized or JSON unserialized properly",
+            function () {
+                // Result-set serialization
+                $robots = Robots::find();
+
+                $json = json_encode($robots);
+
+                expect(is_string($json))->true();
+                expect(strlen($json) > 50)->true(); // make sure result is not "{ }"
+
+                $array = json_decode($json, true);
+
+                expect($robots->toArray())->equals($array);
+            }
+        );
+
+        $this->specify(
+            "Single row resultsets aren't JSON serialized or JSON unserialized properly",
+            function () {
+                $robot = Robots::findFirst();
+
+                // Single row serialization
+                $result = $this->modelsManager->executeQuery(
+                    "SELECT id FROM " . Robots::class . " LIMIT 1"
+                );
+
+                expect($result)->isInstanceOf('Phalcon\Mvc\Model\Resultset\Simple');
+
+                foreach ($result as $row) {
+                    expect($row)->isInstanceOf('Phalcon\Mvc\Model\Row');
+                    expect($row->id)->equals($robot->id);
+
+                    $json = json_encode($row);
+
+                    expect(is_string($json))->true();
+                    expect(strlen($json) > 5)->true(); // make sure result is not "{ }"
+
+                    $array = json_decode($json, true);
+
+                    expect($row->toArray())->equals($array);
+                }
+            }
+        );
+    }
+
+    public function testMassAssignmentNormal()
+    {
+        $this->specify(
+            "Models can't properly assign properties",
+            function () {
+                $robot = new Robots();
+
+                $success = $robot->save(
+                    [
+                        "type" => "mechanical",
+                        "year" => 2018,
+                    ]
+                );
+
+                expect($success)->false();
+                expect($robot->type)->equals("mechanical");
+                expect($robot->year)->equals(2018);
+
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "type" => "mechanical",
+                        "year" => 2018,
+                    ]
+                );
+
+                expect($robot->type)->equals("mechanical");
+                expect($robot->year)->equals(2018);
+
+                //not assigns nonexistent fields
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "field1" => "mechanical",
+                        "field2" => 2018,
+                    ]
+                );
+
+                expect(empty($robot->field1))->true();
+                expect(empty($robot->field2))->true();
+
+                //white list
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "type" => "mechanical",
+                        "year" => 2018,
+                    ],
+                    null,
+                    ["type"]
+                );
+
+                expect($robot->type)->equals("mechanical");
+                expect(empty($robot->year))->true();
+
+                //white list
+                $robot = new Robots();
+
+                $robot->assign(
+                    [
+                        "typeFromClient" => "mechanical",
+                        "yearFromClient" => 2018,
+                    ],
+                    [
+                        "typeFromClient" => "type",
+                        "yearFromClient" => "year",
+                    ],
+                    ["type"]
+                );
+
+                expect($robot->type)->equals("mechanical");
+                expect(empty($robot->year))->true();
+            }
+        );
+    }
+
+    public function testMassAssignmentRenamed()
+    {
+        $this->specify(
+            "Models can't properly assign properties using a column map",
+            function () {
+                $robot = new Robotters();
+
+                $success = $robot->save(
+                    [
+                        "theType" => "mechanical",
+                        "theYear" => 2018,
+                    ]
+                );
+
+                expect($success)->false();
+                expect($robot->theType)->equals("mechanical");
+                expect($robot->theYear)->equals(2018);
+
+                //assign uses column renaming
+                $robot = new Robotters();
+
+                $robot->assign(
+                    [
+                        "theType" => "mechanical",
+                        "theYear" => 2018,
+                    ]
+                );
+
+                expect($robot->theType)->equals("mechanical");
+                expect($robot->theYear)->equals(2018);
+
+                //not assigns nonexistent fields
+                $robot = new Robotters();
+
+                $robot->assign(
+                    [
+                        "field1" => "mechanical",
+                        "field2" => 2018,
+                    ]
+                );
+
+                expect(empty($robot->field1))->true();
+                expect(empty($robot->field2))->true();
+
+                //white list
+                $robot = new Robotters();
+                $robot->assign(
+                    [
+                        "theType" => "mechanical",
+                        "theYear" => 2018
+                    ],
+                    null,
+                    ["theType"]
+                );
+
+                expect($robot->theType)->equals("mechanical");
+                expect(empty($robot->theYear))->true();
+
+                //white list & custom mapping
+                $robot = new Robotters();
+
+                $robot->assign(
+                    [
+                        "theTypeFromClient" => "mechanical",
+                        "theYearFromClient" => 2018
+                    ],
+                    [
+                        "theTypeFromClient" => "theType",
+                        "theYearFromClient" => "theYear",
+                    ],
+                    ["theType"]
+                );
+
+                expect($robot->theType)->equals("mechanical");
+                expect(empty($robot->theYear))->true();
+            }
+        );
+    }
+
+    public function testFindersNormal()
+    {
+        $this->specify(
+            "Models can't be found properly",
+            function () {
+                $robot = Robots::findFirstById(1);
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->id)->equals(1);
+
+                $robot = Robots::findFirstById(2);
+                expect($robot)->isInstanceOf(Robots::class);
+                expect($robot->id)->equals(2);
+
+                $robots = Robots::findByType('mechanical');
+                expect($robots)->count(2);
+                expect($robots[0]->id)->equals(1);
+
+                $number = Robots::countByType('mechanical');
+                expect($number)->equals(2);
+            }
+        );
+    }
+
+    public function testFindersRenamed()
+    {
+        $this->specify(
+            "Models can't be found properly when using a column map",
+            function () {
+                $robot = Robotters::findFirstByCode(1);
+                expect($robot)->isInstanceOf(Robotters::class);
+                expect($robot->code)->equals(1);
+
+                $robot = Robotters::findFirstByCode(2);
+                expect($robot)->isInstanceOf(Robotters::class);
+                expect($robot->code)->equals(2);
+
+                $robots = Robotters::findByTheType('mechanical');
+                expect($robots)->count(2);
+                expect($robots[0]->code)->equals(1);
+
+                $number = Robotters::countByTheType('mechanical');
+                expect($number)->equals(2);
             }
         );
     }
