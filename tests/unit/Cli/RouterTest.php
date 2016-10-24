@@ -2,6 +2,9 @@
 
 namespace Phalcon\Test\Unit\Cli;
 
+use Phalcon\Cli\Router;
+use Phalcon\Cli\Router\Route;
+use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -28,7 +31,7 @@ class RouterTest extends UnitTest
         $this->specify(
             "...",
             function () {
-                $di = new \Phalcon\DI\FactoryDefault\CLI();
+                $di = new CliFactoryDefault();
 
                 $di->set(
                     "data",
@@ -37,14 +40,13 @@ class RouterTest extends UnitTest
                     }
                 );
 
-                $router = new \Phalcon\CLI\Router();
+                $router = new Router();
 
                 $router->handle([]);
                 expect($router->getModuleName())->null();
                 expect($router->getTaskName())->null();
                 expect($router->getActionName())->null();
                 expect($router->getParams())->equals([]);
-
 
                 $router->handle(
                     [
@@ -134,132 +136,10 @@ class RouterTest extends UnitTest
     {
         $this->specify(
             "...",
-            function () {
-                \Phalcon\Cli\Router\Route::reset();
+            function ($test) {
+                Route::reset();
 
-                $tests = array(
-                    array(
-                        'uri' => '',
-                        'module' => null,
-                        'task' => null,
-                        'action' => null,
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => ' ',
-                        'module' => 'devtools',
-                        'task' => 'main',
-                        'action' => 'hello',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => 'documentation index hellao aaadpqñda bbbAdld cc-ccc',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array('hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc')
-                    ),
-                    array(
-                        'uri' => ' documentation index',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => 'documentation index ',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => 'documentation index',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => 'documentation ',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => null,
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => 'system admin a edit hellao aaadp',
-                        'module' => null,
-                        'task' => 'admin',
-                        'action' => 'edit',
-                        'params' => array('hellao', 'aaadp')
-                    ),
-                    array(
-                        'uri' => 'es news',
-                        'module' => null,
-                        'task' => 'news',
-                        'action' => 'index',
-                        'params' => array('language' => 'es')
-                    ),
-                    array(
-                        'uri' => 'admin posts edit 100',
-                        'module' => 'admin',
-                        'task' => 'posts',
-                        'action' => 'edit',
-                        'params' => array('id' => 100)
-                    ),
-                    array(
-                        'uri' => 'posts 2010 02 10 title content',
-                        'module' => null,
-                        'task' => 'posts',
-                        'action' => 'show',
-                        'params' => array('year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content')
-                    ),
-                    array(
-                        'uri' => 'manual en translate.adapter.txt',
-                        'module' => null,
-                        'task' => 'manual',
-                        'action' => 'show',
-                        'params' => array('language' => 'en', 'file' => 'translate.adapter')
-                    ),
-                    array(
-                        'uri' => 'named-manual en translate.adapter.txt',
-                        'module' => null,
-                        'task' => 'manual',
-                        'action' => 'show',
-                        'params' => array('language' => 'en', 'file' => 'translate.adapter')
-                    ),
-                    array(
-                        'uri' => 'posts 1999 s le-nice-title',
-                        'module' => null,
-                        'task' => 'posts',
-                        'action' => 'show',
-                        'params' => array('year' => '1999', 'title' => 'le-nice-title')
-                    ),
-                    array(
-                        'uri' => 'feed fr blog diaporema.json',
-                        'module' => null,
-                        'task' => 'feed',
-                        'action' => 'get',
-                        'params' => array('lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json')
-                    ),
-                    array(
-                        'uri' => 'posts delete 150',
-                        'module' => null,
-                        'task' => 'posts',
-                        'action' => 'delete',
-                        'params' => array('id' => '150')
-                    ),
-                    array(
-                        'uri' => 'very static route',
-                        'module' => null,
-                        'task' => 'static',
-                        'action' => 'route',
-                        'params' => array()
-                    ),
-                );
-
-                $router = new \Phalcon\CLI\Router();
+                $router = new Router();
 
                 $router->add(' ', array(
                     'module' => 'devtools',
@@ -320,10 +200,165 @@ class RouterTest extends UnitTest
 
                 $router->add("show {id:video([0-9]+)} {title:[a-z\-]+}", "Videos::show");
 
-                foreach ($tests as $n => $test) {
-                    $this->_runTest($router, $test);
-                }
-            }
+                $this->_runTest($router, $test);
+            },
+            [
+                "examples" => array(
+                    [
+                        array(
+                            'uri' => '',
+                            'module' => null,
+                            'task' => null,
+                            'action' => null,
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => ' ',
+                            'module' => 'devtools',
+                            'task' => 'main',
+                            'action' => 'hello',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'documentation index hellao aaadpqñda bbbAdld cc-ccc',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array('hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => ' documentation index',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'documentation index ',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'documentation index',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'documentation ',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => null,
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'system admin a edit hellao aaadp',
+                            'module' => null,
+                            'task' => 'admin',
+                            'action' => 'edit',
+                            'params' => array('hellao', 'aaadp')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'es news',
+                            'module' => null,
+                            'task' => 'news',
+                            'action' => 'index',
+                            'params' => array('language' => 'es')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'admin posts edit 100',
+                            'module' => 'admin',
+                            'task' => 'posts',
+                            'action' => 'edit',
+                            'params' => array('id' => 100)
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'posts 2010 02 10 title content',
+                            'module' => null,
+                            'task' => 'posts',
+                            'action' => 'show',
+                            'params' => array('year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'manual en translate.adapter.txt',
+                            'module' => null,
+                            'task' => 'manual',
+                            'action' => 'show',
+                            'params' => array('language' => 'en', 'file' => 'translate.adapter')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'named-manual en translate.adapter.txt',
+                            'module' => null,
+                            'task' => 'manual',
+                            'action' => 'show',
+                            'params' => array('language' => 'en', 'file' => 'translate.adapter')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'posts 1999 s le-nice-title',
+                            'module' => null,
+                            'task' => 'posts',
+                            'action' => 'show',
+                            'params' => array('year' => '1999', 'title' => 'le-nice-title')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'feed fr blog diaporema.json',
+                            'module' => null,
+                            'task' => 'feed',
+                            'action' => 'get',
+                            'params' => array('lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'posts delete 150',
+                            'module' => null,
+                            'task' => 'posts',
+                            'action' => 'delete',
+                            'params' => array('id' => '150')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'very static route',
+                            'module' => null,
+                            'task' => 'static',
+                            'action' => 'route',
+                            'params' => array()
+                        )
+                    ],
+                )
+            ]
         );
     }
 
@@ -331,41 +366,46 @@ class RouterTest extends UnitTest
     {
         $this->specify(
             "...",
-            function () {
-                $router = new \Phalcon\Cli\Router();
-
-                $tests = array(
-                    array(
-                        'uri' => 'some hattie',
-                        'module' => null,
-                        'task' => '',
-                        'action' => '',
-                        'params' => array('name' => 'hattie')
-                    ),
-                    array(
-                        'uri' => 'some hattie 100',
-                        'module' => null,
-                        'task' => '',
-                        'action' => '',
-                        'params' => array('name' => 'hattie', 'id' => 100)
-                    ),
-                    array(
-                        'uri' => 'some hattie 100 2011-01-02',
-                        'module' => null,
-                        'task' => '',
-                        'action' => '',
-                        'params' => array('name' => 'hattie', 'id' => 100, 'date' => '2011-01-02')
-                    ),
-                );
+            function ($test) {
+                $router = new Router();
 
                 $router->add('some {name}');
                 $router->add('some {name} {id:[0-9]+}');
                 $router->add('some {name} {id:[0-9]+} {date}');
 
-                foreach ($tests as $n => $test) {
-                    $this->_runTest($router, $test);
-                }
-            }
+                $this->_runTest($router, $test);
+            },
+            [
+                "examples" => array(
+                    [
+                        array(
+                            'uri' => 'some hattie',
+                            'module' => null,
+                            'task' => '',
+                            'action' => '',
+                            'params' => array('name' => 'hattie')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'some hattie 100',
+                            'module' => null,
+                            'task' => '',
+                            'action' => '',
+                            'params' => array('name' => 'hattie', 'id' => 100)
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => 'some hattie 100 2011-01-02',
+                            'module' => null,
+                            'task' => '',
+                            'action' => '',
+                            'params' => array('name' => 'hattie', 'id' => 100, 'date' => '2011-01-02')
+                        )
+                    ],
+                )
+            ]
         );
     }
 
@@ -374,9 +414,9 @@ class RouterTest extends UnitTest
         $this->specify(
             "...",
             function () {
-                \Phalcon\Cli\Router\Route::reset();
+                Route::reset();
 
-                $router = new \Phalcon\Cli\Router(false);
+                $router = new Router(false);
 
                 $usersFind = $router->add('api users find')->setName('usersFind');
                 $usersAdd = $router->add('api users add')->setName('usersAdd');
@@ -392,10 +432,10 @@ class RouterTest extends UnitTest
     {
         $this->specify(
             "...",
-            function () {
-                \Phalcon\Cli\Router\Route::reset();
+            function ($route, $paths) {
+                Route::reset();
 
-                $router = new \Phalcon\Cli\Router();
+                $router = new Router();
 
                 $router->add('{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country')
                 ->convert('task', function($task){
@@ -423,26 +463,31 @@ class RouterTest extends UnitTest
                     return strrev($id);
                 });
 
-                $routes = array(
-                    'some-controller my-action-name this-is-a-country' => array(
-                        'task' => 'somecontroller',
-                        'action' => 'myactionname',
-                        'params' => array('this-is-a-country')
-                    ),
-                    'BINARY 1101' => array(
-                        'task' => 'binary',
-                        'action' => 'index',
-                        'params' => array(1011)
-                    )
-                );
-
-                foreach ($routes as $route => $paths) {
-                    $router->handle($route);
-                    expect($router->wasMatched())->true();
-                    expect($paths['task'])->equals($router->getTaskName());
-                    expect($paths['action'])->equals($router->getActionName());
-                }
-            }
+                $router->handle($route);
+                expect($router->wasMatched())->true();
+                expect($paths['task'])->equals($router->getTaskName());
+                expect($paths['action'])->equals($router->getActionName());
+            },
+            [
+                "examples" => array(
+                    [
+                        "route" => 'some-controller my-action-name this-is-a-country',
+                        "paths" => array(
+                            'task' => 'somecontroller',
+                            'action' => 'myactionname',
+                            'params' => array('this-is-a-country')
+                        )
+                    ],
+                    [
+                        "route" => 'BINARY 1101',
+                        "paths" => array(
+                            'task' => 'binary',
+                            'action' => 'index',
+                            'params' => array(1011)
+                        )
+                    ],
+                )
+            ]
         );
     }
 
@@ -451,9 +496,9 @@ class RouterTest extends UnitTest
         $this->specify(
             "...",
             function () {
-                \Phalcon\Cli\Router\Route::reset();
+                Route::reset();
 
-                $router = new \Phalcon\Cli\Router(false);
+                $router = new Router(false);
 
                 $route = $router->add("route0", "Feed");
                 expect($route->getPaths())->equals(array(
@@ -508,11 +553,11 @@ class RouterTest extends UnitTest
         $this->specify(
             "...",
             function () {
-                \Phalcon\Cli\Router\Route::reset();
+                Route::reset();
 
                 $trace = 0;
 
-                $router = new \Phalcon\Cli\Router(false);
+                $router = new Router(false);
 
                 $router
                     ->add('static route')
@@ -546,119 +591,11 @@ class RouterTest extends UnitTest
     {
         $this->specify(
             "...",
-            function () {
-                \Phalcon\Cli\Router\Route::reset();
-                \Phalcon\Cli\Router\Route::delimiter('/');
+            function ($test) {
+                Route::reset();
+                Route::delimiter('/');
 
-                $tests = array(
-                    array(
-                        'uri' => '/',
-                        'module' => 'devtools',
-                        'task' => 'main',
-                        'action' => 'hello',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => '/documentation/index/hellao/aaadpqñda/bbbAdld/cc-ccc',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array('hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc')
-                    ),
-                    array(
-                        'uri' => '/documentation/index/',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => '/documentation/index',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => 'index',
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => '/documentation/',
-                        'module' => null,
-                        'task' => 'documentation',
-                        'action' => null,
-                        'params' => array()
-                    ),
-                    array(
-                        'uri' => '/system/admin/a/edit/hellao/aaadp',
-                        'module' => null,
-                        'task' => 'admin',
-                        'action' => 'edit',
-                        'params' => array('hellao', 'aaadp')
-                    ),
-                    array(
-                        'uri' => '/es/news',
-                        'module' => null,
-                        'task' => 'news',
-                        'action' => 'index',
-                        'params' => array('language' => 'es')
-                    ),
-                    array(
-                        'uri' => '/admin/posts/edit/100',
-                        'module' => 'admin',
-                        'task' => 'posts',
-                        'action' => 'edit',
-                        'params' => array('id' => 100)
-                    ),
-                    array(
-                        'uri' => '/posts/2010/02/10/title/content',
-                        'module' => null,
-                        'task' => 'posts',
-                        'action' => 'show',
-                        'params' => array('year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content')
-                    ),
-                    array(
-                        'uri' => '/manual/en/translate.adapter.txt',
-                        'module' => null,
-                        'task' => 'manual',
-                        'action' => 'show',
-                        'params' => array('language' => 'en', 'file' => 'translate.adapter')
-                    ),
-                    array(
-                        'uri' => '/named-manual/en/translate.adapter.txt',
-                        'module' => null,
-                        'task' => 'manual',
-                        'action' => 'show',
-                        'params' => array('language' => 'en', 'file' => 'translate.adapter')
-                    ),
-                    array(
-                        'uri' => '/posts/1999/s/le-nice-title',
-                        'module' => null,
-                        'task' => 'posts',
-                        'action' => 'show',
-                        'params' => array('year' => '1999', 'title' => 'le-nice-title')
-                    ),
-                    array(
-                        'uri' => '/feed/fr/blog/diaporema.json',
-                        'module' => null,
-                        'task' => 'feed',
-                        'action' => 'get',
-                        'params' => array('lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json')
-                    ),
-                    array(
-                        'uri' => '/posts/delete/150',
-                        'module' => null,
-                        'task' => 'posts',
-                        'action' => 'delete',
-                        'params' => array('id' => '150')
-                    ),
-                    array(
-                        'uri' => '/very/static/route',
-                        'module' => null,
-                        'task' => 'static',
-                        'action' => 'route',
-                        'params' => array()
-                    ),
-                );
-
-                $router = new \Phalcon\CLI\Router();
+                $router = new Router();
 
                 $router->add('/', array(
                     'module' => 'devtools',
@@ -719,10 +656,147 @@ class RouterTest extends UnitTest
 
                 $router->add("/show/{id:video([0-9]+)}/{title:[a-z\-]+}", "Videos::show");
 
-                foreach ($tests as $n => $test) {
-                    $this->_runTest($router, $test);
-                }
-            }
+                $this->_runTest($router, $test);
+            },
+            [
+                "examples" => array(
+                    [
+                        array(
+                            'uri' => '/',
+                            'module' => 'devtools',
+                            'task' => 'main',
+                            'action' => 'hello',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/documentation/index/hellao/aaadpqñda/bbbAdld/cc-ccc',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array('hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/documentation/index/',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/documentation/index',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => 'index',
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/documentation/',
+                            'module' => null,
+                            'task' => 'documentation',
+                            'action' => null,
+                            'params' => array()
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/system/admin/a/edit/hellao/aaadp',
+                            'module' => null,
+                            'task' => 'admin',
+                            'action' => 'edit',
+                            'params' => array('hellao', 'aaadp')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/es/news',
+                            'module' => null,
+                            'task' => 'news',
+                            'action' => 'index',
+                            'params' => array('language' => 'es')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/admin/posts/edit/100',
+                            'module' => 'admin',
+                            'task' => 'posts',
+                            'action' => 'edit',
+                            'params' => array('id' => 100)
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/posts/2010/02/10/title/content',
+                            'module' => null,
+                            'task' => 'posts',
+                            'action' => 'show',
+                            'params' => array('year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/manual/en/translate.adapter.txt',
+                            'module' => null,
+                            'task' => 'manual',
+                            'action' => 'show',
+                            'params' => array('language' => 'en', 'file' => 'translate.adapter')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/named-manual/en/translate.adapter.txt',
+                            'module' => null,
+                            'task' => 'manual',
+                            'action' => 'show',
+                            'params' => array('language' => 'en', 'file' => 'translate.adapter')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/posts/1999/s/le-nice-title',
+                            'module' => null,
+                            'task' => 'posts',
+                            'action' => 'show',
+                            'params' => array('year' => '1999', 'title' => 'le-nice-title')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/feed/fr/blog/diaporema.json',
+                            'module' => null,
+                            'task' => 'feed',
+                            'action' => 'get',
+                            'params' => array('lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/posts/delete/150',
+                            'module' => null,
+                            'task' => 'posts',
+                            'action' => 'delete',
+                            'params' => array('id' => '150')
+                        )
+                    ],
+                    [
+                        array(
+                            'uri' => '/very/static/route',
+                            'module' => null,
+                            'task' => 'static',
+                            'action' => 'route',
+                            'params' => array()
+                        )
+                    ],
+                )
+            ]
         );
     }
 }
