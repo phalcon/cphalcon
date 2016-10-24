@@ -78,6 +78,7 @@ class MysqlTest extends UnitTest
                     'robots',
                     'robots_parts',
                     'songs',
+                    'stats',
                     'subscriptores',
                     'tipo_documento',
                     'users',

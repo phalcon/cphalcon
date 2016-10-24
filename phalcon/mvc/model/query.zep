@@ -2499,7 +2499,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			sqlColumn, attributes, instance, columnMap, attribute,
 			columnAlias, sqlAlias, dialect, sqlSelect, bindCounts,
 			processed, wildcard, value, processedTypes, typeWildcard, result,
-			resultData, cache, resultObject, columns1, typesColumnMap, wildcardValue;
+			resultData, cache, resultObject, columns1, typesColumnMap, wildcardValue, resultsetClassName;
 		boolean haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
 		int numberObjects;
 
@@ -2798,6 +2798,22 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * Check if the model keeps snapshots
 				 */
 				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(model);
+			}
+
+			if resultObject instanceof ModelInterface && method_exists(resultObject, "getResultsetClass") {
+				let resultsetClassName = (<ModelInterface> resultObject)->getResultsetClass();
+
+				if resultsetClassName {
+					if ! class_exists(resultsetClassName) {
+						throw new Exception("Resultset class \"" . resultsetClassName . "\" not found");
+					}
+
+					if ! in_array("Phalcon\\Mvc\\Model\\ResultsetInterface", class_implements(resultsetClassName)) {
+						throw new Exception("Resultset class \"" . resultsetClassName . "\" must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface");
+					}
+
+					return new {resultsetClassName}(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+				}
 			}
 
 			/**

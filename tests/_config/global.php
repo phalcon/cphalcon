@@ -8,6 +8,7 @@ return [
         'viewsDir'  => PATH_DATA . 'views/',
         'modelsDir' => PATH_DATA . 'models/',
         'modulesDir' => PATH_DATA . 'modules/',
+        'resultsetsDir'  => PATH_DATA . 'resultsets/',
         'collectionsDir' => PATH_DATA . 'collections/',
         'controllersDir' => PATH_DATA . 'controllers/',
     ],
