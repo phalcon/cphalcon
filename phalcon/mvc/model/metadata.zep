@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -302,7 +302,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
 	{
-		var metaData, source, schema, key;
+		var source, schema, key;
 
 		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
 			throw new Exception("Invalid data for index");
