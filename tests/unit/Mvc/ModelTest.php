@@ -548,4 +548,36 @@ class ModelTest extends UnitTest
             }
         );
     }
+
+    public function testBehaviorsTimestampable()
+    {
+        $this->specify(
+            "Timestampable model behavior doesn't work",
+            function () {
+                $subscriber = new \Phalcon\Test\Models\News\Subscribers();
+
+                $subscriber->email = 'some@some.com';
+                $subscriber->status = 'I';
+
+                expect($subscriber->save())->true();
+                expect(preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $subscriber->created_at))->equals(1);
+            }
+        );
+    }
+
+    public function testBehaviorsSoftDelete()
+    {
+        $this->specify(
+            "Soft Delete model behavior doesn't work",
+            function () {
+                $number = \Phalcon\Test\Models\News\Subscribers::count();
+
+                $subscriber = \Phalcon\Test\Models\News\Subscribers::findFirst();
+
+                expect($subscriber->delete())->true();
+                expect($subscriber->status)->equals('D');
+                expect(\Phalcon\Test\Models\News\Subscribers::count())->equals($number);
+            }
+        );
+    }
 }
