@@ -40,9 +40,9 @@ class RouterTest extends UnitTest
                 $router = new \Phalcon\CLI\Router();
 
                 $router->handle([]);
-                expect($router->getModuleName())->equals(null);
-                expect($router->getTaskName())->equals(null);
-                expect($router->getActionName())->equals(null);
+                expect($router->getModuleName())->null();
+                expect($router->getTaskName())->null();
+                expect($router->getActionName())->null();
                 expect($router->getParams())->equals([]);
 
 
@@ -51,9 +51,9 @@ class RouterTest extends UnitTest
                         "task" => "main",
                     ]
                 );
-                expect($router->getModuleName())->equals(null);
+                expect($router->getModuleName())->null();
                 expect($router->getTaskName())->equals("main");
-                expect($router->getActionName())->equals(null);
+                expect($router->getActionName())->null();
                 expect($router->getParams())->equals([]);
 
                 $router->handle(
@@ -61,9 +61,9 @@ class RouterTest extends UnitTest
                         "task" => "echo",
                     ]
                 );
-                expect($router->getModuleName())->equals(null);
+                expect($router->getModuleName())->null();
                 expect($router->getTaskName())->equals("echo");
-                expect($router->getActionName())->equals(null);
+                expect($router->getActionName())->null();
                 expect($router->getParams())->equals([]);
 
                 $router->handle(
@@ -72,7 +72,7 @@ class RouterTest extends UnitTest
                         "action" => "hello",
                     ]
                 );
-                expect($router->getModuleName())->equals(null);
+                expect($router->getModuleName())->null();
                 expect($router->getTaskName())->equals("main");
                 expect($router->getActionName())->equals("hello");
                 expect($router->getParams())->equals([]);
@@ -85,7 +85,7 @@ class RouterTest extends UnitTest
                         "arg2",
                     ]
                 );
-                expect($router->getModuleName())->equals(null);
+                expect($router->getModuleName())->null();
                 expect($router->getTaskName())->equals("main");
                 expect($router->getActionName())->equals("hello");
                 expect($router->getParams())->equals(["arg1", "arg2"]);

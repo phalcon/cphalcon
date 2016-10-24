@@ -4,6 +4,8 @@ namespace Phalcon\Test\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsParts;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Query\BuilderTest
@@ -45,229 +47,229 @@ class BuilderTest extends UnitTest
     public function testAction()
     {
         $this->specify(
-            "Query Builders don't build the expect queries",
+            "Query Builders don't build the expected queries",
             function () {
                 $di = $this->di;
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots]");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from(["Robots", "RobotsParts"])
+                                ->from([Robots::class, RobotsParts::class])
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].*, [RobotsParts].* FROM [Robots], [RobotsParts]");
+                expect($phql)->equals("SELECT [Robots].*, [RobotsParts].* FROM [" . Robots::class . "], [RobotsParts]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->columns("*")
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->getPhql();
-                expect($phql)->equals("SELECT * FROM [Robots]");
+                expect($phql)->equals("SELECT * FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->columns(["id", "name"])
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->getPhql();
-                expect($phql)->equals("SELECT id, name FROM [Robots]");
+                expect($phql)->equals("SELECT id, name FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->columns("id")
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->getPhql();
-                expect($phql)->equals("SELECT id FROM [Robots]");
+                expect($phql)->equals("SELECT id FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->where("Robots.name = 'Voltron'")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE Robots.name = 'Voltron'");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE Robots.name = 'Voltron'");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->where("Robots.name = 'Voltron'")
                                 ->andWhere("Robots.id > 100")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE (Robots.name = 'Voltron') AND (Robots.id > 100)");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id > 100)");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->where("Robots.name = 'Voltron'")
                                 ->orWhere("Robots.id > 100")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE (Robots.name = 'Voltron') OR (Robots.id > 100)");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id > 100)");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->where(100)
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE [Robots].[id] = 100");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE [Robots].[id] = 100");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->groupBy("Robots.name")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] GROUP BY Robots.name");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] GROUP BY Robots.name");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->groupBy(["Robots.name", "Robots.id"])
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] GROUP BY Robots.name, Robots.id");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] GROUP BY Robots.name, Robots.id");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->columns(["Robots.name", "SUM(Robots.price)"])
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->groupBy("Robots.name")
                                 ->getPhql();
-                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name");
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->columns(["Robots.name", "SUM(Robots.price)"])
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->groupBy("Robots.name")
                                 ->having("SUM(Robots.price) > 1000")
                                 ->getPhql();
-                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING SUM(Robots.price) > 1000");
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) > 1000");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
-                                ->join("RobotsParts")
+                                ->from(Robots::class)
+                                ->join(RobotsParts::class)
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] JOIN [RobotsParts]");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] JOIN [RobotsParts]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
-                                ->join("RobotsParts", null, "p")
+                                ->from(Robots::class)
+                                ->join(RobotsParts::class, null, "p")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] AS [p]");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] JOIN [RobotsParts] AS [p]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
-                                ->join("RobotsParts", "Robots.id = RobotsParts.robots_id", "p")
+                                ->from(Robots::class)
+                                ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] AS [p] ON Robots.id = RobotsParts.robots_id");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] JOIN [RobotsParts] AS [p] ON Robots.id = RobotsParts.robots_id");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
-                                ->join("RobotsParts", "Robots.id = RobotsParts.robots_id", "p")
+                                ->from(Robots::class)
+                                ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
                                 ->join("Parts", "Parts.id = RobotsParts.parts_id", "t")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] AS [p] ON Robots.id = RobotsParts.robots_id JOIN [Parts] AS [t] ON Parts.id = RobotsParts.parts_id");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] JOIN [RobotsParts] AS [p] ON Robots.id = RobotsParts.robots_id JOIN [Parts] AS [t] ON Parts.id = RobotsParts.parts_id");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
-                                ->leftJoin("RobotsParts", "Robots.id = RobotsParts.robots_id")
+                                ->from(Robots::class)
+                                ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
                                 ->leftJoin("Parts", "Parts.id = RobotsParts.parts_id")
                                 ->where("Robots.id > 0")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] LEFT JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id LEFT JOIN [Parts] ON Parts.id = RobotsParts.parts_id WHERE Robots.id > 0");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] LEFT JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id LEFT JOIN [Parts] ON Parts.id = RobotsParts.parts_id WHERE Robots.id > 0");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->addFrom("Robots", "r")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [r].* FROM [Robots] AS [r]");
+                expect($phql)->equals("SELECT [r].* FROM [" . Robots::class . "] AS [r]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->addFrom("Parts", "p")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].*, [p].* FROM [Robots], [Parts] AS [p]");
+                expect($phql)->equals("SELECT [Robots].*, [p].* FROM [" . Robots::class . "], [Parts] AS [p]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->from(["r" => "Robots"])
                                 ->addFrom("Parts", "p")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [r].*, [p].* FROM [Robots] AS [r], [Parts] AS [p]");
+                expect($phql)->equals("SELECT [r].*, [p].* FROM [" . Robots::class . "] AS [r], [Parts] AS [p]");
 
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->from(["r" => "Robots", "p" => "Parts"])
                                 ->getPhql();
-                expect($phql)->equals("SELECT [r].*, [p].* FROM [Robots] AS [r], [Parts] AS [p]");
+                expect($phql)->equals("SELECT [r].*, [p].* FROM [" . Robots::class . "] AS [r], [Parts] AS [p]");
 
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->orderBy("Robots.name")
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] ORDER BY Robots.name");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] ORDER BY Robots.name");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->orderBy([1, "Robots.name"])
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] ORDER BY 1, Robots.name");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] ORDER BY 1, Robots.name");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->limit(10)
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] LIMIT :APL0:");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] LIMIT :APL0:");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                                ->from("Robots")
+                                ->from(Robots::class)
                                 ->limit(10, 5)
                                 ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] LIMIT :APL0: OFFSET :APL1:");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->where("Robots.name = 'Voltron'")
                     ->betweenWhere("Robots.id", 0, 50)
                     ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE (Robots.name = 'Voltron') AND (Robots.id BETWEEN :AP0: AND :AP1:)");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id BETWEEN :AP0: AND :AP1:)");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->where("Robots.name = 'Voltron'")
                     ->inWhere("Robots.id", [1, 2, 3])
                     ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE (Robots.name = 'Voltron') AND (Robots.id IN (:AP0:, :AP1:, :AP2:))");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id IN (:AP0:, :AP1:, :AP2:))");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->where("Robots.name = 'Voltron'")
                     ->betweenWhere("Robots.id", 0, 50, Builder::OPERATOR_OR)
                     ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE (Robots.name = 'Voltron') OR (Robots.id BETWEEN :AP0: AND :AP1:)");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id BETWEEN :AP0: AND :AP1:)");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->where("Robots.name = 'Voltron'")
                     ->inWhere("Robots.id", [1, 2, 3], Builder::OPERATOR_OR)
                     ->getPhql();
-                expect($phql)->equals("SELECT [Robots].* FROM [Robots] WHERE (Robots.name = 'Voltron') OR (Robots.id IN (:AP0:, :AP1:, :AP2:))");
+                expect($phql)->equals("SELECT [Robots].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id IN (:AP0:, :AP1:, :AP2:))");
             }
         );
     }
@@ -281,8 +283,8 @@ class BuilderTest extends UnitTest
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
-                    ->from("Robots")
-                    ->leftJoin("RobotsParts", "Robots.id = RobotsParts.robots_id")
+                    ->from(Robots::class)
+                    ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
                     ->leftJoin("Parts", "Parts.id = RobotsParts.parts_id")
                     ->where("Robots.id > :1: AND Robots.id < :2:", [1 => 0, 2 => 1000]);
 
@@ -316,11 +318,11 @@ class BuilderTest extends UnitTest
 
                 $phql = $builder->setDi($di)
                     ->columns(["Robots.name"])
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->having("Robots.price > 1000")
                     ->getPhql();
 
-                expect($phql)->equals("SELECT Robots.name FROM [Robots] HAVING Robots.price > 1000");
+                expect($phql)->equals("SELECT Robots.name FROM [" . Robots::class . "] HAVING Robots.price > 1000");
             }
         );
     }
@@ -336,33 +338,33 @@ class BuilderTest extends UnitTest
                 $phql = $builder->setDi($di)
                     ->distinct(true)
                     ->columns(["Robots.name"])
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->getPhql();
-                expect($phql)->equals("SELECT DISTINCT Robots.name FROM [Robots]");
+                expect($phql)->equals("SELECT DISTINCT Robots.name FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                     ->distinct(false)
                     ->columns(["Robots.name"])
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->getPhql();
-                expect($phql)->equals("SELECT ALL Robots.name FROM [Robots]");
+                expect($phql)->equals("SELECT ALL Robots.name FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                     ->distinct(true)
                     ->distinct(null)
                     ->columns(["Robots.name"])
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->getPhql();
-                expect($phql)->equals("SELECT Robots.name FROM [Robots]");
+                expect($phql)->equals("SELECT Robots.name FROM [" . Robots::class . "]");
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                     ->distinct(true)
-                    ->from("Robots")
+                    ->from(Robots::class)
                     ->getPhql();
-                expect($phql)->equals("SELECT DISTINCT [Robots].* FROM [Robots]");
+                expect($phql)->equals("SELECT DISTINCT [Robots].* FROM [" . Robots::class . "]");
             }
         );
     }
@@ -391,7 +393,7 @@ class BuilderTest extends UnitTest
 
                 $builder = new Builder($params, $di);
 
-                $expectedPhql = "SELECT id, name, status FROM [Robots] "
+                $expectedPhql = "SELECT id, name, status FROM [" . Robots::class . "] "
                     . "WHERE a > 5 GROUP BY [type], [source] "
                     . "HAVING b < 5 ORDER BY [name], [created] "
                     . "LIMIT :APL0: OFFSET :APL1:";
@@ -432,7 +434,7 @@ class BuilderTest extends UnitTest
 
                 $builderLimitWithOffset = new Builder($params);
 
-                $expectedPhql = "SELECT [Robots].* FROM [Robots] LIMIT :APL0: OFFSET :APL1:";
+                $expectedPhql = "SELECT [Robots].* FROM [" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:";
 
                 expect($builderLimitAndOffset->getPhql())->equals($expectedPhql);
                 expect($builderLimitWithOffset->getPhql())->equals($expectedPhql);
@@ -458,11 +460,11 @@ class BuilderTest extends UnitTest
                 // ------------- test for setters(classic) way ----------------
 
                 $standardBuilder = new Builder();
-                $standardBuilder->from("Robots")
+                $standardBuilder->from(Robots::class)
                     ->where(
                         "year > :min: AND year < :max:",
-                        ["min" => "2013-01-01",   "max" => "2100-01-01"],
-                        ["min" => PDO::PARAM_STR, "max" => PDO::PARAM_STR]
+                        ["min" => "2013-01-01",    "max" => "2100-01-01"],
+                        ["min" => \PDO::PARAM_STR, "max" => \PDO::PARAM_STR]
                     );
 
                 $standardResult = $standardBuilder->getQuery()->execute();
@@ -473,8 +475,8 @@ class BuilderTest extends UnitTest
                     "conditions" => [
                         [
                             "year > :min: AND year < :max:",
-                            ["min" => "2013-01-01",   "max" => "2100-01-01"],
-                            ["min" => PDO::PARAM_STR, "max" => PDO::PARAM_STR],
+                            ["min" => "2013-01-01",    "max" => "2100-01-01"],
+                            ["min" => \PDO::PARAM_STR, "max" => \PDO::PARAM_STR],
                         ],
                     ],
                 ];
@@ -490,12 +492,12 @@ class BuilderTest extends UnitTest
                         [
                             "year > :min:",
                             ["min" => "2000-01-01"],
-                            ["min" => PDO::PARAM_STR],
+                            ["min" => \PDO::PARAM_STR],
                         ],
                         [
                             "year < :max:",
                             ["max" => "2100-01-01"],
-                            ["max" => PDO::PARAM_STR],
+                            ["max" => \PDO::PARAM_STR],
                         ],
                     ],
                 ];
@@ -504,7 +506,7 @@ class BuilderTest extends UnitTest
                 $builderMultipleConditions = new Builder($params);
                 $multipleConditionResult   = $builderMultipleConditions->getQuery()->execute();
 
-                $expectedPhql = "SELECT [Robots].* FROM [Robots] WHERE year > :min: AND year < :max:";
+                $expectedPhql = "SELECT [Robots].* FROM [" . Robots::class . "] WHERE year > :min: AND year < :max:";
 
                 /* ------------ ASSERTING --------- */
 
@@ -531,11 +533,11 @@ class BuilderTest extends UnitTest
 
                 $phql = $builder->setDi($di)
                         ->columns(["name", "SUM(price)"])
-                        ->from("Robots")
+                        ->from(Robots::class)
                         ->groupBy("id, name")
                         ->getPhql();
 
-                expect($phql)->equals("SELECT name, SUM(price) FROM [Robots] GROUP BY [id], [name]");
+                expect($phql)->equals("SELECT name, SUM(price) FROM [" . Robots::class . "] GROUP BY [id], [name]");
             }
         );
     }
