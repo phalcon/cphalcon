@@ -29,7 +29,7 @@ class RouterTest extends UnitTest
     public function testRouters()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't match the correct paths",
             function () {
                 $di = new CliFactoryDefault();
 
@@ -135,7 +135,7 @@ class RouterTest extends UnitTest
     public function testRouter()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work match correct routes",
             function ($test) {
                 Route::reset();
 
@@ -365,7 +365,7 @@ class RouterTest extends UnitTest
     public function testRouterParams()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work with custom parameters",
             function ($test) {
                 $router = new Router();
 
@@ -412,7 +412,7 @@ class RouterTest extends UnitTest
     public function testNamedRoutes()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work with named routes",
             function () {
                 Route::reset();
 
@@ -431,7 +431,7 @@ class RouterTest extends UnitTest
     public function testConverters()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work with converters",
             function ($route, $paths) {
                 Route::reset();
 
@@ -494,7 +494,7 @@ class RouterTest extends UnitTest
     public function testShortPaths()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work with short paths",
             function () {
                 Route::reset();
 
@@ -551,7 +551,7 @@ class RouterTest extends UnitTest
     public function testBeforeMatch()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work with custom before match",
             function () {
                 Route::reset();
 
@@ -590,7 +590,7 @@ class RouterTest extends UnitTest
     public function testDelimiter()
     {
         $this->specify(
-            "...",
+            "CLI Router doesn't work with custom delimiters",
             function ($test) {
                 Route::reset();
                 Route::delimiter('/');
