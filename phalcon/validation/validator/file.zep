@@ -97,7 +97,9 @@ class File extends Validator
 	 */
 	public function validate(<Validation> validation, string! field) -> boolean
 	{
-		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width, height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes, code;
+		var value, message, label, replacePairs, types, byteUnits, unit, maxSize, matches, bytes, mime, tmp, width,
+			height, minResolution, maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes, code,
+			minResolutionArray, maxResolutionArray;
 
 		let value = validation->getValue(field),
 			label = this->getOption("label");
@@ -251,9 +253,9 @@ class File extends Validator
 				if typeof minResolution == "array" {
 					let minResolution = minResolution[field];
 				}
-				let minResolution = explode("x", minResolution),
-					minWidth = minResolution[0],
-					minHeight = minResolution[1];
+				let minResolutionArray = explode("x", minResolution),
+					minWidth = minResolutionArray[0],
+					minHeight = minResolutionArray[1];
 			} else {
 				let minWidth = 1,
 					minHeight = 1;
@@ -281,9 +283,9 @@ class File extends Validator
 				if typeof maxResolution == "array" {
 					let maxResolution = maxResolution[field];
 				}
-				let maxResolution = explode("x", maxResolution),
-					maxWidth = maxResolution[0],
-					maxHeight = maxResolution[1];
+				let maxResolutionArray = explode("x", maxResolution),
+					maxWidth = maxResolutionArray[0],
+					maxHeight = maxResolutionArray[1];
 
 				if width > maxWidth || height > maxHeight {
 					let message = this->getOption("messageMaxResolution"),

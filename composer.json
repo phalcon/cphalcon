@@ -19,7 +19,8 @@
         "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",
         "codeception/specify": "~0.4",
-        "phalcon/zephir": "dev-master"
+        "phalcon/zephir": "dev-master",
+        "codeception/aspect-mock": "*"
     },
     "license": "BSD-3-Clause",
     "authors": [
