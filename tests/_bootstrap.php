@@ -1,9 +1,13 @@
 <?php
 
+use AspectMock\Kernel;
+
 error_reporting(-1);
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 setlocale(LC_ALL, 'en_US.utf-8');
+
 date_default_timezone_set('UTC');
 
 if (function_exists('mb_internal_encoding')) {
@@ -26,20 +30,14 @@ defined('PATH_FIXTURES')|| define('PATH_FIXTURES', $root .  '_fixtures' . DIRECT
 
 unset($root);
 
-if (!file_exists(PROJECT_PATH . 'vendor/autoload.php')) {
-    throw new RuntimeException(
-        'Unable to locate autoloader. ' .
-        'Install dependencies from the project root directory to run test suite: `composer install`.'
-    );
-}
+require_once PROJECT_PATH . 'vendor/autoload.php';
+require_once TESTS_PATH . 'shim.php';
 
-include_once PROJECT_PATH . 'vendor/autoload.php';
-include_once TESTS_PATH . 'shim.php';
-
-$kernel = \AspectMock\Kernel::getInstance();
+$kernel = Kernel::getInstance();
 $kernel->init([
-    'debug' => true,
-    'includePaths' => [__DIR__.'/../src']
+    'includePaths' => [TESTS_PATH . DIRECTORY_SEPARATOR . '_proxies'],
+    'excludePaths' => [PROJECT_PATH . 'vendor'],
+    'cacheDir'     => TESTS_PATH . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR . 'mock',
 ]);
 
 if (extension_loaded('xdebug')) {
