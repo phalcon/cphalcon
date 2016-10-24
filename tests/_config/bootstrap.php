@@ -55,6 +55,7 @@ $loader->registerNamespaces(
 
 $loader->registerDirs([
     $config->get('application')->controllersDir,
+    $config->get('application')->tasksDir,
 ]);
 
 $loader->register();

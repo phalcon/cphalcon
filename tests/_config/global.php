@@ -10,6 +10,7 @@ return [
         'modulesDir' => PATH_DATA . 'modules/',
         'collectionsDir' => PATH_DATA . 'collections/',
         'controllersDir' => PATH_DATA . 'controllers/',
+        'tasksDir' => PATH_DATA . 'tasks/',
     ],
     'database' => [
         'adapter'  => 'Mysql',
