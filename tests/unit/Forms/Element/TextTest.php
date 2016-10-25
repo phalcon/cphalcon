@@ -123,4 +123,91 @@ class TextTest extends UnitTest
             }
         );
     }
+
+    public function testFormElementEmpty()
+    {
+        $this->specify(
+            "Default/empty values are not set properly",
+            function () {
+                $element = new Text("name");
+
+                expect($element->getLabel())->null();
+                expect($element->getAttributes())->equals([]);
+            }
+        );
+    }
+
+    public function testFormElement()
+    {
+        $this->specify(
+            "Form elements do not store attributes/labels properly",
+            function () {
+                $element = new Text("name");
+
+                $element->setLabel('name');
+                $element->setAttributes(array('class' => 'big-input'));
+                $element->setAttribute('placeholder', 'Type the name');
+
+                expect($element->getLabel())->equals('name');
+                expect($element->getAttributes())->equals(array(
+                    'class' => 'big-input',
+                    'placeholder' => 'Type the name'
+                ));
+
+                expect($element->getAttribute('class'))->equals('big-input');
+                expect($element->getAttribute('placeholder', 'the name'))->equals('Type the name');
+                expect($element->getAttribute('lang', 'en'))->equals('en');
+            }
+        );
+    }
+
+    public function testFormPrepareAttributes()
+    {
+        $this->specify(
+            "Attributes are not prepared properly",
+            function () {
+                $element1 = new Text("name");
+
+                $element1->setLabel('name');
+
+                expect($element1->prepareAttributes())->equals(['name']);
+            }
+        );
+    }
+
+    public function testFormPrepareAttributesDefault()
+    {
+        $this->specify(
+            "Attributes are not prepared properly (2)",
+            function () {
+                $element1 = new Text("name");
+
+                $element1->setLabel('name');
+                $element1->setAttributes(['class' => 'big-input']);
+
+                expect($element1->prepareAttributes())->equals(['name', 'class' => 'big-input']);
+            }
+        );
+    }
+
+    public function testFormOptions()
+    {
+        $this->specify(
+            "Text elements don't properly store user options or attributes",
+            function () {
+                $element1 = new Text("name");
+
+                $element1->setAttributes(array('class' => 'big-input'));
+                $element1->setUserOptions(array('some' => 'value'));
+
+                expect($element1->getUserOptions())->equals(array('some' => 'value'));
+
+                expect($element1->getUserOption('some'))->equals('value');
+
+                expect($element1->getUserOption('some-non'))->null();
+
+                expect($element1->getUserOption('some-non', 'default'))->equals('default');
+            }
+        );
+    }
 }
