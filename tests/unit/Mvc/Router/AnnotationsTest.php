@@ -28,7 +28,7 @@ require_once PATH_DATA . '/controllers/AnnotationController.php';
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class RouterAnnotationsTest extends UnitTest
+class AnnotationsTest extends UnitTest
 {
     public function _getDI()
     {

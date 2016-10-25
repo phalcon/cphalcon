@@ -26,7 +26,7 @@ class Test2Controller extends Phalcon\Mvc\Controller
         $this->dispatcher->forward(
             [
                 'controller' => 'test2',
-                'action'     => 'another_four'
+                'action'     => 'anotherfour'
             ]
         );
 

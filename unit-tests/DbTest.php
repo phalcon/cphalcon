@@ -110,7 +110,6 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	protected function _executeTests($connection)
 	{
-
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
