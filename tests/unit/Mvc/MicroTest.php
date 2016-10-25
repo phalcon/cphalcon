@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Micro;
 use Phalcon\Test\Module\UnitTest;
 
@@ -100,6 +101,156 @@ class MicroTest extends UnitTest
                 $app->handle();
 
                 expect($flag)->true();
+            }
+        );
+    }
+
+    public function testMicroBeforeHandlers()
+    {
+        $this->specify(
+            "Micro::before event handlers don't work as expected",
+            function () {
+                $trace = [];
+
+                $app = new Micro();
+
+                $app->before(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+
+                        return false;
+                    }
+                );
+
+                $app->before(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+
+                        return false;
+                    }
+                );
+
+                $app->map(
+                    "/blog",
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->handle("/blog");
+
+                expect($trace)->count(1);
+            }
+        );
+    }
+
+    public function testMicroAfterHandlers()
+    {
+        $this->specify(
+            "Micro::after event handlers don't work as expected",
+            function () {
+                $trace = [];
+
+                $app = new Micro();
+
+                $app->after(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->after(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->map(
+                    "/blog",
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->handle("/blog");
+
+                expect($trace)->count(3);
+            }
+        );
+    }
+
+    public function testMicroFinishHandlers()
+    {
+        $this->specify(
+            "Micro::finish event handlers don't work as expected",
+            function () {
+                $trace = [];
+
+                $app = new Micro();
+
+                $app->finish(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->finish(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->map(
+                    "/blog",
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->handle("/blog");
+
+                expect($trace)->count(3);
+            }
+        );
+    }
+
+    public function testMicroEvents()
+    {
+        $this->specify(
+            "Micro event handlers don't work as expected",
+            function () {
+                $trace = [];
+
+                $eventsManager = new EventsManager();
+
+                $eventsManager->attach(
+                    'micro',
+                    function ($event) use (&$trace) {
+                        $trace[$event->getType()] = true;
+                    }
+                );
+
+                $app = new Micro();
+
+                $app->setEventsManager($eventsManager);
+
+                $app->map(
+                    "/blog",
+                    function() {
+
+                    }
+                );
+
+                $app->handle("/blog");
+
+                expect($trace)->equals(
+                    [
+                        "beforeHandleRoute"  => true,
+                        "beforeExecuteRoute" => true,
+                        "afterExecuteRoute"  => true,
+                        "afterHandleRoute"   => true,
+                    ]
+                );
             }
         );
     }
