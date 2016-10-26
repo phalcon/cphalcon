@@ -116,7 +116,7 @@ class View extends Injectable implements ViewInterface
 
 	protected _partialsDir = "";
 
-	protected _viewsDirs;
+	protected _viewsDirs = [];
 
 	protected _templatesBefore = [];
 
