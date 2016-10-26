@@ -15,6 +15,7 @@ use Phalcon\Test\Module\View\Engine\Twig as TwigEngine;
 use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
 use Phalcon\Cache\Frontend\Output as FrontendCache;
 use Phalcon\Cache\Backend\File as BackendCache;
+use DirectoryIterator;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ViewTest
@@ -36,6 +37,21 @@ use Phalcon\Cache\Backend\File as BackendCache;
 class ViewTest extends UnitTest
 {
     use ViewTrait;
+
+    protected function _clearCache()
+    {
+        if (!file_exists(PATH_CACHE)) {
+            mkdir(PATH_CACHE);
+        }
+
+        foreach (new DirectoryIterator(PATH_CACHE) as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+
+            unlink($item->getPathname());
+        }
+    }
 
     /**
      * Tests the View::getActiveRenderPath
@@ -825,6 +841,8 @@ class ViewTest extends UnitTest
         $this->specify(
             "Views are not cached properly",
             function () {
+                $this->_clearCache();
+
                 $date = date("r");
                 $content = '<html>' . $date . '</html>' . PHP_EOL;
 
@@ -880,6 +898,8 @@ class ViewTest extends UnitTest
         $this->specify(
             "Views are not cached properly (2)",
             function () {
+                $this->_clearCache();
+
                 $date = date("r");
                 $content = '<html>'.$date.'</html>'.PHP_EOL;
 
@@ -916,6 +936,8 @@ class ViewTest extends UnitTest
         $this->specify(
             "Views are not cached properly when passing options to the constructor",
             function () {
+                $this->_clearCache();
+
                 $config = array(
                     'cache' => array(
                         'service' => 'otherCache',
