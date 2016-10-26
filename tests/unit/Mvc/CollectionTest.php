@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Mvc;
 use Helper\CollectionTrait;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Collections\Songs;
+use Phalcon\Test\Collections\Store\Songs as StoreSongs;
 
 /**
  * \Phalcon\Test\Unit\Mvc\CollectionTest
@@ -344,5 +345,56 @@ class CollectionTest extends UnitTest
         foreach(Songs::find() as $song) {
             $this->assertTrue($song->delete());
         }
+    }
+
+    public function testCollectionsSerialize()
+    {
+        $this->specify(
+            "Collections don't serialize/unserialize as expected",
+            function () {
+                $songs = StoreSongs::find();
+                expect(is_array($songs))->true();
+
+                foreach ($songs as $song) {
+                    expect($song->delete())->true();
+                }
+
+                $trace = [];
+
+                $song = new Songs();
+                $song->artist = "Radiohead";
+                $song->name = "Lotus Flower";
+                expect($song->save())->true();
+
+                $serialized = serialize($song);
+                $song = unserialize($serialized);
+
+                expect($song->artist)->equals("Radiohead");
+                expect($song->name)->equals("Lotus Flower");
+                expect($song->save())->true();
+
+                $song = Songs::findFirst();
+
+                $serialized = serialize($song);
+                $song = unserialize($serialized);
+
+                expect($song->artist)->equals("Radiohead");
+                expect($song->name)->equals("Lotus Flower");
+                expect($song->save())->true();
+
+                $song = new Songs();
+                $song->artist = "Massive Attack";
+                $song->name = "Paradise Circus";
+                expect($song->save())->true();
+
+                $songs = Songs::find();
+                expect($songs)->count(2);
+
+                $serialized = serialize($songs);
+                $songs = unserialize($serialized);
+
+                expect($songs)->count(2);
+            }
+        );
     }
 }
