@@ -397,4 +397,58 @@ class CollectionTest extends UnitTest
             }
         );
     }
+
+    public function testCollectionsEvents()
+    {
+        $this->specify(
+            "...",
+            function () {
+                $songs = StoreSongs::find();
+                expect(is_array($songs))->true();
+
+                foreach ($songs as $song) {
+                    expect($song->delete())->true();
+                }
+
+                $trace = array();
+
+                $song = new StoreSongs();
+                $song->trace = &$trace;
+                $song->artist = 'Radiohead';
+                $song->name = 'Lotus Flower';
+                expect($song->save())->true();
+
+                expect($trace)->equals(
+                    array(
+                        StoreSongs::class . '::beforeValidation' => 1,
+                        StoreSongs::class . '::beforeValidationOnCreate' => 1,
+                        StoreSongs::class . '::afterValidationOnCreate' => 1,
+                        StoreSongs::class . '::afterValidation' => 1,
+                        StoreSongs::class . '::beforeSave' => 1,
+                        StoreSongs::class . '::beforeCreate' => 1,
+                        StoreSongs::class . '::afterCreate' => 1,
+                        StoreSongs::class . '::afterSave' => 1,
+                    )
+                );
+
+                $this->assertTrue($song->save());
+
+                expect($trace)->equals(
+                    array(
+                        StoreSongs::class . '::beforeValidation' => 2,
+                        StoreSongs::class . '::beforeValidationOnCreate' => 1,
+                        StoreSongs::class . '::afterValidationOnCreate' => 1,
+                        StoreSongs::class . '::afterValidation' => 2,
+                        StoreSongs::class . '::beforeSave' => 2,
+                        StoreSongs::class . '::beforeCreate' => 1,
+                        StoreSongs::class . '::afterCreate' => 1,
+                        StoreSongs::class . '::afterSave' => 2,
+                        StoreSongs::class . '::afterValidationOnUpdate' => 1,
+                        StoreSongs::class . '::beforeUpdate' => 1,
+                        StoreSongs::class . '::afterUpdate' => 1,
+                    )
+                );
+            }
+        );
+    }
 }
