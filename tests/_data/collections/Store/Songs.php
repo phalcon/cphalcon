@@ -1,6 +1,6 @@
 <?php
 
-namespace Store;
+namespace Phalcon\Test\Collections\Store;
 
 class Songs extends \Phalcon\Mvc\Collection
 {
