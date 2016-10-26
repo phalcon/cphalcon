@@ -823,7 +823,7 @@ class ViewTest extends UnitTest
     public function testCacheDI()
     {
         $this->specify(
-            "...",
+            "Views are not cached properly",
             function () {
                 $date = date("r");
                 $content = '<html>' . $date . '</html>' . PHP_EOL;
@@ -878,7 +878,7 @@ class ViewTest extends UnitTest
     public function testViewCacheIndependency()
     {
         $this->specify(
-            "...",
+            "Views are not cached properly (2)",
             function () {
                 $date = date("r");
                 $content = '<html>'.$date.'</html>'.PHP_EOL;
@@ -914,7 +914,7 @@ class ViewTest extends UnitTest
     public function testViewOptions()
     {
         $this->specify(
-            "...",
+            "Views are not cached properly when passing options to the constructor",
             function () {
                 $config = array(
                     'cache' => array(
@@ -954,7 +954,7 @@ class ViewTest extends UnitTest
     public function ytestCacheMethods()
     {
         $this->specify(
-            "...",
+            "View methods don't return the View instance",
             function () {
                 $di = $this->_getDi();
                 $view = new View();

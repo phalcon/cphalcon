@@ -401,7 +401,7 @@ class CollectionTest extends UnitTest
     public function testCollectionsEvents()
     {
         $this->specify(
-            "...",
+            "Collection events don't work as expected",
             function () {
                 $songs = StoreSongs::find();
                 expect(is_array($songs))->true();
