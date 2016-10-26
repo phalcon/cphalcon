@@ -105,7 +105,7 @@ class ValidationTest extends UnitTest
             function () {
                 $validation = new Validation();
 
-                expect($validation->getDefaultMessage('_notexistentvalidationmessage_'))->empty();
+                expect($validation->getDefaultMessage('_notexistentvalidationmessage_'))->isEmpty();
             }
         );
     }

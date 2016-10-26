@@ -831,7 +831,7 @@ class ViewTest extends UnitTest
                 $di = $this->_getDi();
                 $view = new View();
                 $view->setDI($di);
-                $view->setViewsDir('unit-tests/views/');
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->setVar("date", $date);
 
                 //First hit
@@ -886,7 +886,7 @@ class ViewTest extends UnitTest
                 $di = $this->_getDi();
                 $view = new View();
                 $view->setDI($di);
-                $view->setViewsDir('unit-tests/views/');
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->setVar("date", $date);
 
                 //First hit
@@ -899,7 +899,7 @@ class ViewTest extends UnitTest
                 $di2 = $this->_getDi();
                 $view2 = new View();
                 $view2->setDI($di2);
-                $view2->setViewsDir('unit-tests/views/');
+                $view2->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
 
                 //Second hit
                 $view2->start();
@@ -927,7 +927,7 @@ class ViewTest extends UnitTest
                 $di = $this->_getDi('otherCache');
                 $view = new View($config);
                 $view->setDI($di);
-                $view->setViewsDir('unit-tests/views/');
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->setVar("date", $date);
 
                 $view->start();
@@ -959,7 +959,7 @@ class ViewTest extends UnitTest
                 $di = $this->_getDi();
                 $view = new View();
                 $view->setDI($di);
-                $view->setViewsDir('unit-tests/views/');
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
 
                 expect($view->start())->equals($view);
                 expect($view->cache(true))->equals($view);
@@ -982,7 +982,7 @@ class ViewTest extends UnitTest
         $backendCache = new BackendCache(
             $frontendCache,
             array(
-                'cacheDir' => 'unit-tests/cache/'
+                'cacheDir' => PATH_CACHE
             )
         );
 
