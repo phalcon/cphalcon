@@ -13,6 +13,8 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Test\Module\View\AfterRenderListener;
 use Phalcon\Test\Module\View\Engine\Twig as TwigEngine;
 use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
+use Phalcon\Cache\Frontend\Output as FrontendCache;
+use Phalcon\Cache\Backend\File as BackendCache;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ViewTest
@@ -816,5 +818,176 @@ class ViewTest extends UnitTest
         $view->finish();
 
         return $view;
+    }
+
+    public function testCacheDI()
+    {
+        $this->specify(
+            "...",
+            function () {
+                $date = date("r");
+                $content = '<html>' . $date . '</html>' . PHP_EOL;
+
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir('unit-tests/views/');
+                $view->setVar("date", $date);
+
+                //First hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                //Second hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                sleep(1);
+
+                $view->setVar("date", date("r"));
+
+                //Third hit after 1 second
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                //Four hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function testViewCacheIndependency()
+    {
+        $this->specify(
+            "...",
+            function () {
+                $date = date("r");
+                $content = '<html>'.$date.'</html>'.PHP_EOL;
+
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir('unit-tests/views/');
+                $view->setVar("date", $date);
+
+                //First hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $di2 = $this->_getDi();
+                $view2 = new View();
+                $view2->setDI($di2);
+                $view2->setViewsDir('unit-tests/views/');
+
+                //Second hit
+                $view2->start();
+                $view2->cache(true);
+                $view2->render('test8', 'index');
+                $view2->finish();
+                expect($view2->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function testViewOptions()
+    {
+        $this->specify(
+            "...",
+            function () {
+                $config = array(
+                    'cache' => array(
+                        'service' => 'otherCache',
+                    )
+                );
+                $date = date("r");
+                $content = '<html>'.$date.'</html>'.PHP_EOL;
+
+                $di = $this->_getDi('otherCache');
+                $view = new View($config);
+                $view->setDI($di);
+                $view->setViewsDir('unit-tests/views/');
+                $view->setVar("date", $date);
+
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'other');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                sleep(1);
+
+                $view->setVar("date", date("r"));
+
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'other');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function ytestCacheMethods()
+    {
+        $this->specify(
+            "...",
+            function () {
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir('unit-tests/views/');
+
+                expect($view->start())->equals($view);
+                expect($view->cache(true))->equals($view);
+                expect($view->render('test2', 'index'))->equals($view);
+                expect($view->finish())->equals($view);
+            }
+        );
+    }
+
+    private function _getDi($service = 'viewCache', $lifetime = 60)
+    {
+        $di = new Di();
+
+        $frontendCache = new FrontendCache(
+            array(
+                'lifetime' => $lifetime
+            )
+        );
+
+        $backendCache = new BackendCache(
+            $frontendCache,
+            array(
+                'cacheDir' => 'unit-tests/cache/'
+            )
+        );
+
+        $di->set($service, $backendCache);
+
+        return $di;
     }
 }
