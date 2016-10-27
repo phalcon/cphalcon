@@ -278,7 +278,8 @@ interface AdapterInterface
 	public function affectedRows() -> int;
 
 	/**
-	 * Closes active connection returning success. Phalcon automatically closes and destroys active connections within Phalcon\Db\Pool
+	 * Closes active connection returning success. Phalcon automatically closes
+	 * and destroys active connections within Phalcon\Db\Pool
 	 */
 	public function close() -> boolean;
 

@@ -109,8 +109,14 @@ class PostgresqlTest extends UnitTest
         $this->specify(
             'The table references list contains wrong number of columns',
             function() {
-                $referencesWithoutSchema = $this->connection->describeReferences('robots_parts');
-                $referencesWithSchema = $this->connection->describeReferences('robots_parts', TEST_DB_POSTGRESQL_SCHEMA);
+                $referencesWithoutSchema = $this->connection->describeReferences(
+                    'robots_parts'
+                );
+
+                $referencesWithSchema = $this->connection->describeReferences(
+                    'robots_parts',
+                    TEST_DB_POSTGRESQL_SCHEMA
+                );
 
                 expect($referencesWithoutSchema)->equals($referencesWithSchema);
                 expect($referencesWithoutSchema)->count(2);

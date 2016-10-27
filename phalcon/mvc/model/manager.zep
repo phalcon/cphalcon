@@ -468,7 +468,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
-	 * Returns the connection service name used to read or write data related to a model depending on the connection services
+	 * Returns the connection service name used to read or write data related to
+	 * a model depending on the connection services
 	 */
 	public function _getConnectionService(<ModelInterface> model, connectionServices) -> string
 	{
@@ -1670,7 +1671,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Gets Builder instance from DI container
 		 */
-		return <BuilderInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Query\\Builder", [params, dependencyInjector]);
+		return <BuilderInterface> dependencyInjector->get(
+			"Phalcon\\Mvc\\Model\\Query\\Builder",
+			[
+				params,
+				dependencyInjector
+			]
+		);
 	}
 
 	/**

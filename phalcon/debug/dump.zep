@@ -141,7 +141,13 @@ class Dump
 		}
 
 		if typeof variable == "array" {
-			let output .= strtr("<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n", [":style": this->getStyle("arr"), ":count": count(variable)]);
+			let output .= strtr(
+				"<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n",
+				[
+					":style": this->getStyle("arr"),
+					":count": count(variable)
+				]
+			);
 
 			for key, value in variable {
 				let output .= str_repeat(space, tab) . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
@@ -157,10 +163,22 @@ class Dump
 
 		if typeof variable == "object" {
 
-			let output .= strtr("<b style=':style'>Object</b> :class", [":style": this->getStyle("obj"), ":class": get_class(variable)]);
+			let output .= strtr(
+				"<b style=':style'>Object</b> :class",
+				[
+					":style": this->getStyle("obj"),
+					":class": get_class(variable)
+				]
+			);
 
 			if get_parent_class(variable) {
-				let output .= strtr(" <b style=':style'>extends</b> :parent", [":style": this->getStyle("obj"), ":parent": get_parent_class(variable)]);
+				let output .= strtr(
+					" <b style=':style'>extends</b> :parent",
+					[
+						":style": this->getStyle("obj"),
+						":parent": get_parent_class(variable)
+					]
+				);
 			}
 			let output .= " (\n";
 

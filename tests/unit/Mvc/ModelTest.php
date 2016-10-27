@@ -717,7 +717,9 @@ class ModelTest extends UnitTest
         $this->specify(
             "Normal complex snapshots don't work",
             function () {
-                $robots = $this->modelsManager->executeQuery('SELECT * FROM ' . SnapshotRobots::class);
+                $robots = $this->modelsManager->executeQuery(
+                    'SELECT * FROM ' . SnapshotRobots::class
+                );
 
                 foreach ($robots as $robot) {
                     $robot->name = 'Some';
@@ -731,7 +733,9 @@ class ModelTest extends UnitTest
 
 
 
-                $robots = $this->modelsManager->executeQuery('SELECT robot.*, parts.* FROM ' . SnapshotRobots::class . ' robot JOIN ' . SnapshotRobotsParts::class . ' parts');
+                $robots = $this->modelsManager->executeQuery(
+                    'SELECT robot.*, parts.* FROM ' . SnapshotRobots::class . ' robot JOIN ' . SnapshotRobotsParts::class . ' parts'
+                );
 
                 foreach ($robots as $row) {
                     $row->robot->name = 'Some';

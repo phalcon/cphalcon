@@ -222,7 +222,9 @@ class Pdo implements ResultInterface
 			if rowCount === false {
 
 				/**
-				 * SQLite/SQLServer returns resultsets that to the client eyes (PDO) has an arbitrary number of rows, so we need to perform an extra count to know that
+				 * SQLite/SQLServer returns resultsets that to the client eyes
+				 * (PDO) has an arbitrary number of rows, so we need to perform
+				 * an extra count to know that
 				 */
 				let sqlStatement = this->_sqlStatement;
 
@@ -233,8 +235,13 @@ class Pdo implements ResultInterface
 
 					let matches = null;
 					if preg_match("/^SELECT\\s+(.*)/i", sqlStatement, matches) {
-						let result = connection->query("SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")", this->_bindParams, this->_bindTypes),
-							row = result->$fetch(),
+						let result = connection->query(
+							"SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")",
+							this->_bindParams,
+							this->_bindTypes
+						);
+
+						let row = result->$fetch(),
 							rowCount = row["numrows"];
 					}
 				} else {

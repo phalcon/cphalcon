@@ -420,7 +420,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Optionally `Request::getHttpHost` validates and clean host name.
 	 * The `Request::$_strictHostCheck` can be used to validate host name.
 	 *
-	 * Note: validation and cleaning have a negative performance impact because they use regular expressions.
+	 * Note: validation and cleaning have a negative performance impact because
+	 * they use regular expressions.
 	 *
 	 * <code>
 	 * use Phalcon\Http\Request;
@@ -545,7 +546,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Gets most possible client IPv4 Address. This method search in $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+	 * Gets most possible client IPv4 Address. This method searches in
+	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
 	public function getClientAddress(boolean trustForwardedHeader = false) -> string | boolean
 	{
@@ -839,7 +841,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 			for prefix, input in superFiles {
 				if typeof input["name"] == "array" {
-					let smoothInput = this->smoothFiles(input["name"], input["type"], input["tmp_name"], input["size"], input["error"], prefix);
+					let smoothInput = this->smoothFiles(
+						input["name"],
+						input["type"],
+						input["tmp_name"],
+						input["size"],
+						input["error"],
+						prefix
+					);
 
 					for file in smoothInput {
 						if onlySuccessful == false || file["error"] == UPLOAD_ERR_OK {
@@ -890,7 +899,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 
 			if typeof name == "array" {
-				let parentFiles = this->smoothFiles(names[idx], types[idx], tmp_names[idx], sizes[idx], errors[idx], p);
+				let parentFiles = this->smoothFiles(
+					names[idx],
+					types[idx],
+					tmp_names[idx],
+					sizes[idx],
+					errors[idx],
+					p
+				);
 
 				for file in parentFiles {
 					let files[] = file;

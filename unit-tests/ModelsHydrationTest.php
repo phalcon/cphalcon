@@ -296,7 +296,9 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		}
 
 		//Complex resultset including scalars and complete objects
-		$result = $di->get('modelsManager')->executeQuery('SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts');
+		$result = $di->get('modelsManager')->executeQuery(
+			'SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts'
+		);
 		foreach ($result as $row) {
 			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
 			$this->assertTrue(is_numeric($row->id));
@@ -516,7 +518,9 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		}
 
 		//Complex resultset including scalars and complete objects
-		$result = $di->get('modelsManager')->executeQuery('SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts');
+		$result = $di->get('modelsManager')->executeQuery(
+			'SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts'
+		);
 		foreach ($result as $row) {
 			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
 			$this->assertTrue(is_numeric($row->id));

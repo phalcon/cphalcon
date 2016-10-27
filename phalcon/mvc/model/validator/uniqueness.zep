@@ -73,7 +73,8 @@ class Uniqueness extends Validator implements ValidatorInterface
 		let metaData = dependencyInjector->getShared("modelsMetadata");
 
 		/**
-		 * PostgreSQL check if the compared constant has the same type as the column, so we make cast to the data passed to match those column types
+		 * PostgreSQL check if the compared constant has the same type as the
+		 * column, so we make cast to the data passed to match those column types
 		 */
 		let bindTypes = [];
 		let bindDataTypes = metaData->getBindTypes(record);

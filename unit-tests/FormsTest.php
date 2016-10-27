@@ -104,8 +104,15 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form->add($address);
 		$form->add($telephone);
 
-		$this->assertEquals($form->render('address'), '<input type="text" id="address" name="address" value="Cr. 12 #12-82" />');
-		$this->assertEquals($form->render('telephone'), '<input type="text" id="telephone" name="telephone" value="+44 124 82122" />');
+		$this->assertEquals(
+			$form->render('address'),
+			'<input type="text" id="address" name="address" value="Cr. 12 #12-82" />'
+		);
+
+		$this->assertEquals(
+			$form->render('telephone'),
+			'<input type="text" id="telephone" name="telephone" value="+44 124 82122" />'
+		);
 	}
 
 	public function testFormRenderEntityGetters()
@@ -128,8 +135,15 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form->add($address);
 		$form->add($telephone);
 
-		$this->assertEquals($form->render('address'), '<input type="text" id="address" name="address" value="Cr. 12 #12-82" />');
-		$this->assertEquals($form->render('telephone'), '<input type="text" id="telephone" name="telephone" value="+44 124 82122" />');
+		$this->assertEquals(
+			$form->render('address'),
+			'<input type="text" id="address" name="address" value="Cr. 12 #12-82" />'
+		);
+
+		$this->assertEquals(
+			$form->render('telephone'),
+			'<input type="text" id="telephone" name="telephone" value="+44 124 82122" />'
+		);
 	}
 
 	public function testFormValidatorEntity()
@@ -229,7 +243,10 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element = new Select('test-select');
 		$element->addOption(array('key' => 'value'));
 
-		$this->assertEquals('<select id="test-select" name="test-select"><option value="key">value</option></select>', preg_replace('/[[:cntrl:]]/', '', $element->render()));
+		$this->assertEquals(
+			'<select id="test-select" name="test-select"><option value="key">value</option></select>',
+			preg_replace('/[[:cntrl:]]/', '', $element->render())
+		);
 	}
 
 	public function testCorrectlyAddOptionToSelectElementIfParameterIsAString()
@@ -237,7 +254,10 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element = new Select('test-select');
 		$element->addOption('value');
 
-		$this->assertEquals('<select id="test-select" name="test-select"><option value="0">value</option></select>', preg_replace('/[[:cntrl:]]/', '', $element->render()));
+		$this->assertEquals(
+			'<select id="test-select" name="test-select"><option value="0">value</option></select>',
+			preg_replace('/[[:cntrl:]]/', '', $element->render())
+		);
 	}
 
 	public function testElementAppendMessage()

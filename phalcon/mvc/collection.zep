@@ -347,7 +347,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let base = new {className}();
 
 			if !(base instanceof CollectionInterface || base instanceof Collection\Document) {
-				throw new Exception("Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document");
+				throw new Exception(
+					"Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document"
+				);
 			}
 		} else {
 			let base = collection;

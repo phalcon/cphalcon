@@ -59,8 +59,15 @@ class ApcCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], apc_fetch('$PMM$app\meta-phalcon\test\models\robots-robots'));
-        $I->assertEquals($this->data['map-robots'], apc_fetch('$PMM$app\map-phalcon\test\models\robots'));
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            apc_fetch('$PMM$app\meta-phalcon\test\models\robots-robots')
+        );
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            apc_fetch('$PMM$app\map-phalcon\test\models\robots')
+        );
 
         $I->assertFalse($md->isEmpty());
 

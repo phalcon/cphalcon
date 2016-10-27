@@ -145,7 +145,9 @@ class Job
 	public function __wakeup()
 	{
 		if typeof this->_id != "string" {
-			throw new Exception("Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!");
+			throw new Exception(
+				"Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!"
+			);
 		}
 	}
 }

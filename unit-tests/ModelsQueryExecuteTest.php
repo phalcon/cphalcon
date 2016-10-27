@@ -335,7 +335,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 3);
 		$this->assertEquals($result[0]->id, 1);
 
-		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ORDER BY Robots.id, RobotsParts.id');
+		$result = $manager->executeQuery(
+			'SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ORDER BY Robots.id, RobotsParts.id'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(get_class($result[0]->robots), 'Robots');
@@ -347,7 +349,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->robots->id, 1);
 		$this->assertEquals($result[1]->robotsParts->id, 2);
 
-		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ON Robots.id = RobotsParts.robots_id ORDER BY Robots.id, RobotsParts.id');
+		$result = $manager->executeQuery(
+			'SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ON Robots.id = RobotsParts.robots_id ORDER BY Robots.id, RobotsParts.id'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(get_class($result[0]->robots), 'Robots');
@@ -359,7 +363,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->robots->id, 1);
 		$this->assertEquals($result[1]->robotsParts->id, 2);
 
-		$result = $manager->executeQuery('SELECT r.*, p.* FROM Robots r JOIN RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
+		$result = $manager->executeQuery(
+			'SELECT r.*, p.* FROM Robots r JOIN RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
 		$this->assertEquals(get_class($result[0]->r), 'Robots');
@@ -372,7 +378,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->p->id, 2);
 
 		/** Joins with namespaces */
-		$result = $manager->executeQuery('SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id');
+		$result = $manager->executeQuery(
+			'SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->{'some\Robots'}), 'object');
 		$this->assertEquals(get_class($result[0]->{'some\Robots'}), 'Some\Robots');
@@ -385,7 +393,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->{'some\RobotsParts'}->id, 2);
 
 		/** Joins with namespaces and aliases */
-		$result = $manager->executeQuery('SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
+		$result = $manager->executeQuery(
+			'SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
 		$this->assertEquals(get_class($result[0]->r), 'Some\Robots');
@@ -519,14 +529,24 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->nextId));
 		$this->assertEquals($result[0]->nextId, 2);
 
-		$result = $manager->executeQuery('SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code = ?0', array(0 => 1));
+		$result = $manager->executeQuery(
+			'SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code = ?0',
+			array(
+				0 => 1
+			)
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 1);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertTrue(isset($result[0]->nextId));
 		$this->assertEquals($result[0]->nextId, 2);
 
-		$result = $manager->executeQuery('SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code = :code:', array('code' => 1));
+		$result = $manager->executeQuery(
+			'SELECT Robotters.code+1 AS nextId FROM Robotters WHERE code = :code:',
+			array(
+				'code' => 1
+			)
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 1);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
@@ -580,39 +600,51 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->le_theName));
 		$this->assertEquals($result[0]->le_theName, 'Astro Boy');
 
-		$result = $manager->executeQuery('SELECT r.theName le_theName FROM Robotters r ORDER BY r.theName ASC LIMIT 1,2');
+		$result = $manager->executeQuery(
+			'SELECT r.theName le_theName FROM Robotters r ORDER BY r.theName ASC LIMIT 1,2'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertTrue(isset($result[0]->le_theName));
 		$this->assertEquals($result[0]->le_theName, 'Robotina');
 
-		$result = $manager->executeQuery('SELECT r.theName le_theName FROM Robotters r ORDER BY r.theName ASC LIMIT 2 OFFSET 1');
+		$result = $manager->executeQuery(
+			'SELECT r.theName le_theName FROM Robotters r ORDER BY r.theName ASC LIMIT 2 OFFSET 1'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertTrue(isset($result[0]->le_theName));
 		$this->assertEquals($result[0]->le_theName, 'Robotina');
 
-		$result = $manager->executeQuery('SELECT r.theType, COUNT(*) number FROM Robotters r GROUP BY 1 ORDER BY r.theType ASC');
+		$result = $manager->executeQuery(
+			'SELECT r.theType, COUNT(*) number FROM Robotters r GROUP BY 1 ORDER BY r.theType ASC'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertEquals($result[1]->number, 2);
 
-		$result = $manager->executeQuery('SELECT r.theType, SUM(r.theYear-1000) age FROM Robotters r GROUP BY 1 ORDER BY 2 DESC');
+		$result = $manager->executeQuery(
+			'SELECT r.theType, SUM(r.theYear-1000) age FROM Robotters r GROUP BY 1 ORDER BY 2 DESC'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertEquals($result[0]->age, 1924);
 
-		$result = $manager->executeQuery('SELECT r.theType, COUNT(*) number FROM Robotters r GROUP BY 1 HAVING COUNT(*) = 2');
+		$result = $manager->executeQuery(
+			'SELECT r.theType, COUNT(*) number FROM Robotters r GROUP BY 1 HAVING COUNT(*) = 2'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 1);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertEquals($result[0]->number, 2);
 
-		$result = $manager->executeQuery('SELECT r.theType, COUNT(*) number FROM Robotters r GROUP BY 1 HAVING COUNT(*) < 2');
+		$result = $manager->executeQuery(
+			'SELECT r.theType, COUNT(*) number FROM Robotters r GROUP BY 1 HAVING COUNT(*) < 2'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertEquals(count($result), 1);
@@ -625,7 +657,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 3);
 		$this->assertEquals($result[0]->code, 1);
 
-		$result = $manager->executeQuery('SELECT Robotters.*, RobottersDeles.* FROM Robotters JOIN RobottersDeles ORDER BY Robotters.code, RobottersDeles.code');
+		$result = $manager->executeQuery(
+			'SELECT Robotters.*, RobottersDeles.* FROM Robotters JOIN RobottersDeles ORDER BY Robotters.code, RobottersDeles.code'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robotters), 'object');
 		$this->assertEquals(get_class($result[0]->robotters), 'Robotters');
@@ -637,7 +671,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->robotters->code, 1);
 		$this->assertEquals($result[1]->robottersDeles->code, 2);
 
-		$result = $manager->executeQuery('SELECT Robotters.*, RobottersDeles.* FROM Robotters JOIN RobottersDeles ON Robotters.code = RobottersDeles.robottersCode ORDER BY Robotters.code, RobottersDeles.code');
+		$result = $manager->executeQuery(
+			'SELECT Robotters.*, RobottersDeles.* FROM Robotters JOIN RobottersDeles ON Robotters.code = RobottersDeles.robottersCode ORDER BY Robotters.code, RobottersDeles.code'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robotters), 'object');
 		$this->assertEquals(get_class($result[0]->robotters), 'Robotters');
@@ -649,7 +685,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->robotters->code, 1);
 		$this->assertEquals($result[1]->robottersDeles->code, 2);
 
-		$result = $manager->executeQuery('SELECT r.*, p.* FROM Robotters r JOIN RobottersDeles p ON r.code = p.robottersCode ORDER BY r.code, p.code');
+		$result = $manager->executeQuery(
+			'SELECT r.*, p.* FROM Robotters r JOIN RobottersDeles p ON r.code = p.robottersCode ORDER BY r.code, p.code'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
 		$this->assertEquals(get_class($result[0]->r), 'Robotters');
@@ -661,13 +699,19 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->r->code, 1);
 		$this->assertEquals($result[1]->p->code, 2);
 
-		$result = $manager->executeQuery('SELECT r.* FROM Robots r WHERE r.id NOT IN (SELECT p.id FROM Parts p WHERE r.id < p.id)');
+		$result = $manager->executeQuery(
+			'SELECT r.* FROM Robots r WHERE r.id NOT IN (SELECT p.id FROM Parts p WHERE r.id < p.id)'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 
-		$result = $manager->executeQuery('SELECT * FROM Robots r JOIN RobotsParts rp WHERE rp.id IN (SELECT p.id FROM Parts p WHERE rp.parts_id = p.id)');
+		$result = $manager->executeQuery(
+			'SELECT * FROM Robots r JOIN RobotsParts rp WHERE rp.id IN (SELECT p.id FROM Parts p WHERE rp.parts_id = p.id)'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 
-		$result = $manager->executeQuery('SELECT * FROM Robots r JOIN RobotsParts rp WHERE r.id IN (SELECT p.id FROM Parts p)');
+		$result = $manager->executeQuery(
+			'SELECT * FROM Robots r JOIN RobotsParts rp WHERE r.id IN (SELECT p.id FROM Parts p)'
+		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 	}
 
@@ -678,7 +722,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$di->getShared('db')->delete("subscriptores");
 
-		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Subscriptores VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
+		);
 		$this->assertFalse($status->success());
 		$this->assertEquals($status->getMessages(), array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -689,7 +735,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			)),
 		));
 
-		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Subscriptores VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")'
+		);
 		$this->assertFalse($status->success());
 		$this->assertEquals($status->getMessages(), array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -700,20 +748,29 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 			)),
 		));
 
-		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Subscriptores VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")'
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Subscriptores VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")'
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Subscriptores (email, created_at, status) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")'
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES (:email:, :created_at:, :status:)', array(
-			"email" => "yeahyeah@hotmail.com",
-			"created_at" => "2010-02-01 13:21:00",
-			"status" => "P"
-		));
+		$status = $manager->executeQuery(
+			'INSERT INTO Subscriptores (email, created_at, status) VALUES (:email:, :created_at:, :status:)',
+			array(
+				"email" => "yeahyeah@hotmail.com",
+				"created_at" => "2010-02-01 13:21:00",
+				"status" => "P"
+			)
+		);
 		$this->assertTrue($status->success());
 
 		$this->assertTrue($status->getModel()->id > 0);
@@ -730,7 +787,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		/**
 		 * This test must fail because the email is not allowed as a model business rule
 		 */
-		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Abonnes VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
+		);
 		$this->assertFalse($status->success());
 		$this->assertEquals($status->getMessages(), array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -744,7 +803,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		/**
 		 * This test must fail because the email is invalid
 		 */
-		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Abonnes VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")'
+		);
 		$this->assertFalse($status->success());
 		$this->assertEquals($status->getMessages(), array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -758,26 +819,35 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		/**
 		 * This test must pass
 		 */
-		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Abonnes VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")'
+		);
 		$this->assertTrue($status->success());
 
 		/**
 		 * This test must pass
 		 */
-		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Abonnes VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")'
+		);
 		$this->assertTrue($status->success());
 
 		/**
 		 * This test must pass
 		 */
-		$status = $manager->executeQuery('INSERT INTO Abonnes (courrierElectronique, creeA, statut) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$status = $manager->executeQuery(
+			'INSERT INTO Abonnes (courrierElectronique, creeA, statut) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")'
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('INSERT INTO Abonnes (courrierElectronique, creeA, statut) VALUES (:courrierElectronique:, :creeA:, :statut:)', array(
-			"courrierElectronique" => "yeahyeah@hotmail.com",
-			"creeA" => "2010-02-01 13:21:00",
-			"statut" => "P"
-		));
+		$status = $manager->executeQuery(
+			'INSERT INTO Abonnes (courrierElectronique, creeA, statut) VALUES (:courrierElectronique:, :creeA:, :statut:)',
+			array(
+				"courrierElectronique" => "yeahyeah@hotmail.com",
+				"creeA" => "2010-02-01 13:21:00",
+				"statut" => "P"
+			)
+		);
 		$this->assertTrue($status->success());
 
 		$this->assertTrue($status->getModel()->code > 0);
@@ -789,20 +859,30 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->getShared('db')->execute("UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'");
+		$di->getShared('db')->execute(
+			"UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'"
+		);
 
-		$status = $manager->executeQuery("UPDATE People SET direccion = 'COL' WHERE ciudad_id IS NULL LIMIT 25");
+		$status = $manager->executeQuery(
+			"UPDATE People SET direccion = 'COL' WHERE ciudad_id IS NULL LIMIT 25"
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL LIMIT 25', array(
-			"direccion" => "MXN"
-		));
+		$status = $manager->executeQuery(
+			'UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL LIMIT 25',
+			array(
+				"direccion" => "MXN"
+			)
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('UPDATE Subscriptores SET status = :status: WHERE email = :email:', array(
-			"status" => "I",
-			"email" => "le-marina@hotmail.com"
-		));
+		$status = $manager->executeQuery(
+			'UPDATE Subscriptores SET status = :status: WHERE email = :email:',
+			array(
+				"status" => "I",
+				"email" => "le-marina@hotmail.com"
+			)
+		);
 		$this->assertTrue($status->success());
 
 		// Issue 1011
@@ -826,18 +906,26 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$di->getShared('db')->execute("UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'");
 
-		$status = $manager->executeQuery("UPDATE Personers SET adresse = 'COL' WHERE fodebyId IS NULL LIMIT 25");
+		$status = $manager->executeQuery(
+			"UPDATE Personers SET adresse = 'COL' WHERE fodebyId IS NULL LIMIT 25"
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('UPDATE Personers SET adresse = :adresse: WHERE fodebyId IS NULL LIMIT 25', array(
-			"adresse" => "MXN"
-		));
+		$status = $manager->executeQuery(
+			'UPDATE Personers SET adresse = :adresse: WHERE fodebyId IS NULL LIMIT 25',
+			array(
+				"adresse" => "MXN"
+			)
+		);
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('UPDATE Abonnes SET statut = :statut: WHERE courrierElectronique = :courrierElectronique:', array(
-			"statut" => "I",
-			"courrierElectronique" => "le-marina@hotmail.com"
-		));
+		$status = $manager->executeQuery(
+			'UPDATE Abonnes SET statut = :statut: WHERE courrierElectronique = :courrierElectronique:',
+			array(
+				"statut" => "I",
+				"courrierElectronique" => "le-marina@hotmail.com"
+			)
+		);
 		$this->assertTrue($status->success());
 
 	}
@@ -850,10 +938,13 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE email = "marina@hotmail.com"');
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE status = :status: AND email <> :email:', array(
-			'status' => "P",
-			'email' => 'fuego@hotmail.com'
-		));
+		$status = $manager->executeQuery(
+			'DELETE FROM Subscriptores WHERE status = :status: AND email <> :email:',
+			array(
+				'status' => "P",
+				'email' => 'fuego@hotmail.com'
+			)
+		);
 		$this->assertTrue($status->success());
 
 		// Issue 1011
@@ -877,10 +968,13 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('DELETE FROM Abonnes WHERE courrierElectronique = "marina@hotmail.com"');
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('DELETE FROM Abonnes WHERE statut = :statut: AND courrierElectronique <> :courrierElectronique:', array(
-			'statut' => "P",
-			'courrierElectronique' => 'fuego@hotmail.com'
-		));
+		$status = $manager->executeQuery(
+			'DELETE FROM Abonnes WHERE statut = :statut: AND courrierElectronique <> :courrierElectronique:',
+			array(
+				'statut' => "P",
+				'courrierElectronique' => 'fuego@hotmail.com'
+			)
+		);
 		$this->assertTrue($status->success());
 	}
 }

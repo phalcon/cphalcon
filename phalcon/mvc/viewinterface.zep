@@ -27,7 +27,8 @@ namespace Phalcon\Mvc;
 interface ViewInterface extends ViewBaseInterface
 {
 	/**
-	 * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+	 * Sets the layouts sub-directory. Must be a directory under the views
+	 * directory. Depending of your platform, always add a trailing slash or backslash
 	 */
 	public function setLayoutsDir(string! layoutsDir);
 
@@ -37,7 +38,8 @@ interface ViewInterface extends ViewBaseInterface
 	public function getLayoutsDir() -> string;
 
 	/**
-	 * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+	 * Sets a partials sub-directory. Must be a directory under the views
+	 * directory. Depending of your platform, always add a trailing slash or backslash
 	 */
 	public function setPartialsDir(string! partialsDir);
 

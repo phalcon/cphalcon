@@ -74,7 +74,8 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	}
 
 	/**
-	 * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
+	 * Initializes the session bag. This method must not be called directly, the
+	 * class calls it when its internal data is accessed
 	 */
 	public function initialize()
 	{
