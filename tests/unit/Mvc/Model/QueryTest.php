@@ -76,10 +76,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                         ),
@@ -94,10 +95,11 @@ class QueryTest extends UnitTest
                                 'le_products',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'le_products',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                         )
@@ -112,11 +114,11 @@ class QueryTest extends UnitTest
                                 'le_products',
                             ),
                             'columns' => array(
-                                SomeProducts::class => array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'le_products',
-                                    'balias' => SomeProducts::class,
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                         )
@@ -154,11 +156,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                'robots' => array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
-                                    'balias' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                         )
@@ -563,15 +565,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -613,15 +617,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -663,20 +669,23 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
-                                    'type' => 'object',
-                                    'model' => Robots::class,
-                                    'column' => 'robots',
-                                ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
-                                array(
+                                lcfirst(Robots::class) => array(
+                                    'type' => 'object',
+                                    'model' => Robots::class,
+                                    'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
+                                ),
+                                lcfirst(Parts::class) => array(
                                     'type' => 'object',
                                     'model' => Parts::class,
                                     'column' => 'parts',
+                                    'balias' => lcfirst(Parts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -727,20 +736,23 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(Parts::class) => array(
                                     'type' => 'object',
                                     'model' => Parts::class,
                                     'column' => 'parts',
+                                    'balias' => lcfirst(Parts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -807,15 +819,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -857,15 +871,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -937,15 +953,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -1017,15 +1035,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -1067,15 +1087,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'joins' => array(
@@ -1178,15 +1200,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'joins' => array(
@@ -1485,15 +1509,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                         )
@@ -1518,15 +1544,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                         )
@@ -1551,15 +1579,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                         )
@@ -1629,15 +1659,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'where' => array(
@@ -1670,15 +1702,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
-                                array(
+                                lcfirst(RobotsParts::class) => array(
                                     'type' => 'object',
                                     'model' => RobotsParts::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobotsParts::class),
                                 ),
                             ),
                             'where' => array(
@@ -1709,10 +1743,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1741,10 +1776,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1773,10 +1809,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1805,10 +1842,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1837,10 +1875,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1869,10 +1908,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1901,10 +1941,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1933,10 +1974,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -1965,10 +2007,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2005,10 +2048,11 @@ class QueryTest extends UnitTest
                                 'le_products',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'le_products',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                             'where' => array(
@@ -2043,10 +2087,11 @@ class QueryTest extends UnitTest
                                 'le_products',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'le_products',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                             'where' => array(
@@ -2075,10 +2120,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2112,10 +2158,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2165,10 +2212,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2226,10 +2274,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2258,10 +2307,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2290,10 +2340,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2340,10 +2391,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2390,10 +2442,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2440,10 +2493,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2508,10 +2562,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2579,10 +2634,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2675,10 +2731,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -2740,10 +2797,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'limit' => array(
@@ -2768,10 +2826,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'limit' => array(
@@ -2800,10 +2859,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'limit' => array(
@@ -2832,10 +2892,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                             'where' => array(
@@ -2874,10 +2935,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                             'order' => array(
@@ -2902,10 +2964,11 @@ class QueryTest extends UnitTest
                                 'le_products',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'le_products',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                             'order' => array(
@@ -2930,10 +2993,11 @@ class QueryTest extends UnitTest
                                 'le_products',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeProducts::class) => array(
                                     'type' => 'object',
                                     'model' => SomeProducts::class,
                                     'column' => 'le_products',
+                                    'balias' => lcfirst(SomeProducts::class),
                                 ),
                             ),
                             'order' => array(
@@ -2976,10 +3040,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3035,10 +3100,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3095,10 +3161,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3154,10 +3221,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3210,10 +3278,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3264,10 +3333,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'group' => array(
@@ -3290,10 +3360,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'group' => array(
@@ -3456,10 +3527,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3496,10 +3568,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3542,10 +3615,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -3598,10 +3672,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'group' => array(
@@ -3634,10 +3709,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
@@ -4490,10 +4566,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                         )
@@ -4508,10 +4585,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(SomeRobotters::class) => array(
                                     'type' => 'object',
                                     'model' => SomeRobotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(SomeRobotters::class),
                                 ),
                             ),
                         )
@@ -4526,11 +4604,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                SomeRobotters::class => array(
+                                lcfirst(SomeRobotters::class) => array(
                                     'type' => 'object',
                                     'model' => SomeRobotters::class,
                                     'column' => 'robots',
-                                    'balias' => SomeRobotters::class,
+                                    'balias' => lcfirst(SomeRobotters::class),
                                 ),
                             ),
                         )
@@ -4568,11 +4646,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                'robotters' => array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
-                                    'balias' => 'robotters',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                         )
@@ -4937,15 +5015,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -4987,15 +5067,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5037,20 +5119,23 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
-                                array(
+                                lcfirst(Deles::class) => array(
                                     'type' => 'object',
                                     'model' => Deles::class,
                                     'column' => 'parts',
+                                    'balias' => lcfirst(Deles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5101,20 +5186,23 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(Deles::class) => array(
                                     'type' => 'object',
                                     'model' => Deles::class,
                                     'column' => 'parts',
+                                    'balias' => lcfirst(Deles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5181,15 +5269,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5231,15 +5321,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5311,15 +5403,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5391,15 +5485,17 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5441,15 +5537,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5552,15 +5650,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5653,15 +5753,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'joins' => array(
@@ -5764,15 +5866,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'joins' => array(
@@ -6071,15 +6175,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                         )
@@ -6104,15 +6210,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                         )
@@ -6137,15 +6245,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                         )
@@ -6215,15 +6325,17 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'p',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'where' => array(
@@ -6256,15 +6368,17 @@ class QueryTest extends UnitTest
                                 'robots_parts',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
-                                array(
+                                lcfirst(RobottersDeles::class) => array(
                                     'type' => 'object',
                                     'model' => RobottersDeles::class,
                                     'column' => 'robots_parts',
+                                    'balias' => lcfirst(RobottersDeles::class),
                                 ),
                             ),
                             'where' => array(
@@ -6299,10 +6413,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'where' => array(
@@ -6358,10 +6473,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'where' => array(
@@ -6418,10 +6534,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'where' => array(
@@ -6477,10 +6594,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'where' => array(
@@ -6533,10 +6651,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'where' => array(
@@ -6587,10 +6706,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'group' => array(
@@ -6613,10 +6733,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robotters::class) => array(
                                     'type' => 'object',
                                     'model' => Robotters::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robotters::class),
                                 ),
                             ),
                             'group' => array(
@@ -6650,10 +6771,11 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'r',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'limit' => array(
@@ -6752,10 +6874,11 @@ class QueryTest extends UnitTest
                                 'robots',
                             ),
                             'columns' => array(
-                                array(
+                                lcfirst(Robots::class) => array(
                                     'type' => 'object',
                                     'model' => Robots::class,
                                     'column' => 'robots',
+                                    'balias' => lcfirst(Robots::class),
                                 ),
                             ),
                             'where' => array(
