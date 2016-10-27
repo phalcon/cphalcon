@@ -56,7 +56,7 @@ class QueryTest extends UnitTest
     public function testSelectParsing()
     {
         $this->specify(
-            "...",
+            "SELECT PHQL queries don't work as expected",
             function ($phql, $expected) {
                 $query = new Query($phql);
 
@@ -6928,7 +6928,7 @@ class QueryTest extends UnitTest
     public function testInsertParsing()
     {
         $this->specify(
-            "...",
+            "INSERT PHQL queries don't work as expected",
             function () {
                 $expected = array(
                     'model' => Robots::class,
@@ -7290,7 +7290,7 @@ class QueryTest extends UnitTest
     public function testUpdateParsing()
     {
         $this->specify(
-            "...",
+            "UPDATE PHQL queries don't work as expected",
             function () {
                 $expected = array(
                     'tables' => array(
@@ -7932,7 +7932,7 @@ class QueryTest extends UnitTest
     public function testDeleteParsing()
     {
         $this->specify(
-            "...",
+            "DELETE PHQL queries don't work as expected",
             function () {
                 $expected = array(
                     'tables' => array(
