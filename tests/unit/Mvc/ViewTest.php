@@ -13,6 +13,9 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Test\Module\View\AfterRenderListener;
 use Phalcon\Test\Module\View\Engine\Twig as TwigEngine;
 use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
+use Phalcon\Cache\Frontend\Output as FrontendCache;
+use Phalcon\Cache\Backend\File as BackendCache;
+use DirectoryIterator;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ViewTest
@@ -34,6 +37,21 @@ use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
 class ViewTest extends UnitTest
 {
     use ViewTrait;
+
+    protected function _clearCache()
+    {
+        if (!file_exists(PATH_CACHE)) {
+            mkdir(PATH_CACHE);
+        }
+
+        foreach (new DirectoryIterator(PATH_CACHE) as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+
+            unlink($item->getPathname());
+        }
+    }
 
     /**
      * Tests the View::getActiveRenderPath
@@ -816,5 +834,182 @@ class ViewTest extends UnitTest
         $view->finish();
 
         return $view;
+    }
+
+    public function testCacheDI()
+    {
+        $this->specify(
+            "Views are not cached properly",
+            function () {
+                $this->_clearCache();
+
+                $date = date("r");
+                $content = '<html>' . $date . '</html>' . PHP_EOL;
+
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setVar("date", $date);
+
+                //First hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                //Second hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                sleep(1);
+
+                $view->setVar("date", date("r"));
+
+                //Third hit after 1 second
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                //Four hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function testViewCacheIndependency()
+    {
+        $this->specify(
+            "Views are not cached properly (2)",
+            function () {
+                $this->_clearCache();
+
+                $date = date("r");
+                $content = '<html>'.$date.'</html>'.PHP_EOL;
+
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setVar("date", $date);
+
+                //First hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $di2 = $this->_getDi();
+                $view2 = new View();
+                $view2->setDI($di2);
+                $view2->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+
+                //Second hit
+                $view2->start();
+                $view2->cache(true);
+                $view2->render('test8', 'index');
+                $view2->finish();
+                expect($view2->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function testViewOptions()
+    {
+        $this->specify(
+            "Views are not cached properly when passing options to the constructor",
+            function () {
+                $this->_clearCache();
+
+                $config = array(
+                    'cache' => array(
+                        'service' => 'otherCache',
+                    )
+                );
+                $date = date("r");
+                $content = '<html>'.$date.'</html>'.PHP_EOL;
+
+                $di = $this->_getDi('otherCache');
+                $view = new View($config);
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setVar("date", $date);
+
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'other');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                sleep(1);
+
+                $view->setVar("date", date("r"));
+
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'other');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function ytestCacheMethods()
+    {
+        $this->specify(
+            "View methods don't return the View instance",
+            function () {
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+
+                expect($view->start())->equals($view);
+                expect($view->cache(true))->equals($view);
+                expect($view->render('test2', 'index'))->equals($view);
+                expect($view->finish())->equals($view);
+            }
+        );
+    }
+
+    private function _getDi($service = 'viewCache', $lifetime = 60)
+    {
+        $di = new Di();
+
+        $frontendCache = new FrontendCache(
+            array(
+                'lifetime' => $lifetime
+            )
+        );
+
+        $backendCache = new BackendCache(
+            $frontendCache,
+            array(
+                'cacheDir' => PATH_CACHE
+            )
+        );
+
+        $di->set($service, $backendCache);
+
+        return $di;
     }
 }

@@ -254,4 +254,126 @@ class MicroTest extends UnitTest
             }
         );
     }
+    public function testMicroMiddlewareSimple()
+    {
+        $this->specify(
+            "Micro before/after/finish events don't work as expected",
+            function () {
+                $app = new Micro();
+
+                $app->map(
+                    "/api/site",
+                    function() {
+                        return true;
+                    }
+                );
+
+                $trace = 0;
+
+                $app->before(
+                    function() use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->before(
+                    function() use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->after(function
+                    () use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->after(function
+                    () use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->finish(
+                    function() use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->finish(
+                    function() use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->handle("/api/site");
+
+                expect($trace)->equals(6);
+            }
+        );
+    }
+
+    public function testMicroMiddlewareClasses()
+    {
+        $this->specify(
+            "Micro middleware events don't work as expected",
+            function () {
+                $app = new Micro();
+
+                $app->map(
+                    "/api/site",
+                    function() {
+                        return true;
+                    }
+                );
+
+                $middleware = new \MyMiddleware();
+
+                $app->before($middleware);
+                $app->before($middleware);
+
+                $app->after($middleware);
+                $app->after($middleware);
+
+                $app->finish($middleware);
+                $app->finish($middleware);
+
+                $app->handle("/api/site");
+
+                expect($middleware->getNumber())->equals(6);
+            }
+        );
+    }
+
+    public function testMicroStopMiddlewareClasses()
+    {
+        $this->specify(
+            "Micro middleware events don't work as expected",
+            function () {
+                $app = new Micro();
+
+                $app->map(
+                    "/api/site",
+                    function() {
+                        return true;
+                    }
+                );
+
+                $middleware = new \MyMiddlewareStop();
+
+                $app->before($middleware);
+                $app->before($middleware);
+
+                $app->after($middleware);
+                $app->after($middleware);
+
+                $app->finish($middleware);
+                $app->finish($middleware);
+
+                $app->handle("/api/site");
+
+                expect($middleware->getNumber())->equals(3);
+            }
+        );
+    }
 }

@@ -16,6 +16,9 @@ use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\BodyParts\Body;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\Snapshot\Robots as SnapshotRobots;
+use Phalcon\Test\Models\Snapshot\Robotters as SnapshotRobotters;
+use Phalcon\Test\Models\Snapshot\RobotsParts as SnapshotRobotsParts;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
@@ -577,6 +580,171 @@ class ModelTest extends UnitTest
                 expect($subscriber->delete())->true();
                 expect($subscriber->status)->equals('D');
                 expect(\Phalcon\Test\Models\News\Subscribers::count())->equals($number);
+            }
+        );
+    }
+
+    public function testSnapshotNormal()
+    {
+        $this->specify(
+            "Normal snapshots don't work",
+            function () {
+                $snapshots = array(
+                    1 => array(
+                        'id' => '1',
+                        'name' => 'Robotina',
+                        'type' => 'mechanical',
+                        'year' => '1972',
+                        'datetime' => '1972-01-01 00:00:00',
+                        'deleted' => null,
+                        'text' => 'text'
+                    ),
+                    2 => array(
+                        'id' => '2',
+                        'name' => 'Astro Boy',
+                        'type' => 'mechanical',
+                        'year' => '1952',
+                        'datetime' => '1952-01-01 00:00:00',
+                        'deleted' => null,
+                        'text' => 'text'
+                    ),
+                    3 => array(
+                        'id' => '3',
+                        'name' => 'Terminator',
+                        'type' => 'cyborg',
+                        'year' => '2029',
+                        'datetime' => '2029-01-01 00:00:00',
+                        'deleted' => null,
+                        'text' => 'text'
+                    )
+                );
+
+                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                    expect($robot->hasSnapshotData())->true();
+                    expect($snapshots[$robot->id])->equals($robot->getSnapshotData());
+                }
+
+                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                    $robot->name = 'Some';
+                    $robot->year = 1999;
+                    expect($robot->hasChanged('name'))->true();
+                    expect($robot->hasChanged('year'))->true();
+                    expect($robot->hasChanged('type'))->false();
+                    expect($robot->hasChanged())->true();
+                }
+
+                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                    $robot->year = $robot->year;
+                    expect($robot->hasChanged('year'))->false();
+                    expect($robot->hasChanged())->false();
+                }
+
+                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                    $robot->name = 'Little';
+                    $robot->year = 2005;
+                    expect($robot->getChangedFields())->equals(array('name', 'year'));
+                }
+            }
+        );
+    }
+
+    public function testSnapshotRenamed()
+    {
+        $this->specify(
+            "Renamed snapshots don't work",
+            function () {
+                $snapshots = array(
+                    1 => array(
+                        'code' => '1',
+                        'theName' => 'Robotina',
+                        'theType' => 'mechanical',
+                        'theYear' => '1972',
+                        'theDatetime' => '1972-01-01 00:00:00',
+                        'theDeleted' => null,
+                        'theText' => 'text',
+                    ),
+                    2 => array(
+                        'code' => '2',
+                        'theName' => 'Astro Boy',
+                        'theType' => 'mechanical',
+                        'theYear' => '1952',
+                        'theDatetime' => '1952-01-01 00:00:00',
+                        'theDeleted' => null,
+                        'theText' => 'text',
+                    ),
+                    3 => array(
+                        'code' => '3',
+                        'theName' => 'Terminator',
+                        'theType' => 'cyborg',
+                        'theYear' => '2029',
+                        'theDatetime' => '2029-01-01 00:00:00',
+                        'theDeleted' => null,
+                        'theText' => 'text',
+                    )
+                );
+
+                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                    expect($robot->hasSnapshotData())->true();
+                    expect($snapshots[$robot->code])->equals($robot->getSnapshotData());
+                }
+
+                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                    $robot->theName = 'Some';
+                    $robot->theYear = 1999;
+                    expect($robot->hasChanged('theName'))->true();
+                    expect($robot->hasChanged('theYear'))->true();
+                    expect($robot->hasChanged('theType'))->false();
+                    expect($robot->hasChanged())->true();
+                }
+
+                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                    $robot->theYear = $robot->theYear;
+                    expect($robot->hasChanged('theYear'))->false();
+                    expect($robot->hasChanged())->false();
+                }
+
+                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                    $robot->theName = 'Little';
+                    $robot->theYear = 2005;
+                    expect($robot->getChangedFields())->equals(array('theName', 'theYear'));
+                }
+            }
+        );
+    }
+
+    public function testSnapshotNormalComplex()
+    {
+        $this->specify(
+            "Normal complex snapshots don't work",
+            function () {
+                $robots = $this->modelsManager->executeQuery('SELECT * FROM ' . SnapshotRobots::class);
+
+                foreach ($robots as $robot) {
+                    $robot->name = 'Some';
+                    $robot->year = 1999;
+                    expect($robot->hasChanged('name'))->true();
+                    expect($robot->hasChanged('year'))->true();
+                    expect($robot->hasChanged('type'))->false();
+                    expect($robot->hasChanged())->true();
+                    expect($robot->getChangedFields())->equals(array('name', 'year'));
+                }
+
+
+
+                $robots = $this->modelsManager->executeQuery('SELECT robot.*, parts.* FROM ' . SnapshotRobots::class . ' robot JOIN ' . SnapshotRobotsParts::class . ' parts');
+
+                foreach ($robots as $row) {
+                    $row->robot->name = 'Some';
+                    $row->robot->year = 1999;
+
+                    expect($row->robot->hasChanged('name'))->true();
+                    expect($row->robot->hasChanged('year'))->true();
+                    expect($row->robot->hasChanged('type'))->false();
+                    expect($row->robot->hasChanged())->true();
+                    expect($row->robot->getChangedFields())->equals(array('name', 'year'));
+
+                    $this->assertFalse($row->parts->hasSnapshotData());
+                }
             }
         );
     }
