@@ -1031,7 +1031,16 @@ class RequestTest extends HttpBase
                 ],
                 'getDigestAuth',
                 [
-                    'username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response'
+                    'username'  => 'myleft',
+                    'realm'     => 'myleft',
+                    'qop'       => 'auth',
+                    'algorithm' => 'MD5',
+                    'uri'       => 'http://localhost:81/',
+                    'nonce'     => 'nonce',
+                    'nc'        => 'nc',
+                    'cnonce'    => 'cnonce',
+                    'opaque'    => 'opaque',
+                    'response'  => 'response',
                 ]
             ],
             [
@@ -1040,7 +1049,16 @@ class RequestTest extends HttpBase
                 ],
                 'getDigestAuth',
                 [
-                    'username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response'
+                    'username'  => 'myleft',
+                    'realm'     => 'myleft',
+                    'qop'       => 'auth',
+                    'algorithm' => 'MD5',
+                    'uri'       => 'http://localhost:81/',
+                    'nonce'     => 'nonce',
+                    'nc'        => 'nc',
+                    'cnonce'    => 'cnonce',
+                    'opaque'    => 'opaque',
+                    'response'  => 'response',
                 ]
             ],
             [
@@ -1049,7 +1067,16 @@ class RequestTest extends HttpBase
                 ],
                 'getDigestAuth',
                 [
-                    'username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response'
+                    'username'  => 'myleft',
+                    'realm'     => 'myleft',
+                    'qop'       => 'auth',
+                    'algorithm' => 'MD5',
+                    'uri'       => 'http://localhost:81/',
+                    'nonce'     => 'nonce',
+                    'nc'        => 'nc',
+                    'cnonce'    => 'cnonce',
+                    'opaque'    => 'opaque',
+                    'response'  => 'response',
                 ]
             ],
         ];

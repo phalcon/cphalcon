@@ -63,8 +63,15 @@ class LibmemcachedCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], $md->read("meta-phalcon\\test\\models\\robots-robots"));
-        $I->assertEquals($this->data['map-robots'], $md->read("map-phalcon\\test\\models\\robots"));
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            $md->read("meta-phalcon\\test\\models\\robots-robots")
+        );
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            $md->read("map-phalcon\\test\\models\\robots")
+        );
 
         $I->assertFalse($md->isEmpty());
 

@@ -300,7 +300,13 @@ class RouterTest extends UnitTest
                             'module' => null,
                             'task' => 'posts',
                             'action' => 'show',
-                            'params' => array('year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content')
+                            'params' => array(
+                                'year' => '2010',
+                                'month' => '02',
+                                'day' => '10',
+                                0 => 'title',
+                                1 => 'content',
+                            )
                         )
                     ],
                     [
@@ -738,7 +744,13 @@ class RouterTest extends UnitTest
                             'module' => null,
                             'task' => 'posts',
                             'action' => 'show',
-                            'params' => array('year' => '2010', 'month' => '02', 'day' => '10', 0 => 'title', 1 => 'content')
+                            'params' => array(
+                                'year' => '2010',
+                                'month' => '02',
+                                'day' => '10',
+                                0 => 'title',
+                                1 => 'content',
+                            )
                         )
                     ],
                     [

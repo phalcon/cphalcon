@@ -58,7 +58,12 @@ class ReaderTest extends UnitTest
                 $reader = new Reader();
                 $reader->parse('TestInvalid');
             },
-            ['throws' => ['Phalcon\Annotations\Exception', 'Syntax error, unexpected EOF in ' . PATH_DATA . 'annotations/TestInvalid.php']]
+            [
+                'throws' => [
+                    'Phalcon\Annotations\Exception',
+                    'Syntax error, unexpected EOF in ' . PATH_DATA . 'annotations/TestInvalid.php'
+                ]
+            ]
         );
     }
 

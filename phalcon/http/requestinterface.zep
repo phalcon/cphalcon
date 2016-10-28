@@ -141,7 +141,8 @@ interface RequestInterface
 	public function getPort() -> int;
 
 	/**
-	 * Gets most possibly client IPv4 Address. This methods search in $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+	 * Gets most possibly client IPv4 Address. This methods searches in
+	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
 	public function getClientAddress(boolean trustForwardedHeader = false) -> string;
 

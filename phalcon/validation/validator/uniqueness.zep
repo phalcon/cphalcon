@@ -118,7 +118,19 @@ class Uniqueness extends CombinedFieldsValidator
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Message(strtr(message, [":field": label]), field, "Uniqueness", this->getOption("code")));
+			validation->appendMessage(
+				new Message(
+					strtr(
+						message,
+						[
+							":field": label
+						]
+					),
+					field,
+					"Uniqueness",
+					this->getOption("code")
+				)
+			);
 			return false;
 		}
 
@@ -128,7 +140,8 @@ class Uniqueness extends CombinedFieldsValidator
 	protected function isUniqueness(<Validation> validation, var field) -> boolean
 	{
 		var value, values, convert, record, attribute, except,
-			index, params, metaData, primaryField, className, singleField, fieldExcept, singleExcept, notInValues, exceptConditions;
+			index, params, metaData, primaryField, className, singleField,
+			fieldExcept, singleExcept, notInValues, exceptConditions;
 
 		let exceptConditions = [];
 		let index  = 0;

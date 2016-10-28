@@ -23,10 +23,8 @@ use Phalcon\Db\Column as DbColumn;
 
 class DbBindTest extends PHPUnit_Framework_TestCase
 {
-
 	public function testDbBindMysql()
 	{
-
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped("Skipped");
@@ -43,7 +41,6 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
 	public function testDbBindPostgresql()
 	{
-
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
 			$this->markTestSkipped("Skipped");
@@ -59,7 +56,6 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
 	public function testDbBindSqlite()
 	{
-
 		require 'unit-tests/config.db.php';
 		if (empty($configSqlite)) {
 			$this->markTestSkipped("Skipped");
@@ -75,85 +71,303 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
 	/*protected function _executeRawBindTests($connection)
 	{
+		$conditions = $connection->bindParams(
+			"a=?0",
+			array(
+				0 => 100
+			)
+		);
 
-		$conditions = $connection->bindParams("a=?0", array(0 => 100));
 		$this->assertEquals($conditions, "a=100");
 
-		$conditions = $connection->bindParams("a=?0", array(0 => 100, 1 => 50));
+
+
+		$conditions = $connection->bindParams(
+			"a=?0",
+			array(
+				0 => 100,
+				1 => 50
+			)
+		);
+
 		$this->assertEquals($conditions, "a=100");
 
-		$conditions = $connection->bindParams("a=?0", array(1 => 50));
+
+
+		$conditions = $connection->bindParams(
+			"a=?0", array(
+				1 => 50
+			)
+		);
+
 		$this->assertEquals($conditions, "a=?0");
 
-		$conditions = $connection->bindParams("a=?1 AND b = ?0", array(0 => 25, 1 => 50));
+
+
+		$conditions = $connection->bindParams(
+			"a=?1 AND b = ?0",
+			array(
+				0 => 25,
+				1 => 50
+			)
+		);
+
 		$this->assertEquals($conditions, "a=50 AND b = 25");
 
-		$conditions = $connection->bindParams("a=?1 AND b = ?0", array(0 => '25', 1 => '50'));
+
+
+		$conditions = $connection->bindParams(
+			"a=?1 AND b = ?0",
+			array(
+				0 => '25',
+				1 => '50'
+			)
+		);
+
 		$this->assertEquals($conditions, "a=50 AND b = 25");
 
-		$conditions = $connection->bindParams("a=?1 AND b = ?0", array(0 => '25.10', 1 => 25.10));
+
+
+		$conditions = $connection->bindParams(
+			"a=?1 AND b = ?0",
+			array(
+				0 => '25.10',
+				1 => 25.10
+			)
+		);
+
 		$this->assertEquals($conditions, "a=25.1 AND b = 25.10");
 
-		$conditions = $connection->bindParams("a=?1 AND b = ?0 AND c<>?2", array(0 => 25, 1 => 50, 2 => 15));
+
+
+		$conditions = $connection->bindParams(
+			"a=?1 AND b = ?0 AND c<>?2",
+			array(
+				0 => 25,
+				1 => 50,
+				2 => 15
+			)
+		);
+
 		$this->assertEquals($conditions, "a=50 AND b = 25 AND c<>15");
 
-		$conditions = $connection->bindParams("a=:a:", array('a' => 'no-suprises'));
+
+
+		$conditions = $connection->bindParams(
+			"a=:a:",
+			array(
+				'a' => 'no-suprises'
+			)
+		);
+
 		$this->assertEquals($conditions, "a='no-suprises'");
 
-		$conditions = $connection->bindParams("column1 = :column1: AND column2=:column2:", array('column1' => 'hello', 'column2' => 'lol'));
+
+
+		$conditions = $connection->bindParams(
+			"column1 = :column1: AND column2=:column2:",
+			array(
+				'column1' => 'hello',
+				'column2' => 'lol'
+			)
+		);
+
 		$this->assertEquals($conditions, "column1 = 'hello' AND column2='lol'");
 	}
 
 	protected function _executeRawBindTestsMysql($connection)
 	{
+		$conditions = $connection->bindParams(
+			"column3 IN (:val1:, :val2:, :val3:)",
+			array(
+				'val1' => 'hello',
+				'val2' => 100,
+				'val3' => "'hahaha'"
+			)
+		);
 
-		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
 
-		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
+
+
+		$conditions = $connection->bindParams(
+			"column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
+			array(
+				'val1' => 'hello',
+				'val2' => 100,
+				'val3' => "'hahaha'",
+				2 => 'le-nice'
+			)
+		);
+
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'");
 	}
 
 	protected function _executeRawBindTestsPostgresql($connection)
 	{
-		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
+		$conditions = $connection->bindParams(
+			"column3 IN (:val1:, :val2:, :val3:)",
+			array(
+				'val1' => 'hello',
+				'val2' => 100,
+				'val3' => "'hahaha'"
+			)
+		);
+
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
-		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
+
+
+		$conditions = $connection->bindParams(
+			"column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
+			array(
+				'val1' => 'hello',
+				'val2' => 100,
+				'val3' => "'hahaha'",
+				2 => 'le-nice'
+			)
+		);
+
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
 	}
 
 	protected function _executeRawBindTestsSqlite($connection)
 	{
-		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
+		$conditions = $connection->bindParams(
+			"column3 IN (:val1:, :val2:, :val3:)",
+			array(
+				'val1' => 'hello',
+				'val2' => 100,
+				'val3' => "'hahaha'"
+			)
+		);
+
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
-		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
+
+
+		$conditions = $connection->bindParams(
+			"column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
+			array(
+				'val1' => 'hello',
+				'val2' => 100,
+				'val3' => "'hahaha'",
+				2 => 'le-nice'
+			)
+		);
+
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
 	}*/
 
 	protected function _executeConvertBindTests($connection)
 	{
+		$params = $connection->convertBoundParams(
+			"a=?0",
+			array(
+				0 => 100
+			)
+		);
 
-		$params = $connection->convertBoundParams("a=?0", array(0 => 100));
-		$this->assertEquals($params, array('sql' => 'a=?', 'params' => array(0 => 100)));
+		$this->assertEquals(
+			$params,
+			array(
+				'sql' => 'a=?',
+				'params' => array(
+					0 => 100
+				)
+			)
+		);
 
-		$params = $connection->convertBoundParams("a=?0", array(0 => 100, 1 => 50));
-		$this->assertEquals($params, array('sql' => 'a=?', 'params' => array(0 => 100)));
 
-		$params = $connection->convertBoundParams("a=?1 AND b = ?0", array(1 => 50, 0 => 25));
-		$this->assertEquals($params, array('sql' => "a=? AND b = ?", 'params' => array(0 => 50, 1 => 25)));
 
-		$params = $connection->convertBoundParams("a=?1 AND b = ?0", array(1 => 25.10, 0 => '25.10'));
-		$this->assertEquals($params, array('sql' => "a=? AND b = ?", 'params' => array(0 => '25.10', 1 => 25.10)));
+		$params = $connection->convertBoundParams(
+			"a=?0",
+			array(
+				0 => 100,
+				1 => 50
+			)
+		);
 
-		$params = $connection->convertBoundParams("a=?1 AND b = ?0 AND c > :c: AND d = ?3", array('c' => 1000, 1 => 'some-name', 0 => 15, 3 => 400));
-		$this->assertEquals($params, array('sql' => "a=? AND b = ? AND c > ? AND d = ?", 'params' => array(0 => 'some-name', 1 => 15, 2 => 1000, 3 => 400)));
+		$this->assertEquals(
+			$params,
+			array(
+				'sql' => 'a=?',
+				'params' => array(
+					0 => 100
+				)
+			)
+		);
+
+
+
+		$params = $connection->convertBoundParams(
+			"a=?1 AND b = ?0",
+			array(
+				1 => 50,
+				0 => 25
+			)
+		);
+
+		$this->assertEquals(
+			$params,
+			array(
+				'sql' => "a=? AND b = ?",
+				'params' => array(
+					0 => 50,
+					1 => 25
+				)
+			)
+		);
+
+
+
+		$params = $connection->convertBoundParams(
+			"a=?1 AND b = ?0",
+			array(
+				1 => 25.10,
+				0 => '25.10'
+			)
+		);
+
+		$this->assertEquals(
+			$params,
+			array(
+				'sql' => "a=? AND b = ?",
+				'params' => array(
+					0 => '25.10',
+					1 => 25.10
+				)
+			)
+		);
+
+
+
+		$params = $connection->convertBoundParams(
+			"a=?1 AND b = ?0 AND c > :c: AND d = ?3",
+			array(
+				'c' => 1000,
+				1 => 'some-name',
+				0 => 15,
+				3 => 400
+			)
+		);
+
+		$this->assertEquals(
+			$params,
+			array(
+				'sql' => "a=? AND b = ? AND c > ? AND d = ?",
+				'params' => array(
+					0 => 'some-name',
+					1 => 15,
+					2 => 1000,
+					3 => 400
+				)
+			)
+		);
 	}
 
 	protected function _executeBindByTypeTests($connection)
 	{
-
 		$success = $connection->execute(
 			'INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)',
 			array("LOL 1", "A"),
@@ -231,7 +445,5 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 			array(DbColumn::BIND_PARAM_STR)
 		);
 		$this->assertTrue($success);
-
 	}
-
 }

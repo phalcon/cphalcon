@@ -413,7 +413,9 @@ class Compiler implements InjectionAwareInterface
 						}
 					}
 
-					throw new Exception("Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
+					throw new Exception(
+						"Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]
+					);
 				}
 			}
 
@@ -756,7 +758,9 @@ class Compiler implements InjectionAwareInterface
 				/**
 				 * Invalid filter definition throw an exception
 				 */
-				throw new Exception("Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]);
+				throw new Exception(
+					"Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
+				);
 			}
 		}
 
@@ -2353,7 +2357,8 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Always use file_put_contents to write files instead of write the file directly, this respect the open_basedir directive
+		 * Always use file_put_contents to write files instead of write the file
+		 * directly, this respect the open_basedir directive
 		 */
 		if file_put_contents(compiledPath, finalCompilation) === false {
 			throw new Exception("Volt directory can't be written");

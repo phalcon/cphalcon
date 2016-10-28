@@ -54,7 +54,12 @@ class CollectionTest extends UnitTest
                 $song->name = 'Legs and Tarpaulin';
                 $song->update();
             },
-            ['throws' => ['Phalcon\Mvc\Collection\Exception', "The document cannot be updated because it doesn't exist"]]
+            [
+                'throws' => [
+                    'Phalcon\Mvc\Collection\Exception',
+                    "The document cannot be updated because it doesn't exist"
+                ]
+            ]
         );
     }
 
