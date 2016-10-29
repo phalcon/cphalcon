@@ -22,7 +22,6 @@ use Phalcon\Test\Models\BodyParts\Head;
  */
 class Body extends Model
 {
-
     public $id;
     public $head_1_id;
     public $head_2_id;

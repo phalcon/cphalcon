@@ -2,6 +2,6 @@
 
 namespace Example\Engines;
 
-class LeEngine {
-
+class LeEngine
+{
 }

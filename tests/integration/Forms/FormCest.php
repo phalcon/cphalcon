@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Forms;
+namespace Phalcon\Test\integration\Forms;
 
 use Phalcon\Tag;
 use IntegrationTester;

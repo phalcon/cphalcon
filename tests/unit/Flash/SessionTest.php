@@ -94,12 +94,15 @@ class SessionTest extends UnitTest
 
                 expect($actual)
                     ->equals("<div class=\"{$function}Message\">&lt;script&gt;alert(&#039;This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL);
-            }, ['examples' => [
-                ['error'],
-                ['success'],
-                ['notice'],
-                ['warning'],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['error'],
+                    ['success'],
+                    ['notice'],
+                    ['warning'],
+                ]
+            ]
         );
     }
 
@@ -209,11 +212,14 @@ class SessionTest extends UnitTest
                 ob_end_clean();
 
                 expect($actual)->equals($expected);
-            }, ['examples' => [
-                'error'   => ['function' => 'error'],
-                'success' => ['function' => 'success'],
-                'notice'  => ['function' => 'notice'],
-            ]]
+            },
+            [
+                'examples' => [
+                    'error'   => ['function' => 'error'],
+                    'success' => ['function' => 'success'],
+                    'notice'  => ['function' => 'notice'],
+                ]
+            ]
         );
     }
 }

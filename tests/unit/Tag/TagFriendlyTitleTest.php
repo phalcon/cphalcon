@@ -35,7 +35,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter and no separator returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'this-is-a-test';
@@ -57,7 +56,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter and a separator returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'this_is_a_test';
@@ -79,7 +77,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter lowercase returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'this_is_a_test';
@@ -101,7 +98,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter uppercase returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'This_is_a_Test';
@@ -123,7 +119,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter with replace returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 'th_s_s_a_test';
@@ -145,7 +140,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter with replace array returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';
@@ -172,7 +166,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with special characters and escaping returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = "Mess'd up --text-- just (to) stress /test/ ?our! "
                           . "`little` \\clean\\ url fun.ction!?-->";
@@ -196,7 +189,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with accented characters and replace string returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = "Perché l'erba è verde?";
                 $expected = 'perche-l-erba-e-verde';
@@ -218,7 +210,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with accented characters and replace array returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = "Perché l'erba è verde?";
                 $expected = 'P_rch_l_rb_v_rd';
@@ -245,7 +236,6 @@ class TagFriendlyTitleTest extends UnitTest
         $this->specify(
             "friendlyTitle with string parameter with replace array returns incorrect text",
             function () {
-
                 Tag::resetInput();
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';

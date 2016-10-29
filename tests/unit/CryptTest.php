@@ -66,7 +66,6 @@ class CryptTest extends UnitTest
         $this->specify(
             "encryption does not return correct results",
             function () {
-
                 $tests = [
                     md5(uniqid())            => str_repeat('x', mt_rand(1, 255)),
                     time().time()            => str_shuffle('abcdefeghijklmnopqrst'),
@@ -82,27 +81,22 @@ class CryptTest extends UnitTest
                 $crypt = new Crypt();
 
                 foreach ($ciphers as $cipher) {
-
                     $crypt->setCipher($cipher);
 
                     foreach ($tests as $key => $test) {
-
                         $crypt->setKey(substr($key, 0, 16));
                         $encryption = $crypt->encrypt($test);
                         $actual     = rtrim($crypt->decrypt($encryption), "\0");
 
                         expect($actual)->equals($test);
-
                     }
 
                     foreach ($tests as $key => $test) {
-
                         $encryption = $crypt->encrypt($test, substr($key, 0, 16));
 
                         $actual = rtrim($crypt->decrypt($encryption, substr($key, 0, 16)), "\0");
 
                         expect($actual)->equals($test);
-
                     }
                 }
             }
@@ -120,7 +114,6 @@ class CryptTest extends UnitTest
         $this->specify(
             "padding not return correct results",
             function () {
-
                 $texts = [''];
                 $key   = '0123456789ABCDEF0123456789ABCDEF';
                 $ciphers = [
@@ -145,15 +138,12 @@ class CryptTest extends UnitTest
                 $crypt->setKey(substr($key, 0, 32));
 
                 foreach ($pads as $padding) {
-
                     $crypt->setPadding($padding);
 
                     foreach ($ciphers as $cipher) {
-
                         $crypt->setCipher($cipher);
 
                         foreach ($texts as $text) {
-
                             $encrypted = $crypt->encrypt($text);
                             $actual    = $crypt->decrypt($encrypted);
 
@@ -176,7 +166,6 @@ class CryptTest extends UnitTest
         $this->specify(
             "encryption base 64does not return correct results",
             function () {
-
                 $crypt = new Crypt();
                 $crypt->setPadding(Crypt::PADDING_ANSI_X_923);
 

@@ -27,7 +27,6 @@ class RobottersDeles extends Model
 
     public function initialize()
     {
-
         $this->belongsTo(
             'delesCode',
             Deles::class,
@@ -48,5 +47,4 @@ class RobottersDeles extends Model
             ]
         );
     }
-
 }

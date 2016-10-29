@@ -104,14 +104,17 @@ class AlphaTest extends UnitTest
                 ]);
 
                 expect($messages)->equals($expectedMessages);
-            }, ['examples' => [
-                ['1'],
-                [123],
-                ['a-b-c-d'],
-                ['a-1-c-2'],
-                ['a1c2'],
-                ['o0o0o0o0'],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['1'],
+                    [123],
+                    ['a-b-c-d'],
+                    ['a-1-c-2'],
+                    ['a1c2'],
+                    ['o0o0o0o0'],
+                ]
+            ]
         );
     }
 
@@ -134,13 +137,16 @@ class AlphaTest extends UnitTest
                 $messages = $validation->validate(['name' => $input]);
 
                 expect($messages)->count(0);
-            }, ['examples' => [
-                ['a'],
-                ['asdavafaiwnoabwiubafpowf'],
-                ['QWERTYUIOPASDFGHJKL'],
-                ['aSdFgHjKl'],
-                [null],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['a'],
+                    ['asdavafaiwnoabwiubafpowf'],
+                    ['QWERTYUIOPASDFGHJKL'],
+                    ['aSdFgHjKl'],
+                    [null],
+                ]
+            ]
         );
     }
 
@@ -163,17 +169,20 @@ class AlphaTest extends UnitTest
                 $messages = $validation->validate(['name' => $input]);
 
                 expect($messages)->count(0);
-            }, ['examples' => [
-                ['йцукенг'],
-                ['ждлорпа'],
-                ['Señor'],
-                ['cocoñùт'],
-                ['COCOÑÙТ'],
-                ['JÄGER'],
-                ['šš'],
-                ['あいうえお'],
-                ['零一二三四五'],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['йцукенг'],
+                    ['ждлорпа'],
+                    ['Señor'],
+                    ['cocoñùт'],
+                    ['COCOÑÙТ'],
+                    ['JÄGER'],
+                    ['šš'],
+                    ['あいうえお'],
+                    ['零一二三四五'],
+                ]
+            ]
         );
     }
 }

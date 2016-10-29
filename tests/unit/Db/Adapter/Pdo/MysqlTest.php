@@ -99,13 +99,13 @@ class MysqlTest extends UnitTest
     {
         $this->specify(
             'The table references list contains wrong number of columns',
-            function() {
+            function () {
                 $references = $this->connection->describeReferences('robots_parts', TEST_DB_MYSQL_NAME);
                 expect($references)->count(2);
                 expect($this->connection->describeReferences('robots_parts', null))->count(2);
 
                 /** @var Reference $reference */
-                foreach($references as $reference) {
+                foreach ($references as $reference) {
                     expect($reference->getColumns())->count(1);
                 }
             }

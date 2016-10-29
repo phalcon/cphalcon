@@ -2,7 +2,6 @@
 
 class Test2Controller extends Phalcon\Mvc\Controller
 {
-
     public function indexAction()
     {
     }
@@ -42,5 +41,4 @@ class Test2Controller extends Phalcon\Mvc\Controller
     {
         return $this->dispatcher->getParam('param1') + $this->dispatcher->getParam('param2');
     }
-
 }

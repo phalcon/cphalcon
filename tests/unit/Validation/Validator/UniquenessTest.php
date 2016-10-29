@@ -159,7 +159,7 @@ class UniquenessTest extends UnitTest
     {
         $this->specify('Test uniqueness with combination of fields and a null value.', function () {
             $validation = new Validation();
-            $validation->add(['type','deleted'], new Uniqueness());
+            $validation->add(['type', 'deleted'], new Uniqueness());
             $messages = $validation->validate(null, $this->robot);
             expect($messages->count())->equals(1);
             $messages = $validation->validate(null, $this->anotherRobot);

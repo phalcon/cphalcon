@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
@@ -30,7 +30,7 @@ class FilesCest
 
     public function _before(UnitTester $I)
     {
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Files([
                 'metaDataDir' => PATH_CACHE,
             ]);

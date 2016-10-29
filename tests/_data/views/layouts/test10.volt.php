@@ -1,3 +1,5 @@
-<?php if ($some_eval) { ?>
+<?php if ($some_eval) {
+    ?>
 Clearly, the song is: <?= $this->getContent() ?>.
-<?php } ?>
+<?php 
+} ?>

@@ -2,11 +2,10 @@
 
 namespace Example\Engines;
 
-class LeOtherEngine {
-
+class LeOtherEngine
+{
 	public function some()
 	{
 		return true;
 	}
-
 }

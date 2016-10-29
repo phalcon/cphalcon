@@ -1,5 +1,5 @@
 <?php
 
-class VousTest {
-
+class VousTest
+{
 }

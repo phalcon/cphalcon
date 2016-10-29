@@ -215,7 +215,7 @@ class RedisCest
 
         $I->expectException(
             new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!"),
-            function() use ($cache) {
+            function () use ($cache) {
                 $cache->queryKeys();
             }
         );

@@ -112,5 +112,4 @@ class CsvTest extends UnitTest
             }
         );
     }
-
 }

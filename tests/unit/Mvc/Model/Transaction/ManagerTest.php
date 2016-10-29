@@ -50,7 +50,7 @@ class ManagerTest extends UnitTest
 
                 try {
                     $transaction->rollback();
-                } catch(Failed $e) {
+                } catch (Failed $e) {
                     // do nothing
                 }
 

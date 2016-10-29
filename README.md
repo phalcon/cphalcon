@@ -110,6 +110,11 @@ extension=phalcon.so
 
 Save the file and **Restart the web server**.
 
+Contributing
+------------
+Tests are located in `tests/` and use Codeception.
+Test classes should follow the [PSR-2 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
+
 Vagrant
 -------
 https://github.com/phalcon/vagrant

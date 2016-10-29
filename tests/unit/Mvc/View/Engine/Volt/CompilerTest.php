@@ -1234,7 +1234,7 @@ class CompilerTest extends UnitTest
                 $volt->addFunction('random', 'mt_rand');
 
                 //Function with closure
-                $volt->addFunction('shuffle', function($arguments, $exprArguments){
+                $volt->addFunction('shuffle', function ($arguments, $exprArguments) {
                     return 'str_shuffle(' . $arguments . ')';
                 });
 
@@ -1263,7 +1263,7 @@ class CompilerTest extends UnitTest
                 $volt->addFilter('reverse', 'strrev');
 
                 //Filter with closure
-                $volt->addFilter('separate', function($arguments, $exprArguments){
+                $volt->addFilter('separate', function ($arguments, $exprArguments) {
                     return 'explode(",", '.$arguments.')';
                 });
 
@@ -1468,9 +1468,15 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
                 $view = new View;
                 $di = new Di;
-                $di->set('escaper', function() { return new Escaper; });
-                $di->set('tag', function() { return new Tag; });
-                $di->set('url', function() { return (new Url)->setBaseUri('/'); });
+                $di->set('escaper', function () {
+                    return new Escaper;
+                });
+                $di->set('tag', function () {
+                    return new Tag;
+                });
+                $di->set('url', function () {
+                    return (new Url)->setBaseUri('/');
+                });
 
                 $view->setDI($di);
 
@@ -1545,7 +1551,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
         );
     }
 
-    public function testVoltMacros_Issue_11771()
+    public function testVoltMacrosIssue11771()
     {
         $this->specify(
             "Volt macros can't accept objects",
@@ -1558,13 +1564,21 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 Di::reset();
                 $view = new View;
                 $di = new Di;
-                $di->set('escaper', function() { return new Escaper; });
-                $di->set('tag', function() { return new Tag; });
-                $di->set('url', function() { return (new Url)->setBaseUri('/'); });
+                $di->set('escaper', function () {
+                    return new Escaper;
+                });
+                $di->set('tag', function () {
+                    return new Tag;
+                });
+                $di->set('url', function () {
+                    return (new Url)->setBaseUri('/');
+                });
                 $view->setDI($di);
                 $view->setViewsDir(PATH_DATA . 'views/');
                 $view->registerEngines(array(
-                    '.volt' => function ($view, $di) { return new Volt($view, $di); }
+                    '.volt' => function ($view, $di) {
+                        return new Volt($view, $di);
+                    }
                 ));
                 $object = new \stdClass();
                 $object->foo = "bar";

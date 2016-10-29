@@ -32,5 +32,4 @@ namespace User;
  */
 class TestClassNs
 {
-
 }

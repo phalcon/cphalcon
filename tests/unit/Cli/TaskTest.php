@@ -32,7 +32,7 @@ class TaskTest extends UnitTest
             function () {
                 $di = new CliFactoryDefault();
 
-                $di["registry"] = function() {
+                $di["registry"] = function () {
                     $registry = new Registry();
 
                     $registry->data = "data";

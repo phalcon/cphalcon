@@ -9,7 +9,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Annotations\Adapter\Memory;
 
-require_once PATH_DATA . '/controllers/AnnotationController.php';
+require_once PATH_DATA . '/controllers/NamespacedAnnotationController.php';
 
 /**
  * \Phalcon\Test\Unit\Mvc\Router\AnnotationsTest
@@ -75,7 +75,7 @@ class AnnotationsTest extends UnitTest
 
                 $router->setDefaultNamespace("MyNamespace\\Controllers");
 
-                $router->addResource("Namespaced", "/namespaced");
+                $router->addResource("NamespacedAnnotation", "/namespaced");
 
                 $router->handle("/namespaced");
 
@@ -85,7 +85,7 @@ class AnnotationsTest extends UnitTest
 
                 $router->setDI($this->_getDI());
 
-                $router->addResource("MyNamespace\\Controllers\\Namespaced", "/namespaced");
+                $router->addResource("MyNamespace\\Controllers\\NamespacedAnnotation", "/namespaced");
 
                 $router->handle("/namespaced/");
 
@@ -117,7 +117,8 @@ class AnnotationsTest extends UnitTest
                 expect($router->getActionName())->equals($action);
                 expect($router->getParams())->equals($params);
                 expect($router->isExactControllerName())->true();
-            }, [
+            },
+            [
                 'examples' => [
                     [
                         "uri"        => "/products/save",

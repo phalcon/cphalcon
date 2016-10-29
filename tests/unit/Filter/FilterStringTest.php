@@ -68,7 +68,6 @@ class FilterStringTest extends Helper\FilterBase
         $this->specify(
             "sanitize string with international characters does not return correct data",
             function () {
-
                 $value    = 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+<>';
                 $expected = 'buenos días123καλημέρα!@#$%^&*早安()_ `~=+';
                 $this->sanitizer('string', $expected, $value);
@@ -76,7 +75,6 @@ class FilterStringTest extends Helper\FilterBase
                 $value    = '{[<buenos días 123 καλημέρα! 早安>]}';
                 $expected = '{[]}';
                 $this->sanitizer('string', $expected, $value);
-
             }
         );
     }

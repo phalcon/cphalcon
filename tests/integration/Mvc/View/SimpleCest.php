@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\View;
+namespace Phalcon\Test\integration\Mvc\View;
 
 use Phalcon\Di;
 use IntegrationTester;

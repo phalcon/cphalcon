@@ -347,7 +347,7 @@ class CollectionTest extends UnitTest
 
     protected function clearCollection()
     {
-        foreach(Songs::find() as $song) {
+        foreach (Songs::find() as $song) {
             $this->assertTrue($song->delete());
         }
     }

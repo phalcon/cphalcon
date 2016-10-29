@@ -2,6 +2,6 @@
 
 namespace Example\Adapter;
 
-class LeCoolSome {
-
+class LeCoolSome
+{
 }

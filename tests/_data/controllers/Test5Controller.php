@@ -2,10 +2,8 @@
 
 class Test5Controller extends Phalcon\Mvc\Controller
 {
-
-	public function notFoundAction()
-	{
-		return 'not-found';
-	}
-
+    public function notFoundAction()
+    {
+        return 'not-found';
+    }
 }

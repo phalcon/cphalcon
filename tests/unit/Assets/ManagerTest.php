@@ -469,7 +469,6 @@ class ManagerTest extends UnitTest
         $this->specify(
             "The exists method in assets does not return correct value",
             function () {
-
                 $assets = new Manager();
 
                 $assets->collection('footer')
