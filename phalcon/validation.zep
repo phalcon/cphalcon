@@ -34,7 +34,7 @@ use Phalcon\Validation\CombinedFieldsValidator;
  */
 class Validation extends Injectable implements ValidationInterface
 {
-	protected _data;
+	protected _data { get };
 
 	protected _entity;
 
