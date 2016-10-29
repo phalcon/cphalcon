@@ -481,10 +481,13 @@ class ViewTest extends UnitTest
                 $view->start();
                 $view->render('test5', 'missing');
                 $view->finish();
-            }, ['throws' => [
-                Exception::class,
-                "View 'partials/missing' was not found in any of the views directory"
-            ]]
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    "View 'partials/missing' was not found in any of the views directory"
+                ]
+            ]
         );
     }
 

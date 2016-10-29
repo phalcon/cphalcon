@@ -35,7 +35,6 @@ class TextDynamicTest extends UnitTest
         $this->specify(
             "dynamic do not return the correct string",
             function () {
-
                 $actual = Text::dynamic('{Hi|Hello}, my name is a Bob!');
                 expect($actual)->notContains('{');
                 expect($actual)->notContains('}');

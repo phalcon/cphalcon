@@ -127,7 +127,6 @@ class FormTest extends UnitTest
             expect($form->getMessagesFor('address'))->equals(Group::__set_state(['_messages' => []]));
             expect($form->hasMessagesFor('telephone'))->true();
             expect($form->hasMessagesFor('address'))->false();
-
         });
     }
 
@@ -223,33 +222,41 @@ class FormTest extends UnitTest
 
                 expect($form->isValid([]))->false();
 
-                $expectedMessages = Group::__set_state(array(
-                    '_messages' =>
-                        array(
-                            0 => Message::__set_state(array(
-                                '_type' => 'PresenceOf',
-                                '_message' => 'The telephone is required',
-                                '_field' => 'telephone',
-                                '_code' => 0,
-                            )),
-                            1 => Message::__set_state(array(
-                                '_type' => 'TooShort',
-                                '_message' => 'The telephone is too short',
-                                '_field' => 'telephone',
-                                '_code' => 0,
-                            )),
-                            2 => Message::__set_state(array(
-                                '_type' => 'Regex',
-                                '_message' => 'The telephone has an invalid format',
-                                '_field' => 'telephone',
-                                '_code' => 0,
-                            )),
-                            3 => Message::__set_state(array(
-                                '_type' => 'PresenceOf',
-                                '_message' => 'The address is required',
-                                '_field' => 'address',
-                                '_code' => 0,
-                            )),
+                $expectedMessages = Group::__set_state(
+                    array(
+                        '_messages' => array(
+                            0 => Message::__set_state(
+                                array(
+                                    '_type' => 'PresenceOf',
+                                    '_message' => 'The telephone is required',
+                                    '_field' => 'telephone',
+                                    '_code' => 0,
+                                )
+                            ),
+                            1 => Message::__set_state(
+                                array(
+                                    '_type' => 'TooShort',
+                                    '_message' => 'The telephone is too short',
+                                    '_field' => 'telephone',
+                                    '_code' => 0,
+                                )
+                            ),
+                            2 => Message::__set_state(
+                                array(
+                                    '_type' => 'Regex',
+                                    '_message' => 'The telephone has an invalid format',
+                                    '_field' => 'telephone',
+                                    '_code' => 0,
+                                )
+                            ),
+                            3 => Message::__set_state(
+                                array(
+                                    '_type' => 'PresenceOf',
+                                    '_message' => 'The address is required',
+                                    '_field' => 'address',
+                                    '_code' => 0,
+                                )
+                            ),
                         ),
                     )
                 );

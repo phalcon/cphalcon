@@ -99,7 +99,7 @@ class ModelTest extends UnitTest
                     'name' => 'Born to Die',
                 ]);
             }
-         );
+        );
     }
 
     /**
@@ -197,7 +197,7 @@ class ModelTest extends UnitTest
                 expect($body->getMessages())->count(1);
                 expect($body->getMessages()[0]->getMessage())->equals('Second head does not exists');
             }
-         );
+        );
     }
 
     /**
@@ -274,10 +274,13 @@ class ModelTest extends UnitTest
 
                 $robot = new Boutique\Robots();
                 $robot->serial = '1234';
-            }, ['throws' => [
-                Exception::class,
-                "Property 'serial' does not have a setter."
-            ]]
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    "Property 'serial' does not have a setter."
+                ]
+            ]
         );
     }
 
@@ -547,7 +550,6 @@ class ModelTest extends UnitTest
                 expect($robots)->count(2);
                 expect($robots[0]->code)->equals(1);
                 expect(Robotters::countByTheType('mechanical'))->equals(2);
-
             }
         );
     }

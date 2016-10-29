@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Test\integration\Mvc;
 
 use Phalcon\Di;
 use Test4Controller;
@@ -45,7 +45,7 @@ class ControllersCest
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
 
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Memory;
         }, true);
     }

@@ -1,5 +1,5 @@
 <?php
 
-class LeDialect {
-
+class LeDialect
+{
 }

@@ -2,7 +2,6 @@
 
 class MainTask extends \Phalcon\CLI\Task
 {
-
     public function mainAction()
     {
         return "mainAction";

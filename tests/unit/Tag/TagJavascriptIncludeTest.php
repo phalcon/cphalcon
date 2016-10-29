@@ -35,7 +35,6 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "iavascriptInclude with string parameter local link returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $options  = 'js/phalcon.js';
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
@@ -57,7 +56,6 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "javascriptInclude with array parameter local link returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
@@ -79,7 +77,6 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "javascriptInclude with a string as the second parameter local link returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
@@ -101,7 +98,6 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "iavascriptInclude with a string parameter remote link returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $options  = 'http://my.local.com/js/phalcon.js';
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
@@ -123,7 +119,6 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "iavascriptInclude with array second parameter remote link returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $options  = ['http://my.local.com/js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;

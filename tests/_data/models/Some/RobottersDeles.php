@@ -9,33 +9,30 @@ namespace Phalcon\Test\Models\Some;
  */
 class RobottersDeles extends \Phalcon\Mvc\Model
 {
+    public function getSource()
+    {
+        return 'robots_parts';
+    }
 
-	public function getSource()
-	{
-		return 'robots_parts';
-	}
+    public function columnMap()
+    {
+        return array(
+            'id' => 'code',
+            'robots_id' => 'robottersCode',
+            'parts_id' => 'delesCode',
+        );
+    }
 
-	public function columnMap()
-	{
-		return array(
-			'id' => 'code',
-			'robots_id' => 'robottersCode',
-			'parts_id' => 'delesCode',
-		);
-	}
+    public function initialize()
+    {
+        $this->belongsTo('delesCode', Deles::class, 'code', array(
+            'foreignKey' => true
+        ));
 
-	public function initialize()
-	{
-
-		$this->belongsTo('delesCode', Deles::class, 'code', array(
-			'foreignKey' => true
-		));
-
-		$this->belongsTo('robottersCode', Robotters::class, 'code', array(
-			'foreignKey' => array(
-				'message' => 'The robotters code does not exist'
-			)
-		));
-	}
-
+        $this->belongsTo('robottersCode', Robotters::class, 'code', array(
+            'foreignKey' => array(
+                'message' => 'The robotters code does not exist'
+            )
+        ));
+    }
 }

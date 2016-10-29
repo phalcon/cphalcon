@@ -35,7 +35,6 @@ class TextUpperLowerTest extends UnitTest
         $this->specify(
             "upper returns incorrect results",
             function () {
-
                 expect(Text::upper('hello'))->equals('HELLO');
                 expect(Text::upper('HELLO'))->equals('HELLO');
                 expect(Text::upper('1234'))->equals('1234');
@@ -54,7 +53,6 @@ class TextUpperLowerTest extends UnitTest
         $this->specify(
             "upper returns incorrect results",
             function () {
-
                 expect(Text::upper('ПРИВЕТ МИР!'))->equals('ПРИВЕТ МИР!');
                 expect(Text::upper('ПриВЕт Мир!'))->equals('ПРИВЕТ МИР!');
                 expect(Text::upper('привет мир!'))->equals('ПРИВЕТ МИР!');
@@ -77,7 +75,6 @@ class TextUpperLowerTest extends UnitTest
         $this->specify(
             "lower returns incorrect results",
             function () {
-
                 expect(Text::lower('hello'))->equals('hello');
                 expect(Text::lower('HELLO'))->equals('hello');
                 expect(Text::lower('1234'))->equals('1234');

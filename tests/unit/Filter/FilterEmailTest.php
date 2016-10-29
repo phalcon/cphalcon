@@ -32,7 +32,6 @@ class FilterEmailTest extends Helper\FilterBase
         $this->specify(
             "sanitizing email does not return the correct email",
             function () {
-
                 $expected = 'someone@example.com';
                 $value    = 'some(one)@exa\\mple.com';
                 $this->sanitizer('email', $expected, $value);

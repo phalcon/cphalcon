@@ -58,7 +58,6 @@ class TagResetInputTest extends UnitTest
         $this->specify(
             "resetInput with setDefault returns invalid HTML Strict",
             function () {
-
                 Tag::setDocType(Tag::XHTML10_STRICT);
 
                 $options  = 'x_name';
@@ -79,7 +78,6 @@ class TagResetInputTest extends UnitTest
         $this->specify(
             "resetInput with setDefault returns invalid HTML XHTML",
             function () {
-
                 Tag::setDocType(Tag::HTML5);
 
                 $options  = 'x_name';
@@ -110,7 +108,6 @@ class TagResetInputTest extends UnitTest
         $this->specify(
             "resetInput with displayTo returns invalid HTML Strict",
             function () {
-
                 Tag::setDocType(Tag::XHTML10_STRICT);
 
                 $options  = 'x_name';
@@ -132,7 +129,6 @@ class TagResetInputTest extends UnitTest
         $this->specify(
             "resetInput with displayTo returns invalid HTML XHTML",
             function () {
-
                 Tag::setDocType(Tag::HTML5);
 
                 $options  = 'x_name';

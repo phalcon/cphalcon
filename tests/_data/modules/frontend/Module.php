@@ -31,7 +31,7 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $di)
     {
-        $di->set('view', function() {
+        $di->set('view', function () {
             $view = new View();
             $view->setViewsDir(PATH_DATA . 'modules/frontend/views/');
 

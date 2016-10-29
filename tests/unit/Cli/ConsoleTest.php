@@ -37,7 +37,7 @@ class ConsoleTest extends UnitTest
 
                 $di->set(
                     'data',
-                    function() {
+                    function () {
                         return "data";
                     }
                 );
@@ -96,7 +96,7 @@ class ConsoleTest extends UnitTest
 
                 $di->set(
                     'data',
-                    function() {
+                    function () {
                         return "data";
                     }
                 );
@@ -163,7 +163,7 @@ class ConsoleTest extends UnitTest
 
                 $di->set(
                     'data',
-                    function() {
+                    function () {
                         return "data";
                     }
                 );
@@ -224,7 +224,7 @@ class ConsoleTest extends UnitTest
 
                 $di->setShared(
                     'dispatcher',
-                    function() use ($di) {
+                    function () use ($di) {
                         $dispatcher = new Dispatcher();
 
                         $dispatcher->setDI($di);
@@ -422,7 +422,7 @@ class ConsoleTest extends UnitTest
 
                 $di->setShared(
                     'router',
-                    function() {
+                    function () {
                         $router = new Router(true);
 
                         return $router;
@@ -479,7 +479,7 @@ class ConsoleTest extends UnitTest
             function () {
                 $di = new CliFactoryDefault();
 
-                $di->setShared('router', function() {
+                $di->setShared('router', function () {
                     $router = new Router(true);
                     return $router;
                 });
@@ -519,7 +519,7 @@ class ConsoleTest extends UnitTest
 
                 $di->setShared(
                     'router',
-                    function() {
+                    function () {
                         $router = new Router(true);
 
                         return $router;

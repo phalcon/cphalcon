@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Test\integration\Mvc;
 
 use Phalcon\Di;
 use IntegrationTester;
@@ -33,7 +33,7 @@ class ApplicationCest
         $I->wantTo('handle request and get content by using single modules strategy');
 
         $di = new FactoryDefault();
-        $di->set('view', function() {
+        $di->set('view', function () {
             $view = new View();
             $view->setViewsDir(PATH_DATA . 'views/');
 
@@ -55,7 +55,7 @@ class ApplicationCest
         $_GET['_url'] = '/index';
 
         $di = new FactoryDefault();
-        $di->set('router', function() {
+        $di->set('router', function () {
             $router = new Router(false);
 
             $router->add('/index', [
@@ -92,7 +92,7 @@ class ApplicationCest
         $_GET['_url'] = '/login';
 
         $di = new FactoryDefault();
-        $di->set('router', function() {
+        $di->set('router', function () {
             $router = new Router(false);
 
             $router->add('/index', [
@@ -114,16 +114,16 @@ class ApplicationCest
         $view = new View();
 
         $application->registerModules([
-            'frontend' => function($di) use ($view) {
+            'frontend' => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
-                $di->set('view', function() use ($view) {
+                $di->set('view', function () use ($view) {
                     $view->setViewsDir(PATH_DATA . 'modules/frontend/views/');
                     return $view;
                 });
             },
-            'backend' => function($di) use ($view) {
+            'backend' => function ($di) use ($view) {
                 /** @var \Phalcon\DiInterface $di */
-                $di->set('view', function() use($view) {
+                $di->set('view', function () use ($view) {
                     $view->setViewsDir(PATH_DATA . 'modules/backend/views/');
                     return $view;
                 });

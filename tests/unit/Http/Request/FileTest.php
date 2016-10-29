@@ -42,11 +42,11 @@ class FileTest extends UnitTest
             "getRealType does not returns real type",
             function () {
                 $file = new File([
-                    'name'		=> 'test',
-                    'type'		=> 'text/plain',
-                    'tmp_name'	=> PATH_DATA . '/assets/phalconphp.jpg',
-                    'size'		=> 1,
-                    'error'		=> 0,
+                    'name'        => 'test',
+                    'type'        => 'text/plain',
+                    'tmp_name'    => PATH_DATA . '/assets/phalconphp.jpg',
+                    'size'        => 1,
+                    'error'        => 0,
                 ]);
 
                 expect($file->getType())->equals('text/plain');

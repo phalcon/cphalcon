@@ -35,7 +35,6 @@ class VersionTest extends UnitTest
         $this->specify(
             "get() does not return a string",
             function () {
-
                 $actual = Version::get();
 
                 expect(is_string($actual))->true();
@@ -54,7 +53,6 @@ class VersionTest extends UnitTest
         $this->specify(
             "getId() does not return a string",
             function () {
-
                 $actual = Version::getId();
 
                 expect(is_string($actual))->true();
@@ -73,7 +71,6 @@ class VersionTest extends UnitTest
         $this->specify(
             "get() to getId() does not produce the same result",
             function () {
-
                 $version = Version::get();
                 $chunks  = explode(' ', $version);
 
@@ -111,7 +108,6 @@ class VersionTest extends UnitTest
         $this->specify(
             "getId() to get() does not produce the same result",
             function () {
-
                 $id        = Version::getId();
                 $major     = intval($id[0]);
                 $med       = intval($id[1] . $id[2]);
@@ -189,7 +185,6 @@ class VersionTest extends UnitTest
         $this->specify(
             "getPart(VERSION_MAJOR) does not return the correct result",
             function () {
-
                 $id       = Version::getId();
                 $expected = intval($id[0]); //The major version is the first digit
                 $actual   = Version::getPart(Version::VERSION_MAJOR);
@@ -266,8 +261,7 @@ class VersionTest extends UnitTest
      */
     private function specialToNumber($input)
     {
-        switch ($input)
-        {
+        switch ($input) {
             case 'ALPHA':
                 $special = '1';
                 break;
@@ -299,8 +293,7 @@ class VersionTest extends UnitTest
     {
         $special = '';
 
-        switch ($number)
-        {
+        switch ($number) {
             case '1':
                 $special = 'ALPHA';
                 break;

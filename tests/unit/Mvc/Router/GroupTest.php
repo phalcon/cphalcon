@@ -109,7 +109,7 @@ class GroupTest extends UnitTest
 
                 $di->set(
                     "request",
-                    function() {
+                    function () {
                         return new \Phalcon\Http\Request();
                     }
                 );

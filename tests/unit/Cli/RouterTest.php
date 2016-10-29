@@ -35,7 +35,7 @@ class RouterTest extends UnitTest
 
                 $di->set(
                     "data",
-                    function() {
+                    function () {
                         return "data";
                     }
                 );
@@ -444,10 +444,10 @@ class RouterTest extends UnitTest
                 $router = new Router();
 
                 $router->add('{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country')
-                ->convert('task', function($task){
+                ->convert('task', function ($task) {
                     return str_replace('-', '', $task);
                 })
-                ->convert('action', function($action){
+                ->convert('action', function ($action) {
                     return str_replace('-', '', $action);
                 });
 
@@ -456,16 +456,16 @@ class RouterTest extends UnitTest
                     'action' => 'default',
                     'id' => 2,
                 ))
-                ->convert('task', function($task) {
+                ->convert('task', function ($task) {
                     return strtolower($task);
                 })
-                ->convert('action', function($action) {
+                ->convert('action', function ($action) {
                     if ($action == 'default') {
                         return 'index';
                     }
                     return $action;
                 })
-                ->convert('id', function($id) {
+                ->convert('id', function ($id) {
                     return strrev($id);
                 });
 
@@ -567,14 +567,14 @@ class RouterTest extends UnitTest
 
                 $router
                     ->add('static route')
-                    ->beforeMatch(function() use (&$trace) {
+                    ->beforeMatch(function () use (&$trace) {
                         $trace++;
                         return false;
                     });
 
                 $router
                     ->add('static route2')
-                    ->beforeMatch(function() use (&$trace) {
+                    ->beforeMatch(function () use (&$trace) {
                         $trace++;
                         return true;
                     });

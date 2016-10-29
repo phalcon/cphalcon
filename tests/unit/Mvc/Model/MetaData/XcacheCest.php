@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
@@ -36,7 +36,7 @@ class XcacheCest
             );
         }
 
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Xcache([
                 'prefix'   => 'app\\',
                 'lifetime' => 60

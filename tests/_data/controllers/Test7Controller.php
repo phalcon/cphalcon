@@ -2,5 +2,4 @@
 
 class Test7Controller extends ControllerBase
 {
-
 }

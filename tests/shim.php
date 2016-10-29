@@ -16,32 +16,38 @@
  */
 
 if (!function_exists('xcache_get') && function_exists('apc_fetch')) {
-    function xcache_get($key) {
+    function xcache_get($key)
+    {
         $ok = false;
         $result = apc_fetch($key, $ok);
 
         return $ok ? $result : null;
     }
 
-    function xcache_inc($key, $step = 1) {
+    function xcache_inc($key, $step = 1)
+    {
         $ok = false;
         $result = apc_inc($key, $step, $ok);
 
         return $ok ? $result : false;
     }
 
-    function xcache_set($key, $value, $ttl = 0) {
+    function xcache_set($key, $value, $ttl = 0)
+    {
         return apc_store($key, $value, $ttl);
     }
 
-    function xcache_isset($key) {
+    function xcache_isset($key)
+    {
         return apc_exists($key);
     }
 
-    function xcache_unset($key) {
+    function xcache_unset($key)
+    {
         return apc_delete($key);
     }
 
-    function xcache_emulation() {
+    function xcache_emulation()
+    {
     }
 }

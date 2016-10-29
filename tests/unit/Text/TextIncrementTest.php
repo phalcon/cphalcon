@@ -35,7 +35,6 @@ class TextIncrementTest extends UnitTest
         $this->specify(
             "increment does not increment a simple string",
             function () {
-
                 $source   = 'file';
                 $expected = 'file_1';
                 $actual   = Text::increment($source);
@@ -55,7 +54,6 @@ class TextIncrementTest extends UnitTest
         $this->specify(
             "increment does not increment an incremented string",
             function () {
-
                 $source   = 'file_1';
                 $expected = 'file_2';
                 $actual   = Text::increment($source);
@@ -75,7 +73,6 @@ class TextIncrementTest extends UnitTest
         $this->specify(
             "increment does not increment a second incremented string",
             function () {
-
                 $source   = 'file_2';
                 $expected = 'file_3';
                 $actual   = Text::increment($source);
@@ -95,7 +92,6 @@ class TextIncrementTest extends UnitTest
         $this->specify(
             "increment does not increment a string with an underscore",
             function () {
-
                 $source   = 'file_';
                 $expected = 'file_1';
                 $actual   = Text::increment($source);
@@ -115,7 +111,6 @@ class TextIncrementTest extends UnitTest
         $this->specify(
             "increment does not increment a string with a space at the end",
             function () {
-
                 $source   = 'file ';
                 $expected = 'file _1';
                 $actual   = Text::increment($source);
@@ -135,7 +130,6 @@ class TextIncrementTest extends UnitTest
         $this->specify(
             "increment does not increment a string with a different separator",
             function () {
-
                 $source   = 'file';
                 $expected = 'file-1';
                 $actual   = Text::increment($source, '-');

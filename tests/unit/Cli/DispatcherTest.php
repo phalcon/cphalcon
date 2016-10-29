@@ -34,7 +34,7 @@ class DispatcherTest extends UnitTest
 
                 $di->set(
                     'data',
-                    function() {
+                    function () {
                         return "data";
                     }
                 );

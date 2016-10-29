@@ -2,6 +2,6 @@
 
 namespace Example\Adapter;
 
-class Some {
-
+class Some
+{
 }

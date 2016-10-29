@@ -2,10 +2,8 @@
 
 function noClassFoo()
 {
-
 }
 
 function noClassBar()
 {
-
 }

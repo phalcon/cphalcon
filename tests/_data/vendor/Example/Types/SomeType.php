@@ -1,5 +1,5 @@
 <?php
 
-class SomeType {
-
+class SomeType
+{
 }

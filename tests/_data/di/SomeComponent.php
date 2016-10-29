@@ -22,5 +22,4 @@ class SomeComponent
     {
         $this->someProperty = $value;
     }
-
 }

@@ -46,9 +46,9 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Aliased namespaces should work in relations",
             function () {
-                $this->modelsManager->registerNamespaceAlias('AlbumORama','Phalcon\Test\Models\AlbumORama');
+                $this->modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
                 $albums = Albums::find();
-                foreach($albums as $album){
+                foreach ($albums as $album) {
                     expect($album->artist)->isInstanceOf('Phalcon\Test\Models\AlbumORama\Artists');
                 }
             }
@@ -67,16 +67,19 @@ class ManagerTest extends UnitTest
             'The Manager::isVisibleModelProperty does not check public property correctly',
             function ($property, $expected) {
                 expect($this->modelsManager->isVisibleModelProperty(new Customers, $property))->equals($expected);
-            }, ['examples' => [
-                ['id', true],
-                ['document_id', true],
-                ['customer_id', true],
-                ['first_name', true],
-                ['some_field', false],
-                ['', false],
-                ['protected_field', false],
-                ['private_field', false],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['id', true],
+                    ['document_id', true],
+                    ['customer_id', true],
+                    ['first_name', true],
+                    ['some_field', false],
+                    ['', false],
+                    ['protected_field', false],
+                    ['private_field', false],
+                ]
+            ]
         );
     }
 }

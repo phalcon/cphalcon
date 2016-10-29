@@ -52,13 +52,13 @@ class DateTest extends UnitTest
      */
     public function testMultipleField()
     {
-        $this->specify('Test date validator with multiple field.', function() {
-           $validation = new Validation();
+        $this->specify('Test date validator with multiple field.', function () {
+            $validation = new Validation();
             $validationMessages = [
                 'date'=>'Date must be correct date formay Y-m-d.',
                 'anotherDate'=>'AnotherDate must be correct date format d-m-Y.'
             ];
-            $validation->add(['date','anotherDate'], new Date([
+            $validation->add(['date', 'anotherDate'], new Date([
                 'format'=>[
                     'date'=>'Y-m-d',
                     'anotherDate'=>'d-m-Y'

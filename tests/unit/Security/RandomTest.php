@@ -81,7 +81,7 @@ class RandomTest extends UnitTest
             function () {
                 $random = new Random();
 
-                $isValid = function($uuid) {
+                $isValid = function ($uuid) {
                     return (preg_match('/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i', $uuid) === 1);
                 };
 
@@ -118,7 +118,7 @@ class RandomTest extends UnitTest
 
                 $random = new Random();
 
-                $isValid = function($base58) {
+                $isValid = function ($base58) {
                     $alphabet = array_merge(
                         range("A", "H"),
                         range("J", "N"),
@@ -167,14 +167,14 @@ class RandomTest extends UnitTest
 
                 $random = new Random();
 
-                $checkSize = function($base64, $len) {
+                $checkSize = function ($base64, $len) {
                     // Size formula: 4 *( $len / 3) and this need to be rounded up to a multiple of 4.
                     $formula = (round(4*($len/3))%4 === 0) ? round(4*($len/3)) : round((4*($len/3)+4/2)/4)*4;
 
                     return strlen($base64) == $formula;
                 };
 
-                $isValid = function($base64) {
+                $isValid = function ($base64) {
                     return (preg_match("#[^a-z0-9+_=/-]+#i", $base64) === 0);
                 };
 
@@ -214,7 +214,7 @@ class RandomTest extends UnitTest
 
                 $random = new Random();
 
-                $isValid = function($base64, $padding = false) {
+                $isValid = function ($base64, $padding = false) {
                     $pattern = $padding ? "a-z0-9_=-" : "a-z0-9_-";
                     return (preg_match("#[^$pattern]+#i", $base64) === 0);
                 };
@@ -255,11 +255,11 @@ class RandomTest extends UnitTest
 
                 $random = new Random();
 
-                $checkSize = function($hex, $len) {
+                $checkSize = function ($hex, $len) {
                     return strlen($hex) == $len * 2;
                 };
 
-                $isValid = function($hex) {
+                $isValid = function ($hex) {
                     return (preg_match("#^[^0-9a-f]+$#i", $hex) === 0);
                 };
 
@@ -300,7 +300,7 @@ class RandomTest extends UnitTest
 
                 $random = new Random();
 
-                $isValid = function($bytes) {
+                $isValid = function ($bytes) {
                     return (preg_match('#^[^\x00-\xFF]+$#', $bytes) === 0);
                 };
 

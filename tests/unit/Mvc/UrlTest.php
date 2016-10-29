@@ -61,7 +61,6 @@ class UrlTest extends UnitTest
         $this->specify(
             "different url is not correct",
             function () {
-
                 $_SERVER['PHP_SELF'] = '/index.php';
 
                 $di       = $this->setupDI();
@@ -86,7 +85,6 @@ class UrlTest extends UnitTest
         $this->specify(
             "URL with controller/action not correct",
             function () {
-
                 $di       = $this->setupDI();
                 $url      = new Url();
                 $url->setDI($di);
@@ -115,7 +113,6 @@ class UrlTest extends UnitTest
         $this->specify(
             "URL for controller not correct",
             function () {
-
                 $di       = $this->setupDI();
                 $url      = new Url();
                 $url->setDI($di);
@@ -143,7 +140,6 @@ class UrlTest extends UnitTest
         $this->specify(
             "URL with year/month/title not correct",
             function () {
-
                 $di       = $this->setupDI();
                 $url      = new Url();
                 $url->setDI($di);
@@ -172,7 +168,6 @@ class UrlTest extends UnitTest
         $this->specify(
             "URL for a different language not correct",
             function () {
-
                 $di       = $this->setupDI();
                 $url      = new Url();
                 $url->setDI($di);
@@ -228,7 +223,6 @@ class UrlTest extends UnitTest
         $this->specify(
             "URL for a different language not correct",
             function () {
-
                 $di       = $this->setupDI();
                 $url      = new Url();
                 $url->setDI($di);
@@ -247,7 +241,7 @@ class UrlTest extends UnitTest
     
     /**
      * Test urls that contains colons in schema definition and as parameter
-     * 
+     *
      * @author Anton Melnik <melnik.anton2100@gmail.com>
      * @since 2016-05-07
      */
@@ -258,7 +252,7 @@ class UrlTest extends UnitTest
             function () {
                 $di = $this->setupDI();
                 $url = new Url();
-		$url->setBaseUri('http://www.test.com');
+                $url->setBaseUri('http://www.test.com');
                 
                 expect($url->get("/controller/action/param/colon:param"))
                         ->equals("http://www.test.com/controller/action/param/colon:param");

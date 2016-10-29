@@ -75,7 +75,7 @@ class MicroTest extends UnitTest
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since 2012-11-06
     */
-    public function testMicroNotFound_T169()
+    public function testMicroNotFoundT169()
     {
         $this->specify(
             "MVC Micro notFound doesn't work",
@@ -236,8 +236,7 @@ class MicroTest extends UnitTest
 
                 $app->map(
                     "/blog",
-                    function() {
-
+                    function () {
                     }
                 );
 
@@ -263,7 +262,7 @@ class MicroTest extends UnitTest
 
                 $app->map(
                     "/api/site",
-                    function() {
+                    function () {
                         return true;
                     }
                 );
@@ -271,37 +270,37 @@ class MicroTest extends UnitTest
                 $trace = 0;
 
                 $app->before(
-                    function() use (&$trace) {
+                    function () use (&$trace) {
                         $trace++;
                     }
                 );
 
                 $app->before(
-                    function() use (&$trace) {
+                    function () use (&$trace) {
                         $trace++;
                     }
                 );
 
-                $app->after(function
-                    () use (&$trace) {
+                $app->after(
+                    function () use (&$trace) {
                         $trace++;
                     }
                 );
 
-                $app->after(function
-                    () use (&$trace) {
-                        $trace++;
-                    }
-                );
-
-                $app->finish(
-                    function() use (&$trace) {
+                $app->after(
+                    function () use (&$trace) {
                         $trace++;
                     }
                 );
 
                 $app->finish(
-                    function() use (&$trace) {
+                    function () use (&$trace) {
+                        $trace++;
+                    }
+                );
+
+                $app->finish(
+                    function () use (&$trace) {
                         $trace++;
                     }
                 );
@@ -322,7 +321,7 @@ class MicroTest extends UnitTest
 
                 $app->map(
                     "/api/site",
-                    function() {
+                    function () {
                         return true;
                     }
                 );
@@ -354,7 +353,7 @@ class MicroTest extends UnitTest
 
                 $app->map(
                     "/api/site",
-                    function() {
+                    function () {
                         return true;
                     }
                 );

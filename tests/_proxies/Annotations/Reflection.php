@@ -44,7 +44,8 @@ class Reflection extends PhReflection
     }
 
     public function getReflectionData()
-    {}
+    {
+    }
 
     public static function __set_state($data)
     {
