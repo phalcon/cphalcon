@@ -545,11 +545,11 @@ class Tag
 		}
 
 		let id = params[0];
-		if  !isset params["name"] {
+		if !isset params["name"] {
 			let params["name"] = id;
 		} else {
 			let name = params["name"];
-			if  empty name {
+			if empty name {
 				let params["name"] = id;
 			}
 		}
