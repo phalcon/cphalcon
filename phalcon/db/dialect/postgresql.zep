@@ -468,6 +468,24 @@ class Postgresql extends Dialect
 	}
 
 	/**
+	 * Generates SQL to truncate a table
+	 */
+	public function truncateTable(string! tableName, string! schemaName) -> string
+	{
+		var sql, table;
+
+		if schemaName {
+			let table = schemaName . "." . tableName;
+		} else {
+			let table = tableName;
+		}
+
+		let sql = "TRUNCATE TABLE " . table;
+
+		return sql;
+	}
+
+	/**
 	 * Generates SQL to drop a table
 	 */
 	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
