@@ -812,4 +812,30 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->refresh();
 		$this->assertEquals($personerData, $personer->toArray());
 	}
+
+	public function testModelPrefixes()
+	{
+		$di = $this->_getDI(
+			function() {
+				require 'unit-tests/config.db.php';
+				$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+				return $db;
+			}
+		);
+
+		$di->set(
+			'modelsManager',
+			function () {
+				$modelsManager = new Phalcon\Mvc\Model\Manager();
+
+				$modelsManager->setModelPrefix('test_');
+
+				return $modelsManager;
+			}
+		);
+
+		$persona = new Personas();
+
+		$this->assertEquals('test_personas', $persona->getSource());
+	}
 }
