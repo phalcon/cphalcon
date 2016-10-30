@@ -657,40 +657,42 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		for key, value in data {
-			if typeof key == "string" {
-				if typeof columnMap == "array" {
+			if typeof key != "string" {
+				continue;
+			}
 
-					/**
-					 * Every field must be part of the column map
-					 */
-					if !fetch attribute, columnMap[key] {
-						if !globals_get("orm.ignore_unknown_columns") {
-							throw new Exception("Column '" . key . "' doesn't make part of the column map");
-						} else {
-							continue;
-						}
-					}
+			if typeof columnMap == "array" {
 
-					/**
-					 * Attribute can store info about his type
-					 */
-					if (typeof attribute == "array") {
-						let attributeName = attribute[0];
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
 					} else {
-						let attributeName = attribute;
+						continue;
 					}
+				}
 
-					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrateArray[attributeName] = value;
-					} else {
-						let hydrateObject->{attributeName} = value;
-					}
+				/**
+				 * Attribute can store info about his type
+				 */
+				if (typeof attribute == "array") {
+					let attributeName = attribute[0];
 				} else {
-					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrateArray[key] = value;
-					} else {
-						let hydrateObject->{key} = value;
-					}
+					let attributeName = attribute;
+				}
+
+				if hydrationMode == Resultset::HYDRATE_ARRAYS {
+					let hydrateArray[attributeName] = value;
+				} else {
+					let hydrateObject->{attributeName} = value;
+				}
+			} else {
+				if hydrationMode == Resultset::HYDRATE_ARRAYS {
+					let hydrateArray[key] = value;
+				} else {
+					let hydrateObject->{key} = value;
 				}
 			}
 		}

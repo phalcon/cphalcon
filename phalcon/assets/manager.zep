@@ -322,7 +322,6 @@ class Manager
 		 */
 		let prefix = collection->getPrefix();
 
-
 		let typeCss = "css";
 
 		/**
@@ -704,7 +703,7 @@ class Manager
 	 * @param \Phalcon\Assets\Collection collection
 	 * @param string type
 	 */
-	public function outputInline(<Collection> collection, type) -> string | null
+	public function outputInline(<Collection> collection, type) -> string
 	{
 		var output, html, codes, filters, filter, code, attributes, content, join, joinedContent;
 
@@ -721,20 +720,18 @@ class Manager
 				let attributes = code->getAttributes(),
 					content = code->getContent();
 
-				if count(filters) {
-					for filter in filters {
-						/**
-						 * Filters must be valid objects
-						 */
-						if typeof filter != "object" {
-							throw new Exception("Filter is invalid");
-						}
-
-						/**
-						 * Calls the method 'filter' which must return a filtered version of the content
-						 */
-						let content = filter->filter(content);
+				for filter in filters {
+					/**
+					 * Filters must be valid objects
+					 */
+					if typeof filter != "object" {
+						throw new Exception("Filter is invalid");
 					}
+
+					/**
+					 * Calls the method 'filter' which must return a filtered version of the content
+					 */
+					let content = filter->filter(content);
 				}
 
 				if join {
@@ -766,7 +763,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputCss(collectionName = null) -> string | null
+	public function outputCss(collectionName = null) -> string
 	{
 		var collection;
 
@@ -784,7 +781,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputInlineCss(collectionName = null) -> string | null
+	public function outputInlineCss(collectionName = null) -> string
 	{
 		var collection;
 
@@ -802,7 +799,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputJs(collectionName = null) -> string | null
+	public function outputJs(collectionName = null) -> string
 	{
 		var collection;
 
@@ -820,7 +817,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputInlineJs(collectionName = null) -> string | null
+	public function outputInlineJs(collectionName = null) -> string
 	{
 		var collection;
 
