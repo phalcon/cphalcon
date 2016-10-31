@@ -322,9 +322,15 @@ class Manager
 		let typeCss = "css";
 
 		/**
-		 * Prepare options if the collection must be filtered
+		 * Should the resources in the collection be joined?
+		 * to fix bug #12370...
 		 */
-		if count(filters) {
+		let join = collection->getJoin();
+
+		/**
+		 * Prepare options if the collection must be filtered and / or joined
+		 */
+		if (count(filters) || join) {
 
 			let options = this->_options;
 
@@ -378,20 +384,17 @@ class Manager
 			let filteredJoinedContent = "";
 
 			/**
-			 * Check if the collection have its own target base path
-			 */
-			let join = collection->getJoin();
-
-			/**
 			 * Check for valid target paths if the collection must be joined
 			 */
 			if join {
 				/**
 				* We need a valid final target path
+				* Obsolete check, completeTargetPath is either targetBasePath . collectionTargetPath;
+				* of targetBasePath (see line 375 - 379)
 				*/
-				if !completeTargetPath {
-					throw new Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
-				}
+//				if !completeTargetPath {
+//					throw new Exception("Path '". completeTargetPath. "' is not a valid target path (1)");
+//				}
 
 				if is_dir(completeTargetPath) {
 					throw new Exception("Path '". completeTargetPath. "' is not a valid target path (2), is dir.");
@@ -415,7 +418,7 @@ class Manager
 			/**
 			 * If the collection must not be joined we must print a HTML for each one
 			 */
-			if count(filters) {
+			if count(filters) || join {
 				if local {
 
 					/**
@@ -632,7 +635,7 @@ class Manager
 			}
 		}
 
-		if count(filters) {
+		if count(filters) || join {
 
 			if join == true {
 
