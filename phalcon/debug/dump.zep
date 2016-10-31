@@ -54,7 +54,7 @@ class Dump
 	 *
 	 * @param boolean detailed debug object's private and protected properties
 	 */
-	public function __construct(array styles = null, boolean detailed = false)
+	public function __construct(array styles = [], boolean detailed = false)
 	{
 		this->setStyles(styles);
 
@@ -90,7 +90,7 @@ class Dump
 	/**
 	 * Set styles for vars type
 	 */
-	public function setStyles(var styles = null) -> array
+	public function setStyles(array styles = []) -> array
 	{
 		var defaultStyles;
 
