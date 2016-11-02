@@ -23,6 +23,7 @@
 - Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to call closures when using wildcard [#12333](https://github.com/phalcon/cphalcon/issues/12333)
 - Fixed `Phalcon\Validation\Validator\File` array to string conversion in `minResolution` and `maxResolution` [#12349](https://github.com/phalcon/cphalcon/issues/12349)
 - Fixed `Phalcon\Cache\Backend\File::queryKeys()` to compare the filename against parsed prefix
+- Fixed `Phalcon\Assets\Manager` joining resources without filter [#12370](https://github.com/phalcon/cphalcon/issues/12370)
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly
