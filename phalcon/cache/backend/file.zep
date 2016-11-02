@@ -268,6 +268,7 @@ class File extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
+		string prefixedKey =  this->_prefix . this->getKey(prefix);
 		/**
 		 * We use a directory iterator to traverse the cache dir directory
 		 */
@@ -276,7 +277,7 @@ class File extends Backend implements BackendInterface
 			if likely item->isDir() === false {
 				let key = item->getFileName();
 				if prefix !== null {
-					if starts_with(key, prefix) {
+					if starts_with(key, prefixedKey) {
 						let keys[] = key;
 					}
 				} else {
