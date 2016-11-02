@@ -386,7 +386,7 @@ class ManagerTest extends UnitTest
 
                 $expected = sprintf(
                     '<script type="text/javascript" src="%s"></script>%s',
-                    PATH_DATA. 'assets/jquery.js',
+                    '/production/combined.js',
                     PHP_EOL
                 );
 

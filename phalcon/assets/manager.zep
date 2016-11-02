@@ -290,6 +290,21 @@ class Manager
 	/**
 	 * Traverses a collection calling the callback to generate its HTML
 	 *
+	 * The intention of the method is to generate the output in respect of the following parameters:
+	 * - Apply filters assigned to the collection. Standard 2 filters are supported, JSMin and CSSMin. But others can
+	 *   be developed, like a license stamper. Intention of a filter is to change the original asset in a desired way.
+	 * - Apply the prefix set on the collection. Intention is to prefix the asset with a fixed value when outputting the
+	 *   the html. Useful for suporting different locations for different environments. Just used in the output, not in
+	 *   generating filtered or joined files.
+	 * - SourceBasePath set on manager and the collection. On both the manager as on the collection a SourceBasePath can
+	 *   be set.
+	 * - TargetPath set on manager and the collection
+	 * - TargetUri set on the collection
+	 * - Join: should the content be joined
+	 * - whether or not the resource is local
+	 * - UseImplicitOutput
+	 * -
+	 *
 	 * @param \Phalcon\Assets\Collection collection
 	 * @param callback callback
 	 * @param string type
@@ -326,9 +341,15 @@ class Manager
 		let typeCss = "css";
 
 		/**
-		 * Prepare options if the collection must be filtered
+		 * Should the resources in the collection be joined?
+		 * to fix bug #12370...
 		 */
-		if count(filters) {
+		let join = collection->getJoin();
+
+		/**
+		 * Prepare options if the collection must be filtered and / or joined
+		 */
+		if count(filters) || join {
 
 			let options = this->_options;
 
@@ -382,11 +403,6 @@ class Manager
 			let filteredJoinedContent = "";
 
 			/**
-			 * Check if the collection have its own target base path
-			 */
-			let join = collection->getJoin();
-
-			/**
 			 * Check for valid target paths if the collection must be joined
 			 */
 			if join {
@@ -419,7 +435,7 @@ class Manager
 			/**
 			 * If the collection must not be joined we must print a HTML for each one
 			 */
-			if count(filters) {
+			if count(filters) || join {
 				if local {
 
 					/**
@@ -636,7 +652,7 @@ class Manager
 			}
 		}
 
-		if count(filters) {
+		if count(filters) || join {
 
 			if join == true {
 

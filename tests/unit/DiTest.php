@@ -337,7 +337,12 @@ class DiTest extends UnitTest
             function () {
                 $this->phDi->get('nonExistentService');
             },
-            ['throws' => ['Phalcon\Di\Exception', "Service 'nonExistentService' wasn't found in the dependency injection container"]]
+            [
+                'throws' => [
+                    'Phalcon\Di\Exception',
+                    "Service 'nonExistentService' wasn't found in the dependency injection container"
+                ]
+            ]
         );
     }
 

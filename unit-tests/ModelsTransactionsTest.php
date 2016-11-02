@@ -176,8 +176,15 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 			$transaction2 = $transactionManager->get();
 			$this->assertInstanceOf('Phalcon\Mvc\Model\Transaction', $transaction2);
 
-			$this->assertNotEquals($transaction2->getConnection()->getConnectionId(), $connection->getConnectionId());
-			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(), $transaction2->getConnection()->getConnectionId());
+			$this->assertNotEquals(
+				$transaction2->getConnection()->getConnectionId(),
+				$connection->getConnectionId()
+			);
+
+			$this->assertNotEquals(
+				$transaction1->getConnection()->getConnectionId(),
+				$transaction2->getConnection()->getConnectionId()
+			);
 
 			$p = 200;
 			for ($i = 0; $i < 15; $i++) {

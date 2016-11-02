@@ -269,7 +269,8 @@ class Di implements DiInterface
 	}
 
 	/**
-	 * Resolves a service, the resolved service is stored in the DI, subsequent requests for this service will return the same instance
+	 * Resolves a service, the resolved service is stored in the DI, subsequent
+	 * requests for this service will return the same instance
 	 *
 	 * @param string name
 	 * @param array parameters

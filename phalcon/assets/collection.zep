@@ -49,7 +49,7 @@ class Collection implements \Countable, \Iterator
 
 	protected _attributes = [] { get };
 
-	protected _join = true { get };
+	protected _join = false { get };
 
 	protected _targetUri { get };
 

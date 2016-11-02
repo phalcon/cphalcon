@@ -58,8 +58,15 @@ class SessionCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], $_SESSION['$PMM$app']["meta-phalcon\\test\\models\\robots-robots"]);
-        $I->assertEquals($this->data['map-robots'], $_SESSION['$PMM$app']["map-phalcon\\test\\models\\robots"]);
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            $_SESSION['$PMM$app']["meta-phalcon\\test\\models\\robots-robots"]
+        );
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            $_SESSION['$PMM$app']["map-phalcon\\test\\models\\robots"]
+        );
 
         $I->assertFalse($md->isEmpty());
 

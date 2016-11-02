@@ -2070,7 +2070,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						}
 
 						/**
-						 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric, 3) is null or 4) is empty string
+						 * Field is null when: 1) is not set, 2) is numeric but
+						 * its value is not numeric, 3) is null or 4) is empty string
 						 * Read the attribute from the this_ptr using the real or renamed name
 						 */
 						if fetch value, this->{attributeField} {
@@ -2400,7 +2401,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->{attributeField} = connection->lastInsertId(sequenceName);
 
 			/**
-			 * Since the primary key was modified, we delete the _uniqueParams to force any future update to re-build the primary key
+			 * Since the primary key was modified, we delete the _uniqueParams
+			 * to force any future update to re-build the primary key
 			 */
 			let this->_uniqueParams = null;
 		}
@@ -2897,7 +2899,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			} else {
 				if typeof record != "array" {
 					connection->rollback(nesting);
-					throw new Exception("There are no defined relations for the model '" . className . "' using alias '" . name . "'");
+
+					throw new Exception(
+						"There are no defined relations for the model '" . className . "' using alias '" . name . "'"
+					);
 				}
 			}
 		}
@@ -3146,7 +3151,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let metaData = this->getModelsMetaData();
 
 			if !this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
+				let this->_errorMessages = [
+					new Message(
+						"Record cannot be updated because it does not exist",
+						null,
+						"InvalidUpdateAttempt"
+					)
+				];
+
 				return false;
 			}
 		}
@@ -3243,7 +3255,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * If the attribute is currently set in the object add it to the conditions
 			 */
 			if !fetch value, this->{attributeField} {
-				throw new Exception("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
+				throw new Exception(
+					"Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
+				);
 			}
 
 			/**
@@ -3587,7 +3601,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
+			this,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
 	}
 
 	/**
@@ -3607,7 +3627,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addHasMany(
+			this,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
 	}
 
 	/**

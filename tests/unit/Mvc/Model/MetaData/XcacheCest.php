@@ -59,8 +59,15 @@ class XcacheCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], xcache_get('$PMM$app\meta-phalcon\test\models\robots-robots'));
-        $I->assertEquals($this->data['map-robots'], xcache_get('$PMM$app\map-phalcon\test\models\robots'));
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            xcache_get('$PMM$app\meta-phalcon\test\models\robots-robots')
+        );
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            xcache_get('$PMM$app\map-phalcon\test\models\robots')
+        );
 
         $I->assertFalse($md->isEmpty());
 

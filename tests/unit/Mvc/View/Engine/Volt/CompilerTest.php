@@ -369,11 +369,15 @@ class CompilerTest extends UnitTest
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
 
-                $intermediate = $volt->parse('{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}');
+                $intermediate = $volt->parse(
+                    '{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}'
+                );
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
 
-                $intermediate = $volt->parse('{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}');
+                $intermediate = $volt->parse(
+                    '{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}'
+                );
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
 
@@ -398,7 +402,9 @@ class CompilerTest extends UnitTest
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
 
-                $intermediate = $volt->parse('{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}');
+                $intermediate = $volt->parse(
+                    '{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}'
+                );
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
 
@@ -669,7 +675,9 @@ class CompilerTest extends UnitTest
             function () {
                 $volt = new Compiler();
 
-                $volt->parse('{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, "<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}');
+                $volt->parse(
+                    '{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, "<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}'
+                );
             },
             [
                 "throws" => [
@@ -892,13 +900,19 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString("{% set a = [1, 2, 3, 4] %}");
                 expect($compilation)->equals('<?php $a = [1, 2, 3, 4]; ?>');
 
-                $compilation = $volt->compileString('{% set a = ["hello", 2, 1.3, false, true, null] %}');
+                $compilation = $volt->compileString(
+                    '{% set a = ["hello", 2, 1.3, false, true, null] %}'
+                );
                 expect($compilation)->equals('<?php $a = [\'hello\', 2, 1.3, false, true, null]; ?>');
 
-                $compilation = $volt->compileString('{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}');
+                $compilation = $volt->compileString(
+                    '{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}'
+                );
                 expect($compilation)->equals('<?php $a = [\'hello\', 2, 3, false, true, null, [1, 2, \'hola\']]; ?>');
 
-                $compilation = $volt->compileString("{% set a = ['first': 1, 'second': 2, 'third': 3] %}");
+                $compilation = $volt->compileString(
+                    "{% set a = ['first': 1, 'second': 2, 'third': 3] %}"
+                );
                 expect($compilation)->equals('<?php $a = [\'first\' => 1, \'second\' => 2, \'third\' => 3]; ?>');
 
                 //Array acccess
@@ -957,10 +971,14 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
                 expect($compilation)->equals('<?= $this->tag->linkTo([\'hello\', \'some-link\']) ?>');
 
-                $compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
+                $compilation = $volt->compileString(
+                    "{{ form('action': 'save/products', 'method': 'post') }}"
+                );
                 expect($compilation)->equals('<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>');
 
-                $compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
+                $compilation = $volt->compileString(
+                    "{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}"
+                );
                 expect($compilation)->equals('<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>');
 
                 $compilation = $volt->compileString("{{ javascript_include('js/some.js') }}");
@@ -969,7 +987,9 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
                 expect($compilation)->equals("<?= \$this->tag->image(['img/logo.png', 'width' => 80]) ?>");
 
-                $compilation = $volt->compileString("{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}");
+                $compilation = $volt->compileString(
+                    "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}"
+                );
                 expect($compilation)->equals("<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>");
 
                 //Filters
@@ -1065,10 +1085,14 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString('{% if a is not scalar %} hello {% endif %}');
                 expect($compilation)->equals('<?php if (!is_scalar($a)) { ?> hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% if a is iterable %} hello {% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a is iterable %} hello {% endif %}'
+                );
                 expect($compilation)->equals('<?php if ((is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% if a is not iterable %} hello {% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a is not iterable %} hello {% endif %}'
+                );
                 expect($compilation)->equals('<?php if (!(is_array($a) || ($a) instanceof Traversable)) { ?> hello <?php } ?>');
 
                 $compilation = $volt->compileString('{% if a is sameas(false) %} hello {% endif %}');
@@ -1092,19 +1116,29 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString('{% if a==b %} hello {% else %} not hello {% endif %}');
                 expect($compilation)->equals('<?php if ($a == $b) { ?> hello <?php } else { ?> not hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}'
+                );
                 expect($compilation)->equals('<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } ?> <?php } else { ?> not hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% if a==b %} {% if c==d %} hello {% else %} not hello {% endif %}{% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a==b %} {% if c==d %} hello {% else %} not hello {% endif %}{% endif %}'
+                );
                 expect($compilation)->equals('<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } else { ?> not hello <?php } ?><?php } ?>');
 
-                $compilation = $volt->compileString('{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}'
+                );
                 expect($compilation)->equals('<?php if ($a == $b) { ?> hello <?php } else { ?> <?php if ($c == $d) { ?> not hello <?php } ?> <?php } ?>');
 
-                $compilation = $volt->compileString('{% if a is empty or a is defined %} hello {% else %} not hello {% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a is empty or a is defined %} hello {% else %} not hello {% endif %}'
+                );
                 expect($compilation)->equals('<?php if (empty($a) || isset($a)) { ?> hello <?php } else { ?> not hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% if a is even or b is odd %} hello {% else %} not hello {% endif %}');
+                $compilation = $volt->compileString(
+                    '{% if a is even or b is odd %} hello {% else %} not hello {% endif %}'
+                );
                 expect($compilation)->equals('<?php if (((($a) % 2) == 0) || ((($b) % 2) != 0)) { ?> hello <?php } else { ?> not hello <?php } ?>');
 
                 //for statement
@@ -1120,16 +1154,22 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] %} hello {% endfor %}');
                 expect($compilation)->equals('<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { ?> hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] if key!=3 %} hello {% endfor %}');
+                $compilation = $volt->compileString(
+                    '{% for key, value in [0, 1, 3, 5, 4] if key!=3 %} hello {% endfor %}'
+                );
                 expect($compilation)->equals('<?php foreach ([0, 1, 3, 5, 4] as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>');
 
                 $compilation = $volt->compileString('{% for a in 1..10 %} hello {% endfor %}');
                 expect($compilation)->equals('<?php foreach (range(1, 10) as $a) { ?> hello <?php } ?>');
 
-                $compilation = $volt->compileString('{% for a in 1..10 if a is even %} hello {% endfor %}');
+                $compilation = $volt->compileString(
+                    '{% for a in 1..10 if a is even %} hello {% endfor %}'
+                );
                 expect($compilation)->equals('<?php foreach (range(1, 10) as $a) { if (((($a) % 2) == 0)) { ?> hello <?php } ?><?php } ?>');
 
-                $compilation = $volt->compileString('{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}');
+                $compilation = $volt->compileString(
+                    '{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}'
+                );
                 expect($compilation)->equals('<?php foreach (range(1, 10) as $a) { ?> <?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>');
 
                 $compilation = $volt->compileString('{% for a in 1..10 %}{% break %}{% endfor %}');
@@ -1155,14 +1195,18 @@ class CompilerTest extends UnitTest
                 $compilation = $volt->compileString('{% cache somekey %} hello {% endcache %}');
                 expect($compilation)->equals('<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } else { echo $_cacheKey[$somekey]; } ?>');
 
-                $compilation = $volt->compileString('{% set lifetime = 500 %}{% cache somekey lifetime %} hello {% endcache %}');
+                $compilation = $volt->compileString(
+                    '{% set lifetime = 500 %}{% cache somekey lifetime %} hello {% endcache %}'
+                );
                 expect($compilation)->equals('<?php $lifetime = 500; ?><?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, $lifetime); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, $lifetime); } else { echo $_cacheKey[$somekey]; } ?>');
 
                 $compilation = $volt->compileString('{% cache somekey 500 %} hello {% endcache %}');
                 expect($compilation)->equals('<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, 500); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>');
 
                 //Autoescape mode
-                $compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
+                $compilation = $volt->compileString(
+                    '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}'
+                );
                 expect($compilation)->equals("<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>");
 
                 //Mixed
@@ -1171,7 +1215,9 @@ class CompilerTest extends UnitTest
 
                 //Autoescape from options
                 $volt->setOption("autoescape", true);
-                $compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
+                $compilation = $volt->compileString(
+                    '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}'
+                );
                 expect($compilation)->equals("<?= \$this->escaper->escapeHtml('hello') ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= \$this->escaper->escapeHtml('hello') ?>");
             }
         );
@@ -1246,7 +1292,10 @@ class CompilerTest extends UnitTest
                 $volt = new Compiler();
 
                 //Simple file
-                $volt->compileFile(PATH_DATA . 'views/layouts/test10.volt', PATH_DATA . 'views/layouts/test10.volt.php');
+                $volt->compileFile(
+                    PATH_DATA . 'views/layouts/test10.volt',
+                    PATH_DATA . 'views/layouts/test10.volt.php'
+                );
 
                 $compilation = file_get_contents(PATH_DATA . 'views/layouts/test10.volt.php');
 
@@ -1271,7 +1320,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $volt = new Compiler($view);
 
                 //extends
-                $volt->compileFile(PATH_DATA . 'views/test10/children.extends.volt', PATH_DATA . 'views/test10/children.extends.volt.php');
+                $volt->compileFile(
+                    PATH_DATA . 'views/test10/children.extends.volt',
+                    PATH_DATA . 'views/test10/children.extends.volt.php'
+                );
 
                 $compilation = file_get_contents(PATH_DATA . 'views/test10/children.extends.volt.php');
 
@@ -1295,7 +1347,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $volt = new Compiler($view);
 
                 //extends
-                $volt->compileFile(PATH_DATA . 'views/test10/import.volt', PATH_DATA . 'views/test10/import.volt.php');
+                $volt->compileFile(
+                    PATH_DATA . 'views/test10/import.volt',
+                    PATH_DATA . 'views/test10/import.volt.php'
+                );
 
                 $compilation = file_get_contents(PATH_DATA . 'views/test10/import.volt.php');
 
@@ -1319,7 +1374,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $volt = new Compiler($view);
 
                 //extends
-                $volt->compileFile(PATH_DATA . 'views/test10/import2.volt', PATH_DATA . 'views/test10/import2.volt.php');
+                $volt->compileFile(
+                    PATH_DATA . 'views/test10/import2.volt',
+                    PATH_DATA . 'views/test10/import2.volt.php'
+                );
 
                 $compilation = file_get_contents(PATH_DATA . 'views/test10/import2.volt.php');
 
@@ -1361,7 +1419,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $view->setRenderLevel(View::LEVEL_LAYOUT);
                 $view->render('test10', 'index');
                 $view->finish();
-                expect($view->getContent())->equals('Clearly, the song is: Hello Rock n roll!.'.PHP_EOL);
+                expect($view->getContent())->equals('Clearly, the song is: Hello Rock n roll!.' . PHP_EOL);
 
                 //Refreshing generated view
                 file_put_contents(PATH_DATA . 'views/test10/other.volt', '{{song}} {{song}}');
@@ -1378,7 +1436,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $view->setRenderLevel(View::LEVEL_LAYOUT);
                 $view->render('test10', 'other');
                 $view->finish();
-                expect($view->getContent())->equals('Clearly, the song is: Le Song Le Song.'.PHP_EOL);
+                expect($view->getContent())->equals('Clearly, the song is: Le Song Le Song.' . PHP_EOL);
 
                 //Change the view
                 file_put_contents(PATH_DATA . 'views/test10/other.volt', 'Two songs: {{song}} {{song}}');
@@ -1387,7 +1445,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $view->setRenderLevel(View::LEVEL_LAYOUT);
                 $view->render('test10', 'other');
                 $view->finish();
-                expect($view->getContent())->equals('Clearly, the song is: Two songs: Le Song Le Song.'.PHP_EOL);
+                expect($view->getContent())->equals('Clearly, the song is: Two songs: Le Song Le Song.' . PHP_EOL);
             }
         );
     }
@@ -1447,7 +1505,16 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $view->finish();
                 expect($view->getContent())->equals('<div><span class="error-type">Invalid</span><span class="error-field">name</span><span class="error-message">The name is invalid</span></div>');
 
-                $view->setVar('links', array((object) array('url' => 'localhost', 'text' => 'Menu item', 'title' => 'Menu title')));
+                $view->setVar(
+                    'links',
+                    array(
+                        (object) array(
+                            'url' => 'localhost',
+                            'text' => 'Menu item',
+                            'title' => 'Menu title'
+                        )
+                    )
+                );
                 $view->start();
                 $view->render('macro', 'related_links');
                 $view->finish();
