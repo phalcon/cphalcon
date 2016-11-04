@@ -1495,4 +1495,3 @@ Phalcon_Model_Base::sum, etc. to avoid SQL injections
  - Fixed segfault when reading _SESSION superglobal when no session_start has been made
  - Added Phalcon_Cache with adapter File
  - Added method Phalcon_Model_Manager::getHasOneRecords
-
