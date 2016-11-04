@@ -1,3 +1,6 @@
+# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2016-XX-XX)``
+- Added `Phalcon\Validation\Validator\Callback`, `Phalcon\Validation::getData`
+
 # [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-XX-XX)
 - Fixed saving snapshot data while caching model [#12170](https://github.com/phalcon/cphalcon/issues/12170), [#12000](https://github.com/phalcon/cphalcon/issues/12000)
 - Fixed `Phalcon\Http\Response\Headers::send` to send correct status header [#12179](https://github.com/phalcon/cphalcon/issues/12179)
