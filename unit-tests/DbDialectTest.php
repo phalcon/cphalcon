@@ -654,6 +654,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 		// issue 11359
 		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), 'DESCRIBE `database.name.with.dots`.`table`');
 		$this->assertEquals($dialect->describeColumns('table', '`database.name.with.dots`'), 'DESCRIBE `database.name.with.dots`.`table`');
+
+		//Truncate tables
+		$this->assertEquals($dialect->truncateTable('table', null), 'TRUNCATE TABLE `table`');
+		$this->assertEquals($dialect->truncateTable('table', 'schema'), 'TRUNCATE TABLE `schema`.`table`');
 	}
 
 	public function testSQLiteDialect()
@@ -919,6 +923,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 		// issue 11359
 		$this->assertEquals($dialect->describeColumns('table', 'database.name.with.dots'), "PRAGMA table_info('table')");
+
+		//Truncate tables
+		$this->assertEquals($dialect->truncateTable('table', null), 'DELETE FROM "table"');
+		$this->assertEquals($dialect->truncateTable('table', 'schema'), 'DELETE FROM "schema"."table"');
 	}
 
 	public function testViews()
