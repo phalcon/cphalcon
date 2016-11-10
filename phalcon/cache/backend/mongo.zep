@@ -21,7 +21,6 @@ namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\FrontendInterface;
 
 /**
@@ -60,7 +59,7 @@ use Phalcon\Cache\FrontendInterface;
  * $data = $cache->get("my-data");
  *</code>
  */
-class Mongo extends Backend implements BackendInterface
+class Mongo extends Backend
 {
 
 	protected _collection = null;

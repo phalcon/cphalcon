@@ -21,7 +21,6 @@ namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\ValidatorInterface;
 use Phalcon\Mvc\Model\Validator;
 
 /**
@@ -54,7 +53,7 @@ use Phalcon\Mvc\Model\Validator;
  * }
  *</code>
  */
-class Url extends Validator implements ValidatorInterface
+class Url extends Validator
 {
 	/**
 	 * Executes the validator

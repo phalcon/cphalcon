@@ -20,7 +20,6 @@
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\FormatterInterface;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
@@ -40,7 +39,7 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  * $logger->close();
  *</code>
  */
-class File extends Adapter implements AdapterInterface
+class File extends Adapter
 {
 
 	/**

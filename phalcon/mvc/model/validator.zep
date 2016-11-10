@@ -29,7 +29,7 @@ use Phalcon\Mvc\Model\Message;
  * This class is only for use with Phalcon\Mvc\Collection. If you are using
  * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
  */
-abstract class Validator
+abstract class Validator implements ValidatorInterface
 {
 
 	protected _options;

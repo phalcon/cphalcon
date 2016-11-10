@@ -23,7 +23,6 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness
@@ -58,7 +57,7 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * }
  *</code>
  */
-class Uniqueness extends Validator implements ValidatorInterface
+class Uniqueness extends Validator
 {
 	/**
 	 * Executes the validator

@@ -21,7 +21,6 @@
 namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Adapter;
 
 /**
@@ -42,7 +41,7 @@ use Phalcon\Translate\Adapter;
  *
  * Allows translate using gettext
  */
-class Gettext extends Adapter implements AdapterInterface, \ArrayAccess
+class Gettext extends Adapter implements \ArrayAccess
 {
 	/**
 	 * @var string|array

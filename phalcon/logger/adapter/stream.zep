@@ -21,7 +21,6 @@ namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\FormatterInterface;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
 
@@ -41,7 +40,7 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  * $logger->error("This is another error");
  * </code>
  */
-class Stream extends Adapter implements AdapterInterface
+class Stream extends Adapter
 {
 
 	/**

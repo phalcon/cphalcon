@@ -29,7 +29,7 @@ use Phalcon\Events\ManagerInterface;
  *
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements EventsAwareInterface
+abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
 	/**
 	 * Event Manager

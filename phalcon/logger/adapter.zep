@@ -30,7 +30,7 @@ use Phalcon\Logger\FormatterInterface;
  *
  * Base class for Phalcon\Logger adapters
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
 
 	/**

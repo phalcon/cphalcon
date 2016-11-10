@@ -19,7 +19,6 @@
 namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Adapter;
 
 /**
@@ -27,7 +26,7 @@ use Phalcon\Translate\Adapter;
  *
  * Allows to define translation lists using CSV file
  */
-class Csv extends Adapter implements AdapterInterface, \ArrayAccess
+class Csv extends Adapter implements \ArrayAccess
 {
 
 	protected _translate = [];

@@ -21,7 +21,6 @@ namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Adapter;
 use Phalcon\Image\Exception;
-use Phalcon\Image\AdapterInterface;
 
 /**
  * Phalcon\Image\Adapter\Imagick
@@ -38,7 +37,7 @@ use Phalcon\Image\AdapterInterface;
  * }
  *</code>
  */
-class Imagick extends Adapter implements AdapterInterface
+class Imagick extends Adapter
 {
 	protected static _version = 0;
 	protected static _checked = false;

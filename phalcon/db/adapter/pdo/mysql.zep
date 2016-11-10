@@ -24,7 +24,6 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Db\IndexInterface;
-use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
@@ -46,7 +45,7 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * $connection = new Mysql($config);
  *</code>
  */
-class Mysql extends PdoAdapter implements AdapterInterface
+class Mysql extends PdoAdapter
 {
 
 	protected _type = "mysql";
