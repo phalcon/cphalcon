@@ -21,7 +21,6 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter;
-use Phalcon\Paginator\AdapterInterface;
 use Phalcon\Paginator\Exception;
 
 /**
@@ -46,7 +45,7 @@ use Phalcon\Paginator\Exception;
  * );
  *</code>
  */
-class QueryBuilder extends Adapter implements AdapterInterface
+class QueryBuilder extends Adapter
 {
 	/**
 	 * Configuration of paginator by model

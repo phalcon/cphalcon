@@ -22,7 +22,6 @@ namespace Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\FrontendInterface;
-use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Cache\Backend\File
@@ -60,7 +59,7 @@ use Phalcon\Cache\BackendInterface;
  * }
  *</code>
  */
-class File extends Backend implements BackendInterface
+class File extends Backend
 {
 	/**
 	 * Default to false for backwards compatibility

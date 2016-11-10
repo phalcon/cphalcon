@@ -21,7 +21,6 @@
 namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db\Column;
-use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Exception;
@@ -45,7 +44,7 @@ use Phalcon\Db\Exception;
  * $connection = new Postgresql($config);
  * </code>
  */
-class Postgresql extends PdoAdapter implements AdapterInterface
+class Postgresql extends PdoAdapter
 {
 
 	protected _type = "pgsql";

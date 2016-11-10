@@ -20,7 +20,6 @@
 namespace Phalcon;
 
 use Phalcon\Flash\Exception;
-use Phalcon\FlashInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
@@ -33,7 +32,7 @@ use Phalcon\Di\InjectionAwareInterface;
  * $flash->error("Cannot open the file");
  *</code>
  */
-abstract class Flash implements InjectionAwareInterface
+abstract class Flash implements FlashInterface, InjectionAwareInterface
 {
 
 	protected _cssClasses;

@@ -21,7 +21,6 @@ namespace Phalcon\Mvc\View\Engine;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\View\Engine;
-use Phalcon\Mvc\View\EngineInterface;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 
@@ -30,7 +29,7 @@ use Phalcon\Mvc\View\Exception;
  *
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
-class Volt extends Engine implements EngineInterface
+class Volt extends Engine
 {
 	protected _options;
 

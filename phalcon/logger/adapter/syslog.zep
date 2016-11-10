@@ -21,7 +21,6 @@ namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
 
 /**
@@ -47,7 +46,7 @@ use Phalcon\Logger\Formatter\Syslog as SyslogFormatter;
  * $logger->error("This is another error");
  *</code>
  */
-class Syslog extends Adapter implements AdapterInterface
+class Syslog extends Adapter
 {
 
 	protected _opened = false;

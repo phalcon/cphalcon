@@ -20,7 +20,6 @@
 namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\FrontendInterface;
 
@@ -59,7 +58,7 @@ use Phalcon\Cache\FrontendInterface;
  * $data = $cache->get("my-data");
  *</code>
  */
-class Memcache extends Backend implements BackendInterface
+class Memcache extends Backend
 {
 
 	protected _memcache = null;

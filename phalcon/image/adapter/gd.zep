@@ -20,10 +20,9 @@
 namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Adapter;
-use Phalcon\Image\AdapterInterface;
 use Phalcon\Image\Exception;
 
-class Gd extends Adapter implements AdapterInterface
+class Gd extends Adapter
 {
 	protected static _checked = false;
 

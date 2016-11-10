@@ -22,7 +22,6 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter;
-use Phalcon\Paginator\AdapterInterface;
 
 /**
  * Phalcon\Paginator\Adapter\Model
@@ -43,7 +42,7 @@ use Phalcon\Paginator\AdapterInterface;
  * $paginate = $paginator->getPaginate();
  *</code>
  */
-class Model extends Adapter implements AdapterInterface
+class Model extends Adapter
 {
 
 	/**

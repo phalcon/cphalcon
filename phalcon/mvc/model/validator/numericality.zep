@@ -22,7 +22,6 @@ namespace Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\Numericality
@@ -54,7 +53,7 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * }
  *</code>
  */
-class Numericality extends Validator implements ValidatorInterface
+class Numericality extends Validator
 {
 	/**
 	 * Executes the validator

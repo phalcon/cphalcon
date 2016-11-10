@@ -20,14 +20,13 @@
 namespace Phalcon\Mvc\View\Engine;
 
 use Phalcon\Mvc\View\Engine;
-use Phalcon\Mvc\View\EngineInterface;
 
 /**
  * Phalcon\Mvc\View\Engine\Php
  *
  * Adapter to use PHP itself as templating engine
  */
-class Php extends Engine implements EngineInterface
+class Php extends Engine
 {
 
 	/**
