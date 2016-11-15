@@ -91,6 +91,7 @@ class Msgpack extends Data implements FrontendInterface
 				throw new Exception("Option 'lifetime' must be an integer");
 			}
 		}
+		let this->_frontendOptions = frontendOptions;
 	}
 
 	/**
