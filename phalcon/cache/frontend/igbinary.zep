@@ -73,6 +73,8 @@ use Phalcon\Cache\FrontendInterface;
 class Igbinary extends Data implements FrontendInterface
 {
 
+	protected _frontendOptions;
+
 	/**
 	 * Phalcon\Cache\Frontend\Data constructor
 	 *
