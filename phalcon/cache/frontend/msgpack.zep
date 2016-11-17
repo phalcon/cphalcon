@@ -77,6 +77,9 @@ use Phalcon\Cache\Exception;
  */
 class Msgpack extends Data implements FrontendInterface
 {
+
+	protected _frontendOptions;
+	
 	/**
 	 * Phalcon\Cache\Frontend\Msgpack constructor
 	 *
