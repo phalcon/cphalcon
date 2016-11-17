@@ -792,7 +792,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 * </code>
 	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>
+	public static function find(var parameters = null, <TransactionInterface> transaction = null) -> <ResultsetInterface>
 	{
 		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
 
@@ -815,6 +815,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		builder->from(get_called_class());
 
 		let query = builder->getQuery();
+
+		if transaction != "null" {
+            query->setTransaction(transaction);
+		}
+
 
 		/**
 		 * Check for bind parameters
