@@ -25,6 +25,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\Model\Criteria
@@ -714,7 +715,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Executes a find using the parameters built with the criteria
 	 */
-	public function execute() -> <ResultsetInterface>
+	public function execute(<TransactionInterface> transaction = null) -> <ResultsetInterface>
 	{
 		var model;
 
@@ -723,6 +724,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			throw new Exception("Model name must be string");
 		}
 
-		return {model}::find(this->getParams());
+		return {model}::find(this->getParams(), transaction);
 	}
 }
