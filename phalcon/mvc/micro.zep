@@ -80,6 +80,8 @@ class Micro extends Injectable implements \ArrayAccess
 
 	protected _modelBinder;
 
+	protected _afterBindingHandlers;
+
 	/**
 	 * Phalcon\Mvc\Micro constructor
 	 */
@@ -585,7 +587,8 @@ class Micro extends Injectable implements \ArrayAccess
 		var dependencyInjector, eventsManager, status = null, router, matchedRoute,
 			handler, beforeHandlers, params, returnedValue, e, errorHandler,
 			afterHandlers, notFoundHandler, finishHandlers, finish, before, after,
-			response, modelBinder, bindCacheKey, routeName, realHandler = null, methodName, lazyReturned;
+			response, modelBinder, bindCacheKey, routeName, realHandler = null, methodName, lazyReturned,
+			afterBindingHandlers, afterBinding;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -739,6 +742,62 @@ class Micro extends Injectable implements \ArrayAccess
 					let returnedValue = lazyReturned;
 				} else {
 					let returnedValue = call_user_func_array(handler, params);
+				}
+
+				/**
+				 * Calling afterBinding event
+				 */
+				if typeof eventsManager == "object" {
+					if eventsManager->fire("micro:afterBinding", this) === false {
+						return false;
+					}
+				}
+
+				let afterBindingHandlers = this->_afterBindingHandlers;
+				if typeof afterBindingHandlers == "array" {
+					let this->_stopped = false;
+
+					/**
+					 * Calls the after binding handlers
+					 */
+					for afterBinding in afterBindingHandlers {
+
+						if typeof afterBinding == "object" && afterBinding instanceof MiddlewareInterface {
+
+							/**
+							 * Call the middleware
+							 */
+							let status = afterBinding->call(this);
+
+							/**
+							 * Reload the status
+							 * break the execution if the middleware was stopped
+							 */
+							if this->_stopped {
+								break;
+							}
+
+							continue;
+						}
+
+						if !is_callable(afterBinding) {
+							throw new Exception("'afterBinding' handler is not callable");
+						}
+
+						/**
+						 * Call the afterBinding handler, if it returns false exit
+						 */
+						if call_user_func(afterBinding) === false {
+							return false;
+						}
+
+						/**
+						 * Reload the 'stopped' status
+						 */
+						if this->_stopped {
+							return status;
+						}
+					}
 				}
 
 				/**
@@ -1045,6 +1104,18 @@ class Micro extends Injectable implements \ArrayAccess
 	public function before(handler) -> <Micro>
 	{
 		let this->_beforeHandlers[] = handler;
+		return this;
+	}
+
+	/**
+	 * Appends a afterBiding middleware to be called after model binding
+	 *
+	 * @param callable handler
+	 * @return \Phalcon\Mvc\Micro
+	 */
+	public function afterBinding(handler) -> <Micro>
+	{
+		let this->_afterBindingHandlers[] = handler;
 		return this;
 	}
 

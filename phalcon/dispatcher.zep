@@ -612,6 +612,32 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 			let this->_lastHandler = handler;
 
+			// Calling afterBinding
+			if typeof eventsManager == "object" {
+
+				if eventsManager->fire("dispatch:afterBinding", this) === false {
+					continue;
+				}
+
+				// Check if the user made a forward in the listener
+				if this->_finished === false {
+					continue;
+				}
+			}
+
+			// Calling afterBinding as callback and event
+			if method_exists(handler, "afterBinding") {
+
+				if handler->afterBinding(this) === false {
+					continue;
+				}
+
+				// Check if the user made a forward in the listener
+				if this->_finished === false {
+					continue;
+				}
+			}
+
 			try {
 				// We update the latest value produced by the latest handler
 				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
