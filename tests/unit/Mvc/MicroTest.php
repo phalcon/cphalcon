@@ -3,6 +3,8 @@
 namespace Phalcon\Test\Unit\Mvc;
 
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Test\Module\UnitTest;
 
@@ -14,6 +16,7 @@ use Phalcon\Test\Module\UnitTest;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
@@ -25,6 +28,67 @@ use Phalcon\Test\Module\UnitTest;
  */
 class MicroTest extends UnitTest
 {
+    /**
+     * Tests after binding event
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-11-19
+     */
+    public function testAfterBindingEvent()
+    {
+        $this->specify(
+            'afterBinding event should be fired',
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $manager = new EventsManager();
+                $manager->attach(
+                    'micro:afterBinding',
+                    function (Event $event, Micro $micro) {
+                        return false;
+                    }
+                );
+                $micro->setEventsManager($manager);
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+            }
+        );
+    }
+
+    /**
+     * Tests after binding middleware
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-11-19
+     */
+    public function tesAfterBindingMiddleware()
+    {
+        $this->specify(
+            'afterBinding middleware should be called',
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $micro->afterBinding(
+                    function () {
+                        return false;
+                    }
+                );
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+            }
+        );
+    }
+
     public function testMicroClass()
     {
         $this->specify(
