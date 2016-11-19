@@ -462,33 +462,6 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * Escapes a column/table/schema name
-	 *
-	 *<code>
-	 * $escapedTable = $connection->escapeIdentifier(
-	 *     "robots"
-	 * );
-	 *
-	 * $escapedTable = $connection->escapeIdentifier(
-	 *     [
-	 *         "store",
-	 *         "robots",
-	 *     ]
-	 * );
-	 *</code>
-	 *
-	 * @param string identifier
-	 * @return string
-	 */
-	public function escapeIdentifier(var identifier) -> string
-	{
-		if typeof identifier == "array" {
-			return "\"" . identifier[0] . "\".\"" . identifier[1] . "\"";
-		}
-		return "\"" . identifier . "\"";
-	}
-
-	/**
 	 * Escapes a value to avoid SQL injections according to the active charset in the connection
 	 *
 	 *<code>

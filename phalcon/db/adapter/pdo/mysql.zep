@@ -53,44 +53,6 @@ class Mysql extends PdoAdapter
 	protected _dialectType = "mysql";
 
 	/**
-	 * Escapes a column/table/schema name
-	 *
-	 * <code>
-	 * // `my_table`
-	 * echo $connection->escapeIdentifier("my_table");
-	 *
-	 * // `companies`.`name`
-	 * echo $connection->escapeIdentifier(
-	 *     [
-	 *         "companies",
-	 *         "name",
-	 *     ]
-	 * );
-	 * <code>
-	 *
-	 * @param string|array identifier
-	 */
-	public function escapeIdentifier(var identifier) -> string
-	{
-		var domain, name;
-
-		if typeof identifier == "array" {
-			let domain = identifier[0],
-				name = identifier[1];
-			if globals_get("db.escape_identifiers") {
-				return "`" . domain . "`.`" . name . "`";
-			}
-			return domain . "." . name;
-		}
-
-		if globals_get("db.escape_identifiers") {
-			return "`" . identifier . "`";
-		}
-
-		return identifier;
-	}
-
-	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>
