@@ -346,25 +346,16 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			}
 		}
 
-		if globals_get("db.escape_identifiers") {
-			let escapedTable = this->{"escapeIdentifier"}(table);
-		} else {
-			let escapedTable = table;
-		}
+		let escapedTable = this->escapeIdentifier(table);
 
 		/**
 		 * Build the final SQL INSERT statement
 		 */
 		let joinedValues = join(", ", placeholders);
 		if typeof fields == "array" {
-
-			if globals_get("db.escape_identifiers") {
-				let escapedFields = [];
-				for field in fields {
-					let escapedFields[] = this->{"escapeIdentifier"}(field);
-				}
-			} else {
-				let escapedFields = fields;
+			let escapedFields = [];
+			for field in fields {
+				let escapedFields[] = this->escapeIdentifier(field);
 			}
 
 			let insertSql = "INSERT INTO " . escapedTable . " (" . join(", ", escapedFields) . ") VALUES (" . joinedValues . ")";
@@ -482,11 +473,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 				throw new Exception("The number of values in the update is not the same as fields");
 			}
 
-			if globals_get("db.escape_identifiers") {
-				let escapedField = this->{"escapeIdentifier"}(field);
-			} else {
-				let escapedField = field;
-			}
+			let escapedField = this->escapeIdentifier(field);
 
 			if typeof value == "object" {
 				let placeholders[] = escapedField . " = " . value;
@@ -506,11 +493,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			}
 		}
 
-		if globals_get("db.escape_identifiers") {
-			let escapedTable = this->{"escapeIdentifier"}(table);
-		} else {
-			let escapedTable = table;
-		}
+		let escapedTable = this->escapeIdentifier(table);
 
 		let setClause = join(", ", placeholders);
 
@@ -632,11 +615,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	{
 		var sql, escapedTable;
 
-		if globals_get("db.escape_identifiers") {
-			let escapedTable = this->{"escapeIdentifier"}(table);
-		} else {
-			let escapedTable = table;
-		}
+		let escapedTable = this->escapeIdentifier(table);
 
 		if !empty whereCondition {
 			let sql = "DELETE FROM " . escapedTable . " WHERE " . whereCondition;
@@ -648,6 +627,33 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		 * Perform the update via PDO::execute
 		 */
 		return this->{"execute"}(sql, placeholders, dataTypes);
+	}
+
+	/**
+	 * Escapes a column/table/schema name
+	 *
+	 *<code>
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     "robots"
+	 * );
+	 *
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     [
+	 *         "store",
+	 *         "robots",
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * @param array|string identifier
+	 */
+	public function escapeIdentifier(var identifier) -> string
+	{
+		if typeof identifier == "array" {
+			return this->_dialect->escape(identifier[0]) . "." . this->_dialect->escape(identifier[1]);
+		}
+
+		return this->_dialect->escape(identifier);
 	}
 
 	/**

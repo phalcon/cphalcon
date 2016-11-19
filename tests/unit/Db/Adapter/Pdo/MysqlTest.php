@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
+use Phalcon\Db;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -109,6 +110,44 @@ class MysqlTest extends UnitTest
                     expect($reference->getColumns())->count(1);
                 }
             }
+        );
+    }
+
+    /**
+     * Tests Mysql::escapeIdentifier
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2016-11-19
+     */
+    public function testEscapeIdentifier()
+    {
+        $this->specify(
+            'Identifiers are not properly escaped',
+            function ($identifier, $expected) {
+                $escapedIdentifier = $this->connection->escapeIdentifier($identifier);
+
+                expect($escapedIdentifier)->equals($expected);
+            },
+            [
+                "examples" => [
+                    [
+                        "identifier" => "robots",
+                        "expected"   => "`robots`",
+                    ],
+                    [
+                        "identifier" => ["schema", "robots"],
+                        "expected"   => "`schema`.`robots`",
+                    ],
+                    [
+                        "identifier" => "`robots`",
+                        "expected"   => "```robots```",
+                    ],
+                    [
+                        "identifier" => ["`schema`", "rob`ots"],
+                        "expected"   => "```schema```.`rob``ots`",
+                    ],
+                ]
+            ]
         );
     }
 }
