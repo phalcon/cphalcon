@@ -119,6 +119,7 @@ class MicroMvcEventsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($trace, array(
 			'beforeHandleRoute' => true,
 			'beforeExecuteRoute' => true,
+            'afterBinding' => true,
 			'afterExecuteRoute' => true,
 			'afterHandleRoute' => true,
 		));
