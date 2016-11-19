@@ -124,7 +124,7 @@ class Validation extends Injectable implements ValidationInterface
 			if typeof data == "array" || typeof data == "object" {
 				let this->_data = data;
 			} else {
-				var_dump(data);
+				// var_dump(data);
 				throw new Exception("Invalid data to validate");
 			}
 		}
