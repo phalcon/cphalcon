@@ -82,8 +82,13 @@ If you have specific php versions running
 
 ```bash
 git clone https://github.com/phalcon/cphalcon
-# or cd cphalcon/build/32bits
-cd cphalcon/build/64bits
+# or cd cphalcon/build/php5/32bits
+cd cphalcon/build/php5/64bits
+
+# NOTE: for PHP 7 you have to use 
+# cd cphalcon/build/php7/32bits
+# or
+# cd cphalcon/build/php7/64bits
 
 make clean
 
