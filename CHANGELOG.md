@@ -110,6 +110,7 @@
 - Fixed wildcard inheritance in `Phalcon\Acl\Adapter\Memory` [#12004](https://github.com/phalcon/cphalcon/issues/12004)
 - Dropped support of Oracle [#12008](https://github.com/phalcon/cphalcon/issues/12008)
 - Improved `Phalcon\Mvc\Collection::findById`. Added check if a `id` in a valid format [#12010](https://github.com/phalcon/cphalcon/issues/12010)
+- Add totalCount config property to `Phalcon\Paginator\Adapter\QueryBuilder`
 
 # [2.0.13](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v2.0.13) (2016-05-19)
 - Restored `Phalcon\Text::camelize` behavior [#11767](https://github.com/phalcon/cphalcon/issues/11767)
