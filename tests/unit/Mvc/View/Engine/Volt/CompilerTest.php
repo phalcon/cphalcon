@@ -125,7 +125,7 @@ class CompilerTest extends UnitTest
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(2);
 
-                //Array acccess
+                //Array access
                 $intermediate = $volt->parse('{{ a[0 ]}}');
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
@@ -915,7 +915,7 @@ class CompilerTest extends UnitTest
                 );
                 expect($compilation)->equals('<?php $a = [\'first\' => 1, \'second\' => 2, \'third\' => 3]; ?>');
 
-                //Array acccess
+                //Array access
                 $compilation = $volt->compileString('{{ a[0 ]}}');
                 expect($compilation)->equals('<?= $a[0] ?>');
 

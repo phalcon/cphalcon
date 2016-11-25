@@ -101,7 +101,7 @@ class GroupTest extends UnitTest
     public function testHostnameRouteGroup()
     {
         $this->specify(
-            "Router Groups with hostnames don't work properly",
+            "Router Groups with hostname don't work properly",
             function ($actualHost, $expectedHost, $controller) {
                 \Phalcon\Mvc\Router\Route::reset();
 

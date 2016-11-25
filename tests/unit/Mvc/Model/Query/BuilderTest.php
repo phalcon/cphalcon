@@ -408,7 +408,7 @@ class BuilderTest extends UnitTest
     /**
      * Test checks passing 'limit'/'offset' query param into constructor.
      * limit key can take:
-     * - signle numeric value
+     * - single numeric value
      * - array of 2 values (limit, offset)
      */
     public function testConstructorLimit()
