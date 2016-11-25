@@ -51,7 +51,7 @@ interface ResponseInterface
 	public function setRawHeader(string header) -> <ResponseInterface>;
 
 	/**
-	 * Resets all the stablished headers
+	 * Resets all the established headers
 	 */
 	public function resetHeaders() -> <ResponseInterface>;
 

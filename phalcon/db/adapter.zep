@@ -1185,7 +1185,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	}
 
 	/**
-	 * Active SQL statement in the object without replace bound paramters
+	 * Active SQL statement in the object without replace bound parameters
 	 */
 	public function getRealSQLStatement() -> string
 	{

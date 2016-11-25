@@ -229,7 +229,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 
 			/**
-			 * Update the models-metada property
+			 * Update the models-metadata property
 			 */
 			let this->_modelsMetaData = metaData;
 		}
@@ -2028,7 +2028,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			if typeof notNull == "array" {
 
 				/**
-				 * Gets the fields that are numeric, these are validated in a diferent way
+				 * Gets the fields that are numeric, these are validated in a different way
 				 */
 				let dataTypeNumeric = metaData->getDataTypesNumeric(this);
 

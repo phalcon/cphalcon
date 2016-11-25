@@ -366,7 +366,7 @@ class Mongo extends Backend
 		let document = this->_getCollection()->findOne(["key": prefixedKey]);
 
 		if !fetch modifiedTime, document["time"] {
-			throw new Exception("The cache is currupted");
+			throw new Exception("The cache is corrupted");
 		}
 
 		/**
@@ -375,7 +375,7 @@ class Mongo extends Backend
 		if time() < modifiedTime {
 
 			if !fetch cachedContent, document["data"] {
-				throw new Exception("The cache is currupted");
+				throw new Exception("The cache is corrupted");
 			}
 
 			if is_numeric(cachedContent) {
@@ -405,7 +405,7 @@ class Mongo extends Backend
 		let document = this->_getCollection()->findOne(["key": prefixedKey]);
 
 		if !fetch modifiedTime, document["time"] {
-			throw new Exception("The cache is currupted");
+			throw new Exception("The cache is corrupted");
 		}
 
 		/**
@@ -414,7 +414,7 @@ class Mongo extends Backend
 		if time() < modifiedTime {
 
 			if !fetch cachedContent, document["data"] {
-				throw new Exception("The cache is currupted");
+				throw new Exception("The cache is corrupted");
 			}
 
 			if is_numeric(cachedContent) {

@@ -125,7 +125,7 @@ class Application extends BaseApplication
 
 		/**
 		 * If a 'match' callback was defined in the matched route
-		 * The whole dispatcher+view behavior can be overriden by the developer
+		 * The whole dispatcher+view behavior can be overridden by the developer
 		 */
 		let matchedRoute = router->getMatchedRoute();
 		if typeof matchedRoute == "object" {

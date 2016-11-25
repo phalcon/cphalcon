@@ -1018,7 +1018,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		let collection = this->prepareCU();
 
 		/**
-		 * Assume non-existance to fire beforeCreate events - no update does occur anyway
+		 * Assume non-existence to fire beforeCreate events - no update does occur anyway
 		 */
 		let exists = false;
 

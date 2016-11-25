@@ -116,7 +116,7 @@ interface RequestInterface
 	public function isSecureRequest() -> boolean;
 
 	/**
-	 * Gets HTTP raws request body
+	 * Gets HTTP raw request body
 	 */
 	public function getRawBody() -> string;
 
