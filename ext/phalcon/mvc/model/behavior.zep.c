@@ -43,21 +43,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
-	zval *options = NULL, options_sub, __$null;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&options_sub);
-	ZVAL_NULL(&__$null);
+	zval *options = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		options = &options_sub;
-		options = &__$null;
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_options"), options);
+	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 
 }
 
@@ -66,12 +61,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 
-	zval *eventName_param = NULL, _0;
-	zval eventName;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&eventName);
-	ZVAL_UNDEF(&_0);
+	zval *eventName_param = NULL, *_0;
+	zval *eventName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &eventName_param);
@@ -81,15 +72,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		zephir_get_strval(&eventName, eventName_param);
+		zephir_get_strval(eventName, eventName_param);
 	} else {
-		ZEPHIR_INIT_VAR(&eventName);
-		ZVAL_EMPTY_STRING(&eventName);
+		ZEPHIR_INIT_VAR(eventName);
+		ZVAL_EMPTY_STRING(eventName);
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
-	RETURN_MM_BOOL(zephir_array_isset(&_0, &eventName));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(_0, eventName));
 
 }
 
@@ -101,37 +92,32 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 
-	zval *eventName_param = NULL, options, eventOptions;
-	zval eventName;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&eventName);
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&eventOptions);
+	zval *eventName_param = NULL, *options = NULL, *eventOptions = NULL;
+	zval *eventName = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &eventName_param);
 
 	if (!eventName_param) {
-		ZEPHIR_INIT_VAR(&eventName);
-		ZVAL_STRING(&eventName, "");
+		ZEPHIR_INIT_VAR(eventName);
+		ZVAL_EMPTY_STRING(eventName);
 	} else {
 	if (unlikely(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		zephir_get_strval(&eventName, eventName_param);
+		zephir_get_strval(eventName, eventName_param);
 	} else {
-		ZEPHIR_INIT_VAR(&eventName);
-		ZVAL_EMPTY_STRING(&eventName);
+		ZEPHIR_INIT_VAR(eventName);
+		ZVAL_EMPTY_STRING(eventName);
 	}
 	}
 
 
-	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
-	if (!ZEPHIR_IS_STRING_IDENTICAL(&eventName, "")) {
-		if (zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1 TSRMLS_CC)) {
+	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (!ZEPHIR_IS_STRING_IDENTICAL(eventName, "")) {
+		if (zephir_array_isset_fetch(&eventOptions, options, eventName, 1 TSRMLS_CC)) {
 			RETURN_CTOR(eventOptions);
 		}
 		RETURN_MM_NULL();
@@ -145,17 +131,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
 
-	zval *type_param = NULL, *model, model_sub;
-	zval type;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&type);
-	ZVAL_UNDEF(&model_sub);
+	zval *type_param = NULL, *model;
+	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
-	zephir_get_strval(&type, type_param);
+	zephir_get_strval(type, type_param);
 
 
 	RETURN_MM_NULL();
@@ -171,22 +153,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 
-	zval method;
-	zval *model, model_sub, *method_param = NULL, *arguments = NULL, arguments_sub, __$null;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&model_sub);
-	ZVAL_UNDEF(&arguments_sub);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&method);
+	zval *method = NULL;
+	zval *model, *method_param = NULL, *arguments = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &model, &method_param, &arguments);
 
-	zephir_get_strval(&method, method_param);
+	zephir_get_strval(method, method_param);
 	if (!arguments) {
-		arguments = &arguments_sub;
-		arguments = &__$null;
+		arguments = ZEPHIR_GLOBAL(global_null);
 	}
 
 

@@ -26,16 +26,15 @@
 #include "php.h"
 #include "php_ext.h"
 #include "php_main.h"
-#include <ext/standard/php_smart_string.h>
-#include <ext/standard/php_math.h>
-#include <ext/standard/html.h>
+#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_math.h"
+#include "ext/standard/html.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include <Zend/zend_exceptions.h>
-#include <Zend/zend_interfaces.h>
-#include <zend_smart_str.h>
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Filter alphanum string
@@ -49,7 +48,7 @@ void zephir_filter_alphanum(zval *return_value, zval *param) {
 	int use_copy = 0;
 
 	if (Z_TYPE_P(param) != IS_STRING) {
-		use_copy = zend_make_printable_zval(param, &copy);
+		zend_make_printable_zval(param, &copy, &use_copy);
 		if (use_copy) {
 			param = &copy;
 		}
@@ -71,18 +70,59 @@ void zephir_filter_alphanum(zval *return_value, zval *param) {
 
 	smart_str_0(&filtered_str);
 
-	if (filtered_str.s) {
-		RETURN_STR(filtered_str.s);
+	if (filtered_str.c) {
+		RETURN_STRINGL(filtered_str.c, filtered_str.len, 0);
 	} else {
 		RETURN_EMPTY_STRING();
 	}
 }
 
 /**
+ * Filter identifiers string like variables or database columns/tables
+ */
+void zephir_filter_identifier(zval *return_value, zval *param){
+
+	unsigned int i;
+	unsigned char ch;
+	zval copy;
+	smart_str filtered_str = {0};
+	int use_copy = 0;
+
+	if (Z_TYPE_P(param) != IS_STRING) {
+		zend_make_printable_zval(param, &copy, &use_copy);
+		if (use_copy) {
+			param = &copy;
+		}
+	}
+
+	for (i = 0; i < Z_STRLEN_P(param); i++) {
+		ch = Z_STRVAL_P(param)[i];
+		if (ch == '\0') {
+			break;
+		}
+		if (isalnum(ch) || ch == '_') {
+			smart_str_appendc(&filtered_str, ch);
+		}
+	}
+
+	if (use_copy) {
+		zval_dtor(param);
+	}
+
+	smart_str_0(&filtered_str);
+
+	if (filtered_str.c) {
+		RETURN_STRINGL(filtered_str.c, filtered_str.len, 0);
+	} else {
+		RETURN_EMPTY_STRING();
+	}
+
+}
+
+/**
  * Check if a string is encoded with ASCII or ISO-8859-1
  */
-void zephir_is_basic_charset(zval *return_value, const zval *param)
-{
+void zephir_is_basic_charset(zval *return_value, const zval *param){
 
 	unsigned int i;
 	unsigned int ch;
@@ -103,10 +143,10 @@ void zephir_is_basic_charset(zval *return_value, const zval *param)
 	}
 
 	if (!iso88591) {
-		RETURN_STRING("ASCII");
+		RETURN_STRING("ASCII", 1);
 	}
 
-	RETURN_STRING("ISO-8859-1");
+	RETURN_STRING("ISO-8859-1", 1);
 }
 
 static long zephir_unpack(char *data, int size, int issigned, int *map)
@@ -146,8 +186,7 @@ static inline char *zephir_longtohex(unsigned long value) {
 /**
  * Perform escaping of non-alphanumeric characters to different formats
  */
-void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist)
-{
+void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -159,7 +198,7 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 	long value;
 
 	if (Z_TYPE_P(param) != IS_STRING) {
-		use_copy = zend_make_printable_zval(param, &copy);
+		zend_make_printable_zval(param, &copy, &use_copy);
 		if (use_copy) {
 			param = &copy;
 		}
@@ -281,8 +320,8 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 
 	smart_str_0(&escaped_str);
 
-	if (escaped_str.s) {
-		RETURN_STR(escaped_str.s);
+	if (escaped_str.c) {
+		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
 	} else {
 		RETURN_EMPTY_STRING();
 	}
@@ -291,15 +330,48 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 /**
  * Escapes non-alphanumeric characters to \HH+space
  */
-void zephir_escape_css(zval *return_value, zval *param)
-{
+void zephir_escape_css(zval *return_value, zval *param) {
 	zephir_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
 }
 
 /**
  * Escapes non-alphanumeric characters to \xHH+
  */
-void zephir_escape_js(zval *return_value, zval *param)
-{
+void zephir_escape_js(zval *return_value, zval *param) {
 	zephir_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
+}
+
+/**
+ * Escapes non-alphanumeric characters to &xHH;
+ */
+void zephir_escape_htmlattr(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
+}
+
+/**
+ * Escapes HTML replacing special chars by entities
+ */
+void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
+	size_t length;
+
+	char *escaped;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		/* Nothing to escape */
+		RETURN_ZVAL(str, 1, 0);
+	}
+
+	if (Z_TYPE_P(quote_style) != IS_LONG) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid quote_style supplied for zephir_escape_html()");
+		RETURN_ZVAL(str, 1, 0);
+	}
+
+	if (Z_TYPE_P(charset) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid charset supplied for zephir_escape_html()");
+		RETURN_ZVAL(str, 1, 0);
+	}
+
+	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
+
+	RETURN_STRINGL(escaped, length, 0);
 }

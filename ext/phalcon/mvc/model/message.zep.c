@@ -78,16 +78,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 
 	int code;
-	zval *message_param = NULL, *field = NULL, field_sub, *type = NULL, type_sub, *model = NULL, model_sub, *code_param = NULL, __$null, _0;
-	zval message;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&field_sub);
-	ZVAL_UNDEF(&type_sub);
-	ZVAL_UNDEF(&model_sub);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_0);
+	zval *message_param = NULL, *field = NULL, *type = NULL, *model = NULL, *code_param = NULL, *_0;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 4, &message_param, &field, &type, &model, &code_param);
@@ -97,22 +89,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
-		zephir_get_strval(&message, message_param);
+		zephir_get_strval(message, message_param);
 	} else {
-		ZEPHIR_INIT_VAR(&message);
-		ZVAL_EMPTY_STRING(&message);
+		ZEPHIR_INIT_VAR(message);
+		ZVAL_EMPTY_STRING(message);
 	}
 	if (!field) {
-		field = &field_sub;
-		field = &__$null;
+		field = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!type) {
-		type = &type_sub;
-		type = &__$null;
+		type = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!model) {
-		model = &model_sub;
-		model = &__$null;
+		model = ZEPHIR_GLOBAL(global_null);
 	}
 	if (!code_param) {
 		code = 0;
@@ -121,14 +110,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_message"), &message);
-	zephir_update_property_zval(this_ptr, SL("_field"), field);
-	zephir_update_property_zval(this_ptr, SL("_type"), type);
+	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, code);
-	zephir_update_property_zval(this_ptr, SL("_code"), &_0);
+	ZVAL_LONG(_0, code);
+	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
 	if (Z_TYPE_P(model) == IS_OBJECT) {
-		zephir_update_property_zval(this_ptr, SL("_model"), model);
+		zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -140,10 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 
 	zval *type_param = NULL;
-	zval type;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&type);
+	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
@@ -153,14 +139,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
-		zephir_get_strval(&type, type_param);
+		zephir_get_strval(type, type_param);
 	} else {
-		ZEPHIR_INIT_VAR(&type);
-		ZVAL_EMPTY_STRING(&type);
+		ZEPHIR_INIT_VAR(type);
+		ZVAL_EMPTY_STRING(type);
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_type"), &type);
+	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -170,8 +156,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getType) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_type");
 
@@ -183,10 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getType) {
 PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 
 	zval *message_param = NULL;
-	zval message;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&message);
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
@@ -196,14 +178,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
-		zephir_get_strval(&message, message_param);
+		zephir_get_strval(message, message_param);
 	} else {
-		ZEPHIR_INIT_VAR(&message);
-		ZVAL_EMPTY_STRING(&message);
+		ZEPHIR_INIT_VAR(message);
+		ZVAL_EMPTY_STRING(message);
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_message"), &message);
+	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -213,8 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_message");
 
@@ -225,16 +206,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 
-	zval *field, field_sub;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&field_sub);
+	zval *field;
 
 	zephir_fetch_params(0, 1, 0, &field);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("_field"), field);
+	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -244,8 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getField) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_field");
 
@@ -256,16 +233,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getField) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 
-	zval *model, model_sub;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&model_sub);
+	zval *model;
 
 	zephir_fetch_params(0, 1, 0, &model);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("_model"), model);
+	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -275,11 +249,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setCode) {
 
-	zval *code_param = NULL, _0;
+	zval *code_param = NULL, *_0;
 	int code;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&_0);
 
 	zephir_fetch_params(0, 1, 0, &code_param);
 
@@ -287,8 +258,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setCode) {
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, code);
-	zephir_update_property_zval(this_ptr, SL("_code"), &_0);
+	ZVAL_LONG(_0, code);
+	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -298,8 +269,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setCode) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_model");
 
@@ -310,8 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getCode) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_code");
 
@@ -322,8 +291,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getCode) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_message");
 
@@ -335,28 +303,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, _0, _1, _2, _3;
-	zval message;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	zval *message_param = NULL, *_0, *_1, *_2, *_3;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-	ZEPHIR_OBS_COPY_OR_DUP(&message, message_param);
+	message = message_param;
 
 
 	object_init_ex(return_value, phalcon_mvc_model_message_ce);
-	zephir_array_fetch_string(&_0, &message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, &message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 8, &_0, &_1, &_2, &_3);
+	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/message.zep", 182 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 8, _0, _1, _2, _3);
 	zephir_check_call_status();
 	RETURN_MM();
 

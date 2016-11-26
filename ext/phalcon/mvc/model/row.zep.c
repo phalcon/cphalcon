@@ -34,7 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, phalcon_mvc_entityinterface_ce);
 	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, phalcon_mvc_model_resultinterface_ce);
 	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
-	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zephir_get_internal_ce(SS("jsonserializable") TSRMLS_CC));
 	return SUCCESS;
 
 }
@@ -46,8 +46,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
 
 	zval *dirtyState_param = NULL;
 	int dirtyState;
-	ZEPHIR_INIT_THIS();
-
 
 	zephir_fetch_params(0, 1, 0, &dirtyState_param);
 
@@ -66,10 +64,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
 
-	zval *index, index_sub;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&index_sub);
+	zval *index;
 
 	zephir_fetch_params(0, 1, 0, &index);
 
@@ -87,18 +82,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
-	zval *index, index_sub, value;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&index_sub);
-	ZVAL_UNDEF(&value);
+	zval *index, *value = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index);
 
 
 
-	ZEPHIR_OBS_VAR(&value);
+	ZEPHIR_OBS_VAR(value);
 	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
 		RETURN_CCTOR(value);
 	}
@@ -115,11 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 
-	zval *index, index_sub, *value, value_sub;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&index_sub);
-	ZVAL_UNDEF(&value_sub);
+	zval *index, *value;
 
 	zephir_fetch_params(0, 2, 0, &index, &value);
 
@@ -139,8 +126,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 	zval *offset_param = NULL;
 	int offset;
-	ZEPHIR_INIT_THIS();
-
 
 	zephir_fetch_params(0, 1, 0, &offset_param);
 
@@ -164,18 +149,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 
-	zval *attribute, attribute_sub, value;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&attribute_sub);
-	ZVAL_UNDEF(&value);
+	zval *attribute, *value = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute);
 
 
 
-	ZEPHIR_OBS_VAR(&value);
+	ZEPHIR_OBS_VAR(value);
 	if (zephir_fetch_property_zval(&value, this_ptr, attribute, PH_SILENT_CC)) {
 		RETURN_CTOR(value);
 	}
@@ -195,12 +176,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 
-	zval *attribute_param = NULL, *value, value_sub;
-	zval attribute;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&attribute);
-	ZVAL_UNDEF(&value_sub);
+	zval *attribute_param = NULL, *value;
+	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
@@ -210,14 +187,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
-		zephir_get_strval(&attribute, attribute_param);
+		zephir_get_strval(attribute, attribute_param);
 	} else {
-		ZEPHIR_INIT_VAR(&attribute);
-		ZVAL_EMPTY_STRING(&attribute);
+		ZEPHIR_INIT_VAR(attribute);
+		ZVAL_EMPTY_STRING(attribute);
 	}
 
 
-	zephir_update_property_zval_zval(this_ptr, &attribute, value TSRMLS_CC);
+	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -230,8 +207,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
-
 
 	ZEPHIR_MM_GROW();
 
@@ -249,8 +224,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
-
 
 	ZEPHIR_MM_GROW();
 

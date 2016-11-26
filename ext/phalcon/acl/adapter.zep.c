@@ -73,8 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_activeRole");
 
@@ -85,8 +84,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_activeResource");
 
@@ -97,8 +95,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_activeAccess");
 
@@ -109,16 +106,13 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
-	zval *eventsManager, eventsManager_sub;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&eventsManager_sub);
+	zval *eventsManager;
 
 	zephir_fetch_params(0, 1, 0, &eventsManager);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("_eventsManager"), eventsManager);
+	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
 
 }
 
@@ -127,8 +121,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
 
@@ -139,11 +132,8 @@ PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
-	zval *defaultAccess_param = NULL, _0;
+	zval *defaultAccess_param = NULL, *_0;
 	int defaultAccess;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&_0);
 
 	zephir_fetch_params(0, 1, 0, &defaultAccess_param);
 
@@ -151,8 +141,8 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, defaultAccess);
-	zephir_update_property_zval(this_ptr, SL("_defaultAccess"), &_0);
+	ZVAL_LONG(_0, defaultAccess);
+	zephir_update_property_this(this_ptr, SL("_defaultAccess"), _0 TSRMLS_CC);
 
 }
 
@@ -161,8 +151,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_defaultAccess");
 
