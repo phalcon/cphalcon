@@ -1,20 +1,5 @@
 #!/usr/bin/env bash
 
-install_igbinary() {
-	git clone https://github.com/igbinary/igbinary7.git /tmp/igbinary
-	cd /tmp/igbinary
-
-	$PHPIZE_BIN &> /dev/null
-	./configure CFLAGS="-O2 -g" --silent --enable-phalcon &> /dev/null
-
-	make --silent -j4 &> /dev/null
-	make --silent install
-
-	if [ -z $(php -m | grep igbinary) ]; then
-        phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/igbinary.ini"
-    fi
-}
-
 install_apcu() {
 	# See https://github.com/krakjoe/apcu/issues/203
 	git clone -q https://github.com/krakjoe/apcu -b v5.1.7 /tmp/apcu
