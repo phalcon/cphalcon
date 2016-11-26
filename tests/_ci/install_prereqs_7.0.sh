@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source install_common.sh
+source ${TRAVIS_BUILD_DIR}/tests/_ci/install_common.sh
 
 install_igbinary() {
 	git clone https://github.com/igbinary/igbinary7.git /tmp/igbinary
