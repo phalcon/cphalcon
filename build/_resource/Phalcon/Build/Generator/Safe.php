@@ -70,7 +70,7 @@ class Generator_Safe
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
         $this->configM4 = new Generator_File_ConfigM4($rootDir, $outputDir);
-        $this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
+        $this->configW32 = new Generator_File_ConfigW32($rootDir, $outputDir);
     }
 
     /**
