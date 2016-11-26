@@ -265,7 +265,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Returns coookies set by the user
+	 * Returns cookies set by the user
 	 *
 	 * @return \Phalcon\Http\Response\CookiesInterface
 	 */
@@ -305,7 +305,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Resets all the stablished headers
+	 * Resets all the established headers
 	 */
 	public function resetHeaders() -> <Response>
 	{

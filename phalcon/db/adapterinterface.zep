@@ -217,7 +217,7 @@ interface AdapterInterface
 	public function getSQLStatement() -> string;
 
 	/**
-	 * Active SQL statement in the object without replace bound paramters
+	 * Active SQL statement in the object without replace bound parameters
 	 */
 	public function getRealSQLStatement() -> string;
 

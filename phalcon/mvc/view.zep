@@ -812,7 +812,7 @@ class View extends Injectable implements ViewInterface
 		let engines = this->_loadTemplateEngines();
 
 		/**
-		 * Check if the user has picked a view diferent than the automatic
+		 * Check if the user has picked a view different than the automatic
 		 */
 		let pickView = this->_pickView;
 

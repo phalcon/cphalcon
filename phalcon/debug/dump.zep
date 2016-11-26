@@ -183,7 +183,7 @@ class Dump
 			let output .= " (\n";
 
 			if variable instanceof Di {
-				// Skip debuging di
+				// Skip debugging di
 				let output .= str_repeat(space, tab) . "[skipped]\n";
 			} elseif !this->_detailed {
 				// Debug only public properties

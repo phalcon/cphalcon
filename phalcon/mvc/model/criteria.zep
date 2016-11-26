@@ -699,7 +699,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Create an object instance and pass the paramaters to it
+		 * Create an object instance and pass the parameters to it
 		 */
 		let criteria = new self();
 		if count(conditions) {

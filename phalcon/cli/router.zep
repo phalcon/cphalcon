@@ -400,7 +400,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns proccesed module name
+	 * Returns processed module name
 	 */
 	public function getModuleName() -> string
 	{
@@ -408,7 +408,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	}
 
 	/**
-	 * Returns proccesed task name
+	 * Returns processed task name
 	 */
 	public function getTaskName() -> string
 	{
