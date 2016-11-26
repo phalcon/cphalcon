@@ -110,7 +110,7 @@ class Generator_Safe
 
         foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
             if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
-                $content = file_get_contents('ext/' . $matches[1]);
+                $content = file_get_contents($this->sourceDir . DIRECTORY_SEPARATOR . $matches[1]);
                 $lines[] = $content . PHP_EOL;
             } else {
                 $lines[] = $line;
