@@ -23,7 +23,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage);
 PHP_METHOD(Phalcon_Validation, bind);
 PHP_METHOD(Phalcon_Validation, getValue);
 PHP_METHOD(Phalcon_Validation, preChecking);
-zend_object_value zephir_init_properties_Phalcon_Validation(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Validation(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_setvalidators, 0, 0, 1)
 	ZEND_ARG_INFO(0, validators)

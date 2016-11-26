@@ -46,7 +46,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 
 	zval *index_param = NULL;
-	zval *index = NULL;
+	zval index;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&index);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
@@ -56,14 +59,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
+		zephir_get_strval(&index, index_param);
 	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
+		ZEPHIR_INIT_VAR(&index);
+		ZVAL_EMPTY_STRING(&index);
 	}
 
 
-	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, index TSRMLS_CC));
+	RETURN_MM_BOOL(zephir_isset_property_zval(this_ptr, &index TSRMLS_CC));
 
 }
 
@@ -72,8 +75,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
-	zval *index_param = NULL, *value = NULL;
-	zval *index = NULL;
+	zval *index_param = NULL, value;
+	zval index;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&index);
+	ZVAL_UNDEF(&value);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
@@ -83,15 +90,15 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
+		zephir_get_strval(&index, index_param);
 	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
+		ZEPHIR_INIT_VAR(&index);
+		ZVAL_EMPTY_STRING(&index);
 	}
 
 
-	ZEPHIR_OBS_VAR(value);
-	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
+	ZEPHIR_OBS_VAR(&value);
+	if (zephir_fetch_property_zval(&value, this_ptr, &index, PH_SILENT_CC)) {
 		RETURN_CCTOR(value);
 	}
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/mvc/collection/document.zep", 53);
@@ -104,8 +111,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 
-	zval *index_param = NULL, *value;
-	zval *index = NULL;
+	zval *index_param = NULL, *value, value_sub;
+	zval index;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&index);
+	ZVAL_UNDEF(&value_sub);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &index_param, &value);
@@ -115,14 +126,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
+		zephir_get_strval(&index, index_param);
 	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
+		ZEPHIR_INIT_VAR(&index);
+		ZVAL_EMPTY_STRING(&index);
 	}
 
 
-	zephir_update_property_zval_zval(this_ptr, index, value TSRMLS_CC);
+	zephir_update_property_zval_zval(this_ptr, &index, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -134,7 +145,10 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 
-	zval *offset;
+	zval *offset, offset_sub;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&offset_sub);
 
 	zephir_fetch_params(0, 1, 0, &offset);
 
@@ -157,14 +171,18 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
-	zval *attribute, *value = NULL;
+	zval *attribute, attribute_sub, value;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&attribute_sub);
+	ZVAL_UNDEF(&value);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute);
 
 
 
-	ZEPHIR_OBS_VAR(value);
+	ZEPHIR_OBS_VAR(&value);
 	if (zephir_fetch_property_zval(&value, this_ptr, attribute, PH_SILENT_CC)) {
 		RETURN_CTOR(value);
 	}
@@ -184,8 +202,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 
-	zval *attribute_param = NULL, *value;
-	zval *attribute = NULL;
+	zval *attribute_param = NULL, *value, value_sub;
+	zval attribute;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&attribute);
+	ZVAL_UNDEF(&value_sub);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
@@ -195,14 +217,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
-		zephir_get_strval(attribute, attribute_param);
+		zephir_get_strval(&attribute, attribute_param);
 	} else {
-		ZEPHIR_INIT_VAR(attribute);
-		ZVAL_EMPTY_STRING(attribute);
+		ZEPHIR_INIT_VAR(&attribute);
+		ZVAL_EMPTY_STRING(&attribute);
 	}
 
 
-	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+	zephir_update_property_zval_zval(this_ptr, &attribute, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -215,6 +237,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
 
 	ZEPHIR_MM_GROW();
 

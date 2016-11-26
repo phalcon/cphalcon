@@ -14,7 +14,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getActiveTask);
 PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions);
 PHP_METHOD(Phalcon_Cli_Dispatcher, getOptions);
 PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod);
-zend_object_value zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_settasksuffix, 0, 0, 1)
 	ZEND_ARG_INFO(0, taskSuffix)

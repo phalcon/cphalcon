@@ -41,6 +41,8 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 
 	zval *type_param = NULL;
 	int type;
+	ZEPHIR_INIT_THIS();
+
 
 	zephir_fetch_params(0, 1, 0, &type_param);
 
@@ -49,38 +51,38 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 
 	do {
 		if (type == 7) {
-			RETURN_STRING("DEBUG", 1);
+			RETURN_STRING("DEBUG");
 		}
 		if (type == 3) {
-			RETURN_STRING("ERROR", 1);
+			RETURN_STRING("ERROR");
 		}
 		if (type == 4) {
-			RETURN_STRING("WARNING", 1);
+			RETURN_STRING("WARNING");
 		}
 		if (type == 1) {
-			RETURN_STRING("CRITICAL", 1);
+			RETURN_STRING("CRITICAL");
 		}
 		if (type == 8) {
-			RETURN_STRING("CUSTOM", 1);
+			RETURN_STRING("CUSTOM");
 		}
 		if (type == 2) {
-			RETURN_STRING("ALERT", 1);
+			RETURN_STRING("ALERT");
 		}
 		if (type == 5) {
-			RETURN_STRING("NOTICE", 1);
+			RETURN_STRING("NOTICE");
 		}
 		if (type == 6) {
-			RETURN_STRING("INFO", 1);
+			RETURN_STRING("INFO");
 		}
 		if (type == 0) {
-			RETURN_STRING("EMERGENCY", 1);
+			RETURN_STRING("EMERGENCY");
 		}
 		if (type == 9) {
-			RETURN_STRING("SPECIAL", 1);
+			RETURN_STRING("SPECIAL");
 		}
 	} while(0);
 
-	RETURN_STRING("CUSTOM", 1);
+	RETURN_STRING("CUSTOM");
 
 }
 
@@ -93,19 +95,29 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 
-	HashTable *_2$$3;
-	HashPosition _1$$3;
+	zend_string *_3$$3;
+	zend_ulong _2$$3;
 	zend_bool _0;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *context = NULL, *replace = NULL, *key = NULL, *value = NULL, **_3$$3, *_4$$4 = NULL;
-	zval *message = NULL;
+	zval *message_param = NULL, *context = NULL, context_sub, __$null, replace, key, value, *_1$$3, _4$$4;
+	zval message;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&replace);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_4$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &context);
 
-	zephir_get_strval(message, message_param);
+	zephir_get_strval(&message, message_param);
 	if (!context) {
-		context = ZEPHIR_GLOBAL(global_null);
+		context = &context_sub;
+		context = &__$null;
 	}
 
 
@@ -114,20 +126,26 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 		_0 = zephir_fast_count_int(context TSRMLS_CC) > 0;
 	}
 	if (_0) {
-		ZEPHIR_INIT_VAR(replace);
-		array_init(replace);
-		zephir_is_iterable(context, &_2$$3, &_1$$3, 0, 0, "phalcon/logger/formatter.zep", 89);
-		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
-		) {
-			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
-			ZEPHIR_GET_HVALUE(value, _3$$3);
+		ZEPHIR_INIT_VAR(&replace);
+		array_init(&replace);
+		zephir_is_iterable(context, 0, "phalcon/logger/formatter.zep", 89);
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(context), _2$$3, _3$$3, _1$$3)
+		{
+			ZEPHIR_INIT_NVAR(&key);
+			if (_3$$3 != NULL) { 
+				ZVAL_STR_COPY(&key, _3$$3);
+			} else {
+				ZVAL_LONG(&key, _2$$3);
+			}
+			ZEPHIR_INIT_NVAR(&value);
+			ZVAL_COPY(&value, _1$$3);
 			ZEPHIR_INIT_LNVAR(_4$$4);
-			ZEPHIR_CONCAT_SVS(_4$$4, "{", key, "}");
-			zephir_array_update_zval(&replace, _4$$4, &value, PH_COPY | PH_SEPARATE);
-		}
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 26, message, replace);
+			ZEPHIR_CONCAT_SVS(&_4$$4, "{", &key, "}");
+			zephir_array_update_zval(&replace, &_4$$4, &value, PH_COPY | PH_SEPARATE);
+		} ZEND_HASH_FOREACH_END();
+		ZEPHIR_INIT_NVAR(&value);
+		ZEPHIR_INIT_NVAR(&key);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 26, &message, &replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

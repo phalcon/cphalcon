@@ -41,26 +41,37 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *path, *local = NULL, *filter = NULL, *attributes = NULL, *_1;
+	zval *path, path_sub, *local = NULL, local_sub, *filter = NULL, filter_sub, *attributes = NULL, attributes_sub, __$true, __$null, _1;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&path_sub);
+	ZVAL_UNDEF(&local_sub);
+	ZVAL_UNDEF(&filter_sub);
+	ZVAL_UNDEF(&attributes_sub);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 
 	if (!local) {
-		local = ZEPHIR_GLOBAL(global_true);
+		local = &local_sub;
+		local = &__$true;
 	}
 	if (!filter) {
-		filter = ZEPHIR_GLOBAL(global_true);
+		filter = &filter_sub;
+		filter = &__$true;
 	}
 	if (!attributes) {
-		attributes = ZEPHIR_GLOBAL(global_null);
+		attributes = &attributes_sub;
+		attributes = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "js", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_js_ce, this_ptr, "__construct", &_0, 108, _1, path, local, filter, attributes);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "js");
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_js_ce, this_ptr, "__construct", &_0, 108, &_1, path, local, filter, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

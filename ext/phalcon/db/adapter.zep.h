@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getConnectionId);
 PHP_METHOD(Phalcon_Db_Adapter, getSQLStatement);
 PHP_METHOD(Phalcon_Db_Adapter, getRealSQLStatement);
 PHP_METHOD(Phalcon_Db_Adapter, getSQLBindTypes);
-zend_object_value zephir_init_properties_Phalcon_Db_Adapter(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Db_Adapter(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)

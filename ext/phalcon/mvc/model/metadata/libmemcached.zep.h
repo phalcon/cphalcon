@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, write);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Libmemcached(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Libmemcached(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_libmemcached___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)

@@ -42,20 +42,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
 PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	zval *options_param = NULL;
-	zval *options = NULL;
+	zval options;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
 
 	if (!options_param) {
-		ZEPHIR_INIT_VAR(options);
-		array_init(options);
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
 	} else {
-	options = options_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -68,8 +71,12 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
-	zval *key_param = NULL, *_0;
-	zval *key = NULL;
+	zval *key_param = NULL, _0;
+	zval key;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -79,15 +86,15 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, key));
+	zephir_read_property(&_0, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &key));
 
 }
 
@@ -96,8 +103,12 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 
-	zval *key_param = NULL, *_0;
-	zval *key = NULL;
+	zval *key_param = NULL, _0;
+	zval key;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -107,15 +118,15 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, key));
+	zephir_read_property(&_0, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &key));
 
 }
 
@@ -126,8 +137,16 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
 	zend_bool _0$$4;
-	zval *key_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL, *fieldValue = NULL;
-	zval *key = NULL;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, options, value, fieldValue;
+	zval key;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&fieldValue);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
@@ -137,25 +156,26 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 	if (!defaultValue) {
-		defaultValue = ZEPHIR_GLOBAL(global_null);
+		defaultValue = &defaultValue_sub;
+		defaultValue = &__$null;
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_fetch(&value, options, key, 1 TSRMLS_CC)) {
-			_0$$4 = ZEPHIR_IS_STRING(key, "attribute");
+	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&options) == IS_ARRAY) {
+		if (zephir_array_isset_fetch(&value, &options, &key, 1 TSRMLS_CC)) {
+			_0$$4 = ZEPHIR_IS_STRING(&key, "attribute");
 			if (_0$$4) {
-				_0$$4 = Z_TYPE_P(value) == IS_ARRAY;
+				_0$$4 = Z_TYPE_P(&value) == IS_ARRAY;
 			}
 			if (_0$$4) {
-				if (zephir_array_isset_fetch(&fieldValue, value, key, 1 TSRMLS_CC)) {
+				if (zephir_array_isset_fetch(&fieldValue, &value, &key, 1 TSRMLS_CC)) {
 					RETURN_CTOR(fieldValue);
 				}
 			}
@@ -172,8 +192,12 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 
-	zval *key_param = NULL, *value;
-	zval *key = NULL;
+	zval *key_param = NULL, *value, value_sub;
+	zval key;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value_sub);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
@@ -183,14 +207,14 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_options"), &key, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
