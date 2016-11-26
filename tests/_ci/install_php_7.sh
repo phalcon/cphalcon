@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-if [ -z $TRAVIS_BUILD_DIR ]; then
-	TRAVIS_BUILD_DIR=$(readlink -enq $(dirname $0))
-fi
-
 install_igbinary() {
 	git clone https://github.com/igbinary/igbinary7.git /tmp/igbinary
 	cd /tmp/igbinary
