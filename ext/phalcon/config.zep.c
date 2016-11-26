@@ -31,22 +31,23 @@
  * application code.
  *
  *<code>
- *	$config = new \Phalcon\Config(array(
- *		"database" => array(
- *			"adapter" => "Mysql",
- *			"host" => "localhost",
- *			"username" => "scott",
- *			"password" => "cheetah",
- *			"dbname" => "test_db"
- *		),
- *		"phalcon" => array(
- *			"controllersDir" => "../app/controllers/",
- *			"modelsDir" => "../app/models/",
- *			"viewsDir" => "../app/views/"
- *		)
- * ));
+ * $config = new \Phalcon\Config(
+ *     [
+ *         "database" => [
+ *             "adapter"  => "Mysql",
+ *             "host"     => "localhost",
+ *             "username" => "scott",
+ *             "password" => "cheetah",
+ *             "dbname"   => "test_db",
+ *         ],
+ *         "phalcon" => [
+ *             "controllersDir" => "../app/controllers/",
+ *             "modelsDir"      => "../app/models/",
+ *             "viewsDir"       => "../app/views/",
+ *         ],
+ *     ]
+ * );
  *</code>
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config) {
 
@@ -81,7 +82,7 @@ PHP_METHOD(Phalcon_Config, __construct) {
 	}
 
 
-	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 62);
+	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 63);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -99,7 +100,9 @@ PHP_METHOD(Phalcon_Config, __construct) {
  * Allows to check whether an attribute is defined using the array-syntax
  *
  *<code>
- * var_dump(isset($config['database']));
+ * var_dump(
+ *     isset($config["database"])
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Config, offsetExists) {
@@ -125,7 +128,7 @@ PHP_METHOD(Phalcon_Config, offsetExists) {
  * If the value is exactly null or is not defined the default value will be used instead
  *
  *<code>
- * echo $config->get('controllersDir', '../app/controllers/');
+ * echo $config->get("controllersDir", "../app/controllers/");
  *</code>
  */
 PHP_METHOD(Phalcon_Config, get) {
@@ -159,7 +162,9 @@ PHP_METHOD(Phalcon_Config, get) {
  * Gets an attribute using the array-syntax
  *
  *<code>
- * print_r($config['database']);
+ * print_r(
+ *     $config["database"]
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Config, offsetGet) {
@@ -186,7 +191,9 @@ PHP_METHOD(Phalcon_Config, offsetGet) {
  * Sets an attribute using the array-syntax
  *
  *<code>
- * $config['database'] = array('type' => 'Sqlite');
+ * $config["database"] = [
+ *     "type" => "Sqlite",
+ * ];
  *</code>
  */
 PHP_METHOD(Phalcon_Config, offsetSet) {
@@ -220,7 +227,7 @@ PHP_METHOD(Phalcon_Config, offsetSet) {
  * Unsets an attribute using the array-syntax
  *
  *<code>
- * unset($config['database']);
+ * unset($config["database"]);
  *</code>
  */
 PHP_METHOD(Phalcon_Config, offsetUnset) {
@@ -246,8 +253,15 @@ PHP_METHOD(Phalcon_Config, offsetUnset) {
  * Merges a configuration into the current one
  *
  *<code>
- * $appConfig = new \Phalcon\Config(array('database' => array('host' => 'localhost')));
- * $globalConfig->merge($config2);
+ * $appConfig = new \Phalcon\Config(
+ *     [
+ *         "database" => [
+ *             "host" => "localhost",
+ *         ],
+ *     ]
+ * );
+ *
+ * $globalConfig->merge($appConfig);
  *</code>
  */
 PHP_METHOD(Phalcon_Config, merge) {
@@ -270,7 +284,9 @@ PHP_METHOD(Phalcon_Config, merge) {
  * Converts recursively the object to an array
  *
  *<code>
- *	print_r($config->toArray());
+ * print_r(
+ *     $config->toArray()
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Config, toArray) {
@@ -286,7 +302,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 21, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 180);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 196);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -391,7 +407,7 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 21, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 245);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 261);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

@@ -31,8 +31,9 @@
  * use Phalcon\Logger;
  *
  * $logger = new Firephp();
- * $logger->log(Logger::ERROR, 'This is an error');
- * $logger->error('This is another error');
+ *
+ * $logger->log(Logger::ERROR, "This is an error");
+ * $logger->error("This is another error");
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Firephp) {
@@ -43,7 +44,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Firephp) {
 
 	zend_declare_property_long(phalcon_logger_adapter_firephp_ce, SL("_index"), 1, ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	zend_class_implements(phalcon_logger_adapter_firephp_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -99,15 +99,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 246, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 248, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 246, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 248, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 246, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 248, &_1$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_this(this_ptr, SL("_initialized"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 		if (zephir_array_isset_long(chunk, (zephir_get_numberval(key) + 1))) {
 			zephir_concat_self_str(&content, SL("|\\") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 246, content);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 248, content);
 		zephir_check_call_status();
 		ZEPHIR_SEPARATE(index);
 		zephir_increment(index);

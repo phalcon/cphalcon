@@ -25,7 +25,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Numeric) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Numeric, phalcon, forms_element_numeric, phalcon_forms_element_ce, phalcon_forms_element_numeric_method_entry, 0);
 
-	zend_class_implements(phalcon_forms_element_numeric_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 	return SUCCESS;
 
 }
@@ -51,7 +50,7 @@ PHP_METHOD(Phalcon_Forms_Element_Numeric, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "numericfield", &_0, 210, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "numericfield", &_0, 212, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

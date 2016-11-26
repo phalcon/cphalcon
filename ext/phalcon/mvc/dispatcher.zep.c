@@ -28,18 +28,17 @@
  * instantiating a controller and calling an action of that controller.
  *
  *<code>
+ * $di = new \Phalcon\Di();
  *
- *	$di = new \Phalcon\Di();
+ * $dispatcher = new \Phalcon\Mvc\Dispatcher();
  *
- *	$dispatcher = new \Phalcon\Mvc\Dispatcher();
+ * $dispatcher->setDI($di);
  *
- *  $dispatcher->setDI($di);
+ * $dispatcher->setControllerName("posts");
+ * $dispatcher->setActionName("index");
+ * $dispatcher->setParams([]);
  *
- *	$dispatcher->setControllerName('posts');
- *	$dispatcher->setActionName('index');
- *	$dispatcher->setParams(array());
- *
- *	$controller = $dispatcher->dispatch();
+ * $controller = $dispatcher->dispatch();
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
@@ -226,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 9, _1$$3, _2$$3);
 		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0$$3, "phalcon/mvc/dispatcher.zep", 128 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$3, "phalcon/mvc/dispatcher.zep", 127 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -254,7 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 150 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/mvc/dispatcher.zep", 149 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

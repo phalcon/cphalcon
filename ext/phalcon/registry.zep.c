@@ -30,27 +30,27 @@
  * your application.
  *
  *<code>
- * 	$registry = new \Phalcon\Registry();
+ * $registry = new \Phalcon\Registry();
  *
- * 	// Set value
- * 	$registry->something = 'something';
- * 	// or
- * 	$registry['something'] = 'something';
+ * // Set value
+ * $registry->something = "something";
+ * // or
+ * $registry["something"] = "something";
  *
- * 	// Get value
- * 	$value = $registry->something;
- * 	// or
- * 	$value = $registry['something'];
+ * // Get value
+ * $value = $registry->something;
+ * // or
+ * $value = $registry["something"];
  *
- * 	// Check if the key exists
- * 	$exists = isset($registry->something);
- * 	// or
- * 	$exists = isset($registry['something']);
+ * // Check if the key exists
+ * $exists = isset($registry->something);
+ * // or
+ * $exists = isset($registry["something"]);
  *
- * 	// Unset
- * 	unset($registry->something);
- * 	// or
- * 	unset($registry['something']);
+ * // Unset
+ * unset($registry->something);
+ * // or
+ * unset($registry["something"]);
  *</code>
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
@@ -65,7 +65,7 @@
  *
  * Though Phalcon\Registry exposes methods like __get(), offsetGet(), count() etc,
  * it is not recommended to invoke them manually (these methods exist mainly to
- * match the interfaces the registry implements): $registry->__get('property')
+ * match the interfaces the registry implements): $registry->__get("property")
  * is several times slower than $registry->property.
  *
  * Internally all the magic methods (and interfaces except JsonSerializable)
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Registry, next) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(_0);
-	ZEPHIR_CALL_FUNCTION(NULL, "next", NULL, 413, _0);
+	ZEPHIR_CALL_FUNCTION(NULL, "next", NULL, 415, _0);
 	ZEPHIR_UNREF(_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Registry, key) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(_0);
-	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 414, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("key", NULL, 416, _0);
 	ZEPHIR_UNREF(_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Registry, rewind) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(_0);
-	ZEPHIR_CALL_FUNCTION(NULL, "reset", NULL, 415, _0);
+	ZEPHIR_CALL_FUNCTION(NULL, "reset", NULL, 417, _0);
 	ZEPHIR_UNREF(_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Registry, valid) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "key", NULL, 414, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "key", NULL, 416, _0);
 	ZEPHIR_UNREF(_0);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(Z_TYPE_P(_1) != IS_NULL);
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Registry, current) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	ZEPHIR_MAKE_REF(_0);
-	ZEPHIR_RETURN_CALL_FUNCTION("current", NULL, 416, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("current", NULL, 418, _0);
 	ZEPHIR_UNREF(_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Registry, __set) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetset", NULL, 417, key, value);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetset", NULL, 419, key, value);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Registry, __get) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetget", NULL, 418, key);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetget", NULL, 420, key);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Registry, __isset) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetexists", NULL, 419, key);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "offsetexists", NULL, 421, key);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Registry, __unset) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetunset", NULL, 420, key);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "offsetunset", NULL, 422, key);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

@@ -41,15 +41,21 @@
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  *
  *<code>
- * $di = new \Phalcon\Di();
+ * use Phalcon\Di;
+ * use Phalcon\Http\Request;
  *
- * //Using a string definition
- * $di->set("request", "Phalcon\Http\Request", true);
+ * $di = new Di();
  *
- * //Using an anonymous function
- * $di->set("request", function(){
- *	  return new \Phalcon\Http\Request();
- * }, true);
+ * // Using a string definition
+ * $di->set("request", Request::class, true);
+ *
+ * // Using an anonymous function
+ * $di->setShared(
+ *     "request",
+ *     function () {
+ *         return new Request();
+ *     }
+ * );
  *
  * $request = $di->getRequest();
  *</code>
@@ -360,7 +366,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 186 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 191 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -401,7 +407,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_SVS(_2, "Service '", name, "' wasn't found in the dependency injection container");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/di.zep", 200 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/di.zep", 205 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -465,7 +471,7 @@ PHP_METHOD(Phalcon_Di, get) {
 				ZEPHIR_CONCAT_SVS(_5$$7, "Service '", name, "' wasn't found in the dependency injection container");
 				ZEPHIR_CALL_METHOD(NULL, _4$$7, "__construct", NULL, 9, _5$$7);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_4$$7, "phalcon/di.zep", 231 TSRMLS_CC);
+				zephir_throw_exception_debug(_4$$7, "phalcon/di.zep", 236 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -507,7 +513,8 @@ PHP_METHOD(Phalcon_Di, get) {
 }
 
 /**
- * Resolves a service, the resolved service is stored in the DI, subsequent requests for this service will return the same instance
+ * Resolves a service, the resolved service is stored in the DI, subsequent
+ * requests for this service will return the same instance
  *
  * @param string name
  * @param array parameters
@@ -643,12 +650,8 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
  * Allows to register a shared service using the array syntax
  *
  *<code>
- *	$di["request"] = new \Phalcon\Http\Request();
+ * $di["request"] = new \Phalcon\Http\Request();
  *</code>
- *
- * @param string name
- * @param mixed definition
- * @return boolean
  */
 PHP_METHOD(Phalcon_Di, offsetSet) {
 
@@ -681,7 +684,7 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
  * Allows to obtain a shared service using the array syntax
  *
  *<code>
- *	var_dump($di["request"]);
+ * var_dump($di["request"]);
  *</code>
  */
 PHP_METHOD(Phalcon_Di, offsetGet) {
@@ -740,9 +743,6 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 
 /**
  * Magic method to get or set services using setters/getters
- *
- * @param string method
- * @param array arguments
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
@@ -809,7 +809,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_SVS(_8, "Call to undefined method or service '", method, "'");
 	ZEPHIR_CALL_METHOD(NULL, _7, "__construct", NULL, 9, _8);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_7, "phalcon/di.zep", 407 TSRMLS_CC);
+	zephir_throw_exception_debug(_7, "phalcon/di.zep", 406 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

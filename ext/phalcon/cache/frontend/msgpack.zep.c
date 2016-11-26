@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -32,24 +33,35 @@
  * use Phalcon\Cache\Frontend\Msgpack;
  *
  * // Cache the files for 2 days using Msgpack frontend
- * $frontCache = new Msgpack([
- *     'lifetime' => 172800
- * ]);
+ * $frontCache = new Msgpack(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
  * // Create the component that will cache "Msgpack" to a "File" backend
  * // Set the cache file directory - important to keep the "/" at the end of
  * // of the value for the folder
- * $cache = new File($frontCache, [
- *     'cacheDir' => '../app/cache/'
- * ]);
+ * $cache = new File(
+ *     $frontCache,
+ *     [
+ *         "cacheDir" => "../app/cache/",
+ *     ]
+ * );
+ *
+ * $cacheKey = "robots_order_id.cache";
  *
  * // Try to get cached records
- * $cacheKey = 'robots_order_id.cache';
- * $robots   = $cache->get($cacheKey);
+ * $robots = $cache->get($cacheKey);
+ *
  * if ($robots === null) {
  *     // $robots is null due to cache expiration or data do not exist
  *     // Make the database call and populate the variable
- *     $robots = Robots::find(['order' => 'id']);
+ *     $robots = Robots::find(
+ *         [
+ *             "order" => "id",
+ *         ]
+ *     );
  *
  *     // Store it in the cache
  *     $cache->save($cacheKey, $robots);
@@ -90,10 +102,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, __construct) {
 	ZEPHIR_OBS_VAR(lifetime);
 	if (zephir_array_isset_string_fetch(&lifetime, frontendOptions, SS("lifetime"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(lifetime) != IS_LONG) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Option 'lifetime' must be an integer", "phalcon/cache/frontend/msgpack.zep", 80);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Option 'lifetime' must be an integer", "phalcon/cache/frontend/msgpack.zep", 91);
 			return;
 		}
 	}
+	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -160,8 +173,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, stop) {
 
 /**
  * Serializes data before storing them
- *
- * @param mixed data
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
@@ -181,8 +192,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
 /**
  * Unserializes data after retrieval
- *
- * @param mixed data
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 
@@ -194,6 +203,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 
 
 
+	if (zephir_is_numeric(data)) {
+		RETVAL_ZVAL(data, 1, 0);
+		RETURN_MM();
+	}
 	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 128, data);
 	zephir_check_call_status();
 	RETURN_MM();

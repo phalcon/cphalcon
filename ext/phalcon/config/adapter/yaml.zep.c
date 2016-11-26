@@ -39,19 +39,24 @@
  * You can read it as follows:
  *
  *<code>
- * define('APPROOT', dirname(__DIR__));
+ * define(
+ *     "APPROOT",
+ *     dirname(__DIR__)
+ * );
  *
- * $config = new Phalcon\Config\Adapter\Yaml("path/config.yaml", [
- *     '!approot' => function($value) {
- *         return APPROOT . $value;
- *     }
- * ]);
+ * $config = new \Phalcon\Config\Adapter\Yaml(
+ *     "path/config.yaml",
+ *     [
+ *         "!approot" => function($value) {
+ *             return APPROOT . $value;
+ *         },
+ *     ]
+ * );
  *
  * echo $config->phalcon->controllersDir;
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
  *</code>
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
 
@@ -101,7 +106,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 139, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/config/adapter/yaml.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/config/adapter/yaml.zep", 76);
 		return;
 	}
 	if (!ZEPHIR_IS_STRING_IDENTICAL(callbacks, "")) {
@@ -126,7 +131,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZEPHIR_CONCAT_SVS(_7$$6, "Configuration file ", _6$$6, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _5$$6, "__construct", NULL, 9, _7$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_5$$6, "phalcon/config/adapter/yaml.zep", 81 TSRMLS_CC);
+		zephir_throw_exception_debug(_5$$6, "phalcon/config/adapter/yaml.zep", 86 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

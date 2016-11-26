@@ -33,17 +33,32 @@
  * <code>
  *
  * // Using a standard foreach
- * $robots = Robots::find(["type='virtual'", 'order' => 'name']);
+ * $robots = Robots::find(
+ *     [
+ *         "type = 'virtual'",
+ *         "order" => "name",
+ *     ]
+ * );
+ *
  * foreach ($robots as robot) {
  *     echo robot->name, "\n";
  * }
  *
  * // Using a while
- * $robots = Robots::find(["type='virtual'", 'order' => 'name');
+ * $robots = Robots::find(
+ *     [
+ *         "type = 'virtual'",
+ *         "order" => "name",
+ *     ]
+ * );
+ *
  * $robots->rewind();
+ *
  * while ($robots->valid()) {
  *     $robot = $robots->current();
+ *
  *     echo $robot->name, "\n";
+ *
  *     $robots->next();
  * }
  * </code>
@@ -364,7 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/mvc/model/resultset.zep", 285);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/mvc/model/resultset.zep", 300);
 	return;
 
 }
@@ -383,7 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 296);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 311);
 	return;
 
 }
@@ -401,7 +416,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 	offset = zephir_get_intval(offset_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 304);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/mvc/model/resultset.zep", 319);
 	return;
 
 }
@@ -600,7 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		zephir_check_call_status();
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 419);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 434);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, record, "getwriteconnection", NULL, 0);
@@ -678,7 +693,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		zephir_check_call_status();
 		if (transaction == 0) {
 			if (!((zephir_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == SUCCESS))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 491);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/mvc/model/resultset.zep", 506);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, record, "getwriteconnection", NULL, 0);
@@ -726,11 +741,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
  * Filters a resultset returning only those the developer requires
  *
  *<code>
- * $filtered = $robots->filter(function($robot){
- *		if ($robot->id < 3) {
- *			return $robot;
- *		}
- *	});
+ * $filtered = $robots->filter(
+ *     function ($robot) {
+ *         if ($robot->id < 3) {
+ *             return $robot;
+ *         }
+ *     }
+ * );
  *</code>
  *
  * @param callback filter
@@ -775,7 +792,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 			zephir_check_call_status();
 			continue;
 		}
-		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 579);
+		zephir_array_append(&records, processedRecord, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 596);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_4, 0);
 		zephir_check_call_status();
 	}
@@ -822,9 +839,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, current, "jsonserialize", NULL, 0);
 			zephir_check_call_status();
-			zephir_array_append(&records, _4$$4, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 608);
+			zephir_array_append(&records, _4$$4, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 625);
 		} else {
-			zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 610);
+			zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset.zep", 627);
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();

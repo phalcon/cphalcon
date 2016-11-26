@@ -42,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 
 	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_cache_backend_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 	return SUCCESS;
 
 }

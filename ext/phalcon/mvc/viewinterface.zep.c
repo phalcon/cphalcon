@@ -27,7 +27,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewInterface) {
 }
 
 /**
- * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+ * Sets the layouts sub-directory. Must be a directory under the views
+ * directory. Depending of your platform, always add a trailing slash or backslash
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayoutsDir);
 
@@ -37,7 +38,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayoutsDir);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getLayoutsDir);
 
 /**
- * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+ * Sets a partials sub-directory. Must be a directory under the views
+ * directory. Depending of your platform, always add a trailing slash or backslash
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setPartialsDir);
 

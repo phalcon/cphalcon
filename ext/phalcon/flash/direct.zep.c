@@ -28,7 +28,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, phalcon, flash_direct, phalcon_flash_ce, phalcon_flash_direct_method_entry, 0);
 
-	zend_class_implements(phalcon_flash_direct_ce TSRMLS_CC, 1, phalcon_flashinterface_ce);
 	return SUCCESS;
 
 }
@@ -79,7 +78,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		zephir_is_iterable(messages, &_1$$3, &_0$$3, 0, 0, "phalcon/flash/direct.zep", 53);
+		zephir_is_iterable(messages, &_1$$3, &_0$$3, 0, 0, "phalcon/flash/direct.zep", 52);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
@@ -89,7 +88,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 		}
 	}
 	if (remove) {
-		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, this_ptr, "clear", &_3, 204);
+		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, this_ptr, "clear", &_3, 206);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

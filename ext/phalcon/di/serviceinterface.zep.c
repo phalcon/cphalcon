@@ -71,7 +71,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setParameter);
 
 /**
- * Restore the interal state of a service
+ * Restore the internal state of a service
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, __set_state);
 

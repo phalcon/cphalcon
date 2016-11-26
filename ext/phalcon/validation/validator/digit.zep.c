@@ -28,16 +28,29 @@
  * <code>
  * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
- * $validator->add('height', new DigitValidator([
- *     'message' => ':field must be numeric'
- * ]));
+ * $validator->add(
+ *     "height",
+ *     new DigitValidator(
+ *         [
+ *             "message" => ":field must be numeric",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['height', 'width'], new DigitValidator([
- *     'message' => [
- *         'height' => 'height must be numeric',
- *         'width' => 'width must be numeric'
- *     ]
- * ]));
+ * $validator->add(
+ *     [
+ *         "height",
+ *         "width",
+ *     ],
+ *     new DigitValidator(
+ *         [
+ *             "message" => [
+ *                 "height" => "height must be numeric",
+ *                 "width"  => "width must be numeric",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
@@ -77,7 +90,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(value) == IS_LONG;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "ctype_digit", NULL, 469, value);
+		ZEPHIR_CALL_FUNCTION(&_1, "ctype_digit", NULL, 471, value);
 		zephir_check_call_status();
 		_0 = zephir_is_true(_1);
 	}
@@ -90,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(label) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/digit.zep", 64 TSRMLS_CC);
+		zephir_array_fetch(&_3$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/digit.zep", 77 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(label, _3$$4);
 	}
 	if (ZEPHIR_IS_EMPTY(label)) {
@@ -103,7 +116,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(message) == IS_ARRAY) {
-		zephir_array_fetch(&_4$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/digit.zep", 72 TSRMLS_CC);
+		zephir_array_fetch(&_4$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/digit.zep", 85 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(message, _4$$6);
 	}
 	ZEPHIR_INIT_VAR(replacePairs);
@@ -122,7 +135,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(code) == IS_ARRAY) {
-		zephir_array_fetch(&_6$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/digit.zep", 81 TSRMLS_CC);
+		zephir_array_fetch(&_6$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/digit.zep", 94 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(code, _6$$8);
 	}
 	ZEPHIR_INIT_NVAR(_2);
@@ -131,7 +144,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_8);
 	ZVAL_STRING(_8, "Digit", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 462, _7, field, _8, code);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 464, _7, field, _8, code);
 	zephir_check_temp_parameter(_8);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2);

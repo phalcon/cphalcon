@@ -104,23 +104,23 @@ PHP_METHOD(Phalcon_Application, getEventsManager) {
  *
  * <code>
  * $this->registerModules(
- * 	[
- * 		'frontend' => [
- * 			'className' => 'Multiple\Frontend\Module',
- * 			'path'      => '../apps/frontend/Module.php'
- * 		],
- * 		'backend' => [
- * 			'className' => 'Multiple\Backend\Module',
- * 			'path'      => '../apps/backend/Module.php'
- * 		]
- * 	]
+ *     [
+ *         "frontend" => [
+ *             "className" => "Multiple\\Frontend\\Module",
+ *             "path"      => "../apps/frontend/Module.php",
+ *         ],
+ *         "backend" => [
+ *             "className" => "Multiple\\Backend\\Module",
+ *             "path"      => "../apps/backend/Module.php",
+ *         ],
+ *     ]
  * );
  * </code>
  */
 PHP_METHOD(Phalcon_Application, registerModules) {
 
-	zend_bool merge, _0;
-	zval *modules_param = NULL, *merge_param = NULL, *_1, *_2$$3, *_3$$3;
+	zend_bool merge;
+	zval *modules_param = NULL, *merge_param = NULL, *_0$$3, *_1$$3;
 	zval *modules = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -134,17 +134,11 @@ PHP_METHOD(Phalcon_Application, registerModules) {
 	}
 
 
-	_0 = merge == 1;
-	if (_0) {
-		ZEPHIR_OBS_VAR(_1);
-		zephir_read_property_this(&_1, this_ptr, SL("_modules"), PH_NOISY_CC);
-		_0 = Z_TYPE_P(_1) == IS_ARRAY;
-	}
-	if (_0) {
-		ZEPHIR_INIT_VAR(_2$$3);
-		_3$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
-		zephir_fast_array_merge(_2$$3, &(_3$$3), &(modules) TSRMLS_CC);
-		zephir_update_property_this(this_ptr, SL("_modules"), _2$$3 TSRMLS_CC);
+	if (merge) {
+		ZEPHIR_INIT_VAR(_0$$3);
+		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_modules"), PH_NOISY_CC);
+		zephir_fast_array_merge(_0$$3, &(_1$$3), &(modules) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_modules"), _0$$3 TSRMLS_CC);
 	} else {
 		zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	}

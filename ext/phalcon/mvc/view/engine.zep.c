@@ -32,6 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
 
 	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("_view"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_view_engine_ce TSRMLS_CC, 1, phalcon_mvc_view_engineinterface_ce);
 	return SUCCESS;
 
 }

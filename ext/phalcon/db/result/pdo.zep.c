@@ -30,11 +30,15 @@
  * Encapsulates the resultset internals
  *
  * <code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while ($robot = $result->fetchArray()) {
- *		print_r($robot);
- *	}
+ * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_NUM
+ * );
+ *
+ * while ($robot = $result->fetchArray()) {
+ *     print_r($robot);
+ * }
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
@@ -133,11 +137,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
- *	while ($robot = $result->fetch()) {
- *		echo $robot->name;
- *	}
+ * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_OBJ
+ * );
+ *
+ * while ($robot = $result->fetch()) {
+ *     echo $robot->name;
+ * }
  *</code>
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
@@ -171,11 +179,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while ($robot = result->fetchArray()) {
- *		print_r($robot);
- *	}
+ * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_NUM
+ * );
+ *
+ * while ($robot = result->fetchArray()) {
+ *     print_r($robot);
+ * }
  *</code>
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
@@ -197,8 +209,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	$robots = $result->fetchAll();
+ * $result = $connection->query(
+ *     "SELECT * FROM robots ORDER BY name"
+ * );
+ *
+ * $robots = $result->fetchAll();
  *</code>
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
@@ -252,8 +267,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  * Gets number of rows returned by a resultset
  *
  *<code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	echo 'There are ', $result->numRows(), ' rows in the resultset';
+ * $result = $connection->query(
+ *     "SELECT * FROM robots ORDER BY name"
+ * );
+ *
+ * echo "There are ", $result->numRows(), " rows in the resultset";
  *</code>
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
@@ -292,7 +310,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZVAL_STRING(&_2$$6, "/^SELECT\\s+(.*)/i", 0);
 				zephir_preg_match(_1$$6, &_2$$6, sqlStatement, matches, 0, 0 , 0  TSRMLS_CC);
 				if (zephir_is_true(_1$$6)) {
-					zephir_array_fetch_long(&_3$$7, matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 217 TSRMLS_CC);
+					zephir_array_fetch_long(&_3$$7, matches, 1, PH_NOISY | PH_READONLY, "phalcon/db/result/pdo.zep", 238 TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_4$$7);
 					ZEPHIR_CONCAT_SVS(_4$$7, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", _3$$7, ")");
 					_5$$7 = zephir_fetch_nproperty_this(this_ptr, SL("_bindParams"), PH_NOISY_CC);
@@ -302,7 +320,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					ZEPHIR_CALL_METHOD(&row, result, "fetch", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(rowCount);
-					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 219 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, row, SL("numrows"), PH_NOISY, "phalcon/db/result/pdo.zep", 244 TSRMLS_CC);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(rowCount);
@@ -319,9 +337,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
  * Moves internal resultset cursor to another position letting us to fetch a certain row
  *
  *<code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	$result->dataSeek(2); // Move to third row on result
- *	$row = $result->fetch(); // Fetch third row
+ * $result = $connection->query(
+ *     "SELECT * FROM robots ORDER BY name"
+ * );
+ *
+ * // Move to third row on result
+ * $result->dataSeek(2);
+ *
+ * // Fetch third row
+ * $row = $result->fetch();
  *</code>
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
@@ -377,17 +401,25 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
  * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
  *
  *<code>
- *	//Return array with integer indexes
- *	$result->setFetchMode(\Phalcon\Db::FETCH_NUM);
+ * // Return array with integer indexes
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_NUM
+ * );
  *
- *	//Return associative array without integer indexes
- *	$result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+ * // Return associative array without integer indexes
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_ASSOC
+ * );
  *
- *	//Return associative array together with integer indexes
- *	$result->setFetchMode(\Phalcon\Db::FETCH_BOTH);
+ * // Return associative array together with integer indexes
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_BOTH
+ * );
  *
- *	//Return an object
- *	$result->setFetchMode(\Phalcon\Db::FETCH_OBJ);
+ * // Return an object
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_OBJ
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {

@@ -60,6 +60,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter) {
 	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), 9, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	phalcon_logger_adapter_ce->create_object = zephir_init_properties_Phalcon_Logger_Adapter;
+
+	zend_class_implements(phalcon_logger_adapter_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
 	return SUCCESS;
 
 }

@@ -26,6 +26,9 @@
  * Phalcon\Mvc\Model\Validator
  *
  * This is a base class for Phalcon\Mvc\Model validators
+ *
+ * This class is only for use with Phalcon\Mvc\Collection. If you are using
+ * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
@@ -36,6 +39,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	phalcon_mvc_model_validator_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Validator;
+
+	zend_class_implements(phalcon_mvc_model_validator_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 	return SUCCESS;
 
 }

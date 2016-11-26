@@ -239,16 +239,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey) {
 
-	zval *options = NULL;
+	zval *_0;
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_string(options, SS("foreignKey"))) {
-			RETURN_BOOL(1);
-		}
-	}
-	RETURN_BOOL(0);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_array_isset_string(_0, SS("foreignKey")));
 
 }
 
