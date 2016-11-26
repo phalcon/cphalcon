@@ -3,5 +3,7 @@ docs/* linguist-documentation
 *.zep.h linguist-language=C
 *.zep.c linguist-language=C
 
+*.sql linguist-language=SQL
+
 ext/* linguist-vendored
 build/* linguist-vendored

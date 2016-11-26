@@ -30,19 +30,24 @@
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Libmemcached(array(
- *		'servers' => array(
- *         array('host' => 'localhost', 'port' => 11211, 'weight' => 1),
- *     ),
- *     'client' => array(
- *         Memcached::OPT_HASH => Memcached::HASH_MD5,
- *         Memcached::OPT_PREFIX_KEY => 'prefix.',
- *     ),
- *    'lifetime' => 3600,
- *    'prefix' => 'my_'
- *	));
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Libmemcached(
+ *     [
+ *         "servers" => [
+ *             [
+ *                 "host"   => "localhost",
+ *                 "port"   => 11211,
+ *                 "weight" => 1,
+ *             ],
+ *         ],
+ *         "client" => [
+ *             Memcached::OPT_HASH       => Memcached::HASH_MD5,
+ *             Memcached::OPT_PREFIX_KEY => "prefix.",
+ *         ],
+ *         "lifetime" => 3600,
+ *         "prefix"   => "my_",
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached) {
@@ -86,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 		array_init(options);
 	}
 	if (!(zephir_array_isset_string(options, SS("servers")))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "No servers given in options", "phalcon/mvc/model/metadata/libmemcached.zep", 72);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "No servers given in options", "phalcon/mvc/model/metadata/libmemcached.zep", 77);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&ttl, options, SS("lifetime"), 1 TSRMLS_CC)) {
@@ -106,9 +111,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	ZEPHIR_OBS_VAR(_4);
 	zephir_read_property_this(&_4, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_3, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 330, _3);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 332, _3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 331, _2, options);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 333, _2, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -197,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 	zephir_read_property_this(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/libmemcached.zep", 127);
+		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/libmemcached.zep", 132);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
@@ -211,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, this_ptr, "reset", &_5, 332);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, this_ptr, "reset", &_5, 334);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

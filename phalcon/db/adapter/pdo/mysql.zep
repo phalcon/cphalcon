@@ -24,7 +24,6 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Db\IndexInterface;
-use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 
 /**
@@ -36,17 +35,17 @@ use Phalcon\Db\Adapter\Pdo as PdoAdapter;
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
- *   'host'     => 'localhost',
- *   'dbname'   => 'blog',
- *   'port'     => 3306,
- *   'username' => 'sigma',
- *   'password' => 'secret'
+ *     "host"     => "localhost",
+ *     "dbname"   => "blog",
+ *     "port"     => 3306,
+ *     "username" => "sigma",
+ *     "password" => "secret",
  * ];
  *
  * $connection = new Mysql($config);
  *</code>
  */
-class Mysql extends PdoAdapter implements AdapterInterface
+class Mysql extends PdoAdapter
 {
 
 	protected _type = "mysql";
@@ -54,40 +53,12 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	protected _dialectType = "mysql";
 
 	/**
-	 * Escapes a column/table/schema name
-	 *
-	 * <code>
-	 * echo $connection->escapeIdentifier('my_table'); // `my_table`
-	 * echo $connection->escapeIdentifier(['companies', 'name']); // `companies`.`name`
-	 * <code>
-	 *
-	 * @param string|array identifier
-	 */
-	public function escapeIdentifier(var identifier) -> string
-	{
-		var domain, name;
-
-		if typeof identifier == "array" {
-			let domain = identifier[0],
-				name = identifier[1];
-			if globals_get("db.escape_identifiers") {
-				return "`" . domain . "`.`" . name . "`";
-			}
-			return domain . "." . name;
-		}
-
-		if globals_get("db.escape_identifiers") {
-			return "`" . identifier . "`";
-		}
-
-		return identifier;
-	}
-
-	/**
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>
-	 * print_r($connection->describeColumns("posts"));
+	 * print_r(
+	 *     $connection->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string table, string schema = null) -> <Column[]>
@@ -118,161 +89,108 @@ class Mysql extends PdoAdapter implements AdapterInterface
 			 */
 			let columnType = field[1];
 
-			loop {
-
+			if memstr(columnType, "enum") {
 				/**
 				 * Enum are treated as char
 				 */
-				if memstr(columnType, "enum") {
-					let definition["type"] = Column::TYPE_CHAR;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "bigint") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
-				if memstr(columnType, "bigint") {
-					let definition["type"] = Column::TYPE_BIGINTEGER,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_INT;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_BIGINTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "int") {
 				/**
 				 * Smallint/Bigint/Integers/Int are int
 				 */
-				if memstr(columnType, "int") {
-					let definition["type"] = Column::TYPE_INTEGER,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_INT;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "varchar") {
 				/**
 				 * Varchar are varchars
 				 */
-				if memstr(columnType, "varchar") {
-					let definition["type"] = Column::TYPE_VARCHAR;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_VARCHAR;
+			} elseif memstr(columnType, "datetime") {
 				/**
 				 * Special type for datetime
 				 */
-				if memstr(columnType, "datetime") {
-					let definition["type"] = Column::TYPE_DATETIME;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_DATETIME;
+			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
 				 */
-				if memstr(columnType, "char") {
-					let definition["type"] = Column::TYPE_CHAR;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_CHAR;
+			} elseif memstr(columnType, "date") {
 				/**
 				 * Date are dates
 				 */
-				if memstr(columnType, "date") {
-					let definition["type"] = Column::TYPE_DATE;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_DATE;
+			} elseif memstr(columnType, "timestamp") {
 				/**
 				 * Timestamp are dates
 				 */
-				if memstr(columnType, "timestamp") {
-					let definition["type"] = Column::TYPE_TIMESTAMP;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_TIMESTAMP;
+			} elseif memstr(columnType, "text") {
 				/**
 				 * Text are varchars
 				 */
-				if memstr(columnType, "text") {
-					let definition["type"] = Column::TYPE_TEXT;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_TEXT;
+			} elseif memstr(columnType, "decimal") {
 				/**
 				 * Decimals are floats
 				 */
-				if memstr(columnType, "decimal"){
-					let definition["type"] = Column::TYPE_DECIMAL,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_DECIMAL,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "double") {
 				/**
 				 * Doubles
 				 */
-				if memstr(columnType, "double"){
-					let definition["type"] = Column::TYPE_DOUBLE,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_DOUBLE,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "float") {
 				/**
 				 * Float/Smallfloats/Decimals are float
 				 */
-				if memstr(columnType, "float") {
-					let definition["type"] = Column::TYPE_FLOAT,
-						definition["isNumeric"] = true,
-						definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_FLOAT,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "bit") {
 				/**
 				 * Boolean
 				 */
-				if memstr(columnType, "bit") {
-					let definition["type"] = Column::TYPE_BOOLEAN,
-						definition["bindType"] = Column::BIND_PARAM_BOOL;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "tinyblob") {
 				/**
 				 * Tinyblob
 				 */
-				if memstr(columnType, "tinyblob") {
-					let definition["type"] = Column::TYPE_TINYBLOB,
-						definition["bindType"] = Column::BIND_PARAM_BOOL;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_TINYBLOB,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "mediumblob") {
 				/**
 				 * Mediumblob
 				 */
-				if memstr(columnType, "mediumblob") {
-					let definition["type"] = Column::TYPE_MEDIUMBLOB;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_MEDIUMBLOB;
+			} elseif memstr(columnType, "longblob") {
 				/**
 				 * Longblob
 				 */
-				if memstr(columnType, "longblob") {
-					let definition["type"] = Column::TYPE_LONGBLOB;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_LONGBLOB;
+			} elseif memstr(columnType, "blob") {
 				/**
 				 * Blob
 				 */
-				if memstr(columnType, "blob") {
-					let definition["type"] = Column::TYPE_BLOB;
-					break;
-				}
-
+				let definition["type"] = Column::TYPE_BLOB;
+			} else {
 				/**
 				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
-				break;
 			}
 
 			/**
@@ -349,7 +267,9 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 * Lists table indexes
 	 *
 	 * <code>
-	 *   print_r($connection->describeIndexes('robots_parts'));
+	 * print_r(
+	 *     $connection->describeIndexes("robots_parts")
+	 * );
 	 * </code>
 	 *
 	 * @param  string table
@@ -401,7 +321,9 @@ class Mysql extends PdoAdapter implements AdapterInterface
 	 * Lists table references
 	 *
 	 *<code>
-	 * print_r($connection->describeReferences('robots_parts'));
+	 * print_r(
+	 *     $connection->describeReferences("robots_parts")
+	 * );
 	 *</code>
 	 */
 	public function describeReferences(string! table, string! schema = null) -> <Reference[]>

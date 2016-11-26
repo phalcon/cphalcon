@@ -37,23 +37,23 @@ use Phalcon\Events\EventsAwareInterface;
  * decomposing it into parameters to determine which module, controller, and
  * action of that controller should receive the request
  *
- *<code>
+ * <code>
  * use Phalcon\Mvc\Router;
  *
  * $router = new Router();
  *
  * $router->add(
- *     '/documentation/{chapter}/{name}\.{type:[a-z]+}',
+ *     "/documentation/{chapter}/{name}\.{type:[a-z]+}",
  *     [
- *         'controller' => 'documentation',
- *         'action'     => 'show'
- *		)
- *	);
+ *         "controller" => "documentation",
+ *         "action"     => "show",
+ *     ]
+ * );
  *
  * $router->handle();
  *
  * echo $router->getControllerName();
- *</code>
+ * </code>
  */
 class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
 {
@@ -162,14 +162,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	}
 
 	/**
-	 * Get rewrite info. This info is read from $_GET['_url']. This returns '/' if the rewrite information cannot be read
+	 * Get rewrite info. This info is read from $_GET["_url"]. This returns '/' if the rewrite information cannot be read
 	 */
 	public function getRewriteUri() -> string
 	{
 		var url, urlParts, realUri;
 
 		/**
-		 * By default we use $_GET['url'] to obtain the rewrite information
+		 * By default we use $_GET["url"] to obtain the rewrite information
 		 */
 		if !this->_uriSource {
 			if fetch url, _GET["_url"] {
@@ -179,7 +179,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			}
 		} else {
 			/**
-			 * Otherwise use the standard $_SERVER['REQUEST_URI']
+			 * Otherwise use the standard $_SERVER["REQUEST_URI"]
 			 */
 			if fetch url, _SERVER["REQUEST_URI"] {
 				let urlParts = explode("?", url),
@@ -195,9 +195,11 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	/**
 	 * Sets the URI source. One of the URI_SOURCE_* constants
 	 *
-	 *<code>
-	 *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-	 *</code>
+	 * <code>
+	 * $router->setUriSource(
+	 *     Router::URI_SOURCE_SERVER_REQUEST_URI
+	 * );
+	 * </code>
 	 */
 	public function setUriSource(var uriSource) -> <RouterInterface>
 	{
@@ -255,10 +257,12 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 * This method must not be used to set a 404 route
 	 *
 	 *<code>
-	 * $router->setDefaults([
-	 *     'module' => 'common',
-	 *     'action' => 'index'
-	 * ]);
+	 * $router->setDefaults(
+	 *     [
+	 *         "module" => "common",
+	 *         "action" => "index",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setDefaults(array! defaults) -> <RouterInterface>
@@ -315,7 +319,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 * $router->handle();
 	 *
 	 * // Manually passing an URL
-	 * $router->handle('/posts/edit/1');
+	 * $router->handle("/posts/edit/1");
 	 *</code>
 	 */
 	public function handle(string uri = null)
@@ -329,7 +333,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 		if !uri {
 			/**
-			 * If 'uri' isn't passed as parameter it reads _GET['_url']
+			 * If 'uri' isn't passed as parameter it reads _GET["_url"]
 			 */
 			let realUri = this->getRewriteUri();
 		} else {
@@ -675,9 +679,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 *<code>
 	 * use Phalcon\Mvc\Router;
 	 *
-	 * $router->add('/about', 'About::index');
-	 * $router->add('/about', 'About::index', ['GET', 'POST']);
-	 * $router->add('/about', 'About::index', ['GET', 'POST'], Router::POSITION_FIRST);
+	 * $router->add("/about", "About::index");
+	 * $router->add("/about", "About::index", ["GET", "POST"]);
+	 * $router->add("/about", "About::index", ["GET", "POST"], Router::POSITION_FIRST);
 	 *</code>
 	 */
 	public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>

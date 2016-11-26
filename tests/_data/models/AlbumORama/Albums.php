@@ -6,11 +6,10 @@ use Phalcon\Mvc\Model;
 
 /**
  * \Phalcon\Test\Models\AlbumORama\Albums
- * Albums model class
  *
  * @method static findFirst($parameters = null)
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -25,8 +24,13 @@ use Phalcon\Mvc\Model;
  */
 class Albums extends Model
 {
-	public function initialize()
-	{
-		$this->belongsTo('artists_id', 'AlbumORama:Artists', 'id', ['alias' => 'artist']);
-	}
+    public function initialize()
+    {
+        $this->belongsTo(
+            'artists_id',
+            'AlbumORama:Artists',
+            'id',
+            ['alias' => 'artist']
+        );
+    }
 }

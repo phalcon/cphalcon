@@ -19,6 +19,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insertAsDict);
 PHP_METHOD(Phalcon_Db_Adapter, update);
 PHP_METHOD(Phalcon_Db_Adapter, updateAsDict);
 PHP_METHOD(Phalcon_Db_Adapter, delete);
+PHP_METHOD(Phalcon_Db_Adapter, escapeIdentifier);
 PHP_METHOD(Phalcon_Db_Adapter, getColumnList);
 PHP_METHOD(Phalcon_Db_Adapter, limit);
 PHP_METHOD(Phalcon_Db_Adapter, tableExists);
@@ -126,6 +127,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_delete, 0, 0, 1)
 	ZEND_ARG_INFO(0, whereCondition)
 	ZEND_ARG_INFO(0, placeholders)
 	ZEND_ARG_INFO(0, dataTypes)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_escapeidentifier, 0, 0, 1)
+	ZEND_ARG_INFO(0, identifier)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_getcolumnlist, 0, 0, 1)
@@ -293,6 +298,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter, update, arginfo_phalcon_db_adapter_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, updateAsDict, arginfo_phalcon_db_adapter_updateasdict, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, delete, arginfo_phalcon_db_adapter_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, escapeIdentifier, arginfo_phalcon_db_adapter_escapeidentifier, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getColumnList, arginfo_phalcon_db_adapter_getcolumnlist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, limit, arginfo_phalcon_db_adapter_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, tableExists, arginfo_phalcon_db_adapter_tableexists, ZEND_ACC_PUBLIC)

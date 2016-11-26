@@ -61,12 +61,39 @@ class CreditCardTest extends UnitTest
             $validation->add(['creditCard', 'anotherCreditCard'], new CreditCard([
                 'message' => $validationMessages,
             ]));
-            $messages = $validation->validate(['creditCard' => 4601587377626131, 'anotherCreditCard' => 4601587377626131]);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'creditCard'        => 4601587377626131,
+                    'anotherCreditCard' => 4601587377626131,
+                ]
+            );
+
             expect($messages->count())->equals(0);
-            $messages = $validation->validate(['creditCard' => 46015873776261312, 'anotherCreditCard' => 4601587377626131]);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'creditCard'        => 46015873776261312,
+                    'anotherCreditCard' => 4601587377626131,
+                ]
+            );
+
             expect($messages->count())->equals(1);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['creditCard']);
-            $messages = $validation->validate(['creditCard' => 46015873776261312, 'anotherCreditCard' => 46015873776261312]);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'creditCard'        => 46015873776261312,
+                    'anotherCreditCard' => 46015873776261312,
+                ]
+            );
+
             expect($messages->count())->equals(2);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['creditCard']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['anotherCreditCard']);

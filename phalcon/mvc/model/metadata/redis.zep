@@ -33,14 +33,16 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *<code>
  * use Phalcon\Mvc\Model\Metadata\Redis;
  *
- * $metaData = new Redis([
- *     'host'       => '127.0.0.1',
- *     'port'       => 6379,
- *     'persistent' => 0,
- *     'statsKey'   => '_PHCM_MM',
- *     'lifetime'   => 172800,
- *     'index'      => 2,
- * ]);
+ * $metaData = new Redis(
+ *     [
+ *         "host"       => "127.0.0.1",
+ *         "port"       => 6379,
+ *         "persistent" => 0,
+ *         "statsKey"   => "_PHCM_MM",
+ *         "lifetime"   => 172800,
+ *         "index"      => 2,
+ *     ]
+ * );
  *</code>
  */
 class Redis extends MetaData

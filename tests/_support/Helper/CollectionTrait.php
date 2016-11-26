@@ -27,7 +27,7 @@ trait CollectionTrait
             );
         }
 
-        $I->haveServiceInDi('mongo', function() {
+        $I->haveServiceInDi('mongo', function () {
             $dsn = sprintf('mongodb://%s:%s', TEST_DB_MONGO_HOST, TEST_DB_MONGO_PORT);
 
             if (class_exists('MongoClient')) {
@@ -39,7 +39,7 @@ trait CollectionTrait
             return $mongo->selectDB(TEST_DB_MONGO_NAME);
         }, true);
 
-        $I->haveServiceInDi('collectionManager', function() {
+        $I->haveServiceInDi('collectionManager', function () {
             return new Manager();
         }, true);
     }

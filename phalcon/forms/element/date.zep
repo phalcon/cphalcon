@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\Date
  *
  * Component INPUT[type=date] for forms
  */
-class Date extends Element implements ElementInterface
+class Date extends Element
 {
 
 	/**

@@ -11,6 +11,8 @@ modules:
         - Filesystem
         - Phalcon
         - Redis
+        - Memcache
+        - Apc
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
@@ -29,3 +31,6 @@ modules:
             database: 0
             host: %TEST_RS_HOST%
             port: %TEST_RS_PORT%
+        Memcache:
+            host: %TEST_MC_HOST%
+            port: %TEST_MC_PORT%

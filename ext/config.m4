@@ -12,20 +12,22 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/hash.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/extended/array.c kernel/string.c kernel/fcall.c kernel/extended/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/di/injectionawareinterface.zep.c
 	phalcon/exception.zep.c
 	phalcon/events/eventsawareinterface.zep.c
-	phalcon/forms/elementinterface.zep.c
 	phalcon/validation/validatorinterface.zep.c
 	phalcon/validation/validator.zep.c
 	phalcon/di/injectable.zep.c
+	phalcon/forms/elementinterface.zep.c
 	phalcon/forms/element.zep.c
-	phalcon/mvc/model/validator.zep.c
 	phalcon/mvc/model/validatorinterface.zep.c
+	phalcon/mvc/model/validator.zep.c
+	phalcon/cache/backendinterface.zep.c
 	phalcon/cache/frontendinterface.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/cache/backend.zep.c
-	phalcon/cache/backendinterface.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapterinterface.zep.c
+	phalcon/db/adapterinterface.zep.c
+	phalcon/logger/adapterinterface.zep.c
 	phalcon/logger/formatterinterface.zep.c
 	phalcon/session/adapterinterface.zep.c
 	phalcon/annotations/adapter.zep.c
@@ -33,23 +35,24 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/logger/adapter.zep.c
-	phalcon/logger/adapterinterface.zep.c
 	phalcon/logger/formatter.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
+	phalcon/paginator/adapterinterface.zep.c
 	phalcon/session/adapter.zep.c
+	phalcon/translate/adapterinterface.zep.c
 	phalcon/assets/filterinterface.zep.c
 	phalcon/db/adapter/pdo.zep.c
-	phalcon/db/adapterinterface.zep.c
 	phalcon/db/dialect.zep.c
 	phalcon/diinterface.zep.c
+	phalcon/flashinterface.zep.c
+	phalcon/image/adapterinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
+	phalcon/mvc/view/engineinterface.zep.c
 	phalcon/mvc/viewbaseinterface.zep.c
 	phalcon/paginator/adapter.zep.c
-	phalcon/paginator/adapterinterface.zep.c
 	phalcon/translate/adapter.zep.c
-	phalcon/translate/adapterinterface.zep.c
 	phalcon/acl/adapterinterface.zep.c
 	phalcon/application.zep.c
 	phalcon/application/exception.zep.c
@@ -59,9 +62,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/di.zep.c
 	phalcon/dispatcher.zep.c
 	phalcon/flash.zep.c
-	phalcon/flashinterface.zep.c
 	phalcon/image/adapter.zep.c
-	phalcon/image/adapterinterface.zep.c
 	phalcon/mvc/collection/behavior.zep.c
 	phalcon/mvc/collection/behaviorinterface.zep.c
 	phalcon/mvc/model/behavior.zep.c
@@ -70,7 +71,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/resultset.zep.c
 	phalcon/mvc/routerinterface.zep.c
 	phalcon/mvc/view/engine.zep.c
-	phalcon/mvc/view/engineinterface.zep.c
 	phalcon/translate/interpolatorinterface.zep.c
 	phalcon/acl/adapter.zep.c
 	phalcon/acl/resourceinterface.zep.c

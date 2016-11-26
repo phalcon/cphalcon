@@ -28,16 +28,29 @@
  * <code>
  * use Phalcon\Validation\Validator\Url as UrlValidator;
  *
- * $validator->add('url', new UrlValidator([
- *     'message' => ':field must be a url'
- * ]));
+ * $validator->add(
+ *     "url",
+ *     new UrlValidator(
+ *         [
+ *             "message" => ":field must be a url",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['url', 'homepage'], new UrlValidator([
- *     'message' => [
- *         'url' => 'url must be a url',
- *         'homepage' => 'homepage must be a url'
- *     ]
- * ]));
+ * $validator->add(
+ *     [
+ *         "url",
+ *         "homepage",
+ *     ],
+ *     new UrlValidator(
+ *         [
+ *             "message" => [
+ *                 "url"      => "url must be a url",
+ *                 "homepage" => "homepage must be a url",
+ *             ]
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url) {
@@ -76,7 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 273);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 199, value, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 201, value, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_INIT_VAR(_2$$3);
@@ -85,7 +98,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_3$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 62 TSRMLS_CC);
+			zephir_array_fetch(&_3$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 75 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(label, _3$$4);
 		}
 		if (ZEPHIR_IS_EMPTY(label)) {
@@ -98,7 +111,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_4$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 70 TSRMLS_CC);
+			zephir_array_fetch(&_4$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 83 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(message, _4$$6);
 		}
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -117,7 +130,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 79 TSRMLS_CC);
+			zephir_array_fetch(&_6$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/url.zep", 92 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(code, _6$$8);
 		}
 		ZEPHIR_INIT_NVAR(_2$$3);
@@ -126,7 +139,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8$$3);
 		ZVAL_STRING(_8$$3, "Url", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 462, _7$$3, field, _8$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 464, _7$$3, field, _8$$3, code);
 		zephir_check_temp_parameter(_8$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2$$3);

@@ -28,9 +28,11 @@ use Phalcon\Mvc\Model\Exception;
  * Stores model meta-data in PHP files.
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(array(
- *    'metaDataDir' => 'app/cache/metadata/'
- * ));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(
+ *     [
+ *         "metaDataDir" => "app/cache/metadata/",
+ *     ]
+ * );
  *</code>
  */
 class Files extends MetaData

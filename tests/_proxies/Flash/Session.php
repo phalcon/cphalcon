@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Proxy\Flash;
 
-use Phalcon\DiInterface;
 use Phalcon\Flash\Session as PhSession;
 
 /**

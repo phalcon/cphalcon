@@ -1052,8 +1052,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView) {
  * Generates SQL checking for the existence of a schema.table
  *
  * <code>
- *    echo $dialect->tableExists("posts", "blog");
- *    echo $dialect->tableExists("posts");
+ * echo $dialect->tableExists("posts", "blog");
+ *
+ * echo $dialect->tableExists("posts");
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists) {
@@ -1125,7 +1126,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists) {
  * Generates SQL describing a table
  *
  * <code>
- *    print_r($dialect->describeColumns("posts"));
+ * print_r(
+ *     $dialect->describeColumns("posts")
+ * );
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns) {
@@ -1163,7 +1166,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns) {
  * List all tables in database
  *
  * <code>
- *     print_r($dialect->listTables("blog"))
+ * print_r(
+ *     $dialect->listTables("blog")
+ * );
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables) {
@@ -1222,7 +1227,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews) {
  * Generates the SQL to get query list of indexes
  *
  * <code>
- *     print_r($dialect->listIndexesSql("blog"))
+ * print_r(
+ *     $dialect->listIndexesSql("blog")
+ * );
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listIndexesSql) {

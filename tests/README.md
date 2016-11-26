@@ -29,14 +29,21 @@ First you need to re-generate base classes for all suites:
 $ vendor/bin/codecept build
 ```
 
-A MySQL database is also bundled in this suite.
-The SQL file is required for several tests. You can create a database as follows:
+A MySQL/PostgreSQL databases is also bundled in this suite. You can create a databases as follows:
 
+*MySQL*
 ```sh
 $ echo 'create database phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;' | mysql -u root
+$ mysql -uroot phalcon_test < tests/_data/schemas/mysql/mysql.dump.sql
 ```
 
-**Note:** For these tests we use the user `root` without a password.
+*PostgreSQL*
+```
+psql -c 'create database phalcon_test;' -U postgres
+psql -U postgres phalcon_test -q -f tests/_data/schemas/postgresql/phalcon_test.sql
+```
+
+**Note:** For these MySQL-related we use the user `root` without a password.
 You may need to change this in `codeception.yml` file.
 
 Obviously, Beanstalk-tests use Beanstalk, Memcached-tests use Memcached, etc.
@@ -53,6 +60,10 @@ We use the following settings of these services:
 * Host: `127.0.0.1`
 * Port: `11211`
 
+**SQLite**
+
+* DB Name: `tests/_output/tests/phalcon_test.sqlite`
+
 **MySQL**
 
 * Host: `127.0.0.1`
@@ -61,6 +72,14 @@ We use the following settings of these services:
 * Password: `''` (empty string)
 * DB Name: `phalcon_test`
 * Charset: `utf8`
+
+**PostgreSQL**
+
+* Host: `127.0.0.1`
+* Port: `5432`
+* Username: `postgres`
+* Password: `''` (empty string)
+* DB Name: `phalcon_test`
 
 **Mongo**
 
@@ -86,6 +105,9 @@ export TEST_BT_PORT="11300"
 export TEST_MC_HOST="127.0.0.1"
 export TEST_MC_PORT="11211"
 
+# SQLite
+export TEST_DB_SQLITE_NAME="/tmp/phalcon_test.sqlite"
+
 # MySQL
 export TEST_DB_MYSQL_DSN="mysql:host=localhost;dbname=phalcon_test"
 export TEST_DB_MYSQL_HOST="127.0.0.1"
@@ -94,6 +116,13 @@ export TEST_DB_MYSQL_USER="root"
 export TEST_DB_MYSQL_PASSWD=""
 export TEST_DB_MYSQL_NAME="phalcon_test"
 export TEST_DB_MYSQL_CHARSET="utf8"
+
+# Postgresql
+export TEST_DB_POSTGRESQL_HOST="127.0.0.1"
+export TEST_DB_POSTGRESQL_PORT="5432"
+export TEST_DB_POSTGRESQL_USER="postgres"
+export TEST_DB_POSTGRESQL_PASSWD=""
+export TEST_DB_POSTGRESQL_NAME="phalcon_test"
 
 # Mongo
 export TEST_DB_MONGO_HOST="127.0.0.1"

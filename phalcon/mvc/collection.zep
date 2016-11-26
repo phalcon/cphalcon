@@ -277,7 +277,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Reads an attribute value by its name
 	 *
 	 *<code>
-	 *	echo $robot->readAttribute('name');
+	 *	echo $robot->readAttribute("name");
 	 *</code>
 	 *
 	 * @param string attribute
@@ -296,7 +296,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Writes an attribute value by its name
 	 *
 	 *<code>
-	 *	$robot->writeAttribute('name', 'Rosey');
+	 *	$robot->writeAttribute("name", "Rosey");
 	 *</code>
 	 *
 	 * @param string attribute
@@ -347,7 +347,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let base = new {className}();
 
 			if !(base instanceof CollectionInterface || base instanceof Collection\Document) {
-				throw new Exception("Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document");
+				throw new Exception(
+					"Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document"
+				);
 			}
 		} else {
 			let base = collection;
@@ -625,23 +627,26 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Collection
-	 *{
+	 * class Subscriptors extends \Phalcon\Mvc\Collection
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $this->validate(
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "field"  => "status",
+	 *                     "domain" => ["A", "I"],
+	 *                 ]
+	 *             )
+	 *         );
 	 *
-	 *	public function validation()
-	 *	{
-	 *		this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
-	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if (this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
-	 *	}
-	 *
-	 *}
+	 *         if ($this->validationHasFailed() == true) {
+	 *             return false;
+	 *         }
+	 *     }
+	 * }
 	 *</code>
 	 */
 	protected function validate(<Model\ValidatorInterface> validator) -> void
@@ -659,23 +664,26 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
-	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
 	 *
-	 *class Subscriptors extends \Phalcon\Mvc\Collection
-	 *{
+	 * class Subscriptors extends \Phalcon\Mvc\Collection
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $this->validate(
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "field"  => "status",
+	 *                     "domain" => ["A", "I"],
+	 *                 ]
+	 *             )
+	 *         );
 	 *
-	 *	public function validation()
-	 *	{
-	 *		this->validate(new ExclusionIn(array(
-	 *			'field' => 'status',
-	 *			'domain' => array('A', 'I')
-	 *		)));
-	 *		if (this->validationHasFailed() == true) {
-	 *			return false;
-	 *		}
-	 *	}
-	 *
-	 *}
+	 *         if ($this->validationHasFailed() == true) {
+	 *             return false;
+	 *         }
+	 *     }
+	 * }
 	 *</code>
 	 */
 	public function validationHasFailed() -> boolean
@@ -783,17 +791,22 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *
 	 * <code>
 	 * $robot = new Robots();
-	 * $robot->type = 'mechanical';
-	 * $robot->name = 'Astro Boy';
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
 	 * $robot->year = 1952;
-	 * if ($robot->save() == false) {
-	 *	echo "Umh, We can't store robots right now ";
-	 *	foreach ($robot->getMessages() as message) {
-	 *		echo message;
-	 *	}
-	 *} else {
-	 *	echo "Great, a new robot was saved successfully!";
-	 *}
+	 *
+	 * if ($robot->save() === false) {
+	 *     echo "Umh, We can't store robots right now ";
+	 *
+	 *     $messages = $robot->getMessages();
+	 *
+	 *     foreach ($messages as $message) {
+	 *         echo $message;
+	 *     }
+	 * } else {
+	 *     echo "Great, a new robot was saved successfully!";
+	 * }
 	 * </code>
 	 */
 	public function getMessages() -> <MessageInterface[]>
@@ -805,19 +818,21 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Appends a customized message on the validation process
 	 *
 	 *<code>
-	 *	use \Phalcon\Mvc\Model\Message as Message;
+	 * use \Phalcon\Mvc\Model\Message as Message;
 	 *
-	 *	class Robots extends \Phalcon\Mvc\Model
-	 *	{
+	 * class Robots extends \Phalcon\Mvc\Model
+	 * {
+	 *     public function beforeSave()
+	 *     {
+	 *         if ($this->name === "Peter") {
+	 *             $message = new Message(
+	 *                 "Sorry, but a robot cannot be named Peter"
+	 *             );
 	 *
-	 *		public function beforeSave()
-	 *		{
-	 *			if ($this->name == 'Peter') {
-	 *				message = new Message("Sorry, but a robot cannot be named Peter");
-	 *				$this->appendMessage(message);
-	 *			}
-	 *		}
-	 *	}
+	 *             $this->appendMessage(message);
+	 *         }
+	 *     }
+	 * }
 	 *</code>
 	 */
 	public function appendMessage(<MessageInterface> message)
@@ -973,12 +988,20 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Creates a document based on the values in the attributes, if not found by criteria
 	 * Preferred way to avoid duplication is to create index on attribute
 	 *
+	 * <code>
 	 * $robot = new Robot();
+	 *
 	 * $robot->name = "MyRobot";
 	 * $robot->type = "Droid";
 	 *
-	 * //create only if robot with same name and type does not exist
-	 * $robot->createIfNotExist( array( "name", "type" ) );
+	 * // Create only if robot with same name and type does not exist
+	 * $robot->createIfNotExist(
+	 *     [
+	 *         "name",
+	 *         "type",
+	 *     ]
+	 * );
+	 * </code>
 	 */
 	public function createIfNotExist(array! criteria) -> boolean
 	{
@@ -995,7 +1018,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		let collection = this->prepareCU();
 
 		/**
-		 * Assume non-existance to fire beforeCreate events - no update does occur anyway
+		 * Assume non-existence to fire beforeCreate events - no update does occur anyway
 		 */
 		let exists = false;
 
@@ -1115,13 +1138,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *
 	 * <code>
 	 * // Find user by using \MongoId object
-	 * $user = Users::findById(new \MongoId('545eb081631d16153a293a66'));
+	 * $user = Users::findById(
+	 *     new \MongoId("545eb081631d16153a293a66")
+	 * );
 	 *
 	 * // Find user by using id as sting
-	 * $user = Users::findById('45cbc4a0e4123f6920000002');
+	 * $user = Users::findById("45cbc4a0e4123f6920000002");
 	 *
 	 * // Validate input
-	 * if ($user = Users::findById($_POST['id'])) {
+	 * if ($user = Users::findById($_POST["id"])) {
 	 *     // ...
 	 * }
 	 * </code>
@@ -1161,26 +1186,44 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * <code>
 	 * // What's the first robot in the robots table?
 	 * $robot = Robots::findFirst();
-	 * echo 'The robot name is ', $robot->name, "\n";
+	 *
+	 * echo "The robot name is ", $robot->name, "\n";
 	 *
 	 * // What's the first mechanical robot in robots table?
-	 * $robot = Robots::findFirst([
-	 *     ['type' => 'mechanical']
-	 * ]);
-	 * echo 'The first mechanical robot name is ', $robot->name, "\n";
+	 * $robot = Robots::findFirst(
+	 *     [
+	 *         [
+	 *             "type" => "mechanical",
+	 *         ]
+	 *     ]
+	 * );
+	 *
+	 * echo "The first mechanical robot name is ", $robot->name, "\n";
 	 *
 	 * // Get first virtual robot ordered by name
-	 * $robot = Robots::findFirst([
-	 *     ['type' => 'mechanical'],
-	 *     'order' => ['name' => 1]
-	 * ]);
-	 * echo 'The first virtual robot name is ', $robot->name, "\n";
+	 * $robot = Robots::findFirst(
+	 *     [
+	 *         [
+	 *             "type" => "mechanical",
+	 *         ],
+	 *         "order" => [
+	 *             "name" => 1,
+	 *         ],
+	 *     ]
+	 * );
+	 *
+	 * echo "The first virtual robot name is ", $robot->name, "\n";
 	 *
 	 * // Get first robot by id (_id)
-	 * $robot = Robots::findFirst([
-	 *     ['_id' => new \MongoId('45cbc4a0e4123f6920000002')]
-	 * ]);
-	 * echo 'The robot id is ', $robot->_id, "\n";
+	 * $robot = Robots::findFirst(
+	 *     [
+	 *         [
+	 *             "_id" => new \MongoId("45cbc4a0e4123f6920000002"),
+	 *         ]
+	 *     ]
+	 * );
+	 *
+	 * echo "The robot id is ", $robot->_id, "\n";
 	 * </code>
 	 */
 	public static function findFirst(array parameters = null) -> array
@@ -1200,32 +1243,51 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Allows to query a set of records that match the specified conditions
 	 *
 	 * <code>
-	 *
-	 * //How many robots are there?
+	 * // How many robots are there?
 	 * $robots = Robots::find();
+	 *
 	 * echo "There are ", count($robots), "\n";
 	 *
-	 * //How many mechanical robots are there?
-	 * $robots = Robots::find(array(
-	 *     array("type" => "mechanical")
-	 * ));
+	 * // How many mechanical robots are there?
+	 * $robots = Robots::find(
+	 *     [
+	 *         [
+	 *             "type" => "mechanical",
+	 *         ]
+	 *     ]
+	 * );
+	 *
 	 * echo "There are ", count(robots), "\n";
 	 *
-	 * //Get and print virtual robots ordered by name
-	 * $robots = Robots::findFirst(array(
-	 *     array("type" => "virtual"),
-	 *     "order" => array("name" => 1)
-	 * ));
+	 * // Get and print virtual robots ordered by name
+	 * $robots = Robots::findFirst(
+	 *     [
+	 *         [
+	 *             "type" => "virtual"
+	 *         ],
+	 *         "order" => [
+	 *             "name" => 1,
+	 *         ]
+	 *     ]
+	 * );
+	 *
 	 * foreach ($robots as $robot) {
 	 *	   echo $robot->name, "\n";
 	 * }
 	 *
-	 * //Get first 100 virtual robots ordered by name
-	 * $robots = Robots::find(array(
-	 *     array("type" => "virtual"),
-	 *     "order" => array("name" => 1),
-	 *     "limit" => 100
-	 * ));
+	 * // Get first 100 virtual robots ordered by name
+	 * $robots = Robots::find(
+	 *     [
+	 *         [
+	 *             "type" => "virtual",
+	 *         ],
+	 *         "order" => [
+	 *             "name" => 1,
+	 *         ],
+	 *         "limit" => 100,
+	 *     ]
+	 * );
+	 *
 	 * foreach ($robots as $robot) {
 	 *	   echo $robot->name, "\n";
 	 * }
@@ -1244,7 +1306,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Perform a count over a collection
 	 *
 	 *<code>
-	 * echo 'There are ', Robots::count(), ' robots';
+	 * echo "There are ", Robots::count(), " robots";
 	 *</code>
 	 */
 	public static function count(array parameters = null) -> array
@@ -1331,12 +1393,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 *
 	 * <code>
-	 *	$robot = Robots::findFirst();
-	 *	$robot->delete();
+	 * $robot = Robots::findFirst();
 	 *
-	 *	foreach (Robots::find() as $robot) {
-	 *		$robot->delete();
-	 *	}
+	 * $robot->delete();
+	 *
+	 * $robots = Robots::find();
+	 *
+	 * foreach ($robots as $robot) {
+	 *     $robot->delete();
+	 * }
 	 * </code>
 	 */
 	public function delete() -> boolean
@@ -1432,7 +1497,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Returns the instance as an array representation
 	 *
 	 *<code>
-	 * print_r($robot->toArray());
+	 * print_r(
+	 *     $robot->toArray()
+	 * );
 	 *</code>
 	 */
 	public function toArray() -> array

@@ -55,11 +55,13 @@ $loader->registerNamespaces(
 
 $loader->registerDirs([
     $config->get('application')->controllersDir,
+    $config->get('application')->tasksDir,
+    $config->get('application')->microDir,
 ]);
 
 $loader->register();
 
-$di->setShared('loader',  $loader);
+$di->setShared('loader', $loader);
 
 /**
  * The URL component is used to generate all kind of urls in the
@@ -83,7 +85,9 @@ $di->setShared(
 /**
  * Router
  */
-$di->setShared('router', function () {
+$di->setShared(
+    'router',
+    function () {
         return new Router(false);
     }
 );

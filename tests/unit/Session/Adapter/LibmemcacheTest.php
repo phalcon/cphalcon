@@ -22,7 +22,7 @@ use Phalcon\Test\Module\UnitTest;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class LibmemcachedTest extends UnitTest
+class LibmemcacheTest extends UnitTest
 {
     /**
      * executed before each test

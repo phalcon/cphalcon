@@ -35,24 +35,35 @@ use Phalcon\Cache\Exception;
  * use Phalcon\Cache\Frontend\Msgpack;
  *
  * // Cache the files for 2 days using Msgpack frontend
- * $frontCache = new Msgpack([
- *     'lifetime' => 172800
- * ]);
+ * $frontCache = new Msgpack(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
  * // Create the component that will cache "Msgpack" to a "File" backend
  * // Set the cache file directory - important to keep the "/" at the end of
  * // of the value for the folder
- * $cache = new File($frontCache, [
- *     'cacheDir' => '../app/cache/'
- * ]);
+ * $cache = new File(
+ *     $frontCache,
+ *     [
+ *         "cacheDir" => "../app/cache/",
+ *     ]
+ * );
+ *
+ * $cacheKey = "robots_order_id.cache";
  *
  * // Try to get cached records
- * $cacheKey = 'robots_order_id.cache';
- * $robots   = $cache->get($cacheKey);
+ * $robots = $cache->get($cacheKey);
+ *
  * if ($robots === null) {
  *     // $robots is null due to cache expiration or data do not exist
  *     // Make the database call and populate the variable
- *     $robots = Robots::find(['order' => 'id']);
+ *     $robots = Robots::find(
+ *         [
+ *             "order" => "id",
+ *         ]
+ *     );
  *
  *     // Store it in the cache
  *     $cache->save($cacheKey, $robots);
@@ -80,6 +91,7 @@ class Msgpack extends Data implements FrontendInterface
 				throw new Exception("Option 'lifetime' must be an integer");
 			}
 		}
+		let this->_frontendOptions = frontendOptions;
 	}
 
 	/**
@@ -129,21 +141,21 @@ class Msgpack extends Data implements FrontendInterface
 
 	/**
 	 * Serializes data before storing them
-	 *
-	 * @param mixed data
 	 */
-	public function beforeStore(data) -> string
+	public function beforeStore(var data) -> string
 	{
 		return msgpack_pack(data);
 	}
 
 	/**
 	 * Unserializes data after retrieval
-	 *
-	 * @param mixed data
 	 */
-	public function afterRetrieve(data) -> string
+	public function afterRetrieve(var data) -> var
 	{
+		if is_numeric(data) {
+			return data;
+		}
+
 		return msgpack_unpack(data);
 	}
 }

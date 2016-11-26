@@ -35,7 +35,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>';
@@ -50,7 +49,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside></aside>';
@@ -74,7 +72,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and self close returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside />';
@@ -89,7 +86,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and self close returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside></aside>';
@@ -113,7 +109,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and only start returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>';
@@ -128,7 +123,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and only start returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>';
@@ -152,7 +146,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and EOL returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside>' . PHP_EOL;
@@ -167,7 +160,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and EOL returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'aside';
                 $expected = '<aside></aside>' . PHP_EOL;
@@ -191,7 +183,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with array parameter returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'canvas';
                 $options  = [
@@ -211,7 +202,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with array parameter returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'canvas';
                 $options  = [
@@ -241,7 +231,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>';
@@ -256,7 +245,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>';
@@ -280,7 +268,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose with EOL returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
@@ -295,7 +282,6 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose with EOL returns invalid HTML XHTML",
             function () {
-
                 Tag::resetInput();
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;

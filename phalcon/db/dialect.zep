@@ -84,7 +84,7 @@ abstract class Dialect implements DialectInterface
 		if !memstr(str, ".") {
 
 			if escapeChar != "" && str != "*" {
-				return escapeChar . str . escapeChar;
+				return escapeChar . str_replace(escapeChar, escapeChar . escapeChar, str) . escapeChar;
 			}
 
 			return str;
@@ -99,7 +99,7 @@ abstract class Dialect implements DialectInterface
 				continue;
 			}
 
-			let newParts[key] = escapeChar . part . escapeChar;
+			let newParts[key] = escapeChar . str_replace(escapeChar, escapeChar . escapeChar, part) . escapeChar;
 		}
 
 		return implode(".", newParts);
@@ -109,11 +109,11 @@ abstract class Dialect implements DialectInterface
 	 * Generates the SQL for LIMIT clause
 	 *
 	 * <code>
-	 *    $sql = $dialect->limit('SELECT * FROM robots', 10);
-	 *    echo $sql; // SELECT * FROM robots LIMIT 10
+	 * $sql = $dialect->limit("SELECT * FROM robots", 10);
+	 * echo $sql; // SELECT * FROM robots LIMIT 10
 	 *
-	 *    $sql = $dialect->limit('SELECT * FROM robots', [10, 50]);
-	 *    echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 50
+	 * $sql = $dialect->limit("SELECT * FROM robots", [10, 50]);
+	 * echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 50
 	 * </code>
 	 */
 	public function limit(string! sqlQuery, var number) -> string
@@ -136,7 +136,7 @@ abstract class Dialect implements DialectInterface
 	 * Returns a SQL modified with a FOR UPDATE clause
 	 *
 	 *<code>
-	 * $sql = $dialect->forUpdate('SELECT * FROM robots');
+	 * $sql = $dialect->forUpdate("SELECT * FROM robots");
 	 * echo $sql; // SELECT * FROM robots FOR UPDATE
 	 *</code>
 	 */
@@ -149,7 +149,7 @@ abstract class Dialect implements DialectInterface
 	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
 	 *
 	 *<code>
-	 * $sql = $dialect->sharedLock('SELECT * FROM robots');
+	 * $sql = $dialect->sharedLock("SELECT * FROM robots");
 	 * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
 	 *</code>
 	 */
@@ -162,7 +162,12 @@ abstract class Dialect implements DialectInterface
 	 * Gets a list of columns with escaped identifiers
 	 *
 	 * <code>
-	 *    echo $dialect->getColumnList(array('column1', 'column'));
+	 * echo $dialect->getColumnList(
+	 *     [
+	 *         "column1",
+	 *         "column",
+	 *     ]
+	 * );
 	 * </code>
 	 */
 	public final function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string

@@ -32,15 +32,18 @@
  * action of that task should receive the request</p>
  *
  *<code>
- *	$router = new \Phalcon\Cli\Router();
- *	$router->handle(array(
- *		'module' => 'main',
- *		'task' => 'videos',
- *		'action' => 'process'
- *	));
- *	echo $router->getTaskName();
- *</code>
+ * $router = new \Phalcon\Cli\Router();
  *
+ * $router->handle(
+ *     [
+ *         "module" => "main",
+ *         "task"   => "videos",
+ *         "action" => "process",
+ *     ]
+ * );
+ *
+ * echo $router->getTaskName();
+ *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
 
@@ -113,7 +116,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", &_3, 135, _2$$3, _1$$3);
 		zephir_check_temp_parameter(_2$$3);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _0$$3, PH_SEPARATE, "phalcon/cli/router.zep", 90);
+		zephir_array_append(&routes, _0$$3, PH_SEPARATE, "phalcon/cli/router.zep", 93);
 		ZEPHIR_INIT_NVAR(_2$$3);
 		object_init_ex(_2$$3, phalcon_cli_router_route_ce);
 		ZEPHIR_INIT_VAR(_4$$3);
@@ -126,7 +129,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", &_3, 135, _5$$3, _4$$3);
 		zephir_check_temp_parameter(_5$$3);
 		zephir_check_call_status();
-		zephir_array_append(&routes, _2$$3, PH_SEPARATE, "phalcon/cli/router.zep", 96);
+		zephir_array_append(&routes, _2$$3, PH_SEPARATE, "phalcon/cli/router.zep", 99);
 	}
 	zephir_update_property_this(this_ptr, SL("_routes"), routes TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -221,10 +224,12 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
  * This method must not be used to set a 404 route
  *
  *<code>
- * $router->setDefaults(array(
- *		'module' => 'common',
- *		'action' => 'index'
- * ));
+ * $router->setDefaults(
+ *     [
+ *         "module" => "common",
+ *         "action" => "index",
+ *     ]
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Cli_Router, setDefaults) {
@@ -297,11 +302,11 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 			_0$$3 = Z_TYPE_P(arguments) != IS_NULL;
 		}
 		if (_0$$3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Arguments must be an array or string", "phalcon/cli/router.zep", 202);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Arguments must be an array or string", "phalcon/cli/router.zep", 207);
 			return;
 		}
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
-		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 1, "phalcon/cli/router.zep", 302);
+		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 1, "phalcon/cli/router.zep", 307);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
 		  ; zephir_hash_move_backwards_ex(_3$$3, &_2$$3)
@@ -309,7 +314,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 			ZEPHIR_GET_HVALUE(route, _4$$3);
 			ZEPHIR_CALL_METHOD(&pattern, route, "getcompiledpattern", NULL, 0);
 			zephir_check_call_status();
-			if (zephir_memnstr_str(pattern, SL("^"), "phalcon/cli/router.zep", 212)) {
+			if (zephir_memnstr_str(pattern, SL("^"), "phalcon/cli/router.zep", 217)) {
 				ZEPHIR_INIT_NVAR(routeFound);
 				zephir_preg_match(routeFound, pattern, arguments, matches, 0, 0 , 0  TSRMLS_CC);
 			} else {
@@ -321,7 +326,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				zephir_check_call_status();
 				if (Z_TYPE_P(beforeMatch) != IS_NULL) {
 					if (!(zephir_is_callable(beforeMatch TSRMLS_CC))) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Before-Match callback is not callable in matched route", "phalcon/cli/router.zep", 230);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cli_router_exception_ce, "Before-Match callback is not callable in matched route", "phalcon/cli/router.zep", 235);
 						return;
 					}
 					ZEPHIR_INIT_NVAR(_5$$9);
@@ -341,7 +346,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 				if (Z_TYPE_P(matches) == IS_ARRAY) {
 					ZEPHIR_CALL_METHOD(&converters, route, "getconverters", NULL, 0);
 					zephir_check_call_status();
-					zephir_is_iterable(paths, &_7$$12, &_6$$12, 0, 0, "phalcon/cli/router.zep", 291);
+					zephir_is_iterable(paths, &_7$$12, &_6$$12, 0, 0, "phalcon/cli/router.zep", 296);
 					for (
 					  ; zephir_hash_get_current_data_ex(_7$$12, (void**) &_8$$12, &_6$$12) == SUCCESS
 					  ; zephir_hash_move_forward_ex(_7$$12, &_6$$12)
@@ -476,7 +481,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
  * Adds a route to the router
  *
  *<code>
- * $router->add('/about', 'About::main');
+ * $router->add("/about", "About::main");
  *</code>
  *
  * @param string pattern
@@ -517,7 +522,7 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 }
 
 /**
- * Returns proccesed module name
+ * Returns processed module name
  */
 PHP_METHOD(Phalcon_Cli_Router, getModuleName) {
 
@@ -528,7 +533,7 @@ PHP_METHOD(Phalcon_Cli_Router, getModuleName) {
 }
 
 /**
- * Returns proccesed task name
+ * Returns processed task name
  */
 PHP_METHOD(Phalcon_Cli_Router, getTaskName) {
 
@@ -627,7 +632,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteById) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cli/router.zep", 480);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cli/router.zep", 485);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -670,7 +675,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_routes"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cli/router.zep", 495);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cli/router.zep", 500);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

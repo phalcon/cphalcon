@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __wakeup) {
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_id"), PH_NOISY_CC);
 	if (Z_TYPE_P(_0) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_beanstalk_exception_ce, "Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!", "phalcon/queue/beanstalk/job.zep", 148);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_queue_beanstalk_exception_ce, "Unexpected inconsistency in Phalcon\\Queue\\Beanstalk\\Job::__wakeup() - possible break-in attempt!", "phalcon/queue/beanstalk/job.zep", 150);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

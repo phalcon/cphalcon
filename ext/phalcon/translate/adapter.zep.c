@@ -35,6 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 	 */
 	zend_declare_property_null(phalcon_translate_adapter_ce, SL("_interpolator"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_translate_adapter_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
 	return SUCCESS;
 
 }

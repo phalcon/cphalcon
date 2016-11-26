@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
+use Phalcon\Db;
+use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 
@@ -52,7 +54,7 @@ class MysqlTest extends UnitTest
     public function testListTables()
     {
         $this->specify(
-            'Mysql::listTables does not return correct result',
+            'List all tables on a database does not return correct result',
             function () {
                 $expected = [
                     'albums',
@@ -85,6 +87,67 @@ class MysqlTest extends UnitTest
                 expect($this->connection->listTables())->equals($expected);
                 expect($this->connection->listTables(TEST_DB_MYSQL_NAME))->equals($expected);
             }
+        );
+    }
+
+    /**
+     * Tests Mysql::describeReferences
+     *
+     * @author Wojciechj Ślawski <jurigag@gmail.com>
+     * @since  2016-09-28
+     */
+    public function testDescribeReferencesColumnsCount()
+    {
+        $this->specify(
+            'The table references list contains wrong number of columns',
+            function () {
+                $references = $this->connection->describeReferences('robots_parts', TEST_DB_MYSQL_NAME);
+                expect($references)->count(2);
+                expect($this->connection->describeReferences('robots_parts', null))->count(2);
+
+                /** @var Reference $reference */
+                foreach ($references as $reference) {
+                    expect($reference->getColumns())->count(1);
+                }
+            }
+        );
+    }
+
+    /**
+     * Tests Mysql::escapeIdentifier
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2016-11-19
+     */
+    public function testEscapeIdentifier()
+    {
+        $this->specify(
+            'Identifiers are not properly escaped',
+            function ($identifier, $expected) {
+                $escapedIdentifier = $this->connection->escapeIdentifier($identifier);
+
+                expect($escapedIdentifier)->equals($expected);
+            },
+            [
+                "examples" => [
+                    [
+                        "identifier" => "robots",
+                        "expected"   => "`robots`",
+                    ],
+                    [
+                        "identifier" => ["schema", "robots"],
+                        "expected"   => "`schema`.`robots`",
+                    ],
+                    [
+                        "identifier" => "`robots`",
+                        "expected"   => "```robots```",
+                    ],
+                    [
+                        "identifier" => ["`schema`", "rob`ots"],
+                        "expected"   => "```schema```.`rob``ots`",
+                    ],
+                ]
+            ]
         );
     }
 }

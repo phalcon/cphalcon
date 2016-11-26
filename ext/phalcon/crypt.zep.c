@@ -29,14 +29,14 @@
  * Provides encryption facilities to phalcon applications
  *
  *<code>
- *	$crypt = new \Phalcon\Crypt();
+ * $crypt = new \Phalcon\Crypt();
  *
- *	$key = 'le password';
- *	$text = 'This is a secret text';
+ * $key  = "le password";
+ * $text = "This is a secret text";
  *
- *	$encrypted = $crypt->encrypt($text, $key);
+ * $encrypted = $crypt->encrypt($text, $key);
  *
- *	echo $crypt->decrypt($encrypted, $key);
+ * echo $crypt->decrypt($encrypted, $key);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
@@ -575,7 +575,7 @@ PHP_METHOD(Phalcon_Crypt, _cryptUnpadText) {
  * Encrypts a text
  *
  *<code>
- *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
+ * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
  *</code>
  */
 PHP_METHOD(Phalcon_Crypt, encrypt) {
@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
  * Decrypts an encrypted text
  *
  *<code>
- *	echo $crypt->decrypt($encrypted, "decrypt password");
+ * echo $crypt->decrypt($encrypted, "decrypt password");
  *</code>
  */
 PHP_METHOD(Phalcon_Crypt, decrypt) {

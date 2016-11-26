@@ -32,25 +32,32 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  * Helps to create PHQL queries using an OO interface
  *
  *<code>
- * $params = array(
- *    'models'     => array('Users'),
- *    'columns'    => array('id', 'name', 'status'),
- *    'conditions' => array(
- *        array(
- *            "created > :min: AND created < :max:",
- *            array("min" => '2013-01-01',   'max' => '2014-01-01'),
- *            array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
- *        ),
- *    ),
- *    // or 'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
- *    'group'      => array('id', 'name'),
- *    'having'     => "name = 'Kamil'",
- *    'order'      => array('name', 'id'),
- *    'limit'      => 20,
- *    'offset'     => 20,
- *    // or 'limit' => array(20, 20),
- *);
- *$queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
+ * $params = [
+ *     "models"     => ["Users"],
+ *     "columns"    => ["id", "name", "status"],
+ *     "conditions" => [
+ *         [
+ *             "created > :min: AND created < :max:",
+ *             [
+ *                 "min" => "2013-01-01",
+ *                 "max" => "2014-01-01",
+ *             ],
+ *             [
+ *                 "min" => PDO::PARAM_STR,
+ *                 "max" => PDO::PARAM_STR,
+ *             ],
+ *         ],
+ *     ],
+ *     // or "conditions" => "created > '2013-01-01' AND created < '2014-01-01'",
+ *     "group"      => ["id", "name"],
+ *     "having"     => "name = 'Kamil'",
+ *     "order"      => ["name", "id"],
+ *     "limit"      => 20,
+ *     "offset"     => 20,
+ *     // or "limit" => [20, 20],
+ * ];
+ *
+ * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  *</code>
  */
 class Builder implements BuilderInterface, InjectionAwareInterface
@@ -297,8 +304,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets SELECT DISTINCT / SELECT ALL flag
 	 *
 	 *<code>
-	 *	$builder->distinct("status");
-	 *	$builder->distinct(null);
+	 * $builder->distinct("status");
+	 * $builder->distinct(null);
 	 *</code>
 	 */
 	 public function distinct(var distinct) -> <Builder>
@@ -319,9 +326,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets the columns to be queried
 	 *
 	 *<code>
-	 *	$builder->columns("id, name");
-	 *	$builder->columns(array('id', 'name'));
-	 *  $builder->columns(array('name', 'number' => 'COUNT(*)'));
+	 * $builder->columns("id, name");
+	 *
+	 * $builder->columns(
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *     ]
+	 * );
+	 *
+	 * $builder->columns(
+	 *     [
+	 *         "name",
+	 *         "number" => "COUNT(*)",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function columns(var columns) -> <Builder>
@@ -344,9 +363,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets the models who makes part of the query
 	 *
 	 *<code>
-	 *	$builder->from('Robots');
-	 *	$builder->from(array('Robots', 'RobotsParts'));
-	 *	$builder->from(array('r' => 'Robots', 'rp' => 'RobotsParts'));
+	 * $builder->from("Robots");
+	 *
+	 * $builder->from(
+	 *     [
+	 *         "Robots",
+	 *         "RobotsParts",
+	 *     ]
+	 * );
+	 *
+	 * $builder->from(
+	 *     [
+	 *         "r"  => "Robots",
+	 *         "rp" => "RobotsParts",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function from(var models) -> <Builder>
@@ -359,19 +390,26 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Add a model to take part of the query
 	 *
 	 *<code>
-	 *  // Load data from models Robots
-	 *	$builder->addFrom('Robots');
+	 * // Load data from models Robots
+	 * $builder->addFrom("Robots");
 	 *
-	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
-	 *	$builder->addFrom('Robots', 'r');
+	 * // Load data from model 'Robots' using 'r' as alias in PHQL
+	 * $builder->addFrom("Robots", "r");
 	 *
-	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
-	 *  // and eager load model 'RobotsParts'
-	 *	$builder->addFrom('Robots', 'r', 'RobotsParts');
+	 * // Load data from model 'Robots' using 'r' as alias in PHQL
+	 * // and eager load model 'RobotsParts'
+	 * $builder->addFrom("Robots", "r", "RobotsParts");
 	 *
-	 *  // Load data from model 'Robots' using 'r' as alias in PHQL
-	 *  // and eager load models 'RobotsParts' and 'Parts'
-	 *	$builder->addFrom('Robots', 'r', ['RobotsParts', 'Parts']);
+	 * // Load data from model 'Robots' using 'r' as alias in PHQL
+	 * // and eager load models 'RobotsParts' and 'Parts'
+	 * $builder->addFrom(
+	 *     "Robots",
+	 *     "r",
+	 *     [
+	 *         "RobotsParts",
+	 *         "Parts",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function addFrom(var model, var alias = null, var with = null) -> <Builder>
@@ -412,17 +450,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds an INNER join to the query
 	 *
 	 *<code>
-	 *  // Inner Join model 'Robots' with automatic conditions and alias
-	 *	$builder->join('Robots');
+	 * // Inner Join model 'Robots' with automatic conditions and alias
+	 * $builder->join("Robots");
 	 *
-	 *  // Inner Join model 'Robots' specifing conditions
-	 *	$builder->join('Robots', 'Robots.id = RobotsParts.robots_id');
+	 * // Inner Join model 'Robots' specifying conditions
+	 * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
 	 *
-	 *  // Inner Join model 'Robots' specifing conditions and alias
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * // Inner Join model 'Robots' specifying conditions and alias
+	 * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *
-	 *  // Left Join model 'Robots' specifing conditions, alias and type of join
-	 *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+	 * // Left Join model 'Robots' specifying conditions, alias and type of join
+	 * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
 	 *</code>
 	 *
 	 * @param string model
@@ -441,14 +479,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds an INNER join to the query
 	 *
 	 *<code>
-	 *  // Inner Join model 'Robots' with automatic conditions and alias
-	 *	$builder->innerJoin('Robots');
+	 * // Inner Join model 'Robots' with automatic conditions and alias
+	 * $builder->innerJoin("Robots");
 	 *
-	 *  // Inner Join model 'Robots' specifing conditions
-	 *	$builder->innerJoin('Robots', 'Robots.id = RobotsParts.robots_id');
+	 * // Inner Join model 'Robots' specifying conditions
+	 * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
 	 *
-	 *  // Inner Join model 'Robots' specifing conditions and alias
-	 *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * // Inner Join model 'Robots' specifying conditions and alias
+	 * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 *
 	 * @param string model
@@ -467,7 +505,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds a LEFT join to the query
 	 *
 	 *<code>
-	 *	$builder->leftJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 *
 	 * @param string model
@@ -485,7 +523,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Adds a RIGHT join to the query
 	 *
 	 *<code>
-	 *	$builder->rightJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+	 * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 *
 	 * @param string model
@@ -513,9 +551,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets the query conditions
 	 *
 	 *<code>
-	 *	$builder->where(100);
-	 *	$builder->where('name = "Peter"');
-	 *	$builder->where('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
+	 * $builder->where(100);
+	 *
+	 * $builder->where("name = 'Peter'");
+	 *
+	 * $builder->where(
+	 *     "name = :name: AND id > :id:",
+	 *     [
+	 *         "name" => "Peter",
+	 *         "id"   => 100,
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param mixed conditions
@@ -525,7 +571,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function where(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
-		var currentBindParams, currentBindTypes, mergedParams, mergedTypes;
+		var currentBindParams, currentBindTypes;
 
 		let this->_conditions = conditions;
 
@@ -535,11 +581,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindParams == "array" {
 			let currentBindParams = this->_bindParams;
 			if typeof currentBindParams == "array" {
-				let mergedParams = currentBindParams + bindParams;
+				let this->_bindParams = currentBindParams + bindParams;
 			} else {
-				let mergedParams = bindParams;
+				let this->_bindParams = bindParams;
 			}
-			let this->_bindParams = mergedParams;
 		}
 
 		/**
@@ -548,11 +593,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindParams == "array" {
-				let mergedTypes = currentBindTypes + bindTypes;
+				let this->_bindTypes = currentBindTypes + bindTypes;
 			} else {
-				let mergedTypes = bindTypes;
+				let this->_bindTypes = bindTypes;
 			}
-			let this->_bindTypes = mergedTypes;
 		}
 
 		return this;
@@ -562,8 +606,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Appends a condition to the current conditions using a AND operator
 	 *
 	 *<code>
-	 *	$builder->andWhere('name = "Peter"');
-	 *	$builder->andWhere('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
+	 * $builder->andWhere("name = 'Peter'");
+	 *
+	 * $builder->andWhere(
+	 *     "name = :name: AND id > :id:",
+	 *     [
+	 *         "name" => "Peter",
+	 *         "id"   => 100,
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param string conditions
@@ -573,8 +624,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
-		var currentBindParams, currentBindTypes, mergedParams,
-			mergedTypes, currentConditions, newConditions;
+		var currentConditions;
 
 		let currentConditions = this->_conditions;
 
@@ -582,47 +632,25 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Nest the condition to current ones or set as unique
 		 */
 		if currentConditions {
-			let newConditions = "(" . currentConditions . ") AND (" . conditions . ")";
-		} else {
-			let newConditions = conditions;
-		}
-		let this->_conditions = newConditions;
-
-		/**
-		 * Merge the bind params to the current ones
-		 */
-		if typeof bindParams == "array" {
-			let currentBindParams = this->_bindParams;
-			if typeof currentBindParams == "array" {
-				let mergedParams = currentBindParams + bindParams;
-			} else {
-				let mergedParams = bindParams;
-			}
-			let this->_bindParams = mergedParams;
+			let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
 		}
 
-		/**
-		 * Merge the bind types to the current ones
-		 */
-		if typeof bindTypes == "array" {
-			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
-				let mergedTypes = currentBindTypes + bindTypes;
-			} else {
-				let mergedTypes = bindTypes;
-			}
-			let this->_bindTypes = mergedTypes;
-		}
-
-		return this;
+		return this->where(conditions, bindParams, bindTypes);
 	}
 
 	/**
 	 * Appends a condition to the current conditions using an OR operator
 	 *
 	 *<code>
-	 *	$builder->orWhere('name = "Peter"');
-	 *	$builder->orWhere('name = :name: AND id > :id:', array('name' => 'Peter', 'id' => 100));
+	 * $builder->orWhere("name = 'Peter'");
+	 *
+	 * $builder->orWhere(
+	 *     "name = :name: AND id > :id:",
+	 *     [
+	 *         "name" => "Peter",
+	 *         "id"   => 100,
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param string conditions
@@ -632,53 +660,25 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
-		var currentBindParams, currentBindTypes, mergedParams,
-			mergedTypes, currentConditions;
+		var currentConditions;
+
+		let currentConditions = this->_conditions;
 
 		/**
 		 * Nest the condition to current ones or set as unique
 		 */
-		let currentConditions = this->_conditions;
 		if currentConditions {
-			let this->_conditions = "(" . currentConditions . ") OR (" . conditions . ")";
-		} else {
-			let this->_conditions = conditions;
+			let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
 		}
 
-		/**
-		 * Merge the bind params to the current ones
-		 */
-		if typeof bindParams == "array" {
-			let currentBindParams = this->_bindParams;
-			if typeof currentBindParams == "array" {
-				let mergedParams = currentBindParams + bindParams;
-			} else {
-				let mergedParams = bindParams;
-			}
-			let this->_bindParams = mergedParams;
-		}
-
-		/**
-		 * Merge the bind types to the current ones
-		 */
-		if typeof bindTypes == "array" {
-			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
-				let mergedTypes = currentBindTypes + bindTypes;
-			} else {
-				let mergedTypes = bindTypes;
-			}
-			let this->_bindTypes = mergedTypes;
-		}
-
-		return this;
+		return this->where(conditions, bindParams, bindTypes);
 	}
 
 	/**
 	 * Appends a BETWEEN condition to the current conditions
 	 *
 	 *<code>
-	 *	$builder->betweenWhere('price', 100.25, 200.50);
+	 * $builder->betweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
 	public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
@@ -721,7 +721,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Appends a NOT BETWEEN condition to the current conditions
 	 *
 	 *<code>
-	 *	$builder->notBetweenWhere('price', 100.25, 200.50);
+	 * $builder->notBetweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 */
 	public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
@@ -763,7 +763,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Appends an IN condition to the current conditions
 	 *
 	 *<code>
-	 *	$builder->inWhere('id', [1, 2, 3]);
+	 * $builder->inWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
 	public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
@@ -812,7 +812,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Appends a NOT IN condition to the current conditions
 	 *
 	 *<code>
-	 *	$builder->notInWhere('id', [1, 2, 3]);
+	 * $builder->notInWhere("id", [1, 2, 3]);
 	 *</code>
 	 */
 	public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <Builder>
@@ -871,8 +871,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets an ORDER BY condition clause
 	 *
 	 *<code>
-	 *	$builder->orderBy('Robots.name');
-	 *	$builder->orderBy(array('1', 'Robots.name'));
+	 * $builder->orderBy("Robots.name");
+	 * $builder->orderBy(["1", "Robots.name"]);
 	 *</code>
 	 *
 	 * @param string|array orderBy
@@ -898,7 +898,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets a HAVING condition clause. You need to escape PHQL reserved words using [ and ] delimiters
 	 *
 	 *<code>
-	 *	$builder->having('SUM(Robots.price) > 0');
+	 * $builder->having("SUM(Robots.price) > 0");
 	 *</code>
 	 */
 	public function having(string! having) -> <Builder>
@@ -911,7 +911,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets a FOR UPDATE clause
 	 *
 	 *<code>
-	 *	$builder->forUpdate(true);
+	 * $builder->forUpdate(true);
 	 *</code>
 	 */
 	public function forUpdate(boolean forUpdate) -> <Builder>
@@ -934,8 +934,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets a LIMIT clause, optionally an offset clause
 	 *
 	 *<code>
-	 *	$builder->limit(100);
-	 *	$builder->limit(100, 20);
+	 * $builder->limit(100);
+	 * $builder->limit(100, 20);
 	 *</code>
 	 */
 	public function limit(var limit = null, var offset = null) -> <Builder>
@@ -961,7 +961,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets an OFFSET clause
 	 *
 	 *<code>
-	 *	$builder->offset(30);
+	 * $builder->offset(30);
 	 *</code>
 	 */
 	public function offset(int offset) -> <Builder>
@@ -984,7 +984,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * Sets a GROUP BY clause
 	 *
 	 *<code>
-	 *	$builder->groupBy(array('Robots.name'));
+	 * $builder->groupBy(
+	 *     [
+	 *         "Robots.name",
+	 *     ]
+	 * );
 	 *</code>
 	 *
 	 * @param string|array group

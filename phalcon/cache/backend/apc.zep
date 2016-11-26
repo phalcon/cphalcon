@@ -21,7 +21,6 @@ namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Backend;
-use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Cache\Backend\Apc
@@ -33,22 +32,27 @@ use Phalcon\Cache\BackendInterface;
  * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new FrontData([
- *     'lifetime' => 172800
- * ]);
+ * $frontCache = new FrontData(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
- * $cache = new Apc($frontCache, [
- *     'prefix' => 'app-data'
- * ]);
+ * $cache = new Apc(
+ *     $frontCache,
+ *     [
+ *         "prefix" => "app-data",
+ *     ]
+ * );
  *
  * // Cache arbitrary data
- * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * $cache->save("my-data", [1, 2, 3, 4, 5]);
  *
  * // Get data
- * $data = $cache->get('my-data');
+ * $data = $cache->get("my-data");
  *</code>
  */
-class Apc extends Backend implements BackendInterface
+class Apc extends Backend
 {
 
 	/**
@@ -263,13 +267,26 @@ class Apc extends Backend implements BackendInterface
 	}
 
 	/**
- 	 * Immediately invalidates all existing items.
+	 * Immediately invalidates all existing items.
+	 *
+	 * <code>
+	 * use Phalcon\Cache\Backend\Apc;
+	 *
+	 * $cache = new Apc($frontCache, ["prefix" => "app-data"]);
+	 *
+	 * $cache->save("my-data", [1, 2, 3, 4, 5]);
+	 *
+	 * // 'my-data' and all other used keys are deleted
+	 * $cache->flush();
+	 * </code>
 	 */
 	public function flush() -> boolean
 	{
-		var item;
+		var item, prefixPattern;
 
-		for item in iterator(new \APCIterator("user")) {
+		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
+
+		for item in iterator(new \APCIterator("user", prefixPattern)) {
 			apc_delete(item["key"]);
 		}
 

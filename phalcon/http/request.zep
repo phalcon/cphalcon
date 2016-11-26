@@ -40,16 +40,14 @@ use Phalcon\Di\InjectionAwareInterface;
  *
  * if ($request->isPost()) {
  *     if ($request->isAjax()) {
- *         echo 'Request was made using POST and AJAX';
+ *         echo "Request was made using POST and AJAX";
  *     }
  * }
  *
- * $request->getServer('HTTP_HOST'); // retrieve SERVER variables
+ * $request->getServer("HTTP_HOST"); // Retrieve SERVER variables
  * $request->getMethod();            // GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, PURGE, TRACE, CONNECT
- * $request->getLanguages();         // an array of languages the client accepts
- *
+ * $request->getLanguages();         // An array of languages the client accepts
  *</code>
- *
  */
 class Request implements RequestInterface, InjectionAwareInterface
 {
@@ -87,11 +85,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * If no parameters are given the $_REQUEST superglobal is returned
 	 *
 	 *<code>
-	 *	//Returns value from $_REQUEST["user_email"] without sanitizing
-	 *	$userEmail = $request->get("user_email");
+	 * // Returns value from $_REQUEST["user_email"] without sanitizing
+	 * $userEmail = $request->get("user_email");
 	 *
-	 *	//Returns value from $_REQUEST["user_email"] with sanitizing
-	 *	$userEmail = $request->get("user_email", "email");
+	 * // Returns value from $_REQUEST["user_email"] with sanitizing
+	 * $userEmail = $request->get("user_email", "email");
 	 *</code>
 	 */
 	public function get(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
@@ -104,11 +102,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * If no parameters are given the $_POST superglobal is returned
 	 *
 	 *<code>
-	 *	//Returns value from $_POST["user_email"] without sanitizing
-	 *	$userEmail = $request->getPost("user_email");
+	 * // Returns value from $_POST["user_email"] without sanitizing
+	 * $userEmail = $request->getPost("user_email");
 	 *
-	 *	//Returns value from $_POST["user_email"] with sanitizing
-	 *	$userEmail = $request->getPost("user_email", "email");
+	 * // Returns value from $_POST["user_email"] with sanitizing
+	 * $userEmail = $request->getPost("user_email", "email");
 	 *</code>
 	 */
 	public function getPost(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
@@ -120,11 +118,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * Gets a variable from put request
 	 *
 	 *<code>
-	 *	//Returns value from $_PUT["user_email"] without sanitizing
-	 *	$userEmail = $request->getPut("user_email");
+	 * // Returns value from $_PUT["user_email"] without sanitizing
+	 * $userEmail = $request->getPut("user_email");
 	 *
-	 *	//Returns value from $_PUT["user_email"] with sanitizing
-	 *	$userEmail = $request->getPut("user_email", "email");
+	 * // Returns value from $_PUT["user_email"] with sanitizing
+	 * $userEmail = $request->getPut("user_email", "email");
 	 *</code>
 	 */
 	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
@@ -148,14 +146,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 * If no parameters are given the $_GET superglobal is returned
 	 *
 	 *<code>
-	 *	// Returns value from $_GET['id'] without sanitizing
-	 *	$id = $request->getQuery('id');
+	 * // Returns value from $_GET["id"] without sanitizing
+	 * $id = $request->getQuery("id");
 	 *
-	 *	// Returns value from $_GET['id'] with sanitizing
-	 *	$id = $request->getQuery('id', 'int');
+	 * // Returns value from $_GET["id"] with sanitizing
+	 * $id = $request->getQuery("id", "int");
 	 *
-	 *	// Returns value from $_GET['id'] with a default value
-	 *	$id = $request->getQuery('id', null, 150);
+	 * // Returns value from $_GET["id"] with a default value
+	 * $id = $request->getQuery("id", null, 150);
 	 *</code>
 	 */
 	public function getQuery(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
@@ -415,31 +413,32 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 *
 	 * `Request::getHttpHost` trying to find host name in following order:
 	 *
-	 * - `$_SERVER['HTTP_HOST']`
-	 * - `$_SERVER['SERVER_NAME']`
-	 * - `$_SERVER['SERVER_ADDR']`
+	 * - `$_SERVER["HTTP_HOST"]`
+	 * - `$_SERVER["SERVER_NAME"]`
+	 * - `$_SERVER["SERVER_ADDR"]`
 	 *
 	 * Optionally `Request::getHttpHost` validates and clean host name.
 	 * The `Request::$_strictHostCheck` can be used to validate host name.
 	 *
-	 * Note: validation and cleaning have a negative performance impact because they use regular expressions.
+	 * Note: validation and cleaning have a negative performance impact because
+	 * they use regular expressions.
 	 *
 	 * <code>
 	 * use Phalcon\Http\Request;
 	 *
 	 * $request = new Request;
 	 *
-	 * $_SERVER['HTTP_HOST'] = 'example.com';
+	 * $_SERVER["HTTP_HOST"] = "example.com";
 	 * $request->getHttpHost(); // example.com
 	 *
-	 * $_SERVER['HTTP_HOST'] = 'example.com:8080';
+	 * $_SERVER["HTTP_HOST"] = "example.com:8080";
 	 * $request->getHttpHost(); // example.com:8080
 	 *
 	 * $request->setStrictHostCheck(true);
-	 * $_SERVER['HTTP_HOST'] = 'ex=am~ple.com';
+	 * $_SERVER["HTTP_HOST"] = "ex=am~ple.com";
 	 * $request->getHttpHost(); // UnexpectedValueException
 	 *
-	 * $_SERVER['HTTP_HOST'] = 'ExAmPlE.com';
+	 * $_SERVER["HTTP_HOST"] = "ExAmPlE.com";
 	 * $request->getHttpHost(); // example.com
 	 * </code>
 	 */
@@ -450,18 +449,18 @@ class Request implements RequestInterface, InjectionAwareInterface
 		let strict = this->_strictHostCheck;
 
 		/**
-		 * Get the server name from _SERVER['HTTP_HOST']
+		 * Get the server name from $_SERVER["HTTP_HOST"]
 		 */
 		let host = this->getServer("HTTP_HOST");
 		if !host {
 
 			/**
-			 * Get the server name from _SERVER['SERVER_NAME']
+			 * Get the server name from $_SERVER["SERVER_NAME"]
 			 */
 			let host = this->getServer("SERVER_NAME");
 			if !host {
 				/**
-				 * Get the server address from _SERVER['SERVER_ADDR']
+				 * Get the server address from $_SERVER["SERVER_ADDR"]
 				 */
 				let host = this->getServer("SERVER_ADDR");
 			}
@@ -514,7 +513,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 		var host, pos;
 
 		/**
-		 * Get the server name from _SERVER['HTTP_HOST']
+		 * Get the server name from $_SERVER["HTTP_HOST"]
 		 */
 		let host = this->getServer("HTTP_HOST");
 		if host {
@@ -547,7 +546,8 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Gets most possible client IPv4 Address. This method search in _SERVER['REMOTE_ADDR'] and optionally in _SERVER['HTTP_X_FORWARDED_FOR']
+	 * Gets most possible client IPv4 Address. This method searches in
+	 * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
 	 */
 	public function getClientAddress(boolean trustForwardedHeader = false) -> string | boolean
 	{
@@ -841,7 +841,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 			for prefix, input in superFiles {
 				if typeof input["name"] == "array" {
-					let smoothInput = this->smoothFiles(input["name"], input["type"], input["tmp_name"], input["size"], input["error"], prefix);
+					let smoothInput = this->smoothFiles(
+						input["name"],
+						input["type"],
+						input["tmp_name"],
+						input["size"],
+						input["error"],
+						prefix
+					);
 
 					for file in smoothInput {
 						if onlySuccessful == false || file["error"] == UPLOAD_ERR_OK {
@@ -892,7 +899,14 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 
 			if typeof name == "array" {
-				let parentFiles = this->smoothFiles(names[idx], types[idx], tmp_names[idx], sizes[idx], errors[idx], p);
+				let parentFiles = this->smoothFiles(
+					names[idx],
+					types[idx],
+					tmp_names[idx],
+					sizes[idx],
+					errors[idx],
+					p
+				);
 
 				for file in parentFiles {
 					let files[] = file;
@@ -1072,7 +1086,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 
 	/**
-	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
 	 */
 	public function getBasicAuth() -> array | null
 	{
@@ -1089,7 +1103,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
 	 */
 	public function getDigestAuth() -> array
 	{

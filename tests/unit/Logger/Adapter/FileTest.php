@@ -28,7 +28,7 @@ use Phalcon\Logger;
  */
 class FileTest extends UnitTest
 {
-    protected  $logPath = '';
+    protected $logPath = '';
 
     /**
      * executed before each test
@@ -291,19 +291,17 @@ class FileTest extends UnitTest
 
                 $logger->push(new File($this->logPath . $file1));
                 $logger->push(new File($this->logPath . $file2));
-                $logger->setFormatter(new Json());
-                $logger->log('This is a message');
-                $logger->log("This is an error", Logger::ERROR);
-                $logger->error("This is another error");
 
-                $expected = sprintf(
-                    '{"type":"DEBUG","message":"This is a message","timestamp":%s}' . PHP_EOL .
-                    '{"type":"ERROR","message":"This is an error","timestamp":%s}' . PHP_EOL .
-                    '{"type":"ERROR","message":"This is another error","timestamp":%s}' . PHP_EOL,
-                    time(),
-                    time(),
-                    time()
-                );
+                $logger->setFormatter(new Json());
+
+                $expected = '{"type":"DEBUG","message":"This is a message","timestamp":' . time() . '}' . PHP_EOL;
+                $logger->log('This is a message');
+
+                $expected .= '{"type":"ERROR","message":"This is an error","timestamp":' . time() . '}' . PHP_EOL;
+                $logger->log("This is an error", Logger::ERROR);
+
+                $expected .= '{"type":"ERROR","message":"This is another error","timestamp":' . time() . '}' . PHP_EOL;
+                $logger->error("This is another error");
 
                 $I->amInPath($this->logPath);
 

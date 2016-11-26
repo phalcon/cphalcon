@@ -1,9 +1,13 @@
 <?php
 
+use AspectMock\Kernel;
+
 error_reporting(-1);
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 setlocale(LC_ALL, 'en_US.utf-8');
+
 date_default_timezone_set('UTC');
 
 if (function_exists('mb_internal_encoding')) {
@@ -26,15 +30,15 @@ defined('PATH_FIXTURES')|| define('PATH_FIXTURES', $root .  '_fixtures' . DIRECT
 
 unset($root);
 
-if (!file_exists(PROJECT_PATH . 'vendor/autoload.php')) {
-    throw new RuntimeException(
-        'Unable to locate autoloader. ' .
-        'Install dependencies from the project root directory to run test suite: `composer install`.'
-    );
-}
+require_once PROJECT_PATH . 'vendor/autoload.php';
+require_once TESTS_PATH . 'shim.php';
 
-include_once PROJECT_PATH . 'vendor/autoload.php';
-include_once TESTS_PATH . 'shim.php';
+$kernel = Kernel::getInstance();
+$kernel->init([
+    'includePaths' => [TESTS_PATH . DIRECTORY_SEPARATOR . '_proxies'],
+    'excludePaths' => [PROJECT_PATH . 'vendor'],
+    'cacheDir'     => TESTS_PATH . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR . 'mock',
+]);
 
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);
@@ -45,29 +49,56 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.var_display_max_depth', 4);
 }
 
-// Beanstalk
-defined('TEST_BT_HOST') || define('TEST_BT_HOST', getenv('TEST_BT_HOST') ?: '127.0.0.1');
-defined('TEST_BT_PORT') || define('TEST_BT_PORT', getenv('TEST_BT_PORT') ?: 11300);
 
-// Memcached
-defined('TEST_MC_HOST') || define('TEST_MC_HOST', getenv('TEST_MC_HOST') ?: '127.0.0.1');
-defined('TEST_MC_PORT') || define('TEST_MC_PORT', getenv('TEST_MC_PORT') ?: 11211);
 
-// MySQL
-defined('TEST_DB_MYSQL_HOST')    || define('TEST_DB_MYSQL_HOST',    getenv('TEST_DB_MYSQL_HOST')    ?: '127.0.0.1');
-defined('TEST_DB_MYSQL_PORT')    || define('TEST_DB_MYSQL_PORT',    getenv('TEST_DB_MYSQL_PORT')    ?: 3306);
-defined('TEST_DB_MYSQL_USER')    || define('TEST_DB_MYSQL_USER',    getenv('TEST_DB_MYSQL_USER')    ?: 'root');
-defined('TEST_DB_MYSQL_PASSWD')  || define('TEST_DB_MYSQL_PASSWD',  getenv('TEST_DB_MYSQL_PASSWD')  ?: '');
-defined('TEST_DB_MYSQL_NAME')    || define('TEST_DB_MYSQL_NAME',    getenv('TEST_DB_MYSQL_NAME')    ?: 'phalcon_test');
-defined('TEST_DB_MYSQL_CHARSET') || define('TEST_DB_MYSQL_CHARSET', getenv('TEST_DB_MYSQL_CHARSET') ?: 'utf8');
+$defaults = [
+    // Beanstalk
+    "TEST_BT_HOST"              => '127.0.0.1',
+    "TEST_BT_PORT"              => 11300,
 
-// Mongo
-defined('TEST_DB_MONGO_HOST') || define('TEST_DB_MONGO_HOST', getenv('TEST_DB_MONGO_HOST') ?: '127.0.0.1');
-defined('TEST_DB_MONGO_PORT') || define('TEST_DB_MONGO_PORT', getenv('TEST_DB_MONGO_PORT') ?: 27017);
-defined('TEST_DB_MONGO_USER') || define('TEST_DB_MONGO_USER', getenv('TEST_DB_MONGO_USER') ?: 'admin');
-defined('TEST_DB_MONGO_PASSWD') || define('TEST_DB_MONGO_PASSWD', getenv('TEST_DB_MONGO_PASSWD') ?: '');
-defined('TEST_DB_MONGO_NAME') || define('TEST_DB_MONGO_NAME', getenv('TEST_DB_MONGO_NAME') ?: 'phalcon_test');
+    // Memcached
+    "TEST_MC_HOST"              => '127.0.0.1',
+    "TEST_MC_PORT"              => 11211,
 
-// Redis
-defined('TEST_RS_HOST') || define('TEST_RS_HOST', getenv('TEST_RS_HOST') ?: '127.0.0.1');
-defined('TEST_RS_PORT') || define('TEST_RS_PORT', getenv('TEST_RS_PORT') ?: 6379);
+    // SQLite
+    "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',
+
+    // MySQL
+    "TEST_DB_MYSQL_HOST"        => '127.0.0.1',
+    "TEST_DB_MYSQL_PORT"        => 3306,
+    "TEST_DB_MYSQL_USER"        => 'root',
+    "TEST_DB_MYSQL_PASSWD"      => '',
+    "TEST_DB_MYSQL_NAME"        => 'phalcon_test',
+    "TEST_DB_MYSQL_CHARSET"     => 'utf8',
+
+    // Postgresql
+    "TEST_DB_POSTGRESQL_HOST"   => '127.0.0.1',
+    "TEST_DB_POSTGRESQL_PORT"   => 5432,
+    "TEST_DB_POSTGRESQL_USER"   => 'postgres',
+    "TEST_DB_POSTGRESQL_PASSWD" => '',
+    "TEST_DB_POSTGRESQL_NAME"   => 'phalcon_test',
+    "TEST_DB_POSTGRESQL_SCHEMA" => 'public',
+
+    // Mongo
+    "TEST_DB_MONGO_HOST"        => '127.0.0.1',
+    "TEST_DB_MONGO_PORT"        => 27017,
+    "TEST_DB_MONGO_USER"        => 'admin',
+    "TEST_DB_MONGO_PASSWD"      => '',
+    "TEST_DB_MONGO_NAME"        => 'phalcon_test',
+
+    // Redis
+    "TEST_RS_HOST"              => '127.0.0.1',
+    "TEST_RS_PORT"              => 6379,
+];
+
+
+
+foreach ($defaults as $key => $defaultValue) {
+    if (defined($key)) {
+        continue;
+    }
+
+    $value = getenv($key) ?: $defaultValue;
+
+    define($key, $value);
+}

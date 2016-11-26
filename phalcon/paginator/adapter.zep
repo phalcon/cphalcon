@@ -22,7 +22,7 @@ namespace Phalcon\Paginator;
 /**
  * Phalcon\Paginator\Adapter
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
 
 	/**

@@ -31,34 +31,44 @@
  * $router = new \Phalcon\Mvc\Router();
  *
  * //Create a group with a common module and controller
- * $blog = new Group(array(
- * 	'module' => 'blog',
- * 	'controller' => 'index'
- * ));
+ * $blog = new Group(
+ *     [
+ *         "module"     => "blog",
+ *         "controller" => "index",
+ *     ]
+ * );
  *
  * //All the routes start with /blog
- * $blog->setPrefix('/blog');
+ * $blog->setPrefix("/blog");
  *
  * //Add a route to the group
- * $blog->add('/save', array(
- * 	'action' => 'save'
- * ));
+ * $blog->add(
+ *     "/save",
+ *     [
+ *         "action" => "save",
+ *     ]
+ * );
  *
  * //Add another route to the group
- * $blog->add('/edit/{id}', array(
- * 	'action' => 'edit'
- * ));
+ * $blog->add(
+ *     "/edit/{id}",
+ *     [
+ *         "action" => "edit",
+ *     ]
+ * );
  *
  * //This route maps to a controller different than the default
- * $blog->add('/blog', array(
- * 	'controller' => 'about',
- * 	'action' => 'index'
- * ));
+ * $blog->add(
+ *     "/blog",
+ *     [
+ *         "controller" => "about",
+ *         "action"     => "index",
+ *     ]
+ * );
  *
  * //Add the group to the router
  * $router->mount($blog);
  *</code>
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 
@@ -242,7 +252,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes) {
  * Adds a route to the router on any HTTP method
  *
  *<code>
- * router->add('/about', 'About::index');
+ * $router->add("/about", "About::index");
  *</code>
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
@@ -631,7 +641,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, 80, _2, mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 380, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 382, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(route);
 

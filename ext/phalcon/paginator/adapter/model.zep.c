@@ -31,9 +31,9 @@
  *
  * $paginator = new Model(
  *     [
- *         'data'  => Robots::find(),
- *         'limit' => 25,
- *         'page'  => $currentPage
+ *         "data"  => Robots::find(),
+ *         "limit" => 25,
+ *         "page"  => $currentPage,
  *     ]
  * );
  *
@@ -49,7 +49,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model) {
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_paginator_adapter_model_ce TSRMLS_CC, 1, phalcon_paginator_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -94,19 +93,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 	ZEPHIR_OBS_VAR(config);
 	zephir_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(items);
-	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/model.zep", 83 TSRMLS_CC);
+	zephir_array_fetch_string(&items, config, SL("data"), PH_NOISY, "phalcon/paginator/adapter/model.zep", 82 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(_1);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 87);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/paginator/adapter/model.zep", 86);
 		return;
 	}
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
 	if (show <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 97);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/paginator/adapter/model.zep", 96);
 		return;
 	}
 	n = zephir_fast_count_int(items TSRMLS_CC);
@@ -141,7 +140,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 			}
 			ZEPHIR_CALL_METHOD(&_5$$11, items, "current", &_6, 0);
 			zephir_check_call_status();
-			zephir_array_append(&pageItems, _5$$11, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 124);
+			zephir_array_append(&pageItems, _5$$11, PH_SEPARATE, "phalcon/paginator/adapter/model.zep", 123);
 			if (i >= show) {
 				break;
 			}

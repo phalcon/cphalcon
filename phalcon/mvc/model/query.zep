@@ -46,14 +46,17 @@ use Phalcon\Mvc\Model\RelationInterface;
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
  *          WHERE b.name = :name: ORDER BY c.name";
  *
- * $result = $manager->executeQuery($phql, array(
- *   "name" => "Lamborghini"
- * ));
+ * $result = $manager->executeQuery(
+ *     $phql,
+ *     [
+ *         "name" => "Lamborghini",
+ *     ]
+ * );
  *
  * foreach ($result as $row) {
- *   echo "Name: ",  $row->cars->name, "\n";
- *   echo "Price: ", $row->cars->price, "\n";
- *   echo "Taxes: ", $row->taxes, "\n";
+ *     echo "Name: ",  $row->cars->name, "\n";
+ *     echo "Price: ", $row->cars->price, "\n";
+ *     echo "Taxes: ", $row->taxes, "\n";
  * }
  *</code>
  */
@@ -238,7 +241,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * We need the model instance to retrieve the reversed column map
 				 */
 				if !fetch model, sqlAliasesModelsInstances[columnDomain] {
-					throw new Exception("There is no model related to model or alias '" . columnDomain . "', when executing: " . this->_phql);
+					throw new Exception(
+						"There is no model related to model or alias '" . columnDomain . "', when executing: " . this->_phql
+					);
 				}
 
 				let columnMap = metaData->getReverseColumnMap(model);
@@ -248,7 +253,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			if typeof columnMap == "array" {
 				if !fetch realColumnName, columnMap[columnName] {
-					throw new Exception("Column '" . columnName . "' doesn't belong to the model or alias '" . columnDomain . "', when executing: ". this->_phql);
+					throw new Exception(
+						"Column '" . columnName . "' doesn't belong to the model or alias '" . columnDomain . "', when executing: ". this->_phql
+					);
 				}
 			} else {
 				let realColumnName = columnName;
@@ -279,7 +286,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * After check in every model, the column does not belong to any of the selected models
 			 */
 			if hasModel === false {
-				throw new Exception("Column '" . columnName . "' doesn't belong to any of the selected models (1), when preparing: " . this->_phql);
+				throw new Exception(
+					"Column '" . columnName . "' doesn't belong to any of the selected models (1), when preparing: " . this->_phql
+				);
 			}
 
 			/**
@@ -295,7 +304,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 */
 			let className = get_class(hasModel);
 			if !fetch source, models[className] {
-				throw new Exception("Can't obtain model's source from models list: '" . className . "', when preparing: " . this->_phql);
+				throw new Exception(
+					"Can't obtain model's source from models list: '" . className . "', when preparing: " . this->_phql
+				);
 			}
 
 			/**
@@ -312,7 +323,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * The real column name is in the column map
 				 */
 				if !fetch realColumnName, columnMap[columnName] {
-					throw new Exception("Column '" . columnName . "' doesn't belong to any of the selected models (3), when preparing: " . this->_phql);
+					throw new Exception(
+						"Column '" . columnName . "' doesn't belong to any of the selected models (3), when preparing: " . this->_phql
+					);
 				}
 			} else {
 				let realColumnName = columnName;
@@ -1054,7 +1067,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * Get the referenced field in the same position
 				 */
 				if !fetch referencedField, referencedFields[position] {
-					throw new Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
+					throw new Exception(
+						"The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql
+					);
 				}
 
 				/**
@@ -1174,7 +1189,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			for field, position in fields {
 
 				if !isset referencedFields[position] {
-					throw new Exception("The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql);
+					throw new Exception(
+						"The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->_phql
+					);
 				}
 
 				/**
@@ -1336,7 +1353,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * Check if alias is unique
 				 */
 				if isset joinModels[alias] {
-					throw new Exception("Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql);
+					throw new Exception(
+						"Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->_phql
+					);
 				}
 
 				/**
@@ -1395,7 +1414,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * Check if alias is unique
 				 */
 				if isset joinModels[realModelName] {
-					throw new Exception("Cannot use '" . realModelName . "' as join alias because it was already used, when preparing: " . this->_phql);
+					throw new Exception(
+						"Cannot use '" . realModelName . "' as join alias because it was already used, when preparing: " . this->_phql
+					);
 				}
 
 				/**
@@ -1535,7 +1556,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 							 * More than one relation must throw an exception
 							 */
 							if count(relations) != 1 {
-								throw new Exception("There is more than one relation between models '" . fromModelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql);
+								throw new Exception(
+									"There is more than one relation between models '" . fromModelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->_phql
+								);
 							}
 
 							/**
@@ -1589,8 +1612,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 				} else {
 
 					/**
-					 * Get the conditions stablished by the developer
-					 * Join with conditions stablished by the developer
+					 * Get the conditions established by the developer
+					 * Join with conditions established by the developer
 					 */
 					let sqlJoins[] = [
 						"type": joinType,
@@ -1654,7 +1677,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		if isset group[0] {
 			/**
-			 * The select is gruped by several columns
+			 * The select is grouped by several columns
 			 */
 			let groupParts = [];
 			for groupItem in group {
@@ -1878,7 +1901,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 								relationModel = relation->getReferencedModel(),
 								eagerType = relation->getType();
 						} else {
-							throw new Exception("Can't find a relationship between '" . realModelName . "' and '" . relationModel . "' when preparing: " . this->_phql);
+							throw new Exception(
+								"Can't find a relationship between '" . realModelName . "' and '" . relationModel . "' when preparing: " . this->_phql
+							);
 						}
 					}
 
@@ -1981,7 +2006,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				} else {
 					/**
-					 * "balias" is the best alias choosen for the column
+					 * "balias" is the best alias chosen for the column
 					 */
 					if fetch alias, sqlColumn["balias"] {
 						let sqlColumns[alias] = sqlColumn;
@@ -2129,7 +2154,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				// Check that inserted fields are part of the model
 				if !metaData->hasAttribute(model, name) {
-					throw new Exception("The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->_phql);
+					throw new Exception(
+						"The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->_phql
+					);
 				}
 
 				// Add the file to the insert list
@@ -2901,7 +2928,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 					let wildcard = str_replace(":", "", dialect->getSqlExpression(exprValue));
 					if !fetch insertValue, bindParams[wildcard] {
-						throw new Exception("Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list");
+						throw new Exception(
+							"Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list"
+						);
 					}
 
 					break;
@@ -2939,7 +2968,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		/**
 		 * Call 'create' to ensure that an insert is performed
-		 * Return the insertation status
+		 * Return the insert status
 		 */
 		return new Status(insertModel->create(insertValues), insertModel);
 	}
@@ -3035,7 +3064,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 						unset selectBindParams[wildcard];
 						unset selectBindTypes[wildcard];
 					} else {
-						throw new Exception("Bound parameter '" . wildcard . "' cannot be replaced because it's not in the placeholders list");
+						throw new Exception(
+							"Bound parameter '" . wildcard . "' cannot be replaced because it's not in the placeholders list"
+						);
 					}
 					break;
 
@@ -3224,14 +3255,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 		];
 
 		/**
-		 * Check if a WHERE clause was especified
+		 * Check if a WHERE clause was specified
 		 */
 		if fetch whereConditions, intermediate["where"] {
 			let selectIr["where"] = whereConditions;
 		}
 
 		/**
-		 * Check if a LIMIT clause was especified
+		 * Check if a LIMIT clause was specified
 		 */
 		if fetch limitConditions, intermediate["limit"] {
 			let selectIr["limit"] = limitConditions;

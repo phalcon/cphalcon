@@ -32,13 +32,17 @@ use Phalcon\Di\InjectionAwareInterface;
  * This components helps in the generation of: URIs, URLs and Paths
  *
  *<code>
+ * // Generate a URL appending the URI to the base URI
+ * echo $url->get("products/edit/1");
  *
- * //Generate a URL appending the URI to the base URI
- * echo $url->get('products/edit/1');
- *
- * //Generate a URL for a predefined route
- * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
- *
+ * // Generate a URL for a predefined route
+ * echo $url->get(
+ *     [
+ *         "for"   => "blog-post",
+ *         "title" => "some-cool-stuff",
+ *         "year"  => "2012",
+ *     ]
+ * );
  *</code>
  */
 class Url implements UrlInterface, InjectionAwareInterface
@@ -74,8 +78,9 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * Sets a prefix for all the URIs to be generated
 	 *
 	 *<code>
-	 *	$url->setBaseUri('/invo/');
-	 *	$url->setBaseUri('/invo/index.php/');
+	 * $url->setBaseUri("/invo/");
+	 *
+	 * $url->setBaseUri("/invo/index.php/");
 	 *</code>
 	 */
 	public function setBaseUri(string! baseUri) -> <Url>
@@ -91,7 +96,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * Sets a prefix for all static URLs generated
 	 *
 	 *<code>
-	 *	$url->setStaticBaseUri('/invo/');
+	 * $url->setStaticBaseUri("/invo/");
 	 *</code>
 	 */
 	public function setStaticBaseUri(string! staticBaseUri) -> <Url>
@@ -144,7 +149,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * Sets a base path for all the generated paths
 	 *
 	 *<code>
-	 *	$url->setBasePath('/var/www/htdocs/');
+	 * $url->setBasePath("/var/www/htdocs/");
 	 *</code>
 	 */
 	public function setBasePath(string! basePath) -> <Url>
@@ -165,17 +170,33 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * Generates a URL
 	 *
 	 *<code>
-	 * //Generate a URL appending the URI to the base URI
-	 * echo $url->get('products/edit/1');
+	 * // Generate a URL appending the URI to the base URI
+	 * echo $url->get("products/edit/1");
 	 *
-	 * //Generate a URL for a predefined route
-	 * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2015'));
+	 * // Generate a URL for a predefined route
+	 * echo $url->get(
+	 *     [
+	 *         "for"   => "blog-post",
+	 *         "title" => "some-cool-stuff",
+	 *         "year"  => "2015",
+	 *     ]
+	 * );
 	 *
 	 * // Generate a URL with GET arguments (/show/products?id=1&name=Carrots)
-	 * echo $url->get('show/products', array('id' => 1, 'name' => 'Carrots'));
+	 * echo $url->get(
+	 *     "show/products",
+	 *     [
+	 *         "id"   => 1,
+	 *         "name" => "Carrots",
+	 *     ]
+	 * );
 	 *
 	 * // Generate an absolute URL by setting the third parameter as false.
-	 * echo $url->get('https://phalconphp.com/', null, false);
+	 * echo $url->get(
+	 *     "https://phalconphp.com/",
+	 *     null,
+	 *     false
+	 * );
 	 *</code>
 	 */
 	public function get(var uri = null, var args = null, var local = null, var baseUri = null) -> string
@@ -270,7 +291,11 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * echo $url->getStatic("img/logo.png");
 	 *
 	 * // Generate a URL for a static predefined route
-	 * echo $url->getStatic(array('for' => 'logo-cdn'));
+	 * echo $url->getStatic(
+	 *     [
+	 *         "for" => "logo-cdn",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function getStatic(var uri = null) -> string

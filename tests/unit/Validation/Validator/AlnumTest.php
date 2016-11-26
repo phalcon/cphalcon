@@ -56,7 +56,7 @@ class AlnumTest extends UnitTest
             $validation = new Validation();
             $validationMessages = [
                 'name' => 'Name must be alnum',
-                'type' => 'Type msut be alnum',
+                'type' => 'Type must be alnum',
             ];
             $validation->add(['name', 'type'], new Alnum([
                 'message' => $validationMessages,

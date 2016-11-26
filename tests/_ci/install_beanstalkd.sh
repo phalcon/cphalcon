@@ -10,7 +10,7 @@ if [ -z "${TEST_BT_PORT}" ]; then TEST_BT_PORT="11300"; fi
 
 mkdir -p "${HOME}/bin"
 
-curl -L "${BEANSTALKD_SRC}" | tar xz
+curl -s -L "${BEANSTALKD_SRC}" | tar xz
 pushd "beanstalkd-${BEANSTALKD_VERSION}"
     make --silent -j4 &> /dev/null
     mv beanstalkd "$HOME/bin"

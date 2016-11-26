@@ -3,11 +3,15 @@
 namespace Phalcon\Test\Unit\Forms;
 
 use Phalcon\Forms\Form;
+use Phalcon\Forms\Element\Radio;
+use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Validation\Message;
 use Phalcon\Validation\Message\Group;
+use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
+use Phalcon\Validation\Validator\StringLength;
 
 /**
  * \Phalcon\Test\Unit\Forms\FormTest
@@ -28,6 +32,57 @@ use Phalcon\Validation\Validator\Regex;
  */
 class FormTest extends UnitTest
 {
+    public function testCount()
+    {
+        $this->specify(
+            "Form::count does not return the correct number",
+            function () {
+                $form = new Form();
+
+                $form->add(
+                    new Text("name")
+                );
+
+                $form->add(
+                    new Text("telephone")
+                );
+
+                expect($form)->count(2);
+                expect($form->count())->equals(2);
+            }
+        );
+    }
+
+    public function testLabels()
+    {
+        $this->specify(
+            "Form::getLabel and Form::label do not return the correct values",
+            function () {
+                $form = new Form();
+
+                $form->add(
+                    new Text("name")
+                );
+
+                $telephone = new Text("telephone");
+
+                $telephone->setLabel("The Telephone");
+
+                $form->add($telephone);
+
+                expect($form->getLabel("name"))->equals("name");
+                expect($form->getLabel("telephone"))->equals("The Telephone");
+
+                expect($form->label("name"))->equals("<label for=\"name\">name</label>");
+                expect($form->label("telephone"))->equals("<label for=\"telephone\">The Telephone</label>");
+
+                // https://github.com/phalcon/cphalcon/issues/1029
+                expect($form->label("name", ["class" => "form-control"]))->equals("<label for=\"name\" class=\"form-control\">name</label>");
+                expect($form->label("telephone", ["class" => "form-control"]))->equals("<label for=\"telephone\" class=\"form-control\">The Telephone</label>");
+            }
+        );
+    }
+
     /**
      * Tests Form::hasMessagesFor
      *
@@ -72,7 +127,6 @@ class FormTest extends UnitTest
             expect($form->getMessagesFor('address'))->equals(Group::__set_state(['_messages' => []]));
             expect($form->hasMessagesFor('telephone'))->true();
             expect($form->hasMessagesFor('address'))->false();
-
         });
     }
 
@@ -115,5 +169,186 @@ class FormTest extends UnitTest
             ['di'],
             ['eventsmanager'],
         ];
+    }
+
+    public function testFormValidator()
+    {
+        $this->specify(
+            "Form validators don't work",
+            function () {
+                //First element
+                $telephone = new Text("telephone");
+
+                $telephone->addValidator(
+                    new PresenceOf(
+                        array(
+                            'message' => 'The telephone is required'
+                        )
+                    )
+                );
+
+                expect($telephone->getValidators())->count(1);
+
+                $telephone->addValidators(array(
+                    new StringLength(array(
+                        'min' => 5,
+                        'messageMinimum' => 'The telephone is too short'
+                    )),
+                    new Regex(array(
+                        'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                        'message' => 'The telephone has an invalid format'
+                    ))
+                ));
+
+                expect($telephone->getValidators())->count(3);
+
+                //Second element
+                $address = new Text('address');
+
+                $address->addValidator(
+                    new PresenceOf(
+                        array(
+                            'message' => 'The address is required'
+                        )
+                    )
+                );
+
+                expect($address->getValidators())->count(1);
+
+                $form = new Form();
+
+                $form->add($telephone);
+                $form->add($address);
+
+                expect($form->isValid([]))->false();
+
+                $expectedMessages = Group::__set_state(
+                    array(
+                        '_messages' => array(
+                            0 => Message::__set_state(
+                                array(
+                                    '_type' => 'PresenceOf',
+                                    '_message' => 'The telephone is required',
+                                    '_field' => 'telephone',
+                                    '_code' => 0,
+                                )
+                            ),
+                            1 => Message::__set_state(
+                                array(
+                                    '_type' => 'TooShort',
+                                    '_message' => 'The telephone is too short',
+                                    '_field' => 'telephone',
+                                    '_code' => 0,
+                                )
+                            ),
+                            2 => Message::__set_state(
+                                array(
+                                    '_type' => 'Regex',
+                                    '_message' => 'The telephone has an invalid format',
+                                    '_field' => 'telephone',
+                                    '_code' => 0,
+                                )
+                            ),
+                            3 => Message::__set_state(
+                                array(
+                                    '_type' => 'PresenceOf',
+                                    '_message' => 'The address is required',
+                                    '_field' => 'address',
+                                    '_code' => 0,
+                                )
+                            ),
+                        ),
+                    )
+                );
+
+                expect($form->getMessages())->equals($expectedMessages);
+
+                expect($form->isValid(array(
+                    'telephone' => '12345',
+                    'address' => 'hello'
+                )))->false();
+
+                $expectedMessages = Group::__set_state(array(
+                    '_messages' => array(
+                        0 =>  Message::__set_state(array(
+                            '_type' => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field' => 'telephone',
+                            '_code' => 0,
+                        )),
+                    ),
+                ));
+
+                expect($form->getMessages())->equals($expectedMessages);
+
+                expect($form->isValid(array(
+                    'telephone' => '+44 124 82122',
+                    'address' => 'hello'
+                )))->true();
+            }
+        );
+    }
+
+    public function testFormIndirectElementRender()
+    {
+        $this->specify(
+            "Indirect form element render doesn't work",
+            function () {
+                $form = new Form();
+
+                $form->add(new Text("name"));
+
+                expect($form->render("name"))->equals('<input type="text" id="name" name="name" />');
+                expect($form->render("name", ["class" => "big-input"]))->equals('<input type="text" id="name" name="name" class="big-input" />');
+            }
+        );
+    }
+
+    /**
+     * @issue 1190
+     */
+    public function testIssue1190()
+    {
+        $this->specify(
+            "Form::render doesn't escape value attributes on TextFields",
+            function () {
+                $object = new \stdClass();
+                $object->title = 'Hello "world!"';
+
+                $form = new Form($object);
+                $form->add(new Text("title"));
+
+                $actual   = $form->render("title");
+                $expected = '<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />';
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * @issue 706
+     */
+    public function testIssue706()
+    {
+        $this->specify(
+            "Form field positions don't work",
+            function () {
+                $form = new Form();
+                $form->add(new Text("name"));
+
+                $form->add(new Text("before"), "name", true);
+                $form->add(new Text("after"), "name");
+
+                $data = ["before", "name", "after"];
+                $result = [];
+
+                foreach ($form as $element) {
+                    $result[] = $element->getName();
+                }
+
+                expect($result)->equals($data);
+            }
+        );
     }
 }

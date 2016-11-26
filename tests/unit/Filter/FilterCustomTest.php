@@ -55,7 +55,6 @@ class FilterCustomTest extends Helper\FilterBase
         $this->specify(
             "custom filter does not return correct IP",
             function () {
-
                 $filter = new Filter();
 
                 $filter->add('ipv4', new IPv4());
@@ -78,7 +77,6 @@ class FilterCustomTest extends Helper\FilterBase
         $this->specify(
             "lambda custom filter does not return false",
             function () {
-
                 $filter = new Filter();
 
                 $filter->add(
@@ -107,7 +105,6 @@ class FilterCustomTest extends Helper\FilterBase
         $this->specify(
             "lambda custom filter does not return true",
             function () {
-
                 $filter = new Filter();
 
                 $filter->add(

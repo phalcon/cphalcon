@@ -29,13 +29,17 @@ use Phalcon\Session\Adapter;
  *<code>
  * use Phalcon\Session\Adapter\Files;
  *
- * $session = new Files(['uniqueId' => 'my-private-app']);
+ * $session = new Files(
+ *     [
+ *         "uniqueId" => "my-private-app",
+ *     ]
+ * );
  *
  * $session->start();
  *
- * $session->set('var', 'some-value');
+ * $session->set("var", "some-value");
  *
- * echo $session->get('var');
+ * echo $session->get("var");
  *</code>
  */
 class Files extends Adapter

@@ -35,7 +35,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter returns invalid HTML Strict",
             function () {
-
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif"';
 
@@ -51,7 +50,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter returns invalid HTML XHTML",
             function () {
-
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif"';
 
@@ -76,7 +74,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -95,7 +92,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -123,7 +119,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter with src returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'src'   => 'img/goodbye.gif',
@@ -143,7 +138,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter with src returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'src'   => 'img/goodbye.gif',
@@ -172,7 +166,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter with name no src returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -191,7 +184,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter with name no src returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -219,7 +211,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with setDefault returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -239,7 +230,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with setDefault returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -268,7 +258,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with displayTo returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -288,7 +277,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with displayTo returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -317,7 +305,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with setDefault and element not present returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -337,7 +324,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with setDefault and element not present returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -366,7 +352,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with displayTo and element not present returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -386,7 +371,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with displayTo and element not present returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'class' => 'x_class',
@@ -415,7 +399,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and local link returns invalid HTML Strict",
             function () {
-
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif" />';
 
@@ -429,7 +412,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and local link returns invalid HTML XHTML",
             function () {
-
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif">';
 
@@ -452,7 +434,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and remote link returns invalid HTML Strict",
             function () {
-
                 $options  = 'http://phalconphp.com/img/hello.gif';
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
 
@@ -466,7 +447,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and local link returns invalid HTML XHTML",
             function () {
-
                 $options  = 'http://phalconphp.com/img/hello.gif';
                 $expected = '<img src="http://phalconphp.com/img/hello.gif">';
 
@@ -489,7 +469,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and local link returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'alt' => 'Hello'
@@ -506,7 +485,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and local link returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'img/hello.gif',
                     'alt' => 'Hello'
@@ -532,7 +510,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and remote link returns invalid HTML Strict",
             function () {
-
                 $options  = [
                     'http://phalconphp.com/img/hello.gif',
                     'alt' => 'Hello'
@@ -550,7 +527,6 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and local link returns invalid HTML XHTML",
             function () {
-
                 $options  = [
                     'http://phalconphp.com/img/hello.gif',
                     'alt' => 'Hello'

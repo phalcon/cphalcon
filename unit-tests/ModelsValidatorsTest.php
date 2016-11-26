@@ -81,7 +81,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
-		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
 	}
 
@@ -100,7 +99,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		}, true);
 
-		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
 	}
 
@@ -121,124 +119,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return $conn;
 		}, true);
 
-		$this->_testValidatorsNormal($di);
 		$this->_testValidatorsRenamed($di);
-	}
-
-	protected function _testValidatorsNormal($di)
-	{
-		$connection = $di->getShared('db');
-
-		$success = $connection->delete("subscriptores");
-		$this->assertTrue($success);
-
-		$createdAt = new Phalcon\Db\RawValue('now()');
-
-		//Save with success
-		$subscriptor = new Subscriptores();
-		$subscriptor->email = 'fuego@hotmail.com';
-		$subscriptor->created_at = $createdAt;
-		$subscriptor->status = 'P';
-		$this->assertTrue($subscriptor->save());
-
-		//PresenceOf
-		$subscriptor = new Subscriptores();
-		$subscriptor->email = 'fuego1@hotmail.com';
-		$subscriptor->created_at = null;
-		$subscriptor->status = 'P';
-		$this->assertFalse($subscriptor->save());
-
-		$this->assertEquals(count($subscriptor->getMessages()), 1);
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "PresenceOf");
-		$this->assertEquals($messages[0]->getField(), "created_at");
-		$this->assertEquals($messages[0]->getMessage(), "'created_at' is required");
-
-		//Email
-		$subscriptor = new Subscriptores();
-		$subscriptor->email = 'fuego?=';
-		$subscriptor->created_at = $createdAt;
-		$subscriptor->status = 'P';
-		$this->assertFalse($subscriptor->save());
-
-		$this->assertEquals(count($subscriptor->getMessages()), 1);
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Email");
-		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
-
-		//ExclusionIn
-		$subscriptor->email = 'le_fuego@hotmail.com';
-		$subscriptor->status = 'X';
-		$this->assertFalse($subscriptor->save());
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Exclusion");
-		$this->assertEquals($messages[0]->getField(), "status");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' must not be part of list: X, Z");
-
-		//InclusionIn
-		$subscriptor->status = 'A';
-		$this->assertFalse($subscriptor->save());
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Inclusion");
-		$this->assertEquals($messages[0]->getField(), "status");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' must be part of list: P, I, w");
-
-		//Uniqueness validator
-		$subscriptor->email = 'fuego@hotmail.com';
-		$subscriptor->status = 'P';
-		$this->assertFalse($subscriptor->save());
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Unique");
-		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field: 'email' is already present in another record");
-
-		//Regex validator
-		$subscriptor->email = 'na_fuego@hotmail.com';
-		$subscriptor->status = 'w';
-		$this->assertFalse($subscriptor->save());
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Regex");
-		$this->assertEquals($messages[0]->getField(), "status");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' doesn't match regular expression");
-
-		//too_long
-		$subscriptor->email = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
-		$subscriptor->status = 'P';
-		$this->assertFalse($subscriptor->save());
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "TooLong");
-		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' exceeds the maximum 50 characters");
-
-		//too_short
-		$subscriptor->email = 'a@b.co';
-		$subscriptor->status = 'P';
-		$this->assertFalse($subscriptor->save());
-
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "TooShort");
-		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is less than the minimum 7 characters");
-
-		// Issue 1243
-		$subscriptor->email = 'user.@domain.com';
-		$this->assertFalse($subscriptor->save());
-		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "Email");
-		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
-
-		// Issue 1527
-		$subscriptor = Subscriptores::findFirst();
-		//$this->assertTrue($subscriptor->validation()); // This fails
 	}
 
 	protected function _testValidatorsRenamed($di)

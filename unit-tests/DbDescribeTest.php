@@ -649,7 +649,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 	public function testDbPostgresql()
 	{
-
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
 			$this->markTestSkipped("Skipped");
@@ -657,31 +656,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-		//List tables
-		$expectedTables = array (
-			0 => 'customers',
-			1 => 'parts',
-			2 => 'personas',
-			3 => 'personnes',
-			4 => 'prueba',
-			5 => 'robots',
-			6 => 'robots_parts',
-			7 => 'subscriptores',
-			8 => 'tipo_documento',
-		);
-
-		$tables = $connection->listTables();
-		$this->assertEquals($tables, $expectedTables);
-
-		$tables = $connection->listTables('public');
-		$this->assertEquals($tables, $expectedTables);
-
-		//Table exist
-		$this->assertEquals($connection->tableExists('personas'), 1);
-		$this->assertEquals($connection->tableExists('noexist'), 0);
-		$this->assertEquals($connection->tableExists('personas', 'public'), 1);
-		$this->assertEquals($connection->tableExists('personas', 'test'), 0);
 
 		//Columns
 		$expectedDescribe = $this->getExpectedColumnsPostgresql();

@@ -116,7 +116,11 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
  * Sets session's options
  *
  *<code>
- *	$session->setOptions(['uniqueId' => 'my-private-app']);
+ * $session->setOptions(
+ *     [
+ *         "uniqueId" => "my-private-app",
+ *     ]
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
@@ -214,7 +218,7 @@ PHP_METHOD(Phalcon_Session_Adapter, regenerateId) {
  * Gets a session variable from an application context
  *
  *<code>
- *	$session->get('auth', 'yes');
+ * $session->get("auth", "yes");
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, get) {
@@ -261,7 +265,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  * Sets a session variable in an application context
  *
  *<code>
- *	$session->set('auth', 'yes');
+ * $session->set("auth", "yes");
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, set) {
@@ -301,7 +305,9 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  * Check whether a session variable is set in an application context
  *
  *<code>
- *	var_dump($session->has('auth'));
+ * var_dump(
+ *     $session->has("auth")
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, has) {
@@ -330,7 +336,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  * Removes a session variable from an application context
  *
  *<code>
- *	$session->remove('auth');
+ * $session->remove("auth");
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
@@ -361,7 +367,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
  * Returns active session id
  *
  *<code>
- *	echo $session->getId();
+ * echo $session->getId();
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId) {
@@ -380,7 +386,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId) {
  * Set the current session id
  *
  *<code>
- *	$session->setId($id);
+ * $session->setId($id);
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, setId) {
@@ -405,7 +411,9 @@ PHP_METHOD(Phalcon_Session_Adapter, setId) {
  * Check whether the session has been started
  *
  *<code>
- *	var_dump($session->isStarted());
+ * var_dump(
+ *     $session->isStarted()
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
@@ -420,8 +428,13 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
  * Destroys the active session
  *
  *<code>
- *	var_dump($session->destroy());
- *	var_dump($session->destroy(true));
+ * var_dump(
+ *     $session->destroy()
+ * );
+ *
+ * var_dump(
+ *     $session->destroy(true)
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, destroy) {
@@ -448,7 +461,7 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 		zephir_read_property_this(&uniqueId, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 		if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
 			ZEPHIR_INIT_VAR(_0$$4);
-			zephir_is_iterable(_SESSION, &_2$$4, &_1$$4, 1, 0, "phalcon/session/adapter.zep", 262);
+			zephir_is_iterable(_SESSION, &_2$$4, &_1$$4, 1, 0, "phalcon/session/adapter.zep", 275);
 			for (
 			  ; zephir_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_2$$4, &_1$$4)
@@ -483,11 +496,13 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
  * Returns the status of the current session.
  *
  *<code>
- *	var_dump($session->status());
+ * var_dump(
+ *     $session->status()
+ * );
  *
- *  if ($session->status() !== $session::SESSION_ACTIVE) {
- *      $session->start();
- *  }
+ * if ($session->status() !== $session::SESSION_ACTIVE) {
+ *     $session->start();
+ * }
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Adapter, status) {

@@ -31,21 +31,34 @@ use Phalcon\Validation\Message;
  * <code>
  * use Phalcon\Validation\Validator\Date as DateValidator;
  *
- * $validator->add('date', new DateValidator([
- *     'format' => 'd-m-Y',
- *     'message' => 'The date is invalid'
- * ]));
+ * $validator->add(
+ *     "date",
+ *     new DateValidator(
+ *         [
+ *             "format"  => "d-m-Y",
+ *             "message" => "The date is invalid",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['date','anotherDate'], new DateValidator([
- *     'format' => [
- *         'date' => 'd-m-Y',
- *         'anotherDate' => 'Y-m-d'
+ * $validator->add(
+ *     [
+ *         "date",
+ *         "anotherDate",
  *     ],
- *     'message' => [
- *         'date' => 'The date is invalid',
- *         'anotherDate' => 'The another date is invalid'
- *     ]
- * ]));
+ *     new DateValidator(
+ *         [
+ *             "format" => [
+ *                 "date"        => "d-m-Y",
+ *                 "anotherDate" => "Y-m-d",
+ *             ],
+ *             "message" => [
+ *                 "date"        => "The date is invalid",
+ *                 "anotherDate" => "The another date is invalid",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class Date extends Validator

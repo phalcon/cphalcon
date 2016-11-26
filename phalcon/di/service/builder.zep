@@ -174,7 +174,9 @@ class Builder
 		if fetch paramCalls, definition["calls"] {
 
 			if typeof instance != "object" {
-				throw new Exception("The definition has setter injection parameters but the constructor didn't return an instance");
+				throw new Exception(
+					"The definition has setter injection parameters but the constructor didn't return an instance"
+				);
 			}
 
 			if typeof paramCalls != "array" {
@@ -238,7 +240,9 @@ class Builder
 		if fetch paramCalls, definition["properties"] {
 
 			if typeof instance != "object" {
-				throw new Exception("The definition has properties injection parameters but the constructor didn't return an instance");
+				throw new Exception(
+					"The definition has properties injection parameters but the constructor didn't return an instance"
+				);
 			}
 
 			if typeof paramCalls != "array" {

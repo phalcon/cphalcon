@@ -31,9 +31,11 @@ use Phalcon\Escaper\Exception;
  * This component only works with UTF-8. The PREG extension needs to be compiled with UTF-8 support.
  *
  *<code>
- *	$escaper = new \Phalcon\Escaper();
- *	$escaped = $escaper->escapeCss("font-family: <Verdana>");
- *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
+ * $escaper = new \Phalcon\Escaper();
+ * 
+ * $escaped = $escaper->escapeCss("font-family: <Verdana>");
+ * 
+ * echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
  */
 class Escaper implements EscaperInterface
@@ -51,7 +53,7 @@ class Escaper implements EscaperInterface
 	 * Sets the encoding to be used by the escaper
 	 *
 	 *<code>
-	 * $escaper->setEncoding('utf-8');
+	 * $escaper->setEncoding("utf-8");
 	 *</code>
 	 */
 	public function setEncoding(string encoding) -> void

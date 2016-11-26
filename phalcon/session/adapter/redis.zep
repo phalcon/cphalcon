@@ -31,22 +31,24 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  *<code>
  * use Phalcon\Session\Adapter\Redis;
  *
- * $session = new Redis([
- *     'uniqueId'   => 'my-private-app',
- *     'host'       => 'localhost',
- *     'port'       => 6379,
- *     'auth'       => 'foobared',
- *     'persistent' => false,
- *     'lifetime'   => 3600,
- *     'prefix'     => 'my_'
- *     'index'      => 1,
- * ]);
+ * $session = new Redis(
+ *     [
+ *         "uniqueId"   => "my-private-app",
+ *         "host"       => "localhost",
+ *         "port"       => 6379,
+ *         "auth"       => "foobared",
+ *         "persistent" => false,
+ *         "lifetime"   => 3600,
+ *         "prefix"     => "my",
+ *         "index"      => 1,
+ *     ]
+ * );
  *
  * $session->start();
  *
- * $session->set('var', 'some-value');
+ * $session->set("var", "some-value");
  *
- * echo $session->get('var');
+ * echo $session->get("var");
  *</code>
  */
 class Redis extends Adapter
@@ -114,9 +116,9 @@ class Redis extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read(sessionId) -> var
+	public function read(sessionId) -> string
 	{
-		return this->_redis->get(sessionId, this->_lifetime);
+		return (string) this->_redis->get(sessionId, this->_lifetime);
 	}
 
 	/**
@@ -140,7 +142,7 @@ class Redis extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_redis->delete(id);
+		return this->_redis->exists(id) ? this->_redis->delete(id) : true;
 	}
 
 	/**

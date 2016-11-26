@@ -11,13 +11,17 @@
         "php": ">=5.5"
     },
     "require-dev": {
-        "mustache/mustache": "~2.10",
-        "twig/twig": "~1.24",
+        "phpdocumentor/reflection-docblock": "^2.0.4",
+        "phpunit/phpunit": "4.8.*",
+        "mustache/mustache": "~2.11",
+        "twig/twig": "~1.25",
         "predis/predis": "^1.0",
         "codeception/codeception": "~2.2",
         "codeception/verify": "~0.3",
         "codeception/specify": "~0.4",
-        "phalcon/zephir": "dev-master"
+        "phalcon/zephir": "dev-master",
+        "codeception/aspect-mock": "*",
+        "squizlabs/php_codesniffer": "~2.0"
     },
     "license": "BSD-3-Clause",
     "authors": [
@@ -38,11 +42,6 @@
             "Phalcon\\Test\\Proxy\\": "tests/_proxies/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/"
         }
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "php vendor/bin/codecept build"
-        ]
     },
     "support": {
         "issues": "https://github.com/phalcon/cphalcon/issues",

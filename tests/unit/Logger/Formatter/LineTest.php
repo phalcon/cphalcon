@@ -26,7 +26,7 @@ use Phalcon\Logger;
  */
 class LineTest extends UnitTest
 {
-    protected  $logPath = '';
+    protected $logPath = '';
 
     /**
      * executed before each test

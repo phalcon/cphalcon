@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
@@ -30,7 +30,7 @@ class SessionCest
 
     public function _before(UnitTester $I)
     {
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Session([
                 'prefix' => 'app',
             ]);
@@ -58,8 +58,15 @@ class SessionCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], $_SESSION['$PMM$app']["meta-phalcon\\test\\models\\robots-robots"]);
-        $I->assertEquals($this->data['map-robots'], $_SESSION['$PMM$app']["map-phalcon\\test\\models\\robots"]);
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            $_SESSION['$PMM$app']["meta-phalcon\\test\\models\\robots-robots"]
+        );
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            $_SESSION['$PMM$app']["map-phalcon\\test\\models\\robots"]
+        );
 
         $I->assertFalse($md->isEmpty());
 

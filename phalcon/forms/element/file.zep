@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\File
  *
  * Component INPUT[type=file] for forms
  */
-class File extends Element implements ElementInterface
+class File extends Element
 {
 
 	/**

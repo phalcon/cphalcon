@@ -21,14 +21,13 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Element;
-use Phalcon\Forms\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\Text
  *
  * Component INPUT[type=text] for forms
  */
-class Text extends Element implements ElementInterface
+class Text extends Element
 {
 
 	/**

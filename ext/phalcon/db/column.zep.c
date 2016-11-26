@@ -27,19 +27,22 @@
  * Allows to define columns to be used on create or alter table operations
  *
  *<code>
- *	use Phalcon\Db\Column as Column;
+ * use Phalcon\Db\Column as Column;
  *
- * //column definition
- * $column = new Column("id", array(
- *   "type" => Column::TYPE_INTEGER,
- *   "size" => 10,
- *   "unsigned" => true,
- *   "notNull" => true,
- *   "autoIncrement" => true,
- *   "first" => true
- * ));
+ * // Column definition
+ * $column = new Column(
+ *     "id",
+ *     [
+ *         "type"          => Column::TYPE_INTEGER,
+ *         "size"          => 10,
+ *         "unsigned"      => true,
+ *         "notNull"       => true,
+ *         "autoIncrement" => true,
+ *         "first"         => true,
+ *     ]
+ * );
  *
- * //add column to existing table
+ * // Add column to existing table
  * $connection->addColumn("robots", null, $column);
  *</code>
  */
@@ -400,7 +403,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	if (zephir_array_isset_string_fetch(&type, definition, SS("type"), 0 TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/db/column.zep", 297);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/db/column.zep", 300);
 		return;
 	}
 	ZEPHIR_OBS_VAR(typeReference);
@@ -430,7 +433,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 				zephir_update_property_this(this_ptr, SL("_scale"), scale TSRMLS_CC);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/db/column.zep", 341);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/db/column.zep", 344);
 			return;
 		} while(0);
 
@@ -465,7 +468,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 381);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/db/column.zep", 384);
 				return;
 			} while(0);
 
@@ -593,7 +596,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	if (!(zephir_array_isset_string_fetch(&columnName, data, SS("_columnName"), 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(columnName);
 		if (!(zephir_array_isset_string_fetch(&columnName, data, SS("_name"), 0 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 487);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/db/column.zep", 490);
 			return;
 		}
 	}
@@ -622,7 +625,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&scale, data, SS("_scale"), 1 TSRMLS_CC)) {
-		zephir_array_fetch_string(&_1$$12, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 521 TSRMLS_CC);
+		zephir_array_fetch_string(&_1$$12, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/column.zep", 524 TSRMLS_CC);
 		do {
 			if (ZEPHIR_IS_LONG(_1$$12, 0) || ZEPHIR_IS_LONG(_1$$12, 7) || ZEPHIR_IS_LONG(_1$$12, 3) || ZEPHIR_IS_LONG(_1$$12, 9) || ZEPHIR_IS_LONG(_1$$12, 14)) {
 				zephir_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
@@ -664,11 +667,18 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
  */
 PHP_METHOD(Phalcon_Db_Column, hasDefault) {
 
-	zval *_0;
+	zval *_0 = NULL, *_1;
+	int ZEPHIR_LAST_CALL_STATUS;
 
+	ZEPHIR_MM_GROW();
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_default"), PH_NOISY_CC);
-	RETURN_BOOL(Z_TYPE_P(_0) != IS_NULL);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isautoincrement", NULL, 0);
+	zephir_check_call_status();
+	if (zephir_is_true(_0)) {
+		RETURN_MM_BOOL(0);
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_default"), PH_NOISY_CC);
+	RETURN_MM_BOOL(Z_TYPE_P(_1) != IS_NULL);
 
 }
 

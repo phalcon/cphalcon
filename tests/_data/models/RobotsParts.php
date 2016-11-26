@@ -6,9 +6,8 @@ use Phalcon\Mvc\Model;
 
 /**
  * \Phalcon\Test\Models\RobotsParts
- * RobotsParts model class
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -31,5 +30,4 @@ class RobotsParts extends Model
             'foreignKey' => ['message' => 'The robot code does not exist']
         ]);
     }
-
 }

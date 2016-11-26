@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 }
 
 /**
- * Sets event data
+ * Sets event data.
  * @param mixed data
  */
 PHP_METHOD(Phalcon_Events_Event, setData) {
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 }
 
 /**
- * Sets event type
+ * Sets event type.
  */
 PHP_METHOD(Phalcon_Events_Event, setType) {
 
@@ -203,7 +203,13 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 }
 
 /**
- * Stops the event preventing propagation
+ * Stops the event preventing propagation.
+ *
+ * <code>
+ * if ($event->isCancelable()) {
+ *     $event->stop();
+ * }
+ * </code>
  */
 PHP_METHOD(Phalcon_Events_Event, stop) {
 
@@ -212,7 +218,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY_CC);
 	if (!(zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 113);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 119);
 		return;
 	}
 	if (1) {
@@ -225,7 +231,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 }
 
 /**
- * Check whether the event is currently stopped
+ * Check whether the event is currently stopped.
  */
 PHP_METHOD(Phalcon_Events_Event, isStopped) {
 
@@ -236,7 +242,13 @@ PHP_METHOD(Phalcon_Events_Event, isStopped) {
 }
 
 /**
- * Check whether the event is cancelable
+ * Check whether the event is cancelable.
+ *
+ * <code>
+ * if ($event->isCancelable()) {
+ *     $event->stop();
+ * }
+ * </code>
  */
 PHP_METHOD(Phalcon_Events_Event, isCancelable) {
 

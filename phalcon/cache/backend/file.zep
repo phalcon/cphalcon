@@ -22,7 +22,6 @@ namespace Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\FrontendInterface;
-use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Cache\Backend\File
@@ -35,7 +34,7 @@ use Phalcon\Cache\BackendInterface;
  *
  * // Cache the file for 2 days
  * $frontendOptions = [
- *     'lifetime' => 172800
+ *     "lifetime" => 172800,
  * ];
  *
  * // Create an output cache
@@ -43,22 +42,24 @@ use Phalcon\Cache\BackendInterface;
  *
  * // Set the cache directory
  * $backendOptions = [
- *     'cacheDir' => '../app/cache/'
+ *     "cacheDir" => "../app/cache/",
  * ];
  *
  * // Create the File backend
  * $cache = new File($frontCache, $backendOptions);
  *
- * $content = $cache->start('my-cache');
+ * $content = $cache->start("my-cache");
+ *
  * if ($content === null) {
- *     echo '<h1>', time(), '</h1>';
+ *     echo "<h1>", time(), "</h1>";
+ *
  *     $cache->save();
  * } else {
  *     echo $content;
  * }
  *</code>
  */
-class File extends Backend implements BackendInterface
+class File extends Backend
 {
 	/**
 	 * Default to false for backwards compatibility
@@ -266,6 +267,7 @@ class File extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
+		string prefixedKey =  this->_prefix . this->getKey(prefix);
 		/**
 		 * We use a directory iterator to traverse the cache dir directory
 		 */
@@ -274,7 +276,7 @@ class File extends Backend implements BackendInterface
 			if likely item->isDir() === false {
 				let key = item->getFileName();
 				if prefix !== null {
-					if starts_with(key, prefix) {
+					if starts_with(key, prefixedKey) {
 						let keys[] = key;
 					}
 				} else {

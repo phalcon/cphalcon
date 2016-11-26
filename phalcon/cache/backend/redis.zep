@@ -21,7 +21,6 @@ namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\FrontendInterface;
 
 /**
@@ -36,27 +35,32 @@ use Phalcon\Cache\FrontendInterface;
  * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
- * $frontCache = new FrontData([
- *     'lifetime' => 172800
- * ]);
+ * $frontCache = new FrontData(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
  * // Create the Cache setting redis connection options
- * $cache = new Redis($frontCache, [
- *     'host' => 'localhost',
- *     'port' => 6379,
- *     'auth' => 'foobared',
- *     'persistent' => false
- *     'index' => 0,
- * ]);
+ * $cache = new Redis(
+ *     $frontCache,
+ *     [
+ *         "host"       => "localhost",
+ *         "port"       => 6379,
+ *         "auth"       => "foobared",
+ *         "persistent" => false,
+ *         "index"      => 0,
+ *     ]
+ * );
  *
  * // Cache arbitrary data
- * $cache->save('my-data', [1, 2, 3, 4, 5]);
+ * $cache->save("my-data", [1, 2, 3, 4, 5]);
  *
  * // Get data
- * $data = $cache->get('my-data');
+ * $data = $cache->get("my-data");
  *</code>
  */
-class Redis extends Backend implements BackendInterface
+class Redis extends Backend
 {
 	protected _redis = null;
 
@@ -128,11 +132,11 @@ class Redis extends Backend implements BackendInterface
 			}
 		}
 
-		if fetch index, options["index"] {
+		if fetch index, options["index"] && index > 0 {
 			let success = redis->select(index);
 
 			if !success {
-				throw new Exception("Redisd server selected database failed");
+				throw new Exception("Redis server selected database failed");
 			}
 		}
 

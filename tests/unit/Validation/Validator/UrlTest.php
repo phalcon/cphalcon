@@ -35,11 +35,33 @@ class UrlTest extends UnitTest
     {
         $this->specify('Test url validator with single field.', function () {
             $validation = new Validation();
+
             $validation->add('url', new Validation\Validator\Url());
-            $messages = $validation->validate(['url' => 'http://google.com']);
-            expect($messages->count())->equals(0);
-            $messages = $validation->validate(['url' => '://google.']);
-            expect($messages->count())->equals(1);
+
+            $messages = $validation->validate([]);
+
+            $expectedMessages = Validation\Message\Group::__set_state(
+                [
+                    '_messages' => [
+                        0 => Validation\Message::__set_state(
+                            [
+                                '_type'    => 'Url',
+                                '_message' => 'Field url must be a url',
+                                '_field'   => 'url',
+                                '_code'    => 0,
+                            ]
+                        )
+                    ]
+                ]
+            );
+
+            expect($expectedMessages)->equals($messages);
+
+            $messages = $validation->validate(['url' => 'x=1']);
+            expect($expectedMessages)->equals($messages);
+
+            $messages = $validation->validate(['url' => 'http://phalconphp.com']);
+            expect($messages)->count(0);
         });
     }
 
@@ -70,5 +92,49 @@ class UrlTest extends UnitTest
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['url']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['anotherUrl']);
         });
+    }
+
+    public function testCustomMessage()
+    {
+        $this->specify(
+            'Test URL validator works with a custom message.',
+            function () {
+                $validation = new Validation();
+
+                $validation->add(
+                    'url',
+                    new Validation\Validator\Url(
+                        [
+                            'message' => 'The url is not valid'
+                        ]
+                    )
+                );
+
+                $messages = $validation->validate([]);
+
+                $expectedMessages = Validation\Message\Group::__set_state(
+                    [
+                        '_messages' => [
+                            0 => Validation\Message::__set_state(
+                                [
+                                    '_type'    => 'Url',
+                                    '_message' => 'The url is not valid',
+                                    '_field'   => 'url',
+                                    '_code'    => '0',
+                                ]
+                            )
+                        ]
+                    ]
+                );
+
+                expect($expectedMessages)->equals($messages);
+
+                $messages = $validation->validate(['url' => 'x=1']);
+                expect($expectedMessages)->equals($messages);
+
+                $messages = $validation->validate(['url' => 'http://phalconphp.com']);
+                expect($messages)->count(0);
+            }
+        );
     }
 }

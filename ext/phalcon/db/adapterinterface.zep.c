@@ -216,7 +216,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getConnectionId);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getSQLStatement);
 
 /**
- * Active SQL statement in the object without replace bound paramters
+ * Active SQL statement in the object without replace bound parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getRealSQLStatement);
 
@@ -277,7 +277,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, execute);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, affectedRows);
 
 /**
- * Closes active connection returning success. Phalcon automatically closes and destroys active connections within Phalcon\Db\Pool
+ * Closes active connection returning success. Phalcon automatically closes
+ * and destroys active connections within Phalcon\Db\Pool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, close);
 

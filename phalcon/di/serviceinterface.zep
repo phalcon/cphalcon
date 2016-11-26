@@ -72,7 +72,7 @@ interface ServiceInterface
 	public function setParameter(int position, array! parameter) -> <ServiceInterface>;
 
 	/**
-	 * Restore the interal state of a service
+	 * Restore the internal state of a service
 	 */
 	public static function __set_state(array! attributes) -> <ServiceInterface>;
 

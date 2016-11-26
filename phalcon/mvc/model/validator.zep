@@ -25,8 +25,11 @@ use Phalcon\Mvc\Model\Message;
  * Phalcon\Mvc\Model\Validator
  *
  * This is a base class for Phalcon\Mvc\Model validators
+ *
+ * This class is only for use with Phalcon\Mvc\Collection. If you are using
+ * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
  */
-abstract class Validator
+abstract class Validator implements ValidatorInterface
 {
 
 	protected _options;

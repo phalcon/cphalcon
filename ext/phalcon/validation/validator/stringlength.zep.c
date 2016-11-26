@@ -32,31 +32,44 @@
  * <code>
  * use Phalcon\Validation\Validator\StringLength as StringLength;
  *
- * $validation->add('name_last', new StringLength([
- *     'max' => 50,
- *     'min' => 2,
- *     'messageMaximum' => 'We don\'t like really long names',
- *     'messageMinimum' => 'We want more than just their initials'
- * ]));
+ * $validation->add(
+ *     "name_last",
+ *     new StringLength(
+ *         [
+ *             "max"            => 50,
+ *             "min"            => 2,
+ *             "messageMaximum" => "We don't like really long names",
+ *             "messageMinimum" => "We want more than just their initials",
+ *         ]
+ *     )
+ * );
  *
- * $validation->add(['name_last', 'name_first'], new StringLength([
- *     'max' => [
- *         'name_last' => 50,
- *         'name_first' => 40
+ * $validation->add(
+ *     [
+ *         "name_last",
+ *         "name_first",
  *     ],
- *     'min' => [
- *         'name_last' => 2,
- *         'name_first' => 4
- *     ],
- *     'messageMaximum' => [
- *         'name_last' => 'We don\'t like really long last names',
- *         'name_first' => 'We don\'t like really long first names'
- *     ],
- *     'messageMinimum' => [
- *         'name_last' => 'We don\'t like too short last names',
- *         'name_first' => 'We don\'t like too short first names',
- *     ]
- * ]));
+ *     new StringLength(
+ *         [
+ *             "max" => [
+ *                 "name_last"  => 50,
+ *                 "name_first" => 40,
+ *             ],
+ *             "min" => [
+ *                 "name_last"  => 2,
+ *                 "name_first" => 4,
+ *             ],
+ *             "messageMaximum" => [
+ *                 "name_last"  => "We don't like really long last names",
+ *                 "name_first" => "We don't like really long first names",
+ *             ],
+ *             "messageMinimum" => [
+ *                 "name_last"  => "We don't like too short last names",
+ *                 "name_first" => "We don't like too short first names",
+ *             ]
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength) {
@@ -108,7 +121,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		_1 = !zephir_is_true(isSetMax);
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 79);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "A minimum or maximum must be set", "phalcon/validation/validator/stringlength.zep", 92);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -119,7 +132,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(label) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 85 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 98 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(label, _2$$4);
 	}
 	if (ZEPHIR_IS_EMPTY(label)) {
@@ -132,11 +145,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(code) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$6, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 93 TSRMLS_CC);
+		zephir_array_fetch(&_3$$6, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 106 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(code, _3$$6);
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 378, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 380, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);
@@ -149,7 +162,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		zephir_check_temp_parameter(_4$$9);
 		zephir_check_call_status();
 		if (Z_TYPE_P(maximum) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$10, maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 110 TSRMLS_CC);
+			zephir_array_fetch(&_5$$10, maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 123 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(maximum, _5$$10);
 		}
 		if (ZEPHIR_GT(length, maximum)) {
@@ -163,7 +176,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 			if (Z_TYPE_P(message) == IS_ARRAY) {
-				zephir_array_fetch(&_7$$12, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 119 TSRMLS_CC);
+				zephir_array_fetch(&_7$$12, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 132 TSRMLS_CC);
 				ZEPHIR_CPY_WRT(message, _7$$12);
 			}
 			if (ZEPHIR_IS_EMPTY(message)) {
@@ -179,7 +192,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_11$$11);
 			ZVAL_STRING(_11$$11, "TooLong", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _6$$11, "__construct", &_12, 462, _9$$11, field, _11$$11, code);
+			ZEPHIR_CALL_METHOD(NULL, _6$$11, "__construct", &_12, 464, _9$$11, field, _11$$11, code);
 			zephir_check_temp_parameter(_11$$11);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _6$$11);
@@ -194,7 +207,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		zephir_check_temp_parameter(_13$$14);
 		zephir_check_call_status();
 		if (Z_TYPE_P(minimum) == IS_ARRAY) {
-			zephir_array_fetch(&_14$$15, minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 146 TSRMLS_CC);
+			zephir_array_fetch(&_14$$15, minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 159 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(minimum, _14$$15);
 		}
 		if (ZEPHIR_LT(length, minimum)) {
@@ -208,7 +221,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 			if (Z_TYPE_P(message) == IS_ARRAY) {
-				zephir_array_fetch(&_16$$17, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 155 TSRMLS_CC);
+				zephir_array_fetch(&_16$$17, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/stringlength.zep", 168 TSRMLS_CC);
 				ZEPHIR_CPY_WRT(message, _16$$17);
 			}
 			if (ZEPHIR_IS_EMPTY(message)) {
@@ -224,7 +237,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_19$$16);
 			ZVAL_STRING(_19$$16, "TooShort", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _15$$16, "__construct", &_12, 462, _18$$16, field, _19$$16, code);
+			ZEPHIR_CALL_METHOD(NULL, _15$$16, "__construct", &_12, 464, _18$$16, field, _19$$16, code);
 			zephir_check_temp_parameter(_19$$16);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _15$$16);

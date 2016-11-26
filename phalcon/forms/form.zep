@@ -662,9 +662,28 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function clear(var fields = null) -> <Form>
 	{
-		var elements, element;
+		var elements, element, data, field;
 
-		let elements = this->_elements;
+		let data = this->_data;
+		if is_null(fields) {
+			let data = [];
+		} else {
+			if typeof fields == "array" {
+				for field in fields {
+					if isset data[field] {
+						unset data[field];
+					}
+				}
+			} else {
+				if isset data[field] {
+					unset data[field];
+				}
+			}
+		}
+
+		let this->_data = data,
+			elements = this->_elements;
+
 		if typeof elements == "array" {
 			for element in elements {
 				if typeof fields != "array" {

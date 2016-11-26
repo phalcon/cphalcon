@@ -14,10 +14,18 @@ To install Phalcon on Windows:
 
 1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
-3. Edit your php.ini file and add this line: `extension=php_phalcon.dll`
+3. Edit your **php.ini** file and add this line:
+
+   ```ini
+   extension=php_phalcon.dll
+   ```
 4. Finally, restart your web server
 
-**Hint:** To ensure that your Phalcon installation was successful, debug with `<?php phpinfo(); ?>` and search for a section mentioning the Phalcon extension.
+**Hint:** To ensure that your Phalcon installation was successful, debug with
+```php
+<?php phpinfo(); ?>
+```
+and search for a section mentioning the Phalcon extension.
 
 ### Linux/Unix/Mac
 
@@ -29,7 +37,7 @@ Prerequisite packages are:
 
 * PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
 * GCC compiler (Linux/Solaris/FreeBSD) or Xcode (MacOS)
-* [`re2c`](http://re2c.org)
+* [`re2c`](http://re2c.org) >= 0.13
 
 Ubuntu:
 
@@ -60,9 +68,9 @@ cd cphalcon/build
 sudo ./install
 ```
 
-Add the extension to your php.ini:
+Add the extension to your **php.ini**:
 
-```bash
+```ini
 extension=phalcon.so
 ```
 
@@ -70,16 +78,22 @@ Finally, **restart the web server**.
 
 Advanced compilation
 --------------------
-if you have specific php versions running
+If you have specific php versions running
 
 ```bash
 git clone https://github.com/phalcon/cphalcon
-cd cphalcon/build/64bits  # or cd cphalcon/build/32bits
+# or cd cphalcon/build/php5/32bits
+cd cphalcon/build/php5/64bits
+
+# NOTE: for PHP 7 you have to use 
+# cd cphalcon/build/php7/32bits
+# or
+# cd cphalcon/build/php7/64bits
 
 make clean
 
 # Example: /opt/php-5.6.15
-CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
+export CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
 
 # Example: /opt/php-5.6.15/bin/phpize --clean
 $CUSTOM_PHP_INSTALLATION_PATH/bin/phpize --clean
@@ -95,11 +109,16 @@ make && sudo make install
 
 Edit your **php.ini** (for the specific version) and add this line:
 
-```bash
+```ini
 extension=phalcon.so
 ```
 
 Save the file and **Restart the web server**.
+
+Contributing
+------------
+Tests are located in `tests/` and use Codeception.
+Test classes should follow the [PSR-2 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
 Vagrant
 -------

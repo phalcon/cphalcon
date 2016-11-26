@@ -81,10 +81,10 @@ class Headers implements HeadersInterface
 		var header, value;
 		if !headers_sent() {
 			for header, value in this->_headers {
-				if value !== null {					
+				if value !== null {
 					header(header . ": " . value, true);
 				} else {
-					if memstr(header, ":") {
+					if memstr(header, ":") || substr(header, 0, 5) == "HTTP/" {
 						header(header, true);
 					} else {
 						header(header . ": ", true);

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  * Reads an attribute value by its name
  *
  *<code>
- *  echo $robot->readAttribute('name');
+ * echo $robot->readAttribute("name");
  *</code>
  *
  * @param string attribute
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
  * Writes an attribute value by its name
  *
  *<code>
- *  $robot->writeAttribute('name', 'Rosey');
+ * $robot->writeAttribute("name", "Rosey");
  *</code>
  *
  * @param string attribute

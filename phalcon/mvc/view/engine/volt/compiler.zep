@@ -30,11 +30,11 @@ use Phalcon\Mvc\View\Engine\Volt\Exception;
  * This class reads and compiles Volt templates into PHP plain code
  *
  *<code>
- *	$compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+ * $compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
  *
- *	$compiler->compile('views/partials/header.volt');
+ * $compiler->compile("views/partials/header.volt");
  *
- *	require $compiler->getCompiledTemplatePath();
+ * require $compiler->getCompiledTemplatePath();
  *</code>
  */
 class Compiler implements InjectionAwareInterface
@@ -314,7 +314,7 @@ class Compiler implements InjectionAwareInterface
 			} else {
 
 				/**
-				 * Services registered in the dependency injector container are availables always
+				 * Services registered in the dependency injector container are available always
 				 */
 				let dependencyInjector = this->_dependencyInjector;
 				if typeof dependencyInjector == "object" && dependencyInjector->has(variable) {
@@ -413,7 +413,9 @@ class Compiler implements InjectionAwareInterface
 						}
 					}
 
-					throw new Exception("Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]);
+					throw new Exception(
+						"Invalid definition for user function '" . name . "' in " . expr["file"] . " on line " . expr["line"]
+					);
 				}
 			}
 
@@ -756,7 +758,9 @@ class Compiler implements InjectionAwareInterface
 				/**
 				 * Invalid filter definition throw an exception
 				 */
-				throw new Exception("Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]);
+				throw new Exception(
+					"Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
+				);
 			}
 		}
 
@@ -936,7 +940,7 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * This function uses mbstring or iconv to convert strings from one chartset to another
+		 * This function uses mbstring or iconv to convert strings from one charset to another
 		 */
 		if name == "convert_encoding" {
 			return "$this->convertEncoding(" . arguments . ")";
@@ -1607,7 +1611,7 @@ class Compiler implements InjectionAwareInterface
 		var assignments, assignment, exprCode, target, compilation;
 
 		/**
-		 * A valid assigment list is required
+		 * A valid assignment list is required
 		 */
 		if !fetch assignments, statement["assignments"] {
 			throw new Exception("Corrupted statement");
@@ -1616,7 +1620,7 @@ class Compiler implements InjectionAwareInterface
 		let compilation = "<?php";
 
 		/**
-		 * A single set can have several assigments
+		 * A single set can have several assignments
 		 */
 		for assignment in assignments {
 
@@ -1809,7 +1813,7 @@ class Compiler implements InjectionAwareInterface
 
 				/**
 				 * Clone the original compiler
-				 * Perform a subcompilation of the included file
+				 * Perform a sub-compilation of the included file
 				 * If the compilation doesn't return anything we include the compiled path
 				 */
 				let subCompiler = clone this;
@@ -2078,7 +2082,7 @@ class Compiler implements InjectionAwareInterface
 					let extended = true;
 
 					/**
-					 * Perform a subcompilation of the extended file
+					 * Perform a sub-compilation of the extended file
 					 */
 					let subCompiler = clone this;
 					let tempCompilation = subCompiler->compile(finalPath, extended);
@@ -2309,7 +2313,7 @@ class Compiler implements InjectionAwareInterface
 	 * Compiles a template into a file forcing the destination path
 	 *
 	 *<code>
-	 *	$compiler->compile('views/layouts/main.volt', 'views/layouts/main.volt.php');
+	 * $compiler->compile("views/layouts/main.volt", "views/layouts/main.volt.php");
 	 *</code>
 	 *
 	 * @param string path
@@ -2353,7 +2357,8 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		/**
-		 * Always use file_put_contents to write files instead of write the file directly, this respect the open_basedir directive
+		 * Always use file_put_contents to write files instead of write the file
+		 * directly, this respect the open_basedir directive
 		 */
 		if file_put_contents(compiledPath, finalCompilation) === false {
 			throw new Exception("Volt directory can't be written");
@@ -2367,8 +2372,9 @@ class Compiler implements InjectionAwareInterface
 	 * This method does not return the compiled path if the template was not compiled
 	 *
 	 *<code>
-	 *	$compiler->compile('views/layouts/main.volt');
-	 *	require $compiler->getCompiledTemplatePath();
+	 * $compiler->compile("views/layouts/main.volt");
+	 *
+	 * require $compiler->getCompiledTemplatePath();
 	 *</code>
 	 */
 	public function compile(string! templatePath, boolean extendsMode = false)
@@ -2594,7 +2600,9 @@ class Compiler implements InjectionAwareInterface
 	 * Parses a Volt template returning its intermediate representation
 	 *
 	 *<code>
-	 *	print_r($compiler->parse('{{ 3 + 2 }}'));
+	 * print_r(
+	 *     $compiler->parse("{{ 3 + 2 }}")
+	 * );
 	 *</code>
 	 *
 	 * @param string viewCode

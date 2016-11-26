@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -24,36 +25,45 @@
  * Allows to cache native PHP data in a serialized form using igbinary extension
  *
  *<code>
+ * // Cache the files for 2 days using Igbinary frontend
+ * $frontCache = new \Phalcon\Cache\Frontend\Igbinary(
+ *     [
+ *         "lifetime" => 172800,
+ *     ]
+ * );
  *
- *	// Cache the files for 2 days using Igbinary frontend
- *	$frontCache = new \Phalcon\Cache\Frontend\Igbinary(array(
- *		"lifetime" => 172800
- *	));
+ * // Create the component that will cache "Igbinary" to a "File" backend
+ * // Set the cache file directory - important to keep the "/" at the end of
+ * // of the value for the folder
+ * $cache = new \Phalcon\Cache\Backend\File(
+ *     $frontCache,
+ *     [
+ *         "cacheDir" => "../app/cache/",
+ *     ]
+ * );
  *
- *	// Create the component that will cache "Igbinary" to a "File" backend
- *	// Set the cache file directory - important to keep the "/" at the end of
- *	// of the value for the folder
- *	$cache = new \Phalcon\Cache\Backend\File($frontCache, array(
- *		"cacheDir" => "../app/cache/"
- *	));
+ * $cacheKey = "robots_order_id.cache";
  *
- *	// Try to get cached records
- *	$cacheKey  = 'robots_order_id.cache';
- *	$robots    = $cache->get($cacheKey);
- *	if ($robots === null) {
+ * // Try to get cached records
+ * $robots = $cache->get($cacheKey);
  *
- *		// $robots is null due to cache expiration or data do not exist
- *		// Make the database call and populate the variable
- *		$robots = Robots::find(array("order" => "id"));
+ * if ($robots === null) {
+ *     // $robots is null due to cache expiration or data do not exist
+ *     // Make the database call and populate the variable
+ *     $robots = Robots::find(
+ *         [
+ *             "order" => "id",
+ *         ]
+ *     );
  *
- *		// Store it in the cache
- *		$cache->save($cacheKey, $robots);
- *	}
+ *     // Store it in the cache
+ *     $cache->save($cacheKey, $robots);
+ * }
  *
- *	// Use $robots :)
- *	foreach ($robots as $robot) {
- *		echo $robot->name, "\n";
- *	}
+ * // Use $robots :)
+ * foreach ($robots as $robot) {
+ *     echo $robot->name, "\n";
+ * }
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary) {
@@ -149,9 +159,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, stop) {
 
 /**
  * Serializes data before storing them
- *
- * @param mixed data
- * @return string
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
@@ -171,9 +178,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
 /**
  * Unserializes data after retrieval
- *
- * @param mixed data
- * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 
@@ -185,6 +189,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 
 
 
+	if (zephir_is_numeric(data)) {
+		RETVAL_ZVAL(data, 1, 0);
+		RETURN_MM();
+	}
 	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 126, data);
 	zephir_check_call_status();
 	RETURN_MM();

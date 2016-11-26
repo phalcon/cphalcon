@@ -33,40 +33,65 @@ use Phalcon\Mvc\Model;
  * <code>
  * use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
- * $validator->add('username', new UniquenessValidator([
- *     'model' => new Users(),
- *     'message' => ':field must be unique'
- * ]));
+ * $validator->add(
+ *     "username",
+ *     new UniquenessValidator(
+ *         [
+ *             "model"   => new Users(),
+ *             "message" => ":field must be unique",
+ *         ]
+ *     )
+ * );
  * </code>
  *
  * Different attribute from the field:
  * <code>
- * $validator->add('username', new UniquenessValidator([
- *     'model' => new Users(),
- *     'attribute' => 'nick'
- * ]));
+ * $validator->add(
+ *     "username",
+ *     new UniquenessValidator(
+ *         [
+ *             "model"     => new Users(),
+ *             "attribute" => "nick",
+ *         ]
+ *     )
+ * );
  * </code>
  *
  * In model:
  * <code>
- * $validator->add('username', new UniquenessValidator());
+ * $validator->add(
+ *     "username",
+ *     new UniquenessValidator()
+ * );
  * </code>
  *
  * Combination of fields in model:
  * <code>
- * $validator->add(['firstName', 'lastName'], new UniquenessValidator());
+ * $validator->add(
+ *     [
+ *         "firstName",
+ *         "lastName",
+ *     ],
+ *     new UniquenessValidator()
+ * );
  * </code>
  *
  * It is possible to convert values before validation. This is useful in
  * situations where values need to be converted to do the database lookup:
- * <code>
- * $validator->add('username', new UniquenessValidator([
- *     'convert' => function (array $values) {
- *         $values['username'] = strtolower($values['username']);
  *
- *         return $values;
- *     }
- * ]));
+ * <code>
+ * $validator->add(
+ *     "username",
+ *     new UniquenessValidator(
+ *         [
+ *             "convert" => function (array $values) {
+ *                 $values["username"] = strtolower($values["username"]);
+ *
+ *                 return $values;
+ *             }
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class Uniqueness extends CombinedFieldsValidator
@@ -93,7 +118,19 @@ class Uniqueness extends CombinedFieldsValidator
 				let message = validation->getDefaultMessage("Uniqueness");
 			}
 
-			validation->appendMessage(new Message(strtr(message, [":field": label]), field, "Uniqueness", this->getOption("code")));
+			validation->appendMessage(
+				new Message(
+					strtr(
+						message,
+						[
+							":field": label
+						]
+					),
+					field,
+					"Uniqueness",
+					this->getOption("code")
+				)
+			);
 			return false;
 		}
 
@@ -103,7 +140,8 @@ class Uniqueness extends CombinedFieldsValidator
 	protected function isUniqueness(<Validation> validation, var field) -> boolean
 	{
 		var value, values, convert, record, attribute, except,
-			index, params, metaData, primaryField, className, singleField, fieldExcept, singleExcept, notInValues, exceptConditions;
+			index, params, metaData, primaryField, className, singleField,
+			fieldExcept, singleExcept, notInValues, exceptConditions;
 
 		let exceptConditions = [];
 		let index  = 0;

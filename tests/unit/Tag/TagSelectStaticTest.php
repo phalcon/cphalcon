@@ -65,7 +65,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -100,7 +99,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -136,7 +134,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -171,7 +168,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -206,7 +202,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -241,7 +236,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -276,7 +270,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -312,7 +305,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with displayTo and element not present returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -348,7 +340,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     "x_name",
@@ -388,7 +379,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -430,7 +420,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -471,7 +460,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -512,7 +500,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -554,7 +541,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -596,7 +582,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',
@@ -640,7 +625,6 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with displayTo and element not present returns invalid HTML",
             function () {
-
                 Tag::resetInput();
                 $params = [
                     'x_name',

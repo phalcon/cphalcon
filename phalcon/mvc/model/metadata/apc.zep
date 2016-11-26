@@ -32,10 +32,12 @@ use Phalcon\Mvc\Model\Exception;
  * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
  *
  *<code>
- *	$metaData = new \Phalcon\Mvc\Model\Metadata\Apc(array(
- *		'prefix' => 'my-app-id',
- *		'lifetime' => 86400
- *	));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Apc(
+ *     [
+ *         "prefix"   => "my-app-id",
+ *         "lifetime" => 86400,
+ *     ]
+ * );
  *</code>
  */
 class Apc extends MetaData

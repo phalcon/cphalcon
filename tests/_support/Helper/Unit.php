@@ -2,10 +2,12 @@
 
 namespace Helper;
 
-use Codeception\Module;
-use Codeception\Specify\Config as SpecifyConfig;
-use Codeception\TestInterface;
 use Phalcon\Tag;
+use ReflectionClass;
+use Codeception\Module;
+use Codeception\TestInterface;
+use Codeception\Module\Memcache;
+use Codeception\Specify\Config as SpecifyConfig;
 
 /**
  * Unit Helper
@@ -18,14 +20,14 @@ use Phalcon\Tag;
 class Unit extends Module
 {
     /**
-     * @var \Codeception\TestInterface
+     * @var TestInterface
      */
     protected $test;
 
     /**
      * Executed before each test.
      *
-     * @param \Codeception\TestInterface $test
+     * @param TestInterface $test
      */
     public function _before(TestInterface $test)
     {
@@ -34,22 +36,25 @@ class Unit extends Module
         SpecifyConfig::setDeepClone(false);
     }
 
-    /**
-     * Executed after each test.
-     *
-     * @param \Codeception\TestInterface $test
-     */
-    public function _after(TestInterface $test)
-    {
-    }
-
     public function getProtectedProperty($obj, $prop)
     {
-        $reflection = new \ReflectionClass($obj);
+        $reflection = new ReflectionClass($obj);
+
         $property = $reflection->getProperty($prop);
         $property->setAccessible(true);
 
         return $property->getValue($obj);
+    }
+
+    public function setProtectedProperty($obj, $prop, $value)
+    {
+        $reflection = new ReflectionClass($obj);
+
+        $property = $reflection->getProperty($prop);
+        $property->setAccessible(true);
+        $property->setValue($obj, $value);
+
+        $this->assertEquals($value, $property->getValue($obj));
     }
 
     /**

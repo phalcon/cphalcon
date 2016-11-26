@@ -34,7 +34,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with string parameter returns invalid HTML Strict",
             function () {
-
                 $options  = 'x_name';
                 $expected = '<input type="datetime-local" id="x_name" '
                           . 'name="x_name"';
@@ -51,7 +50,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with string parameter returns invalid HTML XHTML",
             function () {
-
                 $options  = 'x_name';
                 $expected = '<input type="datetime-local" id="x_name" '
                           . 'name="x_name"';
@@ -77,7 +75,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with array parameter returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'class' => 'x_class',
@@ -97,7 +94,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with array parameter returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'class' => 'x_class',
@@ -126,7 +122,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with array parameter with id returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'id'    => 'x_id',
@@ -148,7 +143,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with array parameter with id returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'id'    => 'x_id',
@@ -179,7 +173,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with array parameter with name no id returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -201,7 +194,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with array parameter with name no id returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -232,7 +224,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with setDefault returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -256,7 +247,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with setDefault returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -289,7 +279,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with displayTo returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -313,7 +302,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with displayTo returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -346,7 +334,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with setDefault and element not present returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -370,7 +357,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with setDefault and element not present returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -403,7 +389,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with displayTo and element not present returns invalid HTML Strict",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',
@@ -427,7 +412,6 @@ class TagDateTimeLocalFieldTest extends UnitTest
         $this->specify(
             "dateTimeLocalField with displayTo and element not present returns invalid HTML XHTML",
             function () {
-
                 $options = [
                     'x_name',
                     'name'  => 'x_other',

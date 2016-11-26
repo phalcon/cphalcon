@@ -28,22 +28,22 @@ use Phalcon\Mvc\Model\MessageInterface;
  * Encapsulates validation info generated before save/delete records fails
  *
  *<code>
- *	use Phalcon\Mvc\Model\Message as Message;
+ * use Phalcon\Mvc\Model\Message as Message;
  *
- *  class Robots extends \Phalcon\Mvc\Model
- *  {
+ * class Robots extends \Phalcon\Mvc\Model
+ * {
+ *     public function beforeSave()
+ *     {
+ *         if ($this->name === "Peter") {
+ *             $text  = "A robot cannot be named Peter";
+ *             $field = "name";
+ *             $type  = "InvalidValue";
  *
- *    public function beforeSave()
- *    {
- *      if ($this->name == 'Peter') {
- *        $text = "A robot cannot be named Peter";
- *        $field = "name";
- *        $type = "InvalidValue";
- *        $message = new Message($text, $field, $type);
- *        $this->appendMessage($message);
+ *             $message = new Message($text, $field, $type);
+ *
+ *             $this->appendMessage($message);
+ *         }
  *     }
- *   }
- *
  * }
  * </code>
  *

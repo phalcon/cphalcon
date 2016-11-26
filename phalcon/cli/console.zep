@@ -42,12 +42,14 @@ class Console extends BaseApplication
 	 * Merge modules with the existing ones
 	 *
 	 *<code>
-	 *	application->addModules(array(
-	 *		'admin' => array(
-	 *			'className' => 'Multiple\Admin\Module',
-	 *			'path' => '../apps/admin/Module.php'
-	 *		)
-	 *	));
+	 * $application->addModules(
+	 *     [
+	 *         "admin" => [
+	 *             "className" => "Multiple\\Admin\\Module",
+	 *             "path"      => "../apps/admin/Module.php",
+	 *         ],
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	deprecated public function addModules(array! modules)

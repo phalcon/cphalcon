@@ -22,32 +22,38 @@ namespace Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\Email
  *
  * Allows to validate if email fields has correct values
  *
+ * This validator is only for use with Phalcon\Mvc\Collection. If you are using
+ * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ *
  *<code>
- *	use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+ * use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
  *
- *	class Subscriptors extends \Phalcon\Mvc\Model
- *	{
+ * class Subscriptors extends \Phalcon\Mvc\Collection
+ * {
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new EmailValidator(
+ *                 [
+ *                     "field" => "electronic_mail",
+ *                 ]
+ *             )
+ *         );
  *
- *		public function validation()
- *		{
- *			$this->validate(new EmailValidator(array(
- *				'field' => 'electronic_mail'
- *      	)));
- *      	if ($this->validationHasFailed() == true) {
- *				return false;
- *      	}
- *  	}
- *	}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
-class Email extends Validator implements ValidatorInterface
+class Email extends Validator
 {
 
 	/**

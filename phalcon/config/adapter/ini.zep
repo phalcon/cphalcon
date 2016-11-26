@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -47,7 +47,8 @@ use Phalcon\Config\Exception;
  * You can read it as follows:
  *
  *<code>
- * $config = new Phalcon\Config\Adapter\Ini("path/config.ini");
+ * $config = new \Phalcon\Config\Adapter\Ini("path/config.ini");
+ *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *</code>
@@ -58,7 +59,10 @@ use Phalcon\Config\Exception;
  * second parameter as INI_SCANNER_NORMAL when calling the constructor:
  *
  * <code>
- *  $config = new Phalcon\Config\Adapter\Ini("path/config-with-constants.ini", INI_SCANNER_NORMAL);
+ * $config = new \Phalcon\Config\Adapter\Ini(
+ *     "path/config-with-constants.ini",
+ *     INI_SCANNER_NORMAL
+ * );
  * </code>
  */
 class Ini extends Config
@@ -106,13 +110,13 @@ class Ini extends Config
 	 * Build multidimensional array from string
 	 *
 	 * <code>
-	 * $this->_parseIniString('path.hello.world', 'value for last key');
+	 * $this->_parseIniString("path.hello.world", "value for last key");
 	 *
 	 * // result
 	 * [
-	 *      'path' => [
-	 *          'hello' => [
-	 *              'world' => 'value for last key',
+	 *      "path" => [
+	 *          "hello" => [
+	 *              "world" => "value for last key",
 	 *          ],
 	 *      ],
 	 * ];
@@ -138,7 +142,7 @@ class Ini extends Config
 	 *
 	 * @param mixed ini The array casted by `parse_ini_file`
 	 */
-	private function _cast(var ini) -> bool | null | double | int | string
+	protected function _cast(var ini) -> bool | null | double | int | string
 	{
 		var key, val;
 		if typeof ini == "array" {
@@ -151,17 +155,17 @@ class Ini extends Config
 			if ini === "true" || ini === "yes" || strtolower(ini) === "on"{
 				return true;
 			}
-	
+
 			// Decode false
 			if ini === "false" || ini === "no" || strtolower(ini) === "off"{
 				return false;
 			}
-	
+
 			// Decode null
 			if ini === "null" {
 				return null;
 			}
-	
+
 			// Decode float/int
 			if is_numeric(ini) {
 				if preg_match("/[.]+/", ini) {

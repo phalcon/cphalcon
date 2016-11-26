@@ -37,10 +37,20 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * $view = new View();
  *
  * // Render a view
- * echo $view->render('templates/my-view', ['some' => $param]);
+ * echo $view->render(
+ *     "templates/my-view",
+ *     [
+ *         "some" => $param,
+ *     ]
+ * );
  *
  * // Or with filename with extension
- * echo $view->render('templates/my-view.volt', ['parameter' => $here]);
+ * echo $view->render(
+ *     "templates/my-view.volt",
+ *     [
+ *         "parameter" => $here,
+ *     ]
+ * );
  *</code>
  */
 class Simple extends Injectable implements ViewBaseInterface
@@ -100,11 +110,13 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Register templating engines
 	 *
 	 *<code>
-	 * $this->view->registerEngines([
-	 *  '.phtml' => 'Phalcon\Mvc\View\Engine\Php',
-	 *  '.volt'  => 'Phalcon\Mvc\View\Engine\Volt',
-	 *  '.mhtml' => 'MyCustomEngine'
-	 * ]);
+	 * $this->view->registerEngines(
+	 *     [
+	 *         ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
+	 *         ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
+	 *         ".mhtml" => "MyCustomEngine",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function registerEngines(array! engines)
@@ -379,13 +391,18 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Renders a partial view
 	 *
 	 * <code>
-	 * 	// Show a partial inside another view
-	 * 	$this->partial('shared/footer');
+	 * // Show a partial inside another view
+	 * $this->partial("shared/footer");
 	 * </code>
 	 *
 	 * <code>
-	 * 	// Show a partial inside another view with parameters
-	 * 	$this->partial('shared/footer', ['content' => $html]);
+	 * // Show a partial inside another view with parameters
+	 * $this->partial(
+	 *     "shared/footer",
+	 *     [
+	 *         "content" => $html,
+	 *     ]
+	 * );
 	 * </code>
 	 */
 	public function partial(string! partialPath, var params = null)
@@ -512,7 +529,12 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Cache the actual view render to certain level
 	 *
 	 *<code>
-	 *  $this->view->cache(['key' => 'my-key', 'lifetime' => 86400]);
+	 * $this->view->cache(
+	 *     [
+	 *         "key"      => "my-key",
+	 *         "lifetime" => 86400,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function cache(var options = true) -> <Simple>
@@ -534,7 +556,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Adds parameters to views (alias of setVar)
 	 *
 	 *<code>
-	 *	$this->view->setParamToView('products', $products);
+	 * $this->view->setParamToView("products", $products);
 	 *</code>
 	 */
 	public function setParamToView(string! key, var value) -> <Simple>
@@ -547,7 +569,11 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Set all the render params
 	 *
 	 *<code>
-	 *	$this->view->setVars(['products' => $products]);
+	 * $this->view->setVars(
+	 *     [
+	 *         "products" => $products,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setVars(array! params, boolean merge = true) -> <Simple>
@@ -565,7 +591,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Set a single view parameter
 	 *
 	 *<code>
-	 *	$this->view->setVar('products', $products);
+	 * $this->view->setVar("products", $products);
 	 *</code>
 	 */
 	public function setVar(string! key, var value) -> <Simple>
@@ -600,7 +626,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Externally sets the view content
 	 *
 	 *<code>
-	 *	$this->view->setContent("<h1>hello</h1>");
+	 * $this->view->setContent("<h1>hello</h1>");
 	 *</code>
 	 */
 	public function setContent(string! content) -> <Simple>
@@ -631,7 +657,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Magic method to pass variables to the views
 	 *
 	 *<code>
-	 *	$this->view->products = $products;
+	 * $this->view->products = $products;
 	 *</code>
 	 */
 	public function __set(string! key, var value)
@@ -643,7 +669,7 @@ class Simple extends Injectable implements ViewBaseInterface
 	 * Magic method to retrieve a variable passed to the view
 	 *
 	 *<code>
-	 *	echo $this->view->products;
+	 * echo $this->view->products;
 	 *</code>
 	 */
 	public function __get(string! key) -> var | null

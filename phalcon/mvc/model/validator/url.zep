@@ -21,7 +21,6 @@ namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\ValidatorInterface;
 use Phalcon\Mvc\Model\Validator;
 
 /**
@@ -29,26 +28,32 @@ use Phalcon\Mvc\Model\Validator;
  *
  * Allows to validate if a field has a url format
  *
+ * This validator is only for use with Phalcon\Mvc\Collection. If you are using
+ * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ *
  *<code>
- *use Phalcon\Mvc\Model\Validator\Url as UrlValidator;
+ * use Phalcon\Mvc\Model\Validator\Url as UrlValidator;
  *
- *class Posts extends \Phalcon\Mvc\Model
- *{
+ * class Posts extends \Phalcon\Mvc\Collection
+ * {
+ *     public function validation()
+ *     {
+ *         $this->validate(
+ *             new UrlValidator(
+ *                 [
+ *                     "field" => "source_url",
+ *                 ]
+ *             )
+ *         );
  *
- *  public function validation()
- *  {
- *      $this->validate(new UrlValidator(array(
- *          'field' => 'source_url'
- *      )));
- *      if ($this->validationHasFailed() == true) {
- *          return false;
- *      }
- *  }
- *
- *}
+ *         if ($this->validationHasFailed() === true) {
+ *             return false;
+ *         }
+ *     }
+ * }
  *</code>
  */
-class Url extends Validator implements ValidatorInterface
+class Url extends Validator
 {
 	/**
 	 * Executes the validator

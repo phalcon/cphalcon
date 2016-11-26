@@ -38,16 +38,6 @@ class Crypt extends PhCrypt
         return parent::getCipher();
     }
 
-    public function setMode($mode)
-    {
-        return parent::setMode($mode);
-    }
-
-    public function getMode()
-    {
-        return parent::getMode();
-    }
-
     public function setKey($key)
     {
         return parent::setKey($key);
@@ -82,10 +72,4 @@ class Crypt extends PhCrypt
     {
         return parent::getAvailableCiphers();
     }
-
-    public function getAvailableModes()
-    {
-        return parent::getAvailableModes();
-    }
-
 }

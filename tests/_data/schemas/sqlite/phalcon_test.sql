@@ -1,6 +1,7 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
+DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `document_id` int(3) NOT NULL,
@@ -21,25 +22,26 @@ CREATE INDEX customers_customer_id_idx ON customers (`customer_id`);
 CREATE INDEX customers_credit_line_idx ON customers (`credit_line`);
 CREATE INDEX customers_status_idx ON customers (`status`);
 
-
+DROP TABLE IF EXISTS `m2m_parts`;
 CREATE TABLE `m2m_parts` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `name` varchar(70) NOT NULL
 );
 
+DROP TABLE IF EXISTS `m2m_robots`;
 CREATE TABLE `m2m_robots` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `name` varchar(70) NOT NULL
 );
 
+DROP TABLE IF EXISTS `m2m_robots_parts`;
 CREATE TABLE `m2m_robots_parts` (
   `robots_id` INTEGER NOT NULL,
   `parts_id` INTEGER NOT NULL,
   PRIMARY KEY (`robots_id`, `parts_id`)
 );
 
-
-
+DROP TABLE IF EXISTS `parts`;
 CREATE TABLE `parts` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `name` varchar(70) NOT NULL
@@ -49,6 +51,8 @@ INSERT INTO "parts" VALUES(2,'Body');
 INSERT INTO "parts" VALUES(3,'Arms');
 INSERT INTO "parts" VALUES(4,'Legs');
 INSERT INTO "parts" VALUES(5,'CPU');
+
+DROP TABLE IF EXISTS `personas`;
 CREATE TABLE `personas` (
   `cedula` char(15) NOT NULL,
   `tipo_documento_id` int(3) NOT NULL,
@@ -2259,6 +2263,8 @@ INSERT INTO "personas" VALUES('CELL2051',1,'LOST','1',NULL,NULL,NULL,NULL,NULL,2
 INSERT INTO "personas" VALUES('CELL7086',1,'LOST','1',NULL,NULL,NULL,NULL,NULL,20000,'A');
 INSERT INTO "personas" VALUES('CELL9220',1,'LOST','1',NULL,NULL,NULL,NULL,NULL,20000,'A');
 INSERT INTO "personas" VALUES('CELL9701',1,'LOST','1',NULL,NULL,NULL,NULL,NULL,20000,'A');
+
+DROP TABLE IF EXISTS `personnes`;
 CREATE TABLE `personnes` (
   `cedula` char(15) NOT NULL,
   `tipo_documento_id` int(3) NOT NULL,
@@ -4453,11 +4459,15 @@ INSERT INTO "personnes" VALUES('T-Cx211',1,'LOST LOST','1',NULL,NULL,NULL,NULL,N
 INSERT INTO "personnes" VALUES('T-Cx212',1,'LOST LOST','1',NULL,NULL,NULL,NULL,NULL,0,'A');
 INSERT INTO "personnes" VALUES('T-Cx213',1,'LOST LOST','1',NULL,NULL,NULL,NULL,NULL,0,'A');
 INSERT INTO "personnes" VALUES('T-Cx214',1,'LOST LOST','1',NULL,NULL,NULL,NULL,NULL,0,'A');
+
+DROP TABLE IF EXISTS `prueba`;
 CREATE TABLE `prueba` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `nombre` varchar(120) NOT NULL,
   `estado` char(1) NOT NULL
 );
+
+DROP TABLE IF EXISTS `robots`;
 CREATE TABLE `robots` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `name` varchar(70) NOT NULL,
@@ -4470,6 +4480,8 @@ CREATE TABLE `robots` (
 INSERT INTO "robots" VALUES(1,'Robotina','mechanical',1972,'1972/01/01 00:00:00',NULL,'text');
 INSERT INTO "robots" VALUES(2,'Astro Boy','mechanical',1952,'1952/01/01 00:00:00',NULL,'text');
 INSERT INTO "robots" VALUES(3,'Terminator','cyborg',2029,'2029/01/01 00:00:00',NULL,'text');
+
+DROP TABLE IF EXISTS `robots_parts`;
 CREATE TABLE `robots_parts` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `robots_id` int(10) NOT NULL,
@@ -4480,6 +4492,8 @@ CREATE TABLE `robots_parts` (
 INSERT INTO "robots_parts" VALUES(1,1,1);
 INSERT INTO "robots_parts" VALUES(2,1,2);
 INSERT INTO "robots_parts" VALUES(3,1,3);
+
+DROP TABLE IF EXISTS `subscriptores`;
 CREATE TABLE `subscriptores` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `email` varchar(70) NOT NULL,
@@ -4487,6 +4501,8 @@ CREATE TABLE `subscriptores` (
   `status` char(1) NOT NULL
 );
 INSERT INTO "subscriptores" VALUES(43,'fuego@hotmail.com','2012-04-14 23:30:33','P');
+
+DROP TABLE IF EXISTS `tipo_documento`;
 CREATE TABLE `tipo_documento` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `detalle` varchar(32) NOT NULL
@@ -6501,6 +6517,7 @@ CREATE INDEX `prueba_estado` ON `prueba` (`estado`);
 CREATE INDEX `robots_parts_robots_id` on `robots_parts` (`robots_id`);
 CREATE INDEX `robots_parts_parts_id` on `robots_parts` (`parts_id`);
 
+DROP TABLE IF EXISTS `COMPANY`;
 CREATE TABLE COMPANY (
    ID INT PRIMARY KEY     NOT NULL,
    NAME           TEXT    NOT NULL,

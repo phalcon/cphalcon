@@ -30,9 +30,11 @@
  * You can query the meta-data by printing $_SESSION['$PMM$']
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Session(array(
- *    'prefix' => 'my-app-id'
- * ));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Session(
+ *     [
+ *        "prefix" => "my-app-id",
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session) {
@@ -99,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SV(_2, "$PMM$", _1);
-	zephir_array_fetch(&_0, _SESSION, _2, PH_READONLY, "phalcon/mvc/model/metadata/session.zep", 69 TSRMLS_CC);
+	zephir_array_fetch(&_0, _SESSION, _2, PH_READONLY, "phalcon/mvc/model/metadata/session.zep", 71 TSRMLS_CC);
 	if (zephir_array_isset_fetch(&metaData, _0, key, 1 TSRMLS_CC)) {
 		RETURN_CTOR(metaData);
 	}

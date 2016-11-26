@@ -20,7 +20,6 @@
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\FormatterInterface;
 use Phalcon\Logger\Formatter\Line as LineFormatter;
@@ -31,14 +30,16 @@ use Phalcon\Logger\Formatter\Line as LineFormatter;
  * Adapter to store logs in plain text files
  *
  *<code>
- *	$logger = new \Phalcon\Logger\Adapter\File("app/logs/test.log");
- *	$logger->log("This is a message");
- *	$logger->log(\Phalcon\Logger::ERROR, "This is an error");
- *	$logger->error("This is another error");
- *	$logger->close();
+ * $logger = new \Phalcon\Logger\Adapter\File("app/logs/test.log");
+ *
+ * $logger->log("This is a message");
+ * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
+ * $logger->error("This is another error");
+ *
+ * $logger->close();
  *</code>
  */
-class File extends Adapter implements AdapterInterface
+class File extends Adapter
 {
 
 	/**

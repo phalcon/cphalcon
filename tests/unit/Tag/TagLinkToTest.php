@@ -51,7 +51,7 @@ class TagLinkToTest extends UnitTest
      * Tests linkTo with string as URL and name
      *
      * @issue  2002
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-03-10
      */

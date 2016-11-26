@@ -247,7 +247,7 @@ class ConfigTest extends ConfigBase
                         'username' => 'peter',
                         'options'  => [
                             'case' => 'lower',
-					        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                         ],
                         'alternatives' => [
                             'primary' => 'swedish',
@@ -277,7 +277,7 @@ class ConfigTest extends ConfigBase
                         ]),
                         'options' => PhConfig::__set_state([
                             'case' => 'lower',
-					        (string) \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                            (string) \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                         ]),
                     ]),
                 ]);

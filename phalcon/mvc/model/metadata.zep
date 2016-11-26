@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -36,11 +36,14 @@ use Phalcon\Mvc\Model\MetaData\StrategyInterface;
  * <p>A standard Phalcon\Mvc\Model\MetaData can be used to query model attributes:</p>
  *
  * <code>
- *	$metaData = new \Phalcon\Mvc\Model\MetaData\Memory();
- *	$attributes = $metaData->getAttributes(new Robots());
- *	print_r($attributes);
- * </code>
+ * $metaData = new \Phalcon\Mvc\Model\MetaData\Memory();
  *
+ * $attributes = $metaData->getAttributes(
+ *     new Robots()
+ * );
+ *
+ * print_r($attributes);
+ * </code>
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
@@ -215,20 +218,22 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public function getStrategy() -> <StrategyInterface>
 	{
-		var strategy;
-		let strategy = this->_strategy;
-		if typeof strategy == "null" {
-			let strategy = new Introspection(),
-				this->_strategy = strategy;
+		if typeof this->_strategy == "null" {
+			let this->_strategy = new Introspection();
 		}
-		return strategy;
+
+		return this->_strategy;
 	}
 
 	/**
 	 * Reads the complete meta-data for certain model
 	 *
 	 *<code>
-	 *	print_r($metaData->readMetaData(new Robots());
+	 * print_r(
+	 *     $metaData->readMetaData(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public final function readMetaData(<ModelInterface> model)
@@ -253,12 +258,17 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Reads meta-data for certain model
 	 *
 	 *<code>
-	 *	print_r($metaData->readMetaDataIndex(new Robots(), 0);
+	 * print_r(
+	 *     $metaData->readMetaDataIndex(
+	 *         new Robots(),
+	 *         0
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public final function readMetaDataIndex(<ModelInterface> model, int index)
 	{
-		var source, schema, key, metaData;
+		var source, schema, key;
 
 		let source = model->getSource(),
 			schema = model->getSchema();
@@ -268,11 +278,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 		 */
 		let key = get_class_lower(model) . "-" . schema . source;
 
-		if fetch metaData, this->_metaData[key][index] {
-			return metaData;
+		if !isset this->_metaData[key][index] {
+			this->_initialize(model, key, source, schema);
 		}
 
-		this->_initialize(model, key, source, schema);
 		return this->_metaData[key][index];
 	}
 
@@ -280,12 +289,20 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Writes meta-data for certain model using a MODEL_* constant
 	 *
 	 *<code>
-	 *	print_r($metaData->writeColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP, array('leName' => 'name')));
+	 * print_r(
+	 *     $metaData->writeColumnMapIndex(
+	 *         new Robots(),
+	 *         MetaData::MODELS_REVERSE_COLUMN_MAP,
+	 *         [
+	 *             "leName" => "name",
+	 *         ]
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
 	{
-		var metaData, source, schema, key;
+		var source, schema, key;
 
 		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
 			throw new Exception("Invalid data for index");
@@ -303,16 +320,18 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 			this->_initialize(model, key, source, schema);
 		}
 
-		let metaData = this->_metaData,
-			metaData[key][index] = data,
-			this->_metaData = metaData;
+		let this->_metaData[key][index] = data;
 	}
 
 	/**
 	 * Reads the ordered/reversed column map for certain model
 	 *
 	 *<code>
-	 *	print_r($metaData->readColumnMap(new Robots()));
+	 * print_r(
+	 *     $metaData->readColumnMap(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public final function readColumnMap(<ModelInterface> model)
@@ -336,7 +355,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Reads column-map information for certain model using a MODEL_* constant
 	 *
 	 *<code>
-	 *	print_r($metaData->readColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP));
+	 * print_r(
+	 *     $metaData->readColumnMapIndex(
+	 *         new Robots(),
+	 *         MetaData::MODELS_REVERSE_COLUMN_MAP
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public final function readColumnMapIndex(<ModelInterface> model, int index)
@@ -363,7 +387,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns table attributes names (fields)
 	 *
 	 *<code>
-	 *	print_r($metaData->getAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getAttributes(<ModelInterface> model) -> array
@@ -380,7 +408,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns an array of fields which are part of the primary key
 	 *
 	 *<code>
-	 *	print_r($metaData->getPrimaryKeyAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getPrimaryKeyAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getPrimaryKeyAttributes(<ModelInterface> model) -> array
@@ -397,7 +429,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns an array of fields which are not part of the primary key
 	 *
 	 *<code>
-	 *	print_r($metaData->getNonPrimaryKeyAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getNonPrimaryKeyAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array
@@ -414,7 +450,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns an array of not null attributes
 	 *
 	 *<code>
-	 *	print_r($metaData->getNotNullAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getNotNullAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getNotNullAttributes(<ModelInterface> model) -> array
@@ -431,7 +471,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes and their data types
 	 *
 	 *<code>
-	 *	print_r($metaData->getDataTypes(new Robots()));
+	 * print_r(
+	 *     $metaData->getDataTypes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getDataTypes(<ModelInterface> model) -> array
@@ -448,7 +492,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes which types are numerical
 	 *
 	 *<code>
-	 *	print_r($metaData->getDataTypesNumeric(new Robots()));
+	 * print_r(
+	 *     $metaData->getDataTypesNumeric(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getDataTypesNumeric(<ModelInterface> model) -> array
@@ -465,7 +513,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns the name of identity field (if one is present)
 	 *
 	 *<code>
-	 *	print_r($metaData->getIdentityField(new Robots()));
+	 * print_r(
+	 *     $metaData->getIdentityField(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 *
 	 * @param  Phalcon\Mvc\ModelInterface model
@@ -480,7 +532,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes and their bind data types
 	 *
 	 *<code>
-	 *	print_r($metaData->getBindTypes(new Robots()));
+	 * print_r(
+	 *     $metaData->getBindTypes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getBindTypes(<ModelInterface> model) -> array
@@ -497,7 +553,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes that must be ignored from the INSERT SQL generation
 	 *
 	 *<code>
-	 *	print_r($metaData->getAutomaticCreateAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getAutomaticCreateAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getAutomaticCreateAttributes(<ModelInterface> model) -> array
@@ -514,7 +574,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes that must be ignored from the UPDATE SQL generation
 	 *
 	 *<code>
-	 *	print_r($metaData->getAutomaticUpdateAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getAutomaticUpdateAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array
@@ -531,7 +595,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Set the attributes that must be ignored from the INSERT SQL generation
 	 *
 	 *<code>
-	 *	$metaData->setAutomaticCreateAttributes(new Robots(), array('created_at' => true));
+	 * $metaData->setAutomaticCreateAttributes(
+	 *     new Robots(),
+	 *     [
+	 *         "created_at" => true,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setAutomaticCreateAttributes(<ModelInterface> model, array attributes) -> void
@@ -543,7 +612,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Set the attributes that must be ignored from the UPDATE SQL generation
 	 *
 	 *<code>
-	 *	$metaData->setAutomaticUpdateAttributes(new Robots(), array('modified_at' => true));
+	 * $metaData->setAutomaticUpdateAttributes(
+	 *     new Robots(),
+	 *     [
+	 *         "modified_at" => true,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setAutomaticUpdateAttributes(<ModelInterface> model, array attributes) -> void
@@ -555,7 +629,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Set the attributes that allow empty string values
 	 *
 	 *<code>
-	 *	$metaData->setEmptyStringAttributes(new Robots(), array('name' => true));
+	 * $metaData->setEmptyStringAttributes(
+	 *     new Robots(),
+	 *     [
+	 *         "name" => true,
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void
@@ -567,7 +646,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes allow empty strings
 	 *
 	 *<code>
-	 *	print_r($metaData->getEmptyStringAttributes(new Robots()));
+	 * print_r(
+	 *     $metaData->getEmptyStringAttributes(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getEmptyStringAttributes(<ModelInterface> model) -> array
@@ -584,7 +667,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns attributes (which have default values) and their default values
 	 *
 	 *<code>
-	 *	print_r($metaData->getDefaultValues(new Robots()));
+	 * print_r(
+	 *     $metaData->getDefaultValues(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getDefaultValues(<ModelInterface> model) -> array
@@ -601,7 +688,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns the column map if any
 	 *
 	 *<code>
-	 *	print_r($metaData->getColumnMap(new Robots()));
+	 * print_r(
+	 *     $metaData->getColumnMap(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getColumnMap(<ModelInterface> model) -> array
@@ -619,7 +710,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Returns the reverse column map if any
 	 *
 	 *<code>
-	 *	print_r($metaData->getReverseColumnMap(new Robots()));
+	 * print_r(
+	 *     $metaData->getReverseColumnMap(
+	 *         new Robots()
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function getReverseColumnMap(<ModelInterface> model) -> array
@@ -637,7 +732,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Check if a model has certain attribute
 	 *
 	 *<code>
-	 *	var_dump($metaData->hasAttribute(new Robots(), 'name'));
+	 * var_dump(
+	 *     $metaData->hasAttribute(
+	 *         new Robots(),
+	 *         "name"
+	 *     )
+	 * );
 	 *</code>
 	 */
 	public function hasAttribute(<ModelInterface> model, string attribute) -> boolean
@@ -656,7 +756,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Checks if the internal meta-data container is empty
 	 *
 	 *<code>
-	 *	var_dump($metaData->isEmpty());
+	 * var_dump(
+	 *     $metaData->isEmpty()
+	 * );
 	 *</code>
 	 */
 	public function isEmpty() -> boolean
@@ -668,7 +770,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 * Resets internal meta-data in order to regenerate it
 	 *
 	 *<code>
-	 *	$metaData->reset();
+	 * $metaData->reset();
 	 *</code>
 	 */
 	public function reset() -> void

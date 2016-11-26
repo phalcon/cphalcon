@@ -31,20 +31,22 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *<code>
  * use Phalcon\Session\Adapter\Memcache;
  *
- * $session = new Memcache([
- *     'uniqueId'   => 'my-private-app',
- *     'host'       => '127.0.0.1',
- *     'port'       => 11211,
- *     'persistent' => true,
- *     'lifetime'   => 3600,
- *     'prefix'     => 'my_'
- * ]);
+ * $session = new Memcache(
+ *     [
+ *         "uniqueId"   => "my-private-app",
+ *         "host"       => "127.0.0.1",
+ *         "port"       => 11211,
+ *         "persistent" => true,
+ *         "lifetime"   => 3600,
+ *         "prefix"     => "my_",
+ *     ]
+ * );
  *
  * $session->start();
  *
- * $session->set('var', 'some-value');
+ * $session->set("var", "some-value");
  *
- * echo $session->get('var');
+ * echo $session->get("var");
  *</code>
  */
 class Memcache extends Adapter
@@ -106,9 +108,9 @@ class Memcache extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read(string sessionId) -> var
+	public function read(string sessionId) -> string
 	{
-		return this->_memcache->get(sessionId, this->_lifetime);
+		return (string) this->_memcache->get(sessionId, this->_lifetime);
 	}
 
 	/**
@@ -132,7 +134,7 @@ class Memcache extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_memcache->delete(id);
+		return this->_memcache->exists(id) ? this->_memcache->delete(id) : true;
 	}
 
 	/**

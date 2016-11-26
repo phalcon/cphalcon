@@ -89,8 +89,8 @@ class Manager
 	* Adds a Css resource to the 'css' collection
 	*
 	*<code>
-	*	$assets->addCss('css/bootstrap.css');
-	*	$assets->addCss('http://bootstrap.my-cdn.com/style.css', false);
+	*	$assets->addCss("css/bootstrap.css");
+	*	$assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
 	*</code>
 	*/
 	public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
@@ -112,8 +112,8 @@ class Manager
 	 * Adds a javascript resource to the 'js' collection
 	 *
 	 *<code>
-	 *	$assets->addJs('scripts/jquery.js');
-	 *	$assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
+	 * $assets->addJs("scripts/jquery.js");
+	 * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
 	 *</code>
 	 */
 	public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
@@ -135,7 +135,9 @@ class Manager
 	 * Adds a resource by its type
 	 *
 	 *<code>
-	 *	$assets->addResourceByType('css', new \Phalcon\Assets\Resource\Css('css/style.css'));
+	 * $assets->addResourceByType("css",
+	 *     new \Phalcon\Assets\Resource\Css("css/style.css")
+	 * );
 	 *</code>
 	 */
 	public function addResourceByType(string! type, <$Resource> $resource) -> <Manager>
@@ -179,7 +181,9 @@ class Manager
 	 * Adds a raw resource to the manager
 	 *
 	 *<code>
-	 * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
+	 * $assets->addResource(
+	 *     new Phalcon\Assets\Resource("css", "css/style.css")
+	 * );
 	 *</code>
 	 */
 	public function addResource(<$Resource> $resource) -> <Manager>
@@ -207,7 +211,7 @@ class Manager
 	 * Sets a collection in the Assets Manager
 	 *
 	 *<code>
-	 * $assets->set('js', $collection);
+	 * $assets->set("js", $collection);
 	 *</code>
 	 */
 	public function set(string! id, <Collection> collection) -> <Manager>
@@ -220,7 +224,7 @@ class Manager
 	* Returns a collection by its id
 	*
 	*<code>
-	* $scripts = $assets->get('js');
+	* $scripts = $assets->get("js");
 	*</code>
 	*/
 	public function get(string! id) -> <Collection>
@@ -317,7 +321,6 @@ class Manager
 		 * Get the collection's prefix
 		 */
 		let prefix = collection->getPrefix();
-
 
 		let typeCss = "css";
 
@@ -700,7 +703,7 @@ class Manager
 	 * @param \Phalcon\Assets\Collection collection
 	 * @param string type
 	 */
-	public function outputInline(<Collection> collection, type) -> string | null
+	public function outputInline(<Collection> collection, type) -> string
 	{
 		var output, html, codes, filters, filter, code, attributes, content, join, joinedContent;
 
@@ -717,20 +720,18 @@ class Manager
 				let attributes = code->getAttributes(),
 					content = code->getContent();
 
-				if count(filters) {
-					for filter in filters {
-						/**
-						 * Filters must be valid objects
-						 */
-						if typeof filter != "object" {
-							throw new Exception("Filter is invalid");
-						}
-
-						/**
-						 * Calls the method 'filter' which must return a filtered version of the content
-						 */
-						let content = filter->filter(content);
+				for filter in filters {
+					/**
+					 * Filters must be valid objects
+					 */
+					if typeof filter != "object" {
+						throw new Exception("Filter is invalid");
 					}
+
+					/**
+					 * Calls the method 'filter' which must return a filtered version of the content
+					 */
+					let content = filter->filter(content);
 				}
 
 				if join {
@@ -762,7 +763,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputCss(collectionName = null) -> string | null
+	public function outputCss(collectionName = null) -> string
 	{
 		var collection;
 
@@ -780,7 +781,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputInlineCss(collectionName = null) -> string | null
+	public function outputInlineCss(collectionName = null) -> string
 	{
 		var collection;
 
@@ -798,7 +799,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputJs(collectionName = null) -> string | null
+	public function outputJs(collectionName = null) -> string
 	{
 		var collection;
 
@@ -816,7 +817,7 @@ class Manager
 	 *
 	 * @param string collectionName
 	 */
-	public function outputInlineJs(collectionName = null) -> string | null
+	public function outputInlineJs(collectionName = null) -> string
 	{
 		var collection;
 

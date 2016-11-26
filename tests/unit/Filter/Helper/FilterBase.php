@@ -41,4 +41,3 @@ class FilterBase extends UnitTest
         expect($expected)->equals($actual);
     }
 }
-

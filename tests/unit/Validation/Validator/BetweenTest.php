@@ -36,14 +36,41 @@ class BetweenTest extends UnitTest
     {
         $this->specify('Test between validator with single field.', function () {
             $validation = new Validation();
-            $validation->add('amount', new Between([
-                'minimum' => 0,
-                'maximum' => 999,
-            ]));
-            $messages = $validation->validate(['amount' => 100]);
-            expect($messages->count())->equals(0);
-            $messages = $validation->validate(['amount' => 1000]);
-            expect($messages->count())->equals(1);
+
+            $validation->add(
+                'price',
+                new Between(
+                    [
+                        'minimum' => 1,
+                        'maximum' => 3
+                    ]
+                )
+            );
+
+            $messages = $validation->validate(['price' => 5]);
+
+            $expectedMessages = Validation\Message\Group::__set_state(
+                [
+                    '_messages' => [
+                        0 => Validation\Message::__set_state(
+                            [
+                                '_type'    => 'Between',
+                                '_message' => 'Field price must be within the range of 1 to 3',
+                                '_field'   => 'price',
+                                '_code'    => '0',
+                            ]
+                        )
+                    ]
+                ]
+            );
+
+            expect($expectedMessages)->equals($messages);
+
+            $messages = $validation->validate([]);
+            expect($expectedMessages)->equals($messages);
+
+            $messages = $validation->validate(['price' => 2]);
+            expect($messages)->count(0);
         });
     }
 
@@ -82,5 +109,51 @@ class BetweenTest extends UnitTest
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['amount']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['price']);
         });
+    }
+
+    public function testCustomMessage()
+    {
+        $this->specify(
+            'Test Between validator works with a custom message.',
+            function () {
+                $validation = new Validation();
+
+                $validation->add(
+                    'price',
+                    new Between(
+                        [
+                            'minimum' => 1,
+                            'maximum' => 3,
+                            'message' => 'The price must be between 1 and 3'
+                        ]
+                    )
+                );
+
+                $messages = $validation->validate(['price' => 5]);
+
+                $expectedMessages = Validation\Message\Group::__set_state(
+                    [
+                        '_messages' => [
+                            0 => Validation\Message::__set_state(
+                                [
+                                    '_type'    => 'Between',
+                                    '_message' => 'The price must be between 1 and 3',
+                                    '_field'   => 'price',
+                                    '_code'    => '0',
+                                ]
+                            )
+                        ]
+                    ]
+                );
+
+                $this->assertEquals($expectedMessages, $messages);
+
+                $messages = $validation->validate([]);
+                expect($expectedMessages)->equals($messages);
+
+                $messages = $validation->validate(['price' => 2]);
+                expect($messages)->count(0);
+            }
+        );
     }
 }

@@ -26,42 +26,59 @@
  * Allows to read to chained backend adapters writing to multiple backends
  *
  *<code>
- *   use Phalcon\Cache\Frontend\Data as DataFrontend,
- *       Phalcon\Cache\Multiple,
- *       Phalcon\Cache\Backend\Apc as ApcCache,
- *       Phalcon\Cache\Backend\Memcache as MemcacheCache,
- *       Phalcon\Cache\Backend\File as FileCache;
+ * use Phalcon\Cache\Frontend\Data as DataFrontend;
+ * use Phalcon\Cache\Multiple;
+ * use Phalcon\Cache\Backend\Apc as ApcCache;
+ * use Phalcon\Cache\Backend\Memcache as MemcacheCache;
+ * use Phalcon\Cache\Backend\File as FileCache;
  *
- *   $ultraFastFrontend = new DataFrontend(array(
- *       "lifetime" => 3600
- *   ));
+ * $ultraFastFrontend = new DataFrontend(
+ *     [
+ *         "lifetime" => 3600,
+ *     ]
+ * );
  *
- *   $fastFrontend = new DataFrontend(array(
- *       "lifetime" => 86400
- *   ));
+ * $fastFrontend = new DataFrontend(
+ *     [
+ *         "lifetime" => 86400,
+ *     ]
+ * );
  *
- *   $slowFrontend = new DataFrontend(array(
- *       "lifetime" => 604800
- *   ));
+ * $slowFrontend = new DataFrontend(
+ *     [
+ *         "lifetime" => 604800,
+ *     ]
+ * );
  *
- *   //Backends are registered from the fastest to the slower
- *   $cache = new Multiple(array(
- *       new ApcCache($ultraFastFrontend, array(
- *           "prefix" => 'cache',
- *       )),
- *       new MemcacheCache($fastFrontend, array(
- *           "prefix" => 'cache',
- *           "host" => "localhost",
- *           "port" => "11211"
- *       )),
- *       new FileCache($slowFrontend, array(
- *           "prefix" => 'cache',
- *           "cacheDir" => "../app/cache/"
- *       ))
- *   ));
+ * //Backends are registered from the fastest to the slower
+ * $cache = new Multiple(
+ *     [
+ *         new ApcCache(
+ *             $ultraFastFrontend,
+ *             [
+ *                 "prefix" => "cache",
+ *             ]
+ *         ),
+ *         new MemcacheCache(
+ *             $fastFrontend,
+ *             [
+ *                 "prefix" => "cache",
+ *                 "host"   => "localhost",
+ *                 "port"   => "11211",
+ *             ]
+ *         ),
+ *         new FileCache(
+ *             $slowFrontend,
+ *             [
+ *                 "prefix"   => "cache",
+ *                 "cacheDir" => "../app/cache/",
+ *             ]
+ *         ),
+ *     ]
+ * );
  *
- *   //Save, saves in every backend
- *   $cache->save('my-key', $data);
+ * //Save, saves in every backend
+ * $cache->save("my-key", $data);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Multiple) {
@@ -92,7 +109,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 
 	if (Z_TYPE_P(backends) != IS_NULL) {
 		if (Z_TYPE_P(backends) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 83);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 100);
 			return;
 		}
 		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
@@ -139,7 +156,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 116);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 133);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -177,7 +194,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 132);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 149);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -223,7 +240,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 149);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 166);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -255,7 +272,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 165);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 182);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -294,7 +311,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 185);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 202);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -323,7 +340,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, flush) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 199);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 216);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

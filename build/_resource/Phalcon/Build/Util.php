@@ -13,7 +13,8 @@ class Util
     public static function normalize($filePath)
     {
         $filePath = realpath($filePath);
-        $filePath = str_replace('\\', '/', $filePath);
+        $filePath = str_replace('\\', DIRECTORY_SEPARATOR, $filePath);
+
         return $filePath;
     }
 

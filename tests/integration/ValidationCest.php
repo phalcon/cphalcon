@@ -1,6 +1,6 @@
 <?php
 
-namespace  Phalcon\Test\Integration;
+namespace  Phalcon\Test\integration;
 
 use IntegrationTester;
 use Phalcon\Validation;
@@ -40,7 +40,8 @@ class ValidationCest
         $myValidator = new PresenceOf();
         $validation = new Validation();
 
-        $validation->bind(new \stdClass(),
+        $validation->bind(
+            new \stdClass(),
             [
                 'day'   => date('d'),
                 'month' => date('m'),

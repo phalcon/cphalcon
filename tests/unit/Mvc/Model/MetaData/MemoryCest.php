@@ -1,10 +1,11 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Robotto;
 use Phalcon\Test\Proxy\Mvc\Model\Metadata\Memory;
 
 /**
@@ -30,7 +31,7 @@ class MemoryCest
 
     public function _before(UnitTester $I)
     {
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Memory;
         }, true);
 
@@ -53,5 +54,44 @@ class MemoryCest
 
         $md->reset();
         $I->assertTrue($md->isEmpty());
+    }
+
+    public function testMetadataManual(UnitTester $I)
+    {
+        /** @var \Phalcon\Mvc\Model\MetaDataInterface $metaData */
+        $metaData = $I->grabServiceFromDi('modelsMetadata');
+
+        $di = $I->getApplication()->getDI();
+
+        $robotto = new Robotto($di);
+
+        //Robots
+        $pAttributes = array(
+            0 => 'id',
+            1 => 'name',
+            2 => 'type',
+            3 => 'year'
+        );
+
+        $attributes = $metaData->getAttributes($robotto);
+        $I->assertEquals($attributes, $pAttributes);
+
+        $ppkAttributes = array(
+            0 => 'id'
+        );
+
+        $pkAttributes = $metaData->getPrimaryKeyAttributes($robotto);
+        $I->assertEquals($ppkAttributes, $pkAttributes);
+
+        $pnpkAttributes = array(
+            0 => 'name',
+            1 => 'type',
+            2 => 'year'
+        );
+
+        $npkAttributes = $metaData->getNonPrimaryKeyAttributes($robotto);
+        $I->assertEquals($pnpkAttributes, $npkAttributes);
+
+        $I->assertEquals($metaData->getIdentityField($robotto), 'id');
     }
 }

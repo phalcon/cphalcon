@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
@@ -36,7 +36,7 @@ class LibmemcachedCest
             );
         }
 
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Libmemcached([
                 'servers' => [
                     [
@@ -63,8 +63,15 @@ class LibmemcachedCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], $md->read("meta-phalcon\\test\\models\\robots-robots"));
-        $I->assertEquals($this->data['map-robots'], $md->read("map-phalcon\\test\\models\\robots"));
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            $md->read("meta-phalcon\\test\\models\\robots-robots")
+        );
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            $md->read("map-phalcon\\test\\models\\robots")
+        );
 
         $I->assertFalse($md->isEmpty());
 

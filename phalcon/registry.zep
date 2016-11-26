@@ -28,27 +28,27 @@
  * your application.
  *
  *<code>
- * 	$registry = new \Phalcon\Registry();
+ * $registry = new \Phalcon\Registry();
  *
- * 	// Set value
- * 	$registry->something = 'something';
- * 	// or
- * 	$registry['something'] = 'something';
+ * // Set value
+ * $registry->something = "something";
+ * // or
+ * $registry["something"] = "something";
  *
- * 	// Get value
- * 	$value = $registry->something;
- * 	// or
- * 	$value = $registry['something'];
+ * // Get value
+ * $value = $registry->something;
+ * // or
+ * $value = $registry["something"];
  *
- * 	// Check if the key exists
- * 	$exists = isset($registry->something);
- * 	// or
- * 	$exists = isset($registry['something']);
+ * // Check if the key exists
+ * $exists = isset($registry->something);
+ * // or
+ * $exists = isset($registry["something"]);
  *
- * 	// Unset
- * 	unset($registry->something);
- * 	// or
- * 	unset($registry['something']);
+ * // Unset
+ * unset($registry->something);
+ * // or
+ * unset($registry["something"]);
  *</code>
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
@@ -63,7 +63,7 @@
  *
  * Though Phalcon\Registry exposes methods like __get(), offsetGet(), count() etc,
  * it is not recommended to invoke them manually (these methods exist mainly to
- * match the interfaces the registry implements): $registry->__get('property')
+ * match the interfaces the registry implements): $registry->__get("property")
  * is several times slower than $registry->property.
  *
  * Internally all the magic methods (and interfaces except JsonSerializable)

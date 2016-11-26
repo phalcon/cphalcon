@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
@@ -36,7 +36,7 @@ class MemcacheCest
             );
         }
 
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Memcache([
                 'host' => TEST_MC_HOST,
                 'port' => TEST_MC_PORT
@@ -58,8 +58,14 @@ class MemcacheCest
 
         Robots::findFirst();
 
-        $I->assertEquals($this->data['meta-robots-robots'], $md->read("meta-phalcon\\test\\models\\robots-robots"));
-        $I->assertEquals($this->data['map-robots'], $md->read("map-phalcon\\test\\models\\robots"));
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            $md->read("meta-phalcon\\test\\models\\robots-robots")
+        );
+        $I->assertEquals(
+            $this->data['map-robots'],
+            $md->read("map-phalcon\\test\\models\\robots")
+        );
 
         $I->assertFalse($md->isEmpty());
 

@@ -1,0 +1,83 @@
+environment:
+  PHP_VERSION: latest
+  PHP_DEP_VER: 5.6
+  PHP_SDK: c:\projects\php-sdk
+  PHP_DEVPACK: c:\projects\php-devpack
+
+  matrix:
+    - BUILD_PLATFORM: x86
+      PHP_VC: 11
+
+cache:
+  - vendor -> composer.json
+
+os: Windows Server 2012
+clone_folder: c:\projects\phalcon
+
+matrix:
+  fast_finish: true
+
+install:
+  - echo Setting PHP version...
+  - appveyor DownloadFile http://windows.php.net/downloads/releases/sha1sum.txt
+  - ps: >-
+      If ($env:PHP_VERSION -Match "latest") {
+        $env:PHP_VERSION=type sha1sum.txt | where { $_ -match "php-(5\.6\.\d+)-src" } | foreach { $matches[1] }
+        $env:version='{build}-$(PHP_VERSION)'
+      } Else {
+        $env:version='{build}-$(PHP_VERSION)'
+      }
+  - echo Initializing Build...
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - appveyor DownloadFile http://zephir-win.s3-website-us-east-1.amazonaws.com/x86/php_zephir_parser.dll
+  - git submodule update --init --recursive
+  - echo Downloading PHP source code [%PHP_VERSION%]
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
+  - cd ..
+  - 'mkdir php && mv php.zip php\php.zip && cd php'
+  - 7z.exe x php.zip | FIND /V "ing  "
+  - cd ..
+  - echo Downloading PHP-SDK
+  - mkdir php-sdk && cd php-sdk
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
+  - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
+  - cd ..
+  - echo Downloading PHP-Devel-Pack
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
+  - 7z.exe x php-dev.zip | FIND /V "ing  "
+  - mv php-%PHP_VERSION%-devel-VC11-%BUILD_PLATFORM% php-devpack
+  - echo Building PHP [%PHP_VERSION%]
+  - '%PHP_SDK%\bin\phpsdk_setvars'
+  - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
+  - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
+  - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
+  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
+  - 'echo extension=php_curl.dll >> php.ini'
+  - 'echo extension=php_openssl.dll >> php.ini'
+  - 'echo extension=php_mbstring.dll >> php.ini'
+  - 'echo extension=php_pdo_sqlite.dll >> php.ini'
+  - 'echo extension=php_fileinfo.dll >> php.ini'
+  - 'echo extension=php_gettext.dll >> php.ini'
+  - 'echo extension=php_gd2.dll >> php.ini'
+  - 'echo memory_limit=256M >> php.ini'
+  - 'set PATH=%cd%;%PATH%'
+  - echo Building Phalcon
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - if not exist vendor (php -r "readfile('https://getcomposer.org/installer');" | php & php composer.phar update)
+  - echo Setting Up Zephir
+  - 'vendor\bin\zephir help'
+
+build_script:
+  - 'vendor\bin\zephir generate'
+  - 'php build\gen-build.php'
+  - 'cd build\php5\safe'
+  - '%PHP_DEVPACK%\\phpize'
+  - configure --enable-phalcon
+  - nmake
+
+on_finish:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - ps: Push-AppveyorArtifact build\php5\safe\Release_TS\php_phalcon.dll
+
+on_failure :
+  - 'dir'

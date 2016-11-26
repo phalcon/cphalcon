@@ -33,33 +33,36 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * Phalcon Transactions should be created using Phalcon\Transaction\Manager.
  *
  *<code>
- *try {
+ * try {
+ *     $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
  *
- *  $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
+ *     $transaction = $manager->get();
  *
- *  $transaction = $manager->get();
+ *     $robot = new Robots();
  *
- *  $robot = new Robots();
- *  $robot->setTransaction($transaction);
- *  $robot->name = 'WALL·E';
- *  $robot->created_at = date('Y-m-d');
- *  if ($robot->save() == false) {
- *    $transaction->rollback("Can't save robot");
- *  }
+ *     $robot->setTransaction($transaction);
  *
- *  $robotPart = new RobotParts();
- *  $robotPart->setTransaction($transaction);
- *  $robotPart->type = 'head';
- *  if ($robotPart->save() == false) {
- *    $transaction->rollback("Can't save robot part");
- *  }
+ *     $robot->name       = "WALL·E";
+ *     $robot->created_at = date("Y-m-d");
  *
- *  $transaction->commit();
+ *     if ($robot->save() === false) {
+ *         $transaction->rollback("Can't save robot");
+ *     }
  *
- *} catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
- *  echo 'Failed, reason: ', $e->getMessage();
- *}
+ *     $robotPart = new RobotParts();
  *
+ *     $robotPart->setTransaction($transaction);
+ *
+ *     $robotPart->type = "head";
+ *
+ *     if ($robotPart->save() === false) {
+ *         $transaction->rollback("Can't save robot part");
+ *     }
+ *
+ *     $transaction->commit();
+ * } catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
+ *     echo "Failed, reason: ", $e->getMessage();
+ * }
  *</code>
  */
 class Transaction implements TransactionInterface
@@ -82,7 +85,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Phalcon\Mvc\Model\Transaction constructor
 	 *
-	 * @param \Phalcon\DiInterface $ependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
@@ -127,7 +130,7 @@ class Transaction implements TransactionInterface
 
 		let manager = this->_manager;
 		if typeof manager == "object" {
-			call_user_func_array([manager, "notifyCommit"], [this]);
+			manager->notifyCommit(this);
 		}
 
 		return this->_connection->commit();
@@ -146,7 +149,7 @@ class Transaction implements TransactionInterface
 
 		let manager = this->_manager;
 		if typeof manager == "object" {
-			call_user_func_array([manager, "notifyRollback"], [this]);
+			manager->notifyRollback(this);
 		}
 
 		let connection = this->_connection;
@@ -223,5 +226,4 @@ class Transaction implements TransactionInterface
 	{
 		let this->_rollbackRecord = record;
 	}
-
 }

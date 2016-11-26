@@ -21,7 +21,6 @@ namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Adapter;
 use Phalcon\Image\Exception;
-use Phalcon\Image\AdapterInterface;
 
 /**
  * Phalcon\Image\Adapter\Imagick
@@ -29,14 +28,16 @@ use Phalcon\Image\AdapterInterface;
  * Image manipulation support. Allows images to be resized, cropped, etc.
  *
  *<code>
- * $image = new Phalcon\Image\Adapter\Imagick("upload/test.jpg");
+ * $image = new \Phalcon\Image\Adapter\Imagick("upload/test.jpg");
+ *
  * $image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *
  * if ($image->save()) {
- *     echo 'success';
+ *     echo "success";
  * }
  *</code>
  */
-class Imagick extends Adapter implements AdapterInterface
+class Imagick extends Adapter
 {
 	protected static _version = 0;
 	protected static _checked = false;

@@ -37,55 +37,63 @@ use Phalcon\Acl\ResourceInterface;
  * Manages ACL lists in memory
  *
  *<code>
+ * $acl = new \Phalcon\Acl\Adapter\Memory();
  *
- *	$acl = new \Phalcon\Acl\Adapter\Memory();
+ * $acl->setDefaultAction(
+ *     \Phalcon\Acl::DENY
+ * );
  *
- *	$acl->setDefaultAction(Phalcon\Acl::DENY);
+ * // Register roles
+ * $roles = [
+ *     "users"  => new \Phalcon\Acl\Role("Users"),
+ *     "guests" => new \Phalcon\Acl\Role("Guests"),
+ * ];
+ * foreach ($roles as $role) {
+ *     $acl->addRole($role);
+ * }
  *
- *	//Register roles
- *	$roles = array(
- *		'users' => new \Phalcon\Acl\Role('Users'),
- *		'guests' => new \Phalcon\Acl\Role('Guests')
- *	);
- *	foreach ($roles as $role) {
- *		$acl->addRole($role);
- *	}
+ * // Private area resources
+ * $privateResources = [
+ *     "companies" => ["index", "search", "new", "edit", "save", "create", "delete"],
+ *     "products"  => ["index", "search", "new", "edit", "save", "create", "delete"],
+ *     "invoices"  => ["index", "profile"],
+ * ];
  *
- *	//Private area resources
- *	$privateResources = array(
- *		'companies' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
- *		'products' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
- *		'invoices' => array('index', 'profile')
- *	);
- *	foreach ($privateResources as $resource => $actions) {
- *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
- *	}
+ * foreach ($privateResources as $resourceName => $actions) {
+ *     $acl->addResource(
+ *         new \Phalcon\Acl\Resource($resourceName),
+ *         $actions
+ *     );
+ * }
  *
- *	//Public area resources
- *	$publicResources = array(
- *		'index' => array('index'),
- *		'about' => array('index'),
- *		'session' => array('index', 'register', 'start', 'end'),
- *		'contact' => array('index', 'send')
- *	);
- *	foreach ($publicResources as $resource => $actions) {
- *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
- *	}
+ * // Public area resources
+ * $publicResources = [
+ *     "index"   => ["index"],
+ *     "about"   => ["index"],
+ *     "session" => ["index", "register", "start", "end"],
+ *     "contact" => ["index", "send"],
+ * ];
  *
- *	//Grant access to public areas to both users and guests
- *	foreach ($roles as $role){
- *		foreach ($publicResources as $resource => $actions) {
- *			$acl->allow($role->getName(), $resource, '*');
- *		}
- *	}
+ * foreach ($publicResources as $resourceName => $actions) {
+ *     $acl->addResource(
+ *         new \Phalcon\Acl\Resource($resourceName),
+ *         $actions
+ *     );
+ * }
  *
- *	//Grant access to private area to role Users
- *	foreach ($privateResources as $resource => $actions) {
- * 		foreach ($actions as $action) {
- *			$acl->allow('Users', $resource, $action);
- *		}
- *	}
+ * // Grant access to public areas to both users and guests
+ * foreach ($roles as $role){
+ *     foreach ($publicResources as $resource => $actions) {
+ *         $acl->allow($role->getName(), $resource, "*");
+ *     }
+ * }
  *
+ * // Grant access to private area to role Users
+ * foreach ($privateResources as $resource => $actions) {
+ *     foreach ($actions as $action) {
+ *         $acl->allow("Users", $resource, $action);
+ *     }
+ * }
  *</code>
  */
 class Memory extends Adapter
@@ -168,8 +176,12 @@ class Memory extends Adapter
 	 *
 	 * Example:
 	 * <code>
-	 * 	$acl->addRole(new Phalcon\Acl\Role('administrator'), 'consultant');
-	 * 	$acl->addRole('administrator', 'consultant');
+	 * $acl->addRole(
+	 *     new Phalcon\Acl\Role("administrator"),
+	 *     "consultant"
+	 * );
+	 *
+	 * $acl->addRole("administrator", "consultant");
 	 * </code>
 	 *
 	 * @param  array|string         accessInherits
@@ -275,13 +287,30 @@ class Memory extends Adapter
 	 *
 	 * Example:
 	 * <code>
-	 * //Add a resource to the the list allowing access to an action
-	 * $acl->addResource(new Phalcon\Acl\Resource('customers'), 'search');
-	 * $acl->addResource('customers', 'search');
+	 * // Add a resource to the the list allowing access to an action
+	 * $acl->addResource(
+	 *     new Phalcon\Acl\Resource("customers"),
+	 *     "search"
+	 * );
 	 *
-	 * //Add a resource  with an access list
-	 * $acl->addResource(new Phalcon\Acl\Resource('customers'), array('create', 'search'));
-	 * $acl->addResource('customers', array('create', 'search'));
+	 * $acl->addResource("customers", "search");
+	 *
+	 * // Add a resource  with an access list
+	 * $acl->addResource(
+	 *     new Phalcon\Acl\Resource("customers"),
+	 *     [
+	 *         "create",
+	 *         "search",
+	 *     ]
+	 * );
+	 *
+	 * $acl->addResource(
+	 *     "customers",
+	 *     [
+	 *         "create",
+	 *         "search",
+	 *     ]
+	 * );
 	 * </code>
 	 *
 	 * @param   Phalcon\Acl\Resource|string resourceValue
@@ -433,16 +462,16 @@ class Memory extends Adapter
 	 * Example:
 	 * <code>
 	 * //Allow access to guests to search on customers
-	 * $acl->allow('guests', 'customers', 'search');
+	 * $acl->allow("guests", "customers", "search");
 	 *
 	 * //Allow access to guests to search or create on customers
-	 * $acl->allow('guests', 'customers', array('search', 'create'));
+	 * $acl->allow("guests", "customers", ["search", "create"]);
 	 *
 	 * //Allow access to any role to browse on products
-	 * $acl->allow('*', 'products', 'browse');
+	 * $acl->allow("*", "products", "browse");
 	 *
 	 * //Allow access to any role to browse on any resource
-	 * $acl->allow('*', '*', 'browse');
+	 * $acl->allow("*", "*", "browse");
 	 * </code>
 	 */
 	public function allow(string roleName, string resourceName, var access, var func = null)
@@ -466,16 +495,16 @@ class Memory extends Adapter
 	 * Example:
 	 * <code>
 	 * //Deny access to guests to search on customers
-	 * $acl->deny('guests', 'customers', 'search');
+	 * $acl->deny("guests", "customers", "search");
 	 *
 	 * //Deny access to guests to search or create on customers
-	 * $acl->deny('guests', 'customers', array('search', 'create'));
+	 * $acl->deny("guests", "customers", ["search", "create"]);
 	 *
 	 * //Deny access to any role to browse on products
-	 * $acl->deny('*', 'products', 'browse');
+	 * $acl->deny("*", "products", "browse");
 	 *
 	 * //Deny access to any role to browse on any resource
-	 * $acl->deny('*', '*', 'browse');
+	 * $acl->deny("*", "*", "browse");
 	 * </code>
 	 */
 	public function deny(string roleName, string resourceName, var access, var func = null)
@@ -496,10 +525,10 @@ class Memory extends Adapter
 	 *
 	 * <code>
 	 * //Does andres have access to the customers resource to create?
-	 * $acl->isAllowed('andres', 'Products', 'create');
+	 * $acl->isAllowed("andres", "Products", "create");
 	 *
 	 * //Do guests have access to any resource to edit?
-	 * $acl->isAllowed('guests', '*', 'edit');
+	 * $acl->isAllowed("guests", "*", "edit");
 	 * </code>
 	 */
 	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
@@ -593,6 +622,7 @@ class Memory extends Adapter
 			 */
 			if isset accessList[accessKey] {
 				let haveAccess = accessList[accessKey];
+				fetch funcAccess, funcList[accessKey];
 			} else {
 				if typeof inheritedRoles == "array" {
 					for inheritedRole in inheritedRoles {
@@ -623,6 +653,7 @@ class Memory extends Adapter
 			 */
 			if isset accessList[accessKey] {
 				let haveAccess = accessList[accessKey];
+				fetch funcAccess, funcList[accessKey];
 			} else {
 				if typeof inheritedRoles == "array" {
 					for inheritedRole in inheritedRoles {
@@ -722,7 +753,9 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY) for no arguments provided in isAllowed action if there exists func for accessKey
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+	 * for no arguments provided in isAllowed action if there exists func for
+	 * accessKey
 	 */
 	public function setNoArgumentsDefaultAction(int defaultAccess)
 	{
@@ -730,7 +763,8 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Returns the default ACL access level for no arguments provided in isAllowed action if there exists func for accessKey
+	 * Returns the default ACL access level for no arguments provided in
+	 * isAllowed action if there exists func for accessKey
 	 */
 	public function getNoArgumentsDefaultAction() -> int
 	{

@@ -28,7 +28,7 @@ use Phalcon\Translate\Interpolator\AssociativeArray;
  *
  * Base class for Phalcon\Translate adapters
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
 	/**
 	* @var Phalcon\Translate\InterpolatorInterface

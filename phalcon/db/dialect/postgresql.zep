@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -156,11 +156,11 @@ class Postgresql extends Dialect
 						var value, valueSql;
 						let valueSql = "";
 						for value in typeValues {
-							let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+							let valueSql .= "'" . addcslashes(value, "\'") . "', ";
 						}
 						let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
 					} else {
-						let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+						let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
 					}
 				}
 		}
@@ -173,7 +173,7 @@ class Postgresql extends Dialect
 	 */
 	public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
 	{
-		var sql, defaultValue, columnDefinition;
+		var sql, columnDefinition;
 
 		let columnDefinition = this->getColumnDefinition(column);
 
@@ -181,14 +181,7 @@ class Postgresql extends Dialect
 		let sql .= "\"" . column->getName() . "\" " . columnDefinition;
 
 		if column->hasDefault() {
-			let defaultValue = column->getDefault();
-			if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-				let sql .= " DEFAULT " . (defaultValue ? "true" : "false");
-			} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-				let sql .= " DEFAULT CURRENT_TIMESTAMP";
-			} else {
-				let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-			}
+			let sql .= " DEFAULT " . this->_castDefault(column);
 		}
 
 		if column->isNotNull() {
@@ -205,22 +198,25 @@ class Postgresql extends Dialect
 	{
 		var sql = "", sqlAlterTable, defaultValue, columnDefinition;
 
-		let columnDefinition = this->getColumnDefinition(column);
-		let sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
-		let currentColumn = currentColumn == null ? column : currentColumn; 
+		let columnDefinition = this->getColumnDefinition(column),
+			sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
 
-		//Rename
-		if column->getName() != currentColumn->getName() {
+		if typeof currentColumn != "object" {
+			let currentColumn = column;
+		}
+
+		// Rename
+		if column->getName() !== currentColumn->getName() {
 			let sql .= sqlAlterTable . " RENAME COLUMN \"" . currentColumn->getName() . "\" TO \"" . column->getName() . "\";";
 		}
 
-		//Change type
-		if column->getType() != currentColumn->getType() {
+		// Change type
+		if column->getType() !== currentColumn->getType() {
 			let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" TYPE " . columnDefinition . ";";
 		}
 
-		//NULL
-		if column->isNotNull() != currentColumn->isNotNull() {
+		// NULL
+		if column->isNotNull() !== currentColumn->isNotNull() {
 			if column->isNotNull() {
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET NOT NULL;";
 			} else {
@@ -228,20 +224,18 @@ class Postgresql extends Dialect
 			}
 		}
 
-		//DEFAULT
-		if column->getDefault() != currentColumn->getDefault() {
-			if !column->hasDefault() && !empty currentColumn->getDefault() {
+		// DEFAULT
+		if column->getDefault() !== currentColumn->getDefault() {
+			if empty column->getDefault() && !empty currentColumn->getDefault() {
 				let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP DEFAULT;";
 			}
 
 			if column->hasDefault() {
-				let defaultValue = column->getDefault();
+				let defaultValue = this->_castDefault(column);
 				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-					let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . (defaultValue ? "true" : "false");
-				} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT CURRENT_TIMESTAMP";
+					let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
 				} else {
-					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+					let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
 				}
 			}
 		}
@@ -378,13 +372,11 @@ class Postgresql extends Dialect
 			 * Add a Default clause
 			 */
 			if column->hasDefault() {
-				let defaultValue = column->getDefault();
+				let defaultValue = this->_castDefault(column);
 				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-					let sql .= " DEFAULT " . (defaultValue ? "true" : "false");
-				} elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-					let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+					let sql .= " DEFAULT " . defaultValue;
 				} else {
-					let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+					let columnLine .= " DEFAULT " . defaultValue;
 				}
 			}
 
@@ -476,7 +468,7 @@ class Postgresql extends Dialect
 	}
 
 	/**
-	 * Generates SQL to drop a view
+	 * Generates SQL to drop a table
 	 */
 	public function dropTable(string! tableName, string schemaName = null, boolean! ifExists = true) -> string
 	{
@@ -529,8 +521,9 @@ class Postgresql extends Dialect
 	 * Generates SQL checking for the existence of a schema.table
 	 *
 	 * <code>
-	 *    echo $dialect->tableExists("posts", "blog");
-	 *    echo $dialect->tableExists("posts");
+	 * echo $dialect->tableExists("posts", "blog");
+	 *
+	 * echo $dialect->tableExists("posts");
 	 * </code>
 	 */
 	public function tableExists(string! tableName, string schemaName = null) -> string
@@ -549,14 +542,16 @@ class Postgresql extends Dialect
 		if schemaName {
 			return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
 		}
-		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "'";
+		return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='public'";
 	}
 
 	/**
 	 * Generates SQL describing a table
 	 *
 	 * <code>
-	 *    print_r($dialect->describeColumns("posts"));
+	 * print_r(
+	 *     $dialect->describeColumns("posts")
+	 * );
 	 * </code>
 	 */
 	public function describeColumns(string! table, string schema = null) -> string
@@ -571,7 +566,9 @@ class Postgresql extends Dialect
 	 * List all tables in database
 	 *
 	 * <code>
-	 *     print_r($dialect->listTables("blog"))
+	 * print_r(
+	 *     $dialect->listTables("blog")
+	 * );
 	 * </code>
 	 */
 	public function listTables(string schemaName = null) -> string
@@ -609,12 +606,12 @@ class Postgresql extends Dialect
 	 */
 	public function describeReferences(string! table, string schema = null) -> string
 	{
-		var sql = "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
+		var sql = "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ";
 
 		if schema {
 			let sql .= "tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
 		} else {
-			let sql .= "tc.table_name='" . table . "'";
+			let sql .= "tc.table_schema = 'public' AND tc.table_name='" . table . "'";
 		}
 
 		return sql;
@@ -627,6 +624,36 @@ class Postgresql extends Dialect
 	{
 		return "";
 	}
+
+	protected function _castDefault(<ColumnInterface> column) -> string
+	{
+		var defaultValue, preparedValue, columnDefinition, columnType;
+
+		let defaultValue = column->getDefault(),
+			columnDefinition = this->getColumnDefinition(column),
+			columnType = column->getType();
+
+		if memstr(strtoupper(columnDefinition), "BOOLEAN") {
+			return defaultValue ? "true" : "false";
+		}
+
+		if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+			return "CURRENT_TIMESTAMP";
+		}
+
+		if columnType === Column::TYPE_INTEGER ||
+			columnType === Column::TYPE_BIGINTEGER ||
+			columnType === Column::TYPE_DECIMAL ||
+			columnType === Column::TYPE_FLOAT ||
+			columnType === Column::TYPE_DOUBLE {
+			let preparedValue = (string) defaultValue;
+		} else {
+			let preparedValue = "'" . addcslashes(defaultValue, "\'") . "'";
+		}
+
+		return preparedValue;
+	}
+
 	protected function _getTableOptions(array! definition) -> string
 	{
 		return "";

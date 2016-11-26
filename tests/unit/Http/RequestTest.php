@@ -94,7 +94,7 @@ class RequestTest extends HttpBase
      * Tests getHeader
      *
      * @issue  2294
-     * @author Serghei Iakovlev <nikos@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-19
      */
     public function testHttpRequestCustomHeaderGet()
@@ -283,7 +283,6 @@ class RequestTest extends HttpBase
                 $request = $this->getRequestObject();
 
                 expect($request->getServerAddress())->equals('127.0.0.1');
-
             }
         );
     }
@@ -334,7 +333,7 @@ class RequestTest extends HttpBase
             "http host without required server values does not return empty string",
             function () {
                 $request = $this->getRequestObject();
-                unset($_SERVER['HTTP_HOST'],$_SERVER['SERVER_NAME'], $_SERVER['SERVER_ADDR']);
+                unset($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME'], $_SERVER['SERVER_ADDR']);
 
                 expect(is_string($request->getHttpHost()))->true();
                 expect($request->getHttpHost())->equals('');
@@ -538,15 +537,16 @@ class RequestTest extends HttpBase
 
                 $this->setServerVar('HTTP_HOST', $host);
                 $request->getHttpHost();
-            }, [
+            },
+            [
                 'throws' => 'UnexpectedValueException',
                 'examples' => [
-                    ['foo±bar±baz'  ],
-                    ['foo~bar~baz'  ],
+                    ['foo±bar±baz'],
+                    ['foo~bar~baz'],
                     ['<foo-bar-baz>'],
-                    ['foo=bar=baz'  ],
-                    ['foobar/baz'   ],
-                    ['foo@bar'      ],
+                    ['foo=bar=baz'],
+                    ['foobar/baz'],
+                    ['foo@bar'],
                 ]
             ]
         );
@@ -792,7 +792,6 @@ class RequestTest extends HttpBase
         $this->assertEquals($lastAccept['level'], 2);
 
         $this->assertEquals($request->getBestAccept(), 'text/html');
-
     }
 
     public function testHttpRequestAcceptableCharsets()
@@ -812,7 +811,6 @@ class RequestTest extends HttpBase
         $this->assertEquals($lastAccept['quality'], 0.8);
 
         $this->assertEquals($request->getBestCharset(), 'iso-8859-5');
-
     }
 
     public function testHttpRequestAcceptableLanguage()
@@ -836,7 +834,6 @@ class RequestTest extends HttpBase
         $this->assertEquals($lastAccept['quality'], 0.9);
 
         $this->assertEquals($request->getBestLanguage(), 'es');
-
     }
 
     public function testHttpRequestClientAddress()
@@ -1017,8 +1014,8 @@ class RequestTest extends HttpBase
         return [
             [
                 [
-                    'PHP_AUTH_USER'	=> 'myleft',
-                    'PHP_AUTH_PW'	=> '123456'
+                    'PHP_AUTH_USER'    => 'myleft',
+                    'PHP_AUTH_PW'    => '123456'
                 ],
                 'getBasicAuth',
                 [
@@ -1031,7 +1028,16 @@ class RequestTest extends HttpBase
                 ],
                 'getDigestAuth',
                 [
-                    'username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response'
+                    'username'  => 'myleft',
+                    'realm'     => 'myleft',
+                    'qop'       => 'auth',
+                    'algorithm' => 'MD5',
+                    'uri'       => 'http://localhost:81/',
+                    'nonce'     => 'nonce',
+                    'nc'        => 'nc',
+                    'cnonce'    => 'cnonce',
+                    'opaque'    => 'opaque',
+                    'response'  => 'response',
                 ]
             ],
             [
@@ -1040,7 +1046,16 @@ class RequestTest extends HttpBase
                 ],
                 'getDigestAuth',
                 [
-                    'username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response'
+                    'username'  => 'myleft',
+                    'realm'     => 'myleft',
+                    'qop'       => 'auth',
+                    'algorithm' => 'MD5',
+                    'uri'       => 'http://localhost:81/',
+                    'nonce'     => 'nonce',
+                    'nc'        => 'nc',
+                    'cnonce'    => 'cnonce',
+                    'opaque'    => 'opaque',
+                    'response'  => 'response',
                 ]
             ],
             [
@@ -1049,7 +1064,16 @@ class RequestTest extends HttpBase
                 ],
                 'getDigestAuth',
                 [
-                    'username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => 'http://localhost:81/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response'
+                    'username'  => 'myleft',
+                    'realm'     => 'myleft',
+                    'qop'       => 'auth',
+                    'algorithm' => 'MD5',
+                    'uri'       => 'http://localhost:81/',
+                    'nonce'     => 'nonce',
+                    'nc'        => 'nc',
+                    'cnonce'    => 'cnonce',
+                    'opaque'    => 'opaque',
+                    'response'  => 'response',
                 ]
             ],
         ];

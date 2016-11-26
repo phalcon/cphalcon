@@ -71,6 +71,18 @@ CREATE TABLE parts (
 ALTER TABLE public.parts OWNER TO postgres;
 
 --
+-- Name: images; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+--
+
+CREATE TABLE images (
+  id BIGSERIAL,
+  base64 TEXT
+);
+
+
+ALTER TABLE public.images OWNER TO postgres;
+
+--
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 

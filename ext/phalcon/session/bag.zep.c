@@ -29,9 +29,10 @@
  * you can easily create groups of session variables into the application
  *
  *<code>
- *	$user = new \Phalcon\Session\Bag('user');
- *	$user->name = "Kimbra Johnson";
- *	$user->age  = 22;
+ * $user = new \Phalcon\Session\Bag("user");
+ *
+ * $user->name = "Kimbra Johnson";
+ * $user->age  = 22;
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
@@ -112,7 +113,8 @@ PHP_METHOD(Phalcon_Session_Bag, getDI) {
 }
 
 /**
- * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accessed
+ * Initializes the session bag. This method must not be called directly, the
+ * class calls it when its internal data is accessed
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize) {
 
@@ -131,7 +133,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize) {
 			ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 1);
 			zephir_check_call_status();
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/session/bag.zep", 89);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service", "phalcon/session/bag.zep", 91);
 				return;
 			}
 		}
@@ -193,7 +195,7 @@ PHP_METHOD(Phalcon_Session_Bag, destroy) {
  * Sets a value in the session bag
  *
  *<code>
- * $user->set('name', 'Kimbra');
+ * $user->set("name", "Kimbra");
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, set) {
@@ -270,7 +272,7 @@ PHP_METHOD(Phalcon_Session_Bag, __set) {
  * Obtains a value from the session bag optionally setting a default value
  *
  *<code>
- * echo $user->get('name', 'Kimbra');
+ * echo $user->get("name", "Kimbra");
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, get) {
@@ -349,7 +351,9 @@ PHP_METHOD(Phalcon_Session_Bag, __get) {
  * Check whether a property is defined in the internal bag
  *
  *<code>
- * var_dump($user->has('name'));
+ * var_dump(
+ *     $user->has("name")
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, has) {
@@ -387,7 +391,9 @@ PHP_METHOD(Phalcon_Session_Bag, has) {
  * Magic isset to check whether a property is defined in the bag
  *
  *<code>
- * var_dump(isset($user['name']));
+ * var_dump(
+ *     isset($user["name"])
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, __isset) {
@@ -421,7 +427,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset) {
  * Removes a property from the internal bag
  *
  *<code>
- * $user->remove('name');
+ * $user->remove("name");
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, remove) {
@@ -464,7 +470,7 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
  * Magic unset to remove items using the array syntax
  *
  *<code>
- * unset($user['name']);
+ * unset($user["name"]);
  *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, __unset) {
@@ -535,7 +541,7 @@ PHP_METHOD(Phalcon_Session_Bag, getIterator) {
 	}
 	object_init_ex(return_value, zephir_get_internal_ce(SS("arrayiterator") TSRMLS_CC));
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 435, _1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 437, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -31,16 +31,29 @@ use Phalcon\Validation\Validator;
  * <code>
  * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
- * $validator->add('height', new DigitValidator([
- *     'message' => ':field must be numeric'
- * ]));
+ * $validator->add(
+ *     "height",
+ *     new DigitValidator(
+ *         [
+ *             "message" => ":field must be numeric",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['height', 'width'], new DigitValidator([
- *     'message' => [
- *         'height' => 'height must be numeric',
- *         'width' => 'width must be numeric'
- *     ]
- * ]));
+ * $validator->add(
+ *     [
+ *         "height",
+ *         "width",
+ *     ],
+ *     new DigitValidator(
+ *         [
+ *             "message" => [
+ *                 "height" => "height must be numeric",
+ *                 "width"  => "width must be numeric",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 class Digit extends Validator

@@ -39,15 +39,16 @@ use Phalcon\Mvc\Micro\CollectionInterface;
  * to small applications, APIs and prototypes in a practical way.
  *
  *<code>
- *
  * $app = new \Phalcon\Mvc\Micro();
  *
- * $app->get('/say/welcome/{name}', function ($name) {
- *    echo "<h1>Welcome $name!</h1>";
- * });
+ * $app->get(
+ *     "/say/welcome/{name}",
+ *     function ($name) {
+ *         echo "<h1>Welcome $name!</h1>";
+ *     }
+ * );
  *
  * $app->handle();
- *
  *</code>
  */
 class Micro extends Injectable implements \ArrayAccess
@@ -55,7 +56,7 @@ class Micro extends Injectable implements \ArrayAccess
 
 	protected _dependencyInjector;
 
-	protected _handlers;
+	protected _handlers = [];
 
 	protected _router;
 
@@ -958,7 +959,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Allows to register a shared service in the internal services container using the array syntax
 	 *
 	 *<code>
-	 *	$app['request'] = new \Phalcon\Http\Request();
+	 *	$app["request"] = new \Phalcon\Http\Request();
 	 *</code>
 	 *
 	 * @param string alias
@@ -973,7 +974,9 @@ class Micro extends Injectable implements \ArrayAccess
 	 * Allows to obtain a shared service in the internal services container using the array syntax
 	 *
 	 *<code>
-	 *	var_dump($di['request']);
+	 * var_dump(
+	 *     $app["request"]
+	 * );
 	 *</code>
 	 *
 	 * @param string alias
@@ -1032,10 +1035,8 @@ class Micro extends Injectable implements \ArrayAccess
 
 	/**
 	 * Returns the internal handlers attached to the application
-	 *
-	 * @return array
 	 */
-	public function getHandlers()
+	public function getHandlers() -> array
 	{
 		return this->_handlers;
 	}

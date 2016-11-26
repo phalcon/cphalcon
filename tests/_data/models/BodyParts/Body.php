@@ -3,11 +3,12 @@
 namespace Phalcon\Test\Models\BodyParts;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\Models\BodyParts\Head;
 
 /**
  * \Phalcon\Test\Models\Body
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Radek Crlík <radekcrlik@gmail.com>
  * @package   Phalcon\Test\Models\BodyParts
@@ -21,39 +22,38 @@ use Phalcon\Mvc\Model;
  */
 class Body extends Model
 {
+    public $id;
+    public $head_1_id;
+    public $head_2_id;
 
-	public $id;
-	public $head_1_id;
-	public $head_2_id;
+    public function initialize()
+    {
+        $this->setSource('issue12071_body');
 
-	public function initialize()
-	{
-		$this->setSource('issue12071_body');
+        $this->belongsTo(
+            'head_1_id',
+            Head::class,
+            'id',
+            [
+                'alias' => 'head1',
+                "foreignKey" => [
+                    "allowNulls" => true,
+                    "message" => "First head does not exists"
+                ]
+            ]
+        );
 
-		$this->belongsTo(
-			'head_1_id',
-			'\Phalcon\Test\Models\BodyParts\Head',
-			'id',
-			[
-				'alias' => 'head1',
-				"foreignKey" => [
-					"allowNulls" => true,
-					"message" => "First head does not exists"
-				]
-			]
-		);
-
-		$this->belongsTo(
-			'head_2_id',
-			'\Phalcon\Test\Models\BodyParts\Head',
-			'id',
-			[
-				'alias' => 'head2',
-				"foreignKey" => [
-					"allowNulls" => true,
-					"message" => "Second head does not exists"
-				]
-			]
-		);
-	}
+        $this->belongsTo(
+            'head_2_id',
+            Head::class,
+            'id',
+            [
+                'alias' => 'head2',
+                "foreignKey" => [
+                    "allowNulls" => true,
+                    "message" => "Second head does not exists"
+                ]
+            ]
+        );
+    }
 }

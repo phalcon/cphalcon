@@ -113,7 +113,6 @@ class ReflectionTest extends UnitTest
                         $total++;
                     }
                     expect($number > 0)->true();
-
                 }
 
                 expect($total)->equals(14);
@@ -154,12 +153,10 @@ class ReflectionTest extends UnitTest
                     }
 
                     expect($number > 0)->true();
-
                 }
 
                 expect($total)->equals(10);
             }
         );
     }
-
 }

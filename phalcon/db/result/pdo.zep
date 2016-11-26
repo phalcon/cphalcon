@@ -32,11 +32,15 @@ use Phalcon\Db\ResultInterface;
  * Encapsulates the resultset internals
  *
  * <code>
- *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
- *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while ($robot = $result->fetchArray()) {
- *		print_r($robot);
- *	}
+ * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *
+ * $result->setFetchMode(
+ *     \Phalcon\Db::FETCH_NUM
+ * );
+ *
+ * while ($robot = $result->fetchArray()) {
+ *     print_r($robot);
+ * }
  * </code>
  */
 class Pdo implements ResultInterface
@@ -107,11 +111,15 @@ class Pdo implements ResultInterface
 	 * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
 	 *
 	 *<code>
-	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
-	 *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
-	 *	while ($robot = $result->fetch()) {
-	 *		echo $robot->name;
-	 *	}
+	 * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+	 *
+	 * $result->setFetchMode(
+	 *     \Phalcon\Db::FETCH_OBJ
+	 * );
+	 *
+	 * while ($robot = $result->fetch()) {
+	 *     echo $robot->name;
+	 * }
 	 *</code>
 	 */
 	public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
@@ -124,11 +132,15 @@ class Pdo implements ResultInterface
 	 * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
 	 *
 	 *<code>
-	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
-	 *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
-	 *	while ($robot = result->fetchArray()) {
-	 *		print_r($robot);
-	 *	}
+	 * $result = $connection->query("SELECT * FROM robots ORDER BY name");
+	 *
+	 * $result->setFetchMode(
+	 *     \Phalcon\Db::FETCH_NUM
+	 * );
+	 *
+	 * while ($robot = result->fetchArray()) {
+	 *     print_r($robot);
+	 * }
 	 *</code>
 	 */
 	public function fetchArray()
@@ -141,8 +153,11 @@ class Pdo implements ResultInterface
 	 * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
 	 *
 	 *<code>
-	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
-	 *	$robots = $result->fetchAll();
+	 * $result = $connection->query(
+	 *     "SELECT * FROM robots ORDER BY name"
+	 * );
+	 *
+	 * $robots = $result->fetchAll();
 	 *</code>
 	 */
 	public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
@@ -175,8 +190,11 @@ class Pdo implements ResultInterface
 	 * Gets number of rows returned by a resultset
 	 *
 	 *<code>
-	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
-	 *	echo 'There are ', $result->numRows(), ' rows in the resultset';
+	 * $result = $connection->query(
+	 *     "SELECT * FROM robots ORDER BY name"
+	 * );
+	 *
+	 * echo "There are ", $result->numRows(), " rows in the resultset";
 	 *</code>
 	 */
 	public function numRows() -> int
@@ -204,7 +222,9 @@ class Pdo implements ResultInterface
 			if rowCount === false {
 
 				/**
-				 * SQLite/SQLServer returns resultsets that to the client eyes (PDO) has an arbitrary number of rows, so we need to perform an extra count to know that
+				 * SQLite/SQLServer returns resultsets that to the client eyes
+				 * (PDO) has an arbitrary number of rows, so we need to perform
+				 * an extra count to know that
 				 */
 				let sqlStatement = this->_sqlStatement;
 
@@ -215,8 +235,13 @@ class Pdo implements ResultInterface
 
 					let matches = null;
 					if preg_match("/^SELECT\\s+(.*)/i", sqlStatement, matches) {
-						let result = connection->query("SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")", this->_bindParams, this->_bindTypes),
-							row = result->$fetch(),
+						let result = connection->query(
+							"SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")",
+							this->_bindParams,
+							this->_bindTypes
+						);
+
+						let row = result->$fetch(),
 							rowCount = row["numrows"];
 					}
 				} else {
@@ -236,9 +261,15 @@ class Pdo implements ResultInterface
 	 * Moves internal resultset cursor to another position letting us to fetch a certain row
 	 *
 	 *<code>
-	 *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
-	 *	$result->dataSeek(2); // Move to third row on result
-	 *	$row = $result->fetch(); // Fetch third row
+	 * $result = $connection->query(
+	 *     "SELECT * FROM robots ORDER BY name"
+	 * );
+	 *
+	 * // Move to third row on result
+	 * $result->dataSeek(2);
+	 *
+	 * // Fetch third row
+	 * $row = $result->fetch();
 	 *</code>
 	 */
 	public function dataSeek(long number) -> void
@@ -276,17 +307,25 @@ class Pdo implements ResultInterface
 	 * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
 	 *
 	 *<code>
-	 *	//Return array with integer indexes
-	 *	$result->setFetchMode(\Phalcon\Db::FETCH_NUM);
+	 * // Return array with integer indexes
+	 * $result->setFetchMode(
+	 *     \Phalcon\Db::FETCH_NUM
+	 * );
 	 *
-	 *	//Return associative array without integer indexes
-	 *	$result->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+	 * // Return associative array without integer indexes
+	 * $result->setFetchMode(
+	 *     \Phalcon\Db::FETCH_ASSOC
+	 * );
 	 *
-	 *	//Return associative array together with integer indexes
-	 *	$result->setFetchMode(\Phalcon\Db::FETCH_BOTH);
+	 * // Return associative array together with integer indexes
+	 * $result->setFetchMode(
+	 *     \Phalcon\Db::FETCH_BOTH
+	 * );
 	 *
-	 *	//Return an object
-	 *	$result->setFetchMode(\Phalcon\Db::FETCH_OBJ);
+	 * // Return an object
+	 * $result->setFetchMode(
+	 *     \Phalcon\Db::FETCH_OBJ
+	 * );
 	 *</code>
 	 */
 	public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> boolean

@@ -28,14 +28,14 @@ use Phalcon\Crypt\Exception;
  * Provides encryption facilities to phalcon applications
  *
  *<code>
- *	$crypt = new \Phalcon\Crypt();
+ * $crypt = new \Phalcon\Crypt();
  *
- *	$key = 'le password';
- *	$text = 'This is a secret text';
+ * $key  = "le password";
+ * $text = "This is a secret text";
  *
- *	$encrypted = $crypt->encrypt($text, $key);
+ * $encrypted = $crypt->encrypt($text, $key);
  *
- *	echo $crypt->decrypt($encrypted, $key);
+ * echo $crypt->decrypt($encrypted, $key);
  *</code>
  */
 class Crypt implements CryptInterface
@@ -269,7 +269,7 @@ class Crypt implements CryptInterface
 	 * Encrypts a text
 	 *
 	 *<code>
-	 *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
+	 * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
 	 *</code>
 	 */
 	public function encrypt(string! text, string! key = null) -> string
@@ -320,7 +320,7 @@ class Crypt implements CryptInterface
 	 * Decrypts an encrypted text
 	 *
 	 *<code>
-	 *	echo $crypt->decrypt($encrypted, "decrypt password");
+	 * echo $crypt->decrypt($encrypted, "decrypt password");
 	 *</code>
 	 */
 	public function decrypt(string! text, key = null) -> string

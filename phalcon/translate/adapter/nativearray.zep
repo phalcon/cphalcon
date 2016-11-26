@@ -20,7 +20,6 @@
 namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Adapter;
 
 /**
@@ -28,7 +27,7 @@ use Phalcon\Translate\Adapter;
  *
  * Allows to define translation lists using PHP arrays
  */
-class NativeArray extends Adapter implements AdapterInterface, \ArrayAccess
+class NativeArray extends Adapter implements \ArrayAccess
 {
 
 	protected _translate;

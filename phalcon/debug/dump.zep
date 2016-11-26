@@ -27,16 +27,18 @@ use Phalcon\Di;
  * Dumps information about a variable(s)
  *
  * <code>
- *    $foo = 123;
- *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
- *</code>
+ * $foo = 123;
+ *
+ * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
+ * </code>
  *
  * <code>
- *    $foo = "string";
- *    $bar = ["key" => "value"];
- *    $baz = new stdClass();
- *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
- *</code>
+ * $foo = "string";
+ * $bar = ["key" => "value"];
+ * $baz = new stdClass();
+ *
+ * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
+ * </code>
  */
 class Dump
 {
@@ -52,11 +54,8 @@ class Dump
 	 *
 	 * @param boolean detailed debug object's private and protected properties
 	 */
-	public function __construct(array styles = null, boolean detailed = false)
+	public function __construct(array styles = [], boolean detailed = false)
 	{
-		if styles && typeof styles != "array" {
-			throw new Exception("The styles must be an array");
-		}
 		this->setStyles(styles);
 
 		let this->_detailed = detailed;
@@ -91,7 +90,7 @@ class Dump
 	/**
 	 * Set styles for vars type
 	 */
-	public function setStyles(var styles = null) -> array
+	public function setStyles(array styles = []) -> array
 	{
 		var defaultStyles;
 
@@ -142,7 +141,13 @@ class Dump
 		}
 
 		if typeof variable == "array" {
-			let output .= strtr("<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n", [":style": this->getStyle("arr"), ":count": count(variable)]);
+			let output .= strtr(
+				"<b style =':style'>Array</b> (<span style =':style'>:count</span>) (\n",
+				[
+					":style": this->getStyle("arr"),
+					":count": count(variable)
+				]
+			);
 
 			for key, value in variable {
 				let output .= str_repeat(space, tab) . strtr("[<span style=':style'>:key</span>] => ", [":style": this->getStyle("arr"), ":key": key]);
@@ -158,15 +163,27 @@ class Dump
 
 		if typeof variable == "object" {
 
-			let output .= strtr("<b style=':style'>Object</b> :class", [":style": this->getStyle("obj"), ":class": get_class(variable)]);
+			let output .= strtr(
+				"<b style=':style'>Object</b> :class",
+				[
+					":style": this->getStyle("obj"),
+					":class": get_class(variable)
+				]
+			);
 
 			if get_parent_class(variable) {
-				let output .= strtr(" <b style=':style'>extends</b> :parent", [":style": this->getStyle("obj"), ":parent": get_parent_class(variable)]);
+				let output .= strtr(
+					" <b style=':style'>extends</b> :parent",
+					[
+						":style": this->getStyle("obj"),
+						":parent": get_parent_class(variable)
+					]
+				);
 			}
 			let output .= " (\n";
 
 			if variable instanceof Di {
-				// Skip debuging di
+				// Skip debugging di
 				let output .= str_repeat(space, tab) . "[skipped]\n";
 			} elseif !this->_detailed {
 				// Debug only public properties
@@ -260,7 +277,7 @@ class Dump
 	 * Returns an HTML string of information about a single variable.
 	 *
 	 * <code>
-	 *    echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
+	 * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
 	 * </code>
 	 */
 	public function variable(var variable, string name = null) -> string
@@ -276,11 +293,12 @@ class Dump
 	 * variables, each wrapped in a "pre" tag.
 	 *
 	 * <code>
-	 *    $foo = "string";
-	 *    $bar = ["key" => "value"];
-	 *    $baz = new stdClass();
-	 *    echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
-	 *</code>
+	 * $foo = "string";
+	 * $bar = ["key" => "value"];
+	 * $baz = new stdClass();
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
+	 * </code>
 	 *
 	 * @param mixed variable
 	 * @param ...
@@ -301,11 +319,16 @@ class Dump
 	 * Returns an JSON string of information about a single variable.
 	 *
 	 * <code>
-	 *    $foo = ["key" => "value"];
-	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
-	 *    $foo = new stdClass();
-	 *    $foo->bar = 'buz';
-	 *    echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 * $foo = [
+	 *     "key" => "value",
+	 * ];
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
+	 *
+	 * $foo = new stdClass();
+	 * $foo->bar = "buz";
+	 *
+	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
 	 * </code>
 	 *
 	 * @param mixed variable

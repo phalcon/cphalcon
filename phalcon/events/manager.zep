@@ -202,7 +202,12 @@ class Manager implements ManagerInterface
 		if typeof queue != "array" {
 			if typeof queue == "object" {
 				if !(queue instanceof \SplPriorityQueue) {
-					throw new Exception(sprintf("Unexpected value type: expected object of type SplPriorityQueue, %s given", get_class(queue)));
+					throw new Exception(
+						sprintf(
+							"Unexpected value type: expected object of type SplPriorityQueue, %s given",
+							get_class(queue)
+						)
+					);
 				}
 			} else {
 				throw new Exception("The queue is not valid");
@@ -359,7 +364,7 @@ class Manager implements ManagerInterface
 	 * Fires an event in the events manager causing the active listeners to be notified about it
 	 *
 	 *<code>
-	 *	$eventsManager->fire('db', $connection);
+	 *	$eventsManager->fire("db", $connection);
 	 *</code>
 	 *
 	 * @param string eventType

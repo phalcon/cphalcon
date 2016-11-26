@@ -26,7 +26,7 @@ use Phalcon\Image;
  *
  * All image adapters must use this class
  */
-abstract class Adapter
+abstract class Adapter implements AdapterInterface
 {
 
 	protected _image { get };

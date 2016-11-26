@@ -29,7 +29,7 @@ use Phalcon\Events\ManagerInterface;
  *
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements EventsAwareInterface
+abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
 	/**
 	 * Event Manager
@@ -169,13 +169,13 @@ abstract class Adapter implements EventsAwareInterface
 	 * Returns the first row in a SQL query result
 	 *
 	 *<code>
-	 *	//Getting first robot
-	 *	$robot = $connection->fetchOne("SELECT * FROM robots");
-	 *	print_r($robot);
+	 * // Getting first robot
+	 * $robot = $connection->fetchOne("SELECT * FROM robots");
+	 * print_r($robot);
 	 *
-	 *	//Getting first robot with associative indexes only
-	 *	$robot = $connection->fetchOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
-	 *	print_r($robot);
+	 * // Getting first robot with associative indexes only
+	 * $robot = $connection->fetchOne("SELECT * FROM robots", \Phalcon\Db::FETCH_ASSOC);
+	 * print_r($robot);
 	 *</code>
 	 */
 	public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
@@ -196,20 +196,27 @@ abstract class Adapter implements EventsAwareInterface
 	 * Dumps the complete result of a query into an array
 	 *
 	 *<code>
-	 *	//Getting all robots with associative indexes only
-	 *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
-	 *	foreach ($robots as $robot) {
-	 *		print_r($robot);
-	 *	}
+	 * // Getting all robots with associative indexes only
+	 * $robots = $connection->fetchAll(
+	 *     "SELECT * FROM robots",
+	 *     \Phalcon\Db::FETCH_ASSOC
+	 * );
 	 *
-	 *  //Getting all robots that contains word "robot" withing the name
-	 *  $robots = $connection->fetchAll("SELECT * FROM robots WHERE name LIKE :name",
-	 *		Phalcon\Db::FETCH_ASSOC,
-	 *		array('name' => '%robot%')
-	 *  );
-	 *	foreach($robots as $robot){
-	 *		print_r($robot);
-	 *	}
+	 * foreach ($robots as $robot) {
+	 *     print_r($robot);
+	 * }
+	 *
+	 *  // Getting all robots that contains word "robot" withing the name
+	 * $robots = $connection->fetchAll(
+	 *     "SELECT * FROM robots WHERE name LIKE :name",
+	 *     \Phalcon\Db::FETCH_ASSOC,
+	 *     [
+	 *         "name" => "%robot%",
+	 *     ]
+	 * );
+	 * foreach($robots as $robot) {
+	 *     print_r($robot);
+	 * }
 	 *</code>
 	 *
 	 * @param string sqlQuery
@@ -248,13 +255,16 @@ abstract class Adapter implements EventsAwareInterface
 	 * Returns the n'th field of first row in a SQL query result
 	 *
 	 *<code>
-	 *	//Getting count of robots
-	 *	$robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
-	 *	print_r($robotsCount);
+	 * // Getting count of robots
+	 * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+	 * print_r($robotsCount);
 	 *
-	 *	//Getting name of last edited robot
-	 *	$robot = $connection->fetchColumn("SELECT id, name FROM robots order by modified desc", 1);
-	 *	print_r($robot);
+	 * // Getting name of last edited robot
+	 * $robot = $connection->fetchColumn(
+	 *     "SELECT id, name FROM robots order by modified desc",
+	 *     1
+	 * );
+	 * print_r($robot);
 	 *</code>
 	 *
 	 * @param  string sqlQuery
@@ -281,9 +291,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * <code>
 	 * // Inserting a new robot
 	 * $success = $connection->insert(
-	 *	 "robots",
-	 *	 array("Astro Boy", 1952),
-	 *	 array("name", "year")
+	 *     "robots",
+	 *     ["Astro Boy", 1952],
+	 *     ["name", "year"]
 	 * );
 	 *
 	 * // Next SQL sentence is sent to the database system
@@ -336,25 +346,16 @@ abstract class Adapter implements EventsAwareInterface
 			}
 		}
 
-		if globals_get("db.escape_identifiers") {
-			let escapedTable = this->{"escapeIdentifier"}(table);
-		} else {
-			let escapedTable = table;
-		}
+		let escapedTable = this->escapeIdentifier(table);
 
 		/**
 		 * Build the final SQL INSERT statement
 		 */
 		let joinedValues = join(", ", placeholders);
 		if typeof fields == "array" {
-
-			if globals_get("db.escape_identifiers") {
-				let escapedFields = [];
-				for field in fields {
-					let escapedFields[] = this->{"escapeIdentifier"}(field);
-				}
-			} else {
-				let escapedFields = fields;
+			let escapedFields = [];
+			for field in fields {
+				let escapedFields[] = this->escapeIdentifier(field);
 			}
 
 			let insertSql = "INSERT INTO " . escapedTable . " (" . join(", ", escapedFields) . ") VALUES (" . joinedValues . ")";
@@ -376,16 +377,16 @@ abstract class Adapter implements EventsAwareInterface
 	 * Inserts data into a table using custom RBDM SQL syntax
 	 *
 	 * <code>
-	 * //Inserting a new robot
+	 * // Inserting a new robot
 	 * $success = $connection->insertAsDict(
-	 *	 "robots",
-	 *	 array(
-	 *		  "name" => "Astro Boy",
-	 *		  "year" => 1952
-	 *	  )
+	 *     "robots",
+	 *     [
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
 	 * );
 	 *
-	 * //Next SQL sentence is sent to the database system
+	 * // Next SQL sentence is sent to the database system
 	 * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
 	 * </code>
 	 *
@@ -415,28 +416,30 @@ abstract class Adapter implements EventsAwareInterface
 	 * Updates data on a table using custom RBDM SQL syntax
 	 *
 	 * <code>
-	 * //Updating existing robot
+	 * // Updating existing robot
 	 * $success = $connection->update(
-	 *	 "robots",
-	 *	 array("name"),
-	 *	 array("New Astro Boy"),
-	 *	 "id = 101"
+	 *     "robots",
+	 *     ["name"],
+	 *     ["New Astro Boy"],
+	 *     "id = 101"
 	 * );
 	 *
-	 * //Next SQL sentence is sent to the database system
+	 * // Next SQL sentence is sent to the database system
 	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
 	 *
-	 * //Updating existing robot with array condition and $dataTypes
+	 * // Updating existing robot with array condition and $dataTypes
 	 * $success = $connection->update(
-	 *	 "robots",
-	 *	 array("name"),
-	 *	 array("New Astro Boy"),
-	 *	 array(
-	 *		 'conditions' => "id = ?",
-	 *		 'bind' => array($some_unsafe_id),
-	 *		 'bindTypes' => array(PDO::PARAM_INT) //use only if you use $dataTypes param
-	 *	 ),
-	 *	 array(PDO::PARAM_STR)
+	 *     "robots",
+	 *     ["name"],
+	 *     ["New Astro Boy"],
+	 *     [
+	 *         "conditions" => "id = ?",
+	 *         "bind"       => [$some_unsafe_id],
+	 *         "bindTypes"  => [PDO::PARAM_INT], // use only if you use $dataTypes param
+	 *     ],
+	 *     [
+	 *         PDO::PARAM_STR
+	 *     ]
 	 * );
 	 *
 	 * </code>
@@ -470,11 +473,7 @@ abstract class Adapter implements EventsAwareInterface
 				throw new Exception("The number of values in the update is not the same as fields");
 			}
 
-			if globals_get("db.escape_identifiers") {
-				let escapedField = this->{"escapeIdentifier"}(field);
-			} else {
-				let escapedField = field;
-			}
+			let escapedField = this->escapeIdentifier(field);
 
 			if typeof value == "object" {
 				let placeholders[] = escapedField . " = " . value;
@@ -494,11 +493,7 @@ abstract class Adapter implements EventsAwareInterface
 			}
 		}
 
-		if globals_get("db.escape_identifiers") {
-			let escapedTable = this->{"escapeIdentifier"}(table);
-		} else {
-			let escapedTable = table;
-		}
+		let escapedTable = this->escapeIdentifier(table);
 
 		let setClause = join(", ", placeholders);
 
@@ -560,16 +555,16 @@ abstract class Adapter implements EventsAwareInterface
 	 * Another, more convenient syntax
 	 *
 	 * <code>
-	 * //Updating existing robot
+	 * // Updating existing robot
 	 * $success = $connection->updateAsDict(
-	 *	 "robots",
-	 *	 array(
-	 *		  "name" => "New Astro Boy"
-	 *	  ),
-	 *	 "id = 101"
+	 *     "robots",
+	 *     [
+	 *         "name" => "New Astro Boy",
+	 *     ],
+	 *     "id = 101"
 	 * );
 	 *
-	 * //Next SQL sentence is sent to the database system
+	 * // Next SQL sentence is sent to the database system
 	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
 	 * </code>
 	 *
@@ -600,13 +595,13 @@ abstract class Adapter implements EventsAwareInterface
 	 * Deletes data from a table using custom RBDM SQL syntax
 	 *
 	 * <code>
-	 * //Deleting existing robot
+	 * // Deleting existing robot
 	 * $success = $connection->delete(
-	 *	 "robots",
-	 *	 "id = 101"
+	 *     "robots",
+	 *     "id = 101"
 	 * );
 	 *
-	 * //Next SQL sentence is generated
+	 * // Next SQL sentence is generated
 	 * DELETE FROM `robots` WHERE `id` = 101
 	 * </code>
 	 *
@@ -620,11 +615,7 @@ abstract class Adapter implements EventsAwareInterface
 	{
 		var sql, escapedTable;
 
-		if globals_get("db.escape_identifiers") {
-			let escapedTable = this->{"escapeIdentifier"}(table);
-		} else {
-			let escapedTable = table;
-		}
+		let escapedTable = this->escapeIdentifier(table);
 
 		if !empty whereCondition {
 			let sql = "DELETE FROM " . escapedTable . " WHERE " . whereCondition;
@@ -636,6 +627,33 @@ abstract class Adapter implements EventsAwareInterface
 		 * Perform the update via PDO::execute
 		 */
 		return this->{"execute"}(sql, placeholders, dataTypes);
+	}
+
+	/**
+	 * Escapes a column/table/schema name
+	 *
+	 *<code>
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     "robots"
+	 * );
+	 *
+	 * $escapedTable = $connection->escapeIdentifier(
+	 *     [
+	 *         "store",
+	 *         "robots",
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * @param array|string identifier
+	 */
+	public function escapeIdentifier(var identifier) -> string
+	{
+		if typeof identifier == "array" {
+			return this->_dialect->escape(identifier[0]) . "." . this->_dialect->escape(identifier[1]);
+		}
+
+		return this->_dialect->escape(identifier);
 	}
 
 	/**
@@ -653,7 +671,7 @@ abstract class Adapter implements EventsAwareInterface
 	 * Appends a LIMIT clause to $sqlQuery argument
 	 *
 	 * <code>
-	 * 	echo $connection->limit("SELECT * FROM robots", 5);
+	 * echo $connection->limit("SELECT * FROM robots", 5);
 	 * </code>
 	 */
 	public function limit(string! sqlQuery, int number) -> string
@@ -665,7 +683,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * Generates SQL checking for the existence of a schema.table
 	 *
 	 *<code>
-	 * 	var_dump($connection->tableExists("blog", "posts"));
+	 * var_dump(
+	 *     $connection->tableExists("blog", "posts")
+	 * );
 	 *</code>
 	 */
 	public function tableExists(string! tableName, string! schemaName = null) -> boolean
@@ -677,7 +697,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * Generates SQL checking for the existence of a schema.view
 	 *
 	 *<code>
-	 * var_dump($connection->viewExists("active_users", "posts"));
+	 * var_dump(
+	 *     $connection->viewExists("active_users", "posts")
+	 * );
 	 *</code>
 	 */
 	public function viewExists(string! viewName, string! schemaName = null) -> boolean
@@ -831,7 +853,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * List all tables on a database
 	 *
 	 *<code>
-	 * 	print_r($connection->listTables("blog"));
+	 * print_r(
+	 *     $connection->listTables("blog")
+	 * );
 	 *</code>
 	 */
 	public function listTables(string! schemaName = null) -> array
@@ -849,7 +873,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * List all views on a database
 	 *
 	 *<code>
-	 *	print_r($connection->listViews("blog"));
+	 * print_r(
+	 *     $connection->listViews("blog")
+	 * );
 	 *</code>
 	 */
 	public function listViews(string! schemaName = null) -> array
@@ -867,7 +893,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * Lists table indexes
 	 *
 	 *<code>
-	 *	print_r($connection->describeIndexes('robots_parts'));
+	 * print_r(
+	 *     $connection->describeIndexes("robots_parts")
+	 * );
 	 *</code>
 	 *
 	 * @param	string table
@@ -908,7 +936,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * Lists table references
 	 *
 	 *<code>
-	 * print_r($connection->describeReferences('robots_parts'));
+	 * print_r(
+	 *     $connection->describeReferences("robots_parts")
+	 * );
 	 *</code>
 	 */
 	public function describeReferences(string! table, string! schema = null) -> <Reference[]>
@@ -962,7 +992,9 @@ abstract class Adapter implements EventsAwareInterface
 	 * Gets creation options from a table
 	 *
 	 *<code>
-	 * print_r($connection->tableOptions('robots'));
+	 * print_r(
+	 *     $connection->tableOptions("robots")
+	 * );
 	 *</code>
 	 */
 	public function tableOptions(string! tableName, string schemaName = null) -> array
@@ -1066,11 +1098,19 @@ abstract class Adapter implements EventsAwareInterface
 	 * Returns the default identity value to be inserted in an identity column
 	 *
 	 *<code>
-	 * //Inserting a new robot with a valid default value for the column 'id'
+	 * // Inserting a new robot with a valid default value for the column 'id'
 	 * $success = $connection->insert(
-	 *	 "robots",
-	 *	 array($connection->getDefaultIdValue(), "Astro Boy", 1952),
-	 *	 array("id", "name", "year")
+	 *     "robots",
+	 *     [
+	 *         $connection->getDefaultIdValue(),
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "id",
+	 *         "name",
+	 *         "year",
+	 *     ]
 	 * );
 	 *</code>
 	 */
@@ -1083,11 +1123,17 @@ abstract class Adapter implements EventsAwareInterface
 	 * Returns the default value to make the RBDM use the default value declared in the table definition
 	 *
 	 *<code>
-	 * //Inserting a new robot with a valid default value for the column 'year'
+	 * // Inserting a new robot with a valid default value for the column 'year'
 	 * $success = $connection->insert(
-	 *	 "robots",
-	 *	 array("Astro Boy", $connection->getDefaultValue()),
-	 *	 array("name", "year")
+	 *     "robots",
+	 *     [
+	 *         "Astro Boy",
+	 *         $connection->getDefaultValue()
+	 *     ],
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
 	 * );
 	 *</code>
 	 */
@@ -1139,7 +1185,7 @@ abstract class Adapter implements EventsAwareInterface
 	}
 
 	/**
-	 * Active SQL statement in the object without replace bound paramters
+	 * Active SQL statement in the object without replace bound parameters
 	 */
 	public function getRealSQLStatement() -> string
 	{

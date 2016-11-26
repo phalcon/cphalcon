@@ -22,7 +22,6 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter;
-use Phalcon\Paginator\AdapterInterface;
 
 /**
  * Phalcon\Paginator\Adapter\Model
@@ -34,16 +33,16 @@ use Phalcon\Paginator\AdapterInterface;
  *
  * $paginator = new Model(
  *     [
- *         'data'  => Robots::find(),
- *         'limit' => 25,
- *         'page'  => $currentPage
+ *         "data"  => Robots::find(),
+ *         "limit" => 25,
+ *         "page"  => $currentPage,
  *     ]
  * );
  *
  * $paginate = $paginator->getPaginate();
  *</code>
  */
-class Model extends Adapter implements AdapterInterface
+class Model extends Adapter
 {
 
 	/**

@@ -69,7 +69,10 @@ abstract class Validator implements ValidatorInterface
 
 		if typeof options == "array" {
 			if fetch value, options[key] {
-				// If we have attribute it means it's Uniqueness validator, we can have here multiple fields, so we need to check it
+				/*
+				 * If we have attribute it means it's Uniqueness validator, we
+				 * can have here multiple fields, so we need to check it
+				 */
 				if key == "attribute" && typeof value == "array" {
 					if fetch fieldValue, value[key] {
 						return fieldValue;

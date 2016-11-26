@@ -51,7 +51,7 @@ interface ResponseInterface
 	public function setRawHeader(string header) -> <ResponseInterface>;
 
 	/**
-	 * Resets all the stablished headers
+	 * Resets all the established headers
 	 */
 	public function resetHeaders() -> <ResponseInterface>;
 
@@ -93,7 +93,11 @@ interface ResponseInterface
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
 	 *
 	 *<code>
-	 *	response->setJsonContent(array("status" => "OK"));
+	 * $response->setJsonContent(
+	 *     [
+	 *         "status" => "OK",
+	 *     ]
+	 * );
 	 *</code>
 	 */
 	public function setJsonContent(content) -> <ResponseInterface>;

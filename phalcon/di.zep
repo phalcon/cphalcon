@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -45,22 +45,27 @@ use Phalcon\Di\InjectionAwareInterface;
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  *
  *<code>
- * $di = new \Phalcon\Di();
+ * use Phalcon\Di;
+ * use Phalcon\Http\Request;
  *
- * //Using a string definition
- * $di->set("request", "Phalcon\Http\Request", true);
+ * $di = new Di();
  *
- * //Using an anonymous function
- * $di->set("request", function(){
- *	  return new \Phalcon\Http\Request();
- * }, true);
+ * // Using a string definition
+ * $di->set("request", Request::class, true);
+ *
+ * // Using an anonymous function
+ * $di->setShared(
+ *     "request",
+ *     function () {
+ *         return new Request();
+ *     }
+ * );
  *
  * $request = $di->getRequest();
  *</code>
  */
 class Di implements DiInterface
 {
-
 	/**
 	 * List of registered services
 	 */
@@ -264,7 +269,8 @@ class Di implements DiInterface
 	}
 
 	/**
-	 * Resolves a service, the resolved service is stored in the DI, subsequent requests for this service will return the same instance
+	 * Resolves a service, the resolved service is stored in the DI, subsequent
+	 * requests for this service will return the same instance
 	 *
 	 * @param string name
 	 * @param array parameters
@@ -332,12 +338,8 @@ class Di implements DiInterface
 	 * Allows to register a shared service using the array syntax
 	 *
 	 *<code>
-	 *	$di["request"] = new \Phalcon\Http\Request();
+	 * $di["request"] = new \Phalcon\Http\Request();
 	 *</code>
-	 *
-	 * @param string name
-	 * @param mixed definition
-	 * @return boolean
 	 */
 	public function offsetSet(string! name, var definition) -> boolean
 	{
@@ -349,7 +351,7 @@ class Di implements DiInterface
 	 * Allows to obtain a shared service using the array syntax
 	 *
 	 *<code>
-	 *	var_dump($di["request"]);
+	 * var_dump($di["request"]);
 	 *</code>
 	 */
 	public function offsetGet(string! name) -> var
@@ -367,9 +369,6 @@ class Di implements DiInterface
 
 	/**
 	 * Magic method to get or set services using setters/getters
-	 *
-	 * @param string method
-	 * @param array arguments
 	 */
 	public function __call(string! method, arguments = null) -> var|null
 	{
