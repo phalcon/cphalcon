@@ -27,7 +27,7 @@ class Generator_File_PhalconH
     public function __construct($sourceDir, $outputDir)
     {
         $this->sourceDir = $sourceDir;
-        $this->outputFile = $outputDir . '/phalcon.zep.h';
+        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'phalcon.zep.h';
     }
 
     /**
@@ -41,7 +41,7 @@ class Generator_File_PhalconH
     public function generate()
     {
         $fileHandle = fopen($this->outputFile, 'w');
-        
+
         $includedHeaderFiles = $this->appendFileAndReferencedHeaders($fileHandle, $this->sourceDir . '/phalcon.h');
         fclose($fileHandle);
 

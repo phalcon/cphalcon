@@ -26,8 +26,8 @@ class Generator_File_ConfigW32
      */
     public function __construct($rootDir, $outputDir)
     {
-        $this->sourceFile = $rootDir . '/build/_resource/config/config.w32';
-        $this->outputFile = $outputDir . '/config.w32';
+        $this->sourceFile = $rootDir . str_replace('/', DIRECTORY_SEPARATOR, '/build/_resource/config/config.w32');
+        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'config.w32';
     }
 
     /**

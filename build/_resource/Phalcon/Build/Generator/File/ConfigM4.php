@@ -26,8 +26,8 @@ class Generator_File_ConfigM4
      */
     public function __construct($rootDir, $outputDir)
     {
-        $this->sourceFile = $rootDir . '/build/_resource/config/config.m4';
-        $this->outputFile = $outputDir . '/config.m4';
+        $this->sourceFile = $rootDir . str_replace('/', DIRECTORY_SEPARATOR, '/build/_resource/config/config.m4');
+        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . '/config.m4';
     }
 
     /**
