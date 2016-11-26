@@ -24,4 +24,9 @@
 #include <php.h>
 #include <Zend/zend.h>
 
+void zephir_session_start(TSRMLS_D);
+void zephir_session_destroy(TSRMLS_D);
+void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC);
+void zephir_set_session_id(zval *sid TSRMLS_DC);
+
 #endif /* ZEPHIR_KERNEL_SESSION_H */

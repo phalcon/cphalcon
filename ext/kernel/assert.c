@@ -27,4 +27,21 @@
 
 #ifndef ZEPHIR_RELEASE
 
+int zephir_assert_class(zval *object, char *class_name TSRMLS_DC) {
+	if (object) {
+		if (Z_TYPE_P(object) != IS_OBJECT) {
+			zephir_error_space();
+			fprintf(zephir_log, "AssertClass: [Failed] Value is not an object\n");
+			return FAILURE;
+		} else {
+			if (strcmp(Z_OBJCE_P(object)->name, class_name)) {
+				zephir_error_space();
+				fprintf(zephir_log, "AssertClass: [Failed] Object is not class %s, is %s\n", class_name, Z_OBJCE_P(object)->name);
+				return FAILURE;
+			}
+		}
+	}
+	return SUCCESS;
+}
+
 #endif

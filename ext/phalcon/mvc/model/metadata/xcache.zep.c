@@ -62,28 +62,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Xcache) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct) {
 
-	zval *options = NULL, options_sub, __$null, prefix, ttl;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&options_sub);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&prefix);
-	ZVAL_UNDEF(&ttl);
+	zval *options = NULL, *prefix = NULL, *ttl = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		options = &options_sub;
-		options = &__$null;
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_string_fetch(&prefix, options, SL("prefix"), 1)) {
-			zephir_update_property_zval(this_ptr, SL("_prefix"), &prefix);
+		if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
+			zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&ttl, options, SL("lifetime"), 1)) {
-			zephir_update_property_zval(this_ptr, SL("_ttl"), &ttl);
+		if (zephir_array_isset_string_fetch(&ttl, options, SS("lifetime"), 1 TSRMLS_CC)) {
+			zephir_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}
 
@@ -98,14 +91,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, data, _0, _1;
-	zval key;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	zval *key_param = NULL, *data = NULL, *_0, *_1;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -115,19 +102,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(&key, key_param);
+		zephir_get_strval(key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
-	ZEPHIR_CALL_FUNCTION(&data, "xcache_get", NULL, 90, &_1);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SVV(_1, "$PMM$", _0, key);
+	ZEPHIR_CALL_FUNCTION(&data, "xcache_get", NULL, 90, _1);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&data) == IS_ARRAY) {
+	if (Z_TYPE_P(data) == IS_ARRAY) {
 		RETURN_CCTOR(data);
 	}
 	RETURN_MM_NULL();
@@ -143,15 +130,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *data, data_sub, _0, _1, _2;
-	zval key;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&data_sub);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	zval *key_param = NULL, *data, *_0, *_1, *_2;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
@@ -161,42 +141,40 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(&key, key_param);
+		zephir_get_strval(key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
-	zephir_read_property(&_2, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, 91, &_1, data, &_2);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SVV(_1, "$PMM$", _0, key);
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
+	ZEPHIR_CALL_FUNCTION(NULL, "xcache_set", NULL, 91, _1, data, _2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Xcache(zend_class_entry *class_type TSRMLS_DC) {
+zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Xcache(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval _0, _1$$3;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
+		zval *_0, *_1$$3;
 
 		ZEPHIR_MM_GROW();
 	
 	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		zval *this_ptr = NULL;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("_metaData"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("_metaData"), &_1$$3);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
+		if (Z_TYPE_P(_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			array_init(_1$$3);
+			zephir_update_property_this(this_ptr, SL("_metaData"), _1$$3 TSRMLS_CC);
 		}
 		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
+		return Z_OBJVAL_P(this_ptr);
 	}
 
 }

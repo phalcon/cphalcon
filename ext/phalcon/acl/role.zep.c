@@ -50,8 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
  */
 PHP_METHOD(Phalcon_Acl_Role, getName) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -62,8 +61,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
  */
 PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_name");
 
@@ -74,8 +72,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
-	ZEPHIR_INIT_THIS();
-
+	
 
 	RETURN_MEMBER(this_ptr, "_description");
 
@@ -87,11 +84,7 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
 	zval *name_param = NULL, *description_param = NULL;
-	zval name, description;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&description);
+	zval *name = NULL, *description = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
@@ -101,26 +94,26 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(&name, name_param);
+		zephir_get_strval(name, name_param);
 	} else {
-		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
 	}
 	if (!description_param) {
-		ZEPHIR_INIT_VAR(&description);
-		ZVAL_STRING(&description, "");
+		ZEPHIR_INIT_VAR(description);
+		ZVAL_EMPTY_STRING(description);
 	} else {
-		zephir_get_strval(&description, description_param);
+		zephir_get_strval(description, description_param);
 	}
 
 
-	if (ZEPHIR_IS_STRING(&name, "*")) {
+	if (ZEPHIR_IS_STRING(name, "*")) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/acl/role.zep", 49);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("_name"), &name);
-	if (!(Z_TYPE_P(&description) == IS_UNDEF) && Z_STRLEN_P(&description)) {
-		zephir_update_property_zval(this_ptr, SL("_description"), &description);
+	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+	if (!(!description) && Z_STRLEN_P(description)) {
+		zephir_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 

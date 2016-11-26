@@ -41,10 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
 PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
 	zval *key_param = NULL;
-	zval key;
-	ZEPHIR_INIT_THIS();
-
-	ZVAL_UNDEF(&key);
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -54,10 +51,10 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(&key, key_param);
+		zephir_get_strval(key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
 	}
 
 
