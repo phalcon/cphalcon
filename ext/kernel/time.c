@@ -34,8 +34,6 @@
 
 #include "kernel/main.h"
 #include "kernel/time.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
 
 void zephir_time(zval *return_value)
@@ -43,24 +41,8 @@ void zephir_time(zval *return_value)
 	RETURN_LONG(time(NULL));
 }
 
-void zephir_microtime(zval *return_value, zval *get_as_float TSRMLS_DC)
+void zephir_microtime(zval *return_value, zval *get_as_float)
 {
-#ifdef PHP_WIN32
-	zval z_as_float;
-	zval *params[1];
-
-ZEPHIR_SINIT_VAR(z_as_float);
-if (get_as_float && ZEPHIR_IS_TRUE(get_as_float)) {
-	ZVAL_BOOL(&z_as_float, 1);
-} else {
-	ZVAL_BOOL(&z_as_float, 0);
-}
-
-	params[0] = &z_as_float;
-
-	zephir_return_call_function(return_value, NULL, ZEND_STRL("microtime"), NULL, 0, 1, params TSRMLS_CC);
-	return;
-#else
 	struct timeval tp = {0};
 	char ret[100];
 
@@ -73,6 +55,5 @@ if (get_as_float && ZEPHIR_IS_TRUE(get_as_float)) {
 	}
 
 	snprintf(ret, 100, "%.8F %ld", tp.tv_usec / MICRO_IN_SEC, tp.tv_sec);
-	RETURN_STRING(ret, 1);
-#endif
+	RETURN_STRING(ret);
 }

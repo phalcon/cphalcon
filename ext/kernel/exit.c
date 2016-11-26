@@ -26,13 +26,13 @@
 #include "kernel/main.h"
 #include "kernel/exit.h"
 
-void zephir_exit_empty() {
-	TSRMLS_FETCH();
+void zephir_exit_empty()
+{
 	zend_bailout();
 }
 
-void zephir_exit(zval *ptr)  {
-	TSRMLS_FETCH();
+void zephir_exit(zval *ptr)
+{
 	if (Z_TYPE_P(ptr) == IS_LONG) {
 		EG(exit_status) = Z_LVAL_P(ptr);
 	} else {

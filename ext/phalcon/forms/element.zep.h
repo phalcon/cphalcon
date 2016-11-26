@@ -35,7 +35,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages);
 PHP_METHOD(Phalcon_Forms_Element, appendMessage);
 PHP_METHOD(Phalcon_Forms_Element, clear);
 PHP_METHOD(Phalcon_Forms_Element, __toString);
-zend_object_value zephir_init_properties_Phalcon_Forms_Element(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Forms_Element(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)

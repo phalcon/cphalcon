@@ -43,25 +43,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 PHP_METHOD(Phalcon_Translate_Adapter, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *options_param = NULL, *interpolator = NULL;
-	zval *options = NULL;
+	zval *options_param = NULL, interpolator;
+	zval options;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&interpolator);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
-	options = options_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	ZEPHIR_OBS_VAR(interpolator);
-	if (!(zephir_array_isset_string_fetch(&interpolator, options, SS("interpolator"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_NVAR(interpolator);
-		object_init_ex(interpolator, phalcon_translate_interpolator_associativearray_ce);
-		if (zephir_has_constructor(interpolator TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, interpolator, "__construct", NULL, 0);
+	ZEPHIR_OBS_VAR(&interpolator);
+	if (!(zephir_array_isset_string_fetch(&interpolator, &options, SL("interpolator"), 0))) {
+		ZEPHIR_INIT_NVAR(&interpolator);
+		object_init_ex(&interpolator, phalcon_translate_interpolator_associativearray_ce);
+		if (zephir_has_constructor(&interpolator TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, &interpolator, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setinterpolator", NULL, 0, interpolator);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setinterpolator", NULL, 0, &interpolator);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -69,13 +73,16 @@ PHP_METHOD(Phalcon_Translate_Adapter, __construct) {
 
 PHP_METHOD(Phalcon_Translate_Adapter, setInterpolator) {
 
-	zval *interpolator;
+	zval *interpolator, interpolator_sub;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&interpolator_sub);
 
 	zephir_fetch_params(0, 1, 0, &interpolator);
 
 
 
-	zephir_update_property_this(this_ptr, SL("_interpolator"), interpolator TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_interpolator"), interpolator);
 	RETURN_THISW();
 
 }
@@ -90,8 +97,13 @@ PHP_METHOD(Phalcon_Translate_Adapter, setInterpolator) {
 PHP_METHOD(Phalcon_Translate_Adapter, t) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey_param = NULL, *placeholders = NULL;
-	zval *translateKey = NULL;
+	zval *translateKey_param = NULL, *placeholders = NULL, placeholders_sub, __$null;
+	zval translateKey;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&translateKey);
+	ZVAL_UNDEF(&placeholders_sub);
+	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
@@ -101,17 +113,18 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		zephir_get_strval(translateKey, translateKey_param);
+		zephir_get_strval(&translateKey, translateKey_param);
 	} else {
-		ZEPHIR_INIT_VAR(translateKey);
-		ZVAL_EMPTY_STRING(translateKey);
+		ZEPHIR_INIT_VAR(&translateKey);
+		ZVAL_EMPTY_STRING(&translateKey);
 	}
 	if (!placeholders) {
-		placeholders = ZEPHIR_GLOBAL(global_null);
+		placeholders = &placeholders_sub;
+		placeholders = &__$null;
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey, placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, &translateKey, placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -127,8 +140,13 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 PHP_METHOD(Phalcon_Translate_Adapter, _) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey_param = NULL, *placeholders = NULL;
-	zval *translateKey = NULL;
+	zval *translateKey_param = NULL, *placeholders = NULL, placeholders_sub, __$null;
+	zval translateKey;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&translateKey);
+	ZVAL_UNDEF(&placeholders_sub);
+	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
@@ -138,17 +156,18 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		zephir_get_strval(translateKey, translateKey_param);
+		zephir_get_strval(&translateKey, translateKey_param);
 	} else {
-		ZEPHIR_INIT_VAR(translateKey);
-		ZVAL_EMPTY_STRING(translateKey);
+		ZEPHIR_INIT_VAR(&translateKey);
+		ZVAL_EMPTY_STRING(&translateKey);
 	}
 	if (!placeholders) {
-		placeholders = ZEPHIR_GLOBAL(global_null);
+		placeholders = &placeholders_sub;
+		placeholders = &__$null;
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey, placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, &translateKey, placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -162,7 +181,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
 
-	zval *offset, *value;
+	zval *offset, offset_sub, *value, value_sub;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&offset_sub);
+	ZVAL_UNDEF(&value_sub);
 
 	zephir_fetch_params(0, 2, 0, &offset, &value);
 
@@ -180,7 +203,10 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL;
-	zval *translateKey = NULL;
+	zval translateKey;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&translateKey);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey_param);
@@ -190,14 +216,14 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		zephir_get_strval(translateKey, translateKey_param);
+		zephir_get_strval(&translateKey, translateKey_param);
 	} else {
-		ZEPHIR_INIT_VAR(translateKey);
-		ZVAL_EMPTY_STRING(translateKey);
+		ZEPHIR_INIT_VAR(&translateKey);
+		ZVAL_EMPTY_STRING(&translateKey);
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "exists", NULL, 0, translateKey);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "exists", NULL, 0, &translateKey);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -210,7 +236,10 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 
-	zval *offset;
+	zval *offset, offset_sub;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&offset_sub);
 
 	zephir_fetch_params(0, 1, 0, &offset);
 
@@ -230,8 +259,12 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey_param = NULL, *_0;
-	zval *translateKey = NULL;
+	zval *translateKey_param = NULL, _0;
+	zval translateKey;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&translateKey);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey_param);
@@ -241,16 +274,15 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
-		zephir_get_strval(translateKey, translateKey_param);
+		zephir_get_strval(&translateKey, translateKey_param);
 	} else {
-		ZEPHIR_INIT_VAR(translateKey);
-		ZVAL_EMPTY_STRING(translateKey);
+		ZEPHIR_INIT_VAR(&translateKey);
+		ZVAL_EMPTY_STRING(&translateKey);
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_NULL(_0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey, _0);
+	ZVAL_NULL(&_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, &translateKey, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -262,8 +294,14 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *translation_param = NULL, *placeholders = NULL, *_0;
-	zval *translation = NULL;
+	zval *translation_param = NULL, *placeholders = NULL, placeholders_sub, __$null, _0;
+	zval translation;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&translation);
+	ZVAL_UNDEF(&placeholders_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
@@ -273,18 +311,19 @@ PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(translation_param) == IS_STRING)) {
-		zephir_get_strval(translation, translation_param);
+		zephir_get_strval(&translation, translation_param);
 	} else {
-		ZEPHIR_INIT_VAR(translation);
-		ZVAL_EMPTY_STRING(translation);
+		ZEPHIR_INIT_VAR(&translation);
+		ZVAL_EMPTY_STRING(&translation);
 	}
 	if (!placeholders) {
-		placeholders = ZEPHIR_GLOBAL(global_null);
+		placeholders = &placeholders_sub;
+		placeholders = &__$null;
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_interpolator"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "replaceplaceholders", NULL, 0, translation, placeholders);
+	zephir_read_property(&_0, this_ptr, SL("_interpolator"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "replaceplaceholders", NULL, 0, &translation, placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 

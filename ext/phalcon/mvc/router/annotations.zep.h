@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_addresource, 0, 0, 1)
 	ZEND_ARG_INFO(0, handler)

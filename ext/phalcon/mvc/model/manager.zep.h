@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)

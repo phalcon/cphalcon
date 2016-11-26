@@ -51,14 +51,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 
 	zval *options_param = NULL;
-	zval *options = NULL;
+	zval options;
+	ZEPHIR_INIT_THIS();
 
-	zephir_fetch_params(0, 1, 0, &options_param);
+	ZVAL_UNDEF(&options);
 
-	options = options_param;
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options_param);
+
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_options"), &options);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -72,8 +77,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *field = NULL, *type = NULL, *_0$$3, _1$$3, _2$$3, *_3;
-	zval *message = NULL;
+	zval *message_param = NULL, *field = NULL, field_sub, *type = NULL, type_sub, __$null, _0$$3, _1$$3, _2$$3, _3;
+	zval message;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&type_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &message_param, &field, &type);
@@ -83,36 +98,38 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
-		zephir_get_strval(message, message_param);
+		zephir_get_strval(&message, message_param);
 	} else {
-		ZEPHIR_INIT_VAR(message);
-		ZVAL_EMPTY_STRING(message);
+		ZEPHIR_INIT_VAR(&message);
+		ZVAL_EMPTY_STRING(&message);
 	}
 	if (!field) {
-		field = ZEPHIR_GLOBAL(global_null);
+		field = &field_sub;
+		field = &__$null;
 	}
 	if (!type) {
-		ZEPHIR_CPY_WRT(type, ZEPHIR_GLOBAL(global_null));
+		type = &type_sub;
+		ZEPHIR_CPY_WRT(type, &__$null);
 	} else {
 		ZEPHIR_SEPARATE_PARAM(type);
 	}
 
 
 	if (!(zephir_is_true(type))) {
-		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_get_class(_0$$3, this_ptr, 0 TSRMLS_CC);
-		ZEPHIR_SINIT_VAR(_1$$3);
-		ZVAL_STRING(&_1$$3, "Validator", 0);
-		ZEPHIR_SINIT_VAR(_2$$3);
-		ZVAL_STRING(&_2$$3, "", 0);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		zephir_get_class(&_0$$3, this_ptr, 0 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "Validator");
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "");
 		ZEPHIR_INIT_NVAR(type);
-		zephir_fast_str_replace(&type, &_1$$3, &_2$$3, _0$$3 TSRMLS_CC);
+		zephir_fast_str_replace(type, &_1$$3, &_2$$3, &_0$$3 TSRMLS_CC);
 	}
-	ZEPHIR_INIT_VAR(_3);
-	object_init_ex(_3, phalcon_mvc_model_message_ce);
-	ZEPHIR_CALL_METHOD(NULL, _3, "__construct", NULL, 8, message, field, type);
+	ZEPHIR_INIT_VAR(&_3);
+	object_init_ex(&_3, phalcon_mvc_model_message_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 8, &message, field, type);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("_messages"), _3 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_messages"), &_3 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -122,7 +139,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages) {
 
-	
+	ZEPHIR_INIT_THIS();
+
 
 	RETURN_MEMBER(this_ptr, "_messages");
 
@@ -135,7 +153,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions) {
 
-	
+	ZEPHIR_INIT_THIS();
+
 
 	RETURN_MEMBER(this_ptr, "_options");
 
@@ -146,8 +165,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 
-	zval *option_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL;
-	zval *option = NULL;
+	zval *option_param = NULL, *defaultValue = NULL, defaultValue_sub, options, value;
+	zval option;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&option);
+	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&value);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &option_param, &defaultValue);
@@ -157,19 +182,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(option_param) == IS_STRING)) {
-		zephir_get_strval(option, option_param);
+		zephir_get_strval(&option, option_param);
 	} else {
-		ZEPHIR_INIT_VAR(option);
-		ZVAL_EMPTY_STRING(option);
+		ZEPHIR_INIT_VAR(&option);
+		ZVAL_EMPTY_STRING(&option);
 	}
 	if (!defaultValue) {
+		defaultValue = &defaultValue_sub;
 		ZEPHIR_INIT_VAR(defaultValue);
-		ZVAL_STRING(defaultValue, "", 1);
+		ZVAL_STRING(defaultValue, "");
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&value, options, option, 1 TSRMLS_CC)) {
+	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset_fetch(&value, &options, &option, 1 TSRMLS_CC)) {
 		RETURN_CTOR(value);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -182,8 +208,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 
-	zval *option_param = NULL, *_0;
-	zval *option = NULL;
+	zval *option_param = NULL, _0;
+	zval option;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&option);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option_param);
@@ -193,35 +223,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(option_param) == IS_STRING)) {
-		zephir_get_strval(option, option_param);
+		zephir_get_strval(&option, option_param);
 	} else {
-		ZEPHIR_INIT_VAR(option);
-		ZVAL_EMPTY_STRING(option);
+		ZEPHIR_INIT_VAR(&option);
+		ZVAL_EMPTY_STRING(&option);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, option));
+	zephir_read_property(&_0, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &option));
 
 }
 
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Validator(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval *_0, *_1$$3;
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 
 		ZEPHIR_MM_GROW();
 	
 	{
-		zval *this_ptr = NULL;
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
-		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1$$3);
-			array_init(_1$$3);
-			zephir_update_property_this(this_ptr, SL("_messages"), _1$$3 TSRMLS_CC);
+		zephir_read_property(&_0, this_ptr, SL("_messages"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("_messages"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
+		return Z_OBJ_P(this_ptr);
 	}
 
 }

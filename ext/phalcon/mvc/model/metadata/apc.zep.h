@@ -6,7 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Apc(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Apc(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)

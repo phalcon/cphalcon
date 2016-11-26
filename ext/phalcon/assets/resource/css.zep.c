@@ -45,8 +45,16 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool local, filter;
-	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL, *_1, *_2, *_3;
-	zval *path = NULL;
+	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL, attributes_sub, __$null, _1, _2, _3;
+	zval path;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&path);
+	ZVAL_UNDEF(&attributes_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path_param, &local_param, &filter_param, &attributes);
@@ -56,10 +64,10 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 		RETURN_MM_NULL();
 	}
 	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
-		zephir_get_strval(path, path_param);
+		zephir_get_strval(&path, path_param);
 	} else {
-		ZEPHIR_INIT_VAR(path);
-		ZVAL_EMPTY_STRING(path);
+		ZEPHIR_INIT_VAR(&path);
+		ZVAL_EMPTY_STRING(&path);
 	}
 	if (!local_param) {
 		local = 1;
@@ -72,26 +80,24 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 		filter = zephir_get_boolval(filter_param);
 	}
 	if (!attributes) {
-		attributes = ZEPHIR_GLOBAL(global_null);
+		attributes = &attributes_sub;
+		attributes = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "css", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "css");
 	if (local) {
-		ZVAL_BOOL(_2, 1);
+		ZVAL_BOOL(&_2, 1);
 	} else {
-		ZVAL_BOOL(_2, 0);
+		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_INIT_VAR(_3);
 	if (filter) {
-		ZVAL_BOOL(_3, 1);
+		ZVAL_BOOL(&_3, 1);
 	} else {
-		ZVAL_BOOL(_3, 0);
+		ZVAL_BOOL(&_3, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_css_ce, this_ptr, "__construct", &_0, 108, _1, path, _2, _3, attributes);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_css_ce, this_ptr, "__construct", &_0, 108, &_1, &path, &_2, &_3, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
