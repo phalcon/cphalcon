@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
-DIR=$(readlink -enq $(dirname $0))
 CFLAGS="-O2 -g3 -fno-strict-aliasing -std=gnu90";
 
 pecl channel-update pecl.php.net
 
 enable_extension() {
-    if [ -z $(php -m | grep "${1}") ]; then
-        phpenv config-add "${DIR}/${1}.ini"
+    if [ -z $(php -m | grep "${1}") ] && [ -f "${TRAVIS_BUILD_DIR}/tests/_ci/${1}.ini" ]; then
+        phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/${1}.ini"
     fi
 }
 
@@ -20,5 +19,20 @@ install_extension() {
         printf "\n" | pecl install "${1}" &> /dev/null
     fi
 
-    enable_extension $1
+    enable_extension "${1}"
+}
+
+install_igbinary() {
+	git clone -q https://github.com/igbinary/igbinary.git -b release-2.0.0 /tmp/igbinary
+	cd /tmp/igbinary
+
+	$PHPIZE_BIN &> /dev/null
+	./configure CFLAGS="-O2 -g" --silent --enable-igbinary &> /dev/null
+
+	make --silent -j4 &> /dev/null
+	make --silent install
+
+	if [ -z $(php -m | grep igbinary) ]; then
+        phpenv config-add "${TRAVIS_BUILD_DIR}/tests/_ci/igbinary.ini"
+    fi
 }
