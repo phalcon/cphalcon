@@ -26,7 +26,7 @@ use Phalcon\Mvc\CollectionInterface;
  *
  * This is an optional base class for ORM behaviors
  */
-abstract class Behavior
+abstract class Behavior implements BehaviorInterface
 {
 	protected _options;
 
