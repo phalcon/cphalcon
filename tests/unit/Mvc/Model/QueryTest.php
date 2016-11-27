@@ -43,6 +43,35 @@ use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager as TransactionManager;
 class QueryTest extends UnitTest
 {
     /**
+     * @var DiInterface
+     */
+    private $di;
+
+    /**
+     * executed before each test
+     */
+    protected function _before()
+    {
+        parent::_before();
+
+        /** @var \Phalcon\Mvc\Application $app */
+        $app = $this->tester->getApplication();
+        $this->di = $app->getDI();
+
+        $this->di->set('modelsManager', function() {
+            return new Manager;
+        });
+
+        $this->di->set('modelsMetadata', function() {
+            return new Memory;
+        });
+
+        $this->di->set('transactionManager', function() {
+            return new TransactionManager;
+        });
+    }
+
+    /**
      * helper method DRY -> any object should be reflectable
      *
      * @param Object $object
@@ -81,30 +110,6 @@ class QueryTest extends UnitTest
     }
 
     /**
-     * executed before each test
-     */
-    protected function _before()
-    {
-        parent::_before();
-
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $this->tester->getApplication();
-        $this->di = $app->getDI();
-
-        $this->di->set('modelsManager', function() {
-            return new Manager;
-        });
-
-        $this->di->set('modelsMetadata', function() {
-            return new Memory;
-        });
-
-        $this->di->set('transactionManager', function() {
-            return new TransactionManager;
-        });
-    }
-
-    /**
      * Tests Query::__construct behaviour
      *
      * @author Jakob Oberhummer <cphalcon@chilimatic.com>
@@ -116,10 +121,7 @@ class QueryTest extends UnitTest
             function() {
                 $query = 'SELECT 1';
                 $q = new Query($query);
-                $queryReflection = new \ReflectionClass($q);
-                $phqlReflection = $queryReflection->getProperty('_phql');
-                $phqlReflection->setAccessible(true);
-                $testValue = $phqlReflection->getValue($q);
+                $testValue = $this->getInaccessibleObjectProperty($q, '_phql');
 
                 expect($testValue)->equals($query);
             }
@@ -140,7 +142,6 @@ class QueryTest extends UnitTest
             function() {
                 $q = new Query();
                 $testValue = $this->getInaccessibleObjectProperty($q, '_phql');
-
 
                 expect($testValue)->equals(null);
             }
