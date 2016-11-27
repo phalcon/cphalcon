@@ -29,6 +29,8 @@ class RedisCest
 {
     public function _before(UnitTester $I)
     {
+        $I->wantToTest('Redis cache backend');
+
         if (!extension_loaded('redis')) {
             throw new \PHPUnit_Framework_SkippedTestError(
                 'Warning: redis extension is not loaded'
@@ -42,8 +44,8 @@ class RedisCest
 
         $key = '_PHCR' . 'increment';
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
         ]);
 
         $I->dontSeeInRedis($key);
@@ -65,8 +67,8 @@ class RedisCest
 
         $key = '_PHCR' . 'decrement';
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
         ]);
 
         $I->dontSeeInRedis($key);
@@ -90,8 +92,8 @@ class RedisCest
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
         ]);
 
         $I->haveInRedis('string', $key, serialize($data));
@@ -107,6 +109,24 @@ class RedisCest
         $I->assertNull($cache->get($key));
     }
 
+    /**
+     * @issue 12437
+     * @param UnitTester $I
+     */
+    public function getEmpty(UnitTester $I)
+    {
+        $I->wantTo('Get empty value by using Redis as cache backend');
+
+        $key = '_PHCR' . 'data-empty-get';
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT'),
+        ]);
+
+        $I->haveInRedis('string', $key, '');
+        $I->assertSame('', $cache->get('data-empty-get'));
+    }
+
     public function save(UnitTester $I)
     {
         $I->wantTo('Save data by using Redis as cache backend');
@@ -115,8 +135,8 @@ class RedisCest
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
         ]);
 
         $I->dontSeeInRedis($key);
@@ -140,8 +160,8 @@ class RedisCest
         );
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
         ]);
 
         $I->assertFalse($cache->delete('non-existent-keys'));
@@ -157,8 +177,8 @@ class RedisCest
         $I->wantTo('Flush cache by using Redis as cache backend');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host'     => TEST_RS_HOST,
-            'port'     => TEST_RS_PORT,
+            'host'     => env('TEST_RS_HOST'),
+            'port'     => env('TEST_RS_PORT'),
             'statsKey' => '_PHCR'
         ]);
 
@@ -185,8 +205,8 @@ class RedisCest
         $I->wantTo('Get cache keys by using Redis as cache backend');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host'     => TEST_RS_HOST,
-            'port'     => TEST_RS_PORT,
+            'host'     => env('TEST_RS_HOST'),
+            'port'     => env('TEST_RS_PORT'),
             'statsKey' => '_PHCR'
         ]);
 
@@ -209,8 +229,8 @@ class RedisCest
         $I->wantTo('Catch exception during the attempt getting cache keys by using Redis as cache backend without statsKey');
 
         $cache = new Redis(new Data(['lifetime' => 20]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT,
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT'),
         ]);
 
         $I->expectException(
@@ -227,8 +247,8 @@ class RedisCest
 
         $time = date('H:i:s');
         $cache = new Redis(new Output(['lifetime' => 2]), [
-            'host' => TEST_RS_HOST,
-            'port' => TEST_RS_PORT,
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT'),
         ]);
 
         ob_start();

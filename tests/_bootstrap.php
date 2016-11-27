@@ -49,8 +49,6 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.var_display_max_depth', 4);
 }
 
-
-
 $defaults = [
     // Beanstalk
     "TEST_BT_HOST"              => '127.0.0.1',

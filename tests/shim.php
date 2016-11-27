@@ -51,3 +51,14 @@ if (!function_exists('xcache_get') && function_exists('apc_fetch')) {
     {
     }
 }
+
+if (!function_exists('env')) {
+    function env($key, $default = null)
+    {
+        if (defined($key)) {
+            return constant($key);
+        }
+
+        return getenv($key) ?: $default;
+    }
+}
