@@ -372,7 +372,7 @@ class Redis extends Backend
 				let redis = this->_redis;
 			}
 
-			if !redis->get(lastKey) {
+			if redis->get(lastKey) === false {
 				return false;
 			}
 			return true;
