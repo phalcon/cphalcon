@@ -20,6 +20,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\DiInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
@@ -192,6 +193,6 @@ interface CriteriaInterface
 	/**
 	 * Executes a find using the parameters built with the criteria
 	 */
-	public function execute() -> <ResultsetInterface>;
+	public function execute(<TransactionInterface> transaction = null) -> <ResultsetInterface>;
 
 }

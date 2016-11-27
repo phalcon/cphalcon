@@ -98,7 +98,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _dirtyState = 1;
 
-	protected _transaction;
+	protected _transaction { get };
 
 	protected _uniqueKey;
 
@@ -777,7 +777,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 *
 	 * foreach ($robots as $robot) {
-	 *	 echo $robot->name, "\n";
+	 *   echo $robot->name, "\n";
 	 * }
 	 *
 	 * // Get first 100 virtual robots ordered by name
@@ -790,11 +790,29 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 *
 	 * foreach ($robots as $robot) {
-	 *	 echo $robot->name, "\n";
+	 *   echo $robot->name, "\n";
 	 * }
+	 *
+	 * // encapsulate find it into an running transaction esp. usefull for application unitests
+	 * // or complex business logics
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction);
+	 * $newRobot->save(['name' => 'test', ]);
+	 * $resultInsideTransaction = Robot::find(['name' => 'test'], $myTransaction);
+	 * $resultOutsideTransaction = Robot::find(['name' => 'test']);
+	 *
+	 * foreach ($setInsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * foreach ($setOutsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
 	 * </code>
 	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>
+	public static function find(var parameters = null, <TransactionInterface> transaction = null) -> <ResultsetInterface>
 	{
 		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
 
@@ -817,6 +835,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		builder->from(get_called_class());
 
 		let query = builder->getQuery();
+
+		if transaction != "null" {
+			query->setTransaction(transaction);
+		}
+
 
 		/**
 		 * Check for bind parameters
