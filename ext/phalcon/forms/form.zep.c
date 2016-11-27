@@ -301,9 +301,8 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	}
 
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (Z_TYPE_P(_0) != IS_ARRAY) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (ZEPHIR_IS_EMPTY(_0)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_forms_exception_ce, "There are no elements in the form", "phalcon/forms/form.zep", 188);
 		return;
 	}
@@ -389,9 +388,8 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	}
 
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (Z_TYPE_P(_0) != IS_ARRAY) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (ZEPHIR_IS_EMPTY(_0)) {
 		RETURN_MM_BOOL(1);
 	}
 	if (Z_TYPE_P(data) != IS_ARRAY) {
@@ -643,9 +641,8 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 	zephir_check_call_status();
 	_0 = ZEPHIR_IS_STRING(position, "");
 	if (!(_0)) {
-		ZEPHIR_OBS_VAR(_1);
-		zephir_read_property_this(&_1, this_ptr, SL("_elements"), PH_NOISY_CC);
-		_0 = Z_TYPE_P(_1) != IS_ARRAY;
+		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+		_0 = ZEPHIR_IS_EMPTY(_1);
 	}
 	if (_0) {
 		zephir_update_property_array(this_ptr, SL("_elements"), name, element TSRMLS_CC);
@@ -1171,18 +1168,24 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 
 zend_object_value zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval *_0, *_1$$3;
+		zval *_0, *_2, *_1$$3, *_3$$4;
 
 		ZEPHIR_MM_GROW();
 	
 	{
 		zval *this_ptr = NULL;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 		if (Z_TYPE_P(_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(_1$$3);
 			array_init(_1$$3);
-			zephir_update_property_this(this_ptr, SL("_options"), _1$$3 TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_elements"), _1$$3 TSRMLS_CC);
+		}
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+		if (Z_TYPE_P(_2) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_3$$4);
+			array_init(_3$$4);
+			zephir_update_property_this(this_ptr, SL("_options"), _3$$4 TSRMLS_CC);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJVAL_P(this_ptr);
