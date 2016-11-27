@@ -84,6 +84,46 @@ class RedisCest
         $I->seeInRedis($key, 87);
     }
 
+    public function exists(UnitTester $I)
+    {
+        $I->wantTo('Check if cache exists in cache by using Redis as cache backend');
+
+        $key = '_PHCR' . 'data-exists';
+
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
+        ]);
+
+        $I->haveInRedis('string', $key, serialize($data));
+
+        $I->assertTrue($cache->exists('data-exists'));
+        $I->assertFalse($cache->exists('non-existent-key'));
+    }
+
+    /**
+     * @issue 12434
+     * @param UnitTester $I
+     */
+    public function existsEmpty(UnitTester $I)
+    {
+        $I->wantTo('Check if cache exists for empty value in cache by using Redis as cache backend');
+
+        $key = '_PHCR' . 'data-empty-exists';
+
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
+        ]);
+
+        $I->haveInRedis('string', $key, '');
+
+        $I->assertTrue($cache->exists('data-empty-exists'));
+        $I->assertFalse($cache->exists('non-existent-key'));
+    }
+
     public function get(UnitTester $I)
     {
         $I->wantTo('Get data by using Redis as cache backend');
