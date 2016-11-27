@@ -371,7 +371,7 @@ class Redis extends Backend
 				this->_connect();
 				let redis = this->_redis;
 			}
-			return redis->exists(lastKey, lifetime);
+			return redis->exists(lastKey);
 		}
 
 		return false;
