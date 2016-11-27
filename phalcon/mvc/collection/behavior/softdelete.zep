@@ -21,7 +21,6 @@ namespace Phalcon\Mvc\Collection\Behavior;
 
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\Behavior;
-use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 
 /**
@@ -30,7 +29,7 @@ use Phalcon\Mvc\Collection\Exception;
  * Instead of permanently delete a record it marks the record as
  * deleted changing the value of a flag column
  */
-class SoftDelete extends Behavior implements BehaviorInterface
+class SoftDelete extends Behavior
 {
 
 	/**
