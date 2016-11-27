@@ -162,7 +162,7 @@ class Redis extends Backend
 		let this->_lastKey = lastKey;
 		let cachedContent = redis->get(lastKey);
 
-		if !cachedContent {
+		if cachedContent === false {
 			return null;
 		}
 
