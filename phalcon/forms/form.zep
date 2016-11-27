@@ -42,7 +42,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	protected _data;
 
-	protected _elements;
+	protected _elements = [];
 
 	protected _elementsIndexed;
 
@@ -184,7 +184,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		var filter, key, value, element, filters,
 			dependencyInjector, filteredValue, method;
 
-		if typeof this->_elements != "array" {
+		if empty this->_elements {
 			throw new Exception("There are no elements in the form");
 		}
 
@@ -259,7 +259,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			validators, name, preparedValidators, filters,
 			validator, validation, elementMessages;
 
-		if typeof this->_elements != "array" {
+		if empty this->_elements {
 			return true;
 		}
 
@@ -441,7 +441,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		 */
 		element->setForm(this);
 
-		if position == null || typeof this->_elements != "array" {
+		if position == null || empty this->_elements {
 			/**
 			 * Append the element by its name
 			 */

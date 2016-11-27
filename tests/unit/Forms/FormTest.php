@@ -38,6 +38,9 @@ class FormTest extends UnitTest
             "Form::count does not return the correct number",
             function () {
                 $form = new Form();
+                
+                expect($form)->count(0);
+                expect($form->count())->equals(0);
 
                 $form->add(
                     new Text("name")
@@ -49,6 +52,40 @@ class FormTest extends UnitTest
 
                 expect($form)->count(2);
                 expect($form->count())->equals(2);
+            }
+        );
+    }
+    
+    public function testIterator()
+    {
+        $this->specify(
+            "Form incorrectly implements the Iterator interface",
+            function () {
+                $form = new Form();
+                $data = [];
+                
+                foreach ($form as $key => $value) {
+                    $data[$key] = $value->getName();
+                }
+                
+                expect($data)->equals([]);
+                
+                $form->add(
+                    new Text("name")
+                );
+
+                $form->add(
+                    new Text("telephone")
+                );
+                
+                foreach ($form as $key => $value) {
+                    $data[$key] = $value->getName();
+                }
+                
+                expect($data)->equals([
+                    0 => "name",
+                    1 => "telephone",
+                ]);
             }
         );
     }
