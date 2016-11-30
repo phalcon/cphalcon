@@ -1108,7 +1108,7 @@ class Micro extends Injectable implements \ArrayAccess
 	}
 
 	/**
-	 * Appends a afterBiding middleware to be called after model binding
+	 * Appends a afterBinding middleware to be called after model binding
 	 *
 	 * @param callable handler
 	 * @return \Phalcon\Mvc\Micro
