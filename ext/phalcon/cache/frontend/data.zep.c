@@ -198,6 +198,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
+	if (ZEPHIR_IS_EMPTY(data)) {
+		RETVAL_ZVAL(data, 1, 0);
+		RETURN_MM();
+	}
 	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 66, data);
 	zephir_check_call_status();
 	RETURN_MM();
