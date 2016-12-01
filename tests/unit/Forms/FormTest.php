@@ -6,6 +6,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
+use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Message\Group;
@@ -32,13 +33,22 @@ use Phalcon\Validation\Validator\StringLength;
  */
 class FormTest extends UnitTest
 {
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
     public function testCount()
     {
         $this->specify(
             "Form::count does not return the correct number",
             function () {
                 $form = new Form();
-                
+
                 expect($form)->count(0);
                 expect($form->count())->equals(0);
 
@@ -55,7 +65,7 @@ class FormTest extends UnitTest
             }
         );
     }
-    
+
     public function testIterator()
     {
         $this->specify(
@@ -63,13 +73,13 @@ class FormTest extends UnitTest
             function () {
                 $form = new Form();
                 $data = [];
-                
+
                 foreach ($form as $key => $value) {
                     $data[$key] = $value->getName();
                 }
-                
+
                 expect($data)->equals([]);
-                
+
                 $form->add(
                     new Text("name")
                 );
@@ -77,11 +87,11 @@ class FormTest extends UnitTest
                 $form->add(
                     new Text("telephone")
                 );
-                
+
                 foreach ($form as $key => $value) {
                     $data[$key] = $value->getName();
                 }
-                
+
                 expect($data)->equals([
                     0 => "name",
                     1 => "telephone",
