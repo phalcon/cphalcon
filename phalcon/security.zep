@@ -363,7 +363,7 @@ class Security implements InjectionAwareInterface
 	 */
 	public function checkToken(var tokenKey = null, var tokenValue = null, boolean destroyIfValid = true) -> boolean
 	{
-		var dependencyInjector, session, request, token, returnValue;
+		var dependencyInjector, session, request, equals, userToken, knownToken;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 
@@ -390,24 +390,25 @@ class Security implements InjectionAwareInterface
 			/**
 			 * We always check if the value is correct in post
 			 */
-			let token = request->getPost(tokenKey);
+			let userToken = request->getPost(tokenKey);
 		} else {
-			let token = tokenValue;
+			let userToken = tokenValue;
 		}
 
 		/**
 		 * The value is the same?
 		 */
-		let returnValue = (token == session->get(this->_tokenValueSessionID));
+		let knownToken = session->get(this->_tokenValueSessionID);
+		let equals = hash_equals(knownToken, userToken);
 
 		/**
 		 * Remove the key and value of the CSRF token in session
 		 */
-		if returnValue && destroyIfValid {
+		if equals && destroyIfValid {
 			this->destroyToken();
 		}
 
-		return returnValue;
+		return equals;
 	}
 
 	/**
