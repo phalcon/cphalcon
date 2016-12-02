@@ -117,4 +117,6 @@ void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
 		} \
 	} while (0)
 
+int zephir_hash_equals(const zval *known_zval, const zval *user_zval);
+
 #endif /* ZEPHIR_KERNEL_STRING_H */

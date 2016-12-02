@@ -47,6 +47,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/diinterface.zep.c
 	phalcon/flashinterface.zep.c
 	phalcon/image/adapterinterface.zep.c
+	phalcon/mvc/collection/behaviorinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
 	phalcon/mvc/view/engineinterface.zep.c
@@ -64,7 +65,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/flash.zep.c
 	phalcon/image/adapter.zep.c
 	phalcon/mvc/collection/behavior.zep.c
-	phalcon/mvc/collection/behaviorinterface.zep.c
 	phalcon/mvc/model/behavior.zep.c
 	phalcon/mvc/model/metadata/strategyinterface.zep.c
 	phalcon/mvc/model/resultinterface.zep.c

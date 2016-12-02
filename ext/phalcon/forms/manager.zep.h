@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get);
 PHP_METHOD(Phalcon_Forms_Manager, has);
 PHP_METHOD(Phalcon_Forms_Manager, set);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()
