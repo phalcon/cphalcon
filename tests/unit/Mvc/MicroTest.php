@@ -375,4 +375,34 @@ class MicroTest extends UnitTest
             }
         );
     }
+
+    public function testMicroResponseHandler()
+    {
+        $this->specify(
+            "Micro::response event handler don't work as expected",
+            function () {
+                $trace = [];
+
+                $app = new Micro();
+
+                $app->response(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->map(
+                    "/blog",
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
+
+                $app->handle("/blog");
+
+                expect($trace)->count(2);
+            }
+        );
+    }
+
 }
