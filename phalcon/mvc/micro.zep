@@ -80,6 +80,8 @@ class Micro extends Injectable implements \ArrayAccess
 
 	protected _modelBinder;
 
+	protected _responseHandler;
+
 	protected _afterBindingHandlers;
 
 	/**
@@ -980,24 +982,39 @@ class Micro extends Injectable implements \ArrayAccess
 			}
 		}
 
-		/**
-		 * Check if the returned value is a string and take it as response body
-		 */
-		if typeof returnedValue == "string" {
-			let response = <ResponseInterface> dependencyInjector->getShared("response");
-			response->setContent(returnedValue);
-			response->send();
-		}
 
 		/**
-		 * Check if the returned object is already a response
-		 */
-		if typeof returnedValue == "object" {
-			if returnedValue instanceof ResponseInterface {
-				/**
-				 * Automatically send the response
-				 */
-				returnedValue->send();
+		* Check if a response handler is defined, else use default response handler
+		*/
+		if this->_responseHandler {
+
+			if !is_callable(this->_responseHandler) {
+				throw new Exception("Response handler is not callable or is not defined");
+			}
+
+			let returnedValue = call_user_func(this->_responseHandler);
+
+		} else {
+
+			/**
+			* Check if the returned value is a string and take it as response body
+			*/
+			if typeof returnedValue == "string" {
+				let response = <ResponseInterface> dependencyInjector->getShared("response");
+				response->setContent(returnedValue);
+				response->send();
+			}
+
+			/**
+			* Check if the returned object is already a response
+			*/
+			if typeof returnedValue == "object" {
+				if returnedValue instanceof ResponseInterface {
+					/**
+					* Automatically send the response
+					*/
+					returnedValue->send();
+				}
 			}
 		}
 
@@ -1149,6 +1166,17 @@ class Micro extends Injectable implements \ArrayAccess
 	public function getHandlers() -> array
 	{
 		return this->_handlers;
+	}
+
+	/**
+	 * Appends a custom 'reponse' handler to be called insted of the default reponse handler
+	 *
+	 * @param callable handler
+	 */
+	public function setResponseHandler(handler) -> <Micro>
+	{
+		let this->_responseHandler = handler;
+		return this;
 	}
 
 	/**
