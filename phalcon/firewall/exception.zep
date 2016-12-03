@@ -17,14 +17,13 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Dispatcher;
+namespace Phalcon\Firewall;
 
 /**
- * Phalcon\Mvc\Dispatcher\Exception
+ * Phalcon\Firewall\Exception
  *
- * Exceptions thrown in Phalcon\Mvc\Dispatcher will use this class
+ * Exceptions thrown in Phalcon\Firewall will use this class
  */
 class Exception extends \Phalcon\Exception
 {
-
 }
