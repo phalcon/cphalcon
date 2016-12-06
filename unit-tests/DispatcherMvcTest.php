@@ -162,6 +162,20 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 
 		$value = $dispatcher->getControllerClass();
 		$this->assertEquals($value, "Test7Controller");
+
+		$dispatcher->setParams(array(
+			'id' => '123',
+			'param' => 'foobar'
+		));
+		$value = $dispatcher->getParam('id', 'int', '1');
+		$this->assertEquals($value, '123');
+		$value = $dispatcher->getParam('param', 'int', '1');
+		$this->assertEquals($value, '1');
+		$value = $dispatcher->getParam('param', 'int');
+		$this->assertEquals($value, '');
+
+		$this->assertEquals($dispatcher->hasParam('id'), true);
+		$this->assertEquals($dispatcher->hasParam('nonexistent'), false);
 	}
 
 	public function testDispatcherForward()

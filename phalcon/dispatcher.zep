@@ -244,6 +244,17 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Determine if param exists by its name or numeric index
+	 *
+	 * @param  mixed param
+	 * @return bool
+	 */
+	public function hasParam(param) -> bool
+	{
+		return isset this->_params[param];
+	}
+
+	/**
 	 * Gets a param by its name or numeric index
 	 *
 	 * @param  mixed param
@@ -269,7 +280,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 		}
 		let filter = <FilterInterface> dependencyInjector->getShared("filter");
-		return filter->sanitize(paramValue, filters);
+		let paramValue = filter->sanitize(paramValue, filters);
+		if strlen(paramValue) < 1 && defaultValue !== null {
+			return filter->sanitize(defaultValue, filters);
+		}
+		return paramValue;
 	}
 
 	/**
