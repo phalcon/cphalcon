@@ -231,11 +231,12 @@ class Simple extends Resultset
 		 * Serialize the cache using the serialize function
 		 */
 		return serialize([
-			"model"       : this->_model,
-			"cache"       : this->_cache,
-			"rows"        : this->toArray(false),
-			"columnMap"   : this->_columnMap,
-			"hydrateMode" : this->_hydrateMode
+			"model"         : this->_model,
+			"cache"         : this->_cache,
+			"rows"          : this->toArray(false),
+			"columnMap"     : this->_columnMap,
+			"hydrateMode"   : this->_hydrateMode,
+			"keepSnapshots" : this->_keepSnapshots
 		]);
 	}
 
@@ -256,6 +257,7 @@ class Simple extends Resultset
 			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnMap = resultset["columnMap"],
-			this->_hydrateMode = resultset["hydrateMode"];
+			this->_hydrateMode = resultset["hydrateMode"],
+			this->_keepSnapshots = resultset["keepSnapshots"];
 	}
 }
