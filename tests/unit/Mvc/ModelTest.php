@@ -749,7 +749,7 @@ class ModelTest extends UnitTest
                     expect($row->robot->hasChanged())->true();
                     expect($row->robot->getChangedFields())->equals(array('name', 'year'));
 
-                    $this->assertFalse($row->parts->hasSnapshotData());
+                    $this->assertTrue($row->parts->hasSnapshotData());
                 }
             }
         );

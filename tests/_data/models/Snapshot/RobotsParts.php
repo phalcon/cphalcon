@@ -8,5 +8,6 @@ class RobotsParts extends \Phalcon\Mvc\Model
     {
         $this->belongsTo('robots_id', Robots::class, 'id');
         $this->belongsTo('parts_id', Parts::class, 'id');
+        $this->keepSnapshots(true);
     }
 }
