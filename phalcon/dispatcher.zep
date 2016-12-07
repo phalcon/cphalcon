@@ -336,11 +336,23 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 */
 	public function dispatch()
 	{
-		var handler, e;
+		var handler, e, e1, e2;
 
 		try {
 			let handler = this->_dispatch();
-		} catch \Exception, e {
+		} catch \Error, e {
+			if this->{"_handleError"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		} catch \Throwable, e1 {
+			if this->{"_handleThrowable"}(e) === false {
+				return false;
+			}
+
+			throw e;
+		 } catch \Exception, e2 {
 			if this->{"_handleException"}(e) === false {
 				return false;
 			}
@@ -364,7 +376,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
 			className, paramKey, methodParam, modelName, bindModel,
-			wasFresh = false, e;
+			wasFresh = false, e, e1, e2;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -586,7 +598,23 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			try {
 				// We update the latest value produced by the latest handler
 				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
-			} catch \Exception, e {
+			} catch \Error, e {
+				if this->{"_handleError"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				} else {
+					throw e;
+				}
+			} catch \Throwable, e1 {
+				if this->{"_handleThrowable"}(e) === false {
+					if this->_finished === false {
+						continue;
+					}
+				} else {
+					throw e;
+				}
+			 } catch \Exception, e2 {
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
 						continue;
