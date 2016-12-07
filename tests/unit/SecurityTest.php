@@ -6,7 +6,7 @@ use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Proxy\Security;
-use Codeception\Lib\Connector\PhalconMemorySession;
+use Codeception\Lib\Connector\Phalcon\MemorySession;
 
 /**
  * \Phalcon\Test\Unit\SecurityTest
@@ -276,7 +276,7 @@ class SecurityTest extends UnitTest
         $di = new Di();
 
         $di->setShared('session', function () {
-            return new PhalconMemorySession();
+            return new MemorySession();
         });
 
         $di->setShared('request', function () {
