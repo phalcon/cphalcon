@@ -4365,7 +4365,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * If attributes is not the same as snapshot then save snapshot too
 			 */
-			if attributes != snapshot {
+			if snapshot != null && attributes != snapshot {
 				return serialize(["_attributes": attributes, "_snapshot": snapshot]);
 			}
 		}
