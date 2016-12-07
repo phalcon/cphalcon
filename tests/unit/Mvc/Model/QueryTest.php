@@ -16,6 +16,7 @@ use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\RobottersDeles;
 use Phalcon\Test\Models\Some\Robotters as SomeRobotters;
 use Phalcon\Test\Models\Some\Products as SomeProducts;
+use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager as TransactionManager;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\QueryTest
@@ -25,6 +26,7 @@ use Phalcon\Test\Models\Some\Products as SomeProducts;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Jakob Oberhummer <cphalcon@chilimatic.com>
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is
@@ -48,6 +50,116 @@ class QueryTest extends UnitTest
         /** @var \Phalcon\Mvc\Application $app */
         $app = $this->tester->getApplication();
         $this->di = $app->getDI();
+
+        $this->di->set('modelsManager', function() {
+            return new Manager;
+        });
+
+        $this->di->set('modelsMetadata', function() {
+            return new Memory;
+        });
+    }
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testQueryConstructorWithPHQLString() {
+        $this->specify(
+            'The Query::__construct sets _phql string in the object',
+            function() {
+                $query = 'SELECT 1';
+                $q = new Query($query);
+
+                $queryReflection = new \ReflectionClass($q);
+                $phqlReflection = $queryReflection->getProperty('_phql');
+                $phqlReflection->setAccessible(true);
+                $testValue = $phqlReflection->getValue($q);
+
+                expect($testValue)->equals($query);
+            }
+        );
+    }
+
+    /**
+     * helper method DRY -> any object should be reflectable
+     *
+     * @param Object $object
+     * @param string $propertyName
+     * @return mixed
+     */
+    private function getUnaccessableObjectProperty($object, $propertyName)
+    {
+        if (!$object || !$propertyName) {
+            throw new \InvalidArgumentException('Object or property has to be passed');
+        }
+
+        $reflectionClass = new \ReflectionClass($object);
+        $reflectionProperty = $reflectionClass->getProperty($propertyName);
+        $reflectionProperty->setAccessible(true);
+        return $reflectionProperty->getValue($object);
+    }
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testQueryConstructorWithoutPHQL() {
+        $this->specify(
+            'The Query::__construct sets _phql in the object',
+            function() {
+                $q = new Query();
+                $testValue = $this->getUnaccessableObjectProperty($q, '_phql');
+
+
+                expect($testValue)->equals(null);
+            }
+        );
+    }
+
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testIfQueryConstructorSetsDI() {
+        $this->specify(
+            'The Query::__construct sets DI in the object',
+            function() {
+                $q = new Query(null, Di::getDefault());
+                expect(Di::getDefault())->equals($q->getDI());
+            }
+        );
+    }
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testConstructorSetsImplicitJoins() {
+        $this->specify(
+            'The Query::__construct sets DI in the object',
+            function() {
+                $options = [
+                    'enable_implicit_joins' => true
+                ];
+                $q = new Query(null, Di::getDefault(), $options);
+                $enableImplicitJoins = $this->getUnaccessableObjectProperty($q, '_enableImplicitJoins');
+                expect(true)->equals($enableImplicitJoins);
+            }
+        );
     }
 
     /**
