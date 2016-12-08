@@ -289,6 +289,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		return this;
 	}
 
+    /**
+     * <code>
+     *     use Phalcon\Di;
+     *
+     *     $robot = new Robots();
+	 *     $robot->setTransaction(new Transaction(DI::getDefault()));
+	 *     $transaction = $robot->getTransaction();
+     *
+     * </code>
+     */
+	public function getTransaction() {
+	    return this->_transaction;
+	}
+
 	/**
 	 * Sets the table name to which model should be mapped
 	 */
