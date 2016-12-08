@@ -102,16 +102,8 @@ class Beanstalk
 	/**
 	 * Phalcon\Queue\Beanstalk
 	 */
-	public function __construct(array options = null)
+	public function __construct(array parameters = [])
 	{
-		var parameters;
-
-		if typeof options != "array" {
-			let parameters = [];
-		} else {
-			let parameters = options;
-		}
-
 		if !isset parameters["host"] {
 			let parameters["host"] = self::DEFAULT_HOST;
 		}

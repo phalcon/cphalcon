@@ -31,14 +31,14 @@
  *<code>
  * //Traverse annotations
  * foreach ($classAnnotations as $annotation) {
- *     echo 'Name=', $annotation->getName(), PHP_EOL;
+ *     echo "Name=", $annotation->getName(), PHP_EOL;
  * }
  *
  * //Check if the annotations has a specific
- * var_dump($classAnnotations->has('Cacheable'));
+ * var_dump($classAnnotations->has("Cacheable"));
  *
  * //Get an specific annotation in the collection
- * $annotation = $classAnnotations->get('Cacheable');
+ * $annotation = $classAnnotations->get("Cacheable");
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {

@@ -25,7 +25,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Text) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Text, phalcon, forms_element_text, phalcon_forms_element_ce, phalcon_forms_element_text_method_entry, 0);
 
-	zend_class_implements(phalcon_forms_element_text_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 	return SUCCESS;
 
 }
@@ -51,7 +50,7 @@ PHP_METHOD(Phalcon_Forms_Element_Text, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "textfield", &_0, 216, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "textfield", &_0, 218, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
 }
 
 /**
- * Magic __set_state helps to recover messsages from serialization
+ * Magic __set_state helps to recover messages from serialization
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 462, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 464, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

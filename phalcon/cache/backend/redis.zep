@@ -21,7 +21,6 @@ namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\FrontendInterface;
 
 /**
@@ -61,7 +60,7 @@ use Phalcon\Cache\FrontendInterface;
  * $data = $cache->get("my-data");
  *</code>
  */
-class Redis extends Backend implements BackendInterface
+class Redis extends Backend
 {
 	protected _redis = null;
 
@@ -163,7 +162,7 @@ class Redis extends Backend implements BackendInterface
 		let this->_lastKey = lastKey;
 		let cachedContent = redis->get(lastKey);
 
-		if !cachedContent {
+		if cachedContent === false {
 			return null;
 		}
 
@@ -179,7 +178,7 @@ class Redis extends Backend implements BackendInterface
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
@@ -352,8 +351,7 @@ class Redis extends Backend implements BackendInterface
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string keyName
-	 * @param   long lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
@@ -373,10 +371,7 @@ class Redis extends Backend implements BackendInterface
 				let redis = this->_redis;
 			}
 
-			if !redis->get(lastKey) {
-				return false;
-			}
-			return true;
+			return redis->exists(lastKey);
 		}
 
 		return false;
@@ -386,7 +381,7 @@ class Redis extends Backend implements BackendInterface
 	 * Increment of given $keyName by $value
 	 *
 	 * @param string keyName
-	 * @param long value
+	 * @param int value
 	 */
 	public function increment(keyName = null, value = null) -> int
 	{
@@ -418,7 +413,7 @@ class Redis extends Backend implements BackendInterface
 	 * Decrement of $keyName by given $value
 	 *
 	 * @param string keyName
-	 * @param long value
+	 * @param int value
 	 */
 	public function decrement(keyName = null, value = null) -> int
 	{
@@ -467,7 +462,7 @@ class Redis extends Backend implements BackendInterface
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
 		let keys = redis->sMembers(specialKey);

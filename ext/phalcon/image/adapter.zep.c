@@ -69,6 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter) {
 
 	zend_declare_property_bool(phalcon_image_adapter_ce, SL("_checked"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
+	zend_class_implements(phalcon_image_adapter_ce TSRMLS_CC, 1, phalcon_image_adapterinterface_ce);
 	return SUCCESS;
 
 }

@@ -29,26 +29,39 @@
  * <code>
  * use Phalcon\Validation\Validator\Between;
  *
- * $validator->add('price', new Between([
- *     'minimum' => 0,
- *     'maximum' => 100,
- *     'message' => 'The price must be between 0 and 100'
- * ]));
+ * $validator->add(
+ *     "price",
+ *     new Between(
+ *         [
+ *             "minimum" => 0,
+ *             "maximum" => 100,
+ *             "message" => "The price must be between 0 and 100",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['price', 'amount'], new Between([
- *     'minimum' => [
- *         'price' => 0,
- *         'amount' => 0
+ * $validator->add(
+ *     [
+ *         "price",
+ *         "amount",
  *     ],
- *     'maximum' => [
- *         'price' => 100,
- *         'amount' => 50
- *     ],
- *     'message' => [
- *         'price' => 'The price must be between 0 and 100',
- *         'amount' => 'The amount must be between 0 and 50'
- *     ]
- * ]));
+ *     new Between(
+ *         [
+ *             "minimum" => [
+ *                 "price"  => 0,
+ *                 "amount" => 0,
+ *             ],
+ *             "maximum" => [
+ *                 "price"  => 100,
+ *                 "amount" => 50,
+ *             ],
+ *             "message" => [
+ *                 "price"  => "The price must be between 0 and 100",
+ *                 "amount" => "The amount must be between 0 and 50",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
@@ -97,11 +110,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 72 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 85 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(minimum, _1$$3);
 	}
 	if (Z_TYPE_P(maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 76 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 89 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(maximum, _2$$4);
 	}
 	_3 = ZEPHIR_LT(value, minimum);
@@ -115,7 +128,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_check_temp_parameter(_4$$5);
 		zephir_check_call_status();
 		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$6, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 83 TSRMLS_CC);
+			zephir_array_fetch(&_5$$6, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 96 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(label, _5$$6);
 		}
 		if (ZEPHIR_IS_EMPTY(label)) {
@@ -128,7 +141,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_check_temp_parameter(_4$$5);
 		zephir_check_call_status();
 		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$8, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 91 TSRMLS_CC);
+			zephir_array_fetch(&_6$$8, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 104 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(message, _6$$8);
 		}
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -149,7 +162,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_check_temp_parameter(_4$$5);
 		zephir_check_call_status();
 		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_8$$10, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 100 TSRMLS_CC);
+			zephir_array_fetch(&_8$$10, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 113 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(code, _8$$10);
 		}
 		ZEPHIR_INIT_NVAR(_4$$5);
@@ -158,7 +171,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_10$$5);
 		ZVAL_STRING(_10$$5, "Between", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 462, _9$$5, field, _10$$5, code);
+		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 464, _9$$5, field, _10$$5, code);
 		zephir_check_temp_parameter(_10$$5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4$$5);

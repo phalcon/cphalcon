@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Integration\Forms;
+namespace Phalcon\Test\integration\Forms;
 
 use Phalcon\Tag;
 use IntegrationTester;
@@ -70,9 +70,20 @@ class FormCest
         $I->assertNull($form->get('passwd')->getValue());
         $I->assertEquals('Serghei Iakovlev', $form->get('name')->getValue());
 
-        $I->assertEquals('<input type="password" id="passwd" name="passwd">', $form->render('passwd'));
-        $I->assertEquals('<input type="email" id="email" name="email">', $form->render('email'));
-        $I->assertEquals('<input type="text" id="name" name="name" value="Serghei Iakovlev">', $form->render('name'));
+        $I->assertEquals(
+            '<input type="password" id="passwd" name="passwd">',
+            $form->render('passwd')
+        );
+
+        $I->assertEquals(
+            '<input type="email" id="email" name="email">',
+            $form->render('email')
+        );
+
+        $I->assertEquals(
+            '<input type="text" id="name" name="name" value="Serghei Iakovlev">',
+            $form->render('name')
+        );
 
         $_POST = [
             'passwd' => 'secret',
@@ -83,17 +94,32 @@ class FormCest
         $I->assertEquals($pass->getValue(), $form->get('passwd')->getValue());
         $I->assertEquals('Andres Gutierrez', $form->get('name')->getValue());
 
-        $I->assertEquals('<input type="password" id="passwd" name="passwd" value="secret">', $form->render('passwd'));
-        $I->assertEquals('<input type="text" id="name" name="name" value="Andres Gutierrez">', $form->render('name'));
+        $I->assertEquals(
+            '<input type="password" id="passwd" name="passwd" value="secret">',
+            $form->render('passwd')
+        );
+
+        $I->assertEquals(
+            '<input type="text" id="name" name="name" value="Andres Gutierrez">',
+            $form->render('name')
+        );
 
         Tag::setDefault('email', 'andres@phalconphp.com');
 
-        $I->assertEquals('<input type="email" id="email" name="email" value="andres@phalconphp.com">', $form->render('email'));
+
+        $I->assertEquals(
+            '<input type="email" id="email" name="email" value="andres@phalconphp.com">',
+            $form->render('email')
+        );
         $I->assertEquals('andres@phalconphp.com', $form->get('email')->getValue());
 
         $pass->clear();
 
-        $I->assertEquals('<input type="password" id="passwd" name="passwd">', $form->render('passwd'));
+        $I->assertEquals(
+            '<input type="password" id="passwd" name="passwd">',
+            $form->render('passwd')
+        );
+
         $I->assertNull($pass->getValue());
         $I->assertEquals($pass->getValue(), $form->get('passwd')->getValue());
 
@@ -101,8 +127,16 @@ class FormCest
 
         $I->assertEquals('Serghei Iakovlev', $form->get('name')->getValue());
         $I->assertNull($form->get('email')->getValue());
-        $I->assertEquals('<input type="text" id="name" name="name" value="Serghei Iakovlev">', $form->render('name'));
-        $I->assertEquals('<input type="email" id="email" name="email">', $form->render('email'));
+
+        $I->assertEquals(
+            '<input type="text" id="name" name="name" value="Serghei Iakovlev">',
+            $form->render('name')
+        );
+
+        $I->assertEquals(
+            '<input type="email" id="email" name="email">',
+            $form->render('email')
+        );
 
         $I->assertEquals(['passwd' => 'secret', 'name' => 'Andres Gutierrez'], $_POST);
     }

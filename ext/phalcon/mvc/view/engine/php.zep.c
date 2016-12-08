@@ -31,7 +31,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
 
-	zend_class_implements(phalcon_mvc_view_engine_php_ce TSRMLS_CC, 1, phalcon_mvc_view_engineinterface_ce);
 	return SUCCESS;
 
 }
@@ -69,11 +68,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean == 1) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 384);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 386);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, &_1$$4, &_0$$4, 0, 0, "phalcon/mvc/view/engine/php.zep", 51);
+		zephir_is_iterable(params, &_1$$4, &_0$$4, 0, 0, "phalcon/mvc/view/engine/php.zep", 50);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)

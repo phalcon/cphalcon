@@ -150,10 +150,13 @@ class SimpleTest extends UnitTest
                 $view = new Simple;
                 $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->render('test1/index');
-            }, ['throws' => [
-                Exception::class,
-                "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test1' . DIRECTORY_SEPARATOR . "index' was not found in the views directory"
-            ]]
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test1' . DIRECTORY_SEPARATOR . "index' was not found in the views directory"
+                ]
+            ]
         );
     }
 
@@ -176,10 +179,13 @@ class SimpleTest extends UnitTest
                 $view->setParamToView('name', 'FooBar');
 
                 $view->render('test4/index.mhtml');
-            }, ['throws' => [
-                Exception::class,
-                "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test4' . DIRECTORY_SEPARATOR . "index.mhtml' was not found in the views directory"
-            ]]
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test4' . DIRECTORY_SEPARATOR . "index.mhtml' was not found in the views directory"
+                ]
+            ]
         );
     }
 

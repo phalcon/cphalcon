@@ -29,16 +29,29 @@
  * <code>
  * use Phalcon\Validation\Validator\Numericality;
  *
- * $validator->add('price', new Numericality([
- *     'message' => ':field is not numeric'
- * ]));
+ * $validator->add(
+ *     "price",
+ *     new Numericality(
+ *         [
+ *             "message" => ":field is not numeric",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['price', 'amount'], new Numericality([
- *     'message' => [
- *         'price' => 'price is not numeric',
- *         'amount' => 'amount is not numeric'
- *     ]
- * ]));
+ * $validator->add(
+ *     [
+ *         "price",
+ *         "amount",
+ *     ],
+ *     new Numericality(
+ *         [
+ *             "message" => [
+ *                 "price"  => "price is not numeric",
+ *                 "amount" => "amount is not numeric",
+ *             ]
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Numericality) {
@@ -87,7 +100,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		zephir_check_temp_parameter(_3$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_4$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/numericality.zep", 62 TSRMLS_CC);
+			zephir_array_fetch(&_4$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/numericality.zep", 75 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(label, _4$$4);
 		}
 		if (ZEPHIR_IS_EMPTY(label)) {
@@ -100,7 +113,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		zephir_check_temp_parameter(_3$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/numericality.zep", 70 TSRMLS_CC);
+			zephir_array_fetch(&_5$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/numericality.zep", 83 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(message, _5$$6);
 		}
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -119,7 +132,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		zephir_check_temp_parameter(_3$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_7$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/numericality.zep", 79 TSRMLS_CC);
+			zephir_array_fetch(&_7$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/numericality.zep", 92 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(code, _7$$8);
 		}
 		ZEPHIR_INIT_NVAR(_3$$3);
@@ -128,7 +141,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_9$$3);
 		ZVAL_STRING(_9$$3, "Numericality", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 462, _8$$3, field, _9$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 464, _8$$3, field, _9$$3, code);
 		zephir_check_temp_parameter(_9$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$3);

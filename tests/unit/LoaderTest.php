@@ -294,10 +294,10 @@ class LoaderTest extends UnitTest
                 $eventsManager = new Manager();
                 $trace = [];
 
-                $eventsManager->attach('loader', function($event, $loader) use (&$trace) {
+                $eventsManager->attach('loader', function ($event, $loader) use (&$trace) {
                     /** @var \Phalcon\Events\Event $event */
                     /** @var Loader $loader */
-                    if(!isset($trace[$event->getType()])){
+                    if (!isset($trace[$event->getType()])) {
                         $trace[$event->getType()] = [];
                     }
                     $trace[$event->getType()][] = $loader->getCheckedPath();
@@ -309,7 +309,7 @@ class LoaderTest extends UnitTest
 
                 expect(new \VousTest())->isInstanceOf('VousTest');
                 expect($trace)->equals([
-                    'beforeCheckClass' => [0 => NULL],
+                    'beforeCheckClass' => [0 => null],
                     'beforeCheckPath'  => [0 => PATH_DATA . 'vendor/Example/Other/VousTest.php'],
                     'pathFound'        => [0 => PATH_DATA . 'vendor/Example/Other/VousTest.php'],
                 ]);

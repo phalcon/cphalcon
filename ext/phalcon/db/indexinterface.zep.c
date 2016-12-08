@@ -33,7 +33,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
 
 /**
- * Gets the columns that comprends the index
+ * Gets the columns that corresponds the index
  *
  * @return array
  */

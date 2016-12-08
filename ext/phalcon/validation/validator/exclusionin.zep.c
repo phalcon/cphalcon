@@ -29,21 +29,40 @@
  * <code>
  * use Phalcon\Validation\Validator\ExclusionIn;
  *
- * $validator->add('status', new ExclusionIn([
- *     'message' => 'The status must not be A or B',
- *     'domain' => ['A', 'B']
- * ]));
+ * $validator->add(
+ *     "status",
+ *     new ExclusionIn(
+ *         [
+ *             "message" => "The status must not be A or B",
+ *             "domain"  => [
+ *                 "A",
+ *                 "B",
+ *             ],
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['status', 'type'], new ExclusionIn([
- *     'message' => [
- *         'status' => 'The status must not be A or B',
- *         'type' => 'The type must not be 1 or 2'
+ * $validator->add(
+ *     [
+ *         "status",
+ *         "type",
  *     ],
- *     'domain' => [
- *         'status' => ['A', 'B'],
- *         'type' => [1, 2]
- *     ]
- * ]));
+ *     new ExclusionIn(
+ *         [
+ *             "message" => [
+ *                 "status" => "The status must not be A or B",
+ *                 "type"   => "The type must not be 1 or "'
+ *             ],
+ *             "domain" => [
+ *                 "status" => [
+ *                     "A",
+ *                     "B",
+ *                 ],
+ *                 "type"   => [1, 2],
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn) {
@@ -92,7 +111,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		}
 	}
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/exclusionin.zep", 74);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/exclusionin.zep", 93);
 		return;
 	}
 	ZEPHIR_INIT_VAR(strict);
@@ -109,15 +128,15 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_temp_parameter(_2$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(strict) == IS_ARRAY) {
-			zephir_array_fetch(&_3$$7, strict, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 83 TSRMLS_CC);
+			zephir_array_fetch(&_3$$7, strict, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 102 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(strict, _3$$7);
 		}
 		if (Z_TYPE_P(strict) != IS_BOOL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/exclusionin.zep", 87);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/exclusionin.zep", 106);
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 377, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 379, value, domain, strict);
 	zephir_check_call_status();
 	if (zephir_is_true(_4)) {
 		ZEPHIR_INIT_VAR(_5$$9);
@@ -126,7 +145,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_temp_parameter(_5$$9);
 		zephir_check_call_status();
 		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$10, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 98 TSRMLS_CC);
+			zephir_array_fetch(&_6$$10, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 117 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(label, _6$$10);
 		}
 		if (ZEPHIR_IS_EMPTY(label)) {
@@ -139,7 +158,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_temp_parameter(_5$$9);
 		zephir_check_call_status();
 		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_7$$12, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 106 TSRMLS_CC);
+			zephir_array_fetch(&_7$$12, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 125 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(message, _7$$12);
 		}
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -161,7 +180,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_temp_parameter(_5$$9);
 		zephir_check_call_status();
 		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_9$$14, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 115 TSRMLS_CC);
+			zephir_array_fetch(&_9$$14, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/exclusionin.zep", 134 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(code, _9$$14);
 		}
 		ZEPHIR_INIT_NVAR(_5$$9);
@@ -170,7 +189,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_11$$9);
 		ZVAL_STRING(_11$$9, "ExclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _5$$9, "__construct", NULL, 462, _10$$9, field, _11$$9, code);
+		ZEPHIR_CALL_METHOD(NULL, _5$$9, "__construct", NULL, 464, _10$$9, field, _11$$9, code);
 		zephir_check_temp_parameter(_11$$9);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _5$$9);

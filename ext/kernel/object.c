@@ -1557,7 +1557,7 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 				params_ptr = static_params;
 			} else {
 				params_arr = emalloc(param_count * sizeof(zval*));
-				params_ptr = &params;
+				params_ptr = params_arr;
 			}
 
 			for (

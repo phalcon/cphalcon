@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Metadata;
+namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
 use Phalcon\Di;
 use UnitTester;
@@ -30,7 +30,7 @@ class FilesCest
 
     public function _before(UnitTester $I)
     {
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Files([
                 'metaDataDir' => PATH_CACHE,
             ]);
@@ -54,10 +54,18 @@ class FilesCest
         $I->amInPath(PATH_CACHE);
 
         $I->seeFileFound('meta-phalcon_test_models_robots-robots.php');
-        $I->assertEquals($this->data['meta-robots-robots'], require PATH_CACHE . 'meta-phalcon_test_models_robots-robots.php');
+
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            require PATH_CACHE . 'meta-phalcon_test_models_robots-robots.php'
+        );
 
         $I->seeFileFound('map-phalcon_test_models_robots.php');
-        $I->assertEquals($this->data['map-robots'], require PATH_CACHE . 'map-phalcon_test_models_robots.php');
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            require PATH_CACHE . 'map-phalcon_test_models_robots.php'
+        );
 
         $I->assertFalse($md->isEmpty());
 

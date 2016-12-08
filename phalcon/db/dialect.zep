@@ -84,7 +84,7 @@ abstract class Dialect implements DialectInterface
 		if !memstr(str, ".") {
 
 			if escapeChar != "" && str != "*" {
-				return escapeChar . str . escapeChar;
+				return escapeChar . str_replace(escapeChar, escapeChar . escapeChar, str) . escapeChar;
 			}
 
 			return str;
@@ -99,7 +99,7 @@ abstract class Dialect implements DialectInterface
 				continue;
 			}
 
-			let newParts[key] = escapeChar . part . escapeChar;
+			let newParts[key] = escapeChar . str_replace(escapeChar, escapeChar . escapeChar, part) . escapeChar;
 		}
 
 		return implode(".", newParts);

@@ -30,94 +30,88 @@
  */
 class TestClass
 {
-	/**
-	 * This is a property string
-	 *
-	 * @var string
-	 * @Simple
+    /**
+     * This is a property string
+     *
+     * @var string
+     * @Simple
      * @SingleParam("Param")
      * @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
-	 */
-	public $testProp1;
+     */
+    public $testProp1;
 
-	/**
-	 *
-	 */
-	public $testProp2;
+    /**
+     *
+     */
+    public $testProp2;
 
-	/**
-	 * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
-	 */
-	public $testProp3;
+    /**
+     * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
+     */
+    public $testProp3;
 
-	/**
-	 * @Simple @SingleParam(
-	 * "Param") @MultipleParams(         "First",
-	 * Second, 1,    1.1
-	 * ,-10,
-	 * false,    true,
-	 * null)
-	 */
-	public $testProp4;
+    /**
+     * @Simple @SingleParam(
+     * "Param") @MultipleParams(         "First",
+     * Second, 1,    1.1
+     * ,-10,
+     * false,    true,
+     * null)
+     */
+    public $testProp4;
 
-	public $testProp5;
+    public $testProp5;
 
-	/**
-	 * This is a comment
-	 */
-	public $testProp6;
+    /**
+     * This is a comment
+     */
+    public $testProp6;
 
-	/**
-	 * This is a property string
-	 *
-	 * @return string
-	 * @Simple
+    /**
+     * This is a property string
+     *
+     * @return string
+     * @Simple
      * @SingleParam("Param")
      * @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
      * @NamedMultipleParams(first: "First", second: Second)
-	 */
-	public function testMethod1()
-	{
+     */
+    public function testMethod1()
+    {
+    }
 
-	}
+    /**
+     *
+     */
+    public function testMethod2()
+    {
+    }
 
-	/**
-	 *
-	 */
-	public function testMethod2()
-	{
+    /**
+     * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
+     */
+    public function testMethod3()
+    {
+    }
 
-	}
-
-	/**
-	 * @Simple @SingleParam("Param") @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
-	 */
-	public function testMethod3()
-	{
-
-	}
-
-	/**
-	 @Simple @SingleParam(
-	 "Param") @MultipleParams(         "First",
-	 Second, 1,    1.1
-	 ,-10,
-	 false,    true,
-	 null)
-	 */
-	public function testMethod4()
-	{
-
-	}
+    /**
+     @Simple @SingleParam(
+     "Param") @MultipleParams(         "First",
+     Second, 1,    1.1
+     ,-10,
+     false,    true,
+     null)
+     */
+    public function testMethod4()
+    {
+    }
 
 /** @Simple a good comment between annotations @SingleParam(
 "Param") this is extra content @MultipleParams(         "First",
  Second, 1,    1.1  ,-10,
-	 false,    true,
+     false,    true,
 null) more content here */
-	public function testMethod5()
-	{
-
-	}
-
+    public function testMethod5()
+    {
+    }
 }

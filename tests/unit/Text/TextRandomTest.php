@@ -35,7 +35,6 @@ class TextRandomTest extends UnitTest
         $this->specify(
             "random constants are not correct",
             function () {
-
                 expect(Text::RANDOM_ALNUM)->equals(0);
                 expect(Text::RANDOM_ALPHA)->equals(1);
                 expect(Text::RANDOM_HEXDEC)->equals(2);
@@ -56,9 +55,7 @@ class TextRandomTest extends UnitTest
         $this->specify(
             "random with alnum does not return correct results",
             function () {
-
                 for ($i = 1; $i < 10; $i++) {
-
                     $source = Text::random(Text::RANDOM_ALNUM, $i);
 
                     expect(preg_match('/[a-zA-Z0-9]+/', $source, $matches))->equals(1);
@@ -80,9 +77,7 @@ class TextRandomTest extends UnitTest
         $this->specify(
             "random with alpha does not return correct results",
             function () {
-
                 for ($i = 1; $i < 10; $i++) {
-
                     $source = Text::random(Text::RANDOM_ALPHA, $i);
 
                     expect(preg_match('/[a-zA-Z]+/', $source, $matches))->equals(1);
@@ -104,9 +99,7 @@ class TextRandomTest extends UnitTest
         $this->specify(
             "random with hexdec does not return correct results",
             function () {
-
                 for ($i = 1; $i < 10; $i++) {
-
                     $source = Text::random(Text::RANDOM_HEXDEC, $i);
 
                     expect(preg_match('/[a-f0-9]+/', $source, $matches))->equals(1);
@@ -128,9 +121,7 @@ class TextRandomTest extends UnitTest
         $this->specify(
             "random with numeric does not return correct results",
             function () {
-
                 for ($i = 1; $i < 10; $i++) {
-
                     $source = Text::random(Text::RANDOM_NUMERIC, $i);
 
                     expect(preg_match('/[0-9]+/', $source, $matches))->equals(1);
@@ -152,9 +143,7 @@ class TextRandomTest extends UnitTest
         $this->specify(
             "random with nonzero does not return correct results",
             function () {
-
                 for ($i = 1; $i < 10; $i++) {
-
                     $source = Text::random(Text::RANDOM_NOZERO, $i);
 
                     expect(preg_match('/[1-9]+/', $source, $matches))->equals(1);

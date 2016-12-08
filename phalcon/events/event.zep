@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -84,7 +84,7 @@ class Event implements EventInterface
 	}
 
 	/**
-	 * Sets event data
+	 * Sets event data.
 	 * @param mixed data
 	 */
 	public function setData(data = null) -> <EventInterface>
@@ -95,7 +95,7 @@ class Event implements EventInterface
 	}
 
 	/**
-	 * Sets event type
+	 * Sets event type.
 	 */
 	public function setType(string! type) -> <EventInterface>
 	{
@@ -105,7 +105,13 @@ class Event implements EventInterface
 	}
 
 	/**
-	 * Stops the event preventing propagation
+	 * Stops the event preventing propagation.
+	 *
+	 * <code>
+	 * if ($event->isCancelable()) {
+	 *     $event->stop();
+	 * }
+	 * </code>
 	 */
 	public function stop() -> <EventInterface>
 	{
@@ -119,7 +125,7 @@ class Event implements EventInterface
 	}
 
 	/**
-	 * Check whether the event is currently stopped
+	 * Check whether the event is currently stopped.
 	 */
 	public function isStopped() -> boolean
 	{
@@ -127,7 +133,13 @@ class Event implements EventInterface
 	}
 
 	/**
-	 * Check whether the event is cancelable
+	 * Check whether the event is cancelable.
+	 *
+	 * <code>
+	 * if ($event->isCancelable()) {
+	 *     $event->stop();
+	 * }
+	 * </code>
 	 */
 	public function isCancelable() -> boolean
 	{

@@ -3,12 +3,16 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * \Phalcon\Test\Models\Robots
- * Robots model class
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @method static int countByType(string $type)
+ * @method static Simple findByType(string $type)
+ * @method static Robots findFirstById(string|int $id)
+ *
+ * @copyright 2011-2016 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -26,6 +30,16 @@ class Robots extends Model
     public function initialize()
     {
         $this->keepSnapshots(true);
-        $this->hasMany('id',RobotsParts::class, 'robots_id', ['foreignKey' => true, 'reusable' => false, 'alias' => 'parts']);
+
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id',
+            [
+                'foreignKey' => true,
+                'reusable' => false,
+                'alias' => 'parts'
+            ]
+        );
     }
 }

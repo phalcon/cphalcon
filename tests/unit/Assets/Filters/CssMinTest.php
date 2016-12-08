@@ -170,5 +170,4 @@ class CssMinTest extends UnitTest
             }
         );
     }
-
 }

@@ -95,17 +95,20 @@ class DigitTest extends UnitTest
                 $messages = $validation->validate(['amount' => $digit]);
 
                 expect($messages)->count(0);
-            }, ['examples' => [
-                ['123'],
-                [123],
-                [PHP_INT_MAX],
-                [0xFFFFFF],
-                [100000],
-                [-100000],
-                [0],
-                ["0"],
-                ["00001233422003400"],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['123'],
+                    [123],
+                    [PHP_INT_MAX],
+                    [0xFFFFFF],
+                    [100000],
+                    [-100000],
+                    [0],
+                    ["0"],
+                    ["00001233422003400"],
+                ]
+            ]
         );
     }
 }

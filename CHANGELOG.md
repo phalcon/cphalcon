@@ -1,8 +1,16 @@
-# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2016-XX-XX)``
+# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2016-XX-XX)
 - Added `Phalcon\Validation\Validator\Callback`, `Phalcon\Validation::getData`
 - Added the ability to truncate database tables
+- Added `Phalcon\Mvc\Model\Binder`, class used for binding models to parameters in dispatcher, micro, added `Phalcon\Dispatcher::getBoundModels` and `Phalcon\Mvc\Micro::getBoundModels` to getting bound models, added `Phalcon\Mvc\Micro\Collection\LazyLoader::callMethod`
+- Added afterBinding event to `Phalcon\Dispatcher` and `Phalcon\Mvc\Micro`, added `Phalcon\Mvc\Micro::afterBinding`
+- Added the ability to set custom Resultset class returned by find() [#12166](https://github.com/phalcon/cphalcon/issues/12166)
 
-# [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-XX-XX)
+# [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (201X-XX-XX)
+- Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
+- Fixed `Phalcon\Cache\Backend\Redis::get`, `Phalcon\Cache\Frontend\Data::afterRetrieve` to allow get empty strings from the Redis database [#12437](https://github.com/phalcon/cphalcon/issues/12437)
+- Fixed `Phalcon\Cache\Backend\Redis::exists` to correct check if cache key exists for empty value in the Redis database [#12434](https://github.com/phalcon/cphalcon/pull/12434)
+
+# [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-11-26)
 - Fixed saving snapshot data while caching model [#12170](https://github.com/phalcon/cphalcon/issues/12170), [#12000](https://github.com/phalcon/cphalcon/issues/12000)
 - Fixed `Phalcon\Http\Response\Headers::send` to send correct status header [#12179](https://github.com/phalcon/cphalcon/issues/12179)
 - Fixed `Phalcon\Mvc\Model::setSnapshotData`, `Phalcon\Mvc\Model\Resultset\Simple::toArray` by fixing an issue like `fetch a, a[key]` using Zephir [#11205](https://github.com/phalcon/cphalcon/issues/11205), [#12147](https://github.com/phalcon/cphalcon/issues/12147)
@@ -24,6 +32,10 @@
 - Fixed `Phalcon\Tag::resetInput` for proper use without attempts to clear `$_POST` [#12099](https://github.com/phalcon/cphalcon/issues/12099)
 - Fixed `Phalcon\Db\Dialect\Mysql` and `Phalcon\Db\Dialect\Postresql` to correctly check schema in missing methods
 - Fixed `Phalcon\Cache\Backend\Apc::flush` to remove only it's own keys by prefix [#12153](https://github.com/phalcon/cphalcon/issues/12153)
+- Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to call closures when using wildcard [#12333](https://github.com/phalcon/cphalcon/issues/12333)
+- Fixed `Phalcon\Validation\Validator\File` array to string conversion in `minResolution` and `maxResolution` [#12349](https://github.com/phalcon/cphalcon/issues/12349)
+- Fixed `Phalcon\Cache\Backend\File::queryKeys()` to compare the filename against parsed prefix
+- Database identifiers are now properly escaped [#12410](https://github.com/phalcon/cphalcon/issues/12410)
 
 # [3.0.1](https://github.com/phalcon/cphalcon/releases/tag/v3.0.1) (2016-08-24)
 - Fixed `Phalcon\Cache\Backend\Redis::flush` in order to flush cache correctly

@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
  * @param string message
  * @param int type
  * @param int timestamp
- * @param array $context
+ * @param array context
  * @return array
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {

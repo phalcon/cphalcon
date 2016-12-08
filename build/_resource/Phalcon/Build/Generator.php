@@ -40,6 +40,7 @@ class Generator
     {
         $this->rootDir = $rootDir;
         $this->safeDir = $buildDir . '/safe';
+
         $this->optimized32Dir = $buildDir . '/32bits';
         $this->optimized64Dir = $buildDir . '/64bits';
     }

@@ -88,13 +88,16 @@ class PostgresqlTest extends UnitTest
             'Failed check for existence of a schema.table',
             function ($table, $schema, $expected) {
                 expect($this->connection->tableExists($table, $schema))->equals($expected);
-            }, ['examples' => [
-                ['personas', null, true ],
-                ['personas', TEST_DB_POSTGRESQL_SCHEMA, true],
-                ['noexist',  null, false],
-                ['noexist',  TEST_DB_POSTGRESQL_SCHEMA, false],
-                ['personas', 'test', false],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['personas', null, true ],
+                    ['personas', TEST_DB_POSTGRESQL_SCHEMA, true],
+                    ['noexist',  null, false],
+                    ['noexist',  TEST_DB_POSTGRESQL_SCHEMA, false],
+                    ['personas', 'test', false],
+                ]
+            ]
         );
     }
 
@@ -108,15 +111,21 @@ class PostgresqlTest extends UnitTest
     {
         $this->specify(
             'The table references list contains wrong number of columns',
-            function() {
-                $referencesWithoutSchema = $this->connection->describeReferences('robots_parts');
-                $referencesWithSchema = $this->connection->describeReferences('robots_parts', TEST_DB_POSTGRESQL_SCHEMA);
+            function () {
+                $referencesWithoutSchema = $this->connection->describeReferences(
+                    'robots_parts'
+                );
+
+                $referencesWithSchema = $this->connection->describeReferences(
+                    'robots_parts',
+                    TEST_DB_POSTGRESQL_SCHEMA
+                );
 
                 expect($referencesWithoutSchema)->equals($referencesWithSchema);
                 expect($referencesWithoutSchema)->count(2);
 
                 /** @var Reference $reference */
-                foreach($referencesWithoutSchema as $reference) {
+                foreach ($referencesWithoutSchema as $reference) {
                     expect($reference->getColumns())->count(1);
                 }
             }

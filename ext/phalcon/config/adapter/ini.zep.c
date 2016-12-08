@@ -48,7 +48,8 @@
  * You can read it as follows:
  *
  *<code>
- * $config = new Phalcon\Config\Adapter\Ini("path/config.ini");
+ * $config = new \Phalcon\Config\Adapter\Ini("path/config.ini");
+ *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *</code>
@@ -59,7 +60,10 @@
  * second parameter as INI_SCANNER_NORMAL when calling the constructor:
  *
  * <code>
- *  $config = new Phalcon\Config\Adapter\Ini("path/config-with-constants.ini", INI_SCANNER_NORMAL);
+ * $config = new \Phalcon\Config\Adapter\Ini(
+ *     "path/config-with-constants.ini",
+ *     INI_SCANNER_NORMAL
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Ini) {
@@ -117,13 +121,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(_2$$4, "Configuration file ", _1$$4, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _0$$4, "__construct", NULL, 9, _2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0$$4, "phalcon/config/adapter/ini.zep", 81 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$4, "phalcon/config/adapter/ini.zep", 85 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(config);
 	array_init(config);
-	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0, "phalcon/config/adapter/ini.zep", 102);
+	zephir_is_iterable(iniConfig, &_4, &_3, 0, 0, "phalcon/config/adapter/ini.zep", 106);
 	for (
 	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_4, &_3)
@@ -133,7 +137,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		if (Z_TYPE_P(directives) == IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(sections);
 			array_init(sections);
-			zephir_is_iterable(directives, &_7$$6, &_6$$6, 0, 0, "phalcon/config/adapter/ini.zep", 94);
+			zephir_is_iterable(directives, &_7$$6, &_6$$6, 0, 0, "phalcon/config/adapter/ini.zep", 98);
 			for (
 			  ; zephir_hash_get_current_data_ex(_7$$6, (void**) &_8$$6, &_6$$6) == SUCCESS
 			  ; zephir_hash_move_forward_ex(_7$$6, &_6$$6)
@@ -143,7 +147,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 				zephir_get_strval(_10$$7, path);
 				ZEPHIR_CALL_METHOD(&_9$$7, this_ptr, "_parseinistring", &_11, 0, _10$$7, lastValue);
 				zephir_check_call_status();
-				zephir_array_append(&sections, _9$$7, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 92);
+				zephir_array_append(&sections, _9$$7, PH_SEPARATE, "phalcon/config/adapter/ini.zep", 96);
 			}
 			if (zephir_fast_count_int(sections TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_12$$8);
@@ -154,7 +158,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 				zephir_array_update_zval(&config, section, &_12$$8, PH_COPY | PH_SEPARATE);
 			}
 		} else {
-			ZEPHIR_CALL_METHOD(&_14$$9, this_ptr, "_cast", &_15, 137, directives);
+			ZEPHIR_CALL_METHOD(&_14$$9, this_ptr, "_cast", &_15, 0, directives);
 			zephir_check_call_status();
 			zephir_array_update_zval(&config, section, &_14$$9, PH_COPY | PH_SEPARATE);
 		}
@@ -169,13 +173,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
  * Build multidimensional array from string
  *
  * <code>
- * $this->_parseIniString('path.hello.world', 'value for last key');
+ * $this->_parseIniString("path.hello.world", "value for last key");
  *
  * // result
  * [
- *      'path' => [
- *          'hello' => [
- *              'world' => 'value for last key',
+ *      "path" => [
+ *          "hello" => [
+ *              "world" => "value for last key",
  *          ],
  *      ],
  * ];
@@ -203,7 +207,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	ZEPHIR_SEPARATE_PARAM(value);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_cast", NULL, 137, value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_cast", NULL, 0, value);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(value, _0);
 	ZEPHIR_SINIT_VAR(_1);
@@ -225,7 +229,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _parseIniString) {
 	zephir_substr(_4, path, zephir_get_intval(&_3), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(path, _4);
 	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_parseinistring", NULL, 138, path, value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_parseinistring", NULL, 137, path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(&return_value, key, &_0, PH_COPY);
 	RETURN_MM();
@@ -253,14 +257,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, _cast) {
 
 
 	if (Z_TYPE_P(ini) == IS_ARRAY) {
-		zephir_is_iterable(ini, &_1$$3, &_0$$3, 1, 0, "phalcon/config/adapter/ini.zep", 148);
+		zephir_is_iterable(ini, &_1$$3, &_0$$3, 1, 0, "phalcon/config/adapter/ini.zep", 152);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(val, _2$$3);
-			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "_cast", &_4, 137, val);
+			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "_cast", &_4, 138, val);
 			zephir_check_call_status();
 			zephir_array_update_zval(&ini, key, &_3$$4, PH_COPY | PH_SEPARATE);
 		}

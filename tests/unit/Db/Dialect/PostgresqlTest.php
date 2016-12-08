@@ -42,7 +42,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->getColumnList($columns))->equals($expected);
-            }, ['examples' => $this->getColumnList()]
+            },
+            [
+                'examples' => $this->getColumnList()
+            ]
         );
     }
 
@@ -61,7 +64,10 @@ class PostgresqlTest extends UnitTest
                 $columns = $this->getColumns();
 
                 expect($dialect->getColumnDefinition($columns[$column]))->equals($expected);
-            }, ['examples' => $this->getColumnDefinition()]
+            },
+            [
+                'examples' => $this->getColumnDefinition()
+            ]
         );
     }
 
@@ -80,7 +86,10 @@ class PostgresqlTest extends UnitTest
                 $columns = $this->getColumns();
 
                 expect($dialect->addColumn('table', $schema, $columns[$column]))->equals($expected);
-            }, ['examples' => $this->getAddColumns()]
+            },
+            [
+                'examples' => $this->getAddColumns()
+            ]
         );
     }
 
@@ -98,7 +107,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->dropTable('table', $schema, $ifExists))->equals($expected);
-            }, ['examples' => $this->getDropTable()]
+            },
+            [
+                'examples' => $this->getDropTable()
+            ]
         );
     }
 
@@ -116,7 +128,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->dropColumn('table', $schema, $column))->equals($expected);
-            }, ['examples' => $this->getDropColumn()]
+            },
+            [
+                'examples' => $this->getDropColumn()
+            ]
         );
     }
 
@@ -135,7 +150,10 @@ class PostgresqlTest extends UnitTest
                 $columns = $this->getColumns();
 
                 expect($dialect->modifyColumn('table', $schema, $columns[$to], $columns[$fom]))->equals($expected);
-            }, ['examples' => $this->getModifyColumn()]
+            },
+            [
+                'examples' => $this->getModifyColumn()
+            ]
         );
     }
 
@@ -154,7 +172,10 @@ class PostgresqlTest extends UnitTest
                 $indexes = $this->getIndexes();
 
                 expect($dialect->addIndex('table', $schema, $indexes[$index]))->equals($expected);
-            }, ['examples' => $this->getAddIndex()]
+            },
+            [
+                'examples' => $this->getAddIndex()
+            ]
         );
     }
 
@@ -172,7 +193,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->dropIndex('table', $schema, $index))->equals($expected);
-            }, ['examples' => $this->getDropIndex()]
+            },
+            [
+                'examples' => $this->getDropIndex()
+            ]
         );
     }
 
@@ -191,7 +215,10 @@ class PostgresqlTest extends UnitTest
                 $indexes = $this->getIndexes();
 
                 expect($dialect->addPrimaryKey('table', $schema, $indexes[$index]))->equals($expected);
-            }, ['examples' => $this->getAddPrimaryKey()]
+            },
+            [
+                'examples' => $this->getAddPrimaryKey()
+            ]
         );
     }
 
@@ -209,7 +236,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->dropPrimaryKey('table', $schema))->equals($expected);
-            }, ['examples' => $this->getDropPrimaryKey()]
+            },
+            [
+                'examples' => $this->getDropPrimaryKey()
+            ]
         );
     }
 
@@ -228,7 +258,10 @@ class PostgresqlTest extends UnitTest
                 $references = $this->getReferences();
 
                 expect($dialect->addForeignKey('table', $schema, $references[$reference]))->equals($expected);
-            }, ['examples' => $this->getAddForeignKey()]
+            },
+            [
+                'examples' => $this->getAddForeignKey()
+            ]
         );
     }
 
@@ -246,7 +279,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->dropForeignKey('table', $schema, $key))->equals($expected);
-            }, ['examples' => $this->getDropForeignKey()]
+            },
+            [
+                'examples' => $this->getDropForeignKey()
+            ]
         );
     }
 
@@ -264,7 +300,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->createView('test_view', $definition, $schema))->equals($expected);
-            }, ['examples' => $this->getCreateView()]
+            },
+            [
+                'examples' => $this->getCreateView()
+            ]
         );
     }
 
@@ -282,7 +321,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->dropView('test_view', $schema, $ifExists))->equals($expected);
-            }, ['examples' => $this->getDropView()]
+            },
+            [
+                'examples' => $this->getDropView()
+            ]
         );
     }
 
@@ -300,7 +342,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->listViews($schema))->equals($expected);
-            }, ['examples' => $this->getListViews()]
+            },
+            [
+                'examples' => $this->getListViews()
+            ]
         );
     }
 
@@ -319,7 +364,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->describeColumns('table', $schema))->equals($expected);
-            }, ['examples' => $this->getDescribeColumns()]
+            },
+            [
+                'examples' => $this->getDescribeColumns()
+            ]
         );
     }
 
@@ -423,7 +471,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->createTable('table', $schema, $definition))->equals($expected);
-            }, ['examples' => $this->getCreateTable()]
+            },
+            [
+                'examples' => $this->getCreateTable()
+            ]
         );
     }
 
@@ -441,7 +492,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->viewExists('view', $schema))->equals($expected);
-            }, ['examples' => $this->getViewExists()]
+            },
+            [
+                'examples' => $this->getViewExists()
+            ]
         );
     }
 
@@ -459,7 +513,10 @@ class PostgresqlTest extends UnitTest
                 $dialect = new Postgresql();
 
                 expect($dialect->describeReferences('table', $schema))->equals($expected);
-            }, ['examples' => $this->getDescribeReferences()]
+            },
+            [
+                'examples' => $this->getDescribeReferences()
+            ]
         );
     }
 }

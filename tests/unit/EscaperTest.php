@@ -130,7 +130,6 @@ class EscaperTest extends UnitTest
             function () {
                 $escaper = new Escaper();
                 expect($escaper->detectEncoding(chr(172) . chr(128) . chr(159) . 'ḂḃĊċḊḋḞḟĠġṀṁ'))->equals('ISO-8859-1');
-
             }
         );
 

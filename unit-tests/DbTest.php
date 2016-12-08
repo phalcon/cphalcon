@@ -110,7 +110,6 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	protected function _executeTests($connection)
 	{
-
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
@@ -167,7 +166,13 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->execute("DELETE FROM prueba");
 		$this->assertTrue($result);
 
-		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)', array("LOL 1", "A"));
+		$success = $connection->execute(
+			'INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)',
+			array(
+				"LOL 1",
+				"A"
+			)
+		);
 		$this->assertTrue($success);
 
 		$success = $connection->execute('UPDATE prueba SET nombre = ?, estado = ?', array("LOL 11", "R"));
@@ -185,7 +190,17 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$success = $connection->insert('prueba', array("LOL 3", "I"), array('nombre', 'estado'));
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array(new Phalcon\Db\RawValue('current_date'), "A"), array('nombre', 'estado'));
+		$success = $connection->insert(
+			'prueba',
+			array(
+				new Phalcon\Db\RawValue('current_date'),
+				"A"
+			),
+			array(
+				'nombre',
+				'estado'
+			)
+		);
 		$this->assertTrue($success);
 
 		for ($i=0; $i<50; $i++) {
@@ -199,7 +214,14 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$success = $connection->update('prueba', array("nombre"), array("LOL 3000"), "estado='X'");
 		$this->assertTrue($success);
 
-		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'");
+		$success = $connection->update(
+			'prueba',
+			array("nombre"),
+			array(
+				new Phalcon\Db\RawValue('current_date')
+			),
+			"estado='X'"
+		);
 		$this->assertTrue($success);
 
 		//test array syntax for $whereCondition
@@ -213,14 +235,26 @@ class DbTest extends PHPUnit_Framework_TestCase
 			array(PDO::PARAM_STR, PDO::PARAM_STR)
 		);
 		$this->assertTrue($success);
-		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL array syntax 2", "X"));
+		$row = $connection->fetchOne(
+			'select count(*) as cnt from prueba where nombre=? and estado=?',
+			Phalcon\Db::FETCH_ASSOC,
+			array(
+				"LOL array syntax 2", "X"
+			)
+		);
 		$this->assertEquals($row['cnt'], 1);
 		$success = $connection->update('prueba', array("nombre", 'estado'), array("LOL array syntax 3", 'E'), array(
 			'conditions' => "nombre=? and estado = ?",
 			'bind' => array("LOL array syntax 2", "X"),
 		));
 		$this->assertTrue($success);
-		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL array syntax 3", "E"));
+		$row = $connection->fetchOne(
+			'select count(*) as cnt from prueba where nombre=? and estado=?',
+			Phalcon\Db::FETCH_ASSOC,
+			array(
+				"LOL array syntax 3", "E"
+			)
+		);
 		$this->assertEquals($row['cnt'], 1);
 
 		//test insertAsDict and updateAsDict
@@ -230,7 +264,13 @@ class DbTest extends PHPUnit_Framework_TestCase
 		));
 
 		$this->assertTrue($success);
-		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL insertAsDict", "E"));
+		$row = $connection->fetchOne(
+			'select count(*) as cnt from prueba where nombre=? and estado=?',
+			Phalcon\Db::FETCH_ASSOC,
+			array(
+				"LOL insertAsDict", "E"
+			)
+		);
 		$this->assertEquals($row['cnt'], 1);
 		$success = $connection->updateAsDict('prueba',
 			array(
@@ -240,7 +280,13 @@ class DbTest extends PHPUnit_Framework_TestCase
 			"nombre='LOL insertAsDict' and estado = 'E'"
 		);
 		$this->assertTrue($success);
-		$row = $connection->fetchOne('select count(*) as cnt from prueba where nombre=? and estado=?', Phalcon\Db::FETCH_ASSOC, array("LOL updateAsDict", "X"));
+		$row = $connection->fetchOne(
+			'select count(*) as cnt from prueba where nombre=? and estado=?',
+			Phalcon\Db::FETCH_ASSOC,
+			array(
+				"LOL updateAsDict", "X"
+			)
+		);
 		$this->assertEquals($row['cnt'], 1);
 
 		$connection->delete("prueba", "estado='X'");
@@ -281,7 +327,12 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
 		// Create View
-		$success = $connection->createView('phalcon_test_view', array('sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three'));
+		$success = $connection->createView(
+			'phalcon_test_view',
+			array(
+				'sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three'
+			)
+		);
 		$this->assertTrue($success);
 
 		//Check view exists

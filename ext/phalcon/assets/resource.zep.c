@@ -27,7 +27,7 @@
  * Represents an asset resource
  *
  *<code>
- * $resource = new \Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
+ * $resource = new \Phalcon\Assets\Resource("js", "javascripts/jquery.js");
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {

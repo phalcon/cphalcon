@@ -21,7 +21,6 @@ namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Exception;
 use Phalcon\Cache\Backend;
-use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Cache\Backend\Apc
@@ -53,7 +52,7 @@ use Phalcon\Cache\BackendInterface;
  * $data = $cache->get("my-data");
  *</code>
  */
-class Apc extends Backend implements BackendInterface
+class Apc extends Backend
 {
 
 	/**

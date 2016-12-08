@@ -32,10 +32,12 @@
  * You can query the meta-data by printing xcache_get('$PMM$') or xcache_get('$PMM$my-app-id')
  *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Xcache(array(
- *		'prefix' => 'my-app-id',
- *		'lifetime' => 86400
- *	));
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Xcache(
+ *     [
+ *         "prefix"   => "my-app-id",
+ *         "lifetime" => 86400,
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Xcache) {

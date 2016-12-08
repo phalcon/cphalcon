@@ -47,6 +47,7 @@ $loader = new Loader();
 $loader->registerNamespaces(
     [
         'Phalcon\Test\Models'      => $config->get('application')->modelsDir,
+        'Phalcon\Test\Resultsets'  => $config->get('application')->resultsetsDir,
         'Phalcon\Test\Collections' => $config->get('application')->collectionsDir,
         'Phalcon\Test\Modules\Frontend\Controllers' => $config->get('application')->modulesDir . 'frontend/controllers/',
         'Phalcon\Test\Modules\Backend\Controllers'  => $config->get('application')->modulesDir . 'backend/controllers/'
@@ -55,11 +56,13 @@ $loader->registerNamespaces(
 
 $loader->registerDirs([
     $config->get('application')->controllersDir,
+    $config->get('application')->tasksDir,
+    $config->get('application')->microDir,
 ]);
 
 $loader->register();
 
-$di->setShared('loader',  $loader);
+$di->setShared('loader', $loader);
 
 /**
  * The URL component is used to generate all kind of urls in the
@@ -83,7 +86,9 @@ $di->setShared(
 /**
  * Router
  */
-$di->setShared('router', function () {
+$di->setShared(
+    'router',
+    function () {
         return new Router(false);
     }
 );

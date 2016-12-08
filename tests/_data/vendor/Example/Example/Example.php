@@ -2,6 +2,6 @@
 
 namespace Example\Example;
 
-class Example {
-
+class Example
+{
 }

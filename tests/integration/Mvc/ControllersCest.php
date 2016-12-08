@@ -1,8 +1,9 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc;
+namespace Phalcon\Test\integration\Mvc;
 
 use Phalcon\Di;
+use Phalcon\Test\Integration\Mvc\Model\BinderCest;
 use Test4Controller;
 use IntegrationTester;
 use Phalcon\Mvc\Dispatcher;
@@ -45,7 +46,7 @@ class ControllersCest
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
 
-        $I->haveServiceInDi('modelsMetadata', function() {
+        $I->haveServiceInDi('modelsMetadata', function () {
             return new Memory;
         }, true);
     }
@@ -64,6 +65,11 @@ class ControllersCest
         $I->assertEquals(count($view->getParamsToView()), 1);
     }
 
+    /**
+     * @todo Remove in 4.0.0
+     * @see BinderCest::testDispatcher()
+     * @param IntegrationTester $I
+     */
     public function testModelBinding(IntegrationTester $I)
     {
         $dispatcher = new Dispatcher;

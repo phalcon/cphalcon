@@ -118,7 +118,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Returns the lastest dispatched controller
+	 * Returns the latest dispatched controller
 	 */
 	public function getLastTask() -> <TaskInterface>
 	{

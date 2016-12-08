@@ -22,7 +22,7 @@ use Phalcon\Test\Module\UnitTest;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class TagStylesheetLinkTest extends UnitTest
+class TagStylesheetlinkTest extends UnitTest
 {
     /**
      * Tests stylesheetLink with string parameter for a local link
@@ -53,7 +53,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter local returns invalid HTML HTML5",
             function () {
-
                 Tag::resetInput();
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -81,7 +80,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter local returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -98,7 +96,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter local returns invalid HTML HTML5",
             function () {
-
                 Tag::resetInput();
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -124,7 +121,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter remote returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -141,7 +137,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter remote returns invalid HTML HTML5",
             function () {
-
                 Tag::resetInput();
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -167,7 +162,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter remote returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -184,7 +178,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter remote returns invalid HTML HTML5",
             function () {
-
                 Tag::resetInput();
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
@@ -212,7 +205,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $options  = [
                     'css/phalcon.css',
@@ -232,7 +224,6 @@ class TagStylesheetLinkTest extends UnitTest
         $this->specify(
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
-
                 Tag::resetInput();
                 $options  = [
                     'css/phalcon.css',

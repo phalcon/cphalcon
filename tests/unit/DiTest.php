@@ -75,7 +75,7 @@ class DiTest extends UnitTest
         $this->specify(
             "Registering a service via anonymous function does now work correctly",
             function () {
-                $this->phDi->set('request2', function() {
+                $this->phDi->set('request2', function () {
                     return new Request();
                 });
                 expect(get_class($this->phDi->get('request2')))->equals('Phalcon\Http\Request');
@@ -113,15 +113,15 @@ class DiTest extends UnitTest
         $this->specify(
             "Registering a service in the services container via Di::attempt does now work correctly",
             function () {
-                $this->phDi->set('request4', function() {
+                $this->phDi->set('request4', function () {
                     return new Request();
                 });
 
-                $this->phDi->attempt('request4', function() {
+                $this->phDi->attempt('request4', function () {
                     return new \stdClass();
                 });
 
-                $this->phDi->attempt('request5', function() {
+                $this->phDi->attempt('request5', function () {
                     return new \stdClass();
                 });
 
@@ -142,7 +142,7 @@ class DiTest extends UnitTest
         $this->specify(
             "Check a service in the services container via Di::attempt does now work correctly",
             function () {
-                $this->phDi->set('request6', function() {
+                $this->phDi->set('request6', function () {
                     return new Request();
                 });
 
@@ -163,7 +163,7 @@ class DiTest extends UnitTest
         $this->specify(
             "Resolving shared service does now work correctly",
             function () {
-                $this->phDi->set('dateObject', function() {
+                $this->phDi->set('dateObject', function () {
                     $object = new \stdClass();
                     $object->date = microtime(true);
                     return $object;
@@ -224,7 +224,7 @@ class DiTest extends UnitTest
         $this->specify(
             "Registering a service with parameters does now work correctly",
             function () {
-                $this->phDi->set('someComponent1', function($v) {
+                $this->phDi->set('someComponent1', function ($v) {
                     return new \SomeComponent($v);
                 });
 
@@ -337,7 +337,12 @@ class DiTest extends UnitTest
             function () {
                 $this->phDi->get('nonExistentService');
             },
-            ['throws' => ['Phalcon\Di\Exception', "Service 'nonExistentService' wasn't found in the dependency injection container"]]
+            [
+                'throws' => [
+                    'Phalcon\Di\Exception',
+                    "Service 'nonExistentService' wasn't found in the dependency injection container"
+                ]
+            ]
         );
     }
 
@@ -373,24 +378,32 @@ class DiTest extends UnitTest
                 $this->phDi->set('response', $response);
 
                 // Injection of parameters in the constructor
-                $this->phDi->set('simpleConstructor',
+                $this->phDi->set(
+                    'simpleConstructor',
                     [
                         'className' => 'InjectableComponent',
                         'arguments' => [
-                            ['type' => 'parameter', 'value' => 'response'],
+                            [
+                                'type' => 'parameter',
+                                'value' => 'response'
+                            ],
                         ]
                     ]
                 );
 
                 // Injection of simple setters
-                $this->phDi->set('simpleSetters',
+                $this->phDi->set(
+                    'simpleSetters',
                     [
                         'className' => 'InjectableComponent',
                         'calls' => [
                             [
                                 'method' => 'setResponse',
                                 'arguments' => [
-                                    ['type' => 'parameter', 'value' => 'response'],
+                                    [
+                                        'type' => 'parameter',
+                                        'value' => 'response'
+                                    ],
                                 ]
                             ],
                         ]
@@ -398,36 +411,49 @@ class DiTest extends UnitTest
                 );
 
                 // Injection of properties
-                $this->phDi->set('simpleProperties',
+                $this->phDi->set(
+                    'simpleProperties',
                     [
                         'className' => 'InjectableComponent',
                         'properties' => [
                             [
-                                'name' => 'response', 'value' => ['type' => 'parameter', 'value' => 'response']
+                                'name' => 'response',
+                                'value' => [
+                                    'type' => 'parameter',
+                                    'value' => 'response'
+                                ]
                             ],
                         ]
                     ]
                 );
 
                 // Injection of parameters in the constructor resolving the service parameter
-                $this->phDi->set('complexConstructor',
+                $this->phDi->set(
+                    'complexConstructor',
                     [
                         'className' => 'InjectableComponent',
                         'arguments' => [
-                            ['type' => 'service', 'name' => 'response']
+                            [
+                                'type' => 'service',
+                                'name' => 'response'
+                            ]
                         ]
                     ]
                 );
 
                 // Injection of simple setters resolving the service parameter
-                $this->phDi->set('complexSetters',
+                $this->phDi->set(
+                    'complexSetters',
                     [
                         'className' => 'InjectableComponent',
                         'calls' => [
                             [
                                 'method' => 'setResponse',
                                 'arguments' => [
-                                    ['type' => 'service', 'name' => 'response']
+                                    [
+                                        'type' => 'service',
+                                        'name' => 'response',
+                                    ]
                                 ]
                             ],
                         ]
@@ -435,12 +461,17 @@ class DiTest extends UnitTest
                 );
 
                 // Injection of properties resolving the service parameter
-                $this->phDi->set('complexProperties',
+                $this->phDi->set(
+                    'complexProperties',
                     [
                         'className' => 'InjectableComponent',
                         'properties' => [
                             [
-                                'name' => 'response', 'value' => ['type' => 'service', 'name' => 'response']
+                                'name' => 'response',
+                                'value' => [
+                                    'type' => 'service',
+                                    'name' => 'response',
+                                ]
                             ],
                         ]
                     ]

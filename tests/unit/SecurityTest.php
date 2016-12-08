@@ -83,11 +83,20 @@ class SecurityTest extends UnitTest
                 foreach ($data as $text) {
                     expect($security->computeHmac($text, $key, 'md5'))->equals(hash_hmac('md5', $text, $key));
                 }
-            }, ['examples' => [
-                [substr(md5('test', true), 0, strlen(md5('test', true)) / 2)],
-                [md5('test', true)],
-                [md5('test', true) . md5('test', true)],
-            ]]
+            },
+            [
+                'examples' => [
+                    [
+                        substr(md5('test', true), 0, strlen(md5('test', true)) / 2)
+                    ],
+                    [
+                        md5('test', true)
+                    ],
+                    [
+                        md5('test', true) . md5('test', true)
+                    ],
+                ]
+            ]
         );
     }
 
@@ -98,7 +107,7 @@ class SecurityTest extends UnitTest
     {
         $this->specify(
             'Security defaults are not correct',
-            function () {        
+            function () {
                 $s = new Security();
                 expect($s->getDefaultHash())->equals(null);
                 expect($s->getRandomBytes())->equals(16);
@@ -119,14 +128,14 @@ class SecurityTest extends UnitTest
     {
         $this->specify(
             "The Security::getToken and Security::getTokenKey must return only one token per request",
-            function () {   
-                $di = $this->setupDI();  
+            function () {
+                $di = $this->setupDI();
 
                 $s = new Security();
-                $s->setDI($di); 
+                $s->setDI($di);
 
                 $tokenKey = $s->getTokenKey();
-                $token = $s->getToken();        
+                $token = $s->getToken();
 
                 expect($tokenKey)->equals($s->getTokenKey());
                 expect($token)->equals($s->getToken());
@@ -136,9 +145,9 @@ class SecurityTest extends UnitTest
 
                 expect($tokenKey)->notEquals($s->getTokenKey());
                 expect($token)->notEquals($s->getToken());
-                expect($token)->notEquals($s->getSessionToken());  
+                expect($token)->notEquals($s->getSessionToken());
 
-                $s->destroyToken(); 
+                $s->destroyToken();
             }
         );
     }
@@ -150,11 +159,11 @@ class SecurityTest extends UnitTest
     {
         $this->specify(
             'The Security::checkToken works incorrectly',
-            function () {   
-                $di = $this->setupDI(); 
+            function () {
+                $di = $this->setupDI();
 
                 $s = new Security();
-                $s->setDI($di); 
+                $s->setDI($di);
 
                 // Random token and token key check
                 $tokenKey = $s->getTokenKey();
@@ -204,14 +213,14 @@ class SecurityTest extends UnitTest
     {
         $this->specify(
             'The Security::getSaltBytes works incorrectly',
-            function () {   
+            function () {
                 $s = new Security();
 
-                expect(strlen($s->getSaltBytes()))->greaterOrEquals(16);          
-                expect(strlen($s->getSaltBytes(22)))->greaterOrEquals(22);     
+                expect(strlen($s->getSaltBytes()))->greaterOrEquals(16);
+                expect(strlen($s->getSaltBytes(22)))->greaterOrEquals(22);
             }
-        ); 
-    } 
+        );
+    }
 
     /**
      * Tests Security::hash
@@ -220,57 +229,57 @@ class SecurityTest extends UnitTest
     {
         $this->specify(
             'The Security::hash works incorrectly',
-            function () {   
+            function () {
                 $s = new Security();
 
                 $password = 'SomePasswordValue';
 
                 $s->setDefaultHash(Security::CRYPT_DEFAULT);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
 
                 $s->setDefaultHash(Security::CRYPT_STD_DES);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
 
                 $s->setDefaultHash(Security::CRYPT_EXT_DES);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
                 
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
                 
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH_A);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
                 
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH_X);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
                 
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH_Y);
-                expect($s->checkHash($password, $s->hash($password)))->true(); 
+                expect($s->checkHash($password, $s->hash($password)))->true();
 
                 $s->setDefaultHash(Security::CRYPT_SHA256);
-                expect($s->checkHash($password, $s->hash($password)))->true();                        
+                expect($s->checkHash($password, $s->hash($password)))->true();
 
                 $s->setDefaultHash(Security::CRYPT_SHA512);
-                expect($s->checkHash($password, $s->hash($password)))->true();      
+                expect($s->checkHash($password, $s->hash($password)))->true();
             }
         );
-    } 
+    }
 
     /**
      * Set up the environment.
      *
      * @return Di
      */
-    private function setupDI() 
+    private function setupDI()
     {
         Di::reset();
 
         $di = new Di();
 
-        $di->setShared('session', function() {
+        $di->setShared('session', function () {
             return new PhalconMemorySession();
         });
 
-        $di->setShared('request', function() {
+        $di->setShared('request', function () {
             return new Request();
         });
 

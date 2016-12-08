@@ -46,47 +46,47 @@
  * - Encryption systems
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  // Random binary string
- *  $bytes = $random->bytes();
+ * // Random binary string
+ * $bytes = $random->bytes();
  *
- *  // Random hex string
- *  echo $random->hex(10); // a29f470508d5ccb8e289
- *  echo $random->hex(10); // 533c2f08d5eee750e64a
- *  echo $random->hex(11); // f362ef96cb9ffef150c9cd
- *  echo $random->hex(12); // 95469d667475125208be45c4
- *  echo $random->hex(13); // 05475e8af4a34f8f743ab48761
+ * // Random hex string
+ * echo $random->hex(10); // a29f470508d5ccb8e289
+ * echo $random->hex(10); // 533c2f08d5eee750e64a
+ * echo $random->hex(11); // f362ef96cb9ffef150c9cd
+ * echo $random->hex(12); // 95469d667475125208be45c4
+ * echo $random->hex(13); // 05475e8af4a34f8f743ab48761
  *
- *  // Random base64 string
- *  echo $random->base64(12); // XfIN81jGGuKkcE1E
- *  echo $random->base64(12); // 3rcq39QzGK9fUqh8
- *  echo $random->base64();   // DRcfbngL/iOo9hGGvy1TcQ==
- *  echo $random->base64(16); // SvdhPcIHDZFad838Bb0Swg==
+ * // Random base64 string
+ * echo $random->base64(12); // XfIN81jGGuKkcE1E
+ * echo $random->base64(12); // 3rcq39QzGK9fUqh8
+ * echo $random->base64();   // DRcfbngL/iOo9hGGvy1TcQ==
+ * echo $random->base64(16); // SvdhPcIHDZFad838Bb0Swg==
  *
- *  // Random URL-safe base64 string
- *  echo $random->base64Safe();           // PcV6jGbJ6vfVw7hfKIFDGA
- *  echo $random->base64Safe();           // GD8JojhzSTrqX7Q8J6uug
- *  echo $random->base64Safe(8);          // mGyy0evy3ok
- *  echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
+ * // Random URL-safe base64 string
+ * echo $random->base64Safe();           // PcV6jGbJ6vfVw7hfKIFDGA
+ * echo $random->base64Safe();           // GD8JojhzSTrqX7Q8J6uug
+ * echo $random->base64Safe(8);          // mGyy0evy3ok
+ * echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
  *
- *  // Random UUID
- *  echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
- *  echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
- *  echo $random->uuid(); // 75e6b628-c562-4117-bb76-61c4153455a9
- *  echo $random->uuid(); // dc446df1-0848-4d05-b501-4af3c220c13d
+ * // Random UUID
+ * echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
+ * echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
+ * echo $random->uuid(); // 75e6b628-c562-4117-bb76-61c4153455a9
+ * echo $random->uuid(); // dc446df1-0848-4d05-b501-4af3c220c13d
  *
- *  // Random number between 0 and $len
- *  echo $random->number(256); // 84
- *  echo $random->number(256); // 79
- *  echo $random->number(100); // 29
- *  echo $random->number(300); // 40
+ * // Random number between 0 and $len
+ * echo $random->number(256); // 84
+ * echo $random->number(256); // 79
+ * echo $random->number(100); // 29
+ * echo $random->number(300); // 40
  *
- *  // Random base58 string
- *  echo $random->base58();   // 4kUgL2pdQMSCQtjE
- *  echo $random->base58();   // Umjxqf7ZPwh765yR
- *  echo $random->base58(24); // qoXcgmw4A9dys26HaNEdCRj9
- *  echo $random->base58(7);  // 774SJD3vgP
+ * // Random base58 string
+ * echo $random->base58();   // 4kUgL2pdQMSCQtjE
+ * echo $random->base58();   // Umjxqf7ZPwh765yR
+ * echo $random->base58(24); // qoXcgmw4A9dys26HaNEdCRj9
+ * echo $random->base58(7);  // 774SJD3vgP
  *</code>
  *
  * This class partially borrows SecureRandom library from Ruby
@@ -111,11 +111,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_Random) {
  * The result may contain any byte: "x00" - "xFF".
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  $bytes = $random->bytes();
- *  var_dump(bin2hex($bytes));
- *  // possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
+ * $bytes = $random->bytes();
+ * var_dump(bin2hex($bytes));
+ * // Possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
  *</code>
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
 	if ((zephir_function_exists_ex(SS("random_bytes") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_SINIT_VAR(_0$$4);
 		ZVAL_LONG(&_0$$4, len);
-		ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 423, &_0$$4);
+		ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 425, &_0$$4);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -166,16 +166,16 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
 		ZVAL_STRING(&_4$$7, "/dev/urandom", 0);
 		ZEPHIR_SINIT_VAR(_5$$7);
 		ZVAL_STRING(&_5$$7, "rb", 0);
-		ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 294, &_4$$7, &_5$$7);
+		ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 296, &_4$$7, &_5$$7);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(handle)) {
 			ZEPHIR_SINIT_VAR(_6$$8);
 			ZVAL_LONG(&_6$$8, 0);
-			ZEPHIR_CALL_FUNCTION(NULL, "stream_set_read_buffer", NULL, 424, handle, &_6$$8);
+			ZEPHIR_CALL_FUNCTION(NULL, "stream_set_read_buffer", NULL, 426, handle, &_6$$8);
 			zephir_check_call_status();
 			ZEPHIR_SINIT_NVAR(_6$$8);
 			ZVAL_LONG(&_6$$8, len);
-			ZEPHIR_CALL_FUNCTION(&ret, "fread", NULL, 425, handle, &_6$$8);
+			ZEPHIR_CALL_FUNCTION(&ret, "fread", NULL, 427, handle, &_6$$8);
 			zephir_check_call_status();
 			zephir_fclose(handle TSRMLS_CC);
 			if (zephir_fast_strlen_ev(ret) != len) {
@@ -197,9 +197,9 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
  * The length of the result string is usually greater of $len.
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  echo $random->hex(10); // a29f470508d5ccb8e289
+ * echo $random->hex(10); // a29f470508d5ccb8e289
  *</code>
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Security_Random, hex) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_STRING(&_2, "H*", 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 426, &_2, _0);
+	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 428, &_2, _0);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(_3);
 	ZEPHIR_RETURN_CALL_FUNCTION("array_shift", NULL, 132, _3);
@@ -245,9 +245,9 @@ PHP_METHOD(Phalcon_Security_Random, hex) {
  * characters and letters which might look ambiguous when printed.
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  echo $random->base58(); // 4kUgL2pdQMSCQtjE
+ * echo $random->base58(); // 4kUgL2pdQMSCQtjE
  *</code>
  *
  * @link https://en.wikipedia.org/wiki/Base58
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Security_Random, base58) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "C*", 0);
-	ZEPHIR_CALL_FUNCTION(&bytes, "unpack", NULL, 426, &_1, _0);
+	ZEPHIR_CALL_FUNCTION(&bytes, "unpack", NULL, 428, &_1, _0);
 	zephir_check_call_status();
 	zephir_is_iterable(bytes, &_3, &_2, 0, 0, "phalcon/security/random.zep", 205);
 	for (
@@ -312,9 +312,9 @@ PHP_METHOD(Phalcon_Security_Random, base58) {
  * Size formula: 4 *( $len / 3) and this need to be rounded up to a multiple of 4.
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  echo $random->base64(12); // 3rcq39QzGK9fUqh8
+ * echo $random->base64(12); // 3rcq39QzGK9fUqh8
  *</code>
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -355,9 +355,9 @@ PHP_METHOD(Phalcon_Security_Random, base64) {
  * See RFC 3548 for the definition of URL-safe base64.
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  echo $random->base64Safe(); // GD8JojhzSTrqX7Q8J6uug
+ * echo $random->base64Safe(); // GD8JojhzSTrqX7Q8J6uug
  *</code>
  *
  * @link https://www.ietf.org/rfc/rfc3548.txt
@@ -427,9 +427,9 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe) {
  * digit and y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
+ * echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
  *</code>
  *
  * @link https://www.ietf.org/rfc/rfc4122.txt
@@ -448,9 +448,9 @@ PHP_METHOD(Phalcon_Security_Random, uuid) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_STRING(&_2, "N1a/n1b/n1c/n1d/n1e/N1f", 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 426, &_2, _0);
+	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 428, &_2, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&ary, "array_values", NULL, 222, _3);
+	ZEPHIR_CALL_FUNCTION(&ary, "array_values", NULL, 224, _3);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_4, ary, 2, PH_NOISY | PH_READONLY, "phalcon/security/random.zep", 286 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_1);
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Security_Random, uuid) {
 	ZEPHIR_INIT_VAR(_7);
 	ZVAL_STRING(_7, "%08x-%04x-%04x-%04x-%04x%08x", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_MAKE_REF(ary);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 399, ary, _7);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 401, ary, _7);
 	zephir_check_temp_parameter(_7);
 	ZEPHIR_UNREF(ary);
 	zephir_check_call_status();
@@ -481,9 +481,9 @@ PHP_METHOD(Phalcon_Security_Random, uuid) {
  * Returns an integer: 0 <= result <= $len.
  *
  *<code>
- *  $random = new \Phalcon\Security\Random();
+ * $random = new \Phalcon\Security\Random();
  *
- *  echo $random->number(16); // 8
+ * echo $random->number(16); // 8
  *</code>
  * @throws Exception If secure random number generator is not available, unexpected partial read or $len <= 0
  */
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 		ZVAL_LONG(&_0$$4, 0);
 		ZEPHIR_SINIT_VAR(_1$$4);
 		ZVAL_LONG(&_1$$4, len);
-		ZEPHIR_RETURN_CALL_FUNCTION("random_int", NULL, 427, &_0$$4, &_1$$4);
+		ZEPHIR_RETURN_CALL_FUNCTION("random_int", NULL, 429, &_0$$4, &_1$$4);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 	}
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, len);
-	ZEPHIR_CALL_FUNCTION(&hex, "dechex", NULL, 428, &_4);
+	ZEPHIR_CALL_FUNCTION(&hex, "dechex", NULL, 430, &_4);
 	zephir_check_call_status();
 	if (((zephir_fast_strlen_ev(hex) & 1)) == 1) {
 		ZEPHIR_INIT_VAR(_5$$6);
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 	}
 	ZEPHIR_SINIT_NVAR(_4);
 	ZVAL_STRING(&_4, "H*", 0);
-	ZEPHIR_CALL_FUNCTION(&_6, "pack", NULL, 429, &_4, hex);
+	ZEPHIR_CALL_FUNCTION(&_6, "pack", NULL, 431, &_4, hex);
 	zephir_check_call_status();
 	zephir_concat_self(&bin, _6 TSRMLS_CC);
 	_7 = ZEPHIR_STRING_OFFSET(bin, 0);
@@ -572,19 +572,19 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 		ZVAL_LONG(&_19$$7, 0);
 		ZEPHIR_SINIT_NVAR(_20$$7);
 		ZVAL_LONG(&_20$$7, 1);
-		ZEPHIR_CALL_FUNCTION(&_21$$7, "substr_replace", &_22, 430, rnd, _16$$7, &_19$$7, &_20$$7);
+		ZEPHIR_CALL_FUNCTION(&_21$$7, "substr_replace", &_22, 432, rnd, _16$$7, &_19$$7, &_20$$7);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(rnd, _21$$7);
 	} while (ZEPHIR_LT(bin, rnd));
 	ZEPHIR_SINIT_NVAR(_4);
 	ZVAL_STRING(&_4, "H*", 0);
-	ZEPHIR_CALL_FUNCTION(&ret, "unpack", NULL, 426, &_4, rnd);
+	ZEPHIR_CALL_FUNCTION(&ret, "unpack", NULL, 428, &_4, rnd);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(ret);
 	ZEPHIR_CALL_FUNCTION(&_23, "array_shift", NULL, 132, ret);
 	ZEPHIR_UNREF(ret);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("hexdec", NULL, 431, _23);
+	ZEPHIR_RETURN_CALL_FUNCTION("hexdec", NULL, 433, _23);
 	zephir_check_call_status();
 	RETURN_MM();
 

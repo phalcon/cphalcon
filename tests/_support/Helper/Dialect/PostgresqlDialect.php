@@ -27,32 +27,162 @@ trait PostgresqlDialect
     protected function getModifyColumn()
     {
         return [
-            [null,     'column1',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column1";ALTER TABLE "table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);'],
-            ['schema', 'column1',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column1";ALTER TABLE "schema"."table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);'],
-            [null,     'column2',  'column1', 'ALTER TABLE "table" RENAME COLUMN "column1" TO "column2";ALTER TABLE "table" ALTER COLUMN "column2" TYPE INT;'],
-            ['schema', 'column2',  'column1', 'ALTER TABLE "schema"."table" RENAME COLUMN "column1" TO "column2";ALTER TABLE "schema"."table" ALTER COLUMN "column2" TYPE INT;'],
-            [null,     'column3',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column3";ALTER TABLE "table" ALTER COLUMN "column3" TYPE NUMERIC(10,2);ALTER TABLE "table" ALTER COLUMN "column3" SET NOT NULL;'],
-            ['schema', 'column3',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column3";ALTER TABLE "schema"."table" ALTER COLUMN "column3" TYPE NUMERIC(10,2);ALTER TABLE "schema"."table" ALTER COLUMN "column3" SET NOT NULL;'],
-            [null,     'column4',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column4";ALTER TABLE "table" ALTER COLUMN "column4" TYPE CHARACTER(100);ALTER TABLE "table" ALTER COLUMN "column4" SET NOT NULL;'],
-            ['schema', 'column4',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column4";ALTER TABLE "schema"."table" ALTER COLUMN "column4" TYPE CHARACTER(100);ALTER TABLE "schema"."table" ALTER COLUMN "column4" SET NOT NULL;'],
-            [null,     'column5',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column5";ALTER TABLE "table" ALTER COLUMN "column5" TYPE DATE;ALTER TABLE "table" ALTER COLUMN "column5" SET NOT NULL;'],
-            ['schema', 'column5',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column5";ALTER TABLE "schema"."table" ALTER COLUMN "column5" TYPE DATE;ALTER TABLE "schema"."table" ALTER COLUMN "column5" SET NOT NULL;'],
-            [null,     'column6',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column6";ALTER TABLE "table" ALTER COLUMN "column6" TYPE TIMESTAMP;ALTER TABLE "table" ALTER COLUMN "column6" SET NOT NULL;'],
-            ['schema', 'column6',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column6";ALTER TABLE "schema"."table" ALTER COLUMN "column6" TYPE TIMESTAMP;ALTER TABLE "schema"."table" ALTER COLUMN "column6" SET NOT NULL;'],
-            [null,     'column7',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column7";ALTER TABLE "table" ALTER COLUMN "column7" TYPE TEXT;ALTER TABLE "table" ALTER COLUMN "column7" SET NOT NULL;'],
-            ['schema', 'column7',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column7";ALTER TABLE "schema"."table" ALTER COLUMN "column7" TYPE TEXT;ALTER TABLE "schema"."table" ALTER COLUMN "column7" SET NOT NULL;'],
-            [null,     'column8',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column8";ALTER TABLE "table" ALTER COLUMN "column8" TYPE FLOAT;ALTER TABLE "table" ALTER COLUMN "column8" SET NOT NULL;'],
-            ['schema', 'column8',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column8";ALTER TABLE "schema"."table" ALTER COLUMN "column8" TYPE FLOAT;ALTER TABLE "schema"."table" ALTER COLUMN "column8" SET NOT NULL;'],
-            [null,     'column9',  'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column9";ALTER TABLE "table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);ALTER TABLE "table" ALTER COLUMN "column9" SET DEFAULT \'column9\''],
-            ['schema', 'column9',  'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column9";ALTER TABLE "schema"."table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);ALTER TABLE "schema"."table" ALTER COLUMN "column9" SET DEFAULT \'column9\''],
-            [null,     'column10', 'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column10";ALTER TABLE "table" ALTER COLUMN "column10" SET DEFAULT 10'],
-            ['schema', 'column10', 'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column10";ALTER TABLE "schema"."table" ALTER COLUMN "column10" SET DEFAULT 10'],
-            [null,     'column11', 'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column11";ALTER TABLE "table" ALTER COLUMN "column11" TYPE BIGINT;'],
-            ['schema', 'column11', 'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column11";ALTER TABLE "schema"."table" ALTER COLUMN "column11" TYPE BIGINT;'],
-            [null,     'column12', 'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "table" ALTER COLUMN "column12" TYPE ENUM(\'A\', \'B\', \'C\');ALTER TABLE "table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "table" ALTER COLUMN "column12" SET DEFAULT \'A\''],
-            ['schema', 'column12', 'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "schema"."table" ALTER COLUMN "column12" TYPE ENUM(\'A\', \'B\', \'C\');ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT \'A\''],
-            [null,     'column13', 'column2', 'ALTER TABLE "table" RENAME COLUMN "column2" TO "column13";ALTER TABLE "table" ALTER COLUMN "column13" TYPE TIMESTAMP;ALTER TABLE "table" ALTER COLUMN "column13" SET NOT NULL;ALTER TABLE "table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP'],
-            ['schema', 'column13', 'column2', 'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column13";ALTER TABLE "schema"."table" ALTER COLUMN "column13" TYPE TIMESTAMP;ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP'],
+            [
+                null,
+                'column1',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column1";ALTER TABLE "table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);'
+            ],
+            [
+                'schema',
+                'column1',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column1";ALTER TABLE "schema"."table" ALTER COLUMN "column1" TYPE CHARACTER VARYING(10);'
+            ],
+            [
+                null,
+                'column2',
+                'column1',
+                'ALTER TABLE "table" RENAME COLUMN "column1" TO "column2";ALTER TABLE "table" ALTER COLUMN "column2" TYPE INT;'
+            ],
+            [
+                'schema',
+                'column2',
+                'column1',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column1" TO "column2";ALTER TABLE "schema"."table" ALTER COLUMN "column2" TYPE INT;'
+            ],
+            [
+                null,
+                'column3',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column3";ALTER TABLE "table" ALTER COLUMN "column3" TYPE NUMERIC(10,2);ALTER TABLE "table" ALTER COLUMN "column3" SET NOT NULL;'
+            ],
+            [
+                'schema',
+                'column3',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column3";ALTER TABLE "schema"."table" ALTER COLUMN "column3" TYPE NUMERIC(10,2);ALTER TABLE "schema"."table" ALTER COLUMN "column3" SET NOT NULL;'
+            ],
+            [
+                null,
+                'column4',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column4";ALTER TABLE "table" ALTER COLUMN "column4" TYPE CHARACTER(100);ALTER TABLE "table" ALTER COLUMN "column4" SET NOT NULL;'
+            ],
+            [
+                'schema',
+                'column4',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column4";ALTER TABLE "schema"."table" ALTER COLUMN "column4" TYPE CHARACTER(100);ALTER TABLE "schema"."table" ALTER COLUMN "column4" SET NOT NULL;'
+            ],
+            [
+                null,
+                'column5',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column5";ALTER TABLE "table" ALTER COLUMN "column5" TYPE DATE;ALTER TABLE "table" ALTER COLUMN "column5" SET NOT NULL;'
+            ],
+            [
+                'schema',
+                'column5',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column5";ALTER TABLE "schema"."table" ALTER COLUMN "column5" TYPE DATE;ALTER TABLE "schema"."table" ALTER COLUMN "column5" SET NOT NULL;'
+            ],
+            [
+                null,
+                'column6',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column6";ALTER TABLE "table" ALTER COLUMN "column6" TYPE TIMESTAMP;ALTER TABLE "table" ALTER COLUMN "column6" SET NOT NULL;'
+            ],
+            [
+                'schema',
+                'column6',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column6";ALTER TABLE "schema"."table" ALTER COLUMN "column6" TYPE TIMESTAMP;ALTER TABLE "schema"."table" ALTER COLUMN "column6" SET NOT NULL;'
+            ],
+            [
+                null,
+                'column7',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column7";ALTER TABLE "table" ALTER COLUMN "column7" TYPE TEXT;ALTER TABLE "table" ALTER COLUMN "column7" SET NOT NULL;'
+            ],
+            [
+                'schema',
+                'column7',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column7";ALTER TABLE "schema"."table" ALTER COLUMN "column7" TYPE TEXT;ALTER TABLE "schema"."table" ALTER COLUMN "column7" SET NOT NULL;'
+            ],
+            [
+                null,
+                'column8',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column8";ALTER TABLE "table" ALTER COLUMN "column8" TYPE FLOAT;ALTER TABLE "table" ALTER COLUMN "column8" SET NOT NULL;'
+            ],
+            [
+                'schema',
+                'column8',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column8";ALTER TABLE "schema"."table" ALTER COLUMN "column8" TYPE FLOAT;ALTER TABLE "schema"."table" ALTER COLUMN "column8" SET NOT NULL;'
+            ],
+            [
+                null,
+                'column9',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column9";ALTER TABLE "table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);ALTER TABLE "table" ALTER COLUMN "column9" SET DEFAULT \'column9\''
+            ],
+            [
+                'schema',
+                'column9',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column9";ALTER TABLE "schema"."table" ALTER COLUMN "column9" TYPE CHARACTER VARYING(10);ALTER TABLE "schema"."table" ALTER COLUMN "column9" SET DEFAULT \'column9\''
+            ],
+            [
+                null,
+                'column10',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column10";ALTER TABLE "table" ALTER COLUMN "column10" SET DEFAULT 10'
+            ],
+            [
+                'schema',
+                'column10',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column10";ALTER TABLE "schema"."table" ALTER COLUMN "column10" SET DEFAULT 10'
+            ],
+            [
+                null,
+                'column11',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column11";ALTER TABLE "table" ALTER COLUMN "column11" TYPE BIGINT;'
+            ],
+            [
+                'schema',
+                'column11',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column11";ALTER TABLE "schema"."table" ALTER COLUMN "column11" TYPE BIGINT;'
+            ],
+            [
+                null,
+                'column12',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "table" ALTER COLUMN "column12" TYPE ENUM(\'A\', \'B\', \'C\');ALTER TABLE "table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "table" ALTER COLUMN "column12" SET DEFAULT \'A\''
+            ],
+            [
+                'schema',
+                'column12',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column12";ALTER TABLE "schema"."table" ALTER COLUMN "column12" TYPE ENUM(\'A\', \'B\', \'C\');ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column12" SET DEFAULT \'A\''
+            ],
+            [
+                null,
+                'column13',
+                'column2',
+                'ALTER TABLE "table" RENAME COLUMN "column2" TO "column13";ALTER TABLE "table" ALTER COLUMN "column13" TYPE TIMESTAMP;ALTER TABLE "table" ALTER COLUMN "column13" SET NOT NULL;ALTER TABLE "table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP'
+            ],
+            [
+                'schema',
+                'column13',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column13";ALTER TABLE "schema"."table" ALTER COLUMN "column13" TYPE TIMESTAMP;ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET NOT NULL;ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP'
+            ],
         ];
     }
 
@@ -91,32 +221,136 @@ trait PostgresqlDialect
     protected function getAddColumns()
     {
         return [
-            [null,     'column1',  'ALTER TABLE "table" ADD COLUMN "column1" CHARACTER VARYING(10)'],
-            ['schema', 'column1',  'ALTER TABLE "schema"."table" ADD COLUMN "column1" CHARACTER VARYING(10)'],
-            [null,     'column2',  'ALTER TABLE "table" ADD COLUMN "column2" INT'],
-            ['schema', 'column2',  'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT'],
-            [null,     'column3',  'ALTER TABLE "table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL'],
-            ['schema', 'column3',  'ALTER TABLE "schema"."table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL'],
-            [null,     'column4',  'ALTER TABLE "table" ADD COLUMN "column4" CHARACTER(100) NOT NULL'],
-            ['schema', 'column4',  'ALTER TABLE "schema"."table" ADD COLUMN "column4" CHARACTER(100) NOT NULL'],
-            [null,     'column5',  'ALTER TABLE "table" ADD COLUMN "column5" DATE NOT NULL'],
-            ['schema', 'column5',  'ALTER TABLE "schema"."table" ADD COLUMN "column5" DATE NOT NULL'],
-            [null,     'column6',  'ALTER TABLE "table" ADD COLUMN "column6" TIMESTAMP NOT NULL'],
-            ['schema', 'column6',  'ALTER TABLE "schema"."table" ADD COLUMN "column6" TIMESTAMP NOT NULL'],
-            [null,     'column7',  'ALTER TABLE "table" ADD COLUMN "column7" TEXT NOT NULL'],
-            ['schema', 'column7',  'ALTER TABLE "schema"."table" ADD COLUMN "column7" TEXT NOT NULL'],
-            [null,     'column8',  'ALTER TABLE "table" ADD COLUMN "column8" FLOAT NOT NULL'],
-            ['schema', 'column8',  'ALTER TABLE "schema"."table" ADD COLUMN "column8" FLOAT NOT NULL'],
-            [null,     'column9',  'ALTER TABLE "table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''],
-            ['schema', 'column9',  'ALTER TABLE "schema"."table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''],
-            [null,     'column10', 'ALTER TABLE "table" ADD COLUMN "column10" INT DEFAULT 10'],
-            ['schema', 'column10', 'ALTER TABLE "schema"."table" ADD COLUMN "column10" INT DEFAULT 10'],
-            [null,     'column11', 'ALTER TABLE "table" ADD COLUMN "column11" BIGINT'],
-            ['schema', 'column11', 'ALTER TABLE "schema"."table" ADD COLUMN "column11" BIGINT'],
-            [null,     'column12', 'ALTER TABLE "table" ADD COLUMN "column12" ENUM(\'A\', \'B\', \'C\') DEFAULT \'A\' NOT NULL'],
-            ['schema', 'column12', 'ALTER TABLE "schema"."table" ADD COLUMN "column12" ENUM(\'A\', \'B\', \'C\') DEFAULT \'A\' NOT NULL'],
-            [null,     'column13', 'ALTER TABLE "table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'],
-            ['schema', 'column13', 'ALTER TABLE "schema"."table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'],
+            [
+                null,
+                'column1',
+                'ALTER TABLE "table" ADD COLUMN "column1" CHARACTER VARYING(10)'
+            ],
+            [
+                'schema',
+                'column1',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column1" CHARACTER VARYING(10)'
+            ],
+            [
+                null,
+                'column2',
+                'ALTER TABLE "table" ADD COLUMN "column2" INT'
+            ],
+            [
+                'schema',
+                'column2',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column2" INT'
+            ],
+            [
+                null,
+                'column3',
+                'ALTER TABLE "table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL'
+            ],
+            [
+                'schema',
+                'column3',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column3" NUMERIC(10,2) NOT NULL'
+            ],
+            [
+                null,
+                'column4',
+                'ALTER TABLE "table" ADD COLUMN "column4" CHARACTER(100) NOT NULL'
+            ],
+            [
+                'schema',
+                'column4',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column4" CHARACTER(100) NOT NULL'
+            ],
+            [
+                null,
+                'column5',
+                'ALTER TABLE "table" ADD COLUMN "column5" DATE NOT NULL'
+            ],
+            [
+                'schema',
+                'column5',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column5" DATE NOT NULL'
+            ],
+            [
+                null,
+                'column6',
+                'ALTER TABLE "table" ADD COLUMN "column6" TIMESTAMP NOT NULL'
+            ],
+            [
+                'schema',
+                'column6',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column6" TIMESTAMP NOT NULL'
+            ],
+            [
+                null,
+                'column7',
+                'ALTER TABLE "table" ADD COLUMN "column7" TEXT NOT NULL'
+            ],
+            [
+                'schema',
+                'column7',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column7" TEXT NOT NULL'
+            ],
+            [
+                null,
+                'column8',
+                'ALTER TABLE "table" ADD COLUMN "column8" FLOAT NOT NULL'
+            ],
+            [
+                'schema',
+                'column8',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column8" FLOAT NOT NULL'
+            ],
+            [
+                null,
+                'column9',
+                'ALTER TABLE "table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''
+            ],
+            [
+                'schema',
+                'column9',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column9" CHARACTER VARYING(10) DEFAULT \'column9\''
+            ],
+            [
+                null,
+                'column10',
+                'ALTER TABLE "table" ADD COLUMN "column10" INT DEFAULT 10'
+            ],
+            [
+                'schema',
+                'column10',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column10" INT DEFAULT 10'
+            ],
+            [
+                null,
+                'column11',
+                'ALTER TABLE "table" ADD COLUMN "column11" BIGINT'
+            ],
+            [
+                'schema',
+                'column11',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column11" BIGINT'
+            ],
+            [
+                null,
+                'column12',
+                'ALTER TABLE "table" ADD COLUMN "column12" ENUM(\'A\', \'B\', \'C\') DEFAULT \'A\' NOT NULL'
+            ],
+            [
+                'schema',
+                'column12',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column12" ENUM(\'A\', \'B\', \'C\') DEFAULT \'A\' NOT NULL'
+            ],
+            [
+                null,
+                'column13',
+                'ALTER TABLE "table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
+            ],
+            [
+                'schema',
+                'column13',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column13" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'
+            ],
         ];
     }
 
@@ -177,16 +411,56 @@ trait PostgresqlDialect
     protected function getAddForeignKey()
     {
         return [
-            [null,     'fk1', 'ALTER TABLE "table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")'],
-            ['schema', 'fk1', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")'],
-            [null,     'fk2', 'ALTER TABLE "table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")'],
-            ['schema', 'fk2', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")'],
-            [null,     'fk3', 'ALTER TABLE "table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE'],
-            ['schema', 'fk3', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE'],
-            [null,     'fk4', 'ALTER TABLE "table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL'],
-            ['schema', 'fk4', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL'],
-            [null,     'fk5', 'ALTER TABLE "table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION'],
-            ['schema', 'fk5', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION'],
+            [
+                null,
+                'fk1',
+                'ALTER TABLE "table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")'
+            ],
+            [
+                'schema',
+                'fk1',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk1" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2")'
+            ],
+            [
+                null,
+                'fk2',
+                'ALTER TABLE "table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")'
+            ],
+            [
+                'schema',
+                'fk2',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk2" FOREIGN KEY ("column3", "column4") REFERENCES "ref_table" ("column5", "column6")'
+            ],
+            [
+                null,
+                'fk3',
+                'ALTER TABLE "table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE'
+            ],
+            [
+                'schema',
+                'fk3',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk3" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE'
+            ],
+            [
+                null,
+                'fk4',
+                'ALTER TABLE "table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL'
+            ],
+            [
+                'schema',
+                'fk4',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk4" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON UPDATE SET NULL'
+            ],
+            [
+                null,
+                'fk5',
+                'ALTER TABLE "table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION'
+            ],
+            [
+                'schema',
+                'fk5',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "fk5" FOREIGN KEY ("column1") REFERENCES "ref_table" ("column2") ON DELETE CASCADE ON UPDATE NO ACTION'
+            ],
         ];
     }
 
@@ -219,8 +493,14 @@ trait PostgresqlDialect
     protected function getViewExists()
     {
         return [
-            [null, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='public'"],
-            ['schema', "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='schema'"]
+            [
+                null,
+                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='public'"
+            ],
+            [
+                'schema',
+                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='view' AND schemaname='schema'"
+            ]
         ];
     }
 
@@ -235,17 +515,32 @@ trait PostgresqlDialect
     protected function getDescribeColumns()
     {
         return [
-            ['schema.name.with.dots', "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='schema.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position"],
-            [null,                    "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='table' ORDER BY c.ordinal_position"],
-            ['schema',                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='schema' AND c.table_name='table' ORDER BY c.ordinal_position"],
+            [
+                'schema.name.with.dots',
+                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='schema.name.with.dots' AND c.table_name='table' ORDER BY c.ordinal_position"
+            ],
+            [
+                null,
+                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='table' ORDER BY c.ordinal_position"
+            ],
+            [
+                'schema',
+                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='schema' AND c.table_name='table' ORDER BY c.ordinal_position"
+            ],
         ];
     }
 
     public function getDescribeReferences()
     {
         return [
-            [null, "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = 'public' AND tc.table_name='table'"],
-            ['schema', "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = 'schema' AND tc.table_name='table'"]
+            [
+                null,
+                "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = 'public' AND tc.table_name='table'"
+            ],
+            [
+                'schema',
+                "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = 'schema' AND tc.table_name='table'"
+            ]
         ];
     }
 

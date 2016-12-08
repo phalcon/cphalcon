@@ -46,7 +46,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setRawHeader);
 
 /**
- * Resets all the stablished headers
+ * Resets all the established headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
 
@@ -88,7 +88,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
  * Sets HTTP response body. The parameter is automatically converted to JSON
  *
  *<code>
- *	response->setJsonContent(array("status" => "OK"));
+ * $response->setJsonContent(
+ *     [
+ *         "status" => "OK",
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);

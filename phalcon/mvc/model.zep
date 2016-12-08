@@ -229,7 +229,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 
 			/**
-			 * Update the models-metada property
+			 * Update the models-metadata property
 			 */
 			let this->_modelsMetaData = metaData;
 		}
@@ -304,7 +304,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets table name which model should be mapped
+	 * Sets the table name to which model should be mapped
 	 */
 	protected function setSource(string! source) -> <Model>
 	{
@@ -313,7 +313,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns table name mapped in the model
+	 * Returns the table name mapped in the model
 	 */
 	public function getSource() -> string
 	{
@@ -321,7 +321,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets schema name where table mapped is located
+	 * Sets schema name where the mapped table is located
 	 */
 	protected function setSchema(string! schema) -> <Model>
 	{
@@ -329,7 +329,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns schema name where table mapped is located
+	 * Returns schema name where the mapped table is located
 	 */
 	public function getSchema() -> string
 	{
@@ -528,7 +528,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Assigns values to a model from an array returning a new model.
+	 * Assigns values to a model from an array, returning a new model.
 	 *
 	 *<code>
 	 * $robot = \Phalcon\Mvc\Model::cloneResultMap(
@@ -671,40 +671,42 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		for key, value in data {
-			if typeof key == "string" {
-				if typeof columnMap == "array" {
+			if typeof key != "string" {
+				continue;
+			}
 
-					/**
-					 * Every field must be part of the column map
-					 */
-					if !fetch attribute, columnMap[key] {
-						if !globals_get("orm.ignore_unknown_columns") {
-							throw new Exception("Column '" . key . "' doesn't make part of the column map");
-						} else {
-							continue;
-						}
-					}
+			if typeof columnMap == "array" {
 
-					/**
-					 * Attribute can store info about his type
-					 */
-					if (typeof attribute == "array") {
-						let attributeName = attribute[0];
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
 					} else {
-						let attributeName = attribute;
+						continue;
 					}
+				}
 
-					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrateArray[attributeName] = value;
-					} else {
-						let hydrateObject->{attributeName} = value;
-					}
+				/**
+				 * Attribute can store info about his type
+				 */
+				if (typeof attribute == "array") {
+					let attributeName = attribute[0];
 				} else {
-					if hydrationMode == Resultset::HYDRATE_ARRAYS {
-						let hydrateArray[key] = value;
-					} else {
-						let hydrateObject->{key} = value;
-					}
+					let attributeName = attribute;
+				}
+
+				if hydrationMode == Resultset::HYDRATE_ARRAYS {
+					let hydrateArray[attributeName] = value;
+				} else {
+					let hydrateObject->{attributeName} = value;
+				}
+			} else {
+				if hydrationMode == Resultset::HYDRATE_ARRAYS {
+					let hydrateArray[key] = value;
+				} else {
+					let hydrateObject->{key} = value;
 				}
 			}
 		}
@@ -765,7 +767,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to query a set of records that match the specified conditions
+	 * Query for a set of records that match the specified conditions
 	 *
 	 * <code>
 	 * // How many robots are there?
@@ -876,7 +878,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to query the first record that match the specified conditions
+	 * Query the first record that matches the specified conditions
 	 *
 	 * <code>
 	 * // What's the first robot in robots table?
@@ -999,7 +1001,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Checks if the current record already exists or not
+	 * Checks whether the current record already exists
 	 *
 	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
 	 * @param \Phalcon\Db\AdapterInterface connection
@@ -1234,7 +1236,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to count how many records match the specified conditions
+	 * Counts how many records match the specified conditions
 	 *
 	 * <code>
 	 * // How many robots are there?
@@ -1263,7 +1265,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to calculate a sum on a column that match the specified conditions
+	 * Calculates the sum on a column for a result-set of rows that match the specified conditions
 	 *
 	 * <code>
 	 * // How much are all robots?
@@ -1295,7 +1297,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to get the maximum value of a column that match the specified conditions
+	 * Returns the maximum value of a column for a result-set of rows that match the specified conditions
 	 *
 	 * <code>
 	 * // What is the maximum robot id?
@@ -1327,7 +1329,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to get the minimum value of a column that match the specified conditions
+	 * Returns the minimum value of a column for a result-set of rows that match the specified conditions
 	 *
 	 * <code>
 	 * // What is the minimum robot id?
@@ -1359,7 +1361,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Allows to calculate the average value on a column matching the specified conditions
+	 * Returns the average value on a column for a result-set of rows matching the specified conditions
 	 *
 	 * <code>
 	 * // What's the average price of robots?
@@ -1512,31 +1514,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		// Call the validation, if it returns not the boolean
 		// we append the messages to the current object
-		if typeof messages != "boolean" {
-
-			messages->rewind();
-
-			// for message in iterator(messages) {
-			while messages->valid() {
-
-				let message = messages->current();
-
-				this->appendMessage(
-					new Message(
-						message->getMessage(),
-						message->getField(),
-						message->getType()
-					)
-				);
-
-				messages->next();
-			}
-
-			// If there is a message, it returns false otherwise true
-			return !count(messages);
+		if typeof messages == "boolean" {
+			return messages;
 		}
 
-		return messages;
+		for message in iterator(messages) {
+			this->appendMessage(
+				new Message(
+					message->getMessage(),
+					message->getField(),
+					message->getType()
+				)
+			);
+		}
+
+		// If there is a message, it returns false otherwise true
+		return !count(messages);
 	}
 
 	/**
@@ -1641,131 +1634,130 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We check if some of the belongsTo relations act as virtual foreign key
 		 */
 		let belongsTo = manager->getBelongsTo(this);
-		if count(belongsTo) {
 
-			let error = false;
-			for relation in belongsTo {
+		let error = false;
+		for relation in belongsTo {
 
-				let validateWithNulls = false;
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			let validateWithNulls = false;
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_RESTRICT {
-
-						/**
-						 * Load the referenced model if needed
-						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
-
-						/**
-						 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
-						 */
-						let conditions = [], bindParams = [];
-
-						let numberNull = 0,
-							fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						if typeof fields == "array" {
-							/**
-							 * Create a compound condition
-							 */
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-								if typeof value == "null" {
-									let numberNull++;
-								}
-							}
-
-							let validateWithNulls = numberNull == count(fields);
-
-						} else {
-
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-
-							if typeof value == "null" {
-								let validateWithNulls = true;
-							}
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * Check if the relation definition allows nulls
-						 */
-						if validateWithNulls {
-							if fetch allowNulls, foreignKey["allowNulls"] {
-								let validateWithNulls = (boolean) allowNulls;
-							} else {
-								let validateWithNulls = false;
-							}
-						}
-
-						/**
-						 * We don't trust the actual values in the object and pass the values using bound parameters
-						 * Let's make the checking
-						 */
-						if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Get the user message or produce a new one
-							 */
-							if !fetch message, foreignKey["message"] {
-								if typeof fields == "array" {
-									let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
-								} else {
-									let message = "Value of field \"" . fields . "\" does not exist on referenced table";
-								}
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
-
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
 			/**
-			 * Call 'onValidationFails' if the validation fails
+			 * Check only if the operation is restrict
 			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
-				}
-				return false;
+			if action != Relation::ACTION_RESTRICT {
+				continue;
 			}
+
+			/**
+			 * Load the referenced model if needed
+			 */
+			let referencedModel = manager->load(relation->getReferencedModel());
+
+			/**
+			 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
+			 */
+			let conditions = [], bindParams = [];
+
+			let numberNull = 0,
+				fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			if typeof fields == "array" {
+				/**
+				 * Create a compound condition
+				 */
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+					if typeof value == "null" {
+						let numberNull++;
+					}
+				}
+
+				let validateWithNulls = numberNull == count(fields);
+
+			} else {
+
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+
+				if typeof value == "null" {
+					let validateWithNulls = true;
+				}
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * Check if the relation definition allows nulls
+			 */
+			if validateWithNulls {
+				if fetch allowNulls, foreignKey["allowNulls"] {
+					let validateWithNulls = (boolean) allowNulls;
+				} else {
+					let validateWithNulls = false;
+				}
+			}
+
+			/**
+			 * We don't trust the actual values in the object and pass the values using bound parameters
+			 * Let's make the checking
+			 */
+			if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Get the user message or produce a new one
+				 */
+				if !fetch message, foreignKey["message"] {
+					if typeof fields == "array" {
+						let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
+					} else {
+						let message = "Value of field \"" . fields . "\" does not exist on referenced table";
+					}
+				}
+
+				/**
+				 * Create a message
+				 */
+				this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call 'onValidationFails' if the validation fails
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
+			}
+			return false;
 		}
 
 		return true;
@@ -1792,87 +1784,85 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
 
-		if count(relations) {
+		for relation in relations {
 
-			for relation in relations {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-				/**
-				 * Check if the relation has a virtual foreign key
-				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::NO_ACTION;
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::NO_ACTION;
-
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_CASCADE {
-
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relation->getReferencedModel());
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[". referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						let resultset = referencedModel->find([
-							join(" AND ", conditions),
-							"bind": bindParams
-						]);
-
-						/**
-						 * Delete the resultset
-						 * Stop the operation if needed
-						 */
-						if resultset->delete() === false {
-							return false;
-						}
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
+			/**
+			 * Check only if the operation is restrict
+			 */
+			if action != Relation::ACTION_CASCADE {
+				continue;
+			}
+
+			/**
+			 * Load a plain instance from the models manager
+			 */
+			let referencedModel = manager->load(relation->getReferencedModel());
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+			} else {
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			let resultset = referencedModel->find([
+				join(" AND ", conditions),
+				"bind": bindParams
+			]);
+
+			/**
+			 * Delete the resultset
+			 * Stop the operation if needed
+			 */
+			if resultset->delete() === false {
+				return false;
+			}
 		}
 
 		return true;
@@ -1899,106 +1889,106 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * We check if some of the hasOne/hasMany relations is a foreign key
 		 */
 		let relations = manager->getHasOneAndHasMany(this);
-		if count(relations) {
 
-			let error = false;
-			for relation in relations {
+		let error = false;
+		for relation in relations {
 
-				/**
-				 * Check if the relation has a virtual foreign key
-				 */
-				let foreignKey = relation->getForeignKey();
-				if foreignKey !== false {
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
 
-					/**
-					 * By default action is restrict
-					 */
-					let action = Relation::ACTION_RESTRICT;
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
 
-					/**
-					 * Try to find a different action in the foreign key's options
-					 */
-					if typeof foreignKey == "array" {
-						if isset foreignKey["action"] {
-							let action = (int) foreignKey["action"];
-						}
-					}
-
-					/**
-					 * Check only if the operation is restrict
-					 */
-					if action == Relation::ACTION_RESTRICT {
-
-						let relationClass = relation->getReferencedModel();
-
-						/**
-						 * Load a plain instance from the models manager
-						 */
-						let referencedModel = manager->load(relationClass);
-
-						let fields = relation->getFields(),
-							referencedFields = relation->getReferencedFields();
-
-						/**
-						 * Create the checking conditions. A relation can has many fields or a single one
-						 */
-						let conditions = [], bindParams = [];
-
-						if typeof fields == "array" {
-
-							for position, field in fields {
-								fetch value, this->{field};
-								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-									bindParams[] = value;
-							}
-
-						} else {
-							fetch value, this->{fields};
-							let conditions[] = "[" . referencedFields . "] = ?0",
-								bindParams[] = value;
-						}
-
-						/**
-						 * Check if the virtual foreign key has extra conditions
-						 */
-						if fetch extraConditions, foreignKey["conditions"] {
-							let conditions[] = extraConditions;
-						}
-
-						/**
-						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
-						 * Let's make the checking
-						 */
-						if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
-
-							/**
-							 * Create a new message
-							 */
-							if !fetch message, foreignKey["message"] {
-								let message = "Record is referenced by model " . relationClass;
-							}
-
-							/**
-							 * Create a message
-							 */
-							this->appendMessage(new Message(message, fields, "ConstraintViolation"));
-							let error = true;
-							break;
-						}
-					}
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
 				}
 			}
 
 			/**
-			 * Call validation fails event
+			 * Check only if the operation is restrict
 			 */
-			if error === true {
-				if globals_get("orm.events") {
-					this->fireEvent("onValidationFails");
-					this->_cancelOperation();
-				}
-				return false;
+			if action != Relation::ACTION_RESTRICT {
+				continue;
 			}
+
+			let relationClass = relation->getReferencedModel();
+
+			/**
+			 * Load a plain instance from the models manager
+			 */
+			let referencedModel = manager->load(relationClass);
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+
+				for position, field in fields {
+					fetch value, this->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+
+			} else {
+				fetch value, this->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Create a new message
+				 */
+				if !fetch message, foreignKey["message"] {
+					let message = "Record is referenced by model " . relationClass;
+				}
+
+				/**
+				 * Create a message
+				 */
+				this->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call validation fails event
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+				this->_cancelOperation();
+			}
+			return false;
 		}
 
 		return true;
@@ -2057,7 +2047,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			if typeof notNull == "array" {
 
 				/**
-				 * Gets the fields that are numeric, these are validated in a diferent way
+				 * Gets the fields that are numeric, these are validated in a different way
 				 */
 				let dataTypeNumeric = metaData->getDataTypesNumeric(this);
 
@@ -2101,7 +2091,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						}
 
 						/**
-						 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric, 3) is null or 4) is empty string
+						 * Field is null when: 1) is not set, 2) is numeric but
+						 * its value is not numeric, 3) is null or 4) is empty string
 						 * Read the attribute from the this_ptr using the real or renamed name
 						 */
 						if fetch value, this->{attributeField} {
@@ -2431,7 +2422,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->{attributeField} = connection->lastInsertId(sequenceName);
 
 			/**
-			 * Since the primary key was modified, we delete the _uniqueParams to force any future update to re-build the primary key
+			 * Since the primary key was modified, we delete the _uniqueParams
+			 * to force any future update to re-build the primary key
 			 */
 			let this->_uniqueParams = null;
 		}
@@ -2928,7 +2920,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			} else {
 				if typeof record != "array" {
 					connection->rollback(nesting);
-					throw new Exception("There are no defined relations for the model '" . className . "' using alias '" . name . "'");
+
+					throw new Exception(
+						"There are no defined relations for the model '" . className . "' using alias '" . name . "'"
+					);
 				}
 			}
 		}
@@ -3177,7 +3172,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let metaData = this->getModelsMetaData();
 
 			if !this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [new Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
+				let this->_errorMessages = [
+					new Message(
+						"Record cannot be updated because it does not exist",
+						null,
+						"InvalidUpdateAttempt"
+					)
+				];
+
 				return false;
 			}
 		}
@@ -3274,7 +3276,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * If the attribute is currently set in the object add it to the conditions
 			 */
 			if !fetch value, this->{attributeField} {
-				throw new Exception("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
+				throw new Exception(
+					"Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
+				);
 			}
 
 			/**
@@ -3481,16 +3485,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function skipAttributes(array! attributes)
 	{
-		var keysAttributes, metaData, attribute;
-
-		let keysAttributes = [];
-		for attribute in attributes {
-			let keysAttributes[attribute] = null;
-		}
-
-		let metaData = this->getModelsMetaData();
-		metaData->setAutomaticCreateAttributes(this, keysAttributes);
-		metaData->setAutomaticUpdateAttributes(this, keysAttributes);
+		this->skipAttributesOnCreate(attributes);
+		this->skipAttributesOnUpdate(attributes);
 	}
 
 	/**
@@ -3610,7 +3606,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Setup a relation reverse 1-1  between two models
+	 * Setup a reverse 1-1 or n-1 relation between two models
 	 *
 	 *<code>
 	 * <?php
@@ -3626,11 +3622,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
+			this,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
 	}
 
 	/**
-	 * Setup a relation 1-n between two models
+	 * Setup a 1-n relation between two models
 	 *
 	 *<code>
 	 * <?php
@@ -3646,11 +3648,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addHasMany(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addHasMany(
+			this,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
 	}
 
 	/**
-	 * Setup a relation n-n between two models through an intermediate relation
+	 * Setup an n-n relation between two models, through an intermediate relation
 	 *
 	 *<code>
 	 * <?php
@@ -3799,12 +3807,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 				let snapshot[attribute] = value;
 			}
-
-			let this->_snapshot = snapshot;
-			return null;
+		} else {
+			let snapshot = data;
 		}
 
-		let this->_snapshot = data;
+		let this->_snapshot = snapshot;
 	}
 
 	/**
@@ -3834,106 +3841,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function hasChanged(var fieldName = null) -> boolean
 	{
-		var snapshot, metaData, columnMap, allAttributes, value,
-			originalValue, name;
+		var changedFields;
 
-		let snapshot = this->_snapshot;
-		if typeof snapshot != "array" {
-			throw new Exception("The record doesn't have a valid data snapshot");
-		}
-
-		/**
-		 * Dirty state must be DIRTY_PERSISTENT to make the checking
-		 */
-		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
-		}
-
-		/**
-		 * Return the models meta-data
-		 */
-		let metaData = this->getModelsMetaData();
-
-		/**
-		 * The reversed column map is an array if the model has a column map
-		 */
-		let columnMap = metaData->getReverseColumnMap(this);
-
-		/**
-		 * Data types are field indexed
-		 */
-		if typeof columnMap != "array" {
-			let allAttributes = metaData->getDataTypes(this);
-		} else {
-			let allAttributes = columnMap;
-		}
+		let changedFields = this->getChangedFields();
 
 		/**
 		 * If a field was specified we only check it
 		 */
 		if typeof fieldName == "string" {
-
-			/**
-			 * We only make this validation over valid fields
-			 */
-			if typeof columnMap == "array" {
-				if !isset columnMap[fieldName] {
-					throw new Exception("The field '" . fieldName . "' is not part of the model");
-				}
-			} else {
-				if !isset allAttributes[fieldName] {
-					throw new Exception("The field '" . fieldName . "' is not part of the model");
-				}
-			}
-
-			/**
-			 * The field is not part of the model, throw exception
-			 */
-			if !fetch value, this->{fieldName} {
-				throw new Exception("The field '" . fieldName . "' is not defined on the model");
-			}
-
-			/**
-			 * The field is not part of the data snapshot, throw exception
-			 */
-			if !fetch originalValue, snapshot[fieldName] {
-				throw new Exception("The field '" . fieldName . "' was not found in the snapshot");
-			}
-
-			/**
-			 * Check if the field has changed
-			 */
-			return value != originalValue;
+			return in_array(fieldName, changedFields);
 		}
 
-		/**
-		 * Check every attribute in the model
-		 */
-		for name, _ in allAttributes {
-
-			/**
-			 * If some attribute is not present in the snapshot, we assume the record as changed
-			 */
-			if !fetch originalValue, snapshot[name] {
-				return true;
-			}
-
-			/**
-			 * If some attribute is not present in the model, we assume the record as changed
-			 */
-			if !fetch value, this->{name} {
-				return true;
-			}
-
-			/**
-			 * Check if the field has changed
-			 */
-			if value != originalValue {
-				return true;
-			}
-		}
-
-		return false;
+		return count(changedFields) > 0;
 	}
 
 	/**
@@ -4086,28 +4005,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Calling count if the method starts with "count"
 		 */
-		if typeof relation != "object" {
-			if starts_with(method, "count") {
-				let queryMethod = "count",
-					relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
-			}
+		elseif starts_with(method, "count") {
+			let queryMethod = "count",
+				relation = <RelationInterface> manager->getRelationByAlias(modelName, substr(method, 5));
 		}
 
 		/**
 		 * If the relation was found perform the query via the models manager
 		 */
-		if typeof relation == "object" {
-			fetch extraArgs, arguments[0];
-
-			return manager->getRelationRecords(
-				relation,
-				queryMethod,
-				this,
-				extraArgs
-			);
+		if typeof relation != "object" {
+			return null;
 		}
 
-		return null;
+		fetch extraArgs, arguments[0];
+
+		return manager->getRelationRecords(
+			relation,
+			queryMethod,
+			this,
+			extraArgs
+		);
 	}
 
 	/**
@@ -4135,21 +4052,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Check if the method starts with "find"
 		 */
-		if extraMethod === null {
-			if starts_with(method, "findBy") {
-				let type = "find",
-					extraMethod = substr(method, 6);
-			}
+		elseif starts_with(method, "findBy") {
+			let type = "find",
+				extraMethod = substr(method, 6);
 		}
 
 		/**
 		 * Check if the method starts with "count"
 		 */
-		if extraMethod === null {
-			if starts_with(method, "countBy") {
-				let type = "count",
-					extraMethod = substr(method, 7);
-			}
+		elseif starts_with(method, "countBy") {
+			let type = "count",
+				extraMethod = substr(method, 7);
 		}
 
 		/**

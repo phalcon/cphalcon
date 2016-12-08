@@ -39,7 +39,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             "The ACL constants are not correct",
             function () {
-
                 expect(Acl::ALLOW)->equals(1);
                 expect(Acl::DENY)->equals(0);
             }
@@ -57,7 +56,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'The Acl\Adapter\Memory does not get/set the default action correctly',
             function () {
-
                 $acl = new Memory();
 
                 $acl->setDefaultAction(Acl::ALLOW);
@@ -80,7 +78,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Adding a ACL\Role in the ACL does not exist',
             function () {
-
                 $acl     = new Memory();
                 $aclRole = new Role('Administrators', 'Super User access');
 
@@ -103,7 +100,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Role added twice returns true',
             function () {
-
                 $acl     = new Memory();
                 $aclRole = new Role('Administrators', 'Super User access');
 
@@ -126,7 +122,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Role added twice by key returns true',
             function () {
-
                 $acl     = new Memory();
                 $aclRole = new Role('Administrators', 'Super User access');
 
@@ -149,7 +144,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Role added twice by key returns true',
             function () {
-
                 $acl     = new Memory();
                 $acl->setDefaultAction(Acl::DENY);
 
@@ -196,7 +190,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Role added with wrong key returns true in isRole',
             function () {
-
                 $acl     = new Memory();
 
                 $actual = $acl->isRole('Wrong');
@@ -217,7 +210,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Role does not exist in Acl',
             function () {
-
                 $acl     = new Memory();
                 $aclRole = new Role('Administrators', 'Super User access');
 
@@ -241,7 +233,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Resource does not exist in Acl',
             function () {
-
                 $acl         = new Memory();
                 $aclResource = new Resource('Customers', 'Customer management');
 
@@ -263,7 +254,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl\Resource by name does not exist in the acl',
             function () {
-
                 $acl         = new Memory();
                 $aclResource = new Resource('Customers', 'Customer management');
 
@@ -287,7 +277,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl with default action search does not return correct results',
             function () {
-
                 $acl         = new Memory();
                 $aclRole     = new Role('Administrators', 'Super User access');
                 $aclResource = new Resource('Customers', 'Customer management');
@@ -306,7 +295,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl with default action destroy does not return correct results',
             function () {
-
                 $acl         = new Memory();
                 $aclRole     = new Role('Administrators', 'Super User access');
                 $aclResource = new Resource('Customers', 'Customer management');
@@ -334,7 +322,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl search does not return correct results',
             function () {
-
                 $acl         = new Memory();
                 $aclRole     = new Role('Administrators', 'Super User access');
                 $aclResource = new Resource('Customers', 'Customer management');
@@ -356,7 +343,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl destroy does not return correct results',
             function () {
-
                 $acl         = new Memory();
                 $aclRole     = new Role('Administrators', 'Super User access');
                 $aclResource = new Resource('Customers', 'Customer management');
@@ -387,7 +373,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Acl serialization/unserialization does not return a correct object back',
             function () {
-
                 $filename    = $this->tester->getNewFileName('acl', 'log');
 
                 $acl         = new Memory();
@@ -443,7 +428,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'Negation of inherited roles does not return the correct result',
             function () {
-
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::DENY);
 
@@ -481,7 +465,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'ACL Resources with numeric values are not set properly',
             function () {
-
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::DENY);
 
@@ -524,7 +507,7 @@ class MemoryTest extends UnitTest
                 $model = new \TestResourceAware(2, 'Post');
 
                 $acl->deny('Guests', 'Post', 'update');
-                $acl->allow('Members', 'Post', 'update', function(\TestRoleAware $user, \TestResourceAware $model) {
+                $acl->allow('Members', 'Post', 'update', function (\TestRoleAware $user, \TestResourceAware $model) {
                     return $user->getId() == $model->getUser();
                 });
                 $acl->allow('Admins', 'Post', 'update');
@@ -564,7 +547,7 @@ class MemoryTest extends UnitTest
                 $acl->addRole($roleAdmin, $roleUser);
                 $acl->addRole($roleSuperAdmin, $roleAdmin);
 
-                $acl->addResource("payment", ["paypal", "facebook",]);
+                $acl->addResource("payment", ["paypal", "facebook", ]);
 
                 $acl->allow($roleGuest->getName(), "payment", "paypal");
                 $acl->allow($roleGuest->getName(), "payment", "facebook");
@@ -609,10 +592,10 @@ class MemoryTest extends UnitTest
                 $admin = new \TestRoleAware(4, 'Admins');
                 $model = new \TestResourceAware(2, 'Post');
 
-                $acl->allow('Guests', 'Post', 'update', function($parameter) {
+                $acl->allow('Guests', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
                 });
-                $acl->allow('Members', 'Post', 'update', function($parameter) {
+                $acl->allow('Members', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
                 });
                 $acl->allow('Admins', 'Post', 'update');
@@ -655,10 +638,10 @@ class MemoryTest extends UnitTest
                 $admin = new \TestRoleAware(4, 'Admins');
                 $model = new \TestResourceAware(2, 'Post');
 
-                $acl->allow('Guests', 'Post', 'update', function($parameter) {
+                $acl->allow('Guests', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
                 });
-                $acl->allow('Members', 'Post', 'update', function($parameter) {
+                $acl->allow('Members', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
                 });
                 $acl->allow('Admins', 'Post', 'update');

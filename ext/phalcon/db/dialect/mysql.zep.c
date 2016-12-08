@@ -1209,8 +1209,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView) {
  * Generates SQL checking for the existence of a schema.table
  *
  * <code>
- *    echo $dialect->tableExists("posts", "blog");
- *    echo $dialect->tableExists("posts");
+ * echo $dialect->tableExists("posts", "blog");
+ *
+ * echo $dialect->tableExists("posts");
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists) {
@@ -1281,7 +1282,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists) {
 		ZEPHIR_CONCAT_SVSVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '", viewName, "' AND `TABLE_SCHEMA`='", schemaName, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", viewName, "'");
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", viewName, "' AND `TABLE_SCHEMA` = DATABASE()");
 	RETURN_MM();
 
 }
@@ -1290,7 +1291,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists) {
  * Generates SQL describing a table
  *
  * <code>
- *    print_r($dialect->describeColumns("posts"));
+ * print_r(
+ *     $dialect->describeColumns("posts")
+ * );
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns) {
@@ -1331,7 +1334,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns) {
  * List all tables in database
  *
  * <code>
- *     print_r($dialect->listTables("blog"))
+ * print_r(
+ *     $dialect->listTables("blog")
+ * );
  * </code>
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables) {
@@ -1390,7 +1395,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews) {
 		ZEPHIR_CONCAT_SVS(return_value, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '", schemaName, "' ORDER BY view_name");
 		RETURN_MM();
 	}
-	RETURN_MM_STRING("SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ORDER BY view_name", 1);
+	RETURN_MM_STRING("SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = DATABASE() ORDER BY view_name", 1);
 
 }
 
@@ -1461,14 +1466,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences) {
 
 
 	ZEPHIR_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
+	ZVAL_STRING(sql, "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
 	if (!(!schema) && Z_STRLEN_P(schema)) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		ZEPHIR_CONCAT_SVSVS(_0$$3, "KCU.CONSTRAINT_SCHEMA = '", schema, "' AND KCU.TABLE_NAME = '", table, "'");
 		zephir_concat_self(&sql, _0$$3 TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_VAR(_1$$4);
-		ZEPHIR_CONCAT_SVS(_1$$4, "KCU.TABLE_NAME = '", table, "'");
+		ZEPHIR_CONCAT_SVS(_1$$4, "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = '", table, "'");
 		zephir_concat_self(&sql, _1$$4 TSRMLS_CC);
 	}
 	RETURN_CCTOR(sql);
@@ -1510,7 +1515,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions) {
 		ZEPHIR_CONCAT_VSVSVS(return_value, sql, "TABLES.TABLE_SCHEMA = '", schema, "' AND TABLES.TABLE_NAME = '", table, "'");
 		RETURN_MM();
 	}
-	ZEPHIR_CONCAT_VSVS(return_value, sql, "TABLES.TABLE_NAME = '", table, "'");
+	ZEPHIR_CONCAT_VSVS(return_value, sql, "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = '", table, "'");
 	RETURN_MM();
 
 }
@@ -1538,7 +1543,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions) {
 			if (zephir_is_true(engine)) {
 				ZEPHIR_INIT_VAR(_0$$5);
 				ZEPHIR_CONCAT_SV(_0$$5, "ENGINE=", engine);
-				zephir_array_append(&tableOptions, _0$$5, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 668);
+				zephir_array_append(&tableOptions, _0$$5, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 673);
 			}
 		}
 		ZEPHIR_OBS_VAR(autoIncrement);
@@ -1546,7 +1551,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions) {
 			if (zephir_is_true(autoIncrement)) {
 				ZEPHIR_INIT_VAR(_1$$7);
 				ZEPHIR_CONCAT_SV(_1$$7, "AUTO_INCREMENT=", autoIncrement);
-				zephir_array_append(&tableOptions, _1$$7, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 677);
+				zephir_array_append(&tableOptions, _1$$7, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 682);
 			}
 		}
 		ZEPHIR_OBS_VAR(tableCollation);
@@ -1554,13 +1559,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions) {
 			if (zephir_is_true(tableCollation)) {
 				ZEPHIR_INIT_VAR(collationParts);
 				zephir_fast_explode_str(collationParts, SL("_"), tableCollation, LONG_MAX TSRMLS_CC);
-				zephir_array_fetch_long(&_2$$9, collationParts, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect/mysql.zep", 687 TSRMLS_CC);
+				zephir_array_fetch_long(&_2$$9, collationParts, 0, PH_NOISY | PH_READONLY, "phalcon/db/dialect/mysql.zep", 692 TSRMLS_CC);
 				ZEPHIR_INIT_VAR(_3$$9);
 				ZEPHIR_CONCAT_SV(_3$$9, "DEFAULT CHARSET=", _2$$9);
-				zephir_array_append(&tableOptions, _3$$9, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 687);
+				zephir_array_append(&tableOptions, _3$$9, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 692);
 				ZEPHIR_INIT_VAR(_4$$9);
 				ZEPHIR_CONCAT_SV(_4$$9, "COLLATE=", tableCollation);
-				zephir_array_append(&tableOptions, _4$$9, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 688);
+				zephir_array_append(&tableOptions, _4$$9, PH_SEPARATE, "phalcon/db/dialect/mysql.zep", 693);
 			}
 		}
 		if (zephir_fast_count_int(tableOptions TSRMLS_CC)) {

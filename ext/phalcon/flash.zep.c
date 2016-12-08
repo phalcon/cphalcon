@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash) {
 
 	zend_declare_property_null(phalcon_flash_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_flash_ce TSRMLS_CC, 1, phalcon_flashinterface_ce);
 	zend_class_implements(phalcon_flash_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 
@@ -267,7 +268,7 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
  * Shows a HTML error message
  *
  *<code>
- * $flash->error('This is an error');
+ * $flash->error("This is an error");
  *</code>
  */
 PHP_METHOD(Phalcon_Flash, error) {
@@ -293,7 +294,7 @@ PHP_METHOD(Phalcon_Flash, error) {
  * Shows a HTML notice/information message
  *
  *<code>
- * $flash->notice('This is an information');
+ * $flash->notice("This is an information");
  *</code>
  */
 PHP_METHOD(Phalcon_Flash, notice) {
@@ -319,7 +320,7 @@ PHP_METHOD(Phalcon_Flash, notice) {
  * Shows a HTML success message
  *
  *<code>
- * $flash->success('The process was finished successfully');
+ * $flash->success("The process was finished successfully");
  *</code>
  */
 PHP_METHOD(Phalcon_Flash, success) {
@@ -345,7 +346,7 @@ PHP_METHOD(Phalcon_Flash, success) {
  * Shows a HTML warning message
  *
  *<code>
- * $flash->warning('Hey, this is important');
+ * $flash->warning("Hey, this is important");
  *</code>
  */
 PHP_METHOD(Phalcon_Flash, warning) {
@@ -371,7 +372,7 @@ PHP_METHOD(Phalcon_Flash, warning) {
  * Outputs a message formatting it with HTML
  *
  *<code>
- * $flash->outputMessage('error', message);
+ * $flash->outputMessage("error", $message);
  *</code>
  *
  * @param string|array message
@@ -431,7 +432,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		zephir_is_iterable(message, &_3$$9, &_2$$9, 0, 0, "phalcon/flash.zep", 289);
+		zephir_is_iterable(message, &_3$$9, &_2$$9, 0, 0, "phalcon/flash.zep", 288);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3$$9, (void**) &_4$$9, &_2$$9) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3$$9, &_2$$9)

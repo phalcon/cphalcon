@@ -39,9 +39,27 @@ class ConfirmationTest extends UnitTest
             $validation->add('name', new Confirmation([
                 'with' => 'nameWith',
             ]));
-            $messages = $validation->validate(['name' => 'SomeValue', 'nameWith' => 'SomeValue']);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'name'     => 'SomeValue',
+                    'nameWith' => 'SomeValue',
+                ]
+            );
+
             expect($messages->count())->equals(0);
-            $messages = $validation->validate(['name' => 'SomeValue', 'nameWith' => 'SomeValue123']);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'name'     => 'SomeValue',
+                    'nameWith' => 'SomeValue123',
+                ]
+            );
+
             expect($messages->count())->equals(1);
         });
     }
@@ -67,12 +85,45 @@ class ConfirmationTest extends UnitTest
                 ],
                 'message' => $validationMessages,
             ]));
-            $messages = $validation->validate(['name' => 'SomeValue', 'nameWith' => 'SomeValue', 'type' => 'SomeValue', 'typeWith' => 'SomeValue']);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'name'     => 'SomeValue',
+                    'nameWith' => 'SomeValue',
+                    'type'     => 'SomeValue',
+                    'typeWith' => 'SomeValue',
+                ]
+            );
+
             expect($messages->count())->equals(0);
-            $messages = $validation->validate(['name' => 'SomeValue', 'nameWith' => 'SomeValue123', 'type' => 'SomeValue', 'typeWith' => 'SomeValue']);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'name'     => 'SomeValue',
+                    'nameWith' => 'SomeValue123',
+                    'type'     => 'SomeValue',
+                    'typeWith' => 'SomeValue',
+                ]
+            );
+
             expect($messages->count())->equals(1);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
-            $messages = $validation->validate(['name' => 'SomeValue', 'nameWith' => 'SomeValue123', 'type' => 'SomeValue', 'typeWith' => 'SomeValue123']);
+
+
+
+            $messages = $validation->validate(
+                [
+                    'name'     => 'SomeValue',
+                    'nameWith' => 'SomeValue123',
+                    'type'     => 'SomeValue',
+                    'typeWith' => 'SomeValue123',
+                ]
+            );
+
             expect($messages->count())->equals(2);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['type']);

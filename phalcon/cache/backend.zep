@@ -26,7 +26,7 @@ use Phalcon\Cache\FrontendInterface;
  *
  * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
  */
-abstract class Backend
+abstract class Backend implements BackendInterface
 {
 
 	protected _frontend { get, set };

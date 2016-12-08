@@ -22,7 +22,6 @@ namespace Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\Regex
@@ -55,7 +54,7 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * }
  *</code>
  */
-class Regex extends Validator implements ValidatorInterface
+class Regex extends Validator
 {
 	/**
 	 * Executes the validator

@@ -22,7 +22,6 @@ namespace Phalcon\Mvc\Model\Validator;
 
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 use Phalcon\Mvc\Model\Exception;
 
 /**
@@ -59,7 +58,7 @@ use Phalcon\Mvc\Model\Exception;
  * }
  *</code>
  */
-class StringLength extends Validator implements ValidatorInterface
+class StringLength extends Validator
 {
 	/**
 	 * Executes the validator

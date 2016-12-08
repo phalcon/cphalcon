@@ -169,32 +169,21 @@ class Debug
 		let dump = [];
 		for k, v in argument {
 
-			if is_scalar(v) {
-				if v == "" {
-					let varDump = "[" . k . "] =&gt; (empty string)";
-				} else {
-					let varDump = "[" . k . "] =&gt; " . this->_escapeString(v);
-				}
-				let dump[] = varDump;
-				continue;
+			if v == "" {
+				let varDump = "(empty string)";
+			} elseif is_scalar(v) {
+				let varDump = this->_escapeString(v);
+			} elseif typeof v == "array" {
+				let varDump = "Array(" . this->_getArrayDump(v, n + 1) . ")";
+			} elseif typeof v == "object" {
+				let varDump = "Object(" . get_class(v) . ")";
+			} elseif typeof v == "null" {
+				let varDump = "null";
+			} else {
+				let varDump = v;
 			}
 
-			if typeof v == "array" {
-				let dump[] = "[" . k . "] =&gt; Array(" . this->_getArrayDump(v, n + 1) . ")";
-				continue;
-			}
-
-			if typeof v == "object" {
-				let dump[] = "[" . k . "] =&gt; Object(" . get_class(v) . ")";
-				continue;
-			}
-
-			if typeof v == "null" {
-				let dump[] = "[" . k . "] =&gt; null";
-				continue;
-			}
-
-			let dump[] = "[" . k . "] =&gt; " . v;
+			let dump[] = "[" . k . "] =&gt; " . varDump;
 		}
 
 		return join(", ", dump);
@@ -345,7 +334,8 @@ class Debug
 		var className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
 			functionName, functionReflection, traceArgs, arguments, argument,
 			filez, line, showFiles, lines, numberLines, showFileFragment,
-			beforeLine, firstLine, afterLine, lastLine, i, linePosition, currentLine;
+			beforeLine, firstLine, afterLine, lastLine, i, linePosition, currentLine,
+			classNameWithLink, functionNameWithLink;
 
 		/**
 		 * Every trace in the backtrace have a unique number
@@ -367,7 +357,7 @@ class Debug
 				/**
 				 * Generate a link to the official docs
 				 */
-				let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"//api.phalconphp.com/class/" . prepareUriClass . ".html\">" . className . "</a></span>";
+				let classNameWithLink = "<a target=\"_new\" href=\"//api.phalconphp.com/class/" . prepareUriClass . ".html\">" . className . "</a>";
 			} else {
 
 				let classReflection = new \ReflectionClass(className);
@@ -382,11 +372,13 @@ class Debug
 					/**
 					 * Generate a link to the official docs
 					 */
-					let html .= "<span class=\"error-class\"><a target=\"_new\" href=\"http://php.net/manual/en/class." . prepareInternalClass . ".php\">" . className . "</a></span>";
+					let classNameWithLink = "<a target=\"_new\" href=\"http://php.net/manual/en/class." . prepareInternalClass . ".php\">" . className . "</a>";
 				} else {
-					let html .= "<span class=\"error-class\">" . className . "</span>";
+					let classNameWithLink = className;
 				}
 			}
+
+			let html .= "<span class=\"error-class\">" . classNameWithLink . "</span>";
 
 			/**
 			 * Object access operator: static/instance
@@ -399,7 +391,7 @@ class Debug
 		 */
 		let functionName = trace["function"];
 		if isset trace["class"] {
-			let html .= "<span class=\"error-function\">" . functionName . "</span>";
+			let functionNameWithLink = functionName;
 		} else {
 
 			/**
@@ -417,38 +409,36 @@ class Debug
 					 * Prepare function's name according to the conventions in the docs
 					 */
 					let preparedFunctionName = str_replace("_", "-", functionName);
-					let html .= "<span class=\"error-function\"><a target=\"_new\" href=\"http://php.net/manual/en/function." . preparedFunctionName . ".php\">" . functionName . "</a></span>";
+					let functionNameWithLink = "<a target=\"_new\" href=\"http://php.net/manual/en/function." . preparedFunctionName . ".php\">" . functionName . "</a>";
 				} else {
-					let html .= "<span class=\"error-function\">" . functionName . "</span>";
+					let functionNameWithLink = functionName;
 				}
 			} else {
-				let html .= "<span class=\"error-function\">" . functionName . "</span>";
+				let functionNameWithLink = functionName;
 			}
 		}
+
+		let html .= "<span class=\"error-function\">" . functionNameWithLink . "</span>";
 
 		/**
 		 * Check for arguments in the function
 		 */
 		if fetch traceArgs, trace["args"] {
 
-			if count(traceArgs) {
-				let arguments = [];
-				for argument in traceArgs {
-
-					/**
-					 * Every argument is generated using _getVarDump
-					 * Append the HTML generated to the argument's list
-					 */
-					let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
-				}
+			let arguments = [];
+			for argument in traceArgs {
 
 				/**
-				 * Join all the arguments
+				 * Every argument is generated using _getVarDump
+				 * Append the HTML generated to the argument's list
 				 */
-				let html .= "(" . join(", ", arguments)  . ")";
-			} else {
-				let html .= "()";
+				let arguments[] = "<span class=\"error-parameter\">" . this->_getVarDump(argument) . "</span>";
 			}
+
+			/**
+			 * Join all the arguments
+			 */
+			let html .= "(" . join(", ", arguments)  . ")";
 		}
 
 		/**

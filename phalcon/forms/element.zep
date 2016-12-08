@@ -227,7 +227,9 @@ abstract class Element implements ElementInterface
 		if value !== null {
 			if useChecked {
 				/**
-				 * Check if the element already has a default value, compare it with the one in the attributes, if they are the same mark the element as checked
+				 * Check if the element already has a default value, compare it
+				 * with the one in the attributes, if they are the same mark the
+				 * element as checked
 				 */
 				if fetch currentValue, mergedAttributes["value"] {
 					if currentValue == value {

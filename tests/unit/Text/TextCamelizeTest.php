@@ -32,33 +32,35 @@ class TextCamelizeTest extends UnitTest
      */
     public function testTextCamelizeString()
     {
-        $this->specify('Text::camelize conversions do not return the correct string',
+        $this->specify(
+            'Text::camelize conversions do not return the correct string',
             function ($actual, $expected, $delimiter) {
-
                 expect(Text::camelize($actual, $delimiter))->equals($expected);
-
-            }, ['examples' => [
-                ['camelize',        'Camelize',    null],
-                ['CameLiZe',        'Camelize',    null],
-                ['cAmeLize',        'Camelize',    null],
-                ['123camelize',     '123camelize', null],
-                ['c_a_m_e_l_i_z_e', 'CAMELIZE',    null],
-                ['Camelize',        'Camelize',    null],
-                ['camel_ize',       'CamelIze',    null],
-                ['CameLize',        'Camelize',    null],
-                ["c_a-m_e-l_i-z_e", 'CAMELIZE',    null],
-                ["came_li_ze",      'CameLiZe',    null],
-                ["=_camelize",      '=Camelize',   "_" ],
-                ["camelize",        'Camelize',    "_" ],
-                ["came_li_ze",      'CameLiZe',    "_" ],
-                ["came#li#ze",      'CameLiZe',    "#" ],
-                ["came li ze",      'CameLiZe',    " " ],
-                ["came.li^ze",      'CameLiZe',    ".^"],
-                ["c_a-m_e-l_i-z_e", 'CAMELIZE',    "-_"],
-                ["came.li.ze",      'CameLiZe',    "." ],
-                ["came-li-ze",      'CameLiZe',    "-" ],
-                ["c+a+m+e+l+i+z+e", 'CAMELIZE',    "+" ],
-            ]]
+            },
+            [
+                'examples' => [
+                    ['camelize',        'Camelize',    null],
+                    ['CameLiZe',        'Camelize',    null],
+                    ['cAmeLize',        'Camelize',    null],
+                    ['123camelize',     '123camelize', null],
+                    ['c_a_m_e_l_i_z_e', 'CAMELIZE',    null],
+                    ['Camelize',        'Camelize',    null],
+                    ['camel_ize',       'CamelIze',    null],
+                    ['CameLize',        'Camelize',    null],
+                    ["c_a-m_e-l_i-z_e", 'CAMELIZE',    null],
+                    ["came_li_ze",      'CameLiZe',    null],
+                    ["=_camelize",      '=Camelize',   "_" ],
+                    ["camelize",        'Camelize',    "_" ],
+                    ["came_li_ze",      'CameLiZe',    "_" ],
+                    ["came#li#ze",      'CameLiZe',    "#" ],
+                    ["came li ze",      'CameLiZe',    " " ],
+                    ["came.li^ze",      'CameLiZe',    ".^"],
+                    ["c_a-m_e-l_i-z_e", 'CAMELIZE',    "-_"],
+                    ["came.li.ze",      'CameLiZe',    "." ],
+                    ["came-li-ze",      'CameLiZe',    "-" ],
+                    ["c+a+m+e+l+i+z+e", 'CAMELIZE',    "+" ],
+                ]
+            ]
         );
     }
 }

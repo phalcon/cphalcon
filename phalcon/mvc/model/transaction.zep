@@ -85,7 +85,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Phalcon\Mvc\Model\Transaction constructor
 	 *
-	 * @param \Phalcon\DiInterface $ependencyInjector
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @param boolean autoBegin
 	 * @param string service
 	 */
@@ -130,7 +130,7 @@ class Transaction implements TransactionInterface
 
 		let manager = this->_manager;
 		if typeof manager == "object" {
-			call_user_func_array([manager, "notifyCommit"], [this]);
+			manager->notifyCommit(this);
 		}
 
 		return this->_connection->commit();
@@ -149,7 +149,7 @@ class Transaction implements TransactionInterface
 
 		let manager = this->_manager;
 		if typeof manager == "object" {
-			call_user_func_array([manager, "notifyRollback"], [this]);
+			manager->notifyRollback(this);
 		}
 
 		let connection = this->_connection;
@@ -226,5 +226,4 @@ class Transaction implements TransactionInterface
 	{
 		let this->_rollbackRecord = record;
 	}
-
 }

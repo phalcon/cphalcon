@@ -549,6 +549,25 @@ CREATE TABLE `issue12071_body` (
   CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `stats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stats` (
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` TINYINT(3) UNSIGNED NOT NULL,
+  `value` BIGINT(20) UNSIGNED NOT NULL,
+  PRIMARY KEY (`date`, `type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+LOCK TABLES `stats` WRITE;
+/*!40000 ALTER TABLE `stats` DISABLE KEYS */;
+INSERT INTO `stats` (`date`, `type`, `value`) VALUES
+  ('2016-02-12 00:00:00', 1, 10),
+  ('2016-02-12 00:01:00', 2, 100),
+  ('2016-02-12 00:02:00', 3, 100);
+
+/*!40000 ALTER TABLE `stats` ENABLE KEYS */;
+UNLOCK TABLES;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

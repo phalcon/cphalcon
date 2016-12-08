@@ -462,33 +462,6 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * Escapes a column/table/schema name
-	 *
-	 *<code>
-	 * $escapedTable = $connection->escapeIdentifier(
-	 *     "robots"
-	 * );
-	 *
-	 * $escapedTable = $connection->escapeIdentifier(
-	 *     [
-	 *         "store",
-	 *         "robots",
-	 *     ]
-	 * );
-	 *</code>
-	 *
-	 * @param string identifier
-	 * @return string
-	 */
-	public function escapeIdentifier(var identifier) -> string
-	{
-		if typeof identifier == "array" {
-			return "\"" . identifier[0] . "\".\"" . identifier[1] . "\"";
-		}
-		return "\"" . identifier . "\"";
-	}
-
-	/**
 	 * Escapes a value to avoid SQL injections according to the active charset in the connection
 	 *
 	 *<code>
@@ -551,7 +524,7 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
+	 * Returns the insert id for the auto_increment/serial column inserted in the latest executed SQL statement
 	 *
 	 *<code>
 	 * // Inserting a new robot
@@ -738,7 +711,7 @@ abstract class Pdo extends Adapter
 		if transactionLevel == 1 {
 
 			/**
-			 * Notify the events manager about the commited transaction
+			 * Notify the events manager about the committed transaction
 			 */
 			let eventsManager = <ManagerInterface> this->_eventsManager;
 			if typeof eventsManager == "object" {
@@ -759,7 +732,7 @@ abstract class Pdo extends Adapter
 			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
 
 				/**
-				 * Notify the events manager about the commited savepoint
+				 * Notify the events manager about the committed savepoint
 				 */
 				let eventsManager = <ManagerInterface> this->_eventsManager,
 					savepointName = this->getNestedTransactionSavepointName();

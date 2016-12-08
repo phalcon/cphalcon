@@ -23,7 +23,6 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness
@@ -58,7 +57,7 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * }
  *</code>
  */
-class Uniqueness extends Validator implements ValidatorInterface
+class Uniqueness extends Validator
 {
 	/**
 	 * Executes the validator
@@ -73,7 +72,8 @@ class Uniqueness extends Validator implements ValidatorInterface
 		let metaData = dependencyInjector->getShared("modelsMetadata");
 
 		/**
-		 * PostgreSQL check if the compared constant has the same type as the column, so we make cast to the data passed to match those column types
+		 * PostgreSQL check if the compared constant has the same type as the
+		 * column, so we make cast to the data passed to match those column types
 		 */
 		let bindTypes = [];
 		let bindDataTypes = metaData->getBindTypes(record);

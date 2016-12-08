@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -218,13 +218,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public function getStrategy() -> <StrategyInterface>
 	{
-		var strategy;
-		let strategy = this->_strategy;
-		if typeof strategy == "null" {
-			let strategy = new Introspection(),
-				this->_strategy = strategy;
+		if typeof this->_strategy == "null" {
+			let this->_strategy = new Introspection();
 		}
-		return strategy;
+
+		return this->_strategy;
 	}
 
 	/**
@@ -270,7 +268,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public final function readMetaDataIndex(<ModelInterface> model, int index)
 	{
-		var source, schema, key, metaData;
+		var source, schema, key;
 
 		let source = model->getSource(),
 			schema = model->getSchema();
@@ -280,11 +278,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 		 */
 		let key = get_class_lower(model) . "-" . schema . source;
 
-		if fetch metaData, this->_metaData[key][index] {
-			return metaData;
+		if !isset this->_metaData[key][index] {
+			this->_initialize(model, key, source, schema);
 		}
 
-		this->_initialize(model, key, source, schema);
 		return this->_metaData[key][index];
 	}
 
@@ -305,7 +302,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
 	{
-		var metaData, source, schema, key;
+		var source, schema, key;
 
 		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
 			throw new Exception("Invalid data for index");
@@ -323,9 +320,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 			this->_initialize(model, key, source, schema);
 		}
 
-		let metaData = this->_metaData,
-			metaData[key][index] = data,
-			this->_metaData = metaData;
+		let this->_metaData[key][index] = data;
 	}
 
 	/**

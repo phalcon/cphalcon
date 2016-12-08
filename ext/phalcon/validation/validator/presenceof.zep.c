@@ -28,16 +28,29 @@
  * <code>
  * use Phalcon\Validation\Validator\PresenceOf;
  *
- * $validator->add('name', new PresenceOf([
- *     'message' => 'The name is required'
- * ]));
+ * $validator->add(
+ *     "name",
+ *     new PresenceOf(
+ *         [
+ *             "message" => "The name is required",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['name', 'email'], new PresenceOf([
- *     'message' => [
- *         'name' => 'The name is required',
- *         'email' => 'The email is required'
- *     ]
- * ]));
+ * $validator->add(
+ *     [
+ *         "name",
+ *         "email",
+ *     ],
+ *     new PresenceOf(
+ *         [
+ *             "message" => [
+ *                 "name"  => "The name is required",
+ *                 "email" => "The email is required",
+ *             ],
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf) {
@@ -86,7 +99,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_2$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/presenceof.zep", 61 TSRMLS_CC);
+			zephir_array_fetch(&_2$$4, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/presenceof.zep", 74 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(label, _2$$4);
 		}
 		if (ZEPHIR_IS_EMPTY(label)) {
@@ -99,7 +112,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_3$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/presenceof.zep", 69 TSRMLS_CC);
+			zephir_array_fetch(&_3$$6, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/presenceof.zep", 82 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(message, _3$$6);
 		}
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -118,7 +131,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/presenceof.zep", 78 TSRMLS_CC);
+			zephir_array_fetch(&_5$$8, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/presenceof.zep", 91 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(code, _5$$8);
 		}
 		ZEPHIR_INIT_NVAR(_1$$3);
@@ -127,7 +140,7 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7$$3);
 		ZVAL_STRING(_7$$3, "PresenceOf", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 462, _6$$3, field, _7$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 464, _6$$3, field, _7$$3, code);
 		zephir_check_temp_parameter(_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _1$$3);

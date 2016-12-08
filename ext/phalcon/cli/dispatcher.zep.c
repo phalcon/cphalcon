@@ -29,19 +29,17 @@
  * instantiating a task and calling an action on it.
  *
  *<code>
+ * $di = new \Phalcon\Di();
  *
- *	$di = new \Phalcon\Di();
+ * $dispatcher = new \Phalcon\Cli\Dispatcher();
  *
- *	$dispatcher = new \Phalcon\Cli\Dispatcher();
+ * $dispatcher->setDi($di);
  *
- *  $dispatcher->setDi(di);
+ * $dispatcher->setTaskName("posts");
+ * $dispatcher->setActionName("index");
+ * $dispatcher->setParams([]);
  *
- *	$dispatcher->setTaskName('posts');
- *	$dispatcher->setActionName('index');
- *	$dispatcher->setParams(array());
- *
- *	$handle = dispatcher->dispatch();
- *
+ * $handle = $dispatcher->dispatch();
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
@@ -162,7 +160,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 105 TSRMLS_CC);
+	zephir_throw_exception_debug(exception, "phalcon/cli/dispatcher.zep", 103 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -198,7 +196,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, _handleException) {
 }
 
 /**
- * Returns the lastest dispatched controller
+ * Returns the latest dispatched controller
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getLastTask) {
 

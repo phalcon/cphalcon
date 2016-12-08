@@ -32,15 +32,15 @@
  * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
  * $builder = $this->modelsManager->createBuilder()
- *                 ->columns('id, name')
- *                 ->from('Robots')
- *                 ->orderBy('name');
+ *                 ->columns("id, name")
+ *                 ->from("Robots")
+ *                 ->orderBy("name");
  *
  * $paginator = new QueryBuilder(
  *     [
- *         'builder' => $builder,
- *         'limit'   => 20,
- *         'page'    => 1,
+ *         "builder" => $builder,
+ *         "limit"   => 20,
+ *         "page"    => 1,
  *     ]
  * );
  *</code>
@@ -59,7 +59,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_querybuilder_ce, SL("_builder"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_paginator_adapter_querybuilder_ce TSRMLS_CC, 1, phalcon_paginator_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -82,12 +81,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	ZEPHIR_OBS_VAR(builder);
 	if (!(zephir_array_isset_string_fetch(&builder, config, SS("builder"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 70);
 		return;
 	}
 	ZEPHIR_OBS_VAR(limit);
 	if (!(zephir_array_isset_string_fetch(&limit, config, SS("limit"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'limit' is required", "phalcon/paginator/adapter/querybuilder.zep", 74);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, 0, builder);

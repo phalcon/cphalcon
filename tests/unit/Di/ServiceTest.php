@@ -46,10 +46,10 @@ class ServiceTest extends UnitTest
             "Di does not resolves service correctly",
             function () {
                 $di = new Di();
-                $di->set('resolved', function() {
+                $di->set('resolved', function () {
                     return new \SomeService();
                 });
-                $di->set('notResolved', function() {
+                $di->set('notResolved', function () {
                     return new \SomeService();
                 });
 

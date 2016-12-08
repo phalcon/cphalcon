@@ -30,15 +30,16 @@
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *
  *<code>
- *	$metaData = new Phalcon\Mvc\Model\Metadata\Memcache(array(
- *		'prefix' => 'my-app-id',
- *		'lifetime' => 86400,
- *		'host' => 'localhost',
- *		'port' => 11211,
- *  	'persistent' => false
- *	));
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Memcache(
+ *     [
+ *         "prefix"     => "my-app-id",
+ *         "lifetime"   => 86400,
+ *         "host"       => "localhost",
+ *         "port"       => 11211,
+ *         "persistent" => false,
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memcache) {
@@ -113,9 +114,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, __construct) {
 	ZEPHIR_OBS_VAR(_7);
 	zephir_read_property_this(&_7, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_6, SL("lifetime"), &_7, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 330, _6);
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 332, _6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 333, _5, options);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 335, _5, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -204,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, reset) {
 	zephir_read_property_this(&meta, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(_0$$3);
-		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/memcache.zep", 130);
+		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/memcache.zep", 131);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
@@ -218,7 +219,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memcache, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_memcache_ce, this_ptr, "reset", &_5, 332);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_memcache_ce, this_ptr, "reset", &_5, 334);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

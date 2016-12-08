@@ -68,11 +68,12 @@ class ClassChangeCest
         $book->title = 'book';
         $I->assertTrue($book->save());
 
-        $I->expectException(new Exception(
+        $I->expectException(
+            new Exception(
                 "Object of class '\\Phalcon\\Test\\Collections\\Bookshelf\\NotACollection' " .
                 "must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document"
             ),
-            function() use ($book) {
+            function () use ($book) {
                 Books::findFirst([
                     ['_id'   => $book->getId()],
                     'class' => '\Phalcon\Test\Collections\Bookshelf\NotACollection'

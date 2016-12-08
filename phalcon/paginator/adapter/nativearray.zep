@@ -21,7 +21,6 @@ namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter;
-use Phalcon\Paginator\AdapterInterface;
 
 /**
  * Phalcon\Paginator\Adapter\NativeArray
@@ -46,7 +45,7 @@ use Phalcon\Paginator\AdapterInterface;
  * );
  *</code>
  */
-class NativeArray extends Adapter implements AdapterInterface
+class NativeArray extends Adapter
 {
 
 	/**

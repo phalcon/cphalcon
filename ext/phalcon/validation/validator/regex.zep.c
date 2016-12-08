@@ -29,21 +29,34 @@
  * <code>
  * use Phalcon\Validation\Validator\Regex as RegexValidator;
  *
- * $validator->add('created_at', new RegexValidator([
- *     'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/',
- *     'message' => 'The creation date is invalid'
- * ]));
+ * $validator->add(
+ *     "created_at",
+ *     new RegexValidator(
+ *         [
+ *             "pattern" => "/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/",
+ *             "message" => "The creation date is invalid",
+ *         ]
+ *     )
+ * );
  *
- * $validator->add(['created_at', 'name'], new RegexValidator([
- *     'pattern' => [
- *         'created_at' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/',
- *         'name' => '/^[a-z]$/'
+ * $validator->add(
+ *     [
+ *         "created_at",
+ *         "name",
  *     ],
- *     'message' => [
- *         'created_at' => 'The creation date is invalid',
- *         'name' => ' 'The name is invalid'
- *     ]
- * ]));
+ *     new RegexValidator(
+ *         [
+ *             "pattern" => [
+ *                 "created_at" => "/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/",
+ *                 "name"       => "/^[a-z]$/",
+ *             ],
+ *             "message" => [
+ *                 "created_at" => "The creation date is invalid",
+ *                 "name"       => "The name is invalid",
+ *             ]
+ *         ]
+ *     )
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
@@ -89,13 +102,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(pattern) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, pattern, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 68 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, pattern, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 81 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(pattern, _1$$3);
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_preg_match(_0, pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(_0)) {
-		zephir_array_fetch_long(&_2$$4, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 72 TSRMLS_CC);
+		zephir_array_fetch_long(&_2$$4, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 85 TSRMLS_CC);
 		failed = !ZEPHIR_IS_EQUAL(_2$$4, value);
 	} else {
 		failed = 1;
@@ -107,7 +120,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_temp_parameter(_3$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_4$$7, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 81 TSRMLS_CC);
+			zephir_array_fetch(&_4$$7, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 94 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(label, _4$$7);
 		}
 		if (ZEPHIR_IS_EMPTY(label)) {
@@ -120,7 +133,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_temp_parameter(_3$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$9, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 89 TSRMLS_CC);
+			zephir_array_fetch(&_5$$9, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 102 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(message, _5$$9);
 		}
 		ZEPHIR_INIT_VAR(replacePairs);
@@ -139,7 +152,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_temp_parameter(_3$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_7$$11, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 98 TSRMLS_CC);
+			zephir_array_fetch(&_7$$11, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 111 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(code, _7$$11);
 		}
 		ZEPHIR_INIT_NVAR(_3$$6);
@@ -148,7 +161,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_9$$6);
 		ZVAL_STRING(_9$$6, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 462, _8$$6, field, _9$$6, code);
+		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 464, _8$$6, field, _9$$6, code);
 		zephir_check_temp_parameter(_9$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$6);

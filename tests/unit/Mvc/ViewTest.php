@@ -13,6 +13,9 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Test\Module\View\AfterRenderListener;
 use Phalcon\Test\Module\View\Engine\Twig as TwigEngine;
 use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
+use Phalcon\Cache\Frontend\Output as FrontendCache;
+use Phalcon\Cache\Backend\File as BackendCache;
+use DirectoryIterator;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ViewTest
@@ -34,6 +37,21 @@ use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
 class ViewTest extends UnitTest
 {
     use ViewTrait;
+
+    protected function _clearCache()
+    {
+        if (!file_exists(PATH_CACHE)) {
+            mkdir(PATH_CACHE);
+        }
+
+        foreach (new DirectoryIterator(PATH_CACHE) as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+
+            unlink($item->getPathname());
+        }
+    }
 
     /**
      * Tests the View::getActiveRenderPath
@@ -463,10 +481,13 @@ class ViewTest extends UnitTest
                 $view->start();
                 $view->render('test5', 'missing');
                 $view->finish();
-            }, ['throws' => [
-                Exception::class,
-                "View 'partials/missing' was not found in any of the views directory"
-            ]]
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    "View 'partials/missing' was not found in any of the views directory"
+                ]
+            ]
         );
     }
 
@@ -669,5 +690,329 @@ class ViewTest extends UnitTest
                     ->equals("<html>Hey, this is a partial, also le-this</html>\n");
             }
         );
+    }
+
+    public function testSettersAndGetters()
+    {
+        $this->specify(
+            "View getters and setters don't work",
+            function () {
+                $view = new View();
+
+                expect($view)->equals($view->setBasePath(PATH_DATA));
+
+                $view->foo = "bar";
+                expect("bar")->equals($view->foo);
+
+                expect($view)->equals($view->setVar("foo1", "bar1"));
+                expect("bar1")->equals($view->getVar("foo1"));
+
+                $expectedVars = ["foo2" => "bar2", "foo3" => "bar3"];
+                expect($view)->equals($view->setVars($expectedVars));
+                expect("bar2")->equals($view->foo2);
+                expect("bar3")->equals($view->foo3);
+                expect($view)->equals($view->setVars($expectedVars, false));
+
+                expect($view)->equals($view->setParamToView("foo4", "bar4"));
+
+                $expectedParamsToView = ["foo2" => "bar2", "foo3" => "bar3", "foo4" => "bar4"];
+                expect($expectedParamsToView)->equals($view->getParamsToView());
+
+                expect($view)->equals($view->setContent("<h1>hello</h1>"));
+                expect("<h1>hello</h1>")->equals($view->getContent());
+
+                expect($view)->equals($view->setViewsDir("views/"));
+                expect("views/")->equals($view->getViewsDir());
+
+                expect($view)->equals($view->setLayoutsDir("views/layouts/"));
+                expect("views/layouts/")->equals($view->getLayoutsDir());
+
+                expect($view)->equals($view->setPartialsDir("views/partials/"));
+                expect("views/partials/")->equals($view->getPartialsDir());
+
+                expect($view)->equals($view->disableLevel(View::LEVEL_MAIN_LAYOUT));
+                expect($view)->equals($view->setRenderLevel(View::LEVEL_ACTION_VIEW));
+                expect(View::LEVEL_ACTION_VIEW)->equals($view->getRenderLevel());
+
+                expect($view)->equals($view->setMainView("html5"));
+                expect("html5")->equals($view->getMainView());
+
+                expect($view)->equals($view->setLayout("test2"));
+                expect("test2")->equals($view->getLayout());
+
+                expect($view)->equals($view->setTemplateBefore("before"));
+                expect($view)->equals($view->setTemplateAfter("after"));
+                expect($view)->equals($view->cleanTemplateBefore());
+                expect($view)->equals($view->cleanTemplateAfter());
+
+                $view->start();
+                $view->render("test2", "index");
+                $view->finish();
+
+                expect("test2")->equals($view->getControllerName());
+                expect("index")->equals($view->getActionName());
+            }
+        );
+    }
+
+    /**
+     * @covers \Phalcon\Mvc\View::__isset
+     */
+    public function testViewParamIsset()
+    {
+        $this->specify(
+            "Setting View parameters doesn't work",
+            function () {
+                $view = new View();
+
+                $view->setViewsDir(PATH_DATA . "views" . DIRECTORY_SEPARATOR);
+
+                $view->set_param = "something";
+
+                $content = $view->getRender("test16", "index");
+
+                expect($content)->equals("<html>1</html>" . PHP_EOL);
+            }
+        );
+    }
+
+    public function testDisableLevels()
+    {
+        $this->specify(
+            "Disabling view levels doesn't work as expected",
+            function () {
+                $view = $this->_getViewDisabled();
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_ACTION_VIEW);
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="controller-layout"><div class="before-layout"></div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_BEFORE_TEMPLATE);
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="controller-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_LAYOUT);
+
+                expect($view->getContent())->equals('<html><div class="after-layout"><div class="before-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_AFTER_TEMPLATE);
+
+                expect($view->getContent())->equals('<html><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+                $view = $this->_getViewDisabled(View::LEVEL_MAIN_LAYOUT);
+
+                expect($view->getContent())->equals('<div class="after-layout"><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></div>');
+
+                $view = $this->_getViewDisabled(
+                    [
+                        View::LEVEL_BEFORE_TEMPLATE => true,
+                        View::LEVEL_LAYOUT          => true,
+                        View::LEVEL_AFTER_TEMPLATE  => true,
+                        View::LEVEL_MAIN_LAYOUT     => true,
+                    ]
+                );
+
+                expect($view->getContent())->equals('<div class="action">Action</div>');
+            }
+        );
+    }
+
+    protected function _getViewDisabled($level = null)
+    {
+        $view = new View();
+
+        $view->setViewsDir(PATH_DATA . "views" . DIRECTORY_SEPARATOR);
+
+        $view->setTemplateAfter("after");
+        $view->setTemplateBefore("before");
+
+        if ($level !== null) {
+            $view->disableLevel($level);
+        }
+
+        $view->start();
+        $view->render("test13", "index");
+        $view->finish();
+
+        return $view;
+    }
+
+    public function testCacheDI()
+    {
+        $this->specify(
+            "Views are not cached properly",
+            function () {
+                $this->_clearCache();
+
+                $date = date("r");
+                $content = '<html>' . $date . '</html>' . PHP_EOL;
+
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setVar("date", $date);
+
+                //First hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                //Second hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                sleep(1);
+
+                $view->setVar("date", date("r"));
+
+                //Third hit after 1 second
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                //Four hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function testViewCacheIndependency()
+    {
+        $this->specify(
+            "Views are not cached properly (2)",
+            function () {
+                $this->_clearCache();
+
+                $date = date("r");
+                $content = '<html>'.$date.'</html>'.PHP_EOL;
+
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setVar("date", $date);
+
+                //First hit
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'index');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $di2 = $this->_getDi();
+                $view2 = new View();
+                $view2->setDI($di2);
+                $view2->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+
+                //Second hit
+                $view2->start();
+                $view2->cache(true);
+                $view2->render('test8', 'index');
+                $view2->finish();
+                expect($view2->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function testViewOptions()
+    {
+        $this->specify(
+            "Views are not cached properly when passing options to the constructor",
+            function () {
+                $this->_clearCache();
+
+                $config = array(
+                    'cache' => array(
+                        'service' => 'otherCache',
+                    )
+                );
+                $date = date("r");
+                $content = '<html>'.$date.'</html>'.PHP_EOL;
+
+                $di = $this->_getDi('otherCache');
+                $view = new View($config);
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setVar("date", $date);
+
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'other');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+
+                $view->reset();
+
+                sleep(1);
+
+                $view->setVar("date", date("r"));
+
+                $view->start();
+                $view->cache(true);
+                $view->render('test8', 'other');
+                $view->finish();
+                expect($view->getContent())->equals($content);
+            }
+        );
+    }
+
+    public function ytestCacheMethods()
+    {
+        $this->specify(
+            "View methods don't return the View instance",
+            function () {
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+
+                expect($view->start())->equals($view);
+                expect($view->cache(true))->equals($view);
+                expect($view->render('test2', 'index'))->equals($view);
+                expect($view->finish())->equals($view);
+            }
+        );
+    }
+
+    private function _getDi($service = 'viewCache', $lifetime = 60)
+    {
+        $di = new Di();
+
+        $frontendCache = new FrontendCache(
+            array(
+                'lifetime' => $lifetime
+            )
+        );
+
+        $backendCache = new BackendCache(
+            $frontendCache,
+            array(
+                'cacheDir' => PATH_CACHE
+            )
+        );
+
+        $di->set($service, $backendCache);
+
+        return $di;
     }
 }

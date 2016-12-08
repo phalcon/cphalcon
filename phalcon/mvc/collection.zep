@@ -347,7 +347,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let base = new {className}();
 
 			if !(base instanceof CollectionInterface || base instanceof Collection\Document) {
-				throw new Exception("Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document");
+				throw new Exception(
+					"Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document"
+				);
 			}
 		} else {
 			let base = collection;
@@ -1016,7 +1018,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		let collection = this->prepareCU();
 
 		/**
-		 * Assume non-existance to fire beforeCreate events - no update does occur anyway
+		 * Assume non-existence to fire beforeCreate events - no update does occur anyway
 		 */
 		let exists = false;
 

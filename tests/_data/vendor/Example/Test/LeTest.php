@@ -1,5 +1,5 @@
 <?php
 
-class LeTest {
-
+class LeTest
+{
 }

@@ -34,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter) {
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_paginator_adapter_ce TSRMLS_CC, 1, phalcon_paginator_adapterinterface_ce);
 	return SUCCESS;
 
 }

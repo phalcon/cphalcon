@@ -30,9 +30,11 @@
  * Stores model meta-data in PHP files.
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(array(
- *    'metaDataDir' => 'app/cache/metadata/'
- * ));
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(
+ *     [
+ *         "metaDataDir" => "app/cache/metadata/",
+ *     ]
+ * );
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files) {
@@ -157,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_SVS(_5, "<?php return ", _4, "; ");
 	zephir_file_put_contents(_3, path, _5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 86);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 88);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

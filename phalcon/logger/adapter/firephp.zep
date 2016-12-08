@@ -21,7 +21,6 @@
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\FormatterInterface;
 use Phalcon\Logger\Formatter\Firephp as FirePhpFormatter;
@@ -41,7 +40,7 @@ use Phalcon\Logger\Formatter\Firephp as FirePhpFormatter;
  * $logger->error("This is another error");
  *</code>
  */
-class Firephp extends Adapter implements AdapterInterface
+class Firephp extends Adapter
 {
 	private _initialized = false;
 

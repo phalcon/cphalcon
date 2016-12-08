@@ -237,4 +237,23 @@ class ApcCest
 
         $I->assertEquals($keys, ['a', 'b', 'c']);
     }
+
+    public function prefixedQueryKeys(UnitTester $I)
+    {
+        $I->wantTo('Get prefixed cache keys by using APC(u) as cache backend');
+
+        $prefix = 'app-data';
+        $cache = new Apc(new Data(['lifetime' => 20]), ['prefix' => $prefix]);
+
+        $key1 = '_PHCA' . 'app-data' . 'data-key-1';
+        $key2 = '_PHCA' . 'app-data' . 'data-key-2';
+        $key3 = '_PHCA' . 'data-key-3';
+
+        $I->haveInApc([$key1 => 1, $key2 => 2, $key3 => 3], null);
+
+        $keys = $cache->queryKeys($prefix);
+        sort($keys);
+
+        $I->assertEquals($keys, ['app-datadata-key-1', 'app-datadata-key-2']);
+    }
 }

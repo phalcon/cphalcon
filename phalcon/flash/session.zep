@@ -21,7 +21,6 @@ namespace Phalcon\Flash;
 
 use Phalcon\Flash as FlashBase;
 use Phalcon\DiInterface;
-use Phalcon\FlashInterface;
 use Phalcon\Flash\Exception;
 use Phalcon\Session\AdapterInterface as SessionInterface;
 
@@ -30,7 +29,7 @@ use Phalcon\Session\AdapterInterface as SessionInterface;
  *
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
-class Session extends FlashBase implements FlashInterface
+class Session extends FlashBase
 {
 	/**
 	 * Returns the messages stored in session

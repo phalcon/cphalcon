@@ -22,7 +22,6 @@ namespace Phalcon\Mvc\Model\Validator;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Validator;
-use Phalcon\Mvc\Model\ValidatorInterface;
 
 /**
  * Phalcon\Mvc\Model\Validator\IP
@@ -82,7 +81,7 @@ use Phalcon\Mvc\Model\ValidatorInterface;
  * }
  *</code>
  */
-class Ip extends Validator implements ValidatorInterface
+class Ip extends Validator
 {
 	const VERSION_4  = FILTER_FLAG_IPV4;
 	const VERSION_6  = FILTER_FLAG_IPV6;

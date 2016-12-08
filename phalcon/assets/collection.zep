@@ -187,9 +187,7 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function current() -> <$Resource>
 	{
-		var $resource;
-		fetch $resource, this->_resources[this->_position];
-		return $resource;
+		return this->_resources[this->_position];
 	}
 
 	/**

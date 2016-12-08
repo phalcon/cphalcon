@@ -39,11 +39,11 @@ class CriteriaTest extends UnitTest
 
         $di = $this->tester->getApplication()->getDI();
 
-        $di->set('modelsManager', function() {
+        $di->set('modelsManager', function () {
             return new Manager;
         });
 
-        $di->set('modelsMetadata', function() {
+        $di->set('modelsMetadata', function () {
             return new Memory;
         });
 
@@ -61,7 +61,7 @@ class CriteriaTest extends UnitTest
     {
         $this->specify(
             'The Criteria::inWhere with empty array does not work as expected',
-            function() {
+            function () {
                 $criteria = Users::query()->inWhere(Users::class . '.id', []);
 
                 expect($criteria->getWhere())->equals(Users::class . '.id != ' . Users::class . '.id');

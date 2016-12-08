@@ -52,9 +52,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Text) {
  * Converts strings to camelize style
  *
  * <code>
- *    echo Phalcon\Text::camelize('coco_bongo'); // CocoBongo
- *    echo Phalcon\Text::camelize('co_co-bon_go', '-'); // Co_coBon_go
- *    echo Phalcon\Text::camelize('co_co-bon_go', '_-'); // CoCoBonGo
+ * echo Phalcon\Text::camelize("coco_bongo"); // CocoBongo
+ * echo Phalcon\Text::camelize("co_co-bon_go", "-"); // Co_coBon_go
+ * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
  * </code>
  */
 PHP_METHOD(Phalcon_Text, camelize) {
@@ -90,8 +90,8 @@ PHP_METHOD(Phalcon_Text, camelize) {
  * Uncamelize strings which are camelized
  *
  * <code>
- *    echo Phalcon\Text::uncamelize('CocoBongo'); // coco_bongo
- *    echo Phalcon\Text::uncamelize('CocoBongo', '-'); // coco-bongo
+ * echo Phalcon\Text::uncamelize("CocoBongo"); // coco_bongo
+ * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
  * </code>
  */
 PHP_METHOD(Phalcon_Text, uncamelize) {
@@ -127,8 +127,8 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
  * Adds a number to a string or increment that number if it already is defined
  *
  * <code>
- *    echo Phalcon\Text::increment("a"); // "a_1"
- *    echo Phalcon\Text::increment("a_1"); // "a_2"
+ * echo Phalcon\Text::increment("a"); // "a_1"
+ * echo Phalcon\Text::increment("a_1"); // "a_2"
  * </code>
  */
 PHP_METHOD(Phalcon_Text, increment) {
@@ -168,7 +168,10 @@ PHP_METHOD(Phalcon_Text, increment) {
  * Generates a random string based on the given type. Type is one of the RANDOM_* constants
  *
  * <code>
- *    echo Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM); //"aloiwkqz"
+ * // "aloiwkqz"
+ * echo Phalcon\Text::random(
+ *     Phalcon\Text::RANDOM_ALNUM
+ * );
  * </code>
  */
 PHP_METHOD(Phalcon_Text, random) {
@@ -201,13 +204,13 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_STRING(&_0$$3, "a", 0);
 			ZEPHIR_SINIT_VAR(_1$$3);
 			ZVAL_STRING(&_1$$3, "z", 0);
-			ZEPHIR_CALL_FUNCTION(&_2$$3, "range", &_3, 442, &_0$$3, &_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "range", &_3, 444, &_0$$3, &_1$$3);
 			zephir_check_call_status();
 			ZEPHIR_SINIT_NVAR(_0$$3);
 			ZVAL_STRING(&_0$$3, "A", 0);
 			ZEPHIR_SINIT_NVAR(_1$$3);
 			ZVAL_STRING(&_1$$3, "Z", 0);
-			ZEPHIR_CALL_FUNCTION(&_4$$3, "range", &_3, 442, &_0$$3, &_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_4$$3, "range", &_3, 444, &_0$$3, &_1$$3);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(pool);
 			zephir_fast_array_merge(pool, &(_2$$3), &(_4$$3) TSRMLS_CC);
@@ -218,13 +221,13 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_LONG(&_5$$4, 0);
 			ZEPHIR_SINIT_VAR(_6$$4);
 			ZVAL_LONG(&_6$$4, 9);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "range", &_3, 442, &_5$$4, &_6$$4);
+			ZEPHIR_CALL_FUNCTION(&_7$$4, "range", &_3, 444, &_5$$4, &_6$$4);
 			zephir_check_call_status();
 			ZEPHIR_SINIT_NVAR(_5$$4);
 			ZVAL_STRING(&_5$$4, "a", 0);
 			ZEPHIR_SINIT_NVAR(_6$$4);
 			ZVAL_STRING(&_6$$4, "f", 0);
-			ZEPHIR_CALL_FUNCTION(&_8$$4, "range", &_3, 442, &_5$$4, &_6$$4);
+			ZEPHIR_CALL_FUNCTION(&_8$$4, "range", &_3, 444, &_5$$4, &_6$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(pool);
 			zephir_fast_array_merge(pool, &(_7$$4), &(_8$$4) TSRMLS_CC);
@@ -235,7 +238,7 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_LONG(&_9$$5, 0);
 			ZEPHIR_SINIT_VAR(_10$$5);
 			ZVAL_LONG(&_10$$5, 9);
-			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 442, &_9$$5, &_10$$5);
+			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 444, &_9$$5, &_10$$5);
 			zephir_check_call_status();
 			break;
 		}
@@ -244,7 +247,7 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_LONG(&_11$$6, 1);
 			ZEPHIR_SINIT_VAR(_12$$6);
 			ZVAL_LONG(&_12$$6, 9);
-			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 442, &_11$$6, &_12$$6);
+			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 444, &_11$$6, &_12$$6);
 			zephir_check_call_status();
 			break;
 		}
@@ -252,21 +255,21 @@ PHP_METHOD(Phalcon_Text, random) {
 		ZVAL_LONG(&_13$$7, 0);
 		ZEPHIR_SINIT_VAR(_14$$7);
 		ZVAL_LONG(&_14$$7, 9);
-		ZEPHIR_CALL_FUNCTION(&_15$$7, "range", &_3, 442, &_13$$7, &_14$$7);
+		ZEPHIR_CALL_FUNCTION(&_15$$7, "range", &_3, 444, &_13$$7, &_14$$7);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_13$$7);
 		ZVAL_STRING(&_13$$7, "a", 0);
 		ZEPHIR_SINIT_NVAR(_14$$7);
 		ZVAL_STRING(&_14$$7, "z", 0);
-		ZEPHIR_CALL_FUNCTION(&_16$$7, "range", &_3, 442, &_13$$7, &_14$$7);
+		ZEPHIR_CALL_FUNCTION(&_16$$7, "range", &_3, 444, &_13$$7, &_14$$7);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_13$$7);
 		ZVAL_STRING(&_13$$7, "A", 0);
 		ZEPHIR_SINIT_NVAR(_14$$7);
 		ZVAL_STRING(&_14$$7, "Z", 0);
-		ZEPHIR_CALL_FUNCTION(&_17$$7, "range", &_3, 442, &_13$$7, &_14$$7);
+		ZEPHIR_CALL_FUNCTION(&_17$$7, "range", &_3, 444, &_13$$7, &_14$$7);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&pool, "array_merge", &_18, 443, _15$$7, _16$$7, _17$$7);
+		ZEPHIR_CALL_FUNCTION(&pool, "array_merge", &_18, 445, _15$$7, _16$$7, _17$$7);
 		zephir_check_call_status();
 		break;
 	} while(0);
@@ -280,7 +283,7 @@ PHP_METHOD(Phalcon_Text, random) {
 		ZVAL_LONG(&_20$$8, 0);
 		ZEPHIR_SINIT_NVAR(_21$$8);
 		ZVAL_LONG(&_21$$8, end);
-		zephir_array_fetch_long(&_19$$8, pool, zephir_mt_rand(zephir_get_intval(&_20$$8), zephir_get_intval(&_21$$8) TSRMLS_CC), PH_NOISY | PH_READONLY, "phalcon/text.zep", 129 TSRMLS_CC);
+		zephir_array_fetch_long(&_19$$8, pool, zephir_mt_rand(zephir_get_intval(&_20$$8), zephir_get_intval(&_21$$8) TSRMLS_CC), PH_NOISY | PH_READONLY, "phalcon/text.zep", 132 TSRMLS_CC);
 		zephir_concat_self(&str, _19$$8 TSRMLS_CC);
 	}
 	RETURN_CCTOR(str);
@@ -291,9 +294,9 @@ PHP_METHOD(Phalcon_Text, random) {
  * Check if a string starts with a given string
  *
  * <code>
- *    echo Phalcon\Text::startsWith("Hello", "He"); // true
- *    echo Phalcon\Text::startsWith("Hello", "he", false); // false
- *    echo Phalcon\Text::startsWith("Hello", "he"); // true
+ * echo Phalcon\Text::startsWith("Hello", "He"); // true
+ * echo Phalcon\Text::startsWith("Hello", "he", false); // false
+ * echo Phalcon\Text::startsWith("Hello", "he"); // true
  * </code>
  */
 PHP_METHOD(Phalcon_Text, startsWith) {
@@ -324,9 +327,9 @@ PHP_METHOD(Phalcon_Text, startsWith) {
  * Check if a string ends with a given string
  *
  * <code>
- *    echo Phalcon\Text::endsWith("Hello", "llo"); // true
- *    echo Phalcon\Text::endsWith("Hello", "LLO", false); // false
- *    echo Phalcon\Text::endsWith("Hello", "LLO"); // true
+ * echo Phalcon\Text::endsWith("Hello", "llo"); // true
+ * echo Phalcon\Text::endsWith("Hello", "LLO", false); // false
+ * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
  * </code>
  */
 PHP_METHOD(Phalcon_Text, endsWith) {
@@ -357,7 +360,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
  * Lowercases a string, this function makes use of the mbstring extension if available
  *
  * <code>
- *    echo Phalcon\Text::lower("HELLO"); // hello
+ * echo Phalcon\Text::lower("HELLO"); // hello
  * </code>
  */
 PHP_METHOD(Phalcon_Text, lower) {
@@ -397,7 +400,7 @@ PHP_METHOD(Phalcon_Text, lower) {
 
 
 	if ((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 202, str, encoding);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_strtolower", NULL, 204, str, encoding);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -410,7 +413,7 @@ PHP_METHOD(Phalcon_Text, lower) {
  * Uppercases a string, this function makes use of the mbstring extension if available
  *
  * <code>
- *    echo Phalcon\Text::upper("hello"); // HELLO
+ * echo Phalcon\Text::upper("hello"); // HELLO
  * </code>
  */
 PHP_METHOD(Phalcon_Text, upper) {
@@ -450,7 +453,7 @@ PHP_METHOD(Phalcon_Text, upper) {
 
 
 	if ((zephir_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_strtoupper", NULL, 203, str, encoding);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_strtoupper", NULL, 205, str, encoding);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -463,8 +466,8 @@ PHP_METHOD(Phalcon_Text, upper) {
  * Reduces multiple slashes in a string to single slashes
  *
  * <code>
- *    echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
- *    echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
+ * echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
+ * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
  * </code>
  */
 PHP_METHOD(Phalcon_Text, reduceSlashes) {
@@ -495,8 +498,16 @@ PHP_METHOD(Phalcon_Text, reduceSlashes) {
  * Concatenates strings using the separator only once without duplication in places concatenation
  *
  * <code>
- *    $str = Phalcon\Text::concat("/", "/tmp/", "/folder_1/", "/folder_2", "folder_3/");
- *    echo $str; // /tmp/folder_1/folder_2/folder_3/
+ * $str = Phalcon\Text::concat(
+ *     "/",
+ *     "/tmp/",
+ *     "/folder_1/",
+ *     "/folder_2",
+ *     "folder_3/"
+ * );
+ *
+ * // /tmp/folder_1/folder_2/folder_3/
+ * echo $str;
  * </code>
  *
  * @param string separator
@@ -516,26 +527,26 @@ PHP_METHOD(Phalcon_Text, concat) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&separator, "func_get_arg", &_1, 444, &_0);
+	ZEPHIR_CALL_FUNCTION(&separator, "func_get_arg", &_1, 446, &_0);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&a, "func_get_arg", &_1, 444, &_0);
+	ZEPHIR_CALL_FUNCTION(&a, "func_get_arg", &_1, 446, &_0);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_FUNCTION(&b, "func_get_arg", &_1, 444, &_0);
+	ZEPHIR_CALL_FUNCTION(&b, "func_get_arg", &_1, 446, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "func_num_args", NULL, 445);
+	ZEPHIR_CALL_FUNCTION(&_2, "func_num_args", NULL, 447);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(_2, 3)) {
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "func_get_args", NULL, 174);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "func_get_args", NULL, 176);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_4$$3);
 		ZVAL_LONG(&_4$$3, 3);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_slice", NULL, 392, _3$$3, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_slice", NULL, 394, _3$$3, &_4$$3);
 		zephir_check_call_status();
-		zephir_is_iterable(_5$$3, &_7$$3, &_6$$3, 0, 0, "phalcon/text.zep", 245);
+		zephir_is_iterable(_5$$3, &_7$$3, &_6$$3, 0, 0, "phalcon/text.zep", 256);
 		for (
 		  ; zephir_hash_get_current_data_ex(_7$$3, (void**) &_8$$3, &_6$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_7$$3, &_6$$3)
@@ -563,10 +574,17 @@ PHP_METHOD(Phalcon_Text, concat) {
  * Generates random text in accordance with the template
  *
  * <code>
- *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Bob
- *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hi my name is a Jon
- *    echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!"); // Hello my name is a Bob
- *    echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", '[', ']', '/'); // Hello my name is a Zyxep
+ * // Hi my name is a Bob
+ * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+ *
+ * // Hi my name is a Jon
+ * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+ *
+ * // Hello my name is a Bob
+ * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+ *
+ * // Hello my name is a Zyxep
+ * echo Phalcon\Text::dynamic("[Hi/Hello], my name is a [Zyxep/Mark]!", "[", "]", "/");
  * </code>
  */
 PHP_METHOD(Phalcon_Text, dynamic) {
@@ -639,24 +657,24 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", &_1, 446, text, leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", &_1, 448, text, leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "substr_count", &_1, 446, text, rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_2, "substr_count", &_1, 448, text, rightDelimiter);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_IDENTICAL(_0, _2)) {
 		ZEPHIR_INIT_VAR(_3$$3);
 		object_init_ex(_3$$3, spl_ce_RuntimeException);
 		ZEPHIR_INIT_VAR(_4$$3);
 		ZEPHIR_CONCAT_SVS(_4$$3, "Syntax error in string \"", text, "\"");
-		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 447, _4$$3);
+		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 449, _4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_3$$3, "phalcon/text.zep", 265 TSRMLS_CC);
+		zephir_throw_exception_debug(_3$$3, "phalcon/text.zep", 283 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_5, 448, leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_5, 450, leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_5, 448, rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_5, 450, rightDelimiter);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(pattern);
 	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ldS, "([^", ldS, rdS, "]+)", rdS, "/");
@@ -672,7 +690,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		RETURN_CTOR(text);
 	}
 	if (Z_TYPE_P(matches) == IS_ARRAY) {
-		zephir_is_iterable(matches, &_9$$5, &_8$$5, 0, 0, "phalcon/text.zep", 288);
+		zephir_is_iterable(matches, &_9$$5, &_8$$5, 0, 0, "phalcon/text.zep", 306);
 		for (
 		  ; zephir_hash_get_current_data_ex(_9$$5, (void**) &_10$$5, &_8$$5) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_9$$5, &_8$$5)
@@ -685,15 +703,15 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 			if (_11$$6) {
 				continue;
 			}
-			zephir_array_fetch_long(&_12$$6, match, 1, PH_NOISY | PH_READONLY, "phalcon/text.zep", 283 TSRMLS_CC);
+			zephir_array_fetch_long(&_12$$6, match, 1, PH_NOISY | PH_READONLY, "phalcon/text.zep", 301 TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(words);
 			zephir_fast_explode(words, separator, _12$$6, LONG_MAX TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(word);
-			ZEPHIR_CALL_FUNCTION(&_13$$6, "array_rand", &_14, 449, words);
+			ZEPHIR_CALL_FUNCTION(&_13$$6, "array_rand", &_14, 451, words);
 			zephir_check_call_status();
-			zephir_array_fetch(&word, words, _13$$6, PH_NOISY, "phalcon/text.zep", 284 TSRMLS_CC);
-			zephir_array_fetch_long(&_15$$6, match, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 285 TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", &_5, 448, _15$$6, separator);
+			zephir_array_fetch(&word, words, _13$$6, PH_NOISY, "phalcon/text.zep", 302 TSRMLS_CC);
+			zephir_array_fetch_long(&_15$$6, match, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 303 TSRMLS_CC);
+			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", &_5, 450, _15$$6, separator);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_16$$6);
 			ZEPHIR_CONCAT_SVS(_16$$6, "/", sub, "/");
@@ -712,8 +730,8 @@ PHP_METHOD(Phalcon_Text, dynamic) {
  * Makes a phrase underscored instead of spaced
  *
  * <code>
- *   echo Phalcon\Text::underscore('look behind'); // 'look_behind'
- *   echo Phalcon\Text::underscore('Awesome Phalcon'); // 'Awesome_Phalcon'
+ * echo Phalcon\Text::underscore("look behind"); // "look_behind"
+ * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
  * </code>
  */
 PHP_METHOD(Phalcon_Text, underscore) {
@@ -755,8 +773,8 @@ PHP_METHOD(Phalcon_Text, underscore) {
  * Makes an underscored or dashed phrase human-readable
  *
  * <code>
- *   echo Phalcon\Text::humanize('start-a-horse'); // 'start a horse'
- *   echo Phalcon\Text::humanize('five_cats'); // 'five cats'
+ * echo Phalcon\Text::humanize("start-a-horse"); // "start a horse"
+ * echo Phalcon\Text::humanize("five_cats"); // "five cats"
  * </code>
  */
 PHP_METHOD(Phalcon_Text, humanize) {

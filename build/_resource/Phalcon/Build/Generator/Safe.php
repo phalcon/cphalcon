@@ -69,8 +69,8 @@ class Generator_Safe
 
         $this->phalconH = new Generator_File_PhalconH($this->sourceDir, $outputDir);
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
-        $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
-        $this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
+        $this->configM4 = new Generator_File_ConfigM4($rootDir, $outputDir);
+        $this->configW32 = new Generator_File_ConfigW32($rootDir, $outputDir);
     }
 
     /**
@@ -110,7 +110,7 @@ class Generator_Safe
 
         foreach (file($this->outputDir . '/php_phalcon.h') as $line) {
             if (preg_match('@^#include "(kernel/.+)"@', $line, $matches)) {
-                $content = file_get_contents('ext/' . $matches[1]);
+                $content = file_get_contents($this->sourceDir . DIRECTORY_SEPARATOR . $matches[1]);
                 $lines[] = $content . PHP_EOL;
             } else {
                 $lines[] = $line;

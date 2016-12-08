@@ -124,8 +124,8 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
  * Adds a Css resource to the 'css' collection
  *
  *<code>
- *	$assets->addCss('css/bootstrap.css');
- *	$assets->addCss('http://bootstrap.my-cdn.com/style.css', false);
+ *	$assets->addCss("css/bootstrap.css");
+ *	$assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
  *</code>
  */
 PHP_METHOD(Phalcon_Assets_Manager, addCss) {
@@ -209,8 +209,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCss) {
  * Adds a javascript resource to the 'js' collection
  *
  *<code>
- *	$assets->addJs('scripts/jquery.js');
- *	$assets->addJs('http://jquery.my-cdn.com/jquery.js', false);
+ * $assets->addJs("scripts/jquery.js");
+ * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
  *</code>
  */
 PHP_METHOD(Phalcon_Assets_Manager, addJs) {
@@ -294,7 +294,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineJs) {
  * Adds a resource by its type
  *
  *<code>
- *	$assets->addResourceByType('css', new \Phalcon\Assets\Resource\Css('css/style.css'));
+ * $assets->addResourceByType("css",
+ *     new \Phalcon\Assets\Resource\Css("css/style.css")
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
@@ -380,7 +382,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
  * Adds a raw resource to the manager
  *
  *<code>
- * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
+ * $assets->addResource(
+ *     new Phalcon\Assets\Resource("css", "css/style.css")
+ * );
  *</code>
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResource) {
@@ -426,7 +430,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCode) {
  * Sets a collection in the Assets Manager
  *
  *<code>
- * $assets->set('js', $collection);
+ * $assets->set("js", $collection);
  *</code>
  */
 PHP_METHOD(Phalcon_Assets_Manager, set) {
@@ -458,7 +462,7 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
  * Returns a collection by its id
  *
  *<code>
- * $scripts = $assets->get('js');
+ * $scripts = $assets->get("js");
  *</code>
  */
 PHP_METHOD(Phalcon_Assets_Manager, get) {
@@ -484,7 +488,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	ZEPHIR_OBS_VAR(collection);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!(zephir_array_isset_fetch(&collection, _0, id, 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager", "phalcon/assets/manager.zep", 231);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager", "phalcon/assets/manager.zep", 235);
 		return;
 	}
 	RETURN_CCTOR(collection);
@@ -641,7 +645,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				ZEPHIR_CONCAT_SVS(_1$$10, "Path '", completeTargetPath, "' is not a valid target path (1)");
 				ZEPHIR_CALL_METHOD(NULL, _0$$10, "__construct", NULL, 9, _1$$10);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_0$$10, "phalcon/assets/manager.zep", 393 TSRMLS_CC);
+				zephir_throw_exception_debug(_0$$10, "phalcon/assets/manager.zep", 396 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -654,13 +658,13 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				ZEPHIR_CONCAT_SVS(_4$$11, "Path '", completeTargetPath, "' is not a valid target path (2), is dir.");
 				ZEPHIR_CALL_METHOD(NULL, _3$$11, "__construct", NULL, 9, _4$$11);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_3$$11, "phalcon/assets/manager.zep", 397 TSRMLS_CC);
+				zephir_throw_exception_debug(_3$$11, "phalcon/assets/manager.zep", 400 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		}
 	}
-	zephir_is_iterable(resources, &_6, &_5, 0, 0, "phalcon/assets/manager.zep", 635);
+	zephir_is_iterable(resources, &_6, &_5, 0, 0, "phalcon/assets/manager.zep", 638);
 	for (
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -684,7 +688,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 					ZEPHIR_CONCAT_SVS(_9$$15, "Resource '", sourcePath, "' does not have a valid source path");
 					ZEPHIR_CALL_METHOD(NULL, _8$$15, "__construct", NULL, 9, _9$$15);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(_8$$15, "phalcon/assets/manager.zep", 431 TSRMLS_CC);
+					zephir_throw_exception_debug(_8$$15, "phalcon/assets/manager.zep", 434 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -702,7 +706,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 				ZEPHIR_CONCAT_SVS(_11$$17, "Resource '", sourcePath, "' does not have a valid target path");
 				ZEPHIR_CALL_METHOD(NULL, _10$$17, "__construct", NULL, 9, _11$$17);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_10$$17, "phalcon/assets/manager.zep", 455 TSRMLS_CC);
+				zephir_throw_exception_debug(_10$$17, "phalcon/assets/manager.zep", 458 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -714,7 +718,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 					ZEPHIR_CONCAT_SVS(_13$$19, "Resource '", targetPath, "' have the same source and target paths");
 					ZEPHIR_CALL_METHOD(NULL, _12$$19, "__construct", NULL, 9, _13$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(_12$$19, "phalcon/assets/manager.zep", 464 TSRMLS_CC);
+					zephir_throw_exception_debug(_12$$19, "phalcon/assets/manager.zep", 467 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -742,11 +746,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
 				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 499);
+				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 502);
 			} else {
-				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 501);
+				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 504);
 			}
-			zephir_array_append(&parameters, local, PH_SEPARATE, "phalcon/assets/manager.zep", 503);
+			zephir_array_append(&parameters, local, PH_SEPARATE, "phalcon/assets/manager.zep", 506);
 			ZEPHIR_INIT_NVAR(html);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(html, callback, parameters);
 			zephir_check_call_status();
@@ -763,14 +767,14 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			ZEPHIR_CALL_METHOD(&mustFilter, resource, "getfilter", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE(mustFilter)) {
-				zephir_is_iterable(filters, &_16$$31, &_15$$31, 0, 0, "phalcon/assets/manager.zep", 556);
+				zephir_is_iterable(filters, &_16$$31, &_15$$31, 0, 0, "phalcon/assets/manager.zep", 559);
 				for (
 				  ; zephir_hash_get_current_data_ex(_16$$31, (void**) &_17$$31, &_15$$31) == SUCCESS
 				  ; zephir_hash_move_forward_ex(_16$$31, &_15$$31)
 				) {
 					ZEPHIR_GET_HVALUE(filter, _17$$31);
 					if (Z_TYPE_P(filter) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 544);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 547);
 						return;
 					}
 					ZEPHIR_CALL_METHOD(&filteredContent, filter, "filter", NULL, 0, content);
@@ -814,11 +818,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
 				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 613);
+				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 616);
 			} else {
-				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 615);
+				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 618);
 			}
-			zephir_array_append(&parameters, local, PH_SEPARATE, "phalcon/assets/manager.zep", 617);
+			zephir_array_append(&parameters, local, PH_SEPARATE, "phalcon/assets/manager.zep", 620);
 			ZEPHIR_INIT_NVAR(html);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(html, callback, parameters);
 			zephir_check_call_status();
@@ -848,11 +852,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			array_init(parameters);
 			if (Z_TYPE_P(attributes) == IS_ARRAY) {
 				zephir_array_update_long(&attributes, 0, &prefixedPath, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 672);
+				zephir_array_append(&parameters, attributes, PH_SEPARATE, "phalcon/assets/manager.zep", 675);
 			} else {
-				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 674);
+				zephir_array_append(&parameters, prefixedPath, PH_SEPARATE, "phalcon/assets/manager.zep", 677);
 			}
-			zephir_array_append(&parameters, local, PH_SEPARATE, "phalcon/assets/manager.zep", 676);
+			zephir_array_append(&parameters, local, PH_SEPARATE, "phalcon/assets/manager.zep", 679);
 			ZEPHIR_INIT_NVAR(html);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(html, callback, parameters);
 			zephir_check_call_status();
@@ -875,11 +879,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputInline) {
 
-	HashTable *_1$$3, *_4$$5;
-	HashPosition _0$$3, _3$$5;
+	HashTable *_1$$3, *_4$$4;
+	HashPosition _0$$3, _3$$4;
 	zephir_fcall_cache_entry *_8 = NULL, *_12 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *collection, *type, *output = NULL, *html = NULL, *codes = NULL, *filters = NULL, *filter = NULL, *code = NULL, *attributes = NULL, *content = NULL, *join = NULL, *joinedContent = NULL, **_2$$3, *_19$$3, **_5$$5, *_6$$6 = NULL, *_7$$9 = NULL, *_9$$9 = NULL, *_10$$9 = NULL, *_11$$9 = NULL, *_13$$9 = NULL, *_14$$10 = NULL, *_15$$10 = NULL, *_16$$10, *_17$$10 = NULL, *_18$$10;
+	zval *collection, *type, *output = NULL, *html = NULL, *codes = NULL, *filters = NULL, *filter = NULL, *code = NULL, *attributes = NULL, *content = NULL, *join = NULL, *joinedContent = NULL, **_2$$3, *_19$$3, **_5$$4, *_6$$5 = NULL, *_7$$8 = NULL, *_9$$8 = NULL, *_10$$8 = NULL, *_11$$8 = NULL, *_13$$8 = NULL, *_14$$9 = NULL, *_15$$9 = NULL, *_16$$9, *_17$$9 = NULL, *_18$$9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &collection, &type);
@@ -899,7 +903,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInline) {
 	ZEPHIR_CALL_METHOD(&join, collection, "getjoin", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(codes TSRMLS_CC)) {
-		zephir_is_iterable(codes, &_1$$3, &_0$$3, 0, 0, "phalcon/assets/manager.zep", 743);
+		zephir_is_iterable(codes, &_1$$3, &_0$$3, 0, 0, "phalcon/assets/manager.zep", 744);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
@@ -909,54 +913,52 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInline) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&content, code, "getcontent", NULL, 0);
 			zephir_check_call_status();
-			if (zephir_fast_count_int(filters TSRMLS_CC)) {
-				zephir_is_iterable(filters, &_4$$5, &_3$$5, 0, 0, "phalcon/assets/manager.zep", 734);
-				for (
-				  ; zephir_hash_get_current_data_ex(_4$$5, (void**) &_5$$5, &_3$$5) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_4$$5, &_3$$5)
-				) {
-					ZEPHIR_GET_HVALUE(filter, _5$$5);
-					if (Z_TYPE_P(filter) != IS_OBJECT) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 726);
-						return;
-					}
-					ZEPHIR_CALL_METHOD(&_6$$6, filter, "filter", NULL, 0, content);
-					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(content, _6$$6);
+			zephir_is_iterable(filters, &_4$$4, &_3$$4, 0, 0, "phalcon/assets/manager.zep", 737);
+			for (
+			  ; zephir_hash_get_current_data_ex(_4$$4, (void**) &_5$$4, &_3$$4) == SUCCESS
+			  ; zephir_hash_move_forward_ex(_4$$4, &_3$$4)
+			) {
+				ZEPHIR_GET_HVALUE(filter, _5$$4);
+				if (Z_TYPE_P(filter) != IS_OBJECT) {
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_assets_exception_ce, "Filter is invalid", "phalcon/assets/manager.zep", 728);
+					return;
 				}
+				ZEPHIR_CALL_METHOD(&_6$$5, filter, "filter", NULL, 0, content);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(content, _6$$5);
 			}
 			if (zephir_is_true(join)) {
 				zephir_concat_self(&joinedContent, content TSRMLS_CC);
 			} else {
-				ZEPHIR_INIT_NVAR(_9$$9);
-				ZVAL_BOOL(_9$$9, 0);
-				ZEPHIR_INIT_NVAR(_10$$9);
-				ZVAL_BOOL(_10$$9, 1);
-				ZEPHIR_CALL_CE_STATIC(&_7$$9, phalcon_tag_ce, "taghtml", &_8, 0, type, attributes, _9$$9, _10$$9);
+				ZEPHIR_INIT_NVAR(_9$$8);
+				ZVAL_BOOL(_9$$8, 0);
+				ZEPHIR_INIT_NVAR(_10$$8);
+				ZVAL_BOOL(_10$$8, 1);
+				ZEPHIR_CALL_CE_STATIC(&_7$$8, phalcon_tag_ce, "taghtml", &_8, 0, type, attributes, _9$$8, _10$$8);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(_9$$9);
-				ZVAL_BOOL(_9$$9, 1);
-				ZEPHIR_CALL_CE_STATIC(&_11$$9, phalcon_tag_ce, "taghtmlclose", &_12, 0, type, _9$$9);
+				ZEPHIR_INIT_NVAR(_9$$8);
+				ZVAL_BOOL(_9$$8, 1);
+				ZEPHIR_CALL_CE_STATIC(&_11$$8, phalcon_tag_ce, "taghtmlclose", &_12, 0, type, _9$$8);
 				zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_13$$9);
-				ZEPHIR_CONCAT_VVV(_13$$9, _7$$9, content, _11$$9);
-				zephir_concat_self(&html, _13$$9 TSRMLS_CC);
+				ZEPHIR_INIT_LNVAR(_13$$8);
+				ZEPHIR_CONCAT_VVV(_13$$8, _7$$8, content, _11$$8);
+				zephir_concat_self(&html, _13$$8 TSRMLS_CC);
 			}
 		}
 		if (zephir_is_true(join)) {
-			ZEPHIR_INIT_VAR(_15$$10);
-			ZVAL_BOOL(_15$$10, 0);
-			ZEPHIR_INIT_VAR(_16$$10);
-			ZVAL_BOOL(_16$$10, 1);
-			ZEPHIR_CALL_CE_STATIC(&_14$$10, phalcon_tag_ce, "taghtml", &_8, 0, type, attributes, _15$$10, _16$$10);
+			ZEPHIR_INIT_VAR(_15$$9);
+			ZVAL_BOOL(_15$$9, 0);
+			ZEPHIR_INIT_VAR(_16$$9);
+			ZVAL_BOOL(_16$$9, 1);
+			ZEPHIR_CALL_CE_STATIC(&_14$$9, phalcon_tag_ce, "taghtml", &_8, 0, type, attributes, _15$$9, _16$$9);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(_15$$10);
-			ZVAL_BOOL(_15$$10, 1);
-			ZEPHIR_CALL_CE_STATIC(&_17$$10, phalcon_tag_ce, "taghtmlclose", &_12, 0, type, _15$$10);
+			ZEPHIR_INIT_NVAR(_15$$9);
+			ZVAL_BOOL(_15$$9, 1);
+			ZEPHIR_CALL_CE_STATIC(&_17$$9, phalcon_tag_ce, "taghtmlclose", &_12, 0, type, _15$$9);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(_18$$10);
-			ZEPHIR_CONCAT_VVV(_18$$10, _14$$10, joinedContent, _17$$10);
-			zephir_concat_self(&html, _18$$10 TSRMLS_CC);
+			ZEPHIR_INIT_VAR(_18$$9);
+			ZEPHIR_CONCAT_VVV(_18$$9, _14$$9, joinedContent, _17$$9);
+			zephir_concat_self(&html, _18$$9 TSRMLS_CC);
 		}
 		_19$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 		if (ZEPHIR_IS_TRUE(_19$$3)) {

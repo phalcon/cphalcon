@@ -21,7 +21,6 @@ namespace Phalcon\Cache\Backend;
 
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Cache\FrontendInterface;
 
 /**
@@ -60,7 +59,7 @@ use Phalcon\Cache\FrontendInterface;
  * $data = $cache->get("my-data");
  *</code>
  */
-class Mongo extends Backend implements BackendInterface
+class Mongo extends Backend
 {
 
 	protected _collection = null;
@@ -367,7 +366,7 @@ class Mongo extends Backend implements BackendInterface
 		let document = this->_getCollection()->findOne(["key": prefixedKey]);
 
 		if !fetch modifiedTime, document["time"] {
-			throw new Exception("The cache is currupted");
+			throw new Exception("The cache is corrupted");
 		}
 
 		/**
@@ -376,7 +375,7 @@ class Mongo extends Backend implements BackendInterface
 		if time() < modifiedTime {
 
 			if !fetch cachedContent, document["data"] {
-				throw new Exception("The cache is currupted");
+				throw new Exception("The cache is corrupted");
 			}
 
 			if is_numeric(cachedContent) {
@@ -406,7 +405,7 @@ class Mongo extends Backend implements BackendInterface
 		let document = this->_getCollection()->findOne(["key": prefixedKey]);
 
 		if !fetch modifiedTime, document["time"] {
-			throw new Exception("The cache is currupted");
+			throw new Exception("The cache is corrupted");
 		}
 
 		/**
@@ -415,7 +414,7 @@ class Mongo extends Backend implements BackendInterface
 		if time() < modifiedTime {
 
 			if !fetch cachedContent, document["data"] {
-				throw new Exception("The cache is currupted");
+				throw new Exception("The cache is corrupted");
 			}
 
 			if is_numeric(cachedContent) {

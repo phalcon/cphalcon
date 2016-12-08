@@ -34,7 +34,7 @@ interface IndexInterface
 	public function getName();
 
 	/**
-	 * Gets the columns that comprends the index
+	 * Gets the columns that corresponds the index
 	 *
 	 * @return array
 	 */

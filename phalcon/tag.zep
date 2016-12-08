@@ -193,10 +193,7 @@ class Tag
 		let url = self::_urlService;
 		if typeof url != "object" {
 
-			let dependencyInjector = <DiInterface> self::_dependencyInjector;
-			if typeof dependencyInjector != "object" {
-				let dependencyInjector = Di::getDefault();
-			}
+			let dependencyInjector = self::getDI();
 
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the 'url' service");
@@ -218,10 +215,7 @@ class Tag
 		let escaper = self::_escaperService;
 		if typeof escaper != "object" {
 
-			let dependencyInjector = <DiInterface> self::_dependencyInjector;
-			if typeof dependencyInjector != "object" {
-				let dependencyInjector = Di::getDefault();
-			}
+			let dependencyInjector = self::getDI();
 
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
@@ -551,11 +545,11 @@ class Tag
 		}
 
 		let id = params[0];
-		if  !isset params["name"] {
+		if !isset params["name"] {
 			let params["name"] = id;
 		} else {
 			let name = params["name"];
-			if  empty name {
+			if empty name {
 				let params["name"] = id;
 			}
 		}

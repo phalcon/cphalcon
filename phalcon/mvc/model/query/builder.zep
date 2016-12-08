@@ -453,13 +453,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * // Inner Join model 'Robots' with automatic conditions and alias
 	 * $builder->join("Robots");
 	 *
-	 * // Inner Join model 'Robots' specifing conditions
+	 * // Inner Join model 'Robots' specifying conditions
 	 * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
 	 *
-	 * // Inner Join model 'Robots' specifing conditions and alias
+	 * // Inner Join model 'Robots' specifying conditions and alias
 	 * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *
-	 * // Left Join model 'Robots' specifing conditions, alias and type of join
+	 * // Left Join model 'Robots' specifying conditions, alias and type of join
 	 * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
 	 *</code>
 	 *
@@ -482,10 +482,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * // Inner Join model 'Robots' with automatic conditions and alias
 	 * $builder->innerJoin("Robots");
 	 *
-	 * // Inner Join model 'Robots' specifing conditions
+	 * // Inner Join model 'Robots' specifying conditions
 	 * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
 	 *
-	 * // Inner Join model 'Robots' specifing conditions and alias
+	 * // Inner Join model 'Robots' specifying conditions and alias
 	 * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
 	 *
@@ -571,7 +571,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function where(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
-		var currentBindParams, currentBindTypes, mergedParams, mergedTypes;
+		var currentBindParams, currentBindTypes;
 
 		let this->_conditions = conditions;
 
@@ -581,11 +581,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindParams == "array" {
 			let currentBindParams = this->_bindParams;
 			if typeof currentBindParams == "array" {
-				let mergedParams = currentBindParams + bindParams;
+				let this->_bindParams = currentBindParams + bindParams;
 			} else {
-				let mergedParams = bindParams;
+				let this->_bindParams = bindParams;
 			}
-			let this->_bindParams = mergedParams;
 		}
 
 		/**
@@ -594,11 +593,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindParams == "array" {
-				let mergedTypes = currentBindTypes + bindTypes;
+				let this->_bindTypes = currentBindTypes + bindTypes;
 			} else {
-				let mergedTypes = bindTypes;
+				let this->_bindTypes = bindTypes;
 			}
-			let this->_bindTypes = mergedTypes;
 		}
 
 		return this;
@@ -626,8 +624,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
-		var currentBindParams, currentBindTypes, mergedParams,
-			mergedTypes, currentConditions, newConditions;
+		var currentConditions;
 
 		let currentConditions = this->_conditions;
 
@@ -635,39 +632,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 * Nest the condition to current ones or set as unique
 		 */
 		if currentConditions {
-			let newConditions = "(" . currentConditions . ") AND (" . conditions . ")";
-		} else {
-			let newConditions = conditions;
-		}
-		let this->_conditions = newConditions;
-
-		/**
-		 * Merge the bind params to the current ones
-		 */
-		if typeof bindParams == "array" {
-			let currentBindParams = this->_bindParams;
-			if typeof currentBindParams == "array" {
-				let mergedParams = currentBindParams + bindParams;
-			} else {
-				let mergedParams = bindParams;
-			}
-			let this->_bindParams = mergedParams;
+			let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
 		}
 
-		/**
-		 * Merge the bind types to the current ones
-		 */
-		if typeof bindTypes == "array" {
-			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
-				let mergedTypes = currentBindTypes + bindTypes;
-			} else {
-				let mergedTypes = bindTypes;
-			}
-			let this->_bindTypes = mergedTypes;
-		}
-
-		return this;
+		return this->where(conditions, bindParams, bindTypes);
 	}
 
 	/**
@@ -692,46 +660,18 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 */
 	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
 	{
-		var currentBindParams, currentBindTypes, mergedParams,
-			mergedTypes, currentConditions;
+		var currentConditions;
+
+		let currentConditions = this->_conditions;
 
 		/**
 		 * Nest the condition to current ones or set as unique
 		 */
-		let currentConditions = this->_conditions;
 		if currentConditions {
-			let this->_conditions = "(" . currentConditions . ") OR (" . conditions . ")";
-		} else {
-			let this->_conditions = conditions;
+			let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
 		}
 
-		/**
-		 * Merge the bind params to the current ones
-		 */
-		if typeof bindParams == "array" {
-			let currentBindParams = this->_bindParams;
-			if typeof currentBindParams == "array" {
-				let mergedParams = currentBindParams + bindParams;
-			} else {
-				let mergedParams = bindParams;
-			}
-			let this->_bindParams = mergedParams;
-		}
-
-		/**
-		 * Merge the bind types to the current ones
-		 */
-		if typeof bindTypes == "array" {
-			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
-				let mergedTypes = currentBindTypes + bindTypes;
-			} else {
-				let mergedTypes = bindTypes;
-			}
-			let this->_bindTypes = mergedTypes;
-		}
-
-		return this;
+		return this->where(conditions, bindParams, bindTypes);
 	}
 
 	/**

@@ -447,13 +447,15 @@ PHP_METHOD(Phalcon_Assets_Collection, rewind) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, current) {
 
-	zval *resource = NULL, *_0, *_1;
+	zval *_0, *_1, *_2;
 
+	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_resources"), PH_NOISY_CC);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	zephir_array_isset_fetch(&resource, _0, _1, 1 TSRMLS_CC);
-	RETURN_CTORW(resource);
+	ZEPHIR_OBS_VAR(_2);
+	zephir_read_property_this(&_2, this_ptr, SL("_position"), PH_NOISY_CC);
+	zephir_array_fetch(&_1, _0, _2, PH_NOISY | PH_READONLY, "phalcon/assets/collection.zep", 190 TSRMLS_CC);
+	RETURN_CTOR(_1);
 
 }
 
