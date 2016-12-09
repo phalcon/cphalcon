@@ -1157,7 +1157,7 @@ class Tag
 	/**
 	 * Appends a text to current document title
 	 */
-	public static function appendTitle(string title) -> void
+	public static function appendTitle(var title) -> void
 	{
 		if typeof title == "array" {
 			let self::_documentAppendTitle = title ;
@@ -1169,7 +1169,7 @@ class Tag
 	/**
 	 * Prepends a text to current document title
 	 */
-	public static function prependTitle(string title) -> void
+	public static function prependTitle(var title) -> void
 	{		
 		if typeof title == "array" {
 			let self::_documentPrependTitle = title ;
