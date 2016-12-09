@@ -20,6 +20,7 @@
 namespace Phalcon\Forms;
 
 use Phalcon\Validation;
+use Phalcon\ValidationInterface;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Di\Injectable;
@@ -255,9 +256,9 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function isValid(var data = null, var entity = null) -> boolean
 	{
-		var notFailed, messages, element,
-			validators, name, preparedValidators, filters,
-			validator, validation, elementMessages;
+		var validationStatus, messages, element,
+			validators, name, filters,
+			validator, validation, elementMessage;
 
 		if empty this->_elements {
 			return true;
@@ -294,9 +295,9 @@ class Form extends Injectable implements \Countable, \Iterator
 
         let validation = this->getValidation();
 
-        if !(validation instanceof Validation) {
+        if !(validation instanceof ValidationInterface) {
             // Create an implicit validation
-            validation = new Validation();
+            let validation = new Validation();
         }
 
 		for element in this->_elements {
@@ -340,7 +341,7 @@ class Form extends Injectable implements \Countable, \Iterator
             for elementMessage in messages {
                 this->get(elementMessage->getField())->appendMessage(elementMessage);
             }
-            validationStatus = false;
+            let validationStatus = false;
         }
 
 		/**
