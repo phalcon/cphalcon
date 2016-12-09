@@ -1201,8 +1201,9 @@ class Tag
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
 		if !empty documentPrependTitle {
-			for title in documentPrependTitle {
-				let items.array_unshift(escaper->escapeHtml(title));
+			var tmp = array_reverse(documentPrependTitle);
+			for title in tmp {
+				let items[] = escaper->escapeHtml(title);
 			}
 		}
 
@@ -1212,7 +1213,7 @@ class Tag
 
 		if !empty documentAppendTitle {
 			for title in documentAppendTitle {
-				let items.array_push(escaper->escapeHtml(title));
+				let items[] = escaper->escapeHtml(title);
 			}
 		}
 
