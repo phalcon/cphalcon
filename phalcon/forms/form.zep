@@ -290,17 +290,19 @@ class Form extends Injectable implements \Countable, \Iterator
 			}
 		}
 
-		let notFailed = true,
-			messages = [];
+		let validationStatus = true;
+
+        let validation = this->getValidation();
+
+        if !(validation instanceof Validation) {
+            // Create an implicit validation
+            validation = new Validation();
+        }
 
 		for element in this->_elements {
 
 			let validators = element->getValidators();
-			if typeof validators != "array" {
-				continue;
-			}
-
-			if count(validators) == 0 {
+			if typeof validators != "array" || count(validators) == 0 {
 				continue;
 			}
 
@@ -309,25 +311,11 @@ class Form extends Injectable implements \Countable, \Iterator
 			 */
 			let name = element->getName();
 
-			/**
-			 * Prepare the validators
-			 */
-			let preparedValidators = [];
-
+            /**
+            * Append (not overriding) element validators to validation class
+            */
 			for validator in validators {
-				let preparedValidators[] = [name, validator];
-			}
-
-			let validation = this->getValidation();
-
-			if typeof validation == "object" {
-				if validation instanceof Validation {
-					// Set the validators to be validated
-					validation->setValidators(preparedValidators);
-				}
-			} else {
-				// Create an implicit validation
-				let validation = new Validation(preparedValidators);
+			    validation->add(name, validator);
 			}
 
 			/**
@@ -341,21 +329,24 @@ class Form extends Injectable implements \Countable, \Iterator
 			if typeof filters == "array" {
 				validation->setFilters(name, filters);
 			}
-
-			/**
-			 * Perform the validation
-			 */
-			let elementMessages = validation->validate(data, entity);
-			if count(elementMessages) {
-				let messages[name] = elementMessages;
-				let notFailed = false;
-			}
 		}
+
+        /**
+        * Perform the validation
+        */
+        let messages = validation->validate(data, entity);
+        if count(messages) {
+            // Add validation messages to relevant elements
+            for elementMessage in messages {
+                this->get(elementMessage->getField())->appendMessage(elementMessage);
+            }
+            validationStatus = false;
+        }
 
 		/**
 		 * If the validation fails update the messages
 		 */
-		if !notFailed {
+		if !validationStatus {
 			let this->_messages = messages;
 		}
 
@@ -369,7 +360,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		/**
 		 * Return the validation status
 		 */
-		return notFailed;
+		return validationStatus;
 	}
 
 	/**
@@ -386,6 +377,10 @@ class Form extends Injectable implements \Countable, \Iterator
 			}
 			return messages;
 		}
+
+        if messages instanceof Group {
+            return messages;
+        }
 
 		let group = new Group();
 
