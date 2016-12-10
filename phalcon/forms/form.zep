@@ -295,7 +295,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
         let validation = this->getValidation();
 
-        if !(validation instanceof ValidationInterface) {
+        if typeof validation != "object" || !(validation instanceof ValidationInterface) {
             // Create an implicit validation
             let validation = new Validation();
         }
@@ -336,11 +336,12 @@ class Form extends Injectable implements \Countable, \Iterator
         * Perform the validation
         */
         let messages = validation->validate(data, entity);
-        if count(messages) {
+        if messages->count() {
             // Add validation messages to relevant elements
-            for elementMessage in messages {
+            for elementMessage in iterator(messages) {
                 this->get(elementMessage->getField())->appendMessage(elementMessage);
             }
+            messages->rewind();
             let validationStatus = false;
         }
 
@@ -369,29 +370,14 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessages(boolean byItemName = false) -> <Group>
 	{
-		var messages, group, elementMessages;
+		var messages;
 
 		let messages = this->_messages;
-		if byItemName {
-			if typeof messages != "array" {
-				return new Group();
-			}
-			return messages;
-		}
-
-        if messages instanceof Group {
+		if typeof messages == "object" && messages instanceof Group {
             return messages;
-        }
-
-		let group = new Group();
-
-		if typeof messages == "array" {
-			for elementMessages in messages {
-				group->appendMessages(elementMessages);
-			}
 		}
 
-		return group;
+		return new Group();
 	}
 
 	/**
@@ -399,17 +385,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessagesFor(string! name) -> <Group>
 	{
-		var messages, elementMessages, group;
-
-		let messages = this->_messages;
-		if fetch elementMessages, messages[name] {
-			return elementMessages;
-		}
-
-		let group = new Group(),
-			this->_messages[name] = group;
-
-		return group;
+        return this->get(name)->getMessages();
 	}
 
 	/**
@@ -708,7 +684,11 @@ class Form extends Injectable implements \Countable, \Iterator
 	public function rewind() -> void
 	{
 		let this->_position = 0;
-		let this->_elementsIndexed = array_values(this->_elements);
+		if typeof this->_elements == "array" {
+		    let this->_elementsIndexed = array_values(this->_elements);
+		} else {
+		    let this->_elementsIndexed = [];
+		}
 	}
 
 	/**
