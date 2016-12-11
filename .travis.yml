@@ -1,7 +1,7 @@
 language: php
 
+dist: trusty
 sudo: required
-dist: precise
 
 php:
   - 5.5
@@ -35,6 +35,7 @@ services:
   - redis-server
   - postgresql
   - beanstalkd
+  - mysql
 
 env:
   global:
@@ -64,13 +65,12 @@ env:
     - TEST_RS_PORT="6379"
     - ZEND_DONT_UNLOAD_MODULES=1
     - CC="ccache gcc"
+    - PATH="$PATH:~/bin"
 
 before_install:
-  - phpenv config-rm xdebug.ini || true
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/phpize /usr/bin/
   - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/php-config /usr/bin/
-  - export PATH=$PATH:~/bin;
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
 
 install:
@@ -83,6 +83,8 @@ install:
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
+  - php -m
+  - pecl list
   - php --ri phalcon
 
 before_script:
@@ -97,17 +99,14 @@ script:
   - vendor/bin/phpcs --config-set show_warnings 0; vendor/bin/phpcs tests/unit/ --standard=psr2
   - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
   - vendor/bin/codecept build
-  - vendor/bin/codecept run
+  - vendor/bin/codecept run -v
 
 after_failure:
   - bash tests/_ci/after_failure.sh
 
 notifications:
   email:
-    - andres@phalconphp.com
-    - eduar@phalconphp.com
-    - nikos@phalconphp.com
-    - serghei@phalconphp.com
+    - build@phalconphp.com
 
 addons:
   apt:
@@ -115,3 +114,6 @@ addons:
       - gdb
       - re2c
       - beanstalkd
+      - mysql-server-5.6
+      - mysql-server-core-5.6
+      - mysql-client-5.6
