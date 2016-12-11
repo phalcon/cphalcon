@@ -566,7 +566,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					// If we are in a base class and the child implements BindModelInterface we getModelName
 					if className == "Phalcon\\Mvc\\Model" {
 						if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
-							let className = call_user_func([handlerClass, "getModelName"]);
+							let className = {handlerClass}::getModelName();
 						}
 					}
 
@@ -575,7 +575,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 						continue;
 					}
 
-					let params[paramKey] = call_user_func_array([className, "findFirst"], [params[paramKey]]);
+					let params[paramKey] = {className}::findFirst(params[paramKey]);
 					break;
 				}
 			}
