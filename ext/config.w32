@@ -33,11 +33,11 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets", "filterinterface.zep.c inline.zep.c resource.zep.c collection.zep.c exception.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter", "pdo.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/image", "adapterinterface.zep.c adapter.zep.c exception.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/collection", "behaviorinterface.zep.c behavior.zep.c document.zep.c exception.zep.c manager.zep.c managerinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/view", "engineinterface.zep.c engine.zep.c exception.zep.c simple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl", "adapterinterface.zep.c adapter.zep.c resourceinterface.zep.c roleinterface.zep.c exception.zep.c resource.zep.c resourceaware.zep.c role.zep.c roleaware.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache/frontend", "data.zep.c base64.zep.c igbinary.zep.c json.zep.c msgpack.zep.c none.zep.c output.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/collection", "behavior.zep.c behaviorinterface.zep.c document.zep.c exception.zep.c manager.zep.c managerinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata", "strategyinterface.zep.c apc.zep.c files.zep.c libmemcached.zep.c memcache.zep.c memory.zep.c redis.zep.c session.zep.c xcache.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cli", "dispatcherinterface.zep.c taskinterface.zep.c console.zep.c dispatcher.zep.c router.zep.c routerinterface.zep.c task.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "cookieinterface.zep.c requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");

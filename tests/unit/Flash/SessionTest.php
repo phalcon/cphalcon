@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Flash;
 
-use Codeception\Lib\Connector\PhalconMemorySession;
+use Codeception\Lib\Connector\Phalcon\MemorySession;
 use Phalcon\Test\Proxy\Flash\Session;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Di;
@@ -45,7 +45,7 @@ class SessionTest extends UnitTest
         $flash = new Session($this->classes);
         $di = new Di();
 
-        $di->setShared('session', new PhalconMemorySession());
+        $di->setShared('session', new MemorySession());
         $di->setShared('escaper', new Escaper());
 
         $flash->setDI($di);

@@ -21,7 +21,6 @@ namespace Phalcon\Mvc\Collection\Behavior;
 
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\Behavior;
-use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 
 /**
@@ -30,7 +29,7 @@ use Phalcon\Mvc\Collection\Exception;
  * Allows to automatically update a model’s attribute saving the
  * datetime when a record is created or updated
  */
-class Timestampable extends Behavior implements BehaviorInterface
+class Timestampable extends Behavior
 {
 
 	/**

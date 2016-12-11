@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
 	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&cachedContent, redis, "get", NULL, 0, lastKey);
 	zephir_check_call_status();
-	if (!(zephir_is_true(cachedContent))) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(cachedContent)) {
 		RETURN_MM_NULL();
 	}
 	if (zephir_is_numeric(cachedContent)) {
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
  *
  * @param int|string keyName
  * @param string content
- * @param long lifetime
+ * @param int lifetime
  * @param boolean stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
@@ -493,13 +493,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
  * Checks if cache exists and it isn't expired
  *
  * @param string keyName
- * @param   long lifetime
- * @return boolean
+ * @param int lifetime
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *redis = NULL, *prefix = NULL, *_0$$5 = NULL;
+	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *redis = NULL, *prefix = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
@@ -530,12 +529,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 			ZEPHIR_OBS_NVAR(redis);
 			zephir_read_property_this(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 		}
-		ZEPHIR_CALL_METHOD(&_0$$5, redis, "get", NULL, 0, lastKey);
+		ZEPHIR_RETURN_CALL_METHOD(redis, "exists", NULL, 0, lastKey);
 		zephir_check_call_status();
-		if (!(zephir_is_true(_0$$5))) {
-			RETURN_MM_BOOL(0);
-		}
-		RETURN_MM_BOOL(1);
+		RETURN_MM();
 	}
 	RETURN_MM_BOOL(0);
 
@@ -545,7 +541,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
  * Increment of given $keyName by $value
  *
  * @param string keyName
- * @param long value
+ * @param int value
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, increment) {
 
@@ -597,7 +593,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, increment) {
  * Decrement of $keyName by given $value
  *
  * @param string keyName
- * @param long value
+ * @param int value
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, decrement) {
 
@@ -662,7 +658,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(specialKey);
 	if (!(zephir_array_isset_string_fetch(&specialKey, options, SS("statsKey"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 458);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 454);
 		return;
 	}
 	ZEPHIR_OBS_VAR(redis);
@@ -674,13 +670,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 		zephir_read_property_this(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 	}
 	if (ZEPHIR_IS_STRING(specialKey, "")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!", "phalcon/cache/backend/redis.zep", 469);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!", "phalcon/cache/backend/redis.zep", 465);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&keys, redis, "smembers", NULL, 0, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		zephir_is_iterable(keys, &_1$$6, &_0$$6, 0, 0, "phalcon/cache/backend/redis.zep", 479);
+		zephir_is_iterable(keys, &_1$$6, &_0$$6, 0, 0, "phalcon/cache/backend/redis.zep", 475);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$6, (void**) &_2$$6, &_0$$6) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$6, &_0$$6)

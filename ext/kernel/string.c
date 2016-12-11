@@ -1638,3 +1638,31 @@ void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC)
 		zval_dtor(&copy);
 	}
 }
+
+/**
+ * Compares two strings using the same time whether they're equal or not.
+ * A difference in length will leak
+ */
+int zephir_hash_equals(const zval *known_zval, const zval *user_zval)
+{
+	char *known_str, *user_str;
+	int result = 0;
+	size_t j;
+
+	if (Z_TYPE_P(known_zval) != IS_STRING || Z_TYPE_P(user_zval) != IS_STRING) {
+		return 0;
+	}
+
+	if (Z_STRLEN_P(known_zval) != Z_STRLEN_P(user_zval)) {
+		return 0;
+	}
+
+	known_str = Z_STRVAL_P(known_zval);
+	user_str = Z_STRVAL_P(user_zval);
+
+	for (j = 0; j < Z_STRLEN_P(known_zval); j++) {
+		result |= known_str[j] ^ user_str[j];
+	}
+
+	return (int) (result == 0);
+}
