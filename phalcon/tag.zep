@@ -1199,8 +1199,8 @@ class Tag
 		let output = "";
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
-		let documentAppendTitle = self._documentAppendTitle;
-		let documentPrependTitle = self._documentPrependTitle;
+		let documentAppendTitle = self::_documentAppendTitle;
+		let documentPrependTitle = self::_documentPrependTitle;
 		
 		if !empty documentPrependTitle {
 			var tmp = array_reverse(documentPrependTitle);
