@@ -308,10 +308,11 @@ class MicroTest extends UnitTest
 
                 expect($trace)->equals(
                     [
-                        "beforeHandleRoute"  => true,
-                        "beforeExecuteRoute" => true,
-                        "afterExecuteRoute"  => true,
-                        "afterHandleRoute"   => true,
+                        'beforeHandleRoute'  => true,
+                        'beforeExecuteRoute' => true,
+                        'afterExecuteRoute'  => true,
+                        'afterHandleRoute'   => true,
+                        'afterBinding'       => true,
                     ]
                 );
             }
