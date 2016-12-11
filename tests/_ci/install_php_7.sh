@@ -5,7 +5,7 @@ install_apcu() {
 	git clone -q https://github.com/krakjoe/apcu -b v5.1.7 /tmp/apcu
 	cd /tmp/apcu
 
-	$PHPIZE_BIN &> /dev/null
+	phpize &> /dev/null
 	./configure &> /dev/null
 
 	make --silent -j4 &> /dev/null
@@ -16,7 +16,7 @@ install_apcu_bc() {
 	git clone -q https://github.com/krakjoe/apcu-bc /tmp/apcu-bc
 	cd /tmp/apcu-bc
 
-	$PHPIZE_BIN &> /dev/null
+	phpize &> /dev/null
 	./configure &> /dev/null
 
 	make --silent -j4 &> /dev/null

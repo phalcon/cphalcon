@@ -26,7 +26,7 @@ install_igbinary() {
 	git clone -q https://github.com/igbinary/igbinary.git -b release-2.0.0 /tmp/igbinary
 	cd /tmp/igbinary
 
-	$PHPIZE_BIN &> /dev/null
+	phpize &> /dev/null
 	./configure CFLAGS="-O2 -g" --silent --enable-igbinary &> /dev/null
 
 	make --silent -j4 &> /dev/null
