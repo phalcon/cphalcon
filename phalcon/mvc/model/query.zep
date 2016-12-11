@@ -21,25 +21,26 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
-use Phalcon\Mvc\Model as Model;
+
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -2522,16 +2523,16 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * gets the read connection from the model if there no transaction inside the query object
+	 * Gets the read connection from the model if there is no transaction set inside the query object
 	 *
-	 * @param Model model
+	 * @param ModelInterface model
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
 	 *
 	 * @throws \Phalcon\Mvc\Model\Exception
 	 */
-	public function getReadConnection(var model,var intermediate,var bindParams, var bindTypes) -> <AdapterInterface> | null
+	protected function getReadConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface> | null
 	{
 		var connection = null, transaction;
 		let transaction = this->_transaction;
@@ -2553,18 +2554,18 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 
 	/**
-	 * gets the write connection from the model if there no transaction inside the query object
+	 * Gets the write connection from the model if there is no transaction inside the query object
 	 *
-	 * @param Model model
+	 * @param ModelInterface model
 	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
 	 *
 	 * @throws \Phalcon\Mvc\Model\Exception
 	 */
-	public function getWriteConnection(var model,var intermediate,var bindParams, var bindTypes) -> <AdapterInterface> | null
+	protected function getWriteConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface> | null
 	{
-		    var connection = null, transaction;
+		var connection = null, transaction;
 		let transaction = this->_transaction;
 
 		if typeof transaction == "object" {
@@ -2582,14 +2583,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * gets the current transaction connection inside of the Model or the one set in the query
-	 * we assume that a transaction set to the query should dominate all other transactions
-	 * so changes done inside of another transaction will not be accessed via the outer transaction
-	 * (reducing the chance of a deadlock using multiple model instances and such)
+	 * Gets the current transaction connection inside of the Model or the one set in the query.
+	 * We assume that a transaction set to the query should dominate all other transactions.
+	 * This means changes done inside of another transaction will not be accessed via the outer transaction
+	 * (query transaction) hence reducing complexity thus the chance of a deadlocks.
 	 *
-	 * @param Model model
+	 * @param ModelInterface model
 	 */
-	public function getTransactionConnection(var model) -> <AdapterInterface> | null
+	protected function getTransactionConnection(<ModelInterface> model) -> <AdapterInterface> | null
 	{
 		var connection = null, transaction;
 		let transaction = this->_transaction;
