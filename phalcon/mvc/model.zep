@@ -289,18 +289,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		return this;
 	}
 
-    /**
-     * <code>
-     *     use Phalcon\Di;
-     *
-     *     $robot = new Robots();
-	 *     $robot->setTransaction(new Transaction(DI::getDefault()));
-	 *     $transaction = $robot->getTransaction();
-     *
-     * </code>
-     */
+	/**
+	 * <code>
+	 *	 use Phalcon\Di;
+	 *
+	 *	 $robot = new Robots();
+	 *	 $robot->setTransaction(new Transaction(DI::getDefault()));
+	 *	 $transaction = $robot->getTransaction();
+	 *
+	 * </code>
+	 */
 	public function getTransaction() {
-	    return this->_transaction;
+		return this->_transaction;
 	}
 
 	/**
@@ -833,7 +833,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let query = builder->getQuery();
 
 		if transaction != "null" {
-            query->setTransaction(transaction);
+			query->setTransaction(transaction);
 		}
 
 
@@ -1461,7 +1461,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *         if ($this->name === "Peter") {
 	 *             $message = new Message(
 	 *                 "Sorry, but a robot cannot be named Peter"
-	 *             );
+	 *	         );
 	 *
 	 *             $this->appendMessage($message);
 	 *         }
