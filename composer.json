@@ -11,17 +11,16 @@
         "php": ">=5.5"
     },
     "require-dev": {
-        "phpdocumentor/reflection-docblock": "^2.0.4",
-        "phpunit/phpunit": "4.8.*",
-        "mustache/mustache": "~2.11",
+        "phpdocumentor/reflection-docblock": "^2.0",
+        "phpunit/phpunit": "^4.8",
+        "mustache/mustache": "^2.11",
         "twig/twig": "~1.25",
         "predis/predis": "^1.0",
-        "codeception/codeception": "~2.2",
-        "codeception/verify": "~0.3",
-        "codeception/specify": "~0.4",
-        "phalcon/zephir": "dev-master",
-        "codeception/aspect-mock": "*",
-        "squizlabs/php_codesniffer": "~2.0"
+        "codeception/codeception": "^2.2",
+        "codeception/verify": "^0.3",
+        "codeception/specify": "^0.4",
+        "codeception/aspect-mock": "^2.0",
+        "squizlabs/php_codesniffer": "^2.7"
     },
     "license": "BSD-3-Clause",
     "authors": [
