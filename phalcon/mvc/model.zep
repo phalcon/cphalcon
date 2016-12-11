@@ -98,7 +98,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _dirtyState = 1;
 
-	protected _transaction;
+	protected _transaction { get };
 
 	protected _uniqueKey;
 
@@ -287,20 +287,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		let this->_transaction = transaction;
 		return this;
-	}
-
-	/**
-	 * <code>
-	 *	 use Phalcon\Di;
-	 *
-	 *	 $robot = new Robots();
-	 *	 $robot->setTransaction(new Transaction(DI::getDefault()));
-	 *	 $transaction = $robot->getTransaction();
-	 *
-	 * </code>
-	 */
-	public function getTransaction() {
-		return this->_transaction;
 	}
 
 	/**
