@@ -54,7 +54,7 @@ class QueryTest extends UnitTest
      * @param string $propertyName
      * @return mixed
      */
-    protected function getInaccessableObjectProperty($object, $propertyName)
+    protected function getInaccessibleObjectProperty($object, $propertyName)
     {
         if (!$object || !$propertyName) {
             throw new \InvalidArgumentException('Object or property has to be passed');
@@ -64,6 +64,25 @@ class QueryTest extends UnitTest
         $reflectionProperty = $reflectionClass->getProperty($propertyName);
         $reflectionProperty->setAccessible(true);
         return $reflectionProperty->getValue($object);
+    }
+
+    /**
+     * @param $object
+     * @param string $methodName
+     * @param array $paramSet
+     * @return mixed
+     */
+    protected function getInaccessibleObjectMethodReturn($object, $methodName, array $paramSet = [])
+    {
+        if (!$object || !$methodName) {
+            throw new \InvalidArgumentException('Object or property has to be passed');
+        }
+
+        $reflectionClass = new \ReflectionClass($object);
+        $reflectionMethod = $reflectionClass->getMethod($methodName);
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod->invokeArgs($object, $paramSet);
     }
 
     /**
@@ -101,7 +120,6 @@ class QueryTest extends UnitTest
             function() {
                 $query = 'SELECT 1';
                 $q = new Query($query);
-
                 $queryReflection = new \ReflectionClass($q);
                 $phqlReflection = $queryReflection->getProperty('_phql');
                 $phqlReflection->setAccessible(true);
@@ -125,7 +143,7 @@ class QueryTest extends UnitTest
             'The Query::__construct sets _phql in the object',
             function() {
                 $q = new Query();
-                $testValue = $this->getInaccessableObjectProperty($q, '_phql');
+                $testValue = $this->getInaccessibleObjectProperty($q, '_phql');
 
 
                 expect($testValue)->equals(null);
@@ -166,7 +184,7 @@ class QueryTest extends UnitTest
                     'enable_implicit_joins' => true
                 ];
                 $q = new Query(null, $this->di, $options);
-                $enableImplicitJoins = $this->getInaccessableObjectProperty($q, '_enableImplicitJoins');
+                $enableImplicitJoins = $this->getInaccessibleObjectProperty($q, '_enableImplicitJoins');
                 expect(true)->equals($enableImplicitJoins);
             }
         );
@@ -292,7 +310,9 @@ class QueryTest extends UnitTest
                 $q->setTransaction($transaction);
                 $model = new Users();
 
-                expect($transaction->getConnection())->equals($q->getTransactionConnection($model));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getTransactionConnection', [$model]);
+
+                expect($transaction->getConnection())->equals($result);
             }
         );
     }
@@ -319,8 +339,8 @@ class QueryTest extends UnitTest
                 $model = new Users();
                 $modelTransaction = new Transaction($this->di);
                 $model->setTransaction($modelTransaction);
-
-                expect($transaction->getConnection())->equals($q->getTransactionConnection($model));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getTransactionConnection', [$model]);
+                expect($transaction->getConnection())->equals($result);
             }
         );
     }
@@ -346,7 +366,8 @@ class QueryTest extends UnitTest
                 $model = new Users();
                 $modelTransaction = $transactionManager->getOrCreateTransaction();
                 $model->setTransaction($modelTransaction);
-                expect($modelTransaction->getConnection())->equals($q->getTransactionConnection($model));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getTransactionConnection', [$model]);
+                expect($modelTransaction->getConnection())->equals($result);
             }
         );
     }
@@ -373,7 +394,8 @@ class QueryTest extends UnitTest
                 $model = new Users();
                 $modelTransaction = $transactionManager->getOrCreateTransaction();
                 $model->setTransaction($modelTransaction);
-                expect($modelTransaction->getConnection())->equals($q->getReadConnection($model, [], [], []));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getReadConnection', [$model, [], [], []]);
+                expect($modelTransaction->getConnection())->equals($result);
             }
         );
     }
@@ -401,7 +423,8 @@ class QueryTest extends UnitTest
                 $modelTransaction = new Transaction($this->di);
                 $model->setTransaction($modelTransaction);
 
-                expect($transaction->getConnection())->equals($q->getReadConnection($model, [], [], []));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getReadConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
             }
         );
     }
@@ -426,8 +449,8 @@ class QueryTest extends UnitTest
                 $transaction = $transactionManager->getOrCreateTransaction();
                 $q->setTransaction($transaction);
                 $model = new Users();
-
-                expect($transaction->getConnection())->equals($q->getReadConnection($model, [], [], []));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getReadConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
             }
         );
     }
@@ -454,7 +477,8 @@ class QueryTest extends UnitTest
                 $model = new Users();
                 $modelTransaction = $transactionManager->getOrCreateTransaction();
                 $model->setTransaction($modelTransaction);
-                expect($modelTransaction->getConnection())->equals($q->getWriteConnection($model, [], [], []));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getWriteConnection', [$model, [], [], []]);
+                expect($modelTransaction->getConnection())->equals($result);
             }
         );
     }
@@ -481,8 +505,8 @@ class QueryTest extends UnitTest
                 $model = new Users();
                 $modelTransaction = new Transaction($this->di);
                 $model->setTransaction($modelTransaction);
-
-                expect($transaction->getConnection())->equals($q->getWriteConnection($model, [], [], []));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getWriteConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
             }
         );
     }
@@ -507,8 +531,8 @@ class QueryTest extends UnitTest
                 $transaction = $transactionManager->getOrCreateTransaction();
                 $q->setTransaction($transaction);
                 $model = new Users();
-
-                expect($transaction->getConnection())->equals($q->getWriteConnection($model, [], [], []));
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getWriteConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
             }
         );
     }
