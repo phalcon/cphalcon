@@ -124,7 +124,7 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle('Main');
                 Tag::setTitleSeparator(' - ');
                 Tag::appendTitle('Category');
-				 Tag::appendTitle([]);
+                Tag::appendTitle([]);
                 
                 expect(Tag::getTitle())->equals("<title>Main</title>" . PHP_EOL);
             }
@@ -180,7 +180,7 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle('Main');
                 Tag::setTitleSeparator(' - ');
                 Tag::prependTitle('Category');
-				 Tag::prependTitle([]);
+                Tag::prependTitle([]);
                 
                 expect(Tag::getTitle())->equals("<title>Main</title>" . PHP_EOL);
             }
