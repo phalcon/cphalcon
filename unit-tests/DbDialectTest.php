@@ -934,8 +934,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE `table` (\n";
-        $expected .= "  `column1` VARCHAR(10),\n";
-        $expected .= "  `column2` INT(18) UNSIGNED\n";
+        $expected .= "\t`column1` VARCHAR(10),\n";
+        $expected .= "\t`column2` INT(18) UNSIGNED\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -951,10 +951,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE `table` (\n";
-        $expected .= "  `column2` INT(18) UNSIGNED,\n";
-        $expected .= "  `column3` DECIMAL(10,2) NOT NULL,\n";
-        $expected .= "  `column1` VARCHAR(10),\n";
-        $expected .= "  PRIMARY KEY (`column3`)\n";
+        $expected .= "\t`column2` INT(18) UNSIGNED,\n";
+        $expected .= "\t`column3` DECIMAL(10,2) NOT NULL,\n";
+        $expected .= "\t`column1` VARCHAR(10),\n";
+        $expected .= "\tPRIMARY KEY (`column3`)\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -963,11 +963,11 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE `table` (\n";
-        $expected .= "  `column2` INT(18) UNSIGNED,\n";
-        $expected .= "  `column3` DECIMAL(10,2) NOT NULL,\n";
-        $expected .= "  `column1` VARCHAR(10),\n";
-        $expected .= "  PRIMARY KEY (`column3`),\n";
-        $expected .= "  CONSTRAINT `fk3` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE\n";
+        $expected .= "\t`column2` INT(18) UNSIGNED,\n";
+        $expected .= "\t`column3` DECIMAL(10,2) NOT NULL,\n";
+        $expected .= "\t`column1` VARCHAR(10),\n";
+        $expected .= "\tPRIMARY KEY (`column3`),\n";
+        $expected .= "\tCONSTRAINT `fk3` FOREIGN KEY (`column1`) REFERENCES `ref_table`(`column2`) ON DELETE CASCADE\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -979,8 +979,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE `table` (\n";
-        $expected .= "  `column9` VARCHAR(10) DEFAULT \"column9\",\n";
-        $expected .= "  `column10` INT(18) UNSIGNED DEFAULT \"10\"\n";
+        $expected .= "\t`column9` VARCHAR(10) DEFAULT \"column9\",\n";
+        $expected .= "\t`column10` INT(18) UNSIGNED DEFAULT \"10\"\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -993,9 +993,9 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE `table` (\n";
-        $expected .= "  `column11` BIGINT(20) UNSIGNED,\n";
-        $expected .= "  `column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL,\n";
-        $expected .= "  `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n";
+        $expected .= "\t`column11` BIGINT(20) UNSIGNED,\n";
+        $expected .= "\t`column12` ENUM(\"A\", \"B\", \"C\") DEFAULT \"A\" NOT NULL,\n";
+        $expected .= "\t`column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1344,8 +1344,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column1` VARCHAR(10),\n";
-        $expected .= "  `column2` INTEGER\n";
+        $expected .= "\t`column1` VARCHAR(10),\n";
+        $expected .= "\t`column2` INTEGER\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1361,10 +1361,10 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column2` INTEGER,\n";
-        $expected .= "  `column3` NUMERIC(10,2) NOT NULL,\n";
-        $expected .= "  `column1` VARCHAR(10),\n";
-        $expected .= "  PRIMARY KEY (\"column3\")\n";
+        $expected .= "\t`column2` INTEGER,\n";
+        $expected .= "\t`column3` NUMERIC(10,2) NOT NULL,\n";
+        $expected .= "\t`column1` VARCHAR(10),\n";
+        $expected .= "\tPRIMARY KEY (\"column3\")\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1373,11 +1373,11 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column2` INTEGER,\n";
-        $expected .= "  `column3` NUMERIC(10,2) NOT NULL,\n";
-        $expected .= "  `column1` VARCHAR(10),\n";
-        $expected .= "  PRIMARY KEY (\"column3\"),\n";
-        $expected .= "  CONSTRAINT `fk3` FOREIGN KEY (\"column1\") REFERENCES `ref_table`(\"column2\") ON DELETE CASCADE\n";
+        $expected .= "\t`column2` INTEGER,\n";
+        $expected .= "\t`column3` NUMERIC(10,2) NOT NULL,\n";
+        $expected .= "\t`column1` VARCHAR(10),\n";
+        $expected .= "\tPRIMARY KEY (\"column3\"),\n";
+        $expected .= "\tCONSTRAINT `fk3` FOREIGN KEY (\"column1\") REFERENCES `ref_table`(\"column2\") ON DELETE CASCADE\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1389,8 +1389,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column9` VARCHAR(10) DEFAULT \"column9\",\n";
-        $expected .= "  `column10` INTEGER DEFAULT \"10\"\n";
+        $expected .= "\t`column9` VARCHAR(10) DEFAULT \"column9\",\n";
+        $expected .= "\t`column10` INTEGER DEFAULT \"10\"\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1402,8 +1402,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column11` BIGINT,\n";
-        $expected .= "  `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n";
+        $expected .= "\t`column11` BIGINT,\n";
+        $expected .= "\t`column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1415,8 +1415,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column14` TINYBLOB NOT NULL,\n";
-        $expected .= "  `column16` BLOB NOT NULL\n";
+        $expected .= "\t`column14` TINYBLOB NOT NULL,\n";
+        $expected .= "\t`column16` BLOB NOT NULL\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1427,7 +1427,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column18` TINYINT\n";
+        $expected .= "\t`column18` TINYINT\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
@@ -1439,8 +1439,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
         );
 
         $expected  = "CREATE TABLE \"table\" (\n";
-        $expected .= "  `column19` DOUBLE,\n";
-        $expected .= "  `column20` DOUBLE UNSIGNED\n";
+        $expected .= "\t`column19` DOUBLE,\n";
+        $expected .= "\t`column20` DOUBLE UNSIGNED\n";
         $expected .= ")";
         $this->assertEquals($dialect->createTable('table', null, $definition), $expected);
 
