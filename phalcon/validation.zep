@@ -170,10 +170,6 @@ class Validation extends Injectable implements ValidationInterface
 				throw new Exception("One of the validators is not valid");
 			}
 
-			if typeof validator != "object" {
-				throw new Exception("One of the validators is not valid");
-			}
-
 			/**
 			 * Call internal validations, if it returns true, then skip the current validator
 			 */

@@ -9,6 +9,8 @@
 - Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
 - Fixed `Phalcon\Cache\Backend\Redis::get`, `Phalcon\Cache\Frontend\Data::afterRetrieve` to allow get empty strings from the Redis database [#12437](https://github.com/phalcon/cphalcon/issues/12437)
 - Fixed `Phalcon\Cache\Backend\Redis::exists` to correct check if cache key exists for empty value in the Redis database [#12434](https://github.com/phalcon/cphalcon/pull/12434)
+- Fixed `Phalcon\Security::checkToken` to prevent possible timing attack [#12418](https://github.com/phalcon/cphalcon/issues/12418)
+- Fixed `Phalcon\Mvc\Model\Resultset\Simple` to save snapshot when caching
 
 # [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-11-26)
 - Fixed saving snapshot data while caching model [#12170](https://github.com/phalcon/cphalcon/issues/12170), [#12000](https://github.com/phalcon/cphalcon/issues/12000)

@@ -1,7 +1,7 @@
 language: php
 
+dist: trusty
 sudo: required
-dist: precise
 
 php:
   - 5.5
@@ -25,7 +25,7 @@ cache:
   timeout: 691200
   directories:
     - .temp
-    #- vendor
+    - vendor
     - $HOME/.ccache
     - $HOME/.composer/cache
 
@@ -34,6 +34,8 @@ services:
   - memcached
   - redis-server
   - postgresql
+  - beanstalkd
+  - mysql
 
 env:
   global:
@@ -63,27 +65,31 @@ env:
     - TEST_RS_PORT="6379"
     - ZEND_DONT_UNLOAD_MODULES=1
     - CC="ccache gcc"
-    - PHPIZE_BIN="$(which phpize 2> /dev/null || which phpize5 2> /dev/null)"
+    - PATH="$PATH:~/bin"
 
 before_install:
-  - export PATH=$PATH:~/bin;
+  - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
+  - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/phpize /usr/bin/
+  - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/php-config /usr/bin/
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
-  - composer self-update -q
-  - travis_retry composer --prefer-source install
-  - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
-  - bash tests/_ci/setup_dbs.sh
-  - bash tests/_ci/install_zephir.sh
-  - bash tests/_ci/install_beanstalkd.sh
-  - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
 
-before_script:
+install:
+  - travis_retry composer install --prefer-dist --no-interaction --ignore-platform-reqs
+  - travis_retry composer require "phalcon/zephir:dev-master" --ignore-platform-reqs
+  - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
+  - bash tests/_ci/install_zephir.sh
+  - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
-  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; $PHPIZE_BIN &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
+  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j4 &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
-  - php --ri phalcon
   - phpenv config-add tests/_ci/redis.ini
   - php -m
   - pecl list
+  - php --ri phalcon
+
+before_script:
+  - bash tests/_ci/setup_dbs.sh
+  - stty cols 160
   - ulimit -c unlimited -S || true
   - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -100,13 +106,14 @@ after_failure:
 
 notifications:
   email:
-    - andres@phalconphp.com
-    - eduar@phalconphp.com
-    - nikos@phalconphp.com
-    - serghei@phalconphp.com
+    - build@phalconphp.com
 
 addons:
   apt:
     packages:
       - gdb
       - re2c
+      - beanstalkd
+      - mysql-server-5.6
+      - mysql-server-core-5.6
+      - mysql-client-5.6

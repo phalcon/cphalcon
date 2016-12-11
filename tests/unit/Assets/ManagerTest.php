@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Assets;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Filters\None;
+use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Test\Proxy\Assets\Manager;
@@ -28,6 +29,15 @@ use Phalcon\Test\Proxy\Assets\Manager;
  */
 class ManagerTest extends UnitTest
 {
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
     /**
      * Tests addCss
      *
