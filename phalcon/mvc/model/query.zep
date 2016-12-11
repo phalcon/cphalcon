@@ -1,21 +1,21 @@
 
 /*
  +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
+ | Phalcon Framework													  |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)		  |
  +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | This source file is subject to the New BSD License that is bundled	 |
+ | with this package in the file docs/LICENSE.txt.						|
+ |																		|
+ | If you did not receive a copy of the license and are unable to		 |
+ | obtain it through the world-wide-web, please send an email			 |
+ | to license@phalconphp.com so we can send you a copy immediately.	   |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Kenji Minamoto <kenji.minamoto@gmail.com>                     |
- |          Jakob Oberhummer <cphalcon@chilimatic.com>                    |
+ | Authors: Andres Gutierrez <andres@phalconphp.com>					  |
+ |		  Eduar Carvajal <eduar@phalconphp.com>						 |
+ |		  Kenji Minamoto <kenji.minamoto@gmail.com>					 |
+ |		  Jakob Oberhummer <cphalcon@chilimatic.com>					|
  +------------------------------------------------------------------------+
  */
 
@@ -48,19 +48,19 @@ use Phalcon\Mvc\Model as Model;
  *
  *<code>
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
- *          WHERE b.name = :name: ORDER BY c.name";
+ *		  WHERE b.name = :name: ORDER BY c.name";
  *
  * $result = $manager->executeQuery(
- *     $phql,
- *     [
- *         "name" => "Lamborghini",
- *     ]
+ *	 $phql,
+ *	 [
+ *		 "name" => "Lamborghini",
+ *	 ]
  * );
  *
  * foreach ($result as $row) {
- *     echo "Name: ",  $row->cars->name, "\n";
- *     echo "Price: ", $row->cars->price, "\n";
- *     echo "Taxes: ", $row->taxes, "\n";
+ *	 echo "Name: ",  $row->cars->name, "\n";
+ *	 echo "Price: ", $row->cars->price, "\n";
+ *	 echo "Taxes: ", $row->taxes, "\n";
  * }
  *</code>
  */
@@ -109,12 +109,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _sharedLock;
 
-    /**
-     * TransactionInterface so that the query can wrap a transaction
-     * around batch updates and intermediate selects within the transaction.
-     * however if a model got a transaction set inside it will use the local transaction instead of this one
-     */
-    protected _transaction;
+	/**
+	 * TransactionInterface so that the query can wrap a transaction
+	 * around batch updates and intermediate selects within the transaction.
+	 * however if a model got a transaction set inside it will use the local transaction instead of this one
+	 */
+	protected _transaction;
 
 	static protected _irPhqlCache;
 
@@ -389,8 +389,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		return [
-			"type"        : "case",
-			"expr"        : this->_getExpression(expr["left"]),
+			"type"		: "case",
+			"expr"		: this->_getExpression(expr["left"]),
 			"when-clauses": whenClauses
 		];
 	}
@@ -423,15 +423,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			if distinct {
 				return [
-					"type"     : "functionCall",
-					"name"     : expr["name"],
+					"type"	 : "functionCall",
+					"name"	 : expr["name"],
 					"arguments": functionArgs,
 					"distinct" : distinct
 				];
 			} else {
 				return [
-					"type"     : "functionCall",
-					"name"     : expr["name"],
+					"type"	 : "functionCall",
+					"name"	 : expr["name"],
 					"arguments": functionArgs
 				];
 			}
@@ -974,7 +974,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					"schema"   : schema,
 					"source"   : source,
 					"modelName": realModelName,
-					"model"    : model
+					"model"	: model
 				];
 			}
 		}
@@ -1051,14 +1051,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 */
 			let sqlJoinConditions = [
 				[
-					"type"     : "binary-op",
-					"op"       : "=",
-					"left"     : this->_getQualified([
+					"type"	 : "binary-op",
+					"op"	   : "=",
+					"left"	 : this->_getQualified([
 						"type"   : PHQL_T_QUALIFIED,
 						"domain" : modelAlias,
 						"name"   : fields
 					]),
-					"right"    : this->_getQualified([
+					"right"	: this->_getQualified([
 						"type"   : "qualified",
 						"domain" : joinAlias,
 						"name"   : referencedFields
@@ -1096,7 +1096,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						"domain" : modelAlias,
 						"name"   : field
 					]),
-					"right"      : this->_getQualified([
+					"right"	  : this->_getQualified([
 						"type"   : "qualified",
 						"domain" : joinAlias,
 						"name"   : referencedField
@@ -1110,8 +1110,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * A single join
 		 */
 		return [
-			"type"       : joinType,
-			"source"     : joinSource,
+			"type"	   : joinType,
+			"source"	 : joinSource,
 			"conditions" : sqlJoinConditions
 		];
 	}
@@ -1920,7 +1920,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 					let selectColumns[] = [
 						"type":   PHQL_T_DOMAINALL,
-    					"column": joinAlias,
+						"column": joinAlias,
 						"eager":  alias,
 						"eagerType": eagerType,
 						"balias": bestAlias
@@ -2139,7 +2139,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		let notQuoting = false,
-		    exprValues = [];
+			exprValues = [];
 
 		for exprValue in ast["values"] {
 
@@ -2523,96 +2523,96 @@ class Query implements QueryInterface, InjectionAwareInterface
 		return this->_cache;
 	}
 
-    /**
-     * gets the read connection from the model if there no transaction inside the query object
-     *
-     * @param Model model
-     * @param array intermediate
-     * @param array bindParams
-     * @param array bindTypes
-     *
-     * @throws \Phalcon\Mvc\Model\Exception
-     *
-     * @return AdapterInterface|null
-     */
-    public function getReadConnection(var model,var intermediate,var bindParams, var bindTypes) -> <AdapterInterface> | null
-    {
-        var connection = null;
-        if this->_transaction == "null" || typeof this->_transaction != "object" {
-            if method_exists(model, "selectReadConnection") {
-                // use selectReadConnection() if implemented in extended Model class
-                let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
-                if typeof connection != "object" {
-                    throw new Exception("selectReadConnection did not return a connection");
-                }
-            } else {
-                let connection = model->getReadConnection();
-            }
-        } else {
-            let connection = this->getTransactionConnection(model);
-        }
+	/**
+	 * gets the read connection from the model if there no transaction inside the query object
+	 *
+	 * @param Model model
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 *
+	 * @throws \Phalcon\Mvc\Model\Exception
+	 *
+	 * @return AdapterInterface|null
+	 */
+	public function getReadConnection(var model,var intermediate,var bindParams, var bindTypes) -> <AdapterInterface> | null
+	{
+		var connection = null;
+		if this->_transaction == "null" || typeof this->_transaction != "object" {
+			if method_exists(model, "selectReadConnection") {
+				// use selectReadConnection() if implemented in extended Model class
+				let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
+				if typeof connection != "object" {
+					throw new Exception("selectReadConnection did not return a connection");
+				}
+			} else {
+				let connection = model->getReadConnection();
+			}
+		} else {
+			let connection = this->getTransactionConnection(model);
+		}
 
-        return connection;
-    }
+		return connection;
+	}
 
 
-    /**
-     * gets the write connection from the model if there no transaction inside the query object
-     *
-     * @param Model model
-     * @param array intermediate
-     * @param array bindParams
-     * @param array bindTypes
-     *
-     * @throws \Phalcon\Mvc\Model\Exception
-     *
-     * @return AdapterInterface|null
-     */
-    public function getWriteConnection(var model,var intermediate,var bindParams, var bindTypes) -> <AdapterInterface> | null
-    {
-        var connection = null;
-        // if there is a transaction set to be wrapped around all queries
-        if this->_transaction == "null" || typeof this->_transaction != "object" {
-            if method_exists(model, "selectWriteConnection") {
-                let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
-                throw new Exception("selectWriteConnection did not return a connection");
-            } else {
-                let connection = model->getWriteConnection();
-            }
-        } else {
-            let connection = this->getTransactionConnection(model);
-        }
+	/**
+	 * gets the write connection from the model if there no transaction inside the query object
+	 *
+	 * @param Model model
+	 * @param array intermediate
+	 * @param array bindParams
+	 * @param array bindTypes
+	 *
+	 * @throws \Phalcon\Mvc\Model\Exception
+	 *
+	 * @return AdapterInterface|null
+	 */
+	public function getWriteConnection(var model,var intermediate,var bindParams, var bindTypes) -> <AdapterInterface> | null
+	{
+		var connection = null;
+		// if there is a transaction set to be wrapped around all queries
+		if this->_transaction == "null" || typeof this->_transaction != "object" {
+			if method_exists(model, "selectWriteConnection") {
+				let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
+				throw new Exception("selectWriteConnection did not return a connection");
+			} else {
+				let connection = model->getWriteConnection();
+			}
+		} else {
+			let connection = this->getTransactionConnection(model);
+		}
 
-        return connection;
-    }
+		return connection;
+	}
 
    /**
-    * gets the current transaction connection inside of the Model or the one set in the query
-    * we assume that a transaction set to the query should dominate all other transactions
-    * so changes done inside of another transaction will not be accessed via the outer transaction
-    * (reducing the chance of a deadlock using multiple model instances and such)
-    *
-    * @param Model model
-    *
-    * @return AdapterInterface|null
-    */
+	* gets the current transaction connection inside of the Model or the one set in the query
+	* we assume that a transaction set to the query should dominate all other transactions
+	* so changes done inside of another transaction will not be accessed via the outer transaction
+	* (reducing the chance of a deadlock using multiple model instances and such)
+	*
+	* @param Model model
+	*
+	* @return AdapterInterface|null
+	*/
    public function getTransactionConnection(var model) -> <AdapterInterface> | null
    {
-       var connection = null;
-       var transaction = null;
+	   var connection = null;
+	   var transaction = null;
 
-       if this->_transaction == "null" || typeof this->_transaction != "object" {
-           if method_exists(model, "getTransaction") {
-               let transaction = model->getTransaction();
-               if transaction != null {
-                    let connection = transaction->getConnection();
-               }
-           }
-       } else {
-           let connection = this->_transaction->getConnection();
-       }
+	   if this->_transaction == "null" || typeof this->_transaction != "object" {
+		   if method_exists(model, "getTransaction") {
+			   let transaction = model->getTransaction();
+			   if transaction != null {
+					let connection = transaction->getConnection();
+			   }
+		   }
+	   } else {
+		   let connection = this->_transaction->getConnection();
+	   }
 
-       return connection;
+	   return connection;
    }
 
 	/**
@@ -2646,7 +2646,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					this->_modelsInstances[modelName] = model;
 			}
 
-            let connection = this->getReadConnection(model, intermediate, bindParams, bindTypes);
+			let connection = this->getReadConnection(model, intermediate, bindParams, bindTypes);
 
 			// More than one type of connection is not allowed
 			let connectionTypes[connection->getType()] = true;
@@ -2840,8 +2840,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		if simulate {
 			return [
-				"sql"       : sqlSelect,
-				"bind"      : processed,
+				"sql"	   : sqlSelect,
+				"bind"	  : processed,
 				"bindTypes" : processedTypes
 			];
 		}
@@ -3694,20 +3694,20 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let self::_irPhqlCache = [];
 	}
 
-    /**
-     * allows to wrap a transaction around all queries
-     */
+	/**
+	 * allows to wrap a transaction around all queries
+	 */
 	public function setTransaction(<TransactionInterface> transaction) -> <Query>
 	{
-	    let this->_transaction = transaction;
-	    return this;
+		let this->_transaction = transaction;
+		return this;
 	}
 
-    /**
-     * gets the appropriate transaction if it exists
-     */
+	/**
+	 * gets the appropriate transaction if it exists
+	 */
 	public function getTransaction()
 	{
-	    return this->_transaction;
+		return this->_transaction;
 	}
 }
