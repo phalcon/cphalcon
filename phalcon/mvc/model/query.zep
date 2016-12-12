@@ -21,23 +21,23 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 
@@ -114,6 +114,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * TransactionInterface so that the query can wrap a transaction
 	 * around batch updates and intermediate selects within the transaction.
 	 * however if a model got a transaction set inside it will use the local transaction instead of this one
+	 * @var TransactionInterface | null
 	 */
 	protected _transaction { get };
 
@@ -2525,11 +2526,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Gets the read connection from the model if there is no transaction set inside the query object
 	 *
-	 * @param ModelInterface model
-	 * @param array intermediate
-	 * @param array bindParams
-	 * @param array bindTypes
-	 *
 	 * @throws \Phalcon\Mvc\Model\Exception
 	 */
 	protected function getReadConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface> | null
@@ -2555,11 +2551,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Gets the write connection from the model if there is no transaction inside the query object
-	 *
-	 * @param ModelInterface model
-	 * @param array intermediate
-	 * @param array bindParams
-	 * @param array bindTypes
 	 *
 	 * @throws \Phalcon\Mvc\Model\Exception
 	 */
@@ -2587,8 +2578,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * We assume that a transaction set to the query should dominate all other transactions.
 	 * This means changes done inside of another transaction will not be accessed via the outer transaction
 	 * (query transaction) hence reducing complexity thus the chance of a deadlocks.
-	 *
-	 * @param ModelInterface model
 	 */
 	protected function getTransactionConnection(<ModelInterface> model) -> <AdapterInterface> | null
 	{

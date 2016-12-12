@@ -777,7 +777,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 *
 	 * foreach ($robots as $robot) {
-	 *	 echo $robot->name, "\n";
+	 *   echo $robot->name, "\n";
 	 * }
 	 *
 	 * // Get first 100 virtual robots ordered by name
@@ -790,8 +790,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 *
 	 * foreach ($robots as $robot) {
-	 *	 echo $robot->name, "\n";
+	 *   echo $robot->name, "\n";
 	 * }
+	 *
+	 * // encapsulate find it into an running transaction esp. usefull for application unitests
+	 * // or complex business logics
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction);
+	 * $newRobot->save(['name' => 'test', ]);
+	 * $resultInsideTransaction = Robot::find(['name' => 'test'], $myTransaction);
+	 * $resultOutsideTransaction = Robot::find(['name' => 'test']);
+	 *
+	 * foreach ($setInsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * foreach ($setOutsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
 	 * </code>
 	 */
 	public static function find(var parameters = null, <TransactionInterface> transaction = null) -> <ResultsetInterface>
@@ -1447,7 +1465,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *         if ($this->name === "Peter") {
 	 *             $message = new Message(
 	 *                 "Sorry, but a robot cannot be named Peter"
-	 *	         );
+	 *             );
 	 *
 	 *             $this->appendMessage($message);
 	 *         }
