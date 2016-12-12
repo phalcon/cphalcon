@@ -63,7 +63,9 @@ install:
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
   - cd %APPVEYOR_BUILD_FOLDER%
-  - if not exist vendor (php -r "readfile('https://getcomposer.org/installer');" | php & php composer.phar update)
+  - appveyor DownloadFile https://getcomposer.org/composer.phar
+  - php composer.phar install --prefer-dist --no-interaction --ignore-platform-reqs
+  - php composer.phar require "phalcon/zephir:dev-master" --ignore-platform-reqs
   - echo Setting Up Zephir
   - 'vendor\bin\zephir help'
 

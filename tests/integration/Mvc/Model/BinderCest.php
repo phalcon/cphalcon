@@ -69,6 +69,24 @@ class BinderCest
     {
         Di::setDefault($I->getApplication()->getDI());
 
+        if (!extension_loaded('apc')) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Warning: apc extension is not loaded'
+            );
+        }
+
+        if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Warning: apc.enable_cli must be set to "On"'
+            );
+        }
+
+        if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
+            );
+        }
+
         $this->cache = new Apc(new Data(['lifetime' => 20]));
         $this->modelBinder = new Binder($this->cache);
 
@@ -126,7 +144,6 @@ class BinderCest
      */
     public function testDispatcherMultiBinding(IntegrationTester $I)
     {
-
         $dispatcher = $this->createDispatcher();
         $this->assertDispatcher($dispatcher, $I);
 
@@ -244,6 +261,7 @@ class BinderCest
             ['people' => $this->people->cedula],
             false
         );
+
         try {
             $dispatcher->dispatch();
 
@@ -268,7 +286,6 @@ class BinderCest
         $dispatcher->setModelBinder($this->modelBinder);
 
         for ($i = 0; $i <= 1; $i++) {
-
             $dispatcher->dispatch();
 
             $returnedValue = $dispatcher->getReturnedValue();
@@ -335,7 +352,6 @@ class BinderCest
         );
 
         for ($i = 0; $i <= 1; $i++) {
-
             $returnedValue = $micro->handle('/'.$this->people->cedula.'/robot/'.$this->robot->id);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue[0]);
@@ -760,7 +776,6 @@ class BinderCest
         $micro->setModelBinder($this->modelBinder);
 
         for ($i = 0; $i <= 1; $i++) {
-
             $returnedValue = $micro->handle('/'.$this->people->cedula);
 
             $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
@@ -838,6 +853,7 @@ class BinderCest
     {
         $this->cache->flush();
         $micro = new Micro(Di::getDefault());
+
         if ($useModelBinder) {
             $micro->setModelBinder($this->modelBinder);
         }

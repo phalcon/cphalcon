@@ -33,6 +33,15 @@ use Phalcon\Test\Module\UnitTest;
  */
 class CompilerTest extends UnitTest
 {
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
     public function testVoltParser()
     {
         $this->specify(
@@ -1573,6 +1582,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
                 $di->set('url', function () {
                     return (new Url)->setBaseUri('/');
                 });
+
                 $view->setDI($di);
                 $view->setViewsDir(PATH_DATA . 'views/');
                 $view->registerEngines(array(
