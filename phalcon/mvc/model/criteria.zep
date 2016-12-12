@@ -714,6 +714,17 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 	/**
 	 * Executes a find using the parameters built with the criteria
+	 *
+	 * <code>
+	 * // without encapsulating transaction
+	 * $criteria = Robot::query()->inWhere(Robot::class . '.id = :id', ['id' => 1]);
+	 * $resultSet = $criteria->execute();
+	 *
+	 * // with encapsulating transaction
+	 * $tm = new TransactionManager();
+	 * $transaction = $tm->get(true);
+	 * $resultSet = $criteria->execute($transaction);
+	 * </code>
 	 */
 	public function execute(<TransactionInterface> transaction = null) -> <ResultsetInterface>
 	{
