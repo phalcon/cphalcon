@@ -98,6 +98,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _dirtyState = 1;
 
+	/**
+	 * @var TransactionInterface | null
+	 */
 	protected _transaction { get };
 
 	protected _uniqueKey;
