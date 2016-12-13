@@ -99,10 +99,10 @@ class Mysql extends Dialect
 				}
 				break;
 			case Column::TYPE_TIME:
-                                if empty columnSql {
-                                        let columnSql .= "TIME";
-                                }
-                                break;
+				if empty columnSql {
+					let columnSql .= "TIME";
+				}
+				break;
 			case Column::TYPE_CHAR:
 				if empty columnSql {
 					let columnSql .= "CHAR";
