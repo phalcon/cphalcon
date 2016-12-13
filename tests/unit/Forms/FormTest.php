@@ -442,6 +442,7 @@ class FormTest extends UnitTest
                     ],
                 ])
             );
+            expect($form->get('telephone')->getMessages())->equals($form->getMessages());
             expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
         });
     }
@@ -482,6 +483,7 @@ class FormTest extends UnitTest
                     ],
                 ])
             );
+            expect($form->get('telephone')->getMessages())->equals($form->getMessages());
             expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
         });
     }
@@ -533,6 +535,7 @@ class FormTest extends UnitTest
                     ],
                 ])
             );
+            expect($form->get('telephone')->getMessages())->equals($form->getMessages());
             expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
         });
     }
