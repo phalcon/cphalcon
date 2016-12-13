@@ -91,10 +91,14 @@ class Postgresql extends Dialect
 					let columnSql .= "TIMESTAMP";
 				}
 				break;
-
 			case Column::TYPE_TIMESTAMP:
+                                if empty columnSql {
+                                        let columnSql .= "TIMESTAMP";
+                                }
+                                break;
+			case Column::TYPE_TIME:
 				if empty columnSql {
-					let columnSql .= "TIMESTAMP";
+					let columnSql .= "TIME";
 				}
 				break;
 

@@ -2538,6 +2538,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  										case Column::TYPE_DATE:
  										case Column::TYPE_VARCHAR:
  										case Column::TYPE_DATETIME:
+										case Column::TYPE_TIME:
  										case Column::TYPE_CHAR:
  										case Column::TYPE_TEXT:
  										case Column::TYPE_VARCHAR:
