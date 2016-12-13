@@ -158,15 +158,12 @@ class Postgresql extends PdoAdapter
 				 * Timestamp
 				 */
 				let definition["type"] = Column::TYPE_TIMESTAMP;
-			} elseif memstr(columnType, "numeric") {
+			}elseif memstr(columnType, "time") {
 				/**
-				* Time
-				*/
-				if memstr(columnType, "time") {
-					let definition["type"] = Column::TYPE_TIME;
-					break;
-				}
-
+                                 * Time
+                                 */
+				let definition["type"] = Column::TYPE_TIME;
+			} elseif memstr(columnType, "numeric") {
 				/**
 				 * Numeric
 				 */
