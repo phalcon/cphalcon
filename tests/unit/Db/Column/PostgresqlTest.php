@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Db\Column;
 
 use Phalcon\Db\Column;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Db\Dialect\Postgresql as PostgresqlDialect;
 
 /**
  * \Phalcon\Test\Unit\Db\Column\PostgresqlTest
@@ -59,5 +60,14 @@ class PostgresqlTest extends UnitTest
                 expect($column->isAutoIncrement())->true();
             }
         );
+    }
+
+    public function testDetectTimeColumn()
+    {
+        $dialect = new PostgresqlDialect();
+        $column = new Column("time-test", array(
+            'type' => Column::TYPE_TIME
+        ));
+        $this->assertEquals($dialect->getColumnDefinition($column), 'TIME');
     }
 }
