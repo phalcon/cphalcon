@@ -120,9 +120,9 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_DATETIME;
 			} elseif memstr(columnType, "time") {
 				/**
-                                 * Special type for time
-                                 */
-                                let definition["type"] = Column::TYPE_TIME;
+				* Special type for time
+				*/
+				let definition["type"] = Column::TYPE_TIME;
 			} elseif memstr(columnType, "char") {
 				/**
 				 * Chars are chars
