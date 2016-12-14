@@ -385,7 +385,10 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessagesFor(string! name) -> <Group>
 	{
-        return this->get(name)->getMessages();
+	    if this->has(name) {
+            return this->get(name)->getMessages();
+	    }
+	    return new Group();
 	}
 
 	/**
