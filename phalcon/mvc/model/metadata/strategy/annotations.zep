@@ -131,9 +131,9 @@ class Annotations implements StrategyInterface
 						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
 					break;
 				case "time":
-                                        let fieldTypes[columnName] = Column::TYPE_TIME,
-                                                fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
-                                        break;
+					let fieldTypes[columnName] = Column::TYPE_TIME,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
 				case "text":
 					let fieldTypes[columnName] = Column::TYPE_TEXT,
 						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
