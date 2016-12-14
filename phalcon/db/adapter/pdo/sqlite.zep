@@ -164,6 +164,11 @@ class Sqlite extends PdoAdapter
 				 * Special type for datetime
 				 */
 				let definition["type"] = Column::TYPE_DATETIME;
+			} elseif memstr(columnType, "time") {
+				/**
+				 * Special type for time
+				 */
+				let definition["type"] = Column::TYPE_TIME;
 			} elseif memstr(columnType, "text") {
 				/**
 				 * Text are varchars

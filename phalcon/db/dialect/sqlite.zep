@@ -90,7 +90,11 @@ class Sqlite extends Dialect
 					let columnSql .= "DATETIME";
 				}
 				break;
-
+			case Column::TYPE_TIME:
+				if empty columnSql {
+					let columnSql .= "TIME";
+				}
+				break;
 			case Column::TYPE_TIMESTAMP:
 				if empty columnSql {
 					let columnSql .= "TIMESTAMP";
