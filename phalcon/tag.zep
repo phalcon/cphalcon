@@ -571,7 +571,7 @@ class Tag
 
 			let value = self::getValue(id, params);
 
-			if value != null && currentValue == value {
+			if value !== null && currentValue == value {
 				let params["checked"] = "checked";
 			}
 			let params["value"] = currentValue;
