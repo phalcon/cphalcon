@@ -52,7 +52,7 @@ class AuthHeaderTest extends UnitTest
      * @test
      * @issue  12480
      * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2016-01-31
+     * @since  2016-12-18
      */
     public function shouldCorrectHandleAuth()
     {
