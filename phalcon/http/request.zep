@@ -594,26 +594,28 @@ class Request implements RequestInterface, InjectionAwareInterface
 		var overridedMethod, spoofedMethod, requestMethod;
 		string returnMethod = "";
 
-		if fetch requestMethod, _SERVER["REQUEST_METHOD"] {
+		if likely fetch requestMethod, _SERVER["REQUEST_METHOD"] {
 			let returnMethod = strtoupper(requestMethod);
+		} else {
+			return "GET";
 		}
 
-		if "POST" === requestMethod {
+		if "POST" === returnMethod {
 			let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
 			if !empty overridedMethod {
-				let returnMethod = overridedMethod;
+				let returnMethod = strtoupper(overridedMethod);
 			} elseif this->_httpMethodParameterOverride {
 				if fetch spoofedMethod, _REQUEST["_method"] {
-					let returnMethod = spoofedMethod;
+					let returnMethod = strtoupper(spoofedMethod);
 				}
 			}
 		}
 
 		if !this->isValidHttpMethod(returnMethod) {
-			let returnMethod = "GET";
+			return "GET";
 		}
 
-		return strtoupper(returnMethod);
+		return returnMethod;
 	}
 
 	/**
@@ -635,7 +637,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function isValidHttpMethod(string method) -> boolean
 	{
 		switch strtoupper(method) {
-
 			case "GET":
 			case "POST":
 			case "PUT":
