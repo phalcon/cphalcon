@@ -591,16 +591,16 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public final function getMethod() -> string
 	{
-		var headers, overridedMethod, spoofedMethod, requestMethod;
+		var overridedMethod, spoofedMethod, requestMethod;
 		string returnMethod = "";
 
 		if fetch requestMethod, _SERVER["REQUEST_METHOD"] {
-			let returnMethod = requestMethod;
+			let returnMethod = strtoupper(requestMethod);
 		}
 
 		if "POST" === requestMethod {
-			let headers = this->getHeaders();
-			if fetch overridedMethod, headers["X-HTTP-METHOD-OVERRIDE"] {
+			let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
+			if !empty overridedMethod {
 				let returnMethod = overridedMethod;
 			} elseif this->_httpMethodParameterOverride {
 				if fetch spoofedMethod, _REQUEST["_method"] {
