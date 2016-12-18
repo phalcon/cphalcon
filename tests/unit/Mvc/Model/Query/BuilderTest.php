@@ -542,4 +542,45 @@ class BuilderTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests work with limit / offset
+     *
+     * @test
+     * @issue  12419
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2016-12-18
+     */
+    public function shouldCorrectHandleLimitAndOffset()
+    {
+        $this->specify(
+            'The builder object works with limit / offset incorrectly',
+            function ($limit, $offset, $expected) {
+                $builder = new Builder(null, $this->di);
+                $phql = $builder
+                    ->columns(['name'])
+                    ->from(Robots::class)
+                    ->limit($limit, $offset)
+                    ->getPhql();
+
+                /** Just prevent IDE to highlight this as not valid SQL dialect */
+                expect($phql)->equals('SELECT name ' . "FROM {$expected}");
+            },
+            ['examples' => $this->limitOffsetProvider()]
+        );
+    }
+
+    protected function limitOffsetProvider()
+    {
+        return [
+            [-7,      null,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0:"              ],
+            ["-7234", null,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0:"              ],
+            ["18",    null,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0:"              ],
+            ["18",    2,     "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0: OFFSET :APL1:"],
+            ["-1000", -200,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0: OFFSET :APL1:"],
+            ["1000", "-200", "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0: OFFSET :APL1:"],
+            ["0",    "-200", "[Phalcon\\Test\\Models\\Robots]"                           ],
+            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[Phalcon\\Test\\Models\\Robots]"],
+        ];
+    }
 }

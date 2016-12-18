@@ -2,7 +2,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -933,17 +933,26 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Sets a LIMIT clause, optionally an offset clause
 	 *
-	 *<code>
+	 * <code>
 	 * $builder->limit(100);
 	 * $builder->limit(100, 20);
-	 *</code>
+	 * $builder->limit("100", "20");
+	 * </code>
 	 */
-	public function limit(var limit = null, var offset = null) -> <Builder>
+	public function limit(int limit, var offset = null) -> <Builder>
 	{
-		let this->_limit = limit;
-		if is_numeric(offset) {
-			let this->_offset = (int)offset;
+		let limit = abs(limit);
+
+		if unlikely limit == 0 {
+			return this;
 		}
+
+		let this->_limit = limit;
+
+		if is_numeric(offset) {
+			let this->_offset = abs((int) offset);
+		}
+
 		return this;
 	}
 
