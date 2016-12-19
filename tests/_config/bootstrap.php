@@ -95,12 +95,7 @@ $di->setShared(
 /**
  * Dispatcher
  */
-$di->set(
-    'dispatcher',
-    function () use ($di) {
-        return new Dispatcher();
-    }
-);
+$di->set('dispatcher', Dispatcher::class);
 
 /**
  * Initialize the Database connection

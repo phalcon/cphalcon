@@ -573,14 +573,14 @@ class BuilderTest extends UnitTest
     protected function limitOffsetProvider()
     {
         return [
-            [-7,      null,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0:"              ],
-            ["-7234", null,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0:"              ],
-            ["18",    null,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0:"              ],
-            ["18",    2,     "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0: OFFSET :APL1:"],
-            ["-1000", -200,  "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0: OFFSET :APL1:"],
-            ["1000", "-200", "[Phalcon\\Test\\Models\\Robots] LIMIT :APL0: OFFSET :APL1:"],
-            ["0",    "-200", "[Phalcon\\Test\\Models\\Robots]"                           ],
-            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[Phalcon\\Test\\Models\\Robots]"],
+            [-7,      null,  "[" . Robots::class . "] LIMIT :APL0:"              ],
+            ["-7234", null,  "[" . Robots::class . "] LIMIT :APL0:"              ],
+            ["18",    null,  "[" . Robots::class . "] LIMIT :APL0:"              ],
+            ["18",    2,     "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            ["-1000", -200,  "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            ["0",    "-200", "[" . Robots::class . "]"                           ],
+            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[" . Robots::class . "]"],
         ];
     }
 }
