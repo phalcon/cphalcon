@@ -48,12 +48,12 @@ class Memory extends PhMemory
         return parent::exists($keyName, $lifetime);
     }
 
-    public function increment($keyName = null, $value = null)
+    public function increment($keyName = null, $value = 1)
     {
         return parent::increment($keyName, $value);
     }
 
-    public function decrement($keyName = null, $value = null)
+    public function decrement($keyName = null, $value = 1)
     {
         return parent::decrement($keyName, $value);
     }
