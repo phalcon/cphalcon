@@ -372,7 +372,7 @@ class Crypt implements CryptInterface
 	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
 		if safe == true {
-			return rtrim(strtr(base64_encode(this->encrypt(text, key)), "+/", "-_"), '=');
+			return rtrim(strtr(base64_encode(this->encrypt(text, key)), "+/", "-_"), "=");
 		}
 		return base64_encode(this->encrypt(text, key));
 	}
@@ -383,7 +383,7 @@ class Crypt implements CryptInterface
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
 		if safe == true {
-			return this->decrypt(base64_decode(strtr(text, "-_", "+/") . substr('===', (strlen(text) + 3) % 4)), key);
+			return this->decrypt(base64_decode(strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)), key);
 		}
 		return this->decrypt(base64_decode(text), key);
 	}
