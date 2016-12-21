@@ -57,6 +57,7 @@ $defaults = [
     // Memcached
     "TEST_MC_HOST"              => '127.0.0.1',
     "TEST_MC_PORT"              => 11211,
+    "TEST_MC_WEIGHT"            => 1,
 
     // SQLite
     "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',

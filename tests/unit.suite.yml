@@ -5,14 +5,15 @@ class_name: UnitTester
 modules:
     # enabled modules and helpers
     enabled:
-        - Helper\Unit
-        - Asserts
         - Db
-        - Filesystem
-        - Phalcon
-        - Redis
-        - Memcache
         - Apc
+        - Redis
+        - Asserts
+        - Phalcon
+        - Memcache
+        - Filesystem
+        - Helper\Unit
+        - Phalcon\Test\Module\Libmemcached
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
@@ -34,3 +35,7 @@ modules:
         Memcache:
             host: %TEST_MC_HOST%
             port: %TEST_MC_PORT%
+        Phalcon\Test\Module\Libmemcached:
+            host: %TEST_MC_HOST%
+            port: %TEST_MC_PORT%
+            weight: %TEST_MC_WEIGHT%
