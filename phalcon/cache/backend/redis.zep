@@ -381,9 +381,8 @@ class Redis extends Backend
 	 * Increment of given $keyName by $value
 	 *
 	 * @param string keyName
-	 * @param int value
 	 */
-	public function increment(keyName = null, value = null) -> int
+	public function increment(keyName = null, int value = 1) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -400,10 +399,6 @@ class Redis extends Backend
 			let prefix = this->_prefix;
 			let lastKey = "_PHCR" . prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return redis->incrBy(lastKey, value);
@@ -413,9 +408,8 @@ class Redis extends Backend
 	 * Decrement of $keyName by given $value
 	 *
 	 * @param string keyName
-	 * @param int value
 	 */
-	public function decrement(keyName = null, value = null) -> int
+	public function decrement(keyName = null, int value = 1) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -432,10 +426,6 @@ class Redis extends Backend
 			let prefix = this->_prefix;
 			let lastKey = "_PHCR" . prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return redis->decrBy(lastKey, value);

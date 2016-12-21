@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -115,9 +115,9 @@ class Multiple
 	/**
 	 * Returns a cached content reading the internal backends
 	 *
-	 * @param 	string|int keyName
-	 * @param   long lifetime
-	 * @return  mixed
+	 * @param string|int keyName
+	 * @param int lifetime
+	 * @return mixed
 	 */
 	public function get(var keyName, lifetime = null)
 	{
@@ -137,7 +137,7 @@ class Multiple
 	 * Starts every backend
 	 *
 	 * @param string|int keyName
-	 * @param long lifetime
+	 * @param int lifetime
 	 */
 	public function start(var keyName, lifetime = null) -> void
 	{
@@ -153,7 +153,7 @@ class Multiple
 	*
 	* @param string keyName
 	* @param string content
-	* @param long lifetime
+	* @param int lifetime
 	* @param boolean stopBuffer
 	*/
 	public function save(var keyName = null, content = null, lifetime = null, stopBuffer = null) -> void
@@ -186,8 +186,7 @@ class Multiple
 	 * Checks if cache exists in at least one backend
 	 *
 	 * @param  string|int keyName
-	 * @param  long lifetime
-	 * @return boolean
+	 * @param  int lifetime
 	 */
 	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
@@ -201,18 +200,18 @@ class Multiple
 
 		return false;
 	}
-	
+
 	/**
 	 * Flush all backend(s)
 	 */
 	public function flush() -> boolean
 	{
 		var backend;
-		
+
 		for backend in this->_backends {
 			backend->flush();
 		}
-		
+
 		return true;
 	}
 }

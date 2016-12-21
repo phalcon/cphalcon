@@ -76,9 +76,9 @@ class Apc extends Backend
 	/**
 	 * Stores cached content into the APC backend and stops the frontend
 	 *
-	 * @param string|long keyName
+	 * @param string|int keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
@@ -150,11 +150,9 @@ class Apc extends Backend
 	/**
 	 * Increment of a given key, by number $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
+	 * @param string keyName
 	 */
-	public function increment(keyName = null, int value = 1)
+	public function increment(keyName = null, int value = 1) -> int | boolean
 	{
 		var prefixedKey, cachedContent, result;
 
@@ -171,20 +169,18 @@ class Apc extends Backend
 				let result = cachedContent + value;
 				this->save(keyName, result);
 				return result;
-			} else {
-				return false;
 			}
 		}
+
+		return false;
 	}
 
 	/**
 	 * Decrement of a given key, by number $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
+	 * @param string keyName
 	 */
-	public function decrement(keyName = null, int value = 1)
+	public function decrement(keyName = null, int value = 1) -> int | boolean
 	{
 		var lastKey, cachedContent, result;
 
@@ -200,10 +196,10 @@ class Apc extends Backend
 				let result = cachedContent - value;
 				this->save(keyName, result);
 				return result;
-			} else {
-				return false;
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -218,7 +214,6 @@ class Apc extends Backend
 	 * Query the existing cached keys
 	 *
 	 * @param string prefix
-	 * @return array
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
@@ -243,9 +238,8 @@ class Apc extends Backend
 	/**
 	 * Checks if cache exists and it hasn't expired
 	 *
-	 * @param  string|long keyName
-	 * @param  long lifetime
-	 * @return boolean
+	 * @param  string|int keyName
+	 * @param  int lifetime
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{

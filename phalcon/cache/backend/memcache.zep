@@ -175,7 +175,7 @@ class Memcache extends Backend
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
@@ -363,8 +363,7 @@ class Memcache extends Backend
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string keyName
-	 * @param   long lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
@@ -397,11 +396,9 @@ class Memcache extends Backend
 	/**
 	 * Increment of given $keyName by $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
 	 */
-	public function increment(keyName = null, value = null)
+	public function increment(keyName = null, int value = 1) -> int | boolean
 	{
 		var memcache, prefix, lastKey;
 
@@ -418,10 +415,6 @@ class Memcache extends Backend
 			let prefix = this->_prefix;
 			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return memcache->increment(lastKey, value);
@@ -430,11 +423,9 @@ class Memcache extends Backend
 	/**
 	 * Decrement of $keyName by given $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
 	 */
-	public function decrement(keyName = null, value = null)
+	public function decrement(keyName = null, int value = 1) -> int | boolean
 	{
 		var memcache, prefix, lastKey;
 
@@ -451,10 +442,6 @@ class Memcache extends Backend
 			let prefix = this->_prefix;
 			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return memcache->decrement(lastKey, value);

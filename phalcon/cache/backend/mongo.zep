@@ -185,7 +185,7 @@ class Mongo extends Backend
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
@@ -319,8 +319,7 @@ class Mongo extends Backend
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string keyName
-	 * @param   long lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
@@ -352,10 +351,8 @@ class Mongo extends Backend
 	 * Increment of a given key by $value
 	 *
 	 * @param int|string keyName
-	 * @param   long value
-	 * @return  mixed
 	 */
-	public function increment(keyName, value = 1)
+	public function increment(keyName, int value = 1) -> int | null
 	{
 		var prefixedKey, document,
 			modifiedTime,  cachedContent, incremented;
@@ -392,10 +389,8 @@ class Mongo extends Backend
 	 * Decrement of a given key by $value
 	 *
 	 * @param int|string $keyName
-	 * @param   long $value
-	 * @return  mixed
 	 */
-	public function decrement(keyName, value = 1)
+	public function decrement(keyName, int value = 1) -> int | null
 	{
 		var prefixedKey, document, modifiedTime,  cachedContent, decremented;
 
