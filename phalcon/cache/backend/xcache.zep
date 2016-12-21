@@ -104,7 +104,7 @@ class Xcache extends Backend
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
@@ -270,8 +270,7 @@ class Xcache extends Backend
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string keyName
-	 * @param   long lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
@@ -292,11 +291,9 @@ class Xcache extends Backend
 	/**
 	* Atomic increment of a given key, by number $value
 	*
-	* @param  string keyName
-	* @param  long value
-	* @return mixed
+	* @param string keyName
 	*/
-	public function increment(var keyName, long value = 1)
+	public function increment(var keyName, int value = 1) -> int
 	{
 		var lastKey, newVal, origVal;
 
@@ -324,11 +321,9 @@ class Xcache extends Backend
 	/**
 	 * Atomic decrement of a given key, by number $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
+	 * @param string keyName
 	 */
-	public function decrement(keyName, long value = 1)
+	public function decrement(keyName, int value = 1) -> int
 	{
 		var lastKey, newVal, origVal, success;
 

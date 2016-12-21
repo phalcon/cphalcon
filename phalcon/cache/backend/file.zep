@@ -234,7 +234,6 @@ class File extends Backend
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
 	public function delete(var keyName) -> boolean
 	{
@@ -256,7 +255,6 @@ class File extends Backend
 	 * Query the existing cached keys
 	 *
 	 * @param string|int prefix
-	 * @return array
 	 */
 	public function queryKeys(var prefix = null) -> array
 	{
@@ -292,8 +290,7 @@ class File extends Backend
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string|int keyName
-	 * @param   int lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(var keyName = null, int lifetime = null) -> boolean
 	{
@@ -337,10 +334,8 @@ class File extends Backend
 	 * Increment of a given key, by number $value
 	 *
 	 * @param  string|int keyName
-	 * @param  int value
-	 * @return mixed
 	 */
-	public function increment(var keyName = null, int value = 1)
+	public function increment(var keyName = null, int value = 1) -> int | null
 	{
 		var prefixedKey, cacheFile, frontend, lifetime, ttl,
 			cachedContent, result, modifiedTime;
@@ -392,16 +387,16 @@ class File extends Backend
 				}
 			}
 		}
+
+		return null;
 	}
 
 	/**
 	 * Decrement of a given key, by number $value
 	 *
-	 * @param  string|int keyName
-	 * @param  int value
-	 * @return mixed
+	 * @param string|int keyName
 	 */
-	public function decrement(var keyName = null, int value = 1)
+	public function decrement(var keyName = null, int value = 1) -> int | null
 	{
 		var prefixedKey, cacheFile, lifetime, ttl, cachedContent, result, modifiedTime;
 
@@ -450,6 +445,8 @@ class File extends Backend
 				}
 			}
 		}
+
+		return null;
 	}
 
 	/**
