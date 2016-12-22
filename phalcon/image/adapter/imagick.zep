@@ -358,9 +358,7 @@ class Imagick extends Adapter
 			watermark = new \Imagick(),
 			imagickVersion = \Imagick::getVersion();
 
-		preg_match("/ImageMagick ([0-9]+\.[0-9]+\.[0-9]+)/", imagickVersion["versionString"], imagickVersion);
-
-		if version_compare(imagickVersion[1], '7') < 0 {
+		if imagickVersion["versionNumber"] < 0x700 {
 			let method = "setImageOpacity";
 		} else {
 			let method = "setImageAlpha";
