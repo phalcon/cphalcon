@@ -211,15 +211,20 @@ class Apc extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
 		var prefixPattern, apc, keys, key;
 
-		if !prefix {
+		if empty prefix {
 			let prefixPattern = "/^_PHCA/";
 		} else {
 			let prefixPattern = "/^_PHCA" . prefix . "/";

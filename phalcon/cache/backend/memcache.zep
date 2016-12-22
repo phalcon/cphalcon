@@ -317,14 +317,18 @@ class Memcache extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var memcache, options, keys, specialKey, key, realKey;
+		var memcache, options, keys, specialKey, key, idx;
 
 		let memcache = this->_memcache;
 
@@ -346,17 +350,19 @@ class Memcache extends Backend
 		/**
 		 * Get the key from memcached
 		 */
-		let realKey = [];
 		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				if !prefix || starts_with(key, prefix) {
-					let realKey[] = key;
-				}
+		if unlikely typeof keys != "array" {
+			return [];
+		}
+
+		let keys = array_keys(keys);
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
 			}
 		}
 
-		return realKey;
+		return keys;
 	}
 
 	/**
@@ -475,10 +481,12 @@ class Memcache extends Backend
 		 * Get the key from memcached
 		 */
 		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				memcache->delete(key);
-			}
+		if unlikely typeof keys != "array" {
+			return true;
+		}
+
+		for key, _ in keys {
+			memcache->delete(key);
 		}
 
 		memcache->delete(specialKey);
