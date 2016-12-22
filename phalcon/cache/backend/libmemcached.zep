@@ -315,18 +315,16 @@ class Libmemcached extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
 	 * <code>
-	 * $cache->save('users-ids', [1, 2, 3]);
-	 * $cache->save('projects-ids', [4, 5, 6]);
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
 	 *
-	 * var_dump($cache->queryKeys('users')); // [1, 2, 3]
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
 	 * </code>
-	 *
-	 * @param string prefix
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
 		var memcache, options, keys, specialKey, key, idx;
 
@@ -351,16 +349,14 @@ class Libmemcached extends Backend
 		 * Get the key from memcached
 		 */
 		let keys = memcache->get(specialKey);
-		if typeof keys != "array" {
+		if unlikely typeof keys != "array" {
 			return [];
 		}
 
-		if typeof keys == "array" {
-			let keys = array_keys(keys);
-			for idx, key in keys {
-				if prefix && !starts_with(key, prefix) {
-					unset keys[idx];
-				}
+		let keys = array_keys(keys);
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
 			}
 		}
 
@@ -502,12 +498,15 @@ class Libmemcached extends Backend
 		 * Get the key from memcached
 		 */
 		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key in array_keys(keys) {
-				memcache->delete(key);
-			}
-			memcache->set(specialKey, keys);
+		if unlikely typeof keys != "array" {
+			return true;
 		}
+
+		for key, _ in keys {
+			memcache->delete(key);
+		}
+
+		memcache->delete(specialKey);
 
 		return true;
 	}

@@ -252,28 +252,35 @@ class File extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string|int prefix
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(var prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var item, key, cacheDir;
+		var item, key, cacheDir, prefixedKey;
 		array keys = [];
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		string prefixedKey =  this->_prefix . this->getKey(prefix);
+		if !empty prefix {
+			let prefixedKey = this->_prefix . this->getKey(prefix);
+		}
+
 		/**
 		 * We use a directory iterator to traverse the cache dir directory
 		 */
 		for item in iterator(new \DirectoryIterator(cacheDir)) {
-
 			if likely item->isDir() === false {
 				let key = item->getFileName();
-				if prefix !== null {
+				if !empty prefix {
 					if starts_with(key, prefixedKey) {
 						let keys[] = key;
 					}

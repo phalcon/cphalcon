@@ -222,12 +222,16 @@ class Xcache extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
 		var options, prefixed, specialKey, keys, retval, key, realKey;
 
@@ -244,22 +248,24 @@ class Xcache extends Backend
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCX')!");
+		}
+
+		/**
+		 * Get the key from XCache (we cannot use xcache_list() as it is available only to
+		 * the administrator)
+		 */
+		let keys = xcache_get(specialKey);
+		if typeof keys != "array" {
+			return [];
 		}
 
 		let retval = [];
 
-		/**
-		* Get the key from XCache (we cannot use xcache_list() as it is available only to
-		* the administrator)
-		*/
-		let keys = xcache_get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				if starts_with(key, prefixed) {
-					let realKey = substr(key, 5);
-					let retval[] = realKey;
-				}
+		for key, _ in keys {
+			if starts_with(key, prefixed) {
+				let realKey = substr(key, 5);
+				let retval[] = realKey;
 			}
 		}
 
