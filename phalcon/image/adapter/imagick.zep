@@ -360,7 +360,7 @@ class Imagick extends Adapter
 
 		preg_match("/ImageMagick ([0-9]+\.[0-9]+\.[0-9]+)/", imagickVersion["versionString"], imagickVersion);
 
-		if version_compare(imagickVersion[1], '7') < 0 {
+		if version_compare(imagickVersion[1], "7") < 0 {
 			let method = "setImageOpacity";
 		} else {
 			let method = "setImageAlpha";
