@@ -352,13 +352,22 @@ class Imagick extends Adapter
 	 */
 	protected function _watermark(<Adapter> image, int offsetX, int offsetY, int opacity)
 	{
-		var watermark, ret;
+		var watermark, ret, imagickVersion, method;
 
 		let opacity = opacity / 100,
-			watermark = new \Imagick();
+			watermark = new \Imagick(),
+			imagickVersion = \Imagick::getVersion();
+
+		preg_match("/ImageMagick ([0-9]+\.[0-9]+\.[0-9]+)/", imagickVersion["versionString"], imagickVersion);
+
+		if version_compare(imagickVersion[1], '7') < 0 {
+			let method = "setImageOpacity";
+		} else {
+			let method = "setImageAlpha";
+		}
 
 		watermark->readImageBlob(image->render());
-		watermark->setImageOpacity(opacity);
+		watermark->{method}(opacity);
 
 		this->_image->setIteratorIndex(0);
 
