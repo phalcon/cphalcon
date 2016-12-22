@@ -47,8 +47,6 @@ install:
   - 7z.exe x imagick.zip -o%APPVEYOR_BUILD_FOLDER%\..\imagick | FIND /V "ing  "
   - dir C:\projects\
   - dir C:\projects\imagick\
-  - type %APPVEYOR_BUILD_FOLDER%\..\imagick\php_imagick.dll
-  - exit
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
@@ -66,7 +64,7 @@ install:
   - 'echo extension=php_fileinfo.dll >> php.ini'
   - 'echo extension=php_gettext.dll >> php.ini'
   - 'echo extension=php_gd2.dll >> php.ini'
-  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\..\imagick\php_imagick.dll >> php.ini'
+  - 'echo extension=C:\projects\imagick\php_imagick.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
