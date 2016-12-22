@@ -42,6 +42,10 @@ install:
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
   - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
   - cd ..
+  - echo Download imagick
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.1.2/php_imagick-3.1.2-' + ${env:PHP_VERSION} + '-ts-' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
+  - 7z.exe x imagick.zip | FIND /V "ing  "
+  - mv php_imagick-3.1.2-5.6-ts-' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + ' imagick
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
@@ -52,6 +56,7 @@ install:
   - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
   - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
+  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\imagick\php_imagick.dll >> php.ini'
   - 'echo extension=php_curl.dll >> php.ini'
   - 'echo extension=php_openssl.dll >> php.ini'
   - 'echo extension=php_mbstring.dll >> php.ini'
