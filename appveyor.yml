@@ -55,7 +55,7 @@ install:
   - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
   - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
   - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
-  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\imagick\php_imagick.dll >> php.ini'
+  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\..\imagick\php_imagick.dll >> php.ini'
   - 'echo extension=php_curl.dll >> php.ini'
   - 'echo extension=php_openssl.dll >> php.ini'
   - 'echo extension=php_mbstring.dll >> php.ini'
