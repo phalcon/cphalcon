@@ -44,8 +44,8 @@ install:
   - cd ..
   - echo Download imagick
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3RC1/php_imagick-3.4.3rc1-5.6-ts-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
-  - 7z.exe x imagick.zip -o%APPVEYOR_BUILD_FOLDER%\..\php\ext\imagick | FIND /V "ing  "
-  - dir %APPVEYOR_BUILD_FOLDER%\..\php\ext\imagick
+  - 7z.exe x imagick.zip -o%APPVEYOR_BUILD_FOLDER%\..\php\ext\ | FIND /V "ing  "
+  - dir %APPVEYOR_BUILD_FOLDER%\..\php\ext\
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
