@@ -149,28 +149,31 @@ class Memory extends Backend implements \Serializable
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string|int prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(var prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var data, index, keys;
+		var data, index, keys, key, idx;
 
-		let data = this->_data,
-			keys = [];
+		let data = this->_data;
+		if typeof data != "array" {
+			return [];
+		}
 
-		if typeof data == "array" {
-			if !prefix {
-				let keys = (array) array_keys(data);
-			} else {
-			    	let keys = [];
-				for index, _ in data {
-					let keys[] = index;
-				}
+		let keys = array_keys(data);
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
 			}
 		}
+
 		return keys;
 	}
 

@@ -285,17 +285,21 @@ class Mongo extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
 		var collection, key, item, items, value;
 		array keys = [], conditions = [];
 
-		if prefix {
+		if !empty prefix {
 			let conditions["key"] = new \MongoRegex("/^" . prefix . "/");
 		}
 

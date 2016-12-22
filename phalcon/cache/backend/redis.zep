@@ -305,13 +305,18 @@ class Redis extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var redis, options, keys, specialKey, key, value;
+		var redis, options, keys, specialKey, key, idx;
 
 		let redis = this->_redis;
 
@@ -327,24 +332,24 @@ class Redis extends Backend
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
 		/**
 		* Get the key from redis
 		*/
 		let keys = redis->sMembers(specialKey);
-		if typeof keys == "array" {
-			for key, value in keys {
-				if prefix && !starts_with(value, prefix) {
-					unset(keys[key]);
-				}
-			}
-
-			return keys;
+		if typeof keys != "array" {
+			return [];
 		}
 
-		return [];
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
+			}
+		}
+
+		return keys;
 	}
 
 	/**

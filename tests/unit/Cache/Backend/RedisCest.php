@@ -261,7 +261,7 @@ class RedisCest
         $keys = $cache->queryKeys();
         sort($keys);
 
-        $I->assertEquals($keys, ['a', 'b', 'c']);
+        $I->assertEquals(['a', 'b', 'c'], $keys);
     }
 
     public function queryKeysWithoutStatsKey(UnitTester $I)
@@ -274,7 +274,7 @@ class RedisCest
         ]);
 
         $I->expectException(
-            new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!"),
+            new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!"),
             function () use ($cache) {
                 $cache->queryKeys();
             }
