@@ -63,7 +63,7 @@ install:
   - 'echo extension=php_fileinfo.dll >> php.ini'
   - 'echo extension=php_gettext.dll >> php.ini'
   - 'echo extension=php_gd2.dll >> php.ini'
-  - 'echo extension=C:\projects\imagick\php_imagick.dll >> php.ini'
+  - 'echo extension=php_imagick.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
