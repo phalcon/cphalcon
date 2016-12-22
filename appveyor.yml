@@ -67,6 +67,7 @@ install:
   - 'echo memory_limit=256M >> php.ini'
   - 'echo extension_dir = %APPVEYOR_BUILD_FOLDER%\..\php\ext\ >> php.ini'
   - 'set PATH=%cd%;%PATH%'
+  - php -i|findstr "Thread"
   - php -m
 
 build_script:
