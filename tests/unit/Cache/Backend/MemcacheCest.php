@@ -41,10 +41,7 @@ class MemcacheCest
         $I->wantTo('Increment counter by using Memcache as cache backend');
 
         $key = 'increment';
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $cache = $this->getDataCache(null, 20);
 
         $I->dontSeeInMemcached($key);
         $I->haveInMemcached($key, 1);
@@ -57,8 +54,6 @@ class MemcacheCest
 
         $I->assertEquals(14, $cache->increment($key, 10));
         $I->seeInMemcached($key, 14);
-
-        $I->clearMemcache();
     }
 
     public function decrement(UnitTester $I)
@@ -66,10 +61,7 @@ class MemcacheCest
         $I->wantTo('Decrement counter by using Memcache as cache backend');
 
         $key = 'decrement';
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $cache = $this->getDataCache(null, 20);
 
         $I->dontSeeInMemcached($key);
         $I->haveInMemcached($key, 100);
@@ -82,8 +74,6 @@ class MemcacheCest
 
         $I->assertEquals(87, $cache->decrement($key, 10));
         $I->seeInMemcached($key, 87);
-
-        $I->clearMemcache();
     }
 
     public function get(UnitTester $I)
@@ -93,10 +83,7 @@ class MemcacheCest
         $key = 'data-get';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $cache = $this->getDataCache(null, 20);
 
         $I->haveInMemcached($key, serialize($data));
         $I->assertEquals($data, $cache->get('data-get'));
@@ -109,8 +96,6 @@ class MemcacheCest
         $I->assertEquals($data, $cache->get('data-get'));
 
         $I->assertNull($cache->get('non-existent-key-2'));
-
-        $I->clearMemcache();
     }
 
     public function save(UnitTester $I)
@@ -120,10 +105,7 @@ class MemcacheCest
         $key = 'data-save';
         $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
 
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $cache = $this->getDataCache(null, 20);
 
         $I->dontSeeInMemcached($key);
         $cache->save('data-save', $data);
@@ -132,12 +114,10 @@ class MemcacheCest
 
         $data = 'sure, nothing interesting';
 
-        $I->dontSeeInMemcached('non-existent-key', serialize($data));
+        $I->dontSeeInMemcached('non-existent-key');
 
         $cache->save('data-save', $data);
         $I->seeInMemcached($key, serialize($data));
-
-        $I->clearMemcache();
     }
 
     public function delete(UnitTester $I)
@@ -146,10 +126,7 @@ class MemcacheCest
             'Delete from cache by using Memcache as cache backend'
         );
 
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $cache = $this->getDataCache(null, 20);
 
         $I->assertFalse($cache->delete('non-existent-keys'));
 
@@ -157,8 +134,6 @@ class MemcacheCest
 
         $I->assertTrue($cache->delete('some-key-to-delete'));
         $I->dontSeeInMemcached('some-key-to-delete');
-
-        $I->clearMemcache();
     }
 
     /**
@@ -169,11 +144,9 @@ class MemcacheCest
     {
         $I->wantTo('Flush cache by using Memcache as cache backend');
 
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host'     => TEST_MC_HOST,
-            'port'     => TEST_MC_PORT,
-            'statsKey' => '_PHCM',
-        ]);
+        $lifetime = 20;
+        $statsKey = '_PHCM';
+        $cache = $this->getDataCache($statsKey, $lifetime);
 
         $key1 = 'data-flush-1';
         $key2 = 'data-flush-2';
@@ -181,44 +154,34 @@ class MemcacheCest
         $I->haveInMemcached($key1, 1);
         $I->haveInMemcached($key2, 2);
 
-        $cache->save('data-flush-1', 1);
-        $cache->save('data-flush-2', 2);
-
-        $I->assertArrayHasKey('data-flush-1', $I->grabValueFromMemcached('_PHCM'));
-        $I->assertArrayHasKey('data-flush-2', $I->grabValueFromMemcached('_PHCM'));
+        $I->haveInMemcached($statsKey, [$key1 => $lifetime, $key2 => $lifetime]);
 
         $I->assertTrue($cache->flush());
 
         $I->dontSeeInMemcached($key1);
         $I->dontSeeInMemcached($key2);
 
-        $I->assertFalse($I->grabValueFromMemcached('_PHCM'));
-
-        $I->clearMemcache();
+        $I->dontSeeInMemcached($statsKey);
     }
 
     public function queryKeys(UnitTester $I)
     {
         $I->wantTo('Get cache keys by using Memcache as cache backend');
 
-        $cache = new Memcache(new Data(['lifetime' => 20]), [
-            'host'     => TEST_MC_HOST,
-            'port'     => TEST_MC_PORT,
-            'statsKey' => '_PHCM',
-        ]);
+        $lifetime = 20;
+        $statsKey = '_PHCM';
+        $cache = $this->getDataCache($statsKey, $lifetime);
 
-        $I->haveInMemcached('_PHCM' . 'a', 1);
-        $I->haveInMemcached('_PHCM' . 'b', 2);
-        $I->haveInMemcached('_PHCM' . 'c', 3);
+        $I->haveInMemcached('a', 1);
+        $I->haveInMemcached('b', 2);
+        $I->haveInMemcached('c', 3);
 
-        $I->haveInMemcached('_PHCM', ['a' => 20, 'b' => 20, 'c' => 20]);
+        $I->haveInMemcached($statsKey, ['a' => $lifetime, 'b' => $lifetime, 'c' => $lifetime]);
 
         $keys = $cache->queryKeys();
         sort($keys);
 
         $I->assertEquals($keys, ['a', 'b', 'c']);
-
-        $I->clearMemcache();
     }
 
     public function queryKeysWithoutStatsKey(UnitTester $I)
@@ -227,10 +190,7 @@ class MemcacheCest
             'Catch exception during the attempt getting cache keys by using Memcache as cache backend without statsKey'
         );
 
-        $cache = new Memcache(new Data(['lifetime' => 1]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $cache = $this->getDataCache(null, 1);
 
         $I->expectException(
             new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!"),
@@ -245,10 +205,8 @@ class MemcacheCest
         $I->wantTo('Cache output fragments by using Memcache as cache backend');
 
         $time = date('H:i:s');
-        $cache = new Memcache(new Output(['lifetime' => 2]), [
-            'host' => TEST_MC_HOST,
-            'port' => TEST_MC_PORT,
-        ]);
+        $lifetime = 2;
+        $cache = $this->getOutputCache($lifetime);
 
         ob_start();
 
@@ -272,12 +230,34 @@ class MemcacheCest
         $I->assertEquals($time, $obContent);
         $I->seeInMemcached('test-output', $time);
 
-        sleep(2);
+        sleep($lifetime);
         $content = $cache->start('test-output');
 
         $I->assertNull($content);
         $I->dontSeeInMemcached('test-output');
+    }
 
-        $I->clearMemcache();
+    protected function getOutputCache($ttl = 0)
+    {
+        $config = [
+            'host' => env('TEST_MC_HOST', '127.0.0.1'),
+            'port' => env('TEST_MC_PORT', 11211),
+        ];
+
+        return new Memcache(new Output(['lifetime' => $ttl]), $config);
+    }
+
+    protected function getDataCache($statsKey = null, $ttl = 0)
+    {
+        $config = [
+            'host' => env('TEST_MC_HOST', '127.0.0.1'),
+            'port' => env('TEST_MC_PORT', 11211),
+        ];
+
+        if ($statsKey !== null) {
+            $config['statsKey'] = $statsKey;
+        }
+
+        return new Memcache(new Data(['lifetime' => $ttl]), $config);
     }
 }
