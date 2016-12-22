@@ -43,6 +43,7 @@ install:
   - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
   - cd ..
   - echo Download imagick
+  - echo 'http://windows.php.net/downloads/pecl/releases/imagick/3.1.2/php_imagick-3.1.2-' + ${env:PHP_VERSION} + '-ts-' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip'
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.1.2/php_imagick-3.1.2-' + ${env:PHP_VERSION} + '-ts-' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
   - 7z.exe x imagick.zip | FIND /V "ing  "
   - mv php_imagick-3.1.2-5.6-ts-' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + ' imagick
