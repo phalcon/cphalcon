@@ -46,13 +46,13 @@ use Phalcon\Cache\Exception;
  *     [
  *         "servers" => [
  *             [
- *                 "host"   => "localhost",
+ *                 "host"   => "127.0.0.1",
  *                 "port"   => 11211,
  *                 "weight" => 1,
  *             ],
  *         ],
  *         "client" => [
- *             \Memcached::OPT_HASH       => Memcached::HASH_MD5,
+ *             \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
  *             \Memcached::OPT_PREFIX_KEY => "prefix.",
  *         ],
  *     ]
@@ -317,12 +317,18 @@ class Libmemcached extends Backend
 	/**
 	 * Query the existing cached keys
 	 *
+	 * <code>
+	 * $cache->save('users-ids', [1, 2, 3]);
+	 * $cache->save('projects-ids', [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys('users')); // [1, 2, 3]
+	 * </code>
+	 *
 	 * @param string prefix
-	 * @return array
 	 */
-	public function queryKeys(prefix = null)
+	public function queryKeys(prefix = null) -> array
 	{
-		var memcache, options, keys, specialKey, key;
+		var memcache, options, keys, specialKey, key, idx;
 
 		let memcache = this->_memcache;
 
@@ -345,11 +351,15 @@ class Libmemcached extends Backend
 		 * Get the key from memcached
 		 */
 		let keys = memcache->get(specialKey);
+		if typeof keys != "array" {
+			return [];
+		}
+
 		if typeof keys == "array" {
 			let keys = array_keys(keys);
-			for key in keys {
+			for idx, key in keys {
 				if prefix && !starts_with(key, prefix) {
-					unset keys[key];
+					unset keys[idx];
 				}
 			}
 		}

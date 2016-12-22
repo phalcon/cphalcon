@@ -8,6 +8,7 @@
 - Fixed `Phalcon\Http\Request::getMethod` to handle `X-HTTP-Method-Override` header correctly [#12478](https://github.com/phalcon/cphalcon/issues/12478)
 - Fixed `Phalcon\Mvc\Model\Criteria::limit` and `Phalcon\Mvc\Model\Query\Builder::limit` to work with `limit` and `offset` properly [#12419](https://github.com/phalcon/cphalcon/issues/12419)
 - Fixed `Phalcon\Forms\Form` to correct form validation and set messages for elements [#12465](https://github.com/phalcon/cphalcon/issues/12465), [#11500](https://github.com/phalcon/cphalcon/issues/11500), [#11135](https://github.com/phalcon/cphalcon/issues/11135), [#3167](https://github.com/phalcon/cphalcon/issues/3167), [#12395](https://github.com/phalcon/cphalcon/issues/12395)
+- Fixed `Phalcon\Cache\Backend\Libmemcached::queryKeys` to correct query the existing cached keys [#11024](https://github.com/phalcon/cphalcon/issues/11024)
 
 # [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-11-26)
 - Fixed saving snapshot data while caching model [#12170](https://github.com/phalcon/cphalcon/issues/12170), [#12000](https://github.com/phalcon/cphalcon/issues/12000)
