@@ -205,7 +205,7 @@ class Di implements DiInterface
 	 */
 	public function get(string! name, parameters = null) -> var
 	{
-		var service, eventsManager, instance = null;
+		var service, eventsManager, reflection, instance = null;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
@@ -232,7 +232,12 @@ class Di implements DiInterface
 				}
 
 				if typeof parameters == "array" && count(parameters) {
-					let instance = create_instance_params(name, parameters);
+					if is_php_version("5.6") || is_php_version("7.0") {
+						let reflection = new \ReflectionClass(name),
+							instance = reflection->newInstanceArgs(parameters);
+					} else {
+						let instance = create_instance_params(name, parameters);
+					}
 				} else {
 					let instance = create_instance(name);
 				}
