@@ -44,38 +44,7 @@ install:
   - cd ..
   - echo Download image magick
   - ps: (new-object net.webclient).DownloadFile('https://www.imagemagick.org/download/binaries/ImageMagick-6.9.7-0-Q8-x86-dll.exe', ${env:APPVEYOR_BUILD_FOLDER} + '\..\ImageMagick.exe')
-  - ImageMagick.exe /SILENT
-  - echo Download imagick
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3RC1/php_imagick-3.4.3rc1-5.6-ts-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
-  - 7z.exe x imagick.zip -o%APPVEYOR_BUILD_FOLDER%\..\php\ext\ | FIND /V "ing  "
-  - dir %APPVEYOR_BUILD_FOLDER%\..\php\ext\
-  - echo Downloading PHP-Devel-Pack
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
-  - 7z.exe x php-dev.zip | FIND /V "ing  "
-  - mv php-%PHP_VERSION%-devel-VC11-%BUILD_PLATFORM% php-devpack
-  - echo Building PHP [%PHP_VERSION%]
-  - '%PHP_SDK%\bin\phpsdk_setvars'
-  - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
-  - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
-  - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
-  - 'echo extension=%APPVEYOR_BUILD_FOLDER%\php_zephir_parser.dll >> php.ini'
-  - 'echo extension=php_curl.dll >> php.ini'
-  - 'echo extension=php_openssl.dll >> php.ini'
-  - 'echo extension=php_mbstring.dll >> php.ini'
-  - 'echo extension=php_pdo_sqlite.dll >> php.ini'
-  - 'echo extension=php_fileinfo.dll >> php.ini'
-  - 'echo extension=php_gettext.dll >> php.ini'
-  - 'echo extension=php_gd2.dll >> php.ini'
-  - 'echo extension=php_imagick.dll >> php.ini'
-  - 'echo memory_limit=256M >> php.ini'
-  - 'set PATH=%cd%;%PATH%'
-  - echo Building Phalcon
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - appveyor DownloadFile https://getcomposer.org/composer.phar
-  - php composer.phar install --prefer-dist --no-interaction --ignore-platform-reqs
-  - php composer.phar require "phalcon/zephir:dev-master" --ignore-platform-reqs
-  - echo Setting Up Zephir
-  - 'vendor\bin\zephir help'
+  - dir
 
 build_script:
   - 'vendor\bin\zephir generate'
