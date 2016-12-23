@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\integration\Mvc\Collection;
+namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use Helper\CollectionTrait;
 use IntegrationTester;
