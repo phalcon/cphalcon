@@ -214,8 +214,6 @@ class Libmemcached extends Module
      */
     protected function connect()
     {
-        $this->debugSection('Connect to the Memcached: ', $this->config);
-
         $this->memcached = new \Memcached($this->config['persistent_id']);
 
         // Persistent memcached pools need to be reconnected if getServerList() is empty
