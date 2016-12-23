@@ -1,18 +1,21 @@
 Phalcon Framework
 =================
 
+[![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
+[![Windows Build](https://ci.appveyor.com/api/projects/status/github/phalcon/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/phalcon/cphalcon/branch/master)
+
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
 Get Started
 -----------
 
-Phalcon is written in [Zephir/C](http://zephir-lang.com/) with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS. You can either download a binary package for the system of your choice or build it from source.
+Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS. You can either download a binary package for the system of your choice or build it from source.
 
 ### Windows
 
 To install Phalcon on Windows:
 
-1. Download [Phalcon for Windows](http://phalconphp.com/en/download/windows)
+1. Download [Phalcon for Windows](https://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
 3. Edit your **php.ini** file and add this line:
 
@@ -132,22 +135,16 @@ https://github.com/majksner/php-phalcon-mamp
 External Links
 --------------
 
-* [Documentation](http://docs.phalconphp.com/)
-* [Support](http://forum.phalconphp.com)
-* [Blog](http://blog.phalconphp.com)
-* [Zephir](http://zephir-lang.com/)
-* [Twitter](http://twitter.com/phalconphp)
-
-Current Build Status
---------------------
-
-Phalcon Framework is built under the Travis CI service. Every commit pushed to this repository will queue a build into the continuous integration service and will run all PHPUnit tests to ensure that everything is going well and the project is stable. The current build status is:
-
-[![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
+* [Documentation](https://docs.phalconphp.com/)
+* [Support](https://forum.phalconphp.com)
+* [Blog](https://blog.phalconphp.com)
+* [Zephir](https://zephir-lang.com/)
+* [Twitter](https://twitter.com/phalconphp)
 
 Meet the Incubator
 ------------------
-Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator). There are resources to enhance your experience with the framework and that enlarge the main features.
+Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator).
+There are resources to enhance your experience with the framework and that enlarge the main features.
 
 Just give it a try and help us improve Phalcon even more!
 
