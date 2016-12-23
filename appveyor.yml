@@ -67,12 +67,12 @@ install:
   - 'echo extension=php_fileinfo.dll >> php.ini'
   - 'echo extension=php_gettext.dll >> php.ini'
   - 'echo extension=php_gd2.dll >> php.ini'
-  - 'echo extension=php_imagick.dll >> php.ini'
+  - 'echo extension=c:\projects\php\ext\php_imagick.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
   - 'set PATH=%cd%;%PATH%'
   - echo Building Phalcon
   - cd %APPVEYOR_BUILD_FOLDER%
-  - dir c:\
+  - dir c:\projects\imageMagick
   - php -m
 #  - appveyor DownloadFile https://getcomposer.org/composer.phar
 #  - php composer.phar install --prefer-dist --no-interaction --ignore-platform-reqs
