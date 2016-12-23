@@ -47,7 +47,7 @@ install:
   - ImageMagick.exe /SILENT /DIR="c:\projects\imageMagick"
   - set MAGICK_HOME="c:\projects\imageMagick"
   - echo Download imagick
-  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.2/php_imagick-3.4.2-5.6-ts-vc11-x86.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.0/php_imagick-3.4.0-5.6-ts-vc11-x86.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
   - 7z.exe x imagick.zip -oc:\imagick\ | FIND /V "ing  "
   - dir %APPVEYOR_BUILD_FOLDER%\..\php\ext\
   - echo Downloading PHP-Devel-Pack
