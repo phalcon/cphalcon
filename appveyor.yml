@@ -5,7 +5,7 @@ environment:
   PHP_DEVPACK: c:\projects\php-devpack
 
   matrix:
-    - BUILD_PLATFORM: x64
+    - BUILD_PLATFORM: x86
       PHP_VC: 11
 
 cache:
@@ -42,6 +42,9 @@ install:
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
   - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
   - cd ..
+  - echo Download image magick
+  - ps: (new-object net.webclient).DownloadFile('https://www.imagemagick.org/download/binaries/ImageMagick-6.9.7-0-Q8-x86-dll.exe', ${env:APPVEYOR_BUILD_FOLDER} + '\..\ImageMagick.exe')
+  - %APPVEYOR_BUILD_FOLDER%\..\ImageMagick.exe /SILENT
   - echo Download imagick
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3RC1/php_imagick-3.4.3rc1-5.6-ts-vc' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\imagick.zip')
   - 7z.exe x imagick.zip -o%APPVEYOR_BUILD_FOLDER%\..\php\ext\ | FIND /V "ing  "
