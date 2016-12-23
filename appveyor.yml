@@ -5,7 +5,7 @@ environment:
   PHP_DEVPACK: c:\projects\php-devpack
 
   matrix:
-    - BUILD_PLATFORM: x86
+    - BUILD_PLATFORM: x64
       PHP_VC: 11
 
 cache:
@@ -65,10 +65,14 @@ install:
   - 'echo extension=php_gd2.dll >> php.ini'
   - 'echo extension=php_imagick.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
-  - 'echo extension_dir = %APPVEYOR_BUILD_FOLDER%\..\php\ext\ >> php.ini'
   - 'set PATH=%cd%;%PATH%'
-  - php -i|findstr "Thread"
-  - php -m
+  - echo Building Phalcon
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - appveyor DownloadFile https://getcomposer.org/composer.phar
+  - php composer.phar install --prefer-dist --no-interaction --ignore-platform-reqs
+  - php composer.phar require "phalcon/zephir:dev-master" --ignore-platform-reqs
+  - echo Setting Up Zephir
+  - 'vendor\bin\zephir help'
 
 build_script:
   - 'vendor\bin\zephir generate'
