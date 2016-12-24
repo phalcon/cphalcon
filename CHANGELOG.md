@@ -1,3 +1,5 @@
+# [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (XXXX-XX-XX)
+
 # [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (2016-12-24)
 - Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
 - Fixed `Phalcon\Cache\Backend\Redis::get`, `Phalcon\Cache\Frontend\Data::afterRetrieve` to allow get empty strings from the Redis database [#12437](https://github.com/phalcon/cphalcon/issues/12437)
