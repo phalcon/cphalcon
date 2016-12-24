@@ -176,6 +176,13 @@ class Redis extends Backend
 	/**
 	 * Stores cached content into the file backend and stops the frontend
 	 *
+	 * <code>
+	 * $cache->save("my-key", $data);
+	 *
+	 * // Save data termlessly
+	 * $cache->save("my-key", $data, -1);
+	 * </code>
+	 *
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
@@ -243,7 +250,10 @@ class Redis extends Backend
 			throw new Exception("Failed storing the data in redis");
 		}
 
-		redis->settimeout(lastKey, tt1);
+		// Don't set expiration for negative ttl or zero
+		if tt1 >= 1 {
+			redis->settimeout(lastKey, tt1);
+		}
 
 		let options = this->_options;
 
