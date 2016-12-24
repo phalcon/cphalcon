@@ -136,9 +136,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, push) {
 /**
  * Returns a cached content reading the internal backends
  *
- * @param 	string|int keyName
- * @param   long lifetime
- * @return  mixed
+ * @param string|int keyName
+ * @param int lifetime
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
  * Starts every backend
  *
  * @param string|int keyName
- * @param long lifetime
+ * @param int lifetime
  */
 PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
  *
  * @param string keyName
  * @param string content
- * @param long lifetime
+ * @param int lifetime
  * @param boolean stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Multiple, save) {
@@ -289,8 +289,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
  * Checks if cache exists in at least one backend
  *
  * @param  string|int keyName
- * @param  long lifetime
- * @return boolean
+ * @param  int lifetime
  */
 PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
@@ -311,7 +310,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 202);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 201);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -340,7 +339,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, flush) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 216);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/cache/multiple.zep", 215);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)

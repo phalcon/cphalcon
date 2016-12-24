@@ -42,9 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
 /**
  * Reads parsed annotations from memory
- *
- * @param string key
- * @return \Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
