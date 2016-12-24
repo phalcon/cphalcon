@@ -29,7 +29,9 @@
  * Stores the parsed annotations in APC. This adapter is suitable for production
  *
  *<code>
- * $annotations = new \Phalcon\Annotations\Adapter\Apc();
+ * use Phalcon\Annotations\Adapter\Apc;
+ *
+ * $annotations = new Apc();
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
@@ -73,9 +75,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 
 /**
  * Reads parsed annotations from APC
- *
- * @param string key
- * @return \Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 
