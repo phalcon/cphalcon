@@ -132,6 +132,11 @@ OSX MAMP ready extensions
 
 https://github.com/majksner/php-phalcon-mamp
 
+Gentoo
+------
+
+https://github.com/smoke/phalcon-gentoo-overlay
+
 External Links
 --------------
 
