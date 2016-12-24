@@ -3055,6 +3055,27 @@ ZEPHIR_INIT_FUNCS(phalcon_image_adapterinterface_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_mvc_collection_behaviorinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_BehaviorInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_behaviorinterface_notify, 0, 0, 2)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\CollectionInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_behaviorinterface_missingmethod, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\CollectionInterface, 0)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_collection_behaviorinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_BehaviorInterface, notify, arginfo_phalcon_mvc_collection_behaviorinterface_notify)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_BehaviorInterface, missingMethod, arginfo_phalcon_mvc_collection_behaviorinterface_missingmethod)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface);
@@ -4103,27 +4124,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_collection_behavior_method_entry) {
 	PHP_ME(Phalcon_Mvc_Collection_Behavior, getOptions, arginfo_phalcon_mvc_collection_behavior_getoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Collection_Behavior, notify, arginfo_phalcon_mvc_collection_behavior_notify, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Collection_Behavior, missingMethod, arginfo_phalcon_mvc_collection_behavior_missingmethod, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
-zend_class_entry *phalcon_mvc_collection_behaviorinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_BehaviorInterface);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_behaviorinterface_notify, 0, 0, 2)
-	ZEND_ARG_INFO(0, type)
-	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\CollectionInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_behaviorinterface_missingmethod, 0, 0, 2)
-	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\CollectionInterface, 0)
-	ZEND_ARG_INFO(0, method)
-	ZEND_ARG_INFO(0, arguments)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_mvc_collection_behaviorinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_BehaviorInterface, notify, arginfo_phalcon_mvc_collection_behaviorinterface_notify)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Collection_BehaviorInterface, missingMethod, arginfo_phalcon_mvc_collection_behaviorinterface_missingmethod)
 	PHP_FE_END
 };
 
@@ -11075,7 +11075,7 @@ static PHP_METHOD(Phalcon_Forms_Manager, get);
 static PHP_METHOD(Phalcon_Forms_Manager, has);
 static PHP_METHOD(Phalcon_Forms_Manager, set);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, entity)
 ZEND_END_ARG_INFO()
@@ -11262,7 +11262,6 @@ static PHP_METHOD(Phalcon_Http_Request, getUploadedFiles);
 static PHP_METHOD(Phalcon_Http_Request, smoothFiles);
 static PHP_METHOD(Phalcon_Http_Request, getHeaders);
 static PHP_METHOD(Phalcon_Http_Request, getHTTPReferer);
-static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader);
 static PHP_METHOD(Phalcon_Http_Request, _getBestQuality);
 static PHP_METHOD(Phalcon_Http_Request, getContentType);
 static PHP_METHOD(Phalcon_Http_Request, getAcceptableContent);
@@ -11273,6 +11272,7 @@ static PHP_METHOD(Phalcon_Http_Request, getLanguages);
 static PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
 static PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
 static PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
+static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_sethttpmethodparameteroverride, 0, 0, 1)
 	ZEND_ARG_INFO(0, httpMethodParameterOverride)
@@ -11394,13 +11394,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_smoothfiles, 0, 0, 6)
 	ZEND_ARG_INFO(0, prefix)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request__getqualityheader, 0, 0, 2)
-	ZEND_ARG_INFO(0, serverIndex)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request__getbestquality, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, qualityParts, 0)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request__getbestquality, 0, 0, 2)
-	ZEND_ARG_ARRAY_INFO(0, qualityParts, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request__getqualityheader, 0, 0, 2)
+	ZEND_ARG_INFO(0, serverIndex)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
@@ -11457,7 +11457,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, smoothFiles, arginfo_phalcon_http_request_smoothfiles, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getHeaders, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHTTPReferer, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, _getQualityHeader, arginfo_phalcon_http_request__getqualityheader, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, _getBestQuality, arginfo_phalcon_http_request__getbestquality, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getContentType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getAcceptableContent, NULL, ZEND_ACC_PUBLIC)
@@ -11468,6 +11467,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBasicAuth, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getDigestAuth, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, _getQualityHeader, arginfo_phalcon_http_request__getqualityheader, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_FE_END
 };
 
@@ -14227,7 +14227,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, inWhere, arginfo_phalcon_mvc_model_criteria_inwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, notInWhere, arginfo_phalcon_mvc_model_criteria_notinwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, conditions, arginfo_phalcon_mvc_model_criteria_conditions, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, order, arginfo_phalcon_mvc_model_criteria_order, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, order, arginfo_phalcon_mvc_model_criteria_order, ZEND_ACC_DEPRECATED|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, orderBy, arginfo_phalcon_mvc_model_criteria_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, groupBy, arginfo_phalcon_mvc_model_criteria_groupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, having, arginfo_phalcon_mvc_model_criteria_having, ZEND_ACC_PUBLIC)
@@ -15430,7 +15430,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_forupdate, 0, 0, 
 	ZEND_ARG_INFO(0, forUpdate)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 0, 1)
 	ZEND_ARG_INFO(0, limit)
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()

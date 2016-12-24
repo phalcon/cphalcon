@@ -234,7 +234,6 @@ class File extends Backend
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
 	public function delete(var keyName) -> boolean
 	{
@@ -253,29 +252,35 @@ class File extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string|int prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(var prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var item, key, cacheDir;
+		var item, key, cacheDir, prefixedKey;
 		array keys = [];
 
 		if !fetch cacheDir, this->_options["cacheDir"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		string prefixedKey =  this->_prefix . this->getKey(prefix);
+		if !empty prefix {
+			let prefixedKey = this->_prefix . this->getKey(prefix);
+		}
+
 		/**
 		 * We use a directory iterator to traverse the cache dir directory
 		 */
 		for item in iterator(new \DirectoryIterator(cacheDir)) {
-
 			if likely item->isDir() === false {
 				let key = item->getFileName();
-				if prefix !== null {
+				if !empty prefix {
 					if starts_with(key, prefixedKey) {
 						let keys[] = key;
 					}
@@ -292,8 +297,7 @@ class File extends Backend
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string|int keyName
-	 * @param   int lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(var keyName = null, int lifetime = null) -> boolean
 	{
@@ -337,10 +341,8 @@ class File extends Backend
 	 * Increment of a given key, by number $value
 	 *
 	 * @param  string|int keyName
-	 * @param  int value
-	 * @return mixed
 	 */
-	public function increment(var keyName = null, int value = 1)
+	public function increment(var keyName = null, int value = 1) -> int | null
 	{
 		var prefixedKey, cacheFile, frontend, lifetime, ttl,
 			cachedContent, result, modifiedTime;
@@ -392,16 +394,16 @@ class File extends Backend
 				}
 			}
 		}
+
+		return null;
 	}
 
 	/**
 	 * Decrement of a given key, by number $value
 	 *
-	 * @param  string|int keyName
-	 * @param  int value
-	 * @return mixed
+	 * @param string|int keyName
 	 */
-	public function decrement(var keyName = null, int value = 1)
+	public function decrement(var keyName = null, int value = 1) -> int | null
 	{
 		var prefixedKey, cacheFile, lifetime, ttl, cachedContent, result, modifiedTime;
 
@@ -450,6 +452,8 @@ class File extends Backend
 				}
 			}
 		}
+
+		return null;
 	}
 
 	/**

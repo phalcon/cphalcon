@@ -77,7 +77,7 @@ class Memory extends Backend implements \Serializable
 	 *
 	 * @param string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> boolean
@@ -149,37 +149,39 @@ class Memory extends Backend implements \Serializable
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string|int prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(var prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var data, index, keys;
+		var data, keys, key, idx;
 
-		let data = this->_data,
-			keys = [];
+		let data = this->_data;
+		if typeof data != "array" {
+			return [];
+		}
 
-		if typeof data == "array" {
-			if !prefix {
-				let keys = (array) array_keys(data);
-			} else {
-			    	let keys = [];
-				for index, _ in data {
-					let keys[] = index;
-				}
+		let keys = array_keys(data);
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
 			}
 		}
+
 		return keys;
 	}
 
 	/**
 	 * Checks if cache exists and it hasn't expired
 	 *
-	 * @param  string|int keyName
-	 * @param  long lifetime
-	 * @return boolean
+	 * @param string|int keyName
+	 * @param int lifetime
 	 */
 	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
@@ -203,10 +205,9 @@ class Memory extends Backend implements \Serializable
 	/**
 	 * Increment of given $keyName by $value
 	 *
-	 * @param  string keyName
-	 * @param  long lifetime
+	 * @param string keyName
 	 */
-	public function increment(keyName = null, value = null) -> int | null
+	public function increment(keyName = null, int value = 1) -> int | null
 	{
 		var lastKey, prefix, cachedContent, result;
 
@@ -224,10 +225,6 @@ class Memory extends Backend implements \Serializable
 
 		if !cachedContent {
 			return null;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		let result = cachedContent + value;
@@ -239,10 +236,9 @@ class Memory extends Backend implements \Serializable
 	/**
 	 * Decrement of $keyName by given $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
+	 * @param string keyName
 	 */
-	public function decrement(keyName = null, value = null) -> int | null
+	public function decrement(keyName = null, int value = 1) -> int | null
 	{
 		var lastKey, prefix, cachedContent, result;
 
@@ -260,10 +256,6 @@ class Memory extends Backend implements \Serializable
 
 		if !cachedContent {
 			return null;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		let result = cachedContent - value;

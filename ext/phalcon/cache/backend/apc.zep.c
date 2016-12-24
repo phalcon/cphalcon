@@ -101,9 +101,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
 /**
  * Stores cached content into the APC backend and stops the frontend
  *
- * @param string|long keyName
+ * @param string|int keyName
  * @param string content
- * @param long lifetime
+ * @param int lifetime
  * @param boolean stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
@@ -199,9 +199,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
 /**
  * Increment of a given key, by number $value
  *
- * @param  string keyName
- * @param  long value
- * @return mixed
+ * @param string keyName
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 
@@ -240,20 +238,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, increment) {
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, 0, keyName, result);
 			zephir_check_call_status();
 			RETURN_CCTOR(result);
-		} else {
-			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(0);
 
 }
 
 /**
  * Decrement of a given key, by number $value
  *
- * @param  string keyName
- * @param  long value
- * @return mixed
+ * @param string keyName
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement) {
 
@@ -292,11 +286,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, decrement) {
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "save", NULL, 0, keyName, result);
 			zephir_check_call_status();
 			RETURN_CCTOR(result);
-		} else {
-			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -334,10 +326,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
 }
 
 /**
- * Query the existing cached keys
+ * Query the existing cached keys.
  *
- * @param string prefix
- * @return array
+ * <code>
+ * $cache->save("users-ids", [1, 2, 3]);
+ * $cache->save("projects-ids", [4, 5, 6]);
+ *
+ * var_dump($cache->queryKeys("users")); // ["users-ids"]
+ * </code>
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
@@ -358,7 +354,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 
 
 	ZEPHIR_INIT_VAR(prefixPattern);
-	if (!(!(!prefix) && Z_STRLEN_P(prefix))) {
+	if (ZEPHIR_IS_EMPTY(prefix)) {
 		ZVAL_STRING(prefixPattern, "/^_PHCA/", 1);
 	} else {
 		ZEPHIR_INIT_VAR(_0$$4);
@@ -398,9 +394,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
 /**
  * Checks if cache exists and it hasn't expired
  *
- * @param  string|long keyName
- * @param  long lifetime
- * @return boolean
+ * @param  string|int keyName
+ * @param  int lifetime
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
 
@@ -478,7 +473,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, flush) {
 			_1->funcs->get_current_data(_1, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
 			ZEPHIR_CPY_WRT(item, (*ZEPHIR_TMP_ITERATOR_PTR));
 		}
-		zephir_array_fetch_string(&_4$$3, item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apc.zep", 290 TSRMLS_CC);
+		zephir_array_fetch_string(&_4$$3, item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/apc.zep", 289 TSRMLS_CC);
 		ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", &_5, 111, _4$$3);
 		zephir_check_call_status();
 	}

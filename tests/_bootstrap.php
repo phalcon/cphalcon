@@ -49,8 +49,6 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.var_display_max_depth', 4);
 }
 
-
-
 $defaults = [
     // Beanstalk
     "TEST_BT_HOST"              => '127.0.0.1',
@@ -59,6 +57,7 @@ $defaults = [
     // Memcached
     "TEST_MC_HOST"              => '127.0.0.1',
     "TEST_MC_PORT"              => 11211,
+    "TEST_MC_WEIGHT"            => 1,
 
     // SQLite
     "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',

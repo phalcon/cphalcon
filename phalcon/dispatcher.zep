@@ -363,7 +363,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
 			actionSuffix, handlerClass, status, actionMethod, reflectionMethod, methodParams,
-			className, paramKey, methodParam, modelName, bindModel,
+			className, paramKey, methodParam,
 			wasFresh = false, e;
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
@@ -552,32 +552,31 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			if this->_modelBinding === true {
-				//Check if we can bind a model based on what the controller action is expecting
+				// Check if we can bind a model based on what the controller action is expecting
 				let reflectionMethod = new \ReflectionMethod(handlerClass, actionMethod);
 				let methodParams = reflectionMethod->getParameters();
 
 				for paramKey, methodParam in methodParams {
-					if methodParam->getClass() {
-						let className = methodParam->getClass()->getName();
-						if typeof className == "string" {
-							//If we are in a base class and the child implements BindModelInterface we getModelName
-							if className == "Phalcon\\Mvc\\Model" {
-								if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
-									let modelName = call_user_func([handlerClass, "getModelName"]);
-									let bindModel = call_user_func_array([modelName, "findFirst"], [params[paramKey]]);
-									let params[paramKey] = bindModel;
-									break;
-								}
-							}
+					if !methodParam->getClass() {
+						continue;
+					}
 
-							//Check if Model is defined
-							if is_subclass_of(className, "Phalcon\\Mvc\\Model") {
-								let bindModel = call_user_func_array([className, "findFirst"], [params[paramKey]]);
-								let params[paramKey] = bindModel;
-								break;
-							}
+					let className = methodParam->getClass()->getName();
+
+					// If we are in a base class and the child implements BindModelInterface we getModelName
+					if className == "Phalcon\\Mvc\\Model" {
+						if in_array("Phalcon\\Mvc\\Controller\\BindModelInterface", class_implements(handlerClass)) {
+							let className = {handlerClass}::getModelName();
 						}
 					}
+
+					// Check if Model is defined
+					if !is_subclass_of(className, "Phalcon\\Mvc\\Model") {
+						continue;
+					}
+
+					let params[paramKey] = {className}::findFirst(params[paramKey]);
+					break;
 				}
 			}
 

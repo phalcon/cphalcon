@@ -38,10 +38,8 @@ use Phalcon\Di\InjectionAwareInterface;
  *
  * $request = new Request();
  *
- * if ($request->isPost()) {
- *     if ($request->isAjax()) {
- *         echo "Request was made using POST and AJAX";
- *     }
+ * if ($request->isPost() && $request->isAjax()) {
+ *     echo "Request was made using POST and AJAX";
  * }
  *
  * $request->getServer("HTTP_HOST"); // Retrieve SERVER variables
@@ -593,29 +591,31 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public final function getMethod() -> string
 	{
-		var headers, overridedMethod, spoofedMethod, requestMethod;
+		var overridedMethod, spoofedMethod, requestMethod;
 		string returnMethod = "";
 
-		if fetch requestMethod, _SERVER["REQUEST_METHOD"] {
-			let returnMethod = requestMethod;
+		if likely fetch requestMethod, _SERVER["REQUEST_METHOD"] {
+			let returnMethod = strtoupper(requestMethod);
+		} else {
+			return "GET";
 		}
 
-		if "POST" === requestMethod {
-			let headers = this->getHeaders();
-			if fetch overridedMethod, headers["X-HTTP-METHOD-OVERRIDE"] {
-				let returnMethod = overridedMethod;
+		if "POST" === returnMethod {
+			let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
+			if !empty overridedMethod {
+				let returnMethod = strtoupper(overridedMethod);
 			} elseif this->_httpMethodParameterOverride {
 				if fetch spoofedMethod, _REQUEST["_method"] {
-					let returnMethod = spoofedMethod;
+					let returnMethod = strtoupper(spoofedMethod);
 				}
 			}
 		}
 
 		if !this->isValidHttpMethod(returnMethod) {
-			let returnMethod = "GET";
+			return "GET";
 		}
 
-		return strtoupper(returnMethod);
+		return returnMethod;
 	}
 
 	/**
@@ -637,7 +637,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function isValidHttpMethod(string method) -> boolean
 	{
 		switch strtoupper(method) {
-
 			case "GET":
 			case "POST":
 			case "PUT":
@@ -919,14 +918,25 @@ class Request implements RequestInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the available headers in the request
+	 *
+	 * <code>
+	 * $_SERVER = [
+	 *     "PHP_AUTH_USER" => "phalcon",
+	 *     "PHP_AUTH_PW"   => "secret",
+	 * ];
+	 *
+	 * $headers = $request->getHeaders();
+	 *
+	 * echo $headers["Authorization"]; // Basic cGhhbGNvbjpzZWNyZXQ=
+	 * </code>
 	 */
 	public function getHeaders() -> array
 	{
-		var name, value, contentHeaders;
-		array headers;
+		var name, value, exploded, digest, authHeader = null;
+		array headers, contentHeaders;
 
 		let headers = [];
-		let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true];
+		let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true, "CONTENT_MD5": true];
 
 		for name, value in _SERVER {
 			if starts_with(name, "HTTP_") {
@@ -938,6 +948,41 @@ class Request implements RequestInterface, InjectionAwareInterface
 					name = str_replace(" ", "-", name);
 				let headers[name] = value;
 			}
+		}
+
+		if isset _SERVER["PHP_AUTH_USER"] && isset _SERVER["PHP_AUTH_PW"] {
+			let headers["Php-Auth-User"] = _SERVER["PHP_AUTH_USER"],
+				headers["Php-Auth-Pw"] = _SERVER["PHP_AUTH_PW"];
+		} else {
+			if isset _SERVER["HTTP_AUTHORIZATION"] {
+				let authHeader = _SERVER["HTTP_AUTHORIZATION"];
+			} elseif isset _SERVER["REDIRECT_HTTP_AUTHORIZATION"] {
+				let authHeader = _SERVER["REDIRECT_HTTP_AUTHORIZATION"];
+			}
+
+			if authHeader {
+				if stripos(authHeader, "basic ") === 0 {
+					let exploded = explode(":", base64_decode(substr(authHeader, 6)), 2);
+					if count(exploded) == 2 {
+						let headers["Php-Auth-User"] = exploded[0],
+							headers["Php-Auth-Pw"]   = exploded[1];
+					}
+				} elseif stripos(authHeader, "digest ") === 0 && !fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
+					let headers["Php-Auth-Digest"] = authHeader;
+				} elseif stripos(authHeader, "bearer ") === 0 {
+					let headers["Authorization"] = authHeader;
+				}
+			}
+		}
+
+		if isset headers["Authorization"] {
+			return headers;
+        }
+
+		if isset headers["Php-Auth-User"] {
+			let headers["Authorization"] = "Basic " . base64_encode(headers["Php-Auth-User"] . ":" . headers["Php-Auth-Pw"]);
+		} elseif fetch digest, headers["Php-Auth-Digest"] {
+			let headers["Authorization"] = digest;
 		}
 
 		return headers;
@@ -953,37 +998,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 			return httpReferer;
 		}
 		return "";
-	}
-
-	/**
-	 * Process a request header and return an array of values with their qualities
-	 */
-	protected final function _getQualityHeader(string! serverIndex, string! name) -> array
-	{
-		var returnedParts, part, headerParts, headerPart, split;
-
-		let returnedParts = [];
-		for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
-
-			let headerParts = [];
-			for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
-				if strpos(headerPart, "=") !== false {
-					let split = explode("=", headerPart, 2);
-					if split[0] === "q" {
-						let headerParts["quality"] = (double) split[1];
-					} else {
-						let headerParts[split[0]] = split[1];
-					}
-				} else {
-					let headerParts[name] = headerPart;
-					let headerParts["quality"] = 1.0;
-				}
-			}
-
-			let returnedParts[] = headerParts;
-		}
-
-		return returnedParts;
 	}
 
 	/**
@@ -1084,7 +1098,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 		return this->_getBestQuality(this->getLanguages(), "language");
 	}
 
-
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
 	 */
@@ -1124,5 +1137,36 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		return auth;
+	}
+
+	/**
+	 * Process a request header and return an array of values with their qualities
+	 */
+	protected final function _getQualityHeader(string! serverIndex, string! name) -> array
+	{
+		var returnedParts, part, headerParts, headerPart, split;
+
+		let returnedParts = [];
+		for part in preg_split("/,\\s*/", this->getServer(serverIndex), -1, PREG_SPLIT_NO_EMPTY) {
+
+			let headerParts = [];
+			for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
+				if strpos(headerPart, "=") !== false {
+					let split = explode("=", headerPart, 2);
+					if split[0] === "q" {
+						let headerParts["quality"] = (double) split[1];
+					} else {
+						let headerParts[split[0]] = split[1];
+					}
+				} else {
+					let headerParts[name] = headerPart;
+					let headerParts["quality"] = 1.0;
+				}
+			}
+
+			let returnedParts[] = headerParts;
+		}
+
+		return returnedParts;
 	}
 }

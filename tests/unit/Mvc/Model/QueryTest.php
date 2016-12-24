@@ -50,9 +50,6 @@ class QueryTest extends UnitTest
         $this->di = $app->getDI();
     }
 
-    /**
-     * @medium
-     */
     public function testSelectParsing()
     {
         $this->specify(
@@ -6922,8 +6919,6 @@ class QueryTest extends UnitTest
             ]
         );
     }
-
-
 
     public function testInsertParsing()
     {

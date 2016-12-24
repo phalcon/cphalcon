@@ -470,10 +470,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	/**
 	 * Adds the order-by parameter to the criteria (deprecated)
 	 *
-	 * @deprecated 1.2.1
 	 * @see \Phalcon\Mvc\Model\Criteria::orderBy()
 	 */
-	public function order(string! orderColumns) -> <Criteria>
+	deprecated public function order(string! orderColumns) -> <Criteria>
 	{
 		let this->_params["order"] = orderColumns;
 		return this;
@@ -507,14 +506,27 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds the limit parameter to the criteria
+	 * Adds the limit parameter to the criteria.
+	 *
+	 * <code>
+	 * $criteria->limit(100);
+	 * $criteria->limit(100, 200);
+	 * $criteria->limit("100", "200");
+	 * </code>
 	 */
-	public function limit(var limit, var offset = null) -> <Criteria>
+	public function limit(int limit, var offset = null) -> <Criteria>
 	{
-		if typeof offset == "null" {
-			let this->_params["limit"] = limit;
-		} else {
+		let limit = abs(limit);
+
+		if unlikely limit == 0 {
+			return this;
+		}
+
+		if is_numeric(offset) {
+			let offset = abs((int) offset);
 			let this->_params["limit"] = ["number": limit, "offset": offset];
+		} else {
+			let this->_params["limit"] = limit;
 		}
 
 		return this;

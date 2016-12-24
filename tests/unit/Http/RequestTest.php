@@ -755,6 +755,61 @@ class RequestTest extends HttpBase
         $this->assertFalse($request->isGet());
     }
 
+    /**
+     * Tests the ability to override the HTTP method
+     *
+     * @test
+     * @issue  12478
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2016-12-18
+     */
+    public function shouldOverrideHttpRequestMethod()
+    {
+        $this->specify(
+            'The request object gets http method incorrectly',
+            function ($header, $method, $expected) {
+                $_SERVER['REQUEST_METHOD'] = 'POST';
+                $request = $this->getRequestObject();
+
+                $_SERVER[$header] = $method;
+                expect($request->getMethod())->equals($expected);
+
+                $_SERVER[$header] = strtolower($method);
+                expect($request->getMethod())->equals($expected);
+
+                $_SERVER[strtolower($header)] = $method;
+                expect($request->getMethod())->equals($expected);
+            },
+            ['examples' => $this->overridedMethodProvider()]
+        );
+    }
+
+    protected function overridedMethodProvider()
+    {
+        return [
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PUT',     'PUT'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PAT',     'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'GET',     'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'GOT',     'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'HEAD',    'HEAD'   ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'HED',     'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'POST',    'POST'   ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PAST',    'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'DELETE',  'DELETE' ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'DILETE',  'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'OPTIONS', 'OPTIONS'],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'OPTION',  'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PATCH',   'PATCH'  ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PUTCH',   'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PURGE',   'PURGE'  ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PURG',    'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'TRACE',   'TRACE'  ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'RACE',    'GET'    ],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'CONNECT', 'CONNECT'],
+            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'CONECT',  'GET'    ],
+        ];
+    }
+
     public function testHttpRequestContentType()
     {
         $request = $this->getRequestObject();
@@ -992,91 +1047,6 @@ class RequestTest extends HttpBase
                 expect($successful[3]->getTempName())->equals('t3');
             }
         );
-    }
-
-    public function testGetAuth()
-    {
-        $this->specify(
-            "Request does not handle auth correctly",
-            function ($server, $function, $expected) {
-                $request = $this->getRequestObject();
-
-                $_SERVER = $server;
-
-                expect($request->$function())->equals($expected);
-            },
-            ['examples' => $this->serverProvider()]
-        );
-    }
-
-    protected function serverProvider()
-    {
-        return [
-            [
-                [
-                    'PHP_AUTH_USER'    => 'myleft',
-                    'PHP_AUTH_PW'    => '123456'
-                ],
-                'getBasicAuth',
-                [
-                    'username' => 'myleft', 'password' => '123456'
-                ]
-            ],
-            [
-                [
-                    'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="http://localhost:81/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"'
-                ],
-                'getDigestAuth',
-                [
-                    'username'  => 'myleft',
-                    'realm'     => 'myleft',
-                    'qop'       => 'auth',
-                    'algorithm' => 'MD5',
-                    'uri'       => 'http://localhost:81/',
-                    'nonce'     => 'nonce',
-                    'nc'        => 'nc',
-                    'cnonce'    => 'cnonce',
-                    'opaque'    => 'opaque',
-                    'response'  => 'response',
-                ]
-            ],
-            [
-                [
-                    'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=http://localhost:81/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response'
-                ],
-                'getDigestAuth',
-                [
-                    'username'  => 'myleft',
-                    'realm'     => 'myleft',
-                    'qop'       => 'auth',
-                    'algorithm' => 'MD5',
-                    'uri'       => 'http://localhost:81/',
-                    'nonce'     => 'nonce',
-                    'nc'        => 'nc',
-                    'cnonce'    => 'cnonce',
-                    'opaque'    => 'opaque',
-                    'response'  => 'response',
-                ]
-            ],
-            [
-                [
-                    'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=http://localhost:81/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response'
-                ],
-                'getDigestAuth',
-                [
-                    'username'  => 'myleft',
-                    'realm'     => 'myleft',
-                    'qop'       => 'auth',
-                    'algorithm' => 'MD5',
-                    'uri'       => 'http://localhost:81/',
-                    'nonce'     => 'nonce',
-                    'nc'        => 'nc',
-                    'cnonce'    => 'cnonce',
-                    'opaque'    => 'opaque',
-                    'response'  => 'response',
-                ]
-            ],
-        ];
     }
 
     protected function filesProvider()

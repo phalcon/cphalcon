@@ -20,6 +20,7 @@
 namespace Phalcon\Forms;
 
 use Phalcon\Validation;
+use Phalcon\ValidationInterface;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Di\Injectable;
@@ -42,7 +43,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	protected _data;
 
-	protected _elements;
+	protected _elements = [];
 
 	protected _elementsIndexed;
 
@@ -184,7 +185,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		var filter, key, value, element, filters,
 			dependencyInjector, filteredValue, method;
 
-		if typeof this->_elements != "array" {
+		if empty this->_elements {
 			throw new Exception("There are no elements in the form");
 		}
 
@@ -255,11 +256,11 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function isValid(var data = null, var entity = null) -> boolean
 	{
-		var notFailed, messages, element,
-			validators, name, preparedValidators, filters,
-			validator, validation, elementMessages;
+		var validationStatus, messages, element,
+			validators, name, filters,
+			validator, validation, elementMessage;
 
-		if typeof this->_elements != "array" {
+		if empty this->_elements {
 			return true;
 		}
 
@@ -290,17 +291,19 @@ class Form extends Injectable implements \Countable, \Iterator
 			}
 		}
 
-		let notFailed = true,
-			messages = [];
+		let validationStatus = true;
+
+        let validation = this->getValidation();
+
+        if typeof validation != "object" || !(validation instanceof ValidationInterface) {
+            // Create an implicit validation
+            let validation = new Validation();
+        }
 
 		for element in this->_elements {
 
 			let validators = element->getValidators();
-			if typeof validators != "array" {
-				continue;
-			}
-
-			if count(validators) == 0 {
+			if typeof validators != "array" || count(validators) == 0 {
 				continue;
 			}
 
@@ -309,25 +312,11 @@ class Form extends Injectable implements \Countable, \Iterator
 			 */
 			let name = element->getName();
 
-			/**
-			 * Prepare the validators
-			 */
-			let preparedValidators = [];
-
+            /**
+            * Append (not overriding) element validators to validation class
+            */
 			for validator in validators {
-				let preparedValidators[] = [name, validator];
-			}
-
-			let validation = this->getValidation();
-
-			if typeof validation == "object" {
-				if validation instanceof Validation {
-					// Set the validators to be validated
-					validation->setValidators(preparedValidators);
-				}
-			} else {
-				// Create an implicit validation
-				let validation = new Validation(preparedValidators);
+			    validation->add(name, validator);
 			}
 
 			/**
@@ -341,21 +330,25 @@ class Form extends Injectable implements \Countable, \Iterator
 			if typeof filters == "array" {
 				validation->setFilters(name, filters);
 			}
-
-			/**
-			 * Perform the validation
-			 */
-			let elementMessages = validation->validate(data, entity);
-			if count(elementMessages) {
-				let messages[name] = elementMessages;
-				let notFailed = false;
-			}
 		}
+
+        /**
+        * Perform the validation
+        */
+        let messages = validation->validate(data, entity);
+        if messages->count() {
+            // Add validation messages to relevant elements
+            for elementMessage in iterator(messages) {
+                this->get(elementMessage->getField())->appendMessage(elementMessage);
+            }
+            messages->rewind();
+            let validationStatus = false;
+        }
 
 		/**
 		 * If the validation fails update the messages
 		 */
-		if !notFailed {
+		if !validationStatus {
 			let this->_messages = messages;
 		}
 
@@ -369,7 +362,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		/**
 		 * Return the validation status
 		 */
-		return notFailed;
+		return validationStatus;
 	}
 
 	/**
@@ -377,25 +370,14 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessages(boolean byItemName = false) -> <Group>
 	{
-		var messages, group, elementMessages;
+		var messages;
 
 		let messages = this->_messages;
-		if byItemName {
-			if typeof messages != "array" {
-				return new Group();
-			}
-			return messages;
+		if typeof messages == "object" && messages instanceof Group {
+            return messages;
 		}
 
-		let group = new Group();
-
-		if typeof messages == "array" {
-			for elementMessages in messages {
-				group->appendMessages(elementMessages);
-			}
-		}
-
-		return group;
+		return new Group();
 	}
 
 	/**
@@ -403,17 +385,10 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessagesFor(string! name) -> <Group>
 	{
-		var messages, elementMessages, group;
-
-		let messages = this->_messages;
-		if fetch elementMessages, messages[name] {
-			return elementMessages;
-		}
-
-		let group = new Group(),
-			this->_messages[name] = group;
-
-		return group;
+	    if this->has(name) {
+            return this->get(name)->getMessages();
+	    }
+	    return new Group();
 	}
 
 	/**
@@ -441,7 +416,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		 */
 		element->setForm(this);
 
-		if position == null || typeof this->_elements != "array" {
+		if position == null || empty this->_elements {
 			/**
 			 * Append the element by its name
 			 */
@@ -712,7 +687,11 @@ class Form extends Injectable implements \Countable, \Iterator
 	public function rewind() -> void
 	{
 		let this->_position = 0;
-		let this->_elementsIndexed = array_values(this->_elements);
+		if typeof this->_elements == "array" {
+		    let this->_elementsIndexed = array_values(this->_elements);
+		} else {
+		    let this->_elementsIndexed = [];
+		}
 	}
 
 	/**

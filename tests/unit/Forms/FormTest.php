@@ -6,12 +6,14 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
+use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation;
 
 /**
  * \Phalcon\Test\Unit\Forms\FormTest
@@ -32,12 +34,24 @@ use Phalcon\Validation\Validator\StringLength;
  */
 class FormTest extends UnitTest
 {
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
     public function testCount()
     {
         $this->specify(
             "Form::count does not return the correct number",
             function () {
                 $form = new Form();
+
+                expect($form)->count(0);
+                expect($form->count())->equals(0);
 
                 $form->add(
                     new Text("name")
@@ -49,6 +63,40 @@ class FormTest extends UnitTest
 
                 expect($form)->count(2);
                 expect($form->count())->equals(2);
+            }
+        );
+    }
+
+    public function testIterator()
+    {
+        $this->specify(
+            "Form incorrectly implements the Iterator interface",
+            function () {
+                $form = new Form();
+                $data = [];
+
+                foreach ($form as $key => $value) {
+                    $data[$key] = $value->getName();
+                }
+
+                expect($data)->equals([]);
+
+                $form->add(
+                    new Text("name")
+                );
+
+                $form->add(
+                    new Text("telephone")
+                );
+
+                foreach ($form as $key => $value) {
+                    $data[$key] = $value->getName();
+                }
+
+                expect($data)->equals([
+                    0 => "name",
+                    1 => "telephone",
+                ]);
             }
         );
     }
@@ -350,5 +398,146 @@ class FormTest extends UnitTest
                 expect($result)->equals($data);
             }
         );
+    }
+
+    /**
+     * Tests Element::hasMessages() Element::getMessages()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue 11135, 3167
+     */
+    public function testElementMessages()
+    {
+        $this->specify('Element messages are empty if form validation fails', function () {
+            // First element
+            $telephone = new Text('telephone');
+
+            $telephone->addValidators([
+                new Regex([
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format'
+                ])
+            ]);
+
+            // Second element
+            $address = new Text('address');
+            $form = new Form();
+
+            $form->add($telephone);
+            $form->add($address);
+
+            expect($form->isValid(['telephone' => '12345', 'address' => 'hello']))->false();
+            expect($form->get('telephone')->hasMessages())->true();
+            expect($form->get('address')->hasMessages())->false();
+
+            expect($form->get('telephone')->getMessages())->equals(
+                Group::__set_state([
+                    '_messages' => [
+                        Message::__set_state([
+                            '_type'    => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field'   => 'telephone',
+                            '_code'    => 0,
+                        ])
+                    ],
+                ])
+            );
+            expect($form->get('telephone')->getMessages())->equals($form->getMessages());
+            expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
+            expect($form->getMessagesFor('notelement'))->equals(Group::__set_state(['_messages' => []]));
+        });
+    }
+
+    /**
+     * Tests Form::setValidation()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue 12465
+     */
+    public function testCustomValidation()
+    {
+        $this->specify('Injecting custom validation to form doesn\'t validate correctly', function () {
+            // First element
+            $telephone = new Text('telephone');
+            $customValidation = new Validation();
+            $customValidation->add('telephone', new Regex([
+                'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                'message' => 'The telephone has an invalid format'
+            ]));
+            $form = new Form();
+            $address = new Text('address');
+            $form->add($telephone);
+            $form->add($address);
+            $form->setValidation($customValidation);
+            expect($form->isValid(['telephone' => '12345', 'address' => 'hello']))->false();
+            expect($form->get('telephone')->hasMessages())->true();
+            expect($form->get('address')->hasMessages())->false();
+            expect($form->get('telephone')->getMessages())->equals(
+                Group::__set_state([
+                    '_messages' => [
+                        Message::__set_state([
+                            '_type' => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field' => 'telephone',
+                            '_code' => 0,
+                        ])
+                    ],
+                ])
+            );
+            expect($form->get('telephone')->getMessages())->equals($form->getMessages());
+            expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
+        });
+    }
+
+    /**
+     * Tests Form::isValid()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue 11500
+     */
+    public function testMergeValidators()
+    {
+        $this->specify('Injecting custom validation to form doesn\'t merge validators on isValid', function () {
+            // First element
+            $telephone = new Text('telephone');
+            $telephone->addValidators([
+                new PresenceOf([
+                    'message' => 'The telephone is required'
+                ])
+            ]);
+            $customValidation = new Validation();
+            $customValidation->add('telephone', new Regex([
+                'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                'message' => 'The telephone has an invalid format'
+            ]));
+            $form = new Form();
+            $address = new Text('address');
+            $form->add($telephone);
+            $form->add($address);
+            $form->setValidation($customValidation);
+            expect($form->isValid(['address' => 'hello']))->false();
+            expect($form->get('telephone')->hasMessages())->true();
+            expect($form->get('address')->hasMessages())->false();
+            expect($form->get('telephone')->getMessages())->equals(
+                Group::__set_state([
+                    '_messages' => [
+                        Message::__set_state([
+                            '_type' => 'Regex',
+                            '_message' => 'The telephone has an invalid format',
+                            '_field' => 'telephone',
+                            '_code' => 0,
+                        ]),
+                        Message::__set_state([
+                            '_type' => 'PresenceOf',
+                            '_message' => 'The telephone is required',
+                            '_field' => 'telephone',
+                            '_code' => 0,
+                        ])
+                    ],
+                ])
+            );
+            expect($form->get('telephone')->getMessages())->equals($form->getMessages());
+            expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
+        });
     }
 }

@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate) {
 		RETURN_MM_BOOL(1);
 	}
 	if ((zephir_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 380, value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 382, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(length);

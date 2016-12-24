@@ -3,7 +3,7 @@
  * Phalcon Framework
  *
  * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  *
@@ -49,5 +49,16 @@ if (!function_exists('xcache_get') && function_exists('apc_fetch')) {
 
     function xcache_emulation()
     {
+    }
+}
+
+if (!function_exists('env')) {
+    function env($key, $default = null)
+    {
+        if (defined($key)) {
+            return constant($key);
+        }
+
+        return getenv($key) ?: $default;
     }
 }

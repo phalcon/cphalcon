@@ -31,6 +31,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Behavior) {
 
 	zend_declare_property_null(phalcon_mvc_collection_behavior_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_collection_behavior_ce TSRMLS_CC, 1, phalcon_mvc_collection_behaviorinterface_ce);
 	return SUCCESS;
 
 }

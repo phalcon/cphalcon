@@ -23,12 +23,12 @@ class ValidationCest extends Validation
 
         $di->setShared('db', function () {
             return new Mysql([
-                'host'     => TEST_DB_MYSQL_HOST,
-                'username' => TEST_DB_MYSQL_USER,
-                'password' => TEST_DB_MYSQL_PASSWD,
-                'dbname'   => TEST_DB_MYSQL_NAME,
-                'port'     => TEST_DB_MYSQL_PORT,
-                'charset'  => TEST_DB_MYSQL_CHARSET,
+                'host'     => env('TEST_DB_MYSQL_HOST', '127.0.0.1'),
+                'username' => env('TEST_DB_MYSQL_USER', 'root'),
+                'password' => env('TEST_DB_MYSQL_PASSWD', ''),
+                'dbname'   => env('TEST_DB_MYSQL_NAME', 'phalcon_test'),
+                'port'     => env('TEST_DB_MYSQL_PORT', 3306),
+                'charset'  => env('TEST_DB_MYSQL_CHARSET', 'utf8'),
             ]);
         });
 
@@ -62,11 +62,12 @@ class ValidationCest extends Validation
 
         $di->setShared('db', function () {
             return new Postgresql([
-                'host'     => TEST_DB_POSTGRESQL_HOST,
-                'username' => TEST_DB_POSTGRESQL_USER,
-                'password' => TEST_DB_POSTGRESQL_PASSWD,
-                'dbname'   => TEST_DB_POSTGRESQL_NAME,
-                'port'     => TEST_DB_POSTGRESQL_PORT,
+                'host'     => env('TEST_DB_POSTGRESQL_HOST', '127.0.0.1'),
+                'username' => env('TEST_DB_POSTGRESQL_USER', 'postgres'),
+                'password' => env('TEST_DB_POSTGRESQL_PASSWD', ''),
+                'dbname'   => env('TEST_DB_POSTGRESQL_NAME', 'phalcon_test'),
+                'port'     => env('TEST_DB_POSTGRESQL_PORT', 5432),
+                'schema'   => env('TEST_DB_POSTGRESQL_SCHEMA', 'public'),
             ]);
         });
 
@@ -97,7 +98,7 @@ class ValidationCest extends Validation
         $di->remove('db');
 
         $di->setShared('db', function () {
-            $connection = new Sqlite(['dbname' => TEST_DB_SQLITE_NAME]);
+            $connection = new Sqlite(['dbname' => env('TEST_DB_SQLITE_NAME', PATH_OUTPUT . 'phalcon_test.sqlite')]);
 
             /** @var \PDO $pdo */
             $pdo = $connection->getInternalHandler();
