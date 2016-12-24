@@ -192,6 +192,39 @@ class RedisCest
         $I->seeInRedis($key, serialize($data));
     }
 
+    /**
+     * @issue 12327
+     * @param UnitTester $I
+     */
+    public function saveNonExpiring(UnitTester $I)
+    {
+        $I->wantTo('Save data termlessly by using Redis as cache backend');
+
+        $key  = '_PHCR' . 'data-save-2';
+        $data = 1000;
+
+        $cache = new Redis(new Data(['lifetime' => 200]), [
+            'host' => env('TEST_RS_HOST'),
+            'port' => env('TEST_RS_PORT')
+        ]);
+
+        $I->dontSeeInRedis($key);
+
+        $cache->save('data-save-2', $data, -1);
+
+        sleep(2);
+        $I->seeInRedis($key);
+
+        $cache->save('data-save-2', $data, 0);
+
+        sleep(2);
+        $I->seeInRedis($key);
+
+        $cache->save('data-save-2', $data, 1);
+
+        sleep(2);
+        $I->dontSeeInRedis($key);
+    }
 
     public function delete(UnitTester $I)
     {

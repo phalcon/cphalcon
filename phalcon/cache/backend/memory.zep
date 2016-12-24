@@ -160,7 +160,7 @@ class Memory extends Backend implements \Serializable
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
-		var data, index, keys, key, idx;
+		var data, keys, key, idx;
 
 		let data = this->_data;
 		if typeof data != "array" {
