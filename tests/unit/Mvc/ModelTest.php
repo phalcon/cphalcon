@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
@@ -751,6 +752,40 @@ class ModelTest extends UnitTest
 
                     $this->assertTrue($row->parts->hasSnapshotData());
                 }
+            }
+        );
+    }
+    
+    /**
+     * for PR #12507
+     */
+    public function testFieldDefaultEmptyStringIsNull()
+    {
+        $this->specify(
+            'The field default value is empty string and is determined to be null',
+            function () {
+                $personers               = new Personers();
+                $personers->borgerId     = 'id-' . time() . rand(1, 99);
+                $personers->slagBorgerId = 1;
+                $personers->kredit       = 2.3;
+                $personers->status       = 'A';
+            
+                //  test field for create
+                $personers->navnes = '';
+                $created           = $personers->create();
+                expect($created)->true();
+            
+                //  write something to not null default '' field
+                $personers->navnes = 'save something!';
+                $saved             = $personers->save();
+                expect($saved)->true();
+            
+                //  test field for update
+                $personers->navnes = '';
+                $saved             = $personers->save();
+                expect($saved)->true();
+            
+                $personers->delete();
             }
         );
     }
