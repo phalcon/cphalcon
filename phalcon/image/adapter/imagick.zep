@@ -360,7 +360,7 @@ class Imagick extends Adapter
 
 		// Imagick >= 2.0.0
 		if likely method_exists(watermark, "getVersion") {
-			let version = \Imagick::getVersion();
+			let version = watermark->getVersion();
 
 			if version["versionNumber"] >= 0x700 {
 				let method = "setImageAlpha";
