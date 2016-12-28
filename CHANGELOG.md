@@ -6,7 +6,10 @@
 - Added the ability to set custom Resultset class returned by find() [#12166](https://github.com/phalcon/cphalcon/issues/12166)
 - Added the ability to clear appended and prepended title elements (Phalcon\Tag::appendTitle, Phalcon\Tag::prependTitle). Now you can use array to add multiple titles. For more details check [#12238](https://github.com/phalcon/cphalcon/issues/12238).
 
-# [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (201X-XX-XX)
+# [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (XXXX-XX-XX)
+- Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)
+
+# [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (2016-12-24)
 - Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
 - Fixed `Phalcon\Cache\Backend\Redis::get`, `Phalcon\Cache\Frontend\Data::afterRetrieve` to allow get empty strings from the Redis database [#12437](https://github.com/phalcon/cphalcon/issues/12437)
 - Fixed `Phalcon\Cache\Backend\Redis::exists` to correct check if cache key exists for empty value in the Redis database [#12434](https://github.com/phalcon/cphalcon/pull/12434)
