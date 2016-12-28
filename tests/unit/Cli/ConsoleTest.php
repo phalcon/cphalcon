@@ -545,6 +545,8 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getParams())->equals(array('World', '######'));
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
                 expect($dispatcher->getOptions())->equals(array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
+                expect($dispatcher->hasOption('opt1'))->true();
+                expect($dispatcher->hasOption('opt2'))->false();
 
                 $console->setArgument(array(
                     'php',
@@ -561,6 +563,7 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getParams())->equals(array('World', '######'));
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
                 expect($dispatcher->getOptions())->equals(array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
+                expect($dispatcher->getOption('option3'))->equals('hoge');
             }
         );
     }

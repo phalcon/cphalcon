@@ -20,6 +20,7 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\FilterInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
 
@@ -149,8 +150,57 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 		return this->_options;
 	}
 
+	/**
+	 * Gets an option by its name or numeric index
+	 *
+	 * @param  mixed param
+	 * @param  string|array filters
+	 * @param  mixed defaultValue
+	 */
+	public function getOption(option, filters = null, defaultValue = null) -> var
+	{
+		var options, filter, optionValue, dependencyInjector;
+
+		let options = this->_options;
+		if !fetch optionValue, options[option] {
+			return defaultValue;
+		}
+
+		if filters === null {
+			return optionValue;
+		}
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", \Phalcon\Dispatcher::EXCEPTION_NO_DI);
+		}
+		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+		return filter->sanitize(optionValue, filters);
+	}
+
+	/**
+	 * Check if an option exists
+	 *
+	 * @param  mixed option
+	 * @return boolean
+	 */
+	public function hasOption(option) -> boolean
+	{
+		return isset this->_options[option];
+	}
+
+        /**
+         * Calls the action method.
+         *
+	 * @param  mixed handler
+	 * @param  string actionMethod
+	 * @param  mixed params
+         */
 	public function callActionMethod(handler, string actionMethod, array! params = [])
 	{
-		return call_user_func_array([handler, actionMethod], [params]);
+		var options;
+		
+		let options = this->_options;
+		return call_user_func_array([handler, actionMethod], [params, options]);
 	}
 }
