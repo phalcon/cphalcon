@@ -151,6 +151,48 @@ class SecurityTest extends UnitTest
             }
         );
     }
+    
+    /**
+     * Tests Security::getRequestToken so we don't regenerate the session messing with the checkings.
+     */
+    public function testRequestToken()
+    {
+        $this->specify(
+            "The Security::getRequestToken must return the request token",
+            function () {
+                $di = $this->setupDI();
+
+                // Initialize session.
+                $s = new Security();
+                $s->setDI($di);
+                $s->getToken();
+
+                // Reinitialize object like if it's a new request.
+                $s = new Security();
+                $s->setDI($di);
+                
+                $requestToken = $s->getRequestToken();
+                $sessionToken = $s->getSessionToken();
+                $tokenKey = $s->getTokenKey();
+                $token = $s->getToken();
+
+                expect($requestToken)->equals($sessionToken);
+                expect($sessionToken)->notEquals($token);
+                expect($requestToken)->equals($s->getRequestToken());
+                expect($s->getRequestToken())->notEquals($token);
+                
+                $_POST = [$tokenKey => $requestToken];
+                expect($s->checkToken(null, null, false))->true();
+
+                $_POST = [$tokenKey => $token];
+                expect($s->checkToken(null, null, false))->false();
+                expect($s->checkToken())->false();
+                $s->destroyToken();
+
+                expect($requestToken)->notEquals($s->getRequestToken());
+            }
+        );
+    }
 
     /**
      * Tests Security::checkToken
