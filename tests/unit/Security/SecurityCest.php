@@ -249,4 +249,37 @@ class SecurityCest
         $security->setDefaultHash(Security::CRYPT_SHA512);
         $I->assertTrue($security->checkHash($password, $security->hash($password)));
     }
+
+    public function testRequestToken(UnitTester $I)
+    {
+        $di = $this->getDI();
+        // Initialize session.
+        $security = new Security();
+        $security->setDI($di);
+        $security->getToken();
+        // Reinitialize object like if it's a new request.
+        $security = new Security();
+        $security->setDI($di);
+
+        $requestToken = $security->getRequestToken();
+        $sessionToken = $security->getSessionToken();
+        $tokenKey = $security->getTokenKey();
+        $token = $security->getToken();
+        
+        $I->assertEquals($sessionToken, $requestToken);
+        $I->assertNotEquals($token, $sessionToken);
+        $I->assertEquals($security->getRequestToken(), $requestToken);
+        $I->assertNotEquals($token, $security->getRequestToken());
+
+        $_POST = [$tokenKey => $requestToken];
+        $I->assertTrue($security->checkToken(null, null, false));
+        
+        $_POST = [$tokenKey => $token];
+        $I->assertFalse($security->checkToken(null, null, false));
+        
+        $I->assertFalse($security->checkToken());
+        
+        $security->destroyToken();
+        $I->assertNotEquals($security->getRequestToken(), $requestToken);
+    }
 }
