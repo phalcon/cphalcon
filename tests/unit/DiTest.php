@@ -40,6 +40,7 @@ class DiTest extends UnitTest
         parent::_before();
 
         require_once PATH_DATA . 'di/InjectableComponent.php';
+        require_once PATH_DATA . 'di/SomeServiceProvider.php';
         require_once PATH_DATA . 'di/SimpleComponent.php';
         require_once PATH_DATA . 'di/SomeComponent.php';
 
@@ -503,4 +504,19 @@ class DiTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Register services using provider.
+     *
+     * @author Caio Almeida <caio.f.r.amd@gmail.com>
+     * @since 2016-12-28
+     */
+     public function testRegistersServiceProvider()
+     {
+         $this->phDi->register(new \SomeServiceProvider());
+         expect($this->phDi['foo'])->equals('bar');
+
+         $service = $this->phDi->get('fooAction');
+         expect($service)->isInstanceOf('\SomeComponent');
+     }
 }
