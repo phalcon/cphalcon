@@ -115,7 +115,7 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	public function offsetUnset(index)
 	{
 		if isset this->_messages[index] {
-			unset this->_messages[index];
+			array_splice(this->_messages, index, 1);
 		}
 		return false;
 	}
