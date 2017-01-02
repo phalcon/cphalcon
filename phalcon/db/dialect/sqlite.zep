@@ -140,6 +140,15 @@ class Sqlite extends Dialect
 				}
 				break;
 
+			case Column::TYPE_SMALLINTEGER:
+				if empty columnSql {
+					let columnSql .= "SMALLINT";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
 			case Column::TYPE_TINYBLOB:
 				if empty columnSql {
 					let columnSql .= "TINYBLOB";

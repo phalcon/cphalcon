@@ -127,6 +127,16 @@ class Postgresql extends Dialect
 				}
 				break;
 
+			case Column::TYPE_SMALLINTEGER:
+				if empty columnSql {
+					if column->isAutoIncrement() {
+						let columnSql .= "SMALLSERIAL";
+					} else {
+						let columnSql .= "SMALLINT";
+					}
+				}
+				break;
+
 			case Column::TYPE_JSON:
 				if empty columnSql {
 					let columnSql .= "JSON";
@@ -661,6 +671,7 @@ class Postgresql extends Dialect
 
 		if columnType === Column::TYPE_INTEGER ||
 			columnType === Column::TYPE_BIGINTEGER ||
+			columnType === Column::TYPE_SMALLINTEGER ||
 			columnType === Column::TYPE_DECIMAL ||
 			columnType === Column::TYPE_FLOAT ||
 			columnType === Column::TYPE_DOUBLE {

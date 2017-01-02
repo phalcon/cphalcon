@@ -58,7 +58,10 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "INT";
 				}
-				let columnSql .= "(" . column->getSize() . ")";
+				let size = column->getSize();
+				if size {
+					let columnSql .= "(" . size . ")";
+				}
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";
 				}
@@ -159,9 +162,22 @@ class Mysql extends Dialect
 				if empty columnSql {
 					let columnSql .= "BIGINT";
 				}
-				let scale = column->getSize();
-				if scale {
-					let columnSql .= "(" . column->getSize() . ")";
+				let size = column->getSize();
+				if size {
+					let columnSql .= "(" . size . ")";
+				}
+				if column->isUnsigned() {
+					let columnSql .= " UNSIGNED";
+				}
+				break;
+
+			case Column::TYPE_SMALLINTEGER:
+				if empty columnSql {
+					let columnSql .= "SMALLINT";
+				}
+				let size = column->getSize();
+				if size {
+					let columnSql .= "(" . size . ")";
 				}
 				if column->isUnsigned() {
 					let columnSql .= " UNSIGNED";

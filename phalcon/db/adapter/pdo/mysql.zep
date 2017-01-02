@@ -96,14 +96,21 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_CHAR;
 			} elseif memstr(columnType, "bigint") {
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Bigint are int
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "smallint") {
+				/**
+				 * Smallint are int
+				 */
+				let definition["type"] = Column::TYPE_SMALLINTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
 			} elseif memstr(columnType, "int") {
 				/**
-				 * Smallint/Bigint/Integers/Int are int
+				 * Integers/Int are int
 				 */
 				let definition["type"] = Column::TYPE_INTEGER,
 					definition["isNumeric"] = true,

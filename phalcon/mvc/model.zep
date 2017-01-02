@@ -570,6 +570,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					switch attribute[1] {
 
 						case Column::TYPE_INTEGER:
+						case Column::TYPE_SMALLINTEGER:
 							let castValue = intval(value, 10);
 							break;
 
@@ -591,6 +592,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					switch attribute[1] {
 
 						case Column::TYPE_INTEGER:
+						case Column::TYPE_SMALLINTEGER:
 						case Column::TYPE_DOUBLE:
 						case Column::TYPE_DECIMAL:
 						case Column::TYPE_FLOAT:
@@ -2527,6 +2529,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  											break;
 
  										case Column::TYPE_INTEGER:
+										case Column::TYPE_SMALLINTEGER:
  											let changed = (int) snapshotValue !== (int) value;
  											break;
 

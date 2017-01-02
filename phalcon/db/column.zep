@@ -142,6 +142,11 @@ class Column implements ColumnInterface
 	const TYPE_TIMESTAMP = 17;
 
 	/**
+	 *  Small integer abstract type
+	 */
+	const TYPE_SMALLINTEGER = 18;
+
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
@@ -337,6 +342,7 @@ class Column implements ColumnInterface
 				case self::TYPE_DECIMAL:
 				case self::TYPE_DOUBLE:
 				case self::TYPE_BIGINTEGER:
+				case self::TYPE_SMALLINTEGER:
 					let this->_scale = scale;
 					break;
 
@@ -377,6 +383,7 @@ class Column implements ColumnInterface
 
 					case self::TYPE_INTEGER:
 					case self::TYPE_BIGINTEGER:
+					case self::TYPE_SMALLINTEGER:
 						let this->_autoIncrement = true;
 						break;
 
@@ -528,6 +535,7 @@ class Column implements ColumnInterface
 				case self::TYPE_DECIMAL:
 				case self::TYPE_DOUBLE:
 				case self::TYPE_BIGINTEGER:
+				case self::TYPE_SMALLINTEGER:
 					let definition["scale"] = scale;
 					break;
 			}

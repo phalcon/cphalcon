@@ -133,6 +133,13 @@ class Postgresql extends PdoAdapter
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "smallint") {
+				/**
+				 * Smallint
+				 */
+				let definition["type"] = Column::TYPE_SMALLINTEGER,
+					definition["isNumeric"] = true,
+					definition["bindType"] = Column::BIND_PARAM_INT;
 			} elseif memstr(columnType, "int") {
 				/**
 				 * Int
