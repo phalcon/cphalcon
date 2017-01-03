@@ -104,7 +104,7 @@ class Xcache extends Backend
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
@@ -222,12 +222,16 @@ class Xcache extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
 		var options, prefixed, specialKey, keys, retval, key, realKey;
 
@@ -244,22 +248,24 @@ class Xcache extends Backend
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCX')!");
+		}
+
+		/**
+		 * Get the key from XCache (we cannot use xcache_list() as it is available only to
+		 * the administrator)
+		 */
+		let keys = xcache_get(specialKey);
+		if typeof keys != "array" {
+			return [];
 		}
 
 		let retval = [];
 
-		/**
-		* Get the key from XCache (we cannot use xcache_list() as it is available only to
-		* the administrator)
-		*/
-		let keys = xcache_get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				if starts_with(key, prefixed) {
-					let realKey = substr(key, 5);
-					let retval[] = realKey;
-				}
+		for key, _ in keys {
+			if starts_with(key, prefixed) {
+				let realKey = substr(key, 5);
+				let retval[] = realKey;
 			}
 		}
 
@@ -270,8 +276,7 @@ class Xcache extends Backend
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string keyName
-	 * @param   long lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(var keyName = null, lifetime = null) -> boolean
 	{
@@ -292,11 +297,9 @@ class Xcache extends Backend
 	/**
 	* Atomic increment of a given key, by number $value
 	*
-	* @param  string keyName
-	* @param  long value
-	* @return mixed
+	* @param string keyName
 	*/
-	public function increment(var keyName, long value = 1)
+	public function increment(var keyName, int value = 1) -> int
 	{
 		var lastKey, newVal, origVal;
 
@@ -324,11 +327,9 @@ class Xcache extends Backend
 	/**
 	 * Atomic decrement of a given key, by number $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
+	 * @param string keyName
 	 */
-	public function decrement(keyName, long value = 1)
+	public function decrement(keyName, int value = 1) -> int
 	{
 		var lastKey, newVal, origVal, success;
 

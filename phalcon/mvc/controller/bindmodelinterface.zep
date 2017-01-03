@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,11 +26,8 @@ namespace Phalcon\Mvc\Controller;
  */
 interface BindModelInterface
 {
-
 	/**
 	 * Return the model name associated with this controller
-	 *
-	 * @return string
 	 */
-	abstract static function getModelName() -> string;
+	public static function getModelName() -> string;
 }

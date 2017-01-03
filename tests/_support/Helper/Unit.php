@@ -6,7 +6,6 @@ use Phalcon\Tag;
 use ReflectionClass;
 use Codeception\Module;
 use Codeception\TestInterface;
-use Codeception\Module\Memcache;
 use Codeception\Specify\Config as SpecifyConfig;
 
 /**

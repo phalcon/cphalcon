@@ -175,7 +175,7 @@ class Memcache extends Backend
 	 *
 	 * @param int|string keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
@@ -317,14 +317,18 @@ class Memcache extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var memcache, options, keys, specialKey, key, realKey;
+		var memcache, options, keys, specialKey, key, idx;
 
 		let memcache = this->_memcache;
 
@@ -346,25 +350,26 @@ class Memcache extends Backend
 		/**
 		 * Get the key from memcached
 		 */
-		let realKey = [];
 		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				if !prefix || starts_with(key, prefix) {
-					let realKey[] = key;
-				}
+		if unlikely typeof keys != "array" {
+			return [];
+		}
+
+		let keys = array_keys(keys);
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
 			}
 		}
 
-		return realKey;
+		return keys;
 	}
 
 	/**
 	 * Checks if cache exists and it isn't expired
 	 *
 	 * @param string keyName
-	 * @param   long lifetime
-	 * @return boolean
+	 * @param int lifetime
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
@@ -397,11 +402,9 @@ class Memcache extends Backend
 	/**
 	 * Increment of given $keyName by $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
 	 */
-	public function increment(keyName = null, value = null)
+	public function increment(keyName = null, int value = 1) -> int | boolean
 	{
 		var memcache, prefix, lastKey;
 
@@ -418,10 +421,6 @@ class Memcache extends Backend
 			let prefix = this->_prefix;
 			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return memcache->increment(lastKey, value);
@@ -430,11 +429,9 @@ class Memcache extends Backend
 	/**
 	 * Decrement of $keyName by given $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return long
+	 * @param string keyName
 	 */
-	public function decrement(keyName = null, value = null)
+	public function decrement(keyName = null, int value = 1) -> int | boolean
 	{
 		var memcache, prefix, lastKey;
 
@@ -451,10 +448,6 @@ class Memcache extends Backend
 			let prefix = this->_prefix;
 			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return memcache->decrement(lastKey, value);
@@ -488,10 +481,12 @@ class Memcache extends Backend
 		 * Get the key from memcached
 		 */
 		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				memcache->delete(key);
-			}
+		if unlikely typeof keys != "array" {
+			return true;
+		}
+
+		for key, _ in keys {
+			memcache->delete(key);
 		}
 
 		memcache->delete(specialKey);

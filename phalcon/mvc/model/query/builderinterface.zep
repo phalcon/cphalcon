@@ -220,7 +220,7 @@ interface BuilderInterface
 	 * @param int offset
 	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function limit(limit, offset = null);
+	public function limit(int limit, offset = null);
 
 	/**
 	 * Returns the current LIMIT clause
