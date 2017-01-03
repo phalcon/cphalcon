@@ -76,7 +76,6 @@ before_install:
 
 install:
   - travis_retry composer install --prefer-dist --no-interaction --ignore-platform-reqs
-  - travis_retry composer require "phalcon/zephir:dev-master" --ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir.sh
   - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
