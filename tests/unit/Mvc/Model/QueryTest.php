@@ -1,9 +1,13 @@
 <?php
-
 namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
+use Phalcon\Mvc\Model\Transaction;
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
+use Phalcon\Test\Models\Users;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Deles;
 use Phalcon\Test\Models\Parts;
@@ -25,6 +29,7 @@ use Phalcon\Test\Models\Some\Products as SomeProducts;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Jakob Oberhummer <cphalcon@chilimatic.com>
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is
@@ -36,18 +41,500 @@ use Phalcon\Test\Models\Some\Products as SomeProducts;
  */
 class QueryTest extends UnitTest
 {
+
     /**
      * @var DiInterface
      */
     private $di;
 
+    /**
+     * helper method DRY -> any object should be reflectable
+     *
+     * @param Object $object
+     * @param string $propertyName
+     * @return mixed
+     */
+    protected function getInaccessibleObjectProperty($object, $propertyName)
+    {
+        if (!$object || !$propertyName) {
+            throw new \InvalidArgumentException('Object or property has to be passed');
+        }
+
+        $reflectionClass = new \ReflectionClass($object);
+        $reflectionProperty = $reflectionClass->getProperty($propertyName);
+        $reflectionProperty->setAccessible(true);
+        return $reflectionProperty->getValue($object);
+    }
+
+    /**
+     * @param $object
+     * @param string $methodName
+     * @param array $paramSet
+     * @return mixed
+     */
+    protected function getInaccessibleObjectMethodReturn($object, $methodName, array $paramSet = [])
+    {
+        if (!$object || !$methodName) {
+            throw new \InvalidArgumentException('Object or property has to be passed');
+        }
+
+        $reflectionClass = new \ReflectionClass($object);
+        $reflectionMethod = $reflectionClass->getMethod($methodName);
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod->invokeArgs($object, $paramSet);
+    }
+
+    /**
+     * executed before each test
+     */
     protected function _before()
     {
         parent::_before();
 
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $this->tester->getApplication();
-        $this->di = $app->getDI();
+        $this->di = $this->tester->getApplication()->getDI();
+
+        $this->di->set('modelsManager', function() {
+            return new Manager();
+        });
+
+        $this->di->set('modelsMetadata', function() {
+            return new Memory();
+        });
+
+        $this->di->set('transactionManager', function() {
+            return new TransactionManager();
+        });
+    }
+
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testQueryConstructorWithPHQLString() {
+        $this->specify(
+            'The Query::__construct sets _phql string in the object',
+            function() {
+                $query = 'SELECT 1';
+                $q = new Query($query);
+                $queryReflection = new \ReflectionClass($q);
+                $phqlReflection = $queryReflection->getProperty('_phql');
+                $phqlReflection->setAccessible(true);
+                $testValue = $phqlReflection->getValue($q);
+
+                expect($testValue)->equals($query);
+            }
+        );
+    }
+
+
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testQueryConstructorWithoutPHQL() {
+        $this->specify(
+            'The Query::__construct sets _phql in the object',
+            function() {
+                $q = new Query();
+                $testValue = $this->getInaccessibleObjectProperty($q, '_phql');
+
+
+                expect($testValue)->equals(null);
+            }
+        );
+    }
+
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testIfQueryConstructorSetsDI() {
+        $this->specify(
+            'The Query::__construct sets DI in the object',
+            function() {
+                $q = new Query(null, $this->di);
+                expect($this->di)->equals($q->getDI());
+            }
+        );
+    }
+
+    /**
+     * Tests Query::__construct behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testConstructorSetsImplicitJoins() {
+        $this->specify(
+            'The Query::__construct sets DI in the object',
+            function() {
+                $options = [
+                    'enable_implicit_joins' => true
+                ];
+                $q = new Query(null, $this->di, $options);
+                $enableImplicitJoins = $this->getInaccessibleObjectProperty($q, '_enableImplicitJoins');
+                expect(true)->equals($enableImplicitJoins);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::setBindParams default behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testSetBindParams() {
+        $this->specify(
+            'The Query::setBindParams sets bind params',
+            function() {
+                $bindParams = [
+                    'myField' => 1,
+                    'myOtherField' => 'test'
+                ];
+
+                $q = new Query(null, $this->di);
+                $q->setBindParams($bindParams);
+
+                expect($bindParams)->equals($q->getBindParams());
+            }
+        );
+    }
+
+    /**
+     * Tests Query::setBindParams default behaviour
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testSetBindParamsMerge() {
+        $this->specify(
+            'The Query::setBindParams union merge',
+            function() {
+                $bindParams = [
+                    'myField' => 1,
+                    'myOtherField' => 'test'
+                ];
+
+                $mergeParams = [
+                    'myField' => 12,
+                    'myThirdField' => 14
+                ];
+
+                $result = [
+                    'myField' => 1,
+                    'myOtherField' => 'test',
+                    'myThirdField' => 14
+                ];
+
+                $q = new Query(null, $this->di);
+                $q->setBindParams($bindParams);
+                $q->setBindParams($mergeParams, true);
+
+                expect($result)->equals($q->getBindParams());
+            }
+        );
+    }
+
+    /**
+     * Tests Query::setType
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testSetType() {
+        $this->specify(
+            'The Query::setType ',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setType(1);
+
+                expect(1)->equals($q->getType());
+            }
+        );
+    }
+
+
+    /**
+     * Tests Query::set unique row
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testSetUniqueRow() {
+        $this->specify(
+            'The Query::setUniqueRow',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+
+                expect(true)->equals($q->getUniqueRow());
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getTransactionConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetTransactionConnectionWithNoModelTransaction() {
+        $this->specify(
+            'The Query::getTransaction should return the connection of the query transaction',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $transaction = $transactionManager->getOrCreateTransaction();
+                $q->setTransaction($transaction);
+                $model = new Users();
+
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getTransactionConnection', [$model]);
+
+                expect($transaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getTransactionConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetTransactionConnectionWithModelTransaction() {
+        $this->specify(
+            'The Query::getTransactionConnection should return the transaction of the query object',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $transaction = $transactionManager->getOrCreateTransaction();
+                $q->setTransaction($transaction);
+                $model = new Users();
+                $modelTransaction = new Transaction($this->di);
+                $model->setTransaction($modelTransaction);
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getTransactionConnection', [$model]);
+                expect($transaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getTransactionConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetTransactionConnectionWithModelTransactionButNoQueryTransaction() {
+        $this->specify(
+            'The Query::getTransactionConnection should return the connection of the model transaction',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $model = new Users();
+                $modelTransaction = $transactionManager->getOrCreateTransaction();
+                $model->setTransaction($modelTransaction);
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getTransactionConnection', [$model]);
+                expect($modelTransaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+
+    /**
+     * Tests Query::getReadConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetReadConnectionWithModelTransactionButNoQueryTransaction() {
+        $this->specify(
+            'The Query::getReadConnection should return the connection of the model transaction',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $model = new Users();
+                $modelTransaction = $transactionManager->getOrCreateTransaction();
+                $model->setTransaction($modelTransaction);
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getReadConnection', [$model, [], [], []]);
+                expect($modelTransaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getReadConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetReadConnectionWithModelTransactionAndQueryTransaction() {
+        $this->specify(
+            'The Query::getReadConnection should return connection of the transaction of the query object',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $transaction = $transactionManager->getOrCreateTransaction();
+                $q->setTransaction($transaction);
+                $model = new Users();
+                $modelTransaction = new Transaction($this->di);
+                $model->setTransaction($modelTransaction);
+
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getReadConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getReadConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetReadConnectionWithNoModelTransactionButQueryTransaction() {
+        $this->specify(
+            'The Query::getReadConnection should return the connection of the query transaction',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $transaction = $transactionManager->getOrCreateTransaction();
+                $q->setTransaction($transaction);
+                $model = new Users();
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getReadConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+
+    /**
+     * Tests Query::getReadConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetWriteConnectionWithModelTransactionButNoQueryTransaction() {
+        $this->specify(
+            'The Query::getWriteConnection should return the connection of the model transaction',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $model = new Users();
+                $modelTransaction = $transactionManager->getOrCreateTransaction();
+                $model->setTransaction($modelTransaction);
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getWriteConnection', [$model, [], [], []]);
+                expect($modelTransaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getWriteConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetWriteConnectionWithModelTransactionAndQueryTransaction() {
+        $this->specify(
+            'The Query::getWriteConnection should return connection of the transaction of the query object',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $transaction = $transactionManager->getOrCreateTransaction();
+                $q->setTransaction($transaction);
+                $model = new Users();
+                $modelTransaction = new Transaction($this->di);
+                $model->setTransaction($modelTransaction);
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getWriteConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
+            }
+        );
+    }
+
+    /**
+     * Tests Query::getWriteConnection
+     *
+     * @issue 12409
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2016-11-28
+     */
+    public function testGetWriteConnectionWithNoModelTransactionButQueryTransaction() {
+        $this->specify(
+            'The Query::getReadConnection should return the connection of the query transaction',
+            function() {
+                $q = new Query(null, $this->di);
+                $q->setUniqueRow(true);
+                /**
+                 * @var TransactionManager $transactionManager
+                 */
+                $transactionManager = $this->di->get('transactionManager');
+                $transaction = $transactionManager->getOrCreateTransaction();
+                $q->setTransaction($transaction);
+                $model = new Users();
+                $result = $this->getInaccessibleObjectMethodReturn($q, 'getWriteConnection', [$model, [], [], []]);
+                expect($transaction->getConnection())->equals($result);
+            }
+        );
     }
 
     /**
