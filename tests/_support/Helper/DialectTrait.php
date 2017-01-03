@@ -137,6 +137,14 @@ trait DialectTrait
                 'type'          => Column::TYPE_INTEGER,
                 'autoIncrement' => true,
             ]),
+            'column24' => new Column('column24', [
+                'type'          => Column::TYPE_SMALLINTEGER,
+                'autoIncrement' => false,
+            ]),
+            'column25' => new Column('column25', [
+                'type'          => Column::TYPE_SMALLINTEGER,
+                'autoIncrement' => true,
+            ]),
         ];
     }
 

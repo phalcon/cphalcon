@@ -373,6 +373,8 @@ trait PostgresqlDialect
             ['column21', 'BIGSERIAL'],
             ['column22', 'BIGINT'],
             ['column23', 'SERIAL'],
+            ['column24', 'SMALLINT'],
+            ['column25', 'SMALLSERIAL'],
         ];
     }
 
