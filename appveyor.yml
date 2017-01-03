@@ -11,7 +11,7 @@ environment:
 cache:
   - vendor -> composer.json
 
-os: Windows Server 2012
+os: Windows Server 2012 R2
 clone_folder: c:\projects\phalcon
 
 matrix:
@@ -27,10 +27,12 @@ install:
       } Else {
         $env:version='{build}-$(PHP_VERSION)'
       }
+
   - echo Initializing Build...
   - cd %APPVEYOR_BUILD_FOLDER%
   - appveyor DownloadFile http://zephir-win.s3-website-us-east-1.amazonaws.com/x86/php_zephir_parser.dll
   - git submodule update --init --recursive
+
   - echo Downloading PHP source code [%PHP_VERSION%]
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
   - cd ..
@@ -42,10 +44,12 @@ install:
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-sdk.zip')
   - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
   - cd ..
+
   - echo Downloading PHP-Devel-Pack
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
   - 7z.exe x php-dev.zip | FIND /V "ing  "
   - mv php-%PHP_VERSION%-devel-VC11-%BUILD_PLATFORM% php-devpack
+
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
@@ -59,13 +63,24 @@ install:
   - 'echo extension=php_fileinfo.dll >> php.ini'
   - 'echo extension=php_gettext.dll >> php.ini'
   - 'echo extension=php_gd2.dll >> php.ini'
+  - 'echo extension=c:\php_imagick\php_imagick.dll >> php.ini'
   - 'echo memory_limit=256M >> php.ini'
-  - 'set PATH=%cd%;%PATH%'
-  - echo Building Phalcon
+  - 'set PATH=%cd%;%PATH%;c:\ImageMagick\bin;c:\php_imagick'
+
+  - echo Download ImageMagick
+  - mkdir c:\ImageMagick && cd c:\ImageMagick
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/deps/ImageMagick-6.9.3-7-vc11-x86.zip', 'c:\ImageMagick\ImageMagick.zip')
+  - 7z.exe x ImageMagick.zip | FIND /V "ing  "
+
+  - echo Download php_imagick
+  - mkdir c:\php_imagick && cd c:\php_imagick
+  - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3rc1/php_imagick-3.4.3rc1-5.6-ts-vc11-x86.zip', 'c:\php_imagick\php_imagick.zip')
+  - 7z.exe x php_imagick.zip | FIND /V "ing  "
+
+  - echo Download Zephir
   - cd %APPVEYOR_BUILD_FOLDER%
   - appveyor DownloadFile https://getcomposer.org/composer.phar
-  - php composer.phar install --prefer-dist --no-interaction --ignore-platform-reqs
-  - php composer.phar require "phalcon/zephir:dev-master" --ignore-platform-reqs
+  - php composer.phar install --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs
   - echo Setting Up Zephir
   - 'vendor\bin\zephir help'
 
