@@ -5,6 +5,7 @@
 - Added afterBinding event to `Phalcon\Dispatcher` and `Phalcon\Mvc\Micro`, added `Phalcon\Mvc\Micro::afterBinding`
 - Added the ability to set custom Resultset class returned by find() [#12166](https://github.com/phalcon/cphalcon/issues/12166)
 - Added the ability to clear appended and prepended title elements (Phalcon\Tag::appendTitle, Phalcon\Tag::prependTitle). Now you can use array to add multiple titles. For more details check [#12238](https://github.com/phalcon/cphalcon/issues/12238).
+- Added the ability to load services from yaml (Phalcon\Di::loadFromYaml) and php (Phalcon\Di::loadFromPhp) files, so we can keep the references cleanly separated from code.
 
 # [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (XXXX-XX-XX)
 - Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)

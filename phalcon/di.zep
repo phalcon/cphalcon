@@ -26,6 +26,7 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Config;
 
 /**
  * Phalcon\Di
@@ -428,5 +429,102 @@ class Di implements DiInterface
 	public static function reset()
 	{
 		let self::_default = null;
+	}
+
+	/**
+	 * Loads services from a config object.
+	 */
+	protected function loadFromConfig(<Config> config)
+	{
+		var services, name, service, shared;
+
+		let services = config->toArray();
+		for name, service in services
+		{
+			let shared = isset service["shared"] ? service["shared"] : false;
+			this->set(name, service, shared);
+		}
+	}
+
+	/**
+	 * Loads services from a yaml file.
+	 *<code>
+	 *
+	 * $di->loadFromYaml(
+	 *     "path/services.yaml",
+	 *     [
+	 *         "!approot" => function($value) {
+	 *             return dirname(__DIR__) . $value;
+	 *         },
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * And the services can be specified in the file as:
+	 *<code>
+	 * climate:
+ 	 *   className: \League\CLImate\CLImate
+ 	 *   shared: true
+	 * 
+	 * group:
+ 	 *   className: \Namespace\Group
+ 	 *   arguments:
+ 	 *   - type: service
+ 	 *     name: climate
+ 	 *  
+	 * user:
+ 	 *   className: \Namespace\User
+	 *</code>
+	 *
+	 * @throws \Phalcon\Config\Exception
+	 */
+	public function loadFromYaml(string! filePath, array! callbacks = null)
+	{
+		var services;
+
+		let services = new \Phalcon\Config\Adapter\Yaml(filePath, callbacks);
+		return this->loadFromConfig($services);
+	}
+
+	/**
+	 * Loads services from a php config file.
+	 *<code>
+	 *
+	 * $di->loadFromPhp(
+	 *     "path/services.php",
+	 *     [
+	 *         "!approot" => function($value) {
+	 *             return dirname(__DIR__) . $value;
+	 *         },
+	 *     ]
+	 * );
+	 *</code>
+	 *
+	 * And the services can be specified in the file as:
+	 *<code>
+	 * return [
+	 *      'climate' => [
+	 *          'className' => '\League\CLImate\CLImate',
+	 *          'shared' => true,
+	 *      ],
+	 *      'group' => [
+	 *          'className' => '\Namespace\Group',
+	 *          'arguments' => [[
+	 *              'type' => 'service',
+	 *              'service' => 'climate',
+	 *          ]],
+	 *      ],
+	 *      'user' => [
+	 *          'className' => '\Namespace\User',
+	 *      ],
+	 * ];
+	 *</code>
+	 */
+	public function loadFromPhp(string! filePath)
+	{
+		var services;
+
+		let services = new \Phalcon\Config\Adapter\Php(filePath);
+		return this->loadFromConfig(services);
 	}
 }

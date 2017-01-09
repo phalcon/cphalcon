@@ -399,7 +399,7 @@ abstract class Element implements ElementInterface
 		 * Use the default label or leave the same name as label
 		 */
 		let label = this->_label;
-		if label {
+		if label || is_numeric(label) {
 			let code .= ">" . label . "</label>";
 		} else {
 			let code .= ">" . name . "</label>";

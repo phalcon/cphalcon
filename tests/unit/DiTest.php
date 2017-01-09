@@ -503,4 +503,52 @@ class DiTest extends UnitTest
             }
         );
     }
+    
+    /**
+     * Tests loading services from yaml files.
+     *
+     * @author Gorka Guridi <gorka.guridi@gmail.com>
+     * @since  2016-12-29
+     */
+    public function testYamlLoader()
+    {
+        $this->specify(
+            "Di does not load services from yaml files properly",
+            function () {
+                $this->phDi->loadFromYaml(PATH_DATA . 'di/services.yml');
+                
+                expect($this->phDi->has('unit-test'))->true();
+                expect($this->phDi->getService('unit-test')->isShared())->false();
+                expect($this->phDi->has('config'))->true();
+                expect($this->phDi->getService('config')->isShared())->true();
+                expect($this->phDi->has('component'))->true();
+                expect($this->phDi->getService('component')->isShared())->false();
+                expect($this->phDi->get('component')->someProperty)->isInstanceOf('Phalcon\Config');
+            }
+        );
+    }
+    
+    /**
+     * Tests loading services from php files.
+     *
+     * @author Gorka Guridi <gorka.guridi@gmail.com>
+     * @since  2016-12-29
+     */
+    public function testPhpLoader()
+    {
+        $this->specify(
+            "Di does not load services from php files properly",
+            function () {
+                $this->phDi->loadFromPhp(PATH_DATA . 'di/services.php');
+                
+                expect($this->phDi->has('unit-test'))->true();
+                expect($this->phDi->getService('unit-test')->isShared())->false();
+                expect($this->phDi->has('config'))->true();
+                expect($this->phDi->getService('config')->isShared())->true();
+                expect($this->phDi->has('component'))->true();
+                expect($this->phDi->getService('component')->isShared())->false();
+                expect($this->phDi->get('component')->someProperty)->isInstanceOf('Phalcon\Config');
+            }
+        );
+    }
 }
