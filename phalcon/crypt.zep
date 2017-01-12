@@ -293,7 +293,7 @@ class Crypt implements CryptInterface
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 		
-		if !in_array(cipher, openssl_get_cipher_methods()) {
+		if !in_array(cipher, openssl_get_cipher_methods(true)) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
 		
@@ -344,7 +344,7 @@ class Crypt implements CryptInterface
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 		
-		if !in_array(cipher, openssl_get_cipher_methods()) {
+		if !in_array(cipher, openssl_get_cipher_methods(true)) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
 
@@ -393,6 +393,6 @@ class Crypt implements CryptInterface
 	 */
 	public function getAvailableCiphers() -> array
 	{
-		return openssl_get_cipher_methods();
+		return openssl_get_cipher_methods(true);
 	}
 }
