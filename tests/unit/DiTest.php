@@ -510,10 +510,11 @@ class DiTest extends UnitTest
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2016-12-28
+     * @group jamal
      */
     public function testRegistersServiceProvider()
     {
-        $this->phDi->register(new SomeServiceProvider());
+        $this->phDi->register(new \SomeServiceProvider());
 
         $this->assertEquals('bar', $this->phDi['foo']);
         $service = $this->phDi->get('fooAction');
