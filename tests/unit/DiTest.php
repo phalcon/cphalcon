@@ -511,12 +511,12 @@ class DiTest extends UnitTest
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since 2016-12-28
      */
-     public function testRegistersServiceProvider()
-     {
-         $this->phDi->register(new \SomeServiceProvider());
-         expect($this->phDi['foo'])->equals('bar');
+    public function testRegistersServiceProvider()
+    {
+        $this->phDi->register(new \SomeServiceProvider());
+        expect($this->phDi['foo'])->equals('bar');
 
-         $service = $this->phDi->get('fooAction');
-         expect($service)->isInstanceOf('\SomeComponent');
-     }
+        $service = $this->phDi->get('fooAction');
+        expect($service)->isInstanceOf('\SomeComponent');
+    }
 }

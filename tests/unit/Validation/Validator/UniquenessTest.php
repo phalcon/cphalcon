@@ -242,10 +242,10 @@ class UniquenessTest extends UnitTest
     {
         $this->specify('Test except option as combination of fields and single value in uniqueness validator.', function () {
             $validation = new Validation();
-            $validation->add(['year', 'name'], new Uniqueness([
+            $validation->add(['year', 'type'], new Uniqueness([
                 'except' => [
                     'year' => [1942, 1972],
-                    'type' => ['hydraulic', 'cyborg'],
+                    'type' => ['hydraulic', 'mechanical'],
                 ],
             ]));
             $messages = $validation->validate(null, $this->robot);
