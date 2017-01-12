@@ -29,7 +29,7 @@ class SomeServiceProvider implements ServiceProviderInterface
         };
 
         $di['fooAction'] = function () {
-            return new \SomeComponent();
+            return new \SomeComponent('phalcon');
         };
     }
 }
