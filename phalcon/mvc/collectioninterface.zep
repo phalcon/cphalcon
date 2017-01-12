@@ -66,6 +66,18 @@ interface CollectionInterface
 	public function getConnection();
 
 	/**
+	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+	 */
+	public function setDirtyState(int dirtyState) -> <\Phalcon\Mvc\CollectionInterface>;
+
+	/**
+	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+	 *
+	 * @return int
+	 */
+	public function getDirtyState() -> int;
+
+	/**
 	 * Returns a cloned collection
 	 */
 	public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>;
