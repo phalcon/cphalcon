@@ -20,7 +20,8 @@
         "codeception/verify": "^0.3",
         "codeception/specify": "^0.4",
         "codeception/aspect-mock": "^2.0",
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^2.7",
+        "phalcon/zephir": "dev-master"
     },
     "license": "BSD-3-Clause",
     "authors": [
@@ -39,7 +40,8 @@
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Proxy\\": "tests/_proxies/",
-            "Phalcon\\Test\\Module\\": "tests/_support/Module/"
+            "Phalcon\\Test\\Module\\": "tests/_support/Module/",
+            "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
         }
     },
     "support": {

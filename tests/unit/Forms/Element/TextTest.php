@@ -167,6 +167,9 @@ class TextTest extends UnitTest
                 expect($element->getAttribute('class'))->equals('big-input');
                 expect($element->getAttribute('placeholder', 'the name'))->equals('Type the name');
                 expect($element->getAttribute('lang', 'en'))->equals('en');
+                
+                $element->setLabel(0);
+                expect($element->label())->equals('<label for="name">0</label>');
             }
         );
     }
