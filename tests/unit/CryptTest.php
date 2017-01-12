@@ -76,6 +76,7 @@ class CryptTest extends UnitTest
                     'AES-128-CBC',
                     'AES-128-CFB',
                     'AES-128-OFB',
+                    'AES128',
                 ];
 
                 $crypt = new Crypt();
