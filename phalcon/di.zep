@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,6 +26,7 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 /**
  * Phalcon\Di
@@ -404,6 +405,16 @@ class Di implements DiInterface
 		 * The method doesn't start with set/get throw an exception
 		 */
 		throw new Exception("Call to undefined method or service '" . method . "'");
+	}
+
+	/**
+	* Registers a service provider
+	* @param ServiceProviderInterface
+	* @return void
+	*/
+	public function register(<ServiceProviderInterface> provider)
+	{
+		provider->register(this);
 	}
 
 	/**
