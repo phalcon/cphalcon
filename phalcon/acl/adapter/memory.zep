@@ -163,6 +163,27 @@ class Memory extends Adapter
 	protected _noArgumentsDefaultAction = Acl::ALLOW;
 
 	/**
+	 * Returns latest key used to acquire access
+	 *
+	 * @var string|null
+	 */
+	protected _activeKey { get };
+
+	/**
+	 * Returns latest function used to acquire access
+	 *
+	 * @var mixed
+	 */
+	protected _activeFunction { get };
+
+	/**
+	 * Returns number of additional arguments(excluding role and resource) for active function
+	 *
+	 * @var int
+	 */
+	protected _activeFunctionCustomArgumentsCount = 0 { get };
+
+	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
 	 */
 	public function __construct()
@@ -616,6 +637,10 @@ class Memory extends Adapter
 		let this->_activeOperation = operationName;
 		let this->_activeSubject = subjectName;
 		let this->_activeAccess = access;
+		let this->_activeKey = null;
+        let this->_activeFunction = null;
+        let this->_activeFunctionCustomArgumentsCount = 0;
+
 		let accessList = this->_access;
 		let eventsManager = <EventsManager> this->_eventsManager;
 		let funcList = this->_func;
@@ -654,7 +679,15 @@ class Memory extends Adapter
 			eventsManager->fire("acl:afterCheckAccess", this);
 		}
 
+		let this->_activeKey = accessKey;
+		let this->_activeFunction = funcAccess;
+
 		if haveAccess == null {
+			/**
+			 * Change activeKey to most narrow if there was no access for any patterns found
+			 */
+			let this->_activeKey = roleName . "!" . resourceName . "!" . access;
+
 			return this->_defaultAccess == Acl::ALLOW;
 		}
 
@@ -711,6 +744,8 @@ class Memory extends Adapter
 					let parametersForFunction[] = parameters[parameterToCheck];
 				}
 			}
+
+			let this->_activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
 
 			if count(parameters) > userParametersSizeShouldBe {
 				trigger_error(
