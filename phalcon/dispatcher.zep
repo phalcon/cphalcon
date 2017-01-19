@@ -387,6 +387,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Gets model binder
+	 */
+	public function getModelBinder() -> <BinderInterface>|null
+	{
+		return this->_modelBinder;
+	}
+
+	/**
 	 * Dispatches a handle action taking into account the routing parameters
 	 *
 	 * @return object

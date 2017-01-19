@@ -1152,6 +1152,14 @@ class Micro extends Injectable implements \ArrayAccess
 	}
 
 	/**
+	 * Gets model binder
+	 */
+	public function getModelBinder() -> <BinderInterface>|null
+	{
+		return this->_modelBinder;
+	}
+
+	/**
 	 * Sets model binder
 	 *
 	 * <code>
