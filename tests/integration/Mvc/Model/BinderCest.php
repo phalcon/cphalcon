@@ -790,6 +790,31 @@ class BinderCest
     }
 
     /**
+     * Tests dispatcher and single model original values
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-01-19
+     *
+     * @param IntegrationTester $I
+     */
+    public function testDispatcherSingleBindingOriginalValues(IntegrationTester $I)
+    {
+        $dispatcher = $this->createDispatcher();
+        $params = ['people' => $this->people->cedula];
+        $this->assertDispatcher($dispatcher, $I);
+
+        $returnedValue = $this->returnDispatcherValueForAction(
+            $dispatcher,
+            'test10',
+            'view',
+            $params
+        );
+        $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+        $I->assertEquals($this->people->cedula, $returnedValue->cedula);
+        $I->assertEquals($params, $dispatcher->getModelBinder()->getOriginalValues());
+    }
+
+    /**
      * @param bool $useModelBinder
      * @return Dispatcher
      */

@@ -18,34 +18,65 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model;
 
-use Phalcon\Cache\BackendInterface;
+namespace Phalcon\Firewall;
+
+use Phalcon\Mvc\DispatcherInterface;
 
 /**
- * Phalcon\Mvc\Model\BinderInterface
+ * Phalcon\Mvc\Dispatcher\Firewall\AdapterInterface
  *
- * Interface for Phalcon\Mvc\Model\Binder
+ * Interface for Phalcon\Mvc\Dispatcher\Firewall adapters
  */
-interface BinderInterface
+interface AdapterInterface
 {
 	/**
-	 * Gets active bound models
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
 	 */
-	public function getBoundModels() -> array;
+	public function setDefaultAccess(int defaultAccess);
 
 	/**
-	 * Gets cache instance
+	 * Returns the default ACL access level
 	 */
-	public function getCache() -> <BackendInterface>;
+	public function getDefaultAccess() -> int;
 
 	/**
-	 * Sets cache instance
+	 * Sets role callback to fetch role name
 	 */
-	public function setCache(<BackendInterface> cache) -> <BinderInterface>;
+	public function setRoleCallback(var callback);
 
 	/**
-	 * Bind models into params in proper handler
+	 * Gets role callback to fetch role name
 	 */
-	public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array;
+	public function getRoleCallback();
+
+	/**
+	 * Gets dispatcher
+	 */
+	public function getDispatcher() -> <DispatcherInterface>;
+
+	/**
+	* Saves access in cache and internal cache
+	*/
+	protected function saveAccessInCache(string! key, boolean access) -> void;
+
+	/**
+	 * Gets access from cache
+	 */
+	protected function getAccessFromCache(string! key, array originalValues = null) -> boolean|null;
+
+	/**
+	 * Gets access from internal cache
+	 */
+	protected function getAccessFromInternalCache(string! key) -> boolean|null;
+
+	/**
+	 * Gets bound models key map
+	 */
+	protected function getBoundModelsKeyMap() -> array;
+
+	/**
+	 * Sets bound models key map
+	 */
+	protected function setBoundModelsKeyMap(array! boundModelsKeyMap) -> this;
 }

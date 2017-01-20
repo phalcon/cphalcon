@@ -8,6 +8,7 @@ use Phalcon\Test\Proxy\Acl\Role;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Proxy\Acl\Resource;
 use Phalcon\Test\Proxy\Acl\Adapter\Memory;
+use Closure;
 
 /**
  * \Phalcon\Test\Unit\Acl\Adapter\MemoryTest
@@ -712,6 +713,57 @@ class MemoryTest extends UnitTest
                 expect($acl->isAllowed('Guests', 'Post', 'create'))->true();
                 expect($acl->isAllowed('Guests', 'Post', 'index'))->true();
                 expect($acl->isAllowed('Guests', 'Post', 'update'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests checking active key method
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-13
+     */
+    public function testActiveKey()
+    {
+        $this->specify(
+            "There is wrong active key returned for acquired access",
+            function () {
+                $acl = new Memory();
+                $acl->addRole(new Role("Guests"));
+                $acl->addResource(new Resource('Post'), ['index', 'update', 'create']);
+
+                $acl->allow('Guests', 'Post', 'create');
+                expect($acl->isAllowed('Guests', 'Post', 'create'))->true();
+                expect($acl->getActiveKey())->equals('Guests!Post!create');
+            }
+        );
+    }
+
+    /**
+     * Tests checking active function method
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-13
+     */
+    public function testActiveFunction()
+    {
+        $this->specify(
+            "There is wrong function returned for acquired access",
+            function () {
+                $function = function ($a) {
+                    return true;
+                };
+
+                $acl = new Memory();
+                $acl->addRole(new Role("Guests"));
+                $acl->addResource(new Resource('Post'), ['index', 'update', 'create']);
+
+                $acl->allow('Guests', 'Post', 'create', $function);
+                expect($acl->isAllowed('Guests', 'Post', 'create', ['a' => 1]))->true();
+                $returnedFunction = $acl->getActiveFunction();
+                expect($returnedFunction)->isInstanceOf(Closure::class);
+                expect($returnedFunction(1))->equals($function(1));
+                expect($acl->getActiveFunctionCustomArgumentsCount())->equals(1);
             }
         );
     }

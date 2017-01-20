@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -14,38 +14,16 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Wojciech Ślawski <jurigag@gmail.com>                          |
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model;
-
-use Phalcon\Cache\BackendInterface;
+namespace Phalcon\Firewall;
 
 /**
- * Phalcon\Mvc\Model\BinderInterface
+ * Phalcon\Firewall\Exception
  *
- * Interface for Phalcon\Mvc\Model\Binder
+ * Exceptions thrown in Phalcon\Firewall will use this class
  */
-interface BinderInterface
+class Exception extends \Phalcon\Exception
 {
-	/**
-	 * Gets active bound models
-	 */
-	public function getBoundModels() -> array;
-
-	/**
-	 * Gets cache instance
-	 */
-	public function getCache() -> <BackendInterface>;
-
-	/**
-	 * Sets cache instance
-	 */
-	public function setCache(<BackendInterface> cache) -> <BinderInterface>;
-
-	/**
-	 * Bind models into params in proper handler
-	 */
-	public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array;
 }
