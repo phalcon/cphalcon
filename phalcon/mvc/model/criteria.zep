@@ -25,6 +25,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\Model\Criteria
@@ -134,8 +135,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	 public function distinct(var distinct) -> <Criteria>
 	 {
-	 	let this->_params["distinct"] = distinct;
-	 	return this;
+		let this->_params["distinct"] = distinct;
+		return this;
 	 }
 
 	/**
@@ -725,8 +726,19 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 	/**
 	 * Executes a find using the parameters built with the criteria
+	 *
+	 * <code>
+	 * // without encapsulating transaction
+	 * $criteria = Robot::query()->inWhere(Robot::class . '.id = :id', ['id' => 1]);
+	 * $resultSet = $criteria->execute();
+	 *
+	 * // with encapsulating transaction
+	 * $tm = new TransactionManager();
+	 * $transaction = $tm->get(true);
+	 * $resultSet = $criteria->execute($transaction);
+	 * </code>
 	 */
-	public function execute() -> <ResultsetInterface>
+	public function execute(<TransactionInterface> transaction = null) -> <ResultsetInterface>
 	{
 		var model;
 
@@ -735,6 +747,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 			throw new Exception("Model name must be string");
 		}
 
-		return {model}::find(this->getParams());
+		return {model}::find(this->getParams(), transaction);
 	}
 }

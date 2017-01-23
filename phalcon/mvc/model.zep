@@ -98,6 +98,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _dirtyState = 1;
 
+	/**
+	 * @var TransactionInterface | null
+	 */
+	protected _transaction { get };
+
 	protected _transaction;
 
 	protected _uniqueKey;
@@ -792,9 +797,53 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * foreach ($robots as $robot) {
 	 *	 echo $robot->name, "\n";
 	 * }
+	 *
+	 * // encapsulate find it into an running transaction esp. useful for application unit-tests
+	 * // or complex business logic
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction->begin();
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction);
+	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * $resultInsideTransaction = Robot::find(['name' => 'test'], $myTransaction);
+	 * $resultOutsideTransaction = Robot::find(['name' => 'test']);
+	 *
+	 * foreach ($setInsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * foreach ($setOutsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * // reverts all not commited changes
+	 * $myTransaction->rollback();
+	 *
+	 * // creating two different transactions
+	 * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction1->begin();
+	 * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction2->begin();
+	 *
+	 * // add a new robot
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction1);
+	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * // this transaction will not find the robot.
+	 * $resultOutsideExplicitTransaction = Robot::find(['name' => 'test'], $myTransaction2);
+	 * // this transaction will find the robot
+	 * $resultInsideExplicitTransaction = Robot::find(['name' => 'test'], $myTransaction1);
+	 *
+	 * // is using the transaction1 and will find the robot
+	 * $resultInsideImplicitTransaction = $robot::find(['name' => 'test']);
+	 * $transaction1->rollback();
+	 * $transaction2->rollback();
+	 *
 	 * </code>
 	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>
+	public static function find(var parameters = null, <TransactionInterface> transaction = null) -> <ResultsetInterface>
 	{
 		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
 
@@ -817,6 +866,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		builder->from(get_called_class());
 
 		let query = builder->getQuery();
+
+		if transaction != "null" {
+			query->setTransaction(transaction);
+		}
 
 		/**
 		 * Check for bind parameters
