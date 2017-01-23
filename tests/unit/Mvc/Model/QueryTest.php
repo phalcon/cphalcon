@@ -42,6 +42,7 @@ use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager as TransactionManager;
  */
 class QueryTest extends UnitTest
 {
+
     /**
      * @var DiInterface
      */
