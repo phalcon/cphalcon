@@ -5,6 +5,9 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Transaction;
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Deles;
@@ -18,10 +21,6 @@ use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\RobottersDeles;
 use Phalcon\Test\Models\Some\Robotters as SomeRobotters;
 use Phalcon\Test\Models\Some\Products as SomeProducts;
-use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\Metadata\Memory;
-use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager as TransactionManager;
-
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\QueryTest
@@ -86,13 +85,6 @@ class QueryTest extends UnitTest
 
         return $reflectionMethod->invokeArgs($object, $paramSet);
     }
-
-    /**
-     * executed before each test
-     */
-    protected function _before()
-    {
-        parent::_before();
 
         /** @var \Phalcon\Mvc\Application $app */
         $app = $this->tester->getApplication();
@@ -539,7 +531,6 @@ class QueryTest extends UnitTest
                 expect($transaction->getConnection())->equals($result);
             }
         );
-    }
 
     /**
      * @medium
