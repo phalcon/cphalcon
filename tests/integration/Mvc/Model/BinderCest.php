@@ -815,6 +815,33 @@ class BinderCest
     }
 
     /**
+     * Tests dispatcher and single model without cache
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-01-24
+     *
+     * @param IntegrationTester $I
+     */
+    public function testDispatcherSingleBindingNoCache(IntegrationTester $I)
+    {
+        $dispatcher = $this->createDispatcher(false);
+        $modelBinder = new Binder();
+        $dispatcher->setModelBinder($modelBinder);
+        $this->assertDispatcher($dispatcher, $I);
+
+        for ($i = 0; $i <= 1; $i++) {
+            $returnedValue = $this->returnDispatcherValueForAction(
+                $dispatcher,
+                'test10',
+                'view',
+                ['people' => $this->people->cedula]
+            );
+            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertEquals($this->people->cedula, $returnedValue->cedula);
+        }
+    }
+
+    /**
      * @param bool $useModelBinder
      * @return Dispatcher
      */

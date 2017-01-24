@@ -190,9 +190,7 @@ class Binder implements BinderInterface
 				let this->originalValues[paramKey] = paramValue;
 				let params[paramKey] = boundModel;
 				let this->boundModels[paramKey] = boundModel;
-				if cache != null {
-					let paramsCache[paramKey] = className;
-				}
+				let paramsCache[paramKey] = className;
 			}
 		}
 
