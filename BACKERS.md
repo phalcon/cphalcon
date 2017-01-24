@@ -27,7 +27,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204241)
 
-- Wojtek Ślawski
+- Wojtek Ślawski ([@Jurigag](https://github.com/Jurigag))
 
 
 ### Silver Backer ($10 or more)
