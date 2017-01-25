@@ -34,6 +34,7 @@ use Phalcon\Db\DialectInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Relation;
