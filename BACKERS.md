@@ -6,14 +6,14 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1205385)
 
-No pledges yet. 
+- Maximo Pou
 
 
 ### Silver Sponsor - ($250 or more)
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204296)
 
-- Maximo Pou
+No pledges yet. 
 
 
 ### Bronze Sponsor ($100 or more)
@@ -34,6 +34,9 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Gary Rutland
+- Gustavo Miranda
+- Ignacio Vazquez
 - Jonny Paylor
 - Agapie Aurel
 - Hristomir Kotzev
@@ -42,4 +45,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
+- David Schissler
+- Semen Pinigin
+- Daif Alotaibi
 - Baruch Spinoza
