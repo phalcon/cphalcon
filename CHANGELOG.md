@@ -16,6 +16,7 @@
 - Fixed `Phalcon\Forms\Element::label` to accept 0 as label instead of validating it as empty. [#12148](https://github.com/phalcon/cphalcon/issues/12148)
 - Added Aliases for ciphers in `Phalcon\Crypt`
 - Fixed except option in `Phalcon\Validation\Validator\Uniquenss` to allow using except fields other than unique fields
+- Fixed `Phalcon\Mvc\Model` return type ResultsetInterface
 
 # [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (2016-12-24)
 - Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
