@@ -42,7 +42,7 @@ interface BinderInterface
 	/**
 	 * Sets cache instance
 	 */
-	public function setCache(<BackendInterface> cache) -> <Binding>;
+	public function setCache(<BackendInterface> cache) -> <BinderInterface>;
 
 	/**
 	 * Bind models into params in proper handler
