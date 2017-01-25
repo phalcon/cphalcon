@@ -207,7 +207,6 @@ class Memory extends Adapter
 
 		let this->_roles[] = roleObject;
 		let this->_rolesNames[roleName] = true;
-		let this->_access[roleName . "!*!*"] = this->_defaultAccess;
 
 		if accessInherits != null {
 			return this->addInherit(roleName, accessInherits);
