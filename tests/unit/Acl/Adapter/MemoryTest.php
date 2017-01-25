@@ -715,4 +715,29 @@ class MemoryTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests adding wildcard rule second time
+     *
+     * @issue   12573
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-25
+     */
+    public function testDefaultAction()
+    {
+        $this->specify(
+            "Default access doesn't work as expected",
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addResource(new Acl\Resource('Post'), ['index', 'update', 'create']);
+                $acl->addRole(new Role('Guests'));
+
+                $acl->allow('Guests', 'Post', 'index');
+                expect($acl->isAllowed('Guests', 'Post', 'index'))->true();
+                expect($acl->isAllowed('Guests', 'Post', 'update'))->false();
+            }
+        );
+    }
 }
