@@ -14,11 +14,11 @@ No pledges yet.
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204296)
 
 <a href="https://mctekk.com/">
-  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/mctekk.jpg">
+  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/mctekk-240x60.png">
 </a>
 
 <a href="https://abits.com/">
-  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/abits.jpg">
+  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/abits-240x60.png">
 </a>
 
 
