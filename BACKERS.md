@@ -6,14 +6,21 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1205385)
 
-- [Maximo Pou](http://mctekk.com)
+No pledges yet. 
 
 
 ### Silver Sponsor - ($250 or more)
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204296)
 
-No pledges yet. 
+<a href="https://mctekk.com/">
+  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/mctekk-240x60.png">
+</a>
+
+<a href="https://abits.com/">
+  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/abits-240x60.png">
+</a>
+
 
 
 ### Bronze Sponsor ($100 or more)
