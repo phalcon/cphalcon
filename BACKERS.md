@@ -1,6 +1,13 @@
-## Our Backers
+## Our Backers and supporters
 
 You can join them in supporting Phalcon and Zephir development by visiting our page on [Patreon](https://www.patreon.com/phalcon) and becoming a patron!
+
+### Supporters
+
+<a href="https://pdffiller.com/">
+  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/pdffiller-240x60.png">
+</a>
+
 
 ### Gold Sponsor - ($500 or more)
 
@@ -20,7 +27,6 @@ No pledges yet.
 <a href="https://abits.com/">
   <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/abits-240x60.png">
 </a>
-
 
 
 ### Bronze Sponsor ($100 or more)
