@@ -6,7 +6,7 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1205385)
 
-- Maximo Pou
+- [Maximo Pou](http://mctekk.com)
 
 
 ### Silver Sponsor - ($250 or more)
@@ -27,17 +27,17 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204241)
 
-- Wojtek Ślawski
+- Wojtek Ślawski ([@Jurigag](https://github.com/Jurigag))
 
 
 ### Silver Backer ($10 or more)
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
-- Gary Rutland
-- Gustavo Miranda
+- Gary Rutland ([@garyrutland](https://github.com/garyrutland))
+- Gustavo Miranda 
 - Ignacio Vazquez
-- Jonny Paylor
+- [Jonny Paylor](https://twitter.com/jpaylor/)
 - Agapie Aurel
 - Hristomir Kotzev
 
@@ -45,7 +45,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
-- David Schissler
+- David Schissler ([@dschissler](https://github.com/dschissler))
 - Semen Pinigin
 - Daif Alotaibi
 - Baruch Spinoza
