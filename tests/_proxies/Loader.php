@@ -89,9 +89,9 @@ class Loader extends PhLoader
         return parent::getClasses();
     }
 
-    public function register()
+    public function register($prepend = null)
     {
-        return parent::register();
+        return parent::register($prepend);
     }
 
     public function unregister()
