@@ -104,6 +104,7 @@ export TEST_BT_PORT="11300"
 # Memcached
 export TEST_MC_HOST="127.0.0.1"
 export TEST_MC_PORT="11211"
+export TEST_MC_WEIGHT="1"
 
 # SQLite
 export TEST_DB_SQLITE_NAME="/tmp/phalcon_test.sqlite"
