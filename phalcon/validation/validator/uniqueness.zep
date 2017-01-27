@@ -185,8 +185,7 @@ class Uniqueness extends CombinedFieldsValidator
 				}
 			}
 
-			let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField)),
-				except = this->getOption("except");
+			let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
 
 			if value != null {
 				let params["conditions"][] = attribute . " = ?" . index;
@@ -196,15 +195,14 @@ class Uniqueness extends CombinedFieldsValidator
 			else {
 				let params["conditions"][] = attribute . " IS NULL";
 			}
+		}
 
-			if except {
-				if typeof except == "array" && count(field) > 1 {
-					if isset except[singleField] {
-						let fieldExcept = except[singleField];
-					}
-				}
+		let except = this->getOption("except");
 
-				if fieldExcept != null {
+		if except {
+			if typeof except == "array" && array_keys(except) !== range(0, count(except) - 1) {
+				for singleField, fieldExcept in except {
+					let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
 					if typeof fieldExcept == "array" {
 						for singleExcept in fieldExcept {
 							let notInValues[] = "?" . index;
@@ -212,25 +210,41 @@ class Uniqueness extends CombinedFieldsValidator
 							let index++;
 						}
 						let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
-					}
-					else {
+					} else {
 						let exceptConditions[] = attribute . " <> ?" . index;
 						let params["bind"][] = fieldExcept;
 						let index++;
 					}
 				}
-				elseif typeof except == "array" && count(field) == 1 {
+			} elseif count(field) == 1 {
+				let attribute = this->getColumnNameReal(record, this->getOption("attribute", field[0]));
+				if typeof except == "array" {
 					for singleExcept in except {
-						let notInValues[] = "?" . index;
-						let params["bind"][] = singleExcept;
-						let index++;
-					}
-					let params["conditions"][] = attribute . " NOT IN (" . join(",", notInValues) . ")";
-				}
-				elseif count(field) == 1 {
+                    	let notInValues[] = "?" . index;
+                    	let params["bind"][] = singleExcept;
+                    	let index++;
+                    }
+                    let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
+				} else {
 					let params["conditions"][] = attribute . " <> ?" . index;
 					let params["bind"][] = except;
 					let index++;
+				}
+			} elseif count(field) > 1 {
+				for singleField in field {
+					let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
+					if typeof except == "array" {
+						for singleExcept in except {
+                        	let notInValues[] = "?" . index;
+                            let params["bind"][] = singleExcept;
+                            let index++;
+                        }
+                        let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
+					} else {
+                        let params["conditions"][] = attribute . " <> ?" . index;
+                        let params["bind"][] = except;
+                        let index++;
+					}
 				}
 			}
 		}

@@ -242,10 +242,10 @@ class UniquenessTest extends UnitTest
     {
         $this->specify('Test except option as combination of fields and single value in uniqueness validator.', function () {
             $validation = new Validation();
-            $validation->add(['year', 'name'], new Uniqueness([
+            $validation->add(['year', 'type'], new Uniqueness([
                 'except' => [
-                    'year' => [1942, 1972],
-                    'type' => ['hydraulic', 'cyborg'],
+                    'year' => [1952, 1972],
+                    'type' => ['hydraulic', 'mechanical'],
                 ],
             ]));
             $messages = $validation->validate(null, $this->robot);
@@ -278,6 +278,36 @@ class UniquenessTest extends UnitTest
                 verify_that(true);
             }
         });
+    }
+
+    /**
+     * Tests except other than field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-01-16
+     */
+    public function testExceptOtherThanField()
+    {
+        $this->specify(
+            'Except other than field doesnt work correctly',
+            function () {
+                $validation = new Validation();
+                $validation->add('text', new Uniqueness([
+                    'except' => [
+                        'type' => ['mechanical', 'cyborg'],
+                    ],
+                ]));
+                $messages = $validation->validate(null, $this->robot);
+                expect($messages->count())->equals(0);
+                $messages = $validation->validate(null, $this->anotherRobot);
+                expect($messages->count())->equals(0);
+                $anotherRobot = clone $this->anotherRobot;
+                $this->anotherRobot->create();
+                $messages = $validation->validate(null, $anotherRobot);
+                expect($messages->count())->equals(1);
+                $this->anotherRobot->delete();
+            }
+        );
     }
 
     /**
