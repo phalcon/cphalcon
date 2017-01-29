@@ -40,6 +40,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204241)
 
+- David Schissler ([@dschissler](https://github.com/dschissler))
 - Wojtek Ślawski ([@Jurigag](https://github.com/Jurigag))
 
 
@@ -50,15 +51,16 @@ No pledges yet.
 - Gary Rutland ([@garyrutland](https://github.com/garyrutland))
 - Gustavo Miranda 
 - Ignacio Vazquez
-- [Jonny Paylor](https://twitter.com/jpaylor/)
+- Jonny Paylor ([@jpaylor](https://github.com/jpaylor))
 - Agapie Aurel
-- Hristomir Kotzev
+- Hristomir Kotzev ([@izopi4a](https://github.com/izopi4a))
 
 ### Bronze Backer ($5 or more)
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
-- David Schissler ([@dschissler](https://github.com/dschissler))
+- Thien Tran ([@duythien](https://github.com/duythien))
+- Magnus Holvid
 - Semen Pinigin
-- Daif Alotaibi
+- Daif Alotaibi ([@dalf](https://github.com/daif))
 - Baruch Spinoza
