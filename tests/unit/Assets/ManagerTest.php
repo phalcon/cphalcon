@@ -645,4 +645,74 @@ class ManagerTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests assets versioning
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-02-01
+     */
+    public function testAssetsVersioning()
+    {
+        $this->specify(
+            "Assets versioning doesn't work correctly",
+            function () {
+                $assets = new Manager();
+
+                $assets->addJs(PATH_DATA.'assets/script1.js', true, false, null, '1.0.0');
+                $assets->addJs(PATH_DATA.'assets/script2.js', true, false, null, '2.0.0');
+                $assets->addJs(PATH_DATA.'assets/script3.js', true, false, null);
+
+                $pathData = PATH_DATA;
+
+                $expected = sprintf(
+                    "%s\n%s\n%s\n",
+                    "<script type=\"text/javascript\" src=\"{$pathData}assets/script1.js?ver=1.0.0\"></script>",
+                    "<script type=\"text/javascript\" src=\"{$pathData}assets/script2.js?ver=2.0.0\"></script>",
+                    "<script type=\"text/javascript\" src=\"{$pathData}assets/script3.js\"></script>"
+                );
+
+                $assets->useImplicitOutput(false);
+
+                expect($assets->outputJs())->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests assets auto versioning
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-02-01
+     */
+    public function testAssetsAutoVersioningCollection()
+    {
+        $this->specify(
+            "Assets auto versioning with collection doesn't work correctly",
+            function () {
+                $assets = new Manager();
+
+                $assets->collection('js')
+                    ->addJs(PATH_DATA.'assets/script1.js', true, false, null, '1.0.0')
+                    ->addJs(PATH_DATA.'assets/script2.js', true, false, null)
+                    ->addJs(PATH_DATA.'assets/script3.js', true, false, null, null, false)
+                    ->setAutoVersion(true);
+
+                $modificationTime = filemtime(PATH_DATA.'assets/script2.js');
+
+                $pathData = PATH_DATA;
+
+                $expected = sprintf(
+                    "%s\n%s\n%s\n",
+                    "<script type=\"text/javascript\" src=\"{$pathData}assets/script1.js?ver=1.0.0\"></script>",
+                    "<script type=\"text/javascript\" src=\"{$pathData}assets/script2.js?ver=$modificationTime\"></script>",
+                    "<script type=\"text/javascript\" src=\"{$pathData}assets/script3.js\"></script>"
+                );
+
+                $assets->useImplicitOutput(false);
+
+                expect($assets->outputJs())->equals($expected);
+            }
+        );
+    }
 }

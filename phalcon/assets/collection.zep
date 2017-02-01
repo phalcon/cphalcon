@@ -59,6 +59,18 @@ class Collection implements \Countable, \Iterator
 
 	protected _sourcePath { get };
 
+	/**
+	 * Version of resource
+	 * @var string
+	 */
+	protected _version { get, set };
+
+	/**
+	 * Should version be determined from file modification time
+	 * @var bool
+	 */
+	protected _autoVersion = false { set };
+
 	protected _includedResources;
 
 	/**
@@ -115,7 +127,7 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a CSS resource to the collection
 	 */
-	public function addCss(string! path, var local = null, boolean filter = true, attributes = null) -> <Collection>
+	public function addCss(string! path, var local = null, boolean filter = true, attributes = null, string version = null, boolean autoVersion = false) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -131,7 +143,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		this->add(new ResourceCss(path, collectionLocal, filter, collectionAttributes));
+		this->add(new ResourceCss(path, collectionLocal, filter, collectionAttributes, version, autoVersion));
 
 		return this;
 	}
@@ -158,7 +170,7 @@ class Collection implements \Countable, \Iterator
 	 *
 	 * @param array attributes
 	 */
-	public function addJs(string! path, boolean local = null, boolean filter = true, attributes = null) -> <Collection>
+	public function addJs(string! path, var local = null, boolean filter = true, attributes = null, string version = null, boolean autoVersion = false) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -174,7 +186,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		this->add(new ResourceJs(path, collectionLocal, filter, collectionAttributes));
+		this->add(new ResourceJs(path, collectionLocal, filter, collectionAttributes, version, autoVersion));
 
 		return this;
 	}
@@ -357,6 +369,14 @@ class Collection implements \Countable, \Iterator
 	{
 		let this->_filters[] = filter;
 		return this;
+	}
+
+    /**
+     * Checks if collection is using auto version
+     */
+	public function isAutoVersion() -> boolean
+	{
+	    return this->_autoVersion;
 	}
 
 	/**

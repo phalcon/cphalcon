@@ -32,8 +32,8 @@ class Js extends ResourceBase
 	/**
 	 * Phalcon\Assets\Resource\Js
 	 */
-	public function __construct(string! path, boolean local = true, boolean filter = true, array attributes = [])
+	public function __construct(path, local = true, filter = true, attributes = null, var version = null, var autoVersion = null)
 	{
-		parent::__construct("js", path, local, filter, attributes);
+		parent::__construct("js", path, local, filter, attributes, version, autoVersion);
 	}
 }

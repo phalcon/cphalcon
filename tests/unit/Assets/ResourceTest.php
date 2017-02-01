@@ -101,4 +101,45 @@ class ResourceTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests resource versioning
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-02-01
+     */
+    public function testAssetsVersioning()
+    {
+        $this->specify(
+            "The resource versioning is not correct",
+            function () {
+                $resource = new Resource('js', PATH_DATA.'assets/jquery.js', true, false, null, '1.0.0');
+                $actual = $resource->getRealTargetUri();
+                $expected = PATH_DATA.'assets/jquery.js?ver=1.0.0';
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests resource auto versioning
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-02-01
+     */
+    public function testAssetsAutomaticVersioning()
+    {
+        $this->specify(
+            "The resource auto versioning is not correct",
+            function () {
+                $resource = new Resource('js', PATH_DATA.'assets/jquery.js', true, false, null, null, true);
+                $actual = $resource->getRealTargetUri();
+                $modificationTime = filemtime(PATH_DATA.'assets/jquery.js');
+                $expected = PATH_DATA.'assets/jquery.js?ver='.$modificationTime;
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 }

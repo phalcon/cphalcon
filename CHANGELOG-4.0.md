@@ -2,6 +2,7 @@
 
 ## Added
 - Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` to implement custom Postgresql rules
+- Added assets versioning `Phalcon\Assets\Manager:addCss`, `Phalcon\Assets\Manager::addJs`, `Phalcon\Assets\Collection:addCss`,  `Phalcon\Assets\Collection:addJs` accepts two additional parameters - `version` and `autoVersion`
 
 ## Changed
 - The `Phalcon\Mvc\Application`, `Phalcon\Mvc\Micro` and `Phalcon\Mvc\Router` now must have a URI to process [#12380](https://github.com/phalcon/cphalcon/pull/12380)

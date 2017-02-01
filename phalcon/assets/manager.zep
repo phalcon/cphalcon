@@ -89,9 +89,9 @@ class Manager
 	*	$assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
 	*</code>
 	*/
-	public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
+	public function addCss(string! path, local = true, filter = true, var attributes = null, string version = null, boolean autoVersion = false) -> <Manager>
 	{
-		this->addResourceByType("css", new ResourceCss(path, local, filter, attributes));
+		this->addResourceByType("css", new ResourceCss(path, local, filter, attributes, version, autoVersion));
 		return this;
 	}
 
@@ -112,9 +112,9 @@ class Manager
 	 * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
 	 *</code>
 	 */
-	public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
+	public function addJs(string! path, local = true, filter = true, attributes = null, string version = null, boolean autoVersion = false) -> <Manager>
 	{
-		this->addResourceByType("js", new ResourceJs(path, local, filter, attributes));
+		this->addResourceByType("js", new ResourceJs(path, local, filter, attributes, version, autoVersion));
 		return this;
 	}
 
@@ -308,7 +308,7 @@ class Manager
 			collectionTargetPath, completeTargetPath, filteredJoinedContent, join,
 			$resource, filterNeeded, local, sourcePath, targetPath, path, prefixedPath,
 			attributes, parameters, html, useImplicitOutput, content, mustFilter,
-			filter, filteredContent, typeCss, targetUri;
+			filter, filteredContent, typeCss, targetUri, version, autoVersion, modificationTime;
 
 		let useImplicitOutput = this->_implicitOutput;
 
@@ -495,6 +495,20 @@ class Manager
 					let prefixedPath = path;
 				}
 
+				if $resource->getVersion() === null && $resource->isAutoVersion() === null {
+					let version = collection->getVersion();
+					let autoVersion = collection->isAutoVersion();
+
+				    if autoVersion && local {
+				        let modificationTime = filemtime($resource->getRealSourcePath());
+				        let version = version ? version . "." . modificationTime : modificationTime;
+				    }
+
+					if version {
+						let prefixedPath = prefixedPath . "?ver=" . version;
+					}
+				}
+
 				/**
 				 * Gets extra HTML attributes in the resource
 				 */
@@ -614,6 +628,20 @@ class Manager
 				 */
 				let local = true;
 
+				if $resource->getVersion() === null && $resource->isAutoVersion() === null {
+					let version = collection->getVersion();
+					let autoVersion = collection->isAutoVersion();
+
+					if autoVersion {
+						let modificationTime = filemtime($resource->getRealSourcePath());
+						let version = version ? version . "." . modificationTime : modificationTime;
+					}
+
+					if version {
+						let prefixedPath = prefixedPath . "?ver=" . version;
+					}
+				}
+
 				/**
 				 * Prepare the parameters for the callback
 				 */
@@ -661,6 +689,18 @@ class Manager
 					let prefixedPath = prefix . targetUri;
 				} else {
 					let prefixedPath = targetUri;
+				}
+
+				let version = collection->getVersion();
+				let autoVersion = collection->isAutoVersion();
+
+				if autoVersion {
+				    let modificationTime = filemtime(completeTargetPath);
+					let version = version ? version . "." . modificationTime : modificationTime;
+				}
+
+				if version {
+					let prefixedPath = prefixedPath . "?ver=" . version;
 				}
 
 				/**

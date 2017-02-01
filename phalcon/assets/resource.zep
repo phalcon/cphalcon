@@ -61,16 +61,22 @@ class $Resource implements ResourceInterface
 
 	protected _targetUri { get };
 
+	protected _version { set, get };
+
+	protected _autoVersion = false { set };
+
 	/**
 	 * Phalcon\Assets\Resource constructor
 	 */
-	public function __construct(string type, string path, boolean local = true, boolean filter = true, array attributes = [])
+	public function __construct(string type, string path, boolean local = true, boolean filter = true, attributes = null, var version = null, var autoVersion = null)
 	{
 		let this->_type = type,
 			this->_path = path,
 			this->_local = local,
 			this->_filter = filter,
-			this->_attributes = attributes;
+			this->_attributes = attributes,
+			this->_version = version,
+			this->_autoVersion = autoVersion;
 	}
 
 	/**
@@ -192,12 +198,24 @@ class $Resource implements ResourceInterface
 	 */
 	public function getRealTargetUri() -> string
 	{
-		var targetUri;
+		var targetUri, version, modificationTime;
 
 		let targetUri = this->_targetUri;
 		if empty targetUri {
 			let targetUri = this->_path;
 		}
+
+		let version = this->_version;
+
+		if this->_autoVersion && this->_local {
+			let modificationTime = filemtime(this->getRealSourcePath());
+			let version = version ? version . "." . modificationTime : modificationTime;
+		}
+
+		if version {
+			let targetUri = targetUri . "?ver=" . version;
+		}
+
 		return targetUri;
 	}
 
@@ -253,6 +271,14 @@ class $Resource implements ResourceInterface
 		}
 
 		return targetPath;
+	}
+
+    /**
+     * Checks if resource is using auto version
+     */
+	public function isAutoVersion() -> boolean | null
+	{
+		return this->_autoVersion;
 	}
 
 	/**
