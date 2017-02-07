@@ -48,6 +48,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Mitchell Macpherson
 - Łukasz Krawczyk
 - Gary Rutland ([@garyrutland](https://github.com/garyrutland))
 - Gustavo Miranda 
