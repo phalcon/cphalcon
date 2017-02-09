@@ -84,15 +84,9 @@ class Gettext extends Adapter implements \ArrayAccess
 	 * @param string  domain
 	 * @return string
 	 */
-	public function query(string! index, placeholders = null) -> string
+	public function query(string! index, placeholders = null, string! domain = null) -> string
 	{
-		var translation, domain;
-
-		let domain = null;
-
-		if func_num_args() > 2 {
-			let domain = func_get_arg(2);
-		}
+		var translation;
 
 		if !domain {
 			let translation = gettext(index);
