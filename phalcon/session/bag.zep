@@ -231,6 +231,10 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	 */
 	public function remove(string! property) -> boolean
 	{
+		if this->_initialized === false {
+			this->initialize();
+		}
+
 		var data;
 
 		let data = this->_data;
