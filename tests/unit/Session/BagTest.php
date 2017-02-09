@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Session;
 
+use ReflectionClass;
 use Phalcon\Session\Bag;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Test\Module\UnitTest;
@@ -81,6 +82,54 @@ class BagTest extends UnitTest
                 $bag->a = $value;
 
                 expect($bag->a)->same($value);
+                @session_destroy();
+            }
+        );
+    }
+
+    /**
+     * Delete a value in a bag (not initialized internally)
+     *
+     * @test
+     * @issue  12647
+     * @author Fabio Mora <mail@fabiomora.com>
+     * @since  2017-02-21
+     */
+    public function shouldDeleteInitializeInternalData()
+    {
+        $this->specify(
+            "Delete a value in a non initialized bag has failed",
+            function () {
+                @session_start();
+
+                $reflectionClass = new ReflectionClass(Bag::class);
+                $_data = $reflectionClass->getProperty('_data');
+                $_data->setAccessible(true);
+                $_initialized = $reflectionClass->getProperty('_initialized');
+                $_initialized->setAccessible(true);
+
+                // Setup a bag with a value
+                $bag = new Bag('fruit');
+                $bag->set('apples', 10);
+
+                expect($bag->get('apples'))->same(10);
+                expect($_data->getValue($bag))->same(['apples' => 10]);
+                expect($_initialized->getValue($bag))->true();
+
+                // Emulate a reset of the internal status (e.g. as would be done by a sleep/wakeup handler)
+                $serializedBag = serialize($bag);
+                unset($bag);
+
+                $bag = unserialize($serializedBag);
+                $_data->setValue($bag, null);
+                $_initialized->setValue($bag, false);
+
+                // Delete
+                expect($_initialized->getValue($bag))->false();
+                expect($bag->remove('apples'))->true();
+                expect($bag->get('apples'))->null();
+                expect($_initialized->getValue($bag))->true();
+
                 @session_destroy();
             }
         );
