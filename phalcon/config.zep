@@ -106,11 +106,15 @@ class Config implements \ArrayAccess, \Countable
 	 * );
 	 *</code>
 	 */
-	public function offsetGet(var index) -> string
+	public function offsetGet(var index)
 	{
 		let index = strval(index);
 
-        return this->arrayConfig[index];
+        if isset this->arrayConfig[index]{
+		    return this->arrayConfig[index];
+		}
+		
+        return null;
 	}
 
 	/**
