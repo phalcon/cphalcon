@@ -1,8 +1,8 @@
 # [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (XXXX-XX-XX)
 - Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)
 - Fixed `Phalcon\Forms\Element::label` to accept 0 as label instead of validating it as empty. [#12148](https://github.com/phalcon/cphalcon/issues/12148)
-- Added Aliases for ciphers in `Phalcon\Crypt`
-- Fixed `Phalcon\Mvc\Model` return type ResultsetInterface
+- Fixed `Phalcon\Crypt::getAvailableCiphers`, `Phalcon\Crypt::decrypt`, `Phalcon\Crypt::encrypt` by getting missed aliases for ciphers [#12539](https://github.com/phalcon/cphalcon/pull/12539)
+- Fixed `Phalcon\Mvc\Model` by adding missed `use` statement for `ResultsetInterface` [#12574](https://github.com/phalcon/cphalcon/pull/12574)
 - Fixed adding role after setting default action [#12573](https://github.com/phalcon/cphalcon/issues/12573)
 - Fixed except option in `Phalcon\Validation\Validator\Uniquenss` to allow using except fields other than unique fields
 
