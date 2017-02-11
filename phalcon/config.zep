@@ -49,7 +49,8 @@ use Phalcon\Config\Exception;
  */
 class Config implements \ArrayAccess, \Countable
 {
-
+	protected arrayConfig = [];
+	
 	/**
 	 * Phalcon\Config constructor
 	 */
@@ -58,7 +59,7 @@ class Config implements \ArrayAccess, \Countable
 		var key, value;
 
 		for key, value in arrayConfig {
-			this->offsetSet(key, value);
+			let this->arrayConfig[key] = value;
 		}
 	}
 
@@ -74,8 +75,7 @@ class Config implements \ArrayAccess, \Countable
 	public function offsetExists(var index) -> boolean
 	{
 		let index = strval(index);
-
-		return isset this->{index};
+		return this->arrayConfig[index];
 	}
 
 	/**
@@ -90,10 +90,10 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 
-		if isset this->{index} {
-			return this->{index};
-		}
-
+        if isset this->arrayConfig[index]{
+        	    return this->arrayConfig[index];
+        }
+        
 		return defaultValue;
 	}
 
@@ -110,7 +110,7 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 
-		return this->{index};
+        return this->arrayConfig[index];
 	}
 
 	/**
@@ -127,9 +127,9 @@ class Config implements \ArrayAccess, \Countable
 		let index = strval(index);
 
 		if typeof value === "array" {
-			let this->{index} = new self(value);
+			let this->arrayConfig[index] = value;
 		} else {
-			let this->{index} = value;
+			let this->arrayConfig[index] = value;
 		}
 	}
 
@@ -144,8 +144,7 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 
-		//unset(this->{index});
-		let this->{index} = null;
+		unset this->arrayConfig[index];
 	}
 
 	/**
@@ -182,7 +181,7 @@ class Config implements \ArrayAccess, \Countable
 		var key, value, arrayConfig;
 
 		let arrayConfig = [];
-		for key, value in get_object_vars(this) {
+		for key, value in this->arrayConfig {
 			if typeof value === "object" {
 				if method_exists(value, "toArray") {
 					let arrayConfig[key] = value->toArray();
@@ -211,7 +210,7 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function count() -> int
 	{
-		return count(get_object_vars(this));
+		return count( this->arrayConfig );
 	}
 
 	/**
@@ -240,7 +239,7 @@ class Config implements \ArrayAccess, \Countable
 
 		let number = instance->count();
 
-		for key, value in get_object_vars(config) {
+		for key, value in this->arrayConfig {
 
 			if fetch localObject, instance->{key} {
 				if typeof localObject === "object" && typeof value === "object" {
