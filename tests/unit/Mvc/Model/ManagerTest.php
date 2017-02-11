@@ -2,17 +2,19 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model;
 
+use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Customers;
+use Phalcon\Mvc\Model\MetaData\Memory;
+use Phalcon\Test\Models\AlbumORama\Albums;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\ManagerTest
  * Tests the Phalcon\Mvc\Model\Manager component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
@@ -27,18 +29,23 @@ use Phalcon\Test\Models\Customers;
  */
 class ManagerTest extends UnitTest
 {
-    /**
-     * @var Manager
-     */
-    private $modelsManager;
-
-    protected function _before()
+    protected function setUpModelsManager()
     {
-        parent::_before();
+        $di = Di::getDefault();
+        $db = $di->getShared('db');
 
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $this->tester->getApplication();
-        $this->modelsManager = $app->getDI()->getShared('modelsManager');
+        Di::reset();
+
+        $di = new Di();
+        $manager = new Manager();
+
+        $di->setShared('db', $db);
+        $di->setShared('modelsManager', $manager);
+        $di->setShared('modelsMetadata', Memory::class);
+
+        Di::setDefault($di);
+
+        return $manager;
     }
 
     public function testAliasedNamespacesRelations()
@@ -46,9 +53,13 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Aliased namespaces should work in relations",
             function () {
-                $this->modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
-                $albums = Albums::find();
-                foreach ($albums as $album) {
+                $modelsManager = $this->setUpModelsManager();
+                $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
+
+                expect($modelsManager->getNamespaceAliases())
+                    ->equals(['AlbumORama' => 'Phalcon\Test\Models\AlbumORama']);
+
+                foreach (Albums::find() as $album) {
                     expect($album->artist)->isInstanceOf('Phalcon\Test\Models\AlbumORama\Artists');
                 }
             }
@@ -66,7 +77,9 @@ class ManagerTest extends UnitTest
         $this->specify(
             'The Manager::isVisibleModelProperty does not check public property correctly',
             function ($property, $expected) {
-                expect($this->modelsManager->isVisibleModelProperty(new Customers, $property))->equals($expected);
+                $modelsManager = $this->setUpModelsManager();
+
+                expect($modelsManager->isVisibleModelProperty(new Customers, $property))->equals($expected);
             },
             [
                 'examples' => [
