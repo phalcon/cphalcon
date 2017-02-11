@@ -245,13 +245,13 @@ class Config implements \ArrayAccess, \Countable
 		let number = instance->count();
 
 		for key, value in this->data {
+		
 			let localObject = instance->offsetGet(key);
-			if localObject {
-				if typeof localObject === "object" && typeof value === "object" {
-					if localObject instanceof Config && value instanceof Config {
-						this->_merge(value, localObject);
-						continue;
-					}
+			
+			if localObject && typeof localObject === "object" && typeof value === "object" {
+				if localObject instanceof Config && value instanceof Config {
+					this->_merge(value, localObject);
+					continue;
 				}
 			}
 
