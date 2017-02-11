@@ -48,6 +48,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Łukasz Krawczyk
 - Gary Rutland ([@garyrutland](https://github.com/garyrutland))
 - Gustavo Miranda 
 - Ignacio Vazquez
@@ -59,6 +60,9 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
+- Mateusz B
+- Valerio Belli
+- Angel Vega
 - Thien Tran ([@duythien](https://github.com/duythien))
 - Magnus Holvid
 - Semen Pinigin
