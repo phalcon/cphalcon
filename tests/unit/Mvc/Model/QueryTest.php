@@ -4634,7 +4634,7 @@ class QueryTest extends UnitTest
                         )
                     ],
                     [
-                        "phql"     => 'SELECT ' . Robotters:: class . '.* FROM ' . Robotters::class,
+                        "phql"     => 'SELECT ' . Robotters::class . '.* FROM ' . Robotters::class,
                         "expected" => array(
                             'models' => array(
                                 Robotters::class,
