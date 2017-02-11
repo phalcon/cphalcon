@@ -2,7 +2,8 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Test\Models\Personers;
+use Phalcon\Di;
+use Phalcon\Mvc\Model\Manager;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
@@ -12,7 +13,9 @@ use Phalcon\Test\Models\Boutique;
 use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Robotters;
+use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Customers;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\BodyParts\Body;
@@ -25,8 +28,8 @@ use Phalcon\Test\Models\Snapshot\RobotsParts as SnapshotRobotsParts;
  * \Phalcon\Test\Unit\Mvc\ModelTest
  * Tests the Phalcon\Mvc\Model component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
@@ -41,17 +44,25 @@ use Phalcon\Test\Models\Snapshot\RobotsParts as SnapshotRobotsParts;
  */
 class ModelTest extends UnitTest
 {
-    /**
-     * @var \Phalcon\Mvc\Model\Manager
-     */
-    private $modelsManager;
-
-    protected function _before()
+    protected function setUpModelsManager()
     {
-        parent::_before();
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $this->tester->getApplication();
-        $this->modelsManager = $app->getDI()->getShared('modelsManager');
+        $di = Di::getDefault();
+        $db = $di->getShared('db');
+
+        Di::reset();
+
+        $di = new Di();
+
+        $manager = new Manager();
+        $manager->setDI($di);
+
+        $di->setShared('db', $db);
+        $di->setShared('modelsManager', $manager);
+        $di->setShared('modelsMetadata', Memory::class);
+
+        Di::setDefault($di);
+
+        return $manager;
     }
 
     public function testCamelCaseRelation()
@@ -59,7 +70,9 @@ class ModelTest extends UnitTest
         $this->specify(
             "CamelCase relation calls should be the same cache",
             function () {
-                $this->modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
+                $modelsManager = $this->setUpModelsManager();
+
+                $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
                 $album = Albums::findFirst();
 
                 $album->artist->name = 'NotArtist';
@@ -332,12 +345,11 @@ class ModelTest extends UnitTest
         $this->specify(
             "Single row resultsets aren't JSON serialized or JSON unserialized properly",
             function () {
+                $modelsManager = $this->setUpModelsManager();
                 $robot = Robots::findFirst();
 
                 // Single row serialization
-                $result = $this->modelsManager->executeQuery(
-                    "SELECT id FROM " . Robots::class . " LIMIT 1"
-                );
+                $result = $modelsManager->executeQuery("SELECT id FROM " . Robots::class . " LIMIT 1");
 
                 expect($result)->isInstanceOf('Phalcon\Mvc\Model\Resultset\Simple');
 
@@ -592,8 +604,8 @@ class ModelTest extends UnitTest
         $this->specify(
             "Normal snapshots don't work",
             function () {
-                $snapshots = array(
-                    1 => array(
+                $snapshots = [
+                    1 => [
                         'id' => '1',
                         'name' => 'Robotina',
                         'type' => 'mechanical',
@@ -601,8 +613,8 @@ class ModelTest extends UnitTest
                         'datetime' => '1972-01-01 00:00:00',
                         'deleted' => null,
                         'text' => 'text'
-                    ),
-                    2 => array(
+                    ],
+                    2 => [
                         'id' => '2',
                         'name' => 'Astro Boy',
                         'type' => 'mechanical',
@@ -610,8 +622,8 @@ class ModelTest extends UnitTest
                         'datetime' => '1952-01-01 00:00:00',
                         'deleted' => null,
                         'text' => 'text'
-                    ),
-                    3 => array(
+                    ],
+                    3 => [
                         'id' => '3',
                         'name' => 'Terminator',
                         'type' => 'cyborg',
@@ -619,15 +631,15 @@ class ModelTest extends UnitTest
                         'datetime' => '2029-01-01 00:00:00',
                         'deleted' => null,
                         'text' => 'text'
-                    )
-                );
+                    ]
+                ];
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                foreach (SnapshotRobots::find(['order' => 'id']) as $robot) {
                     expect($robot->hasSnapshotData())->true();
                     expect($snapshots[$robot->id])->equals($robot->getSnapshotData());
                 }
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                foreach (SnapshotRobots::find(['order' => 'id']) as $robot) {
                     $robot->name = 'Some';
                     $robot->year = 1999;
                     expect($robot->hasChanged('name'))->true();
@@ -636,16 +648,16 @@ class ModelTest extends UnitTest
                     expect($robot->hasChanged())->true();
                 }
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                foreach (SnapshotRobots::find(['order' => 'id']) as $robot) {
                     $robot->year = $robot->year;
                     expect($robot->hasChanged('year'))->false();
                     expect($robot->hasChanged())->false();
                 }
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
+                foreach (SnapshotRobots::find(['order' => 'id']) as $robot) {
                     $robot->name = 'Little';
                     $robot->year = 2005;
-                    expect($robot->getChangedFields())->equals(array('name', 'year'));
+                    expect($robot->getChangedFields())->equals(['name', 'year']);
                 }
             }
         );
@@ -656,8 +668,8 @@ class ModelTest extends UnitTest
         $this->specify(
             "Renamed snapshots don't work",
             function () {
-                $snapshots = array(
-                    1 => array(
+                $snapshots = [
+                    1 => [
                         'code' => '1',
                         'theName' => 'Robotina',
                         'theType' => 'mechanical',
@@ -665,8 +677,8 @@ class ModelTest extends UnitTest
                         'theDatetime' => '1972-01-01 00:00:00',
                         'theDeleted' => null,
                         'theText' => 'text',
-                    ),
-                    2 => array(
+                    ],
+                    2 => [
                         'code' => '2',
                         'theName' => 'Astro Boy',
                         'theType' => 'mechanical',
@@ -674,8 +686,8 @@ class ModelTest extends UnitTest
                         'theDatetime' => '1952-01-01 00:00:00',
                         'theDeleted' => null,
                         'theText' => 'text',
-                    ),
-                    3 => array(
+                    ],
+                    3 => [
                         'code' => '3',
                         'theName' => 'Terminator',
                         'theType' => 'cyborg',
@@ -683,15 +695,15 @@ class ModelTest extends UnitTest
                         'theDatetime' => '2029-01-01 00:00:00',
                         'theDeleted' => null,
                         'theText' => 'text',
-                    )
-                );
+                    ]
+                ];
 
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                foreach (SnapshotRobotters::find(['order' => 'code']) as $robot) {
                     expect($robot->hasSnapshotData())->true();
                     expect($snapshots[$robot->code])->equals($robot->getSnapshotData());
                 }
 
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                foreach (SnapshotRobotters::find(['order' => 'code']) as $robot) {
                     $robot->theName = 'Some';
                     $robot->theYear = 1999;
                     expect($robot->hasChanged('theName'))->true();
@@ -700,16 +712,16 @@ class ModelTest extends UnitTest
                     expect($robot->hasChanged())->true();
                 }
 
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                foreach (SnapshotRobotters::find(['order' => 'code']) as $robot) {
                     $robot->theYear = $robot->theYear;
                     expect($robot->hasChanged('theYear'))->false();
                     expect($robot->hasChanged())->false();
                 }
 
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
+                foreach (SnapshotRobotters::find(['order' => 'code']) as $robot) {
                     $robot->theName = 'Little';
                     $robot->theYear = 2005;
-                    expect($robot->getChangedFields())->equals(array('theName', 'theYear'));
+                    expect($robot->getChangedFields())->equals(['theName', 'theYear']);
                 }
             }
         );
@@ -720,9 +732,8 @@ class ModelTest extends UnitTest
         $this->specify(
             "Normal complex snapshots don't work",
             function () {
-                $robots = $this->modelsManager->executeQuery(
-                    'SELECT * FROM ' . SnapshotRobots::class
-                );
+                $modelsManager = $this->setUpModelsManager();
+                $robots = $modelsManager->executeQuery('SELECT * FROM ' . SnapshotRobots::class);
 
                 foreach ($robots as $robot) {
                     $robot->name = 'Some';
@@ -731,13 +742,15 @@ class ModelTest extends UnitTest
                     expect($robot->hasChanged('year'))->true();
                     expect($robot->hasChanged('type'))->false();
                     expect($robot->hasChanged())->true();
-                    expect($robot->getChangedFields())->equals(array('name', 'year'));
+                    expect($robot->getChangedFields())->equals(['name', 'year']);
                 }
 
-
-
-                $robots = $this->modelsManager->executeQuery(
-                    'SELECT robot.*, parts.* FROM ' . SnapshotRobots::class . ' robot JOIN ' . SnapshotRobotsParts::class . ' parts'
+                $robots = $modelsManager->executeQuery(
+                    'SELECT robot.*, parts.* FROM ' .
+                    SnapshotRobots::class .
+                    ' robot JOIN ' .
+                    SnapshotRobotsParts::class .
+                    ' parts'
                 );
 
                 foreach ($robots as $row) {
@@ -748,14 +761,14 @@ class ModelTest extends UnitTest
                     expect($row->robot->hasChanged('year'))->true();
                     expect($row->robot->hasChanged('type'))->false();
                     expect($row->robot->hasChanged())->true();
-                    expect($row->robot->getChangedFields())->equals(array('name', 'year'));
+                    expect($row->robot->getChangedFields())->equals(['name', 'year']);
 
                     $this->assertTrue($row->parts->hasSnapshotData());
                 }
             }
         );
     }
-    
+
     /**
      * for PR #12507
      */
@@ -769,22 +782,22 @@ class ModelTest extends UnitTest
                 $personers->slagBorgerId = 1;
                 $personers->kredit       = 2.3;
                 $personers->status       = 'A';
-            
+
                 //  test field for create
                 $personers->navnes = '';
                 $created           = $personers->create();
                 expect($created)->true();
-            
+
                 //  write something to not null default '' field
                 $personers->navnes = 'save something!';
                 $saved             = $personers->save();
                 expect($saved)->true();
-            
+
                 //  test field for update
                 $personers->navnes = '';
                 $saved             = $personers->save();
                 expect($saved)->true();
-            
+
                 $personers->delete();
             }
         );

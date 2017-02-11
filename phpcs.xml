@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="Phalcon">
+    <description>Phalcon Coding Standards</description>
+    <arg value="-colors"/>
+    <arg value="s"/>
+    <rule ref="PSR2"/>
+    <file>tests/integration</file>
+    <file>tests/unit</file>
+</ruleset>
