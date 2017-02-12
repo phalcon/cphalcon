@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -77,28 +77,17 @@ class Gettext extends Adapter implements \ArrayAccess
 	}
 
 	/**
-	 * Returns the translation related to the given key
+	 * Returns the translation related to the given key.
 	 *
-	 * @param string  index
-	 * @param array   placeholders
-	 * @param string  domain
-	 * @return string
+	 * <code>
+	 * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
+	 * </code>
 	 */
 	public function query(string! index, placeholders = null) -> string
 	{
-		var translation, domain;
+		var translation;
 
-		let domain = null;
-
-		if func_num_args() > 2 {
-			let domain = func_get_arg(2);
-		}
-
-		if !domain {
-			let translation = gettext(index);
-		} else {
-			let translation = dgettext(domain, index);
-		}
+		let translation = gettext(index);
 
 		return this->replacePlaceholders(translation, placeholders);
 	}
