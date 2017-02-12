@@ -5,7 +5,8 @@
 - Fixed `Phalcon\Mvc\Model` by adding missed `use` statement for `ResultsetInterface` [#12574](https://github.com/phalcon/cphalcon/pull/12574)
 - Fixed adding role after setting default action [#12573](https://github.com/phalcon/cphalcon/issues/12573)
 - Fixed except option in `Phalcon\Validation\Validator\Uniquenss` to allow using except fields other than unique fields
-- Cleaned `Phalcon\Translate\Adapter\Gettext::query` and removed ability to pass custom domain. The `Phalcon\Translate\Adapter\Gettext::query` must be compatible with `Phalcon\Translate\AdapterInterface::query` [#12598](https://github.com/phalcon/cphalcon/issues/12598), [#12606](https://github.com/phalcon/cphalcon/pull/12606)
+- Cleaned `Phalcon\Translate\Adapter\Gettext::query` and removed ability to pass custom domain [#12598](https://github.com/phalcon/cphalcon/issues/12598), [#12606](https://github.com/phalcon/cphalcon/pull/12606)
+- Fixed `Phalcon\Validation\Message\Group::offsetUnset` to correct unsetting a message by index [#12455](https://github.com/phalcon/cphalcon/issues/12455)
 
 # [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (2016-12-24)
 - Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
