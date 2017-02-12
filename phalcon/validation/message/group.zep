@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -109,15 +109,12 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *<code>
 	 * unset($message["database"]);
 	 *</code>
-	 *
-	 * @param string index
 	 */
 	public function offsetUnset(index)
 	{
 		if isset this->_messages[index] {
-			unset this->_messages[index];
+			array_splice(this->_messages, index, 1);
 		}
-		return false;
 	}
 
 	/**
