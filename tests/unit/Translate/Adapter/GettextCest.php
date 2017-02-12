@@ -9,10 +9,10 @@ use Phalcon\Translate\Adapter\Gettext;
  * \Phalcon\Test\Unit\Translate\Adapter\GettextCest
  * Tests the \Phalcon\Translate\Adapter\Gettext component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Translate\Adapter\
+ * @package   Phalcon\Test\Unit\Translate\Adapter
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
