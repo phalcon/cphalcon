@@ -188,7 +188,7 @@ class Config implements \ArrayAccess, \Countable
 		let arrayConfig = [];
 		for key, value in this->data {
 			if typeof value === "object" {
-				if method_exists(value, "toArray") {
+				if value instanceof Config && method_exists(value, "toArray") {
 					let arrayConfig[key] = value->toArray();
 				} else {
 					let arrayConfig[key] = value;
