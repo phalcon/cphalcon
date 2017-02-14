@@ -76,7 +76,7 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 		
-		return isset this->data[index];
+		return array_key_exists( index, this->data  );
 	}
 
 	/**
@@ -91,8 +91,9 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 
-        if isset this->data[index]{
-        	    return this->data[index];
+		var objData;
+        if fetch objData, this->data[index] && objData != null {
+        	    return objData;
         }
         
 		return defaultValue;
