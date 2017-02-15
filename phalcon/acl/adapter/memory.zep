@@ -529,6 +529,9 @@ class Memory extends Adapter
 	 * //Do guests have access to any resource to edit?
 	 * $acl->isAllowed("guests", "*", "edit");
 	 * </code>
+	 *
+	 * @param  RoleInterface|RoleAware|string roleName
+	 * @param  ResourceInterface|ResourceAware|string resourceName
 	 */
 	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
 	{
@@ -540,19 +543,26 @@ class Memory extends Adapter
 			reflectionParameter;
 
 		if typeof roleName == "object" {
-			if !(roleName instanceof RoleAware) {
-				throw new Exception("Object passed as roleName must implement RoleAware");
+			if roleName instanceof RoleAware {
+				let roleObject = roleName;
+				let roleName = roleObject->getRoleName();
+			} elseif roleName instanceof RoleInterface {
+				let roleName = roleName->getName();
+			} else {
+				throw new Exception("Object passed as roleName must implement Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface");
 			}
-			let roleObject = roleName;
-			let roleName = roleObject->getRoleName();
 		}
 
 		if typeof resourceName == "object" {
-			if !(resourceName instanceof ResourceAware) {
-				throw new Exception("Object passed as resourceName must implement ResourceAware");
+			if resourceName instanceof ResourceAware {
+				let resourceObject = resourceName;
+				let resourceName = resourceObject->getResourceName();
+			} elseif resourceName instanceof ResourceInterface {
+				let resourceName = resourceName->getName();
+			} else {
+				throw new Exception("Object passed as resourceName must implement Phalcon\\Acl\\ResourceAware or Phalcon\\Acl\\ResourceInterface");
 			}
-			let resourceObject = resourceName;
-			let resourceName = resourceObject->getResourceName();
+
 		}
 
 		let this->_activeRole = roleName;

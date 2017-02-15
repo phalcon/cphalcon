@@ -740,4 +740,30 @@ class MemoryTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests role and resource objects as isAllowed parameters
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-02-15
+     */
+    public function testRoleResourceObjects()
+    {
+        $this->specify(
+            "Role and Resource objects doesn't work with isAllowed method",
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $role = new Role('Guests');
+                $resource = new Resource('Post');
+                $acl->addRole($role);
+                $acl->addResource($resource, ['index', 'update', 'create']);
+
+                $acl->allow('Guests', 'Post', 'index');
+
+                expect($acl->isAllowed($role, $resource, 'index'))->true();
+                expect($acl->isAllowed($role, $resource, 'update'))->false();
+            }
+        );
+    }
 }
