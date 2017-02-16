@@ -193,8 +193,8 @@ trait PostgresqlDialect
             ['schema', 'index1',  'CREATE INDEX "index1" ON "schema"."table" ("column1")'],
             [null,     'index2',  'CREATE INDEX "index2" ON "table" ("column1", "column2")'],
             ['schema', 'index2',  'CREATE INDEX "index2" ON "schema"."table" ("column1", "column2")'],
-            [null,     'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
+            [null,     'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
             [null,     'index4',  'CREATE UNIQUE INDEX "index4" ON "table" ("column4")'],
             ['schema', 'index4',  'CREATE UNIQUE INDEX "index4" ON "schema"."table" ("column4")'],
         ];
@@ -395,16 +395,16 @@ trait PostgresqlDialect
     protected function getAddPrimaryKey()
     {
         return [
-            [null,     'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
+            [null,     'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
         ];
     }
 
     protected function getDropPrimaryKey()
     {
         return [
-            [null, 'ALTER TABLE "table" DROP CONSTRAINT "PRIMARY"'],
-            ['schema', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "PRIMARY"'],
+            [null, 'ALTER TABLE "table" DROP CONSTRAINT "table_PRIMARY"'],
+            ['schema', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "table_PRIMARY"'],
         ];
     }
 
