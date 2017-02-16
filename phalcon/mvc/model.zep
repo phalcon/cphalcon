@@ -3901,7 +3901,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * Check if the field has changed
 			 */
-			if value != snapshot[name] {
+			if value !== snapshot[name] {
 				let changed[] = name;
 				continue;
 			}
