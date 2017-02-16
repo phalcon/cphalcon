@@ -242,8 +242,8 @@ class PostgresqlCest extends DialectBase
             ['schema', 'index1', 'CREATE INDEX "index1" ON "schema"."table" ("column1")'],
             ['', 'index2', 'CREATE INDEX "index2" ON "table" ("column1", "column2")'],
             ['schema', 'index2', 'CREATE INDEX "index2" ON "schema"."table" ("column1", "column2")'],
-            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
+            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
             ['', 'index4', 'CREATE UNIQUE INDEX "index4" ON "table" ("column4")'],
             ['schema', 'index4', 'CREATE UNIQUE INDEX "index4" ON "schema"."table" ("column4")'],
         ];
@@ -255,8 +255,8 @@ class PostgresqlCest extends DialectBase
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [
-            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "PRIMARY" PRIMARY KEY ("column3")'],
+            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
         ];
     }
 
@@ -615,8 +615,8 @@ class PostgresqlCest extends DialectBase
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [
-            ['', 'ALTER TABLE "table" DROP CONSTRAINT "PRIMARY"'],
-            ['schema', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "PRIMARY"'],
+            ['', 'ALTER TABLE "table" DROP CONSTRAINT "table_PRIMARY"'],
+            ['schema', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "table_PRIMARY"'],
         ];
     }
 
