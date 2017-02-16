@@ -287,7 +287,7 @@ class Postgresql extends Dialect
 	 */
 	public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
 	{
-		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD CONSTRAINT \"" . tableName . "_PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
 	}
 
 	/**
@@ -295,7 +295,7 @@ class Postgresql extends Dialect
 	 */
 	public function dropPrimaryKey(string! tableName, string! schemaName) -> string
 	{
-		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP CONSTRAINT \"PRIMARY\"";
+		return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP CONSTRAINT \"" . tableName . "_PRIMARY\"";
 	}
 
 	/**
