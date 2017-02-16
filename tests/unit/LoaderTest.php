@@ -318,4 +318,78 @@ class LoaderTest extends UnitTest
             }
         );
     }
+
+    public function testPrepend() {
+        $this->specify(
+            'The loader is not pre-pending the loader',
+            function() {
+                $dataObject = (object) array(
+                    'wasCalled' => FALSE,
+                    'className' => ''
+                );
+
+                $autoRegister = function($className) use ($dataObject) {
+                    $dataObject->className = $className;
+                    $dataObject->wasCalled = TRUE;
+
+                    return new \Example\Adapter\Some();
+                };
+
+                spl_autoload_register($autoRegister);
+
+                $loader = new Loader();
+
+                $loader->setPrepend(TRUE)
+                       ->registerClasses(['AnotherTest' => PATH_DATA . 'vendor/Example/Test/AnotherTest.php'])
+                       ->register();
+
+                expect(class_exists('\AnotherTest', FALSE))->false();
+
+                expect(new \AnotherTest())->isInstanceOf('\AnotherTest');
+
+                expect($dataObject->wasCalled)->false();
+                expect($dataObject->className)->equals('');
+
+                $loader->unregister();
+
+                spl_autoload_unregister($autoRegister);
+            }
+        );
+
+        $this->specify(
+            'The loader is not appending the loader',
+            function() {
+                $dataObject = (object) array(
+                    'wasCalled' => FALSE,
+                    'className' => ''
+                );
+
+                $autoRegister = function($className) use ($dataObject) {
+                    $dataObject->className = $className;
+                    $dataObject->wasCalled = TRUE;
+
+                    return FALSE;
+                };
+
+                spl_autoload_register($autoRegister);
+
+                $loader = new Loader();
+
+                $loader->setPrepend(FALSE)
+                       ->registerClasses(['YetAnotherTest' => PATH_DATA . 'vendor/Example/Test/YetAnotherTest.php'])
+                       ->register();
+
+                expect(class_exists('\YetAnotherTest', FALSE))->false();
+
+                expect(new \YetAnotherTest())->isInstanceOf('\YetAnotherTest');
+
+                expect($dataObject->wasCalled)->true();
+                expect($dataObject->className)->equals('YetAnotherTest');
+
+                $loader->unregister();
+
+                spl_autoload_unregister($autoRegister);
+            }
+        );
+    }
 }
