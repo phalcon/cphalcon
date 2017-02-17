@@ -48,6 +48,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Robert Al-Romhein
 - Łukasz Krawczyk
 - Gary Rutland ([@garyrutland](https://github.com/garyrutland))
 - Gustavo Miranda 
@@ -60,6 +61,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
+- Philipp Sundermeyer
 - Mateusz B
 - Valerio Belli
 - Angel Vega
