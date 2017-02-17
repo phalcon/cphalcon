@@ -13,15 +13,47 @@
 #
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
 #            Eduar Carvajal <eduar@phalconphp.com>
+#
+#  Available params:
+#  --arch
+#  --phpize
+#  --php-config
+#
+#  Example:
+#  ./install --phpize /usr/bin/phpize5.6 --php-config /usr/bin/php-config5.6
 
 # Check best compilation flags for GCC
 export CC="gcc"
 export CFLAGS="-march=native -mtune=native -O2 -fomit-frame-pointer"
 export CPPFLAGS="-DPHALCON_RELEASE"
 
-#PHP_CONFIG=`php-config --version`
+# Set defaults
+ARCH=
+PHPIZE_BIN=phpize
+PHPCONFIG_BIN=php-config
 
-PHP_FULL_VERSION=`php-config --version`
+# Translate long options to short
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--arch") set -- "$@" "-a" ;;
+    "--phpize") set -- "$@" "-i" ;;
+    "--php-config") set -- "$@" "-c" ;;
+    *) set -- "$@" "$arg"
+  esac
+done
+
+# Options switcher
+while getopts a:i:c: opts; do
+   case ${opts} in
+      a) ARCH=${OPTARG} ;;
+      i) PHPIZE_BIN=${OPTARG} ;;
+      c) PHPCONFIG_BIN=${OPTARG} ;;
+   esac
+done
+
+PHP_FULL_VERSION=`${PHPCONFIG_BIN} --version`
+
 if [ $? != 0 ]; then
 	echo "php-config is not installed"
 	exit 1
@@ -64,7 +96,7 @@ fi
 rm -f t.t t.c t
 
 # Check processor architecture
-if [ -z $1 ]; then
+if [ -z ${ARCH} ]; then
 	DIR="32bits"
 	gcc gccarch.c -o gccarch
 	if [ -f gccarch ]; then
@@ -74,7 +106,7 @@ if [ -z $1 ]; then
 		fi
 	fi
 else
-	DIR=$1
+	DIR=${ARCH}
 fi
 
 # Move to specified architecture
@@ -83,8 +115,12 @@ cd "$PHP_VERSION/$DIR"
 # Clean current compilation
 if [ -f Makefile ]; then
 	make clean
-	phpize --clean
+	${PHPIZE_BIN} --clean
 fi
 
 # Perform the compilation
-phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+${PHPIZE_BIN} && \
+./configure --with-php-config=${PHPCONFIG_BIN} --enable-phalcon && \
+make && \
+make install && \
+echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
