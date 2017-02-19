@@ -13,7 +13,7 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1205385)
 
-No pledges yet. 
+No pledges yet.
 
 
 ### Silver Sponsor - ($250 or more)
@@ -33,7 +33,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1204282)
 
-No pledges yet. 
+No pledges yet.
 
 
 ### Gold Backer ($50 or more)
@@ -48,9 +48,11 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Carlos Cardozo
+- Robert Al-Romhein
 - Łukasz Krawczyk
 - Gary Rutland ([@garyrutland](https://github.com/garyrutland))
-- Gustavo Miranda 
+- Gustavo Miranda
 - Ignacio Vazquez
 - Jonny Paylor ([@jpaylor](https://github.com/jpaylor))
 - Agapie Aurel
@@ -60,6 +62,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
+- Philipp Sundermeyer
 - Mateusz B
 - Valerio Belli
 - Angel Vega
