@@ -8,7 +8,7 @@ use Phalcon\Queue\Beanstalk as PhBeanstalk;
  * \Phalcon\Test\Proxy\Queue\Beanstalk
  * Beanstalk proxy class for \Phalcon\Queue\Beanstalk
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

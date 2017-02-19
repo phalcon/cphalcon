@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_9$$6);
 		ZVAL_STRING(_9$$6, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 466, _8$$6, field, _9$$6, code);
+		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 465, _8$$6, field, _9$$6, code);
 		zephir_check_temp_parameter(_9$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$6);

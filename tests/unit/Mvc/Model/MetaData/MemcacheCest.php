@@ -11,7 +11,7 @@ use Phalcon\Test\Proxy\Mvc\Model\Metadata\Memcache;
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\MemcacheCest
  * Tests the \Phalcon\Mvc\Model\Metadata\Memcache component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

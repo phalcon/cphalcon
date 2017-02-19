@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_8);
 	ZVAL_STRING(_8, "Digit", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 466, _7, field, _8, code);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 465, _7, field, _8, code);
 	zephir_check_temp_parameter(_8);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2);

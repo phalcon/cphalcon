@@ -7,7 +7,7 @@ use Phalcon\Mvc\Model;
 /**
  * \Phalcon\Test\Models\RobotsParts
  *
- * @copyright 2011-2016 Phalcon Team
+ * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

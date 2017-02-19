@@ -8,7 +8,7 @@ use Phalcon\Logger\Adapter\File as PhFile;
  * \Phalcon\Test\Proxy\Logger\Adapter\File
  * File proxy class for \Phalcon\Logger\Adapter\File
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

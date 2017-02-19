@@ -576,9 +576,10 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel) {
  */
 PHP_METHOD(Phalcon_Forms_Element, label) {
 
+	zend_bool _2;
 	zephir_fcall_cache_entry *_0 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes = NULL, *internalAttributes = NULL, *label = NULL, *name = NULL, *code = NULL, *_1, *_2$$7, *_3$$8;
+	zval *attributes = NULL, *internalAttributes = NULL, *label = NULL, *name = NULL, *code = NULL, *_1, *_3$$7, *_4$$8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes);
@@ -611,15 +612,20 @@ PHP_METHOD(Phalcon_Forms_Element, label) {
 	ZEPHIR_CALL_CE_STATIC(&code, phalcon_tag_ce, "renderattributes", &_0, 4, _1, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
-	label = zephir_fetch_nproperty_this(this_ptr, SL("_label"), PH_NOISY_CC);
-	if (zephir_is_true(label)) {
-		ZEPHIR_INIT_VAR(_2$$7);
-		ZEPHIR_CONCAT_SVS(_2$$7, ">", label, "</label>");
-		zephir_concat_self(&code, _2$$7 TSRMLS_CC);
+	ZEPHIR_OBS_VAR(label);
+	zephir_read_property_this(&label, this_ptr, SL("_label"), PH_NOISY_CC);
+	_2 = zephir_is_true(label);
+	if (!(_2)) {
+		_2 = zephir_is_numeric(label);
+	}
+	if (_2) {
+		ZEPHIR_INIT_VAR(_3$$7);
+		ZEPHIR_CONCAT_SVS(_3$$7, ">", label, "</label>");
+		zephir_concat_self(&code, _3$$7 TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_VAR(_3$$8);
-		ZEPHIR_CONCAT_SVS(_3$$8, ">", name, "</label>");
-		zephir_concat_self(&code, _3$$8 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_4$$8);
+		ZEPHIR_CONCAT_SVS(_4$$8, ">", name, "</label>");
+		zephir_concat_self(&code, _4$$8 TSRMLS_CC);
 	}
 	RETURN_CCTOR(code);
 

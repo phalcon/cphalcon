@@ -8,7 +8,7 @@ use Phalcon\Translate\Interpolator\AssociativeArray as PhAssociativeArray;
  * \Phalcon\Test\Proxy\Translate\Interpolator\AssociativeArray
  * AssociativeArray Interpolator proxy class for \Phalcon\Translate\Interpolator\AssociativeArray
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

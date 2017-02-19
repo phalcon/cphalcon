@@ -8,7 +8,7 @@ use Phalcon\Text as PhText;
  * Phalcon\Test\Proxy\Text.php
  * Text proxy class for \Phalcon\Text
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

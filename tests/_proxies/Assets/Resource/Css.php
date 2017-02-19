@@ -8,7 +8,7 @@ use Phalcon\Assets\Resource\Css as PhCss;
  * \Phalcon\Test\Proxy\Assets\Resource\Css
  * Css Resource proxy class for \Phalcon\Assets\Resource\Css
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

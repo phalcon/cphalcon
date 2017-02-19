@@ -12,7 +12,7 @@ use Phalcon\Validation\Validator\Date;
  * \Phalcon\Test\Unit\Validation\Validator\DateTest
  * Tests the \Phalcon\Validation\Validator\Date component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -69,13 +69,13 @@ class DateTest extends UnitTest
             ]));
 
 
-            expect($validation->validate(['date' => '2016-06-05', 'anotherDate' => '05-06-2016']))->count(0);
+            expect($validation->validate(['date' => '2016-06-05', 'anotherDate' => '05-06-2017']))->count(0);
 
-            $messages = $validation->validate(['date' => '2016-06-32', 'anotherDate' => '05-06-2016']);
+            $messages = $validation->validate(['date' => '2016-06-32', 'anotherDate' => '05-06-2017']);
             expect($messages)->count(1);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['date']);
 
-            $messages = $validation->validate(['date' => '2016-06-32', 'anotherDate' => '32-06-2016']);
+            $messages = $validation->validate(['date' => '2016-06-32', 'anotherDate' => '32-06-2017']);
             expect($messages)->count(2);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['date']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['anotherDate']);

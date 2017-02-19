@@ -8,7 +8,7 @@ use Phalcon\Flash\Direct as PhDirect;
  * \Phalcon\Test\Proxy\Flash\Direct
  * Flash Direct proxy class for \Phalcon\Flash\Direct
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

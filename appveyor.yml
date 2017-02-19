@@ -77,12 +77,10 @@ install:
   - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3rc1/php_imagick-3.4.3rc1-5.6-ts-vc11-x86.zip', 'c:\php_imagick\php_imagick.zip')
   - 7z.exe x php_imagick.zip | FIND /V "ing  "
 
-  - echo Building Phalcon
+  - echo Download Zephir
   - cd %APPVEYOR_BUILD_FOLDER%
   - appveyor DownloadFile https://getcomposer.org/composer.phar
   - php composer.phar install --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-reqs
-  - php composer.phar require "phalcon/zephir:dev-master" --no-progress --no-suggest --ignore-platform-reqs
-
   - echo Setting Up Zephir
   - 'vendor\bin\zephir help'
 

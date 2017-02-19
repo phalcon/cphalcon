@@ -8,7 +8,7 @@ use Phalcon\Security\Random as PhRandom;
  * \Phalcon\Test\Proxy\Security\Random
  * Random proxy class for \Phalcon\Security\Random
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Proxy\Security

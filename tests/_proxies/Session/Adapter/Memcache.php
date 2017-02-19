@@ -8,7 +8,7 @@ use Phalcon\Session\Adapter\Memcache as PhMemcache;
  * \Phalcon\Test\Proxy\Session\Adapter\Memcache
  * Memcache session proxy class for \Phalcon\Session\Adapter\Memcache
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
