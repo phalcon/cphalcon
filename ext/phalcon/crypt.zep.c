@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
 }
 
 /**
- * Changes the padding scheme used	 
+ * Changes the padding scheme used
  */
 PHP_METHOD(Phalcon_Crypt, setPadding) {
 
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	zephir_substr(_2, cipher, zephir_get_intval(&_0), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	ZEPHIR_INIT_VAR(mode);
 	zephir_fast_strtolower(mode, _2);
-	ZEPHIR_CALL_FUNCTION(&_3, "openssl_get_cipher_methods", NULL, 145);
+	ZEPHIR_CALL_FUNCTION(&_3, "openssl_get_cipher_methods", NULL, 145, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	if (!(zephir_fast_in_array(cipher, _3 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Cipher algorithm is unknown", "phalcon/crypt.zep", 297);
@@ -749,7 +749,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	zephir_substr(_2, cipher, zephir_get_intval(&_0), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	ZEPHIR_INIT_VAR(mode);
 	zephir_fast_strtolower(mode, _2);
-	ZEPHIR_CALL_FUNCTION(&_3, "openssl_get_cipher_methods", NULL, 145);
+	ZEPHIR_CALL_FUNCTION(&_3, "openssl_get_cipher_methods", NULL, 145, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	if (!(zephir_fast_in_array(cipher, _3 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Cipher algorithm is unknown", "phalcon/crypt.zep", 348);
@@ -922,7 +922,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("openssl_get_cipher_methods", NULL, 145);
+	ZEPHIR_RETURN_CALL_FUNCTION("openssl_get_cipher_methods", NULL, 145, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	RETURN_MM();
 
