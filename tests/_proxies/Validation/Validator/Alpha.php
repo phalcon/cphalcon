@@ -9,7 +9,7 @@ use Phalcon\Validation\Validator\Alpha as PhAlpha;
  * \Phalcon\Test\Proxy\Validation\Validator\Alpha
  * A proxy class for \Phalcon\Validation\Validator\Alpha
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

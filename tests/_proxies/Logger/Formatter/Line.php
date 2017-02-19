@@ -8,7 +8,7 @@ use Phalcon\Logger\Formatter\Line as PhLine;
  * \Phalcon\Test\Proxy\Logger\Formatter\Line
  * Line Formatter proxy class for \Phalcon\Logger\Formatter\Line
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

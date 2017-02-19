@@ -12,7 +12,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @method static Simple findByType(string $type)
  * @method static Robots findFirstById(string|int $id)
  *
- * @copyright 2011-2016 Phalcon Team
+ * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

@@ -13,7 +13,7 @@ use Phalcon\Test\Proxy\Acl\Adapter\Memory;
  * \Phalcon\Test\Unit\Acl\Adapter\MemoryTest
  * Tests for \Phalcon\Acl\Adapter\Memory component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

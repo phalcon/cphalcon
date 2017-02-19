@@ -8,7 +8,7 @@ use Phalcon\Translate\Adapter\NativeArray as PhNativeArray;
  * \Phalcon\Test\Proxy\Translate\Adapter\NativeArray
  * NativeArray Adapter NativeArray proxy class for \Phalcon\Translate\Adapter\NativeArray
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Metadata\Session as PhSession;
  * \Phalcon\Test\Proxy\Mvc\Model\Metadata\Session
  * Apc adapter proxy class for \Phalcon\Mvc\Model\Metadata\Session
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Proxy\Mvc\Model\Metadata

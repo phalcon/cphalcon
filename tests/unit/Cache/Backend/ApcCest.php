@@ -10,7 +10,7 @@ use Phalcon\Cache\Frontend\Data;
  * \Phalcon\Test\Unit\Cache\Backend\ApcCest
  * Tests the \Phalcon\Cache\Backend\Apc component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

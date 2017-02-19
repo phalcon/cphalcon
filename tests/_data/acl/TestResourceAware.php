@@ -6,7 +6,7 @@ use Phalcon\Acl\ResourceAware;
  * TestResourceAware
  * Resource class for \Phalcon\Acl\Resource component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Wojciech Slawski <jurigag@gmail.com>
  *

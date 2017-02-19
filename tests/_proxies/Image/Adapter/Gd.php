@@ -8,7 +8,7 @@ use Phalcon\Image\Adapter\Gd as PhGd;
  * \Phalcon\Test\Proxy\Image\Adapter\Gd
  * Config proxy class for \Phalcon\Image\Adapter\Gd
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

@@ -9,7 +9,7 @@ use Phalcon\Translate\Adapter\Csv;
  * \Phalcon\Test\Unit\Translate\Adapter\CsvTest
  * Tests the \Phalcon\Translate\Adapter\Csv component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Ivan Zubok <chi_no@ukr.net>
  * @package   Phalcon\Test\Unit\Translate\Adapter

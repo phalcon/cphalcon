@@ -9,7 +9,7 @@ use Phalcon\Config\Adapter\Ini;
  * \Phalcon\Test\Unit\Config\Adapter\IniTest
  * Tests the \Phalcon\Config\Adapter\Ini component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

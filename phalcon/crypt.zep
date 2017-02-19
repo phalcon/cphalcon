@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -62,7 +62,7 @@ class Crypt implements CryptInterface
 	const PADDING_SPACE = 6;
 
 	/**
-	 * Changes the padding scheme used	 
+	 * Changes the padding scheme used
 	 */
 	public function setPadding(int! scheme) -> <CryptInterface>
 	{
@@ -292,11 +292,11 @@ class Crypt implements CryptInterface
 
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
-		
+
 		if !in_array(cipher, openssl_get_cipher_methods(true)) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
-		
+
 		let ivSize = openssl_cipher_iv_length(cipher);
 		if ivSize > 0 {
 			let blockSize = ivSize;
@@ -343,7 +343,7 @@ class Crypt implements CryptInterface
 
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
-		
+
 		if !in_array(cipher, openssl_get_cipher_methods(true)) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
