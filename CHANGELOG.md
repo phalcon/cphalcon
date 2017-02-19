@@ -1,4 +1,4 @@
-# [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (XXXX-XX-XX)
+# [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (2017-02-20)
 - Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)
 - Fixed `Phalcon\Forms\Element::label` to accept 0 as label instead of validating it as empty. [#12148](https://github.com/phalcon/cphalcon/issues/12148)
 - Fixed `Phalcon\Crypt::getAvailableCiphers`, `Phalcon\Crypt::decrypt`, `Phalcon\Crypt::encrypt` by getting missed aliases for ciphers [#12539](https://github.com/phalcon/cphalcon/pull/12539)
