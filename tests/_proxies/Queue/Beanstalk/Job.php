@@ -9,7 +9,7 @@ use Phalcon\Queue\Beanstalk\Job as PhJob;
  * \Phalcon\Test\Proxy\Queue\Beanstalk\Job
  * Job proxy class for \Phalcon\Queue\Beanstalk\Job
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

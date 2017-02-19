@@ -9,7 +9,7 @@ use Phalcon\Test\Proxy\Di\FactoryDefault;
  * \Phalcon\Test\Unit\Di\FactoryDefaultTest
  * Tests the \Phalcon\Di\FactoryDefault component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

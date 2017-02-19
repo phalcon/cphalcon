@@ -8,7 +8,7 @@ use Phalcon\Cache\Backend\Memory as PhMemory;
  * \Phalcon\Test\Proxy\Cache\Backend\Memory
  * Memory proxy class for \Phalcon\Cache\Backend\Memory
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

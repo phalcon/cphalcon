@@ -8,7 +8,7 @@ use Phalcon\Acl\Adapter\Memory as PhAdapter;
  * \Phalcon\Test\Proxy\Acl\Adapter\Memory
  * Acl Adapter Memory proxy class for \Phalcon\Acl\Adapter\Memory
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

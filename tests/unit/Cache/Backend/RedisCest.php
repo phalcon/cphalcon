@@ -12,7 +12,7 @@ use Phalcon\Cache\Frontend\Output;
  * \Phalcon\Test\Unit\Cache\Backend\RedisCest
  * Tests the \Phalcon\Cache\Backend\Redis component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

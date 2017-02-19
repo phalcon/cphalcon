@@ -8,7 +8,7 @@ use Phalcon\Version as PhVersion;
  * \Phalcon\Test\Proxy\Version
  * Version proxy class for \Phalcon\Version
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

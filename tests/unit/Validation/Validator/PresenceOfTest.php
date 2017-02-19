@@ -12,7 +12,7 @@ use Phalcon\Test\Proxy\Validation\Validator\PresenceOf;
  * \Phalcon\Test\Unit\Validation\Validator\PresenceOfTest
  * Tests the \Phalcon\Validation\Validator\PresenceOf component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

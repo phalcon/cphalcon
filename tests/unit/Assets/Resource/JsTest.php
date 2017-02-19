@@ -9,7 +9,7 @@ use Phalcon\Test\Module\UnitTest;
  * \Phalcon\Test\Unit\Assets\Resource\JsTest
  * Tests the \Phalcon\Assets\Resource\Js component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

@@ -9,7 +9,7 @@ use Phalcon\Events\ManagerInterface;
  * \Phalcon\Test\Proxy\Acl\Adapter
  * Acl Adapter proxy class for \Phalcon\Acl\Adapter
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

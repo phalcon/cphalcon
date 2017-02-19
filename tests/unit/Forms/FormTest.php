@@ -19,7 +19,7 @@ use Phalcon\Validation;
  * \Phalcon\Test\Unit\Forms\FormTest
  * Tests the \Phalcon\Forms\Form component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

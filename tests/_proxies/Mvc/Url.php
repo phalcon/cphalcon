@@ -9,7 +9,7 @@ use Phalcon\DiInterface;
  * \Phalcon\Test\Proxy\Mvc\Url
  * Url proxy class for \Phalcon\Mvc\Url
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

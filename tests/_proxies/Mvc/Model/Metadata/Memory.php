@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Metadata\Memory as PhMemory;
  * \Phalcon\Test\Proxy\Mvc\Model\Metadata\Memory
  * Apc adapter proxy class for \Phalcon\Mvc\Model\Metadata\Memory
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Proxy\Mvc\Model\Metadata

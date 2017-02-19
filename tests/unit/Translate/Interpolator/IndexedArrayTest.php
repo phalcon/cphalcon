@@ -10,7 +10,7 @@ use Phalcon\Test\Proxy\Translate\Interpolator\IndexedArray;
  * \Phalcon\Test\Unit\Translate\Interpolator\IndexedArrayTest
  * Tests the \Phalcon\Translate\Interpolator\IndexedArray component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

@@ -8,7 +8,7 @@ use Phalcon\Config as PhConfig;
  * \Phalcon\Test\Proxy\Config
  * Config proxy class for \Phalcon\Config
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

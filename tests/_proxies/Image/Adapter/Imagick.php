@@ -8,7 +8,7 @@ use Phalcon\Image\Adapter\Imagick as PhImagick;
  * \Phalcon\Test\Proxy\Image\Adapter\Imagick
  * Config proxy class for \Phalcon\Image\Adapter\Imagick
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
