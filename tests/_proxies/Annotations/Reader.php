@@ -8,7 +8,7 @@ use Phalcon\Annotations\Reader as PhReader;
  * \Phalcon\Test\Proxy\Annotations\Reader
  * Role proxy class for \Phalcon\Annotations\Reader
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

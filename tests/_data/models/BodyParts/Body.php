@@ -8,7 +8,7 @@ use Phalcon\Test\Models\BodyParts\Head;
 /**
  * \Phalcon\Test\Models\Body
  *
- * @copyright 2011-2016 Phalcon Team
+ * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Radek Crlík <radekcrlik@gmail.com>
  * @package   Phalcon\Test\Models\BodyParts

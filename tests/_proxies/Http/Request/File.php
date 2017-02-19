@@ -8,7 +8,7 @@ use Phalcon\Http\Request\File as PhFile;
  * \Phalcon\Test\Proxy\Http\Request\File
  * Http Request File proxy class for \Phalcon\Http\Request\File
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

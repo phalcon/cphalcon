@@ -9,7 +9,7 @@ use Phalcon\Validation\Message\Group as PhGroup;
  * \Phalcon\Test\Proxy\Validation\Message\Group
  * A proxy class for \Phalcon\Validation\Message\Group component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

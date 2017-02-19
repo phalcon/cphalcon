@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Metadata\Files as PhFiles;
  * \Phalcon\Test\Proxy\Mvc\Model\Metadata\Files
  * Apc adapter proxy class for \Phalcon\Mvc\Model\Metadata\Files
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Proxy\Mvc\Model\Metadata

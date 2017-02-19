@@ -8,7 +8,7 @@ use Phalcon\Translate\Interpolator\IndexedArray as PhIndexedArray;
  * \Phalcon\Test\Proxy\Translate\Interpolator\IndexedArray
  * IndexedArray Interpolator proxy class for \Phalcon\Translate\Interpolator\IndexedArray
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

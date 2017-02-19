@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Metadata\Redis as PhRedis;
  * \Phalcon\Test\Proxy\Mvc\Model\Metadata\Redis
  * Apc adapter proxy class for \Phalcon\Mvc\Model\Metadata\Redis
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Proxy\Mvc\Model\Metadata

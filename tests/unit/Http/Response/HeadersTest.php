@@ -9,7 +9,7 @@ use Phalcon\Test\Proxy\Http\Response\Headers;
  * \Phalcon\Test\Unit\Http\Response\Http\HeadersTest
  * Tests the \Phalcon\Http\Response\Headers component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

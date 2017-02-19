@@ -9,7 +9,7 @@ use Phalcon\Test\Proxy\Annotations\Adapter\Files;
  * \Phalcon\Test\Unit\Annotations\Adapter\FilesTest
  * Tests for \Phalcon\Annotations\Adapter\Files component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

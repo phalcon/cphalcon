@@ -11,7 +11,7 @@ use Phalcon\Test\Collections\Store\Songs as StoreSongs;
  * \Phalcon\Test\Unit\Mvc\CollectionTest
  * Tests the Phalcon\Mvc\Collection component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

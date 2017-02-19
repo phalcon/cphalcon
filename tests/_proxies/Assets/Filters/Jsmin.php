@@ -8,7 +8,7 @@ use Phalcon\Assets\Filters\Jsmin as PhJs;
  * \Phalcon\Test\Proxy\Assets\Filters\Jsmin
  * Jsmin Filter proxy class for \Phalcon\Assets\Filters\Jsmin
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

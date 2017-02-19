@@ -9,7 +9,7 @@ use Phalcon\Annotations\Reflection;
  * \Phalcon\Test\Proxy\Annotations\Adapter\Apc
  * Role proxy class for \Phalcon\Annotations\Adapter\Apc
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

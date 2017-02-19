@@ -9,7 +9,7 @@ use Phalcon\DiInterface;
  * \Phalcon\Test\Proxy\Di\Service
  * Escaper proxy class for \Phalcon\Di\Service
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

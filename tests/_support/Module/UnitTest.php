@@ -11,7 +11,7 @@ use PHPUnit_Runner_Version;
  * \Phalcon\Test\Module\UnitTest
  * Base class for all Unit tests
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

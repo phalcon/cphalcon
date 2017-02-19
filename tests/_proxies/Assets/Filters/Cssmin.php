@@ -8,7 +8,7 @@ use Phalcon\Assets\Filters\Cssmin as PhCss;
  * \Phalcon\Test\Proxy\Assets\Filters\Cssmin
  * Cssmin Filter proxy class for \Phalcon\Assets\Filters\Cssmin
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

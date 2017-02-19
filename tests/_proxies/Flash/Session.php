@@ -8,7 +8,7 @@ use Phalcon\Flash\Session as PhSession;
  * \Phalcon\Test\Proxy\Flash\Session
  * Flash Session proxy class for \Phalcon\Flash\Session
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
