@@ -83,4 +83,45 @@ class BagTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Delete a value in a bag (not initialized internally)
+     *
+     * @author Fabio Mora <mail@fabiomora.com>
+     * @since  2017-02-21
+     */
+    public function testDeleteInitializeInternalData()
+    {
+        $this->specify(
+            "Delete a value in a non initialized bag has failed",
+            function () {
+                $reflectionClass = new \ReflectionClass(\Phalcon\Session\Bag::class);
+                $_data = $reflectionClass->getProperty('_data');
+                $_data->setAccessible(true);
+                $_initialized = $reflectionClass->getProperty('_initialized');
+                $_initialized->setAccessible(true);
+
+                // Setup a bag with a value
+                $bag = new \Phalcon\Session\Bag('fruit');
+                $bag->set('apples', 10);
+                expect($bag->get('apples'))->same(10);
+                expect($_data->getValue($bag))->same(['apples' => 10]);
+                expect($_initialized->getValue($bag))->true();
+
+                // Emulate a reset of the internal status (e.g. as would be done by a sleep/wakeup handler)
+                $serializedBag = serialize($bag);
+                unset($bag);
+
+                $bag = unserialize($serializedBag);
+                $_data->setValue($bag, NULL);
+                $_initialized->setValue($bag, false);
+
+                // Delete
+                expect($_initialized->getValue($bag))->false();
+                expect($bag->remove('apples'))->true();
+                expect($bag->get('apples'))->null();
+                expect($_initialized->getValue($bag))->true();
+            }
+        );
+    }
 }
