@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -371,7 +371,7 @@ class Micro extends Injectable implements \ArrayAccess
 	public function mount(<CollectionInterface> collection) -> <Micro>
 	{
 		var mainHandler, handlers, lazyHandler, prefix, methods, pattern,
-			subHandler, realHandler, prefixedPattern, route, handler, name, modelBinder;
+			subHandler, realHandler, prefixedPattern, route, handler, name;
 
 		/**
 		 * Get the main handler
