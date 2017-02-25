@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ndocs = 0;
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "yaml", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 139, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 136, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/config/adapter/yaml.zep", 76);
@@ -115,11 +115,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZEPHIR_INIT_VAR(_3$$4);
 		ZVAL_LONG(_3$$4, ndocs);
 		ZEPHIR_MAKE_REF(_3$$4);
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 140, filePath, _2$$4, _3$$4, callbacks);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 137, filePath, _2$$4, _3$$4, callbacks);
 		ZEPHIR_UNREF(_3$$4);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 140, filePath);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", &_4, 137, filePath);
 		zephir_check_call_status();
 	}
 	if (ZEPHIR_IS_FALSE_IDENTICAL(yamlConfig)) {

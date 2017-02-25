@@ -21,7 +21,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/events", "eventsawareinterface.zep.c eventinterface.zep.c managerinterface.zep.c event.zep.c exception.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation", "validatorinterface.zep.c validator.zep.c combinedfieldsvalidator.zep.c messageinterface.zep.c exception.zep.c message.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms", "elementinterface.zep.c element.zep.c exception.zep.c form.zep.c manager.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model", "validatorinterface.zep.c validator.zep.c metadatainterface.zep.c metadata.zep.c resultsetinterface.zep.c behaviorinterface.zep.c exception.zep.c behavior.zep.c resultinterface.zep.c resultset.zep.c criteriainterface.zep.c managerinterface.zep.c messageinterface.zep.c queryinterface.zep.c relationinterface.zep.c transactioninterface.zep.c criteria.zep.c manager.zep.c message.zep.c query.zep.c relation.zep.c row.zep.c transaction.zep.c validationfailed.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model", "validatorinterface.zep.c validator.zep.c metadatainterface.zep.c metadata.zep.c resultsetinterface.zep.c behaviorinterface.zep.c exception.zep.c behavior.zep.c resultinterface.zep.c resultset.zep.c binderinterface.zep.c criteriainterface.zep.c managerinterface.zep.c messageinterface.zep.c queryinterface.zep.c relationinterface.zep.c transactioninterface.zep.c binder.zep.c criteria.zep.c manager.zep.c message.zep.c query.zep.c relation.zep.c row.zep.c transaction.zep.c validationfailed.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cache", "backendinterface.zep.c frontendinterface.zep.c backend.zep.c exception.zep.c multiple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "adapterinterface.zep.c adapter.zep.c readerinterface.zep.c annotation.zep.c collection.zep.c exception.zep.c reader.zep.c reflection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db", "adapterinterface.zep.c adapter.zep.c dialectinterface.zep.c dialect.zep.c columninterface.zep.c indexinterface.zep.c referenceinterface.zep.c resultinterface.zep.c column.zep.c exception.zep.c index.zep.c profiler.zep.c rawvalue.zep.c reference.zep.c", "phalcon");
@@ -80,6 +80,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/controller", "bindmodelinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/dispatcher", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/behavior", "softdelete.zep.c timestampable.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/binder", "bindableinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata/strategy", "annotations.zep.c introspection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/resultset", "complex.zep.c simple.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/validator", "email.zep.c exclusionin.zep.c inclusionin.zep.c ip.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
@@ -96,7 +97,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/interpolator", "associativearray.zep.c indexedarray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/message", "group.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c confirmation.zep.c creditcard.zep.c date.zep.c digit.zep.c email.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c callback.zep.c confirmation.zep.c creditcard.zep.c date.zep.c digit.zep.c email.zep.c exception.zep.c exclusionin.zep.c file.zep.c identical.zep.c inclusionin.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
   ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
   ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
   ADD_FLAG("LDFLAGS", "/LTCG");

@@ -84,6 +84,7 @@ zend_class_entry *phalcon_mvc_collectioninterface_ce;
 zend_class_entry *phalcon_mvc_controllerinterface_ce;
 zend_class_entry *phalcon_mvc_dispatcherinterface_ce;
 zend_class_entry *phalcon_mvc_micro_collectioninterface_ce;
+zend_class_entry *phalcon_mvc_model_binderinterface_ce;
 zend_class_entry *phalcon_mvc_model_criteriainterface_ce;
 zend_class_entry *phalcon_mvc_model_managerinterface_ce;
 zend_class_entry *phalcon_mvc_model_messageinterface_ce;
@@ -109,6 +110,7 @@ zend_class_entry *phalcon_filter_userfilterinterface_ce;
 zend_class_entry *phalcon_mvc_collection_managerinterface_ce;
 zend_class_entry *phalcon_mvc_controller_bindmodelinterface_ce;
 zend_class_entry *phalcon_mvc_micro_middlewareinterface_ce;
+zend_class_entry *phalcon_mvc_model_binder_bindableinterface_ce;
 zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
 zend_class_entry *phalcon_exception_ce;
 zend_class_entry *phalcon_validation_validator_ce;
@@ -296,6 +298,7 @@ zend_class_entry *phalcon_mvc_micro_exception_ce;
 zend_class_entry *phalcon_mvc_micro_lazyloader_ce;
 zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
 zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
+zend_class_entry *phalcon_mvc_model_binder_ce;
 zend_class_entry *phalcon_mvc_model_ce;
 zend_class_entry *phalcon_mvc_model_criteria_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
@@ -382,11 +385,13 @@ zend_class_entry *phalcon_validation_message_group_ce;
 zend_class_entry *phalcon_validation_validator_alnum_ce;
 zend_class_entry *phalcon_validation_validator_alpha_ce;
 zend_class_entry *phalcon_validation_validator_between_ce;
+zend_class_entry *phalcon_validation_validator_callback_ce;
 zend_class_entry *phalcon_validation_validator_confirmation_ce;
 zend_class_entry *phalcon_validation_validator_creditcard_ce;
 zend_class_entry *phalcon_validation_validator_date_ce;
 zend_class_entry *phalcon_validation_validator_digit_ce;
 zend_class_entry *phalcon_validation_validator_email_ce;
+zend_class_entry *phalcon_validation_validator_exception_ce;
 zend_class_entry *phalcon_validation_validator_exclusionin_ce;
 zend_class_entry *phalcon_validation_validator_file_ce;
 zend_class_entry *phalcon_validation_validator_identical_ce;
@@ -496,6 +501,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Micro_CollectionInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_ModelInterface);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_BinderInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_CriteriaInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MessageInterface);
@@ -520,6 +526,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Collection_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Controller_BindModelInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Micro_MiddlewareInterface);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Binder_BindableInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_ModuleDefinitionInterface);
 	ZEPHIR_INIT(Phalcon_Exception);
 	ZEPHIR_INIT(Phalcon_Validation_Validator);
@@ -706,6 +713,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Behavior_SoftDelete);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Behavior_Timestampable);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Binder);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Criteria);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Manager);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Message);
@@ -791,11 +799,13 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Alnum);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Alpha);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Between);
+	ZEPHIR_INIT(Phalcon_Validation_Validator_Callback);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Confirmation);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_CreditCard);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Date);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Digit);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Email);
+	ZEPHIR_INIT(Phalcon_Validation_Validator_Exception);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_ExclusionIn);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_File);
 	ZEPHIR_INIT(Phalcon_Validation_Validator_Identical);
@@ -886,6 +896,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 	zephir_initialize_memory(phalcon_globals_ptr TSRMLS_CC);
 
+	zephir_init_static_properties_Phalcon_Tag(TSRMLS_C);
 
 	return SUCCESS;
 }

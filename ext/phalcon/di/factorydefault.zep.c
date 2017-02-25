@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_ce, this_ptr, "__construct", &_0, 79);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_ce, this_ptr, "__construct", &_0, 76);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
 	zephir_create_array(_1, 21, 0 TSRMLS_CC);

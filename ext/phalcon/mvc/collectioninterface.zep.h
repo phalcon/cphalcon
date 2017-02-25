@@ -11,6 +11,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collectioninterface_setconnectionserv
 	ZEND_ARG_INFO(0, connectionService)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collectioninterface_setdirtystate, 0, 0, 1)
+	ZEND_ARG_INFO(0, dirtyState)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collectioninterface_cloneresult, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Mvc\\CollectionInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, document, 0)
@@ -51,6 +55,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_collectioninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getSource, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, setConnectionService, arginfo_phalcon_mvc_collectioninterface_setconnectionservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getConnection, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, setDirtyState, arginfo_phalcon_mvc_collectioninterface_setdirtystate)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, getDirtyState, NULL)
 	ZEND_FENTRY(cloneResult, NULL, arginfo_phalcon_mvc_collectioninterface_cloneresult, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, fireEvent, arginfo_phalcon_mvc_collectioninterface_fireevent)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_CollectionInterface, fireEventCancel, arginfo_phalcon_mvc_collectioninterface_fireeventcancel)

@@ -62,6 +62,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setConnectionService);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getConnection);
 
 /**
+ * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setDirtyState);
+
+/**
+ * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getDirtyState);
+
+/**
  * Returns a cloned collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, cloneResult);
