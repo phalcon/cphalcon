@@ -31,8 +31,26 @@ class BagTest extends UnitTest
      */
     protected function _before()
     {
+        parent::_before();
+
         FactoryDefault::reset();
         new FactoryDefault;
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        parent::_after();
+
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
     }
 
     /**
@@ -46,8 +64,6 @@ class BagTest extends UnitTest
         $this->specify(
             "Session bag incorrectly handling writing and reading",
             function () {
-                @session_start();
-
                 // Using getters and setters
                 $bag = new Bag('test1');
                 $bag->set('a', ['b' => 'c']);
@@ -59,8 +75,6 @@ class BagTest extends UnitTest
                 $bag->{'a'} = ['b' => 'c'];
                 expect($bag->{'a'})->equals(['b' => 'c']);
                 expect($_SESSION['test2']['a'])->same(['b' => 'c']);
-
-                @session_destroy();
             }
         );
     }
@@ -76,13 +90,11 @@ class BagTest extends UnitTest
         $this->specify(
             "Setting an empty array to Session Bag do not return the same",
             function () {
-                @session_start();
                 $bag    = new Bag('container');
                 $value  = [];
                 $bag->a = $value;
 
                 expect($bag->a)->same($value);
-                @session_destroy();
             }
         );
     }
@@ -100,8 +112,6 @@ class BagTest extends UnitTest
         $this->specify(
             "Delete a value in a non initialized bag has failed",
             function () {
-                @session_start();
-
                 $reflectionClass = new ReflectionClass(Bag::class);
                 $_data = $reflectionClass->getProperty('_data');
                 $_data->setAccessible(true);
@@ -129,8 +139,6 @@ class BagTest extends UnitTest
                 expect($bag->remove('apples'))->true();
                 expect($bag->get('apples'))->null();
                 expect($_initialized->getValue($bag))->true();
-
-                @session_destroy();
             }
         );
     }
