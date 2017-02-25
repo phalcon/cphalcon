@@ -1,7 +1,5 @@
 <?php
 
-use AspectMock\Kernel;
-
 error_reporting(-1);
 
 ini_set('display_errors', 1);
@@ -32,13 +30,6 @@ unset($root);
 
 require_once PROJECT_PATH . 'vendor/autoload.php';
 require_once TESTS_PATH . 'shim.php';
-
-$kernel = Kernel::getInstance();
-$kernel->init([
-    'includePaths' => [TESTS_PATH . DIRECTORY_SEPARATOR . '_proxies'],
-    'excludePaths' => [PROJECT_PATH . 'vendor'],
-    'cacheDir'     => TESTS_PATH . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR . 'mock',
-]);
 
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);

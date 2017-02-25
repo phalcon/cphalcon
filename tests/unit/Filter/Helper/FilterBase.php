@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Filter\Helper;
 
-use Phalcon\Test\Proxy\Filter;
+use Phalcon\Filter;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -10,7 +10,7 @@ use Phalcon\Test\Module\UnitTest;
  * Base test class for \Phalcon\Filter component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Filter\Helper

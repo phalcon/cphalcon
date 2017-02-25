@@ -2,18 +2,18 @@
 
 namespace Phalcon\Test\Unit;
 
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Di;
+use Phalcon\Di;
+use Phalcon\Di\Service;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
-use Phalcon\Di\Service;
+use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\DiTest
  * Tests the \Phalcon\Di component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit
@@ -28,7 +28,7 @@ use Phalcon\Di\Service;
 class DiTest extends UnitTest
 {
     /**
-     * @var \Phalcon\Test\Proxy\Di
+     * @var \Phalcon\DiInterface
      */
     protected $phDi;
 

@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Session\Adapter;
 
-use Phalcon\Test\Proxy\Session\Adapter\Redis;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Session\Adapter\Redis;
 
 /**
  * \Phalcon\Test\Unit\Session\Adapter\RedisTest
  * Tests the \Phalcon\Session\Adapter\Redis component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Session\Adapter

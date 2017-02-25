@@ -2,17 +2,16 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Xcache;
+use Phalcon\Mvc\Model\Metadata\Xcache;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\XcacheCest
  * Tests the \Phalcon\Mvc\Model\Metadata\Xcache component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc\Model\Metadata

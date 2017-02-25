@@ -3,11 +3,11 @@
 namespace Phalcon\Test\Unit\Acl\Adapter;
 
 use Phalcon\Acl;
+use Phalcon\Acl\Role;
+use Phalcon\Acl\Resource;
 use PHPUnit_Framework_Exception;
-use Phalcon\Test\Proxy\Acl\Role;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Acl\Resource;
-use Phalcon\Test\Proxy\Acl\Adapter\Memory;
+use Phalcon\Acl\Adapter\Memory;
 
 /**
  * \Phalcon\Test\Unit\Acl\Adapter\MemoryTest

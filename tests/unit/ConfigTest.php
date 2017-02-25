@@ -2,16 +2,15 @@
 
 namespace Phalcon\Test\Unit;
 
+use Phalcon\Config;
 use Phalcon\Test\Unit\Config\Helper\ConfigBase;
-use Phalcon\Test\Proxy\Config;
-use Phalcon\Config as PhConfig;
 
 /**
  * \Phalcon\Test\Unit\ConfigTest
  * Tests the \Phalcon\Config component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit
@@ -139,8 +138,8 @@ class ConfigTest extends ConfigBase
         $this->specify(
             "Comparison of objects returned a not identical result",
             function () {
-                $expectedConfig = PhConfig::__set_state([
-                    'database' => PhConfig::__set_state(
+                $expectedConfig = Config::__set_state([
+                    'database' => Config::__set_state(
                         [
                             'adapter'  => 'Mysql',
                             'host'     => 'localhost',
@@ -168,7 +167,7 @@ class ConfigTest extends ConfigBase
                     'other' => [1, 2, 3, 4]
                 ];
 
-                expect(new PhConfig($settings))->equals($expectedConfig);
+                expect(new Config($settings))->equals($expectedConfig);
             }
         );
     }
@@ -184,27 +183,27 @@ class ConfigTest extends ConfigBase
         $this->specify(
             "Config objects does not merged properly",
             function () {
-                $expected = PhConfig::__set_state([
-                    'keys' => PhConfig::__set_state([
+                $expected = Config::__set_state([
+                    'keys' => Config::__set_state([
                         '0' => 'scott',
                         '1' => 'cheetah',
                         '2' => 'peter',
                     ]),
                 ]);
 
-                $config = new PhConfig(['keys' => ['scott', 'cheetah']]);
-                expect($config->merge(new PhConfig(['keys' => ['peter']])))->equals($expected);
+                $config = new Config(['keys' => ['scott', 'cheetah']]);
+                expect($config->merge(new Config(['keys' => ['peter']])))->equals($expected);
 
-                $expected = PhConfig::__set_state([
-                    'keys' => PhConfig::__set_state([
+                $expected = Config::__set_state([
+                    'keys' => Config::__set_state([
                         '0' => 'peter',
                         '1' => 'scott',
                         '2' => 'cheetah',
                     ]),
                 ]);
 
-                $config = new PhConfig(['keys' => ['peter']]);
-                expect($config->merge(new PhConfig(['keys' => ['scott', 'cheetah']])))->equals($expected);
+                $config = new Config(['keys' => ['peter']]);
+                expect($config->merge(new Config(['keys' => ['scott', 'cheetah']])))->equals($expected);
             }
         );
     }
@@ -220,7 +219,7 @@ class ConfigTest extends ConfigBase
         $this->specify(
             "Config objects does not merged properly",
             function () {
-                $config1 = new PhConfig([
+                $config1 = new Config([
                     'controllersDir' => '../x/y/z',
                     'modelsDir'      => '../x/y/z',
                     'database'       => [
@@ -239,7 +238,7 @@ class ConfigTest extends ConfigBase
                     ],
                 ]);
 
-                $config2 = new PhConfig([
+                $config2 = new Config([
                     'modelsDir' => '../x/y/z',
                     'database'  => [
                         'adapter'  => 'Postgresql',
@@ -258,24 +257,24 @@ class ConfigTest extends ConfigBase
 
                 $config1->merge($config2);
 
-                $expected = PhConfig::__set_state([
+                $expected = Config::__set_state([
                     'controllersDir' => '../x/y/z',
                     'modelsDir'      => '../x/y/z',
-                    'database' => PhConfig::__set_state([
+                    'database' => Config::__set_state([
                         'adapter'  => 'Postgresql',
                         'host'     => 'localhost',
                         'username' => 'peter',
                         'password' => 'cheetah',
                         'name'     => 'test_db',
-                        'charset'  => PhConfig::__set_state([
+                        'charset'  => Config::__set_state([
                             'primary' => 'utf8',
                         ]),
-                        'alternatives' => PhConfig::__set_state([
+                        'alternatives' => Config::__set_state([
                             'primary' => 'swedish',
                             'second'  => 'latin1',
                             'third'   => 'american',
                         ]),
-                        'options' => PhConfig::__set_state([
+                        'options' => Config::__set_state([
                             'case' => 'lower',
                             (string) \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                         ]),
