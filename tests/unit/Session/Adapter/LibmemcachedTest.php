@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Session\Adapter;
 
-use Phalcon\Test\Proxy\Session\Adapter\Libmemcached;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Session\Adapter\Libmemcached;
 
 /**
  * \Phalcon\Test\Unit\Session\Adapter\LibmemcachedTest
  * Tests the \Phalcon\Session\Adapter\Libmemcached component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Session\Adapter
@@ -22,7 +22,7 @@ use Phalcon\Test\Module\UnitTest;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class LibmemcacheTest extends UnitTest
+class LibmemcachedTest extends UnitTest
 {
     /**
      * executed before each test

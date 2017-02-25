@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Collections;
 
-use Phalcon\Test\Proxy\Mvc\Collection;
+use Phalcon\Mvc\Collection;
 use Phalcon\Mvc\Collection\Behavior\SoftDelete;
 use Phalcon\Mvc\Collection\Behavior\Timestampable;
 
 /**
  * Subs Collection
  *
- * @method static Subs[] find($parameters = null)
- * @method static Subs findFirst($parameters = null)
+ * @method static Subs[] find(array $parameters = null)
+ * @method static Subs findFirst(array $parameters = null)
  *
  * @property \MongoId _id
  * @property string email

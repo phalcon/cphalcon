@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Resource;
 
-use Phalcon\Test\Proxy\Assets\Resource\Js;
+use Phalcon\Assets\Resource\Js;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -10,7 +10,7 @@ use Phalcon\Test\Module\UnitTest;
  * Tests the \Phalcon\Assets\Resource\Js component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Asset

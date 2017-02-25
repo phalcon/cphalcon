@@ -2,16 +2,16 @@
 
 namespace Phalcon\Test\Unit\Http;
 
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Test\Proxy\Http\Request;
 use Phalcon\DiInterface;
+use Phalcon\Http\Request;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 
 /**
  * \Phalcon\Test\Unit\Http\RequestTest
  * Tests the \Phalcon\Http\Request component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Http

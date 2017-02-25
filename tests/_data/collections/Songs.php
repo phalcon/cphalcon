@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Collections;
 
-use Phalcon\Test\Proxy\Mvc\Collection;
+use Phalcon\Mvc\Collection;
 
 /**
  * Songs Collection

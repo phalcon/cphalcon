@@ -3,14 +3,14 @@
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Annotations\Adapter\Xcache;
+use Phalcon\Annotations\Adapter\Xcache;
 
 /**
  * \Phalcon\Test\Unit\Annotations\Adapter\XcacheTest
  * Tests for \Phalcon\Annotations\Adapter\Xcache component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Annotations

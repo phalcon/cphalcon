@@ -75,11 +75,13 @@ class BagTest extends UnitTest
         $this->specify(
             "Setting an empty array to Session Bag do not return the same",
             function () {
+                @session_start();
                 $bag    = new Bag('container');
                 $value  = [];
                 $bag->a = $value;
 
-                expect($bag->a)->same([]);
+                expect($bag->a)->same($value);
+                @session_destroy();
             }
         );
     }
