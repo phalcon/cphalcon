@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model;
  * \Phalcon\Test\Models\People
  *
  * @copyright 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Models

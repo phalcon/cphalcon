@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * Tests the Phalcon\Mvc\Model\Criteria component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc\Model
