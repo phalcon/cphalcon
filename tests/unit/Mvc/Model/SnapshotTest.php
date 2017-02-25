@@ -198,4 +198,33 @@ class SnapshotTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Test snapshots for changes from NULL to Zero
+     *
+     * @test
+     * @issue  12628
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-02-26
+     */
+    public function shouldCorrectDetectChanges()
+    {
+        $this->specify(
+            "Snapshot does not work correctly with changed fields",
+            function () {
+                $this->setUpModelsManager();
+                $robots = Robots::findFirst();
+
+                expect($robots->getChangedFields())->isEmpty();
+                expect($robots->deleted)->null();
+                expect($robots->hasChanged('deleted'))->false();
+
+                $robots->deleted = 0;
+
+                expect($robots->getChangedFields())->notEmpty();
+                expect($robots->deleted)->notNull();
+                expect($robots->hasChanged('deleted'))->true();
+            }
+        );
+    }
 }

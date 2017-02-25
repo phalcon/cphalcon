@@ -11,6 +11,7 @@
 - Added the ability to get original values from `Phalcon\Mvc\Model\Binder`, added `Phalcon\Mvc\Micro::getModelBinder`, `Phalcon\Dispatcher::getModelBinder`
 - Added `prepend` parameter to `Phalcon\Loader::register` to specify autoloader's loading order to top most
 - Fixed `Phalcon\Session\Bag::remove` to initialize the bag before removing a value [#12647](https://github.com/phalcon/cphalcon/pull/12647)
+- Fixed `Phalcon\Mvc\Model::getChangedFields` to correct detect changes from NULL to Zero [#12628](https://github.com/phalcon/cphalcon/issues/12628)
 
 # [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (2017-02-20)
 - Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)
