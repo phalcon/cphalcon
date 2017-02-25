@@ -10,7 +10,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Resultset\SimpleTest
- * Tests the Phalcon\Mvc\Model\Resultset\SimpleTest component
+ * Tests the Phalcon\Mvc\Model\Resultset\Simple component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
@@ -46,7 +46,7 @@ class SimpleTest extends UnitTest
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-11-20
      */
-    public function shouldLoadNormalResultsetFromCacheByUsingCompletePhql()
+    public function shouldLoadResultsetFromCacheByUsingCompletePhql()
     {
         $this->specify(
             'Simple Resultset does not work as expected (complete PHQL option)',
@@ -85,7 +85,7 @@ class SimpleTest extends UnitTest
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-12-28
      */
-    public function shouldLoadNormalResultsetFromCacheByUsingIncompletePhql()
+    public function shouldLoadResultsetFromCacheByUsingIncompletePhql()
     {
         $this->specify(
             'Simple Resultset does not work as expected (incomplete PHQL option)',
@@ -124,7 +124,7 @@ class SimpleTest extends UnitTest
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-11-20
      */
-    public function shouldLoadNormalResultsetFromCache()
+    public function shouldLoadResultsetFromCache()
     {
         $this->specify(
             'Simple Resultset does not work as expected',
