@@ -12,7 +12,7 @@ use Phalcon\Validation\Validator\Confirmation;
  * \Phalcon\Test\Unit\Validation\Validator\ConfirmationTest
  * Tests the \Phalcon\Validation\Validator\Confirmation component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

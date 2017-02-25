@@ -12,7 +12,7 @@ use Phalcon\Cache\Backend\Memcache;
  * \Phalcon\Test\Unit\Cache\Backend\MemcacheCest
  * Tests the \Phalcon\Cache\Backend\Memcache component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

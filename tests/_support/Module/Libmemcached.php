@@ -12,7 +12,7 @@ use Codeception\Exception\ModuleException;
  * Connects to [memcached](http://www.memcached.org/) using _Memcached_ extension.
  * Performs a cleanup by flushing all values after each test run.
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

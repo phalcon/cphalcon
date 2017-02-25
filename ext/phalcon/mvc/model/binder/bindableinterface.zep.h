@@ -1,0 +1,9 @@
+
+extern zend_class_entry *phalcon_mvc_model_binder_bindableinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder_BindableInterface);
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_binder_bindableinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Binder_BindableInterface, getModelName, NULL)
+	PHP_FE_END
+};

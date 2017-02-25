@@ -12,7 +12,7 @@ use Phalcon\Cache\Backend\Libmemcached;
  * \Phalcon\Test\Unit\Cache\Backend\LibmemcachedCest
  * Tests the \Phalcon\Cache\Backend\Libmemcached component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

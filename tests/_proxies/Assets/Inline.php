@@ -8,7 +8,7 @@ use Phalcon\Assets\Inline as PhInline;
  * \Phalcon\Test\Proxy\Assets\Inline
  * Inline proxy class for \Phalcon\Assets\Inline
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

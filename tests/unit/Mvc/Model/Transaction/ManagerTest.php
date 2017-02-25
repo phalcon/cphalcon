@@ -11,7 +11,7 @@ use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager;
  * \Phalcon\Test\Unit\Mvc\Model\Transaction\Manager
  * Tests the Phalcon\Mvc\Model\Transaction\Manager component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Nochum Sossonko <nsossonko@hotmail.com>
  * @package   Phalcon\Test\Unit\Mvc\Model\Transaction

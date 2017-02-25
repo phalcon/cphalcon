@@ -9,7 +9,7 @@ use Phalcon\Cache\Backend\File as PhFile;
  * \Phalcon\Test\Proxy\Cache\Backend\File
  * File proxy class for \Phalcon\Cache\Backend\File
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

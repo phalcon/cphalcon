@@ -10,7 +10,7 @@ use Phalcon\Mvc\Model\Transaction\Manager as PhManager;
  * \Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager
  * Transaction Manager proxy class for \Phalcon\Mvc\Model\Transaction\Manager
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Proxy\Mvc\Model\Transaction

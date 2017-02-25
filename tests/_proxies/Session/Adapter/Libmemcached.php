@@ -8,7 +8,7 @@ use Phalcon\Session\Adapter\Libmemcached as PhLibmemcached;
  * \Phalcon\Test\Proxy\Session\Adapter\Libmemcached
  * Libmemcached session proxy class for \Phalcon\Session\Adapter\Libmemcached
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>

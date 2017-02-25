@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)      |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -122,17 +122,7 @@ class Uniqueness extends CombinedFieldsValidator
 			}
 
 			validation->appendMessage(
-				new Message(
-					strtr(
-						message,
-						[
-							":field": label
-						]
-					),
-					field,
-					"Uniqueness",
-					this->getOption("code")
-				)
+				new Message(strtr(message, [":field": label]), field, "Uniqueness", this->getOption("code"))
 			);
 			return false;
 		}
@@ -142,16 +132,17 @@ class Uniqueness extends CombinedFieldsValidator
 
 	protected function isUniqueness(<Validation> validation, var field) -> boolean
 	{
-		var values, convert, record, params, className, isModel, singleField;
+		var values, convert, record, params, className, isModel, isDocument, singleField;
 
 		if typeof field != "array" {
-			let singleField = field;
-			let field = [];
+			let singleField = field,
+				field = [];
+
 			let field[] = singleField;
 		}
 
-		let values = [];
-		let convert = this->getOption("convert");
+		let values = [],
+			convert = this->getOption("convert");
 
 		for singleField in field {
 			let values[singleField] = validation->getValue(singleField);
@@ -175,16 +166,15 @@ class Uniqueness extends CombinedFieldsValidator
 			}
 		}
 
-		let isModel = record instanceof ModelInterface;
-
-		if !(isModel || record instanceof CollectionInterface) {
-			throw new Exception("The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection");
-		}
+		let isModel = record instanceof ModelInterface,
+			isDocument = record instanceof CollectionInterface;
 
 		if isModel {
 			let params = this->isUniquenessModel(record, field, values);
-		} else {
+		} elseif isDocument {
 			let params = this->isUniquenessCollection(record, field, values);
+		} else {
+			throw new Exception("The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection");
 		}
 
 		let className = get_class(record);
@@ -219,19 +209,18 @@ class Uniqueness extends CombinedFieldsValidator
 		var index, params, attribute, metaData, primaryField, singleField,
 			fieldExcept, singleExcept, notInValues, exceptConditions, value, except;
 
-		let exceptConditions = [];
-		let index  = 0;
-		let params = [
-			"conditions": [],
-			"bind": []
-		];
+		let exceptConditions = [],
+			index  = 0,
+			params = [
+				"conditions": [],
+				"bind":       []
+			],
+			except = this->getOption("except");
 
 		for singleField in field {
-			let fieldExcept = null;
-			let notInValues = [];
-			let value = values[singleField];
-
-			let except = this->getOption("except");
+			let fieldExcept = null,
+				notInValues = [],
+				value = values[singleField];
 
 			let attribute = this->getOption("attribute", singleField);
 			let attribute = this->getColumnNameReal(record, attribute);
@@ -245,40 +234,59 @@ class Uniqueness extends CombinedFieldsValidator
 			}
 
 			if except {
-				if typeof except == "array" && count(field) > 1 {
-					if isset except[singleField] {
-						let fieldExcept = except[singleField];
+				if typeof except == "array" && array_keys(except) !== range(0, count(except) - 1) {
+					for singleField, fieldExcept in except {
+						let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
+						if typeof fieldExcept == "array" {
+							for singleExcept in fieldExcept {
+								let notInValues[] = "?" . index;
+								let params["bind"][] = singleExcept;
+								let index++;
+							}
+							let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
+						} else {
+							let exceptConditions[] = attribute . " <> ?" . index;
+							let params["bind"][] = fieldExcept;
+							let index++;
+						}
 					}
-				}
-
-				if fieldExcept != null {
-					if typeof fieldExcept == "array" {
-						for singleExcept in fieldExcept {
+				} elseif count(field) == 1 {
+					let attribute = this->getColumnNameReal(record, this->getOption("attribute", field[0]));
+					if typeof except == "array" {
+						for singleExcept in except {
 							let notInValues[] = "?" . index;
 							let params["bind"][] = singleExcept;
 							let index++;
 						}
 						let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
 					} else {
-						let exceptConditions[] = attribute . " <> ?" . index;
-						let params["bind"][] = fieldExcept;
+						let params["conditions"][] = attribute . " <> ?" . index;
+						let params["bind"][] = except;
 						let index++;
 					}
-				} elseif typeof except == "array" && count(field) == 1 {
-					for singleExcept in except {
-						let notInValues[] = "?" . index;
-						let params["bind"][] = singleExcept;
-						let index++;
+				} elseif count(field) > 1 {
+					for singleField in field {
+						let attribute = this->getColumnNameReal(record, this->getOption("attribute", singleField));
+						if typeof except == "array" {
+							for singleExcept in except {
+								let notInValues[] = "?" . index;
+								let params["bind"][] = singleExcept;
+								let index++;
+							}
+							let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
+						} else {
+							let params["conditions"][] = attribute . " <> ?" . index;
+							let params["bind"][] = except;
+							let index++;
+						}
 					}
-					let params["conditions"][] = attribute . " NOT IN (" . join(",", notInValues) . ")";
-				} elseif count(field) == 1 {
-					let params["conditions"][] = attribute . " <> ?" . index;
-					let params["bind"][] = except;
-					let index++;
 				}
 			}
 		}
 
+		/**
+		 * If the operation is update, there must be values in the object
+		 */
 		if record->getDirtyState() == Model::DIRTY_STATE_PERSISTENT {
 			let metaData = record->getDI()->getShared("modelsMetadata");
 
@@ -303,7 +311,7 @@ class Uniqueness extends CombinedFieldsValidator
 	 */
 	protected function isUniquenessCollection(var record, array field, array values)
 	{
-		var exceptConditions, fieldExcept, notInValues, value, singleField, arrayValue, params, except, singleExcept;
+		var exceptConditions, fieldExcept, notInValues, value, singleField, params, except, singleExcept;
 
 		let exceptConditions = [];
 		let params = ["conditions" : []];

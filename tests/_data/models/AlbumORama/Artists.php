@@ -7,8 +7,10 @@ use Phalcon\Mvc\Model;
 /**
  * \Phalcon\Test\Models\AlbumORama\Artists
  *
- * @copyright 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @property string $name
+ *
+ * @copyright 2011-2017 Phalcon Team
+ * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Models\AlbumORama\Albums

@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_alnum", NULL, 465, value);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_alnum", NULL, 469, value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_INIT_VAR(_1$$3);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7$$3);
 		ZVAL_STRING(_7$$3, "Alnum", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 464, _6$$3, field, _7$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 467, _6$$3, field, _7$$3, code);
 		zephir_check_temp_parameter(_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _1$$3);

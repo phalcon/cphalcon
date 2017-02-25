@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_16$$6);
 		ZVAL_STRING(_16$$6, "FileIniSize", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _11$$6, "__construct", &_17, 464, _14$$6, field, _16$$6, code);
+		ZEPHIR_CALL_METHOD(NULL, _11$$6, "__construct", &_17, 467, _14$$6, field, _16$$6, code);
 		zephir_check_temp_parameter(_16$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _11$$6);
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	_21 = _19;
 	if (!(_21)) {
 		zephir_array_fetch_string(&_22, value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/file.zep", 138 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_23, "is_uploaded_file", NULL, 244, _22);
+		ZEPHIR_CALL_FUNCTION(&_23, "is_uploaded_file", NULL, 243, _22);
 		zephir_check_call_status();
 		_21 = !zephir_is_true(_23);
 	}
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_28$$9);
 		ZVAL_STRING(_28$$9, "FileEmpty", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _24$$9, "__construct", &_17, 464, _27$$9, field, _28$$9, code);
+		ZEPHIR_CALL_METHOD(NULL, _24$$9, "__construct", &_17, 467, _27$$9, field, _28$$9, code);
 		zephir_check_temp_parameter(_28$$9);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _24$$9);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_35$$12);
 		ZVAL_STRING(_35$$12, "FileValid", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _31$$12, "__construct", &_17, 464, _34$$12, field, _35$$12, code);
+		ZEPHIR_CALL_METHOD(NULL, _31$$12, "__construct", &_17, 467, _34$$12, field, _35$$12, code);
 		zephir_check_temp_parameter(_35$$12);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _31$$12);
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_array_fetch_long(&unit, matches, 2, PH_NOISY, "phalcon/validation/validator/file.zep", 186 TSRMLS_CC);
 		}
 		zephir_array_fetch_long(&_42$$15, matches, 1, PH_NOISY | PH_READONLY, "phalcon/validation/validator/file.zep", 189 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_43$$15, "floatval", &_44, 320, _42$$15);
+		ZEPHIR_CALL_FUNCTION(&_43$$15, "floatval", &_44, 319, _42$$15);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_45$$15);
 		zephir_array_fetch(&_46$$15, byteUnits, unit, PH_NOISY | PH_READONLY, "phalcon/validation/validator/file.zep", 189 TSRMLS_CC);
@@ -349,9 +349,9 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		ZEPHIR_INIT_VAR(bytes);
 		mul_function(bytes, _43$$15, _45$$15 TSRMLS_CC);
 		zephir_array_fetch_string(&_48$$15, value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/file.zep", 191 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_43$$15, "floatval", &_44, 320, _48$$15);
+		ZEPHIR_CALL_FUNCTION(&_43$$15, "floatval", &_44, 319, _48$$15);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_49$$15, "floatval", &_44, 320, bytes);
+		ZEPHIR_CALL_FUNCTION(&_49$$15, "floatval", &_44, 319, bytes);
 		zephir_check_call_status();
 		if (ZEPHIR_GT(_43$$15, _49$$15)) {
 			ZEPHIR_INIT_VAR(_50$$18);
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_54$$18);
 			ZVAL_STRING(_54$$18, "FileSize", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _50$$18, "__construct", &_17, 464, _53$$18, field, _54$$18, code);
+			ZEPHIR_CALL_METHOD(NULL, _50$$18, "__construct", &_17, 467, _53$$18, field, _54$$18, code);
 			zephir_check_temp_parameter(_54$$18);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _50$$18);
@@ -410,12 +410,12 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 		if ((zephir_function_exists_ex(SS("finfo_open") TSRMLS_CC) == SUCCESS)) {
 			ZEPHIR_SINIT_VAR(_57$$24);
 			ZVAL_LONG(&_57$$24, 16);
-			ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 241, &_57$$24);
+			ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 240, &_57$$24);
 			zephir_check_call_status();
 			zephir_array_fetch_string(&_58$$24, value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/file.zep", 222 TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 242, tmp, _58$$24);
+			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 241, tmp, _58$$24);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 243, tmp);
+			ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 242, tmp);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_NVAR(mime);
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_63$$26);
 			ZVAL_STRING(_63$$26, "FileType", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _59$$26, "__construct", &_17, 464, _62$$26, field, _63$$26, code);
+			ZEPHIR_CALL_METHOD(NULL, _59$$26, "__construct", &_17, 467, _62$$26, field, _63$$26, code);
 			zephir_check_temp_parameter(_63$$26);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _59$$26);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 	}
 	if (_65) {
 		zephir_array_fetch_string(&_67$$29, value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/file.zep", 247 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 252, _67$$29);
+		ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 251, _67$$29);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(width);
 		zephir_array_fetch_long(&width, tmp, 0, PH_NOISY, "phalcon/validation/validator/file.zep", 248 TSRMLS_CC);
@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_77$$33);
 			ZVAL_STRING(_77$$33, "FileMinResolution", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _73$$33, "__construct", &_17, 464, _76$$33, field, _77$$33, code);
+			ZEPHIR_CALL_METHOD(NULL, _73$$33, "__construct", &_17, 467, _76$$33, field, _77$$33, code);
 			zephir_check_temp_parameter(_77$$33);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _73$$33);
@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, validate) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_86$$38);
 				ZVAL_STRING(_86$$38, "FileMaxResolution", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(NULL, _82$$38, "__construct", &_17, 464, _85$$38, field, _86$$38, code);
+				ZEPHIR_CALL_METHOD(NULL, _82$$38, "__construct", &_17, 467, _85$$38, field, _86$$38, code);
 				zephir_check_temp_parameter(_86$$38);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _82$$38);

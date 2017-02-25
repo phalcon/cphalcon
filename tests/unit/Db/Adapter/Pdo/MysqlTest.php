@@ -11,7 +11,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\MysqlTest
  * Tests the \Phalcon\Db\Adapter\Pdo\Mysql component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

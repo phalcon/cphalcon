@@ -7,3 +7,5 @@ docs/* linguist-documentation
 
 ext/* linguist-vendored
 build/* linguist-vendored
+
+*.png binary

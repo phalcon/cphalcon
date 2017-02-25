@@ -9,7 +9,7 @@ use Phalcon\Test\Proxy\Crypt;
  * \Phalcon\Test\Unit\CryptTest
  * Tests the \Phalcon\Crypt component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -76,6 +76,7 @@ class CryptTest extends UnitTest
                     'AES-128-CBC',
                     'AES-128-CFB',
                     'AES-128-OFB',
+                    'AES128',
                 ];
 
                 $crypt = new Crypt();

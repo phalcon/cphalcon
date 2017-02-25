@@ -99,6 +99,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/controllerinterface.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
 	phalcon/mvc/micro/collectioninterface.zep.c
+	phalcon/mvc/model/binderinterface.zep.c
 	phalcon/mvc/model/criteriainterface.zep.c
 	phalcon/mvc/model/managerinterface.zep.c
 	phalcon/mvc/model/messageinterface.zep.c
@@ -276,6 +277,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model.zep.c
 	phalcon/mvc/model/behavior/softdelete.zep.c
 	phalcon/mvc/model/behavior/timestampable.zep.c
+	phalcon/mvc/model/binder.zep.c
+	phalcon/mvc/model/binder/bindableinterface.zep.c
 	phalcon/mvc/model/criteria.zep.c
 	phalcon/mvc/model/manager.zep.c
 	phalcon/mvc/model/message.zep.c
@@ -362,11 +365,13 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/alnum.zep.c
 	phalcon/validation/validator/alpha.zep.c
 	phalcon/validation/validator/between.zep.c
+	phalcon/validation/validator/callback.zep.c
 	phalcon/validation/validator/confirmation.zep.c
 	phalcon/validation/validator/creditcard.zep.c
 	phalcon/validation/validator/date.zep.c
 	phalcon/validation/validator/digit.zep.c
 	phalcon/validation/validator/email.zep.c
+	phalcon/validation/validator/exception.zep.c
 	phalcon/validation/validator/exclusionin.zep.c
 	phalcon/validation/validator/file.zep.c
 	phalcon/validation/validator/identical.zep.c
