@@ -19,6 +19,7 @@ use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\BodyParts\Body;
+use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\Snapshot\Robots as SnapshotRobots;
 use Phalcon\Test\Models\Snapshot\Robotters as SnapshotRobotters;
@@ -29,7 +30,7 @@ use Phalcon\Test\Models\Snapshot\RobotsParts as SnapshotRobotsParts;
  * Tests the Phalcon\Mvc\Model component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
@@ -572,7 +573,7 @@ class ModelTest extends UnitTest
         $this->specify(
             "Timestampable model behavior doesn't work",
             function () {
-                $subscriber = new \Phalcon\Test\Models\News\Subscribers();
+                $subscriber = new Subscribers();
 
                 $subscriber->email = 'some@some.com';
                 $subscriber->status = 'I';
@@ -588,13 +589,13 @@ class ModelTest extends UnitTest
         $this->specify(
             "Soft Delete model behavior doesn't work",
             function () {
-                $number = \Phalcon\Test\Models\News\Subscribers::count();
+                $number = Subscribers::count();
 
-                $subscriber = \Phalcon\Test\Models\News\Subscribers::findFirst();
+                $subscriber = Subscribers::findFirst();
 
                 expect($subscriber->delete())->true();
                 expect($subscriber->status)->equals('D');
-                expect(\Phalcon\Test\Models\News\Subscribers::count())->equals($number);
+                expect(Subscribers::count())->equals($number);
             }
         );
     }
@@ -770,32 +771,36 @@ class ModelTest extends UnitTest
     }
 
     /**
-     * for PR #12507
+     * @issue 12507
      */
     public function testFieldDefaultEmptyStringIsNull()
     {
         $this->specify(
             'The field default value is empty string and is determined to be null',
             function () {
-                $personers               = new Personers();
-                $personers->borgerId     = 'id-' . time() . rand(1, 99);
-                $personers->slagBorgerId = 1;
-                $personers->kredit       = 2.3;
-                $personers->status       = 'A';
+                $personers = new Personers([
+                    'borgerId'     => 'id-' . time() . rand(1, 99),
+                    'slagBorgerId' => 1,
+                    'kredit'       => 2.3,
+                    'status'       => 'A',
+                ]);
 
                 //  test field for create
                 $personers->navnes = '';
-                $created           = $personers->create();
+                $created = $personers->create();
+
                 expect($created)->true();
 
                 //  write something to not null default '' field
                 $personers->navnes = 'save something!';
-                $saved             = $personers->save();
+
+                $saved = $personers->save();
                 expect($saved)->true();
 
                 //  test field for update
                 $personers->navnes = '';
-                $saved             = $personers->save();
+                $saved = $personers->save();
+
                 expect($saved)->true();
 
                 $personers->delete();
