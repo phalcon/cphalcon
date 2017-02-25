@@ -13,7 +13,7 @@
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |		  Eduar Carvajal <eduar@phalconphp.com>                   |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
 
@@ -3838,7 +3838,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns a list of changed values
+	 * Returns a list of changed values.
+	 *
+	 * <code>
+	 * $robots = Robots::findFirst();
+	 * print_r($robots->getChangedFields()); // []
+	 *
+	 * $robots->deleted = 'Y';
+	 *
+	 * $robots->getChangedFields();
+	 * print_r($robots->getChangedFields()); // ["deleted"]
+	 * </code>
 	 */
 	public function getChangedFields() -> array
 	{
@@ -3882,7 +3892,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let changed = [];
 
 		for name, _ in allAttributes {
-
 			/**
 			 * If some attribute is not present in the snapshot, we assume the record as changed
 			 */
@@ -3902,7 +3911,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * Check if the field has changed
 			 */
-			if value != snapshot[name] {
+			if value !== snapshot[name] {
 				let changed[] = name;
 				continue;
 			}
