@@ -13,7 +13,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @method static Robots findFirstById(string|int $id)
  *
  * @copyright 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Models
