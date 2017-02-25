@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -13,7 +13,7 @@ use Phalcon\Test\Module\UnitTest;
  * Tests the Phalcon\Mvc\Micro component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
@@ -41,7 +41,7 @@ class MicroTest extends UnitTest
             function () {
                 $di = new FactoryDefault();
                 $micro = new Micro($di);
-                $manager = new EventsManager();
+                $manager = new Manager();
                 $manager->attach(
                     'micro:afterBinding',
                     function (Event $event, Micro $micro) {
@@ -285,7 +285,7 @@ class MicroTest extends UnitTest
             function () {
                 $trace = [];
 
-                $eventsManager = new EventsManager();
+                $eventsManager = new Manager();
 
                 $eventsManager->attach(
                     'micro',
