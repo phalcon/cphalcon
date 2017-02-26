@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use Helper\ModelTrait;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;

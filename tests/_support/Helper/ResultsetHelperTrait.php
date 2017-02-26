@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\Resultset;
+namespace Helper;
 
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
@@ -12,6 +12,23 @@ use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Cache\Backend\Libmemcached;
 
+/**
+ * \Helper\ResultsetHelperTrait
+ *
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
+ * @author    Andres Gutierrez <andres@phalconphp.com>
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Wojciech Ślawski <jurigag@gmail.com>
+ * @package   Phalcon\Test\Unit\Mvc
+ *
+ * The contents of this file are subject to the New BSD License that is
+ * bundled with this package in the file docs/LICENSE.txt
+ *
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world-wide-web, please send an email to license@phalconphp.com
+ * so that we can send you a copy immediately.
+ */
 trait ResultsetHelperTrait
 {
     protected function setUpEnvironment()

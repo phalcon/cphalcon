@@ -12,7 +12,7 @@ use Helper\Dialect\PostgresqlDialect;
  * Tests the \Phalcon\Db\Dialect\Postgresql component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Dialect
