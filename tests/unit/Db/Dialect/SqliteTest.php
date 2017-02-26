@@ -112,8 +112,11 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
                 $columns = $this->getColumns();
 
-                $dialect->modifyColumn('table', null,  $columns['column1']);
-            }, ['throws' => [Exception::class, 'Altering a DB column is not supported by SQLite']]
+                $dialect->modifyColumn('table', null, $columns['column1']);
+            },
+            [
+                'throws' => [Exception::class, 'Altering a DB column is not supported by SQLite']
+            ]
         );
     }
 
@@ -132,7 +135,10 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
 
                 $dialect->dropColumn('table', null, 'column1');
-            }, ['throws' => [Exception::class, 'Dropping DB column is not supported by SQLite']]
+            },
+            [
+                'throws' => [Exception::class, 'Dropping DB column is not supported by SQLite']
+            ]
         );
     }
 
@@ -241,10 +247,12 @@ class SqliteTest extends UnitTest
                 $indexes = $this->getIndexes();
 
                 $dialect->addPrimaryKey('table', null, $indexes['PRIMARY']);
-            }, ['throws' => [
-                Exception::class,
-                'Adding a primary key after table has been created is not supported by SQLite'
-            ]]
+            },
+            ['throws' => [
+                    Exception::class,
+                    'Adding a primary key after table has been created is not supported by SQLite'
+                ],
+            ]
         );
     }
 
@@ -263,10 +271,12 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
 
                 $dialect->dropPrimaryKey('table', null);
-            }, ['throws' => [
-                Exception::class,
-                'Removing a primary key after table has been created is not supported by SQLite'
-            ]]
+            },
+            ['throws' => [
+                    Exception::class,
+                    'Removing a primary key after table has been created is not supported by SQLite'
+                ],
+            ]
         );
     }
 
@@ -286,10 +296,12 @@ class SqliteTest extends UnitTest
                 $references = $this->getReferences();
 
                 $dialect->addForeignKey('table', null, $references['fk1']);
-            }, ['throws' => [
-                Exception::class,
-                'Adding a foreign key constraint to an existing table is not supported by SQLite'
-            ]]
+            },
+            ['throws' => [
+                    Exception::class,
+                    'Adding a foreign key constraint to an existing table is not supported by SQLite'
+                ],
+            ]
         );
     }
 
@@ -308,10 +320,12 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
 
                 $dialect->dropForeignKey('table', null, 'fk1');
-            }, ['throws' => [
-                Exception::class,
-                'Dropping a foreign key constraint is not supported by SQLite'
-            ]]
+            },
+            ['throws' => [
+                    Exception::class,
+                    'Dropping a foreign key constraint is not supported by SQLite'
+                ],
+            ]
         );
     }
 

@@ -10,4 +10,5 @@
     </rule>
     <file>tests/integration</file>
     <file>tests/unit</file>
+    <file>tests/_support/Helper</file>
 </ruleset>
