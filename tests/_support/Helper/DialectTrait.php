@@ -24,6 +24,9 @@ use Phalcon\Db\Reference;
  */
 trait DialectTrait
 {
+    /**
+     * @return Column[]
+     */
     protected function getColumns()
     {
         return [
@@ -140,6 +143,9 @@ trait DialectTrait
         ];
     }
 
+    /**
+     * @return Index[]
+     */
     protected function getIndexes()
     {
         return [
@@ -151,6 +157,9 @@ trait DialectTrait
         ];
     }
 
+    /**
+     * @return Reference[]
+     */
     protected function getReferences()
     {
         return [
