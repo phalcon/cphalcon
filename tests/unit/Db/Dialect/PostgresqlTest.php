@@ -115,6 +115,27 @@ class PostgresqlTest extends UnitTest
     }
 
     /**
+     * Tests Postgresql::truncateTable
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-02-26
+     */
+    public function testTruncateTable()
+    {
+        $this->specify(
+            'The SQL generated to drop a table is invalid',
+            function ($schema, $expected) {
+                $dialect = new Postgresql();
+
+                expect($dialect->truncateTable('table', $schema))->equals($expected);
+            },
+            [
+                'examples' => $this->getTruncateTable()
+            ]
+        );
+    }
+
+    /**
      * Tests Postgresql::dropColumn
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
@@ -329,6 +350,27 @@ class PostgresqlTest extends UnitTest
     }
 
     /**
+     * Tests Postgresql::viewExists
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-10-02
+     */
+    public function testViewExists()
+    {
+        $this->specify(
+            'The SQL generated to check existence of view is incorrect',
+            function ($schema, $expected) {
+                $dialect = new Postgresql();
+
+                expect($dialect->viewExists('view', $schema))->equals($expected);
+            },
+            [
+                'examples' => $this->getViewExists()
+            ]
+        );
+    }
+
+    /**
      * Tests Postgresql::listViews
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
@@ -352,7 +394,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::describeColumns
      *
-     * @issue  11359
+     * @issue  12536, 11359
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-09-30
      */
@@ -458,48 +500,6 @@ class PostgresqlTest extends UnitTest
     }
 
     /**
-     * Tests Postgresql::createTable
-     *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-09-30
-     */
-    public function testCreateTable()
-    {
-        $this->specify(
-            'The SQL generated to create a table is incorrect',
-            function ($schema, $definition, $expected) {
-                $dialect = new Postgresql();
-
-                expect($dialect->createTable('table', $schema, $definition))->equals($expected);
-            },
-            [
-                'examples' => $this->getCreateTable()
-            ]
-        );
-    }
-
-    /**
-     * Tests Postgresql::viewExists
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-10-02
-     */
-    public function testViewExists()
-    {
-        $this->specify(
-            'The SQL generated to check existence of view is incorrect',
-            function ($schema, $expected) {
-                $dialect = new Postgresql();
-
-                expect($dialect->viewExists('view', $schema))->equals($expected);
-            },
-            [
-                'examples' => $this->getViewExists()
-            ]
-        );
-    }
-
-    /**
      * Tests Postgresql::describeReferences
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -516,6 +516,27 @@ class PostgresqlTest extends UnitTest
             },
             [
                 'examples' => $this->getDescribeReferences()
+            ]
+        );
+    }
+
+    /**
+     * Tests Postgresql::createTable
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-09-30
+     */
+    public function testCreateTable()
+    {
+        $this->specify(
+            'The SQL generated to create a table is incorrect',
+            function ($schema, $definition, $expected) {
+                $dialect = new Postgresql();
+
+                expect($dialect->createTable('table', $schema, $definition))->equals($expected);
+            },
+            [
+                'examples' => $this->getCreateTable()
             ]
         );
     }
