@@ -7,7 +7,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Reference;
 
 /**
- * \Helper\Dialect\PostgresqlDialectTrait
+ * \Helper\Dialect\PostgresqlTrait
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
@@ -22,7 +22,7 @@ use Phalcon\Db\Reference;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-trait PostgresqlDialectTrait
+trait PostgresqlTrait
 {
     protected function getModifyColumn()
     {
