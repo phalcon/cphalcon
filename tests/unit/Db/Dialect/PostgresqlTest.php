@@ -5,14 +5,14 @@ namespace Phalcon\Test\Unit\Db\Dialect;
 use Helper\DialectTrait;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Dialect\Postgresql;
-use Helper\Dialect\PostgresqlDialect;
+use Helper\Dialect\PostgresqlTrait;
 
 /**
  * \Phalcon\Test\Unit\Db\Dialect\PostgresqlTest
  * Tests the \Phalcon\Db\Dialect\Postgresql component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Dialect
@@ -26,7 +26,7 @@ use Helper\Dialect\PostgresqlDialect;
  */
 class PostgresqlTest extends UnitTest
 {
-    use DialectTrait, PostgresqlDialect;
+    use DialectTrait, PostgresqlTrait;
 
     /**
      * Tests Postgresql::getColumnList

@@ -4,8 +4,9 @@ namespace Phalcon\Test\Unit\Mvc\Model\Resultset;
 
 use Phalcon\Di;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsParts;
+use Helper\ResultsetHelperTrait;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Mvc\Model\Resultset\Complex;
 
 /**

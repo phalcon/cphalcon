@@ -2,8 +2,8 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model;
 
+use Helper\ModelTrait;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Unit\Mvc\ModelTrait;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Robotters;
 

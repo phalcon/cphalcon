@@ -1,13 +1,13 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc;
+namespace Helper;
 
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 
 /**
- * \Phalcon\Test\Unit\Mvc\ModelTrait
+ * \Helper\ModelTrait
  * Helper class to test Phalcon\Mvc\Model component
  *
  * @copyright (c) 2011-2017 Phalcon Team
