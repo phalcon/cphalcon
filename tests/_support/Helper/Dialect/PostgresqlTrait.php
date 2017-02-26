@@ -218,6 +218,14 @@ trait PostgresqlTrait
         ];
     }
 
+    protected function getTruncateTable()
+    {
+        return [
+            [null,     'TRUNCATE TABLE table'],
+            ['schema', 'TRUNCATE TABLE schema.table'],
+        ];
+    }
+
     protected function getAddColumns()
     {
         return [
@@ -530,7 +538,7 @@ trait PostgresqlTrait
         ];
     }
 
-    public function getDescribeReferences()
+    protected function getDescribeReferences()
     {
         return [
             [
@@ -563,7 +571,7 @@ trait PostgresqlTrait
                         ]),
                     ]
                 ],
-                file_get_contents(PATH_FIXTURES . 'postgresql/example1.sql'),
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example1.sql')),
             ],
             'example2' => [
                 null,
@@ -591,7 +599,7 @@ trait PostgresqlTrait
                         new Index('PRIMARY', ['column3']),
                     ]
                 ],
-                file_get_contents(PATH_FIXTURES . 'postgresql/example2.sql'),
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example2.sql')),
             ],
             'example3' => [
                 null,
@@ -627,7 +635,7 @@ trait PostgresqlTrait
                         ]),
                     ],
                 ],
-                file_get_contents(PATH_FIXTURES . 'postgresql/example3.sql'),
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example3.sql')),
             ],
             'example4' => [
                 null,
@@ -647,7 +655,7 @@ trait PostgresqlTrait
                         ]),
                     ],
                 ],
-                file_get_contents(PATH_FIXTURES . 'postgresql/example4.sql'),
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example4.sql')),
             ],
             'example5' => [
                 null,
@@ -674,7 +682,7 @@ trait PostgresqlTrait
                         ]),
                     ],
                 ],
-                file_get_contents(PATH_FIXTURES . 'postgresql/example5.sql'),
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example5.sql')),
             ],
         ];
     }
