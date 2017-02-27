@@ -31,8 +31,16 @@ class ApcTest extends UnitTest
     {
         parent::_before();
 
-        if (!function_exists('apc_fetch')) {
-            $this->markTestSkipped('Warning: apc extension is not loaded');
+        if (!extension_loaded('apcu') && !extension_loaded('apc')) {
+            $this->markTestSkipped('Warning: apc/apcu extension is not loaded');
+        }
+
+        if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
+            $this->markTestSkipped('Warning: apc.enable_cli must be set to "On"');
+        }
+
+        if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
+            $this->markTestSkipped('Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203');
         }
 
         require_once PATH_DATA . 'annotations/TestClass.php';
