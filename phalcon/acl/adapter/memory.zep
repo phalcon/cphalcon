@@ -217,47 +217,69 @@ class Memory extends Adapter
 
 	/**
 	 * Do a role inherit from another existing role
+	 *
+	 * @param  array|string|RoleInterface         roleToInherit
 	 */
 	public function addInherit(string roleName, var roleToInherit) -> boolean
 	{
 		var roleInheritName, rolesNames, deepInheritName;
 
 		let rolesNames = this->_rolesNames;
+
 		if !isset rolesNames[roleName] {
 			throw new Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
-		if typeof roleToInherit == "object" {
-			let roleInheritName = roleToInherit->getName();
+		if typeof roleToInherit != "array" && typeof roleToInherit != "string" && typeof roleToInherit != "object") {
+			throw new Exception("Invalid value for roleToInherit");
+		}
+
+		if typeof roleToInherit = "array" {
+			$rolesToInherit = roleToInherit
 		} else {
-			let roleInheritName = roleToInherit;
+			let rolesToInherit = [], rolesToInherit[] = roleToInherit;
 		}
 
-		/**
-		 * Deep inherits
-		 */
-		if isset this->_roleInherits[roleInheritName] {
-			for deepInheritName in this->_roleInherits[roleInheritName] {
-				this->addInherit(roleName, deepInheritName);
+		let done = 0;
+		for roleToInherit in rolesToInherit {
+			if typeof roleToInherit == "object" {
+				let roleInheritName = roleToInherit->getName();
+			} else {
+				let roleInheritName = roleToInherit;
 			}
+
+			/**
+			 * Deep inherits
+			 */
+			if isset this->_roleInherits[roleInheritName] {
+				for deepInheritName in this->_roleInherits[roleInheritName] {
+					this->addInherit(roleName, deepInheritName);
+				}
+			}
+
+			/**
+			 * Check if the role to inherit is valid
+			 */
+			if !isset rolesNames[roleInheritName] {
+				throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
+			}
+
+			// is done is 0 at end, false is returned
+			if roleName != roleInheritName {
+				let done = done + 1;
+			}
+
+			if !isset this->_roleInherits[roleName] {
+				let this->_roleInherits[roleName] = true;
+			}
+
+			let this->_roleInherits[roleName][] = roleInheritName;
 		}
 
-		/**
-		 * Check if the role to inherit is valid
-		 */
-		if !isset rolesNames[roleInheritName] {
-			throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
-		}
-
-		if roleName == roleInheritName {
+		// are returning fail only when EVERY roleToInherit is named same as primary role
+		if done == 0 {
 			return false;
 		}
-
-		if !isset this->_roleInherits[roleName] {
-			let this->_roleInherits[roleName] = true;
-		}
-
-		let this->_roleInherits[roleName][] = roleInheritName;
 
 		return true;
 	}
