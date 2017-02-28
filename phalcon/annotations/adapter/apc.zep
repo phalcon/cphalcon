@@ -25,20 +25,24 @@ use Phalcon\Annotations\Reflection;
 /**
  * Phalcon\Annotations\Adapter\Apc
  *
- * Stores the parsed annotations in APC. This adapter is suitable for production
+ * Stores the parsed annotations in APC(u). This adapter is suitable for production.
  *
- *<code>
+ * <code>
  * use Phalcon\Annotations\Adapter\Apc;
  *
- * $annotations = new Apc();
- *</code>
+ * $annotations = new Apc([
+ *     "prefix"   => "app-annotations",
+ *     "lifetime" => 172800,
+ * ]);
+ * </code>
  */
 class Apc extends Adapter
 {
-
 	protected _prefix = "";
 
 	protected _ttl = 172800;
+
+	protected useApcu = false;
 
 	/**
 	 * Phalcon\Annotations\Adapter\Apc constructor
@@ -48,6 +52,8 @@ class Apc extends Adapter
 	public function __construct(options = null)
 	{
 		var prefix, ttl;
+
+		let this->useApcu = function_exists("apcu_fetch");
 
 		if typeof options == "array" {
 			if fetch prefix, options["prefix"] {
@@ -64,6 +70,10 @@ class Apc extends Adapter
 	 */
 	public function read(string! key) -> <Reflection> | boolean
 	{
+		if this->useApcu {
+			return apcu_fetch(strtolower("_PHAN" . this->_prefix . key));
+		}
+
 		return apc_fetch(strtolower("_PHAN" . this->_prefix . key));
 	}
 
@@ -72,6 +82,10 @@ class Apc extends Adapter
 	 */
 	public function write(string! key, <Reflection> data)
 	{
+		if this->useApcu {
+			return apcu_store(strtolower("_PHAN" . this->_prefix . key), data, this->_ttl);
+		}
+
 		return apc_store(strtolower("_PHAN" . this->_prefix . key), data, this->_ttl);
 	}
 }

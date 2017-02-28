@@ -27,9 +27,9 @@ class ApcCest
 {
     public function _before(UnitTester $I)
     {
-        if (!extension_loaded('apc')) {
+        if (!extension_loaded('apcu') && !extension_loaded('apc')) {
             throw new \PHPUnit_Framework_SkippedTestError(
-                'Warning: apc extension is not loaded'
+                'Warning: apc/apcu extension is not loaded'
             );
         }
 

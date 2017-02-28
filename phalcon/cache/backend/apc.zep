@@ -19,13 +19,14 @@
 
 namespace Phalcon\Cache\Backend;
 
-use Phalcon\Cache\Exception;
 use Phalcon\Cache\Backend;
+use Phalcon\Cache\Exception;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Cache\Backend\Apc
  *
- * Allows to cache output fragments, PHP data and raw data using an APC backend
+ * Allows to cache output fragments, PHP data and raw data using an APC(u) backend
  *
  *<code>
  * use Phalcon\Cache\Backend\Apc;
@@ -54,6 +55,17 @@ use Phalcon\Cache\Backend;
  */
 class Apc extends Backend
 {
+	protected useApcu = false;
+
+	/**
+	 * Phalcon\Cache\Backend\Apc constructor
+	 */
+	public function __construct(<FrontendInterface> frontend, array options = null)
+	{
+		let this->useApcu = function_exists("apcu_fetch");
+
+		parent::__construct(frontend, options);
+	}
 
 	/**
 	 * Returns a cached content
@@ -65,7 +77,12 @@ class Apc extends Backend
 		let prefixedKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = prefixedKey;
 
-		let cachedContent = apc_fetch(prefixedKey);
+		if this->useApcu {
+			let cachedContent = apcu_fetch(prefixedKey);
+		} else {
+			let cachedContent = apc_fetch(prefixedKey);
+		}
+
 		if cachedContent === false {
 			return null;
 		}
@@ -126,7 +143,11 @@ class Apc extends Backend
 		/**
 		 * Call apc_store in the PHP userland since most of the time it isn't available at compile time
 		 */
-		let success = apc_store(lastKey, preparedContent, ttl);
+		if this->useApcu {
+			let success = apcu_store(lastKey, preparedContent, ttl);
+		} else {
+			let success = apc_store(lastKey, preparedContent, ttl);
+		}
 
 		if !success {
 			throw new Exception("Failed storing data in apc");
@@ -159,9 +180,12 @@ class Apc extends Backend
 		let prefixedKey = "_PHCA" . this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
 
+		if this->useApcu {
+			return apcu_inc(prefixedKey, value);
+		}
+
 		if function_exists("apc_inc") {
-			let result = apc_inc(prefixedKey, value);
-			return result;
+			return apc_inc(prefixedKey, value);
 		} else {
 			let cachedContent = apc_fetch(prefixedKey);
 
@@ -187,6 +211,10 @@ class Apc extends Backend
 		let lastKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = lastKey;
 
+		if this->useApcu {
+			return apcu_dec(lastKey, value);
+		}
+
 		if function_exists("apc_dec") {
 			return apc_dec(lastKey, value);
 		} else {
@@ -207,6 +235,10 @@ class Apc extends Backend
 	 */
 	public function delete(string! keyName) -> boolean
 	{
+		if this->useApcu {
+			return apc_delete("_PHCA" . this->_prefix . keyName);
+		}
+
 		return apc_delete("_PHCA" . this->_prefix . keyName);
 	}
 
@@ -230,9 +262,13 @@ class Apc extends Backend
 			let prefixPattern = "/^_PHCA" . prefix . "/";
 		}
 
-		let keys = [],
-			apc = new \APCIterator("user", prefixPattern);
+		if class_exists("APCUIterator") {
+			let apc = new \APCUIterator(prefixPattern);
+		} else {
+			let apc = new \APCIterator("user", prefixPattern);
+		}
 
+		let keys = [];
 		for key, _ in iterator(apc) {
 			let keys[] = substr(key, 5);
 		}
@@ -251,18 +287,20 @@ class Apc extends Backend
 		var lastKey;
 
 		if keyName === null {
-			let lastKey = this->_lastKey;
+			let lastKey = (string) this->_lastKey;
 		} else {
 			let lastKey = "_PHCA" . this->_prefix . keyName;
 		}
 
-		if lastKey {
-			if apc_exists(lastKey) !== false {
-				return true;
-			}
+		if empty(lastKey) {
+			return false;
 		}
 
-		return false;
+		if this->useApcu {
+			return apcu_exists(lastKey);
+		}
+
+		return apc_exists(lastKey);
 	}
 
 	/**
@@ -281,12 +319,22 @@ class Apc extends Backend
 	 */
 	public function flush() -> boolean
 	{
-		var item, prefixPattern;
+		var item, prefixPattern, apc;
 
 		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
 
-		for item in iterator(new \APCIterator("user", prefixPattern)) {
-			apc_delete(item["key"]);
+		if class_exists("APCUIterator") {
+			let apc = new \APCUIterator(prefixPattern);
+
+			for item in iterator(apc) {
+				apcu_delete(item["key"]);
+			}
+		} else {
+			let apc = new \APCIterator("user", prefixPattern);
+
+			for item in iterator(apc) {
+				apc_delete(item["key"]);
+			}
 		}
 
 		return true;
