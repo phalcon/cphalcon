@@ -227,7 +227,7 @@ class File extends Backend
 
 		let this->_started = false;
 
-		return status;
+		return status !== false;
 	}
 
 	/**
