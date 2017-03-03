@@ -227,4 +227,76 @@ class SnapshotTest extends UnitTest
             }
         );
     }
+
+    /**
+     * When model is created/updated snapshot should be set/updated
+     *
+     * @issue  11007, 11818, 11424
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-03
+     */
+    public function testIssue11007()
+    {
+        $this->specify(
+            'Snapshot is not created/updated when create/update operation was made',
+            function () {
+                $this->setUpModelsManager();
+                $robots = new Robots(
+                    [
+                        'name'     => 'test',
+                        'type'     => 'mechanical',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+
+                expect($robots->create())->true();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->getSnapshotData())->equals($robots->toArray());
+
+                $robots->name = "testabc";
+                expect($robots->hasChanged('name'))->true();
+                expect($robots->update())->true();
+                expect($robots->name)->equals("testabc");
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->getSnapshotData())->equals($robots->toArray());
+                expect($robots->hasChanged('name'))->false();
+            }
+        );
+    }
+
+    /**
+     * When model is refreshed snapshot should be updated
+     *
+     * @issue  11007, 11818, 11424
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-03
+     */
+    public function testIssue11007Refresh()
+    {
+        $this->specify(
+            'Snapshot is not updated when refresh operation was made',
+            function () {
+                $this->setUpModelsManager();
+                $robots = new Robots(
+                    [
+                        'name'     => 'test',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+
+                expect($robots->create())->true();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->getSnapshotData())->equals($robots->toArray());
+
+                expect($robots->refresh())->isInstanceOf(Robots::class);
+                expect($robots->type)->equals('mechanical');
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->getSnapshotData())->equals($robots->toArray());
+            }
+        );
+    }
 }
