@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Models;
+namespace Phalcon\Test\Models\Validation;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Validation;
@@ -14,7 +14,7 @@ use Phalcon\Validation\Validator\ExclusionIn;
 use Phalcon\Validation\Validator\StringLength;
 
 /**
- * \Phalcon\Test\Models\Subscriptores
+ * \Phalcon\Test\Models\Validation\Subscriptores
  *
  * @property int id
  * @property string email
@@ -25,7 +25,7 @@ use Phalcon\Validation\Validator\StringLength;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Models
+ * @package   Phalcon\Test\Models\Validation
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
