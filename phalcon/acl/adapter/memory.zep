@@ -319,7 +319,7 @@ class Memory extends Adapter
 	{
 		var resourceName, resourceObject;
 
-		if typeof resourceValue == "object" {
+		if typeof resourceValue == "object" && resourceValue instanceof ResourceInterface {
 			let resourceName   = resourceValue->getName();
 			let resourceObject = resourceValue;
 		 } else {
