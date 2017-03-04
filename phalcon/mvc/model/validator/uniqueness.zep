@@ -56,6 +56,9 @@ use Phalcon\Mvc\Model\Validator;
  *     }
  * }
  *</code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\Uniqueness
  */
 class Uniqueness extends Validator
 {

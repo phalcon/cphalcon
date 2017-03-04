@@ -80,6 +80,8 @@ use Phalcon\Mvc\Model\Validator;
  *     }
  * }
  *</code>
+ *
+ * @deprecated 3.1.0
  */
 class Ip extends Validator
 {

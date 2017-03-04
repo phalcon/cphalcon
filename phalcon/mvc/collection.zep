@@ -752,9 +752,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *     }
 	 * }
 	 *</code>
-	 *
-	 * @deprecated 3.1.0
-	 * @see \Phalcon\Validation
 	 */
 	public function validationHasFailed() -> boolean
 	{
