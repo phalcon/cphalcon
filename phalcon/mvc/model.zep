@@ -2237,13 +2237,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType,
-			defaultValue, sequenceName, defaultValues, source, schema;
+			defaultValue, sequenceName, defaultValues, source, schema, snapshot, lastInsertedId, manager;
 		boolean useExplicitIdentity;
 
 		let bindSkip = Column::BIND_SKIP;
+		let manager = <ManagerInterface> this->_modelsManager;
 
 		let fields = [],
 			values = [],
+			snapshot = [],
 			bindTypes = [];
 
 		let attributes = metaData->getAttributes(this),
@@ -2297,13 +2299,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						}
 
 						let fields[] = field, values[] = value, bindTypes[] = bindType;
-
+						let snapshot[attributeField] = value;
 					} else {
 
 						if isset defaultValues[field] {
 							let values[] = connection->getDefaultValue();
+							/**
+							 * This is default value so we set null, keep in mind it's value in database!
+							 */
+							let snapshot[attributeField] = null;
 						} else {
 							let values[] = value;
+							let snapshot[attributeField] = value;
 						}
 
 						let fields[] = field, bindTypes[] = bindSkip;
@@ -2401,7 +2408,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * Recover the last "insert id" and assign it to the object
 			 */
-			let this->{attributeField} = connection->lastInsertId(sequenceName);
+			let lastInsertedId = connection->lastInsertId(sequenceName);
+
+			let this->{attributeField} = lastInsertedId;
+			let snapshot[attributeField] = lastInsertedId;
+
+			if manager->isKeepingSnapshots(this) {
+			    let this->_snapshot = snapshot;
+			}
 
 			/**
 			 * Since the primary key was modified, we delete the _uniqueParams
@@ -2425,13 +2439,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  	{
  		var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field,
  			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
- 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType;
+ 			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType, newSnapshot, success;
  		boolean useDynamicUpdate, changed;
 
  		let bindSkip = Column::BIND_SKIP,
  			fields = [],
  			values = [],
  			bindTypes = [],
+ 			newSnapshot = [],
  			manager = <ManagerInterface> this->_modelsManager;
 
  		/**
@@ -2564,8 +2579,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  							let bindTypes[] = bindType;
  						}
  					}
+                    let newSnapshot[attributeField] = value;
 
  				} else {
+ 				    let newSnapshot[attributeField] = null;
  					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
  				}
  			}
@@ -2611,8 +2628,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  				}
 
  				if fetch value, this->{attributeField} {
+ 				    let newSnapshot[attributeField] = value;
  					let uniqueParams[] = value;
  				} else {
+ 				    let newSnapshot[attributeField] = null;
  					let uniqueParams[] = null;
  				}
  			}
@@ -2622,11 +2641,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 * We build the conditions as an array
  		 * Perform the low level update
  		 */
- 		return connection->update(table, fields, values, [
+ 		let success = connection->update(table, fields, values, [
  			"conditions" : uniqueKey,
  			"bind"	     : uniqueParams,
  			"bindTypes"  : uniqueTypes
  		], bindTypes);
+
+ 		if success && manager->isKeepingSnapshots(this) {
+            let this->_snapshot = array_merge(this->_snapshot, newSnapshot);
+ 		}
+
+ 		return success;
  	}
 
 	/**
@@ -3343,14 +3368,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public function refresh() -> <Model>
 	{
 		var metaData, readConnection, schema, source, table,
-			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute;
+			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute, manager, columnMap;
 
 		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
 			throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 		}
 
 		let metaData = this->getModelsMetaData(),
-			readConnection = this->getReadConnection();
+			readConnection = this->getReadConnection(),
+			manager = <ManagerInterface> this->_modelsManager;
 
 		let schema = this->getSchema(),
 			source = this->getSource();
@@ -3403,7 +3429,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Assign the resulting array to the this object
 		 */
 		if typeof row == "array" {
-			this->assign(row, metaData->getColumnMap(this));
+			let columnMap = metaData->getColumnMap(this);
+			this->assign(row, columnMap);
+			if manager->isKeepingSnapshots(this) {
+				this->setSnapshotData(row, columnMap);
+			}
 		}
 
 		return this;

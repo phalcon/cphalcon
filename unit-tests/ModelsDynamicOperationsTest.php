@@ -103,17 +103,17 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($tracer), 3);
 
 		$persona->nombres = 'Other Name '.mt_rand(0, 150000);
+        $this->assertEquals($persona->getChangedFields(), array('nombres'));
 		$this->assertTrue($persona->save());
 
 		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[3]);
-		$this->assertEquals($persona->getChangedFields(), array('nombres'));
 
 		$persona->nombres = 'Other Name '.mt_rand(0, 150000);
 		$persona->direccion = 'Address '.mt_rand(0, 150000);
+        $this->assertEquals($persona->getChangedFields(), array('nombres', 'direccion'));
 		$this->assertTrue($persona->save());
 
 		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[4]);
-		$this->assertEquals($persona->getChangedFields(), array('nombres', 'direccion'));
 	}
 
 	protected function _executeTestsRenamed($di, &$tracer)
@@ -124,17 +124,17 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($tracer), 3);
 
 		$personer->navnes = 'Other Name '.mt_rand(0, 150000);
+        $this->assertEquals($personer->getChangedFields(), array('navnes'));
 		$this->assertTrue($personer->save());
 
 		$this->assertEquals('UPDATE `personas` SET `nombres` = ? WHERE `cedula` = ?', $tracer[3]);
-		$this->assertEquals($personer->getChangedFields(), array('navnes'));
 
 		$personer->navnes = 'Other Name '.mt_rand(0, 150000);
 		$personer->adresse = 'Address '.mt_rand(0, 150000);
+        $this->assertEquals($personer->getChangedFields(), array('navnes', 'adresse'));
 		$this->assertTrue($personer->save());
 
 		$this->assertEquals('UPDATE `personas` SET `nombres` = ?, `direccion` = ? WHERE `cedula` = ?', $tracer[4]);
-		$this->assertEquals($personer->getChangedFields(), array('navnes', 'adresse'));
 	}
 
 }
