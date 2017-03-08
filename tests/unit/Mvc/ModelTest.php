@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Mvc;
 
 use Helper\ModelTrait;
+use Phalcon\Mvc\Model\Message;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
@@ -19,6 +20,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\BodyParts\Body;
 use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\Validation;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
@@ -610,6 +612,37 @@ class ModelTest extends UnitTest
                 expect($saved)->true();
 
                 $personers->delete();
+            }
+        );
+    }
+
+
+    /**
+     * Tests setting code in message from validation messages
+     *
+     * @issue  12645
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-03
+     */
+    public function testIssue12645()
+    {
+        $this->specify(
+            "Issue #12645 is not fixed",
+            function () {
+                $robots = new Validation\Robots(
+                    [
+                        'name'     => 'asd',
+                        'type'     => 'mechanical',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+                expect($robots->create())->false();
+                /** @var Message $message */
+                $message = $robots->getMessages()[0];
+                expect($message)->isInstanceOf(Message::class);
+                expect($message->getCode())->equals(20);
             }
         );
     }
