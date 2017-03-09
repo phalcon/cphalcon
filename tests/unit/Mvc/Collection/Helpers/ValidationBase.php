@@ -9,7 +9,7 @@ use Phalcon\Test\Collections\People;
 use Phalcon\Test\Collections\Users;
 use UnitTester;
 
-class Validation
+class ValidationBase
 {
     use CollectionTrait;
 
