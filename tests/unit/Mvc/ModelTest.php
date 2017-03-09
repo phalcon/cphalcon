@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use DateTime;
 use Helper\ModelTrait;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Test\Models\Users;
@@ -643,6 +644,30 @@ class ModelTest extends UnitTest
                 $message = $robots->getMessages()[0];
                 expect($message)->isInstanceOf(Message::class);
                 expect($message->getCode())->equals(20);
+            }
+        );
+    }
+
+    /**
+     * Tests empty string value on not null
+     *
+     * @issue  12688
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-09
+     */
+    public function testIssue12688()
+    {
+        $this->specify(
+            'Issue 12688 is happening',
+            function () {
+                $robots = new Robots();
+                $robots->name = '';
+                $robots->save(
+                    [
+                        'datetime' => (new DateTime())->format('Y-m-d'),
+                        'text'     => 'text',
+                    ]
+                );
             }
         );
     }
