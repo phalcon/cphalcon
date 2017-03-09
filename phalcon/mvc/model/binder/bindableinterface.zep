@@ -21,7 +21,7 @@
 namespace Phalcon\Mvc\Model\Binder;
 
 /**
- * Phalcon\Mvc\Controller\Binder\BindableInterface
+ * Phalcon\Mvc\Model\Binder\BindableInterface
  *
  * Interface for bindable classes
  */
