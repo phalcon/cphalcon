@@ -12,7 +12,7 @@
 #  to license@phalconphp.com so we can send you a copy immediately.
 #
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
-#            Eduar Carvajal <eduar@phalconphp.com>
+#           Eduar Carvajal <eduar@phalconphp.com>
 #
 #  Available params:
 #  --arch
@@ -29,8 +29,8 @@ export CPPFLAGS="-DPHALCON_RELEASE"
 
 # Set defaults
 ARCH=
-PHPIZE_BIN=phpize
-PHPCONFIG_BIN=php-config
+PHPIZE_BIN=`which phpize`
+PHPCONFIG_BIN=`which php-config`
 
 # Translate long options to short
 for arg in "$@"; do
