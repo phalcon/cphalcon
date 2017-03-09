@@ -48,6 +48,9 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Simon Schoenenberger
+- Jesse Forrest
+- Trent Ramseyer
 - Carlos Cardozo
 - Robert Al-Romhein
 - Łukasz Krawczyk
@@ -62,6 +65,8 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
+- Eduard Jiménez
+- Felix Ruzzoli
 - Philipp Sundermeyer
 - Mateusz B
 - Valerio Belli
