@@ -227,7 +227,7 @@ class Memory extends Adapter
 			throw new Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
-		if typeof roleToInherit == "object" {
+		if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
 			let roleInheritName = roleToInherit->getName();
 		} else {
 			let roleInheritName = roleToInherit;
@@ -319,7 +319,7 @@ class Memory extends Adapter
 	{
 		var resourceName, resourceObject;
 
-		if typeof resourceValue == "object" {
+		if typeof resourceValue == "object" && resourceValue instanceof ResourceInterface {
 			let resourceName   = resourceValue->getName();
 			let resourceObject = resourceValue;
 		 } else {
