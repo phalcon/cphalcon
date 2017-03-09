@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save) {
 	} else {
 		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
-	RETURN_CCTOR(status);
+	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(status));
 
 }
 

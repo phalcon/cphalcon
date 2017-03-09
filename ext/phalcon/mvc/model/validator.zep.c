@@ -27,8 +27,11 @@
  *
  * This is a base class for Phalcon\Mvc\Model validators
  *
- * This class is only for use with Phalcon\Mvc\Collection. If you are using
- * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ * This class is only for backward compatibility reasons to use with Phalcon\Mvc\Collection.
+ * Otherwise please use the validators provided by Phalcon\Validation.
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
