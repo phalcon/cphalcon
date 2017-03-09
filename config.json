@@ -6,6 +6,7 @@
         "constant-folding": true,
         "static-constant-class-folding": true
     },
+
     "namespace": "phalcon",
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
