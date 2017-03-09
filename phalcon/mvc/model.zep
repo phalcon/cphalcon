@@ -2091,7 +2091,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 											let isNull = true;
 										}
 									} else {
-										if value === null || (value === "" && value !== defaultValues[field]) {
+										if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
 											let isNull = true;
 										}
 									}
