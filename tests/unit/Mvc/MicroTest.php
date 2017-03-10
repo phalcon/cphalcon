@@ -448,20 +448,19 @@ class MicroTest extends UnitTest
             function () {
                 $app = new Micro();
                 $app->after(
-                    function () use($app){
+                    function () use ($app) {
                         $content = $app->getReturnedValue();
                         $app->response->setJsonContent($content)->send();
                     }
                 );
                 $app->map(
                     "/api",
-                    function (){
-                       return "success";
+                    function () {
+                        return "success";
                     }
                 );
                 $app->handle("/api");
             }
         );
     }
-    
 }
