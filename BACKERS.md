@@ -48,6 +48,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1185010)
 
+- Gregory Burns
 - Simon Schoenenberger
 - Jesse Forrest
 - Trent Ramseyer
@@ -65,6 +66,7 @@ No pledges yet.
 
 [Pledge](https://www.patreon.com/bePatron?u=4653615&rid=1221352)
 
+- Duke Homer Grippfield
 - Eduard Jiménez
 - Felix Ruzzoli
 - Philipp Sundermeyer
