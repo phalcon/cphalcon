@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 2017-01-11
- * Time: 17:11
- */
 
 namespace Phalcon\Test\Unit\Mvc\Collection\Helpers;
 
+use DateTime;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
 use UnitTester;
@@ -22,9 +17,11 @@ trait CollectionUniquenessTrait
         $I->assertCount(0, $messages);
         $I->assertTrue($this->robot->save());
         $messages = $validation->validate(null, $this->robot);
-        $I->assertCount(1, $messages);
+        $I->assertCount(0, $messages);
         $messages = $validation->validate(null, $this->anotherRobot);
         $I->assertCount(0, $messages);
+        $messages = $validation->validate(null, $this->deletedRobot);
+        $I->assertCount(1, $messages);
     }
 
     private function testSingleFieldConvert(UnitTester $I)
@@ -36,7 +33,7 @@ trait CollectionUniquenessTrait
                 return $values;
             }
         ]));
-        $messages = $validation->validate(null, $this->robot);
+        $messages = $validation->validate(null, $this->deletedRobot);
         $I->assertCount(0, $messages);
     }
 
@@ -45,7 +42,7 @@ trait CollectionUniquenessTrait
         $validation = new Validation();
         $validation->add('deleted', new Uniqueness());
         $messages = $validation->validate(null, $this->robot);
-        $I->assertCount(1, $messages);
+        $I->assertCount(0, $messages);
         $messages = $validation->validate(null, $this->anotherRobot);
         $I->assertCount(1, $messages);
         $messages = $validation->validate(null, $this->deletedRobot);
@@ -57,9 +54,11 @@ trait CollectionUniquenessTrait
         $validation = new Validation();
         $validation->add(['name', 'type'], new Uniqueness());
         $messages = $validation->validate(null, $this->robot);
-        $I->assertCount(1, $messages);
+        $I->assertCount(0, $messages);
         $messages = $validation->validate(null, $this->anotherRobot);
         $I->assertCount(0, $messages);
+        $messages = $validation->validate(null, $this->deletedRobot);
+        $I->assertCount(1, $messages);
     }
 
     private function testMultipleFieldsConvert(UnitTester $I)
@@ -71,7 +70,7 @@ trait CollectionUniquenessTrait
                 return $values;
             }
         ]));
-        $messages = $validation->validate(null, $this->robot);
+        $messages = $validation->validate(null, $this->deletedRobot);
         $I->assertCount(0, $messages);
     }
 
@@ -80,11 +79,15 @@ trait CollectionUniquenessTrait
         $validation = new Validation();
         $validation->add(['type', 'deleted'], new Uniqueness());
         $messages = $validation->validate(null, $this->robot);
-        $I->assertCount(1, $messages);
+        $I->assertCount(0, $messages);
         $messages = $validation->validate(null, $this->anotherRobot);
         $I->assertCount(0, $messages);
         $messages = $validation->validate(null, $this->deletedRobot);
         $I->assertCount(0, $messages);
+        $this->deletedRobot->deleted = null;
+        $messages = $validation->validate(null, $this->deletedRobot);
+        $I->assertCount(1, $messages);
+        $this->deletedRobot->deleted = (new DateTime())->format('Y-m-d H:i:s');
     }
 
     private function testExceptSingleFieldSingleExcept(UnitTester $I)
@@ -96,7 +99,7 @@ trait CollectionUniquenessTrait
         $messages = $validation->validate(null, $this->robot);
         $I->assertCount(0, $messages);
         $I->assertTrue($this->anotherRobot->save());
-        $messages = $validation->validate(null, $this->anotherRobot);
+        $messages = $validation->validate(null, $this->deletedRobot);
         $I->assertCount(1, $messages);
     }
 
@@ -117,14 +120,18 @@ trait CollectionUniquenessTrait
         $validation = new Validation();
         $validation->add(['type', 'year'], new Uniqueness([
             'except' => [
-                'type' => 'mechanical',
-                'year' => 1972,
+                'type' => 'hydraulic',
+                'year' => 1952,
             ],
         ]));
-        $messages = $validation->validate(null, $this->robot);
+        $messages = $validation->validate(null, $this->deletedRobot);
         $I->assertCount(0, $messages);
-        $messages = $validation->validate(null, $this->anotherRobot);
+        $this->deletedRobot->type = 'mechanical';
+        $this->deletedRobot->year = 1972;
+        $messages = $validation->validate(null, $this->deletedRobot);
         $I->assertCount(1, $messages);
+        $this->deletedRobot->type = 'hydraulic';
+        $this->deletedRobot->year = 1952;
     }
 
     private function testExceptMultipleFieldMultipleExcept(UnitTester $I)

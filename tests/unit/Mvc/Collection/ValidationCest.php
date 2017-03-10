@@ -4,9 +4,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use DateTime;
 use Helper\CollectionTrait;
+use Phalcon\Di;
 use Phalcon\Test\Collections\Robots;
 use Phalcon\Test\Unit\Mvc\Collection\Helpers\CollectionUniquenessTrait;
-use Phalcon\Test\Unit\Mvc\Collection\Helpers\Validation;
+use Phalcon\Test\Unit\Mvc\Collection\Helpers\ValidationBase;
 use UnitTester;
 
 /**
@@ -27,7 +28,7 @@ use UnitTester;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class ValidationCest extends Validation
+class ValidationCest extends ValidationBase
 {
     /**
      * @var Robots
@@ -44,6 +45,8 @@ class ValidationCest extends Validation
      */
     private $deletedRobot;
 
+    private $mongo;
+
     use CollectionTrait;
     use CollectionUniquenessTrait;
 
@@ -52,6 +55,7 @@ class ValidationCest extends Validation
         $I->wantToTest("Collection validation");
 
         $this->setupMongo($I);
+        $this->mongo = $I->grabServiceFromDi('mongo');
 
         $this->success($I);
         $this->presenceOf($I);
@@ -89,7 +93,7 @@ class ValidationCest extends Validation
         $this->deletedRobot = new Robots();
         $this->deletedRobot->name = 'Robotina';
         $this->deletedRobot->type = 'mechanical';
-        $this->deletedRobot->year = 1972;
+        $this->deletedRobot->year = 1952;
         $this->deletedRobot->datetime = (new DateTime())->format('Y-m-d H:i:s');
         $this->deletedRobot->deleted = (new DateTime())->format('Y-m-d H:i:s');
         $this->deletedRobot->text = 'text';
@@ -105,5 +109,14 @@ class ValidationCest extends Validation
         $this->testExceptMultipleFieldSingleExcept($I);
         $this->testExceptMultipleFieldMultipleExcept($I);
         $this->testConvertArrayReturnsArray($I);
+    }
+
+    public function __destruct()
+    {
+        if (extension_loaded('mongo')) {
+            $this->mongo->selectCollection('robots')->remove();
+            $this->mongo->selectCollection('users')->remove();
+            $this->mongo->selectCollection('people')->remove();
+        }
     }
 }
