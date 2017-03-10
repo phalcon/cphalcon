@@ -460,6 +460,7 @@ class MicroTest extends UnitTest
                     }
                 );
                 $app->handle("/api");
+                expect($app->handle('/api'))->equals("\"success\""); 
             }
         );
     }
