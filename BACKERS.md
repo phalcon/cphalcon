@@ -78,3 +78,6 @@ No pledges yet.
 - Semen Pinigin
 - Daif Alotaibi ([@dalf](https://github.com/daif))
 - Baruch Spinoza
+
+# Core Team
+Andres, Serghei, Eduar, Nikolay, Nikolaos
