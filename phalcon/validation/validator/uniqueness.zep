@@ -361,7 +361,8 @@ class Uniqueness extends CombinedFieldsValidator
 		}
 
 		if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
-			let params["conditions"]["_id"] = record->getId();
+			array arrayValue = ["$ne": record->getId()];
+			let params["conditions"]["_id"] = arrayValue;
 		}
 
 		if !empty exceptConditions {

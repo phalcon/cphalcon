@@ -16,6 +16,7 @@
 - Fixed `Phalcon\Mvc\Model::validate` to correctly set code message [#12645](https://github.com/phalcon/cphalcon/issues/12645)
 - Added the value of the object intanceof Interface to `Phalcon\Acl\Adapter\Memory`
 - Fixed `Phalcon\Mvc\Model` to correctly add error when try to save empty string value to not null and not default column [#12688](https://github.com/phalcon/cphalcon/issues/12688)
+- Fixed `Phalcon\Validation\Validator\Uniqueness` collection persistent condition
 
 # [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (2017-02-20)
 - Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)
