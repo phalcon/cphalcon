@@ -13,7 +13,7 @@
 
 
 /**
- * Phalcon\Mvc\Controller\Binder\BindableInterface
+ * Phalcon\Mvc\Model\Binder\BindableInterface
  *
  * Interface for bindable classes
  */
