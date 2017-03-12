@@ -277,7 +277,7 @@ class CallbackTest extends UnitTest
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
-     * @expectedException \Phalcon\Validation\Exception
+     * @expectedException \Phalcon\Validation\Validator\Exception
      * @expectedExceptionMessage Callback must return boolean or Phalcon\Validation\Validator object
      */
     public function testException()

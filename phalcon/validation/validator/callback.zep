@@ -20,7 +20,6 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Exception;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator;
 
