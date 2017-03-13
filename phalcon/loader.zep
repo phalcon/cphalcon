@@ -337,11 +337,12 @@ class Loader implements EventsAwareInterface
 			 * Append the namespace separator to the prefix
 			 */
 			let fileName = substr(className, strlen(nsPrefix . ns));
-			let fileName = str_replace(ns, ds, fileName);
 
 			if !fileName {
 				continue;
 			}
+
+			let fileName = str_replace(ns, ds, fileName);
 
 			for directory in directories {
 				/**
