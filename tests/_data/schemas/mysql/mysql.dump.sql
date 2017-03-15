@@ -569,6 +569,39 @@ INSERT INTO `stats` (`date`, `type`, `value`) VALUES
 /*!40000 ALTER TABLE `stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `stock`
+--
+
+DROP TABLE IF EXISTS `stock`;
+CREATE TABLE `stock` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `stock` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stock`
+--
+LOCK TABLES `stock` WRITE;
+INSERT INTO `stock` (`id`, `name`, `stock`) VALUES
+(1, 'Apple', 2),
+(2, 'Carrot', 6),
+(3, 'pear', 0);
+UNLOCK TABLES;
+
+--
+-- Indexes for table `stock`
+--
+ALTER TABLE `stock`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for table `stock`
+--
+ALTER TABLE `stock`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
