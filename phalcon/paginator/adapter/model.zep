@@ -146,8 +146,8 @@ class Model extends Adapter implements AdapterInterface
 			page->current = pageNumber,
 			page->last = totalPages,
 			page->next = next,
-			page->total_pages = totalPages,
-			page->total_items = n,
+			page->totalPages = totalPages,
+			page->totalItems = n,
 			page->limit = this->_limitRows;
 
 		return page;

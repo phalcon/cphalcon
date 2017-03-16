@@ -130,8 +130,8 @@ class NativeArray extends Adapter implements AdapterInterface
 			page->current = pageNumber,
 			page->last = totalPages,
 			page->next = next,
-			page->total_pages = totalPages,
-			page->total_items = number,
+			page->totalPages = totalPages,
+			page->totalItems = number,
 			page->limit = this->_limitRows;
 
 		return page;
