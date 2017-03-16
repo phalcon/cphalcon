@@ -2321,7 +2321,7 @@ class Compiler implements InjectionAwareInterface
 	 * @param boolean extendsMode
 	 * @return string|array
 	 */
-	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false)
+	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false, filterObject = null)
 	{
 		var viewCode, compilation, finalCompilation;
 
@@ -2347,6 +2347,20 @@ class Compiler implements InjectionAwareInterface
 		let this->_currentPath = path;
 		let compilation = this->_compileSource(viewCode, extendsMode);
 
+		if filterObject != null {
+			if typeof filterObject == "string" {
+				if !empty filterObject {
+					let filterObject = <Filter\FilterInterface> new {filterObject}();
+				}
+			}
+
+			if typeof filterObject == "object" {
+				if filterObject instanceof Filter\FilterInterface {
+						let compilation = filterObject->filter(compilation);
+				}
+			}
+		}
+		
 		/**
 		 * We store the file serialized if it's an array of blocks
 		 */
@@ -2398,6 +2412,7 @@ class Compiler implements InjectionAwareInterface
 		let compileAlways = false;
 		let compiledPath = "";
 		let prefix = null;
+		let filter = null;
 		let compiledSeparator = "%%";
 		let compiledExtension = ".php";
 		let compilation = null;
@@ -2454,6 +2469,18 @@ class Compiler implements InjectionAwareInterface
 				let compiledExtension = options["compiledExtension"];
 				if typeof compiledExtension != "string" {
 					throw new Exception("'compiledExtension' must be a string");
+				}
+			}
+
+			/**
+			 * filters the code after compilation
+			 */
+			if isset options["filter"] {
+				let filterObject = options["filter"];
+				if typeof filterObject != "string" {
+					if typeof filterObject != "object" {
+						throw new Exception("'filter' must be a string or a filter");
+					}
 				}
 			}
 
@@ -2524,7 +2551,7 @@ class Compiler implements InjectionAwareInterface
 			/**
 			 * Compile always must be used only in the development stage
 			 */
-			let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+			let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode, filter);
 		} else {
 			if stat === true {
 				if file_exists(compiledTemplatePath) {
@@ -2533,7 +2560,7 @@ class Compiler implements InjectionAwareInterface
 					 * Compare modification timestamps to check if the file needs to be recompiled
 					 */
 					if compare_mtime(templatePath, realCompiledPath) {
-						let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+						let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode, filter);
 					} else {
 
 						if extendsMode === true {
@@ -2561,7 +2588,7 @@ class Compiler implements InjectionAwareInterface
 					/**
 					 * The file doesn't exist so we compile the php version for the first time
 					 */
-					let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
+					let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode, filter);
 				}
 			} else {
 
