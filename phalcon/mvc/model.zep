@@ -797,7 +797,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager,
 			calledClass;
 
 		let dependencyInjector = Di::getDefault();
