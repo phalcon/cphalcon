@@ -994,6 +994,40 @@ class ViewTest extends UnitTest
         );
     }
 
+    /**
+     * Tests params view scope
+     *
+     * @issue  12648
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-17
+     */
+    public function testIssue12648()
+    {
+        if (PHP_MAJOR_VERSION != 5) {
+            $this->markTestSkipped("This issue is fixed only for php5");
+        }
+
+        $this->specify(
+            "View params are available in local scope",
+            function () {
+                $this->_clearCache();
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setParamToView('a_cool_var', 'test');
+
+                $content = $view->setRenderLevel(View::LEVEL_ACTION_VIEW)->getRender('test3', 'another');
+                expect($content)->equals("<html>lol<p>test</p></html>\n");
+                try {
+                    echo $a_cool_var;
+                } catch (\PHPUnit_Framework_Exception $e) {
+                    expect($e->getMessage())->contains("Undefined variable: a_cool_var");
+                }
+            }
+        );
+    }
+
     private function _getDi($service = 'viewCache', $lifetime = 60)
     {
         $di = new Di();
