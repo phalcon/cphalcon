@@ -797,7 +797,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager
+			calledClass;
 
 		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
@@ -815,7 +816,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Builds a query with the passed parameters
 		 */
 		let builder = manager->createBuilder(params);
-		builder->from(get_called_class());
+		if !fetch calledClass, parameters["calledclass"] {
+			let calledClass = get_called_class();
+		}
+		builder->from(calledClass);
 
 		let query = builder->getQuery();
 
@@ -1143,7 +1147,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var params, distinctColumn, groupColumn, columns,
 			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
-			builder, query, dependencyInjector, manager;
+			builder, query, dependencyInjector, manager, calledClass;
 
 		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
@@ -1179,7 +1183,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let builder = manager->createBuilder(params);
 		builder->columns(columns);
-		builder->from(get_called_class());
+		if !fetch calledClass, parameters["calledClass"] {
+			let calledClass = get_called_class();
+		}
+		builder->from(calledClass);
 
 		let query = builder->getQuery();
 
@@ -1711,7 +1718,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * We don't trust the actual values in the object and pass the values using bound parameters
 			 * Let's make the checking
 			 */
-			if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+			if !validateWithNulls && !referencedModel->count([
+				join(" AND ", conditions),
+				"bind": bindParams,
+				"calledClass":get_called_class()
+				])
+			{
 
 				/**
 				 * Get the user message or produce a new one
@@ -1837,7 +1849,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 */
 			let resultset = referencedModel->find([
 				join(" AND ", conditions),
-				"bind": bindParams
+				"bind": bindParams,
+				"calledClass": get_called_class()
 			]);
 
 			/**
@@ -4057,7 +4070,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param  array arguments
 	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
 	 */
-	protected final static function _invokeFinder(method, arguments)
+	protected final static function _invokeFinder(method, arguments, calledClass = null)
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
@@ -4091,7 +4104,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * The called class is the model
 		 */
-		let modelName = get_called_class();
+		if calledClass {
+			let modelName = calledClass;
+		} else {
+			let modelName = get_called_class();
+		}
 
 		if !extraMethod {
 			return null;
@@ -4157,7 +4174,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var modelName, status, records;
 
-		let records = self::_invokeFinder(method, arguments);
+		let records = self::_invokeFinder(method, arguments, get_called_class());
 		if records !== null {
 			return records;
 		}
