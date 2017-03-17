@@ -1959,7 +1959,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
 			 * Let's make the checking
 			 */
-			if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+			if referencedModel->count([
+				join(" AND ", conditions),
+				"bind": bindParams,
+				"calledClass": get_called_class()
+			]) {
 
 				/**
 				 * Create a new message
