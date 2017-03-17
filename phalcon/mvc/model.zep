@@ -1721,7 +1721,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			if !validateWithNulls && !referencedModel->count([
 				join(" AND ", conditions),
 				"bind": bindParams,
-				"calledClass":get_called_class()
+				"calledClass": get_class(referencedModel)
 				])
 			{
 
