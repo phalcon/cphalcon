@@ -816,7 +816,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * Builds a query with the passed parameters
 		 */
 		let builder = manager->createBuilder(params);
-		if !fetch calledClass, parameters["calledclass"] {
+		if !fetch calledClass, parameters["calledClass"] {
 			let calledClass = get_called_class();
 		}
 		builder->from(calledClass);
