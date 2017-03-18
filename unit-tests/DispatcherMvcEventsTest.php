@@ -23,7 +23,7 @@ class DispatcherListener
 
 	protected $_test;
 
-	protected $_trace = '';
+	protected $_trace = [];
 
 	protected $_stop = '';
 
