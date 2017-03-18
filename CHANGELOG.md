@@ -18,6 +18,7 @@
 - Fixed `Phalcon\Mvc\Model` to correctly add error when try to save empty string value to not null and not default column [#12688](https://github.com/phalcon/cphalcon/issues/12688)
 - Fixed `Phalcon\Validation\Validator\Uniqueness` collection persistent condition
 - Fixed `Phalcon\Loader::autoLoad` to prevent PHP warning [#12684](https://github.com/phalcon/cphalcon/pull/12684)
+- Fixed `Phalcon\Mvc\Model\Query::_executeSelect` to correctly get the column map [#12715](https://github.com/phalcon/cphalcon/issues/12715)
 - Fixed params view scope for PHP5 [#12648](https://github.com/phalcon/cphalcon/issues/12648)
 
 # [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (2017-02-20)

@@ -2799,15 +2799,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * Get the column map
 				 */
 				if !globals_get("orm.cast_on_hydrate") {
-					let simpleColumnMap = metaData->getColumnMap(model);
+					let simpleColumnMap = metaData->getColumnMap(resultObject);
 				} else {
 
-					let columnMap = metaData->getColumnMap(model),
-						typesColumnMap = metaData->getDataTypes(model);
+					let columnMap = metaData->getColumnMap(resultObject),
+						typesColumnMap = metaData->getDataTypes(resultObject);
 
 					if typeof columnMap === "null" {
 						let simpleColumnMap = [];
-						for attribute in metaData->getAttributes(model) {
+						for attribute in metaData->getAttributes(resultObject) {
 							let simpleColumnMap[attribute] = [attribute, typesColumnMap[attribute]];
 						}
 					} else {
@@ -2821,7 +2821,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Check if the model keeps snapshots
 				 */
-				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(model);
+				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(resultObject);
 			}
 
 			if resultObject instanceof ModelInterface && method_exists(resultObject, "getResultsetClass") {
