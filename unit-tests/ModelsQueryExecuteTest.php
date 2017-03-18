@@ -700,6 +700,14 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->p->code, 2);
 
 		$result = $manager->executeQuery(
+			'SELECT r.* FROM RobotsParts rp LEFT JOIN Robots2 r ON rp.robots_id=r.id'
+		);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(gettype($result[0]), 'object');
+		$this->assertEquals(get_class($result[0]), 'Robots2');
+		$this->assertNotNull($result[0]->getName());
+
+		$result = $manager->executeQuery(
 			'SELECT r.* FROM Robots r WHERE r.id NOT IN (SELECT p.id FROM Parts p WHERE r.id < p.id)'
 		);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
