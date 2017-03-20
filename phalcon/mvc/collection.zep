@@ -414,7 +414,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			/**
 			 * Requesting a single result
 			 */
-			documentsCursor->rewind();
 
 			let document = documentsCursor->current();
 
