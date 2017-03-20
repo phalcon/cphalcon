@@ -80,7 +80,7 @@ install:
   - bash tests/_ci/install_zephir.sh
   - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
-  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
   - php -m
