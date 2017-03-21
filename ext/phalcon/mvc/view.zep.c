@@ -1181,12 +1181,12 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
  */
 PHP_METHOD(Phalcon_Mvc_View, render) {
 
-	HashTable *_17$$20, *_28$$25;
-	HashPosition _16$$20, _27$$25;
-	zend_bool silence = 0, mustClean = 0, _38$$29;
+	HashTable *_18$$20, *_29$$25;
+	HashPosition _17$$20, _28$$25;
+	zend_bool silence = 0, mustClean = 0, _39$$29;
 	int ZEPHIR_LAST_CALL_STATUS, renderLevel = 0;
-	zephir_fcall_cache_entry *_2 = NULL, *_14 = NULL;
-	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *layoutsDir = NULL, *layout = NULL, *pickView = NULL, *layoutName = NULL, *engines = NULL, *renderView = NULL, *pickViewAction = NULL, *eventsManager = NULL, *disabledLevels = NULL, *templatesBefore = NULL, *templatesAfter = NULL, *templateBefore = NULL, *templateAfter = NULL, *cache = NULL, *_0, *_4, *_5, *_9 = NULL, *_10, *_1$$3 = NULL, *_6$$13, *_7$$14 = NULL, *_8$$14, *_11$$18, *_12$$18, *_13$$18, *_15$$20, **_18$$20, *_19$$21 = NULL, *_20$$21 = NULL, *_21$$21 = NULL, *_22$$23, *_23$$23, *_24$$23, *_25$$23, *_26$$25, **_29$$25, *_30$$26 = NULL, *_31$$26 = NULL, *_32$$26 = NULL, *_33$$28, *_34$$28, *_35$$28, *_36$$16, *_37$$29 = NULL, *_39$$29 = NULL, *_40$$32;
+	zephir_fcall_cache_entry *_2 = NULL, *_15 = NULL;
+	zval *controllerName_param = NULL, *actionName_param = NULL, *params = NULL, *layoutsDir = NULL, *layout = NULL, *pickView = NULL, *layoutName = NULL, *engines = NULL, *renderView = NULL, *pickViewAction = NULL, *eventsManager = NULL, *disabledLevels = NULL, *templatesBefore = NULL, *templatesAfter = NULL, *templateBefore = NULL, *templateAfter = NULL, *cache = NULL, *_0, *_4, *_5, *_6, *_10 = NULL, *_11, *_1$$3 = NULL, *_7$$13, *_8$$14 = NULL, *_9$$14, *_12$$18, *_13$$18, *_14$$18, *_16$$20, **_19$$20, *_20$$21 = NULL, *_21$$21 = NULL, *_22$$21 = NULL, *_23$$23, *_24$$23, *_25$$23, *_26$$23, *_27$$25, **_30$$25, *_31$$26 = NULL, *_32$$26 = NULL, *_33$$26 = NULL, *_34$$28, *_35$$28, *_36$$28, *_37$$16, *_38$$29 = NULL, *_40$$29 = NULL, *_41$$32;
 	zval *controllerName = NULL, *actionName = NULL, *_3$$7;
 
 	ZEPHIR_MM_GROW();
@@ -1271,82 +1271,84 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	}
 	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _5);
-	if (zephir_is_php_version(50000)) {
-		ZEPHIR_INIT_VAR(_6$$13);
+	ZEPHIR_INIT_VAR(_6);
+	ZEPHIR_GET_CONSTANT(_6, "PHP_MAJOR_VERSION");
+	if (ZEPHIR_IS_LONG(_6, 5)) {
+		ZEPHIR_INIT_VAR(_7$$13);
 		zephir_create_symbol_table(TSRMLS_C);
 		
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_8$$14);
-		ZVAL_STRING(_8$$14, "view:beforeRender", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&_7$$14, eventsManager, "fire", NULL, 0, _8$$14, this_ptr);
-		zephir_check_temp_parameter(_8$$14);
+		ZEPHIR_INIT_VAR(_9$$14);
+		ZVAL_STRING(_9$$14, "view:beforeRender", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&_8$$14, eventsManager, "fire", NULL, 0, _9$$14, this_ptr);
+		zephir_check_temp_parameter(_9$$14);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_7$$14)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_8$$14)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_9, "ob_get_contents", &_2, 127);
+	ZEPHIR_CALL_FUNCTION(&_10, "ob_get_contents", &_2, 127);
 	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_content"), _9 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_content"), _10 TSRMLS_CC);
 	mustClean = 1;
 	silence = 1;
 	ZEPHIR_OBS_VAR(disabledLevels);
 	zephir_read_property_this(&disabledLevels, this_ptr, SL("_disabledLevels"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(_10);
-	zephir_read_property_this(&_10, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
-	renderLevel = zephir_get_intval(_10);
+	ZEPHIR_OBS_VAR(_11);
+	zephir_read_property_this(&_11, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
+	renderLevel = zephir_get_intval(_11);
 	if (renderLevel) {
 		if (renderLevel >= 1) {
 			if (!(zephir_array_isset_long(disabledLevels, 1))) {
-				ZEPHIR_INIT_ZVAL_NREF(_11$$18);
-				ZVAL_LONG(_11$$18, 1);
-				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _11$$18 TSRMLS_CC);
-				ZEPHIR_INIT_VAR(_12$$18);
-				if (silence) {
-					ZVAL_BOOL(_12$$18, 1);
-				} else {
-					ZVAL_BOOL(_12$$18, 0);
-				}
+				ZEPHIR_INIT_ZVAL_NREF(_12$$18);
+				ZVAL_LONG(_12$$18, 1);
+				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _12$$18 TSRMLS_CC);
 				ZEPHIR_INIT_VAR(_13$$18);
-				if (mustClean) {
+				if (silence) {
 					ZVAL_BOOL(_13$$18, 1);
 				} else {
 					ZVAL_BOOL(_13$$18, 0);
 				}
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_14, 0, engines, renderView, _12$$18, _13$$18, cache);
+				ZEPHIR_INIT_VAR(_14$$18);
+				if (mustClean) {
+					ZVAL_BOOL(_14$$18, 1);
+				} else {
+					ZVAL_BOOL(_14$$18, 0);
+				}
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_15, 0, engines, renderView, _13$$18, _14$$18, cache);
 				zephir_check_call_status();
 			}
 		}
 		if (renderLevel >= 2) {
 			if (!(zephir_array_isset_long(disabledLevels, 2))) {
-				ZEPHIR_INIT_ZVAL_NREF(_15$$20);
-				ZVAL_LONG(_15$$20, 2);
-				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _15$$20 TSRMLS_CC);
+				ZEPHIR_INIT_ZVAL_NREF(_16$$20);
+				ZVAL_LONG(_16$$20, 2);
+				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _16$$20 TSRMLS_CC);
 				ZEPHIR_OBS_VAR(templatesBefore);
 				zephir_read_property_this(&templatesBefore, this_ptr, SL("_templatesBefore"), PH_NOISY_CC);
 				silence = 0;
-				zephir_is_iterable(templatesBefore, &_17$$20, &_16$$20, 0, 0, "phalcon/mvc/view.zep", 904);
+				zephir_is_iterable(templatesBefore, &_18$$20, &_17$$20, 0, 0, "phalcon/mvc/view.zep", 904);
 				for (
-				  ; zephir_hash_get_current_data_ex(_17$$20, (void**) &_18$$20, &_16$$20) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_17$$20, &_16$$20)
+				  ; zephir_hash_get_current_data_ex(_18$$20, (void**) &_19$$20, &_17$$20) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_18$$20, &_17$$20)
 				) {
-					ZEPHIR_GET_HVALUE(templateBefore, _18$$20);
-					ZEPHIR_INIT_LNVAR(_19$$21);
-					ZEPHIR_CONCAT_VV(_19$$21, layoutsDir, templateBefore);
-					ZEPHIR_INIT_NVAR(_20$$21);
-					if (silence) {
-						ZVAL_BOOL(_20$$21, 1);
-					} else {
-						ZVAL_BOOL(_20$$21, 0);
-					}
+					ZEPHIR_GET_HVALUE(templateBefore, _19$$20);
+					ZEPHIR_INIT_LNVAR(_20$$21);
+					ZEPHIR_CONCAT_VV(_20$$21, layoutsDir, templateBefore);
 					ZEPHIR_INIT_NVAR(_21$$21);
-					if (mustClean) {
+					if (silence) {
 						ZVAL_BOOL(_21$$21, 1);
 					} else {
 						ZVAL_BOOL(_21$$21, 0);
 					}
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_14, 0, engines, _19$$21, _20$$21, _21$$21, cache);
+					ZEPHIR_INIT_NVAR(_22$$21);
+					if (mustClean) {
+						ZVAL_BOOL(_22$$21, 1);
+					} else {
+						ZVAL_BOOL(_22$$21, 0);
+					}
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_15, 0, engines, _20$$21, _21$$21, _22$$21, cache);
 					zephir_check_call_status();
 				}
 				silence = 1;
@@ -1354,56 +1356,56 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		}
 		if (renderLevel >= 3) {
 			if (!(zephir_array_isset_long(disabledLevels, 3))) {
-				ZEPHIR_INIT_ZVAL_NREF(_22$$23);
-				ZVAL_LONG(_22$$23, 3);
-				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _22$$23 TSRMLS_CC);
-				ZEPHIR_INIT_VAR(_23$$23);
-				ZEPHIR_CONCAT_VV(_23$$23, layoutsDir, layoutName);
+				ZEPHIR_INIT_ZVAL_NREF(_23$$23);
+				ZVAL_LONG(_23$$23, 3);
+				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _23$$23 TSRMLS_CC);
 				ZEPHIR_INIT_VAR(_24$$23);
-				if (silence) {
-					ZVAL_BOOL(_24$$23, 1);
-				} else {
-					ZVAL_BOOL(_24$$23, 0);
-				}
+				ZEPHIR_CONCAT_VV(_24$$23, layoutsDir, layoutName);
 				ZEPHIR_INIT_VAR(_25$$23);
-				if (mustClean) {
+				if (silence) {
 					ZVAL_BOOL(_25$$23, 1);
 				} else {
 					ZVAL_BOOL(_25$$23, 0);
 				}
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_14, 0, engines, _23$$23, _24$$23, _25$$23, cache);
+				ZEPHIR_INIT_VAR(_26$$23);
+				if (mustClean) {
+					ZVAL_BOOL(_26$$23, 1);
+				} else {
+					ZVAL_BOOL(_26$$23, 0);
+				}
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_15, 0, engines, _24$$23, _25$$23, _26$$23, cache);
 				zephir_check_call_status();
 			}
 		}
 		if (renderLevel >= 4) {
 			if (!(zephir_array_isset_long(disabledLevels, 4))) {
-				ZEPHIR_INIT_ZVAL_NREF(_26$$25);
-				ZVAL_LONG(_26$$25, 4);
-				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _26$$25 TSRMLS_CC);
+				ZEPHIR_INIT_ZVAL_NREF(_27$$25);
+				ZVAL_LONG(_27$$25, 4);
+				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _27$$25 TSRMLS_CC);
 				ZEPHIR_OBS_VAR(templatesAfter);
 				zephir_read_property_this(&templatesAfter, this_ptr, SL("_templatesAfter"), PH_NOISY_CC);
 				silence = 0;
-				zephir_is_iterable(templatesAfter, &_28$$25, &_27$$25, 0, 0, "phalcon/mvc/view.zep", 931);
+				zephir_is_iterable(templatesAfter, &_29$$25, &_28$$25, 0, 0, "phalcon/mvc/view.zep", 931);
 				for (
-				  ; zephir_hash_get_current_data_ex(_28$$25, (void**) &_29$$25, &_27$$25) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_28$$25, &_27$$25)
+				  ; zephir_hash_get_current_data_ex(_29$$25, (void**) &_30$$25, &_28$$25) == SUCCESS
+				  ; zephir_hash_move_forward_ex(_29$$25, &_28$$25)
 				) {
-					ZEPHIR_GET_HVALUE(templateAfter, _29$$25);
-					ZEPHIR_INIT_LNVAR(_30$$26);
-					ZEPHIR_CONCAT_VV(_30$$26, layoutsDir, templateAfter);
-					ZEPHIR_INIT_NVAR(_31$$26);
-					if (silence) {
-						ZVAL_BOOL(_31$$26, 1);
-					} else {
-						ZVAL_BOOL(_31$$26, 0);
-					}
+					ZEPHIR_GET_HVALUE(templateAfter, _30$$25);
+					ZEPHIR_INIT_LNVAR(_31$$26);
+					ZEPHIR_CONCAT_VV(_31$$26, layoutsDir, templateAfter);
 					ZEPHIR_INIT_NVAR(_32$$26);
-					if (mustClean) {
+					if (silence) {
 						ZVAL_BOOL(_32$$26, 1);
 					} else {
 						ZVAL_BOOL(_32$$26, 0);
 					}
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_14, 0, engines, _30$$26, _31$$26, _32$$26, cache);
+					ZEPHIR_INIT_NVAR(_33$$26);
+					if (mustClean) {
+						ZVAL_BOOL(_33$$26, 1);
+					} else {
+						ZVAL_BOOL(_33$$26, 0);
+					}
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_15, 0, engines, _31$$26, _32$$26, _33$$26, cache);
 					zephir_check_call_status();
 				}
 				silence = 1;
@@ -1411,39 +1413,39 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		}
 		if (renderLevel >= 5) {
 			if (!(zephir_array_isset_long(disabledLevels, 5))) {
-				ZEPHIR_INIT_ZVAL_NREF(_33$$28);
-				ZVAL_LONG(_33$$28, 5);
-				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _33$$28 TSRMLS_CC);
-				_33$$28 = zephir_fetch_nproperty_this(this_ptr, SL("_mainView"), PH_NOISY_CC);
-				ZEPHIR_INIT_VAR(_34$$28);
-				if (silence) {
-					ZVAL_BOOL(_34$$28, 1);
-				} else {
-					ZVAL_BOOL(_34$$28, 0);
-				}
+				ZEPHIR_INIT_ZVAL_NREF(_34$$28);
+				ZVAL_LONG(_34$$28, 5);
+				zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _34$$28 TSRMLS_CC);
+				_34$$28 = zephir_fetch_nproperty_this(this_ptr, SL("_mainView"), PH_NOISY_CC);
 				ZEPHIR_INIT_VAR(_35$$28);
-				if (mustClean) {
+				if (silence) {
 					ZVAL_BOOL(_35$$28, 1);
 				} else {
 					ZVAL_BOOL(_35$$28, 0);
 				}
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_14, 0, engines, _33$$28, _34$$28, _35$$28, cache);
+				ZEPHIR_INIT_VAR(_36$$28);
+				if (mustClean) {
+					ZVAL_BOOL(_36$$28, 1);
+				} else {
+					ZVAL_BOOL(_36$$28, 0);
+				}
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "_enginerender", &_15, 0, engines, _34$$28, _35$$28, _36$$28, cache);
 				zephir_check_call_status();
 			}
 		}
-		ZEPHIR_INIT_ZVAL_NREF(_36$$16);
-		ZVAL_LONG(_36$$16, 0);
-		zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _36$$16 TSRMLS_CC);
+		ZEPHIR_INIT_ZVAL_NREF(_37$$16);
+		ZVAL_LONG(_37$$16, 0);
+		zephir_update_property_this(this_ptr, SL("_currentRenderLevel"), _37$$16 TSRMLS_CC);
 		if (Z_TYPE_P(cache) == IS_OBJECT) {
-			ZEPHIR_CALL_METHOD(&_37$$29, cache, "isstarted", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_38$$29, cache, "isstarted", NULL, 0);
 			zephir_check_call_status();
-			_38$$29 = zephir_is_true(_37$$29);
-			if (_38$$29) {
-				ZEPHIR_CALL_METHOD(&_39$$29, cache, "isfresh", NULL, 0);
+			_39$$29 = zephir_is_true(_38$$29);
+			if (_39$$29) {
+				ZEPHIR_CALL_METHOD(&_40$$29, cache, "isfresh", NULL, 0);
 				zephir_check_call_status();
-				_38$$29 = zephir_is_true(_39$$29);
+				_39$$29 = zephir_is_true(_40$$29);
 			}
-			if (_38$$29) {
+			if (_39$$29) {
 				ZEPHIR_CALL_METHOD(NULL, cache, "save", NULL, 0);
 				zephir_check_call_status();
 			} else {
@@ -1453,10 +1455,10 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		}
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_40$$32);
-		ZVAL_STRING(_40$$32, "view:afterRender", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _40$$32, this_ptr);
-		zephir_check_temp_parameter(_40$$32);
+		ZEPHIR_INIT_VAR(_41$$32);
+		ZVAL_STRING(_41$$32, "view:afterRender", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _41$$32, this_ptr);
+		zephir_check_temp_parameter(_41$$32);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();

@@ -3502,17 +3502,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 				ZEPHIR_CPY_WRT(resultObject, model);
 			}
 			if (!(ZEPHIR_GLOBAL(orm).cast_on_hydrate)) {
-				ZEPHIR_CALL_METHOD(&simpleColumnMap, metaData, "getcolumnmap", NULL, 0, model);
+				ZEPHIR_CALL_METHOD(&simpleColumnMap, metaData, "getcolumnmap", NULL, 0, resultObject);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_METHOD(&columnMap, metaData, "getcolumnmap", NULL, 0, model);
+				ZEPHIR_CALL_METHOD(&columnMap, metaData, "getcolumnmap", NULL, 0, resultObject);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&typesColumnMap, metaData, "getdatatypes", NULL, 0, model);
+				ZEPHIR_CALL_METHOD(&typesColumnMap, metaData, "getdatatypes", NULL, 0, resultObject);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(simpleColumnMap);
 				if (Z_TYPE_P(columnMap) == IS_NULL) {
 					array_init(simpleColumnMap);
-					ZEPHIR_CALL_METHOD(&_43$$60, metaData, "getattributes", NULL, 0, model);
+					ZEPHIR_CALL_METHOD(&_43$$60, metaData, "getattributes", NULL, 0, resultObject);
 					zephir_check_call_status();
 					zephir_is_iterable(_43$$60, &_45$$60, &_44$$60, 0, 0, "phalcon/mvc/model/query.zep", 2813);
 					for (
@@ -3547,7 +3547,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 					}
 				}
 			}
-			ZEPHIR_CALL_METHOD(&_54$$55, manager, "iskeepingsnapshots", NULL, 0, model);
+			ZEPHIR_CALL_METHOD(&_54$$55, manager, "iskeepingsnapshots", NULL, 0, resultObject);
 			zephir_check_call_status();
 			isKeepingSnapshots = zephir_get_boolval(_54$$55);
 		}

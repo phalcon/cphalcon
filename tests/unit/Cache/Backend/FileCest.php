@@ -137,7 +137,10 @@ class FileCest
             // Check keys
             $actual = $cache->queryKeys();
 
-            $I->assertTrue(2 === count($actual));
+            $I->assertTrue(
+                2 === count($actual),
+                sprintf('%s', json_encode($actual, JSON_PRETTY_PRINT))
+            );
             $I->assertArrayHasKey('.gitignore', array_flip($actual));
             $I->assertArrayHasKey('unit_' . $cache->getKey('test_output'), array_flip($actual));
 
