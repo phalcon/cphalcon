@@ -896,7 +896,6 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 	zephir_initialize_memory(phalcon_globals_ptr TSRMLS_CC);
 
-	zephir_init_static_properties_Phalcon_Tag(TSRMLS_C);
 
 	return SUCCESS;
 }
