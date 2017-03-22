@@ -2523,7 +2523,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			sqlColumn, attributes, instance, columnMap, attribute,
 			columnAlias, sqlAlias, dialect, sqlSelect, bindCounts,
 			processed, wildcard, value, processedTypes, typeWildcard, result,
-			resultData, cache, resultObject, columns1, typesColumnMap, wildcardValue;
+			resultData, cache, resultObject, columns1, typesColumnMap, wildcardValue, resultsetClassName;
 		boolean haveObjects, haveScalars, isComplex, isSimpleStd, isKeepingSnapshots;
 		int numberObjects;
 
@@ -2799,15 +2799,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 				 * Get the column map
 				 */
 				if !globals_get("orm.cast_on_hydrate") {
-					let simpleColumnMap = metaData->getColumnMap(model);
+					let simpleColumnMap = metaData->getColumnMap(resultObject);
 				} else {
 
-					let columnMap = metaData->getColumnMap(model),
-						typesColumnMap = metaData->getDataTypes(model);
+					let columnMap = metaData->getColumnMap(resultObject),
+						typesColumnMap = metaData->getDataTypes(resultObject);
 
 					if typeof columnMap === "null" {
 						let simpleColumnMap = [];
-						for attribute in metaData->getAttributes(model) {
+						for attribute in metaData->getAttributes(resultObject) {
 							let simpleColumnMap[attribute] = [attribute, typesColumnMap[attribute]];
 						}
 					} else {
@@ -2821,7 +2821,23 @@ class Query implements QueryInterface, InjectionAwareInterface
 				/**
 				 * Check if the model keeps snapshots
 				 */
-				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(model);
+				let isKeepingSnapshots = (boolean) manager->isKeepingSnapshots(resultObject);
+			}
+
+			if resultObject instanceof ModelInterface && method_exists(resultObject, "getResultsetClass") {
+				let resultsetClassName = (<ModelInterface> resultObject)->getResultsetClass();
+
+				if resultsetClassName {
+					if ! class_exists(resultsetClassName) {
+						throw new Exception("Resultset class \"" . resultsetClassName . "\" not found");
+					}
+
+					if ! in_array("Phalcon\\Mvc\\Model\\ResultsetInterface", class_implements(resultsetClassName)) {
+						throw new Exception("Resultset class \"" . resultsetClassName . "\" must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface");
+					}
+
+					return new {resultsetClassName}(simpleColumnMap, resultObject, resultData, cache, isKeepingSnapshots);
+				}
 			}
 
 			/**

@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value$$41, _14$$41);
 					ZEPHIR_SINIT_NVAR(_15$$42);
 					ZVAL_STRING(&_15$$42, "\"", 0);
-					ZEPHIR_CALL_FUNCTION(&_16$$42, "addcslashes", &_17, 153, value$$41, &_15$$42);
+					ZEPHIR_CALL_FUNCTION(&_16$$42, "addcslashes", &_17, 150, value$$41, &_15$$42);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_18$$42);
 					ZEPHIR_CONCAT_SVS(_18$$42, "\"", _16$$42, "\", ");
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_VAR(_23$$43);
 				ZVAL_STRING(&_23$$43, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_24$$43, "addcslashes", &_17, 153, typeValues, &_23$$43);
+				ZEPHIR_CALL_FUNCTION(&_24$$43, "addcslashes", &_17, 150, typeValues, &_23$$43);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_25$$43);
 				ZEPHIR_CONCAT_SVS(_25$$43, "(\"", _24$$43, "\")");
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 		} else {
 			ZEPHIR_SINIT_VAR(_6$$5);
 			ZVAL_STRING(&_6$$5, "\"", 0);
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "addcslashes", NULL, 153, defaultValue, &_6$$5);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "addcslashes", NULL, 150, defaultValue, &_6$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_8$$5);
 			ZEPHIR_CONCAT_SVS(_8$$5, " DEFAULT \"", _7$$5, "\"");
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 			} else {
 				ZEPHIR_SINIT_NVAR(_12$$12);
 				ZVAL_STRING(&_12$$12, "\"", 0);
-				ZEPHIR_CALL_FUNCTION(&_13$$12, "addcslashes", &_14, 153, defaultValue, &_12$$12);
+				ZEPHIR_CALL_FUNCTION(&_13$$12, "addcslashes", &_14, 150, defaultValue, &_12$$12);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_15$$12);
 				ZEPHIR_CONCAT_SVS(_15$$12, " DEFAULT \"", _13$$12, "\"");
@@ -902,6 +902,52 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 }
 
 /**
+ * Generates SQL to truncate a table
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, truncateTable) {
+
+	zval *tableName_param = NULL, *schemaName_param = NULL, *sql = NULL, *table = NULL;
+	zval *tableName = NULL, *schemaName = NULL, *_0$$3;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &tableName_param, &schemaName_param);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
+
+
+	if (!(!schemaName) && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_INIT_VAR(_0$$3);
+		ZEPHIR_CONCAT_VSV(_0$$3, schemaName, "\".\"", tableName);
+		ZEPHIR_CPY_WRT(table, _0$$3);
+	} else {
+		ZEPHIR_CPY_WRT(table, tableName);
+	}
+	ZEPHIR_INIT_VAR(sql);
+	ZEPHIR_CONCAT_SVS(sql, "DELETE FROM \"", table, "\"");
+	RETURN_CCTOR(sql);
+
+}
+
+/**
  * Generates SQL to drop a table
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable) {
@@ -987,7 +1033,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/sqlite.zep", 451);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/sqlite.zep", 469);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, viewName, schemaName);

@@ -27,6 +27,30 @@
  * Allows to define indexes to be used on tables. Indexes are a common way
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index
+ *
+ *<code>
+ * // Define new unique index
+ * $index_unique = new \Phalcon\Db\Index(
+ *     'column_UNIQUE',
+ *     [
+ *         'column',
+ *         'column'
+ *     ],
+ *     'UNIQUE'
+ * );
+ * 
+ * // Define new primary index
+ * $index_primary = new \Phalcon\Db\Index(
+ *     'PRIMARY',
+ *     [
+ *         'column'
+ *     ]
+ * );
+ * 
+ * // Add index to existing table
+ * $connection->addIndex("robots", null, $index_unique);
+ * $connection->addIndex("robots", null, $index_primary);
+ *</code> 
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
@@ -144,12 +168,12 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	ZEPHIR_OBS_VAR(indexName);
 	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_name"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 95);
 		return;
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 99);
 		return;
 	}
 	ZEPHIR_OBS_VAR(type);

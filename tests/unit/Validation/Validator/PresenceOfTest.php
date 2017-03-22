@@ -6,14 +6,14 @@ use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation\Message\Group;
-use Phalcon\Test\Proxy\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\PresenceOf;
 
 /**
  * \Phalcon\Test\Unit\Validation\Validator\PresenceOfTest
  * Tests the \Phalcon\Validation\Validator\PresenceOf component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>

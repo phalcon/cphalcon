@@ -34,7 +34,7 @@ use Phalcon\Validation\CombinedFieldsValidator;
  */
 class Validation extends Injectable implements ValidationInterface
 {
-	protected _data;
+	protected _data { get };
 
 	protected _entity;
 
@@ -579,23 +579,31 @@ class Validation extends Injectable implements ValidationInterface
 	 */
 	protected function preChecking(var field, <ValidatorInterface> validator) -> boolean
 	{
-		var singleField;
+		var singleField, allowEmpty, emptyValue, value, result;
 		if typeof field == "array" {
 			for singleField in field {
-				if validator->getOption("allowEmpty", false) {
-					if method_exists(validator, "isAllowEmpty") {
-						return validator->isAllowEmpty(this, singleField);
-					}
-					return empty this->getValue(singleField);
+				let result = this->preChecking(singleField, validator);
+				if result {
+					return result;
 				}
 			}
 		}
 		else {
-			if validator->getOption("allowEmpty", false) {
+			let allowEmpty = validator->getOption("allowEmpty", false);
+			if allowEmpty {
 				if method_exists(validator, "isAllowEmpty") {
 					return validator->isAllowEmpty(this, field);
 				}
-				return empty this->getValue(field);
+				let value = this->getValue(field);
+				if typeof allowEmpty == "array" {
+					for emptyValue in allowEmpty {
+						if emptyValue === value {
+							return true;
+						}
+					}
+					return false;						
+				}
+				return empty value;
 			}
 		}
 

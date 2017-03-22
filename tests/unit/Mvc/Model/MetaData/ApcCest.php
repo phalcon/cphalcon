@@ -2,10 +2,9 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Apc;
+use Phalcon\Mvc\Model\Metadata\Apc;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\ApcCest

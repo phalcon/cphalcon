@@ -6,7 +6,7 @@ use Phalcon\Di;
 use UnitTester;
 use Phalcon\Db\RawValue;
 use Phalcon\Mvc\Model\Message;
-use Phalcon\Test\Models\Subscriptores;
+use Phalcon\Test\Models\Validation\Subscriptores;
 
 class Validation
 {

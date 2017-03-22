@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 					ZEPHIR_GET_HVALUE(value$$37, _11$$37);
 					ZEPHIR_SINIT_NVAR(_12$$38);
 					ZVAL_STRING(&_12$$38, "\\'", 0);
-					ZEPHIR_CALL_FUNCTION(&_13$$38, "addcslashes", &_14, 153, value$$37, &_12$$38);
+					ZEPHIR_CALL_FUNCTION(&_13$$38, "addcslashes", &_14, 150, value$$37, &_12$$38);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_15$$38);
 					ZEPHIR_CONCAT_SVS(_15$$38, "'", _13$$38, "', ");
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 			} else {
 				ZEPHIR_SINIT_VAR(_20$$39);
 				ZVAL_STRING(&_20$$39, "\\'", 0);
-				ZEPHIR_CALL_FUNCTION(&_21$$39, "addcslashes", &_14, 153, typeValues, &_20$$39);
+				ZEPHIR_CALL_FUNCTION(&_21$$39, "addcslashes", &_14, 150, typeValues, &_20$$39);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_22$$39);
 				ZEPHIR_CONCAT_SVS(_22$$39, "('", _21$$39, "')");
@@ -1033,6 +1033,52 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 }
 
 /**
+ * Generates SQL to truncate a table
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, truncateTable) {
+
+	zval *tableName_param = NULL, *schemaName_param = NULL, *sql = NULL, *table = NULL;
+	zval *tableName = NULL, *schemaName = NULL, *_0$$3;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &tableName_param, &schemaName_param);
+
+	if (unlikely(Z_TYPE_P(tableName_param) != IS_STRING && Z_TYPE_P(tableName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tableName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(tableName_param) == IS_STRING)) {
+		zephir_get_strval(tableName, tableName_param);
+	} else {
+		ZEPHIR_INIT_VAR(tableName);
+		ZVAL_EMPTY_STRING(tableName);
+	}
+	if (unlikely(Z_TYPE_P(schemaName_param) != IS_STRING && Z_TYPE_P(schemaName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schemaName' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (likely(Z_TYPE_P(schemaName_param) == IS_STRING)) {
+		zephir_get_strval(schemaName, schemaName_param);
+	} else {
+		ZEPHIR_INIT_VAR(schemaName);
+		ZVAL_EMPTY_STRING(schemaName);
+	}
+
+
+	if (!(!schemaName) && Z_STRLEN_P(schemaName)) {
+		ZEPHIR_INIT_VAR(_0$$3);
+		ZEPHIR_CONCAT_VSV(_0$$3, schemaName, ".", tableName);
+		ZEPHIR_CPY_WRT(table, _0$$3);
+	} else {
+		ZEPHIR_CPY_WRT(table, tableName);
+	}
+	ZEPHIR_INIT_VAR(sql);
+	ZEPHIR_CONCAT_SV(sql, "TRUNCATE TABLE ", table);
+	RETURN_CCTOR(sql);
+
+}
+
+/**
  * Generates SQL to drop a table
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
@@ -1118,7 +1164,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 
 	ZEPHIR_OBS_VAR(viewSql);
 	if (!(zephir_array_isset_string_fetch(&viewSql, definition, SS("sql"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 496);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array", "phalcon/db/dialect/postgresql.zep", 514);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "preparetable", NULL, 0, viewName, schemaName);
@@ -1495,7 +1541,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _castDefault) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_0);
 	zephir_fast_strtoupper(_0, columnDefinition);
-	if (zephir_memnstr_str(_0, SL("BOOLEAN"), "phalcon/db/dialect/postgresql.zep", 636)) {
+	if (zephir_memnstr_str(_0, SL("BOOLEAN"), "phalcon/db/dialect/postgresql.zep", 654)) {
 		ZEPHIR_INIT_VAR(_1$$3);
 		if (zephir_is_true(defaultValue)) {
 			ZVAL_STRING(_1$$3, "true", 1);
@@ -1506,7 +1552,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _castDefault) {
 	}
 	ZEPHIR_INIT_VAR(_2);
 	zephir_fast_strtoupper(_2, defaultValue);
-	if (zephir_memnstr_str(_2, SL("CURRENT_TIMESTAMP"), "phalcon/db/dialect/postgresql.zep", 640)) {
+	if (zephir_memnstr_str(_2, SL("CURRENT_TIMESTAMP"), "phalcon/db/dialect/postgresql.zep", 658)) {
 		RETURN_MM_STRING("CURRENT_TIMESTAMP", 1);
 	}
 	_3 = ZEPHIR_IS_LONG_IDENTICAL(columnType, 0);
@@ -1532,7 +1578,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _castDefault) {
 	} else {
 		ZEPHIR_SINIT_VAR(_8$$6);
 		ZVAL_STRING(&_8$$6, "\\'", 0);
-		ZEPHIR_CALL_FUNCTION(&_9$$6, "addcslashes", NULL, 153, defaultValue, &_8$$6);
+		ZEPHIR_CALL_FUNCTION(&_9$$6, "addcslashes", NULL, 150, defaultValue, &_8$$6);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(preparedValue, "'", _9$$6, "'");
 	}

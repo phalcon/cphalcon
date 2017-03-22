@@ -43,7 +43,7 @@ interface AdapterInterface
 	/**
 	 * Parses or retrieves all the annotations found in a class
 	 *
-	 * @param string|object className	
+	 * @param string|object className
      */
 	public function get(className) -> <Reflection>;
 

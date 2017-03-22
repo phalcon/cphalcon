@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
-use Phalcon\Test\Proxy\Assets\Filters\Jsmin;
+use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -10,7 +10,7 @@ use Phalcon\Test\Module\UnitTest;
  * Tests the \Phalcon\Assets\Filters\Jsmin component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Assets\Filters

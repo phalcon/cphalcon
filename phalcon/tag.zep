@@ -345,8 +345,8 @@ class Tag
 	{
 		let self::_displayValues = [],
 			self::_documentTitle = null,
-			self::_documentAppendTitle = null,
-			self::_documentPrependTitle = null,
+			self::_documentAppendTitle = [],
+			self::_documentPrependTitle = [],
 			self::_documentTitleSeparator = null;
 	}
 
@@ -1157,24 +1157,32 @@ class Tag
 	/**
 	 * Appends a text to current document title
 	 */
-	public static function appendTitle(string title) -> void
+	public static function appendTitle(var title) -> void
 	{
-		if self::_documentAppendTitle !== null {
-			let self::_documentAppendTitle = self::_documentAppendTitle . self::_documentTitleSeparator . title ;
-		} else {
+		if typeof self::_documentAppendTitle == "null" {
+			let self::_documentAppendTitle = [];
+		}
+
+		if typeof title == "array" {
 			let self::_documentAppendTitle = title ;
+		} else {
+			let self::_documentAppendTitle[] = title ;
 		}
 	}
 
 	/**
 	 * Prepends a text to current document title
 	 */
-	public static function prependTitle(string title) -> void
+	public static function prependTitle(var title) -> void
 	{
-		if self::_documentPrependTitle !== null {
-			let self::_documentPrependTitle = title . self::_documentTitleSeparator . self::_documentPrependTitle;
-		} else {
+		if typeof self::_documentPrependTitle == "null" {
+			let self::_documentPrependTitle = [];
+		}
+
+		if typeof title == "array" {
 			let self::_documentPrependTitle = title ;
+		} else {
+			let self::_documentPrependTitle[] = title ;
 		}
 	}
 
@@ -1192,18 +1200,31 @@ class Tag
 	 */
 	public static function getTitle(boolean tags = true) -> string
 	{
-		var items, output, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
+		var items, output, title, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
 
 		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
 		let items = [];
 		let output = "";
-		let documentPrependTitle = escaper->escapeHtml(self::_documentPrependTitle);
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
-		let documentAppendTitle = escaper->escapeHtml(self::_documentAppendTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
+		if typeof self::_documentAppendTitle == "null" {
+			let self::_documentAppendTitle = [];
+		}
+
+		let documentAppendTitle = self::_documentAppendTitle;
+
+		if typeof self::_documentPrependTitle == "null" {
+			let self::_documentPrependTitle = [];
+		}
+
+		let documentPrependTitle = self::_documentPrependTitle;
+
 		if !empty documentPrependTitle {
-			let items[] = documentPrependTitle;
+			var tmp = array_reverse(documentPrependTitle);
+			for title in tmp {
+				let items[] = escaper->escapeHtml(title);
+			}
 		}
 
 		if !empty documentTitle {
@@ -1211,7 +1232,9 @@ class Tag
 		}
 
 		if !empty documentAppendTitle {
-			let items[] = documentAppendTitle;
+			for title in documentAppendTitle {
+				let items[] = escaper->escapeHtml(title);
+			}
 		}
 
 		if empty documentTitleSeparator {

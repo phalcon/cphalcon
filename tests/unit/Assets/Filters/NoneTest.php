@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Unit\Assets\Filters;
 
 use Phalcon\Assets\Manager;
-use Phalcon\Test\Proxy\Assets\Filters\None;
+use Phalcon\Assets\Filters\None;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Unit\Assets\Helper\TrimFilter;
 use Phalcon\Test\Unit\Assets\Helper\UppercaseFilter;
@@ -13,7 +13,7 @@ use Phalcon\Test\Unit\Assets\Helper\UppercaseFilter;
  * Tests the \Phalcon\Assets\Filters\None component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Assets\Filters

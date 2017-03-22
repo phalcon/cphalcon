@@ -3,7 +3,6 @@
 namespace Phalcon\Test\Unit\Validation\Validator;
 
 use DateTime;
-use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Di;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Module\UnitTest;
@@ -15,7 +14,7 @@ use Phalcon\Validation\Validator\Uniqueness;
  * Tests the \Phalcon\Validation\Validator\Uniqueness component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
@@ -295,7 +294,7 @@ class UniquenessTest extends UnitTest
                 $validation->add('text', new Uniqueness([
                     'except' => [
                         'type' => ['mechanical', 'cyborg'],
-                    ],
+                    ]
                 ]));
                 $messages = $validation->validate(null, $this->robot);
                 expect($messages->count())->equals(0);

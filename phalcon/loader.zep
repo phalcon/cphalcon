@@ -223,7 +223,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register the autoload method
 	 */
-	public function register() -> <Loader>
+	public function register(boolean prepend = null) -> <Loader>
 	{
 		if this->_registered === false {
 			/**
@@ -234,7 +234,7 @@ class Loader implements EventsAwareInterface
 			/**
 			 * Registers directories & namespaces to PHP's autoload
 			 */
-			spl_autoload_register([this, "autoLoad"]);
+			spl_autoload_register([this, "autoLoad"], true, prepend);
 
 			let this->_registered = true;
 		}
@@ -323,7 +323,7 @@ class Loader implements EventsAwareInterface
 		 * Checking in namespaces
 		 */
 		let namespaces = this->_namespaces;
-		
+
 		for nsPrefix, directories in namespaces {
 
 			/**
@@ -337,11 +337,12 @@ class Loader implements EventsAwareInterface
 			 * Append the namespace separator to the prefix
 			 */
 			let fileName = substr(className, strlen(nsPrefix . ns));
-			let fileName = str_replace(ns, ds, fileName);
 
 			if !fileName {
 				continue;
 			}
+
+			let fileName = str_replace(ns, ds, fileName);
 
 			for directory in directories {
 				/**

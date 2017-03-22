@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Test\Proxy\Security\Random;
+use Phalcon\Security\Random;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -10,7 +10,7 @@ use Phalcon\Test\Module\UnitTest;
  * Tests for \Phalcon\Security\Random component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Security
  *

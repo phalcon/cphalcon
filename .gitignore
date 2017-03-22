@@ -63,3 +63,6 @@ ext/phalcon/mvc/model/query/.libs/
 build/gccarch
 *.ghc
 *.phc
+
+ide/
+docker-compose.yml

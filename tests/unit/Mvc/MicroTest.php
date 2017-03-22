@@ -2,8 +2,10 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Micro;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -11,9 +13,10 @@ use Phalcon\Test\Module\UnitTest;
  * Tests the Phalcon\Mvc\Micro component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
@@ -25,6 +28,67 @@ use Phalcon\Test\Module\UnitTest;
  */
 class MicroTest extends UnitTest
 {
+    /**
+     * Tests after binding event
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-11-19
+     */
+    public function testAfterBindingEvent()
+    {
+        $this->specify(
+            'afterBinding event should be fired',
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $manager = new Manager();
+                $manager->attach(
+                    'micro:afterBinding',
+                    function (Event $event, Micro $micro) {
+                        return false;
+                    }
+                );
+                $micro->setEventsManager($manager);
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+            }
+        );
+    }
+
+    /**
+     * Tests after binding middleware
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-11-19
+     */
+    public function tesAfterBindingMiddleware()
+    {
+        $this->specify(
+            'afterBinding middleware should be called',
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $micro->afterBinding(
+                    function () {
+                        return false;
+                    }
+                );
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+            }
+        );
+    }
+
     public function testMicroClass()
     {
         $this->specify(
@@ -221,7 +285,7 @@ class MicroTest extends UnitTest
             function () {
                 $trace = [];
 
-                $eventsManager = new EventsManager();
+                $eventsManager = new Manager();
 
                 $eventsManager->attach(
                     'micro',
@@ -244,10 +308,11 @@ class MicroTest extends UnitTest
 
                 expect($trace)->equals(
                     [
-                        "beforeHandleRoute"  => true,
-                        "beforeExecuteRoute" => true,
-                        "afterExecuteRoute"  => true,
-                        "afterHandleRoute"   => true,
+                        'beforeHandleRoute'  => true,
+                        'beforeExecuteRoute' => true,
+                        'afterExecuteRoute'  => true,
+                        'afterHandleRoute'   => true,
+                        'afterBinding'       => true,
                     ]
                 );
             }

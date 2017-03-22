@@ -48,6 +48,9 @@
  *     }
  * }
  *</code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\Url
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url) {
 
@@ -78,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/url.zep", 67);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/url.zep", 70);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, 0, field);
@@ -97,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	}
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, 273);
-	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 201, value, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 198, value, &_3);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_INIT_VAR(_5$$5);
