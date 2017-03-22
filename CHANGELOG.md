@@ -1,6 +1,6 @@
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-XX-XX)
 
-# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2017-XX-XX)
+# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2017-03-22)
 - Added `Phalcon\Validation\Validator\Callback`, `Phalcon\Validation::getData`
 - Added the ability to truncate database tables
 - Added `Phalcon\Mvc\Model\Binder`, class used for binding models to parameters in dispatcher, micro, added `Phalcon\Dispatcher::getBoundModels` and `Phalcon\Mvc\Micro::getBoundModels` to getting bound models, added `Phalcon\Mvc\Micro\Collection\LazyLoader::callMethod`
