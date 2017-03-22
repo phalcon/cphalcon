@@ -120,11 +120,28 @@ abstract class Application extends Injectable implements EventsAwareInterface
 		var module;
 
 		if !fetch module, this->_modules[name] {
-			throw new Exception("Module '" . name . "' isn't registered in the application container");
+			exception = new Exception("Module '" . name . "' isn't registered in the application container");
+  			this->_handleException(exception);
 		}
 
 		return module;
 	}
+	
+	/**
+  	 * Handles a user exception
+  	 */
+  	protected function _handleException(<\Exception> exception)
+  	{
+  		var eventsManager;
+  		let eventsManager = <ManagerInterface> this->_eventsManager;
+  		if typeof eventsManager == "object" {
+  			if eventsManager->fire("application:beforeException", this, exception) === false {
+ 				return false;
+  			} else {
+  				throw exception;
+  			}
+  		}
+  	}
 
 	/**
 	 * Sets the module name to be used if the router doesn't return a valid module
