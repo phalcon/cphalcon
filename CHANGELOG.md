@@ -1,4 +1,5 @@
 # [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-XX-XX)
+- Fixed undefined index warning on existing cached resultsets
 
 # [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2017-03-22)
 - Added `Phalcon\Validation\Validator\Callback`, `Phalcon\Validation::getData`
