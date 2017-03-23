@@ -445,6 +445,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *         "year",
 	 *     ]
 	 * );
+	 *
+	 * // By default assign method will use setters if exist, you can disable it by using ini_set to directly use properties
+	 *
+	 * ini_set("phalcon.orm.disable_assign_setters", true);
+	 *
+	 * $robot->assign(
+	 *     $_POST,
+	 *     null,
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
 	 * </code>
 	 *
 	 * @param array data
@@ -454,7 +467,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
-		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped;
+		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
+
+        let disableAssignSetters = globals_get("orm.disable_assign_setters");
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {
@@ -507,7 +522,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				// Try to find a possible getter
-				if !this->_possibleSetter(attributeField, value) {
+				if disableAssignSetters || !this->_possibleSetter(attributeField, value) {
 					let this->{attributeField} = value;
 				}
 			}
@@ -3866,7 +3881,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		return this->_oldSnapshot;
 	}
-	
+
 	/**
 	 * Check if a specific attribute has changed
 	 * This only works if the model is keeping data snapshots
@@ -4664,7 +4679,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
 			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-			updateSnapshotOnSave;
+			updateSnapshotOnSave, disableAssignSetters;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4731,6 +4746,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
 			globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
+		}
+
+		if fetch disableAssignSetters, options["disableAssignSetters"] {
+		    globals_set("orm.disable_assign_setters", disableAssignSetters);
 		}
 	}
 
