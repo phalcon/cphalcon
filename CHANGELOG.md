@@ -1,4 +1,5 @@
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-XX-XX)
+- Added ability to sanitize URL to `Phalcon\Filter`
 
 # [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-XX-XX)
 
