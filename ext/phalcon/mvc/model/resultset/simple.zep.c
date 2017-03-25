@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *resultset = NULL, *_0, *_1, *_2, *_3, *_4, *_5, *_6, *_7;
+	zval *data_param = NULL, *resultset = NULL, *keepSnapshots = NULL, *_0, *_1, *_2, *_3, *_4, *_5, *_6;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -332,8 +332,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	zephir_update_property_this(this_ptr, SL("_columnMap"), _5 TSRMLS_CC);
 	zephir_array_fetch_string(&_6, resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/simple.zep", 260 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _6 TSRMLS_CC);
-	zephir_array_fetch_string(&_7, resultset, SL("keepSnapshots"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/simple.zep", 261 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_keepSnapshots"), _7 TSRMLS_CC);
+	if (zephir_array_isset_string_fetch(&keepSnapshots, resultset, SS("keepSnapshots"), 1 TSRMLS_CC)) {
+		zephir_update_property_this(this_ptr, SL("_keepSnapshots"), keepSnapshots TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
