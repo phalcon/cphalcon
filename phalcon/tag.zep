@@ -341,7 +341,7 @@ class Tag
 	 * Resets the request and internal values to avoid those fields will have any default value.
 	 * @deprecated Will be removed in 4.0.0
 	 */
-	public static function resetInput() -> void
+	deprecated public static function resetInput() -> void
 	{
 		let self::_displayValues = [],
 			self::_documentTitle = null,

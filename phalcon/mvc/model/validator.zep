@@ -42,7 +42,7 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Phalcon\Mvc\Model\Validator constructor
 	 */
-	public function __construct(array! options)
+	deprecated public function __construct(array! options)
 	{
 		let this->_options = options;
 	}
