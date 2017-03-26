@@ -2,7 +2,7 @@ Phalcon Framework
 =================
 
 [![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
-[![Windows Build](https://ci.appveyor.com/api/projects/status/github/phalcon/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/phalcon/cphalcon/branch/master)
+[![Windows Build](https://ci.appveyor.com/api/projects/status/github/sergeyklay/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/phalcon/cphalcon/branch/master)
 [![Support Us](https://img.shields.io/badge/support-patreon-red.svg)](https://www.patreon.com/bePatron?u=4653615)
 [![Phalcon Backers](https://img.shields.io/badge/phalcon-backers-99ddc0.svg)](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
 
