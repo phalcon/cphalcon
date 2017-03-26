@@ -269,9 +269,11 @@ class Debug
 
 	/**
 	 * Returns the major framework's version
+	 *
 	 * @deprecated Will be removed in 4.0.0
+	 * @see Phalcon\Version::getPart()
 	 */
-	public function getMajorVersion() -> string
+	deprecated public function getMajorVersion() -> string
 	{
 		var parts;
 
