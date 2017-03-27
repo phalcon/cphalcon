@@ -562,7 +562,7 @@ class Beanstalk
 	/**
 	 * Writes data to the socket. Performs a connection if none is available
 	 */
-	protected function write(string data) -> boolean|int
+	public function write(string data) -> boolean|int
 	{
 		var connection, packet;
 
