@@ -5,6 +5,8 @@ Phalcon Framework
 [![Windows Build](https://ci.appveyor.com/api/projects/status/github/phalcon/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/phalcon/cphalcon/branch/master)
 [![Support Us](https://img.shields.io/badge/support-patreon-red.svg)](https://www.patreon.com/bePatron?u=4653615)
 [![Phalcon Backers](https://img.shields.io/badge/phalcon-backers-99ddc0.svg)](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
+[![OpenCollective](https://opencollective.com/cphalcon/backers/badge.svg)](#backers) 
+[![OpenCollective](https://opencollective.com/cphalcon/sponsors/badge.svg)](#sponsors)
 
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
@@ -158,6 +160,76 @@ Our community is developing amazing extra features for Phalcon every day via [In
 There are resources to enhance your experience with the framework and that enlarge the main features.
 
 Just give it a try and help us improve Phalcon even more!
+
+Backers
+-------
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/cphalcon#backer)]
+
+<a href="https://opencollective.com/cphalcon/backer/0/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/0/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/1/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/1/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/2/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/2/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/3/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/3/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/4/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/4/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/5/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/5/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/6/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/6/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/7/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/7/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/8/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/8/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/9/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/9/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/10/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/10/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/11/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/11/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/12/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/12/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/13/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/13/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/14/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/14/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/15/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/15/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/16/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/16/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/17/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/17/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/18/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/18/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/19/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/19/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/20/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/20/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/21/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/21/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/22/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/22/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/23/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/23/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/24/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/24/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/25/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/25/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/26/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/26/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/27/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/27/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/28/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/28/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/backer/29/website" target="_blank"><img src="https://opencollective.com/cphalcon/backer/29/avatar.svg"></a>
+
+Sponsors
+-------
+Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/cphalcon#sponsor)]
+
+<a href="https://opencollective.com/cphalcon/sponsor/0/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/1/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/2/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/3/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/4/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/5/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/6/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/7/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/8/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/9/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/10/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/10/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/11/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/11/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/12/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/12/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/13/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/13/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/14/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/14/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/15/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/15/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/16/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/16/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/17/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/17/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/18/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/18/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/19/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/19/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/20/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/20/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/21/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/21/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/22/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/22/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/23/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/23/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/24/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/24/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/25/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/25/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/26/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/26/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/27/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/27/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/28/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/28/avatar.svg"></a>
+<a href="https://opencollective.com/cphalcon/sponsor/29/website" target="_blank"><img src="https://opencollective.com/cphalcon/sponsor/29/avatar.svg"></a>
 
 License
 -------
