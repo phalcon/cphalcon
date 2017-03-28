@@ -267,7 +267,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @deprecated 1.0.0
 	 * @see \Phalcon\Mvc\Model\Criteria::andWhere()
 	 */
-	public function addWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
+	deprecated public function addWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
 	{
 		return this->andWhere(conditions, bindParams, bindTypes);
 	}

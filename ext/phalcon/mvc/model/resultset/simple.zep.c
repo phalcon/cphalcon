@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_columnMap"), columnMap TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_keepSnapshots"), keepSnapshots TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_simple_ce, this_ptr, "__construct", &_0, 372, result, cache);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_simple_ce, this_ptr, "__construct", &_0, 371, result, cache);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -134,12 +134,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 				_8$$9 = zephir_fetch_nproperty_this(this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 				ZEPHIR_INIT_VAR(_9$$9);
 				ZVAL_LONG(_9$$9, 0);
-				ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmap", &_6, 374, _7$$9, row, columnMap, _9$$9, _8$$9);
+				ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmap", &_6, 373, _7$$9, row, columnMap, _9$$9, _8$$9);
 				zephir_check_call_status();
 			}
 			break;
 		}
-		ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_10, 375, row, columnMap, hydrateMode);
+		ZEPHIR_CALL_CE_STATIC(&activeRow, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_10, 374, row, columnMap, hydrateMode);
 		zephir_check_call_status();
 		break;
 	} while(0);
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *resultset = NULL, *_0, *_1, *_2, *_3, *_4, *_5, *_6, *_7;
+	zval *data_param = NULL, *resultset = NULL, *keepSnapshots = NULL, *_0, *_1, *_2, *_3, *_4, *_5, *_6;
 	zval *data = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -332,8 +332,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	zephir_update_property_this(this_ptr, SL("_columnMap"), _5 TSRMLS_CC);
 	zephir_array_fetch_string(&_6, resultset, SL("hydrateMode"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/simple.zep", 260 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_hydrateMode"), _6 TSRMLS_CC);
-	zephir_array_fetch_string(&_7, resultset, SL("keepSnapshots"), PH_NOISY | PH_READONLY, "phalcon/mvc/model/resultset/simple.zep", 261 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_keepSnapshots"), _7 TSRMLS_CC);
+	if (zephir_array_isset_string_fetch(&keepSnapshots, resultset, SS("keepSnapshots"), 1 TSRMLS_CC)) {
+		zephir_update_property_this(this_ptr, SL("_keepSnapshots"), keepSnapshots TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

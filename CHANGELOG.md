@@ -1,7 +1,14 @@
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-XX-XX)
+- `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct` will now trigger `E_DEPREACATED` on usage
+- Added Factory Adapter loaders [#11001](https://github.com/phalcon/cphalcon/issues/11001)
 - Added ability to sanitize URL to `Phalcon\Filter`
 
-# [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-XX-XX)
+# [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-XX-XX)
+- Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
+
+# [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-03-25)
+- Fixed undefined index warning on existing cached resultsets
+- Fixed `Phalcon\Mvc\Model::_dowLowUpdate` warning first argument is not an array [#12742](https://github.com/phalcon/cphalcon/issues/12742)
 
 # [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2017-03-22)
 - Added `Phalcon\Validation\Validator\Callback`, `Phalcon\Validation::getData`

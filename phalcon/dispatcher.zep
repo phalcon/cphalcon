@@ -338,7 +338,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 * @deprecated 3.1.0 Use setModelBinder method
 	 * @see Phalcon\Dispatcher::setModelBinder()
 	 */
-	public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
+	deprecated public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
 	{
 		var dependencyInjector;
 
