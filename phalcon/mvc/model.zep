@@ -113,6 +113,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _snapshot;
 
+	protected _oldSnapshot = [];
+
 	const OP_NONE = 0;
 
 	const OP_CREATE = 1;
@@ -2456,8 +2458,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 */
  		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
 
+		let snapshot = this->_snapshot;
+
  		if useDynamicUpdate {
- 			let snapshot = this->_snapshot;
  			if typeof snapshot != "array" {
  				let useDynamicUpdate = false;
  			}
@@ -2650,9 +2653,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		], bindTypes);
 
  		if success && manager->isKeepingSnapshots(this) {
-			if typeof this->_snapshot == "array" {
-				let this->_snapshot = array_merge(this->_snapshot, newSnapshot);
+			if typeof snapshot == "array" {
+				let this->_oldSnapshot = snapshot;
+				let this->_snapshot = array_merge(snapshot, newSnapshot);
 			} else {
+				let this->_oldSnapshot = [];
 				let this->_snapshot = newSnapshot;
 			}
 		}
@@ -3829,6 +3834,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let snapshot = data;
 		}
 
+		let this->_oldSnapshot = snapshot;
 		let this->_snapshot = snapshot;
 	}
 
@@ -3874,6 +3880,34 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Check if a specific attribute was updated
+	 * This only works if the model is keeping data snapshots
+	 *
+	 * @param string|array fieldName
+	 */
+	public function hasUpdated(var fieldName = null, boolean allFields = false) -> boolean
+	{
+		var updatedFields;
+
+		let updatedFields = this->getUpdatedFields();
+
+		/**
+		 * If a field was specified we only check it
+		 */
+		if typeof fieldName == "string" {
+			return in_array(fieldName, updatedFields);
+		} elseif typeof fieldName == "array" {
+			if allFields {
+				return array_intersect(fieldName, updatedFields) == fieldName;
+			}
+
+			return count(array_intersect(fieldName, updatedFields)) > 0;
+		}
+
+		return count(updatedFields) > 0;
+	}
+
+	/**
 	 * Returns a list of changed values.
 	 *
 	 * <code>
@@ -3894,13 +3928,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
 			throw new Exception("The record doesn't have a valid data snapshot");
-		}
-
-		/**
-		 * Dirty state must be DIRTY_PERSISTENT to make the checking
-		 */
-		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
 		}
 
 		/**
@@ -3954,6 +3981,61 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return changed;
+	}
+
+	/**
+	 * Returns a list of updated values.
+	 *
+	 * <code>
+	 * $robots = Robots::findFirst();
+	 * print_r($robots->getChangedFields()); // []
+	 *
+	 * $robots->deleted = 'Y';
+	 *
+	 * $robots->getChangedFields();
+	 * print_r($robots->getChangedFields()); // ["deleted"]
+	 * $robots->save();
+	 * print_r($robots->getChangedFields()); // []
+	 * print_r($robots->getUpdatedFields()); // ["deleted"]
+	 * </code>
+	 */
+	public function getUpdatedFields()
+	{
+		var updated, name, snapshot,
+			oldSnapshot, value;
+
+		let snapshot = this->_snapshot;
+		let oldSnapshot = this->_oldSnapshot;
+
+		if typeof snapshot != "array" {
+			throw new Exception("The record doesn't have a valid data snapshot");
+		}
+
+		/**
+		 * Dirty state must be DIRTY_PERSISTENT to make the checking
+		 */
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+		}
+
+		let updated = [];
+
+		for name, value in snapshot {
+			/**
+			 * If some attribute is not present in the oldSnapshot, we assume the record as changed
+			 */
+			if !isset oldSnapshot[name] {
+				let updated[] = name;
+				continue;
+			}
+
+			if value !== oldSnapshot[name] {
+				let updated[] = name;
+				continue;
+			}
+		}
+
+		return updated;
 	}
 
 	/**
