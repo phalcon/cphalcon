@@ -78,4 +78,4 @@ Support us with a monthly donation and help us continue our activities. [[Become
 <a href="https://opencollective.com/phalcon/backer/29/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/29/avatar.svg"></a>
 
 ## Core Team
-Andres, Serghei, Eduar, Nikolay, Nikolaos
+Andres, Serghei, Volodymyr, Nikolaos
