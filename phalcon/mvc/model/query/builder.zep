@@ -447,7 +447,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds an INNER join to the query
+	 * Adds an :type: join (by default type - INNER) to the query
 	 *
 	 *<code>
 	 * // Inner Join model 'Robots' with automatic conditions and alias
