@@ -1,5 +1,4 @@
-Phalcon Framework
-=================
+# Phalcon Framework
 
 [![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
 [![Windows Build](https://ci.appveyor.com/api/projects/status/github/phalcon/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/phalcon/cphalcon/branch/master)
@@ -13,9 +12,7 @@ Phalcon is an open source web framework delivered as a C extension for the PHP l
 
 A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md); you rock!
 
-
-Get Started
------------
+## Get Started
 
 Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS. You can either download a binary package for the system of your choice or build it from source.
 
@@ -68,8 +65,7 @@ CentOS/Fedora/RHEL
 sudo yum install php-devel pcre-devel gcc make
 ```
 
-General Compilation
--------------------
+## General Compilation
 
 Follow these instructions to generate a binary extension for your platform:
 
@@ -87,8 +83,8 @@ extension=phalcon.so
 
 Finally, **restart the web server**.
 
-Advanced compilation
---------------------
+## Advanced compilation
+
 If you have specific php versions running
 
 ```bash
@@ -126,27 +122,20 @@ extension=phalcon.so
 
 Save the file and **Restart the web server**.
 
-Contributing
-------------
+## Contributing
+
 Tests are located in `tests/` and use Codeception.
 Test classes should follow the [PSR-2 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
-Vagrant
--------
-https://github.com/phalcon/vagrant
-
-OSX MAMP ready extensions
--------------------------
+## OSX MAMP ready extensions
 
 https://github.com/majksner/php-phalcon-mamp
 
-Gentoo
-------
+## Gentoo
 
 https://github.com/smoke/phalcon-gentoo-overlay
 
-External Links
---------------
+## External Links
 
 * [Documentation](https://docs.phalconphp.com/)
 * [Support](https://forum.phalconphp.com)
@@ -154,50 +143,15 @@ External Links
 * [Zephir](https://zephir-lang.com/)
 * [Twitter](https://twitter.com/phalconphp)
 
-Meet the Incubator
-------------------
+## Meet the Incubator
+
 Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator).
 There are resources to enhance your experience with the framework and that enlarge the main features.
 
 Just give it a try and help us improve Phalcon even more!
 
-Backers
--------
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/phalcon#backer)]
+## Sponsors
 
-<a href="https://opencollective.com/phalcon/backer/0/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/0/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/1/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/1/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/2/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/2/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/3/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/3/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/4/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/4/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/5/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/5/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/6/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/6/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/7/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/7/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/8/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/8/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/9/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/9/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/10/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/10/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/11/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/11/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/12/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/12/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/13/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/13/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/14/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/14/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/15/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/15/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/16/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/16/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/17/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/17/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/18/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/18/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/19/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/19/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/20/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/20/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/21/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/21/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/22/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/22/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/23/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/23/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/24/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/24/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/25/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/25/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/26/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/26/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/27/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/27/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/28/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/28/avatar.svg"></a>
-<a href="https://opencollective.com/phalcon/backer/29/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/29/avatar.svg"></a>
-
-Sponsors
--------
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/phalcon#sponsor)]
 
 <a href="https://opencollective.com/phalcon/sponsor/0/website" target="_blank"><img src="https://opencollective.com/phalcon/sponsor/0/avatar.svg"></a>
@@ -231,6 +185,40 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <a href="https://opencollective.com/phalcon/sponsor/28/website" target="_blank"><img src="https://opencollective.com/phalcon/sponsor/28/avatar.svg"></a>
 <a href="https://opencollective.com/phalcon/sponsor/29/website" target="_blank"><img src="https://opencollective.com/phalcon/sponsor/29/avatar.svg"></a>
 
-License
--------
-Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more
+## Backers
+
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/phalcon#backer)]
+
+<a href="https://opencollective.com/phalcon/backer/0/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/0/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/1/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/1/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/2/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/2/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/3/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/3/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/4/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/4/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/5/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/5/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/6/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/6/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/7/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/7/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/8/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/8/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/9/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/9/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/10/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/10/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/11/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/11/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/12/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/12/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/13/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/13/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/14/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/14/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/15/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/15/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/16/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/16/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/17/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/17/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/18/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/18/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/19/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/19/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/20/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/20/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/21/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/21/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/22/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/22/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/23/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/23/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/24/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/24/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/25/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/25/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/26/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/26/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/27/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/27/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/28/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/28/avatar.svg"></a>
+<a href="https://opencollective.com/phalcon/backer/29/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/29/avatar.svg"></a>
+
+## License
+Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more or visit our [license](https://license.phalconphp.com) page.
