@@ -64,6 +64,8 @@ class Filter implements FilterInterface
 
 	const FILTER_UPPER      = "upper";
 
+	const FILTER_URL        = "url";
+
 	protected _filters;
 
 	/**
@@ -209,6 +211,10 @@ class Filter implements FilterInterface
 					return mb_strtoupper(value);
 				}
 				return strtoupper(value);
+
+			case Filter::FILTER_URL:
+
+				return filter_var(value, FILTER_SANITIZE_URL);
 
 			default:
 				throw new Exception("Sanitize filter '" . filter . "' is not supported");

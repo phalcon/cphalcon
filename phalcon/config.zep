@@ -50,6 +50,8 @@ use Phalcon\Config\Exception;
 class Config implements \ArrayAccess, \Countable
 {
 
+	protected static _delimiter = ".";
+
 	/**
 	 * Phalcon\Config constructor
 	 */
@@ -77,6 +79,60 @@ class Config implements \ArrayAccess, \Countable
 
 		return isset this->{index};
 	}
+
+    /**
+     * Sets the default path delimiter
+     */
+    public function setPathDelimiter(string! delimiter) -> <Config>
+    {
+        let self::_delimiter = delimiter;
+        return this;
+    }
+
+    /**
+     * Returns a value from current config using a dot separated path.
+     *
+     *<code>
+     * echo $config->get("unknown.path", "default", ".");
+     *</code>
+     */
+    public function path(var path, var defaultValue = null, var delimiter = null) -> var
+    {
+        var key, keys, stack;
+
+        let path = strval(path);
+
+        if isset this->{path} {
+            return this->{path};
+        }
+
+        if empty delimiter {
+            let delimiter = self::_delimiter;
+        }
+
+        let keys = explode(delimiter, path),
+            stack = this;
+
+        while !empty keys {
+            let key = array_shift(keys);
+
+            if !isset stack->{key} {
+                break;
+            }
+
+            if empty keys {
+                return stack->{key};
+            }
+
+            let stack = stack->{key};
+
+            if empty stack {
+                break;
+            }
+        }
+
+        return defaultValue;
+    }
 
 	/**
 	 * Gets an attribute from the configuration, if the attribute isn't defined returns null
