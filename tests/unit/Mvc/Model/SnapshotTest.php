@@ -299,4 +299,21 @@ class SnapshotTest extends UnitTest
             }
         );
     }
+
+    /**
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-23
+     */
+    public function testNewInstanceUpdate()
+    {
+        $this->specify(
+            'When updating model from new instance there is some problem',
+            function () {
+                $this->setUpModelsManager();
+                $robots = Robots::findFirst();
+                $robots = new Robots($robots->toArray());
+                expect($robots->save())->true();
+            }
+        );
+    }
 }

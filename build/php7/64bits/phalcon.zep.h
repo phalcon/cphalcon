@@ -18081,7 +18081,6 @@ static PHP_METHOD(Phalcon_Tag, setDocType);
 static PHP_METHOD(Phalcon_Tag, getDocType);
 static PHP_METHOD(Phalcon_Tag, tagHtml);
 static PHP_METHOD(Phalcon_Tag, tagHtmlClose);
-void zephir_init_static_properties_Phalcon_Tag(TSRMLS_D);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_getescaper, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
