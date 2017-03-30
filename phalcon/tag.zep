@@ -43,9 +43,9 @@ class Tag
 	 */
 	protected static _documentTitle = null;
 
-	protected static _documentAppendTitle = [];
+	protected static _documentAppendTitle = null;
 
-	protected static _documentPrependTitle = [];
+	protected static _documentPrependTitle = null;
 
 	protected static _documentTitleSeparator = null;
 
@@ -1159,6 +1159,10 @@ class Tag
 	 */
 	public static function appendTitle(var title) -> void
 	{
+		if typeof self::_documentAppendTitle == "null" {
+			let self::_documentAppendTitle = [];
+		}
+
 		if typeof title == "array" {
 			let self::_documentAppendTitle = title ;
 		} else {
@@ -1170,7 +1174,11 @@ class Tag
 	 * Prepends a text to current document title
 	 */
 	public static function prependTitle(var title) -> void
-	{		
+	{
+		if typeof self::_documentPrependTitle == "null" {
+			let self::_documentPrependTitle = [];
+		}
+
 		if typeof title == "array" {
 			let self::_documentPrependTitle = title ;
 		} else {
@@ -1199,9 +1207,19 @@ class Tag
 		let output = "";
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
+
+		if typeof self::_documentAppendTitle == "null" {
+			let self::_documentAppendTitle = [];
+		}
+
 		let documentAppendTitle = self::_documentAppendTitle;
+
+		if typeof self::_documentPrependTitle == "null" {
+			let self::_documentPrependTitle = [];
+		}
+
 		let documentPrependTitle = self::_documentPrependTitle;
-		
+
 		if !empty documentPrependTitle {
 			var tmp = array_reverse(documentPrependTitle);
 			for title in tmp {

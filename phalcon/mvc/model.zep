@@ -2650,8 +2650,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		], bindTypes);
 
  		if success && manager->isKeepingSnapshots(this) {
-            let this->_snapshot = array_merge(this->_snapshot, newSnapshot);
- 		}
+			if typeof this->_snapshot == "array" {
+				let this->_snapshot = array_merge(this->_snapshot, newSnapshot);
+			} else {
+				let this->_snapshot = newSnapshot;
+			}
+		}
 
  		return success;
  	}

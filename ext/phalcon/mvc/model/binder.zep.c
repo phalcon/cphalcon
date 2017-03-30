@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	ZEPHIR_INIT_VAR(reflection);
 	if (Z_TYPE_P(methodName) != IS_NULL) {
 		object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionmethod") TSRMLS_CC));
-		ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 325, handler, methodName);
+		ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 324, handler, methodName);
 		zephir_check_call_status();
 	} else {
 		object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionfunction") TSRMLS_CC));
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 		zephir_array_fetch(&paramValue, params, paramKey, PH_NOISY, "phalcon/mvc/model/binder.zep", 160 TSRMLS_CC);
 		ZEPHIR_SINIT_NVAR(_5$$5);
 		ZVAL_STRING(&_5$$5, "Phalcon\\Mvc\\Model", 0);
-		ZEPHIR_CALL_FUNCTION(&_6$$5, "is_subclass_of", &_7, 326, className, &_5$$5);
+		ZEPHIR_CALL_FUNCTION(&_6$$5, "is_subclass_of", &_7, 325, className, &_5$$5);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_STRING(className, "Phalcon\\Mvc\\Model")) {
 			if (Z_TYPE_P(realClasses) == IS_NULL) {
