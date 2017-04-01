@@ -316,4 +316,90 @@ class SnapshotTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests get updated fields new instance exception
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testUpdatedFieldsNewException()
+    {
+        $this->specify(
+            'When getting updated fields from not persistent instance there should be exception',
+            function () {
+                $robots = new Robots(
+                    [
+                        'name'     => 'test',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+
+                $robots->getUpdatedFields();
+            },
+            [
+                'throws' => ['Phalcon\Mvc\Model\Exception', 'The record doesn\'t have a valid data snapshot'],
+            ]
+        );
+    }
+
+    /**
+     * Tests get updated fields deleted instance exception
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testUpdatedFieldsDeleteException()
+    {
+        $this->specify(
+            'When getting updated fields from deleted instance there should be exception',
+            function () {
+                $robots = new Robots(
+                    [
+                        'name' => 'test',
+                        'year' => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text' => 'asd',
+                    ]
+                );
+
+                $robots->create();
+                $robots->delete();
+
+                $robots->getUpdatedFields();
+            },
+            [
+                'throws' => [
+                    'Phalcon\Mvc\Model\Exception',
+                    'Change checking cannot be performed because the object has not been persisted or is deleted',
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Tests get updated fields
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testUpdatedFields()
+    {
+        $this->specify(
+            'Getting updated fields is not working correctly',
+            function () {
+                $robots = Robots::findFirst();
+                $robots->name = 'changedName';
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->true();
+                expect($robots->hasUpdated('name'))->false();
+                $robots->save();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->false();
+                expect($robots->hasUpdated('name'))->true();
+            }
+        );
+    }
 }
