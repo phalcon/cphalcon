@@ -14,7 +14,7 @@
 #define PHP_PHALCON_VERSION     "3.1.2"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.9.6a-dev-2969561168"
+#define PHP_PHALCON_ZEPVERSION  "0.9.6a-dev-82a38d7f46"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
