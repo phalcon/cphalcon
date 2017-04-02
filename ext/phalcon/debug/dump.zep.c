@@ -17,10 +17,10 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/main.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -138,8 +138,7 @@ PHP_METHOD(Phalcon_Debug_Dump, all) {
 	ZVAL_STRING(_1, "variables", 1);
 	zephir_array_fast_append(_0, _1);
 	ZEPHIR_INIT_NVAR(_1);
-	array_init(_1);
-	zend_copy_parameters_array(ZEND_NUM_ARGS(), _1 TSRMLS_CC);
+	zephir_get_args(_1 TSRMLS_CC);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, _0, _1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -157,11 +156,11 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -307,8 +306,8 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_concat_self(&output, _2$$4 TSRMLS_CC);
 		zephir_is_iterable(variable, &_8$$4, &_7$$4, 0, 0, "phalcon/debug/dump.zep", 161);
 		for (
-		  ; zephir_hash_get_current_data_ex(_8$$4, (void**) &_9$$4, &_7$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_8$$4, &_7$$4)
+		  ; zend_hash_get_current_data_ex(_8$$4, (void**) &_9$$4, &_7$$4) == SUCCESS
+		  ; zend_hash_move_forward_ex(_8$$4, &_7$$4)
 		) {
 			ZEPHIR_GET_HMKEY(key, _8$$4, _7$$4);
 			ZEPHIR_GET_HVALUE(value, _9$$4);
@@ -418,8 +417,8 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			zephir_check_call_status();
 			zephir_is_iterable(_40$$11, &_42$$11, &_41$$11, 0, 0, "phalcon/debug/dump.zep", 194);
 			for (
-			  ; zephir_hash_get_current_data_ex(_42$$11, (void**) &_43$$11, &_41$$11) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_42$$11, &_41$$11)
+			  ; zend_hash_get_current_data_ex(_42$$11, (void**) &_43$$11, &_41$$11) == SUCCESS
+			  ; zend_hash_move_forward_ex(_42$$11, &_41$$11)
 			) {
 				ZEPHIR_GET_HMKEY(key, _42$$11, _41$$11);
 				ZEPHIR_GET_HVALUE(value, _43$$11);
@@ -565,8 +564,8 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		} else {
 			zephir_is_iterable(attr, &_76$$20, &_75$$20, 0, 0, "phalcon/debug/dump.zep", 243);
 			for (
-			  ; zephir_hash_get_current_data_ex(_76$$20, (void**) &_77$$20, &_75$$20) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_76$$20, &_75$$20)
+			  ; zend_hash_get_current_data_ex(_76$$20, (void**) &_77$$20, &_75$$20) == SUCCESS
+			  ; zend_hash_move_forward_ex(_76$$20, &_75$$20)
 			) {
 				ZEPHIR_GET_HVALUE(value, _77$$20);
 				ZEPHIR_INIT_NVAR(_78$$21);
@@ -842,12 +841,11 @@ PHP_METHOD(Phalcon_Debug_Dump, variables) {
 	ZEPHIR_INIT_VAR(output);
 	ZVAL_STRING(output, "", 1);
 	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
-	zend_copy_parameters_array(ZEND_NUM_ARGS(), _0 TSRMLS_CC);
+	zephir_get_args(_0 TSRMLS_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/debug/dump.zep", 315);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);

@@ -20,7 +20,6 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -86,7 +85,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
 	zephir_fetch_params(0, 1, 0, &index_param);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_LONG)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_LONG)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a int") TSRMLS_CC);
 		RETURN_NULL();
 	}
@@ -119,7 +118,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &index_param, &message);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_LONG)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_LONG)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a int") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -188,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZVAL_LONG(_2$$3, 1);
 		ZEPHIR_MAKE_REF(_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 466, _1$$3, index, _2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 465, _1$$3, index, _2$$3);
 		ZEPHIR_UNREF(_1$$3);
 		zephir_check_call_status();
 	}
@@ -294,11 +293,11 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &fieldName_param);
 
-	if (unlikely(Z_TYPE_P(fieldName_param) != IS_STRING && Z_TYPE_P(fieldName_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(fieldName_param) != IS_STRING && Z_TYPE_P(fieldName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fieldName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(fieldName_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(fieldName_param) == IS_STRING)) {
 		zephir_get_strval(fieldName, fieldName_param);
 	} else {
 		ZEPHIR_INIT_VAR(fieldName);
@@ -313,8 +312,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
 		zephir_is_iterable(messages, &_1$$3, &_0$$3, 0, 0, "phalcon/validation/message/group.zep", 210);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(message, _2$$3);
 			if ((zephir_method_exists_ex(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {

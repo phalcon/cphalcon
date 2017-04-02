@@ -18,7 +18,6 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -296,8 +295,8 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, destroy) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_is_iterable(_SESSION, &_2, &_1, 1, 0, "phalcon/session/adapter/libmemcached.zep", 168);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(_0, _3);

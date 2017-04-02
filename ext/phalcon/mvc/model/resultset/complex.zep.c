@@ -16,7 +16,6 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -137,8 +136,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/mvc/model/resultset/complex.zep", 246);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(alias, _3, _2);
 		ZEPHIR_GET_HVALUE(column, _4);
@@ -159,8 +158,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 			array_init(rowModel);
 			zephir_is_iterable(attributes, &_6$$11, &_5$$11, 0, 0, "phalcon/mvc/model/resultset/complex.zep", 162);
 			for (
-			  ; zephir_hash_get_current_data_ex(_6$$11, (void**) &_7$$11, &_5$$11) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_6$$11, &_5$$11)
+			  ; zend_hash_get_current_data_ex(_6$$11, (void**) &_7$$11, &_5$$11) == SUCCESS
+			  ; zend_hash_move_forward_ex(_6$$11, &_5$$11)
 			) {
 				ZEPHIR_GET_HVALUE(attribute, _7$$11);
 				ZEPHIR_OBS_NVAR(columnValue);
@@ -321,11 +320,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
-	if (unlikely(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(data_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(data_param) == IS_STRING)) {
 		zephir_get_strval(data, data_param);
 	} else {
 		ZEPHIR_INIT_VAR(data);

@@ -16,7 +16,6 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -131,8 +130,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	zephir_read_property_this(&index, this_ptr, SL("_index"), PH_NOISY_CC);
 	zephir_is_iterable(chunk, &_8, &_7, 0, 0, "phalcon/logger/adapter/firephp.zep", 92);
 	for (
-	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_8, &_7)
+	  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+	  ; zend_hash_move_forward_ex(_8, &_7)
 	) {
 		ZEPHIR_GET_HMKEY(key, _8, _7);
 		ZEPHIR_GET_HVALUE(chString, _9);

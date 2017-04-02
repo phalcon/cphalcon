@@ -317,11 +317,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, choose) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &tube_param);
 
-	if (unlikely(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tube' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(tube_param) == IS_STRING)) {
 		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
@@ -356,11 +356,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &tube_param);
 
-	if (unlikely(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tube' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(tube_param) == IS_STRING)) {
 		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
@@ -396,11 +396,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, ignore) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &tube_param);
 
-	if (unlikely(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tube' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(tube_param) == IS_STRING)) {
 		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
@@ -436,11 +436,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, pauseTube) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &tube_param, &delay_param);
 
-	if (unlikely(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tube' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(tube_param) == IS_STRING)) {
 		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);
@@ -536,11 +536,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, statsTube) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &tube_param);
 
-	if (unlikely(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(tube_param) != IS_STRING && Z_TYPE_P(tube_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tube' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(tube_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(tube_param) == IS_STRING)) {
 		zephir_get_strval(tube, tube_param);
 	} else {
 		ZEPHIR_INIT_VAR(tube);

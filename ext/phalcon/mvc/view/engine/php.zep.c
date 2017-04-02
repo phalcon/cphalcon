@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/memory.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
@@ -50,11 +49,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);
 
-	if (unlikely(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -74,8 +73,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_is_iterable(params, &_1$$4, &_0$$4, 0, 0, "phalcon/mvc/view/engine/php.zep", 50);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)
+		  ; zend_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$4, &_0$$4)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$4, _0$$4);
 			ZEPHIR_GET_HVALUE(value, _2$$4);

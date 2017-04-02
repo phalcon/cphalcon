@@ -51,11 +51,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -78,11 +78,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -110,11 +110,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &index_param, &value);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -190,11 +190,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
 
-	if (unlikely(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(attribute_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(attribute_param) == IS_STRING)) {
 		zephir_get_strval(attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(attribute);

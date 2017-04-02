@@ -53,7 +53,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	options = options_param;
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, this_ptr, "__construct", &_0, 453, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, this_ptr, "__construct", &_0, 452, options);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(data);
 	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 0 TSRMLS_CC))) {
@@ -81,11 +81,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -118,11 +118,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);

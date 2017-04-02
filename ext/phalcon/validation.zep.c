@@ -17,7 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/string.h"
@@ -103,13 +102,13 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		ZEPHIR_INIT_NVAR(_0$$3);
 		zephir_create_closure_ex(_0$$3, NULL, phalcon_0__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", &_2, 462, validators, _0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", &_2, 461, validators, _0$$3);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_validators"), _1$$3 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_INIT_NVAR(_3$$3);
 		zephir_create_closure_ex(_3$$3, NULL, phalcon_1__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_filter", &_2, 462, validators, _3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_filter", &_2, 461, validators, _3$$3);
 		zephir_check_call_status();
 		zephir_update_property_this(this_ptr, SL("_combinedFieldsValidators"), _4$$3 TSRMLS_CC);
 	}
@@ -189,8 +188,8 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 	zephir_is_iterable(validators, &_2, &_1, 0, 0, "phalcon/validation.zep", 161);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HVALUE(scope, _3);
 		if (Z_TYPE_P(scope) != IS_ARRAY) {
@@ -225,8 +224,8 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 	zephir_is_iterable(combinedFieldsValidators, &_10, &_9, 0, 0, "phalcon/validation.zep", 193);
 	for (
-	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_10, &_9)
+	  ; zend_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
+	  ; zend_hash_move_forward_ex(_10, &_9)
 	) {
 		ZEPHIR_GET_HVALUE(scope, _11);
 		if (Z_TYPE_P(scope) != IS_ARRAY) {
@@ -293,8 +292,8 @@ PHP_METHOD(Phalcon_Validation, add) {
 		} else {
 			zephir_is_iterable(field, &_2$$5, &_1$$5, 0, 0, "phalcon/validation.zep", 215);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
+			  ; zend_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
+			  ; zend_hash_move_forward_ex(_2$$5, &_1$$5)
 			) {
 				ZEPHIR_GET_HVALUE(singleField, _3$$5);
 				ZEPHIR_INIT_NVAR(_4$$6);
@@ -357,8 +356,8 @@ PHP_METHOD(Phalcon_Validation, rules) {
 
 	zephir_is_iterable(validators, &_1, &_0, 0, 0, "phalcon/validation.zep", 247);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(validator, _2);
 		if (zephir_instance_of_ev(validator, phalcon_validation_validatorinterface_ce TSRMLS_CC)) {
@@ -391,8 +390,8 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
 	if (Z_TYPE_P(field) == IS_ARRAY) {
 		zephir_is_iterable(field, &_1$$3, &_0$$3, 0, 0, "phalcon/validation.zep", 264);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(singleField, _2$$3);
 			zephir_update_property_array(this_ptr, SL("_filters"), singleField, filters TSRMLS_CC);
@@ -554,11 +553,11 @@ PHP_METHOD(Phalcon_Validation, getDefaultMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -652,7 +651,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 		ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, 463, message);
+	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, 462, message);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	RETURN_THIS();
@@ -848,11 +847,11 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 	if (Z_TYPE_P(field) == IS_ARRAY) {
 		zephir_is_iterable(field, &_1$$3, &_0$$3, 0, 0, "phalcon/validation.zep", 590);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(singleField, _2$$3);
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "prechecking", &_3, 464, singleField, validator);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "prechecking", &_3, 463, singleField, validator);
 			zephir_check_call_status();
 			if (zephir_is_true(result)) {
 				RETURN_CCTOR(result);
@@ -877,8 +876,8 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 			if (Z_TYPE_P(allowEmpty) == IS_ARRAY) {
 				zephir_is_iterable(allowEmpty, &_7$$9, &_6$$9, 0, 0, "phalcon/validation.zep", 604);
 				for (
-				  ; zephir_hash_get_current_data_ex(_7$$9, (void**) &_8$$9, &_6$$9) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_7$$9, &_6$$9)
+				  ; zend_hash_get_current_data_ex(_7$$9, (void**) &_8$$9, &_6$$9) == SUCCESS
+				  ; zend_hash_move_forward_ex(_7$$9, &_6$$9)
 				) {
 					ZEPHIR_GET_HVALUE(emptyValue, _8$$9);
 					if (ZEPHIR_IS_IDENTICAL(emptyValue, value)) {

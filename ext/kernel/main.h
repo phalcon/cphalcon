@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -566,5 +566,8 @@ static inline char *_str_erealloc(char *str, size_t new_len, size_t old_len) {
 #define ZEPHIR_CHECK_POINTER(v) if (!v) fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__);
 
 #define zephir_is_php_version(id) (PHP_VERSION_ID / 10 == id / 10 ?  1 : 0)
+
+void zephir_get_args(zval* return_value TSRMLS_DC);
+void zephir_get_arg(zval* return_value, int idx TSRMLS_DC);
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */

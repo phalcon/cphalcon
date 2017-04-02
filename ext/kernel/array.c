@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -32,8 +32,26 @@
 #include "kernel/debug.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/backtrace.h"
+
+static zval zephir_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position)
+{
+	Bucket *p;
+	zval result;
+
+	INIT_ZVAL(result);
+	p = hash_position ? (*hash_position) : hash_table->pInternalPointer;
+
+	if (p) {
+		if (p->nKeyLength) {
+			ZVAL_STRINGL(&result, (char *) p->arKey, p->nKeyLength - 1, 0);
+		} else {
+			ZVAL_LONG(&result, p->h);
+		}
+	}
+
+	return result;
+}
 
 /**
  * @brief Fetches @a index if it exists from the array @a arr
@@ -64,7 +82,7 @@ int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index, int r
 	h = Z_ARRVAL_P(arr);
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
-			result = zephir_hash_find(h, SS(""), (void**)&val);
+			result = zend_hash_find(h, SS(""), (void**)&val);
 			break;
 
 		case IS_DOUBLE:
@@ -109,8 +127,8 @@ int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index
 
 	zval **zv;
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if (zephir_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
+		if (zend_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
 			*fetched = *zv;
 			if (!readonly) {
 				Z_ADDREF_P(*fetched);
@@ -135,7 +153,7 @@ int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index
 
 	zval **zv;
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (zend_hash_index_find(Z_ARRVAL_P(arr), index, (void**)&zv) == SUCCESS) {
 			*fetched = *zv;
 			if (!readonly) {
@@ -173,7 +191,7 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
 	h = Z_ARRVAL_P(arr);
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
-			return zephir_hash_exists(h, SS(""));
+			return zend_hash_exists(h, SS(""));
 
 		case IS_DOUBLE:
 			return zend_hash_index_exists(h, (ulong)Z_DVAL_P(index));
@@ -220,7 +238,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index
  */
 int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
 	}
 
@@ -237,7 +255,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char 
  */
 int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index) {
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
 	}
 
@@ -807,7 +825,7 @@ int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int flags ZE
 		ht = Z_ARRVAL_P(arr);
 		switch (Z_TYPE_P(index)) {
 			case IS_NULL:
-				result = zephir_hash_find(ht, SS(""), (void**) &zv);
+				result = zend_hash_find(ht, SS(""), (void**) &zv);
 				sidx   = "";
 				break;
 
@@ -879,8 +897,8 @@ int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *
 
 	zval **zv;
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if (zephir_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
+		if (zend_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
 			*return_value = *zv;
 			if ((flags & PH_READONLY) != PH_READONLY) {
 				Z_ADDREF_PP(return_value);
@@ -942,7 +960,7 @@ int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index,
 
 	zval **zv;
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (zend_hash_index_find(Z_ARRVAL_P(arr), index, (void**)&zv) == SUCCESS) {
 			*return_value = *zv;
 			if ((flags & PH_READONLY) != PH_READONLY) {
@@ -1135,7 +1153,7 @@ void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
  */
 void zephir_array_unshift(zval *arr, zval *arg TSRMLS_DC)
 {
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 
 		zval** args[1]      = { &arg };
 
@@ -1167,7 +1185,7 @@ void zephir_array_keys(zval *return_value, zval *input TSRMLS_DC)
 	ulong  num_key;
 	HashPosition pos;
 
-	if (likely(Z_TYPE_P(input) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(input) == IS_ARRAY)) {
 
 		array_init_size(return_value, zend_hash_num_elements(Z_ARRVAL_P(input)));
 
@@ -1197,7 +1215,7 @@ void zephir_array_keys(zval *return_value, zval *input TSRMLS_DC)
 
 void zephir_array_values(zval *return_value, zval *arr)
 {
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval **entry;
 		HashPosition pos;
 
@@ -1238,7 +1256,7 @@ int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 
 int zephir_array_is_associative(zval *arr) {
 
-	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		HashPosition pos;
 		zval **entry;
 		char *skey;
@@ -1481,7 +1499,7 @@ void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint size, int init
 	if (size > 0) {
 
 		hashTable = (HashTable *) emalloc(sizeof(HashTable));
-		zephir_hash_init(hashTable, size, NULL, ZVAL_PTR_DTOR, 0);
+		zend_hash_init(hashTable, size, NULL, ZVAL_PTR_DTOR, 0);
 
 		if (initialize) {
 

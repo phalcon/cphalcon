@@ -19,7 +19,6 @@
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 
@@ -141,11 +140,11 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &code_param, &attributes_param);
 
-	if (unlikely(Z_TYPE_P(code_param) != IS_STRING && Z_TYPE_P(code_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(code_param) != IS_STRING && Z_TYPE_P(code_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'code' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(code_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(code_param) == IS_STRING)) {
 		zephir_get_strval(code, code_param);
 	} else {
 		ZEPHIR_INIT_VAR(code);
@@ -170,8 +169,8 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	array_init(attrs);
 	zephir_is_iterable(order, &_1, &_0, 0, 0, "phalcon/tag.zep", 137);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
@@ -182,8 +181,8 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	}
 	zephir_is_iterable(attributes, &_4, &_3, 0, 0, "phalcon/tag.zep", 143);
 	for (
-	  ; zephir_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_4, &_3)
+	  ; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+	  ; zend_hash_move_forward_ex(_4, &_3)
 	) {
 		ZEPHIR_GET_HMKEY(key, _4, _3);
 		ZEPHIR_GET_HVALUE(value, _5);
@@ -198,8 +197,8 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 	ZEPHIR_CPY_WRT(newCode, code);
 	zephir_is_iterable(attrs, &_8, &_7, 0, 0, "phalcon/tag.zep", 162);
 	for (
-	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_8, &_7)
+	  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+	  ; zend_hash_move_forward_ex(_8, &_7)
 	) {
 		ZEPHIR_GET_HMKEY(key, _8, _7);
 		ZEPHIR_GET_HVALUE(value, _9);
@@ -380,11 +379,11 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id_param, &value);
 
-	if (unlikely(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);
@@ -1956,8 +1955,8 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 		zephir_check_call_status();
 		zephir_is_iterable(tmp$$5, &_9$$5, &_8$$5, 0, 0, "phalcon/tag.zep", 1228);
 		for (
-		  ; zephir_hash_get_current_data_ex(_9$$5, (void**) &_10$$5, &_8$$5) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_9$$5, &_8$$5)
+		  ; zend_hash_get_current_data_ex(_9$$5, (void**) &_10$$5, &_8$$5) == SUCCESS
+		  ; zend_hash_move_forward_ex(_9$$5, &_8$$5)
 		) {
 			ZEPHIR_GET_HVALUE(title, _10$$5);
 			ZEPHIR_CALL_METHOD(&_11$$6, escaper, "escapehtml", &_12, 0, title);
@@ -1971,8 +1970,8 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 	if (!(ZEPHIR_IS_EMPTY(documentAppendTitle))) {
 		zephir_is_iterable(documentAppendTitle, &_14$$8, &_13$$8, 0, 0, "phalcon/tag.zep", 1238);
 		for (
-		  ; zephir_hash_get_current_data_ex(_14$$8, (void**) &_15$$8, &_13$$8) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_14$$8, &_13$$8)
+		  ; zend_hash_get_current_data_ex(_14$$8, (void**) &_15$$8, &_13$$8) == SUCCESS
+		  ; zend_hash_move_forward_ex(_14$$8, &_13$$8)
 		) {
 			ZEPHIR_GET_HVALUE(title, _15$$8);
 			ZEPHIR_CALL_METHOD(&_16$$9, escaper, "escapehtml", &_17, 0, title);
@@ -2382,8 +2381,8 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 		if (Z_TYPE_P(replace) == IS_ARRAY) {
 			zephir_is_iterable(replace, &_9$$6, &_8$$6, 0, 0, "phalcon/tag.zep", 1502);
 			for (
-			  ; zephir_hash_get_current_data_ex(_9$$6, (void**) &_10$$6, &_8$$6) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_9$$6, &_8$$6)
+			  ; zend_hash_get_current_data_ex(_9$$6, (void**) &_10$$6, &_8$$6) == SUCCESS
+			  ; zend_hash_move_forward_ex(_9$$6, &_8$$6)
 			) {
 				ZEPHIR_GET_HVALUE(search, _10$$6);
 				ZEPHIR_INIT_NVAR(_11$$7);

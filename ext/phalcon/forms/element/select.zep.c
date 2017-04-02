@@ -16,7 +16,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -119,8 +118,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 	if (Z_TYPE_P(option) == IS_ARRAY) {
 		zephir_is_iterable(option, &_1$$3, &_0$$3, 0, 0, "phalcon/forms/element/select.zep", 84);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(value, _2$$3);

@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	options = options_param;
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_csv_ce, this_ptr, "__construct", &_0, 453, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_csv_ce, this_ptr, "__construct", &_0, 452, options);
 	zephir_check_call_status();
 	if (!(zephir_array_isset_string(options, SS("content")))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Parameter 'content' is required", "phalcon/translate/adapter/csv.zep", 42);
@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 	ZVAL_STRING(_3, ";", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_4);
 	ZVAL_STRING(_4, "\"", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_load", NULL, 454, _1, _2, _3, _4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_load", NULL, 453, _1, _2, _3, _4);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_4);
 	zephir_check_call_status();
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, _load) {
 		return;
 	}
 	while (1) {
-		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_3, 455, fileHandler, length, delimiter, enclosure);
+		ZEPHIR_CALL_FUNCTION(&data, "fgetcsv", &_3, 454, fileHandler, length, delimiter, enclosure);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(data)) {
 			break;
@@ -156,11 +156,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);
@@ -193,11 +193,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
 
-	if (unlikely(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(index_param) != IS_STRING && Z_TYPE_P(index_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'index' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(index_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
 		zephir_get_strval(index, index_param);
 	} else {
 		ZEPHIR_INIT_VAR(index);

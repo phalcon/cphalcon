@@ -15,7 +15,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
@@ -99,8 +98,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/mysql.zep", 263);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(field, _6);
 		ZEPHIR_INIT_NVAR(definition);
@@ -290,11 +289,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema);
 
-	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
 		ZEPHIR_INIT_VAR(table);
@@ -316,8 +315,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/mysql.zep", 312);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(index, _6);
 		zephir_array_fetch_string(&keyName, index, SL("Key_name"), PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 285 TSRMLS_CC);
@@ -360,8 +359,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 	array_init(indexObjects);
 	zephir_is_iterable(indexes, &_16, &_15, 0, 0, "phalcon/db/adapter/pdo/mysql.zep", 317);
 	for (
-	  ; zephir_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_16, &_15)
+	  ; zend_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
+	  ; zend_hash_move_forward_ex(_16, &_15)
 	) {
 		ZEPHIR_GET_HMKEY(name, _16, _15);
 		ZEPHIR_GET_HVALUE(index, _17);
@@ -399,11 +398,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
 
-	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
 		ZEPHIR_INIT_VAR(table);
@@ -413,11 +412,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 		ZEPHIR_INIT_VAR(schema);
 		ZVAL_EMPTY_STRING(schema);
 	} else {
-	if (unlikely(Z_TYPE_P(schema_param) != IS_STRING && Z_TYPE_P(schema_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(schema_param) != IS_STRING && Z_TYPE_P(schema_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'schema' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(schema_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(schema_param) == IS_STRING)) {
 		zephir_get_strval(schema, schema_param);
 	} else {
 		ZEPHIR_INIT_VAR(schema);
@@ -437,8 +436,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/mysql.zep", 371);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(reference, _6);
 		zephir_array_fetch_long(&constraintName, reference, 2, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 340 TSRMLS_CC);
@@ -493,8 +492,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 	array_init(referenceObjects);
 	zephir_is_iterable(references, &_17, &_16, 0, 0, "phalcon/db/adapter/pdo/mysql.zep", 383);
 	for (
-	  ; zephir_hash_get_current_data_ex(_17, (void**) &_18, &_16) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_17, &_16)
+	  ; zend_hash_get_current_data_ex(_17, (void**) &_18, &_16) == SUCCESS
+	  ; zend_hash_move_forward_ex(_17, &_16)
 	) {
 		ZEPHIR_GET_HMKEY(name, _17, _16);
 		ZEPHIR_GET_HVALUE(arrayReference, _18);
