@@ -17,7 +17,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
@@ -88,11 +87,11 @@ PHP_METHOD(Phalcon_Filter, add) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &handler);
 
-	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -140,8 +139,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		if (Z_TYPE_P(value) != IS_NULL) {
 			zephir_is_iterable(filters, &_1$$4, &_0$$4, 0, 0, "phalcon/filter.zep", 108);
 			for (
-			  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)
+			  ; zend_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_1$$4, &_0$$4)
 			) {
 				ZEPHIR_GET_HVALUE(filter, _2$$4);
 				_3$$5 = Z_TYPE_P(value) == IS_ARRAY;
@@ -153,8 +152,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					array_init(arrayValue);
 					zephir_is_iterable(value, &_5$$6, &_4$$6, 0, 0, "phalcon/filter.zep", 103);
 					for (
-					  ; zephir_hash_get_current_data_ex(_5$$6, (void**) &_6$$6, &_4$$6) == SUCCESS
-					  ; zephir_hash_move_forward_ex(_5$$6, &_4$$6)
+					  ; zend_hash_get_current_data_ex(_5$$6, (void**) &_6$$6, &_4$$6) == SUCCESS
+					  ; zend_hash_move_forward_ex(_5$$6, &_4$$6)
 					) {
 						ZEPHIR_GET_HMKEY(itemKey, _5$$6, _4$$6);
 						ZEPHIR_GET_HVALUE(itemValue, _6$$6);
@@ -182,8 +181,8 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		array_init(sanitizedValue);
 		zephir_is_iterable(value, &_12$$9, &_11$$9, 0, 0, "phalcon/filter.zep", 120);
 		for (
-		  ; zephir_hash_get_current_data_ex(_12$$9, (void**) &_13$$9, &_11$$9) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_12$$9, &_11$$9)
+		  ; zend_hash_get_current_data_ex(_12$$9, (void**) &_13$$9, &_11$$9) == SUCCESS
+		  ; zend_hash_move_forward_ex(_12$$9, &_11$$9)
 		) {
 			ZEPHIR_GET_HMKEY(itemKey, _12$$9, _11$$9);
 			ZEPHIR_GET_HVALUE(itemValue, _13$$9);
@@ -214,11 +213,11 @@ PHP_METHOD(Phalcon_Filter, _sanitize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &value, &filter_param);
 
-	if (unlikely(Z_TYPE_P(filter_param) != IS_STRING && Z_TYPE_P(filter_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(filter_param) != IS_STRING && Z_TYPE_P(filter_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filter' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(filter_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(filter_param) == IS_STRING)) {
 		zephir_get_strval(filter, filter_param);
 	} else {
 		ZEPHIR_INIT_VAR(filter);

@@ -19,7 +19,6 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/hash.h"
 #include "kernel/object.h"
 
 
@@ -181,8 +180,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 	array_init(buildArguments);
 	zephir_is_iterable(arguments, &_1, &_0, 0, 0, "phalcon/di/service/builder.zep", 119);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(position, _1, _0);
 		ZEPHIR_GET_HVALUE(argument, _2);
@@ -261,8 +260,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		}
 		zephir_is_iterable(paramCalls, &_3$$10, &_2$$10, 0, 0, "phalcon/di/service/builder.zep", 235);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3$$10, (void**) &_4$$10, &_2$$10) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3$$10, &_2$$10)
+		  ; zend_hash_get_current_data_ex(_3$$10, (void**) &_4$$10, &_2$$10) == SUCCESS
+		  ; zend_hash_move_forward_ex(_3$$10, &_2$$10)
 		) {
 			ZEPHIR_GET_HMKEY(methodPosition, _3$$10, _2$$10);
 			ZEPHIR_GET_HVALUE(method, _4$$10);
@@ -332,8 +331,8 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 		}
 		zephir_is_iterable(paramCalls, &_16$$19, &_15$$19, 0, 0, "phalcon/di/service/builder.zep", 283);
 		for (
-		  ; zephir_hash_get_current_data_ex(_16$$19, (void**) &_17$$19, &_15$$19) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_16$$19, &_15$$19)
+		  ; zend_hash_get_current_data_ex(_16$$19, (void**) &_17$$19, &_15$$19) == SUCCESS
+		  ; zend_hash_move_forward_ex(_16$$19, &_15$$19)
 		) {
 			ZEPHIR_GET_HMKEY(propertyPosition, _16$$19, _15$$19);
 			ZEPHIR_GET_HVALUE(property, _17$$19);

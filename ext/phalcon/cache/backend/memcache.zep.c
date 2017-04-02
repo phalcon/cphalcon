@@ -20,7 +20,6 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -182,11 +181,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, addServers) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &host_param, &port_param, &persistent_param);
 
-	if (unlikely(Z_TYPE_P(host_param) != IS_STRING && Z_TYPE_P(host_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(host_param) != IS_STRING && Z_TYPE_P(host_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'host' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(host_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(host_param) == IS_STRING)) {
 		zephir_get_strval(host, host_param);
 	} else {
 		ZEPHIR_INIT_VAR(host);
@@ -496,7 +495,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 	}
 	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, 0, specialKey);
 	zephir_check_call_status();
-	if (unlikely(Z_TYPE_P(keys) != IS_ARRAY)) {
+	if (UNEXPECTED(Z_TYPE_P(keys) != IS_ARRAY)) {
 		array_init(return_value);
 		RETURN_MM();
 	}
@@ -505,8 +504,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 	ZEPHIR_CPY_WRT(keys, _0);
 	zephir_is_iterable(keys, &_2, &_1, 1, 0, "phalcon/cache/backend/memcache.zep", 365);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(idx, _2, _1);
 		ZEPHIR_GET_HVALUE(key, _3);
@@ -707,14 +706,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush) {
 	}
 	ZEPHIR_CALL_METHOD(&keys, memcache, "get", NULL, 0, specialKey);
 	zephir_check_call_status();
-	if (unlikely(Z_TYPE_P(keys) != IS_ARRAY)) {
+	if (UNEXPECTED(Z_TYPE_P(keys) != IS_ARRAY)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	zephir_is_iterable(keys, &_2, &_1, 0, 0, "phalcon/cache/backend/memcache.zep", 492);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(_0, _3);

@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/filter.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
@@ -181,8 +180,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	zephir_array_fast_append(_0, _1);
 	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 132);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(charset, _4);
 		ZEPHIR_CALL_FUNCTION(&_5$$5, "mb_detect_encoding", &_6, 184, str, charset, ZEPHIR_GLOBAL(global_true));

@@ -22,7 +22,6 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -280,7 +279,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	if (!str_param) {
 		str = 1;
 	} else {
-	if (unlikely(Z_TYPE_P(str_param) != IS_BOOL)) {
+	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_BOOL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a bool") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -289,7 +288,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	if (!shift_param) {
 		shift = 1;
 	} else {
-	if (unlikely(Z_TYPE_P(shift_param) != IS_BOOL)) {
+	if (UNEXPECTED(Z_TYPE_P(shift_param) != IS_BOOL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'shift' must be a bool") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -315,8 +314,8 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	zephir_is_iterable(arguments, &_3, &_2, 0, 0, "phalcon/cli/console.zep", 201);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(arg, _4);
 		if (Z_TYPE_P(arg) == IS_STRING) {

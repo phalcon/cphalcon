@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (https://www.zephir-lang.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -26,10 +26,9 @@
 #include <Zend/zend_execute.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/extended/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/backtrace.h"
@@ -753,7 +752,6 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params TSRMLS_DC)
 {
-	char *possible_method;
 	zval *rv = NULL, **rvp = return_value_ptr ? return_value_ptr : &rv;
 	zval *fn = NULL;
 #if PHP_VERSION_ID < 50600
@@ -860,29 +858,13 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 #endif
 
 	if (status == FAILURE && !EG(exception)) {
-
-		if (ce) {
-			possible_method = zephir_fcall_possible_method(ce, method_name TSRMLS_CC);
-		} else {
-			possible_method = "undefined";
-		}
-
 		switch (type) {
-
 			case zephir_fcall_parent:
-				if (possible_method) {
-					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method parent::%s(), did you mean '%s'?", method_name, possible_method);
-				} else {
-					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method parent::%s()", method_name);
-				}
+				zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method parent::%s()", method_name);
 				break;
 
 			case zephir_fcall_self:
-				if (possible_method) {
-					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method self::%s(), did you mean '%s'?", method_name, possible_method);
-				} else {
-					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method self::%s()", method_name);
-				}
+				zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method self::%s()", method_name);
 				break;
 
 			case zephir_fcall_static:
@@ -894,11 +876,7 @@ int zephir_call_class_method_aparams(zval **return_value_ptr, zend_class_entry *
 				break;
 
 			case zephir_fcall_method:
-				if (possible_method) {
-					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method %s::%s(), did you mean '%s'?", ce->name, method_name, possible_method);
-				} else {
-					zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method %s::%s()", ce->name, method_name);
-				}
+				zephir_throw_exception_format(spl_ce_RuntimeException TSRMLS_CC, "Call to undefined method %s::%s()", ce->name, method_name);
 				break;
 
 			default:

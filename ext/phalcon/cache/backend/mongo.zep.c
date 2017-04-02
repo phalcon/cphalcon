@@ -21,7 +21,6 @@
 #include "kernel/concat.h"
 #include "kernel/time.h"
 #include "kernel/iterator.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -147,8 +146,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection) {
 			}
 			ZEPHIR_INIT_NVAR(mongo);
 			object_init_ex(mongo, zephir_get_internal_ce(SS("mongoclient") TSRMLS_CC));
-			ZEPHIR_CALL_METHOD(NULL, mongo, "__construct", NULL, 0, server);
-			zephir_check_call_status();
+			if (zephir_has_constructor(mongo TSRMLS_CC)) {
+				ZEPHIR_CALL_METHOD(NULL, mongo, "__construct", NULL, 0, server);
+				zephir_check_call_status();
+			}
 		}
 		ZEPHIR_OBS_VAR(database);
 		zephir_array_fetch_string(&database, options, SL("db"), PH_NOISY, "phalcon/cache/backend/mongo.zep", 130 TSRMLS_CC);
@@ -438,10 +439,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 	if (!(ZEPHIR_IS_EMPTY(prefix))) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		object_init_ex(_0$$3, zephir_get_internal_ce(SS("mongoregex") TSRMLS_CC));
-		ZEPHIR_INIT_VAR(_1$$3);
-		ZEPHIR_CONCAT_SVS(_1$$3, "/^", prefix, "/");
-		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 0, _1$$3);
-		zephir_check_call_status();
+		if (zephir_has_constructor(_0$$3 TSRMLS_CC)) {
+			ZEPHIR_INIT_VAR(_1$$3);
+			ZEPHIR_CONCAT_SVS(_1$$3, "/^", prefix, "/");
+			ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 0, _1$$3);
+			zephir_check_call_status();
+		}
 		zephir_array_update_string(&conditions, SL("key"), &_0$$3, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_INIT_VAR(_2);
@@ -467,8 +470,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		}
 		zephir_is_iterable(item, &_7$$4, &_6$$4, 0, 0, "phalcon/cache/backend/mongo.zep", 317);
 		for (
-		  ; zephir_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_7$$4, &_6$$4)
+		  ; zend_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
+		  ; zend_hash_move_forward_ex(_7$$4, &_6$$4)
 		) {
 			ZEPHIR_GET_HMKEY(key, _7$$4, _6$$4);
 			ZEPHIR_GET_HVALUE(value, _8$$4);

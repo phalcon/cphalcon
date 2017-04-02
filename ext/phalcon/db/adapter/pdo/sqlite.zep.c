@@ -18,7 +18,6 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -136,8 +135,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/sqlite.zep", 252);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(field, _6);
 		ZEPHIR_INIT_NVAR(definition);
@@ -337,8 +336,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/sqlite.zep", 304);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(index, _6);
 		ZEPHIR_OBS_NVAR(keyName);
@@ -366,8 +365,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes) {
 		zephir_check_call_status();
 		zephir_is_iterable(_10$$3, &_15$$3, &_14$$3, 0, 0, "phalcon/db/adapter/pdo/sqlite.zep", 290);
 		for (
-		  ; zephir_hash_get_current_data_ex(_15$$3, (void**) &_16$$3, &_14$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_15$$3, &_14$$3)
+		  ; zend_hash_get_current_data_ex(_15$$3, (void**) &_16$$3, &_14$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_15$$3, &_14$$3)
 		) {
 			ZEPHIR_GET_HVALUE(describeIndex, _16$$3);
 			zephir_array_fetch_string(&_17$$7, describeIndex, SL("name"), PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/sqlite.zep", 287 TSRMLS_CC);
@@ -403,8 +402,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes) {
 	array_init(indexObjects);
 	zephir_is_iterable(indexes, &_28, &_27, 0, 0, "phalcon/db/adapter/pdo/sqlite.zep", 309);
 	for (
-	  ; zephir_hash_get_current_data_ex(_28, (void**) &_29, &_27) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_28, &_27)
+	  ; zend_hash_get_current_data_ex(_28, (void**) &_29, &_27) == SUCCESS
+	  ; zend_hash_move_forward_ex(_28, &_27)
 	) {
 		ZEPHIR_GET_HMKEY(name, _28, _27);
 		ZEPHIR_GET_HVALUE(index, _29);
@@ -455,8 +454,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_5, &_4, 0, 0, "phalcon/db/adapter/pdo/sqlite.zep", 354);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HMKEY(number, _5, _4);
 		ZEPHIR_GET_HVALUE(reference, _6);
@@ -501,8 +500,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences) {
 	array_init(referenceObjects);
 	zephir_is_iterable(references, &_15, &_14, 0, 0, "phalcon/db/adapter/pdo/sqlite.zep", 364);
 	for (
-	  ; zephir_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_15, &_14)
+	  ; zend_hash_get_current_data_ex(_15, (void**) &_16, &_14) == SUCCESS
+	  ; zend_hash_move_forward_ex(_15, &_14)
 	) {
 		ZEPHIR_GET_HMKEY(name, _15, _14);
 		ZEPHIR_GET_HVALUE(arrayReference, _16);

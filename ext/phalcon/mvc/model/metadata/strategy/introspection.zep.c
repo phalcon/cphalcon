@@ -18,7 +18,6 @@
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 
 
@@ -124,8 +123,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	array_init(emptyStringValues);
 	zephir_is_iterable(columns, &_8, &_7, 0, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 165);
 	for (
-	  ; zephir_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_8, &_7)
+	  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
+	  ; zend_hash_move_forward_ex(_8, &_7)
 	) {
 		ZEPHIR_GET_HVALUE(column, _9);
 		ZEPHIR_CALL_METHOD(&fieldName, column, "getname", NULL, 0);
@@ -223,8 +222,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 		ZEPHIR_CPY_WRT(orderedColumnMap, userColumnMap);
 		zephir_is_iterable(userColumnMap, &_1$$3, &_0$$3, 0, 0, "phalcon/mvc/model/metadata/strategy/introspection.zep", 205);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HMKEY(name, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(userName, _2$$3);
