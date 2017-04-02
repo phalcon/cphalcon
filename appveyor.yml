@@ -44,7 +44,7 @@ install:
     # ==================================================
     - echo Downloading PHP source code [%PHP_VERSION%]
     # ==================================================
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php.zip')
     - cd ..
     - 'mkdir php && mv php.zip php\php.zip && cd php'
     - 7z.exe x php.zip | FIND /V "ing  "
@@ -57,9 +57,9 @@ install:
     # ==================================================
     - echo Downloading PHP-Devel-Pack
     # ==================================================
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:BUILD_PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
     - 7z.exe x php-dev.zip | FIND /V "ing  "
-    - mv php-%PHP_VERSION%-devel-VC11-%BUILD_PLATFORM% php-devpack
+    - mv php-%PHP_VERSION%-devel-VC11-%PLATFORM% php-devpack
     # ==================================================
     - echo Enable Zephir Parser
     # ==================================================
@@ -71,7 +71,7 @@ install:
     # ==================================================
     - '%PHP_SDK%\bin\phpsdk_setvars'
     - 'cd %APPVEYOR_BUILD_FOLDER%\..\php'
-    - '"%VS110COMNTOOLS%\VsDevCmd" %BUILD_PLATFORM%'
+    - '"%VS110COMNTOOLS%\VsDevCmd" %PLATFORM%'
     - 'echo extension_dir=%APPVEYOR_BUILD_FOLDER%\..\php\ext > php.ini'
     - 'echo extension=php_zephir_parser.dll >> php.ini'
     - 'echo extension=php_curl.dll >> php.ini'

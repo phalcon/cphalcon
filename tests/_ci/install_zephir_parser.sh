@@ -11,25 +11,15 @@
 #  obtain it through the world-wide-web, please send an email
 #  to license@phalconphp.com so we can send you a copy immediately.
 
-echo -e "Install Zephir..."
+echo -e "Install Zephir Parser..."
 
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
-ZEPHIRDIR=${TRAVIS_BUILD_DIR}/vendor/phalcon/zephir
 
-if [ ! -d "${ZEPHIRDIR}" ]; then
-  echo -e "The ${ZEPHIRDIR} directory does not exists. First run 'composer install --dev'"
-  exit 1;
-fi
+git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git /tmp/parser
+cd /tmp/parser
 
-cd ${ZEPHIRDIR}
-
-sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
-chmod 755 bin/zephir-cmd
-
-mkdir -p ${HOME}/bin
-
-cp ./bin/zephir-cmd ${HOME}/bin/zephir
-rm ./bin/zephir-cmd
+# Only for Travis CI
+TRAVIS_BUILD_DIR=$(pwd) bash ./tests/ci/install-travis
 
 cd ${CURRENT_DIR}

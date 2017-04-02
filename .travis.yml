@@ -78,12 +78,13 @@ before_install:
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
 
 install:
-  - travis_retry composer install --prefer-dist --no-interaction --ignore-platform-reqs
+  - travis_retry composer install --prefer-source --no-interaction --ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
+  - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
-  - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall -DZEPHIR_RELEASE=1"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; /usr/bin/phpize &> /dev/null && ./configure --silent --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
   - php -m
