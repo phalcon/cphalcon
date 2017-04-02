@@ -5,6 +5,8 @@ docs/* linguist-documentation
 
 *.sql linguist-language=SQL
 
+*.w32 linguist-language=JavaScript
+
 ext/* linguist-vendored
 build/* linguist-vendored
 
