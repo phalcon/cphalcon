@@ -13,7 +13,7 @@
 
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
-ZEPHIRDIR=${TRAVIS_BUILD_DIR}/vendor/phalcon/zephir
+ZEPHIRDIR=${TRAVIS_BUILD_DIR}/vendor/jurigag/zephir
 
 if [ ! -d "${ZEPHIRDIR}" ]; then
   echo -e "The ${ZEPHIRDIR} directory does not exists. First run 'composer install --dev'"
