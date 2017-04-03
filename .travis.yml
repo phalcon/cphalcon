@@ -28,7 +28,6 @@ cache:
   timeout: 691200
   directories:
     - .temp
-    #- vendor
     - $HOME/.ccache
     - $HOME/.composer/cache
 
@@ -79,7 +78,6 @@ before_install:
 
 install:
   - travis_retry composer install --prefer-source --no-interaction --ignore-platform-reqs
-  - git submodule --quiet update --init --recursive
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
@@ -108,8 +106,11 @@ after_failure:
   - bash tests/_ci/after_failure.sh
 
 notifications:
-  email:
-    - build@phalconphp.com
+    email:
+        recipients:
+            - build@phalconphp.com
+        on_success: change
+        on_failure: always
 
 addons:
   apt:
