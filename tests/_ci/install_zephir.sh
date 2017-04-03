@@ -32,4 +32,4 @@ mkdir -p ${HOME}/bin
 cp ./bin/zephir-cmd ${HOME}/bin/zephir
 rm ./bin/zephir-cmd
 
-cd ${CURRENT_DIR}
+cd ${TRAVIS_BUILD_DIR}

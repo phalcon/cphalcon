@@ -22,4 +22,4 @@ cd /tmp/parser
 # Only for Travis CI
 TRAVIS_BUILD_DIR=$(pwd) bash ./tests/ci/install-travis
 
-cd ${CURRENT_DIR}
+cd ${TRAVIS_BUILD_DIR}
