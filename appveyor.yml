@@ -51,7 +51,6 @@ install:
     # ==================================================
     - appveyor DownloadFile http://windows.php.net/downloads/releases/sha1sum.txt
     - ps: $env:PHP_VERSION=type sha1sum.txt | where { $_ -match "php-(${env:PHP_TARGET}\.\d+)-src" } | foreach { $matches[1] }
-    - ps: $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_RELEASE}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_VERSION}_${env:PARSER_VERSION}.zip"
     - ps: $env:PHP_PLATFORM="${env:PHP_SDK}\phpdev\vc${env:PHP_VC}\${env:PLATFORM}"
     - ps: $env:PHP_SRC="${env:PHP_PLATFORM}\php-${env:PHP_VERSION}-src"
     - ps: >-
@@ -66,10 +65,10 @@ install:
         } else {
             If ($env:PHP_TYPE -Match "nts-Win32") {
                 $env:RELEASE_FOLDER="x64\Release"
-                $env:PHP_CONFIGURE_FLAGS="--disable-all --enable-cli --enable-zephir_parser=shared --disable-zts"
+                $env:PHP_CONFIGURE_FLAGS="--disable-all --enable-cli --enable-phalcon=shared --disable-zts"
             } Else {
                 $env:RELEASE_FOLDER="x64\Release_TS"
-                $env:PHP_CONFIGURE_FLAGS="--disable-all --enable-cli --enable-zephir_parser=shared"
+                $env:PHP_CONFIGURE_FLAGS="--disable-all --enable-cli --enable-phalcon=shared"
             }
         }
         If ($env:PHP_VC -eq '11') {
@@ -125,7 +124,7 @@ install:
     # ==================================================
     - echo Preparing extension to build
     # ==================================================
-    - mkdir %PHP_SRC%\ext\zephir_parser
+    - mkdir %PHP_SRC%\ext\phalcon
     - xcopy /s /q %APPVEYOR_BUILD_FOLDER%\build\php%PHP_MAJOR%\%PHALCON_ARCH%bits\*.* %PHP_SRC%\ext\phalcon
     # ==================================================
     - echo Build PHP with enabled Phalcon
@@ -161,8 +160,8 @@ after_build:
     - echo Collect artifacts and zip
     # ==================================================
     - cd %APPVEYOR_BUILD_FOLDER%\package
-    - ps: 7z a ${env:RELEASE_ZIPBALL}.zip *.*
-    - ps: mv ${env:RELEASE_ZIPBALL}.zip ${env:APPVEYOR_BUILD_FOLDER}\
+    - 7z a %RELEASE_ZIPBALL%.zip *.*
+    - mv %RELEASE_ZIPBALL%.zip %APPVEYOR_BUILD_FOLDER%\
 
 on_failure:
     - 'dir'
@@ -173,10 +172,6 @@ on_failure:
 
         If (Test-Path -Path ${env:PHP_SRC}\compile.log) {
             type ${env:PHP_SRC}\compile.log
-        }
-
-        If (Test-Path -Path ${env:PHP_SRC}\configure.js) {
-            type ${env:PHP_SRC}\configure.js
         }
 
 on_success:
