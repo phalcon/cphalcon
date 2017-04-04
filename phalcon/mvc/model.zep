@@ -2290,7 +2290,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					if fetch value, this->{attributeField} {
 
 						if value === null && isset defaultValues[field] {
+							let snapshot[attributeField] = null;
 							let value = connection->getDefaultValue();
+						} else {
+							let snapshot[attributeField] = value;
 						}
 
 						/**
@@ -2301,7 +2304,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						}
 
 						let fields[] = field, values[] = value, bindTypes[] = bindType;
-						let snapshot[attributeField] = value;
 					} else {
 
 						if isset defaultValues[field] {
