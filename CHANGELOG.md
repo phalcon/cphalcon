@@ -2,6 +2,8 @@
 - `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct` will now trigger `E_DEPREACATED` on usage
 - Added Factory Adapter loaders [#11001](https://github.com/phalcon/cphalcon/issues/11001)
 - Added ability to sanitize URL to `Phalcon\Filter`
+- Add argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` - `type` to specify type join
+- Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update
 - Method `path` added to `Phalcon\Config` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-XX-XX)

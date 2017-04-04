@@ -69,14 +69,15 @@ interface BuilderInterface
 	public function getFrom();
 
 	/**
-	 * Adds an INNER join to the query
+	 * Adds an :type: join (by default type - INNER) to the query
 	 *
 	 * @param string model
 	 * @param string conditions
 	 * @param string alias
+	 * @param string type
 	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function join(model, conditions = null, alias = null);
+	public function join(model, conditions = null, alias = null, type = null);
 
 	/**
 	 * Adds an INNER join to the query
