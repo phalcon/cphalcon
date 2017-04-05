@@ -22,6 +22,7 @@
 - Fixes internal cache saving in `Phalcon\Mvc\Model\Binder` when no cache backend is used
 - Fixed `Phalcon\Session\Bag::remove` to initialize the bag before removing a value [#12647](https://github.com/phalcon/cphalcon/pull/12647)
 - Fixed `Phalcon\Mvc\Model::getChangedFields` to correct detect changes from NULL to Zero [#12628](https://github.com/phalcon/cphalcon/issues/12628)
+- Fixed when `Micro::getReturnedValue()` is `string` or `ResponseInterface`, if response is handled in `Micro::after($handle)` or `Micro::finish($handle)`, `Phalcon` attemps to send response again, and faces `Response Already Sent` error.
 - Fixed `Phalcon\Mvc\Model` to create/refresh snapshot after create/update/refresh operation [#11007](https://github.com/phalcon/cphalcon/issues/11007), [#11818](https://github.com/phalcon/cphalcon/issues/11818), [#11424](https://github.com/phalcon/cphalcon/issues/11424)
 - Fixed `Phalcon\Mvc\Model::validate` to correctly set code message [#12645](https://github.com/phalcon/cphalcon/issues/12645)
 - Fixed `Phalcon\Mvc\Model` to correctly add error when try to save empty string value to not null and not default column [#12688](https://github.com/phalcon/cphalcon/issues/12688)

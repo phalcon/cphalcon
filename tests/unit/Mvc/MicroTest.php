@@ -440,4 +440,27 @@ class MicroTest extends UnitTest
             }
         );
     }
+    
+    public function testMicroResponseAlreadySentError()
+    {
+        $this->specify(
+            "Micro::handle method doesn't work as expected",
+            function () {
+                $app = new Micro();
+                $app->after(
+                    function () use ($app) {
+                        $content = $app->getReturnedValue();
+                        $app->response->setJsonContent($content)->send();
+                    }
+                );
+                $app->map(
+                    "/api",
+                    function () {
+                        return "success";
+                    }
+                );
+                expect($app->handle('/api'))->equals("success");
+            }
+        );
+    }
 }
