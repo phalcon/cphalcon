@@ -97,7 +97,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Double abstract data type
-	 *
 	 */
 	const TYPE_DOUBLE = 9;
 
@@ -122,7 +121,7 @@ class Column implements ColumnInterface
 	const TYPE_LONGBLOB = 13;
 
 	/**
-	 * Big integer abstract type
+	 * Big integer abstract data type
 	 */
 	const TYPE_BIGINTEGER = 14;
 
