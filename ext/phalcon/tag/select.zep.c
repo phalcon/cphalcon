@@ -21,7 +21,6 @@
 #include "kernel/concat.h"
 #include "kernel/iterator.h"
 #include "kernel/object.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -318,8 +317,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray) {
 	ZVAL_STRING(code, "", 1);
 	zephir_is_iterable(data, &_1, &_0, 0, 0, "phalcon/tag/select.zep", 274);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(optionValue, _1, _0);
 		ZEPHIR_GET_HVALUE(optionText, _2);

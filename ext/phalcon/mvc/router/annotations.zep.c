@@ -19,7 +19,6 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -76,11 +75,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &handler_param, &prefix_param);
 
-	if (unlikely(Z_TYPE_P(handler_param) != IS_STRING && Z_TYPE_P(handler_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(handler_param) != IS_STRING && Z_TYPE_P(handler_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'handler' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(handler_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(handler_param) == IS_STRING)) {
 		zephir_get_strval(handler, handler_param);
 	} else {
 		ZEPHIR_INIT_VAR(handler);
@@ -90,11 +89,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
 	} else {
-	if (unlikely(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(prefix_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(prefix_param) == IS_STRING)) {
 		zephir_get_strval(prefix, prefix_param);
 	} else {
 		ZEPHIR_INIT_VAR(prefix);
@@ -126,21 +125,21 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &module_param, &handler_param, &prefix_param);
 
-	if (unlikely(Z_TYPE_P(module_param) != IS_STRING && Z_TYPE_P(module_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(module_param) != IS_STRING && Z_TYPE_P(module_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'module' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(module_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(module_param) == IS_STRING)) {
 		zephir_get_strval(module, module_param);
 	} else {
 		ZEPHIR_INIT_VAR(module);
 		ZVAL_EMPTY_STRING(module);
 	}
-	if (unlikely(Z_TYPE_P(handler_param) != IS_STRING && Z_TYPE_P(handler_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(handler_param) != IS_STRING && Z_TYPE_P(handler_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'handler' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(handler_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(handler_param) == IS_STRING)) {
 		zephir_get_strval(handler, handler_param);
 	} else {
 		ZEPHIR_INIT_VAR(handler);
@@ -150,11 +149,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 		ZEPHIR_INIT_VAR(prefix);
 		ZVAL_EMPTY_STRING(prefix);
 	} else {
-	if (unlikely(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(prefix_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(prefix_param) == IS_STRING)) {
 		zephir_get_strval(prefix, prefix_param);
 	} else {
 		ZEPHIR_INIT_VAR(prefix);
@@ -193,11 +192,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		ZEPHIR_INIT_VAR(uri);
 		ZVAL_EMPTY_STRING(uri);
 	} else {
-	if (unlikely(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(uri_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(uri_param) == IS_STRING)) {
 		zephir_get_strval(uri, uri_param);
 	} else {
 		ZEPHIR_INIT_VAR(uri);
@@ -229,8 +228,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	zephir_read_property_this(&controllerSuffix, this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
 	zephir_is_iterable(handlers, &_3, &_2, 0, 0, "phalcon/mvc/router/annotations.zep", 205);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(scope, _4);
 		if (Z_TYPE_P(scope) != IS_ARRAY) {
@@ -280,8 +279,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			if (Z_TYPE_P(annotations) == IS_ARRAY) {
 				zephir_is_iterable(annotations, &_9$$14, &_8$$14, 0, 0, "phalcon/mvc/router/annotations.zep", 182);
 				for (
-				  ; zephir_hash_get_current_data_ex(_9$$14, (void**) &_10$$14, &_8$$14) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_9$$14, &_8$$14)
+				  ; zend_hash_get_current_data_ex(_9$$14, (void**) &_10$$14, &_8$$14) == SUCCESS
+				  ; zend_hash_move_forward_ex(_9$$14, &_8$$14)
 				) {
 					ZEPHIR_GET_HVALUE(annotation, _10$$14);
 					ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcontrollerannotation", &_11, 0, controllerName, annotation);
@@ -296,8 +295,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			zephir_uncamelize(lowerControllerName, controllerName, NULL  );
 			zephir_is_iterable(methodAnnotations, &_13$$16, &_12$$16, 0, 0, "phalcon/mvc/router/annotations.zep", 199);
 			for (
-			  ; zephir_hash_get_current_data_ex(_13$$16, (void**) &_14$$16, &_12$$16) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_13$$16, &_12$$16)
+			  ; zend_hash_get_current_data_ex(_13$$16, (void**) &_14$$16, &_12$$16) == SUCCESS
+			  ; zend_hash_move_forward_ex(_13$$16, &_12$$16)
 			) {
 				ZEPHIR_GET_HMKEY(method, _13$$16, _12$$16);
 				ZEPHIR_GET_HVALUE(collection, _14$$16);
@@ -306,8 +305,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					zephir_check_call_status();
 					zephir_is_iterable(_15$$18, &_17$$18, &_16$$18, 0, 0, "phalcon/mvc/router/annotations.zep", 197);
 					for (
-					  ; zephir_hash_get_current_data_ex(_17$$18, (void**) &_18$$18, &_16$$18) == SUCCESS
-					  ; zephir_hash_move_forward_ex(_17$$18, &_16$$18)
+					  ; zend_hash_get_current_data_ex(_17$$18, (void**) &_18$$18, &_16$$18) == SUCCESS
+					  ; zend_hash_move_forward_ex(_17$$18, &_16$$18)
 					) {
 						ZEPHIR_GET_HVALUE(annotation, _18$$18);
 						ZEPHIR_CALL_METHOD(NULL, this_ptr, "processactionannotation", &_19, 0, moduleName, namespaceName, lowerControllerName, method, annotation);
@@ -335,11 +334,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &handler_param, &annotation);
 
-	if (unlikely(Z_TYPE_P(handler_param) != IS_STRING && Z_TYPE_P(handler_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(handler_param) != IS_STRING && Z_TYPE_P(handler_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'handler' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(handler_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(handler_param) == IS_STRING)) {
 		zephir_get_strval(handler, handler_param);
 	} else {
 		ZEPHIR_INIT_VAR(handler);
@@ -376,41 +375,41 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 5, 0, &module_param, &namespaceName_param, &controller_param, &action_param, &annotation);
 
-	if (unlikely(Z_TYPE_P(module_param) != IS_STRING && Z_TYPE_P(module_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(module_param) != IS_STRING && Z_TYPE_P(module_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'module' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(module_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(module_param) == IS_STRING)) {
 		zephir_get_strval(module, module_param);
 	} else {
 		ZEPHIR_INIT_VAR(module);
 		ZVAL_EMPTY_STRING(module);
 	}
-	if (unlikely(Z_TYPE_P(namespaceName_param) != IS_STRING && Z_TYPE_P(namespaceName_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(namespaceName_param) != IS_STRING && Z_TYPE_P(namespaceName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'namespaceName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(namespaceName_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(namespaceName_param) == IS_STRING)) {
 		zephir_get_strval(namespaceName, namespaceName_param);
 	} else {
 		ZEPHIR_INIT_VAR(namespaceName);
 		ZVAL_EMPTY_STRING(namespaceName);
 	}
-	if (unlikely(Z_TYPE_P(controller_param) != IS_STRING && Z_TYPE_P(controller_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(controller_param) != IS_STRING && Z_TYPE_P(controller_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controller' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(controller_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(controller_param) == IS_STRING)) {
 		zephir_get_strval(controller, controller_param);
 	} else {
 		ZEPHIR_INIT_VAR(controller);
 		ZVAL_EMPTY_STRING(controller);
 	}
-	if (unlikely(Z_TYPE_P(action_param) != IS_STRING && Z_TYPE_P(action_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(action_param) != IS_STRING && Z_TYPE_P(action_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'action' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(action_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(action_param) == IS_STRING)) {
 		zephir_get_strval(action, action_param);
 	} else {
 		ZEPHIR_INIT_VAR(action);
@@ -534,8 +533,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		if (Z_TYPE_P(converts) == IS_ARRAY) {
 			zephir_is_iterable(converts, &_7$$22, &_6$$22, 0, 0, "phalcon/mvc/router/annotations.zep", 339);
 			for (
-			  ; zephir_hash_get_current_data_ex(_7$$22, (void**) &_8$$22, &_6$$22) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_7$$22, &_6$$22)
+			  ; zend_hash_get_current_data_ex(_7$$22, (void**) &_8$$22, &_6$$22) == SUCCESS
+			  ; zend_hash_move_forward_ex(_7$$22, &_6$$22)
 			) {
 				ZEPHIR_GET_HMKEY(param, _7$$22, _6$$22);
 				ZEPHIR_GET_HVALUE(convert, _8$$22);
@@ -551,8 +550,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		if (Z_TYPE_P(converts) == IS_ARRAY) {
 			zephir_is_iterable(converts, &_11$$24, &_10$$24, 0, 0, "phalcon/mvc/router/annotations.zep", 349);
 			for (
-			  ; zephir_hash_get_current_data_ex(_11$$24, (void**) &_12$$24, &_10$$24) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_11$$24, &_10$$24)
+			  ; zend_hash_get_current_data_ex(_11$$24, (void**) &_12$$24, &_10$$24) == SUCCESS
+			  ; zend_hash_move_forward_ex(_11$$24, &_10$$24)
 			) {
 				ZEPHIR_GET_HMKEY(conversorParam, _11$$24, _10$$24);
 				ZEPHIR_GET_HVALUE(convert, _12$$24);
@@ -599,11 +598,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerSuffix_param);
 
-	if (unlikely(Z_TYPE_P(controllerSuffix_param) != IS_STRING && Z_TYPE_P(controllerSuffix_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(controllerSuffix_param) != IS_STRING && Z_TYPE_P(controllerSuffix_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'controllerSuffix' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(controllerSuffix_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(controllerSuffix_param) == IS_STRING)) {
 		zephir_get_strval(controllerSuffix, controllerSuffix_param);
 	} else {
 		ZEPHIR_INIT_VAR(controllerSuffix);
@@ -627,11 +626,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionSuffix_param);
 
-	if (unlikely(Z_TYPE_P(actionSuffix_param) != IS_STRING && Z_TYPE_P(actionSuffix_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(actionSuffix_param) != IS_STRING && Z_TYPE_P(actionSuffix_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'actionSuffix' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(actionSuffix_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(actionSuffix_param) == IS_STRING)) {
 		zephir_get_strval(actionSuffix, actionSuffix_param);
 	} else {
 		ZEPHIR_INIT_VAR(actionSuffix);

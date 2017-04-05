@@ -19,7 +19,6 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -246,8 +245,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys) {
 	zephir_array_keys(keys, data TSRMLS_CC);
 	zephir_is_iterable(keys, &_1, &_0, 1, 0, "phalcon/cache/backend/memory.zep", 177);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(idx, _1, _0);
 		ZEPHIR_GET_HVALUE(key, _2);

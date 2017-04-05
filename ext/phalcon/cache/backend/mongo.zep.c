@@ -21,7 +21,6 @@
 #include "kernel/concat.h"
 #include "kernel/time.h"
 #include "kernel/iterator.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -467,8 +466,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys) {
 		}
 		zephir_is_iterable(item, &_7$$4, &_6$$4, 0, 0, "phalcon/cache/backend/mongo.zep", 317);
 		for (
-		  ; zephir_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_7$$4, &_6$$4)
+		  ; zend_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
+		  ; zend_hash_move_forward_ex(_7$$4, &_6$$4)
 		) {
 			ZEPHIR_GET_HMKEY(key, _7$$4, _6$$4);
 			ZEPHIR_GET_HVALUE(value, _8$$4);

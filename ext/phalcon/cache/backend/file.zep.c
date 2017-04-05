@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 		}
 		ZEPHIR_CALL_METHOD(&_5$$5, item, "isdir", NULL, 0);
 		zephir_check_call_status();
-		if (likely(ZEPHIR_IS_FALSE_IDENTICAL(_5$$5))) {
+		if (EXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(_5$$5))) {
 			ZEPHIR_CALL_METHOD(&key, item, "getfilename", NULL, 0);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(prefix))) {
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 		}
 		ZEPHIR_CALL_METHOD(&_3$$4, item, "isfile", NULL, 0);
 		zephir_check_call_status();
-		if (likely(ZEPHIR_IS_TRUE(_3$$4))) {
+		if (EXPECTED(ZEPHIR_IS_TRUE(_3$$4))) {
 			ZEPHIR_CALL_METHOD(&key, item, "getfilename", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&cacheFile, item, "getpathname", NULL, 0);

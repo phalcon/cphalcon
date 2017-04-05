@@ -19,7 +19,6 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
@@ -284,8 +283,8 @@ PHP_METHOD(Phalcon_Security_Random, base58) {
 	zephir_check_call_status();
 	zephir_is_iterable(bytes, &_3, &_2, 0, 0, "phalcon/security/random.zep", 205);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(idx, _4);
 		_5$$3 = zephir_safe_mod_zval_long(idx, 64 TSRMLS_CC);
@@ -539,7 +538,7 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 	zephir_concat_self(&bin, _6 TSRMLS_CC);
 	_7 = ZEPHIR_STRING_OFFSET(bin, 0);
 	ZEPHIR_SINIT_NVAR(_4);
-	ZVAL_LONG(&_4, _7);
+	ZVAL_STRINGL(&_4, &_7, 1, 1);
 	ZEPHIR_CALL_FUNCTION(&mask, "ord", &_8, 140, &_4);
 	zephir_check_call_status();
 	_9 = ((int) (zephir_get_numberval(mask)) | (((int) (zephir_get_numberval(mask)) >> 1)));

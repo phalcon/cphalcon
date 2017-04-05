@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 
 	zephir_fetch_params(0, 1, 0, &randomBytes_param);
 
-	if (unlikely(Z_TYPE_P(randomBytes_param) != IS_LONG)) {
+	if (UNEXPECTED(Z_TYPE_P(randomBytes_param) != IS_LONG)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'randomBytes' must be a long") TSRMLS_CC);
 		RETURN_NULL();
 	}

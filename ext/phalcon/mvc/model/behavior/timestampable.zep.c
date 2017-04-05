@@ -20,7 +20,6 @@
 #include "Zend/zend_closures.h"
 #include "kernel/object.h"
 #include "kernel/time.h"
-#include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -53,11 +52,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -103,8 +102,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		if (Z_TYPE_P(field) == IS_ARRAY) {
 			zephir_is_iterable(field, &_2$$12, &_1$$12, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 94);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2$$12, (void**) &_3$$12, &_1$$12) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2$$12, &_1$$12)
+			  ; zend_hash_get_current_data_ex(_2$$12, (void**) &_3$$12, &_1$$12) == SUCCESS
+			  ; zend_hash_move_forward_ex(_2$$12, &_1$$12)
 			) {
 				ZEPHIR_GET_HVALUE(singleField, _3$$12);
 				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_4, 0, singleField, timestamp);

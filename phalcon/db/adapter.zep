@@ -75,14 +75,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Active SQL bound parameter variables
 	 *
-	 * @var string
+	 * @var array
 	 */
 	protected _sqlVariables { get };
 
 	/**
 	 * Active SQL Bind Types
 	 *
-	 * @var string
+	 * @var array
 	 */
 	protected _sqlBindTypes;
 
