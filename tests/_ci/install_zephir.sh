@@ -11,6 +11,8 @@
 #  obtain it through the world-wide-web, please send an email
 #  to license@phalconphp.com so we can send you a copy immediately.
 
+echo -e "Install Zephir..."
+
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 ZEPHIRDIR=${TRAVIS_BUILD_DIR}/vendor/phalcon/zephir
@@ -25,9 +27,9 @@ cd ${ZEPHIRDIR}
 sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
 chmod 755 bin/zephir-cmd
 
-mkdir -p ~/bin
+mkdir -p ${HOME}/bin
 
-cp bin/zephir-cmd ~/bin/zephir
-rm bin/zephir-cmd
+cp ./bin/zephir-cmd ${HOME}/bin/zephir
+rm ./bin/zephir-cmd
 
 cd ${TRAVIS_BUILD_DIR}

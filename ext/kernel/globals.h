@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -112,10 +112,6 @@ typedef zend_function zephir_fcall_cache_entry;
 # define HASH_KEY_NON_EXISTENT HASH_KEY_NON_EXISTANT
 #endif
 
-/** Macros for branch prediction */
-#define likely(x) EXPECTED(x)
-#define unlikely(x) UNEXPECTED(x)
-
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
 # define UNREACHABLE() __builtin_unreachable()
 # define ASSUME(x) if (x) {} else __builtin_unreachable()
@@ -146,10 +142,6 @@ typedef zend_function zephir_fcall_cache_entry;
 # define __builtin_constant_p(s) (0)
 #endif
 
-#ifndef ZEND_MOD_END
-# define ZEND_MOD_END { NULL, NULL, NULL, 0 }
-#endif
-
 #ifndef __func__
 # define __func__ __FUNCTION__
 #endif
@@ -160,12 +152,7 @@ typedef zend_function zephir_fcall_cache_entry;
 # define ZEPHIR_NO_OPT
 #endif
 
-#ifdef ZTS
-#define zephir_nts_static
-#else
-#define zephir_nts_static
-#endif
-
-#define ZEPHIR_STATIC
+#define likely(x)   EXPECTED(x)
+#define unlikely(x) UNEXPECTED(x)
 
 #endif

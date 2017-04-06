@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -118,5 +118,7 @@ void zephir_stripcslashes(zval *return_value, zval *str TSRMLS_DC);
 	} while (0)
 
 int zephir_hash_equals(const zval *known_zval, const zval *user_zval);
+
+void zephir_string_to_hex(zval *return_value, zval *var);
 
 #endif /* ZEPHIR_KERNEL_STRING_H */

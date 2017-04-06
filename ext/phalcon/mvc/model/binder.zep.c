@@ -17,7 +17,6 @@
 #include "Zend/zend_closures.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -168,8 +167,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 		if (Z_TYPE_P(paramsCache) == IS_ARRAY) {
 			zephir_is_iterable(paramsCache, &_4$$4, &_3$$4, 0, 0, "phalcon/mvc/model/binder.zep", 102);
 			for (
-			  ; zephir_hash_get_current_data_ex(_4$$4, (void**) &_5$$4, &_3$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_4$$4, &_3$$4)
+			  ; zend_hash_get_current_data_ex(_4$$4, (void**) &_5$$4, &_3$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_4$$4, &_3$$4)
 			) {
 				ZEPHIR_GET_HMKEY(paramKey, _4$$4, _3$$4);
 				ZEPHIR_GET_HVALUE(className, _5$$4);
@@ -259,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	ZEPHIR_INIT_VAR(reflection);
 	if (Z_TYPE_P(methodName) != IS_NULL) {
 		object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionmethod") TSRMLS_CC));
-		ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 324, handler, methodName);
+		ZEPHIR_CALL_METHOD(NULL, reflection, "__construct", NULL, 326, handler, methodName);
 		zephir_check_call_status();
 	} else {
 		object_init_ex(reflection, zephir_get_internal_ce(SS("reflectionfunction") TSRMLS_CC));
@@ -274,8 +273,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	zephir_array_keys(paramsKeys, params TSRMLS_CC);
 	zephir_is_iterable(methodParams, &_2, &_1, 0, 0, "phalcon/mvc/model/binder.zep", 197);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(paramKey, _2, _1);
 		ZEPHIR_GET_HVALUE(methodParam, _3);
@@ -296,7 +295,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 		zephir_array_fetch(&paramValue, params, paramKey, PH_NOISY, "phalcon/mvc/model/binder.zep", 160 TSRMLS_CC);
 		ZEPHIR_SINIT_NVAR(_5$$5);
 		ZVAL_STRING(&_5$$5, "Phalcon\\Mvc\\Model", 0);
-		ZEPHIR_CALL_FUNCTION(&_6$$5, "is_subclass_of", &_7, 325, className, &_5$$5);
+		ZEPHIR_CALL_FUNCTION(&_6$$5, "is_subclass_of", &_7, 327, className, &_5$$5);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_STRING(className, "Phalcon\\Mvc\\Model")) {
 			if (Z_TYPE_P(realClasses) == IS_NULL) {

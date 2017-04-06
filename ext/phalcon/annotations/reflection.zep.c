@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -133,8 +132,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 				array_init(collections);
 				zephir_is_iterable(reflectionMethods, &_2$$5, &_1$$5, 0, 0, "phalcon/annotations/reflection.zep", 104);
 				for (
-				  ; zephir_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
+				  ; zend_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
+				  ; zend_hash_move_forward_ex(_2$$5, &_1$$5)
 				) {
 					ZEPHIR_GET_HMKEY(methodName, _2$$5, _1$$5);
 					ZEPHIR_GET_HVALUE(reflectionMethod, _3$$5);
@@ -183,8 +182,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 				array_init(collections);
 				zephir_is_iterable(reflectionProperties, &_2$$5, &_1$$5, 0, 0, "phalcon/annotations/reflection.zep", 131);
 				for (
-				  ; zephir_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
+				  ; zend_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
+				  ; zend_hash_move_forward_ex(_2$$5, &_1$$5)
 				) {
 					ZEPHIR_GET_HMKEY(property, _2$$5, _1$$5);
 					ZEPHIR_GET_HVALUE(reflectionProperty, _3$$5);
