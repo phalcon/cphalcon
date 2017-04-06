@@ -4,7 +4,8 @@
 - Added ability to sanitize URL to `Phalcon\Filter`
 - Add argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` - `type` to specify type join
 - Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update
-- Add support for having option in `Phalcon\Paginator\Adapter\QueryBuilder` [#12111](https://github.com/phalcon/cphalcon/issues/12111)
+- Added support for having option in `Phalcon\Paginator\Adapter\QueryBuilder` [#12111](https://github.com/phalcon/cphalcon/issues/12111)
+- Added `Phalcon\Config::path` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-XX-XX)
 - Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
