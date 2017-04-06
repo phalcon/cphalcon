@@ -18,7 +18,6 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -259,8 +258,8 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
 		zephir_is_iterable(messages, &_2$$3, &_1$$3, 0, 0, "phalcon/flash/session.zep", 136);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
+		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HMKEY(type, _2$$3, _1$$3);
 			ZEPHIR_GET_HVALUE(message, _3$$3);
@@ -268,7 +267,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_5, 202);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_5, 203);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -289,7 +288,7 @@ PHP_METHOD(Phalcon_Flash_Session, clear) {
 	ZVAL_BOOL(_0, 1);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_getsessionmessages", NULL, 0, _0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_1, 202);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, this_ptr, "clear", &_1, 203);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

@@ -4,10 +4,13 @@
 - Added ability to sanitize URL to `Phalcon\Filter`
 - Add argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` - `type` to specify type join
 - Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update
-- Method `path` added to `Phalcon\Config` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
+- Added support for having option in `Phalcon\Paginator\Adapter\QueryBuilder` [#12111](https://github.com/phalcon/cphalcon/issues/12111)
+- Added `Phalcon\Config::path` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-XX-XX)
 - Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
+- Fixed `Imagick::getVersion()` error in some system [#12729](https://github.com/phalcon/cphalcon/pull/12729)
+- Fixed `Phalcon\Mvc\Model::_doLowInsert` to properly set snapshot when having default values and public properties [#12766](https://github.com/phalcon/cphalcon/issues/12766)
 
 # [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-03-25)
 - Fixed undefined index warning on existing cached resultsets

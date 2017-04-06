@@ -77,7 +77,9 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
 PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
 PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
+PHP_METHOD(Phalcon_Mvc_Model, hasUpdated);
 PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
+PHP_METHOD(Phalcon_Mvc_Model, getUpdatedFields);
 PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, getRelated);
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
@@ -95,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray);
 PHP_METHOD(Phalcon_Mvc_Model, jsonSerialize);
 PHP_METHOD(Phalcon_Mvc_Model, setup);
 PHP_METHOD(Phalcon_Mvc_Model, reset);
+zend_object_value zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
@@ -354,6 +357,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_haschanged, 0, 0, 0)
 	ZEND_ARG_INFO(0, fieldName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_hasupdated, 0, 0, 0)
+	ZEND_ARG_INFO(0, fieldName)
+	ZEND_ARG_INFO(0, allFields)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_usedynamicupdate, 0, 0, 1)
 	ZEND_ARG_INFO(0, dynamicUpdate)
 ZEND_END_ARG_INFO()
@@ -489,7 +497,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, hasSnapshotData, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getSnapshotData, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, hasChanged, arginfo_phalcon_mvc_model_haschanged, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, hasUpdated, arginfo_phalcon_mvc_model_hasupdated, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getChangedFields, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getUpdatedFields, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, useDynamicUpdate, arginfo_phalcon_mvc_model_usedynamicupdate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getRelated, arginfo_phalcon_mvc_model_getrelated, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, arginfo_phalcon_mvc_model__getrelatedrecords, ZEND_ACC_PROTECTED)

@@ -19,7 +19,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 
 
@@ -117,9 +116,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 	ZEPHIR_OBS_VAR(_7);
 	zephir_read_property_this(&_7, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_6, SL("lifetime"), &_7, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 332, _6);
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 334, _6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 336, _5, options);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 338, _5, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_redis"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -138,11 +137,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, read) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -172,11 +171,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, write) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
-	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -210,8 +209,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/redis.zep", 134);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
+		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
 			ZEPHIR_GET_HVALUE(_0$$3, _3$$3);
@@ -222,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, this_ptr, "reset", &_5, 334);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, this_ptr, "reset", &_5, 336);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

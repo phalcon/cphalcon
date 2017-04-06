@@ -15,7 +15,6 @@
 #include "ext/spl/spl_iterators.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
@@ -90,8 +89,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	if (Z_TYPE_P(reflectionData) == IS_ARRAY) {
 		zephir_is_iterable(reflectionData, &_2$$4, &_1$$4, 0, 0, "phalcon/annotations/collection.zep", 68);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$4, &_1$$4)
+		  ; zend_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$4, &_1$$4)
 		) {
 			ZEPHIR_GET_HVALUE(annotationData, _3$$4);
 			ZEPHIR_INIT_NVAR(_4$$5);
@@ -221,8 +220,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		zephir_is_iterable(annotations, &_1$$3, &_0$$3, 0, 0, "phalcon/annotations/collection.zep", 147);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2$$3);
 			ZEPHIR_CALL_METHOD(&_3$$4, annotation, "getname", NULL, 0);
@@ -268,8 +267,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		zephir_is_iterable(annotations, &_1$$3, &_0$$3, 0, 0, "phalcon/annotations/collection.zep", 167);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2$$3);
 			ZEPHIR_CALL_METHOD(&_3$$4, annotation, "getname", NULL, 0);
@@ -305,8 +304,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 	if (Z_TYPE_P(annotations) == IS_ARRAY) {
 		zephir_is_iterable(annotations, &_1$$3, &_0$$3, 0, 0, "phalcon/annotations/collection.zep", 186);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2$$3);
 			ZEPHIR_CALL_METHOD(&_3$$4, annotation, "getname", NULL, 0);

@@ -20,7 +20,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 #include "kernel/file.h"
 
 
@@ -137,11 +136,11 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path_param, &local, &filter, &attributes);
 
-	if (unlikely(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -222,11 +221,11 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path_param, &local, &filter, &attributes);
 
-	if (unlikely(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -308,11 +307,11 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &resource);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -349,11 +348,11 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &code);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -441,11 +440,11 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id_param, &collection);
 
-	if (unlikely(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);
@@ -473,11 +472,11 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id_param);
 
-	if (unlikely(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);
@@ -666,8 +665,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	}
 	zephir_is_iterable(resources, &_6, &_5, 0, 0, "phalcon/assets/manager.zep", 638);
 	for (
-	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_6, &_5)
+	  ; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zend_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HVALUE(resource, _7);
 		filterNeeded = 0;
@@ -769,8 +768,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 			if (ZEPHIR_IS_TRUE(mustFilter)) {
 				zephir_is_iterable(filters, &_16$$31, &_15$$31, 0, 0, "phalcon/assets/manager.zep", 559);
 				for (
-				  ; zephir_hash_get_current_data_ex(_16$$31, (void**) &_17$$31, &_15$$31) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_16$$31, &_15$$31)
+				  ; zend_hash_get_current_data_ex(_16$$31, (void**) &_17$$31, &_15$$31) == SUCCESS
+				  ; zend_hash_move_forward_ex(_16$$31, &_15$$31)
 				) {
 					ZEPHIR_GET_HVALUE(filter, _17$$31);
 					if (Z_TYPE_P(filter) != IS_OBJECT) {
@@ -905,8 +904,8 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInline) {
 	if (zephir_fast_count_int(codes TSRMLS_CC)) {
 		zephir_is_iterable(codes, &_1$$3, &_0$$3, 0, 0, "phalcon/assets/manager.zep", 744);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(code, _2$$3);
 			ZEPHIR_CALL_METHOD(&attributes, code, "getattributes", NULL, 0);
@@ -915,8 +914,8 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInline) {
 			zephir_check_call_status();
 			zephir_is_iterable(filters, &_4$$4, &_3$$4, 0, 0, "phalcon/assets/manager.zep", 737);
 			for (
-			  ; zephir_hash_get_current_data_ex(_4$$4, (void**) &_5$$4, &_3$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_4$$4, &_3$$4)
+			  ; zend_hash_get_current_data_ex(_4$$4, (void**) &_5$$4, &_3$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_4$$4, &_3$$4)
 			) {
 				ZEPHIR_GET_HVALUE(filter, _5$$4);
 				if (Z_TYPE_P(filter) != IS_OBJECT) {
@@ -1147,11 +1146,11 @@ PHP_METHOD(Phalcon_Assets_Manager, exists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id_param);
 
-	if (unlikely(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(id_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(id_param) == IS_STRING)) {
 		zephir_get_strval(id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(id);
