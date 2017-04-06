@@ -4144,9 +4144,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param  string relationship alias
 	 * @return boolean
 	 */
-	public function loadedRelated($relationshipAlias)
+	public function loadedRelated(relationshipAlias)
 	{
-	   return isset this->_related[$relationshipAlias];
+	   return isset this->_related[relationshipAlias];
 	}
 
 	/**
