@@ -4146,7 +4146,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function loadedRelated($relationshipAlias)
 	{
-	   return (isset this->_related[$relationshipAlias]) || (value === null);
+	   return isset this->_related[$relationshipAlias];
 	}
 
 	/**
