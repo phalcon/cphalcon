@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 		zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_0$$3);
 		ZVAL_STRING(&_0$$3, "PATHINFO_EXTENSION", 0);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 238, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 239, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(_1$$3)) {
 			ZEPHIR_SINIT_VAR(_2$$4);
@@ -217,15 +217,15 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 239, &_0);
+	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 240, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(finfo) != IS_RESOURCE) {
 		RETURN_MM_STRING("", 1);
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 240, finfo, _1);
+	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 241, finfo, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 241, finfo);
+	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 242, finfo);
 	zephir_check_call_status();
 	RETURN_CCTOR(mime);
 
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(tmp) == IS_STRING;
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 242, tmp);
+		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 243, tmp);
 		zephir_check_call_status();
 		_0 = zephir_is_true(_1);
 	}
@@ -266,11 +266,11 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &destination_param);
 
-	if (unlikely(Z_TYPE_P(destination_param) != IS_STRING && Z_TYPE_P(destination_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(destination_param) != IS_STRING && Z_TYPE_P(destination_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'destination' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(destination_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(destination_param) == IS_STRING)) {
 		zephir_get_strval(destination, destination_param);
 	} else {
 		ZEPHIR_INIT_VAR(destination);
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_tmp"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 243, _0, destination);
+	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 244, _0, destination);
 	zephir_check_call_status();
 	RETURN_MM();
 

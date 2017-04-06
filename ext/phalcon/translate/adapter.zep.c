@@ -96,11 +96,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -133,11 +133,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, _) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -185,11 +185,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey_param);
 
-	if (unlikely(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -236,11 +236,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey_param);
 
-	if (unlikely(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translateKey_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translateKey_param) == IS_STRING)) {
 		zephir_get_strval(translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(translateKey);
@@ -268,11 +268,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translation_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
 		zephir_get_strval(translation, translation_param);
 	} else {
 		ZEPHIR_INIT_VAR(translation);
