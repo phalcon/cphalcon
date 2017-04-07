@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Translate;
 
+use Phalcon\Di;
 use Phalcon\Translate\Factory;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
@@ -71,6 +72,56 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["translate"];
                 /** @var Gettext $translate */
                 $translate = Factory::load($options);
+                expect($translate)->isInstanceOf(Gettext::class);
+                expect($translate->getCategory())->equals($options["category"]);
+                expect($translate->getLocale())->equals($options["locale"]);
+                expect($translate->getDefaultDomain())->equals($options["defaultDomain"]);
+                expect($translate->getDirectory())->equals($options["directory"]);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Config doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->translate;
+                /** @var Gettext $translate */
+                $di->set('translate', Factory::loadForDi($options));
+                $translate = $di->get('translate');
+                expect($translate)->isInstanceOf(Gettext::class);
+                expect($translate->getCategory())->equals($options->category);
+                expect($translate->getLocale())->equals($options->locale);
+                expect($translate->getDefaultDomain())->equals($options->defaultDomain);
+                expect($translate->getDirectory())->equals($options->directory);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory for di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig["translate"];
+                /** @var Gettext $translate */
+                $di->set('translate', Factory::loadForDi($options));
+                $translate = $di->get('translate');
                 expect($translate)->isInstanceOf(Gettext::class);
                 expect($translate->getCategory())->equals($options["category"]);
                 expect($translate->getLocale())->equals($options["locale"]);

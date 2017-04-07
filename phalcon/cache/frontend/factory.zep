@@ -47,29 +47,76 @@ class Factory extends BaseFactory
 		return self::loadClass("Phalcon\\Cache\\Frontend", config);
 	}
 
+	/**
+	 * @param \Phalcon\Config|array config
+	 */
+	public static function loadForDi(var config) -> array
+	{
+		return self::loadAsArray("Phalcon\\Cache\\Frontend", config);
+	}
+
 	protected static function loadClass(string $namespace, var config)
 	{
-		var adapter, className;
+		var className, params;
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
+		let params = self::checkArguments($namespace, config);
+
+		let className = params["className"];
+
+		if className == "Phalcon\\Cache\\Frontend\\None" {
+			return new {className}();
+		} else {
+			return new {className}(params["config"]);
 		}
+	}
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
+	protected static function loadAsArray(string $namespace, var config)
+	{
+		var className, params;
+
+		let params = self::checkArguments($namespace, config);
+
+		let className = params["className"];
+
+		if className == "Phalcon\\Cache\\Frontend\\None" {
+			return [
+				"className" : className
+			];
+		} else {
+			return [
+				"className" : className,
+				"arguments" : [
+					[
+						"type" : "parameter",
+						"value" : params["config"]
+					]
+				]
+			];
 		}
+	}
 
-		if fetch adapter, config["adapter"] {
-			unset config["adapter"];
-			let className = $namespace."\\".camelize(adapter);
+	protected static function checkArguments(string $namespace, var config)
+	{
+		var adapter, params;
 
-			if className == "Phalcon\\Cache\\Frontend\\None" {
-				return new {className}();
-			} else {
-				return new {className}(config);
-			}
-		}
+		let params = [];
 
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
+        if typeof config == "object" && config instanceof Config {
+        	let config = config->toArray();
+        }
+
+        if typeof config != "array" {
+        	throw new Exception("Config must be array or Phalcon\\Config object");
+        }
+
+        if fetch adapter, config["adapter"] {
+        	unset config["adapter"];
+        	let params["className"] = $namespace."\\".camelize(adapter);
+        	let params["config"] = config;
+
+        	return params;
+        } else {
+        	throw new Exception("You must provide 'adapter' option in factory config parameter.");
+        }
 	}
 }

@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Annotations;
 
 use Phalcon\Annotations\Adapter\Apc;
 use Phalcon\Annotations\Factory;
+use Phalcon\Di;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 
 /**
@@ -59,6 +60,46 @@ class FactoryTest extends FactoryBase
                 /** @var Apc $annotations */
                 $options = $this->arrayConfig["annotations"];
                 $annotations = Factory::load($options);
+                expect($annotations)->isInstanceOf(Apc::class);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-08
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Config doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->annotations;
+                $di->set('annotations', Factory::loadForDi($options));
+                $annotations = $di->get('annotations');
+                expect($annotations)->isInstanceOf(Apc::class);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-08
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory for di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig["annotations"];
+                $di->set('annotations', Factory::loadForDi($options));
+                $annotations = $di->get('annotations');
                 expect($annotations)->isInstanceOf(Apc::class);
             }
         );

@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Cache\Frontend;
 
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Factory;
+use Phalcon\Di;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 
 /**
@@ -60,6 +61,50 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["cache_frontend"];
                 /** @var Data $cache */
                 $cache = Factory::load($options);
+                expect($cache)->isInstanceOf(Data::class);
+                expect($cache->getLifetime())->equals($options["lifetime"]);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Config doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->cache_frontend;
+                /** @var Data $cache */
+                $di->set("cache", Factory::loadForDi($options));
+                $cache = $di->get("cache");
+                expect($cache)->isInstanceOf(Data::class);
+                expect($cache->getLifetime())->equals($options->lifetime);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory for di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig["cache_frontend"];
+                $di->set("cache", Factory::loadForDi($options));
+                /** @var Data $cache */
+                $cache = $di->get("cache");
                 expect($cache)->isInstanceOf(Data::class);
                 expect($cache->getLifetime())->equals($options["lifetime"]);
             }

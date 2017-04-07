@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Session;
 
+use Phalcon\Di;
 use Phalcon\Session\Factory;
 use Phalcon\Session\Adapter\Memcache;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
@@ -41,7 +42,9 @@ class FactoryTest extends FactoryBase
                 /** @var Memcache $session */
                 $session = Factory::load($options);
                 expect($session)->isInstanceOf(Memcache::class);
-                expect(array_intersect_assoc($session->getOptions(), $options->toArray()))->equals($session->getOptions());
+                expect(array_intersect_assoc($session->getOptions(), $options->toArray()))->equals(
+                    $session->getOptions()
+                );
             }
         );
     }
@@ -62,6 +65,51 @@ class FactoryTest extends FactoryBase
                 $session = Factory::load($options);
                 expect($session)->isInstanceOf(Memcache::class);
                 expect(array_intersect_assoc($session->getOptions(), $options))->equals($session->getOptions());
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Config doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->session;
+                /** @var Memcache $session */
+                $di->set('session', Factory::loadForDi($options));
+                $session = $di->get('session');
+                expect($session)->isInstanceOf(Memcache::class);
+                expect(array_intersect_assoc($session->getOptions(), $options->toArray()))->equals(
+                    $session->getOptions()
+                );
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory for di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig['session'];
+                /** @var Memcache $session */
+                $di->set('session', Factory::loadForDi($options));
+                $session = $di->get('session');
+                expect($session)->isInstanceOf(Memcache::class);
             }
         );
     }
