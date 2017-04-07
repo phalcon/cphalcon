@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Cache\Backend;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Cache\Backend\Factory;
 use Phalcon\Cache\Frontend\Data;
+use Phalcon\Di;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 
 /**
@@ -62,6 +63,51 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["cache_backend"];
                 /** @var Apc $cache */
                 $cache = Factory::load($options);
+                expect($cache)->isInstanceOf(Apc::class);
+                expect(array_intersect_assoc($cache->getOptions(), $options))->equals($cache->getOptions());
+                expect($cache->getFrontend())->isInstanceOf(Data::class);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Instance doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->cache_backend;
+                $di->set("cache", Factory::loadForDi($options));
+                $cache = $di->get("cache");
+                expect($cache)->isInstanceOf(Apc::class);
+                expect(array_intersect_assoc($cache->getOptions(), $options->toArray()))->equals($cache->getOptions());
+                expect($cache->getFrontend())->isInstanceOf(Data::class);
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory for di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig["cache_backend"];
+                /** @var Apc $cache */
+                $di->set("cache", Factory::loadForDi($options));
+                $cache = $di->get("cache");
                 expect($cache)->isInstanceOf(Apc::class);
                 expect(array_intersect_assoc($cache->getOptions(), $options))->equals($cache->getOptions());
                 expect($cache->getFrontend())->isInstanceOf(Data::class);

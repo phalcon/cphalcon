@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Image;
 
+use Phalcon\Di;
 use Phalcon\Image\Factory;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
@@ -60,6 +61,50 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["image"];
                 /** @var Imagick $image */
                 $image = Factory::load($options);
+                expect($image)->isInstanceOf(Imagick::class);
+                expect($image->getRealpath())->equals(realpath($options["file"]));
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Di
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Config doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->image;
+                $di->set('image', Factory::loadForDi($options));
+                /** @var Imagick $image */
+                $image = $di->get('image');
+                expect($image)->isInstanceOf(Imagick::class);
+                expect($image->getRealpath())->equals(realpath($options->file));
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig["image"];
+                /** @var Imagick $image */
+                $di->set('image', Factory::loadForDi($options));
+                $image = $di->get('image');
                 expect($image)->isInstanceOf(Imagick::class);
                 expect($image->getRealpath())->equals(realpath($options["file"]));
             }

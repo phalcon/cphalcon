@@ -47,34 +47,86 @@ class Factory extends BaseFactory
 		return self::loadClass("Phalcon\\Logger\\Adapter", config);
 	}
 
+	public static function loadForDi(var config) -> array
+	{
+		return self::loadAsArray("Phalcon\\Logger\\Adapter", config);
+	}
+
 	protected static function loadClass(string $namespace, var config)
 	{
-		var adapter, className, name;
+		var className, params;
+
+		let params = self::checkArguments($namespace, config);
+		let className = params["className"];
+
+		if className != "Phalcon\\Logger\\Adapter\\Firephp" {
+			return new {className}(params["name"], params["config"]);
+		}
+
+		return new {className}();
+	}
+
+	protected static function loadAsArray(string $namespace, var config)
+	{
+		var className, params;
+
+		let params = self::checkArguments($namespace, config);
+
+		let className = params["className"];
+
+		if className != "Phalcon\\Logger\\Adapter\\Firephp" {
+			return [
+				"className" : className,
+				"arguments" : [
+					[
+						"type" : "parameter",
+						"value" : params["name"]
+					],
+					[
+						"type" : "parameter",
+						"value" : params["config"]
+					]
+				]
+			];
+		}
+
+		return [
+			"className" : "Phalcon\\Logger\\Adapter\\Firephp"
+		];
+	}
+
+	protected static function checkArguments(string $namespace, var config)
+	{
+		var adapter, className, name, params;
+
+		let params = [];
 
 		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        	let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+        	throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if fetch adapter, config["adapter"] {
-			let className = $namespace."\\".camelize(adapter);
+        if fetch adapter, config["adapter"] {
+        	let className = $namespace."\\".camelize(adapter);
+        	let params["className"] = className;
 
-			if className != "Phalcon\\Logger\\Adapter\\Firephp" {
+        	if className != "Phalcon\\Logger\\Adapter\\Firephp" {
 				unset config["adapter"];
 				if !fetch name, config["name"] {
 					throw new Exception("You must provide 'name' option in factory config parameter.");
 				}
-				unset config["name"];
 
-				return new {className}(name, config);
+				let params["name"] = name;
+				unset config["name"];
+				let params["config"] = config;
 			}
 
-			return new {className}();
+			return params;
+		} else {
+			throw new Exception("You must provide 'adapter' option in factory config parameter.");
 		}
-
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
 	}
 }
