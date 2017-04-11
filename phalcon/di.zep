@@ -6,26 +6,23 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Nikolaos Dimopoulos <nikos@niden.net>                         |
- +------------------------------------------------------------------------+
  */
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
 use Phalcon\Di\Service;
-use Phalcon\Di\ServiceInterface;
+use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 /**
  * Phalcon\Di
@@ -404,6 +401,29 @@ class Di implements DiInterface
 		 * The method doesn't start with set/get throw an exception
 		 */
 		throw new Exception("Call to undefined method or service '" . method . "'");
+	}
+
+	/**
+	 * Registers a service provider.
+	 *
+	 * <code>
+	 * use Phalcon\DiInterface;
+	 * use Phalcon\Di\ServiceProviderInterface;
+	 *
+	 * class SomeServiceProvider implements ServiceProviderInterface
+	 * {
+	 *     public function register(DiInterface $di)
+	 *     {
+	 *         $di->setShared('service', function () {
+	 *             // ...
+	 *         });
+	 *     }
+	 * }
+	 * </code>
+	 */
+	public function register(<ServiceProviderInterface> provider) -> void
+	{
+		provider->register(this);
 	}
 
 	/**
