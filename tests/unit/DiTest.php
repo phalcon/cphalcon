@@ -1,4 +1,18 @@
 <?php
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file LICENSE.txt.                             |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ */
 
 namespace Phalcon\Test\Unit;
 
@@ -9,21 +23,11 @@ use Phalcon\Http\Response;
 use Phalcon\Test\Module\UnitTest;
 
 /**
- * \Phalcon\Test\Unit\DiTest
+ * Phalcon\Test\Unit\DiTest
+ *
  * Tests the \Phalcon\Di component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
  */
 class DiTest extends UnitTest
 {
@@ -40,6 +44,7 @@ class DiTest extends UnitTest
         parent::_before();
 
         require_once PATH_DATA . 'di/InjectableComponent.php';
+        require_once PATH_DATA . 'di/SomeServiceProvider.php';
         require_once PATH_DATA . 'di/SimpleComponent.php';
         require_once PATH_DATA . 'di/SomeComponent.php';
 
@@ -500,6 +505,26 @@ class DiTest extends UnitTest
                 $component = $this->phDi->get('complexProperties');
                 expect(is_object($component->getResponse()))->true();
                 expect($component->getResponse())->equals($response);
+            }
+        );
+    }
+
+    /**
+     * Register services using provider.
+     *
+     * @author Caio Almeida <caio.f.r.amd@gmail.com>
+     * @since  2017-04-11
+     */
+    public function testRegistersServiceProvider()
+    {
+        $this->specify(
+            'Registering services by using service provider does not work as expected',
+            function () {
+                $this->phDi->register(new \SomeServiceProvider());
+                expect($this->phDi['foo'])->equals('bar');
+
+                $service = $this->phDi->get('fooAction');
+                expect($service)->isInstanceOf('\SomeComponent');
             }
         );
     }
