@@ -16,9 +16,12 @@
 
 namespace Phalcon;
 
+use Phalcon\Config;
 use Phalcon\Di\Service;
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Config\Adapter\Php;
+use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -448,5 +451,102 @@ class Di implements DiInterface
 	public static function reset()
 	{
 		let self::_default = null;
+	}
+
+	/**
+	 * Loads services from a yaml file.
+	 *
+	 * <code>
+	 * $di->loadFromYaml(
+	 *     "path/services.yaml",
+	 *     [
+	 *         "!approot" => function($value) {
+	 *             return dirname(__DIR__) . $value;
+	 *         }
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * And the services can be specified in the file as:
+	 *
+	 * <code>
+	 * myComponent:
+	 *     className: \Acme\Components\MyComponent
+	 *     shared: true
+	 *
+	 * group:
+	 *     className: \Acme\Group
+	 *     arguments:
+	 *         - type: service
+	 *           name: myComponent
+	 *
+	 * user:
+	 *    className: \Acme\User
+	 * </code>
+	 *
+	 * @link https://docs.phalconphp.com/en/latest/reference/di.html
+	 */
+	public function loadFromYaml(string! filePath, array! callbacks = null) -> void
+	{
+		var services;
+
+		let services = new Yaml(filePath, callbacks);
+
+		this->loadFromConfig(services);
+	}
+
+	/**
+	 * Loads services from a php config file.
+	 *
+	 * <code>
+	 * $di->loadFromYaml("path/services.php");
+	 * </code>
+	 *
+	 * And the services can be specified in the file as:
+	 *
+	 * <code>
+	 * return [
+	 *      'myComponent' => [
+	 *          'className' => '\Acme\Components\MyComponent',
+	 *          'shared' => true,
+	 *      ],
+	 *      'group' => [
+	 *          'className' => '\Acme\Group',
+	 *          'arguments' => [
+	 *              [
+	 *                  'type' => 'service',
+	 *                  'service' => 'myComponent',
+	 *              ],
+	 *          ],
+	 *      ],
+	 *      'user' => [
+	 *          'className' => '\Acme\User',
+	 *      ],
+	 * ];
+	 * </code>
+	 *
+	 * @link https://docs.phalconphp.com/en/latest/reference/di.html
+	 */
+	public function loadFromPhp(string! filePath) -> void
+	{
+		var services;
+
+		let services = new Php(filePath);
+
+		this->loadFromConfig(services);
+	}
+
+	/**
+	 * Loads services from a Config object.
+	 */
+	protected function loadFromConfig(<Config> config) -> void
+	{
+		var services, name, service, shared;
+
+		let services = config->toArray();
+
+		for name, service in services {
+			this->set(name, service, isset service["shared"] && service["shared"]);
+		}
 	}
 }
