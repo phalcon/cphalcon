@@ -142,6 +142,11 @@ class Column implements ColumnInterface
 	const TYPE_TIMESTAMP = 17;
 
 	/**
+	* Time abstract type
+	*/
+	const TYPE_TIME = 18;
+
+	/**
 	 * Bind Type Null
 	 */
 	const BIND_PARAM_NULL = 0;
