@@ -6,6 +6,7 @@
 - Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update
 - Added support for having option in `Phalcon\Paginator\Adapter\QueryBuilder` [#12111](https://github.com/phalcon/cphalcon/issues/12111)
 - Added `Phalcon\Config::path` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
+- Added service provider interface to configure services by context [#12783](https://github.com/phalcon/cphalcon/pull/12783)
 - Fixed Dispatcher forwarding when handling exception [#11819](https://github.com/phalcon/cphalcon/issues/11819), [#12154](https://github.com/phalcon/cphalcon/issues/12154)
 - Fixed params view scope for PHP 7 [#12648](https://github.com/phalcon/cphalcon/issues/12648)
 
