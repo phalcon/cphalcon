@@ -460,7 +460,7 @@ class Di implements DiInterface
 	 * $di->loadFromYaml(
 	 *     "path/services.yaml",
 	 *     [
-	 *         "!approot" => function($value) {
+	 *         "!approot" => function ($value) {
 	 *             return dirname(__DIR__) . $value;
 	 *         }
 	 *     ]
@@ -499,7 +499,7 @@ class Di implements DiInterface
 	 * Loads services from a php config file.
 	 *
 	 * <code>
-	 * $di->loadFromYaml("path/services.php");
+	 * $di->loadFromPhp("path/services.php");
 	 * </code>
 	 *
 	 * And the services can be specified in the file as:
