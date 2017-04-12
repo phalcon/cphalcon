@@ -19,6 +19,9 @@
 
 namespace Phalcon\Cache\Backend;
 
+use Phalcon\Cache\Exception;
+use Phalcon\Cache\Backend;
+
 /**
  * Phalcon\Cache\Backend\Apcu
  *
