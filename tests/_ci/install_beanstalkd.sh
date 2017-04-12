@@ -13,25 +13,18 @@
 
 set -eufo pipefail
 
-echo -e "Install Zephir Parser..."
-
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 
 src_url="https://github.com/kr/beanstalkd/archive/v${BEANSTALKD_VERSION}.tar.gz"
 BEANSTALKD_DIR=$HOME/beanstalk
 
-# Use Travis Cache
+# Use Travis cache
 if [ ! -f ${BEANSTALKD_DIR}/Makefile ]; then
-	curl -L "$src_url" | tar xz
-
-	mv "beanstalkd-${BEANSTALKD_VERSION}" ${BEANSTALKD_DIR}
+	curl -sSL "$src_url" | tar xz
+	cp -a "./beanstalkd-${BEANSTALKD_VERSION}/." ${BEANSTALKD_DIR}
 fi
 
-cd $HOME
-
-pushd "beanstalk"
-	make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
-	mv beanstalkd "$HOME/bin"
-popd
-
+cd ${BEANSTALKD_DIR}
+make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
+mv beanstalkd "$HOME/bin"

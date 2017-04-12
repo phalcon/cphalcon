@@ -43,7 +43,7 @@ install_igbinary() {
 	phpize &> /dev/null
 	./configure CFLAGS="-O2 -g" --silent --enable-igbinary &> /dev/null
 
-	make --silent -j4 &> /dev/null
+	make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
 	make --silent install
 
 	if [ -z $(php -m | grep igbinary) ]; then

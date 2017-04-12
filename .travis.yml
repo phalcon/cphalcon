@@ -38,12 +38,14 @@ cache:
     - $HOME/.composer/cache
 
 services:
+  # Use only for `trusty`
+  - beanstalkd
   - mongodb
   - memcached
   - redis-server
   - postgresql
-  - beanstalkd
-  - mysql
+  # start: Job is already running: mysql
+  # - mysql
 
 env:
   global:
