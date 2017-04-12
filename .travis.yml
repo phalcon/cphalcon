@@ -1,7 +1,10 @@
 language: php
 
-dist: trusty
+dist: precise
 sudo: false
+# TODO use `precise` for `sudo: false` until this issue not fixed:
+# https://github.com/travis-ci/travis-ci/issues/5837
+# dist: trusty
 # sudo: required
 
 php:
@@ -34,7 +37,6 @@ cache:
 
 services:
   - mongodb
-  - memcached
   - redis-server
   - postgresql
   - beanstalkd
