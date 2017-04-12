@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -19,16 +19,13 @@
 
 namespace Phalcon\Cache\Backend;
 
-use Phalcon\Cache\Exception;
-use Phalcon\Cache\Backend;
-
 /**
- * Phalcon\Cache\Backend\Apc
+ * Phalcon\Cache\Backend\Apcu
  *
- * Allows to cache output fragments, PHP data and raw data using an APC backend
+ * Allows to cache output fragments, PHP data and raw data using an APCu backend
  *
  *<code>
- * use Phalcon\Cache\Backend\Apc;
+ * use Phalcon\Cache\Backend\Apcu;
  * use Phalcon\Cache\Frontend\Data as FrontData;
  *
  * // Cache data for 2 days
@@ -38,7 +35,7 @@ use Phalcon\Cache\Backend;
  *     ]
  * );
  *
- * $cache = new Apc(
+ * $cache = new Apcu(
  *     $frontCache,
  *     [
  *         "prefix" => "app-data",
@@ -51,11 +48,8 @@ use Phalcon\Cache\Backend;
  * // Get data
  * $data = $cache->get("my-data");
  *</code>
- *
- * @see \Phalcon\Cache\Backend\Apcu
- * @deprecated
  */
-class Apc extends Backend
+class Apcu extends Backend
 {
 
 	/**
@@ -68,7 +62,7 @@ class Apc extends Backend
 		let prefixedKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = prefixedKey;
 
-		let cachedContent = apc_fetch(prefixedKey);
+		let cachedContent = apcu_fetch(prefixedKey);
 		if cachedContent === false {
 			return null;
 		}
@@ -77,7 +71,7 @@ class Apc extends Backend
 	}
 
 	/**
-	 * Stores cached content into the APC backend and stops the frontend
+	 * Stores cached content into the APCu backend and stops the frontend
 	 *
 	 * @param string|int keyName
 	 * @param string content
@@ -129,10 +123,10 @@ class Apc extends Backend
 		/**
 		 * Call apc_store in the PHP userland since most of the time it isn't available at compile time
 		 */
-		let success = apc_store(lastKey, preparedContent, ttl);
+		let success = apcu_store(lastKey, preparedContent, ttl);
 
 		if !success {
-			throw new Exception("Failed storing data in apc");
+			throw new Exception("Failed storing data in APCu");
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -162,20 +156,7 @@ class Apc extends Backend
 		let prefixedKey = "_PHCA" . this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
 
-		if function_exists("apc_inc") {
-			let result = apc_inc(prefixedKey, value);
-			return result;
-		} else {
-			let cachedContent = apc_fetch(prefixedKey);
-
-			if is_numeric(cachedContent) {
-				let result = cachedContent + value;
-				this->save(keyName, result);
-				return result;
-			}
-		}
-
-		return false;
+		return apcu_inc(prefixedKey, value);
 	}
 
 	/**
@@ -190,19 +171,7 @@ class Apc extends Backend
 		let lastKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = lastKey;
 
-		if function_exists("apc_dec") {
-			return apc_dec(lastKey, value);
-		} else {
-			let cachedContent = apc_fetch(lastKey);
-
-			if is_numeric(cachedContent) {
-				let result = cachedContent - value;
-				this->save(keyName, result);
-				return result;
-			}
-		}
-
-		return false;
+		return apcu_dec(lastKey, value);
 	}
 
 	/**
@@ -210,7 +179,7 @@ class Apc extends Backend
 	 */
 	public function delete(string! keyName) -> boolean
 	{
-		return apc_delete("_PHCA" . this->_prefix . keyName);
+		return apcu_delete("_PHCA" . this->_prefix . keyName);
 	}
 
 	/**
@@ -234,7 +203,7 @@ class Apc extends Backend
 		}
 
 		let keys = [],
-			apc = new \APCIterator("user", prefixPattern);
+			apc = new \APCUIterator(prefixPattern);
 
 		for key, _ in iterator(apc) {
 			let keys[] = substr(key, 5);
@@ -254,27 +223,25 @@ class Apc extends Backend
 		var lastKey;
 
 		if keyName === null {
-			let lastKey = this->_lastKey;
+			let lastKey = (string) this->_lastKey;
 		} else {
 			let lastKey = "_PHCA" . this->_prefix . keyName;
 		}
 
-		if lastKey {
-			if apc_exists(lastKey) !== false {
-				return true;
-			}
+		if empty(lastKey) {
+			return false;
 		}
 
-		return false;
+		return apcu_exists(lastKey);
 	}
 
 	/**
 	 * Immediately invalidates all existing items.
 	 *
 	 * <code>
-	 * use Phalcon\Cache\Backend\Apc;
+	 * use Phalcon\Cache\Backend\Apcu;
 	 *
-	 * $cache = new Apc($frontCache, ["prefix" => "app-data"]);
+	 * $cache = new Apcu($frontCache, ["prefix" => "app-data"]);
 	 *
 	 * $cache->save("my-data", [1, 2, 3, 4, 5]);
 	 *
@@ -284,11 +251,12 @@ class Apc extends Backend
 	 */
 	public function flush() -> boolean
 	{
-		var item, prefixPattern;
+		var item, prefixPattern, apc;
 
-		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
+		let prefixPattern = "/^_PHCA" . this->_prefix . "/",
+			apc = new \APCUIterator(prefixPattern);
 
-		for item in iterator(new \APCIterator("user", prefixPattern)) {
+		for item in iterator(apc) {
 			apc_delete(item["key"]);
 		}
 
