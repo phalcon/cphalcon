@@ -76,6 +76,7 @@ env:
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
+  - mkdir -p $HOME/bin/phpize && ln -s $(phpenv which phpize) $HOME/bin/phpize
 
 install:
   - travis_retry composer install --prefer-source --no-interaction --ignore-platform-reqs
@@ -94,7 +95,7 @@ install:
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
-  - ulimit -c unlimited -S || true
+  # - ulimit -c unlimited -S || true
   # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
