@@ -1,7 +1,8 @@
 language: php
 
 dist: trusty
-sudo: required
+sudo: false
+# sudo: required
 
 php:
   - 5.5
@@ -81,7 +82,8 @@ install:
   - bash tests/_ci/install_zephir.sh
   - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
-  - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  # - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
   - php -m
@@ -91,7 +93,7 @@ install:
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
   - ulimit -c unlimited -S || true
-  - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
+  # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
@@ -100,8 +102,8 @@ script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n
 
-after_failure:
-  - bash tests/_ci/after_failure.sh
+# after_failure:
+#  - bash tests/_ci/after_failure.sh
 
 notifications:
     email:
@@ -113,7 +115,7 @@ notifications:
 addons:
   apt:
     packages:
-      - gdb
+#      - gdb
       - re2c
       - beanstalkd
       - mysql-server-5.6
