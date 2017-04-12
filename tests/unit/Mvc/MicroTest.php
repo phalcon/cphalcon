@@ -1,4 +1,18 @@
 <?php
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file LICENSE.txt.                             |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ */
 
 namespace Phalcon\Test\Unit\Mvc;
 
@@ -9,22 +23,11 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Test\Module\UnitTest;
 
 /**
- * \Phalcon\Test\Unit\Mvc\MicroTest
+ * Phalcon\Test\Unit\Mvc\MicroTest
+ *
  * Tests the Phalcon\Mvc\Micro component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
  */
 class MicroTest extends UnitTest
 {
@@ -437,6 +440,29 @@ class MicroTest extends UnitTest
                 $app->handle("/api/site");
 
                 expect($middleware->getNumber())->equals(3);
+            }
+        );
+    }
+
+    public function testMicroResponseAlreadySentError()
+    {
+        $this->specify(
+            "Micro::handle method doesn't work as expected",
+            function () {
+                $app = new Micro();
+                $app->after(
+                    function () use ($app) {
+                        $content = $app->getReturnedValue();
+                        $app->response->setJsonContent($content)->send();
+                    }
+                );
+                $app->map(
+                    '/api',
+                    function () {
+                        return 'success';
+                    }
+                );
+                expect($app->handle('/api'))->equals('success');
             }
         );
     }
