@@ -11,16 +11,14 @@
 #  obtain it through the world-wide-web, please send an email
 #  to license@phalconphp.com so we can send you a copy immediately.
 
-echo -e "Install Zephir Parser..."
-
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 
 PARSER_DIR=$HOME/zephir-parser
 
-# Use Travis Cache
+# Use Travis cache
 if [ ! -f ${PARSER_DIR}/tests/ci/install-travis ]; then
-	git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git -b $ZEPHIR_PARSER_VERSION ${PARSER_DIR}
+	git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git -b ${ZEPHIR_PARSER_VERSION} ${PARSER_DIR}
 fi
 
 cd ${PARSER_DIR}

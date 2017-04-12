@@ -12,14 +12,13 @@
 #  to license@phalconphp.com so we can send you a copy immediately.
 
 install_apcu() {
-	# See https://github.com/krakjoe/apcu/issues/203
-	git clone -q https://github.com/krakjoe/apcu -b v5.1.7 /tmp/apcu
+	it clone --depth=1 -v https://github.com/krakjoe/apcu /tmp/apcu
 	cd /tmp/apcu
 
 	phpize &> /dev/null
-	./configure &> /dev/null
+	./configure --silent &> /dev/null
 
-	make --silent -j4 &> /dev/null
+	make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
 	make --silent install
 }
 
@@ -28,8 +27,8 @@ install_apcu_bc() {
 	cd /tmp/apcu-bc
 
 	phpize &> /dev/null
-	./configure &> /dev/null
+	./configure --silent &> /dev/null
 
-	make --silent -j4 &> /dev/null
+	make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
 	make --silent install
 }
