@@ -32,6 +32,8 @@ cache:
   timeout: 691200
   directories:
     - .temp
+    - $HOME/zephir-parser
+    - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
 
@@ -72,6 +74,8 @@ env:
     - TEST_RS_PORT="6379"
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
+    - BEANSTALKD_VERSION="1.10"
+    - ZEPHIR_PARSER_VERSION="v1.0.1"
     # Uncomment for debug
     #- ZEND_DONT_UNLOAD_MODULES=1
 
@@ -85,6 +89,8 @@ install:
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
+  # Use only for `precise`
+  - bash tests/_ci/install_beanstalkd.sh
   - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
@@ -94,6 +100,8 @@ install:
   - phpenv config-add tests/_ci/redis.ini
   - $(phpenv which php) -m
   - pecl list
+  - beanstalkd -v
+  - beanstalkd -l ${TEST_BT_HOST} -p ${TEST_BT_PORT} & # start queue listener
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
@@ -123,7 +131,8 @@ addons:
     apt:
         packages:
             - re2c
-            - beanstalkd
+            # Use only for `trusty`
+            # - beanstalkd
             # Uncomment for debug
             # - gdb
             # Uncomment for `trusty`
