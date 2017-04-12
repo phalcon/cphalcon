@@ -541,7 +541,7 @@ class Di implements DiInterface
 	 */
 	protected function loadFromConfig(<Config> config) -> void
 	{
-		var services, name, service, shared;
+		var services, name, service;
 
 		let services = config->toArray();
 

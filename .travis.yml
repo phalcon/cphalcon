@@ -1,7 +1,11 @@
 language: php
 
-dist: trusty
-sudo: required
+dist: precise
+sudo: false
+# TODO use `precise` for `sudo: false` until this issue not fixed:
+# https://github.com/travis-ci/travis-ci/issues/5837
+# dist: trusty
+# sudo: required
 
 php:
   - 5.5
@@ -66,33 +70,37 @@ env:
     - TEST_DB_MONGO_NAME="phalcon_test"
     - TEST_RS_HOST="127.0.0.1"
     - TEST_RS_PORT="6379"
-    - ZEND_DONT_UNLOAD_MODULES=1
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
+    # Uncomment for debug
+    #- ZEND_DONT_UNLOAD_MODULES=1
 
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
+  - mkdir -p $HOME/bin/phpize && ln -s $(phpenv which phpize) $HOME/bin/phpize
 
 install:
-  - travis_retry composer install --prefer-source --no-interaction --ignore-platform-reqs
+  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest --ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
-  - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
+  # Uncomment for debug
+  # - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
-  - php -m
+  - $(phpenv which php) -m
   - pecl list
-  - php --ri phalcon
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
-  - ulimit -c unlimited -S || true
-  - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Uncomment for debug
+  # - ulimit -c unlimited -S || true
+  # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
 
 script:
   - vendor/bin/phpcs
@@ -100,8 +108,9 @@ script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n
 
-after_failure:
-  - bash tests/_ci/after_failure.sh
+# Uncomment for debug
+# after_failure:
+#  - bash tests/_ci/after_failure.sh
 
 notifications:
     email:
@@ -111,11 +120,13 @@ notifications:
         on_failure: always
 
 addons:
-  apt:
-    packages:
-      - gdb
-      - re2c
-      - beanstalkd
-      - mysql-server-5.6
-      - mysql-server-core-5.6
-      - mysql-client-5.6
+    apt:
+        packages:
+            - re2c
+            - beanstalkd
+            # Uncomment for debug
+            # - gdb
+            # Uncomment for `trusty`
+            # - mysql-server-5.6
+            # - mysql-server-core-5.6
+            # - mysql-client-5.6
