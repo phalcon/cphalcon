@@ -81,7 +81,7 @@ before_install:
   - mkdir -p $HOME/bin/phpize && ln -s $(phpenv which phpize) $HOME/bin/phpize
 
 install:
-  - travis_retry composer install --prefer-source --no-interaction --ignore-platform-reqs
+  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest --ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
@@ -94,7 +94,6 @@ install:
   - phpenv config-add tests/_ci/redis.ini
   - $(phpenv which php) -m
   - pecl list
-  - $(phpenv which php) --ri phalcon
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
