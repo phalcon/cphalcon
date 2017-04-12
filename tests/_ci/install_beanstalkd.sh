@@ -11,21 +11,27 @@
 #  obtain it through the world-wide-web, please send an email
 #  to license@phalconphp.com so we can send you a copy immediately.
 
+set -eufo pipefail
+
 echo -e "Install Zephir Parser..."
 
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 
-PARSER_DIR=$HOME/zephir-parser
+src_url="https://github.com/kr/beanstalkd/archive/v${BEANSTALKD_VERSION}.tar.gz"
+BEANSTALKD_DIR=$HOME/beanstalk
 
 # Use Travis Cache
-if [ ! -f ${PARSER_DIR}/tests/ci/install-travis ]; then
-	git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git -b $ZEPHIR_PARSER_VERSION ${PARSER_DIR}
+if [ ! -f ${BEANSTALKD_DIR}/Makefile ]; then
+	curl -L "$src_url" | tar xz
+
+	mv "beanstalkd-${BEANSTALKD_VERSION}" ${BEANSTALKD_DIR}
 fi
 
-cd ${PARSER_DIR}
+cd $HOME
 
-# Only for Travis CI
-TRAVIS_BUILD_DIR=$(pwd) bash ./tests/ci/install-travis
+pushd "beanstalk"
+	make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
+	mv beanstalkd "$HOME/bin"
+popd
 
-cd ${TRAVIS_BUILD_DIR}
