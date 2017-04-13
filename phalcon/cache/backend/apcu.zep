@@ -205,8 +205,14 @@ class Apcu extends Backend
 			let prefixPattern = "/^_PHCA" . prefix . "/";
 		}
 
-		let keys = [],
-			apc = new \APCUIterator(prefixPattern);
+		let keys = [];
+
+		// The APCu 4.x only has APCIterator, not the newer APCUIterator
+		if class_exists("APCUIterator") {
+			let apc = new \APCUIterator(prefixPattern);
+		} else {
+			let apc = new \APCIterator("user", prefixPattern);
+		}
 
 		for key, _ in iterator(apc) {
 			let keys[] = substr(key, 5);
@@ -256,8 +262,14 @@ class Apcu extends Backend
 	{
 		var item, prefixPattern, apc;
 
-		let prefixPattern = "/^_PHCA" . this->_prefix . "/",
-			apc = new \APCUIterator(prefixPattern);
+		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
+
+		// The APCu 4.x only has APCIterator, not the newer APCUIterator
+		if class_exists("APCUIterator") {
+			let apc = new \APCUIterator(prefixPattern);
+		} else {
+			let apc = new \APCIterator("user", prefixPattern);
+		}
 
 		for item in iterator(apc) {
 			apc_delete(item["key"]);
