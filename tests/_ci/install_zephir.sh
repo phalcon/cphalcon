@@ -11,8 +11,6 @@
 #  obtain it through the world-wide-web, please send an email
 #  to license@phalconphp.com so we can send you a copy immediately.
 
-echo -e "Install Zephir..."
-
 CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 ZEPHIRDIR=${TRAVIS_BUILD_DIR}/vendor/phalcon/zephir
