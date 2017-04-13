@@ -39,11 +39,12 @@ cache:
 
 services:
   # Use only for `trusty`
-  - beanstalkd
+  # - beanstalkd
   - mongodb
   - memcached
   - redis-server
   - postgresql
+  # Not needed on `precise`
   # start: Job is already running: mysql
   # - mysql
 
@@ -100,10 +101,11 @@ install:
   # - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
-  - $(phpenv which php) -m
-  - pecl list
-  - beanstalkd -v
   - beanstalkd -l ${TEST_BT_HOST} -p ${TEST_BT_PORT} & # start queue listener
+  # Debug only
+  #- $(phpenv which php) -m
+  #- pecl list
+  #- beanstalkd -v
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
