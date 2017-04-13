@@ -976,7 +976,7 @@ class ViewTest extends UnitTest
         );
     }
 
-    public function ytestCacheMethods()
+    public function testCacheMethods()
     {
         $this->specify(
             "View methods don't return the View instance",
