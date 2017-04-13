@@ -93,7 +93,7 @@ install:
   - bash tests/_ci/install_zephir.sh
   # Use only for `precise`
   - bash tests/_ci/install_beanstalkd.sh
-  - '( zephir fullclean && zephir generate $ZEND_BACKEND )'
+  - zephir generate $ZEND_BACKEND
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   # Uncomment for debug
