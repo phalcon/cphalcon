@@ -35,7 +35,7 @@ TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 PARSER_DIR=$HOME/zephir-parser-${ZEPHIR_PARSER_VERSION}
 
 # Use Travis cache
-if [ ! -f ${PARSER_DIR}/tests/ci/install-travis ]; then
+if [ ! -f ${PARSER_DIR}/unit-tests/ci/install-travis ]; then
     git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git -b ${ZEPHIR_PARSER_VERSION} ${PARSER_DIR}
 fi
 
