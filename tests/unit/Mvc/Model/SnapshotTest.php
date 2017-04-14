@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Helper\ModelTrait;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Robotters;
@@ -399,6 +400,42 @@ class SnapshotTest extends UnitTest
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->false();
                 expect($robots->hasUpdated('name'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests get updated fields
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testDisabledSnapshotUpdate()
+    {
+        $this->specify(
+            'Disabling snapshot update is not working',
+            function () {
+                $robots = Robots::findFirst();
+                Model::setup(
+                    [
+                        'updateSnapshotOnSave' => false,
+                    ]
+                );
+                $robots->name = 'changedName';
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->true();
+                $robots->save();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->true();
+                Model::setup(
+                    [
+                        'updateSnapshotOnSave' => true,
+                    ]
+                );
+                $robots->name = 'otherName';
+                $robots->save();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->false();
             }
         );
     }
