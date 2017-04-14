@@ -32,7 +32,8 @@ cache:
   timeout: 691200
   directories:
     - .temp
-    - $HOME/zephir-parser
+    # Use ZEPHIR_PARSER_VERSION here
+    - $HOME/zephir-parser-v1.0.2
     - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
