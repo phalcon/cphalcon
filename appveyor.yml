@@ -15,8 +15,8 @@ clone_folder: c:\projects\phalcon
 init:
     - SET ANSICON=121x90 (121x90)
     - SET COMPOSER_NO_INTERACTION=1
-    - SET PARSER_RELEASE=1.0.1
-    - SET PARSER_VERSION=1.0.1-232
+    - SET PARSER_RELEASE=1.0.2
+    - SET PARSER_VERSION=1.0.2-255
 
 cache:
     - vendor -> composer.json
