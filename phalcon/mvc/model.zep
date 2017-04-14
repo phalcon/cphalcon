@@ -2419,7 +2419,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->{attributeField} = lastInsertedId;
 			let snapshot[attributeField] = lastInsertedId;
 
-			if manager->isKeepingSnapshots(this) {
+			if manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
 			    let this->_snapshot = snapshot;
 			}
 
@@ -2654,7 +2654,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  			"bindTypes"  : uniqueTypes
  		], bindTypes);
 
- 		if success && manager->isKeepingSnapshots(this) {
+ 		if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
 			if typeof snapshot == "array" {
 				let this->_oldSnapshot = snapshot;
 				let this->_snapshot = array_merge(snapshot, newSnapshot);
@@ -4009,6 +4009,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let snapshot = this->_snapshot;
 		let oldSnapshot = this->_oldSnapshot;
 
+		if !globals_get("orm.update_snapshot_on_save") {
+			throw new Exception("Update snapshot on save must be enabled for this method to work properly");
+		}
+
 		if typeof snapshot != "array" {
 			throw new Exception("The record doesn't have a valid data snapshot");
 		}
@@ -4651,7 +4655,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
+			updateSnapshotOnSave;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4714,6 +4719,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
 			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+		}
+
+		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
+			globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
 		}
 	}
 
