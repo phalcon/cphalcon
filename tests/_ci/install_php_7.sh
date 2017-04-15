@@ -12,7 +12,7 @@
 #  to license@phalconphp.com so we can send you a copy immediately.
 
 install_apcu() {
-	it clone --depth=1 -v https://github.com/krakjoe/apcu /tmp/apcu
+	git clone --depth=1 -v https://github.com/krakjoe/apcu /tmp/apcu
 	cd /tmp/apcu
 
 	phpize &> /dev/null
