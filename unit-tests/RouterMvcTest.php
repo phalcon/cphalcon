@@ -316,7 +316,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testRouterNamespace()
+	/*public function testRouterNamespace()
 	{
 		$router = new Phalcon\Mvc\Router();
 
@@ -338,7 +338,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		foreach ($tests as $n => $test) {
 			$this->_runTest($router, $test);
 		}
-	}
+	}*/
 
 	public function testNamedRoutes()
 	{
