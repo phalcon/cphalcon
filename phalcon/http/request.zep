@@ -256,7 +256,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 	/**
 	 * Gets HTTP header from request data
 	 */
-	public final function getHeader(string! header) -> string
+	public final function getHeader(string! header) -> string | null
 	{
 		var value, name;
 
@@ -270,7 +270,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 			return value;
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
