@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
 [![Windows Build](https://ci.appveyor.com/api/projects/status/github/phalcon/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/phalcon/cphalcon/branch/master)
-[![Support Us](https://img.shields.io/badge/support-patreon-red.svg)](https://www.patreon.com/bePatron?u=4653615)
 [![Phalcon Backers](https://img.shields.io/badge/phalcon-backers-99ddc0.svg)](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
 [![OpenCollective](https://opencollective.com/phalcon/backers/badge.svg)](#backers) 
 [![OpenCollective](https://opencollective.com/phalcon/sponsors/badge.svg)](#sponsors)
@@ -14,7 +13,9 @@ A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master
 
 ## Get Started
 
-Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS. You can either download a binary package for the system of your choice or build it from source.
+Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind.
+As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS.
+You can either download a binary package for the system of your choice or build it from source.
 
 ### Windows
 
@@ -23,7 +24,6 @@ To install Phalcon on Windows:
 1. Download [Phalcon for Windows](https://phalconphp.com/en/download/windows)
 2. Extract the DLL file and copy it to your PHP extensions directory
 3. Edit your **php.ini** file and add this line:
-
    ```ini
    extension=php_phalcon.dll
    ```
@@ -43,29 +43,33 @@ On a Unix-based platform you can easily compile and install the extension from s
 
 Prerequisite packages are:
 
-* PHP 5.5.x/5.6.x/7.0.x development resources (PHP 5.3 and 5.4 are no longer supported)
-* GCC compiler (Linux/Solaris/FreeBSD) or Xcode (MacOS)
+* PHP 5.5.x/5.6.x/7.0.x/7.1.x development resources (PHP 5.3 and 5.4 are no longer supported)
+* `g++` >= 4.4 | `clang++` >= 3.x | `vc++` >= 11
+* GNU `make` >= 3.81
 * [`re2c`](http://re2c.org) >= 0.13
 
 Ubuntu:
 
 ```bash
-sudo apt-get install php5-dev libpcre3-dev gcc make
+# Use actual PHP development headers and tools here
+sudo apt-get install php5-dev libpcre3-dev gcc make re2c
 ```
 
 Suse:
 
 ```bash
-sudo zypper install php5-devel gcc make
+# Use actual PHP development headers and tools here
+sudo zypper install php5-devel gcc make re2c
 ```
 
 CentOS/Fedora/RHEL
 
 ```bash
-sudo yum install php-devel pcre-devel gcc make
+# Use actual PHP development headers and tools here
+sudo yum install php-devel pcre-devel gcc make re2c
 ```
 
-## General Compilation
+## Compilation
 
 Follow these instructions to generate a binary extension for your platform:
 
@@ -75,6 +79,14 @@ cd cphalcon/build
 sudo ./install
 ```
 
+If you have specific php versions running
+
+```bash
+git clone https://github.com/phalcon/cphalcon
+cd cphalcon/build
+sudo ./install --phpize /usr/bin/phpize5.6 --php-config /usr/bin/php-config5.6
+```
+
 Add the extension to your **php.ini**:
 
 ```ini
@@ -82,45 +94,6 @@ extension=phalcon.so
 ```
 
 Finally, **restart the web server**.
-
-## Advanced compilation
-
-If you have specific php versions running
-
-```bash
-git clone https://github.com/phalcon/cphalcon
-# or cd cphalcon/build/php5/32bits
-cd cphalcon/build/php5/64bits
-
-# NOTE: for PHP 7 you have to use 
-# cd cphalcon/build/php7/32bits
-# or
-# cd cphalcon/build/php7/64bits
-
-make clean
-
-# Example: /opt/php-5.6.15
-export CUSTOM_PHP_INSTALLATION_PATH=/your/php/installation/path
-
-# Example: /opt/php-5.6.15/bin/phpize --clean
-$CUSTOM_PHP_INSTALLATION_PATH/bin/phpize --clean
-
-# Example: /opt/php-5.6.15/bin/phpize
-$CUSTOM_PHP_INSTALLATION_PATH/bin/phpize
-
-# Example: ./configure --with-php-config=/opt/php-5.6.15/bin/php-config
-./configure --with-php-config=$CUSTOM_PHP_INSTALLATION_PATH/bin/php-config
-
-make && sudo make install
-```
-
-Edit your **php.ini** (for the specific version) and add this line:
-
-```ini
-extension=phalcon.so
-```
-
-Save the file and **Restart the web server**.
 
 ## Contributing
 

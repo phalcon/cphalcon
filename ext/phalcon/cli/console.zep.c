@@ -22,7 +22,6 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -280,7 +279,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	if (!str_param) {
 		str = 1;
 	} else {
-	if (unlikely(Z_TYPE_P(str_param) != IS_BOOL)) {
+	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_BOOL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a bool") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -289,7 +288,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	if (!shift_param) {
 		shift = 1;
 	} else {
-	if (unlikely(Z_TYPE_P(shift_param) != IS_BOOL)) {
+	if (UNEXPECTED(Z_TYPE_P(shift_param) != IS_BOOL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'shift' must be a bool") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -309,14 +308,14 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(arguments);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_1, 129, arguments);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_shift", &_1, 130, arguments);
 		ZEPHIR_UNREF(arguments);
 		zephir_check_call_status();
 	}
 	zephir_is_iterable(arguments, &_3, &_2, 0, 0, "phalcon/cli/console.zep", 201);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HVALUE(arg, _4);
 		if (Z_TYPE_P(arg) == IS_STRING) {
@@ -324,7 +323,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 			ZVAL_STRING(&_5$$5, "--", 0);
 			ZEPHIR_SINIT_NVAR(_6$$5);
 			ZVAL_LONG(&_6$$5, 2);
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "strncmp", &_8, 130, arg, &_5$$5, &_6$$5);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "strncmp", &_8, 131, arg, &_5$$5, &_6$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_LONG(_7$$5, 0)) {
 				ZEPHIR_SINIT_NVAR(_9$$6);
@@ -361,7 +360,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 				ZVAL_STRING(&_20$$9, "-", 0);
 				ZEPHIR_SINIT_NVAR(_21$$9);
 				ZVAL_LONG(&_21$$9, 1);
-				ZEPHIR_CALL_FUNCTION(&_22$$9, "strncmp", &_8, 130, arg, &_20$$9, &_21$$9);
+				ZEPHIR_CALL_FUNCTION(&_22$$9, "strncmp", &_8, 131, arg, &_20$$9, &_21$$9);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG(_22$$9, 0)) {
 					ZEPHIR_SINIT_NVAR(_23$$10);
@@ -379,21 +378,21 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	if (str) {
 		ZEPHIR_INIT_VAR(_25$$13);
-		ZEPHIR_CALL_CE_STATIC(&_26$$13, phalcon_cli_router_route_ce, "getdelimiter", &_27, 131);
+		ZEPHIR_CALL_CE_STATIC(&_26$$13, phalcon_cli_router_route_ce, "getdelimiter", &_27, 132);
 		zephir_check_call_status();
 		zephir_fast_join(_25$$13, _26$$13, args TSRMLS_CC);
 		zephir_update_property_this(this_ptr, SL("_arguments"), _25$$13 TSRMLS_CC);
 	} else {
 		if (zephir_fast_count_int(args TSRMLS_CC)) {
 			ZEPHIR_MAKE_REF(args);
-			ZEPHIR_CALL_FUNCTION(&_28$$15, "array_shift", &_1, 129, args);
+			ZEPHIR_CALL_FUNCTION(&_28$$15, "array_shift", &_1, 130, args);
 			ZEPHIR_UNREF(args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("task"), &_28$$15, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_fast_count_int(args TSRMLS_CC)) {
 			ZEPHIR_MAKE_REF(args);
-			ZEPHIR_CALL_FUNCTION(&_29$$16, "array_shift", &_1, 129, args);
+			ZEPHIR_CALL_FUNCTION(&_29$$16, "array_shift", &_1, 130, args);
 			ZEPHIR_UNREF(args);
 			zephir_check_call_status();
 			zephir_array_update_string(&handleArgs, SL("action"), &_29$$16, PH_COPY | PH_SEPARATE);

@@ -16,7 +16,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -61,7 +60,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, this_ptr, "__construct", &_0, 211, name, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, this_ptr, "__construct", &_0, 212, name, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -119,8 +118,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 	if (Z_TYPE_P(option) == IS_ARRAY) {
 		zephir_is_iterable(option, &_1$$3, &_0$$3, 0, 0, "phalcon/forms/element/select.zep", 84);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(value, _2$$3);
@@ -155,7 +154,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_optionsValues"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", &_0, 212, _1, _2);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", &_0, 213, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

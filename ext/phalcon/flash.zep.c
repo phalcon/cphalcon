@@ -21,7 +21,6 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -434,8 +433,8 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 		}
 		zephir_is_iterable(message, &_3$$9, &_2$$9, 0, 0, "phalcon/flash.zep", 288);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3$$9, (void**) &_4$$9, &_2$$9) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3$$9, &_2$$9)
+		  ; zend_hash_get_current_data_ex(_3$$9, (void**) &_4$$9, &_2$$9) == SUCCESS
+		  ; zend_hash_move_forward_ex(_3$$9, &_2$$9)
 		) {
 			ZEPHIR_GET_HVALUE(msg, _4$$9);
 			if (autoEscape == 1) {

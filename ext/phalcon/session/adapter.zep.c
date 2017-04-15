@@ -20,7 +20,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 
 
@@ -270,7 +269,6 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, set) {
 
-	int _2, _1$$3;
 	zval *index_param = NULL, *value, *_SESSION, *uniqueId = NULL, *_0$$3;
 	zval *index = NULL;
 
@@ -285,18 +283,10 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 	if (!(ZEPHIR_IS_EMPTY(uniqueId))) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		ZEPHIR_CONCAT_VSV(_0$$3, uniqueId, "#", index);
-		_1$$3 = zephir_maybe_separate_zval(&_SESSION);
-		zephir_array_update_zval(&_SESSION, _0$$3, &value, PH_COPY | PH_SEPARATE);
-		if (_1$$3) {
-			ZEND_SET_SYMBOL(&EG(symbol_table), "_SESSION", _SESSION);
-		}
+		zephir_array_update_zval(&_SESSION, _0$$3, &value, PH_COPY);
 		RETURN_MM_NULL();
 	}
-	_2 = zephir_maybe_separate_zval(&_SESSION);
-	zephir_array_update_zval(&_SESSION, index, &value, PH_COPY | PH_SEPARATE);
-	if (_2) {
-		ZEND_SET_SYMBOL(&EG(symbol_table), "_SESSION", _SESSION);
-	}
+	zephir_array_update_zval(&_SESSION, index, &value, PH_COPY);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -463,8 +453,8 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 			ZEPHIR_INIT_VAR(_0$$4);
 			zephir_is_iterable(_SESSION, &_2$$4, &_1$$4, 1, 0, "phalcon/session/adapter.zep", 275);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2$$4, &_1$$4)
+			  ; zend_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_2$$4, &_1$$4)
 			) {
 				ZEPHIR_GET_HMKEY(key, _2$$4, _1$$4);
 				ZEPHIR_GET_HVALUE(_0$$4, _3$$4);

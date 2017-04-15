@@ -106,11 +106,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &baseUri_param);
 
-	if (unlikely(Z_TYPE_P(baseUri_param) != IS_STRING && Z_TYPE_P(baseUri_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(baseUri_param) != IS_STRING && Z_TYPE_P(baseUri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'baseUri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(baseUri_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(baseUri_param) == IS_STRING)) {
 		zephir_get_strval(baseUri, baseUri_param);
 	} else {
 		ZEPHIR_INIT_VAR(baseUri);
@@ -142,11 +142,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &staticBaseUri_param);
 
-	if (unlikely(Z_TYPE_P(staticBaseUri_param) != IS_STRING && Z_TYPE_P(staticBaseUri_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(staticBaseUri_param) != IS_STRING && Z_TYPE_P(staticBaseUri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'staticBaseUri' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(staticBaseUri_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(staticBaseUri_param) == IS_STRING)) {
 		zephir_get_strval(staticBaseUri, staticBaseUri_param);
 	} else {
 		ZEPHIR_INIT_VAR(staticBaseUri);
@@ -228,11 +228,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &basePath_param);
 
-	if (unlikely(Z_TYPE_P(basePath_param) != IS_STRING && Z_TYPE_P(basePath_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(basePath_param) != IS_STRING && Z_TYPE_P(basePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'basePath' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(basePath_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(basePath_param) == IS_STRING)) {
 		zephir_get_strval(basePath, basePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(basePath);
@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 384, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 386, args);
 		zephir_check_call_status();
 		_25$$19 = Z_TYPE_P(queryString) == IS_STRING;
 		if (_25$$19) {

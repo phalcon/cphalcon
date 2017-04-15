@@ -27,11 +27,14 @@ use Phalcon\Annotations\Reflection;
  *
  * Stores the parsed annotations in APC. This adapter is suitable for production
  *
- *<code>
+ * <code>
  * use Phalcon\Annotations\Adapter\Apc;
  *
  * $annotations = new Apc();
- *</code>
+ * </code>
+ *
+ * @see \Phalcon\Annotations\Adapter\Apcu
+ * @deprecated
  */
 class Apc extends Adapter
 {

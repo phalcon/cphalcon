@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
@@ -145,15 +144,15 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 0, "phalcon/http/response/headers.zep", 94);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3$$3, &_2$$3)
+		  ; zend_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_3$$3, &_2$$3)
 		) {
 			ZEPHIR_GET_HMKEY(header, _3$$3, _2$$3);
 			ZEPHIR_GET_HVALUE(value, _4$$3);
 			if (Z_TYPE_P(value) != IS_NULL) {
 				ZEPHIR_INIT_LNVAR(_5$$5);
 				ZEPHIR_CONCAT_VSV(_5$$5, header, ": ", value);
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 246, _5$$5, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 247, _5$$5, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 			} else {
 				_7$$6 = zephir_memnstr_str(header, SL(":"), "phalcon/http/response/headers.zep", 87);
@@ -167,12 +166,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 					_7$$6 = ZEPHIR_IS_STRING(_10$$6, "HTTP/");
 				}
 				if (_7$$6) {
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 246, header, ZEPHIR_GLOBAL(global_true));
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 247, header, ZEPHIR_GLOBAL(global_true));
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_LNVAR(_11$$8);
 					ZEPHIR_CONCAT_VS(_11$$8, header, ": ");
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 246, _11$$8, ZEPHIR_GLOBAL(global_true));
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 247, _11$$8, ZEPHIR_GLOBAL(global_true));
 					zephir_check_call_status();
 				}
 			}
@@ -238,12 +237,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"), 0 TSRMLS_CC)) {
 		zephir_is_iterable(dataHeaders, &_1$$3, &_0$$3, 0, 0, "phalcon/http/response/headers.zep", 126);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(value, _2$$3);
-			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 247, key, value);
+			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 248, key, value);
 			zephir_check_call_status();
 		}
 	}

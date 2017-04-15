@@ -1,13 +1,27 @@
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-XX-XX)
-- `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct` will now trigger `E_DEPREACATED` on usage
+- Phalcon will now trigger `E_DEPREACATED` by using `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct`
 - Added Factory Adapter loaders [#11001](https://github.com/phalcon/cphalcon/issues/11001)
 - Added ability to sanitize URL to `Phalcon\Filter`
-- Add argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` - `type` to specify type join
+- Added missed `$type` argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` to specify type join
 - Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update
-- Added methods andHaving(), orHaving(), betweenHaving(), notBetweenHaving(), inHaving(), notInHaving() in `Phalcon\Mvc\Model\Query\Builder`
+- Added support for having option in `Phalcon\Paginator\Adapter\QueryBuilder` [#12111](https://github.com/phalcon/cphalcon/issues/12111)
+- Added `Phalcon\Config::path` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
+- Added service provider interface to configure services by context [#12783](https://github.com/phalcon/cphalcon/pull/12783)
+- Added the ability to load services from yaml (`Phalcon\Di::loadFromYaml`) and php array (`Phalcon\Di::loadFromPhp`) files, so we can keep the references cleanly separated from code [#12784](https://github.com/phalcon/cphalcon/pull/12784)
+- Added `Phalcon\Cache\Backend\Apcu` to introduce pure support of APCu [#12098](https://github.com/phalcon/cphalcon/issues/12098), [#11934](https://github.com/phalcon/cphalcon/issues/11934)
+- Added `Phalcon\Annotations\Adapter\Apcu` to introduce pure support of APCu [#12098](https://github.com/phalcon/cphalcon/issues/12098)
+- Added option to disable snapshot update on create/save using `Phalcon\Mvc\Model::setup(['updateSnapshotOnSave' => false])` or `phalcon.orm.update_snapshot_on_save = 0` in `php.ini`
+- Added `Phalcon\Mvc\Model\Manager::setModelPrefix` and `Phalcon\Mvc\Model\Manager::getModelPrefix` to introduce tables prefixes [#10328](https://github.com/phalcon/cphalcon/issues/10328)
+- Added methods `Phalcon\Mvc\Model\Query\Builder::andHaving`, `Phalcon\Mvc\Model\Query\Builder::orHaving`, `Phalcon\Mvc\Model\Query\Builder::betweenHaving`, `Phalcon\Mvc\Model\Query\Builder::notBetweenHaving`, `Phalcon\Mvc\Model\Query\Builder::inHaving`, `Phalcon\Mvc\Model\Query\Builder::notInHaving`
+- Fixed Dispatcher forwarding when handling exception [#11819](https://github.com/phalcon/cphalcon/issues/11819), [#12154](https://github.com/phalcon/cphalcon/issues/12154)
+- Fixed params view scope for PHP 7 [#12648](https://github.com/phalcon/cphalcon/issues/12648)
+- Fixed `Phalcon\Mvc\Micro::handle` to prevent attemps to send response twice [#12668](https://github.com/phalcon/cphalcon/pull/12668)
+- Fixed `Di::set`, `Di::setShared` to allow pass more than 10 arguments [#12299](https://github.com/phalcon/cphalcon/issues/12299)
 
-# [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-XX-XX)
+# [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-04-05)
 - Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
+- Fixed `Imagick::getVersion()` error in some system [#12729](https://github.com/phalcon/cphalcon/pull/12729)
+- Fixed `Phalcon\Mvc\Model::_doLowInsert` to properly set snapshot when having default values and public properties [#12766](https://github.com/phalcon/cphalcon/issues/12766)
 
 # [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-03-25)
 - Fixed undefined index warning on existing cached resultsets

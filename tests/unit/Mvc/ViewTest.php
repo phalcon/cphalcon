@@ -976,7 +976,7 @@ class ViewTest extends UnitTest
         );
     }
 
-    public function ytestCacheMethods()
+    public function testCacheMethods()
     {
         $this->specify(
             "View methods don't return the View instance",
@@ -1003,10 +1003,6 @@ class ViewTest extends UnitTest
      */
     public function testIssue12648()
     {
-        if (PHP_MAJOR_VERSION != 5) {
-            $this->markTestSkipped("This issue is fixed only for php5");
-        }
-
         $this->specify(
             "View params are available in local scope",
             function () {

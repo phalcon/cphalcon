@@ -17,7 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 
 
 /**
@@ -187,8 +186,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 		if (Z_TYPE_P(methods) == IS_ARRAY) {
 			zephir_is_iterable(methods, &_1$$4, &_0$$4, 0, 0, "phalcon/annotations/adapter.zep", 155);
 			for (
-			  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)
+			  ; zend_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_1$$4, &_0$$4)
 			) {
 				ZEPHIR_GET_HMKEY(methodKey, _1$$4, _0$$4);
 				ZEPHIR_GET_HVALUE(method, _2$$4);

@@ -6,26 +6,26 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Nikolaos Dimopoulos <nikos@niden.net>                         |
- +------------------------------------------------------------------------+
  */
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
+use Phalcon\Config;
 use Phalcon\Di\Service;
-use Phalcon\Di\ServiceInterface;
+use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Config\Adapter\Php;
+use Phalcon\Config\Adapter\Yaml;
+use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 /**
  * Phalcon\Di
@@ -407,6 +407,29 @@ class Di implements DiInterface
 	}
 
 	/**
+	 * Registers a service provider.
+	 *
+	 * <code>
+	 * use Phalcon\DiInterface;
+	 * use Phalcon\Di\ServiceProviderInterface;
+	 *
+	 * class SomeServiceProvider implements ServiceProviderInterface
+	 * {
+	 *     public function register(DiInterface $di)
+	 *     {
+	 *         $di->setShared('service', function () {
+	 *             // ...
+	 *         });
+	 *     }
+	 * }
+	 * </code>
+	 */
+	public function register(<ServiceProviderInterface> provider) -> void
+	{
+		provider->register(this);
+	}
+
+	/**
 	 * Set a default dependency injection container to be obtained into static methods
 	 */
 	public static function setDefault(<DiInterface> dependencyInjector)
@@ -428,5 +451,102 @@ class Di implements DiInterface
 	public static function reset()
 	{
 		let self::_default = null;
+	}
+
+	/**
+	 * Loads services from a yaml file.
+	 *
+	 * <code>
+	 * $di->loadFromYaml(
+	 *     "path/services.yaml",
+	 *     [
+	 *         "!approot" => function ($value) {
+	 *             return dirname(__DIR__) . $value;
+	 *         }
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * And the services can be specified in the file as:
+	 *
+	 * <code>
+	 * myComponent:
+	 *     className: \Acme\Components\MyComponent
+	 *     shared: true
+	 *
+	 * group:
+	 *     className: \Acme\Group
+	 *     arguments:
+	 *         - type: service
+	 *           name: myComponent
+	 *
+	 * user:
+	 *    className: \Acme\User
+	 * </code>
+	 *
+	 * @link https://docs.phalconphp.com/en/latest/reference/di.html
+	 */
+	public function loadFromYaml(string! filePath, array! callbacks = null) -> void
+	{
+		var services;
+
+		let services = new Yaml(filePath, callbacks);
+
+		this->loadFromConfig(services);
+	}
+
+	/**
+	 * Loads services from a php config file.
+	 *
+	 * <code>
+	 * $di->loadFromPhp("path/services.php");
+	 * </code>
+	 *
+	 * And the services can be specified in the file as:
+	 *
+	 * <code>
+	 * return [
+	 *      'myComponent' => [
+	 *          'className' => '\Acme\Components\MyComponent',
+	 *          'shared' => true,
+	 *      ],
+	 *      'group' => [
+	 *          'className' => '\Acme\Group',
+	 *          'arguments' => [
+	 *              [
+	 *                  'type' => 'service',
+	 *                  'service' => 'myComponent',
+	 *              ],
+	 *          ],
+	 *      ],
+	 *      'user' => [
+	 *          'className' => '\Acme\User',
+	 *      ],
+	 * ];
+	 * </code>
+	 *
+	 * @link https://docs.phalconphp.com/en/latest/reference/di.html
+	 */
+	public function loadFromPhp(string! filePath) -> void
+	{
+		var services;
+
+		let services = new Php(filePath);
+
+		this->loadFromConfig(services);
+	}
+
+	/**
+	 * Loads services from a Config object.
+	 */
+	protected function loadFromConfig(<Config> config) -> void
+	{
+		var services, name, service;
+
+		let services = config->toArray();
+
+		for name, service in services {
+			this->set(name, service, isset service["shared"] && service["shared"]);
+		}
 	}
 }
