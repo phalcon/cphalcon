@@ -122,6 +122,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	protected _initialized;
 
+	protected _prefix = "";
+
 	protected _sources;
 
 	protected _schemas;
@@ -313,6 +315,50 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Sets the prefix for all model sources.
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Model\Manager;
+	 *
+	 * $di->set("modelsManager", function () {
+	 *     $modelsManager = new Manager();
+	 *     $modelsManager->setModelPrefix("wp_");
+	 *
+	 *     return $modelsManager;
+	 * });
+	 *
+	 * $robots = new Robots();
+	 * echo $robots->getSource(); // wp_robots
+	 * </code>
+	 */
+	public function setModelPrefix(string! prefix) -> void
+	{
+		let this->_prefix = prefix;
+	}
+
+	/**
+	 * Returns the prefix for all model sources.
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Model\Manager;
+	 *
+	 * $di->set("modelsManager", function () {
+	 *     $modelsManager = new Manager();
+	 *     $modelsManager->setModelPrefix("wp_");
+	 *
+	 *     return $modelsManager;
+	 * });
+	 *
+	 * $robots = new Robots();
+	 * echo $robots->getSource(); // wp_robots
+	 * </code>
+	 */
+	public function getModelPrefix() -> string
+	{
+		return this->_prefix;
+	}
+
+	/**
 	 * Sets the mapped source for a model
 	 */
 	public function setModelSource(<ModelInterface> model, string! source) -> void
@@ -358,7 +404,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let this->_sources[entityName] = uncamelize(get_class_ns(model));
 		}
 
-		return this->_sources[entityName];
+		return this->_prefix . this->_sources[entityName];
 	}
 
 	/**
