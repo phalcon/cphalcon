@@ -170,6 +170,8 @@ class Generator_Optimized
             // You need to compile safe Phalcon extension, enable it in PHP, and then you can compile optimized version
             return;
         }
+        
+        $this->cleanBuildDirectories();
 
         $this->cleanBuildDirectories();
         $this->copyFilesFromSourceBuildDir();
