@@ -4269,8 +4269,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				let this->_related[lowerProperty] = related,
 					this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
 			}
-
-			return value;
 		}
 
 		// Use possible setter.
