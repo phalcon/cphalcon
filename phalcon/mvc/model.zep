@@ -4221,7 +4221,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 		} catch \Exception, e {
 			// The property doesn't exist.
-			return true;
+			return false;
 		}
 		return true;
 	}
