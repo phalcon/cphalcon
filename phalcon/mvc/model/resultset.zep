@@ -486,9 +486,10 @@ abstract class Resultset
 	 */
 	public function delete(<\Closure> conditionCallback = null) -> boolean
 	{
-		boolean transaction;
+		boolean result, transaction;
 		var record, connection = null;
 
+		let result = true;
 		let transaction = false;
 
 		this->rewind();
@@ -536,6 +537,7 @@ abstract class Resultset
 				 * Rollback the transaction
 				 */
 				connection->rollback();
+				let result = false;
 				let transaction = false;
 				break;
 			}
@@ -550,7 +552,7 @@ abstract class Resultset
 			connection->commit();
 		}
 
-		return true;
+		return result;
 	}
 
 	/**
