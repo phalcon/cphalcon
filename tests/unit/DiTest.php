@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit;
 
+use Phalcon\Config;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Proxy\Di;
 use Phalcon\Http\Request;
@@ -500,6 +501,28 @@ class DiTest extends UnitTest
                 $component = $this->phDi->get('complexProperties');
                 expect(is_object($component->getResponse()))->true();
                 expect($component->getResponse())->equals($response);
+            }
+        );
+    }
+
+    /**
+     * Tests accessing services by property
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-09-24
+     */
+    public function testPropertyAccess()
+    {
+        $this->specify('Accessing by property doesnt work properly',
+            function() {
+                $this->phDi->set('config', new Config());
+                $this->phDi->set('test', function() {
+                    return $this->config;
+                });
+                $config = $this->phDi->get('test');
+                expect($config)->isInstanceOf('Phalcon\Config');
+                $config = $this->phDi->config;
+                expect($config)->isInstanceOf('Phalcon\Config');
             }
         );
     }
