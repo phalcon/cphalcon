@@ -198,10 +198,10 @@ class Gettext extends Adapter implements \ArrayAccess
 		let this->_locale   = call_user_func_array("setlocale", func_get_args());
 		let this->_category = category;
 
-		putenv("LC_ALL=" . this->_locale);
+		putenv(category . "=" . this->_locale);
 		putenv("LANG=" . this->_locale);
 		putenv("LANGUAGE=" . this->_locale);
-		setlocale(LC_ALL, this->_locale);
+		setlocale(category, this->_locale);
 
 		return this->_locale;
 	}
