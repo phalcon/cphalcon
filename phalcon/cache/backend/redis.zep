@@ -92,6 +92,10 @@ class Redis extends Backend
 			let options["persistent"] = false;
 		}
 
+		if !isset options["auth"] {
+			let options["auth"] = "";
+		}
+
 		if !isset options["statsKey"] {
 			// Disable tracking of cached keys per default
 			let options["statsKey"] = "";
@@ -124,7 +128,7 @@ class Redis extends Backend
 			throw new Exception("Could not connect to the Redisd server ".host.":".port);
 		}
 
-		if fetch auth, options["auth"] {
+		if fetch auth, options["auth"] && !empty options["auth"] {
 			let success = redis->auth(auth);
 
 			if !success {
