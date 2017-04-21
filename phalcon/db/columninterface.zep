@@ -27,13 +27,6 @@ namespace Phalcon\Db;
 interface ColumnInterface
 {
 	/**
-	 * Returns schema's table related to column
-	 *
-	 * @return string
-	 */
-	public function getSchemaName();
-
-	/**
 	 * Returns column name
 	 *
 	 * @return string

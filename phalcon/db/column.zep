@@ -184,13 +184,6 @@ class Column implements ColumnInterface
 	protected _name { get };
 
 	/**
-	 * Schema which table related is
-	 *
-	 * @var string
-	 */
-	protected _schemaName { get };
-
-	/**
 	 * Column data type
 	 *
 	 * @var int|string
