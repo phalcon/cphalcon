@@ -341,6 +341,8 @@ class Loader implements EventsAwareInterface
 			if !fileName {
 				continue;
 			}
+			
+			let fileName = str_replace(ns, ds, fileName);
 
 			let fileName = str_replace(ns, ds, fileName);
 
