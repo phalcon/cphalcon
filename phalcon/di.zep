@@ -26,6 +26,7 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 /**
  * Phalcon\Di
@@ -404,6 +405,16 @@ class Di implements DiInterface
 		 * The method doesn't start with set/get throw an exception
 		 */
 		throw new Exception("Call to undefined method or service '" . method . "'");
+	}
+
+	/**
+	 * Registers a service provider
+	 * @param  ServiceProviderInterface
+	 * @return void
+	 */
+	public function register(<ServiceProviderInterface> provider)
+	{
+		provider->register(this);
 	}
 
 	/**
