@@ -83,7 +83,7 @@ class Gettext extends Adapter implements \ArrayAccess
 	 * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
 	 * </code>
 	 */
-	public function query(string! index, placeholders = null) -> string
+	public function query(string! index, placeholders = null, string! domain = null) -> string
 	{
 		var translation;
 
