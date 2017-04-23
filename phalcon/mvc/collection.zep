@@ -428,9 +428,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			/**
 			 * Requesting a single result
 			 */
-			documentsCursor->rewind();
-
-			let document = documentsCursor->current();
+			
+			let document = current(documentsCursor->toArray());
 
 			if typeof document != "array" {
 				return false;
