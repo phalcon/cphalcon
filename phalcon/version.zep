@@ -59,7 +59,7 @@ class Version
 	 * );
 	 * </code>
 	 */
-	const VERSION_MINOR = 2;
+	const VERSION_MINOR = 9;
 
 	/**
 	 * The constant referencing the major version. Returns 3

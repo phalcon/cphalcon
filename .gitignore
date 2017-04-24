@@ -66,3 +66,4 @@ build/gccarch
 
 ide/
 docker-compose.yml
+/nbproject/private/
