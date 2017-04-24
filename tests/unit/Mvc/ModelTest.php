@@ -12,6 +12,8 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Models\Boutique;
 use Phalcon\Test\Models\Packages;
+use Phalcon\Test\Models\UsersWithEvent;
+use Phalcon\Test\Models\UsersWithListener;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Robotters;
 use Phalcon\Test\Models\Personers;
@@ -668,6 +670,40 @@ class ModelTest extends UnitTest
                         'text'     => 'text',
                     ]
                 );
+            }
+        );
+    }
+
+    public function testModelEventsByListener()
+    {
+        $this->specify(
+            'Test model events by listener',
+            function () {
+                $usersWithListener = new UsersWithListener();
+                $usersWithListener->name = 'test user before event';
+                expect($usersWithListener->name)->equals('test user before event');
+
+                $usersWithListener->save();
+
+                expect($usersWithListener->name)->equals('test user after event');
+
+            }
+        );
+    }
+
+    public function testModelEventsByInternalConfiguration()
+    {
+        $this->specify(
+            'Test model events by internal configuration',
+            function () {
+                $usersWithListener = new UsersWithEvent();
+                $usersWithListener->name = 'test user before event';
+                expect($usersWithListener->name)->equals('test user before event');
+
+                $usersWithListener->save();
+
+                expect($usersWithListener->name)->equals('test user after event');
+
             }
         );
     }
