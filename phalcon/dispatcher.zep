@@ -48,7 +48,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _forwarded = false;
 
-        protected _canAction = true;
+    protected _canAction = true;
 
 	protected _moduleName = null;
 
@@ -676,6 +676,18 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 						continue;
 					}
 				}
+				// Calling noCallAction 
+				if method_exists(handler, "noCallAction") {
+
+					if handler->afterBinding(this) === false {
+						continue;
+					}
+
+					// Check if the user made a forward in the listener
+					if this->_finished === false {
+						continue;
+					}
+				}
                 
             }
 
@@ -779,8 +791,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		return this->_forwarded;
 	}
 
-        /**
-	 * return the canAction
+    /**
+	 * return the 
 	 */
 	public function getCanAction() -> boolean
 	{
