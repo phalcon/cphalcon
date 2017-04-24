@@ -48,6 +48,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _forwarded = false;
 
+        protected _canAction = true;
+
 	protected _moduleName = null;
 
 	protected _namespaceName = null;
@@ -648,19 +650,22 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 			}
-
-			try {
-				// We update the latest value produced by the latest handler
-				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
-			} catch \Exception, e {
-				if this->{"_handleException"}(e) === false {
-					if this->_finished === false {
-						continue;
-					}
-				} else {
-					throw e;
-				}
-			}
+                        if(this->_canAction){
+                            try {
+                                    // We update the latest value produced by the latest handler
+                                    let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+                            } catch \Exception, e {
+                                    if this->{"_handleException"}(e) === false {
+                                            if this->_finished === false {
+                                                    continue;
+                                            }
+                                    } else {
+                                            throw e;
+                                    }
+                            }
+                        }else{
+                            # no callActionMethod 
+                        }
 
 			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
@@ -760,6 +765,21 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	public function wasForwarded() -> boolean
 	{
 		return this->_forwarded;
+	}
+
+        /**
+	 * return the canAction
+	 */
+	public function getCanAction() -> boolean
+	{
+		return this->_canAction;
+	}
+        /**
+	 * Sets the canAction 
+	 */
+	public function setCanAction(boolean canAction) 
+	{
+                let this->_canAction = canAction;
 	}
 
 	/**
