@@ -15,7 +15,7 @@ class Test9Controller extends Phalcon\Mvc\Controller
     public function noCallAction()
     {
         global $noCallAction_value;
-        $noCallAction_value = 24;
+        $noCallAction_value = 533;
     }
 
 }
