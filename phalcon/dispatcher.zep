@@ -650,7 +650,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 			}
-            if(this->_canAction){
+            if this->_canAction {
                 try {
                         // We update the latest value produced by the latest handler
                         let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
@@ -664,7 +664,19 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                         }
                 }
             }else{
-                # no callActionMethod 
+            	// no callActionMethod 
+				if typeof eventsManager == "object" {
+
+					if eventsManager->fire("dispatch:noCallActionMethod", this) === false {
+						continue;
+					}
+
+					// Check if the user made a forward in the listener
+					if this->_finished === false {
+						continue;
+					}
+				}
+                
             }
 
 			// Calling afterExecuteRoute
