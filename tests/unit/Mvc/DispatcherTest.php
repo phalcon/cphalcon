@@ -527,7 +527,7 @@ class DispatcherTest extends UnitTest
             $dispatcher->setControllerName("test9");
             $dispatcher->setActionName("index");
             $dispatcher->setParams([]);
-             global $noCallAction_value=0;
+             global $noCallAction_value;
             $dispatcher->dispatch();
             expect($dispatcher->getCanAction())->false();
             expect($noCallAction_value)->equals(24);
@@ -548,7 +548,7 @@ class DispatcherTest extends UnitTest
             $dispatcher->setControllerName("test9");
             $dispatcher->setActionName("index");
             $dispatcher->setParams([]);
-             global $noCallAction_value=0;
+             global $noCallAction_value;
             $dispatcher->dispatch();
             expect($dispatcher->getCanAction())->true();
             expect($noCallAction_value)->equals(14);
