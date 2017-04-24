@@ -650,22 +650,22 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 			}
-                        if(this->_canAction){
-                            try {
-                                    // We update the latest value produced by the latest handler
-                                    let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
-                            } catch \Exception, e {
-                                    if this->{"_handleException"}(e) === false {
-                                            if this->_finished === false {
-                                                    continue;
-                                            }
-                                    } else {
-                                            throw e;
-                                    }
-                            }
-                        }else{
-                            # no callActionMethod 
+            if(this->_canAction){
+                try {
+                        // We update the latest value produced by the latest handler
+                        let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+                } catch \Exception, e {
+                        if this->{"_handleException"}(e) === false {
+                                if this->_finished === false {
+                                        continue;
+                                }
+                        } else {
+                                throw e;
                         }
+                }
+            }else{
+                # no callActionMethod 
+            }
 
 			// Calling afterExecuteRoute
 			if typeof eventsManager == "object" {
