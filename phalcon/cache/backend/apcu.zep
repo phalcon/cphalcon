@@ -154,7 +154,7 @@ class Apcu extends Backend
 	 */
 	public function increment(keyName = null, int value = 1) -> int | boolean
 	{
-		var prefixedKey, cachedContent, result;
+		var prefixedKey;
 
 		let prefixedKey = "_PHCA" . this->_prefix . keyName;
 		let this->_lastKey = prefixedKey;
@@ -169,7 +169,7 @@ class Apcu extends Backend
 	 */
 	public function decrement(keyName = null, int value = 1) -> int | boolean
 	{
-		var lastKey, cachedContent, result;
+		var lastKey;
 
 		let lastKey = "_PHCA" . this->_prefix . keyName,
 			this->_lastKey = lastKey;
