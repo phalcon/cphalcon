@@ -227,7 +227,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	/**
 	 * set the canAction
 	 */
-	public function setCanAction(boolean canAction) -> boolean
+	public function setCanAction(boolean canAction) 
 	{
 		let this->_canAction=canAction;
 	}
