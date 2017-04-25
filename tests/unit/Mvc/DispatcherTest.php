@@ -530,6 +530,51 @@ class DispatcherTest extends UnitTest
         );
     }
 
+    /**
+     * canAction test
+     */
+    public function testCanCallActionMethod1()
+    {
+        $this->specify(
+            "CanAction set to false ", function () {
+            $di = new Di();
+            $di->set("response", new Response());
+            $dispatcher = new Dispatcher();
+            $dispatcher->setDI($di);
+            expect($dispatcher->getDI())->isInstanceOf("Phalcon\\Di");
+
+            $di->set("dispatcher", $dispatcher);
+            $dispatcher->setCanAction(false);
+            $dispatcher->setControllerName("test9");
+            $dispatcher->setActionName("index");
+            $dispatcher->setParams([]);
+            global $noCallAction_value;
+            $dispatcher->dispatch();
+            expect($dispatcher->getCanAction())->false();
+            expect($noCallAction_value)->equals(533);
+        }
+        );
+        $this->specify(
+            "There is no change canAction", function () {
+            $di = new Di();
+            $di->set("response", new Response());
+
+            $dispatcher = new Dispatcher();
+            $dispatcher->setDI($di);
+            expect($dispatcher->getDI())->isInstanceOf("Phalcon\\Di");
+
+            $di->set("dispatcher", $dispatcher);
+            $dispatcher->setControllerName("test9");
+            $dispatcher->setActionName("index");
+            $dispatcher->setParams([]);
+            global $noCallAction_value;
+            $dispatcher->dispatch();
+            expect($dispatcher->getCanAction())->true();
+            expect($noCallAction_value)->equals(14);
+        }
+        );
+    }
+
     public function testCallActionMethod()
     {
         $this->specify(
