@@ -48,6 +48,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _forwarded = false;
 
+	protected _canAction = true;
+
 	protected _moduleName = null;
 
 	protected _namespaceName = null;
@@ -196,6 +198,22 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	public function setDefaultAction(string actionName)
 	{
 		let this->_defaultAction = actionName;
+	}
+
+	/**
+	 * Returns the canAction
+	 */
+	public function getCanAction() -> boolean
+	{
+		return this->_canAction;
+	}
+
+	/**
+	 * Sets the  canAction 
+	 */
+	public function setCanAction(boolean canAction)
+	{
+		let this->_canAction = canAction;
 	}
 
 	/**
@@ -648,17 +666,39 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 					continue;
 				}
 			}
-
-			try {
-				// We update the latest value produced by the latest handler
-				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
-			} catch \Exception, e {
-				if this->{"_handleException"}(e) === false {
+			if this->_canAction {
+				try {
+					// We update the latest value produced by the latest handler
+					let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
+				} catch \Exception, e {
+					if this->{"_handleException"}(e) === false {
+						if this->_finished === false {
+							continue;
+						}
+					} else {
+						throw e;
+					}
+				}
+			}else{
+				// no callActionMethod 
+				if typeof eventsManager == "object" {
+					if eventsManager->fire("dispatch:noCallActionMethod", this) === false {
+						continue;
+					}
+					// Check if the user made a forward in the listener
 					if this->_finished === false {
 						continue;
 					}
-				} else {
-					throw e;
+				}
+				// Calling noCallAction 
+				if method_exists(handler, "noCallAction") {
+					if handler->afterBinding(this) === false {
+						continue;
+					}
+					// Check if the user made a forward in the listener
+					if this->_finished === false {
+						continue;
+					}
 				}
 			}
 
