@@ -392,7 +392,7 @@ class Application extends Injectable
 							 * Automatic render based on the latest controller executed
 							 */
 							view->render(
-								dispatcher->getControllerName(),
+								strtolower(dispatcher->getControllerName()),
 								dispatcher->getActionName(),
 								dispatcher->getParams()
 							);
