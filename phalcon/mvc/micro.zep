@@ -677,18 +677,22 @@ class Micro extends Injectable implements \ArrayAccess
 						}
 
 						/**
-						 * Call the before handler, if it returns false exit
+						 * Call the before handler
 						 */
-						if call_user_func(before) === false {
-							return false;
-						}
+						let status = call_user_func(before);
 
 						/**
-						 * Reload the 'stopped' status
+						 * break the execution if the middleware was stopped
 						 */
-						if this->_stopped {
-							return status;
+						if  this->_stopped {
+							break;
 						}
+					}
+					/**
+					 * Reload the 'stopped' status
+					 */
+					if this->_stopped {
+						return status;
 					}
 				}
 
@@ -843,6 +847,13 @@ class Micro extends Injectable implements \ArrayAccess
 						}
 
 						let status = call_user_func(after);
+
+						/**
+						 * break the execution if the middleware was stopped
+						 */
+						if this->_stopped {
+							break;
+						}
 					}
 				}
 
