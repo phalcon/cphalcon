@@ -537,6 +537,10 @@ class DiTest extends UnitTest
      */
     public function testYamlLoader()
     {
+        if (!extension_loaded('yaml')) {
+            $this->markTestSkipped('Warning: yaml extension is not loaded');
+        }
+
         $this->specify(
             '"Di does not load services from yaml files properly',
             function () {
