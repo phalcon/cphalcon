@@ -786,18 +786,22 @@ class Micro extends Injectable implements \ArrayAccess
 						}
 
 						/**
-						 * Call the afterBinding handler, if it returns false exit
+						 * Call the afterBinding handler
 						 */
-						if call_user_func(afterBinding) === false {
-							return false;
-						}
+						let status = call_user_func(afterBinding);
 
 						/**
-						 * Reload the 'stopped' status
+						 * break the execution if the middleware was stopped
 						 */
 						if this->_stopped {
-							return status;
+						    break;
 						}
+					}
+					/**
+					* Reload the 'stopped' status
+					 */
+					if this->_stopped {
+						return status;
 					}
 				}
 

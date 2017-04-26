@@ -69,7 +69,7 @@ class MicroTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-11-19
      */
-    public function tesAfterBindingMiddleware()
+    public function testAfterBindingMiddleware()
     {
         $this->specify(
             'afterBinding middleware should be called',
@@ -87,7 +87,84 @@ class MicroTest extends UnitTest
                         return 'test';
                     }
                 );
+                expect($micro->handle('/test'))->equals('test');
+            }
+        );
+    }
+
+    public function testStopMiddlewareOnAfterBindingClosure()
+    {
+        $this->specify(
+            "afterBinding middleware doesn't work as expected",
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $micro->afterBinding(
+                    function () use ($micro) {
+                        $micro->stop();
+                        return false;
+                    }
+                );
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
                 expect($micro->handle('/test'))->isEmpty();
+            }
+        );
+    }
+
+    public function testStopMiddlewareOnAfterBindingClassFirst()
+    {
+        $this->specify(
+            "afterBinding middleware doesn't work as expected",
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $middleware = new \MyMiddleware();
+                $middlewareStop = new \MyMiddlewareStop();
+                $micro->afterBinding($middlewareStop);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+                expect($middlewareStop->getNumber())->equals(1);
+                expect($middleware->getNumber())->equals(0);
+            }
+        );
+    }
+
+    public function testStopMiddlewareOnAfterBindingClass()
+    {
+        $this->specify(
+            "afterBinding middleware doesn't work as expected",
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $middleware = new \MyMiddleware();
+                $middlewareStop = new \MyMiddlewareStop();
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middlewareStop);
+                $micro->afterBinding($middleware);
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+                expect($middleware->getNumber())->equals(3);
+                expect($middlewareStop->getNumber())->equals(1);
             }
         );
     }
