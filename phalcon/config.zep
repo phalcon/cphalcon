@@ -49,7 +49,8 @@ use Phalcon\Config\Exception;
  */
 class Config implements \ArrayAccess, \Countable
 {
-
+	protected data = [];
+	
 	/**
 	 * Phalcon\Config constructor
 	 */
@@ -74,8 +75,8 @@ class Config implements \ArrayAccess, \Countable
 	public function offsetExists(var index) -> boolean
 	{
 		let index = strval(index);
-
-		return isset this->{index};
+		
+		return isset this->data[index];
 	}
 
 	/**
@@ -90,10 +91,10 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 
-		if isset this->{index} {
-			return this->{index};
-		}
-
+        if isset this->data[index]{
+        	    return this->data[index];
+        }
+        
 		return defaultValue;
 	}
 
@@ -106,11 +107,15 @@ class Config implements \ArrayAccess, \Countable
 	 * );
 	 *</code>
 	 */
-	public function offsetGet(var index) -> string
+	public function offsetGet(var index)
 	{
 		let index = strval(index);
 
-		return this->{index};
+        if isset this->data[index]{
+		    return this->data[index];
+		}
+		
+        return null;
 	}
 
 	/**
@@ -127,9 +132,9 @@ class Config implements \ArrayAccess, \Countable
 		let index = strval(index);
 
 		if typeof value === "array" {
-			let this->{index} = new self(value);
+		    let this->data[index]  = new self(value);
 		} else {
-			let this->{index} = value;
+			let this->data[index] = value;
 		}
 	}
 
@@ -144,8 +149,7 @@ class Config implements \ArrayAccess, \Countable
 	{
 		let index = strval(index);
 
-		//unset(this->{index});
-		let this->{index} = null;
+		unset this->data[index];
 	}
 
 	/**
@@ -182,7 +186,7 @@ class Config implements \ArrayAccess, \Countable
 		var key, value, arrayConfig;
 
 		let arrayConfig = [];
-		for key, value in get_object_vars(this) {
+		for key, value in this->data {
 			if typeof value === "object" {
 				if method_exists(value, "toArray") {
 					let arrayConfig[key] = value->toArray();
@@ -211,7 +215,7 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	public function count() -> int
 	{
-		return count(get_object_vars(this));
+		return count( this->data );
 	}
 
 	/**
@@ -240,14 +244,14 @@ class Config implements \ArrayAccess, \Countable
 
 		let number = instance->count();
 
-		for key, value in get_object_vars(config) {
-
-			if fetch localObject, instance->{key} {
-				if typeof localObject === "object" && typeof value === "object" {
-					if localObject instanceof Config && value instanceof Config {
-						this->_merge(value, localObject);
-						continue;
-					}
+		for key, value in this->data {
+		
+			let localObject = instance->offsetGet(key);
+			
+			if localObject && typeof localObject === "object" && typeof value === "object" {
+				if localObject instanceof Config && value instanceof Config {
+					this->_merge(value, localObject);
+					continue;
 				}
 			}
 
@@ -255,7 +259,7 @@ class Config implements \ArrayAccess, \Countable
 				let key = strval(number),
 					number++;
 			}
-			let instance->{key} = value;
+			instance->offsetSet(key, value);
 		}
 
 		return instance;
