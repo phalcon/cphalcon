@@ -36,14 +36,18 @@ class PostgresqlTest extends UnitTest
     {
         parent::_before();
 
-        $this->connection = new Postgresql([
-            'host'     => TEST_DB_POSTGRESQL_HOST,
-            'username' => TEST_DB_POSTGRESQL_USER,
-            'password' => TEST_DB_POSTGRESQL_PASSWD,
-            'dbname'   => TEST_DB_POSTGRESQL_NAME,
-            'port'     => TEST_DB_POSTGRESQL_PORT,
-            'schema'   => TEST_DB_POSTGRESQL_SCHEMA
-        ]);
+        try {
+            $this->connection = new Postgresql([
+                'host'     => TEST_DB_POSTGRESQL_HOST,
+                'username' => TEST_DB_POSTGRESQL_USER,
+                'password' => TEST_DB_POSTGRESQL_PASSWD,
+                'dbname'   => TEST_DB_POSTGRESQL_NAME,
+                'port'     => TEST_DB_POSTGRESQL_PORT,
+                'schema'   => TEST_DB_POSTGRESQL_SCHEMA
+            ]);
+        } catch (\PDOException $e) {
+            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+        }
     }
 
     /**
