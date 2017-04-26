@@ -3860,6 +3860,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Returns the internal old snapshot data
+	 */
+	public function getOldSnapshotData() -> array
+	{
+		return this->_oldSnapshot;
+	}
+	
+	/**
 	 * Check if a specific attribute has changed
 	 * This only works if the model is keeping data snapshots
 	 *
