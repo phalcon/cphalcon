@@ -182,16 +182,18 @@ class MicroTest extends UnitTest
                 $app = new Micro();
 
                 $app->before(
-                    function () use (&$trace) {
+                    function () use ($app, &$trace) {
                         $trace[] = 1;
+                        $app->stop();
 
                         return false;
                     }
                 );
 
                 $app->before(
-                    function () use (&$trace) {
+                    function () use ($app, &$trace) {
                         $trace[] = 1;
+                        $app->stop();
 
                         return false;
                     }
@@ -246,6 +248,40 @@ class MicroTest extends UnitTest
         );
     }
 
+    public function testMicroAfterHandlersIfOneStop()
+    {
+        $this->specify(
+            "Micro::finish event handlers don't work as expected",
+            function () {
+                $trace = array();
+
+                $app = new Micro();
+
+                $app->after(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->after(function () use ($app, &$trace) {
+                    $trace[] = 1;
+                    $app->stop();
+                });
+
+                $app->after(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->map('/blog', function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->handle('/blog');
+
+                expect($trace)->count(3);
+            }
+        );
+    }
+
+
     public function testMicroFinishHandlers()
     {
         $this->specify(
@@ -280,6 +316,40 @@ class MicroTest extends UnitTest
             }
         );
     }
+
+    public function testMicroFinishHandlersIfOneStop()
+    {
+        $this->specify(
+            "Micro::finish event handlers don't work as expected",
+            function () {
+                $trace = array();
+
+                $app = new Micro();
+
+                $app->finish(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->finish(function () use ($app, &$trace) {
+                    $trace[] = 1;
+                    $app->stop();
+                });
+
+                $app->finish(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->map('/blog', function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->handle('/blog');
+
+                expect($trace)->count(3);
+            }
+        );
+    }
+
 
     public function testMicroEvents()
     {
@@ -412,7 +482,7 @@ class MicroTest extends UnitTest
         );
     }
 
-    public function testMicroStopMiddlewareClasses()
+    public function testMicroStopMiddlewareOnBeforeClasses()
     {
         $this->specify(
             "Micro middleware events don't work as expected",
@@ -439,10 +509,40 @@ class MicroTest extends UnitTest
 
                 $app->handle("/api/site");
 
-                expect($middleware->getNumber())->equals(3);
+                expect($middleware->getNumber())->equals(1);
             }
         );
     }
+
+    public function testMicroStopMiddlewareOnAfterAndFinishClasses()
+    {
+        $this->specify(
+            "Micro middleware events don't work as expected",
+            function () {
+                $app = new Micro();
+
+                $app->map(
+                    '/api/site',
+                    function () {
+                        return true;
+                    }
+                );
+
+                $middleware = new \MyMiddlewareStop();
+
+                $app->after($middleware);
+                $app->after($middleware);
+
+                $app->finish($middleware);
+                $app->finish($middleware);
+
+                $app->handle('/api/site');
+
+                expect($middleware->getNumber())->equals(2);
+            }
+        );
+    }
+
 
     public function testMicroResponseAlreadySentError()
     {
