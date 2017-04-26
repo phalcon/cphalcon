@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Paginator\Adapter;
 
 use Helper\ModelTrait;
+use Phalcon\Di;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Test\Models\Stock;
 use Phalcon\Test\Module\UnitTest;
@@ -42,7 +43,7 @@ class QueryBuilderTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
                 $builder = $modelsManager->createBuilder()
-                    ->columns("*, COUNT(*) as stock_count")
+                    ->columns("name, COUNT(*) as stock_count")
                     ->from(['Stock' => Stock::class])
                     ->groupBy('name')
                     ->having('SUM(Stock.stock) > 0');
@@ -76,7 +77,7 @@ class QueryBuilderTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
                 $builder = $modelsManager->createBuilder()
-                    ->columns("*, COUNT(*) as stock_count")
+                    ->columns("COUNT(*) as stock_count")
                     ->from(['Stock' => Stock::class])
                     ->having('SUM(Stock.stock) > 0');
 
@@ -102,6 +103,15 @@ class QueryBuilderTest extends UnitTest
         $this->specify(
             "Query builder paginator adapter doesn't throw exception when no columns option is set",
             function () {
+                $di = Di::getDefault();
+                $db = $di->getShared('db');
+                /*
+                 * There is no clean way to rewrite query builder's query in the strict mode:
+                 * if we remove all nonaggregated columns, we will get "Unknown column 'Stock.stock' in 'having clause'",
+                 * otherwise "In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'phalcon_test.Stock.stock'"
+                 */
+                $db->query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+
                 $modelsManager = $this->setUpModelsManager();
                 $builder = $modelsManager->createBuilder()
                     ->columns("*, COUNT(*) as stock_count")
