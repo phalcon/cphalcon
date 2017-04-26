@@ -117,6 +117,10 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
+		if !this->isMethod("PUT") {
+			return name ? null : [];
+		}
+
 		var put;
 
 		let put = this->_putCache;
