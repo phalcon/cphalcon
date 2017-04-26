@@ -118,12 +118,30 @@ abstract class Application extends Injectable implements EventsAwareInterface
 	public function getModule(string! name) -> array | object
 	{
 		var module;
+		var exception;
 
 		if !fetch module, this->_modules[name] {
-			throw new Exception("Module '" . name . "' isn't registered in the application container");
+			let exception = new Exception("Module '" . name . "' isn't registered in the application container");
+  			this->_handleException(exception);
 		}
 
 		return module;
+	}
+	
+	/**
+	 * Handles a user exception
+	 */
+	protected function _handleException(<\Exception> exception)
+	{
+		var eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
+				return false;
+			}
+			
+			throw exception;
+		}
 	}
 
 	/**
