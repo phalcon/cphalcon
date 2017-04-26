@@ -306,12 +306,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		}
 
 		$di = $this->_loadDI();
+		$di['db']->query("SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
 
 		// test paginator with group by string value
 		$builder = $di['modelsManager']->createBuilder()
 					->columns('cedula, nombres')
 					->from('Personnes')
-					->orderBy('cedula')
 					->groupBy('email');
 
 		$this->_paginatorBuilderTest($builder);
@@ -320,7 +320,6 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$builder = $di['modelsManager']->createBuilder()
 					->columns('cedula, nombres')
 					->from('Personnes')
-					->orderBy('cedula')
 					->groupBy(['email']);
 
 		$this->_paginatorBuilderTest($builder);
