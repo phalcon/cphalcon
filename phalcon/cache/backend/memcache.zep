@@ -225,7 +225,7 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		if typeof specialKey != "null" {
+		if specialKey != "" {
 			/**
 			 * Update the stats key
 			 */
@@ -276,11 +276,13 @@ class Memcache extends Backend implements BackendInterface
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
-		let keys = memcache->get(specialKey);
+		if specialKey != "" {
+			let keys = memcache->get(specialKey);
 
-		if typeof keys == "array" {
-			unset keys[prefixedKey];
-			memcache->set(specialKey, keys);
+			if typeof keys == "array" {
+				unset keys[prefixedKey];
+				memcache->set(specialKey, keys);
+			}
 		}
 
 		/**
@@ -294,23 +296,27 @@ class Memcache extends Backend implements BackendInterface
 	 * Query the existing cached keys
 	 *
 	 * @param string prefix
-	 * @return array
+	 * @return array|void
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(prefix = null)
 	{
 		var memcache, options, keys, specialKey, key, realKey;
+
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			throw new Exception("Unexpected inconsistency in options");
+		}
+
+		if specialKey == "" {
+			return;
+		}
 
 		let memcache = this->_memcache;
 
 		if typeof memcache != "object" {
 			this->_connect();
 			let memcache = this->_memcache;
-		}
-
-		let options = this->_options;
-
-		if !fetch specialKey, options["statsKey"] {
-			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		/**
@@ -450,17 +456,47 @@ class Memcache extends Backend implements BackendInterface
 			throw new \Phalcon\Cache\Exception("Unexpected inconsistency in options");
 		}
 
-		/**
-		 * Get the key from memcached
-		 */
-		let keys = memcache->get(specialKey);
-		if typeof keys == "array" {
-			for key, _ in keys {
-				memcache->delete(key);
+		if specialKey != "" {
+			/**
+			 * Get the key from memcached
+			 */
+			let keys = memcache->get(specialKey);
+			if typeof keys == "array" {
+				for key, _ in keys {
+					memcache->delete(key);
+				}
+				memcache->set(specialKey, keys);
 			}
-			memcache->set(specialKey, keys);
 		}
+
 		return true;
 	}
 
+	/**
+	 * Stores special memcached key use internally to store all memcache keys
+	 * @param string key
+	 */
+	public function setTrackingKey(string! key) -> <Memcache>
+	{
+		let this->_options["statsKey"] = key;
+
+		return this;
+	}
+
+	/**
+	 * Returns special memcached key.
+	 * @return string|null
+	 */
+	public function getTrackingKey()
+	{
+		var options, specialKey;
+
+		let options = this->_options;
+
+		if !fetch specialKey, options["statsKey"] {
+			return null;
+		}
+
+		return specialKey;
+	}
 }
