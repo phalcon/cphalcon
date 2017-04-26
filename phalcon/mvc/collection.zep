@@ -1412,7 +1412,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	/**
 	 * Perform an aggregation using the Mongo aggregation framework
 	 */
-	public static function aggregate(array parameters = null) -> array
+	public static function aggregate(array parameters = null, array options = null) -> array
 	{
 		var className, model, connection, source;
 
@@ -1427,7 +1427,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			throw new Exception("Method getSource() returns empty string");
 		}
 
-		return connection->selectCollection(source)->aggregate(parameters);
+		return connection->selectCollection(source)->aggregate(parameters, options);
 	}
 
 	/**
