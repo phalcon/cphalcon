@@ -34,6 +34,10 @@ class FactoryTest extends FactoryBase
      */
     public function testConfigFactory()
     {
+        if (!extension_loaded('gettext')) {
+            $this->markTestSkipped('Warning: gettext extension is not loaded');
+        }
+
         $this->specify(
             "Factory using Phalcon\\Config doesn't work properly",
             function () {
@@ -57,6 +61,10 @@ class FactoryTest extends FactoryBase
      */
     public function testArrayFactory()
     {
+        if (!extension_loaded('gettext')) {
+            $this->markTestSkipped('Warning: gettext extension is not loaded');
+        }
+
         $this->specify(
             "Factory using array doesn't work properly",
             function () {
