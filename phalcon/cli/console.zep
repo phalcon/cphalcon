@@ -141,7 +141,7 @@ class Console implements InjectionAwareInterface, EventsAwareInterface
 	/**
 	 * Handle the whole command-line tasks
 	 */
-	public function handle(array arguments = null)
+	public function handle(arguments = null)
 	{
 		var dependencyInjector, router, eventsManager,
 			moduleName, modules, module, path, className,
