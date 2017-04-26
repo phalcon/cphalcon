@@ -15,7 +15,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "phalcon/annotations/scanner.h"
@@ -81,8 +80,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		array_init(annotationsProperties);
 		zephir_is_iterable(properties, &_3$$5, &_2$$5, 0, 0, "phalcon/annotations/reader.zep", 96);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3$$5, (void**) &_4$$5, &_2$$5) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3$$5, &_2$$5)
+		  ; zend_hash_get_current_data_ex(_3$$5, (void**) &_4$$5, &_2$$5) == SUCCESS
+		  ; zend_hash_move_forward_ex(_3$$5, &_2$$5)
 		) {
 			ZEPHIR_GET_HVALUE(property, _4$$5);
 			ZEPHIR_CALL_METHOD(&comment, property, "getdoccomment", NULL, 0);
@@ -113,8 +112,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		array_init(annotationsMethods);
 		zephir_is_iterable(methods, &_9$$10, &_8$$10, 0, 0, "phalcon/annotations/reader.zep", 126);
 		for (
-		  ; zephir_hash_get_current_data_ex(_9$$10, (void**) &_10$$10, &_8$$10) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_9$$10, &_8$$10)
+		  ; zend_hash_get_current_data_ex(_9$$10, (void**) &_10$$10, &_8$$10) == SUCCESS
+		  ; zend_hash_move_forward_ex(_9$$10, &_8$$10)
 		) {
 			ZEPHIR_GET_HVALUE(method, _10$$10);
 			ZEPHIR_CALL_METHOD(&comment, method, "getdoccomment", NULL, 0);

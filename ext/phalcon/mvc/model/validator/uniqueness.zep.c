@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -115,8 +114,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	if (Z_TYPE_P(field) == IS_ARRAY) {
 		zephir_is_iterable(field, &_2$$5, &_1$$5, 0, 0, "phalcon/mvc/model/validator/uniqueness.zep", 130);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$5, &_1$$5)
+		  ; zend_hash_get_current_data_ex(_2$$5, (void**) &_3$$5, &_1$$5) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$5, &_1$$5)
 		) {
 			ZEPHIR_GET_HVALUE(composeField, _3$$5);
 			if (Z_TYPE_P(columnMap) == IS_ARRAY) {
@@ -210,8 +209,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 		zephir_is_iterable(_20$$16, &_22$$16, &_21$$16, 0, 0, "phalcon/mvc/model/validator/uniqueness.zep", 200);
 		for (
-		  ; zephir_hash_get_current_data_ex(_22$$16, (void**) &_23$$16, &_21$$16) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_22$$16, &_21$$16)
+		  ; zend_hash_get_current_data_ex(_22$$16, (void**) &_23$$16, &_21$$16) == SUCCESS
+		  ; zend_hash_move_forward_ex(_22$$16, &_21$$16)
 		) {
 			ZEPHIR_GET_HVALUE(primaryField, _23$$16);
 			ZEPHIR_OBS_NVAR(bindType);

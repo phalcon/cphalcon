@@ -19,7 +19,6 @@
 #include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 
@@ -84,11 +83,11 @@ PHP_METHOD(Phalcon_Db_Dialect, escapeSchema) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &str_param, &escapeChar_param);
 
-	if (unlikely(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(str_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(str_param) == IS_STRING)) {
 		zephir_get_strval(str, str_param);
 	} else {
 		ZEPHIR_INIT_VAR(str);
@@ -133,11 +132,11 @@ PHP_METHOD(Phalcon_Db_Dialect, escape) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &str_param, &escapeChar_param);
 
-	if (unlikely(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(str_param) != IS_STRING && Z_TYPE_P(str_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'str' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(str_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(str_param) == IS_STRING)) {
 		zephir_get_strval(str, str_param);
 	} else {
 		ZEPHIR_INIT_VAR(str);
@@ -184,8 +183,8 @@ PHP_METHOD(Phalcon_Db_Dialect, escape) {
 	ZEPHIR_CPY_WRT(newParts, parts);
 	zephir_is_iterable(parts, &_9, &_8, 0, 0, "phalcon/db/dialect.zep", 105);
 	for (
-	  ; zephir_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_9, &_8)
+	  ; zend_hash_get_current_data_ex(_9, (void**) &_10, &_8) == SUCCESS
+	  ; zend_hash_move_forward_ex(_9, &_8)
 	) {
 		ZEPHIR_GET_HMKEY(key, _9, _8);
 		ZEPHIR_GET_HVALUE(part, _10);
@@ -233,11 +232,11 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &sqlQuery_param, &number);
 
-	if (unlikely(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlQuery);
@@ -284,11 +283,11 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 
-	if (unlikely(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlQuery);
@@ -317,11 +316,11 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 
-	if (unlikely(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(sqlQuery_param) == IS_STRING)) {
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 	} else {
 		ZEPHIR_INIT_VAR(sqlQuery);
@@ -375,8 +374,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 	array_init(columns);
 	zephir_is_iterable(columnList, &_1, &_0, 0, 0, "phalcon/db/dialect.zep", 182);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(column, _2);
 		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "getsqlcolumn", &_4, 40, column, escapeChar, bindCounts);
@@ -849,11 +848,11 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -877,11 +876,11 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -905,11 +904,11 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
 
-	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -1249,8 +1248,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList) {
 	if (_1) {
 		zephir_is_iterable(values, &_3$$4, &_2$$4, 0, 0, "phalcon/db/dialect.zep", 684);
 		for (
-		  ; zephir_hash_get_current_data_ex(_3$$4, (void**) &_4$$4, &_2$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_3$$4, &_2$$4)
+		  ; zend_hash_get_current_data_ex(_3$$4, (void**) &_4$$4, &_2$$4) == SUCCESS
+		  ; zend_hash_move_forward_ex(_3$$4, &_2$$4)
 		) {
 			ZEPHIR_GET_HVALUE(item, _4$$4);
 			ZEPHIR_CALL_METHOD(&_5$$5, this_ptr, "getsqlexpression", &_6, 0, item, escapeChar, bindCounts);
@@ -1419,8 +1418,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase) {
 	zephir_array_fetch_string(&_3, expression, SL("when-clauses"), PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 741 TSRMLS_CC);
 	zephir_is_iterable(_3, &_5, &_4, 0, 0, "phalcon/db/dialect.zep", 752);
 	for (
-	  ; zephir_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_5, &_4)
+	  ; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
+	  ; zend_hash_move_forward_ex(_5, &_4)
 	) {
 		ZEPHIR_GET_HVALUE(whenClause, _6);
 		zephir_array_fetch_string(&_7$$3, whenClause, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/dialect.zep", 742 TSRMLS_CC);
@@ -1476,8 +1475,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom) {
 		array_init(tables);
 		zephir_is_iterable(expression, &_1$$3, &_0$$3, 0, 0, "phalcon/db/dialect.zep", 770);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(table, _2$$3);
 			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "getsqltable", &_4, 62, table, escapeChar);
@@ -1528,8 +1527,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins) {
 	ZVAL_STRING(joinType, "", 1);
 	zephir_is_iterable(expression, &_1, &_0, 0, 0, "phalcon/db/dialect.zep", 818);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HVALUE(join, _2);
 		ZEPHIR_OBS_NVAR(joinConditionsArray);
@@ -1546,8 +1545,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins) {
 				array_init(joinCondition);
 				zephir_is_iterable(joinConditionsArray, &_6$$6, &_5$$6, 0, 0, "phalcon/db/dialect.zep", 803);
 				for (
-				  ; zephir_hash_get_current_data_ex(_6$$6, (void**) &_7$$6, &_5$$6) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_6$$6, &_5$$6)
+				  ; zend_hash_get_current_data_ex(_6$$6, (void**) &_7$$6, &_5$$6) == SUCCESS
+				  ; zend_hash_move_forward_ex(_6$$6, &_5$$6)
 				) {
 					ZEPHIR_GET_HVALUE(condition, _7$$6);
 					ZEPHIR_CALL_METHOD(&_8$$7, this_ptr, "getsqlexpression", &_4, 46, condition, escapeChar, bindCounts);
@@ -1646,11 +1645,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy) {
 		array_init(fields);
 		zephir_is_iterable(expression, &_1$$3, &_0$$3, 0, 0, "phalcon/db/dialect.zep", 856);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(field, _2$$3);
-			if (unlikely(Z_TYPE_P(field) != IS_ARRAY)) {
+			if (UNEXPECTED(Z_TYPE_P(field) != IS_ARRAY)) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL-GROUP-BY expression", "phalcon/db/dialect.zep", 850);
 				return;
 			}
@@ -1735,11 +1734,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy) {
 		array_init(fields);
 		zephir_is_iterable(expression, &_1$$3, &_0$$3, 0, 0, "phalcon/db/dialect.zep", 902);
 		for (
-		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
+		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(field, _2$$3);
-			if (unlikely(Z_TYPE_P(field) != IS_ARRAY)) {
+			if (UNEXPECTED(Z_TYPE_P(field) != IS_ARRAY)) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Invalid SQL-ORDER-BY expression", "phalcon/db/dialect.zep", 887);
 				return;
 			}
@@ -1851,11 +1850,11 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &qualified_param, &alias_param, &escapeChar_param);
 
-	if (unlikely(Z_TYPE_P(qualified_param) != IS_STRING && Z_TYPE_P(qualified_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(qualified_param) != IS_STRING && Z_TYPE_P(qualified_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'qualified' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(qualified_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(qualified_param) == IS_STRING)) {
 		zephir_get_strval(qualified, qualified_param);
 	} else {
 		ZEPHIR_INIT_VAR(qualified);
@@ -1898,11 +1897,11 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareTable) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &table_param, &schema_param, &alias_param, &escapeChar_param);
 
-	if (unlikely(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(table_param) != IS_STRING && Z_TYPE_P(table_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'table' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(table_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(table_param) == IS_STRING)) {
 		zephir_get_strval(table, table_param);
 	} else {
 		ZEPHIR_INIT_VAR(table);
@@ -1962,11 +1961,11 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareQualified) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &column_param, &domain_param, &escapeChar_param);
 
-	if (unlikely(Z_TYPE_P(column_param) != IS_STRING && Z_TYPE_P(column_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(column_param) != IS_STRING && Z_TYPE_P(column_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'column' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(column_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(column_param) == IS_STRING)) {
 		zephir_get_strval(column, column_param);
 	} else {
 		ZEPHIR_INIT_VAR(column);

@@ -99,6 +99,10 @@
         "orm.ignore_unknown_columns": {
             "type": "bool",
             "default": false
+        },
+        "orm.update_snapshot_on_save": {
+            "type": "bool",
+            "default": true
         }
     },
     "destructors": {

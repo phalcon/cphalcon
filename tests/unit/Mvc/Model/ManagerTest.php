@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
+use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Mvc\Model\MetaData\Memory;
@@ -46,6 +47,51 @@ class ManagerTest extends UnitTest
         Di::setDefault($di);
 
         return $manager;
+    }
+
+
+    /**
+     * Tests empty prefix for model
+     *
+     * @issue  10328
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2017-04-15
+     */
+    public function testShoudReturSourceWithoutPrefix()
+    {
+        $this->specify(
+            'Models manager does not return valid mapped source for a model',
+            function () {
+                $robots = new Robots();
+
+                expect($robots->getModelsManager()->getModelSource($robots))->equals('robots');
+                expect($robots->getSource())->equals('robots');
+            }
+        );
+    }
+
+    /**
+     * Tests non-empty prefix for model
+     *
+     * @issue  10328
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2017-04-15
+     */
+    public function testShoudReturSourceWithPrefix()
+    {
+        $this->specify(
+            'Models manager does not return valid mapped source for a model',
+            function () {
+                $manager = new Manager();
+                $manager->setModelPrefix('wp_');
+
+                $robots = new Robots(null, null, $manager);
+
+
+                expect($robots->getModelsManager()->getModelSource($robots))->equals('wp_robots');
+                expect($robots->getSource())->equals('wp_robots');
+            }
+        );
     }
 
     public function testAliasedNamespacesRelations()

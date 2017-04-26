@@ -25,9 +25,9 @@ cd ${ZEPHIRDIR}
 sed "s#%ZEPHIRDIR%#$ZEPHIRDIR#g" bin/zephir > bin/zephir-cmd
 chmod 755 bin/zephir-cmd
 
-mkdir -p ~/bin
+mkdir -p ${HOME}/bin
 
-cp bin/zephir-cmd ~/bin/zephir
-rm bin/zephir-cmd
+cp ./bin/zephir-cmd ${HOME}/bin/zephir
+rm ./bin/zephir-cmd
 
 cd ${TRAVIS_BUILD_DIR}

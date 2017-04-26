@@ -16,7 +16,6 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -71,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 
 
 	zephir_update_property_this(this_ptr, SL("_columnTypes"), columnTypes TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 371, result, cache);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_resultset_complex_ce, this_ptr, "__construct", &_0, 373, result, cache);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -137,8 +136,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	zephir_is_iterable(_1, &_3, &_2, 0, 0, "phalcon/mvc/model/resultset/complex.zep", 246);
 	for (
-	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_3, &_2)
+	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zend_hash_move_forward_ex(_3, &_2)
 	) {
 		ZEPHIR_GET_HMKEY(alias, _3, _2);
 		ZEPHIR_GET_HVALUE(column, _4);
@@ -159,8 +158,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 			array_init(rowModel);
 			zephir_is_iterable(attributes, &_6$$11, &_5$$11, 0, 0, "phalcon/mvc/model/resultset/complex.zep", 162);
 			for (
-			  ; zephir_hash_get_current_data_ex(_6$$11, (void**) &_7$$11, &_5$$11) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_6$$11, &_5$$11)
+			  ; zend_hash_get_current_data_ex(_6$$11, (void**) &_7$$11, &_5$$11) == SUCCESS
+			  ; zend_hash_move_forward_ex(_6$$11, &_5$$11)
 			) {
 				ZEPHIR_GET_HVALUE(attribute, _7$$11);
 				ZEPHIR_OBS_NVAR(columnValue);
@@ -268,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 		if (!(zephir_is_true(_0))) {
 			break;
 		}
-		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 372);
+		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 374);
 		zephir_check_call_status();
 		zephir_array_append(&records, current, PH_SEPARATE, "phalcon/mvc/model/resultset/complex.zep", 263);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_3, 0);
@@ -321,11 +320,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
-	if (unlikely(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(data_param) != IS_STRING && Z_TYPE_P(data_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'data' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(data_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(data_param) == IS_STRING)) {
 		zephir_get_strval(data, data_param);
 	} else {
 		ZEPHIR_INIT_VAR(data);
