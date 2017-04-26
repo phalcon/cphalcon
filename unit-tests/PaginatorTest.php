@@ -309,18 +309,16 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		// test paginator with group by string value
 		$builder = $di['modelsManager']->createBuilder()
-					->columns('cedula, nombres')
+					->columns('ANY_VALUE(cedula), ANY_VALUE(nombres)')
 					->from('Personnes')
-					->orderBy('cedula')
 					->groupBy('email');
 
 		$this->_paginatorBuilderTest($builder);
 
 		// test paginator with group by array value
 		$builder = $di['modelsManager']->createBuilder()
-					->columns('cedula, nombres')
+					->columns('ANY_VALUE(cedula), ANY_VALUE(nombres)')
 					->from('Personnes')
-					->orderBy('cedula')
 					->groupBy(['email']);
 
 		$this->_paginatorBuilderTest($builder);
