@@ -21,7 +21,7 @@ trait ConnectionCheckerTrait
         $di = Di::getDefault();
 
         try {
-            $di->getShared('db')->connect();
+            $di->getShared('db');
         } catch (\PDOException $e) {
             $di->setShared('db', $old_conn);
             throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
