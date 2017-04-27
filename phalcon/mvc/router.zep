@@ -95,6 +95,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _notFoundPaths;
 
+	protected _routesSorted = false;
+
+	protected _usePrefix = false;
+
 	const URI_SOURCE_GET_URL = 0;
 
 	const URI_SOURCE_SERVER_REQUEST_URI = 1;
@@ -108,19 +112,18 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function __construct(boolean! defaultRoutes = true)
 	{
-		array routes = [];
+		array routes = ["/" : [],"" : []];
+
 
 		if defaultRoutes {
-
 			// Two routes are added by default to match /:controller/:action and
 			// /:controller/:action/:params
 
-			let routes[] = new Route("#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u", [
-				"controller": 1
-			]);
-
-			let routes[] = new Route("#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u", [
-				"controller": 1,
+			let routes["/"][] = new Route("#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u", [
+                "controller": 1
+            ]);
+			let routes["/"][] = new Route("#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u", [
+            	"controller": 1,
 				"action": 2,
 				"params": 3
 			]);
@@ -329,7 +332,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			vnamespace, module,  controller, action, paramsStr, strParams,
 			route, methods, dependencyInjector,
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
-			paths, converters, part, position, matchPosition, converter, eventsManager;
+			paths, converters, part, position, matchPosition, converter, eventsManager,
+			prefix, prefixGroup;
 
 		if !uri {
 			/**
@@ -365,213 +369,235 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		}
 
 		/**
+		 * Route prefixes are sorted once per application life
+		 */
+
+		if !this->_routesSorted {
+			let this->_routesSorted = true;
+			/**
+			 * We sort prefixes to longest as first
+			 */
+			krsort(this->_routes);
+		}
+
+		/**
 		 * Routes are traversed in reversed order
 		 */
-		for route in reverse this->_routes {
-			let params = [],
-				matches = null;
-
-			/**
-			 * Look for HTTP method constraints
-			 */
-			let methods = route->getHttpMethods();
-			if methods !== null {
-
-				/**
-				 * Retrieve the request service from the container
-				 */
-				if request === null {
-
-					let dependencyInjector = <DiInterface> this->_dependencyInjector;
-					if typeof dependencyInjector != "object" {
-						throw new Exception("A dependency injection container is required to access the 'request' service");
-					}
-
-					let request = <RequestInterface> dependencyInjector->getShared("request");
-				}
-
-				/**
-				 * Check if the current method is allowed by the route
-				 */
-				if request->isMethod(methods, true) === false {
-					continue;
-				}
+		for prefix, prefixGroup in this->_routes {
+			if prefix !== "" && !starts_with(handledUri, prefix) {
+				continue;
 			}
 
-			/**
-			 * Look for hostname constraints
-			 */
-			let hostname = route->getHostName();
-			if hostname !== null {
+			for route in reverse prefixGroup {
+				let params = [],
+					matches = null;
 
 				/**
-				 * Retrieve the request service from the container
+				 * Look for HTTP method constraints
 				 */
-				if request === null {
+				let methods = route->getHttpMethods();
+				if methods !== null {
 
-					let dependencyInjector = <DiInterface> this->_dependencyInjector;
-					if typeof dependencyInjector != "object" {
-						throw new Exception("A dependency injection container is required to access the 'request' service");
+					/**
+					 * Retrieve the request service from the container
+					 */
+					if request === null {
+
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
+						if typeof dependencyInjector != "object" {
+							throw new Exception("A dependency injection container is required to access the 'request' service");
+						}
+
+						let request = <RequestInterface> dependencyInjector->getShared("request");
 					}
 
-					let request = <RequestInterface> dependencyInjector->getShared("request");
+					/**
+					 * Check if the current method is allowed by the route
+					 */
+					if request->isMethod(methods, true) === false {
+						continue;
+					}
 				}
 
 				/**
-				 * Check if the current hostname is the same as the route
+				 * Look for hostname constraints
 				 */
-				if typeof currentHostName == "null" {
-					let currentHostName = request->getHttpHost();
-				}
+				let hostname = route->getHostName();
+				if hostname !== null {
 
-				/**
-				 * No HTTP_HOST, maybe in CLI mode?
-				 */
-				if !currentHostName {
-					continue;
-				}
+					/**
+					 * Retrieve the request service from the container
+					 */
+					if request === null {
 
-				/**
-				 * Check if the hostname restriction is the same as the current in the route
-				 */
-				if memstr(hostname, "(") {
-					if !memstr(hostname, "#") {
-						let regexHostName = "#^" . hostname;
-						if !memstr(hostname, ":") {
-							let regexHostName .= "(:[[:digit:]]+)?";
+						let dependencyInjector = <DiInterface> this->_dependencyInjector;
+						if typeof dependencyInjector != "object" {
+							throw new Exception("A dependency injection container is required to access the 'request' service");
 						}
-						let regexHostName .= "$#i";
+
+						let request = <RequestInterface> dependencyInjector->getShared("request");
+					}
+
+					/**
+					 * Check if the current hostname is the same as the route
+					 */
+					if typeof currentHostName == "null" {
+						let currentHostName = request->getHttpHost();
+					}
+
+					/**
+					 * No HTTP_HOST, maybe in CLI mode?
+					 */
+					if !currentHostName {
+						continue;
+					}
+
+					/**
+					 * Check if the hostname restriction is the same as the current in the route
+					 */
+					if memstr(hostname, "(") {
+						if !memstr(hostname, "#") {
+							let regexHostName = "#^" . hostname;
+							if !memstr(hostname, ":") {
+								let regexHostName .= "(:[[:digit:]]+)?";
+							}
+							let regexHostName .= "$#i";
+						} else {
+							let regexHostName = hostname;
+						}
+						let matched = preg_match(regexHostName, currentHostName);
 					} else {
-						let regexHostName = hostname;
+						let matched = currentHostName == hostname;
 					}
-					let matched = preg_match(regexHostName, currentHostName);
+
+					if !matched {
+						continue;
+					}
+				}
+
+				if typeof eventsManager == "object" {
+					eventsManager->fire("router:beforeCheckRoute", this, route);
+				}
+
+				/**
+				 * If the route has parentheses use preg_match
+				 */
+				let pattern = route->getCompiledPattern();
+
+				if memstr(pattern, "^") {
+					let routeFound = preg_match(pattern, handledUri, matches);
 				} else {
-					let matched = currentHostName == hostname;
+					let routeFound = pattern == handledUri;
 				}
 
-				if !matched {
-					continue;
-				}
-			}
+				/**
+				 * Check for beforeMatch conditions
+				 */
+				if routeFound {
 
-			if typeof eventsManager == "object" {
-				eventsManager->fire("router:beforeCheckRoute", this, route);
-			}
-
-			/**
-			 * If the route has parentheses use preg_match
-			 */
-			let pattern = route->getCompiledPattern();
-
-			if memstr(pattern, "^") {
-				let routeFound = preg_match(pattern, handledUri, matches);
-			} else {
-				let routeFound = pattern == handledUri;
-			}
-
-			/**
-			 * Check for beforeMatch conditions
-			 */
-			if routeFound {
-
-				if typeof eventsManager == "object" {
-					eventsManager->fire("router:matchedRoute", this, route);
-				}
-
-				let beforeMatch = route->getBeforeMatch();
-				if beforeMatch !== null {
-
-					/**
-					 * Check first if the callback is callable
-					 */
-					if !is_callable(beforeMatch) {
-						throw new Exception("Before-Match callback is not callable in matched route");
+					if typeof eventsManager == "object" {
+						eventsManager->fire("router:matchedRoute", this, route);
 					}
 
-					/**
-					 * Check first if the callback is callable
-					 */
-					let routeFound = call_user_func_array(beforeMatch, [handledUri, route, this]);
-				}
+					let beforeMatch = route->getBeforeMatch();
+					if beforeMatch !== null {
 
-			} else {
-				if typeof eventsManager == "object" {
-					let routeFound = eventsManager->fire("router:notMatchedRoute", this, route);
-				}
-			}
-
-			if routeFound {
-
-				/**
-				 * Start from the default paths
-				 */
-				let paths = route->getPaths(),
-					parts = paths;
-
-				/**
-				 * Check if the matches has variables
-				 */
-				if typeof matches == "array" {
-
-					/**
-					 * Get the route converters if any
-					 */
-					let converters = route->getConverters();
-
-					for part, position in paths {
-
-						if typeof part != "string" {
-							throw new Exception("Wrong key in paths: " . part);
+						/**
+						 * Check first if the callback is callable
+						 */
+						if !is_callable(beforeMatch) {
+							throw new Exception("Before-Match callback is not callable in matched route");
 						}
 
-						if typeof position != "string" && typeof position != "integer" {
-							continue;
-						}
+						/**
+						 * Check first if the callback is callable
+						 */
+						let routeFound = call_user_func_array(beforeMatch, [handledUri, route, this]);
+					}
 
-						if fetch matchPosition, matches[position] {
+				} else {
+					if typeof eventsManager == "object" {
+						let routeFound = eventsManager->fire("router:notMatchedRoute", this, route);
+					}
+				}
 
-							/**
-							 * Check if the part has a converter
-							 */
-							if typeof converters == "array" {
-								if fetch converter, converters[part] {
-									let parts[part] = call_user_func_array(converter, [matchPosition]);
-									continue;
-								}
+				if routeFound {
+
+					/**
+					 * Start from the default paths
+					 */
+					let paths = route->getPaths(),
+						parts = paths;
+
+					/**
+					 * Check if the matches has variables
+					 */
+					if typeof matches == "array" {
+
+						/**
+						 * Get the route converters if any
+						 */
+						let converters = route->getConverters();
+
+						for part, position in paths {
+
+							if typeof part != "string" {
+								throw new Exception("Wrong key in paths: " . part);
 							}
 
-							/**
-							 * Update the parts if there is no converter
-							 */
-							let parts[part] = matchPosition;
-						} else {
+							if typeof position != "string" && typeof position != "integer" {
+								continue;
+							}
 
-							/**
-							 * Apply the converters anyway
-							 */
-							if typeof converters == "array" {
-								if fetch converter, converters[part] {
-									let parts[part] = call_user_func_array(converter, [position]);
+							if fetch matchPosition, matches[position] {
+
+								/**
+								 * Check if the part has a converter
+								 */
+								if typeof converters == "array" {
+									if fetch converter, converters[part] {
+										let parts[part] = call_user_func_array(converter, [matchPosition]);
+										continue;
+									}
 								}
+
+								/**
+								 * Update the parts if there is no converter
+								 */
+								let parts[part] = matchPosition;
 							} else {
 
 								/**
-								 * Remove the path if the parameter was not matched
+								 * Apply the converters anyway
 								 */
-								if typeof position == "integer" {
-									unset parts[part];
+								if typeof converters == "array" {
+									if fetch converter, converters[part] {
+										let parts[part] = call_user_func_array(converter, [position]);
+									}
+								} else {
+
+									/**
+									 * Remove the path if the parameter was not matched
+									 */
+									if typeof position == "integer" {
+										unset parts[part];
+									}
 								}
 							}
 						}
+
+						/**
+						 * Update the matches generated by preg_match
+						 */
+						let this->_matches = matches;
 					}
 
-					/**
-					 * Update the matches generated by preg_match
-					 */
-					let this->_matches = matches;
+					let this->_matchedRoute = route;
+					break;
 				}
+			}
 
-				let this->_matchedRoute = route;
+			if routeFound {
 				break;
 			}
 		}
@@ -686,21 +712,39 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>
 	{
-		var route;
+		var route, prefix;
+
+		fetch prefix, paths["prefix"];
 
 		/**
 		 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 		 */
-		let route = new Route(pattern, paths, httpMethods);
+		if this->_usePrefix && prefix {
+			let route = new Route(prefix . pattern, paths, httpMethods);
+		} else {
+			let route = new Route(pattern, paths, httpMethods);
+		}
 
 		switch position {
 
 			case self::POSITION_LAST:
-				let this->_routes[] = route;
+				if prefix {
+					let this->_routes[prefix][] = route;
+				} elseif starts_with(pattern, "/") {
+					let this->_routes["/"][] = route;
+				} else {
+					let this->_routes[""][] = route;
+				}
 				break;
 
 			case self::POSITION_FIRST:
-				let this->_routes = array_merge([route], this->_routes);
+				if prefix {
+					let this->_routes[prefix] = array_merge([route], this->_routes[prefix]);
+				} elseif starts_with(pattern, "/") {
+					let this->_routes["/"] = array_merge([route], this->_routes["/"]);
+				} else {
+					let this->_routes[""] = array_merge([route], this->_routes[""]);
+				}
 				break;
 
 			default:
@@ -795,9 +839,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function mount(<GroupInterface> group) -> <RouterInterface>
 	{
-		var groupRoutes, beforeMatch, hostname, routes, route;
+		var groupRoutes, beforeMatch, hostname, routes, route, prefixGroup;
 
-		let groupRoutes = group->getRoutes();
+		let groupRoutes = group->getRawRoutes();
 		if !count(groupRoutes) {
 			throw new Exception("The group of routes does not contain any routes");
 		}
@@ -808,8 +852,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		let beforeMatch = group->getBeforeMatch();
 
 		if beforeMatch !== null {
-			for route in groupRoutes {
-				route->beforeMatch(beforeMatch);
+			for prefixGroup in groupRoutes {
+				for route in prefixGroup {
+					route->beforeMatch(beforeMatch);
+				}
 			}
 		}
 
@@ -817,15 +863,17 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		let hostname = group->getHostName();
 
 		if hostname !== null {
-			for route in groupRoutes {
-				route->setHostName(hostname);
+			for prefixGroup in groupRoutes {
+				for route in prefixGroup {
+					route->setHostName(hostname);
+				}
 			}
 		}
 
 		let routes = this->_routes;
 
 		if typeof routes == "array" {
-			let this->_routes = array_merge(routes, groupRoutes);
+			let this->_routes = array_merge_recursive(routes, groupRoutes);
 		} else {
 			let this->_routes = groupRoutes;
 		}
@@ -922,7 +970,16 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRoutes() -> <RouteInterface[]>
 	{
-		return this->_routes;
+		var prefixGroup, route;
+		array routes = [];
+
+		for prefixGroup in this->_routes {
+			for route in prefixGroup {
+				let routes[] = route;
+			}
+		}
+
+		return routes;
 	}
 
 	/**
@@ -930,11 +987,13 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
-		var route;
+		var route, prefixGroup;
 
-		for route in this->_routes {
-			if route->getRouteId() == id {
-				return route;
+		for prefixGroup in this->_routes {
+			for route in prefixGroup {
+				if route->getRouteId() == id {
+					return route;
+				}
 			}
 		}
 
@@ -946,11 +1005,13 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteByName(string! name) -> <RouteInterface> | boolean
 	{
-		var route;
+		var route, prefixGroup;
 
-		for route in this->_routes {
-			if route->getName() == name {
-				return route;
+		for prefixGroup in this->_routes {
+			for route in prefixGroup {
+				if route->getName() == name {
+					return route;
+				}
 			}
 		}
 		return false;
@@ -962,5 +1023,23 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	public function isExactControllerName() -> boolean
 	{
 		return true;
+	}
+
+	/**
+	 * Sets if prefix provided in paths should be used for pattern, otherwise it will be used only for grouping routes with same prefix
+	 */
+	public function usePrefix(boolean! usePrefix) -> <RouterInterface>
+	{
+		let this->_usePrefix = usePrefix;
+
+		return this;
+	}
+
+	/**
+	 * Checks if prefix should be used for pattern
+	 */
+	public function isUsingPrefix() -> boolean
+	{
+		return this->_usePrefix;
 	}
 }
