@@ -493,6 +493,7 @@ class Compiler implements InjectionAwareInterface
 						"file_field": true,
 						"hidden_field": true,
 						"password_field": true,
+						"email_field": true,
 						"text_area": true,
 						"text_field": true,
 						"email_field": true,
