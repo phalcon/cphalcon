@@ -7,10 +7,13 @@ use Phalcon\Di;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
+use Helper\ConnectionCheckerTrait;
 use Phalcon\Test\Unit\Mvc\Model\Helpers\Validation;
 
 class ValidationCest extends Validation
 {
+    use ConnectionCheckerTrait;
+
     public function mysql(UnitTester $I)
     {
         $I->wantToTest("Model validation by using MySQL as RDBMS");
@@ -33,6 +36,7 @@ class ValidationCest extends Validation
         });
 
         Di::setDefault($di);
+        $this->checkConnection($connection);
 
         $this->success($I);
         $this->presenceOf($I);
@@ -70,6 +74,9 @@ class ValidationCest extends Validation
                 'schema'   => env('TEST_DB_POSTGRESQL_SCHEMA', 'public'),
             ]);
         });
+
+        Di::setDefault($di);
+        $this->checkConnection($connection);
 
         $this->success($I);
         $this->presenceOf($I);
@@ -110,6 +117,7 @@ class ValidationCest extends Validation
         });
 
         Di::setDefault($di);
+        $this->checkConnection($connection);
 
         $this->success($I);
         $this->presenceOf($I);
