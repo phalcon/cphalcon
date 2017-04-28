@@ -566,45 +566,6 @@ class RouterTest extends UnitTest
         );
     }
 
-    /**
-     * Tests routes with prefix
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-27
-     */
-    public function testPrefix()
-    {
-        $this->specify(
-            'Routes with prefix are not working correctly',
-            function () {
-                $router = $this->getRouter(false);
-                $router->add('/test/something', ['prefix' => '/test']);
-                expect($router->handle('/test/something'));
-                expect($router->wasMatched())->true();
-            }
-        );
-    }
-
-    /**
-     * Tests routes with prefix with prefix usage enabled
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-27
-     */
-    public function testPrefixWithUsingIt()
-    {
-        $this->specify(
-            'Routes with prefix are not working correctly',
-            function () {
-                $router = $this->getRouter(false);
-                $router->usePrefix(true);
-                $router->add('/something', ['prefix' => '/test']);
-                expect($router->handle('/test/something'));
-                expect($router->wasMatched())->true();
-            }
-        );
-    }
-
     protected function convertersProvider()
     {
         return [

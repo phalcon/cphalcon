@@ -22,7 +22,6 @@
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `before` handlers [#10931](https://github.com/phalcon/cphalcon/pull/10931)
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `afterBinding` handlers
 - Added way to disable setters in `Phalcon\Mvc\Model::assign` by using `Phalcon\Mvc\Model::setup` or ini option
-- Router now uses `Phalcon\Mvc\Router\Group::getPrefix` to optimize routes into groups for faster handling, added same possibility for `Phalcon\Mvc\Router::add` using `prefix` option in paths(using `Phalcon\Mvc\Router::usePrefix` you can actually select if it should affect pattern)
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-04-05)
 - Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
