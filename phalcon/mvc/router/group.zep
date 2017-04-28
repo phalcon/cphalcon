@@ -169,23 +169,6 @@ class Group implements GroupInterface
 	 */
 	public function getRoutes() -> <RouteInterface[]>
 	{
-		var prefix, prefixGroup, route;
-		array routes = [];
-
-		for prefix, prefixGroup in this->_routes {
-			for route in prefixGroup {
-				let routes[] = route;
-			}
-		}
-
-		return routes;
-	}
-
-	/**
-	 * Returns routes as raw array with prefix groups
-	 */
-	public function getRawRoutes() -> array
-	{
 		return this->_routes;
 	}
 
@@ -298,7 +281,7 @@ class Group implements GroupInterface
 	 */
 	protected function _addRoute(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
 	{
-		var mergedPaths, route, defaultPaths, processedPaths, prefix;
+		var mergedPaths, route, defaultPaths, processedPaths;
 
 		/**
 		 * Check if the paths need to be merged with current paths
@@ -328,19 +311,8 @@ class Group implements GroupInterface
 		/**
 		 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 		 */
-		let route = new Route(this->_prefix . pattern, mergedPaths, httpMethods);
-
-		let prefix = this->_prefix;
-
-		if empty prefix {
-			if starts_with(pattern, "/") {
-				let prefix = "/";
-			} else {
-				let prefix = "";
-			}
-		}
-
-		let this->_routes[prefix][] = route;
+		let route = new Route(this->_prefix . pattern, mergedPaths, httpMethods),
+			this->_routes[] = route;
 
 		route->setGroup(this);
 		return route;
