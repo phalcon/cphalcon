@@ -103,6 +103,10 @@
         "orm.update_snapshot_on_save": {
             "type": "bool",
             "default": true
+        },
+        "orm.disable_assign_setters": {
+            "type": "bool",
+            "default": false
         }
     },
     "destructors": {

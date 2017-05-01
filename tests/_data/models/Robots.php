@@ -27,6 +27,16 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  */
 class Robots extends Model
 {
+    /**
+     * @var bool
+     */
+    public $wasSetterUsed = false;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
     public function initialize()
     {
         $this->keepSnapshots(true);
@@ -41,5 +51,13 @@ class Robots extends Model
                 'alias' => 'parts'
             ]
         );
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->wasSetterUsed = true;
+
+        return $this;
     }
 }
