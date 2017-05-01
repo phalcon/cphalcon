@@ -22,6 +22,7 @@
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `before` handlers [#10931](https://github.com/phalcon/cphalcon/pull/10931)
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `afterBinding` handlers
 - Added way to disable setters in `Phalcon\Mvc\Model::assign` by using `Phalcon\Mvc\Model::setup` or ini option
+- Made `Resultset::delete()` return `false` when any of the `Model::delete` calls fails [PR #12828](https://github.com/phalcon/cphalcon/pull/12828) fixing [issue #11133](https://github.com/phalcon/cphalcon/issues/11133)
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-04-05)
 - Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
