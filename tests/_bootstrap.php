@@ -79,6 +79,7 @@ $defaults = [
     // Redis
     "TEST_RS_HOST"              => '127.0.0.1',
     "TEST_RS_PORT"              => 6379,
+    "TEST_RS_DB"                => 0,
 ];
 
 
