@@ -93,6 +93,7 @@ We use the following settings of these services:
 
 * Host: `127.0.0.1`
 * Port: `6379`
+* DB Index `0`
 
 You can change the connection settings of these services **before** running tests by using [environment variables][8]:
 
@@ -135,6 +136,7 @@ export TEST_DB_MONGO_NAME="phalcon_test"
 # Redis
 export TEST_RS_HOST="127.0.0.1"
 export TEST_RS_PORT="6379"
+export TEST_RS_DB="0"
 ```
 
 Once the database is created, run the tests on a terminal:

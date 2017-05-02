@@ -29,7 +29,7 @@ modules:
             cleanup: false
             dump: tests/_data/schemas/mysql/mysql.dump.sql
         Redis:
-            database: 0
+            database: %TEST_RS_DB%
             host: %TEST_RS_HOST%
             port: %TEST_RS_PORT%
         Memcache:
