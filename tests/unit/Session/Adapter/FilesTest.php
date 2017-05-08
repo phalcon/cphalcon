@@ -39,6 +39,10 @@ class FilesTest extends UnitTest
             'save_path'         => ini_get('session.save_path'),
             'serialize_handler' => ini_get('session.serialize_handler'),
         ];
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
     }
 
     /**
@@ -266,6 +270,38 @@ class FilesTest extends UnitTest
                 $session->destroy();
 
                 $I->dontSeeFileFound($file);
+            }
+        );
+    }
+
+    /**
+     * Tests the destroy with cleanning $_SESSION
+     *
+     * @test
+     * @issue  12326
+     * @issue  12835
+     * @author Serghei Iakovelev <serghei@phalconphp.com>
+     * @since  2017-05-08
+     */
+    public function destroyDataFromSessionSuperGlobal()
+    {
+        $this->specify(
+            'The files adapter does not clear session superglobal after destroy',
+            function () {
+                $session = new Files([
+                    'uniqueId' => 'session',
+                    'lifetime' => 3600,
+                ]);
+
+                $session->start();
+
+                $session->test1 = __METHOD__;
+                expect($_SESSION)->hasKey('session#test1');
+                expect($_SESSION['session#test1'])->contains(__METHOD__);
+
+                // @deprecated See: https://github.com/phalcon/cphalcon/issues/12833
+                $session->destroy(true);
+                expect($_SESSION)->hasntKey('session#test1');
             }
         );
     }
