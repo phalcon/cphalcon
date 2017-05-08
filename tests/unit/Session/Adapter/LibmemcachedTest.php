@@ -34,6 +34,22 @@ class LibmemcachedTest extends UnitTest
         if (!extension_loaded('memcached')) {
             $this->markTestSkipped('Warning: memcached extension is not loaded');
         }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+    }
+
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        parent::_after();
+
+        if (PHP_SESSION_ACTIVE == session_status()) {
+            session_destroy();
+        }
     }
 
     /**
@@ -63,7 +79,7 @@ class LibmemcachedTest extends UnitTest
                     [
                         'abc' => '123',
                         'def' => '678',
-                        'xyz' => 'zyx',
+                        'xyz' => 'zyx'
                     ]
                 );
 
@@ -101,7 +117,7 @@ class LibmemcachedTest extends UnitTest
                     [
                         'abc' => '123',
                         'def' => '678',
-                        'xyz' => 'zyx',
+                        'xyz' => 'zyx'
                     ]
                 );
 
@@ -109,6 +125,44 @@ class LibmemcachedTest extends UnitTest
                 $session->destroy($sessionID);
 
                 expect($session->read($sessionID))->equals(null);
+            }
+        );
+    }
+
+    /**
+     * Tests the destroy with cleanning $_SESSION
+     *
+     * @test
+     * @issue  12326
+     * @issue  12835
+     * @author Serghei Iakovelev <serghei@phalconphp.com>
+     * @since  2017-05-08
+     */
+    public function destroyDataFromSessionSuperGlobal()
+    {
+        $this->specify(
+            'The libmemcached adapter does not clear session superglobal after destroy',
+            function () {
+                $session = new Libmemcached([
+                    'servers'  => [
+                        [
+                            'host' => env('TEST_MC_HOST', '127.0.0.1'),
+                            'port' => env('TEST_MC_PORT', 11211),
+                        ],
+                    ],
+                    'client'   => [],
+                    'uniqueId' => 'session',
+                    'lifetime' => 3600,
+                ]);
+
+                $session->start();
+
+                $session->test1 = __METHOD__;
+                expect($_SESSION)->hasKey('session#test1');
+                expect($_SESSION['session#test1'])->contains(__METHOD__);
+
+                $session->destroy();
+                expect($_SESSION)->hasntKey('session#test1');
             }
         );
     }
