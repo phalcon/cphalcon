@@ -11,11 +11,11 @@
 #  obtain it through the world-wide-web, please send an email
 #  to license@phalconphp.com so we can send you a copy immediately.
 
-printf "\n" | pecl install --force apcu_bc &> /dev/null
+printf "\n" | pecl install --force apcu-4.0.11 &> /dev/null
 printf "\n" | pecl install --force igbinary &> /dev/null
 printf "\n" | pecl install --force imagick &> /dev/null
-printf "\n" | pecl install --force yaml-2.0.0 &> /dev/null
+printf "\n" | pecl install --force yaml &> /dev/null
 
-# See https://pear.php.net/bugs/bug.php?id=21007
-sed -i '1s/^/extension="apcu.so"\n/' "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
+echo 'extension="mongo.so"' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
+echo 'extension="memcache.so"' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 echo 'extension="memcached.so"' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"

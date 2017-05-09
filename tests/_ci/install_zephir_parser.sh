@@ -5,7 +5,7 @@
 #  Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
-#  with this package in the file docs/LICENSE.txt.
+#  with this package in the file LICENSE.txt.
 #
 #  If you did not receive a copy of the license and are unable to
 #  obtain it through the world-wide-web, please send an email
@@ -23,8 +23,8 @@ set -o nounset
 # set -e : exit the script if any statement returns a non-true return value
 set -o errexit
 
-# Ensure that this is being run inside a CI container
-if [ "${CI}" != "true" ]; then
+# Ensure that this is being run inside a CI
+if [ ! -n "$CI" ] || [ "${CI}" != "true" ]; then
     echo "This script is designed to run inside a CI container only. Exiting"
     exit 1
 fi
@@ -42,4 +42,4 @@ fi
 
 cd ${PARSER_DIR}
 
-bash ./unit-tests/ci/install-travis
+bash ./unit-tests/ci/install-travis &> /dev/null
