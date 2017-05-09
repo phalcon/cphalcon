@@ -1,20 +1,20 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
+namespace Phalcon\Test\Unit5x\Mvc\Model\MetaData;
 
 use UnitTester;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Mvc\Model\Metadata\Memcache;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\Metadata\MemcacheCest
+ * Phalcon\Test\Unit5x\Mvc\Model\Metadata\MemcacheCest
  * Tests the \Phalcon\Mvc\Model\Metadata\Memcache component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc\Model\Metadata
+ * @package   Phalcon\Test\Unit5x\Mvc\Model\Metadata
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -37,8 +37,8 @@ class MemcacheCest
 
         $I->haveServiceInDi('modelsMetadata', function () {
             return new Memcache([
-                'host' => TEST_MC_HOST,
-                'port' => TEST_MC_PORT
+                'host' => env('TEST_MC_HOST', '127.0.0.1'),
+                'port' => env('TEST_MC_PORT', 11211),
             ]);
         }, true);
 
