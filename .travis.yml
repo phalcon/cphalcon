@@ -102,10 +102,10 @@ install:
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
   - beanstalkd -l ${TEST_BT_HOST} -p ${TEST_BT_PORT} & # start queue listener
-  # Uncomment for debug
-  - $(phpenv which php) -m
-  - pecl list
-  - beanstalkd -v
+  # Debug only
+  #- $(phpenv which php) -m
+  #- pecl list
+  #- beanstalkd -v
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
@@ -119,6 +119,8 @@ script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
+  # Legacy tests
+  - phpenv config-rm xdebug.ini
   - if [[ "$PHP_MAJOR" == 5 ]]; then vendor/bin/codecept run -v -n tests/unit5x/; fi;
 
 # Uncomment for debug

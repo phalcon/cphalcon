@@ -6,11 +6,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter\Memcache;
 
 /**
-<<<<<<< HEAD:tests/unit/Session/Adapter/MemcacheTest.php
- * \Phalcon\Test\Unit\Session\Adapter\MemcacheTest
-=======
  * Phalcon\Test\Unit5x\Session\Adapter\MemcacheTest
->>>>>>> f129975ea... Moved legacy tests to the common place:tests/unit5x/Session/Adapter/MemcacheTest.php
  * Tests the \Phalcon\Session\Adapter\Memcache component
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -54,18 +50,19 @@ class MemcacheTest extends UnitTest
                 $sessionID = "abcdef123456";
 
                 $session = new Memcache(
-                    array(
-                        "host" => TEST_MC_HOST,
-                        "port" => TEST_MC_PORT
-                    )
+                    [
+                        'host'   => env('TEST_MC_HOST', '127.0.0.1'),
+                        'port'   => env('TEST_MC_PORT', 11211),
+                        'weight' => env('TEST_MC_WEIGHT', 1),
+                    ]
                 );
 
                 $data = serialize(
-                    array(
-                        "abc" => "123",
-                        "def" => "678",
-                        "xyz" => "zyx"
-                    )
+                    [
+                        'abc' => '123',
+                        'def' => '678',
+                        'xyz' => 'zyx'
+                    ]
                 );
 
                 $session->write($sessionID, $data);
@@ -89,18 +86,19 @@ class MemcacheTest extends UnitTest
                 $sessionID = "abcdef123456";
 
                 $session = new Memcache(
-                    array(
-                        "host" => TEST_MC_HOST,
-                        "port" => TEST_MC_PORT
-                    )
+                    [
+                        'host'   => env('TEST_MC_HOST', '127.0.0.1'),
+                        'port'   => env('TEST_MC_PORT', 11211),
+                        'weight' => env('TEST_MC_WEIGHT', 1),
+                    ]
                 );
 
                 $data = serialize(
-                    array(
-                        "abc" => "123",
-                        "def" => "678",
-                        "xyz" => "zyx"
-                    )
+                    [
+                        'abc' => '123',
+                        'def' => '678',
+                        'xyz' => 'zyx'
+                    ]
                 );
 
                 $session->write($sessionID, $data);
