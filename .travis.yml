@@ -17,11 +17,8 @@ matrix:
     - php: nightly
   include:
     - php: 7.0
-      env: ZEND_BACKEND="--backend=ZendEngine3"
     - php: 7.1
-      env: ZEND_BACKEND="--backend=ZendEngine3"
     - php: nightly
-      env: ZEND_BACKEND="--backend=ZendEngine3"
 
 git:
   depth: 1
@@ -37,6 +34,7 @@ cache:
     - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
+    - $HOME/pear
 
 services:
   # Use only for `trusty`
@@ -87,7 +85,7 @@ env:
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
-  - mkdir -p $HOME/bin/phpize && ln -s $(phpenv which phpize) $HOME/bin/phpize
+  - bash tests/_ci/pear_setup.sh
 
 install:
   - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest --ignore-platform-reqs
@@ -96,7 +94,7 @@ install:
   - bash tests/_ci/install_zephir.sh
   # Use only for `precise`
   - bash tests/_ci/install_beanstalkd.sh
-  - zephir generate $ZEND_BACKEND
+  - zephir generate
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   # Uncomment for debug
@@ -104,14 +102,13 @@ install:
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/redis.ini
   - beanstalkd -l ${TEST_BT_HOST} -p ${TEST_BT_PORT} & # start queue listener
-  # Debug only
-  #- $(phpenv which php) -m
-  #- pecl list
-  #- beanstalkd -v
+  # Uncomment for debug
+  - $(phpenv which php) -m
+  - pecl list
+  - beanstalkd -v
 
 before_script:
   - bash tests/_ci/setup_dbs.sh &> /dev/null
-  - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   # Uncomment for debug
   # - ulimit -c unlimited -S || true
   # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
@@ -120,7 +117,8 @@ script:
   - vendor/bin/phpcs
   - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
   - vendor/bin/codecept build
-  - vendor/bin/codecept run -v -n
+  - vendor/bin/codecept run -v -n tests/integration/
+  - vendor/bin/codecept run -v -n tests/unit/
 
 # Uncomment for debug
 # after_failure:
