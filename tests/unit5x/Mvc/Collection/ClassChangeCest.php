@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Collection;
+namespace Phalcon\Test\Unit5x\Mvc\Collection;
 
 use UnitTester;
 use Helper\CollectionTrait;
@@ -8,14 +8,14 @@ use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Test\Collections\Bookshelf\Books;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Collection\ClassChangeCest
+ * Phalcon\Test\Unit5x\Mvc\Collection\ClassChangeCest
  * Tests the Phalcon\Mvc\Collection component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc\Collection
+ * @package   Phalcon\Test\Unit5x\Mvc\Collection
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt

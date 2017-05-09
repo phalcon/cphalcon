@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Collection\Helpers;
+namespace Phalcon\Test\Unit5x\Mvc\Collection\Helpers;
 
 use DateTime;
 use Helper\CollectionTrait;

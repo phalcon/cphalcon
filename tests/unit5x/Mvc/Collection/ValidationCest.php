@@ -1,17 +1,16 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc\Collection;
+namespace Phalcon\Test\Unit5x\Mvc\Collection;
 
 use DateTime;
 use Helper\CollectionTrait;
-use Phalcon\Di;
 use Phalcon\Test\Collections\Robots;
-use Phalcon\Test\Unit\Mvc\Collection\Helpers\CollectionUniquenessTrait;
-use Phalcon\Test\Unit\Mvc\Collection\Helpers\ValidationBase;
+use Phalcon\Test\Unit5x\Mvc\Collection\Helpers\CollectionUniquenessTrait;
+use Phalcon\Test\Unit5x\Mvc\Collection\Helpers\ValidationBase;
 use UnitTester;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Collection\ValidationCest
+ * Phalcon\Test\Unit5x\Mvc\Collection\ValidationCest
  * Tests the Phalcon\Mvc\Collection component
  *
  * @copyright (c) 2011-2016 Phalcon Team
@@ -19,7 +18,7 @@ use UnitTester;
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc\Collection
+ * @package   Phalcon\Test\Unit5x\Mvc\Collection
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
