@@ -1,19 +1,23 @@
 <?php
 
-namespace Phalcon\Test\Unit\Session\Adapter;
+namespace Phalcon\Test\Unit5x\Session\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter\Memcache;
 
 /**
+<<<<<<< HEAD:tests/unit/Session/Adapter/MemcacheTest.php
  * \Phalcon\Test\Unit\Session\Adapter\MemcacheTest
+=======
+ * Phalcon\Test\Unit5x\Session\Adapter\MemcacheTest
+>>>>>>> f129975ea... Moved legacy tests to the common place:tests/unit5x/Session/Adapter/MemcacheTest.php
  * Tests the \Phalcon\Session\Adapter\Memcache component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Unit\Session\Adapter
+ * @package   Phalcon\Test\Unit5x\Session\Adapter
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
