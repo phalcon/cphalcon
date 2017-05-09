@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Mvc;
+namespace Phalcon\Test\Unit5x\Mvc;
 
 use Helper\CollectionTrait;
 use Phalcon\Mvc\Collection;
@@ -9,14 +9,14 @@ use Phalcon\Test\Collections\Songs;
 use Phalcon\Test\Collections\Store\Songs as StoreSongs;
 
 /**
- * \Phalcon\Test\Unit\Mvc\CollectionTest
+ * Phalcon\Test\Unit5x\Mvc\CollectionTest
  * Tests the Phalcon\Mvc\Collection component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc
+ * @package   Phalcon\Test\Unit5x\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
