@@ -22,6 +22,7 @@
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `before` handlers [#10931](https://github.com/phalcon/cphalcon/pull/10931)
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `afterBinding` handlers
 - Added way to disable setters in `Phalcon\Mvc\Model::assign` by using `Phalcon\Mvc\Model::setup` or ini option
+- Added ability to sanitize special characters to `Phalcon\Filter`
 - Fixed `Phalcon\Mvc\Model::hasChanged` to correctly use it with arrays [#12669](https://github.com/phalcon/cphalcon/issues/12669)
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-04-05)
