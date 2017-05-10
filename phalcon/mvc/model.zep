@@ -3886,9 +3886,24 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Check if a specific attribute has changed
 	 * This only works if the model is keeping data snapshots
 	 *
+	 *<code>
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->create();
+	 * $robot->type = "hydraulic";
+	 * $hasChanged = $robot->hasChanged("type"); // returns true
+	 * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
+	 * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
+	 *</code>
+	 *
 	 * @param string|array fieldName
+	 * @param boolean allFields
 	 */
-	public function hasChanged(var fieldName = null) -> boolean
+	public function hasChanged(var fieldName = null, boolean allFields = false) -> boolean
 	{
 		var changedFields;
 
@@ -3899,6 +3914,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if typeof fieldName == "string" {
 			return in_array(fieldName, changedFields);
+		} elseif typeof fieldName == "array" {
+		    if allFields {
+		        return array_intersect(fieldName, changedFields) == fieldName;
+		    }
+
+		    return count(array_intersect(fieldName, changedFields)) > 0;
 		}
 
 		return count(changedFields) > 0;
