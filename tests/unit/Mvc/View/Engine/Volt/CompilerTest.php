@@ -1264,19 +1264,19 @@ class CompilerTest extends UnitTest
     public function testVoltPhpFunctions()
     {
         $this->specify(
-        	'PHP Native Functions Should Work',
-	        function() {
-        		$volt = new Compiler();
+            'PHP Native Functions Should Work',
+            function () {
+                $volt = new Compiler();
 
-        		expect($volt->hasFunction('substr'))->false();
+                expect($volt->hasFunction('substr'))->false();
 
-        		$volt->setOptions(['includePhpFunctions' => true]);
+                $volt->setOptions(['includePhpFunctions' => true]);
 
-        		$compilation = $volt->compileString('{{ substr("hello world", 0, 6) }}');
-        		expect($compilation)->equals("<?= substr('hello world', 0, 6) ?>");
+                $compilation = $volt->compileString('{{ substr("hello world", 0, 6) }}');
+                expect($compilation)->equals("<?= substr('hello world', 0, 6) ?>");
 
-        		expect($volt->hasFunction('substr'))->true();
-	        }
+                expect($volt->hasFunction('substr'))->true();
+            }
         );
     }
 
