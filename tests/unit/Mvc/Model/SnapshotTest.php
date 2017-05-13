@@ -439,4 +439,37 @@ class SnapshotTest extends UnitTest
             }
         );
     }
+
+    /**
+     * When model is refreshed snapshot should be updated
+     *
+     * @issue  12669
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-15
+     */
+    public function testIssue12669()
+    {
+        $this->specify(
+            'hasChanged method for array argument is not working correctly',
+            function () {
+                $this->setUpModelsManager();
+                $robots = new Robots(
+                    [
+                        'name'     => 'test',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+
+                expect($robots->create())->true();
+                $robots->name = 'test2';
+                expect($robots->hasChanged(['name', 'year']))->equals(true);
+                expect($robots->hasChanged(['text', 'year']))->equals(false);
+                expect($robots->hasChanged(['name', 'year'], true))->equals(false);
+                $robots->year = 2018;
+                expect($robots->hasChanged(['name', 'year'], true))->equals(true);
+            }
+        );
+    }
 }
