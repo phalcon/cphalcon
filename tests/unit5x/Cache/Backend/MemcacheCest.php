@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Unit\Cache\Backend;
+namespace Phalcon\Test\Unit5x\Cache\Backend;
 
 use UnitTester;
 use Phalcon\Cache\Exception;
@@ -9,14 +9,14 @@ use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\Backend\Memcache;
 
 /**
- * \Phalcon\Test\Unit\Cache\Backend\MemcacheCest
+ * Phalcon\Test\Unit5x\Cache\Backend\MemcacheCest
  * Tests the \Phalcon\Cache\Backend\Memcache component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
+ * @package   Phalcon\Test\Unit5x\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
