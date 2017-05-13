@@ -30,7 +30,7 @@ cache:
   directories:
     - .temp
     # Use ZEPHIR_PARSER_VERSION here
-    - $HOME/zephir-parser-v1.0.2
+    - $HOME/zephir-parser-v1.0.3
     - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
@@ -78,7 +78,7 @@ env:
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
     - BEANSTALKD_VERSION="1.10"
-    - ZEPHIR_PARSER_VERSION="v1.0.2"
+    - ZEPHIR_PARSER_VERSION="v1.0.3"
     # Uncomment for debug
     #- ZEND_DONT_UNLOAD_MODULES=1
 
