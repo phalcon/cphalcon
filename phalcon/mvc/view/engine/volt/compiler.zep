@@ -2569,7 +2569,10 @@ class Compiler implements InjectionAwareInterface
 				 * Stat is off but the compiled file doesn't exist
 				 */
 				if !file_exists(realCompiledPath) {
-					throw new Exception("Compiled template file " . realCompiledPath . " does not exist");
+				    /**
+                     * The file doesn't exist so we compile the php version for the first time
+                     */
+				    let compilation = this->compileFile(templatePath, realCompiledPath, extendsMode);
 				}
 
 			}
