@@ -188,9 +188,9 @@ class Binder implements BinderInterface
 					} else {
 						throw new Exception("You should provide model class name for ".paramKey." parameter");
 					}
-				} elseif typeof realClasses == "string" {
-					let boundModel = this->findBoundModel(paramValue, className);
+				} elseif typeof realClasses == "string" {					
 					let className = realClasses;
+					let boundModel = this->findBoundModel(paramValue, className);
 				} else {
 					throw new Exception("getModelName should return array or string");
 				}
