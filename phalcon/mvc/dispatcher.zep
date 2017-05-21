@@ -167,46 +167,43 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
 	 * Forwards the execution flow to another controller/action.
 	 *
 	 * <code>
+	 * use Phalcon\Events\Event;
+	 * use Phalcon\Mvc\Dispatcher;
+	 * use App\Backend\Bootstrap as Backend;
+	 * use App\Frontend\Bootstrap as Frontend;
+	 *
 	 * // Registering modules
-	 * $application->registerModules(
-	 *     [
-	 *         "frontend" => [
-	 *             "className" => "App\Frontend\Bootstrap",
-	 *             "path"      => __DIR__ . "/app/Modules/Frontend/Bootstrap.php",
-	 *             "metadata"  => [
-	 *                 // Enable forwarding to other modules
-	 *                 "controllersNamespace" => "App\Frontend\Controllers",
-	 *                 // ...
-	 *             ],
+	 * $modules = [
+	 *     "frontend" => [
+	 *         "className" => Frontend::class,
+	 *         "path"      => __DIR__ . "/app/Modules/Frontend/Bootstrap.php",
+	 *         "metadata"  => [
+	 *             "controllersNamespace" => "App\Frontend\Controllers",
 	 *         ],
-	 *         "backend" => [
-	 *             "className" => "App\Backend\Bootstrap",
-	 *             "path"      => __DIR__ . "/app/Modules/Backend/Bootstrap.php",
-	 *             "metadata"  => [
-	 *                 // Enable forwarding to other modules
-	 *                 "controllersNamespace" => "App\Backend\Controllers",
-	 *                 // ...
-	 *             ],
+	 *     ],
+	 *     "backend" => [
+	 *         "className" => Backend::class,
+	 *         "path"      => __DIR__ . "/app/Modules/Backend/Bootstrap.php",
+	 *         "metadata"  => [
+	 *             "controllersNamespace" => "App\Backend\Controllers",
 	 *         ],
-	 *     ]
-	 * );
+	 *     ],
+	 * ];
+	 *
+	 * $application->registerModules($modules);
 	 *
 	 * // Setting beforeForward listener
-	 * $di->getShared("eventsManager")->attach("dispatch:beforeForward", function($event, $dispatcher, array $forward) {
-	 *     if (!empty($forward["module"])) {
-	 *         $modulesRegistry = $this->get("modules");
+	 * $eventsManager  = $di->getShared("eventsManager");
 	 *
-	 *         // Check module in \Phalcon\Registry
-	 *         if (!$modulesRegistry->offsetExists($forward["module"])) {
-	 *             throw new \Phalcon\Mvc\Dispatcher\Exception("Module {$forward['module']} does not exist.");
-	 *         }
-	 *
-	 *         // ...
+	 * $eventsManager->attach(
+	 *     "dispatch:beforeForward",
+	 *     function(Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
+	 *         $metadata = $modules[$forward["module"]]["metadata"];
 	 *
 	 *         $dispatcher->setModuleName($forward["module"]);
-	 *         $dispatcher->setNamespaceName($forward["metadata"]["controllersNamespace"]);
+	 *         $dispatcher->setNamespaceName($metadata["controllersNamespace"]);
 	 *     }
-	 * });
+	 * );
 	 *
 	 * // Forward
 	 * $this->dispatcher->forward(
