@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Exception;
@@ -662,7 +663,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
+	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
 	 */
 	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <Criteria>
 	{
@@ -721,6 +722,37 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 		criteria->setModelName(modelName);
 		return criteria;
+	}
+
+	/**
+	 * Creates a query builder from criteria.
+	 *
+	 * <code>
+	 * $builder = Robots::query()
+	 *     ->where("type = :type:")
+	 *     ->bind(["type" => "mechanical"])
+	 *     ->createBuilder();
+	 * </code>
+	 */
+	public function createBuilder() -> <BuilderInterface>
+	{
+		var dependencyInjector, manager, builder;
+
+		let dependencyInjector = this->getDI();
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = Di::getDefault();
+			this->setDI(dependencyInjector);
+		}
+
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = manager->createBuilder(this->_params);
+		builder->from(this->_model);
+
+		return builder;
 	}
 
 	/**
