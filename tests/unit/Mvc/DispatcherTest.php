@@ -441,8 +441,6 @@ class DispatcherTest extends UnitTest
             function () {
                 $di = new Di();
 
-                //$di->set("response", new Response());
-
                 $dispatcher = new Dispatcher();
                 $dispatcher->setDI($di);
 
@@ -477,6 +475,64 @@ class DispatcherTest extends UnitTest
 
                 $value = $dispatcher->getPreviousActionName();
                 expect($value)->equals("index");
+            }
+        );
+    }
+
+    /**
+     * Tests beforeForward event
+     *
+     * @test
+     * @issue  212
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-05-21
+     */
+    public function dispatcherBeforeForward()
+    {
+        $this->specify(
+            'beforeForward event should be fired',
+            function () {
+                $di = new Di();
+                $manager = new Manager();
+
+                $modules = [
+                    'backend' => [
+                        'className' => 'App\Backend\Bootstrap',
+                        'path'      => '/app/Modules/Backend/Bootstrap.php',
+                        'metadata'  => [
+                            'controllersNamespace' => 'App\Backend\Controllers',
+                        ],
+                    ],
+                ];
+
+                $manager->attach(
+                    'dispatch:beforeForward',
+                    function (Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
+                        $metadata = $modules[$forward['module']]['metadata'];
+
+                        $dispatcher->setModuleName($forward['module']);
+                        $dispatcher->setNamespaceName($metadata['controllersNamespace']);
+                    }
+                );
+
+                $dispatcher = new Dispatcher();
+                $dispatcher->setDI($di);
+                $dispatcher->setEventsManager($manager);
+
+                $di->set('dispatcher', $dispatcher);
+
+                $dispatcher->forward(
+                    [
+                        'module'     => 'backend',
+                        'controller' => 'posts',
+                        'action'     => 'index',
+                    ]
+                );
+
+                expect($dispatcher->getModuleName())->equals('backend');
+                expect($dispatcher->getNamespaceName())->equals('App\Backend\Controllers');
+                expect($dispatcher->getControllerName())->equals('posts');
+                expect($dispatcher->getActionName())->equals('index');
             }
         );
     }
