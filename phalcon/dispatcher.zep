@@ -699,17 +699,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Forwards the execution flow to another controller/action
-	 * Dispatchers are unique per module. Forwarding between modules is not allowed
+	 * Forwards the execution flow to another controller/action.
 	 *
-	 *<code>
+	 * <code>
 	 * $this->dispatcher->forward(
 	 *     [
 	 *         "controller" => "posts",
 	 *         "action"     => "index",
 	 *     ]
 	 * );
-	 *</code>
+	 * </code>
 	 *
 	 * @param array forward
 	 */

@@ -164,6 +164,75 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Forwards the execution flow to another controller/action.
+	 *
+	 * <code>
+	 * // Registering modules
+	 * $application->registerModules(
+	 *     [
+	 *         "frontend" => [
+	 *             "className" => "App\Frontend\Bootstrap",
+	 *             "path"      => __DIR__ . "/app/Modules/Frontend/Bootstrap.php",
+	 *             "metadata"  => [
+	 *                 // Enable forwarding to other modules
+	 *                 "controllersNamespace" => "App\Frontend\Controllers",
+	 *                 // ...
+	 *             ],
+	 *         ],
+	 *         "backend" => [
+	 *             "className" => "App\Backend\Bootstrap",
+	 *             "path"      => __DIR__ . "/app/Modules/Backend/Bootstrap.php",
+	 *             "metadata"  => [
+	 *                 // Enable forwarding to other modules
+	 *                 "controllersNamespace" => "App\Backend\Controllers",
+	 *                 // ...
+	 *             ],
+	 *         ],
+	 *     ]
+	 * );
+	 *
+	 * // Setting beforeForward listener
+	 * $di->getShared("eventsManager")->attach("dispatch:beforeForward", function($event, $dispatcher, array $forward) {
+	 *     if (!empty($forward["module"])) {
+	 *         $modulesRegistry = $this->get("modules");
+	 *
+	 *         // Check module in \Phalcon\Registry
+	 *         if (!$modulesRegistry->offsetExists($forward["module"])) {
+	 *             throw new \Phalcon\Mvc\Dispatcher\Exception("Module {$forward['module']} does not exist.");
+	 *         }
+	 *
+	 *         // ...
+	 *
+	 *         $dispatcher->setModuleName($forward["module"]);
+	 *         $dispatcher->setNamespaceName($forward["metadata"]["controllersNamespace"]);
+	 *     }
+	 * });
+	 *
+	 * // Forward
+	 * $this->dispatcher->forward(
+	 *     [
+	 *         "module"     => "backend",
+	 *         "controller" => "posts",
+	 *         "action"     => "index",
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * @param array forward
+	 */
+	public function forward(var forward)
+	{
+		var eventsManager;
+
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			eventsManager->fire("dispatch:beforeForward", this, forward);
+		}
+
+		parent::forward(forward);
+	}
+
+	/**
 	 * Possible controller class name that will be located to dispatch the request
 	 */
 	public function getControllerClass() -> string
