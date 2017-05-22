@@ -153,9 +153,9 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	/**
 	 * Gets an option by its name or numeric index
 	 *
-	 * @param  mixed param
-	 * @param  string|array filters
-	 * @param  mixed defaultValue
+	 * @param  mixed $param
+	 * @param  string|array $filters
+	 * @param  mixed $defaultValue
 	 */
 	public function getOption(option, filters = null, defaultValue = null) -> var
 	{
@@ -180,26 +180,23 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Check if an option exists
-	 *
-	 * @param  mixed option
-	 * @return boolean
 	 */
-	public function hasOption(option) -> boolean
+	public function hasOption(var option) -> boolean
 	{
 		return isset this->_options[option];
 	}
 
-        /**
-         * Calls the action method.
-         *
-	 * @param  mixed handler
-	 * @param  string actionMethod
-	 * @param  mixed params
-         */
+	/**
+	 * Calls the action method.
+	 *
+	 * @param  mixed $handler
+	 * @param  string $actionMethod
+	 * @param  array $params
+	 */
 	public function callActionMethod(handler, string actionMethod, array! params = [])
 	{
 		var options;
-		
+
 		let options = this->_options;
 		return call_user_func_array([handler, actionMethod], [params, options]);
 	}
