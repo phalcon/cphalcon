@@ -7,7 +7,7 @@ use Phalcon\Mvc\Model;
 /**
  * \Phalcon\Test\Models\Statistics\CityStats
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Eugene Smirnov <ashpumpkin@gmail.com>
  * @package   Phalcon\Test\Models\Statistics

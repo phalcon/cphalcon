@@ -93,6 +93,7 @@ We use the following settings of these services:
 
 * Host: `127.0.0.1`
 * Port: `6379`
+* DB Index `0`
 
 You can change the connection settings of these services **before** running tests by using [environment variables][8]:
 
@@ -104,6 +105,7 @@ export TEST_BT_PORT="11300"
 # Memcached
 export TEST_MC_HOST="127.0.0.1"
 export TEST_MC_PORT="11211"
+export TEST_MC_WEIGHT="1"
 
 # SQLite
 export TEST_DB_SQLITE_NAME="/tmp/phalcon_test.sqlite"
@@ -134,6 +136,7 @@ export TEST_DB_MONGO_NAME="phalcon_test"
 # Redis
 export TEST_RS_HOST="127.0.0.1"
 export TEST_RS_PORT="6379"
+export TEST_RS_DB="0"
 ```
 
 Once the database is created, run the tests on a terminal:
@@ -161,25 +164,6 @@ Execute single test:
 ```sh
 $ vendor/bin/codecept run test/unit/some/folder/some/test/file.php
 ```
-
-## CodeCoverage
-
-How can we learn of CodeCoverage?
-
-Actually, for the reason that Phalcon is ultimately a binary file (`phalcon.so` or `phalcon.dll`),
-it is quite difficult to learn of code coverage at the moment. For example, Xdebug can apply it only to php files.
-
-We create a **Proxy Class** for each internal class and place all former ones into [a special directory][7].
-We test these proxy classes by enabling **CodeCoverage**, in doing so we get information about code coverage.
-
-Of course, it does not give us an insight into the coverage of control structures, but at least we cover the method
-execution result.
-
-**Note:** That if you create such proxy class then its method signatures must fully accord with the original.
-So only we can learn of the real code coverage and find out the missing tests.
-If you delete or change a method in the original class, you must do the same in the proxy class.
-Also, it should be noted that all of the aforesaid holds only for public methods.
-You must not create protected or private methods.
 
 ## Todo
 

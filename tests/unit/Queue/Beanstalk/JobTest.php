@@ -8,7 +8,7 @@ use Phalcon\Test\Unit\Queue\Helper\BeanstalkBase;
  * \Phalcon\Test\Unit\Queue\Beanstalk\JobTest
  * Tests the \Phalcon\Queue\Beanstalk\Job component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

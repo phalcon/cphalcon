@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team  (http://www.zephir-lang.com)      |
+  | Copyright (c) 2011-2017 Zephir Team  (http://www.zephir-lang.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -66,7 +66,7 @@ void zephir_set_session_id(zval *sid TSRMLS_DC)
 	zval copy;
 	int use_copy = 0;
 
-	if (unlikely(Z_TYPE_P(sid) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(sid) != IS_STRING)) {
 		zend_make_printable_zval(sid, &copy, &use_copy);
 		if (use_copy) {
 			sid = &copy;
@@ -79,7 +79,7 @@ void zephir_set_session_id(zval *sid TSRMLS_DC)
 
 	PS(id) = estrndup(Z_STRVAL_P(sid), Z_STRLEN_P(sid));
 
-	if (unlikely(use_copy)) {
+	if (UNEXPECTED(use_copy)) {
 		zval_dtor(&copy);
 	}
 #else

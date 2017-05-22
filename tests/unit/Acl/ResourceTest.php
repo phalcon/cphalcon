@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Acl;
 
-use Phalcon\Test\Proxy\Acl\Resource;
+use Phalcon\Acl\Resource;
 use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Acl\ResourceTest
  * Tests for \Phalcon\Acl\Resource component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Acl

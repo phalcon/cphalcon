@@ -2,16 +2,16 @@
 
 namespace Phalcon\Test\Unit;
 
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Loader;
+use Phalcon\Loader;
 use Phalcon\Events\Manager;
+use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\LoaderTest
  * Tests the \Phalcon\Loader component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit

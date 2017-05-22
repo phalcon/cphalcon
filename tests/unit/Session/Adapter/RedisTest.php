@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Session\Adapter;
 
-use Phalcon\Test\Proxy\Session\Adapter\Redis;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Session\Adapter\Redis;
 
 /**
  * \Phalcon\Test\Unit\Session\Adapter\RedisTest
  * Tests the \Phalcon\Session\Adapter\Redis component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Session\Adapter
@@ -51,8 +51,9 @@ class RedisTest extends UnitTest
 
                 $session = new Redis(
                     [
-                        "host" => TEST_RS_HOST,
-                        "port" => TEST_RS_PORT
+                        'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+                        'port'  => env('TEST_RS_PORT', 6379),
+                        'index' => env('TEST_RS_DB', 0),
                     ]
                 );
 
@@ -86,8 +87,9 @@ class RedisTest extends UnitTest
 
                 $session = new Redis(
                     [
-                        "host" => TEST_RS_HOST,
-                        "port" => TEST_RS_PORT
+                        'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+                        'port'  => env('TEST_RS_PORT', 6379),
+                        'index' => env('TEST_RS_DB', 0),
                     ]
                 );
 

@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Filter\Helper;
 
-use Phalcon\Test\Proxy\Filter;
+use Phalcon\Filter;
 use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Filter\Helper\FilterBase
  * Base test class for \Phalcon\Filter component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Filter\Helper

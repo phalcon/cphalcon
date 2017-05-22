@@ -9,8 +9,8 @@ use Phalcon\Test\Module\UnitTest;
  * \Phalcon\Test\Unit\Db\Column\PostgresqlTest
  * Tests the \Phalcon\Db\Column component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      https://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Column
@@ -27,7 +27,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::hasDefault for autoincrement fields
      *
-     * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
+     * @issue  853
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-09-28
      */

@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Test\Proxy\Tag;
+use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Tag\TagImageTest
  * Tests the \Phalcon\Tag component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Tag

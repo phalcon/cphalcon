@@ -1,18 +1,93 @@
-# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2016-XX-XX)
+# [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-XX-XX)
+- Phalcon will now trigger `E_DEPREACATED` by using `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct`
+- Added Factory Adapter loaders [#11001](https://github.com/phalcon/cphalcon/issues/11001)
+- Added ability to sanitize URL to `Phalcon\Filter`
+- Added missed `$type` argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` to specify type join
+- Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update
+- Added support for having option in `Phalcon\Paginator\Adapter\QueryBuilder` [#12111](https://github.com/phalcon/cphalcon/issues/12111)
+- Added `Phalcon\Config::path` to get a value using a dot separated path [#12221](https://github.com/phalcon/cphalcon/issues/12221)
+- Added service provider interface to configure services by context [#12783](https://github.com/phalcon/cphalcon/pull/12783)
+- Added the ability to load services from yaml (`Phalcon\Di::loadFromYaml`) and php array (`Phalcon\Di::loadFromPhp`) files, so we can keep the references cleanly separated from code [#12784](https://github.com/phalcon/cphalcon/pull/12784)
+- Added `Phalcon\Cache\Backend\Apcu` to introduce pure support of APCu [#12098](https://github.com/phalcon/cphalcon/issues/12098), [#11934](https://github.com/phalcon/cphalcon/issues/11934)
+- Added `Phalcon\Annotations\Adapter\Apcu` to introduce pure support of APCu [#12098](https://github.com/phalcon/cphalcon/issues/12098)
+- Added option to disable snapshot update on create/save using `Phalcon\Mvc\Model::setup(['updateSnapshotOnSave' => false])` or `phalcon.orm.update_snapshot_on_save = 0` in `php.ini`
+- Added `Phalcon\Mvc\Model\Manager::setModelPrefix` and `Phalcon\Mvc\Model\Manager::getModelPrefix` to introduce tables prefixes [#10328](https://github.com/phalcon/cphalcon/issues/10328)
+- Added methods `Phalcon\Mvc\Model\Query\Builder::andHaving`, `Phalcon\Mvc\Model\Query\Builder::orHaving`, `Phalcon\Mvc\Model\Query\Builder::betweenHaving`, `Phalcon\Mvc\Model\Query\Builder::notBetweenHaving`, `Phalcon\Mvc\Model\Query\Builder::inHaving`, `Phalcon\Mvc\Model\Query\Builder::notInHaving`
+- Added parameters `skip_on_insert`, `skip_on_update` and `allow_empty_string` and fixed a bug for renamed integer columns in `Phalcon\Mvc\Model\MetaData\Strategy\Annotations::getMetaData`
+- Added way to disable setters in `Phalcon\Mvc\Model::assign` by using `Phalcon\Mvc\Model::setup` or ini option
+- Added ability to sanitize special characters to `Phalcon\Filter`
+- Added a new `Phalcon\Mvc\Model\Binder::findBoundModel` method. Params fetched from cache are being added to `internalCache`  class property in `Phalcon\Mvc\Model\Binder::getParamsFromCache`
+- Added `Phalcon\Mvc\Model\Criteria::createBuilder` to create a query builder from criteria
+- Added `dispatcher::beforeForward` event to allow forwarding request to the separated module [#121](https://github.com/phalcon/cphalcon/issues/121), [#12417](https://github.com/phalcon/cphalcon/issues/12417)
+- Added `Phalcon\Security\Random:base62` to provide the largest value that can safely be used in URLs without needing to take extra characters into consideration [#12105](https://github.com/phalcon/cphalcon/issues/12105)
+- Added `Phalcon\Cli\Dispatcher::getOption`, `Phalcon\Cli\Dispatcher::hasOption` and the options as parameter to cli handlers
+- Fixed Dispatcher forwarding when handling exception [#11819](https://github.com/phalcon/cphalcon/issues/11819), [#12154](https://github.com/phalcon/cphalcon/issues/12154)
+- Fixed params view scope for PHP 7 [#12648](https://github.com/phalcon/cphalcon/issues/12648)
+- Fixed `Phalcon\Mvc\Micro::handle` to prevent attemps to send response twice [#12668](https://github.com/phalcon/cphalcon/pull/12668)
+- Fixed `Di::set`, `Di::setShared` to allow pass more than 10 arguments [#12299](https://github.com/phalcon/cphalcon/issues/12299)
+- Fixed `Phalcon\Mvc\Model\MetaData\Strategy\Annotations::getColumnMaps` where only renamed columns where returned if there was one
+- Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `before` handlers [#10931](https://github.com/phalcon/cphalcon/pull/10931)
+- Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `afterBinding` handlers
+- Fixed `Phalcon\Mvc\Model::hasChanged` to correctly use it with arrays [#12669](https://github.com/phalcon/cphalcon/issues/12669)
+- Fixed `Phalcon\Mvc\Model\Resultset::delete` to return result depending on success [#11133](https://github.com/phalcon/cphalcon/issues/11133)
+
+# [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-04-05)
+- Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)
+- Fixed `Imagick::getVersion()` error in some system [#12729](https://github.com/phalcon/cphalcon/pull/12729)
+- Fixed `Phalcon\Mvc\Model::_doLowInsert` to properly set snapshot when having default values and public properties [#12766](https://github.com/phalcon/cphalcon/issues/12766)
+
+# [3.1.1](https://github.com/phalcon/cphalcon/releases/tag/v3.1.1) (2017-03-25)
+- Fixed undefined index warning on existing cached resultsets
+- Fixed `Phalcon\Mvc\Model::_dowLowUpdate` warning first argument is not an array [#12742](https://github.com/phalcon/cphalcon/issues/12742)
+
+# [3.1.0](https://github.com/phalcon/cphalcon/releases/tag/v3.1.0) (2017-03-22)
 - Added `Phalcon\Validation\Validator\Callback`, `Phalcon\Validation::getData`
 - Added the ability to truncate database tables
 - Added `Phalcon\Mvc\Model\Binder`, class used for binding models to parameters in dispatcher, micro, added `Phalcon\Dispatcher::getBoundModels` and `Phalcon\Mvc\Micro::getBoundModels` to getting bound models, added `Phalcon\Mvc\Micro\Collection\LazyLoader::callMethod`
 - Added afterBinding event to `Phalcon\Dispatcher` and `Phalcon\Mvc\Micro`, added `Phalcon\Mvc\Micro::afterBinding`
 - Added the ability to set custom Resultset class returned by find() [#12166](https://github.com/phalcon/cphalcon/issues/12166)
 - Added the ability to clear appended and prepended title elements (Phalcon\Tag::appendTitle, Phalcon\Tag::prependTitle). Now you can use array to add multiple titles. For more details check [#12238](https://github.com/phalcon/cphalcon/issues/12238).
-- Added getOption/hasOption to the dispatcher. Added the options as parameter to cli handlers.
+- Added the ability to specify what empty means in the 'allowEmpty' option of the validators. Now it accepts as well an array specifying what's empty, for example ['', false]
+- Added the ability to use `Phalcon\Validation` with `Phalcon\Mvc\Collection`, deprecated `Phalcon\Mvc\Model\Validator` classes
+- Added the value of the object intanceof Interface to `Phalcon\Acl\Adapter\Memory`
+- Added the ability to get original values from `Phalcon\Mvc\Model\Binder`, added `Phalcon\Mvc\Micro::getModelBinder`, `Phalcon\Dispatcher::getModelBinder`
+- Added `prepend` parameter to `Phalcon\Loader::register` to specify autoloader's loading order to top most
+- Fixes internal cache saving in `Phalcon\Mvc\Model\Binder` when no cache backend is used
+- Fixed `Phalcon\Session\Bag::remove` to initialize the bag before removing a value [#12647](https://github.com/phalcon/cphalcon/pull/12647)
+- Fixed `Phalcon\Mvc\Model::getChangedFields` to correct detect changes from NULL to Zero [#12628](https://github.com/phalcon/cphalcon/issues/12628)
+- Fixed `Phalcon\Mvc\Model` to create/refresh snapshot after create/update/refresh operation [#11007](https://github.com/phalcon/cphalcon/issues/11007), [#11818](https://github.com/phalcon/cphalcon/issues/11818), [#11424](https://github.com/phalcon/cphalcon/issues/11424)
+- Fixed `Phalcon\Mvc\Model::validate` to correctly set code message [#12645](https://github.com/phalcon/cphalcon/issues/12645)
+- Fixed `Phalcon\Mvc\Model` to correctly add error when try to save empty string value to not null and not default column [#12688](https://github.com/phalcon/cphalcon/issues/12688)
+- Fixed `Phalcon\Validation\Validator\Uniqueness` collection persistent condition
+- Fixed `Phalcon\Loader::autoLoad` to prevent PHP warning [#12684](https://github.com/phalcon/cphalcon/pull/12684)
+- Fixed `Phalcon\Mvc\Model\Query::_executeSelect` to correctly get the column map [#12715](https://github.com/phalcon/cphalcon/issues/12715)
+- Fixed params view scope for PHP 5 [#12648](https://github.com/phalcon/cphalcon/issues/12648)
 
-# [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (201X-XX-XX)
+# [3.0.4](https://github.com/phalcon/cphalcon/releases/tag/v3.0.4) (2017-02-20)
+- Fixed Isnull check is not correct when the model field defaults to an empty string. [#12507](https://github.com/phalcon/cphalcon/issues/12507)
+- Fixed `Phalcon\Forms\Element::label` to accept 0 as label instead of validating it as empty. [#12148](https://github.com/phalcon/cphalcon/issues/12148)
+- Fixed `Phalcon\Crypt::getAvailableCiphers`, `Phalcon\Crypt::decrypt`, `Phalcon\Crypt::encrypt` by getting missed aliases for ciphers [#12539](https://github.com/phalcon/cphalcon/pull/12539)
+- Fixed `Phalcon\Mvc\Model` by adding missed `use` statement for `ResultsetInterface` [#12574](https://github.com/phalcon/cphalcon/pull/12574)
+- Fixed adding role after setting default action [#12573](https://github.com/phalcon/cphalcon/issues/12573)
+- Fixed except option in `Phalcon\Validation\Validator\Uniquenss` to allow using except fields other than unique fields
+- Cleaned `Phalcon\Translate\Adapter\Gettext::query` and removed ability to pass custom domain [#12598](https://github.com/phalcon/cphalcon/issues/12598), [#12606](https://github.com/phalcon/cphalcon/pull/12606)
+- Fixed `Phalcon\Validation\Message\Group::offsetUnset` to correct unsetting a message by index [#12455](https://github.com/phalcon/cphalcon/issues/12455)
+- Fix using `Phalcon\Acl\Role` and `Phalcon\Acl\Resource` as parameters for `Phalcon\Acl\Adapter\Memory::isAllowed`
+- Fixed `Phalcon\Mvc\Collection` to correctly set dirty states when saved/created
+
+# [3.0.3](https://github.com/phalcon/cphalcon/releases/tag/v3.0.3) (2016-12-24)
 - Fixed implementation of Iterator interface in a `Phalcon\Forms\Form` that could cause a run-time warning
 - Fixed `Phalcon\Cache\Backend\Redis::get`, `Phalcon\Cache\Frontend\Data::afterRetrieve` to allow get empty strings from the Redis database [#12437](https://github.com/phalcon/cphalcon/issues/12437)
 - Fixed `Phalcon\Cache\Backend\Redis::exists` to correct check if cache key exists for empty value in the Redis database [#12434](https://github.com/phalcon/cphalcon/pull/12434)
 - Fixed `Phalcon\Security::checkToken` to prevent possible timing attack [#12418](https://github.com/phalcon/cphalcon/issues/12418)
 - Fixed `Phalcon\Mvc\Model\Resultset\Simple` to save snapshot when caching
+- Fixed `Phalcon\Http\Request::getHeaders` to handle auth headers correctly [#12480](https://github.com/phalcon/cphalcon/issues/12480)
+- Fixed `Phalcon\Http\Request::getMethod` to handle `X-HTTP-Method-Override` header correctly [#12478](https://github.com/phalcon/cphalcon/issues/12478)
+- Fixed `Phalcon\Mvc\Model\Criteria::limit` and `Phalcon\Mvc\Model\Query\Builder::limit` to work with `limit` and `offset` properly [#12419](https://github.com/phalcon/cphalcon/issues/12419)
+- Fixed `Phalcon\Forms\Form` to correct form validation and set messages for elements [#12465](https://github.com/phalcon/cphalcon/issues/12465), [#11500](https://github.com/phalcon/cphalcon/issues/11500), [#11135](https://github.com/phalcon/cphalcon/issues/11135), [#3167](https://github.com/phalcon/cphalcon/issues/3167), [#12395](https://github.com/phalcon/cphalcon/issues/12395)
+- Fixed `Phalcon\Cache\Backend\Libmemcached::queryKeys` to correct query the existing cached keys [#11024](https://github.com/phalcon/cphalcon/issues/11024)
+- Fixed building extension for ImageMagick 7 [mkoppanen/imagick#180](https://github.com/mkoppanen/imagick/issues/180)
+- Fixed `Phalcon\Cache\Backend\Redis::save` to allow save data termlessly [#12327](https://github.com/phalcon/cphalcon/issues/12327)
 
 # [3.0.2](https://github.com/phalcon/cphalcon/releases/tag/v3.0.2) (2016-11-26)
 - Fixed saving snapshot data while caching model [#12170](https://github.com/phalcon/cphalcon/issues/12170), [#12000](https://github.com/phalcon/cphalcon/issues/12000)

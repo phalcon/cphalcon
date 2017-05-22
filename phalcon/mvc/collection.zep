@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -29,6 +29,7 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\Message as Message;
+use Phalcon\ValidationInterface;
 
 /**
  * Phalcon\Mvc\Collection
@@ -49,6 +50,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 	protected _operationMade = 0;
 
+	protected _dirtyState = 1;
+
 	protected _connection;
 
 	protected _errorMessages = [];
@@ -67,6 +70,12 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 	const OP_DELETE = 3;
 
+	const DIRTY_STATE_PERSISTENT = 0;
+
+	const DIRTY_STATE_TRANSIENT = 1;
+
+	const DIRTY_STATE_DETACHED = 2;
+
 	/**
 	 * Phalcon\Mvc\Collection constructor
 	 */
@@ -80,7 +89,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		}
 
 		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
 		}
 
 		let this->_dependencyInjector = dependencyInjector;
@@ -203,7 +212,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 				"_dependencyInjector": true,
 				"_source": true,
 				"_operationMade": true,
-				"_errorMessages": true
+				"_errorMessages": true,
+				"_dirtyState": true
 			];
 			let self::_reserved = reserved;
 		}
@@ -354,6 +364,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		} else {
 			let base = collection;
 		}
+
+        if base instanceof Collection {
+		    base->setDirtyState(self::DIRTY_STATE_PERSISTENT);
+        }
 
 		let source = collection->getSource();
 		if empty source {
@@ -633,6 +647,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * {
 	 *     public function validation()
 	 *     {
+	 *         // Old, deprecated syntax, use new one below
 	 *         $this->validate(
 	 *             new ExclusionIn(
 	 *                 [
@@ -648,15 +663,71 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *     }
 	 * }
 	 *</code>
+	 *
+	 *<code>
+	 * use Phalcon\Validation\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Validation;
+	 *
+	 * class Subscriptors extends \Phalcon\Mvc\Collection
+	 * {
+	 *     public function validation()
+	 *     {
+	 *         $validator = new Validation();
+	 *         $validator->add("status",
+	 *             new ExclusionIn(
+	 *                 [
+	 *                     "domain" => ["A", "I"]
+	 *                 ]
+	 *             )
+	 *         );
+	 *
+	 *         return $this->validate($validator);
+	 *     }
+	 * }
+	 *</code>
 	 */
-	protected function validate(<Model\ValidatorInterface> validator) -> void
+	protected function validate(var validator)
 	{
-		var message;
+		var messages, message;
 
-		if validator->validate(this) === false {
-			for message in validator->getMessages() {
-				let this->_errorMessages[] = message;
+		if validator instanceof Model\ValidatorInterface {
+			if validator->validate(this) === false {
+				for message in validator->getMessages() {
+					let this->_errorMessages[] = message;
+				}
 			}
+		} elseif validator instanceof ValidationInterface {
+			let messages = validator->validate(null, this);
+
+			// Call the validation, if it returns not the boolean
+			// we append the messages to the current object
+			if typeof messages != "boolean" {
+
+				messages->rewind();
+
+				// for message in iterator(messages) {
+				while messages->valid() {
+
+					let message = messages->current();
+
+					this->appendMessage(
+						new Message(
+							message->getMessage(),
+							message->getField(),
+							message->getType()
+						)
+					);
+
+					messages->next();
+				}
+
+				// If there is a message, it returns false otherwise true
+				return !count(messages);
+			}
+
+			return messages;
+		} else {
+			throw new Exception("You should pass Phalcon\\Mvc\\Model\\ValidatorInterface or Phalcon\\ValidationInterface object");
 		}
 	}
 
@@ -759,7 +830,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 */
 	protected function _exists(collection) -> boolean
 	{
-		var id, mongoId;
+		var id, mongoId, exists;
 
 		if !fetch id, this->_id {
 			return false;
@@ -781,9 +852,24 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		}
 
 		/**
+		 * If we already know if the document exists we don't check it
+		 */
+		 if !this->_dirtyState {
+			return true;
+		 }
+
+		/**
 		 * Perform the count using the function provided by the driver
 		 */
-		return collection->count(["_id": mongoId]) > 0;
+		let exists = collection->count(["_id": mongoId]) > 0;
+
+		if exists {
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+		} else {
+			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
+		}
+
+		return exists;
 	}
 
 	/**
@@ -844,14 +930,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Shared Code for CU Operations
 	 * Prepares Collection
 	 */
-
 	protected function prepareCU()
 	{
 		var dependencyInjector, connection, source, collection;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+			throw new Exception("A dependency injector container is required to obtain the services related to the ODM");
 		}
 
 		let source = this->getSource();
@@ -918,6 +1003,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 						if fetch id, data["_id"] {
 							let this->_id = id;
 						}
+						let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
 					}
 				}
 			}
@@ -973,6 +1059,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 						if fetch id, data["_id"] {
 							let this->_id = id;
 						}
+						let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
 					}
 				}
 			}
@@ -1469,12 +1556,30 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 				if !disableEvents {
 					this->fireEvent("afterDelete");
 				}
+				let this->_dirtyState = self::DIRTY_STATE_DETACHED;
 			}
 		} else {
 			let success = false;
 		}
 
 		return success;
+	}
+
+	/**
+	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+	 */
+	public function setDirtyState(int dirtyState) -> <CollectionInterface>
+	{
+		let this->_dirtyState = dirtyState;
+		return this;
+	}
+
+	/**
+	 * Returns one of the DIRTY_STATE_* constants telling if the document exists in the collection or not
+	 */
+	public function getDirtyState() -> int
+	{
+		return this->_dirtyState;
 	}
 
 	/**

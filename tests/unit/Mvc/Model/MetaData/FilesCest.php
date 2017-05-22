@@ -2,17 +2,16 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Files;
+use Phalcon\Mvc\Model\Metadata\Files;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\FilesCest
  * Tests the \Phalcon\Mvc\Model\Metadata\Files component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc\Model\Metadata

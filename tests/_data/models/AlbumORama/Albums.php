@@ -7,10 +7,14 @@ use Phalcon\Mvc\Model;
 /**
  * \Phalcon\Test\Models\AlbumORama\Albums
  *
- * @method static findFirst($parameters = null)
+ * @property Artists $artist
+ * @property Artists $Artist
  *
- * @copyright 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @method static Albums findFirst($parameters = null)
+ * @method static Albums[] find($parameters = null)
+ *
+ * @copyright 2011-2017 Phalcon Team
+ * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Models\AlbumORama

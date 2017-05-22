@@ -5,14 +5,14 @@ namespace Phalcon\Test\Unit\Mvc\Model\Transaction;
 use Phalcon\Test\Models\Select;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\Model\Transaction\Failed;
-use Phalcon\Test\Proxy\Mvc\Model\Transaction\Manager;
+use Phalcon\Mvc\Model\Transaction\Manager;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Transaction\Manager
  * Tests the Phalcon\Mvc\Model\Transaction\Manager component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Nochum Sossonko <nsossonko@hotmail.com>
  * @package   Phalcon\Test\Unit\Mvc\Model\Transaction
  *

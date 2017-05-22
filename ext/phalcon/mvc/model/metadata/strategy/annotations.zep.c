@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
-#include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
@@ -108,8 +107,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	array_init(emptyStringValues);
 	zephir_is_iterable(propertiesAnnotations, &_6, &_5, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 184);
 	for (
-	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_6, &_5)
+	  ; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zend_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HMKEY(property, _6, _5);
 		ZEPHIR_GET_HVALUE(propAnnotations, _7);
@@ -324,8 +323,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 	ZVAL_NULL(reversedColumnMap);
 	zephir_is_iterable(propertiesAnnotations, &_6, &_5, 0, 0, "phalcon/mvc/model/metadata/strategy/annotations.zep", 262);
 	for (
-	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_6, &_5)
+	  ; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+	  ; zend_hash_move_forward_ex(_6, &_5)
 	) {
 		ZEPHIR_GET_HMKEY(property, _6, _5);
 		ZEPHIR_GET_HVALUE(propAnnotations, _7);

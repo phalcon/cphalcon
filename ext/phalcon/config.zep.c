@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "ext/spl/spl_iterators.h"
-#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
@@ -84,8 +83,8 @@ PHP_METHOD(Phalcon_Config, __construct) {
 
 	zephir_is_iterable(arrayConfig, &_1, &_0, 0, 0, "phalcon/config.zep", 63);
 	for (
-	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_1, &_0)
+	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zend_hash_move_forward_ex(_1, &_0)
 	) {
 		ZEPHIR_GET_HMKEY(key, _1, _0);
 		ZEPHIR_GET_HVALUE(value, _2);
@@ -304,8 +303,8 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 196);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
@@ -409,8 +408,8 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zephir_check_call_status();
 	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 261);
 	for (
-	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
-	  ; zephir_hash_move_forward_ex(_2, &_1)
+	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);

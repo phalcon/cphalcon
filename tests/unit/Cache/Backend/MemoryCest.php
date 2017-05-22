@@ -5,14 +5,14 @@ namespace Phalcon\Test\Unit\Cache\Backend;
 use UnitTester;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\None;
-use Phalcon\Test\Proxy\Cache\Backend\Memory;
+use Phalcon\Cache\Backend\Memory;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\MemoryCest
  * Tests the \Phalcon\Cache\Backend\Memory component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Cache\Backend

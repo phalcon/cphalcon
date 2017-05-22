@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/hash.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -44,11 +43,11 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translation_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
 		zephir_get_strval(translation, translation_param);
 	} else {
 		ZEPHIR_INIT_VAR(translation);
@@ -66,8 +65,8 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	if (_0) {
 		zephir_is_iterable(placeholders, &_2$$3, &_1$$3, 0, 0, "phalcon/translate/interpolator/associativearray.zep", 38);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
+		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
 			ZEPHIR_GET_HVALUE(value, _3$$3);

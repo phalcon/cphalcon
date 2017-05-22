@@ -2,17 +2,17 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Test\Proxy\Mvc\Url;
-use Phalcon\Mvc\Router;
 use Phalcon\Di;
+use Phalcon\Mvc\Url;
+use Phalcon\Mvc\Router;
 use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Mvc\UrlTest
  * Tests the Phalcon\Mvc\Url component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc
@@ -238,7 +238,7 @@ class UrlTest extends UnitTest
             }
         );
     }
-    
+
     /**
      * Test urls that contains colons in schema definition and as parameter
      *
@@ -250,13 +250,13 @@ class UrlTest extends UnitTest
         $this->specify(
             "URL with colon is not correct",
             function () {
-                $di = $this->setupDI();
+                $this->setupDI();
                 $url = new Url();
                 $url->setBaseUri('http://www.test.com');
-                
+
                 expect($url->get("/controller/action/param/colon:param"))
                         ->equals("http://www.test.com/controller/action/param/colon:param");
-                
+
                 expect($url->get("http://www.example.com"))->equals('http://www.example.com');
                 expect($url->get("//www.example.com"))->equals('//www.example.com');
                 expect($url->get("schema:example.com"))->equals('schema:example.com');

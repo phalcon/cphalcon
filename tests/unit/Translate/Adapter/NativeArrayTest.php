@@ -3,14 +3,14 @@
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Translate\Adapter\NativeArray;
+use Phalcon\Translate\Adapter\NativeArray;
 
 /**
  * \Phalcon\Test\Unit\Translate\Adapter\NativeArrayTest
  * Tests the \Phalcon\Translate\Adapter\NativeArray component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Translate\Adapter

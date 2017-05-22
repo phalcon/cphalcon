@@ -21,7 +21,7 @@ use DirectoryIterator;
  * \Phalcon\Test\Unit\Mvc\ViewTest
  * Tests the Phalcon\Mvc\View component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
@@ -976,7 +976,7 @@ class ViewTest extends UnitTest
         );
     }
 
-    public function ytestCacheMethods()
+    public function testCacheMethods()
     {
         $this->specify(
             "View methods don't return the View instance",
@@ -990,6 +990,36 @@ class ViewTest extends UnitTest
                 expect($view->cache(true))->equals($view);
                 expect($view->render('test2', 'index'))->equals($view);
                 expect($view->finish())->equals($view);
+            }
+        );
+    }
+
+    /**
+     * Tests params view scope
+     *
+     * @issue  12648
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-17
+     */
+    public function testIssue12648()
+    {
+        $this->specify(
+            "View params are available in local scope",
+            function () {
+                $this->_clearCache();
+                $di = $this->_getDi();
+                $view = new View();
+                $view->setDI($di);
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setParamToView('a_cool_var', 'test');
+
+                $content = $view->setRenderLevel(View::LEVEL_ACTION_VIEW)->getRender('test3', 'another');
+                expect($content)->equals("<html>lol<p>test</p></html>\n");
+                try {
+                    echo $a_cool_var;
+                } catch (\PHPUnit_Framework_Exception $e) {
+                    expect($e->getMessage())->contains("Undefined variable: a_cool_var");
+                }
             }
         );
     }

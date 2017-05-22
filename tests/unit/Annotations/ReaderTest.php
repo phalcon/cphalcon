@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Annotations;
 
+use Phalcon\Annotations\Reader;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Annotations\Reader;
 
 /**
  * \Phalcon\Test\Unit\Annotations\ReaderTest
  * Tests for \Phalcon\Annotations\Reader component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Annotations

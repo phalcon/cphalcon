@@ -5,10 +5,10 @@ class_name: IntegrationTester
 modules:
     # enabled modules and helpers
     enabled:
-        - Helper\Integration
-        - Asserts
         - Phalcon
+        - Asserts
         - Filesystem
+        - Helper\Integration
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -26,8 +26,11 @@ use Phalcon\Mvc\Model\Message;
  *
  * This is a base class for Phalcon\Mvc\Model validators
  *
- * This class is only for use with Phalcon\Mvc\Collection. If you are using
- * Phalcon\Mvc\Model, please use the validators provided by Phalcon\Validation.
+ * This class is only for backward compatibility reasons to use with Phalcon\Mvc\Collection.
+ * Otherwise please use the validators provided by Phalcon\Validation.
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator
  */
 abstract class Validator implements ValidatorInterface
 {
@@ -39,7 +42,7 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Phalcon\Mvc\Model\Validator constructor
 	 */
-	public function __construct(array! options)
+	deprecated public function __construct(array! options)
 	{
 		let this->_options = options;
 	}

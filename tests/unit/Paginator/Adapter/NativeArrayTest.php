@@ -3,14 +3,14 @@
 namespace Phalcon\Test\Unit\Paginator\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Paginator\Adapter\NativeArray;
+use Phalcon\Paginator\Adapter\NativeArray;
 
 /**
  * \Phalcon\Test\Unit\Paginator\Adapter\NativeArrayTest
  * Tests the \Phalcon\Paginator\Adapter\NativeArray component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Paginator\Adapter

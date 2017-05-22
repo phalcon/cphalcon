@@ -2,16 +2,16 @@
 
 namespace Phalcon\Test\Unit\Session\Adapter;
 
-use Phalcon\Test\Proxy\Session\Adapter\Files;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Session\Adapter\Files;
 
 /**
  * \Phalcon\Test\Unit\Session\Adapter\FilesTest
  * Tests the \Phalcon\Session\Adapter\Files component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Session\Adapter

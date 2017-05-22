@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -176,6 +176,13 @@ class Redis extends Backend
 	/**
 	 * Stores cached content into the file backend and stops the frontend
 	 *
+	 * <code>
+	 * $cache->save("my-key", $data);
+	 *
+	 * // Save data termlessly
+	 * $cache->save("my-key", $data, -1);
+	 * </code>
+	 *
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
@@ -243,7 +250,10 @@ class Redis extends Backend
 			throw new Exception("Failed storing the data in redis");
 		}
 
-		redis->settimeout(lastKey, tt1);
+		// Don't set expiration for negative ttl or zero
+		if tt1 >= 1 {
+			redis->settimeout(lastKey, tt1);
+		}
 
 		let options = this->_options;
 
@@ -305,13 +315,18 @@ class Redis extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
-	public function queryKeys(prefix = null) -> array
+	public function queryKeys(string prefix = null) -> array
 	{
-		var redis, options, keys, specialKey, key, value;
+		var redis, options, keys, specialKey, key, idx;
 
 		let redis = this->_redis;
 
@@ -327,24 +342,24 @@ class Redis extends Backend
 		}
 
 		if specialKey == "" {
-			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCM')!");
+			throw new Exception("Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!");
 		}
 
 		/**
 		* Get the key from redis
 		*/
 		let keys = redis->sMembers(specialKey);
-		if typeof keys == "array" {
-			for key, value in keys {
-				if prefix && !starts_with(value, prefix) {
-					unset(keys[key]);
-				}
-			}
-
-			return keys;
+		if typeof keys != "array" {
+			return [];
 		}
 
-		return [];
+		for idx, key in keys {
+			if !empty prefix && !starts_with(key, prefix) {
+				unset keys[idx];
+			}
+		}
+
+		return keys;
 	}
 
 	/**
@@ -381,9 +396,8 @@ class Redis extends Backend
 	 * Increment of given $keyName by $value
 	 *
 	 * @param string keyName
-	 * @param int value
 	 */
-	public function increment(keyName = null, value = null) -> int
+	public function increment(keyName = null, int value = 1) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -400,10 +414,6 @@ class Redis extends Backend
 			let prefix = this->_prefix;
 			let lastKey = "_PHCR" . prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return redis->incrBy(lastKey, value);
@@ -413,9 +423,8 @@ class Redis extends Backend
 	 * Decrement of $keyName by given $value
 	 *
 	 * @param string keyName
-	 * @param int value
 	 */
-	public function decrement(keyName = null, value = null) -> int
+	public function decrement(keyName = null, int value = 1) -> int
 	{
 		var redis, prefix, lastKey;
 
@@ -432,10 +441,6 @@ class Redis extends Backend
 			let prefix = this->_prefix;
 			let lastKey = "_PHCR" . prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return redis->decrBy(lastKey, value);

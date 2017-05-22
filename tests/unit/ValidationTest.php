@@ -13,7 +13,7 @@ use Phalcon\Validation\Message\Group;
  * \Phalcon\Test\Unit\ValidationTest
  * Tests the \Phalcon\Validation component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -226,6 +226,68 @@ class ValidationTest extends UnitTest
                 ));
 
                 expect($messages)->equals($expectedMessages);
+            }
+        );
+    }
+    
+    /**
+     * Tests that empty values behaviour.
+     *
+     * @author Gorka Guridi <gorka.guridi@gmail.com>
+     * @since  2016-12-30
+     */
+    public function testEmptyValues()
+    {
+        $this->specify(
+            "Validation of empty values doesn't work as expected",
+            function () {
+                $validation = new Validation();
+
+                $validation->setDI(new FactoryDefault());
+
+                $validation
+                    ->add('name', new Validation\Validator\Alpha(array(
+                        'message' => 'The name is not valid',
+                    )))
+                    ->add('name', new Validation\Validator\PresenceOf(array(
+                        'message' => 'The name is required',
+                    )))
+                    ->add('url', new Validation\Validator\Url(array(
+                        'message' => 'The url is not valid.',
+                        'allowEmpty' => true,
+                    )))
+                    ->add('email', new Validation\Validator\Email(array(
+                        'message' => 'The email is not valid.',
+                        'allowEmpty' => [null, false],
+                    )));
+
+                $messages = $validation->validate([
+                    'name' => '',
+                    'url' => null,
+                    'email' => '',
+                ]);
+                expect($messages)->count(2);
+                
+                $messages = $validation->validate([
+                    'name' => 'MyName',
+                    'url' => '',
+                    'email' => '',
+                ]);
+                expect($messages)->count(1);
+                
+                $messages = $validation->validate([
+                    'name' => 'MyName',
+                    'url' => false,
+                    'email' => null,
+                ]);
+                expect($messages)->count(0);
+                
+                $messages = $validation->validate([
+                    'name' => 'MyName',
+                    'url' => 0,
+                    'email' => 0,
+                ]);
+                expect($messages)->count(1);
             }
         );
     }

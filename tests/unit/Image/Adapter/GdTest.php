@@ -4,14 +4,14 @@ namespace Phalcon\Test\Unit\Image\Adapter;
 
 use Phalcon\Image;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Image\Adapter\Gd;
+use Phalcon\Image\Adapter\Gd;
 
 /**
  * \Phalcon\Test\Unit\Image\Adapter\GdTest
  * Tests the \Phalcon\Image\Adapter\Gd component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Image\Adapter

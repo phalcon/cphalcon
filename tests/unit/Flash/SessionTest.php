@@ -2,18 +2,18 @@
 
 namespace Phalcon\Test\Unit\Flash;
 
-use Codeception\Lib\Connector\Phalcon\MemorySession;
-use Phalcon\Test\Proxy\Flash\Session;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Di;
 use Phalcon\Escaper;
+use Phalcon\Flash\Session;
+use Phalcon\Test\Module\UnitTest;
+use Codeception\Lib\Connector\Phalcon\MemorySession;
 
 /**
  * \Phalcon\Test\Unit\Flash\SessionTest
  * Tests the Phalcon\Flash\Session component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Flash

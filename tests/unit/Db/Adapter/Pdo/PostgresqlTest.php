@@ -11,7 +11,7 @@ use Phalcon\Db\Adapter\Pdo\Postgresql;
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\PostgresqlTest
  * Tests the \Phalcon\Db\Adapter\Pdo\Postgresql component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
@@ -36,14 +36,18 @@ class PostgresqlTest extends UnitTest
     {
         parent::_before();
 
-        $this->connection = new Postgresql([
-            'host'     => TEST_DB_POSTGRESQL_HOST,
-            'username' => TEST_DB_POSTGRESQL_USER,
-            'password' => TEST_DB_POSTGRESQL_PASSWD,
-            'dbname'   => TEST_DB_POSTGRESQL_NAME,
-            'port'     => TEST_DB_POSTGRESQL_PORT,
-            'schema'   => TEST_DB_POSTGRESQL_SCHEMA
-        ]);
+        try {
+            $this->connection = new Postgresql([
+                'host'     => TEST_DB_POSTGRESQL_HOST,
+                'username' => TEST_DB_POSTGRESQL_USER,
+                'password' => TEST_DB_POSTGRESQL_PASSWD,
+                'dbname'   => TEST_DB_POSTGRESQL_NAME,
+                'port'     => TEST_DB_POSTGRESQL_PORT,
+                'schema'   => TEST_DB_POSTGRESQL_SCHEMA
+            ]);
+        } catch (\PDOException $e) {
+            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+        }
     }
 
     /**

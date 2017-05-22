@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -27,11 +27,14 @@ use Phalcon\Annotations\Reflection;
  *
  * Stores the parsed annotations in APC. This adapter is suitable for production
  *
- *<code>
+ * <code>
  * use Phalcon\Annotations\Adapter\Apc;
  *
  * $annotations = new Apc();
- *</code>
+ * </code>
+ *
+ * @see \Phalcon\Annotations\Adapter\Apcu
+ * @deprecated
  */
 class Apc extends Adapter
 {

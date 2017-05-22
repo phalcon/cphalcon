@@ -7,7 +7,7 @@ use Phalcon\Mvc\ViewBaseInterface;
 /**
  * \Helper\ViewTrait
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

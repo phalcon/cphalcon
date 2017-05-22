@@ -16,6 +16,9 @@
  * Phalcon\Mvc\Model\ValidatorInterface
  *
  * Interface for Phalcon\Mvc\Model validators
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\ValidatorInterface
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidatorInterface) {
 

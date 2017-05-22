@@ -3,17 +3,17 @@
 namespace Phalcon\Test\Unit\Acl\Adapter;
 
 use Phalcon\Acl;
+use Phalcon\Acl\Role;
+use Phalcon\Acl\Resource;
 use PHPUnit_Framework_Exception;
-use Phalcon\Test\Proxy\Acl\Role;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Acl\Resource;
-use Phalcon\Test\Proxy\Acl\Adapter\Memory;
+use Phalcon\Acl\Adapter\Memory;
 
 /**
  * \Phalcon\Test\Unit\Acl\Adapter\MemoryTest
  * Tests for \Phalcon\Acl\Adapter\Memory component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -712,6 +712,57 @@ class MemoryTest extends UnitTest
                 expect($acl->isAllowed('Guests', 'Post', 'create'))->true();
                 expect($acl->isAllowed('Guests', 'Post', 'index'))->true();
                 expect($acl->isAllowed('Guests', 'Post', 'update'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests adding wildcard rule second time
+     *
+     * @issue   12573
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-01-25
+     */
+    public function testDefaultAction()
+    {
+        $this->specify(
+            "Default access doesn't work as expected",
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addResource(new Acl\Resource('Post'), ['index', 'update', 'create']);
+                $acl->addRole(new Role('Guests'));
+
+                $acl->allow('Guests', 'Post', 'index');
+                expect($acl->isAllowed('Guests', 'Post', 'index'))->true();
+                expect($acl->isAllowed('Guests', 'Post', 'update'))->false();
+            }
+        );
+    }
+
+    /**
+     * Tests role and resource objects as isAllowed parameters
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-02-15
+     */
+    public function testRoleResourceObjects()
+    {
+        $this->specify(
+            "Role and Resource objects doesn't work with isAllowed method",
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $role = new Role('Guests');
+                $resource = new Resource('Post');
+                $acl->addRole($role);
+                $acl->addResource($resource, ['index', 'update', 'create']);
+
+                $acl->allow('Guests', 'Post', 'index');
+
+                expect($acl->isAllowed($role, $resource, 'index'))->true();
+                expect($acl->isAllowed($role, $resource, 'update'))->false();
             }
         );
     }

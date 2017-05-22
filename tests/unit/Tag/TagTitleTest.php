@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
-use Phalcon\Test\Proxy\Tag;
+use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Tag\TagTitleTest
  * Tests the \Phalcon\Tag component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Tag
@@ -63,7 +63,7 @@ class TagTitleTest extends UnitTest
                 Tag::setTitle($value);
 
                 expect(Tag::getTitle())->equals("<title>{$value}</title>" . PHP_EOL);
-                
+
                 expect(Tag::getTitle(false))->equals("{$value}");
             }
         );
@@ -86,14 +86,14 @@ class TagTitleTest extends UnitTest
                 Tag::appendTitle('Class');
 
                 expect(Tag::getTitle())->equals("<title>TitleClass</title>" . PHP_EOL);
-                
+
                 Tag::resetInput();
 
                 Tag::setTitle('This is my title');
                 Tag::appendTitle(' - Welcome!');
 
                 expect(Tag::getTitle())->equals("<title>This is my title - Welcome!</title>" . PHP_EOL);
-                
+
                 Tag::resetInput();
 
                 Tag::setTitle('Title');
@@ -103,16 +103,16 @@ class TagTitleTest extends UnitTest
                 expect(Tag::getTitle())->equals("<title>Title|Class</title>" . PHP_EOL);
 
                 Tag::resetInput();
-                
+
                 Tag::setTitle('Main');
                 Tag::setTitleSeparator(' - ');
                 Tag::appendTitle('Category');
                 Tag::appendTitle('Title');
-                
+
                 expect(Tag::getTitle())->equals("<title>Main - Category - Title</title>" . PHP_EOL);
-                
+
                 Tag::resetInput();
-                
+
                 Tag::setTitle('Main');
                 Tag::setTitleSeparator(' - ');
                 Tag::appendTitle(['Category', 'Title']);
@@ -120,12 +120,12 @@ class TagTitleTest extends UnitTest
                 expect(Tag::getTitle())->equals("<title>Main - Category - Title</title>" . PHP_EOL);
 
                 Tag::resetInput();
-                
+
                 Tag::setTitle('Main');
                 Tag::setTitleSeparator(' - ');
                 Tag::appendTitle('Category');
                 Tag::appendTitle([]);
-                
+
                 expect(Tag::getTitle())->equals("<title>Main</title>" . PHP_EOL);
             }
         );
@@ -149,24 +149,24 @@ class TagTitleTest extends UnitTest
                 Tag::prependTitle('PhalconPHP - ');
 
                 expect(Tag::getTitle())->equals("<title>PhalconPHP - This is my title</title>" . PHP_EOL);
-                
+
                 Tag::resetInput();
-                
+
                 Tag::setTitle('Title');
                 Tag::setTitleSeparator('|');
                 Tag::prependTitle('Class');
 
                 expect(Tag::getTitle())->equals('<title>Class|Title</title>' . PHP_EOL);
-                
+
                 Tag::resetInput();
-                
+
                 Tag::setTitle('Main');
                 Tag::setTitleSeparator(' - ');
                 Tag::prependTitle('Category');
                 Tag::prependTitle('Title');
-                
+
                 expect(Tag::getTitle())->equals("<title>Title - Category - Main</title>" . PHP_EOL);
-                
+
                 Tag::resetInput();
 
                 Tag::setTitle('Main');

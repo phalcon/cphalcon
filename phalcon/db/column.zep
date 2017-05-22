@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -97,7 +97,6 @@ class Column implements ColumnInterface
 
 	/**
 	 * Double abstract data type
-	 *
 	 */
 	const TYPE_DOUBLE = 9;
 
@@ -122,7 +121,7 @@ class Column implements ColumnInterface
 	const TYPE_LONGBLOB = 13;
 
 	/**
-	 * Big integer abstract type
+	 * Big integer abstract data type
 	 */
 	const TYPE_BIGINTEGER = 14;
 

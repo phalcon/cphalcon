@@ -12,8 +12,8 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @method static Simple findByType(string $type)
  * @method static Robots findFirstById(string|int $id)
  *
- * @copyright 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Models
@@ -27,6 +27,16 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  */
 class Robots extends Model
 {
+    /**
+     * @var bool
+     */
+    public $wasSetterUsed = false;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
     public function initialize()
     {
         $this->keepSnapshots(true);
@@ -41,5 +51,13 @@ class Robots extends Model
                 'alias' => 'parts'
             ]
         );
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->wasSetterUsed = true;
+
+        return $this;
     }
 }

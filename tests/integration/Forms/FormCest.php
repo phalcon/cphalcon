@@ -18,7 +18,7 @@ use Phalcon\Validation\Validator\StringLength;
  * \Phalcon\Test\Integration\Forms\FormCest
  * Tests the \Phalcon\Forms\Form component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -207,7 +207,6 @@ class Memory extends Adapter
 
 		let this->_roles[] = roleObject;
 		let this->_rolesNames[roleName] = true;
-		let this->_access[roleName . "!*!*"] = this->_defaultAccess;
 
 		if accessInherits != null {
 			return this->addInherit(roleName, accessInherits);
@@ -228,7 +227,7 @@ class Memory extends Adapter
 			throw new Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
-		if typeof roleToInherit == "object" {
+		if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
 			let roleInheritName = roleToInherit->getName();
 		} else {
 			let roleInheritName = roleToInherit;
@@ -320,7 +319,7 @@ class Memory extends Adapter
 	{
 		var resourceName, resourceObject;
 
-		if typeof resourceValue == "object" {
+		if typeof resourceValue == "object" && resourceValue instanceof ResourceInterface {
 			let resourceName   = resourceValue->getName();
 			let resourceObject = resourceValue;
 		 } else {
@@ -530,6 +529,9 @@ class Memory extends Adapter
 	 * //Do guests have access to any resource to edit?
 	 * $acl->isAllowed("guests", "*", "edit");
 	 * </code>
+	 *
+	 * @param  RoleInterface|RoleAware|string roleName
+	 * @param  ResourceInterface|ResourceAware|string resourceName
 	 */
 	public function isAllowed(var roleName, var resourceName, string access, array parameters = null) -> boolean
 	{
@@ -541,19 +543,26 @@ class Memory extends Adapter
 			reflectionParameter;
 
 		if typeof roleName == "object" {
-			if !(roleName instanceof RoleAware) {
-				throw new Exception("Object passed as roleName must implement RoleAware");
+			if roleName instanceof RoleAware {
+				let roleObject = roleName;
+				let roleName = roleObject->getRoleName();
+			} elseif roleName instanceof RoleInterface {
+				let roleName = roleName->getName();
+			} else {
+				throw new Exception("Object passed as roleName must implement Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface");
 			}
-			let roleObject = roleName;
-			let roleName = roleObject->getRoleName();
 		}
 
 		if typeof resourceName == "object" {
-			if !(resourceName instanceof ResourceAware) {
-				throw new Exception("Object passed as resourceName must implement ResourceAware");
+			if resourceName instanceof ResourceAware {
+				let resourceObject = resourceName;
+				let resourceName = resourceObject->getResourceName();
+			} elseif resourceName instanceof ResourceInterface {
+				let resourceName = resourceName->getName();
+			} else {
+				throw new Exception("Object passed as resourceName must implement Phalcon\\Acl\\ResourceAware or Phalcon\\Acl\\ResourceInterface");
 			}
-			let resourceObject = resourceName;
-			let resourceName = resourceObject->getResourceName();
+
 		}
 
 		let this->_activeRole = roleName;

@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -118,8 +117,8 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 		array_init(replace);
 		zephir_is_iterable(context, &_2$$3, &_1$$3, 0, 0, "phalcon/logger/formatter.zep", 89);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
+		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
 			ZEPHIR_GET_HVALUE(value, _3$$3);

@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -245,7 +245,7 @@ class Simple extends Resultset
 	 */
 	public function unserialize(string! data) -> void
 	{
-		var resultset;
+		var resultset, keepSnapshots;
 
 		let resultset = unserialize(data);
 		if typeof resultset != "array" {
@@ -257,7 +257,10 @@ class Simple extends Resultset
 			this->_count = count(resultset["rows"]),
 			this->_cache = resultset["cache"],
 			this->_columnMap = resultset["columnMap"],
-			this->_hydrateMode = resultset["hydrateMode"],
-			this->_keepSnapshots = resultset["keepSnapshots"];
+			this->_hydrateMode = resultset["hydrateMode"];
+
+		if fetch keepSnapshots, resultset["keepSnapshots"] {
+		    let this->_keepSnapshots = keepSnapshots;
+		}
 	}
 }

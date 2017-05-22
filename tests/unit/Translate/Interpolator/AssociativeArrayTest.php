@@ -3,14 +3,14 @@
 namespace Phalcon\Test\Unit\Translate\Interpolator;
 
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Translate\Interpolator\AssociativeArray;
+use Phalcon\Translate\Interpolator\AssociativeArray;
 
 /**
  * \Phalcon\Test\Unit\Translate\Interpolator\AssociativeArrayTest
  * Tests the \Phalcon\Translate\Interpolator\AssociativeArray component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Translate\Interpolator

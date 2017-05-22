@@ -2,17 +2,16 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Redis;
+use Phalcon\Mvc\Model\Metadata\Redis;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\RedisCest
  * Tests the \Phalcon\Mvc\Model\Metadata\Redis component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Mvc\Model\Metadata
@@ -38,8 +37,9 @@ class RedisCest
 
         $I->haveServiceInDi('modelsMetadata', function () {
             return new Redis([
-                'host' => TEST_RS_HOST,
-                'port' => TEST_RS_PORT
+                'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+                'port'  => env('TEST_RS_PORT', 6379),
+                'index' => env('TEST_RS_DB', 0),
             ]);
         }, true);
 

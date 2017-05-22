@@ -1,9 +1,11 @@
-.settings/
-.idea
-.cproject
-.project
+# Please do not use this ignore file to define platform specific files.
+#
+# For these purposes create a global .gitignore file, which is a list of rules
+# for ignoring files in every Git repository on your computer.
+#
+# https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
+
 ext/ltmain.sh
-unit-tests/engines/*
 ext/.deps
 ext/Makefile
 ext/Makefile.fragments
@@ -30,9 +32,6 @@ ext/mkinstalldirs
 ext/modules/
 ext/phalcon.la
 ext/run-tests.php
-unit-tests/views/test10/children.extends.volt.php
-unit-tests/views/test10/children2.volt.php
-unit-tests/views/test10/children.volt.php
 
 *.o
 *.lo
@@ -42,12 +41,8 @@ unit-tests/views/test10/children.volt.php
 /.libs
 /ext/.libs
 *~
-.DS_Store
 .temp/
 composer.lock
-composer.phar
-.vagrant
-Vagrantfile
 ext/phalcon/mvc/view/engine/volt/lemon
 ext/phalcon/mvc/view/engine/volt/lemon.dSYM/
 ext/phalcon/mvc/view/engine/volt/parser.out
@@ -57,7 +52,6 @@ ext/phalcon/annotations/parser.out
 ext/phalcon/mvc/model/query/lemon
 ext/phalcon/mvc/model/query/parser.out
 /vendor/
-/ide/
 ext/phalcon/annotations/parser.php5.out
 ext/phalcon/annotations/parser.php7.out
 ext/phalcon/mvc/view/engine/volt/parser.php5.out
@@ -69,3 +63,6 @@ ext/phalcon/mvc/model/query/.libs/
 build/gccarch
 *.ghc
 *.phc
+
+ide/
+docker-compose.yml

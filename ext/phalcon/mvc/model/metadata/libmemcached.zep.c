@@ -19,7 +19,6 @@
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 
 
@@ -111,9 +110,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	ZEPHIR_OBS_VAR(_4);
 	zephir_read_property_this(&_4, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_3, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 332, _3);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 334, _3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 333, _2, options);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 335, _2, options);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("_memcache"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -132,11 +131,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, read) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -166,11 +165,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, write) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
-	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -204,8 +203,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		zephir_is_iterable(meta, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/metadata/libmemcached.zep", 132);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
+		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
 			ZEPHIR_GET_HVALUE(_0$$3, _3$$3);
@@ -216,7 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, this_ptr, "reset", &_5, 334);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, this_ptr, "reset", &_5, 336);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

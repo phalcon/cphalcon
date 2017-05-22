@@ -2,17 +2,15 @@
 
 namespace Phalcon\Test\Unit\Flash\Direct\Helper;
 
-use Phalcon\Test\Proxy\Flash\Direct;
+use Phalcon\Flash\Direct;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Di;
-use Phalcon\Escaper;
 
 /**
  * \Phalcon\Test\Unit\Flash\Direct\Helper\FlashBase
  * Tests the \Phalcon\Flash\Direct component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Flash\Direct\Helper

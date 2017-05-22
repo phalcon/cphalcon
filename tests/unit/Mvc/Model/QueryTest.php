@@ -21,7 +21,7 @@ use Phalcon\Test\Models\Some\Products as SomeProducts;
  * \Phalcon\Test\Unit\Mvc\Model\QueryTest
  * Tests the Phalcon\Mvc\Model\Query component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
@@ -50,9 +50,6 @@ class QueryTest extends UnitTest
         $this->di = $app->getDI();
     }
 
-    /**
-     * @medium
-     */
     public function testSelectParsing()
     {
         $this->specify(
@@ -4637,7 +4634,7 @@ class QueryTest extends UnitTest
                         )
                     ],
                     [
-                        "phql"     => 'SELECT ' . Robotters:: class . '.* FROM ' . Robotters::class,
+                        "phql"     => 'SELECT ' . Robotters::class . '.* FROM ' . Robotters::class,
                         "expected" => array(
                             'models' => array(
                                 Robotters::class,
@@ -6922,8 +6919,6 @@ class QueryTest extends UnitTest
             ]
         );
     }
-
-
 
     public function testInsertParsing()
     {

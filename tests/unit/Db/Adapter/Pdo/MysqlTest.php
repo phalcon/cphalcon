@@ -11,7 +11,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\MysqlTest
  * Tests the \Phalcon\Db\Adapter\Pdo\Mysql component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
@@ -35,14 +35,18 @@ class MysqlTest extends UnitTest
     {
         parent::_before();
 
-        $this->connection = new Mysql([
-            'host'     => TEST_DB_MYSQL_HOST,
-            'username' => TEST_DB_MYSQL_USER,
-            'password' => TEST_DB_MYSQL_PASSWD,
-            'dbname'   => TEST_DB_MYSQL_NAME,
-            'port'     => TEST_DB_MYSQL_PORT,
-            'charset'  => TEST_DB_MYSQL_CHARSET,
-        ]);
+        try {
+            $this->connection = new Mysql([
+                'host'     => TEST_DB_MYSQL_HOST,
+                'username' => TEST_DB_MYSQL_USER,
+                'password' => TEST_DB_MYSQL_PASSWD,
+                'dbname'   => TEST_DB_MYSQL_NAME,
+                'port'     => TEST_DB_MYSQL_PORT,
+                'charset'  => TEST_DB_MYSQL_CHARSET,
+            ]);
+        } catch (\PDOException $e) {
+            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+        }
     }
 
     /**
@@ -80,6 +84,7 @@ class MysqlTest extends UnitTest
                     'robots_parts',
                     'songs',
                     'stats',
+                    'stock',
                     'subscriptores',
                     'tipo_documento',
                     'users',

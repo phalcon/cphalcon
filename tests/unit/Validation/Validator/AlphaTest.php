@@ -3,18 +3,17 @@
 namespace Phalcon\Test\Unit\Validation\Validator;
 
 use Phalcon\Validation;
-use Codeception\Specify;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation\Message;
+use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation\Message\Group;
-use Phalcon\Test\Proxy\Validation\Validator\Alpha;
+use Phalcon\Validation\Validator\Alpha;
 
 /**
  * \Phalcon\Test\Unit\Validation\Validator\AlphaTest
  * Tests the \Phalcon\Validation\Validator\Alpha component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>

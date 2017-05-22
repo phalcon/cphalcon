@@ -2,16 +2,15 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use Phalcon\Di;
 use UnitTester;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Proxy\Mvc\Model\Metadata\Apc;
+use Phalcon\Mvc\Model\Metadata\Apc;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\ApcCest
  * Tests the \Phalcon\Mvc\Model\Metadata\Apc component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

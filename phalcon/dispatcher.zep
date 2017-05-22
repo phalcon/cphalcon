@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -334,8 +334,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 *     return $dispatcher;
 	 * });
 	 * </code>
+	 *
+	 * @deprecated 3.1.0 Use setModelBinder method
+	 * @see Phalcon\Dispatcher::setModelBinder()
 	 */
-	public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
+	deprecated public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
 	{
 		var dependencyInjector;
 
@@ -381,6 +384,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		let this->_modelBinder = modelBinder;
 
 		return this;
+	}
+
+	/**
+	 * Gets model binder
+	 */
+	public function getModelBinder() -> <BinderInterface>|null
+	{
+		return this->_modelBinder;
 	}
 
 	/**
@@ -688,17 +699,16 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Forwards the execution flow to another controller/action
-	 * Dispatchers are unique per module. Forwarding between modules is not allowed
+	 * Forwards the execution flow to another controller/action.
 	 *
-	 *<code>
+	 * <code>
 	 * $this->dispatcher->forward(
 	 *     [
 	 *         "controller" => "posts",
 	 *         "action"     => "index",
 	 *     ]
 	 * );
-	 *</code>
+	 * </code>
 	 *
 	 * @param array forward
 	 */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\integration\Mvc;
+namespace Phalcon\Test\Integration\Mvc;
 
 use Phalcon\Di;
 use Phalcon\Test\Integration\Mvc\Model\BinderCest;
@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model\Metadata\Memory;
  * \Phalcon\Test\Integration\Mvc\ControllerCest
  * Tests the Phalcon\Mvc\Controller component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

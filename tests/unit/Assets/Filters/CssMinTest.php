@@ -2,16 +2,15 @@
 
 namespace Phalcon\Test\Unit\Assets\Filters;
 
-use Phalcon\Assets\Resource;
-use Phalcon\Test\Proxy\Assets\Filters\Cssmin;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Assets\Filters\Cssmin;
 
 /**
  * \Phalcon\Test\Unit\Assets\Filters\CssminTest
  * Tests the \Phalcon\Assets\Filters\Cssmin component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Assets\Filters

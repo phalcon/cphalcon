@@ -3,17 +3,17 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Di;
+use Phalcon\Security;
 use Phalcon\Http\Request;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Security;
 use Codeception\Lib\Connector\Phalcon\MemorySession;
 
 /**
  * \Phalcon\Test\Unit\SecurityTest
  * Tests the \Phalcon\Security component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit
@@ -242,16 +242,16 @@ class SecurityTest extends UnitTest
 
                 $s->setDefaultHash(Security::CRYPT_EXT_DES);
                 expect($s->checkHash($password, $s->hash($password)))->true();
-                
+
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH);
                 expect($s->checkHash($password, $s->hash($password)))->true();
-                
+
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH_A);
                 expect($s->checkHash($password, $s->hash($password)))->true();
-                
+
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH_X);
                 expect($s->checkHash($password, $s->hash($password)))->true();
-                
+
                 $s->setDefaultHash(Security::CRYPT_BLOWFISH_Y);
                 expect($s->checkHash($password, $s->hash($password)))->true();
 

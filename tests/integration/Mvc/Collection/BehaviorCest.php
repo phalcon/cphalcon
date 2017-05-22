@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\integration\Mvc\Collection;
+namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use Helper\CollectionTrait;
 use IntegrationTester;
@@ -10,7 +10,7 @@ use Phalcon\Test\Collections\Subs;
  * \Phalcon\Test\Integration\Mvc\Collection\BehaviorCest
  * Tests the Phalcon\Mvc\Collection component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>

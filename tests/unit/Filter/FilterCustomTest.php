@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Filter;
 
-use Phalcon\Test\Proxy\Filter;
+use Phalcon\Filter;
 use Phalcon\Test\Unit\Filter\Helper\IPv4;
 
 /**
  * \Phalcon\Test\Unit\Filter\FilterCustomTest
  * Tests the \Phalcon\Filter component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Filter

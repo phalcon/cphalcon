@@ -2,20 +2,20 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
+use Phalcon\Tag;
+use Phalcon\Assets\Manager;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Filters\None;
-use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Assets\Filters\Jsmin;
-use Phalcon\Test\Proxy\Assets\Manager;
 
 /**
  * \Phalcon\Test\Unit\Assets\ManagerTest
  * Tests the \Phalcon\Assets\Manager component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Assets

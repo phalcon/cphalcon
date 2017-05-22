@@ -2,15 +2,15 @@
 
 namespace Phalcon\Test\Unit\Queue\Helper;
 
+use Phalcon\Queue\Beanstalk;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Queue\Beanstalk;
 
 /**
  * \Phalcon\Test\Unit\Queue\Helper\BeanstalkBase
  * Base class for Phalcon\Queue\Beanstalk component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  *
