@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
 use Phalcon\Db\Adapter\Pdo\Factory;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Di;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 
 /**
@@ -62,6 +63,54 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["database"];
                 /** @var Mysql $database */
                 $database = Factory::load($options);
+                expect($database)->isInstanceOf(Mysql::class);
+                expect(array_intersect_assoc($database->getDescriptor(), $options))->equals(
+                    $database->getDescriptor()
+                );
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using Phalcon\Config
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiConfigFactory()
+    {
+        $this->specify(
+            "Factory for di using Phalcon\\Config doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->config->database;
+                /** @var Mysql $database */
+                $di->set('db', Factory::loadForDi($options));
+                $database = $di->get('db');
+                expect($database)->isInstanceOf(Mysql::class);
+                expect(array_intersect_assoc($database->getDescriptor(), $options->toArray()))->equals(
+                    $database->getDescriptor()
+                );
+            }
+        );
+    }
+
+    /**
+     * Test factory for di using array
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-04-07
+     */
+    public function testDiArrayFactory()
+    {
+        $this->specify(
+            "Factory for di using array doesn't work properly",
+            function () {
+                $di = new Di();
+                $options = $this->arrayConfig["database"];
+                /** @var Mysql $database */
+                $di->set('db', Factory::loadForDi($options));
+                $database = $di->get('db');
                 expect($database)->isInstanceOf(Mysql::class);
                 expect(array_intersect_assoc($database->getDescriptor(), $options))->equals(
                     $database->getDescriptor()

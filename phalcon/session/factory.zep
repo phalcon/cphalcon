@@ -50,4 +50,12 @@ class Factory extends BaseFactory
 	{
 		return self::loadClass("Phalcon\\Session\\Adapter", config);
 	}
+
+	/**
+	 * @param \Phalcon\Config|array config
+	 */
+	public static function loadForDi(var config) -> array
+	{
+		return self::loadAsArray("Phalcon\\Session\\Adapter", config);
+	}
 }

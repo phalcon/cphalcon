@@ -1,6 +1,6 @@
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-XX-XX)
 - Phalcon will now trigger `E_DEPREACATED` by using `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct`
-- Added Factory Adapter loaders [#11001](https://github.com/phalcon/cphalcon/issues/11001)
+- Added Factory Adapter loaders [#11001](https://github.com/phalcon/cphalcon/issues/11001) with option to load them as object or array(for passing it to `Phalcon\Di::set`)
 - Added ability to sanitize URL to `Phalcon\Filter`
 - Added missed `$type` argument to interface `Phalcon\Mvc\Model\Query\BuilderInterface::join()` to specify type join
 - Added `Phalcon\Mvc\Model::hasUpdated` and `Phalcon\Mvc\Model:getUpdatedFields`, way to check if fields were updated after create/save/update

@@ -49,9 +49,89 @@ class Factory extends BaseFactory
 		return self::loadClass("Phalcon\\Image\\Adapter", config);
 	}
 
+	public static function loadForDi(var config) -> array
+	{
+		return self::loadAsArray("Phalcon\\Image\\Adapter", config);
+	}
+
 	protected static function loadClass(string $namespace, var config)
 	{
-		var adapter, className, file, height, width;
+		var width, height, className, params;
+
+		let params = self::checkArguments($namespace, config);
+
+		let width = 0;
+		let className = params["className"];
+
+		if fetch height, params["height"] {
+			fetch width, params["width"];
+			return new {className}(params["file"], width, height);
+		} elseif fetch width, params["width"] {
+			return new {className}(params["file"], width);
+		}
+
+		return new {className}(params["file"]);
+	}
+
+	protected static function loadAsArray(string $namespace, var config)
+	{
+		var height, width, params;
+
+		let params = self::checkArguments($namespace, config);
+
+		let width = 0;
+
+		if fetch height, params["height"] {
+			fetch width, params["width"];
+			return [
+				"className" : params["className"],
+				"arguments" : [
+					[
+						"type" : "parameter",
+						"value" : params["file"]
+					],
+					[
+						"type" : "parameter",
+						"value" : width
+					],
+					[
+						"type" : "parameter",
+						"value" : height
+					]
+				]
+			];
+		} elseif fetch width, params["width"] {
+			return [
+				"className" : params["className"],
+				"arguments" : [
+					[
+						"type" : "parameter",
+						"value" : params["file"]
+					],
+					[
+						"type" : "parameter",
+						"value" : width
+					]
+				]
+			];
+		}
+
+		return [
+			"className" : params["className"],
+			"arguments" : [
+				[
+					"type" : "parameter",
+					"value" : params["file"]
+				]
+			]
+		];
+	}
+
+	protected static function checkArguments(string $namespace, var config)
+	{
+		var adapter, file, height, width, params;
+
+		let params = [];
 
 		if typeof config == "object" && config instanceof Config {
 			let config = config->toArray();
@@ -66,19 +146,19 @@ class Factory extends BaseFactory
 		}
 
 		if fetch adapter, config["adapter"] {
-			let className = $namespace."\\".camelize(adapter);
+			let params["file"] = file;
+			let params["className"] = $namespace."\\".camelize(adapter);
 
 			if fetch width, config["width"] {
+				let params["width"] = width;
 				if fetch height, config["height"] {
-					return new {className}(file, width, height);
+					let params["height"] = height;
 				}
-
-				return new {className}(file, width);
 			}
 
-			return new {className}(file);
+			return params;
+		} else {
+			throw new Exception("You must provide 'adapter' option in factory config parameter.");
 		}
-
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
 	}
 }
