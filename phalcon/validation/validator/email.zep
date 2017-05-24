@@ -69,30 +69,21 @@ class Email extends Validator
 		let value = validation->getValue(field);
 
 		if !filter_var(value, FILTER_VALIDATE_EMAIL) {
+			let label = this->prepareLabel(validation, field),
+				message = this->prepareMessage(validation, field, "Email"),
+				code = this->prepareCode(field);
 
-			let label = this->getOption("label");
-			if typeof label == "array" {
-				let label = label[field];
-			}
-			if empty label {
-				let label = validation->getLabel(field);
-			}
-
-			let message = this->getOption("message");
-			if typeof message == "array" {
-				let message = message[field];
-			}
 			let replacePairs = [":field": label];
-			if empty message {
-				let message = validation->getDefaultMessage("Email");
-			}
 
-			let code = this->getOption("code");
-			if typeof code == "array" {
-				let code = code[field];
-			}
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"Email",
+					code
+				)
+			);
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Email", code));
 			return false;
 		}
 
