@@ -69,31 +69,21 @@ class Alnum extends Validator
 		let value = validation->getValue(field);
 
 		if !ctype_alnum(value) {
+			let label = this->prepareLabel(validation, field),
+				message = this->prepareMessage(validation, field, "Alnum"),
+				code = this->prepareCode(field);
 
-			let label = this->getOption("label");
-			if typeof label == "array" {
-				let label = label[field];
-			}
-			if empty label {
-				let label = validation->getLabel(field);
-			}
-
-			let message = this->getOption("message");
-			if typeof message == "array" {
-				let message = message[field];
-			}
 			let replacePairs = [":field": label];
-			if empty message {
-				let message = validation->getDefaultMessage("Alnum");
-			}
 
-			let code = this->getOption("code");
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"Alnum",
+					code
+				)
+			);
 
-			if typeof code == "array" {
-				let code = code[field];
-			}
-
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alnum", code));
 			return false;
 		}
 
