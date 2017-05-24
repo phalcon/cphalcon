@@ -206,7 +206,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		var reserved;
 
 		let reserved = self::_reserved;
-		if reserved === null {
+		if typeof reserved != "array" {
 			let reserved = [
 				"_connection": true,
 				"_dependencyInjector": true,

@@ -29,6 +29,7 @@
 - Fixed `Phalcon\Mvc\Micro:handle` to correctly handle `afterBinding` handlers
 - Fixed `Phalcon\Mvc\Model::hasChanged` to correctly use it with arrays [#12669](https://github.com/phalcon/cphalcon/issues/12669)
 - Fixed `Phalcon\Mvc\Model\Resultset::delete` to return result depending on success [#11133](https://github.com/phalcon/cphalcon/issues/11133)
+- Fixed `Phalcon\Mvc\Collection::getReservedAttributes` to workaround for PHP 7/7.1 bug with static null when extending class
 
 # [3.1.2](https://github.com/phalcon/cphalcon/releases/tag/v3.1.2) (2017-04-05)
 - Fixed PHP 7.1 issues [#12055](https://github.com/phalcon/cphalcon/issues/12055)

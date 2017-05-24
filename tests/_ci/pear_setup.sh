@@ -70,7 +70,6 @@ fi
 pear config-set php_ini "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 
 echo "opcache.enable_cli=1" >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
-echo "opcache.fast_shutdown=0" >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 echo 'apc.enabled=1' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 echo 'apc.enable_cli=1' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 
