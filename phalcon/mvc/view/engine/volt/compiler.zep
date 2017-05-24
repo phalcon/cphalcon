@@ -2225,15 +2225,15 @@ class Compiler implements InjectionAwareInterface
              */
             if isset options["includePhpFunctions"] {
                 let includePhpFunctions = options["includePhpFunctions"];
-                if typeof includePhpFunctions != "boolean" {
-                    throw new Exception("'compileAlways' must be a bool value");
+                if typeof includePhpFunctions != "boolean" && typeof includePhpFunctions != "array" {
+                    throw new Exception("'includePhpFunctions' must be a bool or array value");
                 }
             }
 		}
 
         //Add PHP Internal Functions If Option Supplied
         if includePhpFunctions {
-            this->addPhpFunctions();
+            this->addPhpFunctions(includePhpFunctions);
         }
 
 		let intermediate = phvolt_parse_view(viewCode, currentPath);
@@ -2673,12 +2673,16 @@ class Compiler implements InjectionAwareInterface
     /**
      * Registers all internal PHP Functions in the compiler where the function hasn't been defined.
      */
-	final protected function addPhpFunctions() -> <Compiler>
+	final protected function addPhpFunctions(configOptions) -> <Compiler>
 	{
-	    var defined, functionName;
+	    var functionName;
 
-	    let defined = get_defined_functions();
-	    for functionName in defined["internal"] {
+	    if typeof configOptions == "bool" {
+            let configOptions = get_defined_functions();
+            let configOptions = configOptions["internal"];
+	    }
+
+	    for functionName in configOptions {
 	        if !this->hasFunction(functionName) {
 	            this->addFunction(functionName, functionName);
 	        }

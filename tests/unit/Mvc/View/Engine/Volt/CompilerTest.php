@@ -1280,6 +1280,25 @@ class CompilerTest extends UnitTest
         );
     }
 
+    public function testVoltPhpFunctionsArray()
+    {
+        $this->specify(
+            'PHP Include Array Of Functions Should Work',
+            function () {
+                $volt = new Compiler();
+
+                expect($volt->hasFunction('substr'))->false();
+
+                $volt->setOptions(['includePhpFunctions' => ['substr']]);
+
+                $compilation = $volt->compileString('{{ substr("hello world", 0, 6) }}');
+                expect($compilation)->equals("<?= substr('hello world', 0, 6) ?>");
+
+                expect($volt->hasFunction('substr'))->true();
+            }
+        );
+    }
+
     public function testVoltUsersFilters()
     {
         $this->specify(
