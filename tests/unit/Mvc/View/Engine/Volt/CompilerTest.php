@@ -1299,6 +1299,26 @@ class CompilerTest extends UnitTest
         );
     }
 
+
+    public function testVoltPhpFunctionsThrowsException()
+    {
+        $this->specify(
+            'PHP Include Array Should Throw Exception',
+            function () {
+                $volt = new Compiler();
+
+                expect($volt->hasFunction('substr'))->false();
+
+                $volt->setOptions(['includePhpFunctions' => ['some_nonexistant_function']]);
+
+                $volt->compileString('{{ substr("hello world", 0, 6) }}');
+            },
+            [
+                'throws' => 'Phalcon\Mvc\View\Engine\Volt\Exception'
+            ]
+        );
+    }
+
     public function testVoltUsersFilters()
     {
         $this->specify(

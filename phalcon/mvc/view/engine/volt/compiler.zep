@@ -2684,6 +2684,10 @@ class Compiler implements InjectionAwareInterface
 
 	    for functionName in configOptions {
 	        if !this->hasFunction(functionName) {
+	            if !call_user_func("function_exists", functionName) {
+	                throw new Exception(functionName . " does not exist");
+	            }
+
 	            this->addFunction(functionName, functionName);
 	        }
 	    }
