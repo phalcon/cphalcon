@@ -27,36 +27,7 @@ abstract class Factory implements FactoryInterface
 {
 	protected static function loadClass(string $namespace, var config)
 	{
-		var className, params;
-
-		let params = self::checkArguments($namespace, config);
-		let className = params["className"];
-
-		return new {className}(params["config"]);
-	}
-
-	protected static function loadAsArray(string $namespace, var config)
-	{
-		var params;
-
-		let params = self::checkArguments($namespace, config);
-
-		return [
-           	"className" : params["className"],
-           	"arguments" : [
-           		[
-           			"type" : "parameter",
-           			"value" : params["config"]
-           		]
-           	]
-        ];
-	}
-
-	protected static function checkArguments(string $namespace, var config)
-	{
-		var adapter, params;
-
-		let params = [];
+		var adapter, className;
 
 		if typeof config == "object" && config instanceof Config {
 			let config = config->toArray();
@@ -68,13 +39,11 @@ abstract class Factory implements FactoryInterface
 
 		if fetch adapter, config["adapter"] {
 			unset config["adapter"];
-		} else {
-			throw new Exception("You must provide 'adapter' option in factory config parameter.");
+			let className = $namespace."\\".adapter;
+
+			return new {className}(config);
 		}
 
-		let params["config"] = config;
-		let params["className"] = $namespace."\\".adapter;
-
-		return params;
+		throw new Exception("You must provide 'adapter' option in factory config parameter.");
 	}
 }
