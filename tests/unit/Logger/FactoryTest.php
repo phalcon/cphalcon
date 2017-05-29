@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Unit\Logger;
 
-use Phalcon\Di;
 use Phalcon\Logger\Factory;
 use Phalcon\Logger\Adapter\File;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
@@ -61,50 +60,6 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["logger"];
                 /** @var File $logger */
                 $logger = Factory::load($options);
-                expect($logger)->isInstanceOf(File::class);
-                expect($logger->getPath())->equals($options["name"]);
-            }
-        );
-    }
-
-    /**
-     * Test factory for di using Phalcon\Config
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-04-07
-     */
-    public function testDiConfigFactory()
-    {
-        $this->specify(
-            "Factory for di using Phalcon\\Config doesn't work properly",
-            function () {
-                $di = new Di();
-                $options = $this->config->logger;
-                /** @var File $logger */
-                $di->set('logger', Factory::loadForDi($options));
-                $logger = $di->get('logger');
-                expect($logger)->isInstanceOf(File::class);
-                expect($logger->getPath())->equals($options->name);
-            }
-        );
-    }
-
-    /**
-     * Test factory for di using array
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-04-07
-     */
-    public function testDiArrayFactory()
-    {
-        $this->specify(
-            "Factory for di using array doesn't work properly",
-            function () {
-                $di = new Di();
-                $options = $this->arrayConfig["logger"];
-                /** @var File $logger */
-                $di->set('logger', Factory::loadForDi($options));
-                $logger = $di->get('logger');
                 expect($logger)->isInstanceOf(File::class);
                 expect($logger->getPath())->equals($options["name"]);
             }

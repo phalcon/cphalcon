@@ -47,81 +47,9 @@ class Factory extends BaseFactory
 		return self::loadClass("Phalcon\\Config\\Adapter", config);
 	}
 
-	public static function loadForDi(var config) -> array
-	{
-		return self::loadAsArray("Phalcon\\Config\\Adapter", config);
-	}
-
 	protected static function loadClass(string $namespace, var config)
 	{
-		var className, mode, callbacks, params;
-
-		let params = self::checkArguments($namespace, config);
-		let className = params["className"];
-
-		if className == "Phalcon\\Config\\Adapter\\Ini" && fetch mode, params["mode"] {
-			return new {className}(params["filePath"], mode);
-		} elseif className == "Phalcon\\Config\\Adapter\\Yaml" && fetch callbacks, params["callbacks"] {
-			return new {className}(params["filePath"], callbacks);
-		}
-
-		return new {className}(params["filePath"]);
-	}
-
-	protected static function loadAsArray(string $namespace, var config)
-	{
-		var className, mode, callbacks, params;
-
-		let params = self::checkArguments($namespace, config);
-
-		let className = params["className"];
-
-		if className == "Phalcon\\Config\\Adapter\\Ini" && fetch mode, params["mode"] {
-			return [
-				"className" : className,
-				"arguments" : [
-					[
-						"type" : "parameter",
-						"value" : params["filePath"]
-					],
-					[
-						"type" : "parameter",
-						"value" : mode
-					]
-				]
-			];
-		} elseif className == "Phalcon\\Config\\Adapter\\Yaml" && fetch callbacks, params["callbacks"] {
-			return [
-				"className" : className,
-				"arguments" : [
-					[
-						"type" : "parameter",
-						"value" : params["filePath"]
-					],
-					[
-						"type" : "parameter",
-						"value" : callbacks
-					]
-				]
-			];
-		}
-
-		return [
-			"className" : className,
-			"arguments" : [
-				[
-					"type" : "parameter",
-					"value" : params["filePath"]
-				]
-			]
-		];
-	}
-
-	protected static function checkArguments(string $namespace, var config)
-	{
-		var adapter, className, mode, callbacks, filePath, params;
-
-		let params = [];
+		var adapter, className, mode, callbacks, filePath;
 
 		if typeof config == "object" && config instanceof Config {
 			let config = config->toArray();
@@ -141,22 +69,19 @@ class Factory extends BaseFactory
 				let filePath = filePath.".".lcfirst(adapter);
 			}
 
-			let params["className"] = className;
-			let params["filePath"] = filePath;
-
 			if className == "Phalcon\\Config\\Adapter\\Ini" {
 				if fetch mode, config["mode"] {
-					let params["mode"] = mode;
+					return new {className}(filePath, mode);
 				}
 			} elseif className == "Phalcon\\Config\\Adapter\\Yaml" {
 				if fetch callbacks, config["callbacks"] {
-					let params["callbacks"] = callbacks;
+					return new {className}(filePath, callbacks);
 				}
 			}
 
-			return params;
-		} else {
-			throw new Exception("You must provide 'adapter' option in factory config parameter.");
+			return new {className}(filePath);
 		}
+
+		throw new Exception("You must provide 'adapter' option in factory config parameter.");
 	}
 }
