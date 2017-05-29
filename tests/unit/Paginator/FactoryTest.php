@@ -3,7 +3,6 @@
 namespace Phalcon\Test\Unit\Paginator;
 
 use Helper\ModelTrait;
-use Phalcon\Di;
 use Phalcon\Paginator\Factory;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
@@ -73,61 +72,6 @@ class FactoryTest extends FactoryBase
                     ->orderBy("name");
                 /** @var QueryBuilder $paginator */
                 $paginator = Factory::load($options);
-                expect($paginator)->isInstanceOf(QueryBuilder::class);
-                expect($paginator->getLimit())->equals($options["limit"]);
-                expect($paginator->getCurrentPage())->equals($options["page"]);
-            }
-        );
-    }
-
-
-    /**
-     * Test factory for di using Phalcon\Config
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-04-07
-     */
-    public function testDiConfigFactory()
-    {
-        $this->specify(
-            "Factory for di using Phalcon\\Config doesn't work properly",
-            function () {
-                $di = new Di();
-                $options = $this->config->paginator;
-                $options->builder = $this->setUpModelsManager()->createBuilder()
-                    ->columns("id,name")
-                    ->from("Robots")
-                    ->orderBy("name");
-                /** @var QueryBuilder $paginator */
-                $di->set('paginator', Factory::loadForDi($options));
-                $paginator = $di->get('paginator');
-                expect($paginator)->isInstanceOf(QueryBuilder::class);
-                expect($paginator->getLimit())->equals($options->limit);
-                expect($paginator->getCurrentPage())->equals($options->page);
-            }
-        );
-    }
-
-    /**
-     * Test factory for di using array
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-04-07
-     */
-    public function testDiArrayFactory()
-    {
-        $this->specify(
-            "Factory for di using array doesn't work properly",
-            function () {
-                $di = new Di();
-                $options = $this->arrayConfig["paginator"];
-                $options["builder"] = $this->setUpModelsManager()->createBuilder()
-                    ->columns("id,name")
-                    ->from("Robots")
-                    ->orderBy("name");
-                /** @var QueryBuilder $paginator */
-                $di->set('paginator', Factory::loadForDi($options));
-                $paginator = $di->get('paginator');
                 expect($paginator)->isInstanceOf(QueryBuilder::class);
                 expect($paginator->getLimit())->equals($options["limit"]);
                 expect($paginator->getCurrentPage())->equals($options["page"]);

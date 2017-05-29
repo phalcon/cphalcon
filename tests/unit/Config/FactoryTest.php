@@ -4,7 +4,6 @@ namespace Phalcon\Test\Unit\Config;
 
 use Phalcon\Config\Factory;
 use Phalcon\Config\Adapter\Ini;
-use Phalcon\Di;
 use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
 
 /**
@@ -60,46 +59,6 @@ class FactoryTest extends FactoryBase
                 $options = $this->arrayConfig["config"];
                 /** @var Ini $ini */
                 $ini = Factory::load($options);
-                expect($ini)->isInstanceOf(Ini::class);
-            }
-        );
-    }
-
-    /**
-     * Test factory for di using Phalcon\Config
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-04-07
-     */
-    public function testDiConfigFactory()
-    {
-        $this->specify(
-            "Factory for di using Phalcon\\Config doesn't work properly",
-            function () {
-                $di = new Di();
-                $options = $this->config->config;
-                $di->set('ini', Factory::loadForDi($options));
-                $ini = $di->get('ini');
-                expect($ini)->isInstanceOf(Ini::class);
-            }
-        );
-    }
-
-    /**
-     * Test factory for di using array
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-04-07
-     */
-    public function testDiArrayFactory()
-    {
-        $this->specify(
-            "Factory for di using array doesn't work properly",
-            function () {
-                $di = new Di();
-                $options = $this->arrayConfig["config"];
-                $di->set('ini', Factory::loadForDi($options));
-                $ini = $di->get('ini');
                 expect($ini)->isInstanceOf(Ini::class);
             }
         );

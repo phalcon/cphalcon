@@ -49,9 +49,4 @@ class Factory extends BaseFactory
 	{
 		return self::loadClass("Phalcon\\Db\\Adapter\\Pdo", config);
 	}
-
-	public static function loadForDi(var config) -> array
-	{
-		return self::loadAsArray("Phalcon\\Db\\Adapter\\Pdo", config);
-	}
 }
