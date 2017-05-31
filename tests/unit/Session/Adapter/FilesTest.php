@@ -7,7 +7,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter\Files;
 
 /**
- * \Phalcon\Test\Unit\Session\Adapter\FilesTest
+ * Phalcon\Test\Unit\Session\Adapter\FilesTest
  * Tests the \Phalcon\Session\Adapter\Files component
  *
  * @copyright (c) 2011-2017 Phalcon Team
