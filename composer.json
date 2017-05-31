@@ -17,7 +17,7 @@
         "mustache/mustache": "^2.11",
         "twig/twig": "~1.33",
         "predis/predis": "^1.1",
-        "codeception/codeception": "^2.2",
+        "codeception/codeception": "^2.3",
         "codeception/verify": "^0.3",
         "codeception/specify": "^0.4",
         "squizlabs/php_codesniffer": "^2.9",

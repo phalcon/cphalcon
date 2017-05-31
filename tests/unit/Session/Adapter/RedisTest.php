@@ -6,7 +6,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter\Redis;
 
 /**
- * \Phalcon\Test\Unit\Session\Adapter\RedisTest
+ * Phalcon\Test\Unit\Session\Adapter\RedisTest
  * Tests the \Phalcon\Session\Adapter\Redis component
  *
  * @copyright (c) 2011-2017 Phalcon Team

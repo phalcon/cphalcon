@@ -1,6 +1,6 @@
 <?php
 
-namespace  Phalcon\Test\integration;
+namespace  Phalcon\Test\Integration;
 
 use IntegrationTester;
 use Phalcon\Validation;
@@ -9,7 +9,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Message\Group;
 
 /**
- * \Phalcon\Test\Integration\ValidationCest
+ * Phalcon\Test\Integration\ValidationCest
  * Tests the \Phalcon\Validation component
  *
  * @copyright (c) 2011-2017 Phalcon Team

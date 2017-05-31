@@ -86,6 +86,7 @@ before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1)"
   - bash tests/_ci/pear_setup.sh
+  - bash tests/_ci/setup_dbs.sh
 
 install:
   - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest --ignore-platform-reqs
@@ -106,9 +107,9 @@ install:
   #- $(phpenv which php) -m
   #- pecl list
   #- beanstalkd -v
+  #- mysql --version
 
 before_script:
-  - bash tests/_ci/setup_dbs.sh &> /dev/null
   # Uncomment for debug
   # - ulimit -c unlimited -S || true
   # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null

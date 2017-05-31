@@ -34,7 +34,7 @@ A MySQL/PostgreSQL databases is also bundled in this suite. You can create a dat
 *MySQL*
 ```sh
 $ echo 'create database phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;' | mysql -u root
-$ mysql -uroot phalcon_test < tests/_data/schemas/mysql/mysql.dump.sql
+$ mysql -uroot phalcon_test < tests/_data/schemas/mysql/phalcon_test.sql
 ```
 
 *PostgreSQL*

@@ -13,7 +13,7 @@ use UnitTester;
  * Phalcon\Test\Unit5x\Mvc\Collection\ValidationCest
  * Tests the Phalcon\Mvc\Collection component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @author    Andres Gutierrez <andres@phalconphp.com>

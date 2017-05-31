@@ -6,7 +6,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter\Libmemcached;
 
 /**
- * \Phalcon\Test\Unit\Session\Adapter\LibmemcachedTest
+ * Phalcon\Test\Unit\Session\Adapter\LibmemcachedTest
  * Tests the \Phalcon\Session\Adapter\Libmemcached component
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -52,8 +52,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers' => [
                         [
-                            "host" => TEST_MC_HOST,
-                            "port" => TEST_MC_PORT
+                            'host' => env('TEST_MC_HOST', '127.0.0.1'),
+                            'port' => env('TEST_MC_PORT', 11211),
                         ]
                     ],
                     'client' => []
@@ -61,9 +61,9 @@ class LibmemcachedTest extends UnitTest
 
                 $data = serialize(
                     [
-                        "abc" => "123",
-                        "def" => "678",
-                        "xyz" => "zyx"
+                        'abc' => '123',
+                        'def' => '678',
+                        'xyz' => 'zyx',
                     ]
                 );
 
@@ -90,8 +90,8 @@ class LibmemcachedTest extends UnitTest
                 $session = new Libmemcached([
                     'servers' => [
                         [
-                            "host" => TEST_MC_HOST,
-                            "port" => TEST_MC_PORT
+                            'host' => env('TEST_MC_HOST', '127.0.0.1'),
+                            'port' => env('TEST_MC_PORT', 11211),
                         ]
                     ],
                     'client' => []
@@ -99,9 +99,9 @@ class LibmemcachedTest extends UnitTest
 
                 $data = serialize(
                     [
-                        "abc" => "123",
-                        "def" => "678",
-                        "xyz" => "zyx"
+                        'abc' => '123',
+                        'def' => '678',
+                        'xyz' => 'zyx',
                     ]
                 );
 
