@@ -29,12 +29,12 @@ use Phalcon\Di\InjectionAwareInterface;
  * This component helps to separate session data into "namespaces". Working by this way
  * you can easily create groups of session variables into the application
  *
- *<code>
+ * <code>
  * $user = new \Phalcon\Session\Bag("user");
  *
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
- *</code>
+ * </code>
  */
 class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, \ArrayAccess, \Countable
 {

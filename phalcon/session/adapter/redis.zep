@@ -28,7 +28,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  *
  * This adapter store sessions in Redis
  *
- *<code>
+ * <code>
  * use Phalcon\Session\Adapter\Redis;
  *
  * $session = new Redis(
@@ -49,7 +49,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * $session->set("var", "some-value");
  *
  * echo $session->get("var");
- *</code>
+ * </code>
  */
 class Redis extends Adapter
 {
@@ -141,6 +141,8 @@ class Redis extends Adapter
 		} else {
 			let id = sessionId;
 		}
+
+		this->removeSessionData();
 
 		return this->_redis->exists(id) ? this->_redis->delete(id) : true;
 	}

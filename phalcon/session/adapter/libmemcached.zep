@@ -29,7 +29,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *
  * This adapter store sessions in libmemcached
  *
- *<code>
+ * <code>
  * use Phalcon\Session\Adapter\Libmemcached;
  *
  * $session = new Libmemcached(
@@ -55,7 +55,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * $session->set("var", "some-value");
  *
  * echo $session->get("var");
- *</code>
+ * </code>
  */
 class Libmemcached extends Adapter
 {
@@ -153,7 +153,7 @@ class Libmemcached extends Adapter
 	 */
 	public function destroy(string sessionId = null) -> boolean
 	{
-		var id, key;
+		var id;
 
 		if sessionId === null {
 			let id = this->getId();
@@ -161,11 +161,13 @@ class Libmemcached extends Adapter
 			let id = sessionId;
 		}
 
-		for key, _ in _SESSION {
-			unset _SESSION[key];
+		this->removeSessionData();
+
+		if !empty id && this->_libmemcached->exists(id) {
+			return (bool) this->_libmemcached->delete(id);
 		}
 
-		return this->_libmemcached->exists(id) ? this->_libmemcached->delete(id) : true;
+		return true;
 	}
 
 	/**

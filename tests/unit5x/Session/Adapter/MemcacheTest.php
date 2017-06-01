@@ -34,6 +34,22 @@ class MemcacheTest extends UnitTest
         if (!extension_loaded('memcache')) {
             $this->markTestSkipped('Warning: memcache extension is not loaded');
         }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+    }
+
+    /**
+     * executed after each test
+     */
+    protected function _after()
+    {
+        parent::_after();
+
+        if (PHP_SESSION_ACTIVE == session_status()) {
+            session_destroy();
+        }
     }
 
     /**
@@ -105,6 +121,40 @@ class MemcacheTest extends UnitTest
                 $session->destroy($sessionID);
 
                 expect($session->read($sessionID))->equals(null);
+            }
+        );
+    }
+
+    /**
+     * Tests the destroy with cleanning $_SESSION
+     *
+     * @test
+     * @issue  12326
+     * @issue  12835
+     * @author Serghei Iakovelev <serghei@phalconphp.com>
+     * @since  2017-05-08
+     */
+    public function destroyDataFromSessionSuperGlobal()
+    {
+        $this->specify(
+            'The memcache adapter does not clear session superglobal after destroy',
+            function () {
+                $session = new Memcache(
+                    [
+                        'host'   => env('TEST_MC_HOST', '127.0.0.1'),
+                        'port'   => env('TEST_MC_PORT', 11211),
+                        'weight' => env('TEST_MC_WEIGHT', 1),
+                    ]
+                );
+
+                $session->start();
+
+                $session->test1 = __METHOD__;
+                expect($_SESSION)->hasKey('test1');
+                expect($_SESSION['test1'])->contains(__METHOD__);
+
+                $session->destroy();
+                expect($_SESSION)->hasntKey('test1');
             }
         );
     }
