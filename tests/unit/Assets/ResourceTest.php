@@ -45,6 +45,25 @@ class ResourceTest extends UnitTest
     }
 
     /**
+     * Tests getType
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-02
+     */
+    public function getResourceKey()
+    {
+        $this->specify(
+            "Unable to get resource key or resorce key is incorrect",
+            function () {
+                $resource = new Resource('js', 'js/jquery.js');
+
+                expect(md5('js:js/jquery.js'))->equals($resource->getResourceKey());
+            }
+        );
+    }
+
+    /**
      * Tests getPath
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
