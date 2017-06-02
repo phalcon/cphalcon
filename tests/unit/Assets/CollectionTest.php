@@ -51,4 +51,54 @@ class CollectionTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests Collection::has
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-02
+     */
+    public function hasReource()
+    {
+        $this->specify(
+            "Unable to find resource in collection",
+            function () {
+                $collection = new Collection();
+
+                $resource1 = new Resource('js', 'js/jquery.js');
+                $resource2 = new Resource('js', 'js/jquery-ui.js');
+
+                $collection->add($resource1);
+
+                expect($collection->has($resource1))->true();
+                expect($collection->has($resource2))->false();
+            }
+        );
+    }
+
+    /**
+     * Tests Collection::has
+     *
+     * @test
+     * @issue  10938
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-02
+     */
+    public function doNotAddTheSameRecources()
+    {
+        $this->specify(
+            "The assets collection incorrectly stores resources",
+            function () {
+                $collection = new Collection();
+
+                for ($i = 0; $i < 10; $i++) {
+                    $collection->add(new Resource('css', 'css/style.css'));
+                    $collection->add(new Resource('js', 'js/script.js'));
+                }
+
+                expect($collection->getResources())->count(2);
+            }
+        );
+    }
 }
