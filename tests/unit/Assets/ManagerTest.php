@@ -569,4 +569,41 @@ class ManagerTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests avoid duplication of resources when adding a
+     * new one with existing name
+     *
+     * @test
+     * @issue  10938
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-02
+     */
+    public function doNotAddTheSameRecources()
+    {
+        $this->specify(
+            "The assets collection incorrectly stores resources",
+            function () {
+                $assets = new Manager();
+
+                for ($i = 0; $i < 10; $i++) {
+                    $assets
+                        ->addCss('css/style.css')
+                        ->addJs('script.js');
+                }
+
+                expect($assets->getCss())->count(1);
+                expect($assets->getJs())->count(1);
+
+                for ($i = 0; $i < 2; $i++) {
+                    $assets
+                        ->addCss('style_' . $i . '.css')
+                        ->addJs('script_' . $i . '.js');
+                }
+
+                expect($assets->getCss())->count(3);
+                expect($assets->getJs())->count(3);
+            }
+        );
+    }
 }
