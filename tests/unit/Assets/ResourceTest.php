@@ -45,7 +45,7 @@ class ResourceTest extends UnitTest
     }
 
     /**
-     * Tests getType
+     * Tests getResourceKey
      *
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
