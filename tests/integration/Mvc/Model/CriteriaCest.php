@@ -12,10 +12,12 @@ use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Test\Models\Personas;
+use Phalcon\Test\Models\Personers;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Mvc\Model\MetaData\Memory;
+use Phalcon\Mvc\Model\Resultset\Simple;
 
 class CriteriaCest
 {
@@ -69,6 +71,21 @@ class CriteriaCest
         $people = People::find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertInstanceOf(Simple::class, $personas);
+    }
+
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @dataprovider adapterProvider
+     */
+    public function whereRenamed(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+        $di->setShared('db', $example['adapter']);
+
+        $I->assertInstanceOf(Simple::class, Personers::query()->where("status='I'")->execute());
     }
 
     /**
@@ -94,6 +111,20 @@ class CriteriaCest
      *
      * @dataprovider adapterProvider
      */
+    public function conditionsRenamed(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+        $di->setShared('db', $example['adapter']);
+
+        $I->assertInstanceOf(Simple::class, Personers::query()->conditions("status='I'")->execute());
+    }
+
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @dataprovider adapterProvider
+     */
     public function whereOrderBy(IntegrationTester $I, Example $example)
     {
         $di = Di::getDefault();
@@ -107,11 +138,27 @@ class CriteriaCest
         $people = People::find(["estado='A'", "order" => "nombres"]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+    }
 
-        $somePersona = $personas->getFirst();
-        $somePeople = $people->getFirst();
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @dataprovider adapterProvider
+     */
+    public function whereOrderByRenamed(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+        $di->setShared('db', $example['adapter']);
 
-        $I->assertEquals($somePersona->cedula, $somePeople->cedula);
+        $personers = Personers::query()
+            ->where("status='A'")
+            ->orderBy("navnes")
+            ->execute();
+
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -138,11 +185,28 @@ class CriteriaCest
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+    }
 
-        $somePersona = $personas->getFirst();
-        $somePeople = $people->getFirst();
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @dataprovider adapterProvider
+     */
+    public function whereOrderByLimitRenamed(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+        $di->setShared('db', $example['adapter']);
 
-        $I->assertEquals($somePersona->cedula, $somePeople->cedula);
+        $personers = Personers::query()
+            ->where("status='A'")
+            ->orderBy("navnes")
+            ->limit(100)
+            ->execute();
+
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -171,11 +235,51 @@ class CriteriaCest
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+    }
 
-        $somePersona = $personas->getFirst();
-        $somePeople = $people->getFirst();
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @dataprovider adapterProvider
+     */
+    public function bindParamsWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+        $di->setShared('db', $example['adapter']);
 
-        $I->assertEquals($somePersona->cedula, $somePeople->cedula);
+        $personers = Personers::query()
+            ->where("status=?1")
+            ->bind([1 => "A"])
+            ->orderBy("navnes")
+            ->limit(100)
+            ->execute();
+
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
+    }
+
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @dataprovider adapterProvider
+     */
+    public function bindParamsAsPlaceholdersWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+        $di->setShared('db', $example['adapter']);
+
+        $personers = Personers::query()
+            ->where("status=:status:")
+            ->bind(["status" => "A"])
+            ->orderBy("navnes")
+            ->limit(100)
+            ->execute();
+
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -204,11 +308,7 @@ class CriteriaCest
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-
-        $somePersona = $personas->getFirst();
-        $somePeople = $people->getFirst();
-
-        $I->assertEquals($somePersona->cedula, $somePeople->cedula);
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
@@ -237,11 +337,7 @@ class CriteriaCest
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-
-        $somePersona = $personas->getFirst();
-        $somePeople = $people->getFirst();
-
-        $I->assertEquals($somePersona->cedula, $somePeople->cedula);
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
