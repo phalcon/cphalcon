@@ -73,7 +73,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
-		$this->_executeTestIssues2131($di);
 	}
 
 	public function testModelsPostgresql()
@@ -93,7 +92,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
-		$this->_executeTestIssues2131($di);
 	}
 
 	public function testModelsSQLite()
@@ -113,16 +111,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
-		$this->_executeTestIssues2131($di);
-	}
-
-
-	public function testHavingNotOverwritingGroupBy()
-	{
-		$query = Personas::query()->groupBy('estado')->having('SUM(cupo) > 1000000');
-
-		$this->assertEquals('estado', $query->getGroupBy());
-		$this->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
 	}
 
 	protected function _executeTestsRenamed($di)
@@ -234,24 +222,5 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 				'name' => '%ol%',
 			)
 		));
-	}
-
-	public function _executeTestIssues2131($di)
-	{
-		$di->set('modelsCache', function(){
-			$frontCache = new Phalcon\Cache\Frontend\Data();
-			$modelsCache = new Phalcon\Cache\Backend\File($frontCache, array(
-				'cacheDir' => 'unit-tests/cache/'
-			));
-
-			$modelsCache->delete("cache-2131");
-			return $modelsCache;
-		}, true);
-
-		$personas = Personas::query()->where("estado='I'")->cache(array("key" => "cache-2131"))->execute();
-		$this->assertTrue($personas->isFresh());
-
-		$personas = Personas::query()->where("estado='I'")->cache(array("key" => "cache-2131"))->execute();
-		$this->assertFalse($personas->isFresh());
 	}
 }

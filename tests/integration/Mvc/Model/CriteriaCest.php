@@ -8,6 +8,8 @@ use Codeception\Example;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\People;
+use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Test\Models\Personas;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
@@ -42,6 +44,14 @@ class CriteriaCest
     {
         $criteria = Robots::query()->where("type='mechanical'");
         $I->assertInstanceOf(Builder::class, $criteria->createBuilder());
+    }
+
+    public function havingNotOverwritingGroupBy(IntegrationTester $I)
+    {
+        $query = Personas::query()->groupBy('estado')->having('SUM(cupo) > 1000000');
+
+        $I->assertEquals('estado', $query->getGroupBy());
+        $I->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
     }
 
     /**
@@ -248,6 +258,41 @@ class CriteriaCest
         $personas = Personas::query()->orderBy("nombres");
 
         $I->assertEquals($personas->getOrderBy(), "nombres");
+    }
+
+    /**
+     * @param IntegrationTester $I
+     * @param Example $example
+     *
+     * @issue        2131
+     * @dataprovider adapterProvider
+     */
+    public function freshCache(IntegrationTester $I, Example $example)
+    {
+        $di = Di::getDefault();
+
+        $di->setShared('db', $example['adapter']);
+        $di->setShared('modelsCache', function () {
+            return new File(new Data(), ['cacheDir' => PATH_CACHE]);
+        });
+
+        $personas = Personas::query()
+            ->where("estado='I'")
+            ->cache(['key' => 'cache-for-issue-2131'])
+            ->execute();
+
+        $I->assertTrue($personas->isFresh());
+
+        $personas = Personas::query()
+            ->where("estado='I'")
+            ->cache(['key' => 'cache-for-issue-2131'])
+            ->execute();
+
+        $I->assertFalse($personas->isFresh());
+
+        $I->amInPath(PATH_CACHE);
+        $I->deleteFile('cache-for-issue-2131');
+        $I->dontSeeFileFound('cache-for-issue-2131');
     }
 
     protected function adapterProvider()
