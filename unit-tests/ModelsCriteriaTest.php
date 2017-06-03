@@ -72,7 +72,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$this->_executeTestsRenamed($di);
-		$this->_executeTestsFromInput($di);
 	}
 
 	public function testModelsPostgresql()
@@ -91,7 +90,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$this->_executeTestsRenamed($di);
-		$this->_executeTestsFromInput($di);
 	}
 
 	public function testModelsSQLite()
@@ -110,7 +108,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$this->_executeTestsRenamed($di);
-		$this->_executeTestsFromInput($di);
 	}
 
 	protected function _executeTestsRenamed($di)
@@ -175,52 +172,5 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePersoner = $personers->getFirst();
 		$this->assertTrue(is_object($somePersoner));
 		$this->assertEquals(get_class($somePersoner), 'Personers');
-	}
-
-	protected function _executeTestsFromInput($di)
-	{
-
-		$data = array();
-		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-		$this->assertEquals($criteria->getParams(), NULL);
-		$this->assertEquals($criteria->getModelName(), "Robots");
-
-		$data = array('id' => 1);
-		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => '[id] = :id:',
-			'bind' => array(
-				'id' => 1,
-			),
-		));
-
-		$data = array('name' => 'ol');
-		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => '[name] LIKE :name:',
-			'bind' => array(
-				'name' => '%ol%',
-			),
-		));
-
-		$data = array('id' => 1, 'name' => 'ol');
-		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => '[id] = :id: AND [name] LIKE :name:',
-			'bind' => array(
-				'id' => 1,
-				'name' => '%ol%',
-			)
-		));
-
-		$data = array('id' => 1, 'name' => 'ol', 'other' => true);
-		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-		$this->assertEquals($criteria->getParams(), array(
-			'conditions' => '[id] = :id: AND [name] LIKE :name:',
-			'bind' => array(
-				'id' => 1,
-				'name' => '%ol%',
-			)
-		));
 	}
 }
