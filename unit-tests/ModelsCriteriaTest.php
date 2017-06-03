@@ -71,7 +71,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
-		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
 		$this->_executeTestIssues2131($di);
@@ -92,7 +91,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		}, true);
 
-		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
 		$this->_executeTestIssues2131($di);
@@ -113,7 +111,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\SQLite($configSqlite);
 		}, true);
 
-		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_executeTestsFromInput($di);
 		$this->_executeTestIssues2131($di);
@@ -126,113 +123,6 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('estado', $query->getGroupBy());
 		$this->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
-	}
-
-	protected function _executeTestsNormal($di)
-	{
-
-		$personas = Personas::query()->where("estado='I'")->execute();
-		$people = People::find("estado='I'");
-		$this->assertEquals(count($personas), count($people));
-
-		$personas = Personas::query()->conditions("estado='I'")->execute();
-		$people = People::find("estado='I'");
-		$this->assertEquals(count($personas), count($people));
-
-		$personas = Personas::query()
-			->where("estado='A'")
-			->orderBy("nombres")
-			->execute();
-		$people = People::find(array(
-			"estado='A'",
-			"order" => "nombres"
-		));
-		$this->assertEquals(count($personas), count($people));
-
-		$somePersona = $personas->getFirst();
-		$somePeople = $people->getFirst();
-		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
-
-		//Order + limit
-		$personas = Personas::query()
-			->where("estado='A'")
-			->orderBy("nombres")
-			->limit(100)
-			->execute();
-		$people = People::find(array(
-			"estado='A'",
-			"order" => "nombres",
-			"limit" => 100
-		));
-		$this->assertEquals(count($personas), count($people));
-
-		$somePersona = $personas->getFirst();
-		$somePeople = $people->getFirst();
-		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
-
-		//Bind params + Limit
-		$personas = Personas::query()
-			->where("estado=?1")
-			->bind(array(1 => "A"))
-			->orderBy("nombres")
-			->limit(100)
-			->execute();
-
-		$people = People::find(array(
-			"estado=?1",
-			"bind" => array(1 => "A"),
-			"order" => "nombres",
-			"limit" => 100
-		));
-		$this->assertEquals(count($personas), count($people));
-
-		$somePersona = $personas->getFirst();
-		$somePeople = $people->getFirst();
-		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
-
-		//Limit + Offset
-		$personas = Personas::query()
-			->where("estado=?1")
-			->bind(array(1 => "A"))
-			->orderBy("nombres")
-			->limit(100, 10)
-			->execute();
-
-		$people = People::find(array(
-			"estado=?1",
-			"bind" => array(1 => "A"),
-			"order" => "nombres",
-			"limit" => array('number' => 100, 'offset' => 10)
-		));
-		$this->assertEquals(count($personas), count($people));
-
-		$somePersona = $personas->getFirst();
-		$somePeople = $people->getFirst();
-		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
-
-		$personas = Personas::query()
-			->where("estado=:estado:")
-			->bind(array("estado" => "A"))
-			->orderBy("nombres")
-			->limit(100)
-			->execute();
-
-		$people = People::find(array(
-			"estado=:estado:",
-			"bind" => array("estado" => "A"),
-			"order" => "nombres",
-			"limit" => 100
-		));
-		$this->assertEquals(count($personas), count($people));
-
-		$somePersona = $personas->getFirst();
-		$somePeople = $people->getFirst();
-		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
-
-		$personas = Personas::query()
-			->orderBy("nombres");
-
-		$this->assertEquals($personas->getOrderBy(), "nombres");
 	}
 
 	protected function _executeTestsRenamed($di)

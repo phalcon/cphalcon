@@ -5,7 +5,7 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * \Phalcon\Test\Models\People
+ * Phalcon\Test\Models\People
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
