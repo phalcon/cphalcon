@@ -64,11 +64,11 @@ class ManagerTest extends UnitTest
     }
 
     /**
-     * Test Manager::has
+     * Test Manager::exists
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-06-04
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
      */
     public function assetsManagerShouldDetectAbsenceOfACollection()
     {
@@ -76,17 +76,17 @@ class ManagerTest extends UnitTest
             'The Assets Manager does not return valid status case of absence of a collection',
             function () {
                 $assets = new Manager();
-                expect($assets->has('some-non-existent-collection'))->false();
+                expect($assets->exists('some-non-existent-collection'))->false();
             }
         );
     }
 
     /**
-     * Test Manager::has
+     * Test Manager::exists
      *
      * @test
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-06-04
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
      */
     public function assetsManagerShouldDetectCollection()
     {
@@ -98,7 +98,7 @@ class ManagerTest extends UnitTest
                 $assets->addCss('/css/style1.css');
                 $assets->addCss('/css/style2.css');
 
-                expect($assets->has('css'))->true();
+                expect($assets->exists('css'))->true();
             }
         );
     }
@@ -529,31 +529,6 @@ class ManagerTest extends UnitTest
                 );
 
                 expect($assets->outputJs('js'))->equals($expected);
-            }
-        );
-    }
-
-    /**
-     * exists tests
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-03-16
-     */
-    public function testAssetsExistsCollection()
-    {
-        $this->specify(
-            "The exists method in assets does not return correct value",
-            function () {
-                $assets = new Manager();
-
-                $assets->collection('footer')
-                    ->addCss('/css/style1.css');
-
-                $footer = $assets->exists('footer');
-                $header = $assets->exists('header');
-
-                expect($footer)->true();
-                expect($header)->false();
             }
         );
     }
