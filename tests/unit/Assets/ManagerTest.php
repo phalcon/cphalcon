@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Tag;
 use Phalcon\Assets\Manager;
+use Phalcon\Assets\Exception;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Filters\None;
@@ -36,6 +37,70 @@ class ManagerTest extends UnitTest
     {
         // Setting the doctype to XHTML5 for other tests to run smoothly
         Tag::setDocType(Tag::XHTML5);
+    }
+
+    /**
+     * Test Manager::get
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-04
+     */
+    public function assetsManagerShouldThrowExceptionIfThereIsNoCollection()
+    {
+        $this->specify(
+            'The Assets Manager does not throw exception in case of absence of a collection',
+            function () {
+                $assets = new Manager();
+                $assets->get('some-non-existent-collection');
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    'The collection does not exist in the manager'
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Test Manager::has
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-04
+     */
+    public function assetsManagerShouldDetectAbsenceOfACollection()
+    {
+        $this->specify(
+            'The Assets Manager does not return valid status case of absence of a collection',
+            function () {
+                $assets = new Manager();
+                expect($assets->has('some-non-existent-collection'))->false();
+            }
+        );
+    }
+
+    /**
+     * Test Manager::has
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-04
+     */
+    public function assetsManagerShouldDetectCollection()
+    {
+        $this->specify(
+            'The Assets Manager does not return valid status case of presence of a collection',
+            function () {
+                $assets = new Manager();
+
+                $assets->addCss('/css/style1.css');
+                $assets->addCss('/css/style2.css');
+
+                expect($assets->has('css'))->true();
+            }
+        );
     }
 
     /**
