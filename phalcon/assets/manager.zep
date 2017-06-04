@@ -239,21 +239,6 @@ class Manager
 	}
 
 	/**
-	 * Checks whether the Assets Manager has Collection.
-	 *
-	 * <code>
-	 * if ($assets->has("jsHeader")) {
-	 *     // \Phalcon\Assets\Collection
-	 *     $collection = $assets->get("jsHeader");
-	 * }
-	 * </code>
-	 */
-	public function has(string! id) -> boolean
-	{
-		return isset this->_collections[id];
-	}
-
-	/**
 	 * Returns the CSS collection of assets
 	 */
 	public function getCss() -> <Collection>
@@ -854,7 +839,14 @@ class Manager
 	}
 
 	/**
-	 * Returns true or false if collection exists
+	 * Returns true or false if collection exists.
+	 *
+	 * <code>
+	 * if ($assets->exists("jsHeader")) {
+	 *     // \Phalcon\Assets\Collection
+	 *     $collection = $assets->get("jsHeader");
+	 * }
+	 * </code>
 	 */
 	public function exists(string! id) -> bool
 	{
