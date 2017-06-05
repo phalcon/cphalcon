@@ -68,30 +68,21 @@ class Alpha extends Validator
 		let value = validation->getValue(field);
 
 		if preg_match("/[^[:alpha:]]/imu", value) {
+			let label = this->prepareLabel(validation, field),
+				message = this->prepareMessage(validation, field, "Alpha"),
+				code = this->prepareCode(field);
 
-			let label = this->getOption("label");
-			if typeof label == "array" {
-				let label = label[field];
-			}
-			if empty label {
-				let label = validation->getLabel(field);
-			}
-
-			let message = this->getOption("message");
-			if typeof message == "array" {
-				let message = message[field];
-			}
 			let replacePairs = [":field": label];
-			if empty message {
-				let message = validation->getDefaultMessage("Alpha");
-			}
 
-			let code = this->getOption("code");
-			if typeof code == "array" {
-				let code = code[field];
-			}
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"Alpha",
+					code
+				)
+			);
 
-			validation->appendMessage(new Message(strtr(message, replacePairs), field, "Alpha", code));
 			return false;
 		}
 

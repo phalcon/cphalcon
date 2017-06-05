@@ -90,28 +90,11 @@ class Between extends Validator
 		}
 
 		if value < minimum || value > maximum {
+			let label = this->prepareLabel(validation, field),
+				message = this->prepareMessage(validation, field, "Between"),
+				code = this->prepareCode(field);
 
-			let label = this->getOption("label");
-			if typeof label == "array" {
-				let label = label[field];
-			}
-			if empty label {
-				let label = validation->getLabel(field);
-			}
-
-			let message = this->getOption("message");
-			if typeof message == "array" {
-				let message = message[field];
-			}
 			let replacePairs = [":field": label, ":min": minimum, ":max": maximum];
-			if empty message {
-				let message = validation->getDefaultMessage("Between");
-			}
-
-			let code = this->getOption("code");
-			if typeof code == "array" {
-				let code = code[field];
-			}
 
 			validation->appendMessage(
 				new Message(
@@ -121,7 +104,7 @@ class Between extends Validator
 					code
 				)
 			);
-			
+
 			return false;
 		}
 
