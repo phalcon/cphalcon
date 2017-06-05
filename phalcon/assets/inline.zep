@@ -28,7 +28,7 @@ namespace Phalcon\Assets;
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  *</code>
  */
-class $Inline
+class $Inline implements ResourceInterface
 {
 
 	protected _type { get };
@@ -82,5 +82,17 @@ class $Inline
 	{
 		let this->_attributes = attributes;
 		return this;
+	}
+
+	/**
+	 * Gets the resource's key.
+	 */
+	public function getResourceKey() -> string
+	{
+		var key;
+
+		let key = this->getType() . ":" . this->getContent();
+
+		return md5(key);
 	}
 }

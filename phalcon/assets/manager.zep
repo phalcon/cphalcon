@@ -221,12 +221,12 @@ class Manager
 	}
 
 	/**
-	* Returns a collection by its id
-	*
-	*<code>
-	* $scripts = $assets->get("js");
-	*</code>
-	*/
+	 * Returns a collection by its id.
+	 *
+	 * <code>
+	 * $scripts = $assets->get("js");
+	 * </code>
+	 */
 	public function get(string! id) -> <Collection>
 	{
 		var collection;
@@ -839,7 +839,14 @@ class Manager
 	}
 
 	/**
-	 * Returns true or false if collection exists
+	 * Returns true or false if collection exists.
+	 *
+	 * <code>
+	 * if ($assets->exists("jsHeader")) {
+	 *     // \Phalcon\Assets\Collection
+	 *     $collection = $assets->get("jsHeader");
+	 * }
+	 * </code>
 	 */
 	public function exists(string! id) -> bool
 	{

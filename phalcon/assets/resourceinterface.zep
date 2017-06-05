@@ -17,31 +17,47 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Session\Adapter;
-
-use Phalcon\Session\Adapter;
+namespace Phalcon\Assets;
 
 /**
- * Phalcon\Session\Adapter\Files
+ * Phalcon\Assets\ResourceInterface
  *
- * This adapter store sessions in plain files
- *
- * <code>
- * use Phalcon\Session\Adapter\Files;
- *
- * $session = new Files(
- *     [
- *         "uniqueId" => "my-private-app",
- *     ]
- * );
- *
- * $session->start();
- *
- * $session->set("var", "some-value");
- *
- * echo $session->get("var");
- * </code>
+ * Interface for custom Phalcon\Assets reources
  */
-class Files extends Adapter
+interface ResourceInterface
 {
+	/**
+	 * Sets the resource's type.
+	 */
+	public function setType(string type) -> <ResourceInterface>;
+
+	/**
+	 * Gets the resource's type.
+	 */
+	public function getType() -> string;
+
+	/**
+	 * Sets if the resource must be filtered or not.
+	 */
+	public function setFilter(boolean filter) -> <ResourceInterface>;
+
+	/**
+	 * Gets if the resource must be filtered or not.
+	 */
+	public function getFilter() -> boolean;
+
+	/**
+	 * Sets extra HTML attributes.
+	 */
+	public function setAttributes(array attributes) -> <ResourceInterface>;
+
+	/**
+	 * Gets extra HTML attributes.
+	 */
+	public function getAttributes() -> array | null;
+
+	/**
+	 * Gets the resource's key.
+	 */
+	public function getResourceKey() -> string;
 }
