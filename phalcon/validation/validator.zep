@@ -97,4 +97,57 @@ abstract class Validator implements ValidatorInterface
 	 * Executes the validation
 	 */
 	abstract public function validate(<Validation> validation, string! attribute) -> boolean;
+
+	/**
+	 * Prepares a label for the field.
+	 */
+	protected function prepareLabel(<Validation> validation, string! field) -> var
+	{
+		var label;
+
+		let label = this->getOption("label");
+		if typeof label == "array" {
+			let label = label[field];
+		}
+
+		if empty label {
+			let label = validation->getLabel(field);
+		}
+
+		return label;
+	}
+
+	/**
+	 * Prepares a validation message.
+	 */
+	protected function prepareMessage(<Validation> validation, string! field, string! type, string! option = "message") -> var
+	{
+		var message;
+
+		let message = this->getOption(option);
+		if typeof message == "array" {
+			let message = message[field];
+		}
+
+		if empty message {
+			let message = validation->getDefaultMessage(type);
+		}
+
+		return message;
+	}
+
+	/**
+	 * Prepares a validation code.
+	 */
+	protected function prepareCode(string! field) -> int | null
+	{
+		var code;
+
+		let code = this->getOption("code");
+		if typeof code == "array" {
+			let code = code[field];
+		}
+
+		return code;
+	}
 }

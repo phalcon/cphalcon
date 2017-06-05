@@ -17,14 +17,47 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Validation\Validator;
+namespace Phalcon\Assets;
 
 /**
- * Phalcon\Validation\Exception
+ * Phalcon\Assets\ResourceInterface
  *
- * Exceptions thrown in Phalcon\Validation\Validator\* classes will use this class
+ * Interface for custom Phalcon\Assets reources
  */
-class Exception extends \Phalcon\Exception
+interface ResourceInterface
 {
+	/**
+	 * Sets the resource's type.
+	 */
+	public function setType(string type) -> <ResourceInterface>;
 
+	/**
+	 * Gets the resource's type.
+	 */
+	public function getType() -> string;
+
+	/**
+	 * Sets if the resource must be filtered or not.
+	 */
+	public function setFilter(boolean filter) -> <ResourceInterface>;
+
+	/**
+	 * Gets if the resource must be filtered or not.
+	 */
+	public function getFilter() -> boolean;
+
+	/**
+	 * Sets extra HTML attributes.
+	 */
+	public function setAttributes(array attributes) -> <ResourceInterface>;
+
+	/**
+	 * Gets extra HTML attributes.
+	 */
+	public function getAttributes() -> array | null;
+
+	/**
+	 * Gets the resource's key.
+	 */
+	public function getResourceKey() -> string;
 }

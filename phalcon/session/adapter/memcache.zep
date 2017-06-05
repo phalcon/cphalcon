@@ -28,7 +28,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  *
  * This adapter store sessions in memcache
  *
- *<code>
+ * <code>
  * use Phalcon\Session\Adapter\Memcache;
  *
  * $session = new Memcache(
@@ -47,7 +47,7 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  * $session->set("var", "some-value");
  *
  * echo $session->get("var");
- *</code>
+ * </code>
  */
 class Memcache extends Adapter
 {
@@ -134,7 +134,13 @@ class Memcache extends Adapter
 			let id = sessionId;
 		}
 
-		return this->_memcache->exists(id) ? this->_memcache->delete(id) : true;
+		this->removeSessionData();
+
+		if !empty id && this->_memcache->exists(id) {
+			return (bool) this->_memcache->delete(id);
+		}
+
+		return true;
 	}
 
 	/**

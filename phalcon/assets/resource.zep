@@ -28,7 +28,7 @@ namespace Phalcon\Assets;
  * $resource = new \Phalcon\Assets\Resource("js", "javascripts/jquery.js");
  *</code>
  */
-class $Resource
+class $Resource implements ResourceInterface
 {
 	/**
 	 * @var string
@@ -261,5 +261,17 @@ class $Resource
 		}
 
 		return targetPath;
+	}
+
+	/**
+	 * Gets the resource's key.
+	 */
+	public function getResourceKey() -> string
+	{
+		var key;
+
+		let key = this->getType() . ":" . this->getPath();
+
+		return md5(key);
 	}
 }

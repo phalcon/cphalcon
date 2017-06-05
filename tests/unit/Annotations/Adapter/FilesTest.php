@@ -6,7 +6,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Annotations\Adapter\Files;
 
 /**
- * \Phalcon\Test\Unit\Annotations\Adapter\FilesTest
+ * Phalcon\Test\Unit\Annotations\Adapter\FilesTest
  * Tests for \Phalcon\Annotations\Adapter\Files component
  *
  * @copyright (c) 2011-2017 Phalcon Team

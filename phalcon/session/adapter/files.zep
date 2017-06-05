@@ -26,7 +26,7 @@ use Phalcon\Session\Adapter;
  *
  * This adapter store sessions in plain files
  *
- *<code>
+ * <code>
  * use Phalcon\Session\Adapter\Files;
  *
  * $session = new Files(
@@ -40,7 +40,7 @@ use Phalcon\Session\Adapter;
  * $session->set("var", "some-value");
  *
  * echo $session->get("var");
- *</code>
+ * </code>
  */
 class Files extends Adapter
 {

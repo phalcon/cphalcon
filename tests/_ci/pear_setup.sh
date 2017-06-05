@@ -59,7 +59,7 @@ pear config-set doc_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pe
 pear config-set cfg_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/cfg"
 pear config-set data_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/data"
 pear config-set test_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/tests"
-pear config-set www_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pearr/www"
+pear config-set www_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/www"
 pear config-set sig_keydir "$(phpenv root)/versions/$(phpenv version-name)/etc/pearkeys"
 
 # Does not work on PHP 5.x
@@ -68,9 +68,5 @@ if [ "$(echo `$(phpenv which php-config) --version` | cut -d '.' -f 1)" != "5" ]
 fi
 
 pear config-set php_ini "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
-
-echo "opcache.enable_cli=1" >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
-echo 'apc.enabled=1' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
-echo 'apc.enable_cli=1' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 
 pecl channel-update pecl.php.net || true
