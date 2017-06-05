@@ -20,10 +20,10 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Dispatcher;
 use Phalcon\FilterInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
+use Phalcon\Dispatcher as CliDispatcher;
 
 /**
  * Phalcon\Cli\Dispatcher
@@ -47,7 +47,7 @@ use Phalcon\Cli\Dispatcher\Exception;
  * $handle = $dispatcher->dispatch();
  * </code>
  */
-class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
+class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
 
 	protected _handlerSuffix = "Task";
@@ -176,7 +176,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 		if typeof dependencyInjector != "object" {
 			this->{"_throwDispatchException"}(
 				"A dependency injection object is required to access the 'filter' service",
-				Dispatcher::EXCEPTION_NO_DI
+				CliDispatcher::EXCEPTION_NO_DI
 			);
 		}
 		let filter = <FilterInterface> dependencyInjector->getShared("filter");
