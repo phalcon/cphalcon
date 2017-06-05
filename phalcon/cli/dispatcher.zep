@@ -20,6 +20,7 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\Dispatcher;
 use Phalcon\FilterInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
@@ -31,11 +32,12 @@ use Phalcon\Cli\Dispatcher\Exception;
  * task name, action name, and optional parameters contained in it, and then
  * instantiating a task and calling an action on it.
  *
- *<code>
- * $di = new \Phalcon\Di();
+ * <code>
+ * use Phalcon\Di;
+ * use Phalcon\Cli\Dispatcher;
  *
- * $dispatcher = new \Phalcon\Cli\Dispatcher();
- *
+ * $di = new Di();
+ * $dispatcher = new Dispatcher();
  * $dispatcher->setDi($di);
  *
  * $dispatcher->setTaskName("posts");
@@ -43,7 +45,7 @@ use Phalcon\Cli\Dispatcher\Exception;
  * $dispatcher->setParams([]);
  *
  * $handle = $dispatcher->dispatch();
- *</code>
+ * </code>
  */
 class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 {
@@ -153,7 +155,7 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 	/**
 	 * Gets an option by its name or numeric index
 	 *
-	 * @param  mixed $param
+	 * @param  mixed $option
 	 * @param  string|array $filters
 	 * @param  mixed $defaultValue
 	 */
@@ -172,9 +174,13 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", \Phalcon\Dispatcher::EXCEPTION_NO_DI);
+			this->{"_throwDispatchException"}(
+				"A dependency injection object is required to access the 'filter' service",
+				Dispatcher::EXCEPTION_NO_DI
+			);
 		}
 		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+
 		return filter->sanitize(optionValue, filters);
 	}
 
@@ -188,16 +194,13 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 
 	/**
 	 * Calls the action method.
-	 *
-	 * @param  mixed $handler
-	 * @param  string $actionMethod
-	 * @param  array $params
 	 */
-	public function callActionMethod(handler, string actionMethod, array! params = [])
+	public function callActionMethod(handler, string actionMethod, array! params = []) -> var
 	{
 		var options;
 
 		let options = this->_options;
+		
 		return call_user_func_array([handler, actionMethod], [params, options]);
 	}
 }
