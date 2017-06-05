@@ -97,6 +97,10 @@ class Redis extends Backend
 			let options["statsKey"] = "";
 		}
 
+		if !isset options["auth"] {
+			let options["auth"] = "";
+		}
+
 		parent::__construct(frontend, options);
 	}
 
@@ -124,7 +128,7 @@ class Redis extends Backend
 			throw new Exception("Could not connect to the Redisd server ".host.":".port);
 		}
 
-		if fetch auth, options["auth"] {
+		if fetch auth, options["auth"] && !empty options["auth"] {
 			let success = redis->auth(auth);
 
 			if !success {
