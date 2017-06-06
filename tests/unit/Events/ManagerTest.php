@@ -252,8 +252,77 @@ class ManagerTest extends UnitTest
         );
     }
 
+    /**
+     * Tests detach without using priority queue
+     *
+     * @test
+     * @issue  12882
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-06
+     */
+    public function detachClosureListenerWithoutPriorityQueue()
+    {
+        $this->specify(
+            'The Events Manager does not detach listener without priority queue',
+            function () {
+                $manager = new Manager();
+                $manager->enablePriorities(false);
+
+                $actual = '';
+                $listener = $this->simpleListener();
+
+                $expected = sprintf(
+                    'The detachable is triggered from %s',
+                    __CLASS__
+                );
+
+                $manager->attach('test:detachable', $listener);
+                $actual .= $this->fireEventWithOutput($manager, 'test:detachable');
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(1);
+                expect(array_pop($events['test:detachable']))->isInstanceOf(\Closure::class);
+                expect($actual)->equals($expected);
+
+                $manager->detach('test:detachable', $listener);
+                $actual .= $this->fireEventWithOutput($manager, 'test:detachable');
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(0);
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
     public function setLastListener($listener)
     {
         $this->listener = $listener;
+    }
+
+    protected function simpleListener()
+    {
+        return function (Event $event, $source, array $data = null) {
+            printf(
+                'The %s is triggered from %s',
+                $event->getType(),
+                get_class($source)
+            );
+        };
+    }
+
+    protected function fireEventWithOutput(Manager $manager, $eventType)
+    {
+        $output = '';
+
+        ob_start();
+        $manager->fire($eventType, $this);
+        $output .= ob_get_contents();
+        ob_end_clean();
+
+        return $output;
     }
 }
