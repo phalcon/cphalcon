@@ -253,65 +253,93 @@ class ManagerTest extends UnitTest
     }
 
     /**
-     * Tests detach without using priority queue
+     * Tests detach handler by using a Closure
      *
      * @test
      * @issue  12882
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-06
      */
-    public function detachClosureListenerWithoutPriorityQueue()
+    public function detachClosureListener()
     {
         $this->specify(
-            'The Events Manager does not detach listener without priority queue',
-            function () {
+            'The Events Manager does not detach listener by using a Closure',
+            function ($enablePriorities) {
                 $manager = new Manager();
-                $manager->enablePriorities(false);
+                $manager->enablePriorities($enablePriorities);
 
-                $actual = '';
-                $listener = $this->simpleListener();
+                $handler = function () {
+                    echo __METHOD__;
+                };
 
-                $expected = sprintf(
-                    'The detachable is triggered from %s',
-                    __CLASS__
-                );
-
-                $manager->attach('test:detachable', $listener);
-                $actual .= $this->fireEventWithOutput($manager, 'test:detachable');
+                $manager->attach('test:detachable', $handler);
                 $events = $this->tester->getProtectedProperty($manager, '_events');
 
                 expect($events)->count(1);
                 expect(array_key_exists('test:detachable', $events))->true();
                 expect($events['test:detachable'])->count(1);
-                expect(array_pop($events['test:detachable']))->isInstanceOf(\Closure::class);
-                expect($actual)->equals($expected);
 
-                $manager->detach('test:detachable', $listener);
-                $actual .= $this->fireEventWithOutput($manager, 'test:detachable');
+                $manager->detach('test:detachable', $handler);
+
                 $events = $this->tester->getProtectedProperty($manager, '_events');
 
                 expect($events)->count(1);
                 expect(array_key_exists('test:detachable', $events))->true();
                 expect($events['test:detachable'])->count(0);
-                expect($actual)->equals($expected);
-            }
+            },
+            [
+                'examples' => [
+                    [true ],
+                    [false],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests detach handler by using an Object
+     *
+     * @test
+     * @issue  12882
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-06
+     */
+    public function detachObjectListener()
+    {
+        $this->specify(
+            'The Events Manager does not detach listener by using an Object',
+            function ($enablePriorities) {
+                $manager = new Manager();
+                $manager->enablePriorities($enablePriorities);
+
+                $handler = new \stdClass();
+                $manager->attach('test:detachable', $handler);
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(1);
+
+                $manager->detach('test:detachable', $handler);
+
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(0);
+            },
+            [
+                'examples' => [
+                    [true ],
+                    [false],
+                ]
+            ]
         );
     }
 
     public function setLastListener($listener)
     {
         $this->listener = $listener;
-    }
-
-    protected function simpleListener()
-    {
-        return function (Event $event, $source, array $data = null) {
-            printf(
-                'The %s is triggered from %s',
-                $event->getType(),
-                get_class($source)
-            );
-        };
     }
 
     protected function fireEventWithOutput(Manager $manager, $eventType)
