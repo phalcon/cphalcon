@@ -40,6 +40,7 @@ class TextRandomTest extends UnitTest
                 expect(Text::RANDOM_HEXDEC)->equals(2);
                 expect(Text::RANDOM_NUMERIC)->equals(3);
                 expect(Text::RANDOM_NOZERO)->equals(4);
+                expect(Text::RANDOM_DISTINCT)->equals(5);
             }
         );
     }
@@ -151,6 +152,40 @@ class TextRandomTest extends UnitTest
                     expect(strlen($source))->equals($i);
                 }
             }
+        );
+    }
+
+    /**
+     * Tests the random function with distinct type
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-09
+     */
+    public function testRandomDistinct()
+    {
+        $this->specify(
+            "distinct random does not return correct results",
+            function ($i) {
+                $source  = Text::random(Text::RANDOM_DISTINCT, $i);
+                $pattern = '#^[^2345679ACDEFHJKLMNPRSTUVWXYZ]+$#';
+
+                expect(preg_match($pattern, $source))->equals(0);
+                expect(strlen($source))->equals($i);
+            },
+            [
+                'examples' => [
+                    [1],
+                    [10],
+                    [100],
+                    [200],
+                    [500],
+                    [1000],
+                    [2000],
+                    [3000],
+                    [4000],
+                    [5000],
+                ],
+            ]
         );
     }
 }
