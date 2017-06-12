@@ -213,7 +213,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 				"_source": true,
 				"_operationMade": true,
 				"_errorMessages": true,
-				"_dirtyState": true
+				"_dirtyState": true,
+				"_modelsManager": true,
+				"_skipped" : true
 			];
 			let self::_reserved = reserved;
 		}
