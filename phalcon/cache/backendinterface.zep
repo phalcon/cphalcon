@@ -92,6 +92,7 @@ interface BackendInterface
 	 * @param string content
 	 * @param int lifetime
 	 * @param boolean stopBuffer
+	 * @return boolean true on success/false otherwise
 	 */
 	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true) -> boolean;
 
