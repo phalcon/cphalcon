@@ -445,6 +445,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 			ZVAL_STRING(methods, "PUT", 1);
 			break;
 		}
+		if (ZEPHIR_IS_STRING(name, "Patch")) {
+			isRoute = 1;
+			ZEPHIR_INIT_NVAR(methods);
+			ZVAL_STRING(methods, "PATCH", 1);
+			break;
+		}
 		if (ZEPHIR_IS_STRING(name, "Delete")) {
 			isRoute = 1;
 			ZEPHIR_INIT_NVAR(methods);
