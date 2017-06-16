@@ -253,6 +253,10 @@ class Annotations extends Router
 				let isRoute = true, methods = "PUT";
 				break;
 
+			case "Patch":
+				let isRoute = true, methods = "PATCH";
+				break;
+
 			case "Delete":
 				let isRoute = true, methods = "DELETE";
 				break;
