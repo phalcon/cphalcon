@@ -46,7 +46,7 @@ use Phalcon\Config\Factory;
  *    [
  *        [
  *            "filePath" => "path/to/config.php",
- *            "adapter"  => "php""path/to/config.dist.php"
+ *            "adapter"  => "php"
  *        ],
  *        [
  *            "filePath" => "path/to/config.json",
@@ -79,12 +79,12 @@ class Grouped extends Config
 		    //Set To Default Adapter If Passed As String
 		    if typeof configName === "string" {
 		        let configInstance = ["filePath" : configName, "adapter" : defaultAdapter];
-		    } elseif !isset(configInstance["adapter"]) {
+		    } elseif !isset configInstance["adapter"] {
 		        let configInstance["adapter"] = defaultAdapter;
 		    }
 
             if configInstance["adapter"] === "array" {
-                if !isset(configInstance["config"]) {
+                if !isset configInstance["config"] {
                     throw new Exception("Config Array Not Specified");
                 }
 
