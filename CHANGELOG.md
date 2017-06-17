@@ -23,6 +23,7 @@
 - Added `Phalcon\Assets\ResourceInterface`. So now `Phalcon\Assets\Inline` and `Phalcon\Assets\Resource` implements `ResourceInterface`
 - Added `Phalcon\Assets\Collection::has` to checks whether the resource is added to the collection or not
 - Added `Phalcon\Cli\Dispatcher::getOption`, `Phalcon\Cli\Dispatcher::hasOption` and the options as parameter to cli handlers
+- Added `Phalcon\Config\Adapter\Grouped` to allow usage of multiple configuration files/adapters in a simple format [#12884](https://github.com/phalcon/cphalcon/pull/12884)
 - Fixed Dispatcher forwarding when handling exception [#11819](https://github.com/phalcon/cphalcon/issues/11819), [#12154](https://github.com/phalcon/cphalcon/issues/12154)
 - Fixed params view scope for PHP 7 [#12648](https://github.com/phalcon/cphalcon/issues/12648)
 - Fixed `Phalcon\Mvc\Micro::handle` to prevent attemps to send response twice [#12668](https://github.com/phalcon/cphalcon/pull/12668)
