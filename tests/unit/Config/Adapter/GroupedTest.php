@@ -1,8 +1,10 @@
 <?php
+
 namespace Phalcon\Test\Unit\Config\Adapter;
 
-use Phalcon\Test\Unit\Config\Helper\ConfigBase;
+use Phalcon\Factory\Exception;
 use Phalcon\Config\Adapter\Grouped;
+use Phalcon\Test\Unit\Config\Helper\ConfigBase;
 
 /**
  * \Phalcon\Test\Unit\Config\Adapter\GroupedTest
@@ -26,10 +28,11 @@ class GroupedTest extends ConfigBase
     /**
      * Tests Grouped config
      *
+     * @test
      * @author fenikkusu
      * @since  2017-06-06
      */
-    public function testGroupedConfig()
+    public function shouldCreateComplexConfigInstance()
     {
         $this->specify(
             "Comparison of configurations returned a not identical result",
@@ -59,27 +62,27 @@ class GroupedTest extends ConfigBase
     }
 
     /**
-     * Testing For Exception
+     * Testing for exception
      *
+     * @test
      * @author fenikkusu
      * @since  2017-06-06
      */
-    public function testGroupedConfigThrowsException()
+    public function shouldThrowsFactoryExceptionInCaseOfAbsentConfigParameter()
     {
         $this->specify(
             "Exception not thrown when config array not set.",
             function () {
-                $config = new Grouped(
+                new Grouped(
                     [
                         [
                             'adapter' => 'array'
                         ]
                     ]
                 );
-                $this->compareConfig($this->config, $config);
             },
             [
-                'throws' => 'Phalcon\Factory\Exception'
+                'throws' => new Exception("To use 'array' adapter you have to specify the 'config' as an array.")
             ]
         );
     }

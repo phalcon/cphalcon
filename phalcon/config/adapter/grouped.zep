@@ -28,38 +28,52 @@ use Phalcon\Config\Factory;
  *
  * Reads multiple files (or arrays) and merges them all together.
  *
- *<code>
- * $config = new \Phalcon\Config\Adapter\Grouped(
- *    ["path/to/config.php", "path/to/config.dist.php"]
- * );
- *</code>
+ * @see Phalcon\Config\Factory::load To load Config Adapter class using 'adapter' option.
  *
- *<code>
- * $config = new \Phalcon\Config\Adapter\Grouped(
- *    ["path/to/config.json", "path/to/config.dist.json"],
- *    "json"
- * );
- *</code>
+ * <code>
+ * use Phalcon\Config\Adapter\Grouped;
  *
- *<code>
- * $config = new \Phalcon\Config\Adapter\Grouped(
- *    [
- *        [
- *            "filePath" => "path/to/config.php",
- *            "adapter"  => "php"
- *        ],
- *        [
- *            "filePath" => "path/to/config.json",
- *            "adapter"  => "json"
- *        ],
- *        [
- *            "adapter"  => "array",
- *            "config"   => [
- *                "property" => "value"
- *            ]
- *        ],
+ * $config = new Grouped(
+ *     [
+ *         "path/to/config.php",
+ *         "path/to/config.dist.php",
+ *     ]
  * );
- *</code>
+ * </code>
+ *
+ * <code>
+ * use Phalcon\Config\Adapter\Grouped;
+ *
+ * $config = new Grouped(
+ *     [
+ *         "path/to/config.json",
+ *         "path/to/config.dist.json",
+ *     ],
+ *     "json"
+ * );
+ * </code>
+ *
+ * <code>
+ * use Phalcon\Config\Adapter\Grouped;
+ *
+ * $config = new Grouped(
+ *     [
+ *         [
+ *             "filePath" => "path/to/config.php",
+ *             "adapter"  => "php",
+ *         ],
+ *         [
+ *             "filePath" => "path/to/config.json",
+ *             "adapter"  => "json",
+ *         ],
+ *         [
+ *             "adapter"  => "array",
+ *             "config"   => [
+ *                 "property" => "value",
+ *         ],
+ *     ],
+ * );
+ * </code>
  */
 class Grouped extends Config
 {
@@ -69,32 +83,34 @@ class Grouped extends Config
 	 */
 	public function __construct(array! arrayConfig, string! defaultAdapter = "php")
 	{
-		var configName, configInstance, adapterName, configArray;
+		var configName, configInstance, configArray;
 
 		parent::__construct([]);
 
 		for configName in arrayConfig {
-		    let configInstance = configName;
+			let configInstance = configName;
 
-		    //Set To Default Adapter If Passed As String
-		    if typeof configName === "string" {
-		        let configInstance = ["filePath" : configName, "adapter" : defaultAdapter];
-		    } elseif !isset configInstance["adapter"] {
-		        let configInstance["adapter"] = defaultAdapter;
-		    }
+			// Set to default adapter if passed as string
+			if typeof configName === "string" {
+				let configInstance = ["filePath" : configName, "adapter" : defaultAdapter];
+			} elseif !isset configInstance["adapter"] {
+				let configInstance["adapter"] = defaultAdapter;
+			}
 
-            if configInstance["adapter"] === "array" {
-                if !isset configInstance["config"] {
-                    throw new Exception("Config Array Not Specified");
-                }
+			if configInstance["adapter"] === "array" {
+				if !isset configInstance["config"] {
+					throw new Exception(
+						"To use 'array' adapter you have to specify the 'config' as an array."
+					);
+				} else {
+					let configArray    = configInstance["config"];
+					let configInstance = new Config(configArray);
+				}
+			} else {
+				let configInstance = Factory::load(configInstance);
+			}
 
-                let configArray    = configInstance["config"];
-                let configInstance = new Config(configArray);
-            } else {
-                let configInstance = Factory::load(configInstance);
-            }
-
-            this->_merge(configInstance);
+			this->_merge(configInstance);
 		}
 	}
 }
