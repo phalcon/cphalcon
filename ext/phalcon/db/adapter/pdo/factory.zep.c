@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Factory) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Factory, load) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *_0;
 
 	ZEPHIR_MM_GROW();

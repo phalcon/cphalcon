@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Events_Event, getSource) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_source");
+	RETURN_MEMBER(getThis(), "_source");
 
 }
 
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_data");
+	RETURN_MEMBER(getThis(), "_data");
 
 }
 
@@ -138,16 +138,16 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_source"), source TSRMLS_CC);
 	if (Z_TYPE_P(data) != IS_NULL) {
-		zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_data"), data TSRMLS_CC);
 	}
 	if (cancelable != 1) {
 		if (cancelable) {
-			zephir_update_property_this(this_ptr, SL("_cancelable"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_cancelable"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 		} else {
-			zephir_update_property_this(this_ptr, SL("_cancelable"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_cancelable"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_data"), data TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -222,9 +222,9 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 		return;
 	}
 	if (1) {
-		zephir_update_property_this(this_ptr, SL("_stopped"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_stopped"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_stopped"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_stopped"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Events_Event, isStopped) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_stopped");
+	RETURN_MEMBER(getThis(), "_stopped");
 
 }
 
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Events_Event, isCancelable) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_cancelable");
+	RETURN_MEMBER(getThis(), "_cancelable");
 
 }
 

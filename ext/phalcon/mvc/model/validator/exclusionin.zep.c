@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 
 	zval *_5$$7;
 	zend_bool _3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field = NULL, *domain = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_4$$7 = NULL, *_6$$7 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate) {
 		ZEPHIR_INIT_NVAR(_4$$7);
 		zephir_fast_join_str(_4$$7, SL(", "), domain TSRMLS_CC);
 		zephir_array_update_string(&_5$$7, SL(":domain"), &_4$$7, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_6$$7, "strtr", NULL, 26, message, _5$$7);
+		ZEPHIR_CALL_FUNCTION(&_6$$7, "strtr", NULL, 27, message, _5$$7);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_4$$7);
 		ZVAL_STRING(_4$$7, "Exclusion", ZEPHIR_TEMP_PARAM_COPY);

@@ -54,7 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *phql_param = NULL;
 	zval *phql = NULL;
 

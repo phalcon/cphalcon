@@ -19,21 +19,22 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/element.zep.c
 	phalcon/factoryinterface.zep.c
 	phalcon/mvc/model/validatorinterface.zep.c
+	phalcon/cache/backendinterface.zep.c
 	phalcon/factory.zep.c
 	phalcon/mvc/model/validator.zep.c
-	phalcon/cache/backendinterface.zep.c
+	phalcon/cache/backend.zep.c
 	phalcon/cache/frontendinterface.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
-	phalcon/cache/backend.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapterinterface.zep.c
+	phalcon/assets/resourceinterface.zep.c
+	phalcon/annotations/adapter.zep.c
+	phalcon/config.zep.c
 	phalcon/db/adapterinterface.zep.c
 	phalcon/logger/adapterinterface.zep.c
 	phalcon/logger/formatterinterface.zep.c
 	phalcon/session/adapterinterface.zep.c
-	phalcon/annotations/adapter.zep.c
-	phalcon/config.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/logger/adapter.zep.c
@@ -131,6 +132,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/role.zep.c
 	phalcon/acl/roleaware.zep.c
 	phalcon/annotations/adapter/apc.zep.c
+	phalcon/annotations/adapter/apcu.zep.c
 	phalcon/annotations/adapter/files.zep.c
 	phalcon/annotations/adapter/memory.zep.c
 	phalcon/annotations/adapter/xcache.zep.c
@@ -151,6 +153,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/assets/resource/css.zep.c
 	phalcon/assets/resource/js.zep.c
 	phalcon/cache/backend/apc.zep.c
+	phalcon/cache/backend/apcu.zep.c
 	phalcon/cache/backend/factory.zep.c
 	phalcon/cache/backend/file.zep.c
 	phalcon/cache/backend/libmemcached.zep.c
@@ -178,6 +181,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cli/router/routeinterface.zep.c
 	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/task.zep.c
+	phalcon/config/adapter/grouped.zep.c
 	phalcon/config/adapter/ini.zep.c
 	phalcon/config/adapter/json.zep.c
 	phalcon/config/adapter/php.zep.c
@@ -209,6 +213,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/di/factorydefault/cli.zep.c
 	phalcon/di/service.zep.c
 	phalcon/di/service/builder.zep.c
+	phalcon/di/serviceproviderinterface.zep.c
 	phalcon/escaper.zep.c
 	phalcon/escaper/exception.zep.c
 	phalcon/events/event.zep.c

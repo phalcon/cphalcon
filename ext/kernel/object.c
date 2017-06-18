@@ -1727,3 +1727,9 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 	zend_create_closure(return_value, function_ptr, ce, this_ptr TSRMLS_CC);
 	return SUCCESS;
 }
+
+void zephir_free_object_storage(void *object TSRMLS_DC)
+{
+	zend_object_std_dtor((zend_object*)object TSRMLS_CC);
+	efree(object);
+}

@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_id");
+	RETURN_MEMBER(getThis(), "_id");
 
 }
 
@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_body");
+	RETURN_MEMBER(getThis(), "_body");
 
 }
 
@@ -80,9 +80,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
 	zephir_get_strval(id, id_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_body"), body TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_queue"), queue TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_id"), id TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_body"), body TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 
 	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 
 	zval *priority_param = NULL, *delay_param = NULL, *queue = NULL, *_0, _1, _2, *_3, *_4 = NULL, *_5;
-	int priority, delay, ZEPHIR_LAST_CALL_STATUS;
+	zend_long priority, delay, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &priority_param, &delay_param);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, release) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 
 	zval *priority_param = NULL, *queue = NULL, *_0, _1, *_2, *_3 = NULL, *_4;
-	int priority, ZEPHIR_LAST_CALL_STATUS;
+	zend_long priority, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &priority_param);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, bury) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 
 	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, touch) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 
 	zval *queue = NULL, *_0, *_1, *_2 = NULL, *_3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, kick) {
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, stats) {
 
 	zval *queue = NULL, *response = NULL, *_0, *_1, *_2, *_3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

@@ -80,8 +80,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 	zephir_get_strval(sqlStatement, sqlStatement_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_sqlStatement"), sqlStatement TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	zephir_update_property_this(getThis(), SL("_sqlStatement"), sqlStatement TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_sqlStatement");
+	RETURN_MEMBER(getThis(), "_sqlStatement");
 
 }
 
@@ -110,8 +110,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables) {
 	zephir_get_arrval(sqlVariables, sqlVariables_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_sqlVariables"), sqlVariables TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	zephir_update_property_this(getThis(), SL("_sqlVariables"), sqlVariables TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_sqlVariables");
+	RETURN_MEMBER(getThis(), "_sqlVariables");
 
 }
 
@@ -140,8 +140,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes) {
 	zephir_get_arrval(sqlBindTypes, sqlBindTypes_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_sqlBindTypes"), sqlBindTypes TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	zephir_update_property_this(getThis(), SL("_sqlBindTypes"), sqlBindTypes TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_sqlBindTypes");
+	RETURN_MEMBER(getThis(), "_sqlBindTypes");
 
 }
 
@@ -171,7 +171,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_DOUBLE(_0, initialTime);
-	zephir_update_property_this(this_ptr, SL("_initialTime"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_initialTime"), _0 TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
@@ -182,7 +183,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_initialTime");
+	RETURN_MEMBER(getThis(), "_initialTime");
 
 }
 
@@ -201,7 +202,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_DOUBLE(_0, finalTime);
-	zephir_update_property_this(this_ptr, SL("_finalTime"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_finalTime"), _0 TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
@@ -212,7 +214,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_finalTime");
+	RETURN_MEMBER(getThis(), "_finalTime");
 
 }
 

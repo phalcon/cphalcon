@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_columns");
+	RETURN_MEMBER(getThis(), "_columns");
 
 }
 
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Db_Index, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -143,10 +143,10 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_name"), name TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_columns"), columns TSRMLS_CC);
 	zephir_get_strval(_0, type);
-	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *indexName = NULL, *columns = NULL, *type = NULL;
 	zval *data = NULL;
 
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 		ZVAL_STRING(type, "", 1);
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 22, indexName, columns, type);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 23, indexName, columns, type);
 	zephir_check_call_status();
 	RETURN_MM();
 

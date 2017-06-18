@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Factory) {
  */
 PHP_METHOD(Phalcon_Config_Factory, load) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 
 	zend_class_entry *_12$$6, *_8$$9, *_10$$11;
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *namespace_param = NULL, *config = NULL, *adapter = NULL, *className = NULL, *mode = NULL, *callbacks = NULL, *filePath = NULL, *_1$$3 = NULL, *_2$$6, _3$$6, *_4$$6, *_11$$6 = NULL, *_5$$7 = NULL, *_6$$7, *_7$$9 = NULL, *_9$$11 = NULL;
 	zval *namespace = NULL;
 
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		ZEPHIR_INIT_VAR(_4$$6);
 		zephir_fast_strpos(_4$$6, filePath, &_3$$6, 0 );
 		if (!(zephir_is_true(_4$$6))) {
-			ZEPHIR_CALL_FUNCTION(&_5$$7, "lcfirst", NULL, 68, adapter);
+			ZEPHIR_CALL_FUNCTION(&_5$$7, "lcfirst", NULL, 69, adapter);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_6$$7);
 			ZEPHIR_CONCAT_VSV(_6$$7, filePath, ".", _5$$7);

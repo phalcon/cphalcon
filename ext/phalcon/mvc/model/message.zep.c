@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 
-	int code;
+	zend_long code;
 	zval *message_param = NULL, *field = NULL, *type = NULL, *model = NULL, *code_param = NULL, *_0;
 	zval *message = NULL;
 
@@ -110,14 +110,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_message"), message TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_field"), field TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, code);
-	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_code"), _0 TSRMLS_CC);
 	if (Z_TYPE_P(model) == IS_OBJECT) {
-		zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_model"), model TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_message"), message TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_message");
+	RETURN_MEMBER(getThis(), "_message");
 
 }
 
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_field"), field TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getField) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_field");
+	RETURN_MEMBER(getThis(), "_field");
 
 }
 
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_model"), model TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setModel) {
 PHP_METHOD(Phalcon_Mvc_Model_Message, setCode) {
 
 	zval *code_param = NULL, *_0;
-	int code;
+	zend_long code;
 
 	zephir_fetch_params(0, 1, 0, &code_param);
 
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setCode) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, code);
-	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_code"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getModel) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_model");
+	RETURN_MEMBER(getThis(), "_model");
 
 }
 
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getCode) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_code");
+	RETURN_MEMBER(getThis(), "_code");
 
 }
 
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_message");
+	RETURN_MEMBER(getThis(), "_message");
 
 }
 
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *_0, *_1, *_2, *_3;
 	zval *message = NULL;
 

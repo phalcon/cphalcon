@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json) {
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 	zval *_2;
-	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type, timestamp, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *_0$$3 = NULL, *_1, *_3 = NULL, *_4 = NULL;
 	zval *message = NULL;
 

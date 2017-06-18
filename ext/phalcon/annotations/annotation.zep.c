@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	HashTable *_2$$3;
 	HashPosition _1$$3;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *reflectionData_param = NULL, *name = NULL, *exprArguments = NULL, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3$$3, *_4$$4;
 	zval *reflectionData = NULL;
 
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
 
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 58 TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_name"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(exprArguments);
 	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"), 0 TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(arguments);
@@ -92,8 +92,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 				zephir_array_append(&arguments, resolvedArgument, PH_SEPARATE, "phalcon/annotations/annotation.zep", 70);
 			}
 		}
-		zephir_update_property_this(this_ptr, SL("_arguments"), arguments TSRMLS_CC);
-		zephir_update_property_this(this_ptr, SL("_exprArguments"), exprArguments TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_arguments"), arguments TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_exprArguments"), exprArguments TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	HashTable *_2$$7;
 	HashPosition _1$$7;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *expr_param = NULL, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type = NULL, *_0$$7, **_3$$7, *_4$$8, *_6$$12, *_7$$12;
 	zval *expr = NULL;
 
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			) {
 				ZEPHIR_GET_HVALUE(item, _3$$7);
 				zephir_array_fetch_string(&_4$$8, item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/annotations/annotation.zep", 121 TSRMLS_CC);
-				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 89, _4$$8);
+				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 94, _4$$8);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"), 0 TSRMLS_CC)) {
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		}
 		if (ZEPHIR_IS_LONG(type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 90, expr);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 95, expr);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_exprArguments");
+	RETURN_MEMBER(getThis(), "_exprArguments");
 
 }
 
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArguments) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_arguments");
+	RETURN_MEMBER(getThis(), "_arguments");
 
 }
 
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval *name = NULL;
 

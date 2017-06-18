@@ -23,9 +23,13 @@ PHP_METHOD(Phalcon_Di, offsetSet);
 PHP_METHOD(Phalcon_Di, offsetGet);
 PHP_METHOD(Phalcon_Di, offsetUnset);
 PHP_METHOD(Phalcon_Di, __call);
+PHP_METHOD(Phalcon_Di, register);
 PHP_METHOD(Phalcon_Di, setDefault);
 PHP_METHOD(Phalcon_Di, getDefault);
 PHP_METHOD(Phalcon_Di, reset);
+PHP_METHOD(Phalcon_Di, loadFromYaml);
+PHP_METHOD(Phalcon_Di, loadFromPhp);
+PHP_METHOD(Phalcon_Di, loadFromConfig);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_setinternaleventsmanager, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
@@ -101,8 +105,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di___call, 0, 0, 1)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_register, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, provider, Phalcon\\Di\\ServiceProviderInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_setdefault, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_loadfromyaml, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_ARRAY_INFO(0, callbacks, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_loadfromphp, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_loadfromconfig, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, config, Phalcon\\Config, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_method_entry) {
@@ -126,8 +147,12 @@ ZEPHIR_INIT_FUNCS(phalcon_di_method_entry) {
 	PHP_ME(Phalcon_Di, offsetGet, arginfo_phalcon_di_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, offsetUnset, arginfo_phalcon_di_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di, register, arginfo_phalcon_di_register, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, setDefault, arginfo_phalcon_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Di, loadFromYaml, arginfo_phalcon_di_loadfromyaml, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di, loadFromPhp, arginfo_phalcon_di_loadfromphp, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di, loadFromConfig, arginfo_phalcon_di_loadfromconfig, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

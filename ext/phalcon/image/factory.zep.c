@@ -50,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Factory) {
  */
 PHP_METHOD(Phalcon_Image_Factory, load) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Image_Factory, loadClass) {
 
 	zend_class_entry *_8$$6, *_4$$8, *_6$$7;
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *namespace_param = NULL, *config = NULL, *adapter = NULL, *className = NULL, *file = NULL, *height = NULL, *width = NULL, *_1$$3 = NULL, *_2$$6, *_7$$6 = NULL, *_3$$8 = NULL, *_5$$7 = NULL;
 	zval *namespace = NULL;
 

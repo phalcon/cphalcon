@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Factory) {
  */
 PHP_METHOD(Phalcon_Logger_Factory, load) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Logger_Factory, loadClass) {
 
 	zend_class_entry *_6$$5, *_4$$6;
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *namespace_param = NULL, *config = NULL, *adapter = NULL, *className = NULL, *name = NULL, *_1$$3 = NULL, *_2$$5, *_5$$5 = NULL, *_3$$6 = NULL;
 	zval *namespace = NULL;
 
