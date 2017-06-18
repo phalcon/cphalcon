@@ -65,6 +65,76 @@ class HeadersTest extends HttpBase
     }
 
     /**
+     * Tests the set of the response status headers
+     *
+     * @test
+     * @issue  12895
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-17
+     */
+    public function shouldSetResponseStatusHeader()
+    {
+        $this->specify(
+            'Setting Response Headers is not correct',
+            function ($code) {
+                $responseHeaders = new Headers();
+                $responseHeaders->set('Status', $code);
+
+                $headers = $this->tester->getProtectedProperty($responseHeaders, '_headers');
+
+                expect($headers)->count(1);
+                expect($headers)->hasKey('Status');
+                expect($headers['Status'])->equals($code);
+            },
+            [
+                'examples' => [
+                    ['Unprocessable Entity' => 422],
+                    ['Moved Permanently' => 301],
+                    ['OK' => 200],
+                    ['Service Unavailable' => 503],
+                    ['Not Found' => 404],
+                    ['Created' => 201],
+                    ['Continue' => 100],
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Tests the get of the response status headers
+     *
+     * @test
+     * @issue  12895
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-17
+     */
+    public function shouldGetResponseStatusHeader()
+    {
+        $this->specify(
+            'Setting Response Headers is not correct',
+            function ($code) {
+                $responseHeaders = new Headers();
+                $this->tester->setProtectedProperty($responseHeaders, '_headers', ['Status' => $code]);
+
+                $responseHeaders->get('Status');
+
+                expect($responseHeaders->get('Status'))->equals($code);
+            },
+            [
+                'examples' => [
+                    ['Unprocessable Entity' => 422],
+                    ['Moved Permanently' => 301],
+                    ['OK' => 200],
+                    ['Service Unavailable' => 503],
+                    ['Not Found' => 404],
+                    ['Created' => 201],
+                    ['Continue' => 100],
+                ],
+            ]
+        );
+    }
+
+    /**
      * Tests resetting the response headers
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
