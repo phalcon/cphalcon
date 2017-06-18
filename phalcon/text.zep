@@ -93,10 +93,10 @@ abstract class Text
 	 * Generates a random string based on the given type. Type is one of the RANDOM_* constants
 	 *
 	 * <code>
+	 * use Phalcon\Text;
+	 *
 	 * // "aloiwkqz"
-	 * echo Phalcon\Text::random(
-	 *     Phalcon\Text::RANDOM_ALNUM
-	 * );
+	 * echo Text::random(Text::RANDOM_ALNUM);
 	 * </code>
 	 */
 	public static function random(int type = 0, long length = 8) -> string
@@ -123,7 +123,7 @@ abstract class Text
 				break;
 
 			case Text::RANDOM_DISTINCT:
-				let pool = "2345679ACDEFHJKLMNPRSTUVWXYZ";
+				let pool = str_split("2345679ACDEFHJKLMNPRSTUVWXYZ");
 				break;
 
 			default:
