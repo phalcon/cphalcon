@@ -18,7 +18,7 @@ use Phalcon\Validation\Validator\Email;
  * @package   Phalcon\Test\Unit\Validation\Validator
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
