@@ -2220,3 +2220,27 @@ void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 
 }
 
+void _zephir_concat_function(zval *result, zval *op1, zval *op2 TSRMLS_DC)
+{
+	zval *tmp;
+
+	/*
+		res == op1 == op2: won't leak
+		res == op1 != op2: won't leak
+		res == op2 != op1: will leak
+	 */
+	if (result == op2 && result != op1) {
+		ALLOC_INIT_ZVAL(tmp);
+		ZVAL_ZVAL(tmp, result, 1, 0);
+		if (1 == Z_REFCOUNT_P(result)) {
+			zval_dtor(result);
+		}
+
+		op2 = tmp;
+	}
+
+	concat_function(result, op1, op2 TSRMLS_CC);
+	if (tmp) {
+		zval_ptr_dtor(&tmp);
+	}
+}

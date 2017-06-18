@@ -15,6 +15,9 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/string.h"
 
 
 /**
@@ -38,6 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_assets_inline_ce TSRMLS_CC, 1, phalcon_assets_resourceinterface_ce);
 	return SUCCESS;
 
 }
@@ -46,7 +50,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -54,7 +58,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getContent) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_content");
+	RETURN_MEMBER(getThis(), "_content");
 
 }
 
@@ -62,7 +66,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getFilter) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_filter");
+	RETURN_MEMBER(getThis(), "_filter");
 
 }
 
@@ -70,7 +74,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_attributes");
+	RETURN_MEMBER(getThis(), "_attributes");
 
 }
 
@@ -103,15 +107,15 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_content"), content TSRMLS_CC);
 	if (filter) {
-		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_filter"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_filter"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
-		zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_attributes"), attributes TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -131,7 +135,7 @@ PHP_METHOD(Phalcon_Assets_Inline, setType) {
 	zephir_get_strval(type, type_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -150,9 +154,9 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 
 
 	if (filter) {
-		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_filter"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_filter"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_filter"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -172,8 +176,29 @@ PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
 	zephir_get_arrval(attributes, attributes_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_attributes"), attributes TSRMLS_CC);
 	RETURN_THIS();
+
+}
+
+/**
+ * Gets the resource's key.
+ */
+PHP_METHOD(Phalcon_Assets_Inline, getResourceKey) {
+
+	zval *key = NULL, *_0 = NULL, *_1 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettype", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcontent", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(key);
+	ZEPHIR_CONCAT_VSV(key, _0, ":", _1);
+	zephir_md5(return_value, key);
+	RETURN_MM();
 
 }
 

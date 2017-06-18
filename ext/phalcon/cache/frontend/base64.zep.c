@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_frontendOptions"), frontendOptions TSRMLS_CC);
 
 }
 
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 120, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 132, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 121, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 133, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

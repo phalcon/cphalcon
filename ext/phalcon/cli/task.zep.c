@@ -55,7 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Task) {
  */
 PHP_METHOD(Phalcon_Cli_Task, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

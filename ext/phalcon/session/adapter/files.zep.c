@@ -19,7 +19,7 @@
  *
  * This adapter store sessions in plain files
  *
- *<code>
+ * <code>
  * use Phalcon\Session\Adapter\Files;
  *
  * $session = new Files(
@@ -33,7 +33,7 @@
  * $session->set("var", "some-value");
  *
  * echo $session->get("var");
- *</code>
+ * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Files) {
 

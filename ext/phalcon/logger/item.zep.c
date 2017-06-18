@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_message");
+	RETURN_MEMBER(getThis(), "_message");
 
 }
 
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Logger_Item, getTime) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_time");
+	RETURN_MEMBER(getThis(), "_time");
 
 }
 
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Logger_Item, getContext) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_context");
+	RETURN_MEMBER(getThis(), "_context");
 
 }
 
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Logger_Item, getContext) {
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
-	int type, time;
+	zend_long type, time;
 	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context = NULL, *_0;
 	zval *message = NULL;
 
@@ -124,15 +124,15 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_message"), message TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, type);
-	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, time);
-	zephir_update_property_this(this_ptr, SL("_time"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_time"), _0 TSRMLS_CC);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		zephir_update_property_this(this_ptr, SL("_context"), context TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_context"), context TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 

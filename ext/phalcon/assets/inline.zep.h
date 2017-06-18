@@ -11,6 +11,7 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct);
 PHP_METHOD(Phalcon_Assets_Inline, setType);
 PHP_METHOD(Phalcon_Assets_Inline, setFilter);
 PHP_METHOD(Phalcon_Assets_Inline, setAttributes);
+PHP_METHOD(Phalcon_Assets_Inline, getResourceKey);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_inline___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -40,5 +41,6 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_inline_method_entry) {
 	PHP_ME(Phalcon_Assets_Inline, setType, arginfo_phalcon_assets_inline_settype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, setFilter, arginfo_phalcon_assets_inline_setfilter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Inline, setAttributes, arginfo_phalcon_assets_inline_setattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Inline, getResourceKey, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -69,11 +69,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, addFrom);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 
 /**
- * Adds an INNER join to the query
+ * Adds an :type: join (by default type - INNER) to the query
  *
  * @param string model
  * @param string conditions
  * @param string alias
+ * @param string type
  * @return \Phalcon\Mvc\Model\Query\BuilderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);

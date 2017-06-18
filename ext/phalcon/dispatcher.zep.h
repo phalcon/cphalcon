@@ -140,7 +140,7 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setReturnedValue, arginfo_phalcon_dispatcher_setreturnedvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Dispatcher, setModelBinding, arginfo_phalcon_dispatcher_setmodelbinding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Dispatcher, setModelBinding, arginfo_phalcon_dispatcher_setmodelbinding, ZEND_ACC_DEPRECATED|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setModelBinder, arginfo_phalcon_dispatcher_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getModelBinder, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)

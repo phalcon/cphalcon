@@ -17,21 +17,24 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/di/injectable.zep.c
 	phalcon/forms/elementinterface.zep.c
 	phalcon/forms/element.zep.c
+	phalcon/factoryinterface.zep.c
 	phalcon/mvc/model/validatorinterface.zep.c
-	phalcon/mvc/model/validator.zep.c
 	phalcon/cache/backendinterface.zep.c
+	phalcon/factory.zep.c
+	phalcon/mvc/model/validator.zep.c
+	phalcon/cache/backend.zep.c
 	phalcon/cache/frontendinterface.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
-	phalcon/cache/backend.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapterinterface.zep.c
+	phalcon/assets/resourceinterface.zep.c
+	phalcon/annotations/adapter.zep.c
+	phalcon/config.zep.c
 	phalcon/db/adapterinterface.zep.c
 	phalcon/logger/adapterinterface.zep.c
 	phalcon/logger/formatterinterface.zep.c
 	phalcon/session/adapterinterface.zep.c
-	phalcon/annotations/adapter.zep.c
-	phalcon/config.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
 	phalcon/logger/adapter.zep.c
@@ -129,12 +132,14 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/role.zep.c
 	phalcon/acl/roleaware.zep.c
 	phalcon/annotations/adapter/apc.zep.c
+	phalcon/annotations/adapter/apcu.zep.c
 	phalcon/annotations/adapter/files.zep.c
 	phalcon/annotations/adapter/memory.zep.c
 	phalcon/annotations/adapter/xcache.zep.c
 	phalcon/annotations/annotation.zep.c
 	phalcon/annotations/collection.zep.c
 	phalcon/annotations/exception.zep.c
+	phalcon/annotations/factory.zep.c
 	phalcon/annotations/reader.zep.c
 	phalcon/annotations/reflection.zep.c
 	phalcon/assets/collection.zep.c
@@ -148,6 +153,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/assets/resource/css.zep.c
 	phalcon/assets/resource/js.zep.c
 	phalcon/cache/backend/apc.zep.c
+	phalcon/cache/backend/apcu.zep.c
+	phalcon/cache/backend/factory.zep.c
 	phalcon/cache/backend/file.zep.c
 	phalcon/cache/backend/libmemcached.zep.c
 	phalcon/cache/backend/memcache.zep.c
@@ -157,6 +164,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cache/backend/xcache.zep.c
 	phalcon/cache/exception.zep.c
 	phalcon/cache/frontend/base64.zep.c
+	phalcon/cache/frontend/factory.zep.c
 	phalcon/cache/frontend/igbinary.zep.c
 	phalcon/cache/frontend/json.zep.c
 	phalcon/cache/frontend/msgpack.zep.c
@@ -173,14 +181,17 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cli/router/routeinterface.zep.c
 	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/task.zep.c
+	phalcon/config/adapter/grouped.zep.c
 	phalcon/config/adapter/ini.zep.c
 	phalcon/config/adapter/json.zep.c
 	phalcon/config/adapter/php.zep.c
 	phalcon/config/adapter/yaml.zep.c
 	phalcon/config/exception.zep.c
+	phalcon/config/factory.zep.c
 	phalcon/crypt.zep.c
 	phalcon/crypt/exception.zep.c
 	phalcon/db.zep.c
+	phalcon/db/adapter/pdo/factory.zep.c
 	phalcon/db/adapter/pdo/mysql.zep.c
 	phalcon/db/adapter/pdo/postgresql.zep.c
 	phalcon/db/adapter/pdo/sqlite.zep.c
@@ -202,11 +213,13 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/di/factorydefault/cli.zep.c
 	phalcon/di/service.zep.c
 	phalcon/di/service/builder.zep.c
+	phalcon/di/serviceproviderinterface.zep.c
 	phalcon/escaper.zep.c
 	phalcon/escaper/exception.zep.c
 	phalcon/events/event.zep.c
 	phalcon/events/exception.zep.c
 	phalcon/events/manager.zep.c
+	phalcon/factory/exception.zep.c
 	phalcon/filter.zep.c
 	phalcon/filter/exception.zep.c
 	phalcon/filter/userfilterinterface.zep.c
@@ -241,6 +254,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/image/adapter/gd.zep.c
 	phalcon/image/adapter/imagick.zep.c
 	phalcon/image/exception.zep.c
+	phalcon/image/factory.zep.c
 	phalcon/kernel.zep.c
 	phalcon/loader.zep.c
 	phalcon/loader/exception.zep.c
@@ -250,6 +264,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/adapter/stream.zep.c
 	phalcon/logger/adapter/syslog.zep.c
 	phalcon/logger/exception.zep.c
+	phalcon/logger/factory.zep.c
 	phalcon/logger/formatter/firephp.zep.c
 	phalcon/logger/formatter/json.zep.c
 	phalcon/logger/formatter/line.zep.c
@@ -334,6 +349,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/adapter/nativearray.zep.c
 	phalcon/paginator/adapter/querybuilder.zep.c
 	phalcon/paginator/exception.zep.c
+	phalcon/paginator/factory.zep.c
 	phalcon/queue/beanstalk.zep.c
 	phalcon/queue/beanstalk/exception.zep.c
 	phalcon/queue/beanstalk/job.zep.c
@@ -347,6 +363,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/session/adapter/redis.zep.c
 	phalcon/session/bag.zep.c
 	phalcon/session/exception.zep.c
+	phalcon/session/factory.zep.c
 	phalcon/tag.zep.c
 	phalcon/tag/exception.zep.c
 	phalcon/tag/select.zep.c
@@ -356,6 +373,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/adapter/gettext.zep.c
 	phalcon/translate/adapter/nativearray.zep.c
 	phalcon/translate/exception.zep.c
+	phalcon/translate/factory.zep.c
 	phalcon/translate/interpolator/associativearray.zep.c
 	phalcon/translate/interpolator/indexedarray.zep.c
 	phalcon/validation.zep.c

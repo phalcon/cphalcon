@@ -97,7 +97,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 
 	zephir_fcall_cache_entry *_2 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *key, *table, *schema, *strategy = NULL, *className = NULL, *metaData = NULL, *data = NULL, *modelMetadata = NULL, *modelColumnMap = NULL, *dependencyInjector = NULL, *keyName = NULL, *prefixKey = NULL, *_3, *_0$$8, *_1$$8;
 
 	ZEPHIR_MM_GROW();
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
 
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+	RETURN_MEMBER(getThis(), "_dependencyInjector");
 
 }
 
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_strategy"), strategy TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_strategy"), strategy TSRMLS_CC);
 
 }
 
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 
 	zval *_0, *_1$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -240,9 +240,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 			ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_this(this_ptr, SL("_strategy"), _1$$3 TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_strategy"), _1$$3 TSRMLS_CC);
 	}
-	RETURN_MM_MEMBER(this_ptr, "_strategy");
+	RETURN_MM_MEMBER(getThis(), "_strategy");
 
 }
 
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *source = NULL, *schema = NULL, *key = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 
-	int index, ZEPHIR_LAST_CALL_STATUS;
+	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *index_param = NULL, *source = NULL, *schema = NULL, *key = NULL, *_0, *_1, *_2, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 
 	zend_bool _0, _1;
-	int index, ZEPHIR_LAST_CALL_STATUS;
+	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *index_param = NULL, *data, *source = NULL, *schema = NULL, *key = NULL, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *keyName = NULL, *data = NULL, *_0, *_1$$4, *_2$$4, *_3$$4, *_4$$4;
 
 	ZEPHIR_MM_GROW();
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 
-	int index, ZEPHIR_LAST_CALL_STATUS;
+	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *index_param = NULL, *keyName = NULL, *columnMapModel = NULL, *map = NULL, *_0, *_1$$4, *_2$$4, *_3$$4, *_4$$4;
 
 	ZEPHIR_MM_GROW();
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -723,7 +723,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -756,7 +756,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -823,7 +823,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
 	zval *model, *attributes_param = NULL, *_0;
 
@@ -855,7 +855,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
 	zval *model, *attributes_param = NULL, *_0;
 
@@ -887,7 +887,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes = NULL;
 	zval *model, *attributes_param = NULL, *_0;
 
@@ -918,7 +918,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -951,7 +951,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -985,7 +985,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 
 	zend_bool _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -1023,7 +1023,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 
 	zend_bool _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *data = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -1061,7 +1061,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attribute = NULL;
 	zval *model, *attribute_param = NULL, *columnMap = NULL, *_0$$4 = NULL, *_1$$4;
 
@@ -1118,10 +1118,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
 
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
-	zephir_update_property_this(this_ptr, SL("_metaData"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_metaData"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
-	zephir_update_property_this(this_ptr, SL("_columnMap"), _1 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_columnMap"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

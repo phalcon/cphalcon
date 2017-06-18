@@ -77,9 +77,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Redis) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_4 = NULL;
-	zval *frontend, *options = NULL, *_0$$4, *_1$$5, *_2$$6, *_3$$8;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_5 = NULL;
+	zval *frontend, *options = NULL, *_0$$4, *_1$$5, *_2$$6, *_3$$8, *_4$$9;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &frontend, &options);
@@ -118,7 +118,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 		ZVAL_STRING(_3$$8, "", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_3$$8, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, this_ptr, "__construct", &_4, 110, frontend, options);
+	if (!(zephir_array_isset_string(options, SS("auth")))) {
+		ZEPHIR_INIT_VAR(_4$$9);
+		ZVAL_STRING(_4$$9, "", 1);
+		zephir_array_update_string(&options, SL("auth"), &_4$$9, PH_COPY | PH_SEPARATE);
+	}
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, getThis(), "__construct", &_5, 122, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -129,9 +134,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 
-	zend_bool _0, _1, _4;
-	zval *options = NULL, *redis = NULL, *persistent = NULL, *success = NULL, *host = NULL, *port = NULL, *auth = NULL, *index = NULL, *_2$$6, *_3$$6;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_bool _0, _1, _4, _6;
+	zval *options = NULL, *redis = NULL, *persistent = NULL, *success = NULL, *host = NULL, *port = NULL, *auth = NULL, *index = NULL, *_5, *_2$$6, *_3$$6;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -139,10 +144,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(redis);
 	object_init_ex(redis, zephir_get_internal_ce(SS("redis") TSRMLS_CC));
-	if (zephir_has_constructor(redis TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL, 0);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(NULL, redis, "__construct", NULL, 0);
+	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(host);
 	_0 = !(zephir_array_isset_string_fetch(&host, options, SS("host"), 0 TSRMLS_CC));
 	if (!(_0)) {
@@ -155,7 +158,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 		_1 = !(zephir_array_isset_string_fetch(&persistent, options, SS("persistent"), 0 TSRMLS_CC));
 	}
 	if (_1) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 114);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 118);
 		return;
 	}
 	if (zephir_is_true(persistent)) {
@@ -172,33 +175,38 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 		ZEPHIR_CONCAT_SVSV(_3$$6, "Could not connect to the Redisd server ", host, ":", port);
 		ZEPHIR_CALL_METHOD(NULL, _2$$6, "__construct", NULL, 9, _3$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_2$$6, "phalcon/cache/backend/redis.zep", 124 TSRMLS_CC);
+		zephir_throw_exception_debug(_2$$6, "phalcon/cache/backend/redis.zep", 128 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_OBS_VAR(auth);
-	if (zephir_array_isset_string_fetch(&auth, options, SS("auth"), 0 TSRMLS_CC)) {
+	_4 = zephir_array_isset_string_fetch(&auth, options, SS("auth"), 0 TSRMLS_CC);
+	if (_4) {
+		zephir_array_fetch_string(&_5, options, SL("auth"), PH_NOISY | PH_READONLY, "phalcon/cache/backend/redis.zep", 131 TSRMLS_CC);
+		_4 = !(ZEPHIR_IS_EMPTY(_5));
+	}
+	if (_4) {
 		ZEPHIR_CALL_METHOD(&success, redis, "auth", NULL, 0, auth);
 		zephir_check_call_status();
 		if (!(zephir_is_true(success))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed to authenticate with the Redisd server", "phalcon/cache/backend/redis.zep", 131);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed to authenticate with the Redisd server", "phalcon/cache/backend/redis.zep", 135);
 			return;
 		}
 	}
 	ZEPHIR_OBS_VAR(index);
-	_4 = zephir_array_isset_string_fetch(&index, options, SS("index"), 0 TSRMLS_CC);
-	if (_4) {
-		_4 = ZEPHIR_GT_LONG(index, 0);
+	_6 = zephir_array_isset_string_fetch(&index, options, SS("index"), 0 TSRMLS_CC);
+	if (_6) {
+		_6 = ZEPHIR_GT_LONG(index, 0);
 	}
-	if (_4) {
+	if (_6) {
 		ZEPHIR_CALL_METHOD(&success, redis, "select", NULL, 0, index);
 		zephir_check_call_status();
 		if (!(zephir_is_true(success))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Redis server selected database failed", "phalcon/cache/backend/redis.zep", 139);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Redis server selected database failed", "phalcon/cache/backend/redis.zep", 143);
 			return;
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_redis"), redis TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_redis"), redis TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -208,7 +216,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
 
-	int lifetime, ZEPHIR_LAST_CALL_STATUS;
+	zend_long lifetime, ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName_param = NULL, *lifetime_param = NULL, *redis = NULL, *frontend = NULL, *prefix = NULL, *lastKey = NULL, *cachedContent = NULL;
 	zval *keyName = NULL;
 
@@ -237,7 +245,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
 	zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(lastKey);
 	ZEPHIR_CONCAT_SVV(lastKey, "_PHCR", prefix, keyName);
-	zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&cachedContent, redis, "get", NULL, 0, lastKey);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(cachedContent)) {
@@ -269,7 +277,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool stopBuffer;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *prefixedKey = NULL, *lastKey = NULL, *frontend = NULL, *redis = NULL, *cachedContent = NULL, *preparedContent = NULL, *tmp = NULL, *tt1 = NULL, *success = NULL, *options = NULL, *specialKey = NULL, *isBuffering = NULL, _0$$3, *_1$$4;
 
@@ -305,10 +313,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		ZEPHIR_CONCAT_VV(prefixedKey, _1$$4, keyName);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_SV(lastKey, "_PHCR", prefixedKey);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	if (!(zephir_is_true(lastKey))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/redis.zep", 206);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "The cache must be started first", "phalcon/cache/backend/redis.zep", 210);
 		return;
 	}
 	ZEPHIR_OBS_VAR(frontend);
@@ -348,7 +356,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 	ZEPHIR_CALL_METHOD(&success, redis, "set", NULL, 0, lastKey, preparedContent);
 	zephir_check_call_status();
 	if (!(zephir_is_true(success))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing the data in redis", "phalcon/cache/backend/redis.zep", 250);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Failed storing the data in redis", "phalcon/cache/backend/redis.zep", 254);
 		return;
 	}
 	if (ZEPHIR_GE_LONG(tt1, 1)) {
@@ -359,7 +367,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(specialKey);
 	if (!(zephir_array_isset_string_fetch(&specialKey, options, SS("statsKey"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 261);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 265);
 		return;
 	}
 	if (!ZEPHIR_IS_STRING(specialKey, "")) {
@@ -376,9 +384,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		zend_print_zval(cachedContent, 0);
 	}
 	if (0) {
-		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_CCTOR(success);
 
@@ -391,7 +399,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, delete) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *redis = NULL, *prefix = NULL, *prefixedKey = NULL, *lastKey = NULL, *options = NULL, *specialKey = NULL, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -417,7 +425,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, delete) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(specialKey);
 	if (!(zephir_array_isset_string_fetch(&specialKey, options, SS("statsKey"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 304);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 308);
 		return;
 	}
 	if (!ZEPHIR_IS_STRING(specialKey, "")) {
@@ -445,7 +453,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 	zend_bool _3$$7;
 	HashTable *_1;
 	HashPosition _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *prefix_param = NULL, *redis = NULL, *options = NULL, *keys = NULL, *specialKey = NULL, *key = NULL, *idx = NULL, **_2;
 	zval *prefix = NULL;
 
@@ -472,11 +480,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(specialKey);
 	if (!(zephir_array_isset_string_fetch(&specialKey, options, SS("statsKey"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 341);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 345);
 		return;
 	}
 	if (ZEPHIR_IS_STRING(specialKey, "")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!", "phalcon/cache/backend/redis.zep", 345);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!", "phalcon/cache/backend/redis.zep", 349);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&keys, redis, "smembers", NULL, 0, specialKey);
@@ -485,7 +493,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 		array_init(return_value);
 		RETURN_MM();
 	}
-	zephir_is_iterable(keys, &_1, &_0, 1, 0, "phalcon/cache/backend/redis.zep", 362);
+	zephir_is_iterable(keys, &_1, &_0, 1, 0, "phalcon/cache/backend/redis.zep", 366);
 	for (
 	  ; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zend_hash_move_forward_ex(_1, &_0)
@@ -514,7 +522,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *redis = NULL, *prefix = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -561,7 +569,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, increment) {
 
-	int value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *value_param = NULL, *redis = NULL, *prefix = NULL, *lastKey = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -593,7 +601,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, increment) {
 		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCR", prefix, keyName);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, value);
@@ -610,7 +618,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, increment) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Redis, decrement) {
 
-	int value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *value_param = NULL, *redis = NULL, *prefix = NULL, *lastKey = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -642,7 +650,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, decrement) {
 		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_SVV(lastKey, "_PHCR", prefix, keyName);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, value);
@@ -661,7 +669,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 	HashPosition _0$$6;
 	zval *options = NULL, *specialKey = NULL, *redis = NULL, *keys = NULL, *key = NULL, *lastKey = NULL, **_2$$6;
 	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -669,7 +677,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(specialKey);
 	if (!(zephir_array_isset_string_fetch(&specialKey, options, SS("statsKey"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 459);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options", "phalcon/cache/backend/redis.zep", 463);
 		return;
 	}
 	ZEPHIR_OBS_VAR(redis);
@@ -681,13 +689,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, flush) {
 		zephir_read_property_this(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 	}
 	if (ZEPHIR_IS_STRING(specialKey, "")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!", "phalcon/cache/backend/redis.zep", 470);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cached keys need to be enabled to use this function (options['statsKey'] == '_PHCR')!", "phalcon/cache/backend/redis.zep", 474);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&keys, redis, "smembers", NULL, 0, specialKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-		zephir_is_iterable(keys, &_1$$6, &_0$$6, 0, 0, "phalcon/cache/backend/redis.zep", 480);
+		zephir_is_iterable(keys, &_1$$6, &_0$$6, 0, 0, "phalcon/cache/backend/redis.zep", 484);
 		for (
 		  ; zend_hash_get_current_data_ex(_1$$6, (void**) &_2$$6, &_0$$6) == SUCCESS
 		  ; zend_hash_move_forward_ex(_1$$6, &_0$$6)

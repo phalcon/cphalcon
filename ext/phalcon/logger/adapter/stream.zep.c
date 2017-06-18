@@ -63,7 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *options = NULL, *mode = NULL, *stream = NULL, *_0$$6;
 	zval *name = NULL, *_1$$6;
 
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 294, name, mode);
+	ZEPHIR_CALL_FUNCTION(&stream, "fopen", NULL, 303, name, mode);
 	zephir_check_call_status();
 	if (!(zephir_is_true(stream))) {
 		ZEPHIR_INIT_VAR(_0$$6);
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_stream"), stream TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_stream"), stream TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 
 	zval *_0, *_1$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -128,11 +128,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 	if (Z_TYPE_P(_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_1$$3);
 		object_init_ex(_1$$3, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 298);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 307);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("_formatter"), _1$$3 TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_formatter"), _1$$3 TSRMLS_CC);
 	}
-	RETURN_MM_MEMBER(this_ptr, "_formatter");
+	RETURN_MM_MEMBER(getThis(), "_formatter");
 
 }
 
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter) {
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal) {
 
 	zval *context = NULL;
-	int type, time, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type, time, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *stream = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3;
 	zval *message = NULL;
 

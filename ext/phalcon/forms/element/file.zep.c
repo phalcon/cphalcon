@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_File) {
  */
 PHP_METHOD(Phalcon_Forms_Element_File, render) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *attributes = NULL, *_1 = NULL;
 
@@ -50,7 +50,7 @@ PHP_METHOD(Phalcon_Forms_Element_File, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "filefield", &_0, 206, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "filefield", &_0, 217, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 
