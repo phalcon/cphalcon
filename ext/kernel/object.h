@@ -117,6 +117,8 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 /** Create closures */
 int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length TSRMLS_DC);
 
+void zephir_free_object_storage(void *object TSRMLS_DC);
+
 /**
  * Reads a property from this_ptr (with pre-calculated key)
  * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties

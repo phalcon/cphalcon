@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 	HashPosition _1$$5, _21$$16;
 	zend_class_entry *_33;
 	zephir_fcall_cache_entry *_6 = NULL, *_12 = NULL, *_31 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS, number = 0;
+	zend_long ZEPHIR_LAST_CALL_STATUS, number = 0;
 	zval *record, *field = NULL, *dependencyInjector = NULL, *metaData = NULL, *message = NULL, *bindTypes = NULL, *bindDataTypes = NULL, *columnMap = NULL, *conditions = NULL, *bindParams = NULL, *composeField = NULL, *columnField = NULL, *bindType = NULL, *primaryField = NULL, *attributeField = NULL, *params = NULL, *className = NULL, *replacePairs = NULL, *_0 = NULL, *_19 = NULL, *_32 = NULL, **_3$$5, *_4$$8 = NULL, *_5$$8 = NULL, *_7$$10 = NULL, *_8$$10 = NULL, _9$$6 = zval_used_for_init, *_10$$6 = NULL, *_11$$6 = NULL, *_13$$13, *_14$$13, *_15$$15, *_16$$15, *_17$$11, *_18$$11 = NULL, *_20$$16 = NULL, **_23$$16, *_24$$20 = NULL, *_25$$20 = NULL, *_26$$22 = NULL, *_27$$22 = NULL, _28$$19 = zval_used_for_init, *_29$$19 = NULL, *_30$$19 = NULL, *_34$$24 = NULL, *_36$$24 = NULL, *_35$$25;
 
 	ZEPHIR_MM_GROW();
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate) {
 				ZVAL_STRING(message, "Value of field: ':field' is already present in another record", 1);
 			}
 		}
-		ZEPHIR_CALL_FUNCTION(&_36$$24, "strtr", NULL, 26, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_36$$24, "strtr", NULL, 27, message, replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_34$$24);
 		ZVAL_STRING(_34$$24, "Unique", ZEPHIR_TEMP_PARAM_COPY);

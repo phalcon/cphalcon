@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Factory) {
  */
 PHP_METHOD(Phalcon_Paginator_Factory, load) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *_0;
 
 	ZEPHIR_MM_GROW();

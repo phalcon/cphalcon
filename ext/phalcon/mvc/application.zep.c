@@ -94,9 +94,9 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
 
 	if (implicitView) {
-		zephir_update_property_this(this_ptr, SL("_implicitView"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_implicitView"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_implicitView"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_implicitView"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zval *_16$$22;
 	zend_class_entry *_6$$8;
 	zend_bool returnedResponse = 0, _26, _12$$13, _31$$32, _33$$32;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, *dependencyInjector = NULL, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path = NULL, *implicitView = NULL, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *matchedRoute = NULL, *match = NULL, *_0, *_3 = NULL, *_4 = NULL, *_20 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_1$$4 = NULL, *_2$$4, *_5$$8 = NULL, *_7$$7 = NULL, *_8$$9 = NULL, *_9$$9, *_10$$14 = NULL, *_11$$14, *_13$$21, *_14$$21, *_15$$17 = NULL, *_17$$24, *_18$$25 = NULL, *_19$$25, *_24$$27 = NULL, *_25$$27, *_27$$29 = NULL, *_28$$29, *_29$$31 = NULL, *_30$$31, *_32$$33, *_34$$36, *_35$$37 = NULL, *_36$$37 = NULL, *_37$$37 = NULL, *_38$$40 = NULL, *_39$$40, *_40$$41 = NULL, *_41$$42;
 	zval *uri = NULL;
 

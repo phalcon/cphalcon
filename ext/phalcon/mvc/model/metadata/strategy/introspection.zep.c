@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	zend_bool _16$$9;
 	HashTable *_8;
 	HashPosition _7;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *dependencyInjector, *schema = NULL, *table = NULL, *readConnection = NULL, *columns = NULL, *attributes = NULL, *primaryKeys = NULL, *nonPrimaryKeys = NULL, *completeTable = NULL, *numericTyped = NULL, *notNull = NULL, *fieldTypes = NULL, *automaticDefault = NULL, *identityField = NULL, *fieldBindTypes = NULL, *defaultValues = NULL, *column = NULL, *fieldName = NULL, *defaultValue = NULL, *emptyStringValues = NULL, *_0 = NULL, **_9, *_1$$3, *_2$$3, *_3$$3, *_4$$6, *_5$$6, *_6$$6, *_10$$9 = NULL, *_11$$9 = NULL, *_12$$9 = NULL, *_13$$9 = NULL, *_14$$9 = NULL, *_15$$9 = NULL, *_17$$9 = NULL, *_18$$15 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *dependencyInjector, *orderedColumnMap = NULL, *userColumnMap = NULL, *reversedColumnMap = NULL, *name = NULL, *userName = NULL, **_2$$3;
 
 	ZEPHIR_MM_GROW();

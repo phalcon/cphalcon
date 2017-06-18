@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_prefix");
+	RETURN_MEMBER(getThis(), "_prefix");
 
 }
 
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_handlers");
+	RETURN_MEMBER(getThis(), "_handlers");
 
 }
 
@@ -170,11 +170,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_handler"), handler TSRMLS_CC);
 	if (lazy) {
-		zephir_update_property_this(this_ptr, SL("_lazy"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lazy"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_lazy"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lazy"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -198,9 +198,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
 
 
 	if (lazy) {
-		zephir_update_property_this(this_ptr, SL("_lazy"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lazy"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_lazy"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lazy"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_THISW();
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_lazy");
+	RETURN_MEMBER(getThis(), "_lazy");
 
 }
 
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_handler");
+	RETURN_MEMBER(getThis(), "_handler");
 
 }
 
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -485,7 +485,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 
@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, *name = NULL, *_0;
 	zval *routePattern = NULL;
 

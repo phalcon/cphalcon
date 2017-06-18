@@ -34,7 +34,7 @@ PHP_METHOD(Phalcon_Factory, loadClass) {
 
 	zend_class_entry *_3$$5;
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *namespace_param = NULL, *config = NULL, *adapter = NULL, *className = NULL, *_1$$3 = NULL, *_2$$5 = NULL;
 	zval *namespace = NULL;
 

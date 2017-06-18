@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_definition");
+	RETURN_MEMBER(getThis(), "_definition");
 
 }
 
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_definition"), definition TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 
 	zend_class_entry *_1$$3;
 	zval *_3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *arguments = NULL, *handler = NULL, *definition = NULL, *modelBinder = NULL, *bindCacheKey = NULL, *_0$$3 = NULL, *_2$$4 = NULL;
 	zval *method = NULL;
 
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
 			ZEPHIR_CALL_METHOD(NULL, handler, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_handler"), handler TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(modelBinder);
 	zephir_read_property_this(&modelBinder, this_ptr, SL("_modelBinder"), PH_NOISY_CC);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *arguments, *modelBinder = NULL;
 	zval *method = NULL;
 
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_modelBinder"), modelBinder TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_modelBinder"), modelBinder TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "__call", NULL, 0, method, arguments);
 	zephir_check_call_status();
 	RETURN_MM();

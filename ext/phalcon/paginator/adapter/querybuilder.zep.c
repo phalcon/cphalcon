@@ -73,7 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config_param = NULL, *builder = NULL, *limit = NULL, *page = NULL, *columns = NULL;
 	zval *config = NULL;
 
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	zephir_get_arrval(config, config_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_config"), config TSRMLS_CC);
 	ZEPHIR_OBS_VAR(builder);
 	if (!(zephir_array_isset_string_fetch(&builder, config, SS("builder"), 0 TSRMLS_CC))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/paginator/adapter/querybuilder.zep", 76);
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (zephir_array_isset_string_fetch(&columns, config, SS("columns"), 0 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_columns"), columns TSRMLS_CC);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, 0, builder);
 	zephir_check_call_status();
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_page");
+	RETURN_MEMBER(getThis(), "_page");
 
 }
 
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_builder"), builder TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_builder");
+	RETURN_MEMBER(getThis(), "_builder");
 
 }
 
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 	zval *_6$$14, *_8$$15;
 	zend_bool hasHaving = 0, hasGroup = 0, _2;
 	zval *originalBuilder = NULL, *builder = NULL, *totalBuilder = NULL, *totalPages = NULL, *limit = NULL, *number = NULL, *query = NULL, *page = NULL, *items = NULL, *totalQuery = NULL, *result = NULL, *row = NULL, *rowcount = NULL, *next = NULL, *sql = NULL, *columns = NULL, *db = NULL, *_0, *_1 = NULL, *groups = NULL, *_10, *_22, *_3$$10, *groupColumn$$11 = NULL, *_4$$14 = NULL, *_5$$14, *_7$$14, *_9$$15, *_11$$16 = NULL, *_12$$16 = NULL, *_13$$16, *_14$$16, *_15$$16, *_16$$16, _17$$16, _18$$16, *_19$$17, _20$$17, _21$$17;
-	int ZEPHIR_LAST_CALL_STATUS, numberPage = 0, before = 0;
+	zend_long ZEPHIR_LAST_CALL_STATUS, numberPage = 0, before = 0;
 
 	ZEPHIR_MM_GROW();
 

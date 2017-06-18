@@ -38,6 +38,7 @@ zend_class_entry *phalcon_cache_frontendinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 zend_class_entry *phalcon_dispatcherinterface_ce;
 zend_class_entry *phalcon_annotations_adapterinterface_ce;
+zend_class_entry *phalcon_assets_resourceinterface_ce;
 zend_class_entry *phalcon_db_adapterinterface_ce;
 zend_class_entry *phalcon_logger_adapterinterface_ce;
 zend_class_entry *phalcon_logger_formatterinterface_ce;
@@ -107,6 +108,7 @@ zend_class_entry *phalcon_acl_resourceaware_ce;
 zend_class_entry *phalcon_acl_roleaware_ce;
 zend_class_entry *phalcon_cli_router_routeinterface_ce;
 zend_class_entry *phalcon_cli_routerinterface_ce;
+zend_class_entry *phalcon_di_serviceproviderinterface_ce;
 zend_class_entry *phalcon_filter_userfilterinterface_ce;
 zend_class_entry *phalcon_mvc_collection_managerinterface_ce;
 zend_class_entry *phalcon_mvc_controller_bindmodelinterface_ce;
@@ -159,6 +161,7 @@ zend_class_entry *phalcon_acl_exception_ce;
 zend_class_entry *phalcon_acl_resource_ce;
 zend_class_entry *phalcon_acl_role_ce;
 zend_class_entry *phalcon_annotations_adapter_apc_ce;
+zend_class_entry *phalcon_annotations_adapter_apcu_ce;
 zend_class_entry *phalcon_annotations_adapter_files_ce;
 zend_class_entry *phalcon_annotations_adapter_memory_ce;
 zend_class_entry *phalcon_annotations_adapter_xcache_ce;
@@ -179,6 +182,7 @@ zend_class_entry *phalcon_assets_manager_ce;
 zend_class_entry *phalcon_assets_resource_css_ce;
 zend_class_entry *phalcon_assets_resource_js_ce;
 zend_class_entry *phalcon_cache_backend_apc_ce;
+zend_class_entry *phalcon_cache_backend_apcu_ce;
 zend_class_entry *phalcon_cache_backend_factory_ce;
 zend_class_entry *phalcon_cache_backend_file_ce;
 zend_class_entry *phalcon_cache_backend_libmemcached_ce;
@@ -204,6 +208,7 @@ zend_class_entry *phalcon_cli_router_ce;
 zend_class_entry *phalcon_cli_router_exception_ce;
 zend_class_entry *phalcon_cli_router_route_ce;
 zend_class_entry *phalcon_cli_task_ce;
+zend_class_entry *phalcon_config_adapter_grouped_ce;
 zend_class_entry *phalcon_config_adapter_ini_ce;
 zend_class_entry *phalcon_config_adapter_json_ce;
 zend_class_entry *phalcon_config_adapter_php_ce;
@@ -436,6 +441,8 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.orm.enable_implicit_joins", "1", PHP_INI_ALL, OnUpdateBool, orm.enable_implicit_joins, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_on_hydrate", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_on_hydrate, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.ignore_unknown_columns", "0", PHP_INI_ALL, OnUpdateBool, orm.ignore_unknown_columns, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.update_snapshot_on_save", "1", PHP_INI_ALL, OnUpdateBool, orm.update_snapshot_on_save, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.orm.disable_assign_setters", "0", PHP_INI_ALL, OnUpdateBool, orm.disable_assign_setters, zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
 
 static PHP_MINIT_FUNCTION(phalcon)
@@ -467,6 +474,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaDataInterface);
 	ZEPHIR_INIT(Phalcon_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Annotations_AdapterInterface);
+	ZEPHIR_INIT(Phalcon_Assets_ResourceInterface);
 	ZEPHIR_INIT(Phalcon_Db_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Logger_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Logger_FormatterInterface);
@@ -536,6 +544,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Acl_RoleAware);
 	ZEPHIR_INIT(Phalcon_Cli_RouterInterface);
 	ZEPHIR_INIT(Phalcon_Cli_Router_RouteInterface);
+	ZEPHIR_INIT(Phalcon_Di_ServiceProviderInterface);
 	ZEPHIR_INIT(Phalcon_Filter_UserFilterInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Collection_ManagerInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Controller_BindModelInterface);
@@ -586,6 +595,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Acl_Resource);
 	ZEPHIR_INIT(Phalcon_Acl_Role);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Apc);
+	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Apcu);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Files);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Memory);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter_Xcache);
@@ -606,6 +616,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Assets_Resource_Css);
 	ZEPHIR_INIT(Phalcon_Assets_Resource_Js);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_Apc);
+	ZEPHIR_INIT(Phalcon_Cache_Backend_Apcu);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_Factory);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_File);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_Libmemcached);
@@ -631,6 +642,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Cli_Router_Exception);
 	ZEPHIR_INIT(Phalcon_Cli_Router_Route);
 	ZEPHIR_INIT(Phalcon_Cli_Task);
+	ZEPHIR_INIT(Phalcon_Config_Adapter_Grouped);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Ini);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Json);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Php);
@@ -891,6 +903,8 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 	phalcon_globals->orm.ast_cache = NULL;
 	phalcon_globals->orm.cache_level = 3;
 	phalcon_globals->orm.unique_cache_id = 3;
+
+
 
 
 

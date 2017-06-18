@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct) {
 
 	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
-			zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
 		}
 	}
 

@@ -50,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Factory) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Factory, load) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Factory, loadClass) {
 	zend_class_entry *_7$$6;
 	zend_bool _0, _2$$6;
 	zephir_fcall_cache_entry *_4 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *namespace_param = NULL, *config = NULL, *adapter = NULL, *className = NULL, *frontend = NULL, *_1$$3 = NULL, *_5$$6, *_6$$6 = NULL, *_3$$7 = NULL;
 	zval *namespace = NULL;
 
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Factory, loadClass) {
 			_2$$6 = zephir_instance_of_ev(frontend, phalcon_config_ce TSRMLS_CC);
 		}
 		if (_2$$6) {
-			ZEPHIR_CALL_CE_STATIC(&_3$$7, phalcon_cache_frontend_factory_ce, "load", &_4, 110, frontend);
+			ZEPHIR_CALL_CE_STATIC(&_3$$7, phalcon_cache_frontend_factory_ce, "load", &_4, 121, frontend);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(frontend, _3$$7);
 		}
