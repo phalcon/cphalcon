@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -161,6 +161,72 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Forwards the execution flow to another controller/action.
+	 *
+	 * <code>
+	 * use Phalcon\Events\Event;
+	 * use Phalcon\Mvc\Dispatcher;
+	 * use App\Backend\Bootstrap as Backend;
+	 * use App\Frontend\Bootstrap as Frontend;
+	 *
+	 * // Registering modules
+	 * $modules = [
+	 *     "frontend" => [
+	 *         "className" => Frontend::class,
+	 *         "path"      => __DIR__ . "/app/Modules/Frontend/Bootstrap.php",
+	 *         "metadata"  => [
+	 *             "controllersNamespace" => "App\Frontend\Controllers",
+	 *         ],
+	 *     ],
+	 *     "backend" => [
+	 *         "className" => Backend::class,
+	 *         "path"      => __DIR__ . "/app/Modules/Backend/Bootstrap.php",
+	 *         "metadata"  => [
+	 *             "controllersNamespace" => "App\Backend\Controllers",
+	 *         ],
+	 *     ],
+	 * ];
+	 *
+	 * $application->registerModules($modules);
+	 *
+	 * // Setting beforeForward listener
+	 * $eventsManager  = $di->getShared("eventsManager");
+	 *
+	 * $eventsManager->attach(
+	 *     "dispatch:beforeForward",
+	 *     function(Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
+	 *         $metadata = $modules[$forward["module"]]["metadata"];
+	 *
+	 *         $dispatcher->setModuleName($forward["module"]);
+	 *         $dispatcher->setNamespaceName($metadata["controllersNamespace"]);
+	 *     }
+	 * );
+	 *
+	 * // Forward
+	 * $this->dispatcher->forward(
+	 *     [
+	 *         "module"     => "backend",
+	 *         "controller" => "posts",
+	 *         "action"     => "index",
+	 *     ]
+	 * );
+	 * </code>
+	 *
+	 * @param array forward
+	 */
+	public function forward(var forward)
+	{
+		var eventsManager;
+
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			eventsManager->fire("dispatch:beforeForward", this, forward);
+		}
+
+		parent::forward(forward);
 	}
 
 	/**

@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 
 	zval *_6$$5;
 	zend_bool _2;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, _3, *_4 = NULL, *_5$$5 = NULL, *_7$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 	}
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, 274);
-	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 197, value, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 208, value, &_3);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_INIT_VAR(_5$$5);
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate) {
 		ZEPHIR_INIT_VAR(_6$$5);
 		zephir_create_array(_6$$5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_6$$5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_7$$5, "strtr", NULL, 26, message, _6$$5);
+		ZEPHIR_CALL_FUNCTION(&_7$$5, "strtr", NULL, 27, message, _6$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_5$$5);
 		ZVAL_STRING(_5$$5, "Email", ZEPHIR_TEMP_PARAM_COPY);

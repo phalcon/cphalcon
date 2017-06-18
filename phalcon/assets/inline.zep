@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -28,7 +28,7 @@ namespace Phalcon\Assets;
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  *</code>
  */
-class $Inline
+class $Inline implements ResourceInterface
 {
 
 	protected _type { get };
@@ -82,5 +82,17 @@ class $Inline
 	{
 		let this->_attributes = attributes;
 		return this;
+	}
+
+	/**
+	 * Gets the resource's key.
+	 */
+	public function getResourceKey() -> string
+	{
+		var key;
+
+		let key = this->getType() . ":" . this->getContent();
+
+		return md5(key);
 	}
 }

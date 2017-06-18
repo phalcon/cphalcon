@@ -20,7 +20,7 @@ use Phalcon\Test\Module\UnitTest;
  * @package   Phalcon\Test\Unit\Cli
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -545,6 +545,8 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getParams())->equals(array('World', '######'));
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
                 expect($dispatcher->getOptions())->equals(array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
+                expect($dispatcher->hasOption('opt1'))->true();
+                expect($dispatcher->hasOption('opt2'))->false();
 
                 $console->setArgument(array(
                     'php',
@@ -561,6 +563,7 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getParams())->equals(array('World', '######'));
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
                 expect($dispatcher->getOptions())->equals(array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
+                expect($dispatcher->getOption('option3'))->equals('hoge');
             }
         );
     }

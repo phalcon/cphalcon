@@ -76,7 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memcache) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *frontend, *options = NULL, *_0$$4, *_1$$5, *_2$$7;
 
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 		ZVAL_STRING(_2$$7, "", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_2$$7, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, this_ptr, "__construct", &_3, 110, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, getThis(), "__construct", &_3, 122, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 
 	zend_bool _0, _1;
 	zval *options = NULL, *memcache = NULL, *persistent = NULL, *success = NULL, *host = NULL, *port = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cannot connect to Memcached server", "phalcon/cache/backend/memcache.zep", 119);
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_memcache"), memcache TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_memcache"), memcache TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect) {
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, addServers) {
 
 	zend_bool persistent;
-	int port, ZEPHIR_LAST_CALL_STATUS;
+	zend_long port, ZEPHIR_LAST_CALL_STATUS;
 	zval *host_param = NULL, *port_param = NULL, *persistent_param = NULL, *memcache = NULL, *success = NULL, *_0, *_1;
 	zval *host = NULL;
 
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, addServers) {
 	}
 	ZEPHIR_CALL_METHOD(&success, memcache, "addserver", NULL, 0, host, _0, _1);
 	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_memcache"), memcache TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_memcache"), memcache TSRMLS_CC);
 	RETURN_CCTOR(success);
 
 }
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, addServers) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, get) {
 
-	int lifetime, ZEPHIR_LAST_CALL_STATUS;
+	zend_long lifetime, ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName_param = NULL, *lifetime_param = NULL, *memcache = NULL, *prefixedKey = NULL, *cachedContent = NULL, *retrieve = NULL, *_0, *_1;
 	zval *keyName = NULL;
 
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(prefixedKey);
 	ZEPHIR_CONCAT_VV(prefixedKey, _0, keyName);
-	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_lastKey"), prefixedKey TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(&cachedContent, memcache, "get", NULL, 0, prefixedKey);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(cachedContent)) {
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool stopBuffer;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer_param = NULL, *lastKey = NULL, *frontend = NULL, *memcache = NULL, *cachedContent = NULL, *preparedContent = NULL, *tmp = NULL, *ttl = NULL, *success = NULL, *options = NULL, *specialKey = NULL, *keys = NULL, *isBuffering = NULL, *_1, *_0$$4;
 
@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
 		_0$$4 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_VV(lastKey, _0$$4, keyName);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	if (!(zephir_is_true(lastKey))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_ce, "Cache must be started first", "phalcon/cache/backend/memcache.zep", 194);
@@ -387,9 +387,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
 		zend_print_zval(cachedContent, 0);
 	}
 	if (0) {
-		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	RETURN_CCTOR(success);
 
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *memcache = NULL, *prefixedKey = NULL, *options = NULL, *keys = NULL, *specialKey = NULL, *ret = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
 	zend_bool _4$$7;
 	HashTable *_2;
 	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *prefix_param = NULL, *memcache = NULL, *options = NULL, *keys = NULL, *specialKey = NULL, *key = NULL, *idx = NULL, *_0, **_3;
 	zval *prefix = NULL;
 
@@ -531,7 +531,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *lifetime = NULL, *lastKey = NULL, *memcache = NULL, *prefix = NULL, *_0$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment) {
 
-	int value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *value_param = NULL, *memcache = NULL, *prefix = NULL, *lastKey = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment) {
 		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_VV(lastKey, prefix, keyName);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, value);
@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment) {
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement) {
 
-	int value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *value_param = NULL, *memcache = NULL, *prefix = NULL, *lastKey = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -662,7 +662,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement) {
 		zephir_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(lastKey);
 		ZEPHIR_CONCAT_VV(lastKey, prefix, keyName);
-		zephir_update_property_this(this_ptr, SL("_lastKey"), lastKey TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastKey"), lastKey TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, value);
@@ -681,7 +681,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, flush) {
 	HashPosition _1;
 	zval *memcache = NULL, *options = NULL, *keys = NULL, *specialKey = NULL, *key = NULL, *_0 = NULL, **_3;
 	zephir_fcall_cache_entry *_4 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

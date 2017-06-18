@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, getLoggers) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_loggers");
+	RETURN_MEMBER(getThis(), "_loggers");
 
 }
 
@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, getFormatter) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_formatter");
+	RETURN_MEMBER(getThis(), "_formatter");
 
 }
 
@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, getLogLevel) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_logLevel");
+	RETURN_MEMBER(getThis(), "_logLevel");
 
 }
 
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *formatter, *loggers = NULL, *logger = NULL, **_2$$3;
 
 	ZEPHIR_MM_GROW();
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 			zephir_check_call_status();
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_formatter"), formatter TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setLogLevel) {
 	HashTable *_1$$3;
 	HashPosition _0$$3;
 	zval *level_param = NULL, *loggers = NULL, *logger = NULL, *_4, **_2$$3, *_3$$4 = NULL;
-	int level, ZEPHIR_LAST_CALL_STATUS;
+	zend_long level, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &level_param);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setLogLevel) {
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_4);
 	ZVAL_LONG(_4, level);
-	zephir_update_property_this(this_ptr, SL("_logLevel"), _4 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_logLevel"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *type, *message = NULL, *context_param = NULL, *loggers = NULL, *logger = NULL, **_2$$3;
 
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, critical) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, critical) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, emergency) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergency) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, debug) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, error) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, error) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, info) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, info) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, notice) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, warning) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, alert) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
 	zval *message_param = NULL, *context_param = NULL, *_0;
 	zval *message = NULL;

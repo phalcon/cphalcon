@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -22,6 +22,7 @@ namespace Phalcon\Paginator\Adapter;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter;
 use Phalcon\Paginator\Exception;
+use Phalcon\Db;
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
@@ -58,11 +59,16 @@ class QueryBuilder extends Adapter
 	protected _builder;
 
 	/**
+	 * Columns for count query if builder has having
+	 */
+	protected _columns;
+
+	/**
 	 * Phalcon\Paginator\Adapter\QueryBuilder
 	 */
 	public function __construct(array config)
 	{
-		var builder, limit, page;
+		var builder, limit, page, columns;
 
 		let this->_config = config;
 
@@ -72,6 +78,10 @@ class QueryBuilder extends Adapter
 
 		if !fetch limit, config["limit"] {
 			throw new Exception("Parameter 'limit' is required");
+		}
+
+		if fetch columns, config["columns"] {
+		    let this->_columns = columns;
 		}
 
 		this->setQueryBuilder(builder);
@@ -115,9 +125,10 @@ class QueryBuilder extends Adapter
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, page, before, items, totalQuery,
-			result, row, rowcount, next;
+			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup;
 
 		let originalBuilder = this->_builder;
+		let columns = this->_columns;
 
 		/**
 		 * We make a copy of the original builder to leave it as it is
@@ -160,23 +171,41 @@ class QueryBuilder extends Adapter
 		 */
 		let items = query->execute();
 
+		let hasHaving = !empty totalBuilder->getHaving();
+
+        var groups = totalBuilder->getGroupBy();
+
+		let hasGroup = !empty groups;
+
 		/**
 		 * Change the queried columns by a COUNT(*)
 		 */
-		totalBuilder->columns("COUNT(*) [rowcount]");
+
+		if hasHaving && !hasGroup {
+            if empty columns {
+                throw new Exception("When having is set there should be columns option provided for which calculate row count");
+            }
+		    totalBuilder->columns(columns);
+		} else {
+		    totalBuilder->columns("COUNT(*) [rowcount]");
+		}
 
 		/**
 		 * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
 		 */
-		var groups = totalBuilder->getGroupBy();
-		if !empty groups {
+		if hasGroup {
 			var groupColumn;
 			if typeof groups == "array" {
 				let groupColumn = implode(", ", groups);
 			} else {
 				let groupColumn = groups;
 			}
-			totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
+
+			if !hasHaving {
+			    totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
+			} else {
+			    totalBuilder->columns(["DISTINCT ".groupColumn]);
+			}
 		}
 
 		/**
@@ -191,11 +220,20 @@ class QueryBuilder extends Adapter
 
 		/**
 		 * Obtain the result of the total query
+		 * If we have having perform native count on temp table
 		 */
-		let result = totalQuery->execute(),
-			row = result->getFirst(),
-			rowcount = row ? intval(row->rowcount) : 0,
-			totalPages = intval(ceil(rowcount / limit));
+		if hasHaving {
+		    let sql = totalQuery->getSql();
+		    let db = totalBuilder->getDI()->get("db");
+		    let row = db->fetchOne("SELECT COUNT(*) as rowcount FROM (" .  sql["sql"] . ") as T1", Db::FETCH_ASSOC, sql["bind"]),
+		        rowcount = row ? intval(row["rowcount"]) : 0,
+		        totalPages = intval(ceil(rowcount / limit));
+		} else {
+            let result = totalQuery->execute(),
+                row = result->getFirst(),
+                rowcount = row ? intval(row->rowcount) : 0,
+                totalPages = intval(ceil(rowcount / limit));
+		}
 
 		if numberPage < totalPages {
 			let next = numberPage + 1;

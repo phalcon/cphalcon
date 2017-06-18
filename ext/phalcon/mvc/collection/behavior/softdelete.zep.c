@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_SoftDelete, notify) {
 	HashTable *_5$$7;
 	HashPosition _4$$7;
 	zephir_fcall_cache_entry *_7 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *model, *options = NULL, *value = NULL, *field = NULL, *updateModel = NULL, *message = NULL, *_0$$3, *_1$$3 = NULL, *_2$$6 = NULL, *_3$$7 = NULL, **_6$$7;
 	zval *type = NULL;
 

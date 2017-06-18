@@ -18,7 +18,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
  * @package   Phalcon\Test\Unit\Db\Adapter\Pdo
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -35,14 +35,18 @@ class MysqlTest extends UnitTest
     {
         parent::_before();
 
-        $this->connection = new Mysql([
-            'host'     => TEST_DB_MYSQL_HOST,
-            'username' => TEST_DB_MYSQL_USER,
-            'password' => TEST_DB_MYSQL_PASSWD,
-            'dbname'   => TEST_DB_MYSQL_NAME,
-            'port'     => TEST_DB_MYSQL_PORT,
-            'charset'  => TEST_DB_MYSQL_CHARSET,
-        ]);
+        try {
+            $this->connection = new Mysql([
+                'host'     => TEST_DB_MYSQL_HOST,
+                'username' => TEST_DB_MYSQL_USER,
+                'password' => TEST_DB_MYSQL_PASSWD,
+                'dbname'   => TEST_DB_MYSQL_NAME,
+                'port'     => TEST_DB_MYSQL_PORT,
+                'charset'  => TEST_DB_MYSQL_CHARSET,
+            ]);
+        } catch (\PDOException $e) {
+            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+        }
     }
 
     /**
@@ -80,6 +84,7 @@ class MysqlTest extends UnitTest
                     'robots_parts',
                     'songs',
                     'stats',
+                    'stock',
                     'subscriptores',
                     'tipo_documento',
                     'users',

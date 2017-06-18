@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -63,65 +63,60 @@ use Phalcon\Validation\Message;
  */
 class Date extends Validator
 {
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, string! field) -> boolean
-    {
-        var value, format, label, message, replacePairs;
+	/**
+	 * Executes the validation
+	 */
+	public function validate(<Validation> validation, string! field) -> boolean
+	{
+		var value, format, label, message, replacePairs, code;
 
-        let value = validation->getValue(field);
-        let format = this->getOption("format");
+		let value = validation->getValue(field);
+		let format = this->getOption("format");
 
-        if typeof format == "array" {
-            let format = format[field];
-        }
+		if typeof format == "array" {
+			let format = format[field];
+		}
 
-        if empty format {
-            let format = "Y-m-d";
-        }
+		if empty format {
+			let format = "Y-m-d";
+		}
 
-        if !this->checkDate(value, format) {
-            let label = this->getOption("label");
-            if typeof label == "array" {
-                let label = label[field];
-            }
-            if empty label {
-                let label = validation->getLabel(field);
-            }
+		if !this->checkDate(value, format) {
+			let label = this->prepareLabel(validation, field),
+				message = this->prepareMessage(validation, field, "Date"),
+				code = this->prepareCode(field);
 
-            let message = this->getOption("message");
-            if typeof message == "array" {
-                let message = message[field];
-            }
-            let replacePairs = [":field": label];
-            if empty message {
-                let message = validation->getDefaultMessage("Date");
-            }
+			let replacePairs = [":field": label];
 
-            validation->appendMessage(new Message(strtr(message, replacePairs), field, "Date"));
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"Date"
+				)
+			);
 
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    private function checkDate(value, format) -> boolean
-    {
-        var date, errors;
+	private function checkDate(value, format) -> boolean
+	{
+		var date, errors;
 
-        if !is_string(value) {
-            return false;
-        }
+		if !is_string(value) {
+			return false;
+		}
 
-        let date = \DateTime::createFromFormat(format, value);
-        let errors = \DateTime::getLastErrors();
+		let date = \DateTime::createFromFormat(format, value);
+		let errors = \DateTime::getLastErrors();
 
-        if errors["warning_count"] > 0 || errors["error_count"] > 0 {
-            return false;
-        }
+		if errors["warning_count"] > 0 || errors["error_count"] > 0 {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

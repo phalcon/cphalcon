@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -20,8 +20,10 @@
 
 namespace Phalcon\Cli;
 
+use Phalcon\FilterInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
+use Phalcon\Dispatcher as CliDispatcher;
 
 /**
  * Phalcon\Cli\Dispatcher
@@ -30,11 +32,12 @@ use Phalcon\Cli\Dispatcher\Exception;
  * task name, action name, and optional parameters contained in it, and then
  * instantiating a task and calling an action on it.
  *
- *<code>
- * $di = new \Phalcon\Di();
+ * <code>
+ * use Phalcon\Di;
+ * use Phalcon\Cli\Dispatcher;
  *
- * $dispatcher = new \Phalcon\Cli\Dispatcher();
- *
+ * $di = new Di();
+ * $dispatcher = new Dispatcher();
  * $dispatcher->setDi($di);
  *
  * $dispatcher->setTaskName("posts");
@@ -42,9 +45,9 @@ use Phalcon\Cli\Dispatcher\Exception;
  * $dispatcher->setParams([]);
  *
  * $handle = $dispatcher->dispatch();
- *</code>
+ * </code>
  */
-class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
+class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
 
 	protected _handlerSuffix = "Task";
@@ -149,8 +152,55 @@ class Dispatcher extends \Phalcon\Dispatcher implements DispatcherInterface
 		return this->_options;
 	}
 
-	public function callActionMethod(handler, string actionMethod, array! params = [])
+	/**
+	 * Gets an option by its name or numeric index
+	 *
+	 * @param  mixed $option
+	 * @param  string|array $filters
+	 * @param  mixed $defaultValue
+	 */
+	public function getOption(option, filters = null, defaultValue = null) -> var
 	{
-		return call_user_func_array([handler, actionMethod], [params]);
+		var options, filter, optionValue, dependencyInjector;
+
+		let options = this->_options;
+		if !fetch optionValue, options[option] {
+			return defaultValue;
+		}
+
+		if filters === null {
+			return optionValue;
+		}
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			this->{"_throwDispatchException"}(
+				"A dependency injection object is required to access the 'filter' service",
+				CliDispatcher::EXCEPTION_NO_DI
+			);
+		}
+		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+
+		return filter->sanitize(optionValue, filters);
+	}
+
+	/**
+	 * Check if an option exists
+	 */
+	public function hasOption(var option) -> boolean
+	{
+		return isset this->_options[option];
+	}
+
+	/**
+	 * Calls the action method.
+	 */
+	public function callActionMethod(handler, string actionMethod, array! params = []) -> var
+	{
+		var options;
+
+		let options = this->_options;
+		
+		return call_user_func_array([handler, actionMethod], [params, options]);
 	}
 }

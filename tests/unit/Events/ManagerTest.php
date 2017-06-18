@@ -22,7 +22,7 @@ use Phalcon\Test\Listener\SecondListener;
  * @package   Phalcon\Test\Unit\Events
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -252,8 +252,105 @@ class ManagerTest extends UnitTest
         );
     }
 
+    /**
+     * Tests detach handler by using a Closure
+     *
+     * @test
+     * @issue  12882
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-06
+     */
+    public function detachClosureListener()
+    {
+        $this->specify(
+            'The Events Manager does not detach listener by using a Closure',
+            function ($enablePriorities) {
+                $manager = new Manager();
+                $manager->enablePriorities($enablePriorities);
+
+                $handler = function () {
+                    echo __METHOD__;
+                };
+
+                $manager->attach('test:detachable', $handler);
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(1);
+
+                $manager->detach('test:detachable', $handler);
+
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(0);
+            },
+            [
+                'examples' => [
+                    [true ],
+                    [false],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests detach handler by using an Object
+     *
+     * @test
+     * @issue  12882
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-06
+     */
+    public function detachObjectListener()
+    {
+        $this->specify(
+            'The Events Manager does not detach listener by using an Object',
+            function ($enablePriorities) {
+                $manager = new Manager();
+                $manager->enablePriorities($enablePriorities);
+
+                $handler = new \stdClass();
+                $manager->attach('test:detachable', $handler);
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(1);
+
+                $manager->detach('test:detachable', $handler);
+
+                $events = $this->tester->getProtectedProperty($manager, '_events');
+
+                expect($events)->count(1);
+                expect(array_key_exists('test:detachable', $events))->true();
+                expect($events['test:detachable'])->count(0);
+            },
+            [
+                'examples' => [
+                    [true ],
+                    [false],
+                ]
+            ]
+        );
+    }
+
     public function setLastListener($listener)
     {
         $this->listener = $listener;
+    }
+
+    protected function fireEventWithOutput(Manager $manager, $eventType)
+    {
+        $output = '';
+
+        ob_start();
+        $manager->fire($eventType, $this);
+        $output .= ob_get_contents();
+        ob_end_clean();
+
+        return $output;
     }
 }

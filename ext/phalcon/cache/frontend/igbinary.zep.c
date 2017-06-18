@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_frontendOptions"), frontendOptions TSRMLS_CC);
 
 }
 
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, stop) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 122, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 134, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 123, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 135, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

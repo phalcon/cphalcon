@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -51,6 +51,9 @@ namespace Phalcon\Security;
  * echo $random->hex(11); // f362ef96cb9ffef150c9cd
  * echo $random->hex(12); // 95469d667475125208be45c4
  * echo $random->hex(13); // 05475e8af4a34f8f743ab48761
+ *
+ * // Random base62 string
+ * echo $random->base62(); // z0RkwHfh8ErDM1xw
  *
  * // Random base64 string
  * echo $random->base64(12); // XfIN81jGGuKkcE1E
@@ -172,37 +175,44 @@ class Random
 	 * If $len is not specified, 16 is assumed. It may be larger in future.
 	 * The result may contain alphanumeric characters except 0, O, I and l.
 	 *
-	 * It is similar to Base64 but has been modified to avoid both non-alphanumeric
+	 * It is similar to `Phalcon\Security\Random:base64` but has been modified to avoid both non-alphanumeric
 	 * characters and letters which might look ambiguous when printed.
 	 *
-	 *<code>
+	 * <code>
 	 * $random = new \Phalcon\Security\Random();
 	 *
 	 * echo $random->base58(); // 4kUgL2pdQMSCQtjE
-	 *</code>
+	 * </code>
 	 *
-	 * @link https://en.wikipedia.org/wiki/Base58
+	 * @see    \Phalcon\Security\Random:base64
+	 * @link   https://en.wikipedia.org/wiki/Base58
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
 	 */
-	public function base58(n = null) -> string
+	public function base58(int len = null) -> string
 	{
-		var bytes, idx;
-		string byteString = "",
-			alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+		return this->base("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz", 58, len);
+	}
 
-		let bytes = unpack("C*", this->bytes(n));
-
-		for idx in bytes {
-			let idx = idx % 64;
-
-			if idx >= 58 {
-				let idx = this->number(57);
-			}
-
-			let byteString .= alphabet[(int) idx];
-		}
-
-		return byteString;
+	/**
+	 * Generates a random base62 string
+	 *
+	 * If $len is not specified, 16 is assumed. It may be larger in future.
+	 *
+	 * It is similar to `Phalcon\Security\Random:base58` but has been modified to provide the largest value that can
+	 * safely be used in URLs without needing to take extra characters into consideration because it is [A-Za-z0-9].
+	 *
+	 *< code>
+	 * $random = new \Phalcon\Security\Random();
+	 *
+	 * echo $random->base62(); // z0RkwHfh8ErDM1xw
+	 * </code>
+	 *
+	 * @see    \Phalcon\Security\Random:base58
+	 * @throws Exception If secure random number generator is not available or unexpected partial read
+	 */
+	public function base62(int len = null) -> string
+	{
+		return this->base("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 62, len);
 	}
 
 	/**
@@ -210,7 +220,7 @@ class Random
 	 *
 	 * If $len is not specified, 16 is assumed. It may be larger in future.
 	 * The length of the result string is usually greater of $len.
-	 * Size formula: 4 *( $len / 3) and this need to be rounded up to a multiple of 4.
+	 * Size formula: 4 * ($len / 3) and this need to be rounded up to a multiple of 4.
 	 *
 	 *<code>
 	 * $random = new \Phalcon\Security\Random();
@@ -342,5 +352,32 @@ class Random
 		let ret = unpack("H*", rnd);
 
 		return hexdec(array_shift(ret));
+	}
+
+	/**
+	 * Generates a random string based on the number ($base) of characters ($alphabet).
+	 *
+	 * If $n is not specified, 16 is assumed. It may be larger in future.
+	 *
+	 * @throws Exception If secure random number generator is not available or unexpected partial read
+	 */
+	protected function base(string alphabet, int base, n = null) -> string
+	{
+		var bytes, idx;
+		string byteString = "";
+
+		let bytes = unpack("C*", this->bytes(n));
+
+		for idx in bytes {
+			let idx = idx % 64;
+
+			if idx >= base {
+				let idx = this->number(base - 1);
+			}
+
+			let byteString .= alphabet[(int) idx];
+		}
+
+		return byteString;
 	}
 }

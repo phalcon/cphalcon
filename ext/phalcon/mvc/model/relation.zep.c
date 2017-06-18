@@ -98,11 +98,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_referencedModel"), referencedModel TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_fields"), fields TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_referencedFields"), referencedFields TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_referencedModel"), referencedModel TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_fields"), fields TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_referencedFields"), referencedFields TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_options"), options TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -134,9 +134,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_intermediateFields"), intermediateFields TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_intermediateModel"), intermediateModel TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_intermediateReferencedFields"), intermediateReferencedFields TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_intermediateFields"), intermediateFields TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_intermediateModel"), intermediateModel TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_intermediateReferencedFields"), intermediateReferencedFields TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_referencedModel");
+	RETURN_MEMBER(getThis(), "_referencedModel");
 
 }
 
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_fields");
+	RETURN_MEMBER(getThis(), "_fields");
 
 }
 
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_referencedFields");
+	RETURN_MEMBER(getThis(), "_referencedFields");
 
 }
 
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_options");
+	RETURN_MEMBER(getThis(), "_options");
 
 }
 
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_intermediateFields");
+	RETURN_MEMBER(getThis(), "_intermediateFields");
 
 }
 
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_intermediateModel");
+	RETURN_MEMBER(getThis(), "_intermediateModel");
 
 }
 
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_intermediateReferencedFields");
+	RETURN_MEMBER(getThis(), "_intermediateReferencedFields");
 
 }
 

@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_options"), options TSRMLS_CC);
 
 }
 

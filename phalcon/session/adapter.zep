@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -123,9 +123,9 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Gets a session variable from an application context
 	 *
-	 *<code>
+	 * <code>
 	 * $session->get("auth", "yes");
-	 *</code>
+	 * </code>
 	 */
 	public function get(string index, var defaultValue = null, boolean remove = false) -> var
 	{
@@ -192,11 +192,11 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Removes a session variable from an application context
 	 *
-	 *<code>
+	 * <code>
 	 * $session->remove("auth");
-	 *</code>
+	 * </code>
 	 */
-	public function remove(string index)
+	public function remove(string index) -> void
 	{
 		var uniqueId;
 
@@ -262,19 +262,8 @@ abstract class Adapter implements AdapterInterface
 	 */
 	public function destroy(boolean removeData = false) -> boolean
 	{
-		var uniqueId, key;
-
 		if removeData {
-			let uniqueId = this->_uniqueId;
-			if !empty uniqueId {
-				for key, _ in _SESSION {
-					if starts_with(key, uniqueId . "#") {
-						unset _SESSION[key];
-					}
-				}
-			} else {
-				let _SESSION = [];
-			}
+			this->removeSessionData();
 		}
 
 		let this->_started = false;
@@ -337,10 +326,14 @@ abstract class Adapter implements AdapterInterface
 
 	/**
 	 * Alias: Removes a session variable from an application context
+	 *
+	 * <code>
+	 * unset($session->auth);
+	 * </code>
 	 */
 	public function __unset(string index)
 	{
-		return this->remove(index);
+		this->remove(index);
 	}
 
 	public function __destruct()
@@ -348,6 +341,27 @@ abstract class Adapter implements AdapterInterface
 		if this->_started {
 			session_write_close();
 			let this->_started = false;
+		}
+	}
+
+	protected function removeSessionData() -> void
+	{
+		var uniqueId, key;
+
+		let uniqueId = this->_uniqueId;
+
+		if empty _SESSION {
+			return;
+		}
+
+		if !empty uniqueId {
+			for key, _ in _SESSION {
+				if starts_with(key, uniqueId . "#") {
+					unset _SESSION[key];
+				}
+			}
+		} else {
+			let _SESSION = [];
 		}
 	}
 }

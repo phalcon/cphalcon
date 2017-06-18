@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "3.1.2"
+#define PHP_PHALCON_VERSION     "3.2.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.9.7-1fae5e50ac"
+#define PHP_PHALCON_ZEPVERSION  "0.9.8-6335775f25"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -37,6 +37,8 @@ typedef struct _zephir_struct_orm {
 	zend_bool enable_implicit_joins;
 	zend_bool cast_on_hydrate;
 	zend_bool ignore_unknown_columns;
+	zend_bool update_snapshot_on_save;
+	zend_bool disable_assign_setters;
 } zephir_struct_orm;
 
 

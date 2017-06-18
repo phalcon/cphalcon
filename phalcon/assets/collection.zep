@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -59,12 +59,23 @@ class Collection implements \Countable, \Iterator
 
 	protected _sourcePath { get };
 
+	protected _includedResources;
+
+	/**
+	 * Phalcon\Assets\Collection constructor
+	 */
+	public function __construct()
+	{
+		let this->_includedResources = [];
+	}
+
 	/**
 	 * Adds a resource to the collection
 	 */
 	public function add(<$Resource> $resource) -> <Collection>
 	{
-		let this->_resources[] = $resource;
+		this->addResource($resource);
+
 		return this;
 	}
 
@@ -73,8 +84,32 @@ class Collection implements \Countable, \Iterator
 	 */
 	public function addInline(<$Inline> code) -> <Collection>
 	{
-		let this->_codes[] = code;
+		this->addResource(code);
+
 		return this;
+	}
+
+	/**
+	 * Checks this the resource is added to the collection.
+	 *
+	 * <code>
+	 * use Phalcon\Assets\Resource;
+	 * use Phalcon\Assets\Collection;
+	 *
+	 * $collection = new Collection();
+	 *
+	 * $resource = new Resource("js", "js/jquery.js");
+	 * $resource->has($resource); // true
+	 * </code>
+	 */
+	public function has(<ResourceInterface> $resource) -> boolean
+	{
+		var key, resources;
+
+		let key = $resource->getResourceKey(),
+			resources = this->_includedResources;
+
+		return in_array(key, resources);
 	}
 
 	/**
@@ -96,7 +131,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new ResourceCss(path, collectionLocal, filter, collectionAttributes);
+		this->add(new ResourceCss(path, collectionLocal, filter, collectionAttributes));
 
 		return this;
 	}
@@ -143,7 +178,7 @@ class Collection implements \Countable, \Iterator
 			let collectionAttributes = this->_attributes;
 		}
 
-		let this->_resources[] = new ResourceJs(path, collectionLocal, filter, collectionAttributes);
+		this->add(new ResourceJs(path, collectionLocal, filter, collectionAttributes));
 
 		return this;
 	}
@@ -328,5 +363,25 @@ class Collection implements \Countable, \Iterator
 	{
 		let this->_filters[] = filter;
 		return this;
+	}
+
+	/**
+	 * Adds a resource or inline-code to the collection
+	 */
+	protected final function addResource(<ResourceInterface> $resource) -> boolean
+	{
+		if !this->has($resource) {
+			if $resource instanceof $Resource {
+				let this->_resources[] = $resource;
+			} else {
+				let this->_codes[] = $resource;
+			}
+
+			let this->_includedResources[] = $resource->getResourceKey();
+
+			return true;
+		}
+
+		return false;
 	}
 }

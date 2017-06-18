@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -58,66 +58,58 @@ use Phalcon\Validation\Message;
  */
 class CreditCard extends Validator
 {
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, string! field) -> boolean
-    {
-        var message, label, replacePairs, value, valid, code;
+	/**
+	 * Executes the validation
+	 */
+	public function validate(<Validation> validation, string! field) -> boolean
+	{
+		var message, label, replacePairs, value, valid, code;
 
-        let value = validation->getValue(field);
+		let value = validation->getValue(field);
 
-        let valid = this->verifyByLuhnAlgorithm(value);
+		let valid = this->verifyByLuhnAlgorithm(value);
 
-        if !valid {
-            let label = this->getOption("label");
-            if typeof label == "array" {
-                let label = label[field];
-            }
-            if empty label {
-            	let label = validation->getLabel(field);
-            }
+		if !valid {
+			let label = this->prepareLabel(validation, field),
+				message = this->prepareMessage(validation, field, "CreditCard"),
+				code = this->prepareCode(field);
 
-            let message = this->getOption("message");
-            if typeof message == "array" {
-                let message = message[field];
-            }
-            let replacePairs = [":field": label];
-            if empty message {
-            	let message = validation->getDefaultMessage("CreditCard");
-            }
+			let replacePairs = [":field": label];
 
-            let code = this->getOption("code");
-            if typeof code == "array" {
-                let code = code[field];
-            }
+			validation->appendMessage(
+				new Message(
+					strtr(message, replacePairs),
+					field,
+					"CreditCard",
+					code
+				)
+			);
 
-            validation->appendMessage(new Message(strtr(message, replacePairs), field, "CreditCard", code));
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * is a simple checksum formula used to validate a variety of identification numbers
-     * @param  string number
-     * @return boolean
-     */
-    private function verifyByLuhnAlgorithm(number) -> boolean
-    {
-        array digits;
-        let digits = (array) str_split(number);
+	/**
+	 * is a simple checksum formula used to validate a variety of identification numbers
+	 * @param  string number
+	 * @return boolean
+	 */
+	private function verifyByLuhnAlgorithm(number) -> boolean
+	{
+		array digits;
+		let digits = (array) str_split(number);
 
-        var digit, position, hash = "";
+		var digit, position, hash = "";
 
-        for position, digit in digits->reversed() {
-            let hash .= (position % 2 ? digit * 2 : digit);
-        }
+		for position, digit in digits->reversed() {
+			let hash .= (position % 2 ? digit * 2 : digit);
+		}
 
-        var result;
-        let result = array_sum(str_split(hash));
+		var result;
+		let result = array_sum(str_split(hash));
 
-        return (result % 10 == 0);
-    }
+		return (result % 10 == 0);
+	}
 }

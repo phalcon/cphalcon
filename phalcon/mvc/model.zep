@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -112,6 +112,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	protected _related;
 
 	protected _snapshot;
+
+	protected _oldSnapshot = [];
 
 	const OP_NONE = 0;
 
@@ -443,6 +445,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *         "year",
 	 *     ]
 	 * );
+	 *
+	 * // By default assign method will use setters if exist, you can disable it by using ini_set to directly use properties
+	 *
+	 * ini_set("phalcon.orm.disable_assign_setters", true);
+	 *
+	 * $robot->assign(
+	 *     $_POST,
+	 *     null,
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
 	 * </code>
 	 *
 	 * @param array data
@@ -452,7 +467,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
-		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped;
+		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
+
+        let disableAssignSetters = globals_get("orm.disable_assign_setters");
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {
@@ -505,7 +522,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				}
 
 				// Try to find a possible getter
-				if !this->_possibleSetter(attributeField, value) {
+				if disableAssignSetters || !this->_possibleSetter(attributeField, value) {
 					let this->{attributeField} = value;
 				}
 			}
@@ -2417,7 +2434,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->{attributeField} = lastInsertedId;
 			let snapshot[attributeField] = lastInsertedId;
 
-			if manager->isKeepingSnapshots(this) {
+			if manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
 			    let this->_snapshot = snapshot;
 			}
 
@@ -2458,8 +2475,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 */
  		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
 
+		let snapshot = this->_snapshot;
+
  		if useDynamicUpdate {
- 			let snapshot = this->_snapshot;
  			if typeof snapshot != "array" {
  				let useDynamicUpdate = false;
  			}
@@ -2651,10 +2669,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  			"bindTypes"  : uniqueTypes
  		], bindTypes);
 
- 		if success && manager->isKeepingSnapshots(this) {
-			if typeof this->_snapshot == "array" {
-				let this->_snapshot = array_merge(this->_snapshot, newSnapshot);
+ 		if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
+			if typeof snapshot == "array" {
+				let this->_oldSnapshot = snapshot;
+				let this->_snapshot = array_merge(snapshot, newSnapshot);
 			} else {
+				let this->_oldSnapshot = [];
 				let this->_snapshot = newSnapshot;
 			}
 		}
@@ -3831,6 +3851,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let snapshot = data;
 		}
 
+		let this->_oldSnapshot = snapshot;
 		let this->_snapshot = snapshot;
 	}
 
@@ -3854,12 +3875,35 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
+	 * Returns the internal old snapshot data
+	 */
+	public function getOldSnapshotData() -> array
+	{
+		return this->_oldSnapshot;
+	}
+
+	/**
 	 * Check if a specific attribute has changed
 	 * This only works if the model is keeping data snapshots
 	 *
+	 *<code>
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $robot->create();
+	 * $robot->type = "hydraulic";
+	 * $hasChanged = $robot->hasChanged("type"); // returns true
+	 * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
+	 * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
+	 *</code>
+	 *
 	 * @param string|array fieldName
+	 * @param boolean allFields
 	 */
-	public function hasChanged(var fieldName = null) -> boolean
+	public function hasChanged(var fieldName = null, boolean allFields = false) -> boolean
 	{
 		var changedFields;
 
@@ -3870,9 +3914,43 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if typeof fieldName == "string" {
 			return in_array(fieldName, changedFields);
+		} elseif typeof fieldName == "array" {
+		    if allFields {
+		        return array_intersect(fieldName, changedFields) == fieldName;
+		    }
+
+		    return count(array_intersect(fieldName, changedFields)) > 0;
 		}
 
 		return count(changedFields) > 0;
+	}
+
+	/**
+	 * Check if a specific attribute was updated
+	 * This only works if the model is keeping data snapshots
+	 *
+	 * @param string|array fieldName
+	 */
+	public function hasUpdated(var fieldName = null, boolean allFields = false) -> boolean
+	{
+		var updatedFields;
+
+		let updatedFields = this->getUpdatedFields();
+
+		/**
+		 * If a field was specified we only check it
+		 */
+		if typeof fieldName == "string" {
+			return in_array(fieldName, updatedFields);
+		} elseif typeof fieldName == "array" {
+			if allFields {
+				return array_intersect(fieldName, updatedFields) == fieldName;
+			}
+
+			return count(array_intersect(fieldName, updatedFields)) > 0;
+		}
+
+		return count(updatedFields) > 0;
 	}
 
 	/**
@@ -3896,13 +3974,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let snapshot = this->_snapshot;
 		if typeof snapshot != "array" {
 			throw new Exception("The record doesn't have a valid data snapshot");
-		}
-
-		/**
-		 * Dirty state must be DIRTY_PERSISTENT to make the checking
-		 */
-		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
-			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
 		}
 
 		/**
@@ -3956,6 +4027,65 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 
 		return changed;
+	}
+
+	/**
+	 * Returns a list of updated values.
+	 *
+	 * <code>
+	 * $robots = Robots::findFirst();
+	 * print_r($robots->getChangedFields()); // []
+	 *
+	 * $robots->deleted = 'Y';
+	 *
+	 * $robots->getChangedFields();
+	 * print_r($robots->getChangedFields()); // ["deleted"]
+	 * $robots->save();
+	 * print_r($robots->getChangedFields()); // []
+	 * print_r($robots->getUpdatedFields()); // ["deleted"]
+	 * </code>
+	 */
+	public function getUpdatedFields()
+	{
+		var updated, name, snapshot,
+			oldSnapshot, value;
+
+		let snapshot = this->_snapshot;
+		let oldSnapshot = this->_oldSnapshot;
+
+		if !globals_get("orm.update_snapshot_on_save") {
+			throw new Exception("Update snapshot on save must be enabled for this method to work properly");
+		}
+
+		if typeof snapshot != "array" {
+			throw new Exception("The record doesn't have a valid data snapshot");
+		}
+
+		/**
+		 * Dirty state must be DIRTY_PERSISTENT to make the checking
+		 */
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+			throw new Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+		}
+
+		let updated = [];
+
+		for name, value in snapshot {
+			/**
+			 * If some attribute is not present in the oldSnapshot, we assume the record as changed
+			 */
+			if !isset oldSnapshot[name] {
+				let updated[] = name;
+				continue;
+			}
+
+			if value !== oldSnapshot[name] {
+				let updated[] = name;
+				continue;
+			}
+		}
+
+		return updated;
 	}
 
 	/**
@@ -4569,7 +4699,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var disableEvents, columnRenaming, notNullValidations,
 			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-			lateStateBinding, castOnHydrate, ignoreUnknownColumns;
+			lateStateBinding, castOnHydrate, ignoreUnknownColumns,
+			updateSnapshotOnSave, disableAssignSetters;
 
 		/**
 		 * Enables/Disables globally the internal events
@@ -4632,6 +4763,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
 			globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+		}
+
+		if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
+			globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
+		}
+
+		if fetch disableAssignSetters, options["disableAssignSetters"] {
+		    globals_set("orm.disable_assign_setters", disableAssignSetters);
 		}
 	}
 

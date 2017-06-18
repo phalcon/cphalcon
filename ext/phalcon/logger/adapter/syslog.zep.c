@@ -61,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Syslog) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, *options = NULL, *option = NULL, *facility = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -83,12 +83,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 			ZEPHIR_INIT_NVAR(facility);
 			ZVAL_LONG(facility, 8);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "openlog", NULL, 299, name, option, facility);
+		ZEPHIR_CALL_FUNCTION(NULL, "openlog", NULL, 308, name, option, facility);
 		zephir_check_call_status();
 		if (1) {
-			zephir_update_property_this(this_ptr, SL("_opened"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_opened"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 		} else {
-			zephir_update_property_this(this_ptr, SL("_opened"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_opened"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 
 	zval *_0, *_1$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -114,9 +114,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 			ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_this(this_ptr, SL("_formatter"), _1$$3 TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_formatter"), _1$$3 TSRMLS_CC);
 	}
-	RETURN_MM_MEMBER(this_ptr, "_formatter");
+	RETURN_MM_MEMBER(getThis(), "_formatter");
 
 }
 
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 
 	zval *context = NULL;
-	int type, time, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type, time, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *appliedFormat = NULL, *_0 = NULL, *_1, *_2, *_3, *_4;
 	zval *message = NULL;
 
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 	}
 	zephir_array_fetch_long(&_3, appliedFormat, 0, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 104 TSRMLS_CC);
 	zephir_array_fetch_long(&_4, appliedFormat, 1, PH_NOISY | PH_READONLY, "phalcon/logger/adapter/syslog.zep", 104 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 300, _3, _4);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 309, _3, _4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 
 	zval *_0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 	if (!(zephir_is_true(_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 301);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 310);
 	zephir_check_call_status();
 	RETURN_MM();
 

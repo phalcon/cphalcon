@@ -16,7 +16,7 @@ use Phalcon\Test\Module\UnitTest;
  * @package   Phalcon\Test\Unit\Asset
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -40,6 +40,25 @@ class ResourceTest extends UnitTest
                 $actual   = $resource->getType();
 
                 expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests getResourceKey
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-02
+     */
+    public function getResourceKey()
+    {
+        $this->specify(
+            "Unable to get resource key or resorce key is incorrect",
+            function () {
+                $resource = new Resource('js', 'js/jquery.js');
+
+                expect(md5('js:js/jquery.js'))->equals($resource->getResourceKey());
             }
         );
     }

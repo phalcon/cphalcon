@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	HashTable *_5;
 	HashPosition _4;
 	zephir_fcall_cache_entry *_41 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *columns = NULL, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *sizePattern = NULL, *matches = NULL, *matchOne = NULL, *matchTwo = NULL, *columnName = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, *_7$$4 = NULL, *_8$$5 = NULL, *_9$$5 = NULL, *_10$$6 = NULL, *_11$$6 = NULL, *_12$$7 = NULL, *_13$$8 = NULL, *_14$$9 = NULL, *_15$$10 = NULL, *_16$$11 = NULL, *_17$$12 = NULL, *_18$$13 = NULL, *_19$$13 = NULL, *_20$$14 = NULL, *_21$$14 = NULL, *_22$$15 = NULL, *_23$$15 = NULL, *_24$$16 = NULL, *_25$$16 = NULL, *_26$$17 = NULL, *_27$$17 = NULL, *_28$$18 = NULL, *_29$$19 = NULL, *_30$$20 = NULL, *_31$$21 = NULL, *_32$$22 = NULL, *_33$$24 = NULL, *_34$$25 = NULL, *_35$$3, *_36$$3, *_37$$3, *_38$$3 = NULL, *_40$$3 = NULL, *_39$$32;
 	zval *table = NULL, *schema = NULL;
 
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 258 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_40$$3);
 		object_init_ex(_40$$3, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _40$$3, "__construct", &_41, 148, columnName, definition);
+		ZEPHIR_CALL_METHOD(NULL, _40$$3, "__construct", &_41, 159, columnName, definition);
 		zephir_check_call_status();
 		zephir_array_append(&columns, _40$$3, PH_SEPARATE, "phalcon/db/adapter/pdo/mysql.zep", 259);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 	HashTable *_5, *_16;
 	HashPosition _4, _15;
 	zephir_fcall_cache_entry *_21 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema = NULL, *indexes = NULL, *index = NULL, *keyName = NULL, *indexType = NULL, *indexObjects = NULL, *columns = NULL, *name = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_17, *_7$$4 = NULL, *_8$$3, *_10$$3, *_11$$3, *_9$$6, *_12$$7 = NULL, *_13$$8 = NULL, *_14$$9 = NULL, *_18$$11 = NULL, *_19$$11, *_20$$11;
 	zval *table = NULL;
 
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 		object_init_ex(_18$$11, phalcon_db_index_ce);
 		zephir_array_fetch_string(&_19$$11, index, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 314 TSRMLS_CC);
 		zephir_array_fetch_string(&_20$$11, index, SL("type"), PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/mysql.zep", 314 TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(NULL, _18$$11, "__construct", &_21, 22, name, _19$$11, _20$$11);
+		ZEPHIR_CALL_METHOD(NULL, _18$$11, "__construct", &_21, 23, name, _19$$11, _20$$11);
 		zephir_check_call_status();
 		zephir_array_update_zval(&indexObjects, name, &_18$$11, PH_COPY | PH_SEPARATE);
 	}
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 	HashTable *_5, *_17;
 	HashPosition _4, _16;
 	zephir_fcall_cache_entry *_22 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *references = NULL, *reference = NULL, *arrayReference = NULL, *constraintName = NULL, *referenceObjects = NULL, *name = NULL, *referencedSchema = NULL, *referencedTable = NULL, *columns = NULL, *referencedColumns = NULL, *referenceUpdate = NULL, *referenceDelete = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, **_18, *_7$$5, *_8$$5, *_9$$5, *_10$$5, *_11$$5, *_12$$5, *_13$$3, *_14$$3, *_19$$6 = NULL, *_21$$6 = NULL;
 	zval *table = NULL, *schema = NULL;
 
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 		ZEPHIR_OBS_NVAR(_21$$6);
 		zephir_array_fetch_string(&_21$$6, arrayReference, SL("onDelete"), PH_NOISY, "phalcon/db/adapter/pdo/mysql.zep", 380 TSRMLS_CC);
 		zephir_array_update_string(&_20$$6, SL("onDelete"), &_21$$6, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, _19$$6, "__construct", &_22, 23, name, _20$$6);
+		ZEPHIR_CALL_METHOD(NULL, _19$$6, "__construct", &_22, 24, name, _20$$6);
 		zephir_check_call_status();
 		zephir_array_update_zval(&referenceObjects, name, &_19$$6, PH_COPY | PH_SEPARATE);
 	}

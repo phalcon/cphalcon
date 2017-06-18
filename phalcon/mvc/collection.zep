@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -206,14 +206,16 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		var reserved;
 
 		let reserved = self::_reserved;
-		if reserved === null {
+		if typeof reserved != "array" {
 			let reserved = [
 				"_connection": true,
 				"_dependencyInjector": true,
 				"_source": true,
 				"_operationMade": true,
 				"_errorMessages": true,
-				"_dirtyState": true
+				"_dirtyState": true,
+				"_modelsManager": true,
+				"_skipped" : true
 			];
 			let self::_reserved = reserved;
 		}

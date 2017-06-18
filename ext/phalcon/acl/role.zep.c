@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_description");
+	RETURN_MEMBER(getThis(), "_description");
 
 }
 
@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/acl/role.zep", 49);
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_name"), name TSRMLS_CC);
 	if (!(!description) && Z_STRLEN_P(description)) {
-		zephir_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_description"), description TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 

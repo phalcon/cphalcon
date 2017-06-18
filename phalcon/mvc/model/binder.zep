@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -15,6 +15,7 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  |          Wojciech Ślawski <jurigag@gmail.com>                          |
+ |          Nathan Daly <justlikephp@gmail.com>                           |
  +------------------------------------------------------------------------+
  */
 
@@ -93,7 +94,7 @@ class Binder implements BinderInterface
 			if typeof paramsCache == "array" {
 				for paramKey, className in paramsCache {
 					let paramValue = params[paramKey];
-					let boundModel = {className}::findFirst(paramValue);
+					let boundModel = this->findBoundModel(paramValue, className);
 					let this->originalValues[paramKey] = paramValue;
 					let params[paramKey] = boundModel;
 					let this->boundModels[paramKey] = boundModel;
@@ -106,6 +107,14 @@ class Binder implements BinderInterface
 		}
 		throw new Exception("You must specify methodName for handler or pass Closure as handler");
 	}
+
+    /**
+    * Find the model by param value.
+    */
+    protected function findBoundModel(var paramValue, string className) -> object | boolean
+    {
+        return {className}::findFirst(paramValue);
+    }
 
 	/**
 	 * Get params classes from cache by key
@@ -121,7 +130,10 @@ class Binder implements BinderInterface
 		let cache = this->cache;
 
 		if cache != null && cache->exists(cacheKey) {
-			return cache->get(cacheKey);
+			let internalParams = cache->get(cacheKey);
+			let this->internalCache[cacheKey] = internalParams;
+
+			return internalParams;
 		}
 
 		return null;
@@ -172,18 +184,18 @@ class Binder implements BinderInterface
 				}
 				if typeof realClasses == "array" {
 					if fetch className, realClasses[paramKey] {
-						let boundModel = {className}::findFirst(paramValue);
+						let boundModel = this->findBoundModel(paramValue, className);
 					} else {
 						throw new Exception("You should provide model class name for ".paramKey." parameter");
 					}
-				} elseif typeof realClasses == "string" {
-					let boundModel = {realClasses}::findFirst(paramValue);
+				} elseif typeof realClasses == "string" {					
 					let className = realClasses;
+					let boundModel = this->findBoundModel(paramValue, className);
 				} else {
 					throw new Exception("getModelName should return array or string");
 				}
 			} elseif is_subclass_of(className, "Phalcon\\Mvc\\Model") {
-				let boundModel = {className}::findFirst(paramValue);
+				let boundModel = this->findBoundModel(paramValue, className);
 			}
 
 			if boundModel != null {

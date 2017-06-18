@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Exception;
@@ -267,7 +268,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * @deprecated 1.0.0
 	 * @see \Phalcon\Mvc\Model\Criteria::andWhere()
 	 */
-	public function addWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
+	deprecated public function addWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
 	{
 		return this->andWhere(conditions, bindParams, bindTypes);
 	}
@@ -662,7 +663,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like _POST
+	 * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
 	 */
 	public static function fromInput(<DiInterface> dependencyInjector, string! modelName, array! data, string! operator = "AND") -> <Criteria>
 	{
@@ -721,6 +722,37 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 		criteria->setModelName(modelName);
 		return criteria;
+	}
+
+	/**
+	 * Creates a query builder from criteria.
+	 *
+	 * <code>
+	 * $builder = Robots::query()
+	 *     ->where("type = :type:")
+	 *     ->bind(["type" => "mechanical"])
+	 *     ->createBuilder();
+	 * </code>
+	 */
+	public function createBuilder() -> <BuilderInterface>
+	{
+		var dependencyInjector, manager, builder;
+
+		let dependencyInjector = this->getDI();
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = Di::getDefault();
+			this->setDI(dependencyInjector);
+		}
+
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = manager->createBuilder(this->_params);
+		builder->from(this->_model);
+
+		return builder;
 	}
 
 	/**

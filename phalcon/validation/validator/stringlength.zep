@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -92,19 +92,9 @@ class StringLength extends Validator
 			throw new Exception("A minimum or maximum must be set");
 		}
 
-		let value = validation->getValue(field);
-		let label = this->getOption("label");
-		if typeof label == "array" {
-			let label = label[field];
-		}
-		if empty label {
-			let label = validation->getLabel(field);
-		}
-
-		let code = this->getOption("code");
-		if typeof code == "array" {
-			let code = code[field];
-		}
+		let value = validation->getValue(field),
+			label = this->prepareLabel(validation, field),
+			code = this->prepareCode(field);
 
 		// Check if mbstring is available to calculate the correct length
 		if function_exists("mb_strlen") {
@@ -123,18 +113,8 @@ class StringLength extends Validator
 				let maximum = maximum[field];
 			}
 			if length > maximum {
-
-				// Check if the developer has defined a custom message
-				let message = this->getOption("messageMaximum"),
+				let message = this->prepareMessage(validation, field, "TooLong", "messageMaximum"),
 					replacePairs = [":field": label, ":max":  maximum];
-
-				if typeof message == "array" {
-					let message = message[field];
-				}
-
-				if empty message {
-					let message = validation->getDefaultMessage("TooLong");
-				}
 
 				validation->appendMessage(
 					new Message(
@@ -159,18 +139,8 @@ class StringLength extends Validator
 				let minimum = minimum[field];
 			}
 			if length < minimum {
-
-				// Check if the developer has defined a custom message
-				let message = this->getOption("messageMinimum"),
+				let message = this->prepareMessage(validation, field, "TooShort", "messageMinimum"),
 					replacePairs = [":field": label, ":min":  minimum];
-
-				if typeof message == "array" {
-					let message = message[field];
-				}
-
-				if empty message {
-					let message = validation->getDefaultMessage("TooShort");
-				}
 
 				validation->appendMessage(
 					new Message(

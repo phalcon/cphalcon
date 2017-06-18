@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, __construct) {
 			return;
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_frontendOptions"), frontendOptions TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, stop) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 124, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 136, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data;
 
 	ZEPHIR_MM_GROW();
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 125, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 137, data);
 	zephir_check_call_status();
 	RETURN_MM();
 

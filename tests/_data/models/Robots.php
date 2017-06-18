@@ -19,7 +19,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @package   Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -27,6 +27,16 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  */
 class Robots extends Model
 {
+    /**
+     * @var bool
+     */
+    public $wasSetterUsed = false;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
     public function initialize()
     {
         $this->keepSnapshots(true);
@@ -41,5 +51,13 @@ class Robots extends Model
                 'alias' => 'parts'
             ]
         );
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->wasSetterUsed = true;
+
+        return $this;
     }
 }

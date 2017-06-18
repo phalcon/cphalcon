@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Mvc;
 
 use DateTime;
 use Helper\ModelTrait;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
@@ -35,7 +36,7 @@ use Phalcon\Test\Models\Validation;
  * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -666,6 +667,44 @@ class ModelTest extends UnitTest
                     [
                         'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'text',
+                    ]
+                );
+            }
+        );
+    }
+
+    /**
+     * Tests disabling assign setters
+     *
+     * @issue  12645
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-23
+     */
+    public function testAssignSettersDisabled()
+    {
+        $this->specify(
+            'Disabling setters in assign is not working',
+            function () {
+                $robots = new Robots(
+                    [
+                        'name' => 'test',
+                    ]
+                );
+                expect($robots->wasSetterUsed)->true();
+                Model::setup(
+                    [
+                        'disableAssignSetters' => true,
+                    ]
+                );
+                $robots = new Robots(
+                    [
+                        'name' => 'test',
+                    ]
+                );
+                expect($robots->wasSetterUsed)->false();
+                Model::setup(
+                    [
+                        'disableAssignSetters' => false,
                     ]
                 );
             }
