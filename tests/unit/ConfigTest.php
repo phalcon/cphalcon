@@ -309,4 +309,45 @@ class ConfigTest extends ConfigBase
             }
         );
     }
+
+    /**
+     * Tests issue 12779
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-06-19
+     */
+    public function testIssue12779()
+    {
+        $config = new Config(
+            [
+                'a' => [
+                    [
+                        1,
+                    ],
+                ],
+            ]
+        );
+
+        $config->merge(
+            new Config(
+                [
+                    'a' => [
+                        [
+                            2,
+                        ],
+                    ],
+                ]
+            )
+        );
+        expect($config->toArray())->equals(
+            [
+                'a' => [
+                    [
+                        1,
+                        2,
+                    ],
+                ],
+            ]
+        );
+    }
 }
