@@ -1427,7 +1427,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends a BETWEEN condition
 	 */
-	private function _conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <Builder>
+	protected function _conditionBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <Builder>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1466,7 +1466,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends a NOT BETWEEN condition
 	 */
-	private function _conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <Builder>
+	protected function _conditionNotBetween(string! clause, string! operator, string! expr, var minimum, var maximum) -> <Builder>
 	{
 		var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1504,7 +1504,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends an IN condition
 	 */
-	private function _conditionIn(string! clause, string! operator, string! expr, array! values) -> <Builder>
+	protected function _conditionIn(string! clause, string! operator, string! expr, array! values) -> <Builder>
 	{
 		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
@@ -1549,7 +1549,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Appends a NOT IN condition
 	 */
-	private function _conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <Builder>
+	protected function _conditionNotIn(string! clause, string! operator, string! expr, array! values) -> <Builder>
 	{
 		var key, queryKey, value, bindKeys, bindParams, operatorMethod;
 		int hiddenParam;
