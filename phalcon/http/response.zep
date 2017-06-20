@@ -236,8 +236,8 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	public function getStatusCode() -> int | null
 	{
 		var statusCode;
-		let statusCode = (int) substr(this->getHeaders()->get("Status"), 0, 3);
-		return statusCode ? statusCode : null;
+		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
+		return statusCode ? (int) statusCode : null;
 	}
 
 	/**
