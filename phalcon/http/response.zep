@@ -228,9 +228,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Returns the status code
 	 *
 	 *<code>
-	 * print_r(
-	 *     $response->getStatusCode()
-	 * );
+	 * echo $response->getStatusCode();
 	 *</code>
 	 */
 	public function getStatusCode() -> int | null
