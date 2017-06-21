@@ -228,14 +228,14 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Returns the status code
 	 *
 	 *<code>
-	 * print_r(
-	 *     $response->getStatusCode()
-	 * );
+	 * echo $response->getStatusCode();
 	 *</code>
 	 */
-	public function getStatusCode() -> array
+	public function getStatusCode() -> int | null
 	{
-		return this->getHeaders()->get("Status");
+		var statusCode;
+		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
+		return statusCode ? (int) statusCode : null;
 	}
 
 	/**
