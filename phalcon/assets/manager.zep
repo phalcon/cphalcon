@@ -287,6 +287,18 @@ class Manager
 		return collection;
 	}
 
+	public function collectionResourcesByType(array resources, string type) -> array
+	{
+		var $filtered = [], $resource;
+		for $resource in resources {
+			if $resource->getType() == type {
+				let $filtered[] = $resource;
+			}
+		}
+
+		return $filtered;
+	}
+
 	/**
 	 * Traverses a collection calling the callback to generate its HTML
 	 *
@@ -310,7 +322,7 @@ class Manager
 		/**
 		 * Get the resources as an array
 		 */
-		let resources = collection->getResources();
+		let resources = this->collectionResourcesByType(collection->getResources(), type);
 
 		/**
 		 * Get filters in the collection
