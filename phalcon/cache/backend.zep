@@ -17,7 +17,7 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Cache;
+namespace  Phalcon\Cache;
 
 use Phalcon\Cache\FrontendInterface;
 
