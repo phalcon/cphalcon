@@ -133,6 +133,44 @@ class ManagerTest extends UnitTest
     }
 
     /**
+     * Tests addCss and addJs
+     *
+     * @author Paul Scarrone <paul@savvysoftworks.com>
+     * @since  2017-06-20
+     */
+    public function testAssetsManagerAddingCssAndJs()
+    {
+        $this->specify(
+            "The combination of addCss and addJs on assets manager does add resources correctly",
+            function () {
+                $assets = new Manager();
+
+                $assets->addCss('/css/style1.css');
+                $assets->addCss('/css/style2.css');
+                $assets->addJs('/js/script1.js');
+                $assets->addJs('/js/script2.js');
+
+                $collectionCss = $assets->get('css');
+                $collectionJs = $assets->get('js');
+
+                $CSSnumber = 0;
+                foreach ($collectionCss as $resource) {
+                    expect('css')->equals($resource->getType());
+                    $CSSnumber++;
+                }
+                expect($CSSnumber)->equals(2);
+
+                $JSnumber = 0;
+                foreach ($collectionJs as $resource) {
+                    expect('js')->equals($resource->getType());
+                    $JSnumber++;
+                }
+                expect($JSnumber)->equals(2);
+            }
+        );
+    }
+
+    /**
      * Tests addJs
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -373,6 +411,48 @@ class ManagerTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests collection with mixed resources
+     *
+     * @author Paul Scarrone <paul@savvysoftworks.com>
+     * @since  2017-06-20
+     */
+    public function testAssetsManagerOutputJsWithMixedResourceCollection()
+    {
+        $this->specify(
+            "The outputJs using a mixed resource collection returns only JS resources",
+            function () {
+                $assets = new Manager();
+
+                $assets->collection('header')
+                    ->setPrefix('http:://cdn.example.com/')
+                    ->setLocal(false)
+                    ->addJs('js/script1.js')
+                    ->addJs('js/script2.js')
+                    ->addCss('css/styles1.css')
+                    ->addCss('css/styles2.css');
+                $assets->useImplicitOutput(false);
+
+                $actualJS = $assets->outputJs('header');
+                $expectedJS = sprintf(
+                    "%s\n%s\n",
+                    '<script type="text/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
+                    '<script type="text/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
+                );
+                expect($actualJS)->equals($expectedJS);
+
+                $actualCSS = $assets->outputCss('header');
+                $expectedCSS = sprintf(
+                    "%s\n%s\n",
+                    '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles1.css" />',
+                    '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles2.css" />'
+                );
+                expect($actualCSS)->equals($expectedCSS);
+            }
+        );
+    }
+
 
     /**
      * Tests setting local target
