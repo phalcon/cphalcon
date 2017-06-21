@@ -1,7 +1,8 @@
 # [3.2.1](https://github.com/phalcon/cphalcon/releases/tag/v3.2.1) (2017-XX-XX)
 - Fixed inconsistent behaviour of `Phalcon\Config::merge` across minor version of PHP7 [#12779](https://github.com/phalcon/cphalcon/issues/12779)
-- Fixed visibility of `Phalcon\Mvc\Model\Query\Builder::{_conditionNotIn,_conditionIn,_conditionNotBetween,_conditionBetween}` to allow 3rd party libraries extend it
+- Fixed visibility of `Phalcon\Mvc\Model\Query\Builder` methods: `_conditionNotIn`, `_conditionIn`, `_conditionNotBetween` and `_conditionBetween` to allow 3rd party libraries extend it
 - Fixed `Phalcon\Assets\Manager::output`, implemented missing resource type filtering for mixed resource collections [#2408](https://github.com/phalcon/cphalcon/issues/2408)
+- Fixed `Phalcon\Http\Response::getStatusCode` to return (int) HTTP code only, instead of full string [#12895](https://github.com/phalcon/cphalcon/issues/12895)
 
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-06-19)
 - Phalcon will now trigger `E_DEPREACATED` by using `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct`
