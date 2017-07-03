@@ -210,10 +210,14 @@ class Apcu extends Backend
 		// The APCu 4.x only has APCIterator, not the newer APCUIterator
 		if class_exists("APCUIterator") {
 			let apc = new \APCUIterator(prefixPattern);
-		} else {
+		} elseif class_exists("APCIterator") {
 			let apc = new \APCIterator("user", prefixPattern);
 		}
 
+		if typeof apc != "object" {
+			return [];
+		}
+		
 		for key, _ in iterator(apc) {
 			let keys[] = substr(key, 5);
 		}
@@ -260,19 +264,23 @@ class Apcu extends Backend
 	 */
 	public function flush() -> boolean
 	{
-		var item, prefixPattern, apc;
+		var item, prefixPattern, apc = null;
 
 		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
 
 		// The APCu 4.x only has APCIterator, not the newer APCUIterator
 		if class_exists("APCUIterator") {
 			let apc = new \APCUIterator(prefixPattern);
-		} else {
+		} elseif class_exists("APCIterator") {
 			let apc = new \APCIterator("user", prefixPattern);
+		}
+		
+		if typeof apc != "object" {
+			return false;
 		}
 
 		for item in iterator(apc) {
-			apc_delete(item["key"]);
+			apcu_delete(item["key"]);
 		}
 
 		return true;
