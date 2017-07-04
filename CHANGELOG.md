@@ -3,6 +3,10 @@
 - Fixed visibility of `Phalcon\Mvc\Model\Query\Builder` methods: `_conditionNotIn`, `_conditionIn`, `_conditionNotBetween` and `_conditionBetween` to allow 3rd party libraries extend it
 - Fixed `Phalcon\Assets\Manager::output`, implemented missing resource type filtering for mixed resource collections [#2408](https://github.com/phalcon/cphalcon/issues/2408)
 - Fixed `Phalcon\Http\Response::getStatusCode` to return (int) HTTP code only, instead of full string [#12895](https://github.com/phalcon/cphalcon/issues/12895)
+- Fixed `Phalcon\Cache\Backend\Apcu::flush` added support two extensions APC and APCU [#12934](https://github.com/phalcon/cphalcon/issues/12934)
+- Added `Phalcon\Db\Dialect\Mysql::getForeignKeyChecks` added checking DB setting `foreign_key_checks`
+- Fixed `Phalcon\Db\Dialect\Mysql::addForeignKey` changed query [#2604](https://github.com/phalcon/cphalcon/issues/2604)
+- Added `Phalcon\Db\Adapter\Pdo\Mysql::addForeignKey` Added method with checking DB setting `foreign_key_checks`
 
 # [3.2.0](https://github.com/phalcon/cphalcon/releases/tag/v3.2.0) (2017-06-19)
 - Phalcon will now trigger `E_DEPREACATED` by using `Phalcon\Mvc\Model\Criteria::addWhere`, `Phalcon\Debug::getMajorVersion`, `Phalcon\Dispatcher::setModelBinding`, `Phalcon\Tag::resetInput`, `Phalcon\Mvc\Model\Validator::__construct`
