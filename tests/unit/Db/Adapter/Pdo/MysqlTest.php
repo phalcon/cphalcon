@@ -6,6 +6,7 @@ use Phalcon\Db;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Helper\Dialect\MysqlTrait;
 
 /**
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\MysqlTest
@@ -26,6 +27,8 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
  */
 class MysqlTest extends UnitTest
 {
+    use MysqlTrait;
+
     /**
      * @var Mysql
      */
@@ -65,6 +68,8 @@ class MysqlTest extends UnitTest
                     'artists',
                     'childs',
                     'customers',
+                    'foreign_key_child',
+                    'foreign_key_parent',
                     'issue12071_body',
                     'issue12071_head',
                     'issue_11036',
@@ -152,6 +157,78 @@ class MysqlTest extends UnitTest
                         "identifier" => ["`schema`", "rob`ots"],
                         "expected"   => "```schema```.`rob``ots`",
                     ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests Mysql::addForeignKey
+     *
+     * @test
+     * @issue  556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    public function shouldAddForeignKey()
+    {
+        $this->specify(
+            "Foreign key hasn't created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->addForeignKey('test_name_key', 'CASCADE', 'RESTRICT'), true],
+                    [$this->addForeignKey('', 'CASCADE', 'RESTRICT'), true]
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests Mysql::getForeignKey
+     *
+     * @test
+     * @issue  556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    public function shouldCheckAddedForeignKey()
+    {
+        $this->specify(
+            "Foreign key isn't created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql, ['MYSQL_ATTR_USE_BUFFERED_QUERY']))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->getForeignKey('test_name_key'), true],
+                    [$this->getForeignKey('foreign_key_child_ibfk_1'), true]
+                ]
+            ]
+        );
+    }
+
+     /**
+      * Tests Mysql::dropAddForeignKey
+      *
+      * @test
+      * @issue  556
+      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+      * @since  2017-07-03
+      */
+    public function shouldDropForeignKey()
+    {
+        $this->specify(
+            "Foreign key can't be created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->dropForeignKey('test_name_key'), true],
+                    [$this->dropForeignKey('foreign_key_child_ibfk_1'), true]
                 ]
             ]
         );
