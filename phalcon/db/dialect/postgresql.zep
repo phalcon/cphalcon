@@ -303,24 +303,27 @@ class Postgresql extends Dialect
 	 */
 	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
 	{
-		var sql, onDelete, onUpdate;
+    		var sql, onDelete, onUpdate;
 
-		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName)
-				. " ADD CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-				. " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
+    		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
+    		if reference->getName() {
+    			let sql .= " CONSTRAINT \"" . reference->getName() . "\"";
+    		}
+    		let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+    				 . " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
-		let onDelete = reference->getOnDelete();
-		if !empty onDelete {
-			let sql .= " ON DELETE " . onDelete;
-		}
+    		let onDelete = reference->getOnDelete();
+    		if !empty onDelete {
+    			let sql .= " ON DELETE " . onDelete;
+    		}
 
-		let onUpdate = reference->getOnUpdate();
-		if !empty onUpdate {
-			let sql .= " ON UPDATE " . onUpdate;
-		}
+    		let onUpdate = reference->getOnUpdate();
+    		if !empty onUpdate {
+    			let sql .= " ON UPDATE " . onUpdate;
+    		}
 
-		return sql;
-	}
+    		return sql;
+    	}
 
 	/**
 	 * Generates SQL to delete a foreign key from a table
