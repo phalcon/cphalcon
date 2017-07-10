@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			}
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, getThis(), "handle", &_20, 397, realUri);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_annotations_ce, getThis(), "handle", &_20, 393, realUri);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

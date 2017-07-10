@@ -206,13 +206,13 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_STRING(&_0$$3, "a", 0);
 			ZEPHIR_SINIT_VAR(_1$$3);
 			ZVAL_STRING(&_1$$3, "z", 0);
-			ZEPHIR_CALL_FUNCTION(&_2$$3, "range", &_3, 461, &_0$$3, &_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "range", &_3, 457, &_0$$3, &_1$$3);
 			zephir_check_call_status();
 			ZEPHIR_SINIT_NVAR(_0$$3);
 			ZVAL_STRING(&_0$$3, "A", 0);
 			ZEPHIR_SINIT_NVAR(_1$$3);
 			ZVAL_STRING(&_1$$3, "Z", 0);
-			ZEPHIR_CALL_FUNCTION(&_4$$3, "range", &_3, 461, &_0$$3, &_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_4$$3, "range", &_3, 457, &_0$$3, &_1$$3);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(pool);
 			zephir_fast_array_merge(pool, &(_2$$3), &(_4$$3) TSRMLS_CC);
@@ -223,13 +223,13 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_LONG(&_5$$4, 0);
 			ZEPHIR_SINIT_VAR(_6$$4);
 			ZVAL_LONG(&_6$$4, 9);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "range", &_3, 461, &_5$$4, &_6$$4);
+			ZEPHIR_CALL_FUNCTION(&_7$$4, "range", &_3, 457, &_5$$4, &_6$$4);
 			zephir_check_call_status();
 			ZEPHIR_SINIT_NVAR(_5$$4);
 			ZVAL_STRING(&_5$$4, "a", 0);
 			ZEPHIR_SINIT_NVAR(_6$$4);
 			ZVAL_STRING(&_6$$4, "f", 0);
-			ZEPHIR_CALL_FUNCTION(&_8$$4, "range", &_3, 461, &_5$$4, &_6$$4);
+			ZEPHIR_CALL_FUNCTION(&_8$$4, "range", &_3, 457, &_5$$4, &_6$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(pool);
 			zephir_fast_array_merge(pool, &(_7$$4), &(_8$$4) TSRMLS_CC);
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_LONG(&_9$$5, 0);
 			ZEPHIR_SINIT_VAR(_10$$5);
 			ZVAL_LONG(&_10$$5, 9);
-			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 461, &_9$$5, &_10$$5);
+			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 457, &_9$$5, &_10$$5);
 			zephir_check_call_status();
 			break;
 		}
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Text, random) {
 			ZVAL_LONG(&_11$$6, 1);
 			ZEPHIR_SINIT_VAR(_12$$6);
 			ZVAL_LONG(&_12$$6, 9);
-			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 461, &_11$$6, &_12$$6);
+			ZEPHIR_CALL_FUNCTION(&pool, "range", &_3, 457, &_11$$6, &_12$$6);
 			zephir_check_call_status();
 			break;
 		}
@@ -264,21 +264,21 @@ PHP_METHOD(Phalcon_Text, random) {
 		ZVAL_LONG(&_14$$8, 0);
 		ZEPHIR_SINIT_VAR(_15$$8);
 		ZVAL_LONG(&_15$$8, 9);
-		ZEPHIR_CALL_FUNCTION(&_16$$8, "range", &_3, 461, &_14$$8, &_15$$8);
+		ZEPHIR_CALL_FUNCTION(&_16$$8, "range", &_3, 457, &_14$$8, &_15$$8);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_14$$8);
 		ZVAL_STRING(&_14$$8, "a", 0);
 		ZEPHIR_SINIT_NVAR(_15$$8);
 		ZVAL_STRING(&_15$$8, "z", 0);
-		ZEPHIR_CALL_FUNCTION(&_17$$8, "range", &_3, 461, &_14$$8, &_15$$8);
+		ZEPHIR_CALL_FUNCTION(&_17$$8, "range", &_3, 457, &_14$$8, &_15$$8);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_14$$8);
 		ZVAL_STRING(&_14$$8, "A", 0);
 		ZEPHIR_SINIT_NVAR(_15$$8);
 		ZVAL_STRING(&_15$$8, "Z", 0);
-		ZEPHIR_CALL_FUNCTION(&_18$$8, "range", &_3, 461, &_14$$8, &_15$$8);
+		ZEPHIR_CALL_FUNCTION(&_18$$8, "range", &_3, 457, &_14$$8, &_15$$8);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&pool, "array_merge", &_19, 462, _16$$8, _17$$8, _18$$8);
+		ZEPHIR_CALL_FUNCTION(&pool, "array_merge", &_19, 458, _16$$8, _17$$8, _18$$8);
 		zephir_check_call_status();
 		break;
 	} while(0);
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 		zephir_get_args(_3$$3 TSRMLS_CC);
 		ZEPHIR_SINIT_VAR(_4$$3);
 		ZVAL_LONG(&_4$$3, 3);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_slice", NULL, 410, _3$$3, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_slice", NULL, 406, _3$$3, &_4$$3);
 		zephir_check_call_status();
 		zephir_is_iterable(_5$$3, &_7$$3, &_6$$3, 0, 0, "phalcon/text.zep", 262);
 		for (
@@ -663,24 +663,24 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", &_1, 463, text, leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_0, "substr_count", &_1, 459, text, leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "substr_count", &_1, 463, text, rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&_2, "substr_count", &_1, 459, text, rightDelimiter);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_IDENTICAL(_0, _2)) {
 		ZEPHIR_INIT_VAR(_3$$3);
 		object_init_ex(_3$$3, spl_ce_RuntimeException);
 		ZEPHIR_INIT_VAR(_4$$3);
 		ZEPHIR_CONCAT_SVS(_4$$3, "Syntax error in string \"", text, "\"");
-		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 464, _4$$3);
+		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 460, _4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_3$$3, "phalcon/text.zep", 289 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_5, 465, leftDelimiter);
+	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_5, 461, leftDelimiter);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_5, 465, rightDelimiter);
+	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_5, 461, rightDelimiter);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(pattern);
 	ZEPHIR_CONCAT_SVSVVSVS(pattern, "/", ldS, "([^", ldS, rdS, "]+)", rdS, "/");
@@ -713,11 +713,11 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 			ZEPHIR_INIT_NVAR(words);
 			zephir_fast_explode(words, separator, _12$$6, LONG_MAX TSRMLS_CC);
 			ZEPHIR_OBS_NVAR(word);
-			ZEPHIR_CALL_FUNCTION(&_13$$6, "array_rand", &_14, 466, words);
+			ZEPHIR_CALL_FUNCTION(&_13$$6, "array_rand", &_14, 462, words);
 			zephir_check_call_status();
 			zephir_array_fetch(&word, words, _13$$6, PH_NOISY, "phalcon/text.zep", 308 TSRMLS_CC);
 			zephir_array_fetch_long(&_15$$6, match, 0, PH_NOISY | PH_READONLY, "phalcon/text.zep", 309 TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", &_5, 465, _15$$6, separator);
+			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", &_5, 461, _15$$6, separator);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_16$$6);
 			ZEPHIR_CONCAT_SVS(_16$$6, "/", sub, "/");

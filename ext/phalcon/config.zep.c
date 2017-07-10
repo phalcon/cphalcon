@@ -516,12 +516,12 @@ PHP_METHOD(Phalcon_Config, getPathDelimiter) {
  */
 PHP_METHOD(Phalcon_Config, _merge) {
 
-	zend_bool _4$$5, _5$$6;
+	zend_bool _5$$5, _6$$6;
 	HashTable *_2;
 	HashPosition _1;
-	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, *instance = NULL, *key = NULL, *value = NULL, *number = NULL, *localObject = NULL, *_0 = NULL, **_3;
+	zval *config, *instance = NULL, *key = NULL, *value = NULL, *number = NULL, *localObject = NULL, *property = NULL, *_0 = NULL, **_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &config, &instance);
@@ -540,33 +540,35 @@ PHP_METHOD(Phalcon_Config, _merge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 22, config);
 	zephir_check_call_status();
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 331);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "phalcon/config.zep", 332);
 	for (
 	  ; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zend_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
+		ZEPHIR_CALL_FUNCTION(&property, "strval", &_4, 18, key);
+		zephir_check_call_status();
 		ZEPHIR_OBS_NVAR(localObject);
-		if (zephir_fetch_property_zval(&localObject, instance, key, PH_SILENT_CC)) {
-			_4$$5 = Z_TYPE_P(localObject) == IS_OBJECT;
-			if (_4$$5) {
-				_4$$5 = Z_TYPE_P(value) == IS_OBJECT;
+		if (zephir_fetch_property_zval(&localObject, instance, property, PH_SILENT_CC)) {
+			_5$$5 = Z_TYPE_P(localObject) == IS_OBJECT;
+			if (_5$$5) {
+				_5$$5 = Z_TYPE_P(value) == IS_OBJECT;
 			}
-			if (_4$$5) {
-				_5$$6 = zephir_instance_of_ev(localObject, phalcon_config_ce TSRMLS_CC);
-				if (_5$$6) {
-					_5$$6 = zephir_instance_of_ev(value, phalcon_config_ce TSRMLS_CC);
+			if (_5$$5) {
+				_6$$6 = zephir_instance_of_ev(localObject, phalcon_config_ce TSRMLS_CC);
+				if (_6$$6) {
+					_6$$6 = zephir_instance_of_ev(value, phalcon_config_ce TSRMLS_CC);
 				}
-				if (_5$$6) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_6, 21, value, localObject);
+				if (_6$$6) {
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "_merge", &_7, 21, value, localObject);
 					zephir_check_call_status();
 					continue;
 				}
 			}
 		}
 		if (zephir_is_numeric(key)) {
-			ZEPHIR_CALL_FUNCTION(&key, "strval", &_7, 18, number);
+			ZEPHIR_CALL_FUNCTION(&key, "strval", &_4, 18, number);
 			zephir_check_call_status();
 			ZEPHIR_SEPARATE(number);
 			zephir_increment(number);

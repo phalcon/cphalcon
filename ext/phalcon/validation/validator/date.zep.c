@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 		ZEPHIR_INIT_NVAR(format);
 		ZVAL_STRING(format, "Y-m-d", 1);
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdate", NULL, 485, value, format);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdate", NULL, 481, value, format);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_2))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5$$5);
 		ZVAL_STRING(_5$$5, "Date", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$5, "__construct", NULL, 479, _4$$5, field, _5$$5);
+		ZEPHIR_CALL_METHOD(NULL, _3$$5, "__construct", NULL, 475, _4$$5, field, _5$$5);
 		zephir_check_temp_parameter(_5$$5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$5);

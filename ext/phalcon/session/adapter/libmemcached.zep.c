@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	}
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2592000);
-	ZEPHIR_CALL_FUNCTION(&_1, "min", NULL, 450, lifetime, _0);
+	ZEPHIR_CALL_FUNCTION(&_1, "min", NULL, 446, lifetime, _0);
 	zephir_check_call_status();
 	zephir_update_property_this(getThis(), SL("_lifetime"), _1 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(prefix);
@@ -191,9 +191,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 	ZEPHIR_INIT_NVAR(_7);
 	ZVAL_STRING(_7, "gc", 1);
 	zephir_array_fast_append(_12, _7);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 451, _6, _8, _9, _10, _11, _12);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 447, _6, _8, _9, _10, _11, _12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_libmemcached_ce, getThis(), "__construct", &_13, 452, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_libmemcached_ce, getThis(), "__construct", &_13, 448, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

@@ -163,9 +163,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Memcache, __construct) {
 	ZEPHIR_INIT_NVAR(_8);
 	ZVAL_STRING(_8, "gc", 1);
 	zephir_array_fast_append(_13, _8);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 451, _7, _9, _10, _11, _12, _13);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 447, _7, _9, _10, _11, _12, _13);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, getThis(), "__construct", &_14, 452, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_memcache_ce, getThis(), "__construct", &_14, 448, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
