@@ -25,6 +25,8 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+use Phalcon\Application\Exception;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Mysql
@@ -381,5 +383,20 @@ class Mysql extends PdoAdapter
 		}
 
 		return referenceObjects;
+	}
+
+	/**
+	 * Adds a foreign key to a table
+	 */
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	{
+		var foreignKeyCheck;
+
+		let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
+		if !foreignKeyCheck->execute() {
+			throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
+		}
+
+		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
 }

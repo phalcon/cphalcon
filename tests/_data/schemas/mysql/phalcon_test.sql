@@ -602,6 +602,27 @@ ALTER TABLE `stock`
 ALTER TABLE `stock`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
+--
+-- Table for testing foreign key
+--
+DROP TABLE IF EXISTS `foreign_key_parent`;
+CREATE TABLE `foreign_key_parent` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(32) NOT NULL,
+    `refer_int` INT(10) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY (`refer_int`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `foreign_key_child`;
+CREATE TABLE `foreign_key_child` (
+    `id` INT(10)   UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(32) NOT NULL,
+    `child_int` INT(10) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY (`child_int`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

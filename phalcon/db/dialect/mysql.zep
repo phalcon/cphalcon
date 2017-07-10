@@ -348,7 +348,11 @@ class Mysql extends Dialect
 	{
 		var sql, onDelete, onUpdate;
 
-		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD FOREIGN KEY `" . reference->getName() . "`(" . this->getColumnList(reference->getColumns()) . ") REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
+		if reference->getName() {
+			let sql .= " CONSTRAINT `" . $reference->getName() . "`";
+		}
+		let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
 		let onDelete = reference->getOnDelete();
 		if !empty onDelete {
@@ -718,5 +722,17 @@ class Mysql extends Dialect
 		}
 
 		return "";
+	}
+
+	/**
+	 * Generates SQL to check DB parameter FOREIGN_KEY_CHECKS.
+	 */
+	public function getForeignKeyChecks() -> string
+	{
+		var sql;
+
+		let sql = "SELECT @@foreign_key_checks";
+
+		return sql;
 	}
 }

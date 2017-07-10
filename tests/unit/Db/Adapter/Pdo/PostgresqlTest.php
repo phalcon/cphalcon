@@ -6,6 +6,8 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
+use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
+use Helper\Dialect\PostgresqlTrait;
 
 /**
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\PostgresqlTest
@@ -27,6 +29,8 @@ use Phalcon\Db\Adapter\Pdo\Postgresql;
  */
 class PostgresqlTest extends UnitTest
 {
+    use PostgresqlTrait;
+
     /**
      * @var Postgresql
      */
@@ -63,6 +67,8 @@ class PostgresqlTest extends UnitTest
             function () {
                 $expected = [
                     'customers',
+                    'foreign_key_child',
+                    'foreign_key_parent',
                     'images',
                     'parts',
                     'personas',
@@ -190,6 +196,82 @@ class PostgresqlTest extends UnitTest
                 expect($this->connection->describeColumns('images', null))->equals($columns);
                 expect($this->connection->describeColumns('images', TEST_DB_POSTGRESQL_SCHEMA))->equals($columns);
             }
+        );
+    }
+
+    /**
+     * Tests Postgresql::addForeignKey
+     *
+     * @test
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-05
+     */
+    public function shouldAddForeignKey()
+    {
+        $this->specify(
+            "Foreign key hasn't created",
+            function ($reference, $expected) {
+                $dialect = new DialectPostgresql();
+                $references = $this->getReferenceAddForeignKey();
+                $sql = $dialect->addForeignKey('foreign_key_child', 'public', $references[$reference]);
+
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    ['fk1', true],
+                    ['fk2', true]
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests Postgresql::is created
+     *
+     * @test
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-05
+     */
+    public function shouldCheckAddedForeignKey()
+    {
+        $this->specify(
+            "Foreign key isn't created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->getForeignKey('fk1'), 1],
+                    [$this->getForeignKey('foreign_key_child_child_int_fkey'), 1]
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests Postgresql::dropAddForeignKey
+     *
+     * @test
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-05
+     */
+    public function shouldDropForeignKey()
+    {
+        $this->specify(
+            "Foreign key can't be deleted",
+            function ($reference, $expected) {
+                $dialect = new DialectPostgresql();
+                $sql = $dialect->dropForeignKey('foreign_key_child', 'public', $reference);
+
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    ['fk1', true],
+                    ['foreign_key_child_child_int_fkey', true]
+                ]
+            ]
         );
     }
 }

@@ -19,9 +19,9 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "ext/date/php_date.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/string.h"
 #include "kernel/file.h"
 
 
@@ -297,26 +297,36 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
  * Returns the status code
  *
  *<code>
- * print_r(
- *     $response->getStatusCode()
- * );
+ * echo $response->getStatusCode();
  *</code>
  */
 PHP_METHOD(Phalcon_Http_Response, getStatusCode) {
 
-	zval *_0 = NULL, *_1;
+	zval *statusCode = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, _3, _4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getheaders", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "Status", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "get", NULL, 0, _1);
-	zephir_check_temp_parameter(_1);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "Status", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_1, _0, "get", NULL, 0, _2);
+	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_SINIT_VAR(_3);
+	ZVAL_LONG(&_3, 0);
+	ZEPHIR_SINIT_VAR(_4);
+	ZVAL_LONG(&_4, 3);
+	ZEPHIR_INIT_VAR(statusCode);
+	zephir_substr(statusCode, _1, 0 , 3 , 0);
+	ZEPHIR_INIT_NVAR(_2);
+	if (zephir_is_true(statusCode)) {
+		ZVAL_LONG(_2, zephir_get_intval(statusCode));
+	} else {
+		ZVAL_NULL(_2);
+	}
+	RETURN_CCTOR(_2);
 
 }
 

@@ -316,6 +316,27 @@ CREATE SEQUENCE tipo_documento_id_seq
     NO MAXVALUE
     CACHE 1;
 
+-- Table: foreign_key_parent
+CREATE TABLE foreign_key_parent (
+    id SERIAL,
+    name character varying(70) NOT NULL,
+    refer_int integer NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (refer_int)
+);
+
+ALTER TABLE public.foreign_key_parent OWNER TO postgres;
+
+-- Table: foreign_key_child
+CREATE TABLE foreign_key_child (
+    id SERIAL,
+    name character varying(70) NOT NULL,
+    child_int integer NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (child_int)
+);
+
+ALTER TABLE public.foreign_key_child OWNER TO postgres;
 
 ALTER TABLE public.tipo_documento_id_seq OWNER TO postgres;
 

@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate) {
 			ZEPHIR_CALL_METHOD(&data, validation, "getdata", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 413, callback, data);
+		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 409, callback, data);
 		zephir_check_call_status();
 		_1$$3 = Z_TYPE_P(returnedValue) == IS_OBJECT;
 		if (_1$$3) {
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(_4$$6);
 				ZVAL_STRING(_4$$6, "Callback", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(NULL, _2$$6, "__construct", NULL, 479, _3$$6, field, _4$$6, code);
+				ZEPHIR_CALL_METHOD(NULL, _2$$6, "__construct", NULL, 475, _3$$6, field, _4$$6, code);
 				zephir_check_temp_parameter(_4$$6);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2$$6);
