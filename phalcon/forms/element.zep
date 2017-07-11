@@ -60,6 +60,10 @@ abstract class Element implements ElementInterface
 	 */
 	public function __construct(string name, var attributes = null)
 	{
+		if empty name {
+			throw new \InvalidArgumentException('Form element name is required');
+		}
+		
 		let this->_name = name;
 		if typeof attributes == "array" {
 			let this->_attributes = attributes;
