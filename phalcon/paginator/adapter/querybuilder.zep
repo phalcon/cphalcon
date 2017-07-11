@@ -202,7 +202,7 @@ class QueryBuilder extends Adapter
 			}
 
 			if !hasHaving {
-			    totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
+			    totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS [rowcount]"]);
 			} else {
 			    totalBuilder->columns(["DISTINCT ".groupColumn]);
 			}
@@ -225,7 +225,7 @@ class QueryBuilder extends Adapter
 		if hasHaving {
 		    let sql = totalQuery->getSql();
 		    let db = totalBuilder->getDI()->get("db");
-		    let row = db->fetchOne("SELECT COUNT(*) as rowcount FROM (" .  sql["sql"] . ") as T1", Db::FETCH_ASSOC, sql["bind"]),
+		    let row = db->fetchOne("SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1", Db::FETCH_ASSOC, sql["bind"]),
 		        rowcount = row ? intval(row["rowcount"]) : 0,
 		        totalPages = intval(ceil(rowcount / limit));
 		} else {
