@@ -60,7 +60,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function __construct(string name, var attributes = null)
 	{
-		let name = trim(name)
+		let name = trim(name);
 		
 		if empty name {
 			throw new \InvalidArgumentException('Form element name is required');
