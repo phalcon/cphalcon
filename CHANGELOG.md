@@ -1,5 +1,6 @@
 # [3.2.2](https://github.com/phalcon/cphalcon/releases/tag/v3.2.2) (2017-XX-XX)
-- Fixed `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate` to use the db connection service of the model
+- Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns` to work properly with `DOUBLE PRECISION` and `REAL` data types [#12842](https://github.com/phalcon/cphalcon/issues/12842)
+- Fixed `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate` to use the db connection service of the model [#12957](https://github.com/phalcon/cphalcon/issues/12957)
 
 # [3.2.1](https://github.com/phalcon/cphalcon/releases/tag/v3.2.1) (2017-07-10)
 - Added `Phalcon\Db\Dialect\Mysql::getForeignKeyChecks` to generate a SQL to check the foreign key settings [#2604](https://github.com/phalcon/cphalcon/issues/2604), [phalcon/phalcon-devtools#556](https://github.com/phalcon/phalcon-devtools/issues/556)
@@ -503,7 +504,7 @@ belongs to the uniqueId or the whole session data
  - Updated Phalcon\Queue\Beanstalk\Job::touch comment
  - Fixed use columns as referenced columns in mysql createTable() reference...
  - [#2414](https://github.com/phalcon/cphalcon/issues/2414)  - Removed check for DBG in session/adapter
- - Updated Model::__set
+ - Updated `Model::__set`
  - [#1989](https://github.com/phalcon/cphalcon/issues/1989) Supported \Phalcon\Db\Index: TYPE
  - Updated Phalcon\Mvc\Model\Query\Builder::groupBy
  - Validation, setDefaultMessages fix
@@ -591,7 +592,7 @@ belongs to the uniqueId or the whole session data
  - Security fixes:
    - Hardening fixes ([#1044](https://github.com/phalcon/cphalcon/issues/1044))
    - Interface validation ([#1043](https://github.com/phalcon/cphalcon/issues/1043), [#1048](https://github.com/phalcon/cphalcon/issues/1048))
-   - Thorough data validation in __wakeup() ([#1043](https://github.com/phalcon/cphalcon/issues/1043), [#1634](https://github.com/phalcon/cphalcon/issues/1634), [#1635](https://github.com/phalcon/cphalcon/issues/1635))
+   - Thorough data validation in `__wakeup()` ([#1043](https://github.com/phalcon/cphalcon/issues/1043), [#1634](https://github.com/phalcon/cphalcon/issues/1634), [#1635](https://github.com/phalcon/cphalcon/issues/1635))
    - Fixed XSS vulnerabilities ([#1216](https://github.com/phalcon/cphalcon/issues/1216), [#1190](https://github.com/phalcon/cphalcon/issues/1190))
    - Phalcon\Security::checkHash() allows to restrict the length of the password to avoid attacks like https://www.djangoproject.com/weblog/2013/sep/15/security/ ([#1261](https://github.com/phalcon/cphalcon/issues/1261))
    - Fixed crash while rendering element's label ([#1210](https://github.com/phalcon/cphalcon/issues/1210))
@@ -862,10 +863,10 @@ belongs to the uniqueId or the whole session data
    - Add remove() to Phalcon\Session\BagInterface ([#1917](https://github.com/phalcon/cphalcon/issues/1917))
    - Phalcon\Session\Adapter::get() may optionally remove the data from session ([#1358](https://github.com/phalcon/cphalcon/issues/1358))
    - Phalcon\Session\Adapter optimizations ([#1624](https://github.com/phalcon/cphalcon/issues/1624))
-   - Phalcon\Session\Adapter::__destruct() now calls session_write_close() ([#1624](https://github.com/phalcon/cphalcon/issues/1624))
+   - `Phalcon\Session\Adapter::__destruct` now calls session_write_close() ([#1624](https://github.com/phalcon/cphalcon/issues/1624))
    - Phalcon\Session\AdapterInterface is compatible with SessionHandlerInterface ([#1108](https://github.com/phalcon/cphalcon/issues/1108))
    - Phalcon\Session\Adapter now implements Phalcon\Session\AdapterInterface ([#1852](https://github.com/phalcon/cphalcon/issues/1852))
-   - Phalcon\Session\Bag::__get() now returns by reference (unlike get()) ([#1895](https://github.com/phalcon/cphalcon/issues/1895))
+   - `Phalcon\Session\Bag::__get` now returns by reference (unlike get()) ([#1895](https://github.com/phalcon/cphalcon/issues/1895))
    - Phalcon\Session\Bag implements ArrayAccess, Countable, IteratorAggregate interfaces ([#1917](https://github.com/phalcon/cphalcon/issues/1917))
    - Phalcon\Session\Adapter implements ArrayAccess, Countable, IteratorAggregate interfaces ([#1917](https://github.com/phalcon/cphalcon/issues/1917))
    - Optimized Phalcon\Session\Adapter using object handlers ([#1917](https://github.com/phalcon/cphalcon/issues/1917))
@@ -908,8 +909,8 @@ belongs to the uniqueId or the whole session data
  - Phalcon\Security::checkHash() now correctly handles non-bcrypt hashes ([#1912](https://github.com/phalcon/cphalcon/issues/1912))
 
 # [1.2.5](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v1.2.5) (2014-01-13)
- - Http\Cookie::__toString() will not throw exceptions ([#1427](https://github.com/phalcon/cphalcon/issues/1427))
- - Phalcon\Http\Cookie::__toString() will return a string value ([#1428](https://github.com/phalcon/cphalcon/issues/1428))
+ - `Phalcon\Http\Cookie::__toString` will not throw exceptions ([#1427](https://github.com/phalcon/cphalcon/issues/1427))
+ - `Phalcon\Http\Cookie::__toString` will return a string value ([#1428](https://github.com/phalcon/cphalcon/issues/1428))
  - Camelize does not ignore the last character of a string anymore ([#1436](https://github.com/phalcon/cphalcon/issues/1436))
  - APC tests do not run under CLI when apc.enable_cli is 0 ([#1449](https://github.com/phalcon/cphalcon/issues/1449))
  - Phalcon\Debug::uri now supports both http and https ([#987](https://github.com/phalcon/cphalcon/issues/987))
@@ -928,7 +929,7 @@ belongs to the uniqueId or the whole session data
  - Bug fix: no arguments were passed to beforeMatch handler in Phalcon\Mvc\Router ([#1556](https://github.com/phalcon/cphalcon/issues/1556))
  - Phalcon\Logger\Adapter::setLogLevel() is honored by transactions ([#1716](https://github.com/phalcon/cphalcon/issues/1716))
  - Bug fixes in Phalcon\Db\Adapter\Pdo::describeColumns() ([#1562](https://github.com/phalcon/cphalcon/issues/1562))
- - Phalcon\Session\Adapter::__destruct() now calls session_write_close() ([#1624](https://github.com/phalcon/cphalcon/issues/1624))
+ - `Phalcon\Session\Adapter::__destruct` now calls session_write_close() ([#1624](https://github.com/phalcon/cphalcon/issues/1624))
  - Volt: fixed bug in email_filed() ([#1723](https://github.com/phalcon/cphalcon/issues/1723))
  - Fixed PHP Notices in Phalcon\Debug::onUncaughtException() ([#1683](https://github.com/phalcon/cphalcon/issues/1683))
  - Phalcon\Logger\Adapter::commit() clears the queue ([#1748](https://github.com/phalcon/cphalcon/issues/1748))
@@ -954,8 +955,8 @@ belongs to the uniqueId or the whole session data
  - Redirects use status descriptions from RFC 2616 ([#1175](https://github.com/phalcon/cphalcon/issues/1175))
  - \Phalcon\Config::merge now works with derived classes ([#1024](https://github.com/phalcon/cphalcon/issues/1024))
  - \Phalcon\Security::checkHash() allows to restrict the length of the password to avoid attacks like https://www.djangoproject.com/weblog/2013/sep/15/security/
- - \Phalcon\Config can now be cloned ([#1277](https://github.com/phalcon/cphalcon/issues/1277))
- - \Phalcon\Mvc\Query\Builder::__construct() ignores joins ([#1327](https://github.com/phalcon/cphalcon/issues/1327))
+ - `Phalcon\Config` can now be cloned ([#1277](https://github.com/phalcon/cphalcon/issues/1277))
+ - `Phalcon\Mvc\Query\Builder::__construct` ignores joins ([#1327](https://github.com/phalcon/cphalcon/issues/1327))
  - Bug with a custom Events Manager in Phalcon\Mvc\Models ([#1314](https://github.com/phalcon/cphalcon/issues/1314))
  - Micro Collections return Phalcon\Mvc\Micro\CollectionInterface ([#1130](https://github.com/phalcon/cphalcon/issues/1130))
  - \Phalcon\Forms\Form::getMessages() does not generate a fatal error if the form is valid ([#1349](https://github.com/phalcon/cphalcon/issues/1349))
@@ -964,7 +965,7 @@ belongs to the uniqueId or the whole session data
  - Fixed HAVING handling in Phalcon\Mvc\QueryBuilder ([#1396](https://github.com/phalcon/cphalcon/issues/1396))
  - Bug fixes in \Phalcon\Logger\{Adapter,Formatter}\FirePhp ([#1333](https://github.com/phalcon/cphalcon/issues/1333))
  - Bug fixes in Phalcon\Cache\Backend\Xcache ([#1406](https://github.com/phalcon/cphalcon/issues/1406))
- - Phalcon\Forms\Element::__toString() does not throw exceptions anymore ([#1413](https://github.com/phalcon/cphalcon/issues/1413))
+ - `Phalcon\Forms\Element::__toString` does not throw exceptions anymore ([#1413](https://github.com/phalcon/cphalcon/issues/1413))
  - Other bug fixes ([#947](https://github.com/phalcon/cphalcon/issues/947), [#1131](https://github.com/phalcon/cphalcon/issues/1131), [#1040](https://github.com/phalcon/cphalcon/issues/1040), [#1275](https://github.com/phalcon/cphalcon/issues/1275), [#1392](https://github.com/phalcon/cphalcon/issues/1392), [#1396](https://github.com/phalcon/cphalcon/issues/1396), [#1399](https://github.com/phalcon/cphalcon/issues/1399), backported patches from 1.3.0 etc)
 
 # [1.2.3](https://github.com/phalcon/cphalcon/releases/tag/phalcon-v1.2.3) (2013-08-16)
