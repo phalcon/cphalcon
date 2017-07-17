@@ -33,7 +33,8 @@
 - Added ability to sanitize special characters to `Phalcon\Filter`
 - Added a new `Phalcon\Mvc\Model\Binder::findBoundModel` method. Params fetched from cache are being added to `internalCache`  class property in `Phalcon\Mvc\Model\Binder::getParamsFromCache`
 - Added `Phalcon\Mvc\Model\Criteria::createBuilder` to create a query builder from criteria
-- Added `dispatcher::beforeForward` event to allow forwarding request to the separated module [#121](https://github.com/phalcon/cphalcon/issues/121), [#12417](https://github.com/phalcon/cphalcon/issues/12417)
+- Added `dispatcher::beforeForward` event to allow forwarding request to the separated module [#121](https://github.com/phalcon/cphalcon/issues/121), [#12417](https://github.com/phalcon/cphalcon/issues/12417), [#2496](https://github.com/phalcon/cphalcon/issues/2496), [#1658](https://github.com/phalcon/cphalcon/issues/1658)
+
 - Added `Phalcon\Security\Random:base62` to provide the largest value that can safely be used in URLs without needing to take extra characters into consideration [#12105](https://github.com/phalcon/cphalcon/issues/12105)
 - Added `Phalcon\Assets\ResourceInterface`. So now `Phalcon\Assets\Inline` and `Phalcon\Assets\Resource` implements `ResourceInterface`
 - Added `Phalcon\Assets\Collection::has` to checks whether the resource is added to the collection or not
