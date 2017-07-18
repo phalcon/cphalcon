@@ -75,6 +75,7 @@ env:
     - TEST_RS_HOST="127.0.0.1"
     - TEST_RS_PORT="6379"
     - TEST_RS_DB="0"
+    - TEST_CACHE_DIR="tests/_cache/"
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
     - BEANSTALKD_VERSION="1.10"
