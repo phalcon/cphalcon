@@ -689,22 +689,26 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
-		$expectedReferences = array(
-			'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(array(
-			'_referenceName' => 'robots_parts_ibfk_1',
-			'_referencedTable' => 'robots',
-			'_columns' => array('robots_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test'
-			)),
-			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(array(
-				'_referenceName' => 'robots_parts_ibfk_2',
-				'_referencedTable' => 'parts',
-				'_columns' => array('parts_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test',
-			)),
-		);
+		$expectedReferences = [
+            'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state([
+                '_referenceName' => 'robots_parts_ibfk_1',
+                '_referencedTable' => 'robots',
+                '_columns' => ['robots_id'],
+                '_referencedColumns' => ['id'],
+                '_referencedSchema' => 'phalcon_test',
+                '_onDelete' => 'NO ACTION',
+                '_onUpdate' => 'NO ACTION'
+			]),
+            'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state([
+                '_referenceName' => 'robots_parts_ibfk_2',
+                '_referencedTable' => 'parts',
+                '_columns' => ['parts_id'],
+                '_referencedColumns' => ['id'],
+                '_referencedSchema' => 'phalcon_test',
+                '_onDelete' => 'NO ACTION',
+                '_onUpdate' => 'NO ACTION'
+			]),
+		];
 
 		$describeReferences = $connection->describeReferences('robots_parts');
 		$this->assertEquals($describeReferences, $expectedReferences);

@@ -500,24 +500,7 @@ trait PostgresqlTrait
 
     protected function getForeignKey($foreignKeyName)
     {
-        $sql = "SELECT COUNT(tc.constraint_name)
-                FROM information_schema.table_constraints tc
-                  INNER JOIN information_schema.key_column_usage kcu
-                    ON tc.constraint_catalog = kcu.constraint_catalog
-                       AND tc.constraint_schema = kcu.constraint_schema
-                       AND tc.constraint_name = kcu.constraint_name
-                  INNER JOIN information_schema.referential_constraints rc
-                    ON tc.constraint_catalog = rc.constraint_catalog
-                       AND tc.constraint_schema = rc.constraint_schema
-                       AND tc.constraint_name = rc.constraint_name
-                       AND  tc.constraint_type = 'FOREIGN KEY'
-                  INNER JOIN information_schema.constraint_column_usage ccu
-                    ON rc.unique_constraint_catalog = ccu.constraint_catalog
-                       AND rc.unique_constraint_schema = ccu.constraint_schema
-                       AND rc.unique_constraint_name = ccu.constraint_name
-                WHERE tc.constraint_name = '$foreignKeyName'
-                      AND rc.update_rule = 'RESTRICT'
-                      AND rc.delete_rule = 'CASCADE'";
+        $sql = rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example6.sql'));
 
         return $sql;
     }
@@ -605,11 +588,11 @@ trait PostgresqlTrait
         return [
             [
                 null,
-                "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = 'public' AND tc.table_name='table'"
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example7.sql'))
             ],
             [
                 'schema',
-                "SELECT DISTINCT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = 'schema' AND tc.table_name='table'"
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example8.sql'))
             ]
         ];
     }
@@ -746,6 +729,15 @@ trait PostgresqlTrait
                 ],
                 rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example5.sql')),
             ],
+        ];
+    }
+
+    protected function getReferenceObject()
+    {
+        return [
+            [
+                ['test_describereferences' => require PATH_FIXTURES . 'metadata/test_describereference.php']
+            ]
         ];
     }
 }
