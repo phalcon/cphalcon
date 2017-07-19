@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
 
 	zval *dirtyState_param = NULL;
-	int dirtyState;
+	zend_long dirtyState;
 
 	zephir_fetch_params(0, 1, 0, &dirtyState_param);
 
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 	zval *offset_param = NULL;
-	int offset;
+	zend_long offset;
 
 	zephir_fetch_params(0, 1, 0, &offset_param);
 
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 	}
 
 
-	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+	zephir_update_property_zval_zval(getThis(), attribute, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -206,11 +206,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 21, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 22, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

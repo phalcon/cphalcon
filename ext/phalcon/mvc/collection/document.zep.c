@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 	}
 
 
-	zephir_update_property_zval_zval(this_ptr, index, value TSRMLS_CC);
+	zephir_update_property_zval_zval(getThis(), index, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 	}
 
 
-	zephir_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+	zephir_update_property_zval_zval(getThis(), attribute, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -214,11 +214,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 21, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 22, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

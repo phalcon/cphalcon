@@ -70,12 +70,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct) {
 	zephir_get_arrval(config, config_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_config"), config TSRMLS_CC);
 	if (zephir_array_isset_string_fetch(&limit, config, SS("limit"), 1 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_limitRows"), limit TSRMLS_CC);
 	}
 	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 1 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_page"), page TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 
 	double roundedTotal = 0;
 	zval *config = NULL, *items = NULL, *page = NULL, *_0, *_1, _2 = zval_used_for_init, *_3 = NULL, _4, *_5 = NULL, *_6;
-	int ZEPHIR_LAST_CALL_STATUS, show = 0, pageNumber = 0, totalPages = 0, number = 0, before = 0, next = 0;
+	zend_long ZEPHIR_LAST_CALL_STATUS, show = 0, pageNumber = 0, totalPages = 0, number = 0, before = 0, next = 0;
 
 	ZEPHIR_MM_GROW();
 
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	number = zephir_fast_count_int(items TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_LONG(&_2, show);
-	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 318, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 328, &_2);
 	zephir_check_call_status();
 	roundedTotal = zephir_safe_div_long_zval(number, _3 TSRMLS_CC);
 	totalPages = (int) (roundedTotal);
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate) {
 	ZVAL_LONG(&_2, (show * ((pageNumber - 1))));
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, show);
-	ZEPHIR_CALL_FUNCTION(&_5, "array_slice", NULL, 395, items, &_2, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_slice", NULL, 406, items, &_2, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(items, _5);
 	if (pageNumber < totalPages) {

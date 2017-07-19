@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -228,14 +228,14 @@ class Response implements ResponseInterface, InjectionAwareInterface
 	 * Returns the status code
 	 *
 	 *<code>
-	 * print_r(
-	 *     $response->getStatusCode()
-	 * );
+	 * echo $response->getStatusCode();
 	 *</code>
 	 */
-	public function getStatusCode() -> array
+	public function getStatusCode() -> int | null
 	{
-		return this->getHeaders()->get("Status");
+		var statusCode;
+		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
+		return statusCode ? (int) statusCode : null;
 	}
 
 	/**

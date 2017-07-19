@@ -61,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Postgresql) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 
 	zend_bool _3$$6;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zval *descriptor_param = NULL, *schema = NULL, *sql = NULL, *status = NULL, *_0$$3, *_2$$6, *_4$$6;
 	zval *descriptor = NULL, *_1$$3 = NULL;
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 			zephir_array_update_string(&descriptor, SL("password"), &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_postgresql_ce, this_ptr, "connect", &_5, 149, descriptor);
+	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_postgresql_ce, getThis(), "connect", &_5, 160, descriptor);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(schema))) {
 		ZEPHIR_INIT_VAR(sql);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 	HashTable *_5;
 	HashPosition _4;
 	zephir_fcall_cache_entry *_41 = NULL, *_45 = NULL, *_47 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *columns = NULL, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *columnName = NULL, *charSize = NULL, *numericSize = NULL, *numericScale = NULL, *_0 = NULL, *_1, *_2 = NULL, *_3, **_6, *_7$$4 = NULL, *_8$$4 = NULL, *_9$$5 = NULL, *_10$$5 = NULL, *_11$$6 = NULL, *_12$$6 = NULL, *_13$$7 = NULL, *_14$$8 = NULL, *_15$$8 = NULL, *_16$$9 = NULL, *_17$$10 = NULL, *_18$$10 = NULL, *_19$$11 = NULL, *_20$$12 = NULL, *_21$$12 = NULL, *_22$$13 = NULL, *_23$$14 = NULL, *_24$$14 = NULL, *_25$$15 = NULL, *_26$$15 = NULL, *_27$$15 = NULL, *_28$$16 = NULL, *_29$$17 = NULL, *_30$$18 = NULL, *_31$$18 = NULL, *_32$$19 = NULL, *_33$$3, *_34$$3, *_35$$3, *_36$$3 = NULL, *_46$$3 = NULL, *_37$$26, *_38$$26 = NULL, *_39$$26 = NULL, *_40$$26 = NULL, *_42$$26, _43$$26 = zval_used_for_init, *_44$$26 = NULL;
 	zval *table = NULL, *schema = NULL;
 
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 			ZVAL_STRING(_38$$26, "/^'|'?::[[:alnum:][:space:]]+$/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_NVAR(_39$$26);
 			ZVAL_STRING(_39$$26, "", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_FUNCTION(&_40$$26, "preg_replace", &_41, 39, _38$$26, _39$$26, _37$$26);
+			ZEPHIR_CALL_FUNCTION(&_40$$26, "preg_replace", &_41, 40, _38$$26, _39$$26, _37$$26);
 			zephir_check_temp_parameter(_38$$26);
 			zephir_check_temp_parameter(_39$$26);
 			zephir_check_call_status();
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 276 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_46$$3);
 		object_init_ex(_46$$3, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _46$$3, "__construct", &_47, 148, columnName, definition);
+		ZEPHIR_CALL_METHOD(NULL, _46$$3, "__construct", &_47, 159, columnName, definition);
 		zephir_check_call_status();
 		zephir_array_append(&columns, _46$$3, PH_SEPARATE, "phalcon/db/adapter/pdo/postgresql.zep", 277);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable) {
 	HashTable *_2$$6;
 	HashPosition _1$$6;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *definition = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *definition_param = NULL, *sql = NULL, *queries = NULL, *query = NULL, *exception = NULL, *columns = NULL, *_0, **_3$$6, *_4$$7 = NULL, *_6$$5, *_7$$10, *_8$$10;
 	zval *tableName = NULL, *schemaName = NULL;
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn) {
 	HashTable *_2$$4;
 	HashPosition _1$$4;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, *currentColumn = NULL, *sql = NULL, *queries = NULL, *query = NULL, *exception = NULL, *_0, **_3$$4, *_4$$5 = NULL, *_6$$3, *_7$$8 = NULL, *_8$$8, *_9$$8;
 	zval *tableName = NULL, *schemaName = NULL;
 
@@ -571,14 +571,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue) {
 
 	zval *_0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "DEFAULT", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 24, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 25, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();

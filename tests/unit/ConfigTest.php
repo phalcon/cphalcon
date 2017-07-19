@@ -16,7 +16,7 @@ use Phalcon\Test\Unit\Config\Helper\ConfigBase;
  * @package   Phalcon\Test\Unit
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -24,6 +24,30 @@ use Phalcon\Test\Unit\Config\Helper\ConfigBase;
  */
 class ConfigTest extends ConfigBase
 {
+    /**
+     * Tests path method
+     *
+     * @author michanismus
+     * @since  2017-03-29
+     */
+    public function testConfigPath()
+    {
+        $this->specify(
+            "Config path does not return expected value",
+            function () {
+                $config = new Config($this->config);
+                expect($config->path('test.parent.property2'))->equals('yeah');
+                expect($config->path('test.parent.property3', 'No'))->equals('No');
+                expect($config->path('test.parent'))->isInstanceOf('Phalcon\Config');
+                expect($config->path('unknown.path'))->equals(null);
+                Config::setPathDelimiter('/');
+                expect($config->path('test.parent.property2', false))->equals(false);
+                expect($config->path('test/parent/property2'))->equals('yeah');
+                expect($config->path('test/parent'))->isInstanceOf('Phalcon\Config');
+            }
+        );
+    }
+
     /**
      * Tests toArray method
      *
@@ -283,6 +307,47 @@ class ConfigTest extends ConfigBase
 
                 expect($config1)->equals($expected);
             }
+        );
+    }
+
+    /**
+     * Tests issue 12779
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-06-19
+     */
+    public function testIssue12779()
+    {
+        $config = new Config(
+            [
+                'a' => [
+                    [
+                        1,
+                    ],
+                ],
+            ]
+        );
+
+        $config->merge(
+            new Config(
+                [
+                    'a' => [
+                        [
+                            2,
+                        ],
+                    ],
+                ]
+            )
+        );
+        expect($config->toArray())->equals(
+            [
+                'a' => [
+                    [
+                        1,
+                        2,
+                    ],
+                ],
+            ]
         );
     }
 }

@@ -15,7 +15,7 @@ use Phalcon\Test\Module\UnitTest;
  * @package   Phalcon\Test\Unit\Security
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -106,16 +106,7 @@ class RandomTest extends UnitTest
     {
         $this->specify(
             "base58 does not generate a valid string",
-            function () {
-                $lens = [
-                    2,
-                    12,
-                    16,
-                    24,
-                    48,
-                    100
-                ];
-
+            function ($len) {
                 $random = new Random();
 
                 $isValid = function ($base58) {
@@ -131,17 +122,69 @@ class RandomTest extends UnitTest
                     return (preg_match('#^[^'.join('', $alphabet).']+$#i', $base58) === 0);
                 };
 
-                foreach ($lens as $len) {
-                    $actual = $random->base58($len);
+                $actual = $random->base58($len);
 
+                if ($len === null) {
+                    expect(strlen($actual))->equals(16);
+                } else {
                     expect(strlen($actual))->equals($len);
-                    expect($isValid($actual))->true();
                 }
 
-                $actual = $random->base58();
-                expect(strlen($actual))->equals(16);
                 expect($isValid($actual))->true();
-            }
+            },
+            [
+                'examples' => [
+                    [null],
+                    [2],
+                    [12],
+                    [16],
+                    [24],
+                    [48],
+                    [100],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests the random base62 generation
+     *
+     * @issue  12105
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-05-21
+     */
+    public function testRandomBase62()
+    {
+        $this->specify(
+            'base62 does not generate a valid string',
+            function ($len) {
+                $random = new Random();
+
+                $isValid = function ($base62) {
+                    return (preg_match("#^[^a-z0-9]+$#i", $base62) === 0);
+                };
+
+                $actual = $random->base62($len);
+
+                if ($len === null) {
+                    expect(strlen($actual))->equals(16);
+                } else {
+                    expect(strlen($actual))->equals($len);
+                }
+
+                expect($isValid($actual))->true();
+            },
+            [
+                'examples' => [
+                    [null],
+                    [2],
+                    [12],
+                    [16],
+                    [24],
+                    [48],
+                    [100],
+                ]
+            ]
         );
     }
 
@@ -155,40 +198,34 @@ class RandomTest extends UnitTest
     {
         $this->specify(
             "base64 does not generate a valid string",
-            function () {
-                $lens = [
-                    2,
-                    12,
-                    16,
-                    24,
-                    48,
-                    100
-                ];
-
+            function ($len) {
                 $random = new Random();
-
-                $checkSize = function ($base64, $len) {
-                    // Size formula: 4 *( $len / 3) and this need to be rounded up to a multiple of 4.
-                    $formula = (round(4*($len/3))%4 === 0) ? round(4*($len/3)) : round((4*($len/3)+4/2)/4)*4;
-
-                    return strlen($base64) == $formula;
-                };
 
                 $isValid = function ($base64) {
                     return (preg_match("#[^a-z0-9+_=/-]+#i", $base64) === 0);
                 };
 
-                foreach ($lens as $len) {
-                    $actual = $random->base64($len);
+                $actual = $random->base64($len);
 
-                    expect($checkSize($actual, $len))->true();
-                    expect($isValid($actual))->true();
+                if ($len === null) {
+                    expect($this->checkSize($actual, 16))->true();
+                } else {
+                    expect($this->checkSize($actual, $len))->true();
                 }
 
-                $actual = $random->base64();
-                expect($checkSize($actual, 16))->true();
                 expect($isValid($actual))->true();
-            }
+            },
+            [
+                'examples' => [
+                    [null],
+                    [2],
+                    [12],
+                    [16],
+                    [24],
+                    [48],
+                    [100],
+                ]
+            ]
         );
     }
 
@@ -202,34 +239,34 @@ class RandomTest extends UnitTest
     {
         $this->specify(
             "base64Safe does not generate a valid string",
-            function () {
-                $lens = [
-                    2,
-                    12,
-                    16,
-                    24,
-                    48,
-                    100
-                ];
-
+            function ($len, $padding, $pattern) {
                 $random = new Random();
 
-                $isValid = function ($base64, $padding = false) {
-                    $pattern = $padding ? "a-z0-9_=-" : "a-z0-9_-";
+                $isValid = function ($base64) use ($pattern) {
                     return (preg_match("#[^$pattern]+#i", $base64) === 0);
                 };
 
-                foreach ($lens as $len) {
-                    $actual = $random->base64Safe($len);
-                    expect($isValid($actual))->true();
-                }
-
-                $actual = $random->base64Safe();
+                $actual = $random->base64Safe($len, $padding);
                 expect($isValid($actual))->true();
-
-                $actual = $random->base64Safe(null, true);
-                expect($isValid($actual, true))->true();
-            }
+            },
+            [
+                'examples' => [
+                    [null, false, 'a-z0-9_-' ],
+                    [null, true,  'a-z0-9_=-'],
+                    [2,    false, 'a-z0-9_-' ],
+                    [2,    true,  'a-z0-9_=-'],
+                    [12,   false, 'a-z0-9_-' ],
+                    [12,   true,  'a-z0-9_=-'],
+                    [16,   false, 'a-z0-9_-' ],
+                    [16,   true,  'a-z0-9_=-'],
+                    [24,   false, 'a-z0-9_-' ],
+                    [24,   true,  'a-z0-9_=-'],
+                    [48,   false, 'a-z0-9_-' ],
+                    [48,   true,  'a-z0-9_=-'],
+                    [100,  false, 'a-z0-9_-' ],
+                    [100,  true,  'a-z0-9_=-'],
+                ]
+            ]
         );
     }
 
@@ -316,5 +353,24 @@ class RandomTest extends UnitTest
                 expect($isValid($actual))->true();
             }
         );
+    }
+
+    /**
+     * Size formula: 4 * ($n / 3) and this need to be rounded up to a multiple of 4.
+     *
+     * @param string $string
+     * @param int $n
+     *
+     * @return bool
+     */
+    protected function checkSize($string, $n)
+    {
+        if (round(4 * ($n / 3)) % 4 === 0) {
+            $len = round(4 * ($n / 3));
+        } else {
+            $len = round((4 * ($n / 3) + 4 / 2) / 4) * 4;
+        }
+
+        return strlen($string) == $len;
     }
 }

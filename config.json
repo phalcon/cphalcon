@@ -10,7 +10,7 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "3.1.2",
+    "version": "3.2.1",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
@@ -97,6 +97,14 @@
             "default": false
         },
         "orm.ignore_unknown_columns": {
+            "type": "bool",
+            "default": false
+        },
+        "orm.update_snapshot_on_save": {
+            "type": "bool",
+            "default": true
+        },
+        "orm.disable_assign_setters": {
             "type": "bool",
             "default": false
         }

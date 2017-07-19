@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_directory");
+	RETURN_MEMBER(getThis(), "_directory");
 
 }
 
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDefaultDomain) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_defaultDomain");
+	RETURN_MEMBER(getThis(), "_defaultDomain");
 
 }
 
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_locale");
+	RETURN_MEMBER(getThis(), "_locale");
 
 }
 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_category");
+	RETURN_MEMBER(getThis(), "_category");
 
 }
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *options_param = NULL;
 	zval *options = NULL;
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "This class requires the gettext extension for PHP", "phalcon/translate/adapter/gettext.zep", 72);
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_gettext_ce, this_ptr, "__construct", &_0, 452, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_gettext_ce, getThis(), "__construct", &_0, 463, options);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "prepareoptions", NULL, 0, options);
 	zephir_check_call_status();
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *placeholders = NULL, *translation = NULL;
 	zval *index = NULL;
 
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&translation, "gettext", NULL, 455, index);
+	ZEPHIR_CALL_FUNCTION(&translation, "gettext", NULL, 466, index);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
 	zephir_check_call_status();
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *result = NULL;
 	zval *index = NULL;
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery) {
 
-	int count, ZEPHIR_LAST_CALL_STATUS;
+	zend_long count, ZEPHIR_LAST_CALL_STATUS;
 	zval *msgid1_param = NULL, *msgid2_param = NULL, *count_param = NULL, *placeholders = NULL, *domain_param = NULL, *translation = NULL, _0$$3, _1$$4;
 	zval *msgid1 = NULL, *msgid2 = NULL, *domain = NULL;
 
@@ -268,12 +268,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery) {
 	if (!(!(!domain) && Z_STRLEN_P(domain))) {
 		ZEPHIR_SINIT_VAR(_0$$3);
 		ZVAL_LONG(&_0$$3, count);
-		ZEPHIR_CALL_FUNCTION(&translation, "ngettext", NULL, 456, msgid1, msgid2, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&translation, "ngettext", NULL, 467, msgid1, msgid2, &_0$$3);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_SINIT_VAR(_1$$4);
 		ZVAL_LONG(&_1$$4, count);
-		ZEPHIR_CALL_FUNCTION(&translation, "dngettext", NULL, 457, domain, msgid1, msgid2, &_1$$4);
+		ZEPHIR_CALL_FUNCTION(&translation, "dngettext", NULL, 468, domain, msgid1, msgid2, &_1$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *domain;
 
 	ZEPHIR_MM_GROW();
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("textdomain", NULL, 458, domain);
+	ZEPHIR_RETURN_CALL_FUNCTION("textdomain", NULL, 469, domain);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -307,13 +307,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain) {
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, resetDomain) {
 
 	zval *_0 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdefaultdomain", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("textdomain", NULL, 458, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("textdomain", NULL, 469, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_defaultDomain"), domain TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_defaultDomain"), domain TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
 
 	HashTable *_1$$4;
 	HashPosition _0$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *directory, *key = NULL, *value = NULL, **_2$$4, *_4$$6 = NULL;
 
@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
 	if (ZEPHIR_IS_EMPTY(directory)) {
 		RETURN_MM_NULL();
 	}
-	zephir_update_property_this(this_ptr, SL("_directory"), directory TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_directory"), directory TSRMLS_CC);
 	if (Z_TYPE_P(directory) == IS_ARRAY) {
 		zephir_is_iterable(directory, &_1$$4, &_0$$4, 0, 0, "phalcon/translate/adapter/gettext.zep", 180);
 		for (
@@ -390,13 +390,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$4, _0$$4);
 			ZEPHIR_GET_HVALUE(value, _2$$4);
-			ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 459, key, value);
+			ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 470, key, value);
 			zephir_check_call_status();
 		}
 	} else {
 		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "getdefaultdomain", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 459, _4$$6, directory);
+		ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 470, _4$$6, directory);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	zephir_fcall_cache_entry *_5 = NULL;
 	zval *locale = NULL;
 	zval *category_param = NULL, *locale_param = NULL, *_0, *_1, _2, *_3, *_4, *_6, *_7, *_8, *_9, *_10, _11;
-	int category, ZEPHIR_LAST_CALL_STATUS;
+	zend_long category, ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &category_param, &locale_param);
@@ -448,31 +448,31 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	ZVAL_STRING(&_2, "setlocale", 0);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(_0, &_2, _1);
 	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("_locale"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_locale"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_3);
 	ZVAL_LONG(_3, category);
-	zephir_update_property_this(this_ptr, SL("_category"), _3 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_category"), _3 TSRMLS_CC);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_locale"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_SV(_4, "LC_ALL=", _3);
-	ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 460, _4);
+	ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 471, _4);
 	zephir_check_call_status();
 	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_locale"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_7);
 	ZEPHIR_CONCAT_SV(_7, "LANG=", _6);
-	ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 460, _7);
+	ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 471, _7);
 	zephir_check_call_status();
 	_8 = zephir_fetch_nproperty_this(this_ptr, SL("_locale"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_9);
 	ZEPHIR_CONCAT_SV(_9, "LANGUAGE=", _8);
-	ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 460, _9);
+	ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 471, _9);
 	zephir_check_call_status();
 	_10 = zephir_fetch_nproperty_this(this_ptr, SL("_locale"), PH_NOISY_CC);
 	ZEPHIR_SINIT_VAR(_11);
 	ZVAL_LONG(&_11, 6);
-	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 442, &_11, _10);
+	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 453, &_11, _10);
 	zephir_check_call_status();
-	RETURN_MM_MEMBER(this_ptr, "_locale");
+	RETURN_MM_MEMBER(getThis(), "_locale");
 
 }
 
@@ -481,7 +481,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *options_param = NULL, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, *_6;
 	zval *options = NULL;
 

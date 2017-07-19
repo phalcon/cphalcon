@@ -16,7 +16,7 @@ use Phalcon\Test\Module\UnitTest;
  * @package   Phalcon\Test\Unit
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -40,6 +40,7 @@ class TextRandomTest extends UnitTest
                 expect(Text::RANDOM_HEXDEC)->equals(2);
                 expect(Text::RANDOM_NUMERIC)->equals(3);
                 expect(Text::RANDOM_NOZERO)->equals(4);
+                expect(Text::RANDOM_DISTINCT)->equals(5);
             }
         );
     }
@@ -151,6 +152,40 @@ class TextRandomTest extends UnitTest
                     expect(strlen($source))->equals($i);
                 }
             }
+        );
+    }
+
+    /**
+     * Tests the random function with distinct type
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-09
+     */
+    public function testRandomDistinct()
+    {
+        $this->specify(
+            "distinct random does not return correct results",
+            function ($i) {
+                $source  = Text::random(Text::RANDOM_DISTINCT, $i);
+                $pattern = '#^[^2345679ACDEFHJKLMNPRSTUVWXYZ]+$#';
+
+                expect(preg_match($pattern, $source))->equals(0);
+                expect(strlen($source))->equals($i);
+            },
+            [
+                'examples' => [
+                    [1],
+                    [10],
+                    [100],
+                    [200],
+                    [500],
+                    [1000],
+                    [2000],
+                    [3000],
+                    [4000],
+                    [5000],
+                ],
+            ]
         );
     }
 }

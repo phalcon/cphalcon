@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, getForeignKeyChecks);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
@@ -182,5 +183,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Mysql, describeReferences, arginfo_phalcon_db_dialect_mysql_describereferences, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, _getTableOptions, arginfo_phalcon_db_dialect_mysql__gettableoptions, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, getForeignKeyChecks, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

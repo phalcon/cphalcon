@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -28,7 +28,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  *
  * This adapter store sessions in Redis
  *
- *<code>
+ * <code>
  * use Phalcon\Session\Adapter\Redis;
  *
  * $session = new Redis(
@@ -49,7 +49,7 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  * $session->set("var", "some-value");
  *
  * echo $session->get("var");
- *</code>
+ * </code>
  */
 class Redis extends Adapter
 {
@@ -141,6 +141,8 @@ class Redis extends Adapter
 		} else {
 			let id = sessionId;
 		}
+
+		this->removeSessionData();
 
 		return this->_redis->exists(id) ? this->_redis->delete(id) : true;
 	}

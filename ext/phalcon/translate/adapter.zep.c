@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 
 PHP_METHOD(Phalcon_Translate_Adapter, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *options_param = NULL, *interpolator = NULL;
 	zval *options = NULL;
 
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, setInterpolator) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_interpolator"), interpolator TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_interpolator"), interpolator TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, setInterpolator) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, t) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL, *placeholders = NULL;
 	zval *translateKey = NULL;
 
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, t) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, _) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL, *placeholders = NULL;
 	zval *translateKey = NULL;
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL;
 	zval *translateKey = NULL;
 
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL, *_0;
 	zval *translateKey = NULL;
 
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter, replacePlaceholders) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translation_param = NULL, *placeholders = NULL, *_0;
 	zval *translation = NULL;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace  Phalcon\Test\integration;
+namespace  Phalcon\Test\Integration;
 
 use IntegrationTester;
 use Phalcon\Validation;
@@ -9,7 +9,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Message\Group;
 
 /**
- * \Phalcon\Test\Integration\ValidationCest
+ * Phalcon\Test\Integration\ValidationCest
  * Tests the \Phalcon\Validation component
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -19,7 +19,7 @@ use Phalcon\Validation\Message\Group;
  * @package   Phalcon\Test\Integration
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com

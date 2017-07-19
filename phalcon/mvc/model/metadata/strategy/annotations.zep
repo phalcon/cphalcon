@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -36,7 +36,8 @@ class Annotations implements StrategyInterface
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, columnName, feature;
 		var fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField,
-			notNull, attributes, automaticDefault, defaultValues, defaultValue, emptyStringValues;
+			notNull, attributes, defaultValues, defaultValue, emptyStringValues, skipOnInsert,
+			skipOnUpdate;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("The dependency injector is invalid");
@@ -70,8 +71,9 @@ class Annotations implements StrategyInterface
 			notNull = [],
 			fieldTypes = [],
 			fieldBindTypes = [],
-			automaticDefault = [],
 			identityField = false,
+			skipOnInsert = [],
+			skipOnUpdate = [],
 			defaultValues = [],
 			emptyStringValues = [];
 
@@ -104,14 +106,32 @@ class Annotations implements StrategyInterface
 			let feature = columnAnnotation->getNamedParameter("type");
 
 			switch feature {
+				case "biginteger":
+					let fieldTypes[columnName] = Column::TYPE_BIGINTEGER,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_INT,
+						numericTyped[columnName] = true;
+					break;
+
 				case "integer":
-					let fieldTypes[property] = Column::TYPE_INTEGER,
+					let fieldTypes[columnName] = Column::TYPE_INTEGER,
 						fieldBindTypes[columnName] = Column::BIND_PARAM_INT,
 						numericTyped[columnName] = true;
 					break;
 
 				case "decimal":
 					let fieldTypes[columnName] = Column::TYPE_DECIMAL,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_DECIMAL,
+						numericTyped[columnName] = true;
+					break;
+
+				case "float":
+					let fieldTypes[columnName] = Column::TYPE_FLOAT,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_DECIMAL,
+						numericTyped[columnName] = true;
+					break;
+
+				case "double":
+					let fieldTypes[columnName] = Column::TYPE_DOUBLE,
 						fieldBindTypes[columnName] = Column::BIND_PARAM_DECIMAL,
 						numericTyped[columnName] = true;
 					break;
@@ -131,9 +151,44 @@ class Annotations implements StrategyInterface
 						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
 					break;
 
+				case "timestamp":
+					let fieldTypes[columnName] = Column::TYPE_TIMESTAMP,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
 				case "text":
 					let fieldTypes[columnName] = Column::TYPE_TEXT,
 						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
+				case "char":
+					let fieldTypes[columnName] = Column::TYPE_CHAR,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
+				case "json":
+					let fieldTypes[columnName] = Column::TYPE_JSON,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
+				case "tinyblob":
+					let fieldTypes[columnName] = Column::TYPE_TINYBLOB,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_BLOB;
+					break;
+
+				case "blob":
+					let fieldTypes[columnName] = Column::TYPE_BLOB,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_BLOB;
+					break;
+
+				case "mediumblob":
+					let fieldTypes[columnName] = Column::TYPE_MEDIUMBLOB,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_BLOB;
+					break;
+
+				case "longblob":
+					let fieldTypes[columnName] = Column::TYPE_LONGBLOB,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_BLOB;
 					break;
 
 				default:
@@ -161,7 +216,28 @@ class Annotations implements StrategyInterface
 			}
 
 			/**
-			 * Check if the column
+			 * Column will be skipped on INSERT operation
+			 */
+			if columnAnnotation->getNamedParameter("skip_on_insert") {
+				let skipOnInsert[] = columnName;
+			}
+
+			/**
+			 * Column will be skipped on UPDATE operation
+			 */
+			if columnAnnotation->getNamedParameter("skip_on_update") {
+				let skipOnUpdate[] = columnName;
+			}
+
+			/**
+			 * Allow empty strings for column
+			 */
+			if columnAnnotation->getNamedParameter("allow_empty_string") {
+				let emptyStringValues[] = columnName;
+			}
+
+			/**
+			 * Check if the column is nullable
 			 */
 			if !columnAnnotation->getNamedParameter("nullable") {
 				let notNull[] = columnName;
@@ -190,8 +266,8 @@ class Annotations implements StrategyInterface
 			MetaData::MODELS_DATA_TYPES_NUMERIC       : numericTyped,
 			MetaData::MODELS_IDENTITY_COLUMN          : identityField,
 			MetaData::MODELS_DATA_TYPES_BIND          : fieldBindTypes,
-			MetaData::MODELS_AUTOMATIC_DEFAULT_INSERT : automaticDefault,
-			MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE : automaticDefault,
+			MetaData::MODELS_AUTOMATIC_DEFAULT_INSERT : skipOnInsert,
+			MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE : skipOnUpdate,
 			MetaData::MODELS_DEFAULT_VALUES           : defaultValues,
 			MetaData::MODELS_EMPTY_STRING_VALUES      : emptyStringValues
 		];
@@ -204,7 +280,7 @@ class Annotations implements StrategyInterface
 	{
 		var annotations, className, reflection, propertiesAnnotations;
 		var property, propAnnotations, columnAnnotation, columnName;
-		var orderedColumnMap, reversedColumnMap;
+		var orderedColumnMap, reversedColumnMap, hasReversedColumn;
 
 		if typeof dependencyInjector != "object" {
 			throw new Exception("The dependency injector is invalid");
@@ -225,7 +301,9 @@ class Annotations implements StrategyInterface
 			throw new Exception("No properties with annotations were found in class " . className);
 		}
 
-		let orderedColumnMap = null, reversedColumnMap = null;
+		let orderedColumnMap = [],
+			reversedColumnMap = [],
+			hasReversedColumn = false;
 
 		for property, propAnnotations in propertiesAnnotations {
 
@@ -246,14 +324,20 @@ class Annotations implements StrategyInterface
 			 */
 			let columnName = columnAnnotation->getNamedParameter("column");
 
-			if !empty columnName {
-				if typeof orderedColumnMap != "array" {
-					let orderedColumnMap = [], reversedColumnMap = [];
-				}
+            if empty columnName {
+                let columnName = property;
+            }
 
-				let orderedColumnMap[columnName] = property,
-					reversedColumnMap[property] = columnName;
+			let orderedColumnMap[columnName] = property,
+				reversedColumnMap[property] = columnName;
+
+			if !hasReversedColumn && columnName != property {
+				let hasReversedColumn = true;
 			}
+		}
+
+		if !hasReversedColumn {
+			return [null, null];
 		}
 
 		/**

@@ -41,7 +41,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 	HashTable *_1$$4;
 	HashPosition _0$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool mustClean;
 	zval *path_param = NULL, *params, *mustClean_param = NULL, *key = NULL, *value = NULL, **_2$$4, *_3$$5 = NULL, *_4$$6, *_5$$6 = NULL;
 	zval *path = NULL;
@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean == 1) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 387);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 398);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	}
 	if (mustClean == 1) {
 		_4$$6 = zephir_fetch_nproperty_this(this_ptr, SL("_view"), PH_NOISY_CC);
-		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 127);
+		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 139);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, _4$$6, "setcontent", NULL, 0, _5$$6);
 		zephir_check_call_status();

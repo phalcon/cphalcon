@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Helper\ModelTrait;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Robotters;
@@ -19,7 +20,7 @@ use Phalcon\Test\Models\Snapshot\Robotters;
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -313,6 +314,161 @@ class SnapshotTest extends UnitTest
                 $robots = Robots::findFirst();
                 $robots = new Robots($robots->toArray());
                 expect($robots->save())->true();
+            }
+        );
+    }
+
+    /**
+     * Tests get updated fields new instance exception
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testUpdatedFieldsNewException()
+    {
+        $this->specify(
+            'When getting updated fields from not persistent instance there should be exception',
+            function () {
+                $robots = new Robots(
+                    [
+                        'name'     => 'test',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+
+                $robots->getUpdatedFields();
+            },
+            [
+                'throws' => ['Phalcon\Mvc\Model\Exception', 'The record doesn\'t have a valid data snapshot'],
+            ]
+        );
+    }
+
+    /**
+     * Tests get updated fields deleted instance exception
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testUpdatedFieldsDeleteException()
+    {
+        $this->specify(
+            'When getting updated fields from deleted instance there should be exception',
+            function () {
+                $robots = new Robots(
+                    [
+                        'name' => 'test',
+                        'year' => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text' => 'asd',
+                    ]
+                );
+
+                $robots->create();
+                $robots->delete();
+
+                $robots->getUpdatedFields();
+            },
+            [
+                'throws' => [
+                    'Phalcon\Mvc\Model\Exception',
+                    'Change checking cannot be performed because the object has not been persisted or is deleted',
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Tests get updated fields
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testUpdatedFields()
+    {
+        $this->specify(
+            'Getting updated fields is not working correctly',
+            function () {
+                $robots = Robots::findFirst();
+                $robots->name = 'changedName';
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->true();
+                expect($robots->hasUpdated('name'))->false();
+                $robots->save();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->false();
+                expect($robots->hasUpdated('name'))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests get updated fields
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-28
+     */
+    public function testDisabledSnapshotUpdate()
+    {
+        $this->specify(
+            'Disabling snapshot update is not working',
+            function () {
+                $robots = Robots::findFirst();
+                Model::setup(
+                    [
+                        'updateSnapshotOnSave' => false,
+                    ]
+                );
+                $robots->name = 'changedName';
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->true();
+                $robots->save();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->true();
+                Model::setup(
+                    [
+                        'updateSnapshotOnSave' => true,
+                    ]
+                );
+                $robots->name = 'otherName';
+                $robots->save();
+                expect($robots->getSnapshotData())->notEmpty();
+                expect($robots->hasChanged('name'))->false();
+            }
+        );
+    }
+
+    /**
+     * When model is refreshed snapshot should be updated
+     *
+     * @issue  12669
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-15
+     */
+    public function testIssue12669()
+    {
+        $this->specify(
+            'hasChanged method for array argument is not working correctly',
+            function () {
+                $this->setUpModelsManager();
+                $robots = new Robots(
+                    [
+                        'name'     => 'test',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
+                );
+
+                expect($robots->create())->true();
+                $robots->name = 'test2';
+                expect($robots->hasChanged(['name', 'year']))->equals(true);
+                expect($robots->hasChanged(['text', 'year']))->equals(false);
+                expect($robots->hasChanged(['name', 'year'], true))->equals(false);
+                $robots->year = 2018;
+                expect($robots->hasChanged(['name', 'year'], true))->equals(true);
             }
         );
     }

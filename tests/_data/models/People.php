@@ -5,7 +5,7 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * \Phalcon\Test\Models\People
+ * Phalcon\Test\Models\People
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model;
  * @package   Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com

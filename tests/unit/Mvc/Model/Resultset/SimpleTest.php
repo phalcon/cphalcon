@@ -20,7 +20,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @package   Phalcon\Test\Unit\Mvc\Model\Resultset
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -195,98 +195,6 @@ class SimpleTest extends UnitTest
                 expect($robots->count())->equals(3);
 
                 $this->tester->deleteFile('test-resultset');
-            }
-        );
-    }
-
-    /**
-     * Work with Simple Resultset by load data from cache (Memcache adapter).
-     *
-     * @test
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2013-01-03
-     */
-    public function shouldLoadResultsetFromMemcache()
-    {
-        $this->specify(
-            'Unable to test Simple Resultset by using Memcache adapter',
-            function () {
-                $cache = $this->getMemcacheCache();
-                $this->setUpModelsCache($cache);
-
-                $key = 'test-resultset-'.mt_rand(0, 9999);
-
-                // Single
-                $people = People::findFirst([
-                    'cache' => [
-                        'key' => $key
-                    ]
-                ]);
-
-                expect($people)->isInstanceOf(People::class);
-
-                $people = $cache->get($key);
-                expect($people->getFirst())->isInstanceOf(People::class);
-
-                $people = $cache->get($key);
-                expect($people->getFirst())->isInstanceOf(People::class);
-
-                // Re-get from the cache
-                $people = People::findFirst([
-                    'cache' => [
-                        'key' => $key
-                    ]
-                ]);
-
-                expect($people)->isInstanceOf(People::class);
-
-                $key = 'test-resultset-'.mt_rand(0, 9999);
-
-                // Multiple
-                $people = People::find([
-                    'limit' => 35,
-                    'cache' => [
-                        'key' => $key
-                    ]
-                ]);
-
-                $number = 0;
-                foreach ($people as $individual) {
-                    expect($individual)->isInstanceOf(People::class);
-                    $number++;
-                }
-
-                expect($number)->equals(35);
-
-                $people = $cache->get($key);
-                expect($people)->isInstanceOf(Simple::class);
-
-                $number = 0;
-                foreach ($people as $individual) {
-                    expect($individual)->isInstanceOf(People::class);
-                    $number++;
-                }
-
-                expect($number)->equals(35);
-
-                $people = $cache->get($key);
-                expect($people)->isInstanceOf(Simple::class);
-
-                // Re-get the data from the cache
-                $people = People::find([
-                    'limit' => 35,
-                    'cache' => [
-                        'key' => $key
-                    ]
-                ]);
-
-                $number = 0;
-                foreach ($people as $individual) {
-                    expect($individual)->isInstanceOf(People::class);
-                    $number++;
-                }
-
-                expect($number)->equals(35);
             }
         );
     }

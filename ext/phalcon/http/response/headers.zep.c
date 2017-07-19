@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove) {
 	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	zephir_array_unset(&headers, header, PH_SEPARATE);
-	zephir_update_property_this(this_ptr, SL("_headers"), headers TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_headers"), headers TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -134,11 +134,11 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 	HashPosition _2$$3;
 	zval *header = NULL, *value = NULL, *_0 = NULL, *_1$$3, **_4$$3, *_5$$5 = NULL, _8$$6 = zval_used_for_init, _9$$6 = zval_used_for_init, *_10$$6 = NULL, *_11$$8 = NULL;
 	zephir_fcall_cache_entry *_6 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 27);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 28);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 			if (Z_TYPE_P(value) != IS_NULL) {
 				ZEPHIR_INIT_LNVAR(_5$$5);
 				ZEPHIR_CONCAT_VSV(_5$$5, header, ": ", value);
-				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 246, _5$$5, ZEPHIR_GLOBAL(global_true));
+				ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 257, _5$$5, ZEPHIR_GLOBAL(global_true));
 				zephir_check_call_status();
 			} else {
 				_7$$6 = zephir_memnstr_str(header, SL(":"), "phalcon/http/response/headers.zep", 87);
@@ -166,12 +166,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 					_7$$6 = ZEPHIR_IS_STRING(_10$$6, "HTTP/");
 				}
 				if (_7$$6) {
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 246, header, ZEPHIR_GLOBAL(global_true));
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 257, header, ZEPHIR_GLOBAL(global_true));
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_INIT_LNVAR(_11$$8);
 					ZEPHIR_CONCAT_VS(_11$$8, header, ": ");
-					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 246, _11$$8, ZEPHIR_GLOBAL(global_true));
+					ZEPHIR_CALL_FUNCTION(NULL, "header", &_6, 257, _11$$8, ZEPHIR_GLOBAL(global_true));
 					zephir_check_call_status();
 				}
 			}
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset) {
 
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
-	zephir_update_property_this(this_ptr, SL("_headers"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_headers"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, toArray) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_headers");
+	RETURN_MEMBER(getThis(), "_headers");
 
 }
 
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	HashTable *_1$$3;
 	HashPosition _0$$3;
 	zephir_fcall_cache_entry *_3 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *headers = NULL, *key = NULL, *value = NULL, *dataHeaders = NULL, **_2$$3;
 	zval *data = NULL;
 
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
 			ZEPHIR_GET_HVALUE(value, _2$$3);
-			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 247, key, value);
+			ZEPHIR_CALL_METHOD(NULL, headers, "set", &_3, 258, key, value);
 			zephir_check_call_status();
 		}
 	}
@@ -257,16 +257,27 @@ zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_clas
 		ZEPHIR_MM_GROW();
 	
 	{
-		zval *this_ptr = NULL;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zval zthis       = zval_used_for_init;
+		zval *this_ptr   = &zthis;
+		zend_object* obj = ecalloc(1, sizeof(zend_object));
+		zend_object_value retval;
+
+		zend_object_std_init(obj, class_type TSRMLS_CC);
+		object_properties_init(obj, class_type);
+		retval.handle   = zend_objects_store_put(obj, (zend_objects_store_dtor_t)zend_objects_destroy_object, zephir_free_object_storage, NULL TSRMLS_CC);
+		retval.handlers = zend_get_std_object_handlers();
+
+		Z_TYPE(zthis)   = IS_OBJECT;
+		Z_OBJVAL(zthis) = retval;
+
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 		if (Z_TYPE_P(_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(_1$$3);
 			array_init(_1$$3);
-			zephir_update_property_this(this_ptr, SL("_headers"), _1$$3 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_headers"), _1$$3 TSRMLS_CC);
 		}
 		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
+		return retval;
 	}
 
 }

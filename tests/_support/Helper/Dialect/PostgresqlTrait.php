@@ -16,7 +16,7 @@ use Phalcon\Db\Reference;
  * @package   Helper\Dialect
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -477,6 +477,68 @@ trait PostgresqlTrait
         return [
             [null,     'fk1', 'ALTER TABLE "table" DROP CONSTRAINT "fk1"'],
             ['schema', 'fk1', 'ALTER TABLE "schema"."table" DROP CONSTRAINT "fk1"'],
+        ];
+    }
+
+    protected function getReferenceAddForeignKey()
+    {
+        return [
+            'fk1' => new Reference('fk1', [
+                'referencedTable'   => 'foreign_key_parent',
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+                'onDelete'          => 'CASCADE',
+                'onUpdate'          => 'RESTRICT',
+            ]),
+            'fk2' => new Reference('', [
+                'referencedTable'   => 'foreign_key_parent',
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int']
+            ])
+        ];
+    }
+
+    protected function getForeignKey($foreignKeyName)
+    {
+        $sql = "SELECT COUNT(tc.constraint_name)
+                FROM information_schema.table_constraints tc
+                  INNER JOIN information_schema.key_column_usage kcu
+                    ON tc.constraint_catalog = kcu.constraint_catalog
+                       AND tc.constraint_schema = kcu.constraint_schema
+                       AND tc.constraint_name = kcu.constraint_name
+                  INNER JOIN information_schema.referential_constraints rc
+                    ON tc.constraint_catalog = rc.constraint_catalog
+                       AND tc.constraint_schema = rc.constraint_schema
+                       AND tc.constraint_name = rc.constraint_name
+                       AND  tc.constraint_type = 'FOREIGN KEY'
+                  INNER JOIN information_schema.constraint_column_usage ccu
+                    ON rc.unique_constraint_catalog = ccu.constraint_catalog
+                       AND rc.unique_constraint_schema = ccu.constraint_schema
+                       AND rc.unique_constraint_name = ccu.constraint_name
+                WHERE tc.constraint_name = '$foreignKeyName'
+                      AND rc.update_rule = 'RESTRICT'
+                      AND rc.delete_rule = 'CASCADE'";
+
+        return $sql;
+    }
+
+    protected function getReferenceDropForeignKey()
+    {
+        return [
+            'fk1' => new Reference('fk1', [
+                'referencedTable'   => 'foreign_key_parent',
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+                'onDelete'          => 'CASCADE',
+                'onUpdate'          => 'RESTRICT',
+            ]),
+            'fk2' => new Reference('', [
+                'referencedTable'   => 'foreign_key_parent',
+                'columns'           => ['child_int'],
+                'referencedColumns' => ['refer_int'],
+                'onDelete'          => 'CASCADE',
+                'onUpdate'          => 'RESTRICT',
+            ])
         ];
     }
 

@@ -111,6 +111,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager) {
 	 */
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_string(phalcon_mvc_model_manager_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_sources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_schemas"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -164,7 +166,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
 
@@ -175,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+	RETURN_MEMBER(getThis(), "_dependencyInjector");
 
 }
 
@@ -190,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_eventsManager"), eventsManager TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -202,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_eventsManager");
+	RETURN_MEMBER(getThis(), "_eventsManager");
 
 }
 
@@ -252,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *className = NULL, *eventsManager = NULL, *_0, *_1, *_2$$5;
 
 	ZEPHIR_MM_GROW();
@@ -271,7 +273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 		ZEPHIR_CALL_METHOD(NULL, model, "initialize", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_this(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_lastInitialized"), model TSRMLS_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _1);
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
@@ -322,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_lastInitialized");
+	RETURN_MEMBER(getThis(), "_lastInitialized");
 
 }
 
@@ -332,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized) {
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 
 	zend_class_entry *_9;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool newInstance;
 	zval *modelName_param = NULL, *newInstance_param = NULL, *model = NULL, *colonPos = NULL, *namespaceName = NULL, *namespaceAlias = NULL, *className = NULL, _0, *_8 = NULL, *_10, *_11, _1$$3, _2$$3, *_3$$3, *_4$$4, *_6$$5, *_7$$5;
 	zval *modelName = NULL, *_5$$4;
@@ -383,7 +385,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 		ZEPHIR_CONCAT_SVS(_5$$4, "Model '", modelName, "' could not be loaded");
 		ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", NULL, 9, _5$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_4$$4, "phalcon/mvc/model/manager.zep", 296 TSRMLS_CC);
+		zephir_throw_exception_debug(_4$$4, "phalcon/mvc/model/manager.zep", 298 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -409,6 +411,73 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 		zephir_check_call_status();
 	}
 	RETURN_MM();
+
+}
+
+/**
+ * Sets the prefix for all model sources.
+ *
+ * <code>
+ * use Phalcon\Mvc\Model\Manager;
+ *
+ * $di->set("modelsManager", function () {
+ *     $modelsManager = new Manager();
+ *     $modelsManager->setModelPrefix("wp_");
+ *
+ *     return $modelsManager;
+ * });
+ *
+ * $robots = new Robots();
+ * echo $robots->getSource(); // wp_robots
+ * </code>
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelPrefix) {
+
+	zval *prefix_param = NULL;
+	zval *prefix = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &prefix_param);
+
+	if (UNEXPECTED(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(prefix_param) == IS_STRING)) {
+		zephir_get_strval(prefix, prefix_param);
+	} else {
+		ZEPHIR_INIT_VAR(prefix);
+		ZVAL_EMPTY_STRING(prefix);
+	}
+
+
+	zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns the prefix for all model sources.
+ *
+ * <code>
+ * use Phalcon\Mvc\Model\Manager;
+ *
+ * $di->set("modelsManager", function () {
+ *     $modelsManager = new Manager();
+ *     $modelsManager->setModelPrefix("wp_");
+ *
+ *     return $modelsManager;
+ * });
+ *
+ * $robots = new Robots();
+ * echo $robots->getSource(); // wp_robots
+ * </code>
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelPrefix) {
+
+	
+
+	RETURN_MEMBER(getThis(), "_prefix");
 
 }
 
@@ -454,7 +523,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property = NULL;
 	zval *model, *property_param = NULL, *properties = NULL, *className = NULL, *_0, *_2, *_1$$3 = NULL;
 
@@ -468,13 +537,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty) {
 	zephir_get_class(className, model, 0 TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelVisibility"), PH_NOISY_CC);
 	if (!(zephir_array_isset(_0, className))) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "get_object_vars", NULL, 21, model);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "get_object_vars", NULL, 22, model);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("_modelVisibility"), className, _1$$3 TSRMLS_CC);
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_modelVisibility"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(properties);
-	zephir_array_fetch(&properties, _2, className, PH_NOISY, "phalcon/mvc/model/manager.zep", 343 TSRMLS_CC);
+	zephir_array_fetch(&properties, _2, className, PH_NOISY, "phalcon/mvc/model/manager.zep", 389 TSRMLS_CC);
 	RETURN_MM_BOOL(zephir_array_key_exists(properties, property TSRMLS_CC));
 
 }
@@ -484,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 
-	zval *model, *entityName = NULL, *_0, *_3, *_4, *_1$$3, *_2$$3;
+	zval *model, *entityName = NULL, *_0, *_3, *_4, *_5, *_1$$3, *_2$$3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -501,9 +570,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 		zephir_uncamelize(_1$$3, _2$$3, NULL  );
 		zephir_update_property_array(this_ptr, SL("_sources"), entityName, _1$$3 TSRMLS_CC);
 	}
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_sources"), PH_NOISY_CC);
-	zephir_array_fetch(&_4, _3, entityName, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 361 TSRMLS_CC);
-	RETURN_CTOR(_4);
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_sources"), PH_NOISY_CC);
+	zephir_array_fetch(&_5, _4, entityName, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 407 TSRMLS_CC);
+	ZEPHIR_CONCAT_VV(return_value, _3, _5);
+	RETURN_MM();
 
 }
 
@@ -564,7 +635,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connectionService = NULL;
 	zval *model, *connectionService_param = NULL;
 
@@ -656,7 +727,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -676,7 +747,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -696,7 +767,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, _getConnection) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *connectionServices, *dependencyInjector = NULL, *service = NULL, *connection = NULL, *_0, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -709,14 +780,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getConnection) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/model/manager.zep", 438);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM", "phalcon/mvc/model/manager.zep", 484);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, dependencyInjector, "getshared", NULL, 0, service);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(connection, _1);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service", "phalcon/mvc/model/manager.zep", 447);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service", "phalcon/mvc/model/manager.zep", 493);
 		return;
 	}
 	RETURN_CCTOR(connection);
@@ -728,7 +799,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -748,7 +819,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *_0;
 
 	ZEPHIR_MM_GROW();
@@ -793,7 +864,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 
 	HashTable *_3$$3;
 	HashPosition _2$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, *model, *status = NULL, *behavior = NULL, *modelsBehaviors = NULL, *eventsManager = NULL, *customEventsManager = NULL, *_0, *_1, *_6, *_7, **_4$$3;
 	zval *eventName = NULL, *_5$$6, *_8$$8;
 
@@ -819,7 +890,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 	ZEPHIR_INIT_VAR(_1);
 	zephir_get_class(_1, model, 1 TSRMLS_CC);
 	if (zephir_array_isset_fetch(&modelsBehaviors, _0, _1, 0 TSRMLS_CC)) {
-		zephir_is_iterable(modelsBehaviors, &_3$$3, &_2$$3, 0, 0, "phalcon/mvc/model/manager.zep", 508);
+		zephir_is_iterable(modelsBehaviors, &_3$$3, &_2$$3, 0, 0, "phalcon/mvc/model/manager.zep", 554);
 		for (
 		  ; zend_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
 		  ; zend_hash_move_forward_ex(_3$$3, &_2$$3)
@@ -869,7 +940,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 
 	HashTable *_3$$3;
 	HashPosition _2$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName = NULL, *_5$$6;
 	zval *model, *eventName_param = NULL, *data, *modelsBehaviors = NULL, *result = NULL, *eventsManager = NULL, *behavior = NULL, *_0, *_1, **_4$$3;
 
@@ -893,7 +964,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 	ZEPHIR_INIT_VAR(_1);
 	zephir_get_class(_1, model, 1 TSRMLS_CC);
 	if (zephir_array_isset_fetch(&modelsBehaviors, _0, _1, 0 TSRMLS_CC)) {
-		zephir_is_iterable(modelsBehaviors, &_3$$3, &_2$$3, 0, 0, "phalcon/mvc/model/manager.zep", 557);
+		zephir_is_iterable(modelsBehaviors, &_3$$3, &_2$$3, 0, 0, "phalcon/mvc/model/manager.zep", 603);
 		for (
 		  ; zend_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
 		  ; zend_hash_move_forward_ex(_3$$3, &_2$$3)
@@ -939,7 +1010,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior) {
 		ZEPHIR_INIT_NVAR(modelsBehaviors);
 		array_init(modelsBehaviors);
 	}
-	zephir_array_append(&modelsBehaviors, behavior, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 589);
+	zephir_array_append(&modelsBehaviors, behavior, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 635);
 	zephir_update_property_array(this_ptr, SL("_behaviors"), entityName, modelsBehaviors TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
@@ -1054,7 +1125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *referencedModel = NULL;
 	zval *model, *fields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName = NULL, *referencedEntity = NULL, *relation = NULL, *keyRelation = NULL, *relations = NULL, *alias = NULL, *lowerAlias = NULL, *singleRelations = NULL, *_0, *_1, *_2, *_3;
 
@@ -1090,7 +1161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	}
 	if (Z_TYPE_P(referencedFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 676);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 722);
 			return;
 		}
 	}
@@ -1098,12 +1169,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	object_init_ex(relation, phalcon_mvc_model_relation_ce);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, 1);
-	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 328, _1, referencedModel, fields, referencedFields, options);
+	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 339, _1, referencedModel, fields, referencedFields, options);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(alias);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(alias) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 696);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 742);
 			return;
 		}
 		ZEPHIR_INIT_VAR(lowerAlias);
@@ -1111,7 +1182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
-	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 708);
+	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 754);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_VSV(_2, entityName, "$", lowerAlias);
 	zephir_update_property_array(this_ptr, SL("_aliases"), _2, relation TSRMLS_CC);
@@ -1122,7 +1193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 		ZEPHIR_INIT_NVAR(singleRelations);
 		array_init(singleRelations);
 	}
-	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 722);
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 768);
 	zephir_update_property_array(this_ptr, SL("_hasOneSingle"), entityName, singleRelations TSRMLS_CC);
 	RETURN_CCTOR(relation);
 
@@ -1140,7 +1211,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *referencedModel = NULL;
 	zval *model, *fields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName = NULL, *referencedEntity = NULL, *relation = NULL, *keyRelation = NULL, *relations = NULL, *alias = NULL, *lowerAlias = NULL, *singleRelations = NULL, *_0, *_1, *_2, *_3;
 
@@ -1176,7 +1247,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	}
 	if (Z_TYPE_P(referencedFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 761);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 807);
 			return;
 		}
 	}
@@ -1184,12 +1255,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	object_init_ex(relation, phalcon_mvc_model_relation_ce);
 	ZEPHIR_INIT_VAR(_1);
 	ZVAL_LONG(_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 328, _1, referencedModel, fields, referencedFields, options);
+	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 339, _1, referencedModel, fields, referencedFields, options);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(alias);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(alias) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 781);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 827);
 			return;
 		}
 		ZEPHIR_INIT_VAR(lowerAlias);
@@ -1197,7 +1268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
-	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 793);
+	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 839);
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_VSV(_2, entityName, "$", lowerAlias);
 	zephir_update_property_array(this_ptr, SL("_aliases"), _2, relation TSRMLS_CC);
@@ -1208,7 +1279,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 		ZEPHIR_INIT_NVAR(singleRelations);
 		array_init(singleRelations);
 	}
-	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 807);
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 853);
 	zephir_update_property_array(this_ptr, SL("_belongsToSingle"), entityName, singleRelations TSRMLS_CC);
 	RETURN_CCTOR(relation);
 
@@ -1225,7 +1296,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *referencedModel = NULL;
 	zval *model, *fields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName = NULL, *referencedEntity = NULL, *hasMany = NULL, *relation = NULL, *keyRelation = NULL, *relations = NULL, *alias = NULL, *lowerAlias = NULL, *singleRelations = NULL, *_0, *_1, *_2;
 
@@ -1262,7 +1333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	}
 	if (Z_TYPE_P(referencedFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(referencedFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 846);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 892);
 			return;
 		}
 	}
@@ -1270,12 +1341,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	object_init_ex(relation, phalcon_mvc_model_relation_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 2);
-	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 328, _0, referencedModel, fields, referencedFields, options);
+	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 339, _0, referencedModel, fields, referencedFields, options);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(alias);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(alias) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 866);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 912);
 			return;
 		}
 		ZEPHIR_INIT_VAR(lowerAlias);
@@ -1283,7 +1354,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
-	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 878);
+	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 924);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VSV(_1, entityName, "$", lowerAlias);
 	zephir_update_property_array(this_ptr, SL("_aliases"), _1, relation TSRMLS_CC);
@@ -1294,7 +1365,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 		ZEPHIR_INIT_NVAR(singleRelations);
 		array_init(singleRelations);
 	}
-	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 892);
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 938);
 	zephir_update_property_array(this_ptr, SL("_hasManySingle"), entityName, singleRelations TSRMLS_CC);
 	RETURN_CCTOR(relation);
 
@@ -1315,7 +1386,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *intermediateModel = NULL, *referencedModel = NULL;
 	zval *model, *fields, *intermediateModel_param = NULL, *intermediateFields, *intermediateReferencedFields, *referencedModel_param = NULL, *referencedFields, *options = NULL, *entityName = NULL, *referencedEntity = NULL, *hasManyToMany = NULL, *relation = NULL, *keyRelation = NULL, *relations = NULL, *alias = NULL, *lowerAlias = NULL, *singleRelations = NULL, *intermediateEntity = NULL, *_0, *_1, *_2;
 
@@ -1364,13 +1435,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	}
 	if (Z_TYPE_P(intermediateFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 936);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 982);
 			return;
 		}
 	}
 	if (Z_TYPE_P(intermediateReferencedFields) == IS_ARRAY) {
 		if (zephir_fast_count_int(fields TSRMLS_CC) != zephir_fast_count_int(intermediateFields TSRMLS_CC)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 945);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same", "phalcon/mvc/model/manager.zep", 991);
 			return;
 		}
 	}
@@ -1378,14 +1449,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	object_init_ex(relation, phalcon_mvc_model_relation_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 4);
-	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 328, _0, referencedModel, fields, referencedFields, options);
+	ZEPHIR_CALL_METHOD(NULL, relation, "__construct", NULL, 339, _0, referencedModel, fields, referencedFields, options);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, relation, "setintermediaterelation", NULL, 329, intermediateFields, intermediateModel, intermediateReferencedFields);
+	ZEPHIR_CALL_METHOD(NULL, relation, "setintermediaterelation", NULL, 340, intermediateFields, intermediateModel, intermediateReferencedFields);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(alias);
 	if (zephir_array_isset_string_fetch(&alias, options, SS("alias"), 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(alias) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 970);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Relation alias must be a string", "phalcon/mvc/model/manager.zep", 1016);
 			return;
 		}
 		ZEPHIR_INIT_VAR(lowerAlias);
@@ -1393,7 +1464,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	} else {
 		ZEPHIR_CPY_WRT(lowerAlias, referencedEntity);
 	}
-	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 980);
+	zephir_array_append(&relations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1026);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VSV(_1, entityName, "$", lowerAlias);
 	zephir_update_property_array(this_ptr, SL("_aliases"), _1, relation TSRMLS_CC);
@@ -1404,7 +1475,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 		ZEPHIR_INIT_NVAR(singleRelations);
 		array_init(singleRelations);
 	}
-	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1002);
+	zephir_array_append(&singleRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1048);
 	zephir_update_property_array(this_ptr, SL("_hasManyToManySingle"), entityName, singleRelations TSRMLS_CC);
 	RETURN_CCTOR(relation);
 
@@ -1415,7 +1486,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelName_param = NULL, *modelRelation_param = NULL, *entityName = NULL, *keyRelation = NULL, *_0, *_1, *_2;
 	zval *modelName = NULL, *modelRelation = NULL;
 
@@ -1465,7 +1536,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelName_param = NULL, *modelRelation_param = NULL, *entityName = NULL, *keyRelation = NULL, *_0, *_1, *_2;
 	zval *modelName = NULL, *modelRelation = NULL;
 
@@ -1515,7 +1586,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelName_param = NULL, *modelRelation_param = NULL, *entityName = NULL, *keyRelation = NULL, *_0, *_1, *_2;
 	zval *modelName = NULL, *modelRelation = NULL;
 
@@ -1565,7 +1636,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelName_param = NULL, *modelRelation_param = NULL, *entityName = NULL, *keyRelation = NULL, *_0, *_1, *_2;
 	zval *modelName = NULL, *modelRelation = NULL;
 
@@ -1684,7 +1755,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 	ZEPHIR_INIT_VAR(findParams);
 	array_init(findParams);
 	if (Z_TYPE_P(findParamsOne) == IS_ARRAY) {
-		zephir_is_iterable(findParamsOne, &_3$$4, &_2$$4, 0, 0, "phalcon/mvc/model/manager.zep", 1149);
+		zephir_is_iterable(findParamsOne, &_3$$4, &_2$$4, 0, 0, "phalcon/mvc/model/manager.zep", 1195);
 		for (
 		  ; zend_hash_get_current_data_ex(_3$$4, (void**) &_4$$4, &_2$$4) == SUCCESS
 		  ; zend_hash_move_forward_ex(_3$$4, &_2$$4)
@@ -1699,7 +1770,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 				if (!(zephir_array_isset_long(findParams, 0))) {
 					zephir_array_update_long(&findParams, 0, &value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				} else {
-					zephir_array_fetch_long(&_6$$8, findParams, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1142 TSRMLS_CC);
+					zephir_array_fetch_long(&_6$$8, findParams, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1188 TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_7$$8);
 					ZEPHIR_CONCAT_SVSVS(_7$$8, "(", _6$$8, ") AND (", value, ")");
 					zephir_array_update_long(&findParams, 0, &_7$$8, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
@@ -1716,7 +1787,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 		}
 	}
 	if (Z_TYPE_P(findParamsTwo) == IS_ARRAY) {
-		zephir_is_iterable(findParamsTwo, &_9$$11, &_8$$11, 0, 0, "phalcon/mvc/model/manager.zep", 1183);
+		zephir_is_iterable(findParamsTwo, &_9$$11, &_8$$11, 0, 0, "phalcon/mvc/model/manager.zep", 1229);
 		for (
 		  ; zend_hash_get_current_data_ex(_9$$11, (void**) &_10$$11, &_8$$11) == SUCCESS
 		  ; zend_hash_move_forward_ex(_9$$11, &_8$$11)
@@ -1731,7 +1802,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 				if (!(zephir_array_isset_long(findParams, 0))) {
 					zephir_array_update_long(&findParams, 0, &value, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 				} else {
-					zephir_array_fetch_long(&_12$$15, findParams, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1163 TSRMLS_CC);
+					zephir_array_fetch_long(&_12$$15, findParams, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1209 TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_13$$15);
 					ZEPHIR_CONCAT_SVSVS(_13$$15, "(", _12$$15, ") AND (", value, ")");
 					zephir_array_update_long(&findParams, 0, &_13$$15, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
@@ -1750,7 +1821,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 				} else {
 					if (Z_TYPE_P(value) == IS_ARRAY) {
 						ZEPHIR_INIT_NVAR(_15$$20);
-						zephir_array_fetch(&_16$$20, findParams, key, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1175 TSRMLS_CC);
+						zephir_array_fetch(&_16$$20, findParams, key, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1221 TSRMLS_CC);
 						zephir_fast_array_merge(_15$$20, &(_16$$20), &(value) TSRMLS_CC);
 						zephir_array_update_zval(&findParams, key, &_15$$20, PH_COPY | PH_SEPARATE);
 					}
@@ -1764,7 +1835,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 			if (!(zephir_array_isset_long(findParams, 0))) {
 				zephir_array_update_long(&findParams, 0, &findParamsTwo, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 			} else {
-				zephir_array_fetch_long(&_17$$24, findParams, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1188 TSRMLS_CC);
+				zephir_array_fetch_long(&_17$$24, findParams, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1234 TSRMLS_CC);
 				ZEPHIR_INIT_VAR(_18$$24);
 				ZEPHIR_CONCAT_SVSVS(_18$$24, "(", _17$$24, ") AND (", findParamsTwo, ")");
 				zephir_array_update_long(&findParams, 0, &_18$$24, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
@@ -1787,7 +1858,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	zval *_29;
 	zend_bool reusable = 0, _28$$19;
 	zephir_fcall_cache_entry *_6 = NULL, *_23 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method = NULL;
 	zval *relation, *method_param = NULL, *record, *parameters = NULL, *placeholders = NULL, *referencedModel = NULL, *intermediateModel = NULL, *intermediateFields = NULL, *joinConditions = NULL, *fields = NULL, *builder = NULL, *extraParameters = NULL, *conditions = NULL, *refPosition = NULL, *field = NULL, *referencedFields = NULL, *findParams = NULL, *findArguments = NULL, *retrieveMethod = NULL, *uniqueKey = NULL, *records = NULL, *arguments = NULL, *rows = NULL, *firstRow = NULL, *_0 = NULL, *_25, *_26 = NULL, *_1$$4, *_2$$4 = NULL, *_3$$6 = NULL, *_4$$6, *_5$$3 = NULL, *_7$$3, *_8$$3, *_12$$3 = NULL, *_9$$8 = NULL, *_10$$8 = NULL, *_11$$8 = NULL, *_13$$9 = NULL, *_14$$9, *_15$$9 = NULL, *_16$$10 = NULL, **_19$$10, *_20$$11, *_21$$11 = NULL, *_22$$11 = NULL, *_24$$11 = NULL, *_27$$14 = NULL;
 
@@ -1829,12 +1900,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		if (Z_TYPE_P(fields) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(_1$$4);
 			ZEPHIR_CONCAT_SVSVS(_1$$4, "[", intermediateModel, "].[", intermediateFields, "] = :APR0:");
-			zephir_array_append(&conditions, _1$$4, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1239);
+			zephir_array_append(&conditions, _1$$4, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1285);
 			ZEPHIR_CALL_METHOD(&_2$$4, record, "readattribute", NULL, 0, fields);
 			zephir_check_call_status();
 			zephir_array_update_string(&placeholders, SL("APR0"), &_2$$4, PH_COPY | PH_SEPARATE);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1242);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1288);
 			return;
 		}
 		ZEPHIR_INIT_VAR(joinConditions);
@@ -1846,12 +1917,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_4$$6);
 			ZEPHIR_CONCAT_SVSVSVSVS(_4$$6, "[", intermediateModel, "].[", intermediateFields, "] = [", referencedModel, "].[", _3$$6, "]");
-			zephir_array_append(&joinConditions, _4$$6, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1252);
+			zephir_array_append(&joinConditions, _4$$6, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1298);
 		} else {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1254);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Not supported", "phalcon/mvc/model/manager.zep", 1300);
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "_mergefindparameters", &_6, 330, extraParameters, parameters);
+		ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "_mergefindparameters", &_6, 341, extraParameters, parameters);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&builder, this_ptr, "createbuilder", NULL, 0, _5$$3);
 		zephir_check_call_status();
@@ -1899,7 +1970,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_14$$9);
 		ZEPHIR_CONCAT_SVS(_14$$9, "[", _13$$9, "] = :APR0:");
-		zephir_array_append(&conditions, _14$$9, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1291);
+		zephir_array_append(&conditions, _14$$9, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1337);
 		ZEPHIR_CALL_METHOD(&_15$$9, record, "readattribute", NULL, 0, fields);
 		zephir_check_call_status();
 		zephir_array_update_string(&placeholders, SL("APR0"), &_15$$9, PH_COPY | PH_SEPARATE);
@@ -1908,17 +1979,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_16$$10, relation, "getfields", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(_16$$10, &_18$$10, &_17$$10, 0, 0, "phalcon/mvc/model/manager.zep", 1303);
+		zephir_is_iterable(_16$$10, &_18$$10, &_17$$10, 0, 0, "phalcon/mvc/model/manager.zep", 1349);
 		for (
 		  ; zend_hash_get_current_data_ex(_18$$10, (void**) &_19$$10, &_17$$10) == SUCCESS
 		  ; zend_hash_move_forward_ex(_18$$10, &_17$$10)
 		) {
 			ZEPHIR_GET_HMKEY(refPosition, _18$$10, _17$$10);
 			ZEPHIR_GET_HVALUE(field, _19$$10);
-			zephir_array_fetch(&_20$$11, referencedFields, refPosition, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1300 TSRMLS_CC);
+			zephir_array_fetch(&_20$$11, referencedFields, refPosition, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1346 TSRMLS_CC);
 			ZEPHIR_INIT_LNVAR(_21$$11);
 			ZEPHIR_CONCAT_SVSVS(_21$$11, "[", _20$$11, "] = :APR", refPosition, ":");
-			zephir_array_append(&conditions, _21$$11, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1300);
+			zephir_array_append(&conditions, _21$$11, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1346);
 			ZEPHIR_CALL_METHOD(&_22$$11, record, "readattribute", &_23, 0, field);
 			zephir_check_call_status();
 			ZEPHIR_INIT_LNVAR(_24$$11);
@@ -1935,10 +2006,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	ZEPHIR_CALL_METHOD(&_26, record, "getdi", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&findParams, SL("di"), &_26, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&findArguments, this_ptr, "_mergefindparameters", &_6, 330, findParams, parameters);
+	ZEPHIR_CALL_METHOD(&findArguments, this_ptr, "_mergefindparameters", &_6, 341, findParams, parameters);
 	zephir_check_call_status();
 	if (Z_TYPE_P(extraParameters) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&findParams, this_ptr, "_mergefindparameters", &_6, 330, findArguments, extraParameters);
+		ZEPHIR_CALL_METHOD(&findParams, this_ptr, "_mergefindparameters", &_6, 341, findArguments, extraParameters);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(findParams, findArguments);
@@ -1957,7 +2028,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 				ZVAL_STRING(retrieveMethod, "find", 1);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Unknown relation type", "phalcon/mvc/model/manager.zep", 1339);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Unknown relation type", "phalcon/mvc/model/manager.zep", 1385);
 			return;
 		} while(0);
 
@@ -2086,7 +2157,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects) {
 
 	
 
-	zephir_update_property_this(this_ptr, SL("_reusable"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_reusable"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 
 }
 
@@ -2095,7 +2166,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *modelName_param = NULL, *modelRelation, *record, *parameters = NULL, *keyRelation = NULL, *relations = NULL, *_0, *_1, *_2, *_3;
 	zval *method = NULL, *modelName = NULL;
 
@@ -2138,7 +2209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 	if (!(zephir_array_isset_fetch(&relations, _2, keyRelation, 0 TSRMLS_CC))) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1423 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1469 TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getrelationrecords", NULL, 0, _3, method, record, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -2150,7 +2221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *modelName_param = NULL, *modelRelation, *record, *parameters = NULL, *keyRelation = NULL, *relations = NULL, *_0, *_1, *_2, *_3;
 	zval *method = NULL, *modelName = NULL;
 
@@ -2193,7 +2264,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 	if (!(zephir_array_isset_fetch(&relations, _2, keyRelation, 0 TSRMLS_CC))) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1446 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1492 TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getrelationrecords", NULL, 0, _3, method, record, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -2205,7 +2276,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *modelName_param = NULL, *modelRelation, *record, *parameters = NULL, *keyRelation = NULL, *relations = NULL, *_0, *_1, *_2, *_3;
 	zval *method = NULL, *modelName = NULL;
 
@@ -2248,7 +2319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 	if (!(zephir_array_isset_fetch(&relations, _2, keyRelation, 0 TSRMLS_CC))) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1469 TSRMLS_CC);
+	zephir_array_fetch_long(&_3, relations, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/manager.zep", 1515 TSRMLS_CC);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getrelationrecords", NULL, 0, _3, method, record, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -2358,7 +2429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *_0 = NULL, *_1 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -2407,37 +2478,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations) {
 	ZEPHIR_OBS_VAR(relations);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&relations, _0, entityName, 0 TSRMLS_CC)) {
-		zephir_is_iterable(relations, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/manager.zep", 1559);
+		zephir_is_iterable(relations, &_2$$3, &_1$$3, 0, 0, "phalcon/mvc/model/manager.zep", 1605);
 		for (
 		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
 		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HVALUE(relation, _3$$3);
-			zephir_array_append(&allRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1557);
+			zephir_array_append(&allRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1603);
 		}
 	}
 	ZEPHIR_OBS_NVAR(relations);
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&relations, _4, entityName, 0 TSRMLS_CC)) {
-		zephir_is_iterable(relations, &_6$$5, &_5$$5, 0, 0, "phalcon/mvc/model/manager.zep", 1568);
+		zephir_is_iterable(relations, &_6$$5, &_5$$5, 0, 0, "phalcon/mvc/model/manager.zep", 1614);
 		for (
 		  ; zend_hash_get_current_data_ex(_6$$5, (void**) &_7$$5, &_5$$5) == SUCCESS
 		  ; zend_hash_move_forward_ex(_6$$5, &_5$$5)
 		) {
 			ZEPHIR_GET_HVALUE(relation, _7$$5);
-			zephir_array_append(&allRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1566);
+			zephir_array_append(&allRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1612);
 		}
 	}
 	ZEPHIR_OBS_NVAR(relations);
 	_8 = zephir_fetch_nproperty_this(this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&relations, _8, entityName, 0 TSRMLS_CC)) {
-		zephir_is_iterable(relations, &_10$$7, &_9$$7, 0, 0, "phalcon/mvc/model/manager.zep", 1577);
+		zephir_is_iterable(relations, &_10$$7, &_9$$7, 0, 0, "phalcon/mvc/model/manager.zep", 1623);
 		for (
 		  ; zend_hash_get_current_data_ex(_10$$7, (void**) &_11$$7, &_9$$7) == SUCCESS
 		  ; zend_hash_move_forward_ex(_10$$7, &_9$$7)
 		) {
 			ZEPHIR_GET_HVALUE(relation, _11$$7);
-			zephir_array_append(&allRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1575);
+			zephir_array_append(&allRelations, relation, PH_SEPARATE, "phalcon/mvc/model/manager.zep", 1621);
 		}
 	}
 	RETURN_CCTOR(allRelations);
@@ -2508,7 +2579,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween) {
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 
 	zval *_1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *phql_param = NULL, *dependencyInjector = NULL, *query = NULL, *_0 = NULL, *_2;
 	zval *phql = NULL;
 
@@ -2530,7 +2601,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1624);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1670);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_1);
@@ -2543,7 +2614,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(query, _0);
-	zephir_update_property_this(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_lastQuery"), query TSRMLS_CC);
 	RETURN_CCTOR(query);
 
 }
@@ -2553,7 +2624,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *phql_param = NULL, *placeholders = NULL, *types = NULL, *query = NULL;
 	zval *phql = NULL;
 
@@ -2600,7 +2671,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 
 	zval *_2;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *params = NULL, *dependencyInjector = NULL, *_0, *_1 = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
@@ -2614,7 +2685,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1667);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services", "phalcon/mvc/model/manager.zep", 1713);
 		return;
 	}
 	ZEPHIR_INIT_VAR(_2);
@@ -2637,7 +2708,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_lastQuery");
+	RETURN_MEMBER(getThis(), "_lastQuery");
 
 }
 
@@ -2666,7 +2737,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *alias_param = NULL, *namespaceName = NULL, *_0, *_1;
 	zval *alias = NULL, *_2;
 
@@ -2696,7 +2767,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias) {
 	ZEPHIR_CONCAT_SVS(_2, "Namespace alias '", alias, "' is not registered");
 	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 9, _2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_1, "phalcon/mvc/model/manager.zep", 1708 TSRMLS_CC);
+	zephir_throw_exception_debug(_1, "phalcon/mvc/model/manager.zep", 1754 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -2709,7 +2780,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_namespaceAliases");
+	RETURN_MEMBER(getThis(), "_namespaceAliases");
 
 }
 
@@ -2718,13 +2789,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	phalcon_orm_destroy_cache(TSRMLS_C);
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_mvc_model_query_ce, "clean", &_0, 331);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_mvc_model_query_ce, "clean", &_0, 342);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -2737,16 +2808,27 @@ zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_en
 		ZEPHIR_MM_GROW();
 	
 	{
-		zval *this_ptr = NULL;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zval zthis       = zval_used_for_init;
+		zval *this_ptr   = &zthis;
+		zend_object* obj = ecalloc(1, sizeof(zend_object));
+		zend_object_value retval;
+
+		zend_object_std_init(obj, class_type TSRMLS_CC);
+		object_properties_init(obj, class_type);
+		retval.handle   = zend_objects_store_put(obj, (zend_objects_store_dtor_t)zend_objects_destroy_object, zephir_free_object_storage, NULL TSRMLS_CC);
+		retval.handlers = zend_get_std_object_handlers();
+
+		Z_TYPE(zthis)   = IS_OBJECT;
+		Z_OBJVAL(zthis) = retval;
+
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_modelVisibility"), PH_NOISY_CC);
 		if (Z_TYPE_P(_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(_1$$3);
 			array_init(_1$$3);
-			zephir_update_property_this(this_ptr, SL("_modelVisibility"), _1$$3 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_modelVisibility"), _1$$3 TSRMLS_CC);
 		}
 		ZEPHIR_MM_RESTORE();
-		return Z_OBJVAL_P(this_ptr);
+		return retval;
 	}
 
 }

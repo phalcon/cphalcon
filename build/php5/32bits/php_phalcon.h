@@ -41,6 +41,9 @@ typedef struct _zephir_memory_entry {
 	size_t pointer;
 	size_t capacity;
 	zval ***addresses;
+	size_t alt_pointer;
+	size_t alt_capacity;
+	zval **alt_addresses;
 	size_t hash_pointer;
 	size_t hash_capacity;
 	zval ***hash_addresses;
@@ -79,10 +82,6 @@ typedef zend_function zephir_fcall_cache_entry;
 
 #define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 
-#ifndef PHP_FE_END
-	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
-
 /** Define FASTCALL */
 #if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
 # define ZEPHIR_FASTCALL __attribute__((fastcall))
@@ -99,24 +98,6 @@ typedef zend_function zephir_fcall_cache_entry;
 	if (zephir_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
 		return FAILURE; \
 	}
-
-/* Compatibility macros for PHP 5.3 */
-#ifndef PHP_FE_END
-#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
-
-#ifndef INIT_PZVAL_COPY
-#define INIT_PZVAL_COPY(z, v) \
-	ZVAL_COPY_VALUE(z, v); \
-	Z_SET_REFCOUNT_P(z, 1); \
-	Z_UNSET_ISREF_P(z);
-#endif
-
-#ifndef ZVAL_COPY_VALUE
-#define ZVAL_COPY_VALUE(z, v) \
-	(z)->value = (v)->value; \
-	Z_TYPE_P(z) = Z_TYPE_P(v);
-#endif
 
 #ifndef HASH_KEY_NON_EXISTENT
 # define HASH_KEY_NON_EXISTENT HASH_KEY_NON_EXISTANT
@@ -169,10 +150,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "3.1.2"
+#define PHP_PHALCON_VERSION     "3.2.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.9.7-1fae5e50ac"
+#define PHP_PHALCON_ZEPVERSION  "0.9.9-868cb1f92b"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -195,6 +176,8 @@ typedef struct _zephir_struct_orm {
 	zend_bool enable_implicit_joins;
 	zend_bool cast_on_hydrate;
 	zend_bool ignore_unknown_columns;
+	zend_bool update_snapshot_on_save;
+	zend_bool disable_assign_setters;
 } zephir_struct_orm;
 
 

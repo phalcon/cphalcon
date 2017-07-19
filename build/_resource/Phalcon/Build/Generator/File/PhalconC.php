@@ -111,7 +111,7 @@ class Generator_File_PhalconC
      */
     protected function addLicense($fileHandler)
     {
-        $docFile = $this->rootDir . '/docs/LICENSE.txt';
+        $docFile = $this->rootDir . '/LICENSE.txt';
         fwrite($fileHandler, '/**' . PHP_EOL . PHP_EOL . file_get_contents($docFile) . '*/' . PHP_EOL);
     }
 

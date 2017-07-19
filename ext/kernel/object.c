@@ -1274,7 +1274,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 
 		if (UNEXPECTED(zend_hash_quick_find(&ce->properties_info, property_name, property_name_len + 1, hash_value, (void **) &temp_property_info)==FAILURE)) {
 			if (!silent) {
-				zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
+				zend_error(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
 			}
 			return NULL;
 		}
@@ -1282,14 +1282,14 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 		#ifndef ZEPHIR_RELEASE
 		/*if (UNEXPECTED(!zend_verify_property_access(temp_property_info, ce TSRMLS_CC))) {
 			if (!silent) {
-				zend_error_noreturn(E_ERROR, "Cannot access %s property %s::$%s", zend_visibility_string(temp_property_info->flags), ce->name, property_name);
+				zend_error(E_ERROR, "Cannot access %s property %s::$%s", zend_visibility_string(temp_property_info->flags), ce->name, property_name);
 			}
 			return NULL;
 		}
 
 		if (UNEXPECTED((temp_property_info->flags & ZEND_ACC_STATIC) == 0)) {
 			if (!silent) {
-				zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
+				zend_error(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
 			}
 			return NULL;
 		}*/
@@ -1307,7 +1307,7 @@ static zval **zephir_std_get_static_property(zend_class_entry *ce, const char *p
 
 	if (UNEXPECTED(CE_STATIC_MEMBERS(ce) == NULL) || UNEXPECTED(CE_STATIC_MEMBERS(ce)[temp_property_info->offset] == NULL)) {
 		if (!silent) {
-			zend_error_noreturn(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
+			zend_error(E_ERROR, "Access to undeclared static property: %s::$%s", ce->name, property_name);
 		}
 		return NULL;
 	}
@@ -1726,4 +1726,10 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 
 	zend_create_closure(return_value, function_ptr, ce, this_ptr TSRMLS_CC);
 	return SUCCESS;
+}
+
+void zephir_free_object_storage(void *object TSRMLS_DC)
+{
+	zend_object_std_dtor((zend_object*)object TSRMLS_CC);
+	efree(object);
 }

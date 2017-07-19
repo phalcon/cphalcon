@@ -49,21 +49,21 @@ void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line
 
 	zend_class_entry *default_exception_ce;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
-	zval *curline = NULL, *object_copy = NULL;
+	zval *curline = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
-		object_copy = object;
+		zval *arg = object;
 		ALLOC_INIT_ZVAL(object);
 		object_init_ex(object, zend_exception_get_default(TSRMLS_C));
-		ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, 0, object_copy);
+		ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, 0, arg);
+	}
+	else {
+		Z_ADDREF_P(object);
 	}
 
-	Z_ADDREF_P(object);
-
 	if (line > 0) {
-		curline = 0;
 		ZEPHIR_CALL_METHOD(&curline, object, "getline", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(curline, 0)) {

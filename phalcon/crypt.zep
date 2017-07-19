@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -372,7 +372,7 @@ class Crypt implements CryptInterface
 	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
 		if safe == true {
-			return strtr(base64_encode(this->encrypt(text, key)), "+/", "-_");
+			return rtrim(strtr(base64_encode(this->encrypt(text, key)), "+/", "-_"), "=");
 		}
 		return base64_encode(this->encrypt(text, key));
 	}
@@ -383,7 +383,7 @@ class Crypt implements CryptInterface
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
 		if safe == true {
-			return this->decrypt(base64_decode(strtr(text, "-_", "+/")), key);
+			return this->decrypt(base64_decode(strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)), key);
 		}
 		return this->decrypt(base64_decode(text), key);
 	}

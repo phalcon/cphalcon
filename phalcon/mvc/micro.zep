@@ -6,14 +6,11 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
 
@@ -21,17 +18,17 @@ namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
+use Phalcon\Mvc\Controller;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
+use Phalcon\Mvc\Model\BinderInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\Micro\CollectionInterface;
-use Phalcon\Mvc\Controller;
-use Phalcon\Mvc\Model\BinderInterface;
 
 /**
  * Phalcon\Mvc\Micro
@@ -680,18 +677,22 @@ class Micro extends Injectable implements \ArrayAccess
 						}
 
 						/**
-						 * Call the before handler, if it returns false exit
+						 * Call the before handler
 						 */
-						if call_user_func(before) === false {
-							return false;
-						}
+						let status = call_user_func(before);
 
 						/**
-						 * Reload the 'stopped' status
+						 * break the execution if the middleware was stopped
 						 */
-						if this->_stopped {
-							return status;
+						if  this->_stopped {
+							break;
 						}
+					}
+					/**
+					 * Reload the 'stopped' status
+					 */
+					if this->_stopped {
+						return status;
 					}
 				}
 
@@ -785,18 +786,22 @@ class Micro extends Injectable implements \ArrayAccess
 						}
 
 						/**
-						 * Call the afterBinding handler, if it returns false exit
+						 * Call the afterBinding handler
 						 */
-						if call_user_func(afterBinding) === false {
-							return false;
-						}
+						let status = call_user_func(afterBinding);
 
 						/**
-						 * Reload the 'stopped' status
+						 * break the execution if the middleware was stopped
 						 */
 						if this->_stopped {
-							return status;
+						    break;
 						}
+					}
+					/**
+					* Reload the 'stopped' status
+					 */
+					if this->_stopped {
+						return status;
 					}
 				}
 
@@ -846,6 +851,13 @@ class Micro extends Injectable implements \ArrayAccess
 						}
 
 						let status = call_user_func(after);
+
+						/**
+						 * break the execution if the middleware was stopped
+						 */
+						if this->_stopped {
+							break;
+						}
 					}
 				}
 
@@ -985,8 +997,10 @@ class Micro extends Injectable implements \ArrayAccess
 		 */
 		if typeof returnedValue == "string" {
 			let response = <ResponseInterface> dependencyInjector->getShared("response");
-			response->setContent(returnedValue);
-			response->send();
+			if !response->isSent() {
+				response->setContent(returnedValue);
+				response->send();
+			}
 		}
 
 		/**
@@ -997,7 +1011,9 @@ class Micro extends Injectable implements \ArrayAccess
 				/**
 				 * Automatically send the response
 				 */
-				returnedValue->send();
+				 if !returnedValue->isSent() {
+				 	returnedValue->send();
+				 }
 			}
 		}
 

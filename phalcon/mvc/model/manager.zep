@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -121,6 +121,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Mark initialized models
 	 */
 	protected _initialized;
+
+	protected _prefix = "";
 
 	protected _sources;
 
@@ -313,6 +315,50 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Sets the prefix for all model sources.
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Model\Manager;
+	 *
+	 * $di->set("modelsManager", function () {
+	 *     $modelsManager = new Manager();
+	 *     $modelsManager->setModelPrefix("wp_");
+	 *
+	 *     return $modelsManager;
+	 * });
+	 *
+	 * $robots = new Robots();
+	 * echo $robots->getSource(); // wp_robots
+	 * </code>
+	 */
+	public function setModelPrefix(string! prefix) -> void
+	{
+		let this->_prefix = prefix;
+	}
+
+	/**
+	 * Returns the prefix for all model sources.
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Model\Manager;
+	 *
+	 * $di->set("modelsManager", function () {
+	 *     $modelsManager = new Manager();
+	 *     $modelsManager->setModelPrefix("wp_");
+	 *
+	 *     return $modelsManager;
+	 * });
+	 *
+	 * $robots = new Robots();
+	 * echo $robots->getSource(); // wp_robots
+	 * </code>
+	 */
+	public function getModelPrefix() -> string
+	{
+		return this->_prefix;
+	}
+
+	/**
 	 * Sets the mapped source for a model
 	 */
 	public function setModelSource(<ModelInterface> model, string! source) -> void
@@ -358,7 +404,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let this->_sources[entityName] = uncamelize(get_class_ns(model));
 		}
 
-		return this->_sources[entityName];
+		return this->_prefix . this->_sources[entityName];
 	}
 
 	/**

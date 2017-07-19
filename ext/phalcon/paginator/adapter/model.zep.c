@@ -66,12 +66,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct) {
 	config = config_param;
 
 
-	zephir_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_config"), config TSRMLS_CC);
 	if (zephir_array_isset_string_fetch(&limit, config, SS("limit"), 1 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_limitRows"), limit TSRMLS_CC);
 	}
 	if (zephir_array_isset_string_fetch(&page, config, SS("page"), 1 TSRMLS_CC)) {
-		zephir_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_page"), page TSRMLS_CC);
 	}
 
 }
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate) {
 
 	zval *config = NULL, *items = NULL, *pageItems = NULL, *page = NULL, *_0, *_1, *_8, *_2$$9, *_3$$10, *_4$$8 = NULL, *_5$$11 = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS, pageNumber = 0, show = 0, n = 0, start = 0, lastShowPage = 0, i = 0, next = 0, totalPages = 0, before = 0;
+	zend_long ZEPHIR_LAST_CALL_STATUS, pageNumber = 0, show = 0, n = 0, start = 0, lastShowPage = 0, i = 0, next = 0, totalPages = 0, before = 0;
 
 	ZEPHIR_MM_GROW();
 

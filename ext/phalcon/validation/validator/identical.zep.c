@@ -72,9 +72,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 
 	zend_bool valid = 0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
-	zval *validation, *field_param = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, *value = NULL, *accepted = NULL, *valueOption = NULL, *code = NULL, *_0 = NULL, *_1, *_2$$3, *_3$$4, *_4$$5 = NULL, *_5$$5, *_6$$6, *_7$$7, *_8$$8 = NULL, *_13$$8 = NULL, *_14$$8, *_9$$9, *_10$$11, *_11$$12, *_12$$13;
+	zval *validation, *field_param = NULL, *message = NULL, *label = NULL, *replacePairs = NULL, *value = NULL, *accepted = NULL, *valueOption = NULL, *code = NULL, *_0 = NULL, *_1, *_2$$3, *_3$$4, *_4$$5 = NULL, *_5$$5, *_6$$6, *_7$$7, *_8$$8 = NULL, *_9$$8 = NULL, *_10$$8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -129,55 +129,26 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		}
 	}
 	if (!(valid)) {
+		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
+		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_8$$8);
-		ZVAL_STRING(_8$$8, "label", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _8$$8);
+		ZVAL_STRING(_8$$8, "Identical", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "preparemessage", NULL, 0, validation, field, _8$$8);
 		zephir_check_temp_parameter(_8$$8);
 		zephir_check_call_status();
-		if (Z_TYPE_P(label) == IS_ARRAY) {
-			zephir_array_fetch(&_9$$9, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/identical.zep", 96 TSRMLS_CC);
-			ZEPHIR_CPY_WRT(label, _9$$9);
-		}
-		if (ZEPHIR_IS_EMPTY(label)) {
-			ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
-			zephir_check_call_status();
-		}
-		ZEPHIR_INIT_NVAR(_8$$8);
-		ZVAL_STRING(_8$$8, "message", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, _8$$8);
-		zephir_check_temp_parameter(_8$$8);
+		ZEPHIR_CALL_METHOD(&code, this_ptr, "preparecode", NULL, 0, field);
 		zephir_check_call_status();
-		if (Z_TYPE_P(message) == IS_ARRAY) {
-			zephir_array_fetch(&_10$$11, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/identical.zep", 104 TSRMLS_CC);
-			ZEPHIR_CPY_WRT(message, _10$$11);
-		}
 		ZEPHIR_INIT_VAR(replacePairs);
 		zephir_create_array(replacePairs, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		if (ZEPHIR_IS_EMPTY(message)) {
-			ZEPHIR_INIT_VAR(_11$$12);
-			ZVAL_STRING(_11$$12, "Identical", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, _11$$12);
-			zephir_check_temp_parameter(_11$$12);
-			zephir_check_call_status();
-		}
-		ZEPHIR_INIT_NVAR(_8$$8);
-		ZVAL_STRING(_8$$8, "code", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, _8$$8);
-		zephir_check_temp_parameter(_8$$8);
-		zephir_check_call_status();
-		if (Z_TYPE_P(code) == IS_ARRAY) {
-			zephir_array_fetch(&_12$$13, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/identical.zep", 113 TSRMLS_CC);
-			ZEPHIR_CPY_WRT(code, _12$$13);
-		}
 		ZEPHIR_INIT_NVAR(_8$$8);
 		object_init_ex(_8$$8, phalcon_validation_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_13$$8, "strtr", NULL, 26, message, replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_9$$8, "strtr", NULL, 27, message, replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_14$$8);
-		ZVAL_STRING(_14$$8, "Identical", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _8$$8, "__construct", NULL, 464, _13$$8, field, _14$$8, code);
-		zephir_check_temp_parameter(_14$$8);
+		ZEPHIR_INIT_VAR(_10$$8);
+		ZVAL_STRING(_10$$8, "Identical", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, _8$$8, "__construct", NULL, 475, _9$$8, field, _10$$8, code);
+		zephir_check_temp_parameter(_10$$8);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _8$$8);
 		zephir_check_call_status();

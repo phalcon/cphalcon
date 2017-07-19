@@ -108,7 +108,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
 	zval *_3$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, *field, *message = NULL, *label = NULL, *_0 = NULL, *_1$$3 = NULL, *_4$$3 = NULL, *_5$$3 = NULL, *_6$$3 = NULL, *_2$$5;
 
 	ZEPHIR_MM_GROW();
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		ZEPHIR_INIT_VAR(_3$$3);
 		zephir_create_array(_3$$3, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_3$$3, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "strtr", NULL, 26, message, _3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "strtr", NULL, 27, message, _3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_6$$3);
 		ZVAL_STRING(_6$$3, "code", ZEPHIR_TEMP_PARAM_COPY);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_6$$3);
 		ZVAL_STRING(_6$$3, "Uniqueness", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 464, _4$$3, field, _6$$3, _5$$3);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 475, _4$$3, field, _6$$3, _5$$3);
 		zephir_check_temp_parameter(_6$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _1$$3);
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 	HashPosition _1;
 	zend_bool isModel = 0, isDocument = 0, _7;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, *field = NULL, *values = NULL, *convert = NULL, *record = NULL, *params = NULL, *className = NULL, *singleField = NULL, *_0 = NULL, **_3, *_8 = NULL, *_4$$4 = NULL, *_6$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, getColumnNameReal) {
 
 	zend_bool _0, _7;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL;
 	zval *record, *field_param = NULL, *_1, *_6, *_8, *_2$$3 = NULL, *_3$$3 = NULL, *_4$$3, *_5$$3 = NULL, *_9$$4, *_10$$4;
 
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, getColumnNameReal) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_5$$3, _3$$3, "getcolumnmap", NULL, 0, record);
 		zephir_check_call_status();
-		zephir_update_property_this(this_ptr, SL("columnMap"), _5$$3 TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("columnMap"), _5$$3 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(_6);
 	zephir_read_property_this(&_6, this_ptr, SL("columnMap"), PH_NOISY_CC);
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 	HashTable *_2, *_17$$7, *_22$$9, *_34$$13, *_43$$16, *_48$$18, *_61$$21;
 	HashPosition _1, _16$$7, _21$$9, _33$$13, _42$$16, _47$$18, _60$$21;
 	zephir_fcall_cache_entry *_6 = NULL, *_15 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS, index = 0;
+	zend_long ZEPHIR_LAST_CALL_STATUS, index = 0;
 	zval *field = NULL, *values = NULL;
 	zval *record, *field_param = NULL, *values_param = NULL, *params = NULL, *attribute = NULL, *metaData = NULL, *primaryField = NULL, *singleField = NULL, *fieldExcept = NULL, *singleExcept = NULL, *notInValues = NULL, *exceptConditions = NULL, *value = NULL, *except = NULL, *_0 = NULL, **_3, *_56 = NULL, *_69, *_4$$3 = NULL, *_5$$3 = NULL, _7$$4 = zval_used_for_init, *_8$$4 = NULL, *_9$$5 = NULL, *_11$$6 = NULL, _12$$6 = zval_used_for_init, _13$$6 = zval_used_for_init, *_14$$6 = NULL, **_18$$7, *_19$$8 = NULL, *_20$$8 = NULL, **_23$$9, *_26$$9 = NULL, *_27$$9 = NULL, _24$$10 = zval_used_for_init, _28$$11 = zval_used_for_init, *_29$$11 = NULL, *_30$$12 = NULL, *_31$$12, *_32$$12 = NULL, **_35$$13, *_38$$13 = NULL, *_39$$13 = NULL, _36$$14 = zval_used_for_init, _40$$15 = zval_used_for_init, *_41$$15 = NULL, **_44$$16, *_45$$17 = NULL, *_46$$17 = NULL, **_49$$18, *_52$$18 = NULL, *_53$$18 = NULL, _50$$19 = zval_used_for_init, _54$$20 = zval_used_for_init, *_55$$20 = NULL, *_57$$21 = NULL, *_58$$21, *_59$$21 = NULL, **_62$$21, *_63$$22 = NULL, _64$$22 = zval_used_for_init, *_65$$22 = NULL, *_66$$22 = NULL, *_67$$23, *_68$$23;
 
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 				ZVAL_LONG(&_12$$6, 0);
 				ZEPHIR_SINIT_NVAR(_13$$6);
 				ZVAL_LONG(&_13$$6, (zephir_fast_count_int(except TSRMLS_CC) - 1));
-				ZEPHIR_CALL_FUNCTION(&_14$$6, "range", &_15, 446, &_12$$6, &_13$$6);
+				ZEPHIR_CALL_FUNCTION(&_14$$6, "range", &_15, 457, &_12$$6, &_13$$6);
 				zephir_check_call_status();
 				_10$$6 = !ZEPHIR_IS_IDENTICAL(_11$$6, _14$$6);
 			}
@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessCollection) {
 	HashTable *_2, *_9$$10, *_12$$13;
 	HashPosition _1, _8$$10, _11$$13;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field = NULL, *values = NULL, *arrayValue$$10 = NULL, *arrayValue$$12 = NULL, *arrayValue$$13 = NULL, *arrayValue$$15 = NULL, *arrayValue$$16, *_16$$17;
 	zval *record, *field_param = NULL, *values_param = NULL, *exceptConditions = NULL, *fieldExcept = NULL, *notInValues = NULL, *value = NULL, *singleField = NULL, *params = NULL, *except = NULL, *singleExcept = NULL, *_0, **_3, *_14 = NULL, *_4$$3 = NULL, **_10$$10, **_13$$13, *_15$$16 = NULL;
 

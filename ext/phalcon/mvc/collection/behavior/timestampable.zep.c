@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 	HashTable *_2$$12;
 	HashPosition _1$$12;
 	zephir_fcall_cache_entry *_4 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *model, *options = NULL, *timestamp = NULL, *singleField = NULL, *field = NULL, *generator = NULL, *format = NULL, *_0 = NULL, **_3$$12;
 	zval *type = NULL;
 
@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 		ZVAL_NULL(timestamp);
 		ZEPHIR_OBS_VAR(format);
 		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 302, format);
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 311, format);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_VAR(generator);

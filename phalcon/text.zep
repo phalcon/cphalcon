@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -36,6 +36,8 @@ abstract class Text
 	const RANDOM_NUMERIC = 3;
 
 	const RANDOM_NOZERO = 4;
+
+	const RANDOM_DISTINCT = 5;
 
 	/**
 	 * Converts strings to camelize style
@@ -91,10 +93,10 @@ abstract class Text
 	 * Generates a random string based on the given type. Type is one of the RANDOM_* constants
 	 *
 	 * <code>
+	 * use Phalcon\Text;
+	 *
 	 * // "aloiwkqz"
-	 * echo Phalcon\Text::random(
-	 *     Phalcon\Text::RANDOM_ALNUM
-	 * );
+	 * echo Text::random(Text::RANDOM_ALNUM);
 	 * </code>
 	 */
 	public static function random(int type = 0, long length = 8) -> string
@@ -118,6 +120,10 @@ abstract class Text
 
 			case Text::RANDOM_NOZERO:
 				let pool = range(1, 9);
+				break;
+
+			case Text::RANDOM_DISTINCT:
+				let pool = str_split("2345679ACDEFHJKLMNPRSTUVWXYZ");
 				break;
 
 			default:

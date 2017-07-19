@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	HashPosition _1$$4;
 	zend_bool _0;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *reflectionData = NULL, *annotations = NULL, *annotationData = NULL, **_3$$4, *_4$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -95,12 +95,12 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZEPHIR_GET_HVALUE(annotationData, _3$$4);
 			ZEPHIR_INIT_NVAR(_4$$5);
 			object_init_ex(_4$$5, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", &_5, 90, annotationData);
+			ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", &_5, 95, annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, _4$$5, PH_SEPARATE, "phalcon/annotations/collection.zep", 66);
 		}
 	}
-	zephir_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_annotations"), annotations TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, rewind) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
-	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_position"), _0 TSRMLS_CC);
 
 }
 
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, key) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_position");
+	RETURN_MEMBER(getThis(), "_position");
 
 }
 
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_annotations");
+	RETURN_MEMBER(getThis(), "_annotations");
 
 }
 
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *annotation = NULL, *annotations = NULL, *_4, **_2$$3, *_3$$4 = NULL;
 	zval *name = NULL, *_5;
 
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *annotations = NULL, *found = NULL, *annotation = NULL, **_2$$3, *_3$$4 = NULL;
 	zval *name = NULL;
 
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *annotations = NULL, *annotation = NULL, **_2$$3, *_3$$4 = NULL;
 	zval *name = NULL;
 

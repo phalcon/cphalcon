@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *message;
 	zval *type = NULL;
 
@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 
 	HashTable *_1$$3;
 	HashPosition _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *remove_param = NULL, *message = NULL, *messages = NULL, **_2$$3;
 	zend_bool remove;
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 		}
 	}
 	if (remove) {
-		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, this_ptr, "clear", &_3, 202);
+		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, getThis(), "clear", &_3, 213);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

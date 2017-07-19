@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Tag;
 use Phalcon\Assets\Manager;
+use Phalcon\Assets\Exception;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Filters\None;
@@ -21,7 +22,7 @@ use Phalcon\Assets\Filters\Jsmin;
  * @package   Phalcon\Test\Unit\Assets
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -36,6 +37,70 @@ class ManagerTest extends UnitTest
     {
         // Setting the doctype to XHTML5 for other tests to run smoothly
         Tag::setDocType(Tag::XHTML5);
+    }
+
+    /**
+     * Test Manager::get
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-04
+     */
+    public function assetsManagerShouldThrowExceptionIfThereIsNoCollection()
+    {
+        $this->specify(
+            'The Assets Manager does not throw exception in case of absence of a collection',
+            function () {
+                $assets = new Manager();
+                $assets->get('some-non-existent-collection');
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    'The collection does not exist in the manager'
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Test Manager::exists
+     *
+     * @test
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
+     */
+    public function assetsManagerShouldDetectAbsenceOfACollection()
+    {
+        $this->specify(
+            'The Assets Manager does not return valid status case of absence of a collection',
+            function () {
+                $assets = new Manager();
+                expect($assets->exists('some-non-existent-collection'))->false();
+            }
+        );
+    }
+
+    /**
+     * Test Manager::exists
+     *
+     * @test
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-03-16
+     */
+    public function assetsManagerShouldDetectCollection()
+    {
+        $this->specify(
+            'The Assets Manager does not return valid status case of presence of a collection',
+            function () {
+                $assets = new Manager();
+
+                $assets->addCss('/css/style1.css');
+                $assets->addCss('/css/style2.css');
+
+                expect($assets->exists('css'))->true();
+            }
+        );
     }
 
     /**
@@ -63,6 +128,44 @@ class ManagerTest extends UnitTest
                 }
 
                 expect($number)->equals(2);
+            }
+        );
+    }
+
+    /**
+     * Tests addCss and addJs
+     *
+     * @author Paul Scarrone <paul@savvysoftworks.com>
+     * @since  2017-06-20
+     */
+    public function testAssetsManagerAddingCssAndJs()
+    {
+        $this->specify(
+            "The combination of addCss and addJs on assets manager does add resources correctly",
+            function () {
+                $assets = new Manager();
+
+                $assets->addCss('/css/style1.css');
+                $assets->addCss('/css/style2.css');
+                $assets->addJs('/js/script1.js');
+                $assets->addJs('/js/script2.js');
+
+                $collectionCss = $assets->get('css');
+                $collectionJs = $assets->get('js');
+
+                $CSSnumber = 0;
+                foreach ($collectionCss as $resource) {
+                    expect('css')->equals($resource->getType());
+                    $CSSnumber++;
+                }
+                expect($CSSnumber)->equals(2);
+
+                $JSnumber = 0;
+                foreach ($collectionJs as $resource) {
+                    expect('js')->equals($resource->getType());
+                    $JSnumber++;
+                }
+                expect($JSnumber)->equals(2);
             }
         );
     }
@@ -310,6 +413,48 @@ class ManagerTest extends UnitTest
     }
 
     /**
+     * Tests collection with mixed resources
+     *
+     * @author Paul Scarrone <paul@savvysoftworks.com>
+     * @since  2017-06-20
+     */
+    public function testAssetsManagerOutputJsWithMixedResourceCollection()
+    {
+        $this->specify(
+            "The outputJs using a mixed resource collection returns only JS resources",
+            function () {
+                $assets = new Manager();
+
+                $assets->collection('header')
+                    ->setPrefix('http:://cdn.example.com/')
+                    ->setLocal(false)
+                    ->addJs('js/script1.js')
+                    ->addJs('js/script2.js')
+                    ->addCss('css/styles1.css')
+                    ->addCss('css/styles2.css');
+                $assets->useImplicitOutput(false);
+
+                $actualJS = $assets->outputJs('header');
+                $expectedJS = sprintf(
+                    "%s\n%s\n",
+                    '<script type="text/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
+                    '<script type="text/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
+                );
+                expect($actualJS)->equals($expectedJS);
+
+                $actualCSS = $assets->outputCss('header');
+                $expectedCSS = sprintf(
+                    "%s\n%s\n",
+                    '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles1.css" />',
+                    '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles2.css" />'
+                );
+                expect($actualCSS)->equals($expectedCSS);
+            }
+        );
+    }
+
+
+    /**
      * Tests setting local target
      *
      * @issue  1532
@@ -469,26 +614,38 @@ class ManagerTest extends UnitTest
     }
 
     /**
-     * exists tests
+     * Tests avoid duplication of resources when adding a
+     * new one with existing name
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-03-16
+     * @test
+     * @issue  10938
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-02
      */
-    public function testAssetsExistsCollection()
+    public function doNotAddTheSameRecources()
     {
         $this->specify(
-            "The exists method in assets does not return correct value",
+            "The assets collection incorrectly stores resources",
             function () {
                 $assets = new Manager();
 
-                $assets->collection('footer')
-                    ->addCss('/css/style1.css');
+                for ($i = 0; $i < 10; $i++) {
+                    $assets
+                        ->addCss('css/style.css')
+                        ->addJs('script.js');
+                }
 
-                $footer = $assets->exists('footer');
-                $header = $assets->exists('header');
+                expect($assets->getCss())->count(1);
+                expect($assets->getJs())->count(1);
 
-                expect($footer)->true();
-                expect($header)->false();
+                for ($i = 0; $i < 2; $i++) {
+                    $assets
+                        ->addCss('style_' . $i . '.css')
+                        ->addJs('script_' . $i . '.js');
+                }
+
+                expect($assets->getCss())->count(3);
+                expect($assets->getJs())->count(3);
             }
         );
     }

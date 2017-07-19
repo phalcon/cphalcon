@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -25,6 +25,8 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+use Phalcon\Application\Exception;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Phalcon\Db\Adapter\Pdo\Mysql
@@ -381,5 +383,20 @@ class Mysql extends PdoAdapter
 		}
 
 		return referenceObjects;
+	}
+
+	/**
+	 * Adds a foreign key to a table
+	 */
+	public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> boolean
+	{
+		var foreignKeyCheck;
+
+		let foreignKeyCheck = this->{"prepare"}(this->_dialect->getForeignKeyChecks());
+		if !foreignKeyCheck->execute() {
+			throw new Exception("DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1");
+		}
+
+		return this->{"execute"}(this->_dialect->addForeignKey(tableName, schemaName, reference));
 	}
 }

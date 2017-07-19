@@ -5,7 +5,8 @@
         "extension",
         "phalcon",
         "framework",
-        "high load"
+        "high load",
+        "mvc"
     ],
     "require": {
         "php": ">=5.5"
@@ -14,20 +15,20 @@
         "phpdocumentor/reflection-docblock": "^2.0",
         "phpunit/phpunit": "^4.8",
         "mustache/mustache": "^2.11",
-        "twig/twig": "~1.25",
+        "twig/twig": "~1.33",
         "predis/predis": "^1.1",
-        "codeception/codeception": "^2.2",
+        "codeception/codeception": "^2.3",
         "codeception/verify": "^0.3",
         "codeception/specify": "^0.4",
-        "squizlabs/php_codesniffer": "^2.8",
-        "phalcon/zephir": "dev-master#ff769131f3751b590da702e3c7595411c07b0919"
+        "squizlabs/php_codesniffer": "^2.9",
+        "phalcon/zephir": "^0.9"
     },
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Phalcon Team",
             "email": "team@phalconphp.com",
-            "homepage": "http://phalconphp.com/en/team"
+            "homepage": "https://phalconphp.com/en/team"
         },
         {
             "name": "Contributors",
@@ -37,6 +38,7 @@
     "autoload-dev": {
         "psr-4": {
             "Phalcon\\Test\\Unit\\": "tests/unit/",
+            "Phalcon\\Test\\Unit5x\\": "tests/unit5x/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/",
             "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
@@ -46,9 +48,10 @@
         "issues": "https://github.com/phalcon/cphalcon/issues",
         "source": "https://github.com/phalcon/cphalcon",
         "forum": "https://forum.phalconphp.com/",
-        "docs": "http://docs.phalconphp.com/",
+        "docs": "https://docs.phalconphp.com/",
         "wiki": "https://github.com/phalcon/cphalcon/wiki",
         "irc": "irc://irc.freenode.org/phalconphp",
-        "rss" : "https://blog.phalconphp.com/rss"
+        "rss" : "https://blog.phalconphp.com/rss",
+        "email": "support@phalconphp.com"
     }
 }

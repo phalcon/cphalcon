@@ -6,7 +6,7 @@ use Phalcon\Test\Module\UnitTest;
 use Phalcon\Annotations\Adapter\Files;
 
 /**
- * \Phalcon\Test\Unit\Annotations\Adapter\FilesTest
+ * Phalcon\Test\Unit\Annotations\Adapter\FilesTest
  * Tests for \Phalcon\Annotations\Adapter\Files component
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -16,7 +16,7 @@ use Phalcon\Annotations\Adapter\Files;
  * @package   Phalcon\Test\Unit\Annotations
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com

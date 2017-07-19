@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *options_param = NULL, *data = NULL;
 	zval *options = NULL;
@@ -53,7 +53,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	options = options_param;
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, this_ptr, "__construct", &_0, 452, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, getThis(), "__construct", &_0, 463, options);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(data);
 	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 0 TSRMLS_CC))) {
@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/translate/adapter/nativearray.zep", 49);
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_translate"), data TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_translate"), data TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *placeholders = NULL, *translation = NULL, *_0;
 	zval *index = NULL;
 

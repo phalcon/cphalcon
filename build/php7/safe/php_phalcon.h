@@ -64,18 +64,7 @@ typedef struct _zephir_function_cache {
 	zend_function *func;
 } zephir_function_cache;
 
-#ifndef ZEPHIR_RELEASE
-
-typedef struct _zephir_fcall_cache_entry {
-	zend_function *f;
-	uint times;
-} zephir_fcall_cache_entry;
-
-#else
-
 typedef zend_function zephir_fcall_cache_entry;
-
-#endif
 
 #define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 
@@ -143,10 +132,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "3.1.2"
+#define PHP_PHALCON_VERSION     "3.2.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.9.7-1fae5e50ac"
+#define PHP_PHALCON_ZEPVERSION  "0.9.9-868cb1f92b"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -169,6 +158,8 @@ typedef struct _zephir_struct_orm {
 	zend_bool enable_implicit_joins;
 	zend_bool cast_on_hydrate;
 	zend_bool ignore_unknown_columns;
+	zend_bool update_snapshot_on_save;
+	zend_bool disable_assign_setters;
 } zephir_struct_orm;
 
 

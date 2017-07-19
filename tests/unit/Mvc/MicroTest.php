@@ -1,4 +1,18 @@
 <?php
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file LICENSE.txt.                             |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ */
 
 namespace Phalcon\Test\Unit\Mvc;
 
@@ -9,22 +23,11 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Test\Module\UnitTest;
 
 /**
- * \Phalcon\Test\Unit\Mvc\MicroTest
+ * Phalcon\Test\Unit\Mvc\MicroTest
+ *
  * Tests the Phalcon\Mvc\Micro component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
  */
 class MicroTest extends UnitTest
 {
@@ -66,7 +69,7 @@ class MicroTest extends UnitTest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-11-19
      */
-    public function tesAfterBindingMiddleware()
+    public function testAfterBindingMiddleware()
     {
         $this->specify(
             'afterBinding middleware should be called',
@@ -84,7 +87,84 @@ class MicroTest extends UnitTest
                         return 'test';
                     }
                 );
+                expect($micro->handle('/test'))->equals('test');
+            }
+        );
+    }
+
+    public function testStopMiddlewareOnAfterBindingClosure()
+    {
+        $this->specify(
+            "afterBinding middleware doesn't work as expected",
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $micro->afterBinding(
+                    function () use ($micro) {
+                        $micro->stop();
+                        return false;
+                    }
+                );
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
                 expect($micro->handle('/test'))->isEmpty();
+            }
+        );
+    }
+
+    public function testStopMiddlewareOnAfterBindingClassFirst()
+    {
+        $this->specify(
+            "afterBinding middleware doesn't work as expected",
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $middleware = new \MyMiddleware();
+                $middlewareStop = new \MyMiddlewareStop();
+                $micro->afterBinding($middlewareStop);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+                expect($middlewareStop->getNumber())->equals(1);
+                expect($middleware->getNumber())->equals(0);
+            }
+        );
+    }
+
+    public function testStopMiddlewareOnAfterBindingClass()
+    {
+        $this->specify(
+            "afterBinding middleware doesn't work as expected",
+            function () {
+                $di = new FactoryDefault();
+                $micro = new Micro($di);
+                $middleware = new \MyMiddleware();
+                $middlewareStop = new \MyMiddlewareStop();
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middleware);
+                $micro->afterBinding($middlewareStop);
+                $micro->afterBinding($middleware);
+                $micro->get(
+                    '/test',
+                    function () {
+                        return 'test';
+                    }
+                );
+                expect($micro->handle('/test'))->isEmpty();
+                expect($middleware->getNumber())->equals(3);
+                expect($middlewareStop->getNumber())->equals(1);
             }
         );
     }
@@ -179,16 +259,18 @@ class MicroTest extends UnitTest
                 $app = new Micro();
 
                 $app->before(
-                    function () use (&$trace) {
+                    function () use ($app, &$trace) {
                         $trace[] = 1;
+                        $app->stop();
 
                         return false;
                     }
                 );
 
                 $app->before(
-                    function () use (&$trace) {
+                    function () use ($app, &$trace) {
                         $trace[] = 1;
+                        $app->stop();
 
                         return false;
                     }
@@ -243,6 +325,40 @@ class MicroTest extends UnitTest
         );
     }
 
+    public function testMicroAfterHandlersIfOneStop()
+    {
+        $this->specify(
+            "Micro::finish event handlers don't work as expected",
+            function () {
+                $trace = array();
+
+                $app = new Micro();
+
+                $app->after(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->after(function () use ($app, &$trace) {
+                    $trace[] = 1;
+                    $app->stop();
+                });
+
+                $app->after(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->map('/blog', function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->handle('/blog');
+
+                expect($trace)->count(3);
+            }
+        );
+    }
+
+
     public function testMicroFinishHandlers()
     {
         $this->specify(
@@ -277,6 +393,40 @@ class MicroTest extends UnitTest
             }
         );
     }
+
+    public function testMicroFinishHandlersIfOneStop()
+    {
+        $this->specify(
+            "Micro::finish event handlers don't work as expected",
+            function () {
+                $trace = array();
+
+                $app = new Micro();
+
+                $app->finish(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->finish(function () use ($app, &$trace) {
+                    $trace[] = 1;
+                    $app->stop();
+                });
+
+                $app->finish(function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->map('/blog', function () use (&$trace) {
+                    $trace[] = 1;
+                });
+
+                $app->handle('/blog');
+
+                expect($trace)->count(3);
+            }
+        );
+    }
+
 
     public function testMicroEvents()
     {
@@ -409,7 +559,7 @@ class MicroTest extends UnitTest
         );
     }
 
-    public function testMicroStopMiddlewareClasses()
+    public function testMicroStopMiddlewareOnBeforeClasses()
     {
         $this->specify(
             "Micro middleware events don't work as expected",
@@ -436,7 +586,60 @@ class MicroTest extends UnitTest
 
                 $app->handle("/api/site");
 
-                expect($middleware->getNumber())->equals(3);
+                expect($middleware->getNumber())->equals(1);
+            }
+        );
+    }
+
+    public function testMicroStopMiddlewareOnAfterAndFinishClasses()
+    {
+        $this->specify(
+            "Micro middleware events don't work as expected",
+            function () {
+                $app = new Micro();
+
+                $app->map(
+                    '/api/site',
+                    function () {
+                        return true;
+                    }
+                );
+
+                $middleware = new \MyMiddlewareStop();
+
+                $app->after($middleware);
+                $app->after($middleware);
+
+                $app->finish($middleware);
+                $app->finish($middleware);
+
+                $app->handle('/api/site');
+
+                expect($middleware->getNumber())->equals(2);
+            }
+        );
+    }
+
+
+    public function testMicroResponseAlreadySentError()
+    {
+        $this->specify(
+            "Micro::handle method doesn't work as expected",
+            function () {
+                $app = new Micro();
+                $app->after(
+                    function () use ($app) {
+                        $content = $app->getReturnedValue();
+                        $app->response->setJsonContent($content)->send();
+                    }
+                );
+                $app->map(
+                    '/api',
+                    function () {
+                        return 'success';
+                    }
+                );
+                expect($app->handle('/api'))->equals('success');
             }
         );
     }

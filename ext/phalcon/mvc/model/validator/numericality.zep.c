@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 
 	zval *_4$$5;
 	zend_bool _2;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field = NULL, *value = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_3$$5 = NULL, *_5$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate) {
 		ZEPHIR_INIT_VAR(_4$$5);
 		zephir_create_array(_4$$5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_4$$5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 26, message, _4$$5);
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 27, message, _4$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_3$$5);
 		ZVAL_STRING(_3$$5, "Numericality", ZEPHIR_TEMP_PARAM_COPY);

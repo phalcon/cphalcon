@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -50,6 +50,10 @@ use Phalcon\Config\Exception;
 class Config implements \ArrayAccess, \Countable
 {
 
+	protected static _pathDelimiter;
+
+	const DEFAULT_PATH_DELIMITER = ".";
+
 	/**
 	 * Phalcon\Config constructor
 	 */
@@ -76,6 +80,49 @@ class Config implements \ArrayAccess, \Countable
 		let index = strval(index);
 
 		return isset this->{index};
+	}
+
+	/**
+	 * Returns a value from current config using a dot separated path.
+	 *
+	 *<code>
+	 * echo $config->path("unknown.path", "default", ".");
+	 *</code>
+	 */
+	public function path(string! path, var defaultValue = null, var delimiter = null) -> var
+	{
+		var key, keys, config;
+
+		if isset this->{path} {
+			return this->{path};
+		}
+
+		if empty delimiter {
+			let delimiter = self::getPathDelimiter();
+		}
+
+		let config = this,
+			keys = explode(delimiter, path);
+
+		while !empty keys {
+			let key = array_shift(keys);
+
+			if !isset config->{key} {
+				break;
+			}
+
+			if empty keys {
+				return config->{key};
+			}
+
+			let config = config->{key};
+
+			if empty config {
+				break;
+			}
+		}
+
+		return defaultValue;
 	}
 
 	/**
@@ -223,6 +270,29 @@ class Config implements \ArrayAccess, \Countable
 	}
 
 	/**
+	 * Sets the default path delimiter
+	 */
+	public static function setPathDelimiter(string! delimiter = null) -> void
+	{
+		let self::_pathDelimiter = delimiter;
+	}
+
+	/**
+	 * Gets the default path delimiter
+	 */
+	public static function getPathDelimiter() -> string
+	{
+		var delimiter;
+
+		let delimiter = self::_pathDelimiter;
+		if !delimiter {
+			let delimiter = self::DEFAULT_PATH_DELIMITER;
+		}
+
+		return delimiter;
+	}
+
+	/**
 	 * Helper method for merge configs (forwarding nested config instance)
 	 *
 	 * @param Config config
@@ -232,7 +302,7 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	protected final function _merge(<Config> config, var instance = null) -> <Config>
 	{
-		var key, value, number, localObject;
+		var key, value, number, localObject, property;
 
 		if typeof instance !== "object" {
 			let instance = this;
@@ -242,7 +312,8 @@ class Config implements \ArrayAccess, \Countable
 
 		for key, value in get_object_vars(config) {
 
-			if fetch localObject, instance->{key} {
+			let property = strval(key);
+			if fetch localObject, instance->{property} {
 				if typeof localObject === "object" && typeof value === "object" {
 					if localObject instanceof Config && value instanceof Config {
 						this->_merge(value, localObject);

@@ -6,6 +6,7 @@ use Phalcon\Db;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Helper\Dialect\MysqlTrait;
 
 /**
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\MysqlTest
@@ -18,7 +19,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
  * @package   Phalcon\Test\Unit\Db\Adapter\Pdo
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -26,6 +27,8 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
  */
 class MysqlTest extends UnitTest
 {
+    use MysqlTrait;
+
     /**
      * @var Mysql
      */
@@ -35,14 +38,18 @@ class MysqlTest extends UnitTest
     {
         parent::_before();
 
-        $this->connection = new Mysql([
-            'host'     => TEST_DB_MYSQL_HOST,
-            'username' => TEST_DB_MYSQL_USER,
-            'password' => TEST_DB_MYSQL_PASSWD,
-            'dbname'   => TEST_DB_MYSQL_NAME,
-            'port'     => TEST_DB_MYSQL_PORT,
-            'charset'  => TEST_DB_MYSQL_CHARSET,
-        ]);
+        try {
+            $this->connection = new Mysql([
+                'host'     => TEST_DB_MYSQL_HOST,
+                'username' => TEST_DB_MYSQL_USER,
+                'password' => TEST_DB_MYSQL_PASSWD,
+                'dbname'   => TEST_DB_MYSQL_NAME,
+                'port'     => TEST_DB_MYSQL_PORT,
+                'charset'  => TEST_DB_MYSQL_CHARSET,
+            ]);
+        } catch (\PDOException $e) {
+            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+        }
     }
 
     /**
@@ -61,6 +68,8 @@ class MysqlTest extends UnitTest
                     'artists',
                     'childs',
                     'customers',
+                    'foreign_key_child',
+                    'foreign_key_parent',
                     'issue12071_body',
                     'issue12071_head',
                     'issue_11036',
@@ -80,6 +89,7 @@ class MysqlTest extends UnitTest
                     'robots_parts',
                     'songs',
                     'stats',
+                    'stock',
                     'subscriptores',
                     'tipo_documento',
                     'users',
@@ -147,6 +157,78 @@ class MysqlTest extends UnitTest
                         "identifier" => ["`schema`", "rob`ots"],
                         "expected"   => "```schema```.`rob``ots`",
                     ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests Mysql::addForeignKey
+     *
+     * @test
+     * @issue  556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    public function shouldAddForeignKey()
+    {
+        $this->specify(
+            "Foreign key hasn't created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->addForeignKey('test_name_key', 'CASCADE', 'RESTRICT'), true],
+                    [$this->addForeignKey('', 'CASCADE', 'RESTRICT'), true]
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Tests Mysql::getForeignKey
+     *
+     * @test
+     * @issue  556
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  2017-07-03
+     */
+    public function shouldCheckAddedForeignKey()
+    {
+        $this->specify(
+            "Foreign key isn't created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql, ['MYSQL_ATTR_USE_BUFFERED_QUERY']))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->getForeignKey('test_name_key'), true],
+                    [$this->getForeignKey('foreign_key_child_ibfk_1'), true]
+                ]
+            ]
+        );
+    }
+
+     /**
+      * Tests Mysql::dropAddForeignKey
+      *
+      * @test
+      * @issue  556
+      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+      * @since  2017-07-03
+      */
+    public function shouldDropForeignKey()
+    {
+        $this->specify(
+            "Foreign key can't be created",
+            function ($sql, $expected) {
+                expect($this->connection->execute($sql))->equals($expected);
+            },
+            [
+                'examples' => [
+                    [$this->dropForeignKey('test_name_key'), true],
+                    [$this->dropForeignKey('foreign_key_child_ibfk_1'), true]
                 ]
             ]
         );

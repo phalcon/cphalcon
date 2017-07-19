@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_dateFormat");
+	RETURN_MEMBER(getThis(), "_dateFormat");
 
 }
 
@@ -72,8 +72,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat) {
 	zephir_get_strval(dateFormat, dateFormat_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_dateFormat"), dateFormat TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	zephir_update_property_this(getThis(), SL("_dateFormat"), dateFormat TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_format");
+	RETURN_MEMBER(getThis(), "_format");
 
 }
 
@@ -102,8 +102,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 	zephir_get_strval(format, format_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
+	zephir_update_property_this(getThis(), SL("_format"), format TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -128,10 +128,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
 
 	if (zephir_is_true(format)) {
-		zephir_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_format"), format TSRMLS_CC);
 	}
 	if (zephir_is_true(dateFormat)) {
-		zephir_update_property_this(this_ptr, SL("_dateFormat"), dateFormat TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_dateFormat"), dateFormat TSRMLS_CC);
 	}
 
 }
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
-	int type, timestamp, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type, timestamp, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *format = NULL, *_8, _9, *_10, *_11, *_0$$3, *_1$$3, _2$$3 = zval_used_for_init, *_3$$3 = NULL, *_4$$4, *_5$$4 = NULL, *_6$$4, _7$$4;
 	zval *message = NULL;
 
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_2$$3);
 		ZVAL_LONG(&_2$$3, timestamp);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "date", NULL, 302, _1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "date", NULL, 311, _1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_2$$3);
 		ZVAL_STRING(&_2$$3, "%date%", 0);

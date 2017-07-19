@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_ce, "The backends must be an array", "phalcon/cache/multiple.zep", 100);
 			return;
 		}
-		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_backends"), backends TSRMLS_CC);
 	}
 
 }
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get) {
 
 	HashTable *_2;
 	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *lifetime = NULL, *backend = NULL, *content = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start) {
 
 	HashTable *_2;
 	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *lifetime = NULL, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save) {
 
 	HashTable *_2;
 	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete) {
 
 	HashTable *_2;
 	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName, *backend = NULL, *_0, **_3;
 
 	ZEPHIR_MM_GROW();
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists) {
 
 	HashTable *_2;
 	HashPosition _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keyName = NULL, *lifetime = NULL, *backend = NULL, *_0, **_3, *_4$$3 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, flush) {
 	HashTable *_2;
 	HashPosition _1;
 	zval *backend = NULL, *_0, **_3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 

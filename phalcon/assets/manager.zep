@@ -6,7 +6,7 @@
  | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -221,12 +221,12 @@ class Manager
 	}
 
 	/**
-	* Returns a collection by its id
-	*
-	*<code>
-	* $scripts = $assets->get("js");
-	*</code>
-	*/
+	 * Returns a collection by its id.
+	 *
+	 * <code>
+	 * $scripts = $assets->get("js");
+	 * </code>
+	 */
 	public function get(string! id) -> <Collection>
 	{
 		var collection;
@@ -287,6 +287,18 @@ class Manager
 		return collection;
 	}
 
+	public function collectionResourcesByType(array resources, string type) -> array
+	{
+		var $filtered = [], $resource;
+		for $resource in resources {
+			if $resource->getType() == type {
+				let $filtered[] = $resource;
+			}
+		}
+
+		return $filtered;
+	}
+
 	/**
 	 * Traverses a collection calling the callback to generate its HTML
 	 *
@@ -310,7 +322,7 @@ class Manager
 		/**
 		 * Get the resources as an array
 		 */
-		let resources = collection->getResources();
+		let resources = this->collectionResourcesByType(collection->getResources(), type);
 
 		/**
 		 * Get filters in the collection
@@ -839,7 +851,14 @@ class Manager
 	}
 
 	/**
-	 * Returns true or false if collection exists
+	 * Returns true or false if collection exists.
+	 *
+	 * <code>
+	 * if ($assets->exists("jsHeader")) {
+	 *     // \Phalcon\Assets\Collection
+	 *     $collection = $assets->get("jsHeader");
+	 * }
+	 * </code>
 	 */
 	public function exists(string! id) -> bool
 	{

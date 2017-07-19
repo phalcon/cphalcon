@@ -28,7 +28,7 @@ use DirectoryIterator;
  * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -976,7 +976,7 @@ class ViewTest extends UnitTest
         );
     }
 
-    public function ytestCacheMethods()
+    public function testCacheMethods()
     {
         $this->specify(
             "View methods don't return the View instance",
@@ -1003,10 +1003,6 @@ class ViewTest extends UnitTest
      */
     public function testIssue12648()
     {
-        if (PHP_MAJOR_VERSION != 5) {
-            $this->markTestSkipped("This issue is fixed only for php5");
-        }
-
         $this->specify(
             "View params are available in local scope",
             function () {
