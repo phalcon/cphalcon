@@ -122,7 +122,8 @@ class File extends Validator
 		}
 
 		if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-			let message = this->prepareMessage(validation, field, "FileEmpty", "messageEmpty");
+			let message = this->prepareMessage(validation, field, "FileEmpty", "messageEmpty"),
+			    replacePairs = [":field": label];
 
 			validation->appendMessage(
 				new Message(
@@ -137,7 +138,8 @@ class File extends Validator
 		}
 
 		if !isset value["name"] || !isset value["type"] || !isset value["size"] {
-			let message = this->prepareMessage(validation, field, "FileValid", "messageValid");
+			let message = this->prepareMessage(validation, field, "FileValid", "messageValid"),
+			    replacePairs = [":field": label];
 
 			validation->appendMessage(
 				new Message(
@@ -171,7 +173,8 @@ class File extends Validator
 			let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
 
 			if floatval(value["size"]) > floatval(bytes) {
-				let message = this->prepareMessage(validation, field, "FileSize", "messageSize");
+				let message = this->prepareMessage(validation, field, "FileSize", "messageSize"),
+					replacePairs = [":field": label, ":max": maxSize];
 
 				validation->appendMessage(
 					new Message(
