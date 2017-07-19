@@ -155,7 +155,7 @@ class File extends Validator
 
 			let byteUnits = ["B": 0, "K": 10, "M": 20, "G": 30, "T": 40, "KB": 10, "MB": 20, "GB": 30, "TB": 40],
 				maxSize = this->getOption("maxSize"),
-				matches = NULL,
+				matches = null,
 				unit = "B";
 
 			if typeof maxSize == "array" {
