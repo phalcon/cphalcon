@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Paginator\Adapter;
 use Helper\ModelTrait;
 use Phalcon\Di;
 use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Test\Models\Robos;
 use Phalcon\Test\Models\Stock;
 use Phalcon\Test\Module\UnitTest;
 
@@ -124,6 +125,43 @@ class QueryBuilderTest extends UnitTest
                         "limit"   => 1,
                         "page"    => 2,
                         "columns" => "id,stock"
+                    ]
+                ))->getPaginate();
+
+                expect($paginate->total_pages)->equals(2);
+                expect($paginate->total_items)->equals(2);
+            }
+        );
+    }
+
+    /**
+     * Tests query builder pagination with having and group with a different db service than 'db'
+     *
+     * @author David Napierata
+     * @since  2017-07-18
+     */
+    public function testIssue12957()
+    {
+        $this->specify(
+            "Query builder paginator doesn't work correctly with a different db service",
+            function () {
+                $modelsManager = $this->setUpModelsManager();
+                $di = $modelsManager->getDI();
+                $di->set(
+                    'dbTwo',
+                    $di->get('db')
+                );
+                $builder = $modelsManager->createBuilder()
+                    ->columns("COUNT(*) as robos_count")
+                    ->from(['Robos' => Robos::class])
+                    ->groupBy('type')
+                    ->having('MAX(Robos.year) > 1970');
+
+                $paginate = (new QueryBuilder(
+                    [
+                        "builder" => $builder,
+                        "limit"   => 1,
+                        "page"    => 2
                     ]
                 ))->getPaginate();
 
