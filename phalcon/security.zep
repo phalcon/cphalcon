@@ -512,7 +512,7 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getSslVersionNumber() -> int
 	{
-		var matches;
+		var matches = null;
 
 		preg_match("#^(?:Libre|Open)SSL ([\d]+)\.([\d]+)(\.([\d]+))?$#", OPENSSL_VERSION_TEXT, matches);
 
