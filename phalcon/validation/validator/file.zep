@@ -107,7 +107,8 @@ class File extends Validator
 
 		// Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
 		if _SERVER["REQUEST_METHOD"] == "POST" && empty _POST && empty _FILES && _SERVER["CONTENT_LENGTH"] > 0 || isset value["error"] && value["error"] === UPLOAD_ERR_INI_SIZE {
-			let message = this->prepareMessage(validation, field, "FileIniSize", "messageIniSize");
+			let message = this->prepareMessage(validation, field, "FileIniSize", "messageIniSize"),
+			    replacePairs = [":field": label];
 
 			validation->appendMessage(
 				new Message(
