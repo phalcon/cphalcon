@@ -34,6 +34,9 @@ class FileTest extends UnitTest
      */
     public function testSingleField()
     {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_SERVER['CONTENT_LENGTH'] = 1024;
+
         $this->specify(
             'Test file validator.',
             function () {
