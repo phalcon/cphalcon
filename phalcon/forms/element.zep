@@ -63,7 +63,7 @@ abstract class Element implements ElementInterface
 		let name = trim(name);
 		
 		if empty name {
-			throw new \InvalidArgumentException('Form element name is required');
+			throw new \InvalidArgumentException("Form element name is required");
 		}
 		
 		let this->_name = name;
