@@ -335,12 +335,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			handler = null,
 			numberDispatches = 0,
 
-			handlerSuffix = this->_handlerSuffix,
-			actionSuffix = this->_actionSuffix,
-
 			this->_finished = false;
 
 		while !this->_finished {
+			let handlerSuffix = this->_handlerSuffix,
+				actionSuffix = this->_actionSuffix;
 
 			let numberDispatches++;
 
