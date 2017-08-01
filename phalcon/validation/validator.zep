@@ -40,17 +40,6 @@ abstract class Validator implements ValidatorInterface
 	}
 
 	/**
-	 * Checks if an option has been defined
-
-	 * @deprecated since 2.1.0
-	 * @see \Phalcon\Validation\Validator::hasOption()
-	 */
-	deprecated public function isSetOption(string! key) -> boolean
-	{
-		return isset this->_options[key];
-	}
-
-	/**
 	 * Checks if an option is defined
 	 */
 	public function hasOption(string! key) -> boolean

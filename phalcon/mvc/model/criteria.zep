@@ -263,17 +263,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Appends a condition to the current conditions using an AND operator (deprecated)
-	 *
-	 * @deprecated 1.0.0
-	 * @see \Phalcon\Mvc\Model\Criteria::andWhere()
-	 */
-	deprecated public function addWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
-	{
-		return this->andWhere(conditions, bindParams, bindTypes);
-	}
-
-	/**
 	 * Appends a condition to the current conditions using an AND operator
 	 */
 	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
@@ -465,17 +454,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	public function conditions(string! conditions) -> <Criteria>
 	{
 		let this->_params["conditions"] = conditions;
-		return this;
-	}
-
-	/**
-	 * Adds the order-by parameter to the criteria (deprecated)
-	 *
-	 * @see \Phalcon\Mvc\Model\Criteria::orderBy()
-	 */
-	deprecated public function order(string! orderColumns) -> <Criteria>
-	{
-		let this->_params["order"] = orderColumns;
 		return this;
 	}
 
