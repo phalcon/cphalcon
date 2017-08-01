@@ -191,16 +191,4 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	{
 		return isset this->_options[option];
 	}
-
-	/**
-	 * Calls the action method.
-	 */
-	public function callActionMethod(handler, string actionMethod, array! params = []) -> var
-	{
-		var options;
-
-		let options = this->_options;
-		
-		return call_user_func_array([handler, actionMethod], [params, options]);
-	}
 }

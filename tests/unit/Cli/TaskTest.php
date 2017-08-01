@@ -45,7 +45,7 @@ class TaskTest extends UnitTest
 
                 expect($task->requestRegistryAction())->equals("data");
                 expect($task->helloAction())->equals("Hello !");
-                expect($task->helloAction(["World"]))->equals("Hello World!");
+                expect($task->helloAction("World"))->equals("Hello World!");
 
                 $task2 = new \EchoTask();
                 $task2->setDI($di);

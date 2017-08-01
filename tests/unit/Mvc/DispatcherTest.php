@@ -586,33 +586,6 @@ class DispatcherTest extends UnitTest
         );
     }
 
-    public function testCallActionMethod()
-    {
-        $this->specify(
-            "Action method isn't called properly",
-            function () {
-                $di = new FactoryDefault();
-
-                $dispatcher = new Dispatcher();
-
-                $di->setShared("dispatcher", $dispatcher);
-
-                $dispatcher->setDI($di);
-
-                $mainTask = new \Test2Controller();
-                $mainTask->setDI($di);
-
-                $actionMethod = $dispatcher->callActionMethod(
-                    $mainTask,
-                    "anotherTwoAction",
-                    [1, 2]
-                );
-
-                expect($actionMethod)->equals(3);
-            }
-        );
-    }
-
     public function testLastController()
     {
         $this->specify(

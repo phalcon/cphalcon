@@ -113,7 +113,7 @@ class DispatcherTest extends UnitTest
                 $dispatcher->setActionName('params');
                 $dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
                 $dispatcher->dispatch();
-                expect($dispatcher->getReturnedValue())->equals('$params is the same as $this->dispatcher->getParams()');
+                expect($dispatcher->getReturnedValue())->equals('Action params are the same as $this->dispatcher->getParams()');
 
                 // Test $this->dispatcher->getParam()
                 $dispatcher->setTaskName('params');
@@ -121,29 +121,6 @@ class DispatcherTest extends UnitTest
                 $dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
                 $dispatcher->dispatch();
                 expect($dispatcher->getReturnedValue())->equals('$param[0] is the same as $this->dispatcher->getParam(0)');
-            }
-        );
-    }
-
-    public function testCallActionMethod()
-    {
-        $this->specify(
-            "CLI Dispatcher's callActionMethod doesn't work as expected",
-            function () {
-                $di = new CliFactoryDefault();
-
-                $dispatcher = new Dispatcher();
-
-                $di->setShared("dispatcher", $dispatcher);
-
-                $dispatcher->setDI($di);
-
-                $mainTask = new \MainTask();
-                $mainTask->setDI($di);
-
-                expect($dispatcher->callActionMethod($mainTask, 'mainAction', []))->equals('mainAction');
-                expect($dispatcher->callActionMethod($mainTask, 'helloAction', ['World']))->equals('Hello World!');
-                expect($dispatcher->callActionMethod($mainTask, 'helloAction', ['World', '.']))->equals('Hello World.');
             }
         );
     }

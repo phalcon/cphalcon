@@ -7,3 +7,4 @@
 - Changed `Phalcon\Db\Dialect\Postgresql::describeReferences` to generate correct SQL for postgresql adapter, added constraints on update and on delete
 - Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` method for postgresql adapter
 - Change catch Exception to Throwable [#12288](https://github.com/phalcon/cphalcon/issues/12288)
+- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
