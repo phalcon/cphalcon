@@ -101,12 +101,12 @@ interface RequestInterface
 	/**
 	 * Checks whether request has been made using SOAP
 	 */
-	public function isSoapRequested() -> boolean;
+	public function isSoap() -> boolean;
 
 	/**
 	 * Checks whether request has been made using any secure layer
 	 */
-	public function isSecureRequest() -> boolean;
+	public function isSecure() -> boolean;
 
 	/**
 	 * Gets HTTP raw request body
