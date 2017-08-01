@@ -37,38 +37,34 @@ interface ValidationInterface
 	 *
 	 * @param array|object data
 	 * @param object entity
-	 * @return \Phalcon\Validation\Message\Group
 	 */
 	public function validate(var data = null, var entity = null) -> <Group>;
 
 	/**
 	 * Adds a validator to a field
 	 */
-	public function add(string field, <ValidatorInterface> validator) -> <Validation>;
+	public function add(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
 
 	/**
 	 * Alias of `add` method
 	 */
-	public function rule(string field, <ValidatorInterface> validator) -> <Validation>;
+	public function rule(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
 
 	/**
 	 * Adds the validators to a field
 	 */
-	public function rules(string! field, array! validators) -> <Validation>;
+	public function rules(string! field, array! validators) -> <ValidationInterface>;
 
 	/**
 	 * Adds filters to the field
 	 *
-	 * @param string field
 	 * @param array|string filters
-	 * @return \Phalcon\Validation
 	 */
-	public function setFilters(string field, filters) -> <Validation>;
+	public function setFilters(string field, filters) -> <ValidationInterface>;
 
 	/**
 	 * Returns all the filters or a specific one
 	 *
-	 * @param string field
 	 * @return mixed
 	 */
 	public function getFilters(string field = null);
@@ -92,8 +88,6 @@ interface ValidationInterface
 
 	/**
 	 * Get default message for validator type
-	 *
-	 * @param string type
 	 */
 	public function getDefaultMessage(string! type);
 
@@ -109,11 +103,8 @@ interface ValidationInterface
 
 	/**
 	 * Get label for field
-	 *
-	 * @param string field
-	 * @return string
 	 */
-	public function getLabel(string! field);
+	public function getLabel(string! field) -> string;
 
 	/**
 	 * Appends a message to the messages list
@@ -126,15 +117,11 @@ interface ValidationInterface
 	 *
 	 * @param object entity
 	 * @param array|object data
-	 * @return \Phalcon\Validation
 	 */
-	public function bind(entity, data) -> <Validation>;
+	public function bind(entity, data) -> <ValidationInterface>;
 
 	/**
 	 * Gets the a value to validate in the array/object data source
-	 *
-	 * @param string field
-	 * @return mixed
 	 */
-	public function getValue(string field);
+	public function getValue(string field) -> var | null;
 }

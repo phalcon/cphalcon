@@ -82,27 +82,22 @@ interface DispatcherInterface
 	/**
 	 * Set a param by its name or numeric index
 	 *
-	 * @param  mixed param
 	 * @param  mixed value
 	 */
-	public function setParam(param, value);
+	public function setParam(var param, value);
 
 	/**
 	 * Gets a param by its name or numeric index
 	 *
-	 * @param  mixed param
 	 * @param  string|array filters
 	 * @return mixed
 	 */
-	public function getParam(param, filters = null);
+	public function getParam(var param, filters = null);
 
 	/**
 	 * Check if a param exists
-	 *
-	 * @param  mixed param
-	 * @return boolean
 	 */
-	public function hasParam(param) -> boolean;
+	public function hasParam(var param) -> boolean;
 
 	/**
 	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
@@ -111,10 +106,8 @@ interface DispatcherInterface
 
 	/**
 	 * Returns value returned by the latest dispatched action
-	 *
-	 * @return mixed
 	 */
-	public function getReturnedValue();
+	public function getReturnedValue() -> var;
 
 	/**
 	 * Dispatches a handle action taking into account the routing parameters

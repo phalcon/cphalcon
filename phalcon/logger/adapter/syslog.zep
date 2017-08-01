@@ -53,11 +53,8 @@ class Syslog extends Adapter
 
 	/**
 	 * Phalcon\Logger\Adapter\Syslog constructor
-	 *
-	 * @param string name
-	 * @param array options
 	 */
-	public function __construct(name, options = null)
+	public function __construct(string name, array options = [])
 	{
 		var option, facility;
 

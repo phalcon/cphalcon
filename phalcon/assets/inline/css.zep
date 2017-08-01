@@ -32,8 +32,6 @@ class Css extends InlineBase
 	/**
 	 * Phalcon\Assets\Inline\Css
 	 *
-	 * @param string content
-	 * @param boolean filter
 	 * @param array attributes
 	 */
 	public function __construct(string content, boolean filter = true, attributes = null)

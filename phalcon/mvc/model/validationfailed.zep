@@ -37,7 +37,6 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
 	/**
 	 * Phalcon\Mvc\Model\ValidationFailed constructor
 	 *
-	 * @param Model model
 	 * @param Message[] validationMessages
 	 */
 	public function __construct(<Model> model, array! validationMessages)

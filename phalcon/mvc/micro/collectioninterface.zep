@@ -39,19 +39,13 @@ interface CollectionInterface
 
 	/**
 	 * Returns the registered handlers
-	 *
-	 * @return array
 	 */
-	public function getHandlers();
+	public function getHandlers() -> array;
 
 	/**
 	 * Sets the main handler
-	 *
-	 * @param mixed handler
-	 * @param boolean lazy
-	 * @return \Phalcon\Mvc\Micro\Collection
 	 */
-	public function setHandler(handler, boolean lazy = false);
+	public function setHandler(var handler, boolean lazy = false) -> <CollectionInterface>;
 
 	/**
 	 * Sets if the main handler must be lazy loaded
@@ -65,89 +59,47 @@ interface CollectionInterface
 
 	/**
 	 * Returns the main handler
-	 *
-	 * @return mixed
 	 */
-	public function getHandler();
+	public function getHandler() -> var;
 
 	/**
 	 * Maps a route to a handler
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function map(string! routePattern, handler, name = null);
+	public function map(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is GET
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function get(string! routePattern, handler, name = null);
+	public function get(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is POST
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function post(string! routePattern, handler, name = null);
+	public function post(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PUT
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function put(string! routePattern, handler, name = null);
+	public function put(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is PATCH
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function patch(string! routePattern, handler, name = null);
+	public function patch(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is HEAD
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function head(string! routePattern, handler, name = null);
+	public function head(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is DELETE
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function delete(string! routePattern, handler, name = null);
+	public function delete(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 	/**
 	 * Maps a route to a handler that only matches if the HTTP method is OPTIONS
-	 *
-	 * @param  string routePattern
-	 * @param  callable handler
-	 * @param  string name
-	 * @return \Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function options(string! routePattern, handler, name = null);
+	public function options(string! routePattern, callable handler, string name = null) -> <CollectionInterface>;
 
 }

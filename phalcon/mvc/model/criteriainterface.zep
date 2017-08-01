@@ -69,9 +69,7 @@ interface CriteriaInterface
 	/**
 	 * Sets the limit parameter to the criteria
 	 *
-	 * @param int limit
 	 * @param int offset
-	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function limit(int limit, offset = null) -> <CriteriaInterface>;
 
@@ -88,20 +86,16 @@ interface CriteriaInterface
 	/**
 	 * Appends a condition to the current conditions using an AND operator
 	 *
-	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function andWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
 	/**
 	 * Appends a condition to the current conditions using an OR operator
 	 *
-	 * @param string conditions
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function orWhere(string! conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
@@ -112,10 +106,8 @@ interface CriteriaInterface
 	 * $criteria->betweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 *
-	 * @param string expr
 	 * @param mixed minimum
 	 * @param mixed maximum
-	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function betweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
 
@@ -126,10 +118,8 @@ interface CriteriaInterface
 	 * $criteria->notBetweenWhere("price", 100.25, 200.50);
 	 *</code>
 	 *
-	 * @param string expr
 	 * @param mixed minimum
 	 * @param mixed maximum
-	 * @return \Phalcon\Mvc\Model\CriteriaInterface
 	 */
 	public function notBetweenWhere(string! expr, minimum, maximum) -> <CriteriaInterface>;
 
@@ -184,10 +174,8 @@ interface CriteriaInterface
 
 	/**
 	 * Returns all the parameters defined in the criteria
-	 *
-	 * @return array
 	 */
-	public function getParams();
+	public function getParams() -> array;
 
 	/**
 	 * Executes a find using the parameters built with the criteria

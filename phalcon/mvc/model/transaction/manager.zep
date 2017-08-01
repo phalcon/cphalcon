@@ -129,10 +129,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the database service used to isolate the transaction
-	 *
-	 * @return string
 	 */
-	public function getDbService()
+	public function getDbService() -> string
 	{
 		return this->_service;
 	}
@@ -237,10 +235,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 	/**
 	 * Rollbacks active transactions within the manager
 	 * Collect will remove the transaction from the manager
-	 *
-	 * @param boolean collect
 	 */
-	public function rollback(collect = true)
+	public function rollback(boolean collect = true)
 	{
 		var transactions, transaction, connection;
 

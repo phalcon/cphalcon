@@ -23,7 +23,6 @@ namespace Phalcon\Mvc\Model;
  * Phalcon\Mvc\Model\ResultsetInterface
  *
  * Interface for Phalcon\Mvc\Model\Resultset
- *
  */
 interface ResultsetInterface
 {
@@ -35,17 +34,13 @@ interface ResultsetInterface
 
 	/**
 	 * Get first row in the resultset
-	 *
-	 * @return \Phalcon\Mvc\ModelInterface
 	 */
-	public function getFirst();
+	public function getFirst() -> <ModelInterface> | boolean;
 
 	/**
 	 * Get last row in the resultset
-	 *
-	 * @return \Phalcon\Mvc\ModelInterface
 	 */
-	public function getLast();
+	public function getLast() -> <ModelInterface> | boolean;
 
 	/**
 	 * Set if the resultset is fresh or an old one cached
@@ -59,10 +54,8 @@ interface ResultsetInterface
 
 	/**
 	 * Returns the associated cache for the resultset
-	 *
-	 * @return \Phalcon\Cache\BackendInterface
 	 */
-	public function getCache();
+	public function getCache() -> <BackendInterface>;
 
 	/**
 	 * Returns a complete resultset as an array, if the resultset has a big number of rows

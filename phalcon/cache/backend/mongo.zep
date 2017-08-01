@@ -66,11 +66,8 @@ class Mongo extends Backend
 
 	/**
 	 * Phalcon\Cache\Backend\Mongo constructor
-	 *
-	 * @param \Phalcon\Cache\FrontendInterface frontend
-	 * @param array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, array options = [])
 	{
 		if !isset options["mongo"] {
 			if !isset options["server"] {
@@ -186,7 +183,6 @@ class Mongo extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
@@ -271,7 +267,6 @@ class Mongo extends Backend
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
 	public function delete(keyName) -> boolean
 	{

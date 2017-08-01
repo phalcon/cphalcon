@@ -57,9 +57,8 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * Phalcon\Forms\Form constructor
 	 *
 	 * @param object entity
-	 * @param array userOptions
 	 */
-	public function __construct(var entity = null, var userOptions = null)
+	public function __construct(var entity = null, array userOptions = [])
 	{
 		if typeof entity != "null" {
 			if typeof entity != "object" {
@@ -71,9 +70,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		/**
 		 * Update the user options
 		 */
-		if typeof userOptions == "array" {
-			let this->_options = userOptions;
-		}
+		let this->_options = userOptions;
 
 		/**
 		 * Check for an 'initialize' method and call it
@@ -102,11 +99,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Sets an option for the form
-	 *
-	 * @param string option
-	 * @param mixed value
 	 */
-	public function setUserOption(var option, var value) -> <Form>
+	public function setUserOption(string option, var value) -> <Form>
 	{
 		let this->_options[option] = value;
 		return this;
@@ -114,11 +108,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Returns the value of an option if present
-	 *
-	 * @param string option
-	 * @param mixed defaultValue
 	 */
-	public function getUserOption(var option, var defaultValue = null) -> var
+	public function getUserOption(string option, var defaultValue = null) -> var
 	{
 		var value;
 		if fetch value, this->_options[option] {
@@ -176,7 +167,6 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Binds data to the entity
 	 *
-	 * @param array data
 	 * @param object entity
 	 * @param array whitelist
 	 */
@@ -453,11 +443,8 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Renders a specific item in the form
-	 *
-	 * @param string name
-	 * @param array attributes
 	 */
-	public function render(string! name, var attributes = null) -> string
+	public function render(string! name, array attributes = []) -> string
 	{
 		var element;
 

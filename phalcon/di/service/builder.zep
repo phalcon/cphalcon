@@ -33,9 +33,6 @@ class Builder
 	/**
 	 * Resolves a constructor/call parameter
 	 *
-	 * @param \Phalcon\DiInterface dependencyInjector
-	 * @param int position
-	 * @param array argument
 	 * @return mixed
 	 */
 	private function _buildParameter(<DiInterface> dependencyInjector, int position, array! argument)
@@ -122,8 +119,6 @@ class Builder
 	/**
 	 * Builds a service using a complex service definition
 	 *
-	 * @param \Phalcon\DiInterface dependencyInjector
-	 * @param array definition
 	 * @param array parameters
 	 * @return mixed
 	 */

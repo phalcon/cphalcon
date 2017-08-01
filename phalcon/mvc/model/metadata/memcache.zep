@@ -107,7 +107,7 @@ class Memcache extends MetaData
 	/**
 	 * Writes the metadata to Memcache
 	 */
-	public function write(string! key, var data) -> void
+	public function write(string! key, array data) -> void
 	{
 		this->_memcache->save(key, data);
 	}

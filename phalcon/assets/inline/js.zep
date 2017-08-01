@@ -32,8 +32,6 @@ class Js extends InlineBase
 	/**
 	 * Phalcon\Assets\Inline\Js
 	 *
-	 * @param string content
-	 * @param boolean filter
 	 * @param array attributes
 	 */
 	public function __construct(string content, boolean filter = true, var attributes = null)

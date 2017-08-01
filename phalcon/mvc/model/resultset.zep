@@ -109,7 +109,6 @@ abstract class Resultset
 	 * Phalcon\Mvc\Model\Resultset constructor
 	 *
 	 * @param \Phalcon\Db\ResultInterface|false result
-	 * @param \Phalcon\Cache\BackendInterface cache
 	 */
 	public function __construct(result, <BackendInterface> cache = null)
 	{
@@ -409,8 +408,6 @@ abstract class Resultset
 	 * Updates every record in the resultset
 	 *
 	 * @param array data
-	 * @param \Closure conditionCallback
-	 * @return boolean
 	 */
 	public function update(var data, <\Closure> conditionCallback = null) -> boolean
 	{
@@ -568,10 +565,9 @@ abstract class Resultset
 	 * );
 	 *</code>
 	 *
-	 * @param callback filter
 	 * @return \Phalcon\Mvc\Model[]
 	 */
-	public function filter(var filter) -> array
+	public function filter(callable filter) -> array
 	{
 		var records, record, parameters, processedRecord;
 
@@ -610,8 +606,6 @@ abstract class Resultset
      * $robots = Robots::find();
      * echo json_encode($robots);
      *</code>
-     *
-     * @return array
      */
     public function jsonSerialize() -> array
     {

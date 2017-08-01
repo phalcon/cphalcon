@@ -110,7 +110,7 @@ class Redis extends MetaData
 	/**
 	 * Writes the metadata to Redis
 	 */
-	public function write(string! key, var data) -> void
+	public function write(string! key, array data) -> void
 	{
 		this->_redis->save(key, data);
 	}

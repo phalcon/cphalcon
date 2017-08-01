@@ -30,7 +30,6 @@ interface RelationInterface
 	 * Sets the intermediate model dat for has-*-through relations
 	 *
 	 * @param string|array intermediateFields
-	 * @param string intermediateModel
 	 * @param string|array intermediateReferencedFields
 	 */
 	public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields);

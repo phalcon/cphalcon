@@ -54,14 +54,10 @@ class Reflection
 
 	/**
 	 * Phalcon\Annotations\Reflection constructor
-	 *
-	 * @param array reflectionData
 	 */
-	public function __construct(reflectionData = null)
+	public function __construct(array reflectionData = [])
 	{
-		if typeof reflectionData == "array" {
-			let this->_reflectionData = reflectionData;
-		}
+		let this->_reflectionData = reflectionData;
 	}
 
 	/**
@@ -141,30 +137,24 @@ class Reflection
 
 	/**
 	 * Returns the raw parsing intermediate definitions used to construct the reflection
-	 *
-	 * @return array
 	 */
-	public function getReflectionData()
+	public function getReflectionData() -> array
 	{
 		return this->_reflectionData;
 	}
 
 	/**
 	 * Restores the state of a Phalcon\Annotations\Reflection variable export
-	 *
-	 * @return array data
 	 */
-	public static function __set_state(data) -> <Reflection>
+	public static function __set_state(array! data) -> <Reflection>
 	{
 		var reflectionData;
 
-		if typeof data == "array" {
-			/**
-			 * Check for a '_reflectionData' in the array to build the Reflection
-			 */
-			if fetch reflectionData, data["_reflectionData"] {
-				return new self(reflectionData);
-			}
+		/**
+		 * Check for a '_reflectionData' in the array to build the Reflection
+		 */
+		if fetch reflectionData, data["_reflectionData"] {
+			return new self(reflectionData);
 		}
 
 		return new self();

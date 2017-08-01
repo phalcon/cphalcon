@@ -29,10 +29,8 @@ interface ResultInterface
 	/**
 	 * Allows to executes the statement again. Some database systems don't support scrollable cursors,
 	 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
-	 *
-	 * @return boolean
 	 */
-	public function execute();
+	public function execute() -> boolean;
 
 	/**
 	 * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
@@ -53,17 +51,13 @@ interface ResultInterface
 	/**
 	 * Returns an array of arrays containing all the records in the result
 	 * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
-	 *
-	 * @return array
 	 */
-	public function fetchAll();
+	public function fetchAll() -> array;
 
 	/**
 	 * Gets number of rows returned by a resultset
-	 *
-	 * @return int
 	 */
-	public function numRows();
+	public function numRows() -> int;
 
 	/**
 	 * Moves internal resultset cursor to another position letting us to fetch a certain row
@@ -74,10 +68,8 @@ interface ResultInterface
 
 	/**
 	 * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
-	 *
-	 * @param int fetchMode
 	 */
-	public function setFetchMode(fetchMode) -> boolean;
+	public function setFetchMode(int fetchMode) -> boolean;
 
 	/**
 	 * Gets the internal PDO result object

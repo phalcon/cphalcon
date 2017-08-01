@@ -238,9 +238,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Set a param by its name or numeric index
-	 *
-	 * @param  mixed param
-	 * @param  mixed value
 	 */
 	public function setParam(var param, var value)
 	{
@@ -255,7 +252,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 * @param  mixed defaultValue
 	 * @return mixed
 	 */
-	public function getParam(param, filters = null, defaultValue = null)
+	public function getParam(var param, filters = null, defaultValue = null)
 	{
 		var params, filter, paramValue, dependencyInjector;
 
@@ -278,11 +275,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Check if a param exists
-	 *
-	 * @param  mixed param
-	 * @return boolean
 	 */
-	public function hasParam(param) -> boolean
+	public function hasParam(var param) -> boolean
 	{
 		return isset this->_params[param];
 	}
@@ -305,8 +299,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the latest returned value by an action manually
-	 *
-	 * @param mixed value
 	 */
 	public function setReturnedValue(var value)
 	{
@@ -315,10 +307,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns value returned by the latest dispatched action
-	 *
-	 * @return mixed
 	 */
-	public function getReturnedValue()
+	public function getReturnedValue() -> var
 	{
 		return this->_returnedValue;
 	}

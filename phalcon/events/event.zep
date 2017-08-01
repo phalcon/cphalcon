@@ -64,12 +64,9 @@ class Event implements EventInterface
 	/**
 	 * Phalcon\Events\Event constructor
 	 *
-	 * @param string type
 	 * @param object source
-	 * @param mixed data
-	 * @param boolean cancelable
 	 */
-	public function __construct(string! type, source, data = null, boolean cancelable = true)
+	public function __construct(string! type, source, var data = null, boolean cancelable = true)
 	{
 		let this->_type = type,
 			this->_source = source;
@@ -85,9 +82,8 @@ class Event implements EventInterface
 
 	/**
 	 * Sets event data.
-	 * @param mixed data
 	 */
-	public function setData(data = null) -> <EventInterface>
+	public function setData(var data = null) -> <EventInterface>
 	{
 		let this->_data = data;
 

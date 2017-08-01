@@ -266,8 +266,6 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 	/**
 	 * Returns cookies set by the user
-	 *
-	 * @return \Phalcon\Http\Response\CookiesInterface
 	 */
 	public function getCookies() -> <CookiesInterface>
 	{

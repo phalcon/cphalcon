@@ -219,13 +219,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * }
 	 *</code>
 	 *
-	 * @param string sqlQuery
-	 * @param int fetchMode
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return array
 	 */
-	public function fetchAll(string sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+	public function fetchAll(string sqlQuery, int fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
 	{
 		var results, result, row;
 
@@ -233,9 +230,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 		if typeof result == "object" {
 
-			if fetchMode !== null {
-				result->setFetchMode(fetchMode);
-			}
+			result->setFetchMode(fetchMode);
 
 			loop {
 
@@ -267,12 +262,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * print_r($robot);
 	 *</code>
 	 *
-	 * @param  string sqlQuery
-	 * @param  array placeholders
 	 * @param  int|string column
-	 * @return string|
 	 */
-	public function fetchColumn(var sqlQuery, var placeholders = null, var column = 0) -> string | boolean
+	public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | boolean
 	{
 		var row, columnValue;
 
@@ -300,13 +292,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
 	 * </code>
 	 *
-	 * @param   string|array table
-	 * @param 	array values
 	 * @param 	array fields
 	 * @param 	array dataTypes
-	 * @return 	boolean
 	 */
-	public function insert(var table, array! values, var fields = null, var dataTypes = null) -> boolean
+	public function insert(string table, array! values, var fields = null, var dataTypes = null) -> boolean
 	{
 		var placeholders, insertValues, bindDataTypes, bindType,
 			position, value, escapedTable, joinedValues, escapedFields,
@@ -390,12 +379,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
 	 * </code>
 	 *
-	 * @param 	string table
 	 * @param 	array data
 	 * @param 	array dataTypes
-	 * @return 	boolean
 	 */
-	public function insertAsDict(var table, data, var dataTypes = null) -> boolean
+	public function insertAsDict(string table, data, var dataTypes = null) -> boolean
 	{
 		var values = [], fields = [];
 		var field, value;
@@ -446,14 +433,12 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 *
 	 * Warning! If $whereCondition is string it not escaped.
 	 *
-	 * @param   string|array table
 	 * @param 	array fields
 	 * @param 	array values
 	 * @param 	string|array whereCondition
 	 * @param 	array dataTypes
-	 * @return 	boolean
 	 */
-	public function update(var table, var fields, var values, var whereCondition = null, var dataTypes = null) -> boolean
+	public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> boolean
 	{
 		var placeholders, updateValues, position, value,
 			field, bindDataTypes, escapedField, bindType, escapedTable,
@@ -568,13 +553,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
 	 * </code>
 	 *
-	 * @param 	string table
 	 * @param 	array data
 	 * @param 	string whereCondition
 	 * @param 	array dataTypes
-	 * @return 	boolean
 	 */
-	public function updateAsDict(var table, var data, var whereCondition = null, var dataTypes = null) -> boolean
+	public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> boolean
 	{
 		var values = [], fields = [];
 		var field, value;
@@ -605,13 +588,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * DELETE FROM `robots` WHERE `id` = 101
 	 * </code>
 	 *
-	 * @param  string|array table
 	 * @param  string whereCondition
 	 * @param  array placeholders
 	 * @param  array dataTypes
-	 * @return boolean
 	 */
-	public function delete(var table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> boolean
+	public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> boolean
 	{
 		var sql, escapedTable;
 
@@ -660,7 +641,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * Gets a list of columns
 	 *
 	 * @param	array columnList
-	 * @return	string
 	 */
 	public function getColumnList(var columnList) -> string
 	{
@@ -898,9 +878,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * );
 	 *</code>
 	 *
-	 * @param	string table
 	 * @param	string schema
-	 * @return	Phalcon\Db\Index[]
 	 */
 	public function describeIndexes(string! table, schema = null) -> <Index[]>
 	{
@@ -1168,10 +1146,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
 	/**
 	 * Gets the active connection unique identifier
-	 *
-	 * @return string
 	 */
-	public function getConnectionId()
+	public function getConnectionId() -> string
 	{
 		return this->_connectionId;
 	}
@@ -1194,10 +1170,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
 	/**
 	 * Active SQL statement in the object
-	 *
-	 * @return array
 	 */
-	public function getSQLBindTypes()
+	public function getSQLBindTypes() -> array
 	{
 		return this->_sqlBindTypes;
 	}
