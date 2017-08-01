@@ -90,7 +90,7 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest --ignore-platform-reqs
+  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
