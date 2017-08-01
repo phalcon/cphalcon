@@ -54,9 +54,7 @@ abstract class Engine extends Injectable implements EngineInterface
 	/**
 	 * Renders a partial inside another view
 	 *
-	 * @param string partialPath
 	 * @param array params
-	 * @return string
 	 */
 	public function partial(string! partialPath, var params = null) -> string
 	{

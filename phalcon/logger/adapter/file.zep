@@ -61,11 +61,8 @@ class File extends Adapter
 
 	/**
 	 * Phalcon\Logger\Adapter\File constructor
-	 *
-	 * @param string name
-	 * @param array options
 	 */
-	public function __construct(string! name, options = null)
+	public function __construct(string! name, array options = [])
 	{
 		var mode = null, handler;
 

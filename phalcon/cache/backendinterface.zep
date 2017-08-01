@@ -37,24 +37,18 @@ interface BackendInterface
 
 	/**
 	 * Stops the frontend without store any cached content
-	 *
-	 * @param boolean stopBuffer
 	 */
-	public function stop(stopBuffer = true);
+	public function stop(boolean stopBuffer = true);
 
 	/**
 	 * Returns front-end instance adapter related to the back-end
-	 *
-	 * @return mixed
 	 */
-	public function getFrontend();
+	public function getFrontend() -> <FrontendInterface>;
 
 	/**
 	 * Returns the backend options
-	 *
-	 * @return array
 	 */
-	public function getOptions();
+	public function getOptions() -> array;
 
 	/**
 	 * Checks whether the last cache is fresh or cached
@@ -68,17 +62,13 @@ interface BackendInterface
 
 	/**
 	 * Sets the last key used in the cache
-	 *
-	 * @param string lastKey
 	 */
-	public function setLastKey(lastKey);
+	public function setLastKey(string lastKey);
 
 	/**
 	 * Gets the last key stored by the cache
-	 *
-	 * @return string
 	 */
-	public function getLastKey();
+	public function getLastKey() -> string;
 
 	/**
 	 * Returns a cached content
@@ -91,33 +81,27 @@ interface BackendInterface
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 * @return boolean true on success/false otherwise
 	 */
-	public function save(keyName = null, content = null, lifetime = null, stopBuffer = true) -> boolean;
+	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean;
 
 	/**
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
-	public function delete(keyName);
+	public function delete(keyName) -> boolean;
 
 	/**
 	 * Query the existing cached keys
-	 *
-	 * @param string prefix
-	 * @return array
 	 */
-	public function queryKeys(prefix = null);
+	public function queryKeys(string prefix = null) -> array;
 
 	/**
 	 * Checks if cache exists and it hasn't expired
 	 *
 	 * @param  string keyName
 	 * @param  int lifetime
-	 * @return boolean
 	 */
-	public function exists(keyName = null, lifetime = null);
+	public function exists(keyName = null, int lifetime = null) -> boolean;
 }

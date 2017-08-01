@@ -139,7 +139,7 @@ class Transaction implements TransactionInterface
 	/**
 	 * Rollbacks the transaction
 	 */
-	public function rollback(rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> boolean
+	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> boolean
 	{
 		var manager, connection;
 

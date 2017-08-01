@@ -24,7 +24,6 @@ namespace Phalcon\Cli\Router;
  * Phalcon\Cli\Router\Route
  *
  * This class represents every route added to the router
- *
  */
 class Route
 {
@@ -54,7 +53,6 @@ class Route
 	/**
 	 * Phalcon\Cli\Router\Route constructor
 	 *
-	 * @param string pattern
 	 * @param array paths
 	 */
 	public function __construct(string! pattern, paths = null)
@@ -154,7 +152,6 @@ class Route
 	/**
 	 * Extracts parameters from a string
 	 *
-	 * @param string pattern
 	 * @return array|boolean
 	 */
 	public function extractNamedParams(string! pattern)
@@ -292,7 +289,6 @@ class Route
 	/**
 	 * Reconfigure the route adding a new pattern and a set of paths
 	 *
-	 * @param string pattern
 	 * @param array paths
 	 */
 	public function reConfigure(string! pattern, paths = null)
@@ -452,7 +448,6 @@ class Route
 	 * If the callback returns false the route is treated as not matched
 	 *
 	 * @param callback callback
-	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function beforeMatch(var callback) -> <Route>
 	{
@@ -519,9 +514,7 @@ class Route
 	/**
 	 * Adds a converter to perform an additional transformation for certain parameter
 	 *
-	 * @param string name
 	 * @param callable converter
-	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function convert(string! name, converter) -> <Route>
 	{

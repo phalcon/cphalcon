@@ -291,11 +291,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *<code>
 	 *	echo $robot->readAttribute("name");
 	 *</code>
-	 *
-	 * @param string attribute
-	 * @return mixed
 	 */
-	public function readAttribute(string! attribute)
+	public function readAttribute(string! attribute) -> var | null
 	{
 		if !isset this->{attribute} {
 			return null;
@@ -310,9 +307,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 *<code>
 	 *	$robot->writeAttribute("name", "Rosey");
 	 *</code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
 	 */
 	public function writeAttribute(string attribute, var value)
 	{
@@ -342,9 +336,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Returns a collection resultset
 	 *
 	 * @param array params
-	 * @param \Phalcon\Mvc\Collection collection
 	 * @param \MongoDb connection
-	 * @param boolean unique
 	 * @return array
 	 */
 	protected static function _getResultset(var params, <CollectionInterface> collection, connection, boolean unique)
@@ -463,9 +455,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Perform a count over a resultset
 	 *
 	 * @param array params
-	 * @param \Phalcon\Mvc\Collection collection
 	 * @param \MongoDb connection
-	 * @return int
 	 */
 	protected static function _getGroupResultset(params, <Collection> collection, connection) -> int
 	{
@@ -526,13 +516,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
 	/**
 	 * Executes internal hooks before save a document
-	 *
-	 * @param \Phalcon\DiInterface dependencyInjector
-	 * @param boolean disableEvents
-	 * @param boolean exists
-	 * @return boolean
 	 */
-	protected final function _preSave(dependencyInjector, boolean disableEvents, boolean exists) -> boolean
+	protected final function _preSave(<DiInterface> dependencyInjector, boolean disableEvents, boolean exists) -> boolean
 	{
 		var eventName;
 
@@ -828,7 +813,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Checks if the document exists in the collection
 	 *
 	 * @param \MongoCollection collection
-	 * @return boolean
 	 */
 	protected function _exists(collection) -> boolean
 	{

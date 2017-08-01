@@ -96,10 +96,8 @@ class CreditCard extends Validator
 
 	/**
 	 * is a simple checksum formula used to validate a variety of identification numbers
-	 * @param  string number
-	 * @return boolean
 	 */
-	private function verifyByLuhnAlgorithm(number) -> boolean
+	private function verifyByLuhnAlgorithm(string number) -> boolean
 	{
 		array digits;
 		let digits = (array) str_split(number);

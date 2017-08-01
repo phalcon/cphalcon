@@ -19,6 +19,8 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\DiInterface;
+
 /**
  * Phalcon\Di\ServiceInterface
  *
@@ -28,10 +30,8 @@ interface ServiceInterface
 {
 	/**
 	 * Returns the service's name
-	 *
-	 * @param string
 	 */
-	public function getName();
+	public function getName() -> string;
 
 	/**
 	 * Sets if the service is shared or not
@@ -61,10 +61,9 @@ interface ServiceInterface
 	 * Resolves the service
 	 *
 	 * @param array parameters
-	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
-	public function resolve(parameters = null, <\Phalcon\DiInterface> dependencyInjector = null);
+	public function resolve(parameters = null, <DiInterface> dependencyInjector = null);
 
 	/**
 	 * Changes a parameter in the definition without resolve the service

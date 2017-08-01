@@ -48,14 +48,10 @@ class Manager
 
 	/**
 	 * Phalcon\Assets\Manager
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = [])
 	{
-		if typeof options == "array" {
-			let this->_options = options;
-		}
+		let this->_options = options;
 	}
 
 	/**
@@ -302,7 +298,6 @@ class Manager
 	/**
 	 * Traverses a collection calling the callback to generate its HTML
 	 *
-	 * @param \Phalcon\Assets\Collection collection
 	 * @param callback callback
 	 * @param string type
 	 */
@@ -712,7 +707,6 @@ class Manager
 	/**
 	 * Traverses a collection and generate its HTML
 	 *
-	 * @param \Phalcon\Assets\Collection collection
 	 * @param string type
 	 */
 	public function outputInline(<Collection> collection, type) -> string
@@ -772,10 +766,8 @@ class Manager
 
 	/**
 	 * Prints the HTML for CSS resources
-	 *
-	 * @param string collectionName
 	 */
-	public function outputCss(collectionName = null) -> string
+	public function outputCss(string collectionName = null) -> string
 	{
 		var collection;
 
@@ -790,10 +782,8 @@ class Manager
 
 	/**
 	 * Prints the HTML for inline CSS
-	 *
-	 * @param string collectionName
 	 */
-	public function outputInlineCss(collectionName = null) -> string
+	public function outputInlineCss(string collectionName = null) -> string
 	{
 		var collection;
 
@@ -808,10 +798,8 @@ class Manager
 
 	/**
 	 * Prints the HTML for JS resources
-	 *
-	 * @param string collectionName
 	 */
-	public function outputJs(collectionName = null) -> string
+	public function outputJs(string collectionName = null) -> string
 	{
 		var collection;
 
@@ -826,10 +814,8 @@ class Manager
 
 	/**
 	 * Prints the HTML for inline JS
-	 *
-	 * @param string collectionName
 	 */
-	public function outputInlineJs(collectionName = null) -> string
+	public function outputInlineJs(string collectionName = null) -> string
 	{
 		var collection;
 

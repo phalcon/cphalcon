@@ -169,7 +169,6 @@ class Multiple
 	 * Deletes a value from each backend
 	 *
 	 * @param string|int keyName
-	 * @return boolean
 	 */
 	public function delete(var keyName) -> boolean
 	{

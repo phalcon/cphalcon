@@ -14,7 +14,6 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Jakob Oberhummer <cphalcon@chilimatic.com>                    |
  +------------------------------------------------------------------------+
  */
 
@@ -111,7 +110,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _snapshot;
 
-	protected _oldSnapshot;
+	protected _oldSnapshot = [];
 
 	const TRANSACTION_INDEX = "transaction";
 
@@ -134,8 +133,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
-		let this->_oldSnapshot = [];
-
 		/**
 		 * We use a default DI if the user doesn't define one
 		 */
@@ -462,10 +459,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 * </code>
 	 *
-	 * @param array data
 	 * @param array dataColumnMap array to transform keys of data to another
 	 * @param array whiteList
-	 * @return \Phalcon\Mvc\Model
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <Model>
 	{
@@ -548,10 +543,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *</code>
 	 *
 	 * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
-	 * @param array data
 	 * @param array columnMap
-	 * @param int dirtyState
-	 * @param boolean keepSnapshots
 	 */
 	public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null) -> <Model>
 	{
@@ -650,9 +642,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Returns an hydrated result based on the data and the column map
 	 *
-	 * @param array data
 	 * @param array columnMap
-	 * @param int hydrationMode
 	 * @return mixed
 	 */
 	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
@@ -738,13 +728,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *     ]
 	 * );
 	 *</code>
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface $base
-	 * @param array data
-	 * @param int dirtyState
-	 * @return \Phalcon\Mvc\ModelInterface
 	 */
-	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0)
+	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
 	{
 		var instance, key, value;
 
@@ -913,7 +898,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * // What's the first mechanical robot in robots table?
 	 * $robot = Robots::findFirst(
-	 *	 "type = 'mechanical'"
+	 *     "type = 'mechanical'"
 	 * );
 	 *
 	 * echo "The first mechanical robot name is ", $robot->name;
@@ -944,6 +929,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $transaction->commit();
 	 * $doesFindTheRobotNow = Robot::findFirst(['name' => 'test']);
 	 * </code>
+	 *
+	 * @param string|array parameters
+	 * @return static
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
@@ -1023,6 +1011,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		return query;
 	}
+
 	/**
 	 * Create a criteria for a specific model
 	 */
@@ -1055,10 +1044,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Checks whether the current record already exists
 	 *
-	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
-	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
-	 * @return boolean
 	 */
 	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
 	{
@@ -1204,10 +1190,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Generate a PHQL SELECT statement for an aggregate
 	 *
-	 * @param string function
-	 * @param string alias
 	 * @param array parameters
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
 	{
@@ -2294,11 +2277,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build INSERT SQL statement to the relational database system
 	 *
-	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
-	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
 	 * @param boolean|string identityField
-	 * @return boolean
 	 */
 	protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
 		table, identityField) -> boolean
@@ -2501,10 +2481,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sends a pre-build UPDATE SQL statement to the relational database system
 	 *
-	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
-	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param string|array table
-	 * @return boolean
 	 */
 	 protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
  	{
@@ -2735,9 +2712,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Saves related records that must be stored prior to save the master record
 	 *
-	 * @param \Phalcon\Db\AdapterInterface connection
 	 * @param \Phalcon\Mvc\ModelInterface[] related
-	 * @return boolean
 	 */
 	protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
 	{
@@ -2831,9 +2806,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Save the related records assigned in the has-one/has-many relations
 	 *
-	 * @param  Phalcon\Db\AdapterInterface connection
 	 * @param  Phalcon\Mvc\ModelInterface[] related
-	 * @return boolean
 	 */
 	protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> boolean
 	{
@@ -3040,8 +3013,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * $robot->save();
 	 *</code>
-	 *
-	 * @return boolean
 	 */
 	public function save() -> boolean
 	{
@@ -3531,7 +3502,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * echo $robot->readAttribute("name");
 	 * </code>
 	 */
-	public function readAttribute(string! attribute)
+	public function readAttribute(string! attribute) -> var | null
 	{
 		if !isset this->{attribute} {
 			return null;
@@ -3762,13 +3733,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *</code>
 	 *
 	 * @param	string|array fields
-	 * @param	string intermediateModel
 	 * @param	string|array intermediateFields
 	 * @param	string|array intermediateReferencedFields
-	 * @param	string referencedModel
 	 * @param   string|array referencedFields
 	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
 		string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -3841,7 +3809,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sets the record's snapshot data.
 	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
 	 *
-	 * @param array data
 	 * @param array columnMap
 	 */
 	public function setSnapshotData(array! data, columnMap = null)
@@ -3890,9 +3857,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let snapshot = data;
 		}
 
-		if typeof this->_snapshot == "array" {
-			let this->_oldSnapshot = this->_snapshot;
-		}
 
 		let this->_snapshot = snapshot;
 	}
@@ -3993,7 +3957,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *</code>
 	 *
 	 * @param string|array fieldName
-	 * @param boolean allFields
 	 */
 	public function hasChanged(var fieldName = null, boolean allFields = false) -> boolean
 	{
@@ -4204,9 +4167,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Returns related records based on defined relations
 	 *
-	 * @param string alias
 	 * @param array arguments
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
 	{
@@ -4231,8 +4192,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Returns related records defined relations depending on the method name
 	 *
-	 * @param string modelName
-	 * @param string method
 	 * @param array arguments
 	 * @return mixed
 	 */
@@ -4280,11 +4239,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Try to check if the query must invoke a finder
 	 *
-	 * @param  string method
-	 * @param  array arguments
 	 * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|boolean
 	 */
-	protected final static function _invokeFinder(method, arguments)
+	protected final static function _invokeFinder(string method, array arguments)
 	{
 		var extraMethod, type, modelName, value, model,
 			attributes, field, extraMethodFirst, metaData;
@@ -4376,11 +4333,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Handles method calls when a method is not implemented
 	 *
-	 * @param	string method
-	 * @param	array arguments
 	 * @return	mixed
 	 */
-	public function __call(string method, arguments)
+	public function __call(string method, array arguments)
 	{
 		var modelName, status, records;
 
@@ -4416,11 +4371,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Handles method calls when a static method is not implemented
 	 *
-	 * @param	string method
-	 * @param	array arguments
 	 * @return	mixed
 	 */
-	public static function __callStatic(string method, arguments)
+	public static function __callStatic(string method, array arguments)
 	{
 		var records;
 
@@ -4435,7 +4388,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Magic method to assign values to the the model
 	 *
-	 * @param string property
 	 * @param mixed value
 	 */
 	public function __set(string property, value)
@@ -4514,12 +4466,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	/**
 	 * Check for, and attempt to use, possible setter.
-	 *
-	 * @param string property
-	 * @param mixed value
-	 * @return string
 	 */
-	protected final function _possibleSetter(string property, value)
+	protected final function _possibleSetter(string property, var value) -> boolean
 	{
 		var possibleSetter;
 
@@ -4534,7 +4482,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Magic method to get related records using the relation alias as a property
 	 *
-	 * @param string property
 	 * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
 	 */
 	public function __get(string! property)
@@ -4725,7 +4672,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *</code>
 	 *
 	 * @param array $columns
-	 * @return array
 	 */
 	public function toArray(columns = null) -> array
 	{
@@ -4775,8 +4721,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	*<code>
 	* echo json_encode($robot);
 	*</code>
-	*
-	* @return array
 	*/
 	public function jsonSerialize() -> array
 	{

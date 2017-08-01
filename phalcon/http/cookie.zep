@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2018 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -144,7 +144,6 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	 * Sets the cookie's value
 	 *
 	 * @param string value
-	 * @return \Phalcon\Http\Cookie
 	 */
 	public function setValue(value) -> <CookieInterface>
 	{

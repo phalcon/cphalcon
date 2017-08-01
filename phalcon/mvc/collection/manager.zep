@@ -229,7 +229,6 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
 	/**
 	 * Returns the connection related to a model
 	 *
-	 * @param \Phalcon\Mvc\CollectionInterface $model
 	 * @return \Mongo
 	 */
 	public function getConnection(<CollectionInterface> model)

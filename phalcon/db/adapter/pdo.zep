@@ -223,10 +223,7 @@ abstract class Pdo extends Adapter
 	 * );
 	 *</code>
 	 *
-	 * @param \PDOStatement statement
-	 * @param array placeholders
 	 * @param array dataTypes
-	 * @return \PDOStatement
 	 */
 	public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
 	{
@@ -555,7 +552,6 @@ abstract class Pdo extends Adapter
 	 *</code>
 	 *
 	 * @param string sequenceName
-	 * @return int|boolean
 	 */
 	public function lastInsertId(sequenceName = null) -> int | boolean
 	{

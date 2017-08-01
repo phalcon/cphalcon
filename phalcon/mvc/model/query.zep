@@ -157,15 +157,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Phalcon\Mvc\Model\Query constructor
-	 *
-	 * @param string phql
-	 * @param \Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(phql = null, <DiInterface> dependencyInjector = null, options = null)
+	public function __construct(string phql = null, <DiInterface> dependencyInjector = null, array options = [])
 	{
 		var enableImplicitJoins;
 
-		if typeof phql != "null" {
+		if phql !== null {
 			let this->_phql = phql;
 		}
 
@@ -173,7 +170,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			this->setDI(dependencyInjector);
 		}
 
-		if typeof options == "array" && fetch enableImplicitJoins, options["enable_implicit_joins"] {
+		if fetch enableImplicitJoins, options["enable_implicit_joins"] {
 			let this->_enableImplicitJoins = enableImplicitJoins == true;
 		} else {
 			let this->_enableImplicitJoins = globals_get("orm.enable_implicit_joins");
@@ -474,12 +471,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Resolves an expression from its intermediate code into a string
-	 *
-	 * @param array expr
-	 * @param boolean quoting
-	 * @return string
 	 */
-	protected final function _getExpression(var expr, boolean quoting = true) -> string
+	protected final function _getExpression(array expr, boolean quoting = true) -> string
 	{
 		var exprType, exprLeft, exprRight, left = null, right = null, listItems, exprListItem,
 			exprReturn, tempNotQuoting, value, escapedValue, exprValue,
@@ -951,11 +944,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves a table in a SELECT statement checking if the model exists
 	 *
-	 * @param \Phalcon\Mvc\Model\ManagerInterface manager
-	 * @param array qualifiedName
 	 * @return string
 	 */
-	protected final function _getTable(<ManagerInterface> manager, qualifiedName)
+	protected final function _getTable(<ManagerInterface> manager, array qualifiedName)
 	{
 		var modelName, model, source, schema;
 
@@ -977,7 +968,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves a JOIN clause checking if the associated models exist
 	 */
-	protected final function _getJoin(<ManagerInterface> manager, var join) -> array
+	protected final function _getJoin(<ManagerInterface> manager, array join) -> array
 	{
 		var qualified, modelName, realModelName, nsAlias,
 			source, model, schema;
@@ -1013,11 +1004,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Resolves a JOIN type
-	 *
-	 * @param array join
-	 * @return string
 	 */
-	protected final function _getJoinType(join) -> string
+	protected final function _getJoinType(array join) -> string
 	{
 		var type;
 
@@ -1049,14 +1037,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves joins involving has-one/belongs-to/has-many relations
 	 *
-	 * @param string joinType
 	 * @param string joinSource
-	 * @param string modelAlias
-	 * @param string joinAlias
-	 * @param \Phalcon\Mvc\Model\RelationInterface relation
-	 * @return array
 	 */
-	protected final function _getSingleJoin(string! joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation) -> array
+	protected final function _getSingleJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
 	{
 		var fields, referencedFields, sqlJoinConditions = null,
 			sqlJoinPartialConditions, position, field, referencedField;
@@ -1148,14 +1131,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Resolves joins involving many-to-many relations
 	 *
-	 * @param string joinType
 	 * @param string joinSource
-	 * @param string modelAlias
-	 * @param string joinAlias
-	 * @param \Phalcon\Mvc\Model\RelationInterface relation
-	 * @return array
 	 */
-	protected final function _getMultiJoin(joinType, joinSource, modelAlias, joinAlias, <RelationInterface> relation) -> array
+	protected final function _getMultiJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
 	{
 		var sqlJoins, fields, referencedFields,
 			intermediateModelName, intermediateModel, intermediateSource,
@@ -1321,11 +1299,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Processes the JOINs in the query returning an internal representation for the database dialect
-	 *
-	 * @param array select
-	 * @return array
 	 */
-	protected final function _getJoins(var select)
+	protected final function _getJoins(array select) -> array
 	{
 		var models, sqlAliases, sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			modelsInstances, fromModels, sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
@@ -1670,8 +1645,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Returns a processed order clause for a SELECT statement
 	 *
-	 * @param array|string $order
-	 * @return array
+	 * @param array|string order
 	 */
 	protected final function _getOrderClause(order) -> array
 	{
@@ -2555,7 +2529,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Model\Resultset
 	 */
-	protected final function _executeSelect(var intermediate, var bindParams, var bindTypes, boolean simulate = false) -> <ResultsetInterface> | array
+	protected final function _executeSelect(array intermediate, var bindParams, var bindTypes, boolean simulate = false) -> <ResultsetInterface> | array
 	{
 
 		var manager, modelName, models, model, connection, connectionTypes,
@@ -2888,12 +2862,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Model\Query\Status
 	 *
-	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeInsert(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+	protected final function _executeInsert(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
 		var modelName, manager, connection, metaData, attributes,
 			fields, columnMap, dialect, insertValues, number, value, model,
@@ -3016,12 +2988,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
 	 *
-	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeUpdate(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+	protected final function _executeUpdate(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
 		var models, modelName, model, connection, dialect,
 			fields, values, updateValues, fieldName, value,
@@ -3169,12 +3139,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
 	 *
-	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\Query\StatusInterface
 	 */
-	protected final function _executeDelete(var intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+	protected final function _executeDelete(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
 	{
 		var models, modelName, model, records, connection, record;
 
@@ -3247,14 +3215,10 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Query the records on which the UPDATE/DELETE operation well be done
 	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @param array intermediate
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
-	protected final function _getRelatedRecords(<ModelInterface> model, var intermediate, var bindParams, var bindTypes)
-	 -> <ResultsetInterface>
+	protected final function _getRelatedRecords(<ModelInterface> model, array intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
 	{
 		var selectIr, whereConditions, limitConditions, query;
 
@@ -3464,9 +3428,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 *
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\ModelInterface
 	 */
-	public function getSingleResult(var bindParams = null, var bindTypes = null)
+	public function getSingleResult(var bindParams = null, var bindTypes = null) -> <ModelInterface>
 	{
 		/**
 		 * The query is already programmed to return just one row
@@ -3518,10 +3481,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns default bind params
-	 *
-	 * @return array
 	 */
-	public function getBindParams()
+	public function getBindParams() -> array
 	{
 		return this->_bindParams;
 	}
@@ -3559,10 +3520,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns default bind types
-	 *
-	 * @return array
 	 */
-	public function getBindTypes()
+	public function getBindTypes() -> array
 	{
 		return this->_bindTypes;
 	}
@@ -3578,10 +3537,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the intermediate representation of the PHQL statement
-	 *
-	 * @return array
 	 */
-	public function getIntermediate()
+	public function getIntermediate() -> array
 	{
 		return this->_intermediate;
 	}
@@ -3589,7 +3546,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	/**
 	 * Sets the cache parameters of the query
 	 */
-	public function cache(cacheOptions) -> <Query>
+	public function cache(array cacheOptions) -> <Query>
 	{
 		let this->_cacheOptions = cacheOptions;
 		return this;
@@ -3597,10 +3554,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the current cache options
-	 *
-	 * @param array
 	 */
-	public function getCacheOptions()
+	public function getCacheOptions() -> array
 	{
 		return this->_cacheOptions;
 	}

@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model\Transaction;
 
+use Phalcon\Mvc\Model\TransactionInterface;
+
 /**
  * Phalcon\Mvc\Model\Transaction\ManagerInterface
  *
@@ -49,20 +51,18 @@ interface ManagerInterface
 	/**
 	 * Rollbacks active transactions within the manager
 	 * Collect will remove transaction from the manager
-	 *
-	 * @param boolean collect
 	 */
-	public function rollback(collect = false);
+	public function rollback(boolean collect = false);
 
 	/**
 	 * Notifies the manager about a rollbacked transaction
 	 */
-	public function notifyRollback(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
+	public function notifyRollback(<TransactionInterface> transaction);
 
 	/**
 	 * Notifies the manager about a committed transaction
 	 */
-	public function notifyCommit(<\Phalcon\Mvc\Model\TransactionInterface> transaction);
+	public function notifyCommit(<TransactionInterface> transaction);
 
 	/**
 	 * Remove all the transactions from the manager

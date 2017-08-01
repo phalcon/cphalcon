@@ -597,11 +597,8 @@ class Postgresql extends Dialect
 
 	/**
 	 * Generates the SQL to list all views of a schema or user
-	 *
-	 * @param string schemaName
-	 * @return string
 	 */
-	public function listViews(schemaName = null) -> string
+	public function listViews(string schemaName = null) -> string
 	{
 		if schemaName {
 			return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";

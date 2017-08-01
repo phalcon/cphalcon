@@ -73,7 +73,6 @@ class Libmemcached extends Backend
 	/**
 	 * Phalcon\Cache\Backend\Memcache constructor
 	 *
-	 * @param	Phalcon\Cache\FrontendInterface frontend
 	 * @param	array options
 	 */
 	public function __construct(<FrontendInterface> frontend, options = null)
@@ -178,7 +177,6 @@ class Libmemcached extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
@@ -417,10 +415,6 @@ class Libmemcached extends Backend
 			let prefix = this->_prefix;
 			let lastKey = prefix . keyName;
 			let this->_lastKey = lastKey;
-		}
-
-		if !value {
-			let value = 1;
 		}
 
 		return memcache->increment(lastKey, value);

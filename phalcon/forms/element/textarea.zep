@@ -32,10 +32,8 @@ class TextArea extends Element
 
 	/**
 	 * Renders the element widget
-	 *
-	 * @param array attributes
 	 */
-	public function render(attributes = null) -> string
+	public function render(array attributes = []) -> string
 	{
 		return Tag::textArea(this->prepareAttributes(attributes));
 	}

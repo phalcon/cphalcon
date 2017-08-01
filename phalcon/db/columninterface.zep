@@ -77,45 +77,33 @@ interface ColumnInterface
 
 	/**
 	 * Returns true if number column is unsigned
-	 *
-	 * @return boolean
 	 */
-	public function isUnsigned();
+	public function isUnsigned() -> boolean;
 
 	/**
 	 * Not null
-	 *
-	 * @return boolean
 	 */
-	public function isNotNull();
+	public function isNotNull() -> boolean;
 
 	/**
 	 * Column is part of the primary key?
-	 *
-	 * @return boolean
 	 */
-	public function isPrimary();
+	public function isPrimary() -> boolean;
 
 	/**
 	 * Auto-Increment
-	 *
-	 * @return boolean
 	 */
-	public function isAutoIncrement();
+	public function isAutoIncrement() -> boolean;
 
 	/**
 	 * Check whether column have an numeric type
-	 *
-	 * @return boolean
 	 */
-	public function isNumeric();
+	public function isNumeric() -> boolean;
 
 	/**
 	 * Check whether column have first position in table
-	 *
-	 * @return boolean
 	 */
-	public function isFirst();
+	public function isFirst() -> boolean;
 
 	/**
 	 * Check whether field absolute to position in table
@@ -126,10 +114,8 @@ interface ColumnInterface
 
 	/**
 	 * Returns the type of bind handling
-	 *
-	 * @return int
 	 */
-	public function getBindType();
+	public function getBindType() -> int;
 
 	/**
 	 * Returns default value of column

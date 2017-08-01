@@ -169,7 +169,6 @@ class File extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{

@@ -181,7 +181,7 @@ class Introspection implements StrategyInterface
 	/**
 	 * Read the model's column map, this can't be inferred
 	 */
-	public final function getColumnMaps(<ModelInterface> model, <\Phalcon\DiInterface> dependencyInjector) -> array
+	public final function getColumnMaps(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
 	{
 		var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
 

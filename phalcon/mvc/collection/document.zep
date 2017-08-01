@@ -32,9 +32,6 @@ class Document implements EntityInterface, \ArrayAccess
 {
 	/**
 	 * Checks whether an offset exists in the document
-	 *
-	 * @param int index
-	 * @return boolean
 	 */
 	public function offsetExists(string! index) -> boolean
 	{
@@ -63,10 +60,8 @@ class Document implements EntityInterface, \ArrayAccess
 
 	/**
 	 * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
-	 *
-	 * @param string offset
 	 */
-	public function offsetUnset(offset)
+	public function offsetUnset(string! index)
 	{
 		throw new Exception("The index does not exist in the row");
 	}
@@ -77,11 +72,8 @@ class Document implements EntityInterface, \ArrayAccess
 	 *<code>
 	 *  echo $robot->readAttribute("name");
 	 *</code>
-	 *
-	 * @param string attribute
-	 * @return mixed
 	 */
-	public function readAttribute(attribute)
+	public function readAttribute(string! attribute) -> var | null
 	{
 		var value;
 		if fetch value, this->{attribute} {
@@ -96,21 +88,16 @@ class Document implements EntityInterface, \ArrayAccess
 	 *<code>
 	 *  $robot->writeAttribute("name", "Rosey");
 	 *</code>
-	 *
-	 * @param string attribute
-	 * @param mixed value
 	 */
-	public function writeAttribute(string! attribute, value) -> void
+	public function writeAttribute(string! attribute, var value) -> void
 	{
 		let this->{attribute} = value;
 	}
 
 	/**
 	 * Returns the instance as an array representation
-	 *
-	 * @return array
 	 */
-	public function toArray()
+	public function toArray() -> array
 	{
 		return get_object_vars(this);
 	}

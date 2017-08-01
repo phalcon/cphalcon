@@ -33,18 +33,14 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 {
 	protected _position = 0;
 
-	protected _messages = [];
+	protected _messages;
 
 	/**
 	 * Phalcon\Validation\Message\Group constructor
-	 *
-	 * @param array messages
 	 */
-	public function __construct(messages = null)
+	public function __construct(array messages = [])
 	{
-		if typeof messages == "array" {
-			let this->_messages = messages;
-		}
+		let this->_messages = messages;
 	}
 
 	/**
@@ -55,9 +51,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *     $messages[0]
 	 * );
 	 *</code>
-	 *
-	 * @param int index
-	 * @return \Phalcon\Validation\Message
 	 */
 	public function offsetGet(int! index) -> <Message> | boolean
 	{
@@ -75,7 +68,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 * $messages[0] = new \Phalcon\Validation\Message("This is a message");
 	 *</code>
 	 *
-	 * @param int index
 	 * @param \Phalcon\Validation\Message message
 	 */
 	public function offsetSet(int! index, var message)
@@ -96,7 +88,6 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 	 *</code>
 	 *
 	 * @param int index
-	 * @return boolean
 	 */
 	public function offsetExists(string index) -> boolean
 	{
@@ -181,11 +172,8 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Filters the message group by field name
-	 *
-	 * @param string fieldName
-	 * @return array
 	 */
-	public function filter(string! fieldName)
+	public function filter(string! fieldName) -> array
 	{
 		var filtered, messages, message;
 
@@ -262,11 +250,8 @@ class Group implements \Countable, \ArrayAccess, \Iterator
 
 	/**
 	 * Magic __set_state helps to re-build messages variable when exporting
-	 *
-	 * @param array group
-	 * @return \Phalcon\Validation\Message\Group
 	 */
-	public static function __set_state(group) -> <Group>
+	public static function __set_state(array group) -> <Group>
 	{
 		return new self(group["_messages"]);
 	}

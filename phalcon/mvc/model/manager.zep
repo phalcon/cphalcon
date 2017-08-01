@@ -682,12 +682,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setup a 1-1 relation between two models
 	 *
-	 * @param   Phalcon\Mvc\Model model
-	 * @param	mixed fields
-	 * @param	string referencedModel
-	 * @param	mixed referencedFields
 	 * @param	array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
@@ -768,12 +763,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setup a relation reverse many to one between two models
 	 *
-	 * @param   Phalcon\Mvc\Model model
-	 * @param	mixed fields
-	 * @param	string referencedModel
-	 * @param	mixed referencedFields
 	 * @param	array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
@@ -853,9 +843,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setup a relation 1-n between two models
 	 *
-	 * @param 	Phalcon\Mvc\ModelInterface model
-	 * @param	mixed fields
-	 * @param	string referencedModel
 	 * @param	mixed referencedFields
 	 * @param	array options
 	 */
@@ -938,15 +925,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setups a relation n-m between two models
 	 *
-	 * @param 	Phalcon\Mvc\ModelInterface model
 	 * @param	string fields
-	 * @param	string intermediateModel
 	 * @param	string intermediateFields
 	 * @param	string intermediateReferencedFields
-	 * @param	string referencedModel
 	 * @param	string referencedFields
 	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>

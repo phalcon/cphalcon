@@ -51,20 +51,16 @@ class Session extends MetaData
 	public function __construct(options = null)
 	{
 		var prefix;
-		if typeof options == "array" {
-			if fetch prefix, options["prefix"] {
-				let this->_prefix = prefix;
-			}
+
+		if fetch prefix, options["prefix"] {
+			let this->_prefix = prefix;
 		}
 	}
 
 	/**
 	 * Reads meta-data from $_SESSION
-	 *
-	 * @param string key
-	 * @return array
 	 */
-	public function read(string! key)
+	public function read(string! key) -> array | null
 	{
 		var metaData;
 
@@ -77,11 +73,8 @@ class Session extends MetaData
 
 	/**
 	 * Writes the meta-data to $_SESSION
-	 *
-	 * @param string key
-	 * @param array data
 	 */
-	public function write(string! key, var data) -> void
+	public function write(string! key, array data) -> void
 	{
 		let _SESSION["$PMM$" . this->_prefix][key] = data;
 	}

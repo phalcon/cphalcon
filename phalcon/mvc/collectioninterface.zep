@@ -117,33 +117,23 @@ interface CollectionInterface
 	 * Find a document by its id
 	 *
 	 * @param string id
-	 * @return \Phalcon\Mvc\Collection
 	 */
 	public static function findById(id) -> <CollectionInterface>;
 
 	/**
 	 * Allows to query the first record that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return array
 	 */
-	public static function findFirst(array parameters = null);
+	public static function findFirst(array parameters = null) -> array;
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
-	 *
-	 * @param 	array parameters
-	 * @return  array
 	 */
-	public static function find(array parameters = null);
+	public static function find(array parameters = null) -> array;
 
 	/**
 	 * Perform a count over a collection
-	 *
-	 * @param array parameters
-	 * @return array
 	 */
-	public static function count(array parameters = null);
+	public static function count(array parameters = null) -> array;
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise

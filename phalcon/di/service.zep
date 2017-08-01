@@ -54,9 +54,7 @@ class Service implements ServiceInterface
 	/**
 	 * Phalcon\Di\Service
 	 *
-	 * @param string name
 	 * @param mixed definition
-	 * @param boolean shared
 	 */
 	public final function __construct(string! name, definition, boolean shared = false)
 	{
@@ -123,7 +121,6 @@ class Service implements ServiceInterface
 	 * Resolves the service
 	 *
 	 * @param array parameters
-	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
@@ -257,7 +254,6 @@ class Service implements ServiceInterface
 	/**
 	 * Returns a parameter in a specific position
 	 *
-	 * @param int position
 	 * @return array
 	 */
 	public function getParameter(int position)

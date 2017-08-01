@@ -65,7 +65,6 @@ class Relation implements RelationInterface
 	 * Phalcon\Mvc\Model\Relation constructor
 	 *
 	 * @param int type
-	 * @param string referencedModel
 	 * @param string|array fields
 	 * @param string|array referencedFields
 	 * @param array options
@@ -83,7 +82,6 @@ class Relation implements RelationInterface
 	 * Sets the intermediate model data for has-*-through relations
 	 *
 	 * @param string|array intermediateFields
-	 * @param string intermediateModel
 	 * @param string intermediateReferencedFields
 	 */
 	public function setIntermediateRelation(intermediateFields, string! intermediateModel, intermediateReferencedFields)
