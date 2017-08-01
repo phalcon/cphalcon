@@ -57,23 +57,19 @@ class Xcache extends MetaData
 	{
 		var prefix, ttl;
 
-		if typeof options == "array" {
-			if fetch prefix, options["prefix"] {
-				let this->_prefix = prefix;
-			}
-			if fetch ttl, options["lifetime"] {
-				let this->_ttl = ttl;
-			}
+		if fetch prefix, options["prefix"] {
+			let this->_prefix = prefix;
+		}
+
+		if fetch ttl, options["lifetime"] {
+			let this->_ttl = ttl;
 		}
 	}
 
 	/**
 	 * Reads metadata from XCache
-	 *
-	 * @param  string key
-	 * @return array
 	 */
-	public function read(string! key)
+	public function read(string! key) -> array | null
 	{
 		var data;
 		let data = xcache_get("$PMM$" . this->_prefix . key);
@@ -84,12 +80,9 @@ class Xcache extends MetaData
 	}
 
 	/**
-	 *  Writes the metadata to XCache
-	 *
-	 * @param string key
-	 * @param array data
+	 * Writes the metadata to XCache
 	 */
-	public function write(string! key, data)
+	public function write(string! key, array data) -> void
 	{
 		xcache_set("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}

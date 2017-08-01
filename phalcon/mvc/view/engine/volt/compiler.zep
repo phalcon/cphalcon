@@ -121,7 +121,6 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Sets a single compiler option
 	 *
-	 * @param string option
 	 * @param mixed value
 	 */
 	public function setOption(string! option, value)
@@ -132,7 +131,6 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Returns a compiler's option
 	 *
-	 * @param string option
 	 * @return string
 	 */
 	public function getOption(string! option)
@@ -155,7 +153,6 @@ class Compiler implements InjectionAwareInterface
 	/**
 	 * Fires an event to registered extensions
 	 *
-	 * @param string name
 	 * @param array arguments
 	 * @return mixed
 	 */
@@ -1812,10 +1809,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles a '{{' '}}' statement returning PHP code
-	 *
-	 * @param array   statement
-	 * @param boolean extendsMode
-	 * @return string
 	 */
 	public function compileEcho(array! statement) -> string
 	{
@@ -2008,10 +2001,6 @@ class Compiler implements InjectionAwareInterface
 
 	/**
 	 * Compiles calls to macros
-	 *
-	 * @param array    statement
-	 * @param boolean  extendsMode
-	 * @return string
 	 */
 	public function compileCall(array! statement, boolean extendsMode)
 	{
@@ -2408,9 +2397,6 @@ class Compiler implements InjectionAwareInterface
 	 * $compiler->compile("views/layouts/main.volt", "views/layouts/main.volt.php");
 	 *</code>
 	 *
-	 * @param string path
-	 * @param string compiledPath
-	 * @param boolean extendsMode
 	 * @return string|array
 	 */
 	public function compileFile(string! path, string! compiledPath, boolean extendsMode = false)
@@ -2700,7 +2686,6 @@ class Compiler implements InjectionAwareInterface
 	 * );
 	 *</code>
 	 *
-	 * @param string viewCode
 	 * @return array
 	 */
 	public function parse(string! viewCode)

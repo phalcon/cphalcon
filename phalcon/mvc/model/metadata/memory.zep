@@ -44,22 +44,16 @@ class Memory extends MetaData
 
 	/**
 	 * Reads the meta-data from temporal memory
-	 *
-	 * @param string key
-	 * @return array
 	 */
-	public function read(string! key)
+	public function read(string! key) -> array | null
 	{
 		return null;
 	}
 
 	/**
 	 * Writes the meta-data to temporal memory
-	 *
-	 * @param string key
-	 * @param array data
 	 */
-	public function write(string! key, var data) -> void
+	public function write(string! key, array data) -> void
 	{
 		return;
 	}

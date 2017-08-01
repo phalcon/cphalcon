@@ -37,130 +37,81 @@ interface MetaDataInterface
 
 	/**
 	 * Return the strategy to obtain the meta-data
-	 *
-	 * @return \Phalcon\Mvc\Model\MetaData\StrategyInterface
 	 */
-	public function getStrategy();
+	public function getStrategy() -> <StrategyInterface>;
 
 	/**
 	 * Reads meta-data for certain model
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function readMetaData(<ModelInterface> model);
+	public function readMetaData(<ModelInterface> model) -> array;
 
 	/**
 	 * Reads meta-data for certain model using a MODEL_* constant
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @param int index
-	 * @return mixed
 	 */
-	public function readMetaDataIndex(<ModelInterface> model, index);
+	public function readMetaDataIndex(<ModelInterface> model, int index) -> var;
 
 	/**
 	 * Writes meta-data for certain model using a MODEL_* constant
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @param int index
-	 * @param mixed data
 	 */
-	public function writeMetaDataIndex(<ModelInterface> model, index, data);
+	public function writeMetaDataIndex(<ModelInterface> model, int index, var data);
 
 	/**
 	 * Reads the ordered/reversed column map for certain model
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function readColumnMap(<ModelInterface> model);
+	public function readColumnMap(<ModelInterface> model) -> array;
 
 	/**
 	 * Reads column-map information for certain model using a MODEL_* constant
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @param int index
 	 */
-	public function readColumnMapIndex(<ModelInterface> model, index);
+	public function readColumnMapIndex(<ModelInterface> model, int index);
 
 	/**
 	 * Returns table attributes names (fields)
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getAttributes(<ModelInterface> model);
+	public function getAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns an array of fields which are part of the primary key
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getPrimaryKeyAttributes(<ModelInterface> model);
+	public function getPrimaryKeyAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns an array of fields which are not part of the primary key
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getNonPrimaryKeyAttributes(<ModelInterface> model);
+	public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns an array of not null attributes
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getNotNullAttributes(<ModelInterface> model);
+	public function getNotNullAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns attributes and their data types
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getDataTypes(<ModelInterface> model);
+	public function getDataTypes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns attributes which types are numerical
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getDataTypesNumeric(<ModelInterface> model);
+	public function getDataTypesNumeric(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns the name of identity field (if one is present)
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return string
 	 */
-	public function getIdentityField(<ModelInterface> model);
+	public function getIdentityField(<ModelInterface> model) -> string;
 
 	/**
 	 * Returns attributes and their bind data types
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getBindTypes(<ModelInterface> model);
+	public function getBindTypes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns attributes that must be ignored from the INSERT SQL generation
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
-	public function getAutomaticCreateAttributes(<ModelInterface> model);
+	public function getAutomaticCreateAttributes(<ModelInterface> model) -> array;
 
 	/**
 	 * Returns attributes that must be ignored from the UPDATE SQL generation
-	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @return array
 	 */
 	public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array;
 
@@ -206,10 +157,8 @@ interface MetaDataInterface
 
 	/**
 	 * Checks if the internal meta-data container is empty
-	 *
-	 * @return boolean
 	 */
-	public function isEmpty();
+	public function isEmpty() -> boolean;
 
 	/**
 	 * Resets internal meta-data in order to regenerate it
@@ -218,17 +167,11 @@ interface MetaDataInterface
 
 	/**
 	 * Reads meta-data from the adapter
-	 *
-	 * @param string key
-	 * @return array
 	 */
-	public function read(key);
+	public function read(string key) -> array | null;
 
 	/**
 	 * Writes meta-data to the adapter
-	 *
-	 * @param string key
-	 * @param array data
 	 */
-	public function write(key, data);
+	public function write(string! key, array data) -> void;
 }

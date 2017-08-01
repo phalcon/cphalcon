@@ -31,13 +31,8 @@ class Css extends ResourceBase
 
 	/**
 	 * Phalcon\Assets\Resource\Css
-	 *
-	 * @param string path
-	 * @param boolean local
-	 * @param boolean filter
-	 * @param array attributes
 	 */
-	public function __construct(string! path, boolean local = true, boolean filter = true, attributes = null)
+	public function __construct(string! path, boolean local = true, boolean filter = true, array attributes = [])
 	{
 		parent::__construct("css", path, local, filter, attributes);
 	}

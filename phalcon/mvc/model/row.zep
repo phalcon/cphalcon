@@ -45,7 +45,6 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * Checks whether offset exists in the row
 	 *
 	 * @param string|int $index
-	 * @return boolean
 	 */
 	public function offsetExists(var index) -> boolean
 	{
@@ -95,10 +94,9 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * echo $robot->readAttribute("name");
 	 *</code>
 	 *
-	 * @param string attribute
 	 * @return mixed
 	 */
-	public function readAttribute(attribute)
+	public function readAttribute(string! attribute)
 	{
 		var value;
 		if fetch value, this->{attribute} {
@@ -114,7 +112,6 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 	 * $robot->writeAttribute("name", "Rosey");
 	 *</code>
 	 *
-	 * @param string attribute
 	 * @param mixed value
 	 */
 	public function writeAttribute(string! attribute, value) -> void
@@ -124,8 +121,6 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 
 	/**
 	 * Returns the instance as an array representation
-	 *
-	 * @return array
 	 */
 	public function toArray() -> array
 	{
@@ -134,8 +129,6 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
 
     /**
     * Serializes the object for json_encode
-    *
-    * @return array
     */
 	public function jsonSerialize() -> array
 	{

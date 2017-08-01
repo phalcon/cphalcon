@@ -41,11 +41,8 @@ abstract class Lang
 
 	/**
 	 * Parses a PHQL statement returning an intermediate representation (IR)
-	 *
-	 * @param string phql
-	 * @return string
 	 */
-	public static function parsePHQL(string! phql)
+	public static function parsePHQL(string! phql) -> string
 	{
 		return phql_parse_phql(phql);
 	}

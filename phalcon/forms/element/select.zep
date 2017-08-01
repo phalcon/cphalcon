@@ -35,7 +35,6 @@ class Select extends Element
 	/**
 	 * Phalcon\Forms\Element constructor
 	 *
-	 * @param string name
 	 * @param object|array options
 	 * @param array attributes
 	 */
@@ -49,7 +48,6 @@ class Select extends Element
 	 * Set the choice's options
 	 *
 	 * @param array|object options
-	 * @return \Phalcon\Forms\Element
 	 */
 	public function setOptions(var options) -> <Element>
 	{
@@ -71,7 +69,6 @@ class Select extends Element
 	 * Adds an option to the current options
 	 *
 	 * @param array option
-	 * @return this
 	 */
 	public function addOption(var option) -> <Element>
 	{
@@ -90,10 +87,8 @@ class Select extends Element
 
 	/**
 	 * Renders the element widget returning html
-	 *
-	 * @param array attributes
 	 */
-	public function render(attributes = null) -> string
+	public function render(array attributes = []) -> string
 	{
 		/**
 		 * Merged passed attributes with previously defined ones

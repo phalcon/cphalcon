@@ -32,10 +32,8 @@ class Check extends Element
 
 	/**
 	 * Renders the element widget returning html
-	 *
-	 * @param array attributes
 	 */
-	public function render(var attributes = null) -> string
+	public function render(array attributes = []) -> string
 	{
 		return Tag::checkField(this->prepareAttributes(attributes, true));
 	}

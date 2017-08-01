@@ -330,8 +330,6 @@ class Dump
 	 *
 	 * echo (new \Phalcon\Debug\Dump())->toJson($foo);
 	 * </code>
-	 *
-	 * @param mixed variable
 	 */
 	public function toJson(var variable) -> string
 	{

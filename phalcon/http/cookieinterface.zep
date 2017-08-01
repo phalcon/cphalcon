@@ -29,7 +29,6 @@ interface CookieInterface
 	 * Sets the cookie's value
 	 *
 	 * @param string value
-	 * @return \Phalcon\Http\CookieInterface
 	 */
 	public function setValue(value) -> <CookieInterface>;
 

@@ -79,10 +79,8 @@ class Msgpack extends Data implements FrontendInterface
 {
 	/**
 	 * Phalcon\Cache\Frontend\Msgpack constructor
-	 *
-	 * @param array frontendOptions
 	 */
-	public function __construct(frontendOptions = null)
+	public function __construct(array frontendOptions = [])
 	{
 		var lifetime;
 

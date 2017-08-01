@@ -82,7 +82,6 @@ class Apc extends Backend
 	 * @param string|int keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
 	{

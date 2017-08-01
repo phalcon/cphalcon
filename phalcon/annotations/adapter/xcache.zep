@@ -36,9 +36,6 @@ class Xcache extends Adapter
 {
 	/**
 	 * Reads parsed annotations from XCache
-	 *
-	 * @param string key
-	 * @return \Phalcon\Annotations\Reflection
 	 */
 	public function read(string! key) -> <Reflection> | boolean
 	{

@@ -32,10 +32,8 @@ class File extends Element
 
 	/**
 	 * Renders the element widget returning html
-	 *
-	 * @param array attributes
 	 */
-	public function render(attributes = null) -> string
+	public function render(array attributes = []) -> string
 	{
 		return Tag::fileField(this->prepareAttributes(attributes));
 	}

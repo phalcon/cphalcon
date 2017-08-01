@@ -126,10 +126,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
-	 *
-	 * @return array
 	 */
-	protected function _loadTemplateEngines()
+	protected function _loadTemplateEngines() -> array
 	{
 		var engines, dependencyInjector, registeredEngines, arguments, extension,
 			engineService, engineObject;
@@ -201,7 +199,6 @@ class Simple extends Injectable implements ViewBaseInterface
 	/**
 	 * Tries to render the view with every engine registered in the component
 	 *
-	 * @param string path
 	 * @param array  params
 	 */
 	protected final function _internalRender(string! path, params)
@@ -295,7 +292,6 @@ class Simple extends Injectable implements ViewBaseInterface
 	/**
 	 * Renders a view
 	 *
-	 * @param  string path
 	 * @param  array  params
 	 */
 	public function render(string! path, params = null) -> string
@@ -473,10 +469,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Returns the cache options
-	 *
-	 * @return array
 	 */
-	public function getCacheOptions()
+	public function getCacheOptions() -> array
 	{
 		return this->_cacheOptions;
 	}
@@ -614,10 +608,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Returns parameters to views
-	 *
-	 * @return array
 	 */
-	public function getParamsToView()
+	public function getParamsToView() -> array
 	{
 		return this->_viewParams;
 	}
@@ -645,10 +637,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
 	/**
 	 * Returns the path of the view that is currently rendered
-	 *
-	 * @return string
 	 */
-	public function getActiveRenderPath()
+	public function getActiveRenderPath() -> string
 	{
 		return this->_activeRenderPath;
 	}

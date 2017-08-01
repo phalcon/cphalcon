@@ -54,11 +54,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Phalcon\Forms\Element constructor
-	 *
-	 * @param string name
-	 * @param array attributes
 	 */
-	public function __construct(string name, var attributes = null)
+	public function __construct(string name, array attributes = [])
 	{
 		let name = trim(name);
 		
@@ -67,9 +64,7 @@ abstract class Element implements ElementInterface
 		}
 		
 		let this->_name = name;
-		if typeof attributes == "array" {
-			let this->_attributes = attributes;
-		}
+		let this->_attributes = attributes;
 		let this->_messages = new Group();
 	}
 
@@ -111,7 +106,6 @@ abstract class Element implements ElementInterface
 	 * Sets the element filters
 	 *
 	 * @param array|string filters
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setFilters(var filters) -> <ElementInterface>
 	{
@@ -154,8 +148,7 @@ abstract class Element implements ElementInterface
 	/**
 	 * Adds a group of validators
 	 *
-	 * @param \Phalcon\Validation\ValidatorInterface[]
-	 * @return \Phalcon\Forms\ElementInterface
+	 * @param \Phalcon\Validation\ValidatorInterface[] validators
 	 */
 	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>
 	{
@@ -260,12 +253,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets a default attribute for the element
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setAttribute(string attribute, value) -> <ElementInterface>
+	public function setAttribute(string attribute, var value) -> <ElementInterface>
 	{
 		let this->_attributes[attribute] = value;
 		return this;
@@ -273,12 +262,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the value of an attribute if present
-	 *
-	 * @param string attribute
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function getAttribute(string attribute, defaultValue = null)
+	public function getAttribute(string attribute, var defaultValue = null) -> var
 	{
 		var attributes, value;
 		let attributes = this->_attributes;
@@ -312,12 +297,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Sets an option for the element
-	 *
-	 * @param string option
-	 * @param mixed value
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setUserOption(string option, value) -> <ElementInterface>
+	public function setUserOption(string option, var value) -> <ElementInterface>
 	{
 		let this->_options[option] = value;
 		return this;
@@ -325,12 +306,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Returns the value of an option if present
-	 *
-	 * @param string option
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function getUserOption(string option, defaultValue = null)
+	public function getUserOption(string option, var defaultValue = null) -> var
 	{
 		var value;
 		if fetch value, this->_options[option] {
@@ -375,10 +352,8 @@ abstract class Element implements ElementInterface
 
 	/**
 	 * Generate the HTML to label the element
-	 *
-	 * @param array attributes
 	 */
-	public function label(var attributes = null) -> string
+	public function label(array attributes = []) -> string
 	{
 		var internalAttributes, label, name, code;
 
@@ -417,11 +392,8 @@ abstract class Element implements ElementInterface
 	/**
 	 * Sets a default value in case the form does not use an entity
 	 * or there is no value available for the element in _POST
-	 *
-	 * @param mixed value
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setDefault(value) -> <ElementInterface>
+	public function setDefault(var value) -> <ElementInterface>
 	{
 		let this->_value = value;
 		return this;
