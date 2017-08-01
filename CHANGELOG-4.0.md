@@ -46,6 +46,7 @@
 - Changed `Phalon\Tag::textArea` to use `htmlspecialchars` to prevent XSS injection. [#12428](https://github.com/phalcon/cphalcon/issues/12428)
 - Changed `Phalon\Cache\Backend\*::get` to use only positive numbers for `lifetime`
 - Changed `Phalcon\Logger` to comply with PSR-3. The component has been rewritten to use adapters that alllow logging to different areas. The [#13438](https://github.com/phalcon/cphalcon/issues/13438)
+- CLI parameters now work like MVC parameters [#12375](https://github.com/phalcon/cphalcon/pull/12375)
 
 ## Removed
 - PHP < 7.0 no longer supported
