@@ -98,7 +98,7 @@ class AnnotationsTest extends UnitTest
                 $router->addResource("About");
                 $router->addResource("Main");
 
-                $router->handle();
+                $router->handle("/");
 
                 expect($router->getRoutes())->count(9);
 
