@@ -324,38 +324,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Enable/Disable model binding during dispatch
-	 *
-	 * <code>
-	 * $di->set('dispatcher', function() {
-	 *     $dispatcher = new Dispatcher();
-	 *
-	 *     $dispatcher->setModelBinding(true, 'cache');
-	 *     return $dispatcher;
-	 * });
-	 * </code>
-	 *
-	 * @deprecated 3.1.0 Use setModelBinder method
-	 * @see Phalcon\Dispatcher::setModelBinder()
-	 */
-	deprecated public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
-	{
-		var dependencyInjector;
-
-		if typeof cache == "string" {
-			let dependencyInjector = this->_dependencyInjector;
-			let cache = dependencyInjector->get(cache);
-		}
-
-		let this->_modelBinding = value;
-		if value {
-			let this->_modelBinder = new Binder(cache);
-		}
-
-		return this;
-	}
-
-	/**
 	 * Enable model binding during dispatch
 	 *
 	 * <code>

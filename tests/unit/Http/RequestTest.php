@@ -192,37 +192,37 @@ class RequestTest extends HttpBase
     }
 
     /**
-     * Tests isSecureRequest default
+     * Tests isSecure default
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSecureRequestDefault()
+    public function testHttpRequestIsSecureDefault()
     {
         $this->specify(
-            "Default isSecureRequest is true",
+            "Default isSecure is true",
             function () {
                 $request = $this->getRequestObject();
 
-                expect($request->isSecureRequest())->false();
+                expect($request->isSecure())->false();
             }
         );
     }
 
     /**
-     * Tests isSecureRequest
+     * Tests isSecure
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSecureRequest()
+    public function testHttpRequestIsSecure()
     {
         $this->specify(
-            "isSecureRequest is not true",
+            "isSecure is not true",
             function () {
                 $request = $this->getRequestObject();
                 $this->setServerVar('HTTPS', 'on');
-                $actual = $request->isSecureRequest();
+                $actual = $request->isSecure();
                 $this->unsetServerVar('HTTPS');
 
                 expect($actual)->true();
@@ -231,19 +231,19 @@ class RequestTest extends HttpBase
     }
 
     /**
-     * Tests isSoapRequested default
+     * Tests isSoap default
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-23
      */
-    public function testHttpRequestIsSoapRequestedDefault()
+    public function testHttpRequestIsSoapDefault()
     {
         $this->specify(
-            "Default isSoapRequest is true",
+            "Default isSoap is true",
             function () {
                 $request = $this->getRequestObject();
 
-                expect($request->isSoapRequested())->false();
+                expect($request->isSoap())->false();
             }
         );
     }
@@ -254,14 +254,14 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSoapRequested()
+    public function testHttpRequestIsSoap()
     {
         $this->specify(
             "isSoapRequest is not true",
             function () {
                 $request = $this->getRequestObject();
                 $this->setServerVar('CONTENT_TYPE', 'application/soap+xml');
-                $actual = $request->isSoapRequested();
+                $actual = $request->isSoap();
                 $this->unsetServerVar('CONTENT_TYPE');
 
                 expect($actual)->true();
