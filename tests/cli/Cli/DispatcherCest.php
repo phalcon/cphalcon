@@ -107,7 +107,7 @@ class DispatcherCest
         $dispatcher->setActionName('params');
         $dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
         $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getReturnedValue(), '$params is the same as $this->dispatcher->getParams()');
+        $I->assertEquals($dispatcher->getReturnedValue(), 'Action params are the same as $this->dispatcher->getParams()');
 
         // Test $this->dispatcher->getParam()
         $dispatcher->setTaskName('params');
@@ -115,19 +115,5 @@ class DispatcherCest
         $dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
         $dispatcher->dispatch();
         $I->assertEquals($dispatcher->getReturnedValue(), '$param[0] is the same as $this->dispatcher->getParam(0)');
-    }
-
-    public function testCallActionMethod(CliTester $I)
-    {
-        $dispatcher = new Dispatcher();
-        $this->container->setShared("dispatcher", $dispatcher);
-        $dispatcher->setDI($this->container);
-
-        $mainTask = new \MainTask();
-        $mainTask->setDI($this->container);
-
-        $I->assertEquals($dispatcher->callActionMethod($mainTask, 'mainAction', []), 'mainAction');
-        $I->assertEquals($dispatcher->callActionMethod($mainTask, 'helloAction', ['World']), 'Hello World!');
-        $I->assertEquals($dispatcher->callActionMethod($mainTask, 'helloAction', ['World', '.']), 'Hello World.');
     }
 }
