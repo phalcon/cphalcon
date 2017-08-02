@@ -37,6 +37,12 @@ class Numeric extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
-		return Tag::numericField(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->numericField(this->prepareAttributes(attributes));
 	}
 }

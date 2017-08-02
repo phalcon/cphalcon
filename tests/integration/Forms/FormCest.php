@@ -34,17 +34,6 @@ use Phalcon\Validation\Validator\StringLength;
 class FormCest
 {
     /**
-     * Executed before each test
-     *
-     * @param IntegrationTester $I
-     */
-    public function _before(IntegrationTester $I)
-    {
-        Tag::resetInput();
-        Tag::setDocType(Tag::HTML5);
-    }
-
-    /**
      * Tests clearing the Form Elements
      *
      * @issue  12165
@@ -55,6 +44,10 @@ class FormCest
      */
     public function clearFormElements(IntegrationTester $I)
     {
+        $tag = new Tag();
+
+        $tag->setDocType(Tag::HTML5);
+
         $pass = new Password('passwd');
         $eml = new Email('email');
 
@@ -104,7 +97,7 @@ class FormCest
             $form->render('name')
         );
 
-        Tag::setDefault('email', 'andres@phalconphp.com');
+        $tag->setDefault('email', 'andres@phalconphp.com');
 
 
         $I->assertEquals(
@@ -212,6 +205,10 @@ class FormCest
      */
     public function clearFormElementsByUsingFormBind(IntegrationTester $I)
     {
+        $tag = new Tag();
+
+        $tag->setDocType(Tag::HTML5);
+
         $name = new Text('sel_name');
         $text = new Text('sel_text');
 
@@ -222,12 +219,12 @@ class FormCest
 
         $entity = new MvcModel;
 
-        $I->assertNull(Tag::getValue('sel_name'));
+        $I->assertNull($tag->getValue('sel_name'));
         $I->assertNull($form->getValue('sel_name'));
         $I->assertNull($form->get('sel_name')->getValue());
         $I->assertNull($name->getValue());
 
-        Tag::setDefault('sel_name', 'Please specify name');
+        $tag->setDefault('sel_name', 'Please specify name');
         $_POST = ['sel_name' => 'Some Name', 'sel_text' => 'Some Text'];
 
         $form->bind($_POST, $entity);
@@ -245,7 +242,7 @@ class FormCest
 
         $form->clear(['sel_name']);
 
-        $I->assertNull(Tag::getValue('sel_name'));
+        $I->assertNull($tag->getValue('sel_name'));
         $I->assertNull($form->getValue('sel_name'));
         $I->assertNull($form->get('sel_name')->getValue());
         $I->assertNull($name->getValue());
@@ -262,7 +259,7 @@ class FormCest
 
         $form->clear();
 
-        $I->assertNull(Tag::getValue('sel_text'));
+        $I->assertNull($tag->getValue('sel_text'));
         $I->assertNull($form->getValue('sel_text'));
         $I->assertNull($form->get('sel_text')->getValue());
         $I->assertNull($text->getValue());

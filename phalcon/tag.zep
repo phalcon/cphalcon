@@ -36,33 +36,33 @@ class Tag
 	/**
 	 * Pre-assigned values for components
 	 */
-	protected static _displayValues;
+	protected _displayValues;
 
 	/**
 	 * HTML document title
 	 */
-	protected static _documentTitle = null;
+	protected _documentTitle = null;
 
-	protected static _documentAppendTitle = null;
+	protected _documentAppendTitle = null;
 
-	protected static _documentPrependTitle = null;
+	protected _documentPrependTitle = null;
 
-	protected static _documentTitleSeparator = null;
+	protected _documentTitleSeparator = null;
 
-	protected static _documentType = 11;
+	protected _documentType = 11;
 
 	/**
 	 * Framework Dispatcher
 	 */
-	protected static _dependencyInjector;
+	protected _dependencyInjector;
 
-	protected static _urlService = null;
+	protected _urlService = null;
 
-	protected static _dispatcherService = null;
+	protected _dispatcherService = null;
 
-	protected static _escaperService = null;
+	protected _escaperService = null;
 
-	protected static _autoEscape = true;
+	protected _autoEscape = true;
 
 	const HTML32 = 1;
 
@@ -92,25 +92,25 @@ class Tag
 	 * @param array params
 	 * @return EscaperInterface
 	 */
-	public static function getEscaper(array! params)
+	public function getEscaper(array! params)
 	{
 		var autoescape;
 
 		if !fetch autoescape, params["escape"] {
-			let autoescape = self::_autoEscape;
+			let autoescape = this->_autoEscape;
 		}
 
 		if !autoescape {
 			return null;
 		}
 
-		return self::getEscaperService();
+		return this->getEscaperService();
 	}
 
 	/**
 	 * Renders parameters keeping order in their HTML attributes
 	 */
-	public static function renderAttributes(string! code, array! attributes) -> string
+	public function renderAttributes(string! code, array! attributes) -> string
 	{
 		var order, escaper, attrs, attribute, value, escaped, key, newCode;
 
@@ -140,7 +140,7 @@ class Tag
 			}
 		}
 
-		let escaper = <EscaperInterface> self::getEscaper(attributes);
+		let escaper = <EscaperInterface> this->getEscaper(attributes);
 
 		unset attrs["escape"];
 
@@ -165,18 +165,18 @@ class Tag
 	/**
 	 * Sets the dependency injector container.
 	 */
-	public static function setDI(<DiInterface> dependencyInjector)
+	public function setDI(<DiInterface> dependencyInjector)
 	{
-		let self::_dependencyInjector = dependencyInjector;
+		let this->_dependencyInjector = dependencyInjector;
 	}
 
 	/**
 	 * Internally gets the request dispatcher
 	 */
-	public static function getDI() -> <DiInterface>
+	public function getDI() -> <DiInterface>
 	{
 		var di;
-		let di = self::_dependencyInjector;
+		let di = this->_dependencyInjector;
 		if typeof di != "object" {
 			let di = Di::getDefault();
 		}
@@ -186,21 +186,21 @@ class Tag
 	/**
 	 * Returns a URL service from the default DI
 	 */
-	public static function getUrlService() -> <UrlInterface>
+	public function getUrlService() -> <UrlInterface>
 	{
 		var url, dependencyInjector;
 
-		let url = self::_urlService;
+		let url = this->_urlService;
 		if typeof url != "object" {
 
-			let dependencyInjector = self::getDI();
+			let dependencyInjector = this->getDI();
 
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the 'url' service");
 			}
 
 			let url = <UrlInterface> dependencyInjector->getShared("url"),
-				self::_urlService = url;
+				this->_urlService = url;
 		}
 		return url;
 	}
@@ -208,21 +208,21 @@ class Tag
 	/**
 	 * Returns an Escaper service from the default DI
 	 */
-	public static function getEscaperService() -> <EscaperInterface>
+	public function getEscaperService() -> <EscaperInterface>
 	{
 		var escaper, dependencyInjector;
 
-		let escaper = self::_escaperService;
+		let escaper = this->_escaperService;
 		if typeof escaper != "object" {
 
-			let dependencyInjector = self::getDI();
+			let dependencyInjector = this->getDI();
 
 			if typeof dependencyInjector != "object" {
 				throw new Exception("A dependency injector container is required to obtain the 'escaper' service");
 			}
 
 			let escaper = <EscaperInterface> dependencyInjector->getShared("escaper"),
-				self::_escaperService = escaper;
+				this->_escaperService = escaper;
 		}
 		return escaper;
 	}
@@ -230,56 +230,60 @@ class Tag
 	/**
 	 * Set autoescape mode in generated html
 	 */
-	public static function setAutoescape(boolean autoescape) -> void
+	public function setAutoescape(boolean autoescape) -> void
 	{
-		let self::_autoEscape = autoescape;
+		let this->_autoEscape = autoescape;
 	}
 
 	/**
 	 * Assigns default values to generated tags by helpers
 	 *
 	 * <code>
+	 * $tag = new \Phalcon\Tag();
+	 *
 	 * // Assigning "peter" to "name" component
-	 * Phalcon\Tag::setDefault("name", "peter");
+	 * $tag->setDefault("name", "peter");
 	 *
 	 * // Later in the view
-	 * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
+	 * echo $tag->textField("name"); // Will have the value "peter" by default
 	 * </code>
 	 *
 	 * @param string id
 	 * @param string value
 	 */
-	public static function setDefault(string! id, value) -> void
+	public function setDefault(string! id, value) -> void
 	{
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
 				throw new Exception("Only scalar values can be assigned to UI components");
 			}
 		}
-		let self::_displayValues[id] = value;
+		let this->_displayValues[id] = value;
 	}
 
 	/**
 	 * Assigns default values to generated tags by helpers
 	 *
 	 * <code>
+	 * $tag = new \Phalcon\Tag();
+	 *
 	 * // Assigning "peter" to "name" component
-	 * Phalcon\Tag::setDefaults(
+	 * $tag->setDefaults(
 	 *     [
 	 *         "name" => "peter",
 	 *     ]
 	 * );
 	 *
 	 * // Later in the view
-	 * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
+	 * echo $tag->textField("name"); // Will have the value "peter" by default
 	 * </code>
 	 */
-	public static function setDefaults(array! values, boolean merge = false) -> void
+	public function setDefaults(array! values, boolean merge = false) -> void
 	{
-		if merge && typeof self::_displayValues == "array" {
-			let self::_displayValues = array_merge(self::_displayValues, values);
+		if merge && typeof this->_displayValues == "array" {
+			let this->_displayValues = array_merge(this->_displayValues, values);
 		} else {
-			let self::_displayValues = values;
+			let this->_displayValues = values;
 		}
 	}
 
@@ -289,9 +293,9 @@ class Tag
 	 * @param string id
 	 * @param string value
 	 */
-	public static function displayTo(id, value) -> void
+	public function displayTo(id, value) -> void
 	{
-		self::setDefault(id, value);
+		this->setDefault(id, value);
 	}
 
 	/**
@@ -300,12 +304,12 @@ class Tag
 	 * @param string name
 	 * @return boolean
 	 */
-	public static function hasValue(var name) -> boolean
+	public function hasValue(var name) -> boolean
 	{
 		/**
 		 * Check if there is a predefined or a POST value for it
 		 */
-		return isset self::_displayValues[name] || isset _POST[name];
+		return isset this->_displayValues[name] || isset _POST[name];
 	}
 
 	/**
@@ -316,7 +320,7 @@ class Tag
 	 * @param array params
 	 * @return mixed
 	 */
-	public static function getValue(var name, params = null)
+	public function getValue(var name, params = null)
 	{
 		var value;
 
@@ -324,7 +328,7 @@ class Tag
 			/**
 			 * Check if there is a predefined value for it
 			 */
-			if !fetch value, self::_displayValues[name] {
+			if !fetch value, this->_displayValues[name] {
 				/**
 				 * Check if there is a post value for the item
 				 */
@@ -338,32 +342,21 @@ class Tag
 	}
 
 	/**
-	 * Resets the request and internal values to avoid those fields will have any default value.
-	 * @deprecated Will be removed in 4.0.0
-	 */
-	deprecated public static function resetInput() -> void
-	{
-		let self::_displayValues = [],
-			self::_documentTitle = null,
-			self::_documentAppendTitle = [],
-			self::_documentPrependTitle = [],
-			self::_documentTitleSeparator = null;
-	}
-
-	/**
 	 * Builds a HTML A tag using framework conventions
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::linkTo("signup/register", "Register Here!");
+	 * $tag = new \Phalcon\Tag();
 	 *
-	 * echo Phalcon\Tag::linkTo(
+	 * echo $tag->linkTo("signup/register", "Register Here!");
+	 *
+	 * echo $tag->linkTo(
 	 *     [
 	 *         "signup/register",
 	 *         "Register Here!"
 	 *     ]
 	 * );
 	 *
-	 * echo Phalcon\Tag::linkTo(
+	 * echo $tag->linkTo(
 	 *     [
 	 *         "signup/register",
 	 *         "Register Here!",
@@ -371,9 +364,9 @@ class Tag
 	 *     ]
 	 * );
 	 *
-	 * echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", false);
+	 * echo $tag->linkTo("http://phalconphp.com/", "Phalcon", false);
 	 *
-	 * echo Phalcon\Tag::linkTo(
+	 * echo $tag->linkTo(
 	 *     [
 	 *         "http://phalconphp.com/",
 	 *         "Phalcon Home",
@@ -381,7 +374,7 @@ class Tag
 	 *     ]
 	 * );
 	 *
-	 * echo Phalcon\Tag::linkTo(
+	 * echo $tag->linkTo(
 	 *     [
 	 *         "http://phalconphp.com/",
 	 *         "Phalcon Home",
@@ -389,7 +382,7 @@ class Tag
 	 *     ]
 	 * );
 	 *
-	 * echo Phalcon\Tag::linkTo(
+	 * echo $tag->linkTo(
 	 *     [
 	 *         "action" => "http://phalconphp.com/",
 	 *         "text"   => "Phalcon Home",
@@ -397,14 +390,13 @@ class Tag
 	 *         "target" => "_new"
 	 *     ]
 	 * );
-	 *
 	 *</code>
 	 *
 	 * @param array|string parameters
 	 * @param string text
 	 * @param boolean local
 	 */
-	public static function linkTo(parameters, text = null, local = true) -> string
+	public function linkTo(parameters, text = null, local = true) -> string
 	{
 		var params, action, query, url, code;
 
@@ -444,9 +436,9 @@ class Tag
 			let query = null;
 		}
 
-		let url = self::getUrlService(),
+		let url = this->getUrlService(),
 			params["href"] = url->get(action, query, local),
-			code = self::renderAttributes("<a", params),
+			code = this->renderAttributes("<a", params),
 			code .= ">" . text . "</a>";
 
 		return code;
@@ -460,7 +452,7 @@ class Tag
 	 * @param boolean asValue
 	 * @return string
 	 */
-	static protected final function _inputField(string type, parameters, boolean asValue = false) -> string
+	protected final function _inputField(string type, parameters, boolean asValue = false) -> string
 	{
 		var params, id, value, code, name;
 
@@ -495,7 +487,7 @@ class Tag
 				}
 			}
 
-			let params["value"] = self::getValue(id, params);
+			let params["value"] = this->getValue(id, params);
 
 		} else {
 			/**
@@ -509,12 +501,12 @@ class Tag
 		}
 
 		let params["type"] = type,
-			code = self::renderAttributes("<input", params);
+			code = this->renderAttributes("<input", params);
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > self::HTML5 {
+		if this->_documentType > self::HTML5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -530,7 +522,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	static protected final function _inputFieldChecked(string type, var parameters) -> string
+	protected final function _inputFieldChecked(string type, var parameters) -> string
 	{
 		var params, value, id, code, name, currentValue;
 
@@ -569,14 +561,14 @@ class Tag
 		if fetch currentValue, params["value"] {
 			unset params["value"];
 
-			let value = self::getValue(id, params);
+			let value = this->getValue(id, params);
 
 			if value != null && currentValue == value {
 				let params["checked"] = "checked";
 			}
 			let params["value"] = currentValue;
 		} else {
-			let value = self::getValue(id, params);
+			let value = this->getValue(id, params);
 
 			/**
 			* Evaluate the value in POST
@@ -592,12 +584,12 @@ class Tag
 		}
 
 		let params["type"] = type,
-			code = self::renderAttributes("<input", params);
+			code = this->renderAttributes("<input", params);
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > self::HTML5 {
+		if this->_documentType > self::HTML5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -612,16 +604,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function colorField(var parameters) -> string
+	public function colorField(var parameters) -> string
 	{
-		return self::_inputField("color", parameters);
+		return this->_inputField("color", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="text"] tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::textField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->textField(
 	 *     [
 	 *         "name",
 	 *         "size" => 30,
@@ -632,16 +626,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function textField(var parameters) -> string
+	public function textField(var parameters) -> string
 	{
-		return self::_inputField("text", parameters);
+		return this->_inputField("text", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="number"] tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::numericField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->numericField(
 	 *     [
 	 *         "price",
 	 *         "min" => "1",
@@ -653,9 +649,9 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function numericField(var parameters) -> string
+	public function numericField(var parameters) -> string
 	{
-		return self::_inputField("number", parameters);
+		return this->_inputField("number", parameters);
 	}
 
 
@@ -665,31 +661,35 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function rangeField(var parameters) -> string
+	public function rangeField(var parameters) -> string
 	{
-		return self::_inputField("range", parameters);
+		return this->_inputField("range", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="email"] tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::emailField("email");
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->emailField("email");
 	 * </code>
 	 *
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function emailField(var parameters) -> string
+	public function emailField(var parameters) -> string
 	{
-		return self::_inputField("email", parameters);
+		return this->_inputField("email", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="date"] tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::dateField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->dateField(
 	 *     [
 	 *         "born",
 	 *         "value" => "14-12-1980",
@@ -700,9 +700,9 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function dateField(var parameters) -> string
+	public function dateField(var parameters) -> string
 	{
-		return self::_inputField("date", parameters);
+		return this->_inputField("date", parameters);
 	}
 
 	/**
@@ -711,9 +711,9 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function dateTimeField(var parameters) -> string
+	public function dateTimeField(var parameters) -> string
 	{
-		return self::_inputField("datetime", parameters);
+		return this->_inputField("datetime", parameters);
 	}
 
 	/**
@@ -722,9 +722,9 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function dateTimeLocalField(var parameters) -> string
+	public function dateTimeLocalField(var parameters) -> string
 	{
-		return self::_inputField("datetime-local", parameters);
+		return this->_inputField("datetime-local", parameters);
 	}
 
 	/**
@@ -733,9 +733,9 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function monthField(var parameters) -> string
+	public function monthField(var parameters) -> string
 	{
-		return self::_inputField("month", parameters);
+		return this->_inputField("month", parameters);
 	}
 
 	/**
@@ -744,9 +744,9 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function timeField(var parameters) -> string
+	public function timeField(var parameters) -> string
 	{
-		return self::_inputField("time", parameters);
+		return this->_inputField("time", parameters);
 	}
 
 	/**
@@ -755,16 +755,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function weekField(var parameters) -> string
+	public function weekField(var parameters) -> string
 	{
-		return self::_inputField("week", parameters);
+		return this->_inputField("week", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="password"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::passwordField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->passwordField(
 	 *     [
 	 *         "name",
 	 *         "size" => 30,
@@ -775,16 +777,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function passwordField(var parameters) -> string
+	public function passwordField(var parameters) -> string
 	{
-		return self::_inputField("password", parameters);
+		return this->_inputField("password", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="hidden"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::hiddenField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->hiddenField(
 	 *     [
 	 *         "name",
 	 *         "value" => "mike",
@@ -795,24 +799,26 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function hiddenField(var parameters) -> string
+	public function hiddenField(var parameters) -> string
 	{
-		return self::_inputField("hidden", parameters);
+		return this->_inputField("hidden", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="file"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::fileField("file");
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->fileField("file");
 	 *</code>
 	 *
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function fileField(var parameters) -> string
+	public function fileField(var parameters) -> string
 	{
-		return self::_inputField("file", parameters);
+		return this->_inputField("file", parameters);
 	}
 
 	/**
@@ -821,9 +827,9 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function searchField(var parameters) -> string
+	public function searchField(var parameters) -> string
 	{
-		return self::_inputField("search", parameters);
+		return this->_inputField("search", parameters);
 	}
 
 	/**
@@ -832,9 +838,9 @@ class Tag
 	* @param array parameters
 	* @return string
 	*/
-	public static function telField(var parameters) -> string
+	public function telField(var parameters) -> string
 	{
-		return self::_inputField("tel", parameters);
+		return this->_inputField("tel", parameters);
 	}
 
 	/**
@@ -843,16 +849,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function urlField(var parameters) -> string
+	public function urlField(var parameters) -> string
 	{
-		return self::_inputField("url", parameters);
+		return this->_inputField("url", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="check"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::checkField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->checkField(
 	 *     [
 	 *         "terms",
 	 *         "value" => "Y",
@@ -868,16 +876,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function checkField(var parameters) -> string
+	public function checkField(var parameters) -> string
 	{
-		return self::_inputFieldChecked("checkbox", parameters);
+		return this->_inputFieldChecked("checkbox", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="radio"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::radioField(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->radioField(
 	 *     [
 	 *         "weather",
 	 *         "value" => "hot",
@@ -893,16 +903,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function radioField(var parameters) -> string
+	public function radioField(var parameters) -> string
 	{
-		return self::_inputFieldChecked("radio", parameters);
+		return this->_inputFieldChecked("radio", parameters);
 	}
 
 	/**
 	 * Builds a HTML input[type="image"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::imageInput(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->imageInput(
 	 *     [
 	 *         "src" => "/img/button.png",
 	 *     ]
@@ -917,16 +929,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function imageInput(var parameters) -> string
+	public function imageInput(var parameters) -> string
 	{
-		return self::_inputField("image", parameters, true);
+		return this->_inputField("image", parameters, true);
 	}
 
 	/**
 	 * Builds a HTML input[type="submit"] tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::submitButton("Save")
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->submitButton("Save")
 	 *</code>
 	 *
 	 * Volt syntax:
@@ -937,16 +951,18 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function submitButton(var parameters) -> string
+	public function submitButton(var parameters) -> string
 	{
-		return self::_inputField("submit", parameters, true);
+		return this->_inputField("submit", parameters, true);
 	}
 
 	/**
 	 * Builds a HTML SELECT tag using a PHP array for options
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::selectStatic(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->selectStatic(
 	 *     "status",
 	 *     [
 	 *         "A" => "Active",
@@ -959,7 +975,7 @@ class Tag
 	 * @param array data
 	 * @return string
 	 */
-	public static function selectStatic(parameters, data = null) -> string
+	public function selectStatic(parameters, data = null) -> string
 	{
 		return Select::selectField(parameters, data);
 	}
@@ -968,7 +984,9 @@ class Tag
 	 * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::select(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->select(
 	 *     [
 	 *         "robotId",
 	 *         Robots::find("type = "mechanical""),
@@ -986,7 +1004,7 @@ class Tag
 	 * @param array data
 	 * @return string
 	 */
-	public static function select(var parameters, data = null) -> string
+	public function select(var parameters, data = null) -> string
 	{
 		return Select::selectField(parameters, data);
 	}
@@ -995,7 +1013,9 @@ class Tag
 	 * Builds a HTML TEXTAREA tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::textArea(
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->textArea(
 	 *     [
 	 *         "comments",
 	 *         "cols" => 10,
@@ -1012,7 +1032,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function textArea(var parameters) -> string
+	public function textArea(var parameters) -> string
 	{
 		var params, id, name, content, code;
 
@@ -1046,10 +1066,10 @@ class Tag
 			let content = params["value"];
 			unset params["value"];
 		} else {
-			let content = self::getValue(id, params);
+			let content = this->getValue(id, params);
 		}
 
-		let code = self::renderAttributes("<textarea", params),
+		let code = this->renderAttributes("<textarea", params),
 			code .= ">" . content . "</textarea>";
 
 		return code;
@@ -1059,9 +1079,11 @@ class Tag
 	 * Builds a HTML FORM tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::form("posts/save");
+	 * $tag = new \Phalcon\Tag();
 	 *
-	 * echo Phalcon\Tag::form(
+	 * echo $tag->form("posts/save");
+	 *
+	 * echo $tag->form(
 	 *     [
 	 *         "posts/save",
 	 *         "method" => "post",
@@ -1078,7 +1100,7 @@ class Tag
 	 * @param array parameters
 	 * @return string
 	 */
-	public static function form(var parameters) -> string
+	public function form(var parameters) -> string
 	{
 		var params, paramsAction, action, code;
 
@@ -1102,7 +1124,7 @@ class Tag
 		let action = null;
 
 		if !empty paramsAction {
-			let action = self::getUrlService()->get(paramsAction);
+			let action = this->getUrlService()->get(paramsAction);
 		}
 
 		/**
@@ -1116,7 +1138,7 @@ class Tag
 			let params["action"] = action;
 		}
 
-		let code = self::renderAttributes("<form", params),
+		let code = this->renderAttributes("<form", params),
 			code .= ">";
 
 		return code;
@@ -1125,7 +1147,7 @@ class Tag
 	/**
 	 * Builds a HTML close FORM tag
 	 */
-	public static function endForm() -> string
+	public function endForm() -> string
 	{
 		return "</form>";
 	}
@@ -1134,55 +1156,59 @@ class Tag
 	 * Set the title of view content
 	 *
 	 *<code>
-	 * Phalcon\Tag::setTitle("Welcome to my Page");
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * $tag->setTitle("Welcome to my Page");
 	 *</code>
 	 */
-	public static function setTitle(string title) -> void
+	public function setTitle(string title) -> void
 	{
-		let self::_documentTitle = title;
+		let this->_documentTitle = title;
 	}
 
 	/**
 	 * Set the title separator of view content
 	 *
 	 *<code>
-	 * Phalcon\Tag::setTitleSeparator("-");
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * $tag->setTitleSeparator("-");
 	 *</code>
 	 */
-	public static function setTitleSeparator(string titleSeparator) -> void
+	public function setTitleSeparator(string titleSeparator) -> void
 	{
-		let self::_documentTitleSeparator = titleSeparator;
+		let this->_documentTitleSeparator = titleSeparator;
 	}
 
 	/**
 	 * Appends a text to current document title
 	 */
-	public static function appendTitle(var title) -> void
+	public function appendTitle(var title) -> void
 	{
-		if typeof self::_documentAppendTitle == "null" {
-			let self::_documentAppendTitle = [];
+		if typeof this->_documentAppendTitle == "null" {
+			let this->_documentAppendTitle = [];
 		}
 
 		if typeof title == "array" {
-			let self::_documentAppendTitle = title ;
+			let this->_documentAppendTitle = title;
 		} else {
-			let self::_documentAppendTitle[] = title ;
+			let this->_documentAppendTitle[] = title;
 		}
 	}
 
 	/**
 	 * Prepends a text to current document title
 	 */
-	public static function prependTitle(var title) -> void
+	public function prependTitle(var title) -> void
 	{
-		if typeof self::_documentPrependTitle == "null" {
-			let self::_documentPrependTitle = [];
+		if typeof this->_documentPrependTitle == "null" {
+			let this->_documentPrependTitle = [];
 		}
 
 		if typeof title == "array" {
-			let self::_documentPrependTitle = title ;
+			let this->_documentPrependTitle = title ;
 		} else {
-			let self::_documentPrependTitle[] = title ;
+			let this->_documentPrependTitle[] = title ;
 		}
 	}
 
@@ -1191,34 +1217,37 @@ class Tag
 	 * The title will be automatically escaped.
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::getTitle();
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->getTitle();
 	 * </code>
 	 *
 	 * <code>
 	 * {{ get_title() }}
 	 * </code>
 	 */
-	public static function getTitle(boolean tags = true) -> string
+	public function getTitle(boolean tags = true) -> string
 	{
 		var items, output, title, documentTitle, documentAppendTitle, documentPrependTitle, documentTitleSeparator, escaper;
 
-		let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
+		let escaper = <EscaperInterface> this->getEscaper(["escape": true]);
 		let items = [];
 		let output = "";
-		let documentTitle = escaper->escapeHtml(self::_documentTitle);
-		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
 
-		if typeof self::_documentAppendTitle == "null" {
-			let self::_documentAppendTitle = [];
+		let documentTitle = escaper->escapeHtml(this->_documentTitle);
+		let documentTitleSeparator = escaper->escapeHtml(this->_documentTitleSeparator);
+
+		if typeof this->_documentAppendTitle == "null" {
+			let this->_documentAppendTitle = [];
 		}
 
-		let documentAppendTitle = self::_documentAppendTitle;
+		let documentAppendTitle = this->_documentAppendTitle;
 
-		if typeof self::_documentPrependTitle == "null" {
-			let self::_documentPrependTitle = [];
+		if typeof this->_documentPrependTitle == "null" {
+			let this->_documentPrependTitle = [];
 		}
 
-		let documentPrependTitle = self::_documentPrependTitle;
+		let documentPrependTitle = this->_documentPrependTitle;
 
 		if !empty documentPrependTitle {
 			var tmp = array_reverse(documentPrependTitle);
@@ -1256,24 +1285,28 @@ class Tag
 	 * Gets the current document title separator
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::getTitleSeparator();
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->getTitleSeparator();
 	 * </code>
 	 *
 	 * <code>
 	 * {{ get_title_separator() }}
 	 * </code>
 	 */
-	public static function getTitleSeparator() -> string
+	public function getTitleSeparator() -> string
 	{
-		return self::_documentTitleSeparator;
+		return this->_documentTitleSeparator;
 	}
 
 	/**
 	 * Builds a LINK[rel="stylesheet"] tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
-	 * echo Phalcon\Tag::stylesheetLink("css/style.css");
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+	 * echo $tag->stylesheetLink("css/style.css");
 	 * </code>
 	 *
 	 * Volt Syntax:
@@ -1286,7 +1319,7 @@ class Tag
 	 * @param boolean local
 	 * @return string
 	 */
-	public static function stylesheetLink(var parameters = null, boolean local = true) -> string
+	public function stylesheetLink(var parameters = null, boolean local = true) -> string
 	{
 		var params, code;
 
@@ -1321,19 +1354,19 @@ class Tag
 		 * URLs are generated through the "url" service
 		 */
 		if local === true {
-			let params["href"] = self::getUrlService()->getStatic(params["href"]);
+			let params["href"] = this->getUrlService()->getStatic(params["href"]);
 		}
 
 		if !isset params["rel"] {
 			let params["rel"] = "stylesheet";
 		}
 
-		let code = self::renderAttributes("<link", params);
+		let code = this->renderAttributes("<link", params);
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > self::HTML5 {
+		if this->_documentType > self::HTML5 {
 			let code .= " />" . PHP_EOL;
 		} else {
 			let code .= ">" . PHP_EOL;
@@ -1346,8 +1379,10 @@ class Tag
 	 * Builds a SCRIPT[type="javascript"] tag
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false);
-	 * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false);
+	 * echo $tag->javascriptInclude("javascript/jquery.js");
 	 * </code>
 	 *
 	 * Volt syntax:
@@ -1360,7 +1395,7 @@ class Tag
 	 * @param boolean local
 	 * @return string
 	 */
-	public static function javascriptInclude(var parameters = null, boolean local = true) -> string
+	public function javascriptInclude(var parameters = null, boolean local = true) -> string
 	{
 		var params, code;
 
@@ -1395,10 +1430,10 @@ class Tag
 		 * URLs are generated through the "url" service
 		 */
 		if local === true {
-			let params["src"] = self::getUrlService()->getStatic(params["src"]);
+			let params["src"] = this->getUrlService()->getStatic(params["src"]);
 		}
 
-		let code = self::renderAttributes("<script", params),
+		let code = this->renderAttributes("<script", params),
 			code .= "></script>" . PHP_EOL;
 
 		return code;
@@ -1408,9 +1443,11 @@ class Tag
 	 * Builds HTML IMG tags
 	 *
 	 * <code>
-	 * echo Phalcon\Tag::image("img/bg.png");
+	 * $tag = new \Phalcon\Tag();
 	 *
-	 * echo Phalcon\Tag::image(
+	 * echo $tag->image("img/bg.png");
+	 *
+	 * echo $tag->image(
 	 *     [
 	 *         "img/photo.jpg",
 	 *         "alt" => "Some Photo",
@@ -1429,7 +1466,7 @@ class Tag
 	 * @param  boolean local
 	 * @return string
 	 */
-	public static function image(var parameters = null, boolean local = true) -> string
+	public function image(var parameters = null, boolean local = true) -> string
 	{
 		var params, code, src;
 
@@ -1454,15 +1491,15 @@ class Tag
 		 * Use the "url" service if the URI is local
 		 */
 		if local {
-			let params["src"] = self::getUrlService()->getStatic(params["src"]);
+			let params["src"] = this->getUrlService()->getStatic(params["src"]);
 		}
 
-		let code = self::renderAttributes("<img", params);
+		let code = this->renderAttributes("<img", params);
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > self::HTML5 {
+		if this->_documentType > self::HTML5 {
 			let code .= " />";
 		} else {
 			let code .= ">";
@@ -1475,10 +1512,12 @@ class Tag
 	 * Converts texts into URL-friendly titles
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::friendlyTitle("These are big important news", "-")
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->friendlyTitle("These are big important news", "-");
 	 *</code>
 	 */
-	public static function friendlyTitle(string text, string separator = "-", boolean lowercase = true, var replace = null) -> string
+	public function friendlyTitle(string text, string separator = "-", boolean lowercase = true, var replace = null) -> string
 	{
 		var friendly, locale, search;
 
@@ -1524,21 +1563,21 @@ class Tag
 	/**
 	 * Set the document type of content
 	 */
-	public static function setDocType(int doctype) -> void
+	public function setDocType(int doctype) -> void
 	{
 		if (doctype < self::HTML32 || doctype > self::XHTML5) {
-			let self::_documentType = self::HTML5;
+			let this->_documentType = self::HTML5;
 		} else {
-			let self::_documentType = doctype;
+			let this->_documentType = doctype;
 		}
 	}
 
 	/**
 	 * Get the document type declaration of content
 	 */
-	public static function getDocType() -> string
+	public function getDocType() -> string
 	{
-		switch self::_documentType
+		switch this->_documentType
 		{
 			case 1:  return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">" . PHP_EOL;
 			/* no break */
@@ -1578,7 +1617,7 @@ class Tag
 	/**
 	 * Builds a HTML tag
 	 */
-	public static function tagHtml(string tagName, var parameters = null, boolean selfClose = false,
+	public function tagHtml(string tagName, var parameters = null, boolean selfClose = false,
 		boolean onlyStart = false, boolean useEol = false) -> string
 	{
 		var params, localCode;
@@ -1589,12 +1628,12 @@ class Tag
 			let params = parameters;
 		}
 
-		let localCode = self::renderAttributes("<" . tagName, params);
+		let localCode = this->renderAttributes("<" . tagName, params);
 
 		/**
 		 * Check if Doctype is XHTML
 		 */
-		if self::_documentType > self::HTML5 {
+		if this->_documentType > self::HTML5 {
 			if selfClose {
 				let localCode .= " />";
 			} else {
@@ -1619,10 +1658,12 @@ class Tag
 	 * Builds a HTML tag closing tag
 	 *
 	 *<code>
-	 * echo Phalcon\Tag::tagHtmlClose("script", true);
+	 * $tag = new \Phalcon\Tag();
+	 *
+	 * echo $tag->tagHtmlClose("script", true);
 	 *</code>
 	 */
-	public static function tagHtmlClose(string tagName, boolean useEol = false) -> string
+	public function tagHtmlClose(string tagName, boolean useEol = false) -> string
 	{
 		if useEol {
 			return "</" . tagName . ">" . PHP_EOL;

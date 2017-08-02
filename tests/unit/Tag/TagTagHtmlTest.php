@@ -35,12 +35,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside>';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtml($name);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtml($name);
 
                 expect($actual)->equals($expected);
             }
@@ -49,12 +50,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside></aside>';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtml($name);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtml($name);
 
                 expect($actual)->equals($expected);
             }
@@ -72,12 +74,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and self close returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside />';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtml($name, null, true);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtml($name, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -86,12 +89,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and self close returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside></aside>';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtml($name, null, true);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtml($name, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -109,12 +113,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and only start returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside>';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtml($name, null, null, true);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtml($name, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -123,12 +128,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and only start returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside>';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtml($name, null, null, true);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtml($name, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -146,12 +152,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and EOL returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside>' . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtml($name, null, null, null, true);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtml($name, null, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -160,12 +167,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with name parameter and EOL returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'aside';
                 $expected = '<aside></aside>' . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtml($name, null, null, null, true);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtml($name, null, null, null, true);
 
                 expect($actual)->equals($expected);
             }
@@ -183,7 +191,8 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with array parameter returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'canvas';
                 $options  = [
                     'id'     => 'canvas1',
@@ -192,8 +201,8 @@ class TagTagHtmlTest extends UnitTest
                 ];
                 $expected = '<canvas id="canvas1" width="300" height="300">';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtml($name, $options);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtml($name, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -202,7 +211,8 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtml with array parameter returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'canvas';
                 $options  = [
                     'id'     => 'canvas1',
@@ -212,8 +222,8 @@ class TagTagHtmlTest extends UnitTest
                 $expected = '<canvas id="canvas1" width="300" height="300">'
                           . '</canvas>';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtml($name, $options);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtml($name, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -231,12 +241,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'canvas';
                 $expected = '</canvas>';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtmlClose($name);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtmlClose($name);
 
                 expect($actual)->equals($expected);
             }
@@ -245,12 +256,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'canvas';
                 $expected = '</canvas>';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtmlClose($name);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtmlClose($name);
 
                 expect($actual)->equals($expected);
             }
@@ -268,12 +280,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose with EOL returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual = Tag::tagHtmlClose($name, true);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual = $tag->tagHtmlClose($name, true);
 
                 expect($actual)->equals($expected);
             }
@@ -282,12 +295,13 @@ class TagTagHtmlTest extends UnitTest
         $this->specify(
             "tagHtmlClose with EOL returns invalid HTML XHTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name     = 'canvas';
                 $expected = '</canvas>' . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual = Tag::tagHtmlClose($name, true);
+                $tag->setDocType(Tag::HTML5);
+                $actual = $tag->tagHtmlClose($name, true);
 
                 expect($actual)->equals($expected);
             }

@@ -37,6 +37,12 @@ class Date extends Element
 	 */
 	public function render(var attributes = null) -> string
 	{
-		return Tag::dateField(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->dateField(this->prepareAttributes(attributes));
 	}
 }

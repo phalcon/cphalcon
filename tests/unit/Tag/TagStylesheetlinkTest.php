@@ -37,14 +37,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter local returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css" />'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::stylesheetLink($options);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -53,14 +54,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter local returns invalid HTML HTML5",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = 'css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css">'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::stylesheetLink($options);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -80,14 +82,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter local returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css" />'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::stylesheetLink($options);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -96,14 +99,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter local returns invalid HTML HTML5",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="/css/phalcon.css">'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::stylesheetLink($options);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -121,14 +125,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter remote returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css" />'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::stylesheetLink($options, false);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -137,14 +142,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with string parameter remote returns invalid HTML HTML5",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = 'http://phalconphp.com/css/phalcon.css';
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css">'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::stylesheetLink($options, false);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -162,14 +168,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter remote returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css" />'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::stylesheetLink($options, false);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -178,14 +185,15 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink with array parameter remote returns invalid HTML HTML5",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['http://phalconphp.com/css/phalcon.css'];
                 $expected = '<link rel="stylesheet" type="text/css" '
                           . 'href="http://phalconphp.com/css/phalcon.css">'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::stylesheetLink($options, false);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->stylesheetLink($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -205,7 +213,8 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = [
                     'css/phalcon.css',
                     'rel' => 'stylesheet/less',
@@ -214,8 +223,8 @@ class TagStylesheetlinkTest extends UnitTest
                           . 'href="/css/phalcon.css" />'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::stylesheetLink($options);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }
@@ -224,7 +233,8 @@ class TagStylesheetlinkTest extends UnitTest
         $this->specify(
             "stylesheetLink overriding rel local returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = [
                     'css/phalcon.css',
                     'rel' => 'stylesheet/less',
@@ -233,8 +243,8 @@ class TagStylesheetlinkTest extends UnitTest
                           . 'href="/css/phalcon.css">'
                           . PHP_EOL;
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::stylesheetLink($options);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->stylesheetLink($options);
 
                 expect($actual)->equals($expected);
             }

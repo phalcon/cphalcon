@@ -37,6 +37,12 @@ class File extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
-		return Tag::fileField(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->fileField(this->prepareAttributes(attributes));
 	}
 }

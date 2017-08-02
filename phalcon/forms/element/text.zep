@@ -37,6 +37,12 @@ class Text extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
-		return Tag::textField(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->textField(this->prepareAttributes(attributes));
 	}
 }

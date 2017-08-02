@@ -35,12 +35,13 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with string as URL and name returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $url  = 'x_url';
                 $name = 'x_name';
 
                 $expected = '<a href="/x_url">x_name</a>';
-                $actual   = Tag::linkTo($url, $name);
+                $actual   = $tag->linkTo($url, $name);
 
                 expect($actual)->equals($expected);
             }
@@ -60,7 +61,9 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with query param name returns invalid HTML",
             function () {
-                $actual = Tag::linkTo([
+                $tag = new Tag();
+
+                $actual = $tag->linkTo([
                     'signup/register',
                     'Register Here!',
                     'class' => 'btn-primary',
@@ -83,12 +86,13 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with empty string as URL and string as name parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $url  = '';
                 $name = 'x_name';
 
                 $expected = '<a href="/">x_name</a>';
-                $actual   = Tag::linkTo($url, $name);
+                $actual   = $tag->linkTo($url, $name);
 
                 expect($actual)->equals($expected);
             }
@@ -106,13 +110,14 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with array parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options = [
                     'x_url',
                     'x_name',
                 ];
                 $expected = '<a href="/x_url">x_name</a>';
-                $actual   = Tag::linkTo($options);
+                $actual   = $tag->linkTo($options);
 
                 expect($actual)->equals($expected);
             }
@@ -130,14 +135,15 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with named array parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options = [
                     'action' => 'x_url',
                     'text'   => 'x_name',
                     'class'  => 'x_class',
                 ];
                 $expected = '<a href="/x_url" class="x_class">x_name</a>';
-                $actual   = Tag::linkTo($options);
+                $actual   = $tag->linkTo($options);
 
                 expect($actual)->equals($expected);
             }
@@ -158,10 +164,11 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with complex local URL string parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $url      = "x_action/x_param";
                 $name     = 'x_name';
-                $actual   = Tag::linkTo($url, $name);
+                $actual   = $tag->linkTo($url, $name);
                 $expected = '<a href="/x_action/x_param">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -171,12 +178,13 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with complex local URL array parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = [
                     "x_action/x_param",
                     'x_name',
                 ];
-                $actual   = Tag::linkTo($options);
+                $actual   = $tag->linkTo($options);
                 $expected = '<a href="/x_action/x_param">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -186,13 +194,14 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with complex local URL array named parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = [
                     "x_action/x_param",
                     'x_name',
                     'class' => 'x_class'
                 ];
-                $actual   = Tag::linkTo($options);
+                $actual   = $tag->linkTo($options);
                 $expected = '<a href="/x_action/x_param" class="x_class">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -214,10 +223,11 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with complex remote URL string parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $url      = "http://phalconphp.com/en/";
                 $name     = 'x_name';
-                $actual   = Tag::linkTo($url, $name, false);
+                $actual   = $tag->linkTo($url, $name, false);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -227,13 +237,14 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with complex remote URL array parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = [
                     "http://phalconphp.com/en/",
                     'x_name',
                     false,
                 ];
-                $actual   = Tag::linkTo($options);
+                $actual   = $tag->linkTo($options);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -243,13 +254,14 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with complex remote URL array named parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = [
                     "http://phalconphp.com/en/",
                     'text'  => 'x_name',
                     'local' => false,
                 ];
-                $actual   = Tag::linkTo($options);
+                $actual   = $tag->linkTo($options);
                 $expected = '<a href="http://phalconphp.com/en/">x_name</a>';
 
                 expect($actual)->equals($expected);
@@ -259,10 +271,11 @@ class TagLinkToTest extends UnitTest
         $this->specify(
             "linkTo with mailto URL string parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $url  = "mailto:someone@phalconphp.com";
                 $name = 'someone@phalconphp.com';
-                $actual   = Tag::linkTo($url, $name, false);
+                $actual   = $tag->linkTo($url, $name, false);
                 $expected = '<a href="mailto:someone@phalconphp.com">someone@phalconphp.com</a>';
 
                 expect($actual)->equals($expected);

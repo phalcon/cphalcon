@@ -36,18 +36,20 @@ class TagSetDefaultTest extends UnitTest
         $this->specify(
             "setDefault does not assigns default values to generated tags by helpers",
             function () {
-                Tag::setDefault('property1', 'testVal1');
-                Tag::setDefault('property2', 'testVal2');
-                Tag::setDefault('property3', 'testVal3');
+                $tag = new Tag();
 
-                expect(Tag::hasValue('property1'))->true();
-                expect(Tag::hasValue('property2'))->true();
-                expect(Tag::hasValue('property3'))->true();
-                expect(Tag::hasValue('property4'))->false();
+                $tag->setDefault('property1', 'testVal1');
+                $tag->setDefault('property2', 'testVal2');
+                $tag->setDefault('property3', 'testVal3');
 
-                expect(Tag::getValue('property1'))->equals('testVal1');
-                expect(Tag::getValue('property2'))->equals('testVal2');
-                expect(Tag::getValue('property3'))->equals('testVal3');
+                expect($tag->hasValue('property1'))->true();
+                expect($tag->hasValue('property2'))->true();
+                expect($tag->hasValue('property3'))->true();
+                expect($tag->hasValue('property4'))->false();
+
+                expect($tag->getValue('property1'))->equals('testVal1');
+                expect($tag->getValue('property2'))->equals('testVal2');
+                expect($tag->getValue('property3'))->equals('testVal3');
             }
         );
     }

@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Unit\Assets;
 
-use Phalcon\Tag;
 use Phalcon\Assets\Manager;
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Resource\Js;
@@ -30,15 +29,6 @@ use Phalcon\Assets\Filters\Jsmin;
  */
 class ManagerTest extends UnitTest
 {
-    /**
-     * executed after each test
-     */
-    protected function _after()
-    {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
-    }
-
     /**
      * Test Manager::get
      *

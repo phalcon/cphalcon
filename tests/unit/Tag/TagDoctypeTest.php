@@ -29,8 +29,10 @@ class TagDoctypeTest extends UnitTest
      */
     protected function _after()
     {
+        $tag = new Tag();
+
         // Setting the doctype to HTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::HTML5);
+        $tag->setDocType(Tag::HTML5);
     }
 
     /**
@@ -216,13 +218,14 @@ class TagDoctypeTest extends UnitTest
      */
     protected function runDoctypeTest($doctype)
     {
-        Tag::resetInput();
-        Tag::setDocType($doctype);
+        $tag = new Tag();
+
+        $tag->setDocType($doctype);
 
         $expected = $this->docTypeToString($doctype);
-        $actual   = Tag::getDocType();
+        $actual   = $tag->getDocType();
 
-        Tag::setDocType(Tag::HTML5);
+        $tag->setDocType(Tag::HTML5);
 
         expect($actual)->equals($expected);
     }

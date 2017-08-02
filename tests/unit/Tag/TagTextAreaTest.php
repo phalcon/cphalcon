@@ -272,15 +272,17 @@ class TagTextAreaTest extends UnitTest
         $this->specify(
             "textArea with displayTo and newline in value",
             function () {
+                $tag = new Tag();
+
                 $options  = 'x_name';
                 $value    = "\r\nx_content";
                 $expected = '<textarea id="x_name" name="x_name">'
                           . $value
                           . '</textarea>';
 
-                Tag::setDefault('x_name', $value);
-                $actual = Tag::textArea($options);
-                Tag::setDefault('x_name', '');
+                $tag->setDefault('x_name', $value);
+                $actual = $tag->textArea($options);
+                $tag->setDefault('x_name', '');
 
                 expect($actual)->equals($expected);
             }

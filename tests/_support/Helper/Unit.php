@@ -108,24 +108,24 @@ class Unit extends Module
      */
     public function testFieldParameter($function, $options, $expected, $xhtml, $set = '')
     {
-        Tag::resetInput();
+        $tag = new Tag();
 
         if ($xhtml) {
-            Tag::setDocType(Tag::XHTML10_STRICT);
+            $tag->setDocType(Tag::XHTML10_STRICT);
             $expected .= ' />';
         } else {
-            Tag::setDocType(Tag::HTML5);
+            $tag->setDocType(Tag::HTML5);
             $expected .= '>';
         }
 
         if ($set) {
-            Tag::displayTo('x_name', 'x_value');
+            $tag->displayTo('x_name', 'x_value');
         }
 
-        $actual = Tag::$function($options);
+        $actual = $tag->{$function}($options);
 
         if ($set) {
-            Tag::$set('x_name', '');
+            $tag->{$set}('x_name', '');
         }
 
         $this->assertEquals($expected, $actual);

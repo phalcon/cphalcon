@@ -272,7 +272,7 @@ class Debug
 	 */
 	public function getVersion() -> string
 	{
-		var link;
+		var link, tag;
 
 		let link = [
 			"action": "https://docs.phalconphp.com/en/" . Version::getPart(Version::VERSION_MAJOR) . ".0.0/",
@@ -281,7 +281,9 @@ class Debug
 			"target": "_new"
 		];
 
-		return "<div class='version'>Phalcon Framework " . Tag::linkTo(link) . "</div>";
+		let tag = new Tag();
+
+		return "<div class='version'>Phalcon Framework " . tag->linkTo(link) . "</div>";
 	}
 
 	/**

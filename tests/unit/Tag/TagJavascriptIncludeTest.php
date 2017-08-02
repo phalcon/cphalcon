@@ -35,10 +35,11 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "iavascriptInclude with string parameter local link returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = 'js/phalcon.js';
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = Tag::javascriptInclude($options);
+                $actual   = $tag->javascriptInclude($options);
 
                 expect($actual)->equals($expected);
             }
@@ -56,10 +57,11 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "javascriptInclude with array parameter local link returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = Tag::javascriptInclude($options);
+                $actual   = $tag->javascriptInclude($options);
 
                 expect($actual)->equals($expected);
             }
@@ -77,10 +79,11 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "javascriptInclude with a string as the second parameter local link returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = Tag::javascriptInclude($options, 'hello');
+                $actual   = $tag->javascriptInclude($options, 'hello');
 
                 expect($actual)->equals($expected);
             }
@@ -98,10 +101,11 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "iavascriptInclude with a string parameter remote link returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = 'http://my.local.com/js/phalcon.js';
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = Tag::javascriptInclude($options, false);
+                $actual   = $tag->javascriptInclude($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -119,10 +123,11 @@ class TagJavascriptIncludeTest extends UnitTest
         $this->specify(
             "iavascriptInclude with array second parameter remote link returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $options  = ['http://my.local.com/js/phalcon.js'];
                 $expected = '<script type="text/javascript" src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-                $actual   = Tag::javascriptInclude($options, false);
+                $actual   = $tag->javascriptInclude($options, false);
 
                 expect($actual)->equals($expected);
             }

@@ -40,7 +40,9 @@ abstract class Select
 	public static function selectField(parameters, data = null)
 	{
 		var params, name, id, value, useEmpty, code, emptyValue, emptyText,
-			options, using;
+			options, using, tag;
+
+		let tag = new BaseTag();
 
 		if typeof parameters != "array" {
 			let params = [parameters, data];
@@ -70,7 +72,7 @@ abstract class Select
 		}
 
 		if !fetch value, params["value"] {
-			let value = BaseTag::getValue(id, params);
+			let value = tag->getValue(id, params);
 		} else {
 			unset params["value"];
 		}
@@ -112,7 +114,7 @@ abstract class Select
 
 		unset params["using"];
 
-		let code = BaseTag::renderAttributes("<select", params) . ">" . PHP_EOL;
+		let code = tag->renderAttributes("<select", params) . ">" . PHP_EOL;
 
 		if useEmpty {
 			/**
@@ -156,7 +158,9 @@ abstract class Select
 	private static function _optionsFromResultset(resultset, using, value, closeOption)
 	{
 		var code, params, option, usingZero, usingOne, escaper,
-			optionValue, optionText, strValue, strOptionValue;
+			optionValue, optionText, strValue, strOptionValue, tag;
+
+		let tag = new BaseTag();
 
 		let code = "";
 		let params = null;
@@ -168,7 +172,7 @@ abstract class Select
 			let usingZero = using[0], usingOne = using[1];
 		}
 
-		let escaper = <EscaperInterface> BaseTag::getEscaperService();
+		let escaper = <EscaperInterface> tag->getEscaperService();
 
 		for option in iterator(resultset) {
 

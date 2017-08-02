@@ -6,7 +6,6 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Message\Group;
@@ -34,15 +33,6 @@ use Phalcon\Validation;
  */
 class FormTest extends UnitTest
 {
-    /**
-     * executed after each test
-     */
-    protected function _after()
-    {
-        // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
-    }
-
     public function testCount()
     {
         $this->specify(

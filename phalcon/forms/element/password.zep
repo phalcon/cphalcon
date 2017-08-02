@@ -37,6 +37,12 @@ class Password extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
-		return Tag::passwordField(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->passwordField(this->prepareAttributes(attributes));
 	}
 }

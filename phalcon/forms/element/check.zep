@@ -37,6 +37,12 @@ class Check extends Element
 	 */
 	public function render(var attributes = null) -> string
 	{
-		return Tag::checkField(this->prepareAttributes(attributes, true));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->checkField(this->prepareAttributes(attributes, true));
 	}
 }

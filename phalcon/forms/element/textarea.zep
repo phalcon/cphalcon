@@ -37,6 +37,12 @@ class TextArea extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
-		return Tag::textArea(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->textArea(this->prepareAttributes(attributes));
 	}
 }

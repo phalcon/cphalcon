@@ -717,11 +717,13 @@ class Manager
 	 */
 	public function outputInline(<Collection> collection, type) -> string
 	{
-		var output, html, codes, filters, filter, code, attributes, content, join, joinedContent;
+		var output, html, codes, filters, filter, code, attributes, content, join, joinedContent, tag;
 
 		let output = "",
 			html = "",
 			joinedContent = "";
+
+		let tag = new Tag();
 
 		let codes = collection->getCodes(),
 			filters = collection->getFilters(),
@@ -749,12 +751,12 @@ class Manager
 				if join {
 					let joinedContent .= content;
 				} else {
-					let html .= Tag::tagHtml(type, attributes, false, true) . content . Tag::tagHtmlClose(type, true);
+					let html .= tag->tagHtml(type, attributes, false, true) . content . tag->tagHtmlClose(type, true);
 				}
 			}
 
 			if join {
-				let html .= Tag::tagHtml(type, attributes, false, true) . joinedContent . Tag::tagHtmlClose(type, true);
+				let html .= tag->tagHtml(type, attributes, false, true) . joinedContent . tag->tagHtmlClose(type, true);
 			}
 
 			/**
@@ -777,7 +779,7 @@ class Manager
 	 */
 	public function outputCss(collectionName = null) -> string
 	{
-		var collection;
+		var collection, tag;
 
 		if !collectionName {
 			let collection = this->getCss();
@@ -785,7 +787,9 @@ class Manager
 			let collection = this->get(collectionName);
 		}
 
-		return this->output(collection, ["Phalcon\\Tag", "stylesheetLink"], "css");
+		let tag = new Tag();
+
+		return this->output(collection, [tag, "stylesheetLink"], "css");
 	}
 
 	/**
@@ -813,7 +817,7 @@ class Manager
 	 */
 	public function outputJs(collectionName = null) -> string
 	{
-		var collection;
+		var collection, tag;
 
 		if !collectionName {
 			let collection = this->getJs();
@@ -821,7 +825,9 @@ class Manager
 			let collection = this->get(collectionName);
 		}
 
-		return this->output(collection, ["Phalcon\\Tag", "javascriptInclude"], "js");
+		let tag = new Tag();
+
+		return this->output(collection, [tag, "javascriptInclude"], "js");
 	}
 
 	/**

@@ -37,6 +37,12 @@ class Email extends Element
 	 */
 	public function render(var attributes = null) -> string
 	{
-		return Tag::emailField(this->prepareAttributes(attributes));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->emailField(this->prepareAttributes(attributes));
 	}
 }

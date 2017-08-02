@@ -37,9 +37,15 @@ class Submit extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
 		/**
 		 * Merged passed attributes with previously defined ones
 		 */
-		return Tag::submitButton(this->prepareAttributes(attributes));
+		return tag->submitButton(this->prepareAttributes(attributes));
 	}
 }

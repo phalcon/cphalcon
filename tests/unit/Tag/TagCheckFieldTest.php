@@ -37,6 +37,7 @@ class TagCheckFieldTest extends UnitTest
             function () {
                 $options  = 'x_name';
                 $expected = '<input type="checkbox" id="x_name" name="x_name"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -45,11 +46,13 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with string parameter returns invalid HTML XHTML",
             function () {
                 $options  = 'x_name';
                 $expected = '<input type="checkbox" id="x_name" name="x_name"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -76,6 +79,7 @@ class TagCheckFieldTest extends UnitTest
                 ];
                 $expected = '<input type="checkbox" id="x_name" name="x_name" '
                     . 'class="x_class"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -84,6 +88,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with array parameter returns invalid HTML XHTML",
             function () {
@@ -93,6 +98,7 @@ class TagCheckFieldTest extends UnitTest
                 ];
                 $expected = '<input type="checkbox" id="x_name" name="x_name" '
                     . 'class="x_class"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -121,6 +127,7 @@ class TagCheckFieldTest extends UnitTest
                 ];
                 $expected = '<input type="checkbox" id="x_id" name="x_name" '
                     . 'class="x_class" size="10"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -129,6 +136,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with array parameter with id returns invalid HTML XHTML",
             function () {
@@ -140,6 +148,7 @@ class TagCheckFieldTest extends UnitTest
                 ];
                 $expected = '<input type="checkbox" id="x_id" name="x_name" '
                     . 'class="x_class" size="10"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -168,6 +177,7 @@ class TagCheckFieldTest extends UnitTest
                 ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                     . 'class="x_class" size="10"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -176,6 +186,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with array parameter with name no id returns invalid HTML XHTML",
             function () {
@@ -187,6 +198,7 @@ class TagCheckFieldTest extends UnitTest
                 ];
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                     . 'class="x_class" size="10"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -216,6 +228,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" '
                     . 'name="x_other" value="x_value" class="x_class" '
                     . 'size="10" checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -225,6 +238,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with setDefault returns invalid HTML XHTML",
             function () {
@@ -237,6 +251,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" '
                     . 'name="x_other" value="x_value" class="x_class" '
                     . 'size="10" checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -267,6 +282,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" '
                     . 'name="x_other" value="x_value" class="x_class" '
                     . 'size="10" checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -276,6 +292,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with displayTo returns invalid HTML XHTML",
             function () {
@@ -288,6 +305,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" '
                     . 'name="x_other" value="x_value" class="x_class" '
                     . 'size="10" checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -318,6 +336,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                     . 'value="x_value" class="x_class" size="10" '
                     . 'checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -327,6 +346,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with setDefault and element not present returns invalid HTML XHTML",
             function () {
@@ -339,6 +359,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                     . 'value="x_value" class="x_class" size="10" '
                     . 'checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -369,6 +390,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                     . 'value="x_value" class="x_class" size="10" '
                     . 'checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -378,6 +400,7 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+
         $this->specify(
             "checkField with displayTo and element not present returns invalid HTML XHTML",
             function () {
@@ -390,6 +413,7 @@ class TagCheckFieldTest extends UnitTest
                 $expected = '<input type="checkbox" id="x_name" name="x_other" '
                     . 'value="x_value" class="x_class" size="10" '
                     . 'checked="checked"';
+
                 $this->tester->testFieldParameter(
                     'checkField',
                     $options,
@@ -414,11 +438,12 @@ class TagCheckFieldTest extends UnitTest
         $this->specify(
             'The checkbox cannot have value 0 and be checked',
             function ($value, $default, $expected) {
-                Tag::resetInput();
-                Tag::setDocType(Tag::HTML5);
-                Tag::setDefault("demo-0", $default);
+                $tag = new Tag();
 
-                expect(Tag::checkField(['demo-0', 'value' => $value]))->equals($expected);
+                $tag->setDocType(Tag::HTML5);
+                $tag->setDefault("demo-0", $default);
+
+                expect($tag->checkField(['demo-0', 'value' => $value]))->equals($expected);
             },
             ['examples' => $this->nullableValueProvider()]
         );

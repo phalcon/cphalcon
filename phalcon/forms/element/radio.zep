@@ -37,6 +37,12 @@ class Radio extends Element
 	 */
 	public function render(attributes = null) -> string
 	{
-		return Tag::radioField(this->prepareAttributes(attributes, true));
+		var dependencyInjector,  tag;
+
+		let dependencyInjector = this->getForm()->getDI();
+
+		let tag = <Tag> dependencyInjector->get("tag");
+
+		return tag->radioField(this->prepareAttributes(attributes, true));
 	}
 }

@@ -380,7 +380,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function label(var attributes = null) -> string
 	{
-		var internalAttributes, label, name, code;
+		var internalAttributes, label, name, code, form, dependencyInjector, tag;
 
 		/**
 		 * Check if there is an "id" attribute defined
@@ -399,7 +399,17 @@ abstract class Element implements ElementInterface
 			let attributes = ["for": name];
 		}
 
-		let code = Tag::renderAttributes("<label", attributes);
+		let form = this->getForm();
+
+		if form {
+			let dependencyInjector = form->getDI();
+
+			let tag = <Tag> dependencyInjector->get("tag");
+		} else {
+			let tag = new Tag();
+		}
+
+		let code = tag->renderAttributes("<label", attributes);
 
 		/**
 		 * Use the default label or leave the same name as label
@@ -440,7 +450,7 @@ abstract class Element implements ElementInterface
 	 */
 	public function getValue() -> var
 	{
-		var name, form, value;
+		var name, form, value, tag;
 
 		let name = this->_name,
 			value = null;
@@ -455,11 +465,13 @@ abstract class Element implements ElementInterface
 			 */
 			let value = form->getValue(name);
 
+			let tag = new Tag();
+
 			/**
 			 * Check if the tag has a default value
 			 */
-			if typeof value == "null" && Tag::hasValue(name) {
-				let value = Tag::getValue(name);
+			if typeof value == "null" && tag->hasValue(name) {
+				let value = tag->getValue(name);
 			}
 
 		}
@@ -514,7 +526,11 @@ abstract class Element implements ElementInterface
 	 */
 	public function clear() -> <Element>
 	{
-		Tag::setDefault(this->_name, null);
+		var tag;
+
+		let tag = new Tag();
+
+		tag->setDefault(this->_name, null);
 		return this;
 	}
 

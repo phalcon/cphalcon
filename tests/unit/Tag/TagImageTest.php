@@ -399,11 +399,13 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and local link returns invalid HTML Strict",
             function () {
+                $tag = new Tag();
+
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif" />';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::image($options, true);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -412,11 +414,13 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and local link returns invalid HTML XHTML",
             function () {
+                $tag = new Tag();
+
                 $options  = 'img/hello.gif';
                 $expected = '<img src="/img/hello.gif">';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::image($options, true);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -434,11 +438,13 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and remote link returns invalid HTML Strict",
             function () {
+                $tag = new Tag();
+
                 $options  = 'http://phalconphp.com/img/hello.gif';
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::image($options, false);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->image($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -447,11 +453,13 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with string parameter and local link returns invalid HTML XHTML",
             function () {
+                $tag = new Tag();
+
                 $options  = 'http://phalconphp.com/img/hello.gif';
                 $expected = '<img src="http://phalconphp.com/img/hello.gif">';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::image($options, false);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->image($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -469,14 +477,16 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and local link returns invalid HTML Strict",
             function () {
+                $tag = new Tag();
+
                 $options  = [
                     'img/hello.gif',
                     'alt' => 'Hello'
                 ];
                 $expected = '<img src="/img/hello.gif" alt="Hello" />';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::image($options, true);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -485,14 +495,16 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and local link returns invalid HTML XHTML",
             function () {
+                $tag = new Tag();
+
                 $options  = [
                     'img/hello.gif',
                     'alt' => 'Hello'
                 ];
                 $expected = '<img src="/img/hello.gif" alt="Hello">';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::image($options, true);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->image($options, true);
 
                 expect($actual)->equals($expected);
             }
@@ -510,6 +522,8 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and remote link returns invalid HTML Strict",
             function () {
+                $tag = new Tag();
+
                 $options  = [
                     'http://phalconphp.com/img/hello.gif',
                     'alt' => 'Hello'
@@ -517,8 +531,8 @@ class TagImageTest extends UnitTest
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" '
                           . 'alt="Hello" />';
 
-                Tag::setDocType(Tag::XHTML10_STRICT);
-                $actual   = Tag::image($options, false);
+                $tag->setDocType(Tag::XHTML10_STRICT);
+                $actual   = $tag->image($options, false);
 
                 expect($actual)->equals($expected);
             }
@@ -527,6 +541,8 @@ class TagImageTest extends UnitTest
         $this->specify(
             "image with array parameter and local link returns invalid HTML XHTML",
             function () {
+                $tag = new Tag();
+
                 $options  = [
                     'http://phalconphp.com/img/hello.gif',
                     'alt' => 'Hello'
@@ -534,8 +550,8 @@ class TagImageTest extends UnitTest
                 $expected = '<img src="http://phalconphp.com/img/hello.gif" '
                           . 'alt="Hello">';
 
-                Tag::setDocType(Tag::HTML5);
-                $actual   = Tag::image($options, false);
+                $tag->setDocType(Tag::HTML5);
+                $actual   = $tag->image($options, false);
 
                 expect($actual)->equals($expected);
             }

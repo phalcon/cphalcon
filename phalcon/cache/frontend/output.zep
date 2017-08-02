@@ -56,8 +56,10 @@ use Phalcon\Cache\FrontendInterface;
 *     // Print date and time
 *     echo date("r");
 *
+*     $tag = new Tag();
+*
 *     // Generate a link to the sign-up action
-*     echo Tag::linkTo(
+*     echo $tag->linkTo(
 *         [
 *             "user/signup",
 *             "Sign Up",

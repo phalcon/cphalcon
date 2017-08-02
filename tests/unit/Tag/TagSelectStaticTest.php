@@ -35,7 +35,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with string parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $name    = 'x_name';
                 $options = [
                     'A' => 'Active',
@@ -46,8 +47,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($name, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($name, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -65,7 +65,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -79,8 +80,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -99,7 +99,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -114,8 +115,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -134,7 +134,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -149,8 +150,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -168,7 +168,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'value' => 'I',
@@ -183,8 +184,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -202,7 +202,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -216,9 +217,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                Tag::setDefault('x_name', 'I');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->setDefault('x_name', 'I');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -236,7 +236,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -250,9 +251,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option selected="selected" value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                Tag::displayTo('x_name', 'I');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->displayTo('x_name', 'I');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -270,7 +270,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -285,9 +286,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                Tag::setDefault('x_name', 'Z');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->setDefault('x_name', 'Z');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -305,7 +305,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with displayTo and element not present returns invalid HTML Strict",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -320,9 +321,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                           . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                           . '</select>';
-                Tag::displayTo('x_name', 'Z');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->displayTo('x_name', 'Z');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -340,7 +340,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     "x_name",
                     [
@@ -359,8 +360,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params);
 
                 expect($actual)->equals($expected);
             }
@@ -379,7 +379,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with id returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -400,8 +401,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -420,7 +420,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with name no id returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'id'    => 'x_id',
@@ -441,8 +442,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -460,7 +460,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with array parameter with value returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'value' => 'A1',
@@ -481,8 +482,7 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -500,7 +500,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -521,9 +522,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                Tag::setDefault('x_name', 'A2');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->setDefault('x_name', 'A2');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -541,7 +541,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'class' => 'x_class',
@@ -562,9 +563,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                Tag::displayTo('x_name', 'A2');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->displayTo('x_name', 'A2');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -582,7 +582,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with setDefault and element not present returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -605,9 +606,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                Tag::setDefault('x_name', 'I');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->setDefault('x_name', 'I');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
@@ -625,7 +625,8 @@ class TagSelectStaticTest extends UnitTest
         $this->specify(
             "selectStatic with displayTo and element not present returns invalid HTML",
             function () {
-                Tag::resetInput();
+                $tag = new Tag();
+
                 $params = [
                     'x_name',
                     'name'  => 'x_other',
@@ -647,9 +648,8 @@ class TagSelectStaticTest extends UnitTest
                           . chr(9) . '<option value="B">B One</option>' . PHP_EOL
                           . '</select>';
 
-                Tag::displayTo('x_name', 'I');
-                $actual   = Tag::selectStatic($params, $options);
-                Tag::resetInput();
+                $tag->displayTo('x_name', 'I');
+                $actual   = $tag->selectStatic($params, $options);
 
                 expect($actual)->equals($expected);
             }
