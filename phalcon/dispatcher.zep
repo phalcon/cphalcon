@@ -538,7 +538,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			// Check if the method exists in the handler
-			let actionMethod = actionName . actionSuffix;
+			let actionMethod = this->getActiveMethod();
 
 			if !is_callable([handler, actionMethod]) {
 
