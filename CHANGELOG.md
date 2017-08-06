@@ -1,6 +1,10 @@
 # Change Log
 
-All notable changes to this Phalcon Framework will be documented in this file.
+All notable changes to Phalcon Framework will be documented in the version specific changelog file.
+
+To see what we changed in particular framework branch refer to the relevant changelog file.
+
+## Index
 
 - [**`3.2.x`**](CHANGELOG-3.2.md)
 - [**`3.1.x`**](CHANGELOG-3.1.md)
