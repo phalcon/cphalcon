@@ -2807,7 +2807,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						throw new Exception("Resultset class \"" . resultsetClassName . "\" not found");
 					}
 
-					if ! in_array("Phalcon\\Mvc\\Model\\ResultsetInterface", class_implements(resultsetClassName)) {
+					if ! is_subclass_of(resultsetClassName, "Phalcon\\Mvc\\Model\\ResultsetInterface") {
 						throw new Exception("Resultset class \"" . resultsetClassName . "\" must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface");
 					}
 
