@@ -178,11 +178,11 @@ class Random
 	 * It is similar to `Phalcon\Security\Random:base64` but has been modified to avoid both non-alphanumeric
 	 * characters and letters which might look ambiguous when printed.
 	 *
-	 * <code>
+	 *<code>
 	 * $random = new \Phalcon\Security\Random();
 	 *
 	 * echo $random->base58(); // 4kUgL2pdQMSCQtjE
-	 * </code>
+	 *</code>
 	 *
 	 * @see    \Phalcon\Security\Random:base64
 	 * @link   https://en.wikipedia.org/wiki/Base58
@@ -201,11 +201,11 @@ class Random
 	 * It is similar to `Phalcon\Security\Random:base58` but has been modified to provide the largest value that can
 	 * safely be used in URLs without needing to take extra characters into consideration because it is [A-Za-z0-9].
 	 *
-	 *< code>
+	 *<code>
 	 * $random = new \Phalcon\Security\Random();
 	 *
 	 * echo $random->base62(); // z0RkwHfh8ErDM1xw
-	 * </code>
+	 *</code>
 	 *
 	 * @see    \Phalcon\Security\Random:base58
 	 * @throws Exception If secure random number generator is not available or unexpected partial read
