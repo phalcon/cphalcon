@@ -35,7 +35,7 @@
  * );
  *
  * $request = service->resolve();
- *<code>
+ *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Service) {
 

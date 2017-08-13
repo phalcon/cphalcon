@@ -38,55 +38,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testDataFileCache()
-	{
-
-		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
-
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/',
-		));
-
-		$this->assertFalse($cache->isStarted());
-
-		//Save
-		$cache->save('test-data', "nothing interesting");
-
-		$this->assertTrue(file_exists('unit-tests/cache/'.$cache->getKey('test-data')));
-
-		//Get
-		$cachedContent = $cache->get('test-data');
-		$this->assertEquals($cachedContent, "nothing interesting");
-
-		//Save
-		$cache->save('test-data', "sure, nothing interesting");
-
-		//Get
-		$cachedContent = $cache->get('test-data');
-		$this->assertEquals($cachedContent, "sure, nothing interesting");
-
-		//Exists
-		$this->assertTrue($cache->exists('test-data'));
-
-		//Delete
-		$this->assertTrue($cache->delete('test-data'));
-
-		// Save & Get : zero string, zero number, false
-		$testSets = array(
-			'test-zero-data' => '0',
-			'test-0-data' => 0,
-			'test-false-data' => false
-		);
-
-		foreach($testSets as $key => $value) {
-			$cache->save($key, $value);
-			$this->assertTrue(file_exists('unit-tests/cache/'.$cache->getKey($key)));
-
-			$cachedContent = $cache->get($key);
-			$this->assertEquals($cachedContent, $value);
-		}
-	}
-
 	public function testDataFileCacheIncrement()
 	{
 		$frontCache = new Phalcon\Cache\Frontend\Data();
