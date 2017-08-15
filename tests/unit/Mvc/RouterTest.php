@@ -96,7 +96,7 @@ class RouterTest extends UnitTest
                         return true;
                     });
 
-                $router->handle();
+                $router->handle("/");
                 expect($router->wasMatched())->false();
 
                 $router->handle('/static/route');
@@ -383,7 +383,7 @@ class RouterTest extends UnitTest
                     ]
                 );
 
-                $router->handle();
+                $router->handle("/");
 
                 expect($router->getControllerName())->equals('controller');
                 expect($router->getActionName())->equals('action');

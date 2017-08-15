@@ -115,7 +115,7 @@ class Application extends BaseApplication
 	/**
 	 * Handles a MVC request
 	 */
-	public function handle(string uri = null) -> <ResponseInterface> | boolean
+	public function handle(string! uri) -> <ResponseInterface> | boolean
 	{
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,
 			module, moduleObject, moduleName, className, path,
