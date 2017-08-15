@@ -47,7 +47,7 @@ use Phalcon\Mvc\Micro\CollectionInterface;
  *     }
  * );
  *
- * $app->handle();
+ * $app->handle("/say/welcome/Phalcon");
  *</code>
  */
 class Micro extends Injectable implements \ArrayAccess
@@ -579,7 +579,7 @@ class Micro extends Injectable implements \ArrayAccess
 	 * @param string uri
 	 * @return mixed
 	 */
-	public function handle(var uri = null)
+	public function handle(string! uri)
 	{
 		var dependencyInjector, eventsManager, status = null, router, matchedRoute,
 			handler, beforeHandlers, params, returnedValue, e, errorHandler,
