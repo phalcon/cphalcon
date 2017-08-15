@@ -389,12 +389,6 @@ class Application extends BaseApplication
 		}
 
 		/**
-		 * Headers and Cookies are automatically sent
-		 */
-		response->sendHeaders();
-		response->sendCookies();
-
-		/**
 		 * Return the response
 		 */
 		return response;
