@@ -50,7 +50,9 @@ use Phalcon\Events\EventsAwareInterface;
  *     ]
  * );
  *
- * $router->handle();
+ * $router->handle(
+ *     "/documentation/1/examples.html"
+ * );
  *
  * echo $router->getControllerName();
  * </code>
@@ -94,10 +96,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	protected _removeExtraSlashes;
 
 	protected _notFoundPaths;
-
-	const URI_SOURCE_GET_URL = 0;
-
-	const URI_SOURCE_SERVER_REQUEST_URI = 1;
 
 	const POSITION_FIRST = 0;
 
@@ -159,52 +157,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	public function getEventsManager() -> <ManagerInterface>
 	{
 		return this->_eventsManager;
-	}
-
-	/**
-	 * Get rewrite info. This info is read from $_GET["_url"]. This returns '/' if the rewrite information cannot be read
-	 */
-	public function getRewriteUri() -> string
-	{
-		var url, urlParts, realUri;
-
-		/**
-		 * By default we use $_GET["url"] to obtain the rewrite information
-		 */
-		if !this->_uriSource {
-			if fetch url, _GET["_url"] {
-				if !empty url {
-					return url;
-				}
-			}
-		} else {
-			/**
-			 * Otherwise use the standard $_SERVER["REQUEST_URI"]
-			 */
-			if fetch url, _SERVER["REQUEST_URI"] {
-				let urlParts = explode("?", url),
-					realUri = urlParts[0];
-				if !empty realUri {
-					return realUri;
-				}
-			}
-		}
-		return "/";
-	}
-
-	/**
-	 * Sets the URI source. One of the URI_SOURCE_* constants
-	 *
-	 * <code>
-	 * $router->setUriSource(
-	 *     Router::URI_SOURCE_SERVER_REQUEST_URI
-	 * );
-	 * </code>
-	 */
-	public function setUriSource(var uriSource) -> <RouterInterface>
-	{
-		let this->_uriSource = uriSource;
-		return this;
 	}
 
 	/**
@@ -315,38 +267,26 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 * Handles routing information received from the rewrite engine
 	 *
 	 *<code>
-	 * // Read the info from the rewrite engine
-	 * $router->handle();
-	 *
-	 * // Manually passing an URL
+	 * // Passing a URL
 	 * $router->handle("/posts/edit/1");
 	 *</code>
 	 */
-	public function handle(string uri = null)
+	public function handle(string! uri)
 	{
-		var realUri, request, currentHostName, routeFound, parts,
+		var request, currentHostName, routeFound, parts,
 			params, matches, notFoundPaths,
 			vnamespace, module,  controller, action, paramsStr, strParams,
 			route, methods, dependencyInjector,
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
 			paths, converters, part, position, matchPosition, converter, eventsManager;
 
-		if !uri {
-			/**
-			 * If 'uri' isn't passed as parameter it reads _GET["_url"]
-			 */
-			let realUri = this->getRewriteUri();
-		} else {
-			let realUri = uri;
-		}
-
 		/**
 		 * Remove extra slashes in the route
 		 */
-		if this->_removeExtraSlashes && realUri != "/" {
-			let handledUri = rtrim(realUri, "/");
+		if this->_removeExtraSlashes && uri != "/" {
+			let handledUri = rtrim(uri, "/");
 		} else {
-			let handledUri = realUri;
+			let handledUri = uri;
 		}
 
 		let request = null,
