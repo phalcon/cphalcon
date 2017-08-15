@@ -355,12 +355,14 @@ class ModelTest extends UnitTest
             function () {
                 $robot = new Robots();
 
-                $success = $robot->save(
+                $robot->assign(
                     [
                         "type" => "mechanical",
                         "year" => 2018,
                     ]
                 );
+
+                $success = $robot->save();
 
                 expect($success)->false();
                 expect($robot->type)->equals("mechanical");
@@ -434,12 +436,14 @@ class ModelTest extends UnitTest
             function () {
                 $robot = new Robotters();
 
-                $success = $robot->save(
+                $robot->assign(
                     [
                         "theType" => "mechanical",
                         "theYear" => 2018,
                     ]
                 );
+
+                $success = $robot->save();
 
                 expect($success)->false();
                 expect($robot->theType)->equals("mechanical");
@@ -663,12 +667,13 @@ class ModelTest extends UnitTest
             function () {
                 $robots = new Robots();
                 $robots->name = '';
-                $robots->save(
+                $robots->assign(
                     [
                         'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'text',
                     ]
                 );
+                $robots->save();
             }
         );
     }

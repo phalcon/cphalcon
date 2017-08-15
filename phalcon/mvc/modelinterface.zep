@@ -241,31 +241,25 @@ interface ModelInterface
 	/**
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 *
-	 * @param  array data
-	 * @param  array whiteList
 	 * @return boolean
 	 */
-	public function save(data = null, whiteList = null);
+	public function save();
 
 	/**
 	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
-	 * @param  array data
-	 * @param  array whiteList
 	 * @return boolean
 	 */
-	public function create(data = null, whiteList = null);
+	public function create();
 
 	/**
 	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
-	 * @param  array data
-	 * @param  array whiteList
 	 * @return boolean
 	 */
-	public function update(data = null, whiteList = null);
+	public function update();
 
 	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.

@@ -2982,11 +2982,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let insertModel = clone manager->load(modelName);
 
+		insertModel->assign(insertValues);
+
 		/**
 		 * Call 'create' to ensure that an insert is performed
 		 * Return the insert status
 		 */
-		return new Status(insertModel->create(insertValues), insertModel);
+		return new Status(insertModel->create(), insertModel);
 	}
 
 	/**
@@ -3130,10 +3132,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			let record = records->current();
 
+			record->assign(updateValues);
+
 			/**
 			 * We apply the executed values to every record found
 			 */
-			if !record->update(updateValues) {
+			if !record->update() {
 
 				/**
 				 * Rollback the transaction on failure

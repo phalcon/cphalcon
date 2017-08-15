@@ -21,21 +21,27 @@ class Validation
         $I->assertTrue($connection->delete('subscriptores'));
 
         $model = new Subscriptores();
-        $I->assertTrue($model->save([
-            'email'      => 'fuego@hotmail.com',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'A'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'fuego@hotmail.com',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'A'
+            ]
+        );
+        $I->assertTrue($model->save());
     }
 
     protected function presenceOf(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'diego@hotmail.com',
-            'created_at' => null,
-            'status'     => 'A'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'diego@hotmail.com',
+                'created_at' => null,
+                'status'     => 'A'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -52,11 +58,14 @@ class Validation
     protected function email(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'fuego?=',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'A'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'fuego?=',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'A'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -77,11 +86,14 @@ class Validation
     protected function emailWithDot(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'serghei.@yahoo.com',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'A'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'serghei.@yahoo.com',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'A'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -98,11 +110,14 @@ class Validation
     protected function exclusionIn(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'serghei@hotmail.com',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'P'
-        ]), 'The ExclusionIn Validation failed');
+        $model->assign(
+            [
+                'email'      => 'serghei@hotmail.com',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'P'
+            ]
+        );
+        $I->assertFalse($model->save(), 'The ExclusionIn Validation failed');
 
         $expected = [
             Message::__set_state([
@@ -125,11 +140,14 @@ class Validation
     protected function inclusionIn(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'serghei@hotmail.com',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'R'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'serghei@hotmail.com',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'R'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -152,10 +170,12 @@ class Validation
         ];
 
         $model = new Subscriptores();
-        $I->assertTrue($model->save($data));
+        $model->assign($data);
+        $I->assertTrue($model->save());
 
         $model = new Subscriptores();
-        $I->assertFalse($model->save($data));
+        $model->assign($data);
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -176,7 +196,8 @@ class Validation
     protected function uniqueness2(UnitTester $I)
     {
         $model = Subscriptores::findFirst();
-        $model->save($model->toArray());
+        $model->assign($model->toArray());
+        $model->save();
 
         $I->assertTrue($model->validation());
         $I->assertEmpty($model->getMessages());
@@ -185,11 +206,14 @@ class Validation
     protected function regex(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'andres@hotmail.com',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'y'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'andres@hotmail.com',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'y'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -206,11 +230,14 @@ class Validation
     protected function tooLong(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => str_repeat('a', 50) . '@hotmail.com',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'A'
-        ]));
+        $model->assign(
+            [
+                'email'      => str_repeat('a', 50) . '@hotmail.com',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'A'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
@@ -227,11 +254,14 @@ class Validation
     protected function tooShort(UnitTester $I)
     {
         $model = new Subscriptores();
-        $I->assertFalse($model->save([
-            'email'      => 'a@b.c',
-            'created_at' => new RawValue('now()'),
-            'status'     => 'A'
-        ]));
+        $model->assign(
+            [
+                'email'      => 'a@b.c',
+                'created_at' => new RawValue('now()'),
+                'status'     => 'A'
+            ]
+        );
+        $I->assertFalse($model->save());
 
         $expected = [
             Message::__set_state([
