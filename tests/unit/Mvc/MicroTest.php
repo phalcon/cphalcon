@@ -184,25 +184,22 @@ class MicroTest extends UnitTest
 
                 //Getting the url from _url using GET
                 $_SERVER["REQUEST_METHOD"] = "GET";
-                $_GET["_url"] = "/api/site";
 
-                $app->handle();
+                $app->handle("/api/site");
 
                 expect($handler->getNumberAccess())->equals(1);
                 expect($handler->getTrace())->equals(["find"]);
 
                 //Getting the url from _url using POST
                 $_SERVER["REQUEST_METHOD"] = "POST";
-                $_GET["_url"] = "/api/site/save";
 
-                $app->handle();
+                $app->handle("/api/site/save");
 
                 expect($handler->getNumberAccess())->equals(2);
                 expect($handler->getTrace())->equals(["find", "save"]);
 
                 //Passing directly a URI
                 $_SERVER["REQUEST_METHOD"] = "DELETE";
-                $_GET["_url"] = null;
 
                 $app->handle("/api/site/delete/1");
 
@@ -240,9 +237,8 @@ class MicroTest extends UnitTest
                 );
 
                 $_SERVER["REQUEST_METHOD"] = "GET";
-                $_GET["_url"] = "/fourohfour";
 
-                $app->handle();
+                $app->handle("/fourohfour");
 
                 expect($flag)->true();
             }

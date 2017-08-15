@@ -62,7 +62,7 @@ class ForwardCest
         $application->setEventsManager(new Manager());
         $application->setDI($di);
 
-        $_GET['_url'] = '/exception';
-        $I->assertSame("I should be displayed", $application->handle()->getContent());
+        $response = $application->handle("/exception");
+        $I->assertSame("I should be displayed", $response->getContent());
     }
 }
