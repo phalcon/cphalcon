@@ -3,3 +3,4 @@
 - Response headers and cookies are no longer prematurely sent [#12378](https://github.com/phalcon/cphalcon/pull/12378)
 - You can no longer assign data to models whilst saving them [#12317](https://github.com/phalcon/cphalcon/issues/12317)
 - `ModelManager::load()` no longer reuses already initialized models [#12317](https://github.com/phalcon/cphalcon/issues/12317)
+- Removed `Model::reset()` [#12317](https://github.com/phalcon/cphalcon/issues/12317)

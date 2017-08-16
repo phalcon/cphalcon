@@ -4769,13 +4769,4 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		    globals_set("orm.disable_assign_setters", disableAssignSetters);
 		}
 	}
-
-	/**
-	 * Reset a model instance data
-	 */
-	public function reset()
-	{
-		let this->_uniqueParams = null;
-		let this->_snapshot = null;
-	}
 }

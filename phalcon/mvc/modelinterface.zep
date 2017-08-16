@@ -303,9 +303,4 @@ interface ModelInterface
 	 * @param array columnMap
 	 */
 	public function setSnapshotData(array! data, columnMap = null);
-
-	/**
-	 * Reset a model instance data
-	 */
-	public function reset();
 }
