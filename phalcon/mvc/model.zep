@@ -2903,7 +2903,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						/**
 						 * Create a new instance of the intermediate model
 						 */
-						let intermediateModel = manager->load(intermediateModelName, true);
+						let intermediateModel = manager->load(intermediateModelName);
 
 						/**
 						 * Write value in the intermediate model
