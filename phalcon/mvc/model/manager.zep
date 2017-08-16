@@ -231,7 +231,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Update the model as initialized, this avoid cyclic initializations
 		 */
-		let this->_initialized[className] = model;
+		let this->_initialized[className] = true;
 
 		/**
 		 * Call the 'initialize' method if it's implemented
@@ -275,7 +275,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Loads a model throwing an exception if it doesn't exist
 	 */
-	public function load(string! modelName, boolean newInstance = false) -> <ModelInterface>
+	public function load(string! modelName) -> <ModelInterface>
 	{
 		var model, colonPos, namespaceName, namespaceAlias, className;
 
@@ -299,19 +299,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
-		 * Check if a model with the same is already loaded
-		 */
-		if !newInstance {
-			if fetch model, this->_initialized[strtolower(modelName)] {
-				model->reset();
-				return model;
-			}
-		}
-
-		/**
 		 * Load it using an autoloader
 		 */
-		return new {modelName}(null, this->_dependencyInjector, this);
+		let model = new {modelName}(null, this->_dependencyInjector, this);
+
+		return model;
 	}
 
 	/**

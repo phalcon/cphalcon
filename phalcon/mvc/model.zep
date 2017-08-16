@@ -2956,7 +2956,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 						/**
 						 * Create a new instance of the intermediate model
 						 */
-						let intermediateModel = manager->load(intermediateModelName, true);
+						let intermediateModel = manager->load(intermediateModelName);
 
 						/**
 						 * Write value in the intermediate model
@@ -3044,20 +3044,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $robot->save();
 	 *</code>
 	 *
-	 * @param array data
-	 * @param array whiteList
 	 * @return boolean
 	 */
-	public function save(var data = null, var whiteList = null) -> boolean
+	public function save() -> boolean
 	{
 		var metaData, related, schema, writeConnection, readConnection,
 			source, table, identityField, exists, success;
 
 		let metaData = this->getModelsMetaData();
-
-		if typeof data == "array" && count(data) > 0 {
-			this->assign(data, null, whiteList);
-		}
 
 		/**
 		 * Create/Get the current database connection
@@ -3203,16 +3197,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * // Passing an array to create
 	 * $robot = new Robots();
 	 *
-	 * $robot->create(
+	 * $robot->assign(
 	 *     [
 	 *         "type" => "mechanical",
 	 *         "name" => "Astro Boy",
 	 *         "year" => 1952,
 	 *     ]
 	 * );
+	 *
+	 * $robot->create();
 	 *</code>
 	 */
-	public function create(var data = null, var whiteList = null) -> boolean
+	public function create() -> boolean
 	{
 		var metaData;
 
@@ -3232,7 +3228,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Using save() anyways
 		 */
-		return this->save(data, whiteList);
+		return this->save();
 	}
 
 	/**
@@ -3248,7 +3244,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $robot->update();
 	 *</code>
 	 */
-	public function update(var data = null, var whiteList = null) -> boolean
+	public function update() -> boolean
 	{
 		var metaData;
 
@@ -3275,7 +3271,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call save() anyways
 		 */
-		return this->save(data, whiteList);
+		return this->save();
 	}
 
 	/**
@@ -4864,14 +4860,5 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		if fetch disableAssignSetters, options["disableAssignSetters"] {
 		    globals_set("orm.disable_assign_setters", disableAssignSetters);
 		}
-	}
-
-	/**
-	 * Reset a model instance data
-	 */
-	public function reset()
-	{
-		let this->_uniqueParams = null;
-		let this->_snapshot = null;
 	}
 }
