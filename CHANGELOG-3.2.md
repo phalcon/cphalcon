@@ -1,4 +1,6 @@
 # [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-XX-XX)
+- Fixed `Phalcon\Db\Dialect\Postgresql::describeReferences` to generate correct SQL
+- Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` for proper creating `Reference` object [#438](https://github.com/phalcon/phalcon-devtools/issues/438)
 
 # [3.2.2](https://github.com/phalcon/cphalcon/releases/tag/v3.2.2) (2017-08-14)
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns` to work properly with `DOUBLE PRECISION` and `REAL` data types [#12842](https://github.com/phalcon/cphalcon/issues/12842)
