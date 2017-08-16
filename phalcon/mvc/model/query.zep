@@ -955,7 +955,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 					let realModelName = modelName;
 				}
 
-				let model = manager->load(realModelName, true),
+				let model = manager->load(realModelName),
 					source = model->getSource(),
 					schema = model->getSchema();
 
@@ -1829,7 +1829,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			}
 
 			// Load a model instance from the models manager
-			let model = manager->load(realModelName, true);
+			let model = manager->load(realModelName);
 
 			// Define a complete schema/source
 			let schema = model->getSchema(),
@@ -2119,7 +2119,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let realModelName = modelName;
 		}
 
-		let model = manager->load(realModelName, true),
+		let model = manager->load(realModelName),
 			source = model->getSource(),
 			schema = model->getSchema();
 
@@ -2234,7 +2234,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName, true),
+			let model = manager->load(realModelName),
 				source = model->getSource(),
 				schema = model->getSchema();
 
@@ -2370,7 +2370,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * Load a model instance from the models manager
 			 */
-			let model = manager->load(realModelName, true),
+			let model = manager->load(realModelName),
 				source = model->getSource(),
 				schema = model->getSchema();
 
@@ -2539,7 +2539,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			// Load model if it is not loaded
 			if !fetch model, this->_modelsInstances[modelName] {
-				let model = manager->load(modelName, true),
+				let model = manager->load(modelName),
 					this->_modelsInstances[modelName] = model;
 			}
 
@@ -2872,7 +2872,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 		let manager = this->_manager;
 		if !fetch model, this->_modelsInstances[modelName] {
-			let model = manager->load(modelName, true);
+			let model = manager->load(modelName);
 		}
 
 		/**
@@ -2977,16 +2977,17 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * Get a base model from the Models Manager
-		 * Clone the base model
+		 * Get model from the Models Manager
 		 */
-		let insertModel = clone manager->load(modelName);
+		let insertModel = manager->load(modelName);
+
+		insertModel->assign(insertValues);
 
 		/**
 		 * Call 'create' to ensure that an insert is performed
 		 * Return the insert status
 		 */
-		return new Status(insertModel->create(insertValues), insertModel);
+		return new Status(insertModel->create(), insertModel);
 	}
 
 	/**
@@ -3130,10 +3131,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			let record = records->current();
 
+			record->assign(updateValues);
+
 			/**
 			 * We apply the executed values to every record found
 			 */
-			if !record->update(updateValues) {
+			if !record->update() {
 
 				/**
 				 * Rollback the transaction on failure

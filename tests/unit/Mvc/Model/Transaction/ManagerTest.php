@@ -42,7 +42,8 @@ class ManagerTest extends UnitTest
 
                 $select = new Select();
                 $select->setTransaction($transaction);
-                $select->create(['name' => 'Crack of Dawn']);
+                $select->assign(['name' => 'Crack of Dawn']);
+                $select->create();
 
 
                 expect($this->tester->getProtectedProperty($tm, '_number'))->equals(1);
@@ -77,7 +78,8 @@ class ManagerTest extends UnitTest
 
                 $select = new Select();
                 $select->setTransaction($transaction);
-                $select->create(['name' => 'Crack of Dawn']);
+                $select->assign(['name' => 'Crack of Dawn']);
+                $select->create();
 
                 expect($this->tester->getProtectedProperty($tm, '_number'))->equals(1);
                 expect($this->tester->getProtectedProperty($tm, '_transactions'))->count(1);

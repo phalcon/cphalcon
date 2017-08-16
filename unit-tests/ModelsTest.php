@@ -439,10 +439,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->telefono, '123');
 
 		//Update
-		$this->assertTrue($persona->update(array(
+		$persona->assign(array(
 			'nombres' => 'LOST UPDATE',
 			'telefono' => '2121'
-		)));
+		));
+		$this->assertTrue($persona->update());
 
 		//Checking correct update
 		$persona = Personas::findFirst(array("estado='X'"));
@@ -461,14 +462,15 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($persona->create());
 
 		$persona = new Personas($di);
-		$this->assertTrue($persona->create(array(
+		$persona->assign(array(
 			'cedula' => 'CELL' . mt_rand(0, 999999),
 			'tipo_documento_id' => 1,
 			'nombres' => 'LOST CREATE',
 			'telefono' => '1',
 			'cupo' => 21000,
 			'estado' => 'A'
-		)));
+		));
+		$this->assertTrue($persona->create());
 
 		//Grouping
 		$difEstados = People::count(array("distinct" => "estado"));
@@ -735,10 +737,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($personer->telefon, '123');
 
 		//Update
-		$this->assertTrue($personer->update(array(
+		$personer->assign(array(
 			'navnes' => 'LOST UPDATE',
 			'telefon' => '2121'
-		)));
+		));
+		$this->assertTrue($personer->update());
 
 		//Checking correct update
 		$personer = Personers::findFirst(array("status='X'"));
@@ -757,14 +760,15 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($personer->save());
 
 		$personer = new Personers($di);
-		$this->assertTrue($personer->create(array(
+		$personer->assign(array(
 			'borgerId' => 'CELL'.mt_rand(0, 999999),
 			'slagBorgerId' => 1,
 			'navnes' => 'LOST CREATE',
 			'telefon' => '1',
 			'kredit' => 21000,
 			'status' => 'A'
-		)));
+		));
+		$this->assertTrue($personer->create());
 
 		//Deleting
 		$before = Personers::count();
