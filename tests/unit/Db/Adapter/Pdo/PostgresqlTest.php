@@ -143,6 +143,28 @@ class PostgresqlTest extends UnitTest
     }
 
     /**
+     * Tests Postgresql::describeReferences
+     *
+     * @test
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since  201-07-25
+     */
+    public function shouldCreateReferenceObject()
+    {
+        $this->specify(
+            "Created reference object isn't proper",
+            function ($expected) {
+                $reference = $this->connection->describeReferences('foreign_key_child', 'public');
+
+                expect($reference)->equals($expected);
+            },
+            [
+                'examples' => $this->getReferenceObject()
+            ]
+        );
+    }
+
+    /**
      * Tests Postgresql::describeColumns for Postgresql autoincrement column
      *
      * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
