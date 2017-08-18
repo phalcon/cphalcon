@@ -178,7 +178,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$product->slug      = 'bar';
 		$product->brand     = new \Phalcon\Db\RawValue('default');
 		$product->sort      = new \Phalcon\Db\RawValue('default');
-		$this->assertTrue($product->save());
+		$this->assertTrue($modelsManager->save($product));
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
@@ -196,13 +196,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$product->slug      = 'bar';
 		$product->brand     = 'brand';
 		$product->sort      = 1;
-		$this->assertTrue($product->save());
+		$this->assertTrue($modelsManager->save($product));
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
 		$entry->brand    = new \Phalcon\Db\RawValue('default');
 		$entry->sort     = new \Phalcon\Db\RawValue('default');
-		$this->assertTrue($entry->save());
+		$this->assertTrue($modelsManager->save($entry));
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
@@ -210,7 +210,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($entry->brand === NULL);
 
 		$entry->language2 = new \Phalcon\Db\RawValue('default(language)');
-		$this->assertTrue($entry->save());
+		$this->assertTrue($modelsManager->save($entry));
 		$this->assertEquals(1, Issue_1534::count());
 
 		$entry = Issue_1534::findFirst();
@@ -227,7 +227,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$product->slug     = 'bar';
 		$product->brand    = 'brand';
 		$product->sort     = 1;
-		$this->assertTrue($product->save());
+		$this->assertTrue($modelsManager->save($product));
 		$this->assertEquals(1, Issue_1534::count());
 
 
@@ -236,13 +236,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('bb', $entry->language2);
 
 		$entry->language2 = 'en';
-		$this->assertTrue($entry->save());
+		$this->assertTrue($modelsManager->save($entry));
 
 		$entry = Issue_1534::findFirst();
 		$this->assertEquals('en', $entry->language2);
 
 		$entry->language2 = new \Phalcon\Db\RawValue('default');
-		$this->assertTrue($entry->save());
+		$this->assertTrue($modelsManager->save($entry));
 
 		$entry = Issue_1534::findFirst();
 		$this->assertEquals('bb', $entry->language2);
@@ -381,7 +381,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
-		$this->assertFalse($persona->save());
+		$this->assertFalse($modelsManager->save($persona));
 
 		//Messages
 		$this->assertEquals(count($persona->getMessages()), 3);
@@ -416,7 +416,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->telefono = '1';
 		$persona->cupo = 20000;
 		$persona->estado = 'A';
-		$this->assertTrue($persona->save());
+		$this->assertTrue($modelsManager->save($persona));
 
 		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
@@ -425,7 +425,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->telefono = '2';
 		$persona->cupo = 0;
 		$persona->estado = 'X';
-		$this->assertTrue($persona->save());
+		$this->assertTrue($modelsManager->save($persona));
 
 		//Check correct save
 		$persona = Personas::findFirst(array("estado='X'"));
@@ -564,7 +564,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		// Issue 1314
 		$parts = new Parts2();
-		$parts->save();
+		$modelsManager->save($parts);
 
 		// Issue 1506
 		$persona = Personas::findFirst(array('columns' => 'nombres, telefono, estado', "nombres = 'LOST CREATE'"));
@@ -680,7 +680,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
-		$this->assertFalse($personer->save());
+		$this->assertFalse($modelsManager->save($personer));
 
 		//Messages
 		$this->assertEquals(count($personer->getMessages()), 3);
@@ -715,7 +715,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->telefon = '1';
 		$personer->kredit = 20000;
 		$personer->status = 'A';
-		$this->assertTrue($personer->save());
+		$this->assertTrue($modelsManager->save($personer));
 
 		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
@@ -724,7 +724,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->telefon = '2';
 		$personer->kredit = 0;
 		$personer->status = 'X';
-		$this->assertTrue($personer->save());
+		$this->assertTrue($modelsManager->save($personer));
 
 		//Check correct save
 		$personer = Personers::findFirst(array("status='X'"));
@@ -764,7 +764,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->telefon = '2';
 		$personer->kredit = 21000;
 		$personer->status = 'A';
-		$this->assertTrue($personer->save());
+		$this->assertTrue($modelsManager->save($personer));
 
 		$personer = new Personers();
 		$personer->assign(array(

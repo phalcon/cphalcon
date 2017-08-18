@@ -32,7 +32,7 @@ namespace Phalcon\Db;
  * $subscriber->email     = "andres@phalconphp.com";
  * $subscriber->createdAt = new \Phalcon\Db\RawValue("now()");
  *
- * $subscriber->save();
+ * $modelsManager->save($subscriber);
  *</code>
  */
 class RawValue

@@ -127,6 +127,8 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 
 		$connection = $di->getShared('db');
 
+		$modelsManager = $di->get("modelsManager");
+
 		$success = $connection->delete("personas", "cedula LIKE 'T-Cx%'");
 		$this->assertTrue($success);
 
@@ -152,7 +154,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 				$persona->telefono          = '2';
 				$persona->cupo              = 0;
 				$persona->estado            = 'A';
-				$this->assertTrue($persona->save());
+				$this->assertTrue($modelsManager->save($persona));
 				$p++;
 			}
 
@@ -196,7 +198,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 				$persona->telefono = '1';
 				$persona->cupo = 0;
 				$persona->estado = 'A';
-				$this->assertTrue($persona->save());
+				$this->assertTrue($modelsManager->save($persona));
 				$p++;
 			}
 

@@ -72,8 +72,10 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 
 		$di->set('db', $connection, true);
 
+		$modelsManager = $di->get("modelsManager");
+
 		$this->_executeQueryRelated();
-		$this->_executeSaveRelatedBelongsTo($connection);
+		$this->_executeSaveRelatedBelongsTo($connection, $modelsManager);
 	}
 
 	/*public function testModelsPostgresql()
@@ -100,8 +102,10 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		}, true);
 
+		$modelsManager = $di->get("modelsManager");
+
 		$this->_executeQueryRelated();
-		$this->_executeSaveRelatedBelongsTo($connection);
+		$this->_executeSaveRelatedBelongsTo($connection, $modelsManager);
 	}*/
 
 	public function _executeQueryRelated()
@@ -128,7 +132,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($originalAlbum->id, $album->id);
 	}
 
-	public function _executeSaveRelatedBelongsTo($connection)
+	public function _executeSaveRelatedBelongsTo($connection, $modelsManager)
 	{
 		$artist = new AlbumORama\Artists();
 
@@ -136,7 +140,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$album->artist = $artist;
 
 		//Due to not null fields on both models the album/artist aren't saved
-		$this->assertFalse($album->save());
+		$this->assertFalse($modelsManager->save($album));
 		$this->assertFalse((bool) $connection->isUnderTransaction());
 
 		//The artists must no be saved
@@ -151,7 +155,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$artist->name = 'Van She';
 
 		//Due to not null fields on album model the whole
-		$this->assertFalse($album->save());
+		$this->assertFalse($modelsManager->save($album));
 		$this->assertFalse((bool) $connection->isUnderTransaction());
 
 		//The artist model was saved correctly but album not
@@ -166,7 +170,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$album->name = 'Idea of Happiness';
 
 		//Saving OK
-		$this->assertTrue($album->save());
+		$this->assertTrue($modelsManager->save($album));
 		$this->assertFalse((bool) $connection->isUnderTransaction());
 
 		//Both messages must be saved correctly

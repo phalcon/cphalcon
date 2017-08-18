@@ -9,9 +9,10 @@
 - Change catch Exception to Throwable [#12288](https://github.com/phalcon/cphalcon/issues/12288)
 - Removed deprecated methods (`Cli\Console::addModules()`, `Debug::getMajorVersion()`, `Http\Request::isSoapRequested()`, `Http\Request::isSecureRequest()`, `Mvc\Model\Criteria::addWhere()`, `Mvc\Model\Criteria::order()`, `Validation\Validator::isSetOption()`, `Security::hasLibreSsl()`, `Security::getSslVersionNumber()`).
 - Renamed `Http\RequestInterface::isSoapRequested()` to `isSoap()` and `Http\RequestInterface::isSecureRequest()` to `isSecure()`.
-- Moved `Model::create()`, `Model::update()` and `Model::delete()` to Models Manager.
+- Moved `Model::save()`, `Model::create()`, `Model::update()` and `Model::delete()` to Models Manager.
 - Added `ModelInterface::isSkipped()`.
 - Added `ModelInterface::clearMessages()`.
 - Added `ModelInterface::cancelOperation()` (was previously protected in Model).
 - Added `ModelInterface::setOperationMade()`.
 - Added `ModelInterface::exists()` (was previously protected in Model).
+- Added `ModelInterface::updateSnapshot()`, `ModelInterface::getUniqueKey()`, `ModelInterface::getUniqueParams()`, `ModelInterface::getUniqueTypes()`, `ModelInterface::resetUniqueParams()`.

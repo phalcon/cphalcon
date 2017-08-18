@@ -181,13 +181,15 @@ class ModelTest extends UnitTest
         $this->specify(
             'The Model::save with multiple virtual foreign keys and invalid entity',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $body = new Body();
 
                 $body->head_1_id = null;
                 $body->head_2_id = 999;
 
                 // PDOException should'n be thrown
-                expect($body->save())->equals(false);
+                expect($modelsManager->save($body))->equals(false);
 
                 expect($body->getMessages())->count(1);
                 expect($body->getMessages()[0]->getMessage())->equals('Second head does not exists');
@@ -284,12 +286,14 @@ class ModelTest extends UnitTest
         $this->specify(
             "Models aren't serialized or unserialized properly",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robot = Robots::findFirst();
 
                 $serialized = serialize($robot);
                 $robot = unserialize($serialized);
 
-                expect($robot->save())->true();
+                expect($modelsManager->save($robot))->true();
             }
         );
     }
@@ -353,6 +357,8 @@ class ModelTest extends UnitTest
         $this->specify(
             "Models can't properly assign properties",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robot = new Robots();
 
                 $robot->assign(
@@ -362,7 +368,7 @@ class ModelTest extends UnitTest
                     ]
                 );
 
-                $success = $robot->save();
+                $success = $modelsManager->save($robot);
 
                 expect($success)->false();
                 expect($robot->type)->equals("mechanical");
@@ -434,6 +440,8 @@ class ModelTest extends UnitTest
         $this->specify(
             "Models can't properly assign properties using a column map",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robot = new Robotters();
 
                 $robot->assign(
@@ -443,7 +451,7 @@ class ModelTest extends UnitTest
                     ]
                 );
 
-                $success = $robot->save();
+                $success = $modelsManager->save($robot);
 
                 expect($success)->false();
                 expect($robot->theType)->equals("mechanical");
@@ -557,12 +565,14 @@ class ModelTest extends UnitTest
         $this->specify(
             "Timestampable model behavior doesn't work",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $subscriber = new Subscribers();
 
                 $subscriber->email = 'some@some.com';
                 $subscriber->status = 'I';
 
-                expect($subscriber->save())->true();
+                expect($modelsManager->save($subscriber))->true();
                 expect(preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $subscriber->created_at))->equals(1);
             }
         );
@@ -612,12 +622,12 @@ class ModelTest extends UnitTest
                 //  write something to not null default '' field
                 $personers->navnes = 'save something!';
 
-                $saved = $personers->save();
+                $saved = $modelsManager->save($personers);
                 expect($saved)->true();
 
                 //  test field for update
                 $personers->navnes = '';
-                $saved = $personers->save();
+                $saved = $modelsManager->save($personers);
 
                 expect($saved)->true();
 
@@ -671,6 +681,8 @@ class ModelTest extends UnitTest
         $this->specify(
             'Issue 12688 is happening',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robots = new Robots();
                 $robots->name = '';
                 $robots->assign(
@@ -679,7 +691,7 @@ class ModelTest extends UnitTest
                         'text'     => 'text',
                     ]
                 );
-                $robots->save();
+                $modelsManager->save($robots);
             }
         );
     }

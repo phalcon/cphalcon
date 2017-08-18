@@ -224,10 +224,13 @@ interface ModelInterface
 	 */
 	public function getMessages() -> <MessageInterface[]>;
 
-	/**
-	 * Inserts or updates a model instance. Returning true on success or false otherwise.
-	 */
-	public function save() -> boolean;
+	public function getUniqueKey();
+
+	public function getUniqueParams();
+
+	public function getUniqueTypes();
+
+	public function resetUniqueParams();
 
 	/**
 	 * Sets the type of the latest operation performed by the ORM
@@ -269,4 +272,6 @@ interface ModelInterface
 	 * @param array columnMap
 	 */
 	public function setSnapshotData(array! data, columnMap = null);
+
+	public function updateSnapshot(newSnapshot, oldSnapshot);
 }

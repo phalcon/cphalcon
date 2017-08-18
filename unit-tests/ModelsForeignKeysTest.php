@@ -122,7 +122,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$robotsParts->robots_id = 1;
 		$robotsParts->parts_id = 100;
 
-		$this->assertFalse($robotsParts->save());
+		$this->assertFalse($modelsManager->save($robotsParts));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -137,7 +137,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$robotsParts->robots_id = 100;
 		$robotsParts->parts_id = 1;
-		$this->assertFalse($robotsParts->save());
+		$this->assertFalse($modelsManager->save($robotsParts));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -194,7 +194,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$robottersDeles = new RobottersDeles();
 		$robottersDeles->robottersCode = 1;
 		$robottersDeles->delesCode = 100;
-		$this->assertFalse($robottersDeles->save());
+		$this->assertFalse($modelsManager->save($robottersDeles));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -209,7 +209,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$robottersDeles->robottersCode = 100;
 		$robottersDeles->delesCode = 1;
-		$this->assertFalse($robottersDeles->save());
+		$this->assertFalse($modelsManager->save($robottersDeles));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(

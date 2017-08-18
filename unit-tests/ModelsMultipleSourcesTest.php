@@ -39,7 +39,7 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	protected function _prepareDI()
+	protected function _getDI()
 	{
 		Phalcon\DI::reset();
 
@@ -66,6 +66,8 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
+
+		return $di;
 	}
 
 	public function testSourcesStatic()
@@ -76,11 +78,13 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->_prepareDI();
+		$di = $this->_getDI();
+
+		$modelsManager = $di->get("modelsManager");
 
 		$robot = Store\Robots::findFirst();
 		$this->assertTrue(is_object($robot));
-		$this->assertTrue($robot->save());
+		$this->assertTrue($modelsManager->save($robot));
 
 		$robotParts = $robot->getRobotParts();
 		$this->assertTrue(is_object($robotParts));
@@ -99,10 +103,12 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->_prepareDI();
+		$di = $this->_getDI();
+
+		$modelsManager = $di->get("modelsManager");
 
 		$robot = new Store\Robots();
-		$this->assertFalse($robot->save());
+		$this->assertFalse($modelsManager->save($robot));
 	}
 
 }

@@ -310,10 +310,12 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'When updating model from new instance there is some problem',
             function () {
-                $this->setUpModelsManager();
+                $modelsManager = $this->setUpModelsManager();
+
                 $robots = Robots::findFirst();
                 $robots = new Robots($robots->toArray());
-                expect($robots->save())->true();
+
+                expect($modelsManager->save($robots))->true();
             }
         );
     }
@@ -393,12 +395,14 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'Getting updated fields is not working correctly',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robots = Robots::findFirst();
                 $robots->name = 'changedName';
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->true();
                 expect($robots->hasUpdated('name'))->false();
-                $robots->save();
+                $modelsManager->save($robots);
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->false();
                 expect($robots->hasUpdated('name'))->true();
@@ -417,6 +421,8 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'Disabling snapshot update is not working',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robots = Robots::findFirst();
                 Model::setup(
                     [
@@ -426,7 +432,7 @@ class SnapshotTest extends UnitTest
                 $robots->name = 'changedName';
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->true();
-                $robots->save();
+                $modelsManager->save($robots);
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->true();
                 Model::setup(
@@ -435,7 +441,7 @@ class SnapshotTest extends UnitTest
                     ]
                 );
                 $robots->name = 'otherName';
-                $robots->save();
+                $modelsManager->save($robots);
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->false();
             }

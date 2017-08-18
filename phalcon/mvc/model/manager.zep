@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Db\Column;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
@@ -1737,6 +1738,847 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Inserts or updates a model instance. Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 * // Creating a new robot
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $modelsManager->save($robot);
+	 *
+	 * // Updating a robot name
+	 * $robot = Robots::findFirst("id = 100");
+	 *
+	 * $robot->name = "Biomass";
+	 *
+	 * $modelsManager->save($robot);
+	 *</code>
+	 */
+	public function save(<ModelInterface> model) -> boolean
+	{
+		var metaData, related, schema, writeConnection, readConnection,
+			source, table, identityField, exists, success;
+
+		let metaData = model->getModelsMetaData();
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let writeConnection = model->getWriteConnection();
+
+		/**
+		 * Fire the start event
+		 */
+		model->fireEvent("prepareSave");
+
+		/**
+		 * Save related records in belongsTo relationships
+		 */
+		let related = model->getRelatedProperty();
+		if typeof related == "array" {
+			if this->_preSaveRelatedRecords(model, writeConnection, related) === false {
+				return false;
+			}
+		}
+
+		let schema = model->getSchema(),
+			source = model->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let readConnection = model->getReadConnection();
+
+		/**
+		 * We need to check if the record exists
+		 */
+		let exists = model->exists(metaData, readConnection, table);
+
+		if exists {
+			model->setOperationMade(Model::OP_UPDATE);
+		} else {
+			model->setOperationMade(Model::OP_CREATE);
+		}
+
+		/**
+		 * Clean the messages
+		 */
+		model->clearMessages();
+
+		/**
+		 * Query the identity field
+		 */
+		let identityField = metaData->getIdentityField(model);
+
+		/**
+		 * _preSave() makes all the validations
+		 */
+		if this->_preSave(model, metaData, exists, identityField) === false {
+
+			/**
+			 * Rollback the current transaction if there was validation errors
+			 */
+			if typeof related == "array" {
+				writeConnection->rollback(false);
+			}
+
+			/**
+			 * Throw exceptions on failed saves?
+			 */
+			if globals_get("orm.exception_on_failed_save") {
+				/**
+				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
+				 */
+				throw new ValidationFailed(model, model->getMessages());
+			}
+
+			return false;
+		}
+
+		/**
+		 * Depending if the record exists we do an update or an insert operation
+		 */
+		if exists {
+			let success = this->_doLowUpdate(model, metaData, writeConnection, table);
+		} else {
+			let success = this->_doLowInsert(model, metaData, writeConnection, table, identityField);
+		}
+
+		/**
+		 * Change the dirty state to persistent
+		 */
+		if success {
+			model->setDirtyState(Model::DIRTY_STATE_PERSISTENT);
+		}
+
+		if typeof related == "array" {
+
+			/**
+			 * Rollbacks the implicit transaction if the master save has failed
+			 */
+			if success === false {
+				writeConnection->rollback(false);
+			} else {
+				/**
+				 * Save the post-related records
+				 */
+				let success = this->_postSaveRelatedRecords(model, writeConnection, related);
+			}
+		}
+
+		/**
+		 * _postSave() invokes after* events if the operation was successful
+		 */
+		if globals_get("orm.events") {
+			let success = this->_postSave(model, success, exists);
+		}
+
+		if success === false {
+			model->cancelOperation();
+		} else {
+			model->fireEvent("afterSave");
+		}
+
+		return success;
+	}
+
+	/**
+	 * Executes internal hooks before save a record
+	 */
+	protected function _preSave(<ModelInterface> model, <MetaDataInterface> metaData, boolean exists, var identityField) -> boolean
+	{
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, defaultValues,
+			field, attributeField, value, emptyStringValues;
+		boolean error, isNull;
+
+		/**
+		 * Run Validation Callbacks Before
+		 */
+		if globals_get("orm.events") {
+
+			/**
+			 * Call the beforeValidation
+			 */
+			if model->fireEventCancel("beforeValidation") === false {
+				return false;
+			}
+
+			/**
+			 * Call the specific beforeValidation event for the current action
+			 */
+			if !exists {
+				if model->fireEventCancel("beforeValidationOnCreate") === false {
+					return false;
+				}
+			} else {
+				if model->fireEventCancel("beforeValidationOnUpdate") === false {
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Check for Virtual foreign keys
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysRestrict(model) === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Columns marked as not null are automatically validated by the ORM
+		 */
+		if globals_get("orm.not_null_validations") {
+
+			let notNull = metaData->getNotNullAttributes(model);
+			if typeof notNull == "array" {
+
+				/**
+				 * Gets the fields that are numeric, these are validated in a different way
+				 */
+				let dataTypeNumeric = metaData->getDataTypesNumeric(model);
+
+				if globals_get("orm.column_renaming") {
+					let columnMap = metaData->getColumnMap(model);
+				} else {
+					let columnMap = null;
+				}
+
+				/**
+				 * Get fields that must be omitted from the SQL generation
+				 */
+				if exists {
+					let automaticAttributes = metaData->getAutomaticUpdateAttributes(model);
+				} else {
+					let automaticAttributes = metaData->getAutomaticCreateAttributes(model);
+				}
+				let defaultValues = metaData->getDefaultValues(model);
+
+				/**
+				 * Get string attributes that allow empty strings as defaults
+				 */
+				let emptyStringValues = metaData->getEmptyStringAttributes(model);
+
+				let error = false;
+				for field in notNull {
+
+					/**
+					 * We don't check fields that must be omitted
+					 */
+					if isset automaticAttributes[field] {
+						continue;
+					}
+
+					let isNull = false;
+
+					if typeof columnMap == "array" {
+						if !fetch attributeField, columnMap[field] {
+							throw new Exception("Column '" . field . "' isn't part of the column map");
+						}
+					} else {
+						let attributeField = field;
+					}
+
+					/**
+					 * Field is null when: 1) is not set, 2) is numeric but
+					 * its value is not numeric, 3) is null or 4) is empty string
+					 * Read the attribute from the this_ptr using the real or renamed name
+					 */
+					if fetch value, model->{attributeField} {
+
+						/**
+						 * Objects are never treated as null, numeric fields must be numeric to be accepted as not null
+						 */
+						if typeof value != "object" {
+							if !isset dataTypeNumeric[field] {
+								if isset emptyStringValues[field] {
+									if value === null {
+										let isNull = true;
+									}
+								} else {
+									if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
+										let isNull = true;
+									}
+								}
+							} else {
+								if !is_numeric(value) {
+									let isNull = true;
+								}
+							}
+						}
+
+					} else {
+						let isNull = true;
+					}
+
+					if isNull === true {
+
+						if !exists {
+							/**
+							 * The identity field can be null
+							 */
+							if field == identityField {
+								continue;
+							}
+
+							/**
+							 * The field have default value can be null
+							 */
+							if isset defaultValues[field] {
+								continue;
+							}
+						}
+
+						/**
+						 * An implicit PresenceOf message is created
+						 */
+						model->appendMessage(new Message(attributeField . " is required", attributeField, "PresenceOf"));
+
+						let error = true;
+					}
+				}
+
+				if error === true {
+					if globals_get("orm.events") {
+						model->fireEvent("onValidationFails");
+						model->cancelOperation();
+					}
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Call the main validation event
+		 */
+		if model->fireEventCancel("validation") === false {
+			if globals_get("orm.events") {
+				model->fireEvent("onValidationFails");
+			}
+			return false;
+		}
+
+		/**
+		 * Run Validation
+		 */
+		if globals_get("orm.events") {
+
+			/**
+			 * Run Validation Callbacks After
+			 */
+			if !exists {
+				if model->fireEventCancel("afterValidationOnCreate") === false {
+					return false;
+				}
+			} else {
+				if model->fireEventCancel("afterValidationOnUpdate") === false {
+					return false;
+				}
+			}
+
+			if model->fireEventCancel("afterValidation") === false {
+				return false;
+			}
+
+			/**
+			 * Run Before Callbacks
+			 */
+			if model->fireEventCancel("beforeSave") === false {
+				return false;
+			}
+
+			model->skipOperation(false);
+
+			/**
+			 * The operation can be skipped here
+			 */
+			if exists {
+				if model->fireEventCancel("beforeUpdate") === false {
+					return false;
+				}
+			} else {
+				if model->fireEventCancel("beforeCreate") === false {
+					return false;
+				}
+			}
+
+			/**
+			 * Always return true if the operation is skipped
+			 */
+			if model->isSkipped() {
+				return true;
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
+	 * to verify that inserted/updated values are present in the related entity
+	 */
+	protected final function _checkForeignKeysRestrict(<ModelInterface> model) -> boolean
+	{
+		var belongsTo, foreignKey, relation, conditions,
+			position, bindParams, extraConditions, message, fields,
+			referencedFields, field, referencedModel, value, allowNulls;
+		int action, numberNull;
+		boolean error, validateWithNulls;
+
+		/**
+		 * We check if some of the belongsTo relations act as virtual foreign key
+		 */
+		let belongsTo = this->getBelongsTo(model);
+
+		let error = false;
+		for relation in belongsTo {
+
+			let validateWithNulls = false;
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
+
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
+
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
+				}
+			}
+
+			/**
+			 * Check only if the operation is restrict
+			 */
+			if action != Relation::ACTION_RESTRICT {
+				continue;
+			}
+
+			/**
+			 * Load the referenced model if needed
+			 */
+			let referencedModel = this->load(relation->getReferencedModel());
+
+			/**
+			 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
+			 */
+			let conditions = [], bindParams = [];
+
+			let numberNull = 0,
+				fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			if typeof fields == "array" {
+				/**
+				 * Create a compound condition
+				 */
+				for position, field in fields {
+					fetch value, model->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+					if typeof value == "null" {
+						let numberNull++;
+					}
+				}
+
+				let validateWithNulls = numberNull == count(fields);
+
+			} else {
+
+				fetch value, model->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+
+				if typeof value == "null" {
+					let validateWithNulls = true;
+				}
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * Check if the relation definition allows nulls
+			 */
+			if validateWithNulls {
+				if fetch allowNulls, foreignKey["allowNulls"] {
+					let validateWithNulls = (boolean) allowNulls;
+				} else {
+					let validateWithNulls = false;
+				}
+			}
+
+			/**
+			 * We don't trust the actual values in the object and pass the values using bound parameters
+			 * Let's make the checking
+			 */
+			if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Get the user message or produce a new one
+				 */
+				if !fetch message, foreignKey["message"] {
+					if typeof fields == "array" {
+						let message = "Value of fields \"" . join(", ", fields) . "\" does not exist on referenced table";
+					} else {
+						let message = "Value of field \"" . fields . "\" does not exist on referenced table";
+					}
+				}
+
+				/**
+				 * Create a message
+				 */
+				model->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call 'onValidationFails' if the validation fails
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				model->fireEvent("onValidationFails");
+				model->cancelOperation();
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Saves related records that must be stored prior to save the master record
+	 *
+	 * @param \Phalcon\Db\AdapterInterface connection
+	 * @param \Phalcon\Mvc\ModelInterface[] related
+	 * @return boolean
+	 */
+	protected function _preSaveRelatedRecords(<ModelInterface> model, <AdapterInterface> connection, related) -> boolean
+	{
+		var className, manager, type, relation, columns, referencedFields,
+			referencedModel, message, nesting, name, record;
+
+		let nesting = false;
+
+		/**
+		 * Start an implicit transaction
+		 */
+		connection->begin(nesting);
+
+		let className = get_class(model),
+			manager = <ManagerInterface> model->getModelsManager();
+
+		for name, record in related {
+
+			/**
+			 * Try to get a relation with the same name
+			 */
+			let relation = <RelationInterface> manager->getRelationByAlias(className, name);
+
+			if typeof relation !== "object" {
+				continue;
+			}
+
+			/**
+			 * Get the relation type
+			 */
+			let type = relation->getType();
+
+			/**
+			 * Only belongsTo are stored before save the master record
+			 */
+			if type !== Relation::BELONGS_TO {
+				continue;
+			}
+
+			if typeof record != "object" {
+				connection->rollback(nesting);
+				throw new Exception("Only objects can be stored as part of belongs-to relations");
+			}
+
+			let columns = relation->getFields(),
+				referencedModel = relation->getReferencedModel(),
+				referencedFields = relation->getReferencedFields();
+
+			if typeof columns == "array" {
+				connection->rollback(nesting);
+				throw new Exception("Not implemented");
+			}
+
+			/**
+			 * If dynamic update is enabled, saving the record must not take any action
+			 */
+			if !manager->save(record) {
+
+				/**
+				 * Get the validation messages generated by the referenced model
+				 */
+				for message in record->getMessages() {
+
+					/**
+					 * Set the related model
+					 */
+					if typeof message == "object" {
+						message->setModel(record);
+					}
+
+					/**
+					 * Appends the messages to the current model
+					 */
+					model->appendMessage(message);
+				}
+
+				/**
+				 * Rollback the implicit transaction
+				 */
+				connection->rollback(nesting);
+				return false;
+			}
+
+			/**
+			 * Read the attribute from the referenced model and assigns it to the current model
+			 * Assign it to the model
+			 */
+			let model->{columns} = record->readAttribute(referencedFields);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Save the related records assigned in the has-one/has-many relations
+	 *
+	 * @param  Phalcon\Db\AdapterInterface connection
+	 * @param  Phalcon\Mvc\ModelInterface[] related
+	 * @return boolean
+	 */
+	protected function _postSaveRelatedRecords(<ModelInterface> model, <AdapterInterface> connection, related) -> boolean
+	{
+		var nesting, className, manager, relation, name, record, message,
+			columns, referencedModel, referencedFields, relatedRecords, value,
+			recordAfter, intermediateModel, intermediateFields, intermediateValue,
+			intermediateModelName, intermediateReferencedFields;
+		boolean isThrough;
+
+		let nesting = false,
+			className = get_class(model),
+			manager = <ManagerInterface> model->getModelsManager();
+
+		for name, record in related {
+
+			/**
+			 * Try to get a relation with the same name
+			 */
+			let relation = <RelationInterface> manager->getRelationByAlias(className, name);
+			if typeof relation == "object" {
+
+				/**
+				 * Discard belongsTo relations
+				 */
+				if relation->getType() == Relation::BELONGS_TO {
+					continue;
+				}
+
+				if typeof record != "object" && typeof record != "array" {
+					connection->rollback(nesting);
+					throw new Exception("Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
+				}
+
+				let columns = relation->getFields(),
+					referencedModel = relation->getReferencedModel(),
+					referencedFields = relation->getReferencedFields();
+
+				if typeof columns == "array" {
+					connection->rollback(nesting);
+					throw new Exception("Not implemented");
+				}
+
+				/**
+				 * Create an implicit array for has-many/has-one records
+				 */
+				if typeof record == "object" {
+					let relatedRecords = [record];
+				} else {
+					let relatedRecords = record;
+				}
+
+				if !fetch value, model->{columns} {
+					connection->rollback(nesting);
+					throw new Exception("The column '" . columns . "' needs to be present in the model");
+				}
+
+				/**
+				 * Get the value of the field from the current model
+				 * Check if the relation is a has-many-to-many
+				 */
+				let isThrough = (boolean) relation->isThrough();
+
+				/**
+				 * Get the rest of intermediate model info
+				 */
+				if isThrough {
+					let intermediateModelName = relation->getIntermediateModel(),
+						intermediateFields = relation->getIntermediateFields(),
+						intermediateReferencedFields = relation->getIntermediateReferencedFields();
+				}
+
+				for recordAfter in relatedRecords {
+
+					/**
+					 * For non has-many-to-many relations just assign the local value in the referenced model
+					 */
+					if !isThrough {
+
+						/**
+						 * Assign the value to the
+						 */
+						recordAfter->writeAttribute(referencedFields, value);
+					}
+
+					/**
+					 * Save the record and get messages
+					 */
+					if !manager->save(recordAfter) {
+
+						/**
+						 * Get the validation messages generated by the referenced model
+						 */
+						for message in recordAfter->getMessages() {
+
+							/**
+							 * Set the related model
+							 */
+							if typeof message == "object" {
+								message->setModel(record);
+							}
+
+							/**
+							 * Appends the messages to the current model
+							 */
+							model->appendMessage(message);
+						}
+
+						/**
+						 * Rollback the implicit transaction
+						 */
+						connection->rollback(nesting);
+						return false;
+					}
+
+					if isThrough {
+
+						/**
+						 * Create a new instance of the intermediate model
+						 */
+						let intermediateModel = manager->load(intermediateModelName);
+
+						/**
+						 * Write value in the intermediate model
+						 */
+						intermediateModel->writeAttribute(intermediateFields, value);
+
+						/**
+						 * Get the value from the referenced model
+						 */
+						let intermediateValue = recordAfter->readAttribute(referencedFields);
+
+						/**
+						 * Write the intermediate value in the intermediate model
+						 */
+						intermediateModel->writeAttribute(intermediateReferencedFields, intermediateValue);
+
+						/**
+						 * Save the record and get messages
+						 */
+						if !manager->save(intermediateModel) {
+
+							/**
+							 * Get the validation messages generated by the referenced model
+							 */
+							for message in intermediateModel->getMessages() {
+
+								/**
+								 * Set the related model
+								 */
+								if typeof message == "object" {
+									message->setModel(record);
+								}
+
+								/**
+								 * Appends the messages to the current model
+								 */
+								model->appendMessage(message);
+							}
+
+							/**
+							 * Rollback the implicit transaction
+							 */
+							connection->rollback(nesting);
+							return false;
+						}
+					}
+
+				}
+			} else {
+				if typeof record != "array" {
+					connection->rollback(nesting);
+
+					throw new Exception(
+						"There are no defined relations for the model '" . className . "' using alias '" . name . "'"
+					);
+				}
+			}
+		}
+
+		/**
+		 * Commit the implicit transaction
+		 */
+		connection->commit(nesting);
+		return true;
+	}
+
+	/**
+	 * Executes internal events after save a record
+	 */
+	protected function _postSave(<ModelInterface> model, boolean success, boolean exists) -> boolean
+	{
+		if success {
+			if exists {
+				model->fireEvent("afterUpdate");
+			} else {
+				model->fireEvent("afterCreate");
+			}
+		}
+
+		return success;
+	}
+
+	/**
 	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
 	 * Returning true on success or false otherwise.
 	 *
@@ -1787,7 +2629,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Using save() anyways
 		 */
-		return model->save();
+		return this->save(model);
 	}
 
 	/**
@@ -1832,7 +2674,450 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Call save() anyways
 		 */
-		return model->save();
+		return this->save(model);
+	}
+
+	/**
+	 * Sends a pre-build INSERT SQL statement to the relational database system
+	 *
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
+	 * @param string|array table
+	 * @param boolean|string identityField
+	 * @return boolean
+	 */
+	protected function _doLowInsert(<ModelInterface> model, <MetaDataInterface> metaData, <AdapterInterface> connection, table, identityField) -> boolean
+	{
+		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
+			field, columnMap, value, attributeField, success, bindType,
+			defaultValue, sequenceName, defaultValues, source, schema, snapshot, lastInsertedId;
+		boolean useExplicitIdentity;
+
+		let bindSkip = Column::BIND_SKIP;
+
+		let fields = [],
+			values = [],
+			snapshot = [],
+			bindTypes = [];
+
+		let attributes = metaData->getAttributes(model),
+			bindDataTypes = metaData->getBindTypes(model),
+			automaticAttributes = metaData->getAutomaticCreateAttributes(model),
+			defaultValues = metaData->getDefaultValues(model);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(model);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * All fields in the model makes part or the INSERT
+		 */
+		for field in attributes {
+
+			if isset automaticAttributes[field] {
+				continue;
+			}
+
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[field] {
+					throw new Exception("Column '" . field . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = field;
+			}
+
+			/**
+			 * Check every attribute in the model except identity field
+			 */
+			if field == identityField {
+				continue;
+			}
+
+			/**
+			 * This isset checks that the property be defined in the model
+			 */
+			if fetch value, model->{attributeField} {
+
+				if value === null && isset defaultValues[field] {
+					let snapshot[attributeField] = null;
+					let value = connection->getDefaultValue();
+				} else {
+					let snapshot[attributeField] = value;
+				}
+
+				/**
+				 * Every column must have a bind data type defined
+				 */
+				if !fetch bindType, bindDataTypes[field] {
+					throw new Exception("Column '" . field . "' have not defined a bind data type");
+				}
+
+				let fields[] = field, values[] = value, bindTypes[] = bindType;
+			} else {
+
+				if isset defaultValues[field] {
+					let values[] = connection->getDefaultValue();
+					/**
+					 * This is default value so we set null, keep in mind it's value in database!
+					 */
+					let snapshot[attributeField] = null;
+				} else {
+					let values[] = value;
+					let snapshot[attributeField] = value;
+				}
+
+				let fields[] = field, bindTypes[] = bindSkip;
+			}
+		}
+
+		/**
+		 * If there is an identity field we add it using "null" or "default"
+		 */
+		if identityField !== false {
+
+			let defaultValue = connection->getDefaultIdValue();
+
+			/**
+			 * Not all the database systems require an explicit value for identity columns
+			 */
+			let useExplicitIdentity = (boolean) connection->useExplicitIdValue();
+			if useExplicitIdentity {
+				let fields[] = identityField;
+			}
+
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[identityField] {
+					throw new Exception("Identity column '" . identityField . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = identityField;
+			}
+
+			/**
+			 * Check if the developer set an explicit value for the column
+			 */
+			if fetch value, model->{attributeField} {
+
+				if value === null || value === "" {
+					if useExplicitIdentity {
+						let values[] = defaultValue, bindTypes[] = bindSkip;
+					}
+				} else {
+
+					/**
+					 * Add the explicit value to the field list if the user has defined a value for it
+					 */
+					if !useExplicitIdentity {
+						let fields[] = identityField;
+					}
+
+					/**
+					 * The field is valid we look for a bind value (normally int)
+					 */
+					if !fetch bindType, bindDataTypes[identityField] {
+						throw new Exception("Identity column '" . identityField . "' isn\'t part of the table columns");
+					}
+
+					let values[] = value, bindTypes[] = bindType;
+				}
+			} else {
+				if useExplicitIdentity {
+					let values[] = defaultValue, bindTypes[] = bindSkip;
+				}
+			}
+		}
+
+		/**
+		 * The low level insert is performed
+		 */
+		let success = connection->insert(table, values, fields, bindTypes);
+		if success && identityField !== false {
+
+			/**
+			 * We check if the model have sequences
+			 */
+			let sequenceName = null;
+			if connection->supportSequences() === true {
+				if method_exists(model, "getSequenceName") {
+					let sequenceName = model->{"getSequenceName"}();
+				} else {
+
+					let source = model->getSource(),
+						schema = model->getSchema();
+
+					if empty schema {
+						let sequenceName = source . "_" . identityField . "_seq";
+					} else {
+						let sequenceName = schema . "." . source . "_" . identityField . "_seq";
+					}
+				}
+			}
+
+			/**
+			 * Recover the last "insert id" and assign it to the object
+			 */
+			let lastInsertedId = connection->lastInsertId(sequenceName);
+
+			let model->{attributeField} = lastInsertedId;
+			let snapshot[attributeField] = lastInsertedId;
+
+			if this->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
+				model->setSnapshotData(snapshot);
+			}
+
+			/**
+			 * Since the primary key was modified, we delete the _uniqueParams
+			 * to force any future update to re-build the primary key
+			 */
+			model->resetUniqueParams();
+		}
+
+		return success;
+	}
+
+	/**
+	 * Sends a pre-build UPDATE SQL statement to the relational database system
+	 *
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
+	 * @param string|array table
+	 * @return boolean
+	 */
+	protected function _doLowUpdate(<ModelInterface> model, <MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> boolean
+	{
+		var bindSkip, fields, values, dataType, dataTypes, bindTypes, bindDataTypes, field,
+			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
+			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType, newSnapshot, success, oldSnapshot;
+		boolean useDynamicUpdate, changed;
+
+		let bindSkip = Column::BIND_SKIP,
+			fields = [],
+			values = [],
+			bindTypes = [],
+			newSnapshot = [];
+
+		/**
+		 * Check if the model must use dynamic update
+		 */
+		let useDynamicUpdate = (boolean) this->isUsingDynamicUpdate(model);
+
+		let snapshot = model->getSnapshotData();
+
+		if useDynamicUpdate {
+			if typeof snapshot != "array" {
+				let useDynamicUpdate = false;
+			}
+		}
+
+		let dataTypes = metaData->getDataTypes(model),
+			 bindDataTypes = metaData->getBindTypes(model),
+			nonPrimary = metaData->getNonPrimaryKeyAttributes(model),
+			automaticAttributes = metaData->getAutomaticUpdateAttributes(model);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(model);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
+		 */
+		for field in nonPrimary {
+
+			if isset automaticAttributes[field] {
+				continue;
+			}
+
+			/**
+			 * Check a bind type for field to update
+			 */
+			if !fetch bindType, bindDataTypes[field] {
+				throw new Exception("Column '" . field . "' have not defined a bind data type");
+			}
+
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[field] {
+					throw new Exception("Column '" . field . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = field;
+			}
+
+			/**
+			 * Get the field's value
+			 * If a field isn't set we pass a null value
+			 */
+			if fetch value, model->{attributeField} {
+
+				/**
+				 * When dynamic update is not used we pass every field to the update
+				 */
+				if !useDynamicUpdate {
+					let fields[] = field, values[] = value;
+					let bindTypes[] = bindType;
+				} else {
+
+					/**
+					 * If the field is not part of the snapshot we add them as changed
+					 */
+					if !fetch snapshotValue, snapshot[attributeField] {
+						let changed = true;
+					} else {
+						/**
+						 * See https://github.com/phalcon/cphalcon/issues/3247
+						 * Take a TEXT column with value '4' and replace it by
+						 * the value '4.0'. For PHP '4' and '4.0' are the same.
+						 * We can't use simple comparison...
+						 *
+						 * We must use the type of snapshotValue.
+						 */
+						if value === null {
+							let changed = snapshotValue !== null;
+						} else {
+							if snapshotValue === null {
+								let changed = true;
+							} else {
+
+							if !fetch dataType, dataTypes[field] {
+								throw new Exception("Column '" . field . "' have not defined a data type");
+							}
+
+							switch dataType {
+
+								case Column::TYPE_BOOLEAN:
+									let changed = (boolean) snapshotValue !== (boolean) value;
+									break;
+
+								case Column::TYPE_INTEGER:
+									let changed = (int) snapshotValue !== (int) value;
+									break;
+
+								case Column::TYPE_DECIMAL:
+								case Column::TYPE_FLOAT:
+									let changed = floatval(snapshotValue) !== floatval(value);
+									break;
+
+								case Column::TYPE_DATE:
+								case Column::TYPE_VARCHAR:
+								case Column::TYPE_DATETIME:
+								case Column::TYPE_CHAR:
+								case Column::TYPE_TEXT:
+								case Column::TYPE_VARCHAR:
+								case Column::TYPE_BIGINTEGER:
+									let changed = (string) snapshotValue !== (string) value;
+									break;
+
+								/**
+								 * Any other type is not really supported...
+								 */
+								default:
+									let changed = value != snapshotValue;
+							}
+						}
+					}
+				}
+
+				/**
+				 * Only changed values are added to the SQL Update
+				 */
+				if changed {
+					let fields[] = field, values[] = value;
+					let bindTypes[] = bindType;
+				}
+			}
+			let newSnapshot[attributeField] = value;
+
+			} else {
+				let newSnapshot[attributeField] = null;
+				let fields[] = field, values[] = null, bindTypes[] = bindSkip;
+			}
+		}
+
+		/**
+		 * If there is no fields to update we return true
+		 */
+		if !count(fields) {
+			return true;
+		}
+
+		let uniqueKey = model->getUniqueKey(),
+			uniqueParams = model->getUniqueParams(),
+			uniqueTypes = model->getUniqueTypes();
+
+		/**
+		 * When unique params is null we need to rebuild the bind params
+		 */
+		if typeof uniqueParams != "array" {
+
+			let primaryKeys = metaData->getPrimaryKeyAttributes(model);
+
+			/**
+			 * We can't create dynamic SQL without a primary key
+			 */
+			if !count(primaryKeys) {
+				throw new Exception("A primary key must be defined in the model in order to perform the operation");
+			}
+
+			let uniqueParams = [];
+			for field in primaryKeys {
+
+				/**
+				 * Check if the model has a column map
+				 */
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				if fetch value, model->{attributeField} {
+					let newSnapshot[attributeField] = value;
+					let uniqueParams[] = value;
+				} else {
+					let newSnapshot[attributeField] = null;
+					let uniqueParams[] = null;
+				}
+			}
+		}
+
+		/**
+		 * We build the conditions as an array
+		 * Perform the low level update
+		 */
+		let success = connection->update(table, fields, values, [
+			"conditions" : uniqueKey,
+			"bind"	     : uniqueParams,
+			"bindTypes"  : uniqueTypes
+		], bindTypes);
+
+		if success && this->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
+			if typeof snapshot == "array" {
+				let newSnapshot = array_merge(snapshot, newSnapshot);
+				let oldSnapshot = snapshot;
+
+				model->updateSnapshot(newSnapshot, oldSnapshot);
+			} else {
+				let oldSnapshot = [];
+
+				model->updateSnapshot(newSnapshot, oldSnapshot);
+			}
+		}
+
+		return success;
 	}
 
 	/**
@@ -2214,8 +3499,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
- 	 * Destroys the current PHQL cache
- 	 */
+	 * Destroys the current PHQL cache
+	 */
 	public function __destruct()
 	{
 		phalcon_orm_destroy_cache();

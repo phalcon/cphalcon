@@ -111,6 +111,8 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI($trace);
 
+		$modelsManager = $di->get("modelsManager");
+
 		$robot = new GossipRobots();
 
 		$robot->name = 'Test';
@@ -121,7 +123,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$robot->trace = &$trace;
 
-		$robot->save();
+		$modelsManager->save($robot);
 
 		$this->assertEquals($trace, array(
 			'prepareSave' => array(
@@ -164,11 +166,13 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI($trace);
 
+		$modelsManager = $di->get("modelsManager");
+
 		$robot = GossipRobots::findFirst();
 
 		$robot->trace = &$trace;
 
-		$robot->save();
+		$modelsManager->save($robot);
 
 		$this->assertEquals($trace, array(
 			'prepareSave' => array(

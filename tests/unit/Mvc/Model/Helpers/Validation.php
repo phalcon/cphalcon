@@ -18,6 +18,8 @@ class Validation
         /** @var \Phalcon\Db\Adapter\Pdo\Mysql $connection */
         $connection = $di->getShared('db');
 
+        $modelsManager = $di->get("modelsManager");
+
         $I->assertTrue($connection->delete('subscriptores'));
 
         $model = new Subscriptores();
@@ -28,12 +30,15 @@ class Validation
                 'status'     => 'A'
             ]
         );
-        $I->assertTrue($model->save());
+        $I->assertTrue($modelsManager->save($model));
     }
 
     protected function presenceOf(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'diego@hotmail.com',
@@ -41,7 +46,7 @@ class Validation
                 'status'     => 'A'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -58,6 +63,9 @@ class Validation
     protected function email(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'fuego?=',
@@ -65,7 +73,7 @@ class Validation
                 'status'     => 'A'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -86,6 +94,9 @@ class Validation
     protected function emailWithDot(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'serghei.@yahoo.com',
@@ -93,7 +104,7 @@ class Validation
                 'status'     => 'A'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -110,6 +121,9 @@ class Validation
     protected function exclusionIn(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'serghei@hotmail.com',
@@ -117,7 +131,7 @@ class Validation
                 'status'     => 'P'
             ]
         );
-        $I->assertFalse($model->save(), 'The ExclusionIn Validation failed');
+        $I->assertFalse($modelsManager->save($model), 'The ExclusionIn Validation failed');
 
         $expected = [
             Message::__set_state([
@@ -140,6 +154,9 @@ class Validation
     protected function inclusionIn(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'serghei@hotmail.com',
@@ -147,7 +164,7 @@ class Validation
                 'status'     => 'R'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -170,12 +187,15 @@ class Validation
         ];
 
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign($data);
-        $I->assertTrue($model->save());
+        $I->assertTrue($modelsManager->save($model));
 
         $model = new Subscriptores();
         $model->assign($data);
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -196,8 +216,11 @@ class Validation
     protected function uniqueness2(UnitTester $I)
     {
         $model = Subscriptores::findFirst();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign($model->toArray());
-        $model->save();
+        $modelsManager->save($model);
 
         $I->assertTrue($model->validation());
         $I->assertEmpty($model->getMessages());
@@ -206,6 +229,9 @@ class Validation
     protected function regex(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'andres@hotmail.com',
@@ -213,7 +239,7 @@ class Validation
                 'status'     => 'y'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -230,6 +256,9 @@ class Validation
     protected function tooLong(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => str_repeat('a', 50) . '@hotmail.com',
@@ -237,7 +266,7 @@ class Validation
                 'status'     => 'A'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
@@ -254,6 +283,9 @@ class Validation
     protected function tooShort(UnitTester $I)
     {
         $model = new Subscriptores();
+
+        $modelsManager = $model->getModelsManager();
+
         $model->assign(
             [
                 'email'      => 'a@b.c',
@@ -261,7 +293,7 @@ class Validation
                 'status'     => 'A'
             ]
         );
-        $I->assertFalse($model->save());
+        $I->assertFalse($modelsManager->save($model));
 
         $expected = [
             Message::__set_state([
