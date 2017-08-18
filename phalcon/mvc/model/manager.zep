@@ -67,71 +67,71 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
 	protected _eventsManager;
 
-	protected _customEventsManager;
+	protected _customEventsManager = [];
 
-	protected _readConnectionServices;
+	protected _readConnectionServices = [];
 
-	protected _writeConnectionServices;
+	protected _writeConnectionServices = [];
 
-	protected _aliases;
+	protected _aliases = [];
 
 	protected _modelVisibility = [];
 
 	/**
 	 * Has many relations
 	 */
-	protected _hasMany;
+	protected _hasMany = [];
 
 	/**
 	 * Has many relations by model
 	 */
-	protected _hasManySingle;
+	protected _hasManySingle = [];
 
 	/**
 	 * Has one relations
 	 */
-	protected _hasOne;
+	protected _hasOne = [];
 
 	/**
 	 * Has one relations by model
 	 */
-	protected _hasOneSingle;
+	protected _hasOneSingle = [];
 
 	/**
 	 * Belongs to relations
 	 */
-	protected _belongsTo;
+	protected _belongsTo = [];
 
 	/**
 	 * All the relationships by model
 	 */
-	protected _belongsToSingle;
+	protected _belongsToSingle = [];
 
 	/**
 	 * Has many-Through relations
 	 */
-	protected _hasManyToMany;
+	protected _hasManyToMany = [];
 
 	/**
 	 * Has many-Through relations by model
 	 */
-	protected _hasManyToManySingle;
+	protected _hasManyToManySingle = [];
 
 	/**
 	 * Mark initialized models
 	 */
-	protected _initialized;
+	protected _initialized = [];
 
 	protected _prefix = "";
 
-	protected _sources;
+	protected _sources = [];
 
-	protected _schemas;
+	protected _schemas = [];
 
 	/**
 	 * Models' behaviors
 	 */
-	protected _behaviors;
+	protected _behaviors = [];
 
 	/**
 	 * Last model initialized
@@ -146,16 +146,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Stores a list of reusable instances
 	 */
-	protected _reusable;
+	protected _reusable = [];
 
-	protected _keepSnapshots;
+	protected _keepSnapshots = [];
 
 	/**
 	 * Does the model use dynamic update, instead of updating all rows?
 	 */
 	protected _dynamicUpdate = [];
 
-	protected _namespaceAliases;
+	protected _namespaceAliases = [];
 
 	/**
 	 * Sets the DependencyInjector container
@@ -645,14 +645,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function isKeepingSnapshots(<ModelInterface> model) -> boolean
 	{
-		var keepSnapshots, isKeeping;
-		let keepSnapshots = this->_keepSnapshots;
-		if typeof keepSnapshots == "array" {
-			if fetch isKeeping, keepSnapshots[get_class_lower(model)] {
-				return isKeeping;
-			}
+		var isKeeping;
+
+		if !fetch isKeeping, this->_keepSnapshots[get_class_lower(model)] {
+			return false;
 		}
-		return false;
+
+		return isKeeping;
 	}
 
 	/**
@@ -1434,7 +1433,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function clearReusableObjects()
 	{
-		let this->_reusable = null;
+		let this->_reusable = [];
 	}
 
 	/**
