@@ -153,7 +153,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Does the model use dynamic update, instead of updating all rows?
 	 */
-	protected _dynamicUpdate;
+	protected _dynamicUpdate = [];
 
 	protected _namespaceAliases;
 
@@ -671,14 +671,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function isUsingDynamicUpdate(<ModelInterface> model) -> boolean
 	{
-		var dynamicUpdate, isUsing;
-		let dynamicUpdate = this->_dynamicUpdate;
-		if typeof dynamicUpdate == "array" {
-			if fetch isUsing, dynamicUpdate[get_class_lower(model)] {
-				return isUsing;
-			}
+		var isUsing;
+
+		if !fetch isUsing, this->_dynamicUpdate[get_class_lower(model)] {
+			return false;
 		}
-		return false;
+
+		return isUsing;
 	}
 
 	/**
