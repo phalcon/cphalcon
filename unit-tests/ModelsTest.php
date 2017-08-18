@@ -147,13 +147,15 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$db = $di->getShared('db');
 		$this->_prepareDb($di->getShared('db'));
 
+		$modelsManager = $di->get("modelsManager");
+
 		$child = new Childs();
 		$child->for = '1';
-		$child->create();
+		$modelsManager->create($child);
 
 		$child = new Childs();
 		$child->group = '1';
-		$child->create();
+		$modelsManager->create($child);
 
 		$children = Childs::findByFor(1);
 		$children = Childs::findByGroup(1);
@@ -434,7 +436,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		//Update
 		$persona->cupo = 150000;
 		$persona->telefono = '123';
-		$this->assertTrue($persona->update());
+		$this->assertTrue($modelsManager->update($persona));
 
 		//Checking correct update
 		$persona = Personas::findFirst(array("estado='X'"));
@@ -447,7 +449,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'nombres' => 'LOST UPDATE',
 			'telefono' => '2121'
 		));
-		$this->assertTrue($persona->update());
+		$this->assertTrue($modelsManager->update($persona));
 
 		//Checking correct update
 		$persona = Personas::findFirst(array("estado='X'"));
@@ -463,7 +465,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->telefono = '1';
 		$persona->cupo = 21000;
 		$persona->estado = 'A';
-		$this->assertTrue($persona->create());
+		$this->assertTrue($modelsManager->create($persona));
 
 		$persona = new Personas();
 		$persona->assign(array(
@@ -474,7 +476,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'cupo' => 21000,
 			'estado' => 'A'
 		));
-		$this->assertTrue($persona->create());
+		$this->assertTrue($modelsManager->create($persona));
 
 		//Grouping
 		$difEstados = People::count(array("distinct" => "estado"));
@@ -733,7 +735,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		//Update
 		$personer->kredit = 150000;
 		$personer->telefon = '123';
-		$this->assertTrue($personer->update());
+		$this->assertTrue($modelsManager->update($personer));
 
 		//Checking correct update
 		$personer = Personers::findFirst(array("status='X'"));
@@ -746,7 +748,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'navnes' => 'LOST UPDATE',
 			'telefon' => '2121'
 		));
-		$this->assertTrue($personer->update());
+		$this->assertTrue($modelsManager->update($personer));
 
 		//Checking correct update
 		$personer = Personers::findFirst(array("status='X'"));
@@ -773,7 +775,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			'kredit' => 21000,
 			'status' => 'A'
 		));
-		$this->assertTrue($personer->create());
+		$this->assertTrue($modelsManager->create($personer));
 
 		//Deleting
 		$before = Personers::count();

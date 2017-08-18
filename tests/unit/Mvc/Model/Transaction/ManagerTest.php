@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\Transaction;
 
+use Helper\ModelTrait;
 use Phalcon\Test\Models\Select;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\Model\Transaction\Failed;
@@ -25,6 +26,8 @@ use Phalcon\Mvc\Model\Transaction\Manager;
  */
 class ManagerTest extends UnitTest
 {
+    use ModelTrait;
+
     /**
      * Tests transaction is removed when rolled back.
      *
@@ -36,6 +39,8 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Test does not remove transaction when rolled back",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $tm = new Manager;
 
                 $transaction = $tm->get(true);
@@ -43,7 +48,7 @@ class ManagerTest extends UnitTest
                 $select = new Select();
                 $select->setTransaction($transaction);
                 $select->assign(['name' => 'Crack of Dawn']);
-                $select->create();
+                $modelsManager->create($select);
 
 
                 expect($this->tester->getProtectedProperty($tm, '_number'))->equals(1);
@@ -72,6 +77,8 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Test does not remove transaction when committed",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $tm = new Manager;
 
                 $transaction = $tm->get(true);
@@ -79,7 +86,7 @@ class ManagerTest extends UnitTest
                 $select = new Select();
                 $select->setTransaction($transaction);
                 $select->assign(['name' => 'Crack of Dawn']);
-                $select->create();
+                $modelsManager->create($select);
 
                 expect($this->tester->getProtectedProperty($tm, '_number'))->equals(1);
                 expect($this->tester->getProtectedProperty($tm, '_transactions'))->count(1);

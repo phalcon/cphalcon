@@ -2959,7 +2959,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Call 'create' to ensure that an insert is performed
 		 * Return the insert status
 		 */
-		return new Status(insertModel->create(), insertModel);
+		return new Status(manager->create(insertModel), insertModel);
 	}
 
 	/**
@@ -3106,7 +3106,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * We apply the executed values to every record found
 			 */
-			if !record->update() {
+			if !record->getModelsManager()->update(record) {
 
 				/**
 				 * Rollback the transaction on failure

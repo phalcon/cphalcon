@@ -605,7 +605,7 @@ class ModelTest extends UnitTest
 
                 //  test field for create
                 $personers->navnes = '';
-                $created = $personers->create();
+                $created = $modelsManager->create($personers);
 
                 expect($created)->true();
 
@@ -639,6 +639,8 @@ class ModelTest extends UnitTest
         $this->specify(
             "Issue #12645 is not fixed",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robots = new Validation\Robots(
                     [
                         'name'     => 'asd',
@@ -648,7 +650,7 @@ class ModelTest extends UnitTest
                         'text'     => 'asd',
                     ]
                 );
-                expect($robots->create())->false();
+                expect($modelsManager->create($robots))->false();
                 /** @var Message $message */
                 $message = $robots->getMessages()[0];
                 expect($message)->isInstanceOf(Message::class);

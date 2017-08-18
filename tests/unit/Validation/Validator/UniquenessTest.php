@@ -303,7 +303,7 @@ class UniquenessTest extends UnitTest
                 $messages = $validation->validate(null, $this->anotherRobot);
                 expect($messages->count())->equals(0);
                 $anotherRobot = clone $this->anotherRobot;
-                $this->anotherRobot->create();
+                $modelsManager->create($this->anotherRobot);
                 $messages = $validation->validate(null, $anotherRobot);
                 expect($messages->count())->equals(1);
                 $modelsManager->delete($this->anotherRobot);

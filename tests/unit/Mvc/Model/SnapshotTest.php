@@ -241,7 +241,7 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'Snapshot is not created/updated when create/update operation was made',
             function () {
-                $this->setUpModelsManager();
+                $modelsManager = $this->setUpModelsManager();
                 $robots = new Robots(
                     [
                         'name'     => 'test',
@@ -252,13 +252,13 @@ class SnapshotTest extends UnitTest
                     ]
                 );
 
-                expect($robots->create())->true();
+                expect($modelsManager->create($robots))->true();
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->getSnapshotData())->equals($robots->toArray());
 
                 $robots->name = "testabc";
                 expect($robots->hasChanged('name'))->true();
-                expect($robots->update())->true();
+                expect($modelsManager->update($robots))->true();
                 expect($robots->name)->equals("testabc");
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->getSnapshotData())->equals($robots->toArray());
@@ -279,7 +279,7 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'Snapshot is not updated when refresh operation was made',
             function () {
-                $this->setUpModelsManager();
+                $modelsManager = $this->setUpModelsManager();
                 $robots = new Robots(
                     [
                         'name'     => 'test',
@@ -289,7 +289,7 @@ class SnapshotTest extends UnitTest
                     ]
                 );
 
-                expect($robots->create())->true();
+                expect($modelsManager->create($robots))->true();
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->getSnapshotData())->equals($robots->toArray());
 
@@ -368,7 +368,7 @@ class SnapshotTest extends UnitTest
                     ]
                 );
 
-                $robots->create();
+                $modelsManager->create($robots);
                 $modelsManager->delete($robots);
 
                 $robots->getUpdatedFields();
@@ -454,7 +454,7 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'hasChanged method for array argument is not working correctly',
             function () {
-                $this->setUpModelsManager();
+                $modelsManager = $this->setUpModelsManager();
                 $robots = new Robots(
                     [
                         'name'     => 'test',
@@ -464,7 +464,7 @@ class SnapshotTest extends UnitTest
                     ]
                 );
 
-                expect($robots->create())->true();
+                expect($modelsManager->create($robots))->true();
                 $robots->name = 'test2';
                 expect($robots->hasChanged(['name', 'year']))->equals(true);
                 expect($robots->hasChanged(['text', 'year']))->equals(false);

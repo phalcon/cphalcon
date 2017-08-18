@@ -991,7 +991,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string|array table
 	 */
-	protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	public function exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
 	{
 		int numberEmpty, numberPrimary;
 		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
@@ -2779,7 +2779,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * We need to check if the record exists
 		 */
-		let exists = this->_exists(metaData, readConnection, table);
+		let exists = this->exists(metaData, readConnection, table);
 
 		if exists {
 			let this->_operationMade = self::OP_UPDATE;
@@ -2870,100 +2870,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 *
-	 *<code>
-	 * // Creating a new robot
-	 * $robot = new Robots();
-	 *
-	 * $robot->type = "mechanical";
-	 * $robot->name = "Astro Boy";
-	 * $robot->year = 1952;
-	 *
-	 * $robot->create();
-	 *
-	 * // Passing an array to create
-	 * $robot = new Robots();
-	 *
-	 * $robot->assign(
-	 *     [
-	 *         "type" => "mechanical",
-	 *         "name" => "Astro Boy",
-	 *         "year" => 1952,
-	 *     ]
-	 * );
-	 *
-	 * $robot->create();
-	 *</code>
-	 */
-	public function create() -> boolean
-	{
-		var metaData;
-
-		let metaData = this->getModelsMetaData();
-
-		/**
-		 * Get the current connection
-		 * If the record already exists we must throw an exception
-		 */
-		if this->_exists(metaData, this->getReadConnection()) {
-			let this->_errorMessages = [
-				new Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
-			];
-			return false;
-		}
-
-		/**
-		 * Using save() anyways
-		 */
-		return this->save();
-	}
-
-	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 *
-	 *<code>
-	 * // Updating a robot name
-	 * $robot = Robots::findFirst("id = 100");
-	 *
-	 * $robot->name = "Biomass";
-	 *
-	 * $robot->update();
-	 *</code>
-	 */
-	public function update() -> boolean
-	{
-		var metaData;
-
-		/**
-		 * We don't check if the record exists if the record is already checked
-		 */
-		if this->_dirtyState {
-
-			let metaData = this->getModelsMetaData();
-
-			if !this->_exists(metaData, this->getReadConnection()) {
-				let this->_errorMessages = [
-					new Message(
-						"Record cannot be updated because it does not exist",
-						null,
-						"InvalidUpdateAttempt"
-					)
-				];
-
-				return false;
-			}
-		}
-
-		/**
-		 * Call save() anyways
-		 */
-		return this->save();
-	}
-
-	/**
 	 * Sets the type of the latest operation performed by the ORM
 	 */
 	public function setOperationMade(int operationMade) -> <Model>
@@ -3012,7 +2918,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			/**
 			 * We need to check if the record exists
 			 */
-			if !this->_exists(metaData, readConnection, table) {
+			if !this->exists(metaData, readConnection, table) {
 				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 			}
 
@@ -3478,7 +3384,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * $robot->name = "Astro Boy";
 	 * $robot->year = 1952;
 	 *
-	 * $robot->create();
+	 * $modelsManager->create($robot);
 	 * $robot->type = "hydraulic";
 	 * $hasChanged = $robot->hasChanged("type"); // returns true
 	 * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true

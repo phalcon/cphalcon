@@ -19,12 +19,14 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Db\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\MetaDataInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
@@ -140,6 +142,13 @@ interface ModelInterface
 	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>;
 
 	/**
+	 * Checks whether the current record already exists
+	 *
+	 * @param string|array table
+	 */
+	public function exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean;
+
+	/**
 	 * Allows to count how many records match the specified conditions
 	 *
 	 * @param array parameters
@@ -219,18 +228,6 @@ interface ModelInterface
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 */
 	public function save() -> boolean;
-
-	/**
-	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 */
-	public function create() -> boolean;
-
-	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 */
-	public function update() -> boolean;
 
 	/**
 	 * Sets the type of the latest operation performed by the ORM

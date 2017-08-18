@@ -254,6 +254,18 @@ interface ManagerInterface
 	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean;
 
 	/**
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 */
+	public function create(<ModelInterface> model) -> boolean;
+
+	/**
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 */
+	public function update(<ModelInterface> model) -> boolean;
+
+	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 */
 	public function delete(<ModelInterface> model) -> boolean;

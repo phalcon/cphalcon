@@ -1737,6 +1737,105 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 * // Creating a new robot
+	 * $robot = new Robots();
+	 *
+	 * $robot->type = "mechanical";
+	 * $robot->name = "Astro Boy";
+	 * $robot->year = 1952;
+	 *
+	 * $modelsManager->create($robot);
+	 *
+	 * // Passing an array to create
+	 * $robot = new Robots();
+	 *
+	 * $robot->assign(
+	 *     [
+	 *         "type" => "mechanical",
+	 *         "name" => "Astro Boy",
+	 *         "year" => 1952,
+	 *     ]
+	 * );
+	 *
+	 * $modelsManager->create($robot);
+	 *</code>
+	 */
+	public function create(<ModelInterface> model) -> boolean
+	{
+		var metaData;
+
+		let metaData = model->getModelsMetaData();
+
+		/**
+		 * Get the current connection
+		 * If the record already exists we must throw an exception
+		 */
+		if model->exists(metaData, model->getReadConnection()) {
+			model->clearMessages();
+
+			model->appendMessage(
+				new Message("Record cannot be created because it already exists", null, "InvalidCreateAttempt")
+			);
+
+			return false;
+		}
+
+		/**
+		 * Using save() anyways
+		 */
+		return model->save();
+	}
+
+	/**
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 * // Updating a robot name
+	 * $robot = Robots::findFirst("id = 100");
+	 *
+	 * $robot->name = "Biomass";
+	 *
+	 * $modelsManager->update($robot);
+	 *</code>
+	 */
+	public function update(<ModelInterface> model) -> boolean
+	{
+		var metaData;
+
+		/**
+		 * We don't check if the record exists if the record is already checked
+		 */
+		if model->getDirtyState() {
+
+			let metaData = model->getModelsMetaData();
+
+			if !model->exists(metaData, model->getReadConnection()) {
+				model->clearMessages();
+
+				model->appendMessage(
+					new Message(
+						"Record cannot be updated because it does not exist",
+						null,
+						"InvalidUpdateAttempt"
+					)
+				);
+
+				return false;
+			}
+		}
+
+		/**
+		 * Call save() anyways
+		 */
+		return model->save();
+	}
+
+	/**
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 *
 	 * <code>

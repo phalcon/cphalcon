@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model;
 
+use Helper\ModelTrait;
 use Phalcon\Test\Models\DynamicUpdate\Robots;
 use Phalcon\Test\Module\UnitTest;
 
@@ -25,6 +26,8 @@ use Phalcon\Test\Module\UnitTest;
  */
 class DynamicUpdateTest extends UnitTest
 {
+    use ModelTrait;
+
     /**
      * Tests dynamic update create then update
      *
@@ -34,15 +37,17 @@ class DynamicUpdateTest extends UnitTest
      */
     public function testIssue12766()
     {
+        $modelsManager = $this->setUpModelsManager();
+
         $robots = new Robots();
         $robots->name = 'Test';
         $robots->type = 'mechanical';
         $robots->datetime = (new \DateTime())->format('Y-m-d');
         $robots->text = 'text';
 
-        $robots->create();
+        $modelsManager->create($robots);
 
         $robots->year = 2017;
-        $robots->update();
+        $modelsManager->update($robots);
     }
 }
