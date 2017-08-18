@@ -359,6 +359,8 @@ CREATE TABLE foreign_key_child (
 ALTER TABLE public.foreign_key_child OWNER TO postgres;
 ALTER TABLE public.tipo_documento_id_seq OWNER TO postgres;
 
+ALTER TABLE foreign_key_child ADD CONSTRAINT test_describeReferences FOREIGN KEY (child_int) REFERENCES foreign_key_parent (refer_int) ON UPDATE CASCADE ON DELETE RESTRICT;
+
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
