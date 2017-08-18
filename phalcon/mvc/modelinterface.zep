@@ -191,9 +191,19 @@ interface ModelInterface
 	public function fireEventCancel(string! eventName) -> boolean;
 
 	/**
+	 * Cancel the current operation
+	 */
+	public function cancelOperation();
+
+	/**
 	 * Appends a customized message on the validation process
 	 */
 	public function appendMessage(<MessageInterface> message);
+
+	/**
+	 * Clears messages used in the validation process
+	 */
+	public function clearMessages();
 
 	/**
 	 * Check whether validation process has generated any messages
@@ -223,9 +233,9 @@ interface ModelInterface
 	public function update() -> boolean;
 
 	/**
-	 * Deletes a model instance. Returning true on success or false otherwise.
+	 * Sets the type of the latest operation performed by the ORM
 	 */
-	public function delete() -> boolean;
+	public function setOperationMade(int operationMade);
 
 	/**
 	 * Returns the type of the latest operation performed by the ORM
@@ -242,6 +252,11 @@ interface ModelInterface
 	 * Skips the current operation forcing a success state
 	 */
 	public function skipOperation(boolean skip);
+
+	/**
+	 * Has the current operation been skipped?
+	 */
+	public function isSkipped() -> boolean;
 
 	/**
 	 * Returns related records based on defined relations

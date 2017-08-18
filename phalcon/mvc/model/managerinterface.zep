@@ -253,4 +253,9 @@ interface ManagerInterface
 	 */
 	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean;
 
+	/**
+	 * Deletes a model instance. Returning true on success or false otherwise.
+	 */
+	public function delete(<ModelInterface> model) -> boolean;
+
 }

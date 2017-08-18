@@ -290,6 +290,8 @@ class UniquenessTest extends UnitTest
         $this->specify(
             'Except other than field doesnt work correctly',
             function () {
+                $modelsManager = $this->di->get("modelsManager");
+
                 $validation = new Validation();
                 $validation->add('text', new Uniqueness([
                     'except' => [
@@ -304,7 +306,7 @@ class UniquenessTest extends UnitTest
                 $this->anotherRobot->create();
                 $messages = $validation->validate(null, $anotherRobot);
                 expect($messages->count())->equals(1);
-                $this->anotherRobot->delete();
+                $modelsManager->delete($this->anotherRobot);
             }
         );
     }

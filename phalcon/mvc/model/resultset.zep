@@ -523,7 +523,7 @@ abstract class Resultset
 			/**
 			 * Try to delete the record
 			 */
-			if !record->delete() {
+			if !record->getModelsManager()->delete(record) {
 
 				/**
 				 * Get the messages from the record that produce the error

@@ -3190,7 +3190,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			/**
 			 * We delete every record found
 			 */
-			if !record->delete() {
+			if !record->getModelsManager()->delete(record) {
 
 				/**
 				 * Rollback the transaction

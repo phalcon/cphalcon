@@ -357,6 +357,8 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'When getting updated fields from deleted instance there should be exception',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $robots = new Robots(
                     [
                         'name' => 'test',
@@ -367,7 +369,7 @@ class SnapshotTest extends UnitTest
                 );
 
                 $robots->create();
-                $robots->delete();
+                $modelsManager->delete($robots);
 
                 $robots->getUpdatedFields();
             },

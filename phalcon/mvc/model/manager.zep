@@ -29,6 +29,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -1733,6 +1734,384 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getNamespaceAliases() -> array
 	{
 		return this->_namespaceAliases;
+	}
+
+	/**
+	 * Deletes a model instance. Returning true on success or false otherwise.
+	 *
+	 * <code>
+	 * $robot = Robots::findFirst("id=100");
+	 *
+	 * $modelsManager->delete($robot);
+	 *
+	 * $robots = Robots::find("type = 'mechanical'");
+	 *
+	 * foreach ($robots as $robot) {
+	 *     $modelsManager->delete($robot);
+	 * }
+	 * </code>
+	 */
+	public function delete(<ModelInterface> model) -> boolean
+	{
+		var metaData, writeConnection, values, bindTypes, primaryKeys,
+			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
+			bindType, value, schema, source, table, success;
+
+		let metaData = model->getModelsMetaData(),
+			writeConnection = model->getWriteConnection();
+
+		/**
+		 * Operation made is OP_DELETE
+		 */
+		model->setOperationMade(Model::OP_DELETE);
+		
+		model->clearMessages();
+
+		/**
+		 * Check if deleting the record violates a virtual foreign key
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysReverseRestrict(model) === false {
+				return false;
+			}
+		}
+
+		let values = [],
+			bindTypes = [],
+			conditions = [];
+
+		let primaryKeys = metaData->getPrimaryKeyAttributes(model),
+			bindDataTypes = metaData->getBindTypes(model);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(model);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * We can't create dynamic SQL without a primary key
+		 */
+		if !count(primaryKeys) {
+			throw new Exception("A primary key must be defined in the model in order to perform the operation");
+		}
+
+		/**
+		 * Create a condition from the primary keys
+		 */
+		for primaryKey in primaryKeys {
+
+			/**
+			 * Every column part of the primary key must be in the bind data types
+			 */
+			if !fetch bindType, bindDataTypes[primaryKey] {
+				throw new Exception("Column '" . primaryKey . "' have not defined a bind data type");
+			}
+
+			/**
+			 * Take the column values based on the column map if any
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[primaryKey] {
+					throw new Exception("Column '" . primaryKey . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = primaryKey;
+			}
+
+			/**
+			 * If the attribute is currently set in the object add it to the conditions
+			 */
+			if !fetch value, model->{attributeField} {
+				throw new Exception(
+					"Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
+				);
+			}
+
+			/**
+			 * Escape the column identifier
+			 */
+			let values[] = value,
+				conditions[] = writeConnection->escapeIdentifier(primaryKey) . " = ?",
+				bindTypes[] = bindType;
+		}
+
+		if globals_get("orm.events") {
+
+			model->skipOperation(false);
+
+			/**
+			 * Fire the beforeDelete event
+			 */
+			if model->fireEventCancel("beforeDelete") === false {
+				return false;
+			} else {
+				/**
+				 * The operation can be skipped
+				 */
+				if model->isSkipped() {
+					return true;
+				}
+			}
+		}
+
+		let schema = model->getSchema(),
+			source = model->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Join the conditions in the array using an AND operator
+		 * Do the deletion
+		 */
+		let success = writeConnection->delete(table, join(" AND ", conditions), values, bindTypes);
+
+		/**
+		 * Check if there is virtual foreign keys with cascade action
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysReverseCascade(model) === false {
+				return false;
+			}
+		}
+
+		if globals_get("orm.events") {
+			if success {
+				model->fireEvent("afterDelete");
+			}
+		}
+
+		/**
+		 * Force perform the record existence checking again
+		 */
+		model->setDirtyState(Model::DIRTY_STATE_DETACHED);
+
+		return success;
+	}
+
+	/**
+	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
+	 */
+	protected final function _checkForeignKeysReverseRestrict(<ModelInterface> model) -> boolean
+	{
+		boolean error;
+		var relations, foreignKey, relation,
+			relationClass, referencedModel, fields, referencedFields,
+			conditions, bindParams,position, field,
+			value, extraConditions, message;
+		int action;
+
+		/**
+		 * We check if some of the hasOne/hasMany relations is a foreign key
+		 */
+		let relations = this->getHasOneAndHasMany(model);
+
+		let error = false;
+		for relation in relations {
+
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
+
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::ACTION_RESTRICT;
+
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
+				}
+			}
+
+			/**
+			 * Check only if the operation is restrict
+			 */
+			if action != Relation::ACTION_RESTRICT {
+				continue;
+			}
+
+			let relationClass = relation->getReferencedModel();
+
+			/**
+			 * Load a plain instance
+			 */
+			let referencedModel = this->load(relationClass);
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+
+				for position, field in fields {
+					fetch value, model->{field};
+					let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+
+			} else {
+				fetch value, model->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+				/**
+				 * Create a new message
+				 */
+				if !fetch message, foreignKey["message"] {
+					let message = "Record is referenced by model " . relationClass;
+				}
+
+				/**
+				 * Create a message
+				 */
+				model->appendMessage(new Message(message, fields, "ConstraintViolation"));
+				let error = true;
+				break;
+			}
+		}
+
+		/**
+		 * Call validation fails event
+		 */
+		if error === true {
+			if globals_get("orm.events") {
+				model->fireEvent("onValidationFails");
+				model->cancelOperation();
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
+	 */
+	protected final function _checkForeignKeysReverseCascade(<ModelInterface> model) -> boolean
+	{
+		var relations, relation, foreignKey,
+			resultset, conditions, bindParams, referencedModel,
+			referencedFields, fields, field, position, value,
+			extraConditions;
+		int action;
+
+		/**
+		 * We check if some of the hasOne/hasMany relations is a foreign key
+		 */
+		let relations = this->getHasOneAndHasMany(model);
+
+		for relation in relations {
+
+			/**
+			 * Check if the relation has a virtual foreign key
+			 */
+			let foreignKey = relation->getForeignKey();
+			if foreignKey === false {
+				continue;
+			}
+
+			/**
+			 * By default action is restrict
+			 */
+			let action = Relation::NO_ACTION;
+
+			/**
+			 * Try to find a different action in the foreign key's options
+			 */
+			if typeof foreignKey == "array" {
+				if isset foreignKey["action"] {
+					let action = (int) foreignKey["action"];
+				}
+			}
+
+			/**
+			 * Check only if the operation is restrict
+			 */
+			if action != Relation::ACTION_CASCADE {
+				continue;
+			}
+
+			/**
+			 * Load a plain instance
+			 */
+			let referencedModel = this->load(relation->getReferencedModel());
+
+			let fields = relation->getFields(),
+				referencedFields = relation->getReferencedFields();
+
+			/**
+			 * Create the checking conditions. A relation can has many fields or a single one
+			 */
+			let conditions = [], bindParams = [];
+
+			if typeof fields == "array" {
+				for position, field in fields {
+					fetch value, model->{field};
+					let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+						bindParams[] = value;
+				}
+			} else {
+				fetch value, model->{fields};
+				let conditions[] = "[" . referencedFields . "] = ?0",
+					bindParams[] = value;
+			}
+
+			/**
+			 * Check if the virtual foreign key has extra conditions
+			 */
+			if fetch extraConditions, foreignKey["conditions"] {
+				let conditions[] = extraConditions;
+			}
+
+			/**
+			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+			 * Let's make the checking
+			 */
+			let resultset = referencedModel->find([
+				join(" AND ", conditions),
+				"bind": bindParams
+			]);
+
+			/**
+			 * Delete the resultset
+			 * Stop the operation if needed
+			 */
+			if resultset->delete() === false {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

@@ -38,7 +38,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	protected function _prepareDI(&$trace)
+	protected function _getDI(&$trace)
 	{
 		Phalcon\DI::reset();
 
@@ -71,6 +71,8 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
+
+		return $di;
 	}
 
 	public function testEventsFetch()
@@ -83,7 +85,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$trace = array();
 
-		$this->_prepareDI($trace);
+		$di = $this->_getDI($trace);
 
 		$robot = GossipRobots::findFirst();
 
@@ -107,7 +109,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$trace = array();
 
-		$this->_prepareDI($trace);
+		$di = $this->_getDI($trace);
 
 		$robot = new GossipRobots();
 
@@ -160,7 +162,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$trace = array();
 
-		$this->_prepareDI($trace);
+		$di = $this->_getDI($trace);
 
 		$robot = GossipRobots::findFirst();
 
@@ -216,13 +218,15 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$trace = array();
 
-		$this->_prepareDI($trace);
+		$di = $this->_getDI($trace);
+
+		$modelsManager = $di->get("modelsManager");
 
 		$robot = GossipRobots::findFirst();
 
 		$robot->trace = &$trace;
 
-		$robot->delete();
+		$modelsManager->delete($robot);
 
 		$this->assertEquals($trace, array(
 			'afterFetch' => array(

@@ -162,6 +162,9 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 	protected function issue1534($di)
 	{
 		$db = $di->getShared('db');
+
+		$modelsManager = $di->get("modelsManager");
+
 		$this->_prepareDb($di->getShared('db'));
 
 		$this->assertTrue($db->delete('issue_1534'));
@@ -182,7 +185,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
 
-		$this->assertTrue($entry->delete());
+		$this->assertTrue($modelsManager->delete($entry));
 
 		$product = new Issue_1534();
 		$product->language  = 'en';
@@ -212,7 +215,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
 		$this->assertTrue($entry->brand === NULL);
-		$entry->delete();
+		$modelsManager->delete($entry);
 
 		//test subject of Issue - setting RawValue('default')
 		$product = new Issue_1534();
@@ -261,6 +264,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 	protected function _executeTestsNormal($di)
 	{
+		$modelsManager = $di->get("modelsManager");
 
 		$this->_prepareDb($di->getShared('db'));
 
@@ -481,7 +485,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Deleting
 		$before = People::count();
-		$this->assertTrue($persona->delete());
+		$this->assertTrue($modelsManager->delete($persona));
 		$this->assertEquals($before - 1, People::count());
 
 		//Assign
@@ -573,6 +577,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 	protected function _executeTestsRenamed($di)
 	{
+		$modelsManager = $di->get("modelsManager");
 
 		$this->_prepareDb($di->getShared('db'));
 
@@ -772,7 +777,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Deleting
 		$before = Personers::count();
-		$this->assertTrue($personer->delete());
+		$this->assertTrue($modelsManager->delete($personer));
 		$this->assertEquals($before - 1, Personers::count());
 
 		//Assign

@@ -115,6 +115,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 	public function _executeTestsNormal($di)
 	{
+		$modelsManager = $di->get("modelsManager");
 
 		//Normal foreign keys
 		$robotsParts = new RobotsParts();
@@ -154,7 +155,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$robot = Robots::findFirst();
 		$this->assertNotEquals($robot, false);
 
-		$this->assertFalse($robot->delete());
+		$this->assertFalse($modelsManager->delete($robot));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -170,7 +171,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$part = Parts::findFirst();
 		$this->assertNotEquals($part, false);
 
-		$this->assertFalse($part->delete());
+		$this->assertFalse($modelsManager->delete($part));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -187,6 +188,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 	public function _executeTestsRenamed($di)
 	{
+		$modelsManager = $di->get("modelsManager");
 
 		//Normal foreign keys with column renaming
 		$robottersDeles = new RobottersDeles();
@@ -224,7 +226,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$robotter = Robotters::findFirst();
 		$this->assertNotEquals($robotter, false);
 
-		$this->assertFalse($robotter->delete());
+		$this->assertFalse($modelsManager->delete($robotter));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
@@ -240,7 +242,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$dele = Deles::findFirst();
 		$this->assertNotEquals($dele, false);
 
-		$this->assertFalse($dele->delete());
+		$this->assertFalse($modelsManager->delete($dele));
 
 		$messages = array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(

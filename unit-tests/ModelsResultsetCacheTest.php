@@ -127,6 +127,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		}, true);
 
+		$modelsManager = $di->get("modelsManager");
+
 		//Find
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
@@ -170,7 +172,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($robotscount, 3);
 
 			//Delete the temp robot
-			Robots::findFirst("type = 'notcached'")->delete();
+			$robot = Robots::findFirst("type = 'notcached'");
+			$modelsManager->delete($robot);
 		}
 	}
 

@@ -573,11 +573,13 @@ class ModelTest extends UnitTest
         $this->specify(
             "Soft Delete model behavior doesn't work",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $number = Subscribers::count();
 
                 $subscriber = Subscribers::findFirst();
 
-                expect($subscriber->delete())->true();
+                expect($modelsManager->delete($subscriber))->true();
                 expect($subscriber->status)->equals('D');
                 expect(Subscribers::count())->equals($number);
             }
@@ -592,6 +594,8 @@ class ModelTest extends UnitTest
         $this->specify(
             'The field default value is empty string and is determined to be null',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
                 $personers = new Personers([
                     'borgerId'     => 'id-' . time() . rand(1, 99),
                     'slagBorgerId' => 1,
@@ -617,7 +621,7 @@ class ModelTest extends UnitTest
 
                 expect($saved)->true();
 
-                $personers->delete();
+                $modelsManager->delete($personers);
             }
         );
     }
