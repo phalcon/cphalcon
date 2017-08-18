@@ -24,8 +24,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 	public function getExpectedColumnsMysql()
 	{
-		return array(
-			0 => Phalcon\Db\Column::__set_state(array(
+		return [
+			0 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'cedula',
 				'_schemaName' => NULL,
 				'_type' => 5,
@@ -40,8 +40,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => true,
 				'_after' => NULL,
 				'_bindType' => 2,
-			)),
-			1 => Phalcon\Db\Column::__set_state(array(
+			]),
+			1 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'tipo_documento_id',
 				'_schemaName' => NULL,
 				'_type' => 0,
@@ -55,8 +55,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cedula',
 				'_bindType' => 1,
-			)),
-			2 => Phalcon\Db\Column::__set_state(array(
+			]),
+			2 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'nombres',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -70,8 +70,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'tipo_documento_id',
 				'_bindType' => 2,
-			)),
-			3 => Phalcon\Db\Column::__set_state(array(
+			]),
+			3 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'telefono',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -85,8 +85,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'nombres',
 				'_bindType' => 2,
-			)),
-			4 => Phalcon\Db\Column::__set_state(array(
+			]),
+			4 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'direccion',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -100,8 +100,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'telefono',
 				'_bindType' => 2,
-			)),
-			5 => Phalcon\Db\Column::__set_state(array(
+			]),
+			5 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'email',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -115,8 +115,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'direccion',
 				'_bindType' => 2,
-			)),
-			6 => Phalcon\Db\Column::__set_state(array(
+			]),
+			6 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'fecha_nacimiento',
 				'_schemaName' => NULL,
 				'_type' => 1,
@@ -130,8 +130,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'email',
 				'_bindType' => 2,
-			)),
-			7 => Phalcon\Db\Column::__set_state(array(
+			]),
+			7 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'ciudad_id',
 				'_schemaName' => NULL,
 				'_type' => 0,
@@ -145,8 +145,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'fecha_nacimiento',
 				'_bindType' => 1,
-			)),
-			8 => Phalcon\Db\Column::__set_state(array(
+			]),
+			8 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'creado_at',
 				'_schemaName' => NULL,
 				'_type' => 1,
@@ -160,8 +160,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'ciudad_id',
 				'_bindType' => 2,
-			)),
-			9 => Phalcon\Db\Column::__set_state(array(
+			]),
+			9 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'cupo',
 				'_schemaName' => NULL,
 				'_type' => 3,
@@ -175,8 +175,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'creado_at',
 				'_bindType' => 32,
-			)),
-			10 => Phalcon\Db\Column::__set_state(array(
+			]),
+			10 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'estado',
 				'_schemaName' => NULL,
 				'_type' => 5,
@@ -190,14 +190,14 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
-			))
-		);
+			])
+		];
 	}
 
 	public function getExpectedColumnsPostgresql()
 	{
-		return array(
-			0 => Phalcon\Db\Column::__set_state(array(
+		return [
+			0 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'cedula',
 				'_schemaName' => NULL,
 				'_type' => 5,
@@ -212,8 +212,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => true,
 				'_after' => NULL,
 				'_bindType' => 2,
-			)),
-			1 => Phalcon\Db\Column::__set_state(array(
+			]),
+			1 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'tipo_documento_id',
 				'_schemaName' => NULL,
 				'_type' => 0,
@@ -227,8 +227,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cedula',
 				'_bindType' => 1,
-			)),
-			2 => Phalcon\Db\Column::__set_state(array(
+			]),
+			2 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'nombres',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -242,8 +242,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'tipo_documento_id',
 				'_bindType' => 2,
-			)),
-			3 => Phalcon\Db\Column::__set_state(array(
+			]),
+			3 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'telefono',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -256,8 +256,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_autoIncrement' => false,
 				'_first' => false,
 				'_after' => 'nombres',
-			)),
-			4 => Phalcon\Db\Column::__set_state(array(
+			]),
+			4 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'direccion',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -271,8 +271,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'telefono',
 				'_bindType' => 2,
-			)),
-			5 => Phalcon\Db\Column::__set_state(array(
+			]),
+			5 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'email',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -286,8 +286,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'direccion',
 				'_bindType' => 2,
-			)),
-			6 => Phalcon\Db\Column::__set_state(array(
+			]),
+			6 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'fecha_nacimiento',
 				'_schemaName' => NULL,
 				'_type' => 1,
@@ -301,8 +301,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'email',
 				'_bindType' => 2,
-			)),
-			7 => Phalcon\Db\Column::__set_state(array(
+			]),
+			7 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'ciudad_id',
 				'_schemaName' => NULL,
 				'_type' => 0,
@@ -316,8 +316,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'fecha_nacimiento',
 				'_bindType' => 1,
-			)),
-			8 => Phalcon\Db\Column::__set_state(array(
+			]),
+			8 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'creado_at',
 				'_schemaName' => NULL,
 				'_type' => 1,
@@ -331,8 +331,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'ciudad_id',
 				'_bindType' => 2,
-			)),
-			9 => Phalcon\Db\Column::__set_state(array(
+			]),
+			9 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'cupo',
 				'_schemaName' => NULL,
 				'_type' => 3,
@@ -346,8 +346,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'creado_at',
 				'_bindType' => 32,
-			)),
-			10 => Phalcon\Db\Column::__set_state(array(
+			]),
+			10 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'estado',
 				'_schemaName' => NULL,
 				'_type' => 5,
@@ -361,15 +361,15 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
-			)),
-		);
+			]),
+		];
 
 	}
 
 	public function getExpectedColumnsSqlite()
 	{
-		return array(
-			0 => Phalcon\Db\Column::__set_state(array(
+		return [
+			0 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'cedula',
 				'_schemaName' => NULL,
 				'_type' => 5,
@@ -384,8 +384,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => true,
 				'_after' => NULL,
 				'_bindType' => 2,
-			)),
-			1 => Phalcon\Db\Column::__set_state(array(
+			]),
+			1 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'tipo_documento_id',
 				'_schemaName' => NULL,
 				'_type' => 0,
@@ -399,8 +399,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cedula',
 				'_bindType' => 1,
-			)),
-			2 => Phalcon\Db\Column::__set_state(array(
+			]),
+			2 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'nombres',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -414,8 +414,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'tipo_documento_id',
 				'_bindType' => 2,
-			)),
-			3 => Phalcon\Db\Column::__set_state(array(
+			]),
+			3 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'telefono',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -429,8 +429,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'nombres',
 				'_bindType' => 2,
-			)),
-			4 => Phalcon\Db\Column::__set_state(array(
+			]),
+			4 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'direccion',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -444,8 +444,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'telefono',
 				'_bindType' => 2,
-			)),
-			5 => Phalcon\Db\Column::__set_state(array(
+			]),
+			5 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'email',
 				'_schemaName' => NULL,
 				'_type' => 2,
@@ -459,8 +459,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'direccion',
 				'_bindType' => 2,
-			)),
-			6 => Phalcon\Db\Column::__set_state(array(
+			]),
+			6 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'fecha_nacimiento',
 				'_schemaName' => NULL,
 				'_type' => 1,
@@ -474,8 +474,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'email',
 				'_bindType' => 2,
-			)),
-			7 => Phalcon\Db\Column::__set_state(array(
+			]),
+			7 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'ciudad_id',
 				'_schemaName' => NULL,
 				'_type' => 0,
@@ -489,8 +489,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'fecha_nacimiento',
 				'_bindType' => 1,
-			)),
-			8 => Phalcon\Db\Column::__set_state(array(
+			]),
+			8 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'creado_at',
 				'_schemaName' => NULL,
 				'_type' => 1,
@@ -504,8 +504,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'ciudad_id',
 				'_bindType' => 2,
-			)),
-			9 => Phalcon\Db\Column::__set_state(array(
+			]),
+			9 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'cupo',
 				'_schemaName' => NULL,
 				'_type' => 3,
@@ -519,8 +519,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'creado_at',
 				'_bindType' => 32,
-			)),
-			10 => Phalcon\Db\Column::__set_state(array(
+			]),
+			10 => Phalcon\Db\Column::__set_state([
 				'_columnName' => 'estado',
 				'_schemaName' => NULL,
 				'_type' => 5,
@@ -534,8 +534,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_first' => false,
 				'_after' => 'cupo',
 				'_bindType' => 2,
-			)),
-		);
+			]),
+		];
 	}
 
 	public function testDbMysql()
@@ -564,32 +564,32 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describe, $expectedDescribe);
 
 		//Table Options
-		$expectedOptions = array(
+		$expectedOptions = [
 			'table_type' => 'BASE TABLE',
 			'auto_increment' => NULL,
 			'engine' => 'InnoDB',
 			'table_collation' => 'utf8_unicode_ci',
-		);
+		];
 
 		$options = $connection->tableOptions('personas', 'phalcon_test');
 		$this->assertEquals($options, $expectedOptions);
 
 		//Indexes
-		$expectedIndexes = array(
-			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
+		$expectedIndexes = [
+			'PRIMARY' => Phalcon\Db\Index::__set_state([
 				'_name' => 'PRIMARY',
-				'_columns' => array('id'),
+				'_columns' => ['id'],
 				'_type' => 'PRIMARY',
-			)),
-			'robots_id' => Phalcon\Db\Index::__set_state(array(
+			]),
+			'robots_id' => Phalcon\Db\Index::__set_state([
 				'_name' => 'robots_id',
-				'_columns' => array('robots_id')
-			)),
-			'parts_id' => Phalcon\Db\Index::__set_state(array(
+				'_columns' => ['robots_id']
+			]),
+			'parts_id' => Phalcon\Db\Index::__set_state([
 				'_name' => 'parts_id',
-				'_columns' => array('parts_id')
-			))
-		);
+				'_columns' => ['parts_id']
+			])
+		];
 
 		$describeIndexes = $connection->describeIndexes('robots_parts');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
@@ -598,18 +598,18 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//Indexes
-		$expectedIndexes = array(
-			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
+		$expectedIndexes = [
+			'PRIMARY' => Phalcon\Db\Index::__set_state([
 				'_name' => 'PRIMARY',
-				'_columns' => array('id'),
+				'_columns' => ['id'],
 				'_type' => 'PRIMARY',
-			)),
-			'issue_11036_token_UNIQUE' => Phalcon\Db\Index::__set_state(array(
+			]),
+			'issue_11036_token_UNIQUE' => Phalcon\Db\Index::__set_state([
 				'_name' => 'issue_11036_token_UNIQUE',
-				'_columns' => array('token'),
+				'_columns' => ['token'],
 				'_type' => 'UNIQUE'
-			))
-		);
+			])
+		];
 
 		$describeIndexes = $connection->describeIndexes('issue_11036');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
@@ -618,26 +618,30 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
-		$expectedReferences = array(
-			'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(array(
-			'_referenceName' => 'robots_parts_ibfk_1',
-			'_referencedTable' => 'robots',
-			'_columns' => array('robots_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test',
-				'_onUpdate' => 'RESTRICT',
-				'_onDelete' => 'RESTRICT'
-			)),
-			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(array(
-				'_referenceName' => 'robots_parts_ibfk_2',
-				'_referencedTable' => 'parts',
-				'_columns' => array('parts_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test',
-				'_onUpdate' => 'RESTRICT',
-				'_onDelete' => 'RESTRICT'
-			)),
-		);
+		$expectedReferences = [
+			'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(
+                [
+                    '_referenceName' => 'robots_parts_ibfk_1',
+                    '_referencedTable' => 'robots',
+                    '_columns' => ['robots_id'],
+                    '_referencedColumns' => ['id'],
+                    '_referencedSchema' => 'phalcon_test',
+                    '_onUpdate' => 'RESTRICT',
+                    '_onDelete' => 'RESTRICT'
+			    ]
+            ),
+			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(
+                [
+                    '_referenceName' => 'robots_parts_ibfk_2',
+                    '_referencedTable' => 'parts',
+                    '_columns' => ['parts_id'],
+                    '_referencedColumns' => ['id'],
+                    '_referencedSchema' => 'phalcon_test',
+                    '_onUpdate' => 'RESTRICT',
+                    '_onDelete' => 'RESTRICT'
+			    ]
+            ),
+		];
 
 		$describeReferences = $connection->describeReferences('robots_parts');
 		$this->assertEquals($describeReferences, $expectedReferences);
@@ -667,20 +671,20 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describe, $expectedDescribe);
 
 		//Indexes
-		$expectedIndexes = array(
-			'robots_parts_parts_id' => Phalcon\Db\Index::__set_state(array(
+		$expectedIndexes = [
+			'robots_parts_parts_id' => Phalcon\Db\Index::__set_state([
 				'_name' => 'robots_parts_parts_id',
-				'_columns' => array('parts_id')
-			)),
-			'robots_parts_pkey' => Phalcon\Db\Index::__set_state(array(
+				'_columns' => ['parts_id']
+			]),
+			'robots_parts_pkey' => Phalcon\Db\Index::__set_state([
 				'_name' => 'robots_parts_pkey',
-				'_columns' => array('id')
-			)),
-			'robots_parts_robots_id' => Phalcon\Db\Index::__set_state(array(
+				'_columns' => ['id']
+			]),
+			'robots_parts_robots_id' => Phalcon\Db\Index::__set_state([
 				'_name' => 'robots_parts_robots_id',
-				'_columns' => array('robots_id')
-			))
-		);
+				'_columns' => ['robots_id']
+			])
+		];
 
 		$describeIndexes = $connection->describeIndexes('robots_parts');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
@@ -689,22 +693,30 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
-		$expectedReferences = array(
-			'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(array(
-			'_referenceName' => 'robots_parts_ibfk_1',
-			'_referencedTable' => 'robots',
-			'_columns' => array('robots_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test'
-			)),
-			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(array(
-				'_referenceName' => 'robots_parts_ibfk_2',
-				'_referencedTable' => 'parts',
-				'_columns' => array('parts_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'phalcon_test',
-			)),
-		);
+		$expectedReferences = [
+			'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(
+                [
+                    '_referenceName' => 'robots_parts_ibfk_1',
+                    '_referencedTable' => 'robots',
+                    '_columns' => ['robots_id'],
+                    '_referencedColumns' => ['id'],
+                    '_referencedSchema' => 'phalcon_test',
+                    '_onDelete' => 'NO ACTION',
+                    '_onUpdate' => 'NO ACTION'
+                ]
+            ),
+			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(
+                [
+                    '_referenceName' => 'robots_parts_ibfk_2',
+                    '_referencedTable' => 'parts',
+                    '_columns' => ['parts_id'],
+                    '_referencedColumns' => ['id'],
+                    '_referencedSchema' => 'phalcon_test',
+                    '_onDelete' => 'NO ACTION',
+                    '_onUpdate' => 'NO ACTION'
+			    ]
+            ),
+		];
 
 		$describeReferences = $connection->describeReferences('robots_parts');
 		$this->assertEquals($describeReferences, $expectedReferences);
@@ -726,7 +738,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
 		//List tables
-		$expectedTables = array (
+		$expectedTables = [
 			'COMPANY',
 			'customers',
 			'm2m_parts',
@@ -743,7 +755,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'subscriptores',
 			'table_with_string_field',
 			'tipo_documento',
-		);
+		];
 
 		$tables = $connection->listTables();
 
@@ -767,22 +779,22 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describe, $expectedDescribe);
 
 		//Indexes
-		$expectedIndexes = array(
-			'sqlite_autoindex_COMPANY_1' => Phalcon\Db\Index::__set_state(array(
+		$expectedIndexes = [
+			'sqlite_autoindex_COMPANY_1' => Phalcon\Db\Index::__set_state([
 				'_name' => 'sqlite_autoindex_COMPANY_1',
-				'_columns' => array('ID'),
+				'_columns' => ['ID'],
 				'_type' => 'PRIMARY'
-			)),
-			'salary_index' => Phalcon\Db\Index::__set_state(array(
+			]),
+			'salary_index' => Phalcon\Db\Index::__set_state([
 				'_name' => 'salary_index',
-				'_columns' => array('SALARY')
-			)),
-			'name_index' => Phalcon\Db\Index::__set_state(array(
+				'_columns' => ['SALARY']
+			]),
+			'name_index' => Phalcon\Db\Index::__set_state([
 				'_name' => 'name_index',
-				'_columns' => array('NAME'),
+				'_columns' => ['NAME'],
 				'_type' => 'UNIQUE'
-			))
-		);
+			])
+		];
 
 		$describeIndexes = $connection->describeIndexes('COMPANY');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
@@ -791,22 +803,26 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
-		$expectedReferences = array(
-		   'foreign_key_0' => Phalcon\Db\Reference::__set_state(array(
-				'_referenceName' => 'foreign_key_0',
-				'_referencedTable' => 'parts',
-				'_columns' => array('parts_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => null,
-			)),
-			'foreign_key_1' => Phalcon\Db\Reference::__set_state(array(
-				'_referenceName' => 'foreign_key_1',
-				'_referencedTable' => 'robots',
-				'_columns' => array('robots_id'),
-				'_referencedColumns' => array('id'),
-				'_referencedSchema' => null
-			)),
-		);
+		$expectedReferences = [
+            'foreign_key_0' => Phalcon\Db\Reference::__set_state(
+                [
+                    '_referenceName' => 'foreign_key_0',
+                    '_referencedTable' => 'parts',
+                    '_columns' => ['parts_id'],
+                    '_referencedColumns' => ['id'],
+                    '_referencedSchema' => null,
+                ]
+            ),
+            'foreign_key_1' => Phalcon\Db\Reference::__set_state(
+                [
+                    '_referenceName' => 'foreign_key_1',
+                    '_referencedTable' => 'robots',
+                    '_columns' => ['robots_id'],
+                    '_referencedColumns' => ['id'],
+                    '_referencedSchema' => null
+                ]
+            ),
+		];
 
 		$describeReferences = $connection->describeReferences('robots_parts');
 		$this->assertEquals($describeReferences, $expectedReferences);
