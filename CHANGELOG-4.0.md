@@ -10,6 +10,7 @@
 - Removed deprecated methods (`Cli\Console::addModules()`, `Debug::getMajorVersion()`, `Http\Request::isSoapRequested()`, `Http\Request::isSecureRequest()`, `Mvc\Model\Criteria::addWhere()`, `Mvc\Model\Criteria::order()`, `Validation\Validator::isSetOption()`, `Security::hasLibreSsl()`, `Security::getSslVersionNumber()`).
 - Renamed `Http\RequestInterface::isSoapRequested()` to `isSoap()` and `Http\RequestInterface::isSecureRequest()` to `isSecure()`.
 - Moved `Model::save()`, `Model::create()`, `Model::update()` and `Model::delete()` to Models Manager.
+- Moved `Model::refresh()` to Models Manager.
 - Added `ModelInterface::isSkipped()`.
 - Added `ModelInterface::clearMessages()`.
 - Added `ModelInterface::cancelOperation()` (was previously protected in Model).

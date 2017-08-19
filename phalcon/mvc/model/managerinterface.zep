@@ -254,6 +254,11 @@ interface ManagerInterface
 	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean;
 
 	/**
+	 * Refreshes the model attributes re-querying the record from the database
+	 */
+	public function refresh(<ModelInterface> model) -> <ModelInterface>;
+
+	/**
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 */
 	public function save(<ModelInterface> model) -> boolean;

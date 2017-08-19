@@ -293,7 +293,7 @@ class SnapshotTest extends UnitTest
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->getSnapshotData())->equals($robots->toArray());
 
-                expect($robots->refresh())->isInstanceOf(Robots::class);
+                expect($modelsManager->refresh($robots))->isInstanceOf(Robots::class);
                 expect($robots->type)->equals('mechanical');
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->getSnapshotData())->equals($robots->toArray());
