@@ -136,6 +136,7 @@ install:
     - 'vendor\bin\zephir help'
 
 build_script:
+    - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %vcvar_arg%'
     - 'vendor\bin\zephir generate -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
     - 'php build\gen-build.php'
     - 'cd build\php%PHP_MAJOR%\safe'
