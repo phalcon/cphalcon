@@ -1767,7 +1767,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			/**
 			 * We need to check if the record exists
 			 */
-			if !model->exists(metaData, readConnection, table) {
+			if !this->exists(model, metaData, readConnection, table) {
 				throw new Exception("The record cannot be refreshed because it does not exist or is deleted");
 			}
 
@@ -1811,6 +1811,158 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		return model;
+	}
+
+	/**
+	 * Checks whether a model instance already exists
+	 *
+	 * @param \Phalcon\Mvc\Model\MetaDataInterface metaData
+	 * @param \Phalcon\Db\AdapterInterface connection
+	 * @param string|array table
+	 * @return boolean
+	 */
+	public function exists(<ModelInterface> model, <MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
+	{
+		int numberEmpty, numberPrimary;
+		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
+			wherePk, field, attributeField, value, bindDataTypes,
+			joinWhere, num, type, schema, source;
+
+		let uniqueParams = null,
+			uniqueTypes = null;
+
+		/**
+		 * Builds a unique primary key condition
+		 */
+		let uniqueKey = model->getUniqueKey();
+		if uniqueKey === null {
+
+			let primaryKeys = metaData->getPrimaryKeyAttributes(model),
+				bindDataTypes = metaData->getBindTypes(model);
+
+			let numberPrimary = count(primaryKeys);
+			if !numberPrimary {
+				return false;
+			}
+
+			/**
+			 * Check if column renaming is globally activated
+			 */
+			if globals_get("orm.column_renaming") {
+				let columnMap = metaData->getColumnMap(model);
+			} else {
+				let columnMap = null;
+			}
+
+			let numberEmpty = 0,
+				wherePk = [],
+				uniqueParams = [],
+				uniqueTypes = [];
+
+			/**
+			 * We need to create a primary key based on the current data
+			 */
+			for field in primaryKeys {
+
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				/**
+				 * If the primary key attribute is set append it to the conditions
+				 */
+				let value = null;
+				if fetch value, model->{attributeField} {
+
+					/**
+					 * We count how many fields are empty, if all fields are empty we don't perform an 'exist' check
+					 */
+					if value === null || value === "" {
+						let numberEmpty++;
+					}
+					let uniqueParams[] = value;
+
+				} else {
+					let uniqueParams[] = null,
+						numberEmpty++;
+				}
+
+				if !fetch type, bindDataTypes[field] {
+					throw new Exception("Column '" . field . "' isn't part of the table columns");
+				}
+
+				let uniqueTypes[] = type,
+					wherePk[] = connection->escapeIdentifier(field) . " = ?";
+			}
+
+			/**
+			 * There are no primary key fields defined, assume the record does not exist
+			 */
+			if numberPrimary == numberEmpty {
+				return false;
+			}
+
+			let joinWhere = join(" AND ", wherePk);
+
+			/**
+			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
+			 */
+			model->setUniqueKey(joinWhere);
+			model->setUniqueParams(uniqueParams);
+			model->setUniqueTypes(uniqueTypes);
+			let uniqueKey = joinWhere;
+		}
+
+		/**
+		 * If we already know if the record exists we don't check it
+		 */
+		if !model->getDirtyState() {
+			return true;
+		}
+
+		if uniqueKey === null {
+			let uniqueKey = model->getUniqueKey();
+		}
+
+		if uniqueParams === null {
+			let uniqueParams = model->getUniqueParams();
+		}
+
+		if uniqueTypes === null {
+			let uniqueTypes = model->getUniqueTypes();
+		}
+
+		let schema = model->getSchema(),
+			source = model->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Here we use a single COUNT(*) without PHQL to make the execution faster
+		 */
+		let num = connection->fetchOne(
+			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
+			null,
+			uniqueParams,
+			uniqueTypes
+		);
+
+		if num["rowcount"] {
+			model->setDirtyState(Model::DIRTY_STATE_PERSISTENT);
+			return true;
+		} else {
+			model->setDirtyState(Model::DIRTY_STATE_TRANSIENT);
+		}
+
+		return false;
 	}
 
 	/**
@@ -1878,7 +2030,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * We need to check if the record exists
 		 */
-		let exists = model->exists(metaData, readConnection, table);
+		let exists = this->exists(model, metaData, readConnection, table);
 
 		if exists {
 			model->setOperationMade(Model::OP_UPDATE);
@@ -2692,7 +2844,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Get the current connection
 		 * If the record already exists we must throw an exception
 		 */
-		if model->exists(metaData, model->getReadConnection()) {
+		if this->exists(model, metaData, model->getReadConnection()) {
 			model->clearMessages();
 
 			model->appendMessage(
@@ -2732,7 +2884,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
 			let metaData = model->getModelsMetaData();
 
-			if !model->exists(metaData, model->getReadConnection()) {
+			if !this->exists(model, metaData, model->getReadConnection()) {
 				model->clearMessages();
 
 				model->appendMessage(

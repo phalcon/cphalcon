@@ -259,6 +259,13 @@ interface ManagerInterface
 	public function refresh(<ModelInterface> model) -> <ModelInterface>;
 
 	/**
+	 * Checks whether a model instance already exists
+	 *
+	 * @param string|array table
+	 */
+	public function exists(<ModelInterface> model, <MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean;
+
+	/**
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 */
 	public function save(<ModelInterface> model) -> boolean;

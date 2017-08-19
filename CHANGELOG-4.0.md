@@ -16,4 +16,5 @@
 - Added `ModelInterface::cancelOperation()` (was previously protected in Model).
 - Added `ModelInterface::setOperationMade()`.
 - Added `ModelInterface::exists()` (was previously protected in Model).
-- Added `ModelInterface::updateSnapshot()`, `ModelInterface::getUniqueKey()`, `ModelInterface::getUniqueParams()`, `ModelInterface::getUniqueTypes()`, `ModelInterface::resetUniqueParams()`.
+- Added `ModelInterface::updateSnapshot()`, `ModelInterface::{get,set}UniqueKey()`, `ModelInterface::{get,set}UniqueParams()`, `ModelInterface::{get,set}UniqueTypes()`, `ModelInterface::resetUniqueParams()`.
+- Moved `Model::exists()` to Models Manager.

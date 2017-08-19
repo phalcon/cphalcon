@@ -142,13 +142,6 @@ interface ModelInterface
 	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>;
 
 	/**
-	 * Checks whether the current record already exists
-	 *
-	 * @param string|array table
-	 */
-	public function exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean;
-
-	/**
 	 * Allows to count how many records match the specified conditions
 	 *
 	 * @param array parameters
@@ -224,9 +217,15 @@ interface ModelInterface
 	 */
 	public function getMessages() -> <MessageInterface[]>;
 
+	public function setUniqueKey(uniqueKey);
+
 	public function getUniqueKey();
 
+	public function setUniqueParams(uniqueParams);
+
 	public function getUniqueParams();
+
+	public function setUniqueTypes(uniqueTypes);
 
 	public function getUniqueTypes();
 

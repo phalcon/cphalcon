@@ -987,152 +987,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Checks whether the current record already exists
-	 *
-	 * @param string|array table
-	 */
-	public function exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> boolean
-	{
-		int numberEmpty, numberPrimary;
-		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
-			wherePk, field, attributeField, value, bindDataTypes,
-			joinWhere, num, type, schema, source;
-
-		let uniqueParams = null,
-			uniqueTypes = null;
-
-		/**
-		 * Builds a unique primary key condition
-		 */
-		let uniqueKey = this->_uniqueKey;
-		if uniqueKey === null {
-
-			let primaryKeys = metaData->getPrimaryKeyAttributes(this),
-				bindDataTypes = metaData->getBindTypes(this);
-
-			let numberPrimary = count(primaryKeys);
-			if !numberPrimary {
-				return false;
-			}
-
-			/**
-			 * Check if column renaming is globally activated
-			 */
-			if globals_get("orm.column_renaming") {
-				let columnMap = metaData->getColumnMap(this);
-			} else {
-				let columnMap = null;
-			}
-
-			let numberEmpty = 0,
-				wherePk = [],
-				uniqueParams = [],
-				uniqueTypes = [];
-
-			/**
-			 * We need to create a primary key based on the current data
-			 */
-			for field in primaryKeys {
-
-				if typeof columnMap == "array" {
-					if !fetch attributeField, columnMap[field] {
-						throw new Exception("Column '" . field . "' isn't part of the column map");
-					}
-				} else {
-					let attributeField = field;
-				}
-
-				/**
-				 * If the primary key attribute is set append it to the conditions
-				 */
-				let value = null;
-				if fetch value, this->{attributeField} {
-
-					/**
-					 * We count how many fields are empty, if all fields are empty we don't perform an 'exist' check
-					 */
-					if value === null || value === "" {
-						let numberEmpty++;
-					}
-					let uniqueParams[] = value;
-
-				} else {
-					let uniqueParams[] = null,
-						numberEmpty++;
-				}
-
-				if !fetch type, bindDataTypes[field] {
-					throw new Exception("Column '" . field . "' isn't part of the table columns");
-				}
-
-				let uniqueTypes[] = type,
-					wherePk[] = connection->escapeIdentifier(field) . " = ?";
-			}
-
-			/**
-			 * There are no primary key fields defined, assume the record does not exist
-			 */
-			if numberPrimary == numberEmpty {
-				return false;
-			}
-
-			let joinWhere = join(" AND ", wherePk);
-
-			/**
-			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
-			 */
-			let this->_uniqueKey = joinWhere,
-				this->_uniqueParams = uniqueParams,
-				this->_uniqueTypes = uniqueTypes,
-				uniqueKey = joinWhere;
-		}
-
-		/**
-		 * If we already know if the record exists we don't check it
-		 */
-		if !this->_dirtyState {
-			return true;
-		}
-
-		if uniqueKey === null {
-			let uniqueKey = this->_uniqueKey;
-		}
-
-		if uniqueParams === null {
-			let uniqueParams = this->_uniqueParams;
-		}
-
-		if uniqueTypes === null {
-			let uniqueTypes = this->_uniqueTypes;
-		}
-
-		let schema = this->getSchema(), source = this->getSource();
-		if schema {
-			let table = [schema, source];
-		} else {
-			let table = source;
-		}
-
-		/**
-		 * Here we use a single COUNT(*) without PHQL to make the execution faster
-		 */
-		let num = connection->fetchOne(
-			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
-			null,
-			uniqueParams,
-			uniqueTypes
-		);
-		if num["rowcount"] {
-			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
-			return true;
-		} else {
-			let this->_dirtyState = self::DIRTY_STATE_TRANSIENT;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Generate a PHQL SELECT statement for an aggregate
 	 *
 	 * @param array parameters
@@ -1605,14 +1459,29 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let this->_oldSnapshot = oldSnapshot;
 	}
 
+	public function setUniqueKey(uniqueKey)
+	{
+		let this->_uniqueKey = uniqueKey;
+	}
+
 	public function getUniqueKey()
 	{
 		return this->_uniqueKey;
 	}
 
+	public function setUniqueParams(uniqueParams)
+	{
+		let this->_uniqueParams = uniqueParams;
+	}
+
 	public function getUniqueParams()
 	{
 		return this->_uniqueParams;
+	}
+
+	public function setUniqueTypes(uniqueTypes)
+	{
+		let this->_uniqueTypes = uniqueTypes;
 	}
 
 	public function getUniqueTypes()
