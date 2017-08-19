@@ -91,7 +91,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _modelsMetaData;
 
-	protected _errorMessages;
+	protected _errorMessages = [];
 
 	protected _operationMade = 0;
 
@@ -1619,12 +1619,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function validationHasFailed() -> boolean
 	{
-		var errorMessages;
-		let errorMessages = this->_errorMessages;
-		if typeof errorMessages == "array" {
-			return count(errorMessages) > 0;
-		}
-		return false;
+		return count(this->_errorMessages) > 0;
 	}
 
 	/**
