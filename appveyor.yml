@@ -16,7 +16,7 @@ build: off
 environment:
     matrix:
         - PHP_TARGET: 7.0
-          PHP_VC: 11
+          PHP_VC: 14
           PHP_MAJOR: 7
     PHP_SDK: c:\projects\php-sdk
     PHP_DEVPACK: c:\projects\php-devpack
@@ -88,7 +88,7 @@ install:
     # ==================================================
     - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
     - 7z.exe x php-dev.zip | FIND /V "ing  "
-    - mv php-%PHP_VERSION%-devel-VC11-%PLATFORM% php-devpack
+    - mv php-%PHP_VERSION%-devel-VC%PHP_VC%-%PLATFORM% php-devpack
     # ==================================================
     - echo Enable Zephir Parser
     # ==================================================
@@ -118,10 +118,10 @@ install:
     - echo Setting up the php_imagick
     # ==================================================
     - mkdir c:\ImageMagick && cd c:\ImageMagick
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/deps/ImageMagick-6.9.3-7-vc11-x86.zip', 'c:\ImageMagick\ImageMagick.zip')
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/deps/ImageMagick-6.9.3-7-vc' + ${env:PHP_VC} + '-x86.zip', 'c:\ImageMagick\ImageMagick.zip')
     - 7z.exe x ImageMagick.zip | FIND /V "ing  "
     - mkdir c:\php_imagick && cd c:\php_imagick
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3rc1/php_imagick-3.4.3rc1-5.6-ts-vc11-x86.zip', 'c:\php_imagick\php_imagick.zip')
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3rc4/php_imagick-3.4.3rc4-' + ${env:PHP_TARGET} + '-ts-vc' + ${env:PHP_VC} + '-x86.zip', 'c:\php_imagick\php_imagick.zip')
     - 7z.exe x php_imagick.zip | FIND /V "ing  "
     # ==================================================
     - echo Download tests dependencies...
