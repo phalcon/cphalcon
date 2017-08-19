@@ -3841,7 +3841,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let snapshot = data;
 		}
 
-		let this->_oldSnapshot = snapshot;
+		if typeof this->_snapshot == "array" {
+			let this->_oldSnapshot = this->_snapshot;
+		}
+
 		let this->_snapshot = snapshot;
 	}
 
