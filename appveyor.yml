@@ -3,7 +3,7 @@
 #---------------------------------#
 
 # version format
-version: 3.2.2-{build}
+version: 4.0.0-{build}
 
 # to disable automatic builds
 build: off
@@ -15,9 +15,9 @@ build: off
 # environment variables
 environment:
     matrix:
-        - PHP_TARGET: 5.6
+        - PHP_TARGET: 7.0
           PHP_VC: 11
-          PHP_MAJOR: 5
+          PHP_MAJOR: 7
     PHP_SDK: c:\projects\php-sdk
     PHP_DEVPACK: c:\projects\php-devpack
 
