@@ -9,7 +9,7 @@
         "mvc"
     ],
     "require": {
-        "php": ">=5.5"
+        "php": ">=7.0"
     },
     "require-dev": {
         "ext-dom": "*",
@@ -45,7 +45,6 @@
         "psr-4": {
             "Zephir\\Optimizers\\": "optimizers/",
             "Phalcon\\Test\\Unit\\": "tests/unit/",
-            "Phalcon\\Test\\Unit5x\\": "tests/unit5x/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/",
             "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
