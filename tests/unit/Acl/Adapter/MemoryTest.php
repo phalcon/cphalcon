@@ -653,7 +653,7 @@ class MemoryTest extends UnitTest
             },
             [
                 'throws' => [
-                    PHPUnit_Framework_Exception::class,
+                    \PHPUnit\Framework\Exception::class,
                     "You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments."
                 ]
             ]

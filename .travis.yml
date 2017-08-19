@@ -8,8 +8,6 @@ sudo: false
 # sudo: required
 
 php:
-  - 5.5
-  - 5.6
   - 7.0
   - 7.1
 
@@ -112,13 +110,12 @@ before_script:
 
 script:
   - vendor/bin/phpcs
-  - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
-  # Legacy tests
-  - phpenv config-rm xdebug.ini
-  - if [[ "$PHP_MAJOR" == 5 ]]; then vendor/bin/codecept run -v -n tests/unit5x/; fi;
+
+  # FIXME: These tets need to be refactored
+  # - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
 
 # Uncomment for debug
 # after_failure:

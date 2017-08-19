@@ -3,7 +3,7 @@
 #---------------------------------#
 
 # version format
-version: 3.2.2-{build}
+version: 4.0.0-{build}
 
 # to disable automatic builds
 build: off
@@ -15,9 +15,9 @@ build: off
 # environment variables
 environment:
     matrix:
-        - PHP_TARGET: 5.6
-          PHP_VC: 11
-          PHP_MAJOR: 5
+        - PHP_TARGET: 7.0
+          PHP_VC: 14
+          PHP_MAJOR: 7
     PHP_SDK: c:\projects\php-sdk
     PHP_DEVPACK: c:\projects\php-devpack
 
@@ -88,7 +88,7 @@ install:
     # ==================================================
     - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
     - 7z.exe x php-dev.zip | FIND /V "ing  "
-    - mv php-%PHP_VERSION%-devel-VC11-%PLATFORM% php-devpack
+    - mv php-%PHP_VERSION%-devel-VC%PHP_VC%-%PLATFORM% php-devpack
     # ==================================================
     - echo Enable Zephir Parser
     # ==================================================
@@ -118,10 +118,10 @@ install:
     - echo Setting up the php_imagick
     # ==================================================
     - mkdir c:\ImageMagick && cd c:\ImageMagick
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/deps/ImageMagick-6.9.3-7-vc11-x86.zip', 'c:\ImageMagick\ImageMagick.zip')
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/deps/ImageMagick-6.9.3-7-vc' + ${env:PHP_VC} + '-x86.zip', 'c:\ImageMagick\ImageMagick.zip')
     - 7z.exe x ImageMagick.zip | FIND /V "ing  "
     - mkdir c:\php_imagick && cd c:\php_imagick
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3rc1/php_imagick-3.4.3rc1-5.6-ts-vc11-x86.zip', 'c:\php_imagick\php_imagick.zip')
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/pecl/releases/imagick/3.4.3rc4/php_imagick-3.4.3rc4-' + ${env:PHP_TARGET} + '-ts-vc' + ${env:PHP_VC} + '-x86.zip', 'c:\php_imagick\php_imagick.zip')
     - 7z.exe x php_imagick.zip | FIND /V "ing  "
     # ==================================================
     - echo Download tests dependencies...
@@ -136,6 +136,7 @@ install:
     - 'vendor\bin\zephir help'
 
 build_script:
+    - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %vcvar_arg%'
     - 'vendor\bin\zephir generate -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
     - 'php build\gen-build.php'
     - 'cd build\php%PHP_MAJOR%\safe'
