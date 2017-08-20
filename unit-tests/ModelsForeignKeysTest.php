@@ -117,6 +117,9 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 	{
 		$modelsManager = $di->get("modelsManager");
 
+        $robotsRepository = $modelsManager->getRepository(Robots::class);
+        $partsRepository = $modelsManager->getRepository(Parts::class);
+
 		//Normal foreign keys
 		$robotsParts = new RobotsParts();
 		$robotsParts->robots_id = 1;
@@ -152,7 +155,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		//Reverse foreign keys
 
-		$robot = Robots::findFirst();
+		$robot = $robotsRepository->findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$this->assertFalse($modelsManager->delete($robot));
@@ -168,7 +171,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($robot->getMessages(), $messages);
 
-		$part = Parts::findFirst();
+		$part = $partsRepository->findFirst();
 		$this->assertNotEquals($part, false);
 
 		$this->assertFalse($modelsManager->delete($part));
@@ -189,6 +192,9 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 	public function _executeTestsRenamed($di)
 	{
 		$modelsManager = $di->get("modelsManager");
+
+        $robottersRepository = $modelsManager->getRepository(Robotters::class);
+        $delesRepository = $modelsManager->getRepository(Deles::class);
 
 		//Normal foreign keys with column renaming
 		$robottersDeles = new RobottersDeles();
@@ -223,7 +229,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($robottersDeles->getMessages(), $messages);
 
 		//Reverse foreign keys with renaming
-		$robotter = Robotters::findFirst();
+		$robotter = $robottersRepository->findFirst();
 		$this->assertNotEquals($robotter, false);
 
 		$this->assertFalse($modelsManager->delete($robotter));
@@ -239,7 +245,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($robotter->getMessages(), $messages);
 
-		$dele = Deles::findFirst();
+		$dele = $delesRepository->findFirst();
 		$this->assertNotEquals($dele, false);
 
 		$this->assertFalse($modelsManager->delete($dele));

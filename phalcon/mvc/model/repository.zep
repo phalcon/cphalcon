@@ -46,20 +46,22 @@ class Repository implements RepositoryInterface
 	 * Query for a set of records that match the specified conditions
 	 *
 	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
 	 * // How many robots are there?
-	 * $robots = Robots::find();
+	 * $robots = $robotsRepository->find();
 	 *
 	 * echo "There are ", count($robots), "\n";
 	 *
 	 * // How many mechanical robots are there?
-	 * $robots = Robots::find(
+	 * $robots = $robotsRepository->find(
 	 *     "type = 'mechanical'"
 	 * );
 	 *
 	 * echo "There are ", count($robots), "\n";
 	 *
 	 * // Get and print virtual robots ordered by name
-	 * $robots = Robots::find(
+	 * $robots = $robotsRepository->find(
 	 *     [
 	 *         "type = 'virtual'",
 	 *         "order" => "name",
@@ -71,7 +73,7 @@ class Repository implements RepositoryInterface
 	 * }
 	 *
 	 * // Get first 100 virtual robots ordered by name
-	 * $robots = Robots::find(
+	 * $robots = $robotsRepository->find(
 	 *     [
 	 *         "type = 'virtual'",
 	 *         "order" => "name",
@@ -150,20 +152,22 @@ class Repository implements RepositoryInterface
 	 * Query the first record that matches the specified conditions
 	 *
 	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
 	 * // What's the first robot in robots table?
-	 * $robot = Robots::findFirst();
+	 * $robot = $robotsRepository->findFirst();
 	 *
 	 * echo "The robot name is ", $robot->name;
 	 *
 	 * // What's the first mechanical robot in robots table?
-	 * $robot = Robots::findFirst(
+	 * $robot = $robotsRepository->findFirst(
 	 *     "type = 'mechanical'"
 	 * );
 	 *
 	 * echo "The first mechanical robot name is ", $robot->name;
 	 *
 	 * // Get first virtual robot ordered by name
-	 * $robot = Robots::findFirst(
+	 * $robot = $robotsRepository->findFirst(
 	 *     [
 	 *         "type = 'virtual'",
 	 *         "order" => "name",

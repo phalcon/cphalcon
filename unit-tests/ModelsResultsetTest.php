@@ -70,7 +70,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		}, true);
 
-		return true;
+		return $di;
 	}
 
 	protected function _prepareTestPostgresql()
@@ -87,7 +87,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		}, true);
 
-		return true;
+		return $di;
 	}
 
 	protected function _prepareTestSqlite()
@@ -104,17 +104,23 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		}, true);
 
-		return true;
+		return $di;
 	}
 
 	public function testResultsetNormalMysql()
 	{
-		if (!$this->_prepareTestMysql()) {
+		$di = $this->_prepareTestMysql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$robots = Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array(
 			'order' => 'id'
 		));
 
@@ -123,7 +129,9 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetBindingMysql()
 	{
-		if (!$this->_prepareTestMysql()) {
+		$di = $this->_prepareTestMysql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
@@ -131,7 +139,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$initialId = 0;
 		$finalId = 4;
 
-		$robots = Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array(
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => $initialId, 'id2' => $finalId),
 			'order' => 'id'
@@ -142,19 +154,27 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetNormalPostgresql()
 	{
-		if (!$this->_prepareTestPostgresql()) {
+		$di = $this->_prepareTestPostgresql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$robots = Robots::find(array('order' => 'id'));
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array('order' => 'id'));
 
 		$this->_applyTests($robots);
 	}
 
 	public function testResultsetBindingPostgresql()
 	{
-		if (!$this->_prepareTestPostgresql()) {
+		$di = $this->_prepareTestPostgresql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
@@ -162,7 +182,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$initialId = 0;
 		$finalId = 4;
 
-		$robots = Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array(
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => $initialId, 'id2' => $finalId),
 			'order' => 'id'
@@ -173,19 +197,27 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetNormalSqlite()
 	{
-		if (!$this->_prepareTestSqlite()) {
+		$di = $this->_prepareTestSqlite();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$robots = Robots::find(array('order' => 'id'));
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array('order' => 'id'));
 
 		$this->_applyTests($robots);
 	}
 
 	public function testResultsetBindingSqlite()
 	{
-		if (!$this->_prepareTestSqlite()) {
+		$di = $this->_prepareTestSqlite();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
@@ -193,7 +225,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$initialId = 0;
 		$finalId = 4;
 
-		$robots = Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array(
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => $initialId, 'id2' => $finalId),
 			'order' => 'id'
@@ -310,9 +346,13 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->_prepareTestMysql();
+		$di = $this->_prepareTestMysql();
 
-		$data = serialize(Robots::find(array('order' => 'id')));
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$data = serialize($robotsRepository->find(array('order' => 'id')));
 
 		$robots = unserialize($data);
 
@@ -324,7 +364,9 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBindingsMysql()
 	{
-		if (!$this->_prepareTestMysql()) {
+		$di = $this->_prepareTestMysql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
@@ -332,7 +374,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$initialId = 0;
 		$finalId = 4;
 
-		$data = serialize(Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$data = serialize($robotsRepository->find(array(
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => $initialId, 'id2' => $finalId),
 			'order' => 'id'
@@ -348,12 +394,18 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeNormalPostgresql()
 	{
-		if (!$this->_prepareTestPostgresql()) {
+		$di = $this->_prepareTestPostgresql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$data = serialize(Robots::find(array('order' => 'id')));
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$data = serialize($robotsRepository->find(array('order' => 'id')));
 
 		$robots = unserialize($data);
 
@@ -365,7 +417,9 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBindingsPostgresql()
 	{
-		if (!$this->_prepareTestPostgresql()) {
+		$di = $this->_prepareTestPostgresql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
@@ -373,7 +427,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$initialId = 0;
 		$finalId = 4;
 
-		$data = serialize(Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$data = serialize($robotsRepository->find(array(
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => $initialId, 'id2' => $finalId),
 			'order' => 'id'
@@ -389,12 +447,18 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeNormalSqlite()
 	{
-		if (!$this->_prepareTestSqlite()) {
+		$di = $this->_prepareTestSqlite();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$data = serialize(Robots::find(array('order' => 'id')));
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$data = serialize($robotsRepository->find(array('order' => 'id')));
 
 		$robots = unserialize($data);
 
@@ -406,7 +470,9 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBindingsSqlite()
 	{
-		if (!$this->_prepareTestSqlite()) {
+		$di = $this->_prepareTestSqlite();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
@@ -414,7 +480,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$initialId = 0;
 		$finalId = 4;
 
-		$data = serialize(Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$data = serialize($robotsRepository->find(array(
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => $initialId, 'id2' => $finalId),
 			'order' => 'id'
@@ -430,12 +500,18 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBigMysql()
 	{
-		if (!$this->_prepareTestMysql()) {
+		$di = $this->_prepareTestMysql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$data = serialize(Personas::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$personasRepository = $modelsManager->getRepository(Personas::class);
+
+		$data = serialize($personasRepository->find(array(
 			'limit' => 33
 		)));
 
@@ -449,12 +525,18 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBigPostgresql()
 	{
-		if (!$this->_prepareTestPostgresql()) {
+		$di = $this->_prepareTestPostgresql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$data = serialize(Personas::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$personasRepository = $modelsManager->getRepository(Personas::class);
+
+		$data = serialize($personasRepository->find(array(
 			'limit' => 33
 		)));
 
@@ -468,12 +550,18 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBigSqlite()
 	{
-		if (!$this->_prepareTestSqlite()) {
+		$di = $this->_prepareTestSqlite();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$data = serialize(Personas::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$personasRepository = $modelsManager->getRepository(Personas::class);
+
+		$data = serialize($personasRepository->find(array(
 			'limit' => 33
 		)));
 
@@ -487,12 +575,18 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetNormalZero()
 	{
-		if (!$this->_prepareTestMysql()) {
+		$di = $this->_prepareTestMysql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
-		$robots = Robots::find('id > 1000');
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find('id > 1000');
 
 		$this->assertEquals(count($robots), 0);
 		$this->assertEquals($robots->count(), 0);
@@ -545,15 +639,21 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	
 	public function testResultsetAppendIterator()
 	{
-		if (!$this->_prepareTestMysql()) {
+		$di = $this->_prepareTestMysql();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 		
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
 		// see http://php.net/manual/en/appenditerator.construct.php
 		$iterator = new \AppendIterator();
-		$robots_first = Robots::find(array('limit' => 2));
-		$robots_second = Robots::find(array('limit' => 1, 'offset' => 2));
+		$robots_first = $robotsRepository->find(array('limit' => 2));
+		$robots_second = $robotsRepository->find(array('limit' => 1, 'offset' => 2));
 		
 		$robots_first_0 = $robots_first[0];
 		$robots_first_1 = $robots_first[1];
@@ -587,14 +687,21 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($iterator->valid());
 	}
 	
-	public function testBigResultsetIteration() {
-		if (!$this->_prepareTestSqlite()) {
+	public function testBigResultsetIteration()
+	{
+		$di = $this->_prepareTestSqlite();
+
+		if (!$di) {
 			$this->markTestSkipped("Skipped");
 			return;
 		}
 
+		$modelsManager = $di->get("modelsManager");
+
+		$personasRepository = $modelsManager->getRepository(Personas::class);
+
 		// Resultsets count > 25 use fetch for one row at a time
-		$personas = Personas::find(array(
+		$personas = $personasRepository->find(array(
 			'limit' => 33
 		));
 		

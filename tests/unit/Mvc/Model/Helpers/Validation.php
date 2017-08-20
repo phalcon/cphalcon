@@ -215,7 +215,11 @@ class Validation
      */
     protected function uniqueness2(UnitTester $I)
     {
-        $model = Subscriptores::findFirst();
+        $modelsManager = $I->grabServiceFromContainer("modelsManager");
+
+        $subscriptoresRepository = $modelsManager->getRepository(Subscriptores::class);
+
+        $model = $subscriptoresRepository->findFirst();
 
         $modelsManager = $model->getModelsManager();
 

@@ -98,7 +98,9 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 	{
 		$modelsManager = $di->get("modelsManager");
 
-		$persona = Dynamic\Personas::findFirst();
+        $dynamicPersonasRepository = $modelsManager->getRepository(Dynamic\Personas::class);
+
+		$persona = $dynamicPersonasRepository->findFirst();
 		$this->assertTrue($modelsManager->save($persona));
 
 		$this->assertEquals(count($tracer), 3);
@@ -121,7 +123,9 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 	{
 		$modelsManager = $di->get("modelsManager");
 
-		$personer = Dynamic\Personers::findFirst();
+        $dynamicPersonersRepository = $modelsManager->getRepository(Dynamic\Personers::class);
+
+		$personer = $dynamicPersonersRepository->findFirst();
 		$this->assertTrue($modelsManager->save($personer));
 
 		$this->assertEquals(count($tracer), 3);

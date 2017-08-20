@@ -82,7 +82,9 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 
 		$modelsManager = $di->get("modelsManager");
 
-		$robot = Store\Robots::findFirst();
+        $storeRobotsRepository = $modelsManager->getRepository(Store\Robots::class);
+
+		$robot = $storeRobotsRepository->findFirst();
 		$this->assertTrue(is_object($robot));
 		$this->assertTrue($modelsManager->save($robot));
 

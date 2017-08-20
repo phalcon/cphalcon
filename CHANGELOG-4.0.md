@@ -18,3 +18,4 @@
 - Added `ModelInterface::exists()` (was previously protected in Model).
 - Added `ModelInterface::updateSnapshot()`, `ModelInterface::{get,set}UniqueKey()`, `ModelInterface::{get,set}UniqueParams()`, `ModelInterface::{get,set}UniqueTypes()`, `ModelInterface::resetUniqueParams()`.
 - Moved `Model::exists()` to Models Manager.
+- Moved `Model::find()` and `Model::findFirst()` to Model Repository.

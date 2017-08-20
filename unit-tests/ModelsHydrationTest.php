@@ -128,9 +128,14 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 	protected function _executeTestsNormal($di)
 	{
 
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+		$peopleRepository = $modelsManager->getRepository(People::class);
+
 		$number = 0;
 
-		$robots = Robots::find();
+		$robots = $robotsRepository->find();
 
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_object($robot));
@@ -163,7 +168,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$number = 0;
 
-		$people = People::find(array('limit' => 33));
+		$people = $peopleRepository->find(array('limit' => 33));
 
 		foreach ($people as $person) {
 			$this->assertTrue(is_object($person));
@@ -200,7 +205,12 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$number = 0;
 
-		$robots = Robotters::find();
+		$modelsManager = $di->get("modelsManager");
+
+		$robottersRepository = $modelsManager->getRepository(Robotters::class);
+		$personersRepository = $modelsManager->getRepository(Personers::class);
+
+		$robots = $robottersRepository->find();
 
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_object($robot));
@@ -233,7 +243,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$number = 0;
 
-		$people = Personers::find(array('limit' => 33));
+		$people = $personersRepository->find(array('limit' => 33));
 
 		foreach ($people as $person) {
 			$this->assertTrue(is_object($person));
@@ -344,9 +354,14 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 	{
 		Phalcon\Mvc\Model::setup(['castOnHydrate' => true]);
 
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+		$peopleRepository = $modelsManager->getRepository(People::class);
+
 		$number = 0;
 
-		$robots = Robots::find();
+		$robots = $robotsRepository->find();
 
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_object($robot));
@@ -379,7 +394,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$number = 0;
 
-		$people = People::find(array('limit' => 33));
+		$people = $peopleRepository->find(array('limit' => 33));
 
 		foreach ($people as $person) {
 			$this->assertTrue(is_object($person));
@@ -416,9 +431,14 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 	{
 		Phalcon\Mvc\Model::setup(['castOnHydrate' => true]);
 
+		$modelsManager = $di->get("modelsManager");
+
+		$robottersRepository = $modelsManager->getRepository(Robotters::class);
+		$personersRepository = $modelsManager->getRepository(Personers::class);
+
 		$number = 0;
 
-		$robots = Robotters::find();
+		$robots = $robottersRepository->find();
 
 		foreach ($robots as $robot) {
 			$this->assertTrue(is_object($robot));
@@ -451,7 +471,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$number = 0;
 
-		$people = Personers::find(array('limit' => 33));
+		$people = $personersRepository->find(array('limit' => 33));
 
 		foreach ($people as $person) {
 			$this->assertTrue(is_object($person));

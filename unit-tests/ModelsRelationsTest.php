@@ -75,7 +75,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_testIssue938($di);
-		$this->_testIssue11042();
+		$this->_testIssue11042($di);
 	}
 
 	public function testModelsPostgresql()
@@ -95,7 +95,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
-		$this->_testIssue11042();
+		$this->_testIssue11042($di);
 
 	}
 
@@ -117,13 +117,18 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
 		$this->_testIssue938($di);
-		$this->_testIssue11042();
+		$this->_testIssue11042($di);
 	}
 
 	public function _executeTestsNormal($di)
 	{
 
 		$manager = $di->getShared('modelsManager');
+
+		$relationsRobotsRepository = $modelsManager->getRepository(RelationsRobots::class);
+		$relationsPartsRepository = $modelsManager->getRepository(RelationsParts::class);
+		$relationsRobotsPartsRepository = $modelsManager->getRepository(RelationsRobotsParts::class);
+		$someRobotsRepository = $modelsManager->getRepository(Some\Robots::class);
 
 		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsRobots');
 		$this->assertTrue($success);
@@ -140,7 +145,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$success = $manager->existsHasManyToMany('RelationsRobots', 'RelationsParts');
 		$this->assertTrue($success);
 
-		$robot = RelationsRobots::findFirst();
+		$robot = $relationsRobotsRepository->findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRelationsRobotsParts();
@@ -193,7 +198,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$number = $robot->countRelationsRobotsParts();
 		$this->assertEquals($number, 3);
 
-		$part = RelationsParts::findFirst();
+		$part = $relationsPartsRepository->findFirst();
 		$this->assertNotEquals($part, false);
 
 		$robotsParts = $part->getRelationsRobotsParts();
@@ -203,7 +208,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$number = $part->countRelationsRobotsParts();
 		$this->assertEquals($number, 1);
 
-		$robotPart = RelationsRobotsParts::findFirst();
+		$robotPart = $relationsRobotsPartsRepository->findFirst();
 		$this->assertNotEquals($robotPart, false);
 
 		$robot = $robotPart->getRelationsRobots();
@@ -213,7 +218,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($part), 'RelationsParts');
 
 		/** Relations in namespaced models */
-		$robot = Some\Robots::findFirst();
+		$robot = $someRobotsRepository->findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRobotsParts();
@@ -240,6 +245,11 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
+		$robottersRepository = $manager->getRepository(Robotters::class);
+		$delesRepository = $manager->getRepository(Deles::class);
+		$robottersDelesRepository = $manager->getRepository(RobottersDeles::class);
+		$someRobottersRepository = $manager->getRepository(Some\Robotters::class);
+
 		$success = $manager->existsBelongsTo('RobottersDeles', 'Robotters');
 		$this->assertTrue($success);
 
@@ -252,7 +262,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$success = $manager->existsHasMany('Deles', 'RobottersDeles');
 		$this->assertTrue($success);
 
-		$robotter = Robotters::findFirst();
+		$robotter = $robottersRepository->findFirst();
 		$this->assertNotEquals($robotter, false);
 
 		$robottersDeles = $robotter->getRobottersDeles();
@@ -285,7 +295,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$number = $robotter->countRobottersDeles();
 		$this->assertEquals($number, 3);
 
-		$dele = Deles::findFirst();
+		$dele = $delesRepository->findFirst();
 		$this->assertNotEquals($dele, false);
 
 		$robottersDeles = $dele->getRobottersDeles();
@@ -295,7 +305,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$number = $dele->countRobottersDeles();
 		$this->assertEquals($number, 1);
 
-		$robotterDele = RobottersDeles::findFirst();
+		$robotterDele = $robottersDelesRepository->findFirst();
 		$this->assertNotEquals($robotterDele, false);
 
 		$robotter = $robotterDele->getRobotters();
@@ -305,7 +315,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($dele), 'Deles');
 
 		/** Relations in namespaced models */
-		$robotter = Some\Robotters::findFirst();
+		$robotter = $someRobottersRepository->findFirst();
 		$this->assertNotEquals($robotter, false);
 
 		$robottersDeles = $robotter->getRobottersDeles();
@@ -331,6 +341,9 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 	{
 		$manager = $di->getShared('modelsManager');
 		$db      = $di->getShared('db');
+
+		$m2mPartsRepository = $manager->getRepository(M2MParts::class);
+		$m2mRobotsPartsRepository = $manager->getRepository(M2MRobotsParts::class);
 
 		$this->assertTrue($db->delete('m2m_robots_parts'));
 		$this->assertTrue($db->delete('m2m_parts'));
@@ -361,10 +374,10 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($manager->save($robot));
 
-		$parts = M2MParts::find(array('order' => 'id'));
+		$parts = $m2mPartsRepository->find(array('order' => 'id'));
 		$this->assertEquals(count($parts), 4);
 
-		$rp = M2MRobotsParts::find(array('order' => 'robots_id, parts_id'));
+		$rp = $m2mRobotsPartsRepository->find(array('order' => 'robots_id, parts_id'));
 		$this->assertEquals(count($rp), 4);
 
 		for ($i=0; $i<count($rp); ++$i) {
@@ -374,9 +387,13 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	protected function _testIssue11042()
+	protected function _testIssue11042($di)
 	{
-		$robot = RelationsRobots::findFirst();
+		$modelsManager = $di->getShared('modelsManager');
+
+		$relationsRobotsRepository = $modelsManager->getRepository(RelationsRobots::class);
+
+		$robot = $relationsRobotsRepository->findFirst();
 		$this->assertNotEquals($robot, false);
 		$this->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
 
@@ -384,7 +401,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
 		$this->assertInstanceOf('RelationsRobotsParts', $robotsParts->getFirst());
 
-		$robot = RelationsRobots::findFirst();
+		$robot = $relationsRobotsRepository->findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->relationsRobotsParts;

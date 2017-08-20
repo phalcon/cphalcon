@@ -28,6 +28,15 @@ use Phalcon\Test\Models\Statistics\AgeStats;
  */
 class ResultsetClassTest extends UnitTest
 {
+    protected function _before()
+    {
+        parent::_before();
+
+        /** @var \Phalcon\Mvc\Application $app */
+        $app = $this->tester->getApplication();
+        $this->di = $app->getDI();
+    }
+
     /**
      * Checks if resultset class Simple is returned when getResultsetClass() method is not defined
      *
@@ -39,7 +48,11 @@ class ResultsetClassTest extends UnitTest
             'Find() method should return the default resultset simple class if getResultsetClass() ' .
             'method is not presented in the model',
             function () {
-                expect(Statistics\CityStats::find())->isInstanceOf(Simple::class);
+                $modelsManager = $this->di->get("modelsManager");
+
+                $statisticsCityStatsRepository = $modelsManager->getRepository(Statistics\CityStats::class);
+
+                expect($statisticsCityStatsRepository->find())->isInstanceOf(Simple::class);
             }
         );
     }
@@ -54,7 +67,11 @@ class ResultsetClassTest extends UnitTest
         $this->specify(
             'Find() method should return custom resultset if getResultsetClass() method is presented in model',
             function () {
-                expect(AgeStats::find())->isInstanceOf(Stats::class);
+                $modelsManager = $this->di->get("modelsManager");
+
+                $ageStatsRepository = $modelsManager->getRepository(AgeStats::class);
+
+                expect($ageStatsRepository->find())->isInstanceOf(Stats::class);
             }
         );
     }
@@ -69,7 +86,11 @@ class ResultsetClassTest extends UnitTest
         $this->specify(
             "Find() method should throw an exception if resultset doesn't implement interface",
             function () {
-                Statistics\CountryStats::find();
+                $modelsManager = $this->di->get("modelsManager");
+
+                $statisticsCountryStatsRepository = $modelsManager->getRepository(Statistics\CountryStats::class);
+
+                $statisticsCountryStatsRepository->find();
             },
             ['throws' => [
                 Exception::class,
@@ -92,7 +113,11 @@ class ResultsetClassTest extends UnitTest
         $this->specify(
             "Find() method should throw an exception if resultset class doesn't exist",
             function () {
-                Statistics\GenderStats::find();
+                $modelsManager = $this->di->get("modelsManager");
+
+                $statisticsGenderStatsRepository = $modelsManager->getRepository(Statistics\GenderStats::class);
+
+                $statisticsGenderStatsRepository->find();
             },
             ['throws' => [
                 Exception::class,

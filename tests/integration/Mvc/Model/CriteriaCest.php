@@ -67,8 +67,12 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()->where("estado='I'")->execute();
-        $people = People::find("estado='I'");
+        $people = $peopleRepository->find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
         $I->assertInstanceOf(Simple::class, $personas);
@@ -99,8 +103,12 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()->conditions("estado='I'")->execute();
-        $people = People::find("estado='I'");
+        $people = $peopleRepository->find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
     }
@@ -130,12 +138,16 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()
             ->where("estado='A'")
             ->orderBy("nombres")
             ->execute();
 
-        $people = People::find(["estado='A'", "order" => "nombres"]);
+        $people = $peopleRepository->find(["estado='A'", "order" => "nombres"]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
         $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
@@ -172,13 +184,17 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()
             ->where("estado='A'")
             ->orderBy("nombres")
             ->limit(100)
             ->execute();
 
-        $people = People::find([
+        $people = $peopleRepository->find([
             "estado='A'",
             "order" => "nombres",
             "limit" => 100,
@@ -220,6 +236,10 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()
             ->where("estado=?1")
             ->bind([1 => "A"])
@@ -227,7 +247,7 @@ class CriteriaCest
             ->limit(100)
             ->execute();
 
-        $people = People::find([
+        $people = $peopleRepository->find([
             "estado=?1",
             "bind"  => [1 => "A"],
             "order" => "nombres",
@@ -293,6 +313,10 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()
             ->where("estado=?1")
             ->bind([1 => "A"])
@@ -300,7 +324,7 @@ class CriteriaCest
             ->limit(100, 10)
             ->execute();
 
-        $people = People::find([
+        $people = $peopleRepository->find([
             "estado=?1",
             "bind"  => [1 => "A"],
             "order" => "nombres",
@@ -322,6 +346,10 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
+        $modelsManager = $di->get("modelsManager");
+
+        $peopleRepository = $modelsManager->getRepository(People::class);
+
         $personas = Personas::query()
             ->where("estado=:estado:")
             ->bind(["estado" => "A"])
@@ -329,7 +357,7 @@ class CriteriaCest
             ->limit(100)
             ->execute();
 
-        $people = People::find([
+        $people = $peopleRepository->find([
             "estado=:estado:",
             "bind"  => ["estado" => "A"],
             "order" => "nombres",

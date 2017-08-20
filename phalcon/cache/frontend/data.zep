@@ -30,6 +30,8 @@ use Phalcon\Cache\FrontendInterface;
  * use Phalcon\Cache\Backend\File;
  * use Phalcon\Cache\Frontend\Data;
  *
+ * $robotsRepository = $modelsManager->getRepository(Robots::class);
+ *
  * // Cache the files for 2 days using a Data frontend
  * $frontCache = new Data(
  *     [
@@ -55,7 +57,7 @@ use Phalcon\Cache\FrontendInterface;
  * if ($robots === null) {
  *     // $robots is null due to cache expiration or data does not exist
  *     // Make the database call and populate the variable
- *     $robots = Robots::find(
+ *     $robots = $robotsRepository->find(
  *         [
  *             "order" => "id",
  *         ]

@@ -114,7 +114,13 @@ class Binder implements BinderInterface
 	 */
 	protected function findBoundModel(var paramValue, string className) -> object | boolean
 	{
-		return {className}::findFirst(paramValue);
+		var model, repository;
+
+		let model = new {className}();
+
+		let repository = model->getModelsManager()->getRepository(className);
+
+		return repository->findFirst(paramValue);
 	}
 
 	/**

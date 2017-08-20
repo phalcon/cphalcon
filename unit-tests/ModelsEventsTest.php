@@ -87,7 +87,11 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI($trace);
 
-		$robot = GossipRobots::findFirst();
+		$modelsManager = $di->get("modelsManager");
+
+		$gossipRobotsRepository = $modelsManager->getRepository(GossipRobots::class);
+
+		$robot = $gossipRobotsRepository->findFirst();
 
 		$robot->trace = &$trace;
 
@@ -168,7 +172,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$modelsManager = $di->get("modelsManager");
 
-		$robot = GossipRobots::findFirst();
+		$gossipRobotsRepository = $modelsManager->getRepository(GossipRobots::class);
+
+		$robot = $gossipRobotsRepository->findFirst();
 
 		$robot->trace = &$trace;
 
@@ -226,7 +232,9 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$modelsManager = $di->get("modelsManager");
 
-		$robot = GossipRobots::findFirst();
+		$gossipRobotsRepository = $modelsManager->getRepository(GossipRobots::class);
+
+		$robot = $gossipRobotsRepository->findFirst();
 
 		$robot->trace = &$trace;
 

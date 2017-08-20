@@ -98,9 +98,13 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->_loadDI();
+		$di = $this->_loadDI();
 
-		$personnes = Personnes::find();
+		$modelsManager = $di->get("modelsManager");
+
+		$personnesRepository = $modelsManager->getRepository(Personnes::class);
+
+		$personnes = $personnesRepository->find();
 
 		$paginator = new Phalcon\Paginator\Adapter\Model(array(
 			'data' => $personnes,
@@ -161,9 +165,13 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		$this->_loadDI();
+		$di = $this->_loadDI();
 
-		$personnes = Personnes::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$personnesRepository = $modelsManager->getRepository(Personnes::class);
+
+		$personnes = $personnesRepository->find(array(
 			"conditions" => "cedula >=:d1: AND cedula>=:d2: ",
 			"bind" => array("d1" => '1', "d2" => "5"),
 			"order" => "cedula, nombres",

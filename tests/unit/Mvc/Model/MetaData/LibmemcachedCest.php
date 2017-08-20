@@ -60,7 +60,11 @@ class LibmemcachedCest
         $md->reset();
         $I->assertTrue($md->isEmpty());
 
-        Robots::findFirst();
+        $modelsManager = $I->grabServiceFromDi("modelsManager");
+
+        $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+        $robotsRepository->findFirst();
 
         $I->assertEquals(
             $this->data['meta-robots-robots'],

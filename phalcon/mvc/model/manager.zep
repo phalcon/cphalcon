@@ -1221,7 +1221,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
 	{
-		var placeholders, referencedModel, intermediateModel,
+		var placeholders, referencedModel, intermediateModel, referencedModelRepository,
 			intermediateFields, joinConditions, fields, builder, extraParameters,
 			conditions, refPosition, field, referencedFields, findParams,
 			findArguments, retrieveMethod, uniqueKey, records, arguments, rows, firstRow;
@@ -1377,11 +1377,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		}
 
+		let referencedModelRepository = this->getRepository(referencedModel);
+
 		/**
 		 * Load the referenced model
 		 * Call the function in the model
 		 */
-		let records = call_user_func_array([this->load(referencedModel), retrieveMethod], arguments);
+		let records = call_user_func_array([referencedModelRepository, retrieveMethod], arguments);
 
 		/**
 		 * Store the result in the cache if it's reusable
@@ -1978,6 +1980,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 *
 	 *<code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
 	 * // Creating a new robot
 	 * $robot = new Robots();
 	 *
@@ -1988,7 +1992,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * $modelsManager->save($robot);
 	 *
 	 * // Updating a robot name
-	 * $robot = Robots::findFirst("id = 100");
+	 * $robot = $robotsRepository->findFirst("id = 100");
 	 *
 	 * $robot->name = "Biomass";
 	 *
@@ -2874,8 +2878,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Returning true on success or false otherwise.
 	 *
 	 *<code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
 	 * // Updating a robot name
-	 * $robot = Robots::findFirst("id = 100");
+	 * $robot = $robotsRepository->findFirst("id = 100");
 	 *
 	 * $robot->name = "Biomass";
 	 *
@@ -3361,11 +3367,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * Deletes a model instance. Returning true on success or false otherwise.
 	 *
 	 * <code>
-	 * $robot = Robots::findFirst("id=100");
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * $robot = $robotsRepository->findFirst("id=100");
 	 *
 	 * $modelsManager->delete($robot);
 	 *
-	 * $robots = Robots::find("type = 'mechanical'");
+	 * $robots = $robotsRepository->find("type = 'mechanical'");
 	 *
 	 * foreach ($robots as $robot) {
 	 *     $modelsManager->delete($robot);
@@ -3641,7 +3649,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	protected final function _checkForeignKeysReverseCascade(<ModelInterface> model) -> boolean
 	{
 		var relations, relation, foreignKey,
-			resultset, conditions, bindParams, referencedModel,
+			resultset, conditions, bindParams, referencedModelRepository,
 			referencedFields, fields, field, position, value,
 			extraConditions;
 		int action;
@@ -3682,10 +3690,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 				continue;
 			}
 
-			/**
-			 * Load a plain instance
-			 */
-			let referencedModel = this->load(relation->getReferencedModel());
+			let referencedModelRepository = this->getRepository(relation->getReferencedModel());
 
 			let fields = relation->getFields(),
 				referencedFields = relation->getReferencedFields();
@@ -3718,7 +3723,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
 			 * Let's make the checking
 			 */
-			let resultset = referencedModel->find([
+			let resultset = referencedModelRepository->find([
 				join(" AND ", conditions),
 				"bind": bindParams
 			]);

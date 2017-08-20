@@ -76,6 +76,10 @@ class SnapshotTest extends UnitTest
         $this->specify(
             "Normal snapshots don't work",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
                 $snapshots = [
                     1 => [
                         'id' => '1',
@@ -106,12 +110,16 @@ class SnapshotTest extends UnitTest
                     ]
                 ];
 
-                foreach (Robots::find(['order' => 'id']) as $robot) {
+                $robots = $robotsRepository->find(['order' => 'id']);
+
+                foreach ($robots as $robot) {
                     expect($robot->hasSnapshotData())->true();
                     expect($snapshots[$robot->id])->equals($robot->getSnapshotData());
                 }
 
-                foreach (Robots::find(['order' => 'id']) as $robot) {
+                $robots = $robotsRepository->find(['order' => 'id']);
+
+                foreach ($robots as $robot) {
                     $robot->name = 'Some';
                     $robot->year = 1999;
                     expect($robot->hasChanged('name'))->true();
@@ -120,13 +128,17 @@ class SnapshotTest extends UnitTest
                     expect($robot->hasChanged())->true();
                 }
 
-                foreach (Robots::find(['order' => 'id']) as $robot) {
+                $robots = $robotsRepository->find(['order' => 'id']);
+
+                foreach ($robots as $robot) {
                     $robot->year = $robot->year;
                     expect($robot->hasChanged('year'))->false();
                     expect($robot->hasChanged())->false();
                 }
 
-                foreach (Robots::find(['order' => 'id']) as $robot) {
+                $robots = $robotsRepository->find(['order' => 'id']);
+
+                foreach ($robots as $robot) {
                     $robot->name = 'Little';
                     $robot->year = 2005;
                     expect($robot->getChangedFields())->equals(['name', 'year']);
@@ -141,6 +153,10 @@ class SnapshotTest extends UnitTest
         $this->specify(
             "Renamed snapshots don't work",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
+                $robottersRepository = $modelsManager->getRepository(Robotters::class);
+
                 $snapshots = [
                     1 => [
                         'code' => '1',
@@ -171,12 +187,16 @@ class SnapshotTest extends UnitTest
                     ]
                 ];
 
-                foreach (Robotters::find(['order' => 'code']) as $robot) {
+                $robots = $robottersRepository->find(['order' => 'code']);
+
+                foreach ($robots as $robot) {
                     expect($robot->hasSnapshotData())->true();
                     expect($snapshots[$robot->code])->equals($robot->getSnapshotData());
                 }
 
-                foreach (Robotters::find(['order' => 'code']) as $robot) {
+                $robots = $robottersRepository->find(['order' => 'code']);
+
+                foreach ($robots as $robot) {
                     $robot->theName = 'Some';
                     $robot->theYear = 1999;
                     expect($robot->hasChanged('theName'))->true();
@@ -185,13 +205,17 @@ class SnapshotTest extends UnitTest
                     expect($robot->hasChanged())->true();
                 }
 
-                foreach (Robotters::find(['order' => 'code']) as $robot) {
+                $robots = $robottersRepository->find(['order' => 'code']);
+
+                foreach ($robots as $robot) {
                     $robot->theYear = $robot->theYear;
                     expect($robot->hasChanged('theYear'))->false();
                     expect($robot->hasChanged())->false();
                 }
 
-                foreach (Robotters::find(['order' => 'code']) as $robot) {
+                $robots = $robottersRepository->find(['order' => 'code']);
+
+                foreach ($robots as $robot) {
                     $robot->theName = 'Little';
                     $robot->theYear = 2005;
                     expect($robot->getChangedFields())->equals(['theName', 'theYear']);
@@ -213,8 +237,11 @@ class SnapshotTest extends UnitTest
         $this->specify(
             "Snapshot does not work correctly with changed fields",
             function () {
-                $this->setUpModelsManager();
-                $robots = Robots::findFirst();
+                $modelsManager = $this->setUpModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robots = $robotsRepository->findFirst();
 
                 expect($robots->getChangedFields())->isEmpty();
                 expect($robots->deleted)->null();
@@ -312,7 +339,9 @@ class SnapshotTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $robots = Robots::findFirst();
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robots = $robotsRepository->findFirst();
                 $robots = new Robots($robots->toArray());
 
                 expect($modelsManager->save($robots))->true();
@@ -397,7 +426,9 @@ class SnapshotTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $robots = Robots::findFirst();
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robots = $robotsRepository->findFirst();
                 $robots->name = 'changedName';
                 expect($robots->getSnapshotData())->notEmpty();
                 expect($robots->hasChanged('name'))->true();
@@ -423,7 +454,9 @@ class SnapshotTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $robots = Robots::findFirst();
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robots = $robotsRepository->findFirst();
                 Model::setup(
                     [
                         'updateSnapshotOnSave' => false,

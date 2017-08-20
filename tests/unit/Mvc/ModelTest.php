@@ -54,7 +54,10 @@ class ModelTest extends UnitTest
                 $modelsManager = $this->setUpModelsManager();
 
                 $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
-                $album = Albums::findFirst();
+
+                $albumsRepository = $modelsManager->getRepository(Albums::class);
+
+                $album = $albumsRepository->findFirst();
 
                 $album->artist->name = 'NotArtist';
                 expect($album->artist->name)->equals($album->Artist->name);
@@ -80,7 +83,11 @@ class ModelTest extends UnitTest
         $this->specify(
             'The Model::find with empty conditions + bind and limit return wrong result',
             function () {
-                $album = Albums::find([
+                $modelsManager = $this->setUpModelsManager();
+
+                $albumsRepository = $modelsManager->getRepository(Albums::class);
+
+                $album = $albumsRepository->find([
                     'conditions' => '',
                     'bind'       => [],
                     'limit'      => 10
@@ -109,7 +116,12 @@ class ModelTest extends UnitTest
         $this->specify(
             'The Model::hasMany by using multi relation column does not work as expected',
             function () {
-                $list = Packages::find();
+                $modelsManager = $this->setUpModelsManager();
+
+                $packagesRepository = $modelsManager->getRepository(Packages::class);
+
+                $list = $packagesRepository->find();
+
                 foreach ($list as $item) {
                     expect($item)->isInstanceOf(Packages::class);
                     expect($item->details)->isInstanceOf(Simple::class);
@@ -133,7 +145,11 @@ class ModelTest extends UnitTest
         $this->specify(
             'Reusing relations does not work correctly',
             function () {
-                $customers = Customers::find([
+                $modelsManager = $this->setUpModelsManager();
+
+                $customersRepository = $modelsManager->getRepository(Customers::class);
+
+                $customers = $customersRepository->find([
                     'document_id = :did: AND status = :status: AND customer_id <> :did:',
                     'bind' => ['did' => 1, 'status' => 'A']
                 ]);
@@ -229,8 +245,12 @@ class ModelTest extends UnitTest
         $this->specify(
             'Snapshot data should be saved while saving model to cache',
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
                 $cache = new Apc(new Data(['lifetime' => 20]));
-                $robot = Robots::findFirst();
+                $robot = $robotsRepository->findFirst();
                 expect($robot)->isInstanceOf(Robots::class);
                 expect($robot->getSnapshotData())->notEmpty();
                 $cache->save('robot', $robot);
@@ -255,7 +275,11 @@ class ModelTest extends UnitTest
         $this->specify(
             "Model getters and setters don't work",
             function () {
-                $robot = Boutique\Robots::findFirst();
+                $modelsManager = $this->setUpModelsManager();
+
+                $boutiqueRobotsRepository = $modelsManager->getRepository(Boutique\Robots::class);
+
+                $robot = $boutiqueRobotsRepository->findFirst();
 
                 $testText = "executeSetGet Test";
                 $robot->assign(["text" => $testText]);
@@ -288,7 +312,9 @@ class ModelTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $robot = Robots::findFirst();
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robot = $robotsRepository->findFirst();
 
                 $serialized = serialize($robot);
                 $robot = unserialize($serialized);
@@ -303,8 +329,12 @@ class ModelTest extends UnitTest
         $this->specify(
             "Single models aren't JSON serialized or JSON unserialized properly",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
                 // Single model object json serialization
-                $robot = Robots::findFirst();
+                $robot = $robotsRepository->findFirst();
                 $json = json_encode($robot);
 
                 expect(is_string($json))->true();
@@ -316,8 +346,12 @@ class ModelTest extends UnitTest
         $this->specify(
             "Model resultsets aren't JSON serialized or JSON unserialized properly",
             function () {
+                $modelsManager = $this->setUpModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
                 // Result-set serialization
-                $robots = Robots::find();
+                $robots = $robotsRepository->find();
 
                 $json = json_encode($robots);
 
@@ -331,7 +365,10 @@ class ModelTest extends UnitTest
             "Single row resultsets aren't JSON serialized or JSON unserialized properly",
             function () {
                 $modelsManager = $this->setUpModelsManager();
-                $robot = Robots::findFirst();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robot = $robotsRepository->findFirst();
 
                 // Single row serialization
                 $result = $modelsManager->executeQuery("SELECT id FROM " . Robots::class . " LIMIT 1");
@@ -585,9 +622,11 @@ class ModelTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
+                $subscribersRepository = $modelsManager->getRepository(Subscribers::class);
+
                 $number = Subscribers::count();
 
-                $subscriber = Subscribers::findFirst();
+                $subscriber = $subscribersRepository->findFirst();
 
                 expect($modelsManager->delete($subscriber))->true();
                 expect($subscriber->status)->equals('D');

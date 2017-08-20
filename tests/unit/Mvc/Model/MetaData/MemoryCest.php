@@ -47,7 +47,11 @@ class MemoryCest
         $md->reset();
         $I->assertTrue($md->isEmpty());
 
-        Robots::findFirst();
+        $modelsManager = $I->grabServiceFromDi("modelsManager");
+
+        $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+        $robotsRepository->findFirst();
 
         $I->assertFalse($md->isEmpty());
 

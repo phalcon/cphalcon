@@ -129,15 +129,17 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 		$modelsManager = $di->get("modelsManager");
 
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
 		//Find
-		$robots = Robots::find(array(
+		$robots = $robotsRepository->find(array(
 			'cache' => array('key' => 'some'),
 			'order' => 'id'
 		));
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array(
+		$robots = $robotsRepository->find(array(
 			'cache' => array('key' => 'some'),
 			'order' => 'id'
 		));
@@ -172,7 +174,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($robotscount, 3);
 
 			//Delete the temp robot
-			$robot = Robots::findFirst("type = 'notcached'");
+			$robot = $robotsRepository->findFirst("type = 'notcached'");
 			$modelsManager->delete($robot);
 		}
 	}
@@ -187,7 +189,11 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		}, true);
 
-		$robots = Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array(
 			'cache' => array('key' => 'some'),
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => 0, 'id2' => 4),
@@ -196,7 +202,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array(
+		$robots = $robotsRepository->find(array(
 			'cache' => array('key' => 'some'),
 			'conditions' => 'id > :id1: and id < :id2:',
 			'bind' => array('id1' => 0, 'id2' => 4),
@@ -217,7 +223,11 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		}, true);
 
-		$robots = Robots::find(array(
+		$modelsManager = $di->get("modelsManager");
+
+		$robotsRepository = $modelsManager->getRepository(Robots::class);
+
+		$robots = $robotsRepository->find(array(
 			'cache' => array(
 				'key' => 'other-some',
 				'lifetime' => 60,
@@ -228,7 +238,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array(
+		$robots = $robotsRepository->find(array(
 			'cache' => array(
 				'key' => 'other-some',
 				'lifetime' => 60,

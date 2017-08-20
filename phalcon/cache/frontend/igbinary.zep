@@ -29,6 +29,8 @@ use Phalcon\Cache\FrontendInterface;
  * Allows to cache native PHP data in a serialized form using igbinary extension
  *
  *<code>
+ * $robotsRepository = $modelsManager->getRepository(Robots::class);
+ *
  * // Cache the files for 2 days using Igbinary frontend
  * $frontCache = new \Phalcon\Cache\Frontend\Igbinary(
  *     [
@@ -54,7 +56,7 @@ use Phalcon\Cache\FrontendInterface;
  * if ($robots === null) {
  *     // $robots is null due to cache expiration or data do not exist
  *     // Make the database call and populate the variable
- *     $robots = Robots::find(
+ *     $robots = $robotsRepository->find(
  *         [
  *             "order" => "id",
  *         ]

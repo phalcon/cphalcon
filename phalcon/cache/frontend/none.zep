@@ -28,6 +28,7 @@ use Phalcon\Cache\FrontendInterface;
  *
  *<code>
  *<?php
+ * $robotsRepository = $modelsManager->getRepository(Robots::class);
  *
  * //Create a None Cache
  * $frontCache = new \Phalcon\Cache\Frontend\None();
@@ -50,7 +51,7 @@ use Phalcon\Cache\FrontendInterface;
  * if ($robots === null) {
  *     // This cache doesn't perform any expiration checking, so the data is always expired
  *     // Make the database call and populate the variable
- *     $robots = Robots::find(
+ *     $robots = $robotsRepository->find(
  *         [
  *             "order" => "id",
  *         ]

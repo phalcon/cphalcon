@@ -31,8 +31,8 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * Phalcon\Mvc\Model\Criteria
  *
  * This class is used to build the array parameter required by
- * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst()
- * using an object-oriented interface.
+ * Phalcon\Mvc\Model\Repository::find() and
+ * Phalcon\Mvc\Model\Repository::findFirst() using an object-oriented interface.
  *
  * <code>
  * $robots = Robots::query()
@@ -735,13 +735,23 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 */
 	public function execute() -> <ResultsetInterface>
 	{
-		var model;
+		var dependencyInjector, manager, builder, repository, model;
+
+		let dependencyInjector = this->getDI();
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = Di::getDefault();
+			this->setDI(dependencyInjector);
+		}
+
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
 		let model = this->getModelName();
 		if typeof model != "string" {
 			throw new Exception("Model name must be string");
 		}
 
-		return {model}::find(this->getParams());
+		let repository = manager->getRepository(model);
+
+		return repository->find(this->getParams());
 	}
 }

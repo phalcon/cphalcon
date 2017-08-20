@@ -91,8 +91,12 @@ class BinderCest
         $this->modelBinder = new Binder($this->cache);
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
-        $this->robot = Robots::findFirst();
-        $this->people = People::findFirst();
+
+        $robotsRepository = $this->modelsManager->getRepository(Robots::class);
+        $peopleRepository = $this->modelsManager->getRepository(People::class);
+
+        $this->robot = $robotsRepository->findFirst();
+        $this->people = $peopleRepository->findFirst();
 
         $I->haveServiceInDi(
             'modelsMetadata',

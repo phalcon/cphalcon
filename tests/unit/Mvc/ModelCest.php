@@ -48,8 +48,12 @@ class ModelCest
             true
         );
 
+        $modelsManager = $I->grabServiceFromContainer("modelsManager");
+
+        $robotsRepository = $modelsManager->getRepository(Robots::class);
+
         for ($i = 0; $i <= 1; $i++) {
-            $robot = Robots::findFirst(
+            $robot = $robotsRepository->findFirst(
                 [
                     'cache' => [
                         'key' => 'robots-cache',

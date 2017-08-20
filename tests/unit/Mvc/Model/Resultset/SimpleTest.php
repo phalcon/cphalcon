@@ -133,7 +133,13 @@ class SimpleTest extends UnitTest
                 $cache = $this->getFileCache();
                 $this->setUpModelsCache($cache);
 
-                $robots = Robots::find(['order' => 'id']);
+                $di = Di::getDefault();
+
+                $modelsManager = $di->get("modelsManager");
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robots = $robotsRepository->find(['order' => 'id']);
 
                 expect($robots)->isInstanceOf(Simple::class);
                 expect($robots)->count(3);
@@ -170,10 +176,16 @@ class SimpleTest extends UnitTest
                 $cache = $this->getFileCache();
                 $this->setUpModelsCache($cache);
 
+                $di = Di::getDefault();
+
+                $modelsManager = $di->get("modelsManager");
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
                 $initialId = 0;
                 $finalId = 4;
 
-                $robots = Robots::find([
+                $robots = $robotsRepository->find([
                     'conditions' => 'id > :id1: and id < :id2:',
                     'bind'       => ['id1' => $initialId, 'id2' => $finalId],
                     'order'      => 'id'
@@ -214,10 +226,16 @@ class SimpleTest extends UnitTest
                 $cache = $this->getLibmemcachedCache();
                 $this->setUpModelsCache($cache);
 
+                $di = Di::getDefault();
+
+                $modelsManager = $di->get("modelsManager");
+
+                $peopleRepository = $modelsManager->getRepository(People::class);
+
                 $key = 'test-resultset-'.mt_rand(0, 9999);
 
                 // Single
-                $people = People::findFirst([
+                $people = $peopleRepository->findFirst([
                     'cache' => [
                         'key' => $key
                     ]
@@ -232,7 +250,7 @@ class SimpleTest extends UnitTest
                 expect($people->getFirst())->isInstanceOf(People::class);
 
                 // Re-get from the cache
-                $people = People::findFirst([
+                $people = $peopleRepository->findFirst([
                     'cache' => [
                         'key' => $key
                     ]
@@ -243,7 +261,7 @@ class SimpleTest extends UnitTest
                 $key = 'test-resultset-'.mt_rand(0, 9999);
 
                 // Multiple
-                $people = People::find([
+                $people = $peopleRepository->find([
                     'limit' => 35,
                     'cache' => [
                         'key' => $key
@@ -273,7 +291,7 @@ class SimpleTest extends UnitTest
                 expect($people)->isInstanceOf(Simple::class);
 
                 // Re-get the data from the cache
-                $people = People::find([
+                $people = $peopleRepository->find([
                     'limit' => 35,
                     'cache' => [
                         'key' => $key
