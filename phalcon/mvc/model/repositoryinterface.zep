@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Mvc\ModelInterface;
+
 /**
  * Phalcon\Mvc\RepositoryInterface
  *
@@ -26,5 +28,15 @@ namespace Phalcon\Mvc\Model;
  */
 interface RepositoryInterface
 {
+	/**
+	 * Allows to query a set of records that match the specified conditions
+	 */
+	public function find(var parameters = null) -> <ResultsetInterface>;
 
+	/**
+	 * Allows to query the first record that match the specified conditions
+	 *
+	 * @param array parameters
+	 */
+	public function findFirst(parameters = null) -> <ModelInterface>;
 }

@@ -802,66 +802,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		var dependencyInjector, manager, repository;
 
 		let dependencyInjector = Di::getDefault();
+
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
-		if typeof parameters != "array" {
-			let params = [];
-			if parameters !== null {
-				let params[] = parameters;
-			}
-		} else {
-			let params = parameters;
-		}
+		let repository = manager->getRepository(get_called_class());
 
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = manager->createBuilder(params);
-		builder->from(get_called_class());
-
-		let query = builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		if fetch bindParams, params["bind"] {
-
-			if typeof bindParams == "array" {
-				query->setBindParams(bindParams, true);
-			}
-
-			if fetch bindTypes, params["bindTypes"] {
-				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes, true);
-				}
-			}
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
-
-		/**
-		 * Execute the query passing the bind-params and casting-types
-		 */
-		let resultset = query->execute();
-
-		/**
-		 * Define an hydration mode
-		 */
-		if typeof resultset == "object" {
-			if fetch hydration, params["hydration"] {
-				resultset->setHydrateMode(hydration);
-			}
-		}
-
-		return resultset;
+		return repository->find(parameters);
 	}
 
 	/**
@@ -895,66 +844,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache,
-			dependencyInjector, manager;
+		var dependencyInjector, manager, repository;
 
 		let dependencyInjector = Di::getDefault();
+
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
 
-		if typeof parameters != "array" {
-			let params = [];
-			if parameters !== null {
-				let params[] = parameters;
-			}
-		} else {
-			let params = parameters;
-		}
+		let repository = manager->getRepository(get_called_class());
 
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = manager->createBuilder(params);
-		builder->from(get_called_class());
-
-		/**
-		 * We only want the first record
-		 */
-		builder->limit(1);
-
-		let query = builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		if fetch bindParams, params["bind"] {
-
-			if typeof bindParams == "array" {
-				query->setBindParams(bindParams, true);
-			}
-
-			if fetch bindTypes, params["bindTypes"] {
-				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes, true);
-				}
-			}
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
-
-		/**
-		 * Return only the first row
-		 */
-		query->setUniqueRow(true);
-
-		/**
-		 * Execute the query passing the bind-params and casting-types
-		 */
-		return query->execute();
+		return repository->findFirst(parameters);
 	}
 
 	/**
