@@ -253,6 +253,8 @@ interface ManagerInterface
 	 */
 	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean;
 
+	public function getRepository(string! modelClass) -> <RepositoryInterface>;
+
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */

@@ -1737,6 +1737,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		return this->_namespaceAliases;
 	}
 
+	public function getRepository(string! modelClass) -> <RepositoryInterface>
+	{
+		var repository;
+
+		let repository = new Repository(modelClass, this);
+
+		return repository;
+	}
+
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
 	 */
