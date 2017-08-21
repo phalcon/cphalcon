@@ -39,4 +39,45 @@ interface RepositoryInterface
 	 * @param array parameters
 	 */
 	public function findFirst(parameters = null) -> <ModelInterface>;
+
+	/**
+	 * Counts how many records match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function count(var parameters = null);
+
+
+	/**
+	 * Calculates the sum on a column for a result-set of rows that match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function sum(var parameters = null);
+
+	/**
+	 * Returns the maximum value of a column for a result-set of rows that match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function maximum(var parameters = null);
+
+	/**
+	 * Returns the minimum value of a column for a result-set of rows that match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function minimum(parameters = null);
+
+	/**
+	 * Returns the average value on a column for a result-set of rows matching the specified conditions
+	 *
+	 * @param array parameters
+	 * @return double
+	 */
+	public function average(var parameters = null);
 }

@@ -239,4 +239,260 @@ class Repository implements RepositoryInterface
 		 */
 		return query->execute();
 	}
+
+
+
+	/**
+	 * Counts how many records match the specified conditions
+	 *
+	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * // How many robots are there?
+	 * $number = $robotsRepository->count();
+	 *
+	 * echo "There are ", $number, "\n";
+	 *
+	 * // How many mechanical robots are there?
+	 * $number = $robotsRepository->count("type = 'mechanical'");
+	 *
+	 * echo "There are ", $number, " mechanical robots\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function count(var parameters = null)
+	{
+		var result;
+
+		let result = this->_groupResult("COUNT", "rowcount", parameters);
+
+		if typeof result == "string" {
+			return (int) result;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Calculates the sum on a column for a result-set of rows that match the specified conditions
+	 *
+	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * // How much are all robots?
+	 * $sum = $robotsRepository->sum(
+	 *     [
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The total price of robots is ", $sum, "\n";
+	 *
+	 * // How much are mechanical robots?
+	 * $sum = $robotsRepository->sum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The total price of mechanical robots is  ", $sum, "\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function sum(var parameters = null)
+	{
+		return this->_groupResult("SUM", "sumatory", parameters);
+	}
+
+	/**
+	 * Returns the maximum value of a column for a result-set of rows that match the specified conditions
+	 *
+	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * // What is the maximum robot id?
+	 * $id = $robotsRepository->maximum(
+	 *     [
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The maximum robot id is: ", $id, "\n";
+	 *
+	 * // What is the maximum id of mechanical robots?
+	 * $sum = $robotsRepository->maximum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function maximum(var parameters = null)
+	{
+		return this->_groupResult("MAX", "maximum", parameters);
+	}
+
+	/**
+	 * Returns the minimum value of a column for a result-set of rows that match the specified conditions
+	 *
+	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * // What is the minimum robot id?
+	 * $id = $robotsRepository->minimum(
+	 *     [
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The minimum robot id is: ", $id;
+	 *
+	 * // What is the minimum id of mechanical robots?
+	 * $sum = $robotsRepository->minimum(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "id",
+	 *     ]
+	 * );
+	 *
+	 * echo "The minimum robot id of mechanical robots is ", $id;
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public function minimum(parameters = null)
+	{
+		return this->_groupResult("MIN", "minimum", parameters);
+	}
+
+	/**
+	 * Returns the average value on a column for a result-set of rows matching the specified conditions
+	 *
+	 * <code>
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * // What's the average price of robots?
+	 * $average = $robotsRepository->average(
+	 *     [
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The average price is ", $average, "\n";
+	 *
+	 * // What's the average price of mechanical robots?
+	 * $average = $robotsRepository->average(
+	 *     [
+	 *         "type = 'mechanical'",
+	 *         "column" => "price",
+	 *     ]
+	 * );
+	 *
+	 * echo "The average price of mechanical robots is ", $average, "\n";
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return double
+	 */
+	public function average(var parameters = null)
+	{
+		return this->_groupResult("AVG", "average", parameters);
+	}
+
+	/**
+	 * Generate a PHQL SELECT statement for an aggregate
+	 *
+	 * @param string function
+	 * @param string alias
+	 * @param array parameters
+	 * @return \Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	protected function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
+	{
+		var params, distinctColumn, groupColumn, columns,
+			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
+			builder, query, manager;
+
+		let manager = this->_modelsManager;
+
+		if typeof parameters != "array" {
+			let params = [];
+			if parameters !== null {
+				let params[] = parameters;
+			}
+		} else {
+			let params = parameters;
+		}
+
+		if !fetch groupColumn, params["column"] {
+			let groupColumn = "*";
+		}
+
+		/**
+		 * Builds the columns to query according to the received parameters
+		 */
+		if fetch distinctColumn, params["distinct"] {
+			let columns = functionName . "(DISTINCT " . distinctColumn . ") AS " . alias;
+		} else {
+			if fetch groupColumns, params["group"] {
+				let columns = groupColumns . ", " . functionName . "(" . groupColumn . ") AS " . alias;
+			} else {
+				let columns = functionName . "(" . groupColumn . ") AS " . alias;
+			}
+		}
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = manager->createBuilder(params);
+		builder->columns(columns);
+		builder->from(this->_modelClass);
+
+		let query = builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		let bindParams = null, bindTypes = null;
+		if fetch bindParams, params["bind"] {
+			fetch bindTypes, params["bindTypes"];
+		}
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		/**
+		 * Execute the query
+		 */
+		let resultset = query->execute(bindParams, bindTypes);
+
+		/**
+		 * Return the full resultset if the query is grouped
+		 */
+		if isset params["group"] {
+			return resultset;
+		}
+
+		/**
+		 * Return only the value in the first result
+		 */
+		let firstRow = resultset->getFirst();
+		return firstRow->{alias};
+	}
 }
