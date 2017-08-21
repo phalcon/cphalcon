@@ -316,7 +316,7 @@ class Postgresql extends PdoAdapter
 					this->{"query"}(query . ";");
 				}
 				return this->{"commit"}();
-			} catch \Exception, exception {
+			} catch \Throwable, exception {
 
 				this->{"rollback"}();
 				 throw exception;
@@ -349,7 +349,7 @@ class Postgresql extends PdoAdapter
 				}
 				return this->{"commit"}();
 
-			} catch \Exception, exception {
+			} catch \Throwable, exception {
 
 				this->{"rollback"}();
 				 throw exception;
