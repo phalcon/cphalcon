@@ -829,6 +829,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Counts how many records match the specified conditions
 	 *
 	 * @param array parameters
+	 *
+	 * @deprecated
 	 */
 	public static function count(var parameters = null)
 	{
@@ -841,82 +843,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		let repository = manager->getRepository(get_called_class());
 
 		return repository->count(parameters);
-	}
-
-	/**
-	 * Calculates the sum on a column for a result-set of rows that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function sum(var parameters = null)
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->sum(parameters);
-	}
-
-	/**
-	 * Returns the maximum value of a column for a result-set of rows that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function maximum(var parameters = null)
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->maximum(parameters);
-	}
-
-	/**
-	 * Returns the minimum value of a column for a result-set of rows that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function minimum(parameters = null)
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->minimum(parameters);
-	}
-
-	/**
-	 * Returns the average value on a column for a result-set of rows matching the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
-	 */
-	public static function average(var parameters = null)
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->average(parameters);
 	}
 
 	/**

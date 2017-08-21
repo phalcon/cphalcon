@@ -150,38 +150,6 @@ interface ModelInterface
 	public static function count(parameters = null);
 
 	/**
-	 * Allows to calculate a sum on a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
-	 */
-	public static function sum(parameters = null);
-
-	/**
-	 * Allows to get the maximum value of a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function maximum(parameters = null);
-
-	/**
-	 * Allows to get the minimum value of a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public static function minimum(parameters = null);
-
-	/**
-	 * Allows to calculate the average value on a column matching the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
-	 */
-	public static function average(parameters = null);
-
-	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
 	public function fireEvent(string! eventName) -> boolean;
