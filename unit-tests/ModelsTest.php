@@ -181,7 +181,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$product->brand     = new \Phalcon\Db\RawValue('default');
 		$product->sort      = new \Phalcon\Db\RawValue('default');
 		$this->assertTrue($modelsManager->save($product));
-		$this->assertEquals(1, Issue_1534::count());
+		$this->assertEquals(1, $issue1534Repository->count());
 
 		$entry = $issue1534Repository->findFirst();
 		$this->assertEquals('bb', $entry->language);
@@ -199,13 +199,13 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$product->brand     = 'brand';
 		$product->sort      = 1;
 		$this->assertTrue($modelsManager->save($product));
-		$this->assertEquals(1, Issue_1534::count());
+		$this->assertEquals(1, $issue1534Repository->count());
 
 		$entry = $issue1534Repository->findFirst();
 		$entry->brand    = new \Phalcon\Db\RawValue('default');
 		$entry->sort     = new \Phalcon\Db\RawValue('default');
 		$this->assertTrue($modelsManager->save($entry));
-		$this->assertEquals(1, Issue_1534::count());
+		$this->assertEquals(1, $issue1534Repository->count());
 
 		$entry = $issue1534Repository->findFirst();
 		$this->assertEquals('0', $entry->sort);
@@ -213,7 +213,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$entry->language2 = new \Phalcon\Db\RawValue('default(language)');
 		$this->assertTrue($modelsManager->save($entry));
-		$this->assertEquals(1, Issue_1534::count());
+		$this->assertEquals(1, $issue1534Repository->count());
 
 		$entry = $issue1534Repository->findFirst();
 		$this->assertEquals('bb', $entry->language2);
@@ -230,7 +230,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$product->brand    = 'brand';
 		$product->sort     = 1;
 		$this->assertTrue($modelsManager->save($product));
-		$this->assertEquals(1, Issue_1534::count());
+		$this->assertEquals(1, $issue1534Repository->count());
 
 
 		$entry = $issue1534Repository->findFirst();
@@ -281,19 +281,19 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->_prepareDb($di->getShared('db'));
 
 		//Count tests
-		$this->assertEquals(People::count(), Personas::count());
+		$this->assertEquals($peopleRepository->count(), $personasRepository->count());
 
 		$params = array();
-		$this->assertEquals(People::count($params), Personas::count($params));
+		$this->assertEquals($peopleRepository->count($params), $personasRepository->count($params));
 
 		$params = array("estado='I'");
-		$this->assertEquals(People::count($params), Personas::count($params));
+		$this->assertEquals($peopleRepository->count($params), $personasRepository->count($params));
 
 		$params = "estado='I'";
-		$this->assertEquals(People::count($params), Personas::count($params));
+		$this->assertEquals($peopleRepository->count($params), $personasRepository->count($params));
 
 		$params = array("conditions" => "estado='I'");
-		$this->assertEquals(People::count($params), Personas::count($params));
+		$this->assertEquals($peopleRepository->count($params), $personasRepository->count($params));
 
 		//Find first
 		$people = $peopleRepository->findFirst();
@@ -489,16 +489,16 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($modelsManager->create($persona));
 
 		//Grouping
-		$difEstados = People::count(array("distinct" => "estado"));
+		$difEstados = $peopleRepository->count(array("distinct" => "estado"));
 		$this->assertEquals($difEstados, 3);
 
-		$group = People::count(array("group" => "estado"));
+		$group = $peopleRepository->count(array("group" => "estado"));
 		$this->assertEquals(count($group), 3);
 
 		//Deleting
-		$before = People::count();
+		$before = $peopleRepository->count();
 		$this->assertTrue($modelsManager->delete($persona));
-		$this->assertEquals($before - 1, People::count());
+		$this->assertEquals($before - 1, $peopleRepository->count());
 
 		//Assign
 		$persona = new Personas();
@@ -597,16 +597,16 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->_prepareDb($di->getShared('db'));
 
 		$params = array();
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertTrue($personersRepository->count($params) > 0);
 
 		$params = array("status = 'I'");
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertTrue($personersRepository->count($params) > 0);
 
 		$params = "status='I'";
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertTrue($personersRepository->count($params) > 0);
 
 		$params = array("conditions" => "status='I'");
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertTrue($personersRepository->count($params) > 0);
 
 		//Find first
 		$personer = $personersRepository->findFirst();
@@ -791,9 +791,9 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($modelsManager->create($personer));
 
 		//Deleting
-		$before = Personers::count();
+		$before = $personersRepository->count();
 		$this->assertTrue($modelsManager->delete($personer));
-		$this->assertEquals($before - 1, Personers::count());
+		$this->assertEquals($before - 1, $personersRepository->count());
 
 		//Assign
 		$personer = new Personers();

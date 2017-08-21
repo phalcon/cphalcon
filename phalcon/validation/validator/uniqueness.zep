@@ -132,7 +132,7 @@ class Uniqueness extends CombinedFieldsValidator
 
 	protected function isUniqueness(<Validation> validation, var field) -> boolean
 	{
-		var values, convert, record, params, className, isModel, isDocument, singleField;
+		var values, convert, record, params, className, isModel, isDocument, singleField, modelsManager, repository;
 
 		if typeof field != "array" {
 			let singleField = field,
@@ -179,7 +179,11 @@ class Uniqueness extends CombinedFieldsValidator
 
 		let className = get_class(record);
 
-		return {className}::count(params) == 0;
+		let modelsManager = record->getModelsManager();
+
+		let repository = modelsManager->getRepository(className);
+
+		return repository->count(params) == 0;
 	}
 
 	/**

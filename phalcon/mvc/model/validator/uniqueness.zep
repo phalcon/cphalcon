@@ -69,7 +69,8 @@ class Uniqueness extends Validator
 	{
 		var field, dependencyInjector, metaData, message, bindTypes, bindDataTypes,
 			columnMap, conditions, bindParams, number, composeField, columnField,
-			bindType, primaryField, attributeField, params, className, replacePairs;
+			bindType, primaryField, attributeField, params, className, replacePairs,
+			modelsManager, repository;
 
 		let dependencyInjector = record->getDI();
 		let metaData = dependencyInjector->getShared("modelsMetadata");
@@ -210,10 +211,14 @@ class Uniqueness extends Validator
 
 		let className = get_class(record);
 
+		let modelsManager = record->getModelsManager();
+
+		let repository = modelsManager->getRepository(className);
+
 		/**
 		 * Check if the record does exist using a standard count
 		 */
-		if {className}::count(params) != 0 {
+		if repository->count(params) != 0 {
 
 			/**
 			 * Check if the developer has defined a custom message

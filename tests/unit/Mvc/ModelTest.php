@@ -624,13 +624,13 @@ class ModelTest extends UnitTest
 
                 $subscribersRepository = $modelsManager->getRepository(Subscribers::class);
 
-                $number = Subscribers::count();
+                $number = $subscribersRepository->count();
 
                 $subscriber = $subscribersRepository->findFirst();
 
                 expect($modelsManager->delete($subscriber))->true();
                 expect($subscriber->status)->equals('D');
-                expect(Subscribers::count())->equals($number);
+                expect($subscribersRepository->count())->equals($number);
             }
         );
     }

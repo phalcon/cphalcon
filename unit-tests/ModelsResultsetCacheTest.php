@@ -154,7 +154,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		//Skip this test until someone can shed some light on this
 		if (!$di->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql) {
 			//Aggregate functions like sum, count, etc
-			$robotscount = Robots::count(array(
+			$robotscount = $robotsRepository->count(array(
 				'cache' => array('key' => 'some-count'),
 			));
 			$this->assertEquals($robotscount, 3);
@@ -168,7 +168,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$newrobot->text = 'Not cached robot';
 			$modelsManager->create($newrobot);
 
-			$robotscount = Robots::count(array(
+			$robotscount = $robotsRepository->count(array(
 				'cache' => array('key' => 'some-count'),
 			));
 			$this->assertEquals($robotscount, 3);

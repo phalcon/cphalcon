@@ -2374,7 +2374,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var belongsTo, foreignKey, relation, conditions,
 			position, bindParams, extraConditions, message, fields,
-			referencedFields, field, referencedModel, value, allowNulls;
+			referencedFields, field, referencedModelRepository, value, allowNulls;
 		int action, numberNull;
 		boolean error, validateWithNulls;
 
@@ -2416,7 +2416,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			/**
 			 * Load the referenced model if needed
 			 */
-			let referencedModel = this->load(relation->getReferencedModel());
+			let referencedModelRepository = this->getRepository(relation->getReferencedModel());
 
 			/**
 			 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
@@ -2475,7 +2475,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 * We don't trust the actual values in the object and pass the values using bound parameters
 			 * Let's make the checking
 			 */
-			if !validateWithNulls && !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+			if !validateWithNulls && !referencedModelRepository->count([join(" AND ", conditions), "bind": bindParams]) {
 
 				/**
 				 * Get the user message or produce a new one
@@ -3529,7 +3529,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		boolean error;
 		var relations, foreignKey, relation,
-			relationClass, referencedModel, fields, referencedFields,
+			relationClass, referencedModelRepository, fields, referencedFields,
 			conditions, bindParams,position, field,
 			value, extraConditions, message;
 		int action;
@@ -3576,7 +3576,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			/**
 			 * Load a plain instance
 			 */
-			let referencedModel = this->load(relationClass);
+			let referencedModelRepository = this->getRepository(relationClass);
 
 			let fields = relation->getFields(),
 				referencedFields = relation->getReferencedFields();
@@ -3611,7 +3611,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 * We don't trust the actual values in the object and then we're passing the values using bound parameters
 			 * Let's make the checking
 			 */
-			if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+			if referencedModelRepository->count([join(" AND ", conditions), "bind": bindParams]) {
 
 				/**
 				 * Create a new message
