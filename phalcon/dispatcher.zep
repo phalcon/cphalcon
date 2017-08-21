@@ -405,7 +405,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 		try {
 			let handler = this->_dispatch();
-		} catch \Exception, e {
+		} catch \Throwable, e {
 			if this->{"_handleException"}(e) === false {
 				return false;
 			}
@@ -652,7 +652,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			try {
 				// We update the latest value produced by the latest handler
 				let this->_returnedValue = this->callActionMethod(handler, actionMethod, params);
-			} catch \Exception, e {
+			} catch \Throwable, e {
 				if this->{"_handleException"}(e) === false {
 					if this->_finished === false {
 						continue;

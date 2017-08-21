@@ -292,7 +292,7 @@ class Memory extends Backend implements \Serializable
 
 		let unserialized = unserialize(data);
 		if typeof unserialized != "array" {
-			throw new \Exception("Unserialized data must be an array");
+			throw new Exception("Unserialized data must be an array");
 		}
 
 		let this->_frontend = unserialized["frontend"];
