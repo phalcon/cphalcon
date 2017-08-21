@@ -19,6 +19,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Di;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 
 /**
@@ -239,8 +241,6 @@ class Repository implements RepositoryInterface
 		 */
 		return query->execute();
 	}
-
-
 
 	/**
 	 * Counts how many records match the specified conditions
@@ -494,5 +494,35 @@ class Repository implements RepositoryInterface
 		 */
 		let firstRow = resultset->getFirst();
 		return firstRow->{alias};
+	}
+
+	/**
+	 * Create a criteria for a specific model
+	 */
+	public function query(<DiInterface> dependencyInjector = null) -> <Criteria>
+	{
+		var criteria;
+
+		/**
+		 * Use the global dependency injector if there is no one defined
+		 */
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = Di::getDefault();
+		}
+
+		/**
+		 * Gets Criteria instance from DI container
+		 */
+		if dependencyInjector instanceof DiInterface {
+			let criteria = <CriteriaInterface> dependencyInjector->get("Phalcon\\Mvc\\Model\\Criteria");
+		} else {
+			let criteria = new Criteria();
+
+			criteria->setDI(dependencyInjector);
+		}
+
+		criteria->setModelName(this->_modelClass);
+
+		return criteria;
 	}
 }

@@ -137,11 +137,6 @@ interface ModelInterface
 	public static function findFirst(parameters = null) -> <ModelInterface>;
 
 	/**
-	 * Create a criteria for a specific model
-	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>;
-
-	/**
 	 * Allows to count how many records match the specified conditions
 	 *
 	 * @param array parameters

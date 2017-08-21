@@ -35,7 +35,9 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * Phalcon\Mvc\Model\Repository::findFirst() using an object-oriented interface.
  *
  * <code>
- * $robots = Robots::query()
+ * $robotsRepository = $modelsManager->getRepository(Robots::class);
+ *
+ * $robots = $robotsRepository->query()
  *     ->where("type = :type:")
  *     ->andWhere("year < 2000")
  *     ->bind(["type" => "mechanical"])
@@ -703,7 +705,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 * Creates a query builder from criteria.
 	 *
 	 * <code>
-	 * $builder = Robots::query()
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * $builder = $robotsRepository->query()
 	 *     ->where("type = :type:")
 	 *     ->bind(["type" => "mechanical"])
 	 *     ->createBuilder();

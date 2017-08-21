@@ -44,13 +44,25 @@ class CriteriaCest
      */
     public function createBuilderFromCriteria(IntegrationTester $I)
     {
-        $criteria = Robots::query()->where("type='mechanical'");
+        $di = Di::getDefault();
+
+        $modelsManager = $di->get("modelsManager");
+
+        $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+        $criteria = $robotsRepository->query()->where("type='mechanical'");
         $I->assertInstanceOf(Builder::class, $criteria->createBuilder());
     }
 
     public function havingNotOverwritingGroupBy(IntegrationTester $I)
     {
-        $query = Personas::query()->groupBy('estado')->having('SUM(cupo) > 1000000');
+        $di = Di::getDefault();
+
+        $modelsManager = $di->get("modelsManager");
+
+        $personasRepository = $modelsManager->getRepository(Personas::class);
+
+        $query = $personasRepository->query()->groupBy('estado')->having('SUM(cupo) > 1000000');
 
         $I->assertEquals('estado', $query->getGroupBy());
         $I->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
@@ -70,8 +82,9 @@ class CriteriaCest
         $modelsManager = $di->get("modelsManager");
 
         $peopleRepository = $modelsManager->getRepository(People::class);
+        $personasRepository = $modelsManager->getRepository(Personas::class);
 
-        $personas = Personas::query()->where("estado='I'")->execute();
+        $personas = $personasRepository->query()->where("estado='I'")->execute();
         $people = $peopleRepository->find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
@@ -89,7 +102,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $I->assertInstanceOf(Simple::class, Personers::query()->where("status='I'")->execute());
+        $modelsManager = $di->get("modelsManager");
+
+        $personersRepository = $modelsManager->getRepository(Personers::class);
+
+        $I->assertInstanceOf(Simple::class, $personersRepository->query()->where("status='I'")->execute());
     }
 
     /**
@@ -105,9 +122,10 @@ class CriteriaCest
 
         $modelsManager = $di->get("modelsManager");
 
+        $personasRepository = $modelsManager->getRepository(Personas::class);
         $peopleRepository = $modelsManager->getRepository(People::class);
 
-        $personas = Personas::query()->conditions("estado='I'")->execute();
+        $personas = $personasRepository->query()->conditions("estado='I'")->execute();
         $people = $peopleRepository->find("estado='I'");
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
@@ -124,7 +142,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $I->assertInstanceOf(Simple::class, Personers::query()->conditions("status='I'")->execute());
+        $modelsManager = $di->get("modelsManager");
+
+        $personersRepository = $modelsManager->getRepository(Personers::class);
+
+        $I->assertInstanceOf(Simple::class, $personersRepository->query()->conditions("status='I'")->execute());
     }
 
     /**
@@ -140,9 +162,10 @@ class CriteriaCest
 
         $modelsManager = $di->get("modelsManager");
 
+        $personasRepository = $modelsManager->getRepository(Personas::class);
         $peopleRepository = $modelsManager->getRepository(People::class);
 
-        $personas = Personas::query()
+        $personas = $personasRepository->query()
             ->where("estado='A'")
             ->orderBy("nombres")
             ->execute();
@@ -164,7 +187,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $personers = Personers::query()
+        $modelsManager = $di->get("modelsManager");
+
+        $personersRepository = $modelsManager->getRepository(Personers::class);
+
+        $personers = $personersRepository->query()
             ->where("status='A'")
             ->orderBy("navnes")
             ->execute();
@@ -186,9 +213,10 @@ class CriteriaCest
 
         $modelsManager = $di->get("modelsManager");
 
+        $personasRepository = $modelsManager->getRepository(Personas::class);
         $peopleRepository = $modelsManager->getRepository(People::class);
 
-        $personas = Personas::query()
+        $personas = $personasRepository->query()
             ->where("estado='A'")
             ->orderBy("nombres")
             ->limit(100)
@@ -215,7 +243,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $personers = Personers::query()
+        $modelsManager = $di->get("modelsManager");
+
+        $personersRepository = $modelsManager->getRepository(Personers::class);
+
+        $personers = $personersRepository->query()
             ->where("status='A'")
             ->orderBy("navnes")
             ->limit(100)
@@ -238,9 +270,10 @@ class CriteriaCest
 
         $modelsManager = $di->get("modelsManager");
 
+        $personasRepository = $modelsManager->getRepository(Personas::class);
         $peopleRepository = $modelsManager->getRepository(People::class);
 
-        $personas = Personas::query()
+        $personas = $personasRepository->query()
             ->where("estado=?1")
             ->bind([1 => "A"])
             ->orderBy("nombres")
@@ -269,7 +302,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $personers = Personers::query()
+        $modelsManager = $di->get("modelsManager");
+
+        $personersRepository = $modelsManager->getRepository(Personers::class);
+
+        $personers = $personersRepository->query()
             ->where("status=?1")
             ->bind([1 => "A"])
             ->orderBy("navnes")
@@ -291,7 +328,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $personers = Personers::query()
+        $modelsManager = $di->get("modelsManager");
+
+        $personersRepository = $modelsManager->getRepository(Personers::class);
+
+        $personers = $personersRepository->query()
             ->where("status=:status:")
             ->bind(["status" => "A"])
             ->orderBy("navnes")
@@ -315,9 +356,10 @@ class CriteriaCest
 
         $modelsManager = $di->get("modelsManager");
 
+        $personasRepository = $modelsManager->getRepository(Personas::class);
         $peopleRepository = $modelsManager->getRepository(People::class);
 
-        $personas = Personas::query()
+        $personas = $personasRepository->query()
             ->where("estado=?1")
             ->bind([1 => "A"])
             ->orderBy("nombres")
@@ -348,9 +390,10 @@ class CriteriaCest
 
         $modelsManager = $di->get("modelsManager");
 
+        $personasRepository = $modelsManager->getRepository(Personas::class);
         $peopleRepository = $modelsManager->getRepository(People::class);
 
-        $personas = Personas::query()
+        $personas = $personasRepository->query()
             ->where("estado=:estado:")
             ->bind(["estado" => "A"])
             ->orderBy("nombres")
@@ -379,7 +422,11 @@ class CriteriaCest
         $di = Di::getDefault();
         $di->setShared('db', $example['adapter']);
 
-        $personas = Personas::query()->orderBy("nombres");
+        $modelsManager = $di->get("modelsManager");
+
+        $personasRepository = $modelsManager->getRepository(Personas::class);
+
+        $personas = $personasRepository->query()->orderBy("nombres");
 
         $I->assertEquals($personas->getOrderBy(), "nombres");
     }
@@ -400,14 +447,18 @@ class CriteriaCest
             return new File(new Data(), ['cacheDir' => PATH_CACHE]);
         });
 
-        $personas = Personas::query()
+        $modelsManager = $di->get("modelsManager");
+
+        $personasRepository = $modelsManager->getRepository(Personas::class);
+
+        $personas = $personasRepository->query()
             ->where("estado='I'")
             ->cache(['key' => 'cache-for-issue-2131'])
             ->execute();
 
         $I->assertTrue($personas->isFresh());
 
-        $personas = Personas::query()
+        $personas = $personasRepository->query()
             ->where("estado='I'")
             ->cache(['key' => 'cache-for-issue-2131'])
             ->execute();
