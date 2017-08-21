@@ -926,7 +926,7 @@ class Micro extends Injectable implements \ArrayAccess
 				}
 			}
 
-		} catch \Exception, e {
+		} catch \Throwable, e {
 
 			/**
 			 * Calling beforeNotFound event
