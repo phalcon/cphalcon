@@ -30,7 +30,7 @@ class Robotters extends Model
 
 	public function initialize()
 	{
-		$this->hasMany('code', 'RobottersDeles', 'robottersCode', array(
+		$this->hasMany('code', RobottersDeles::class, 'robottersCode', array(
 			'foreignKey' => true
 		));
 	}

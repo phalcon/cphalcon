@@ -9,7 +9,7 @@ class Parts extends \Phalcon\Mvc\Model
 	{
 		$this->setConnectionService('dbTwo');
 
-		$this->hasMany('id', 'Some\RobotsParts', 'parts_id', array(
+		$this->hasMany('id', RobotsParts::class, 'parts_id', array(
 			'alias' => 'RobotParts'
 		));
 	}

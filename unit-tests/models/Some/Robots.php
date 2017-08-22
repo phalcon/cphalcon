@@ -12,14 +12,14 @@ class Robots extends \Phalcon\Mvc\Model
 
 	public function initialize()
 	{
-		$this->hasMany('id', 'Some\RobotsParts', 'robots_id', array(
+		$this->hasMany('id', RobotsParts::class, 'robots_id', array(
 			'foreignKey' => true
 		));
 	}
 
 	public function getRobotsParts($arguments=null)
 	{
-		return $this->getRelated('Some\RobotsParts', $arguments);
+		return $this->getRelated(RobotsParts::class, $arguments);
 	}
 
 }

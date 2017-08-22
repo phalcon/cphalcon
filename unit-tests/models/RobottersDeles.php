@@ -25,11 +25,11 @@ class RobottersDeles extends Phalcon\Mvc\Model
 	public function initialize()
 	{
 
-		$this->belongsTo('delesCode', 'Deles', 'code', array(
+		$this->belongsTo('delesCode', Deles::class, 'code', array(
 			'foreignKey' => true
 		));
 
-		$this->belongsTo('robottersCode', 'Robotters', 'code', array(
+		$this->belongsTo('robottersCode', Robotters::class, 'code', array(
 			'foreignKey' => array(
 				'message' => 'The robotters code does not exist'
 			)

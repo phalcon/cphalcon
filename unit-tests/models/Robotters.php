@@ -28,7 +28,7 @@ class Robotters extends Phalcon\Mvc\Model
 
 	public function initialize()
 	{
-		$this->hasMany('code', 'RobottersDeles', 'robottersCode', array(
+		$this->hasMany('code', RobottersDeles::class, 'robottersCode', array(
 			'foreignKey' => true
 		));
 	}

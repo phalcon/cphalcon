@@ -7,10 +7,10 @@ class Albums extends \Phalcon\Mvc\Model
 
 	public function initialize()
 	{
-		$this->belongsTo('artists_id', 'AlbumORama\Artists', 'id', array(
+		$this->belongsTo('artists_id', Artists::class, 'id', array(
 			'alias' => 'artist'
 		));
-		$this->hasMany('id', 'AlbumORama\Songs', 'albums_id', array(
+		$this->hasMany('id', Songs::class, 'albums_id', array(
 			'alias' => 'songs'
 		));
 	}

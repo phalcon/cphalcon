@@ -23,7 +23,7 @@ class Deles extends Phalcon\Mvc\Model
 
 	public function initialize()
 	{
-		$this->hasMany('code', 'RobottersDeles', 'delesCode', array(
+		$this->hasMany('code', RobottersDeles::class, 'delesCode', array(
 			'foreignKey' => array(
 				'message' => 'Deles cannot be deleted because is referenced by a Robotter'
 			)

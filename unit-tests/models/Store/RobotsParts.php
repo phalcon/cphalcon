@@ -9,10 +9,10 @@ class RobotsParts extends \Phalcon\Mvc\Model
 	{
 		$this->setConnectionService('dbOne');
 
-		$this->belongsTo('parts_id', 'Store\Parts', 'id', array(
+		$this->belongsTo('parts_id', Parts::class, 'id', array(
 			'alias' => 'Part'
 		));
-		$this->belongsTo('robots_id', 'Store\Robots', 'id', array(
+		$this->belongsTo('robots_id', Robots::class, 'id', array(
 			'alias' => 'Robot'
 		));
 	}

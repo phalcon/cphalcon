@@ -30,14 +30,14 @@ class Robotters extends \Phalcon\Mvc\Model
 
 	public function initialize()
 	{
-		$this->hasMany('code', 'Some\RobottersDeles', 'robottersCode', array(
+		$this->hasMany('code', RobottersDeles::class, 'robottersCode', array(
 			'foreignKey' => true
 		));
 	}
 
 	public function getRobottersDeles($arguments=null)
 	{
-		return $this->getRelated('Some\RobottersDeles', $arguments);
+		return $this->getRelated(RobottersDeles::class, $arguments);
 	}
 
 }

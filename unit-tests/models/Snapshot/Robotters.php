@@ -24,7 +24,7 @@ class Robotters extends \Phalcon\Mvc\Model
 
 	public function initialize()
 	{
-		$this->hasMany('code', 'RobottersDeles', 'robottersCode');
+		$this->hasMany('code', \RobottersDeles::class, 'robottersCode');
 		$this->keepSnapshots(true);
 	}
 

@@ -1273,7 +1273,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * {
 	 *     public function initialize()
 	 *     {
-	 *         $this->hasOne("id", "RobotsDescription", "robots_id");
+	 *         $this->hasOne("id", RobotsDescription::class, "robots_id");
 	 *     }
 	 * }
 	 *</code>
@@ -1292,7 +1292,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * {
 	 *     public function initialize()
 	 *     {
-	 *         $this->belongsTo("robots_id", "Robots", "id");
+	 *         $this->belongsTo("robots_id", Robots::class, "id");
 	 *     }
 	 * }
 	 *</code>
@@ -1317,7 +1317,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * {
 	 *     public function initialize()
 	 *     {
-	 *         $this->hasMany("id", "RobotsParts", "robots_id");
+	 *         $this->hasMany("id", RobotsParts::class, "robots_id");
 	 *     }
 	 * }
 	 *</code>
@@ -1345,10 +1345,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *         // Setup a many-to-many relation to Parts through RobotsParts
 	 *         $this->hasManyToMany(
 	 *             "id",
-	 *             "RobotsParts",
+	 *             RobotsParts::class,
 	 *             "robots_id",
 	 *             "parts_id",
-	 *             "Parts",
+	 *             Parts::class,
 	 *             "id",
 	 *         );
 	 *     }
