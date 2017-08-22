@@ -132,7 +132,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Phalcon\Mvc\Model constructor
 	 */
-	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
+	public final function __construct(<DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
 		/**
 		 * We use a default DI if the user doesn't define one
@@ -171,11 +171,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 * This allows the developer to execute initialization stuff every time an instance is created
 		 */
 		if method_exists(this, "onConstruct") {
-			this->{"onConstruct"}(data);
-		}
-
-		if typeof data == "array" {
-			this->assign(data);
+			this->{"onConstruct"}();
 		}
 	}
 

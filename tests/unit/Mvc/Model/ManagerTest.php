@@ -85,7 +85,7 @@ class ManagerTest extends UnitTest
                 $manager = new Manager();
                 $manager->setModelPrefix('wp_');
 
-                $robots = new Robots(null, null, $manager);
+                $robots = new Robots(null, $manager);
 
 
                 expect($robots->getModelsManager()->getModelSource($robots))->equals('wp_robots');

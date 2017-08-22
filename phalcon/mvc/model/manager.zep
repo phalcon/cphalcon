@@ -289,7 +289,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Load it using an autoloader
 		 */
-		let model = new {modelName}(null, this->_dependencyInjector, this);
+		let model = new {modelName}(this->_dependencyInjector, this);
 
 		return model;
 	}

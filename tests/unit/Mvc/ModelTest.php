@@ -634,7 +634,9 @@ class ModelTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $personers = new Personers([
+                $personers = new Personers();
+
+                $personers->assign([
                     'borgerId'     => 'id-' . time() . rand(1, 99),
                     'slagBorgerId' => 1,
                     'kredit'       => 2.3,
@@ -679,7 +681,9 @@ class ModelTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $robots = new Validation\Robots(
+                $robots = new Validation\Robots();
+
+                $robots->assign(
                     [
                         'name'     => 'asd',
                         'type'     => 'mechanical',
@@ -736,7 +740,9 @@ class ModelTest extends UnitTest
         $this->specify(
             'Disabling setters in assign is not working',
             function () {
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name' => 'test',
                     ]
@@ -747,7 +753,9 @@ class ModelTest extends UnitTest
                         'disableAssignSetters' => true,
                     ]
                 );
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name' => 'test',
                     ]

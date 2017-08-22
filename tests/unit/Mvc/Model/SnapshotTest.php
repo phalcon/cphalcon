@@ -269,7 +269,9 @@ class SnapshotTest extends UnitTest
             'Snapshot is not created/updated when create/update operation was made',
             function () {
                 $modelsManager = $this->setUpModelsManager();
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name'     => 'test',
                         'type'     => 'mechanical',
@@ -307,7 +309,9 @@ class SnapshotTest extends UnitTest
             'Snapshot is not updated when refresh operation was made',
             function () {
                 $modelsManager = $this->setUpModelsManager();
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name'     => 'test',
                         'year'     => 2017,
@@ -341,10 +345,13 @@ class SnapshotTest extends UnitTest
 
                 $robotsRepository = $modelsManager->getRepository(Robots::class);
 
-                $robots = $robotsRepository->findFirst();
-                $robots = new Robots($robots->toArray());
+                $robots1 = $robotsRepository->findFirst();
 
-                expect($modelsManager->save($robots))->true();
+                $robots2 = new Robots();
+
+                $robots2->assign($robots1->toArray());
+
+                expect($modelsManager->save($robots2))->true();
             }
         );
     }
@@ -360,7 +367,9 @@ class SnapshotTest extends UnitTest
         $this->specify(
             'When getting updated fields from not persistent instance there should be exception',
             function () {
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name'     => 'test',
                         'year'     => 2017,
@@ -390,7 +399,9 @@ class SnapshotTest extends UnitTest
             function () {
                 $modelsManager = $this->setUpModelsManager();
 
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name' => 'test',
                         'year' => 2017,
@@ -494,7 +505,9 @@ class SnapshotTest extends UnitTest
             'hasChanged method for array argument is not working correctly',
             function () {
                 $modelsManager = $this->setUpModelsManager();
-                $robots = new Robots(
+                $robots = new Robots();
+
+                $robots->assign(
                     [
                         'name'     => 'test',
                         'year'     => 2017,

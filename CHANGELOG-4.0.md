@@ -22,3 +22,4 @@
 - Moved `Model::count()`, `Model::minimum()`, `Model::maximum()`, `Model::average()`, `Model::sum()` to Models Repository.
 - Moved `Model::query()` to Model Repository.
 - Removed Model namespace aliases.
+- You can no longer assign data to models in the constructor.

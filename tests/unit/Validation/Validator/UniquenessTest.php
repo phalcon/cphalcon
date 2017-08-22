@@ -318,7 +318,8 @@ class UniquenessTest extends UnitTest
     {
         parent::_before();
         $this->di = $this->tester->getApplication()->getDI();
-        $this->robot = new Robots([
+        $this->robot = new Robots();
+        $this->robot->assign([
             'name' => 'Robotina',
             'type' => 'mechanical',
             'year' => 1972,
@@ -326,7 +327,8 @@ class UniquenessTest extends UnitTest
             'deleted' => null,
             'text' => 'text',
         ]);
-        $this->anotherRobot = new Robots([
+        $this->anotherRobot = new Robots();
+        $this->anotherRobot->assign([
             'name' => 'Robotina',
             'type' => 'hydraulic',
             'year' => 1952,
@@ -334,7 +336,8 @@ class UniquenessTest extends UnitTest
             'deleted' => null,
             'text' => 'text',
         ]);
-        $this->deletedRobot = new Robots([
+        $this->deletedRobot = new Robots();
+        $this->deletedRobot->assign([
             'name' => 'Robotina',
             'type' => 'mechanical',
             'year' => 1972,
