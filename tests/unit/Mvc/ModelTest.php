@@ -560,18 +560,22 @@ class ModelTest extends UnitTest
         $this->specify(
             "Models can't be found properly",
             function () {
-                $robot = Robots::findFirstById(1);
+                $modelsManager = $this->setUpModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                $robot = $robotsRepository->findFirstById(1);
                 expect($robot)->isInstanceOf(Robots::class);
                 expect($robot->id)->equals(1);
 
-                $robot = Robots::findFirstById(2);
+                $robot = $robotsRepository->findFirstById(2);
                 expect($robot)->isInstanceOf(Robots::class);
                 expect($robot->id)->equals(2);
 
-                $robots = Robots::findByType('mechanical');
+                $robots = $robotsRepository->findByType('mechanical');
                 expect($robots)->count(2);
                 expect($robots[0]->id)->equals(1);
-                expect(Robots::countByType('mechanical'))->equals(2);
+                expect($robotsRepository->countByType('mechanical'))->equals(2);
             }
         );
     }
@@ -581,18 +585,22 @@ class ModelTest extends UnitTest
         $this->specify(
             "Models can't be found properly when using a column map",
             function () {
-                $robot = Robotters::findFirstByCode(1);
+                $modelsManager = $this->setUpModelsManager();
+
+                $robottersRepository = $modelsManager->getRepository(Robotters::class);
+
+                $robot = $robottersRepository->findFirstByCode(1);
                 expect($robot)->isInstanceOf(Robotters::class);
                 expect($robot->code)->equals(1);
 
-                $robot = Robotters::findFirstByCode(2);
+                $robot = $robottersRepository->findFirstByCode(2);
                 expect($robot)->isInstanceOf(Robotters::class);
                 expect($robot->code)->equals(2);
 
-                $robots = Robotters::findByTheType('mechanical');
+                $robots = $robottersRepository->findByTheType('mechanical');
                 expect($robots)->count(2);
                 expect($robots[0]->code)->equals(1);
-                expect(Robotters::countByTheType('mechanical'))->equals(2);
+                expect($robottersRepository->countByTheType('mechanical'))->equals(2);
             }
         );
     }

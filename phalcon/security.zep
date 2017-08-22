@@ -34,7 +34,9 @@ use Phalcon\Session\AdapterInterface as SessionInterface;
  * $login    = $this->request->getPost("login");
  * $password = $this->request->getPost("password");
  *
- * $user = Users::findFirstByLogin($login);
+ * $usersRepository = $modelsManager->getRepository(Users::class);
+ *
+ * $user = $usersRepository->findFirstByLogin($login);
  *
  * if ($user) {
  *     if ($this->security->checkHash($password, $user->password)) {

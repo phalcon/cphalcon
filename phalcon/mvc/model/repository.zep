@@ -525,4 +525,98 @@ class Repository implements RepositoryInterface
 
 		return criteria;
 	}
+
+	/**
+	 * Handles method calls when a method is not implemented
+	 *
+	 * @return	mixed
+	 */
+	public function __call(string method, array arguments)
+	{
+		var extraMethod, type, value, model, attributes, field, extraMethodFirst, metaData, modelClass;
+
+		let extraMethod = null;
+
+		/**
+		 * Check if the method starts with "findFirst"
+		 */
+		if starts_with(method, "findFirstBy") {
+			let type = "findFirst",
+				extraMethod = substr(method, 11);
+		}
+
+		/**
+		 * Check if the method starts with "find"
+		 */
+		elseif starts_with(method, "findBy") {
+			let type = "find",
+				extraMethod = substr(method, 6);
+		}
+
+		/**
+		 * Check if the method starts with "count"
+		 */
+		elseif starts_with(method, "countBy") {
+			let type = "count",
+				extraMethod = substr(method, 7);
+		}
+
+		let modelClass = this->_modelClass;
+
+		/**
+		 * The method doesn't exist throw an exception
+		 */
+		if !extraMethod {
+			throw new Exception("The method '" . method . "' doesn't exist on model '" . modelClass . "'");
+		}
+
+		if !fetch value, arguments[0] {
+			throw new Exception("The method '" . method . "' requires one argument");
+		}
+
+		let model = new {modelClass}(),
+			metaData = model->getModelsMetaData();
+
+		/**
+		 * Get the attributes
+		 */
+		let attributes = metaData->getReverseColumnMap(model);
+
+		if typeof attributes != "array" {
+			let attributes = metaData->getDataTypes(model);
+		}
+
+		/**
+		 * Check if the extra-method is an attribute
+		 */
+		if isset attributes[extraMethod] {
+			let field = extraMethod;
+		} else {
+			/**
+			 * Lowercase the first letter of the extra-method
+			 */
+			let extraMethodFirst = lcfirst(extraMethod);
+
+			if isset attributes[extraMethodFirst] {
+				let field = extraMethodFirst;
+			} else {
+				/**
+				 * Get the possible real method name
+				 */
+				let field = uncamelize(extraMethod);
+
+				if !isset attributes[field] {
+					throw new Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
+				}
+			}
+		}
+
+		/**
+		 * Execute the query
+		 */
+		return this->{type}([
+			"conditions": "[" . field . "] = ?0",
+			"bind"		: [value]
+		]);
+	}
 }
