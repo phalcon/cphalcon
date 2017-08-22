@@ -94,26 +94,6 @@ class ManagerTest extends UnitTest
         );
     }
 
-    public function testAliasedNamespacesRelations()
-    {
-        $this->specify(
-            "Aliased namespaces should work in relations",
-            function () {
-                $modelsManager = $this->setUpModelsManager();
-                $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
-
-                expect($modelsManager->getNamespaceAliases())
-                    ->equals(['AlbumORama' => 'Phalcon\Test\Models\AlbumORama']);
-
-                $albums = Albums::find();
-
-                foreach ($albums as $album) {
-                    expect($album->artist)->isInstanceOf('Phalcon\Test\Models\AlbumORama\Artists');
-                }
-            }
-        );
-    }
-
     /**
      * Tests Manager::isVisibleModelProperty
      *

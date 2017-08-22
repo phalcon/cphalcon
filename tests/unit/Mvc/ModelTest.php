@@ -46,25 +46,6 @@ class ModelTest extends UnitTest
 {
     use ModelTrait;
 
-    public function testCamelCaseRelation()
-    {
-        $this->specify(
-            "CamelCase relation calls should be the same cache",
-            function () {
-                $modelsManager = $this->setUpModelsManager();
-
-                $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
-
-                $albumsRepository = $modelsManager->getRepository(Albums::class);
-
-                $album = $albumsRepository->findFirst();
-
-                $album->artist->name = 'NotArtist';
-                expect($album->artist->name)->equals($album->Artist->name);
-            }
-        );
-    }
-
     /**
      * Tests find with empty conditions + bind and limit.
      *

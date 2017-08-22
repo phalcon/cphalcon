@@ -930,8 +930,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getJoin(<ManagerInterface> manager, array join) -> array
 	{
-		var qualified, modelName, realModelName, nsAlias,
-			source, model, schema;
+		var qualified, modelName, source, model, schema;
 
 		if fetch qualified, join["qualified"] {
 
@@ -939,21 +938,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				let modelName = qualified["name"];
 
-				if memstr(modelName, ":") {
-					let nsAlias = explode(":", modelName);
-					let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-				} else {
-					let realModelName = modelName;
-				}
-
-				let model = manager->load(realModelName),
+				let model = manager->load(modelName),
 					source = model->getSource(),
 					schema = model->getSchema();
 
 				return [
 					"schema"   : schema,
 					"source"   : source,
-					"modelName": realModelName,
+					"modelName": modelName,
 					"model"    : model
 				];
 			}
@@ -1691,7 +1683,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables, columns,
 			sqlAliasesModels, sqlModelsAliases, sqlAliasesModelsInstances,
 			models, modelsInstances, selectedModels, manager, metaData,
-			selectedModel, qualifiedName, modelName, nsAlias, realModelName, model,
+			selectedModel, qualifiedName, modelName, realModelName, model,
 			schema, source, completeSource, alias, joins, sqlJoins, selectColumns,
 			sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having, where,
 			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
@@ -1794,13 +1786,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let qualifiedName = selectedModel["qualifiedName"],
 				modelName = qualifiedName["name"];
 
-			// Check if the table has a namespace alias
-			if memstr(modelName, ":") {
-				let nsAlias = explode(":", modelName);
-				let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-			} else {
-				let realModelName = modelName;
-			}
+			let realModelName = modelName;
 
 			// Load a model instance from the models manager
 			let model = manager->load(realModelName);
@@ -2060,7 +2046,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _prepareInsert() -> array
 	{
-		var ast, qualifiedName, nsAlias, manager, modelName, model, source, schema,
+		var ast, qualifiedName, manager, modelName, model, source, schema,
 			exprValues, exprValue, sqlInsert, metaData, fields,
 			sqlFields, field, name, realModelName;
 		boolean notQuoting;
@@ -2085,13 +2071,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let manager = this->_manager,
 			modelName = qualifiedName["name"];
 
-		// Check if the table have a namespace alias
-		if memstr(modelName, ":") {
-			let nsAlias = explode(":", modelName);
-			let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-		} else {
-			let realModelName = modelName;
-		}
+		let realModelName = modelName;
 
 		let model = manager->load(realModelName),
 			source = model->getSource(),
@@ -2152,7 +2132,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var ast, update, tables, values, modelsInstances, models,
 			sqlTables, sqlAliases, sqlAliasesModelsInstances, updateTables,
-			nsAlias, realModelName, completeSource, sqlModels, manager,
+			realModelName, completeSource, sqlModels, manager,
 			table, qualifiedName, modelName, model, source, schema, alias,
 			sqlFields, sqlValues, updateValues, updateValue, exprColumn, sqlUpdate,
 			where, limit;
@@ -2195,15 +2175,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let qualifiedName = table["qualifiedName"],
 				modelName = qualifiedName["name"];
 
-			/**
-			 * Check if the table have a namespace alias
-			 */
-			if memstr(modelName, ":") {
-				let nsAlias = explode(":", modelName);
-				let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-			} else {
-				let realModelName = modelName;
-			}
+			let realModelName = modelName;
 
 			/**
 			 * Load a model instance from the models manager
@@ -2293,7 +2265,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var ast, delete, tables, models, modelsInstances,
 			sqlTables, sqlModels, sqlAliases, sqlAliasesModelsInstances,
-			deleteTables, manager, table, qualifiedName, modelName, nsAlias,
+			deleteTables, manager, table, qualifiedName, modelName,
 			realModelName, model, source, schema, completeSource, alias,
 			sqlDelete, where, limit;
 
@@ -2331,15 +2303,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let qualifiedName = table["qualifiedName"],
 				modelName = qualifiedName["name"];
 
-			/**
-			 * Check if the table have a namespace alias
-			 */
-			if memstr(modelName, ":") {
-				let nsAlias = explode(":", modelName);
-				let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-			} else {
-				let realModelName = modelName;
-			}
+			let realModelName = modelName;
 
 			/**
 			 * Load a model instance from the models manager

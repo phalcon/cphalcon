@@ -21,3 +21,4 @@
 - Moved `Model::find()` and `Model::findFirst()` to Model Repository.
 - Moved `Model::count()`, `Model::minimum()`, `Model::maximum()`, `Model::average()`, `Model::sum()` to Models Repository.
 - Moved `Model::query()` to Model Repository.
+- Removed Model namespace aliases.

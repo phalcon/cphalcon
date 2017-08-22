@@ -157,8 +157,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	protected _dynamicUpdate = [];
 
-	protected _namespaceAliases = [];
-
 	/**
 	 * Sets the DependencyInjector container
 	 */
@@ -279,19 +277,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function load(string! modelName) -> <ModelInterface>
 	{
-		var model, colonPos, namespaceName, namespaceAlias, className;
-
-		/**
-		 * Check if a modelName is an alias
-		 */
-		let colonPos = strpos(modelName, ":");
-
-		if colonPos !== false {
-			let className = substr(modelName, colonPos + 1);
-			let namespaceAlias = substr(modelName, 0, colonPos);
-			let namespaceName = this->getNamespaceAlias(namespaceAlias);
-			let modelName = namespaceName . "\\" . className;
-		}
+		var model;
 
 		/**
 		 * The model doesn't exist throw an exception
@@ -1708,35 +1694,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function getLastQuery() -> <QueryInterface>
 	{
 		return this->_lastQuery;
-	}
-
-	/**
-	 * Registers shorter aliases for namespaces in PHQL statements
-	 */
-	public function registerNamespaceAlias(string alias, string namespaceName) -> void
-	{
-		let this->_namespaceAliases[alias] = namespaceName;
-	}
-
-	/**
-	 * Returns a real namespace from its alias
-	 */
-	public function getNamespaceAlias(string! alias) -> string
-	{
-		var namespaceName;
-
-		if fetch namespaceName, this->_namespaceAliases[alias] {
-			return namespaceName;
-		}
-		throw new Exception("Namespace alias '" . alias . "' is not registered");
-	}
-
-	/**
-	 * Returns all the registered namespace aliases
-	 */
-	public function getNamespaceAliases() -> array
-	{
-		return this->_namespaceAliases;
 	}
 
 	public function getRepository(string! modelClass) -> <RepositoryInterface>
