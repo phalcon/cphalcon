@@ -144,7 +144,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 
 			$p = 100;
 			for ($i = 0; $i < 10; $i++) {
-				$persona = new Personas($di);
+				$persona = new Personas();
 				$persona->setTransaction($transaction1);
 				$persona->cedula            = 'T-Cx' . $i;
 				$persona->tipo_documento_id = 1;
@@ -188,7 +188,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 
 			$p = 200;
 			for ($i = 0; $i < 15; $i++) {
-				$persona = new Personas($di);
+				$persona = new Personas();
 				$persona->setTransaction($transaction2);
 				$persona->cedula = 'T-Cx'.$p;
 				$persona->tipo_documento_id = 1;
