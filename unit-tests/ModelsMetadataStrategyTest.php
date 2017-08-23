@@ -142,7 +142,7 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 
 		$metaData = $di['modelsMetadata'];
 
-		$robots = new Robots($di);
+		$robots = new Robots();
 
 		$meta = $metaData->readMetaData($robots);
 		$this->assertEquals($meta, $this->_expectedMeta);
