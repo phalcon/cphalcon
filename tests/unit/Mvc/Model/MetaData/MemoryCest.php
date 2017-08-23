@@ -62,7 +62,7 @@ class MemoryCest
 
         $di = $I->getApplication()->getDI();
 
-        $robotto = new Robotto($di);
+        $robotto = new Robotto();
 
         //Robots
         $pAttributes = array(
