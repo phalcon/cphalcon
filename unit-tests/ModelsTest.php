@@ -373,7 +373,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals($number, 20);
 
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$this->assertFalse($persona->save());
 
@@ -403,7 +403,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->getMessages(), $messages);
 
 		//Save
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST';
@@ -412,7 +412,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->estado = 'A';
 		$this->assertTrue($persona->save());
 
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST LOST';
@@ -452,7 +452,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->telefono, '2121');
 
 		//Create
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST CREATE';
@@ -461,7 +461,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->estado = 'A';
 		$this->assertTrue($persona->create());
 
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->assign(array(
 			'cedula' => 'CELL' . mt_rand(0, 999999),
 			'tipo_documento_id' => 1,
@@ -671,7 +671,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals($number, 20);
 
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$this->assertFalse($personer->save());
 
@@ -701,7 +701,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($personer->getMessages(), $messages);
 
 		//Save
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST';
@@ -710,7 +710,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->status = 'A';
 		$this->assertTrue($personer->save());
 
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST LOST';
@@ -750,7 +750,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($personer->telefon, '2121');
 
 		//Create
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST CREATE';
@@ -759,7 +759,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->status = 'A';
 		$this->assertTrue($personer->save());
 
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->assign(array(
 			'borgerId' => 'CELL'.mt_rand(0, 999999),
 			'slagBorgerId' => 1,
