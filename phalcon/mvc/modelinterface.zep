@@ -113,11 +113,6 @@ interface ModelInterface
 	public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null);
 
 	/**
-	 * Assigns values to a model from an array returning a new model
-	 */
-	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>;
-
-	/**
 	 * Returns an hydrated result based on the data and the column map
 	 *
 	 * @param array columnMap

@@ -712,49 +712,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Assigns values to a model from an array returning a new model
-	 *
-	 *<code>
-	 * $robot = Phalcon\Mvc\Model::cloneResult(
-	 *     new Robots(),
-	 *     [
-	 *         "type" => "mechanical",
-	 *         "name" => "Astro Boy",
-	 *         "year" => 1952,
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
-	{
-		var instance, key, value;
-
-		/**
-		 * Clone the base record
-		 */
-		let instance = clone base;
-
-		/**
-		 * Mark the object as persistent
-		 */
-		instance->setDirtyState(dirtyState);
-
-		for key, value in data {
-			if typeof key != "string" {
-				throw new Exception("Invalid key in array data provided to dumpResult()");
-			}
-			let instance->{key} = value;
-		}
-
-		/**
-		 * Call afterFetch, this allows the developer to execute actions after a record is fetched from the database
-		 */
-		(<ModelInterface> instance)->fireEvent("afterFetch");
-
-		return instance;
-	}
-
-	/**
 	 * Query for a set of records that match the specified conditions
 	 *
 	 * @deprecated

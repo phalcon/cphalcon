@@ -23,3 +23,4 @@
 - Moved `Model::query()` to Model Repository.
 - Removed Model namespace aliases.
 - You can no longer assign data to models in the constructor.
+- Removed `Model::cloneResult()`.
