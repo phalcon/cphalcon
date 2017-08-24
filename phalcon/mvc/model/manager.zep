@@ -3190,55 +3190,55 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 								let changed = true;
 							} else {
 
-							if !fetch dataType, dataTypes[field] {
-								throw new Exception("Column '" . field . "' have not defined a data type");
-							}
+								if !fetch dataType, dataTypes[field] {
+									throw new Exception("Column '" . field . "' have not defined a data type");
+								}
 
-							switch dataType {
+								switch dataType {
 
-								case Column::TYPE_BOOLEAN:
-									let changed = (boolean) snapshotValue !== (boolean) value;
-									break;
+									case Column::TYPE_BOOLEAN:
+										let changed = (boolean) snapshotValue !== (boolean) value;
+										break;
 
-								case Column::TYPE_INTEGER:
-									let changed = (int) snapshotValue !== (int) value;
-									break;
+									case Column::TYPE_INTEGER:
+										let changed = (int) snapshotValue !== (int) value;
+										break;
 
-								case Column::TYPE_DECIMAL:
-								case Column::TYPE_FLOAT:
-									let changed = floatval(snapshotValue) !== floatval(value);
-									break;
+									case Column::TYPE_DECIMAL:
+									case Column::TYPE_FLOAT:
+										let changed = floatval(snapshotValue) !== floatval(value);
+										break;
 
-								case Column::TYPE_DATE:
-								case Column::TYPE_VARCHAR:
-								case Column::TYPE_DATETIME:
-								case Column::TYPE_CHAR:
-								case Column::TYPE_TEXT:
-								case Column::TYPE_VARCHAR:
-								case Column::TYPE_BIGINTEGER:
-									let changed = (string) snapshotValue !== (string) value;
-									break;
+									case Column::TYPE_DATE:
+									case Column::TYPE_VARCHAR:
+									case Column::TYPE_DATETIME:
+									case Column::TYPE_CHAR:
+									case Column::TYPE_TEXT:
+									case Column::TYPE_VARCHAR:
+									case Column::TYPE_BIGINTEGER:
+										let changed = (string) snapshotValue !== (string) value;
+										break;
 
-								/**
-								 * Any other type is not really supported...
-								 */
-								default:
-									let changed = value != snapshotValue;
+									/**
+									 * Any other type is not really supported...
+									 */
+									default:
+										let changed = value != snapshotValue;
+								}
 							}
 						}
 					}
+
+					/**
+					 * Only changed values are added to the SQL Update
+					 */
+					if changed {
+						let fields[] = field, values[] = value;
+						let bindTypes[] = bindType;
+					}
 				}
 
-				/**
-				 * Only changed values are added to the SQL Update
-				 */
-				if changed {
-					let fields[] = field, values[] = value;
-					let bindTypes[] = bindType;
-				}
-			}
-			let newSnapshot[attributeField] = value;
-
+				let newSnapshot[attributeField] = value;
 			} else {
 				let newSnapshot[attributeField] = null;
 				let fields[] = field, values[] = null, bindTypes[] = bindSkip;
