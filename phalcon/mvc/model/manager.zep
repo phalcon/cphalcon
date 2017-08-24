@@ -3308,13 +3308,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			if typeof snapshot == "array" {
 				let newSnapshot = array_merge(snapshot, newSnapshot);
 				let oldSnapshot = snapshot;
-
-				model->updateSnapshot(newSnapshot, oldSnapshot);
 			} else {
 				let oldSnapshot = [];
-
-				model->updateSnapshot(newSnapshot, oldSnapshot);
 			}
+
+			model->updateSnapshot(newSnapshot, oldSnapshot);
 		}
 
 		return success;
@@ -3431,13 +3429,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			 */
 			if model->fireEventCancel("beforeDelete") === false {
 				return false;
-			} else {
-				/**
-				 * The operation can be skipped
-				 */
-				if model->isSkipped() {
-					return true;
-				}
+			}
+
+			/**
+			 * The operation can be skipped
+			 */
+			if model->isSkipped() {
+				return true;
 			}
 		}
 
@@ -3515,10 +3513,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			/**
 			 * Try to find a different action in the foreign key's options
 			 */
-			if typeof foreignKey == "array" {
-				if isset foreignKey["action"] {
-					let action = (int) foreignKey["action"];
-				}
+			if isset foreignKey["action"] {
+				let action = (int) foreignKey["action"];
 			}
 
 			/**
@@ -3634,10 +3630,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			/**
 			 * Try to find a different action in the foreign key's options
 			 */
-			if typeof foreignKey == "array" {
-				if isset foreignKey["action"] {
-					let action = (int) foreignKey["action"];
-				}
+			if isset foreignKey["action"] {
+				let action = (int) foreignKey["action"];
 			}
 
 			/**
