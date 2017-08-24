@@ -1485,10 +1485,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public function hasSnapshotData() -> boolean
 	{
-		var snapshot;
-		let snapshot = this->_snapshot;
-
-		return typeof snapshot == "array";
+		return typeof this->_snapshot == "array";
 	}
 
 	/**
