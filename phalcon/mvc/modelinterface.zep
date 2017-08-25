@@ -36,6 +36,8 @@ use Phalcon\Mvc\Model\MetaDataInterface;
 interface ModelInterface
 {
 
+	public static function getRepositoryClass() -> string;
+
 	/**
 	 * Sets a transaction related to the Model instance
 	 */

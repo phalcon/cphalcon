@@ -217,7 +217,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function initialize(<ModelInterface> model) -> boolean
 	{
-		var className, eventsManager;
+		var className, repository, eventsManager;
 
 		let className = get_class_lower(model);
 
@@ -232,6 +232,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 * Update the model as initialized, this avoid cyclic initializations
 		 */
 		let this->_initialized[className] = true;
+
+		let repository = this->getRepository(get_class(model));
+
+		/**
+		 * Call the 'initialize' method if it's implemented
+		 */
+		if method_exists(repository, "initialize") {
+			repository->{"initialize"}();
+		}
 
 		/**
 		 * Call the 'initialize' method if it's implemented
@@ -1698,9 +1707,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
 	public function getRepository(string! modelClass) -> <RepositoryInterface>
 	{
-		var repository;
+		var repositoryClass, repository;
 
-		let repository = new Repository(modelClass, this);
+		let repositoryClass = {modelClass}::getRepositoryClass();
+
+		let repository = new {repositoryClass}(modelClass, this);
 
 		return repository;
 	}

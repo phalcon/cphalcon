@@ -175,6 +175,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		}
 	}
 
+	public static function getRepositoryClass() -> string
+	{
+		return "Phalcon\\Mvc\\Model\\Repository";
+	}
+
 	/**
 	 * Sets the dependency injection container
 	 */
