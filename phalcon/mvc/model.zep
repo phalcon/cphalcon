@@ -1235,10 +1235,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *     }
 	 * }
 	 *</code>
+	 *
+	 * @deprecated
 	 */
 	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
-		return (<ManagerInterface> this->_modelsManager)->addHasOne(this, fields, referenceModel, referencedFields, options);
+		return (<ManagerInterface> this->_modelsManager)->addHasOne(get_called_class(), fields, referenceModel, referencedFields, options);
 	}
 
 	/**
@@ -1254,11 +1256,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *     }
 	 * }
 	 *</code>
+	 *
+	 * @deprecated
 	 */
 	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
-			this,
+			get_called_class(),
 			fields,
 			referenceModel,
 			referencedFields,
@@ -1279,11 +1283,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *     }
 	 * }
 	 *</code>
+	 *
+	 * @deprecated
 	 */
 	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasMany(
-			this,
+			get_called_class(),
 			fields,
 			referenceModel,
 			referencedFields,
@@ -1318,12 +1324,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * @param	string|array intermediateReferencedFields
 	 * @param   string|array referencedFields
 	 * @param   array options
+	 *
+	 * @deprecated
 	 */
 	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
 		string! referenceModel, var referencedFields, options = null) -> <Relation>
 	{
 		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
-			this,
+			get_called_class(),
 			fields,
 			intermediateModel,
 			intermediateFields,

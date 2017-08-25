@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\Snapshot;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\Snapshot\PartsRepository;
 
 /**
  * \Phalcon\Test\Models\Snapshot\Parts
@@ -30,7 +31,11 @@ class Parts extends Model
 {
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id');
         $this->keepSnapshots(true);
+    }
+
+    public static function getRepositoryClass()
+    {
+        return PartsRepository::class;
     }
 }

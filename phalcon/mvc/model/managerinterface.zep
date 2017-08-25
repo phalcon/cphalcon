@@ -112,7 +112,7 @@ interface ManagerInterface
 	 * @param	mixed  referencedFields
 	 * @param	array  options
 	 */
-	public function addHasOne(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
+	public function addHasOne(string! modelClass, fields, string! referencedModel, referencedFields, options = null) -> <ResultsetInterface>;
 
 	/**
 	 * Setup a relation reverse 1-1  between two models
@@ -121,7 +121,7 @@ interface ManagerInterface
 	 * @param	mixed  referencedFields
 	 * @param	array  options
 	 */
-	public function addBelongsTo(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
+	public function addBelongsTo(string! modelClass, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
 
 	/**
 	 * Setup a relation 1-n between two models
@@ -130,7 +130,7 @@ interface ManagerInterface
 	 * @param	mixed  referencedFields
 	 * @param	array  options
 	 */
-	public function addHasMany(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
+	public function addHasMany(string! modelClass, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
 
 	/**
 	 * Checks whether a model has a belongsTo relation with another model

@@ -7,6 +7,7 @@ return [
         'timezone'  => 'UTC',
         'viewsDir'  => PATH_DATA . 'views/',
         'modelsDir' => PATH_DATA . 'models/',
+        'modelRepositoriesDir' => PATH_DATA . 'model-repositories/',
         'modulesDir' => PATH_DATA . 'modules/',
         'resultsetsDir'  => PATH_DATA . 'resultsets/',
         'collectionsDir' => PATH_DATA . 'collections/',

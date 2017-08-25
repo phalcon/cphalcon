@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Models\Some;
 
+use Phalcon\Test\ModelRepositories\Some\PartsRepository;
+
 class Parts extends \Phalcon\Mvc\Model
 {
     public function getSource()
@@ -9,12 +11,8 @@ class Parts extends \Phalcon\Mvc\Model
         return 'parts';
     }
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany('id', \Phalcon\Test\Models\RobotsParts::class, 'parts_id', array(
-            'foreignKey' => array(
-                'message' => 'Parts cannot be deleted because is referenced by a Robot'
-            )
-        ));
+        return PartsRepository::class;
     }
 }

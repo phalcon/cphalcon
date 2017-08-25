@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\AlbumORama;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\AlbumORama\ArtistsRepository;
 
 /**
  * \Phalcon\Test\Models\AlbumORama\Artists
@@ -13,7 +14,7 @@ use Phalcon\Mvc\Model;
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Models\AlbumORama\Albums
+ * @package   Phalcon\Test\Models\AlbumORama
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -24,13 +25,8 @@ use Phalcon\Mvc\Model;
  */
 class Artists extends Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany(
-            'id',
-            Albums::class,
-            'artists_id',
-            ['alias' => 'albums']
-        );
+        return ArtistsRepository::class;
     }
 }

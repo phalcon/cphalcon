@@ -4,6 +4,7 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\ModelRepositories\RobotsRepository;
 
 /**
  * \Phalcon\Test\Models\Robots
@@ -37,20 +38,14 @@ class Robots extends Model
      */
     protected $name;
 
+    public static function getRepositoryClass()
+    {
+        return RobotsRepository::class;
+    }
+
     public function initialize()
     {
         $this->keepSnapshots(true);
-
-        $this->hasMany(
-            'id',
-            RobotsParts::class,
-            'robots_id',
-            [
-                'foreignKey' => true,
-                'reusable' => false,
-                'alias' => 'parts'
-            ]
-        );
     }
 
     public function setName($name)

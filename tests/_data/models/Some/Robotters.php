@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Models\Some;
 
+use Phalcon\Test\ModelRepositories\Some\RobottersRepository;
+
 /**
  * Robotters
  *
@@ -27,11 +29,9 @@ class Robotters extends \Phalcon\Mvc\Model
         );
     }
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany('code', RobottersDeles::class, 'robottersCode', array(
-            'foreignKey' => true
-        ));
+        return RobottersRepository::class;
     }
 
     public function getRobottersDeles($arguments = null)

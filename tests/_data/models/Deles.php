@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\DelesRepository;
 
 /**
  * Deles
@@ -24,17 +25,8 @@ class Deles extends Model
         ];
     }
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany(
-            'code',
-            RobottersDeles::class,
-            'delesCode',
-            [
-                'foreignKey' => [
-                    'message' => 'Deles cannot be deleted because is referenced by a Robotter'
-                ]
-            ]
-        );
+        return DelesRepository::class;
     }
 }

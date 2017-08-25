@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\AlbumORama;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\AlbumORama\AlbumsRepository;
 
 /**
  * \Phalcon\Test\Models\AlbumORama\Albums
@@ -28,13 +29,8 @@ use Phalcon\Mvc\Model;
  */
 class Albums extends Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->belongsTo(
-            'artists_id',
-            Artists::class,
-            'id',
-            ['alias' => 'artist']
-        );
+        return AlbumsRepository::class;
     }
 }

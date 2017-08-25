@@ -1,19 +1,18 @@
 <?php
 
-namespace Phalcon\Test\Models;
+namespace Phalcon\Test\ModelRepositories\DynamicUpdate;
 
-use Phalcon\Mvc\Model;
-use Phalcon\Test\ModelRepositories\PartsRepository;
+use Phalcon\Mvc\Model\Repository;
+use Phalcon\Test\Models\RobotsParts;
 
 /**
- * \Phalcon\Test\Models\Parts
- * Parts model class
+ * \Phalcon\Test\ModelRepositories\DynamicUpdate\RobotsRepository
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Models
+ * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * @package   Phalcon\Test\ModelRepositories\DynamicUpdate
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -22,10 +21,14 @@ use Phalcon\Test\ModelRepositories\PartsRepository;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class Parts extends Model
+class RobotsRepository extends Repository
 {
-    public static function getRepositoryClass()
+    public function initialize()
     {
-        return PartsRepository::class;
+        $this->hasMany(
+            "id",
+            RobotsParts::class,
+            "robots_id"
+        );
     }
 }

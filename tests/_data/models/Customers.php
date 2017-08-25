@@ -4,6 +4,7 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\ModelRepositories\CustomersRepository;
 
 /**
  * \Phalcon\Test\Models\Customers
@@ -42,8 +43,8 @@ class Customers extends Model
     protected $protected_field;
     private $private_field;
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasOne('customer_id', Users::class, 'id', ['alias' => 'user', 'reusable' => true]);
+        return CustomersRepository::class;
     }
 }

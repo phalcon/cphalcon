@@ -7,6 +7,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Test\ModelRepositories\Validation\RobotsRepository;
 
 /**
  * \Phalcon\Test\Models\Validation\Robots
@@ -30,18 +31,9 @@ use Phalcon\Validation\Validator\StringLength;
  */
 class Robots extends Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany(
-            'id',
-            RobotsParts::class,
-            'robots_id',
-            [
-                'foreignKey' => true,
-                'reusable'   => false,
-                'alias'      => 'parts',
-            ]
-        );
+        return RobotsRepository::class;
     }
 
     public function validation()

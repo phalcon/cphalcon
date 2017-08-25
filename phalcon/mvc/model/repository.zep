@@ -619,4 +619,131 @@ class Repository implements RepositoryInterface
 			"bind"		: [value]
 		]);
 	}
+
+	/**
+	 * Setup a 1-1 relation between two models
+	 *
+	 *<code>
+	 * <?php
+	 *
+	 * use Phalcon\Mvc\Model\Repository;
+	 *
+	 * class RobotsRepository extends Repository
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->hasOne("id", RobotsDescription::class, "robots_id");
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addHasOne(this->_modelClass, fields, referenceModel, referencedFields, options);
+	}
+
+	/**
+	 * Setup a reverse 1-1 or n-1 relation between two models
+	 *
+	 *<code>
+	 * <?php
+	 *
+	 * use Phalcon\Mvc\Model\Repository;
+	 *
+	 * class RobotsPartsRepository extends Repository
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->belongsTo("robots_id", Robots::class, "id");
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addBelongsTo(
+			this->_modelClass,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
+
+	/**
+	 * Setup a 1-n relation between two models
+	 *
+	 *<code>
+	 * <?php
+	 *
+	 * use Phalcon\Mvc\Model\Repository;
+	 *
+	 * class RobotsRepository extends Repository
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->hasMany("id", RobotsParts::class, "robots_id");
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addHasMany(
+			this->_modelClass,
+			fields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
+
+	/**
+	 * Setup an n-n relation between two models, through an intermediate relation
+	 *
+	 *<code>
+	 * <?php
+	 *
+	 * use Phalcon\Mvc\Model\Repository;
+	 *
+	 * class RobotsRepository extends Repository
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         // Setup a many-to-many relation to Parts through RobotsParts
+	 *         $this->hasManyToMany(
+	 *             "id",
+	 *             RobotsParts::class,
+	 *             "robots_id",
+	 *             "parts_id",
+	 *             Parts::class,
+	 *             "id",
+	 *         );
+	 *     }
+	 * }
+	 *</code>
+	 *
+	 * @param	string|array fields
+	 * @param	string intermediateModel
+	 * @param	string|array intermediateFields
+	 * @param	string|array intermediateReferencedFields
+	 * @param	string referencedModel
+	 * @param   string|array referencedFields
+	 * @param   array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
+		string! referenceModel, var referencedFields, options = null) -> <Relation>
+	{
+		return (<ManagerInterface> this->_modelsManager)->addHasManyToMany(
+			this->_modelClass,
+			fields,
+			intermediateModel,
+			intermediateFields,
+			intermediateReferencedFields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
 }

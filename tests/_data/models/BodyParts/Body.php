@@ -4,6 +4,7 @@ namespace Phalcon\Test\Models\BodyParts;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Test\Models\BodyParts\Head;
+use Phalcon\Test\ModelRepositories\BodyParts\BodyRepository;
 
 /**
  * \Phalcon\Test\Models\Body
@@ -29,31 +30,10 @@ class Body extends Model
     public function initialize()
     {
         $this->setSource('issue12071_body');
+    }
 
-        $this->belongsTo(
-            'head_1_id',
-            Head::class,
-            'id',
-            [
-                'alias' => 'head1',
-                "foreignKey" => [
-                    "allowNulls" => true,
-                    "message" => "First head does not exists"
-                ]
-            ]
-        );
-
-        $this->belongsTo(
-            'head_2_id',
-            Head::class,
-            'id',
-            [
-                'alias' => 'head2',
-                "foreignKey" => [
-                    "allowNulls" => true,
-                    "message" => "Second head does not exists"
-                ]
-            ]
-        );
+    public static function getRepositoryClass()
+    {
+        return BodyRepository::class;
     }
 }

@@ -4,6 +4,7 @@ namespace Phalcon\Test\Models\Some;
 
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Test\ModelRepositories\Some\ProductsRepository;
 
 class Products extends \Phalcon\Mvc\Model
 {

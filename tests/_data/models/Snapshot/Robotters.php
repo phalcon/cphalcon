@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Models\Snapshot;
 
 use Phalcon\Mvc\Model;
-use Phalcon\Test\Models\RobottersDeles;
+use Phalcon\Test\ModelRepositories\Snapshot\RobottersRepository;
 
 /**
  * \Phalcon\Test\Models\Snapshot\Robotters
@@ -52,10 +52,13 @@ class Robotters extends Model
         ];
     }
 
+    public static function getRepositoryClass()
+    {
+        return RobottersRepository::class;
+    }
+
     public function initialize()
     {
-        $this->hasMany('code', RobottersDeles::class, 'robottersCode');
-
         $this->keepSnapshots(true);
     }
 }

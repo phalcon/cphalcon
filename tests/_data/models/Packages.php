@@ -4,6 +4,7 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Test\ModelRepositories\PackagesRepository;
 
 /**
  * \Phalcon\Test\Models\Packages
@@ -34,13 +35,8 @@ class Packages extends Model
     public $updated;
     public $deleted;
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany(
-            ['reference_id', 'reference_type_id'],
-            PackageDetails::class,
-            ['reference_id', 'reference_type_id'],
-            ['alias' => 'details']
-        );
+        return PackagesRepository::class;
     }
 }

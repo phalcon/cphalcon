@@ -1,22 +1,18 @@
 <?php
 
-namespace Phalcon\Test\Models\Snapshot;
+namespace Phalcon\Test\ModelRepositories;
 
-use Phalcon\Mvc\Model;
-use Phalcon\Test\ModelRepositories\Snapshot\RobotsPartsRepository;
+use Phalcon\Mvc\Model\Repository;
+use Phalcon\Test\Models\Users;
 
 /**
- * \Phalcon\Test\Models\Snapshot\RobotsParts
+ * \Phalcon\Test\ModelRepositories\CustomersRepository
  *
  * @copyright 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
+ * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Models\Snapshot
- *
- * @property int $id
- * @property int $robots_id
- * @property int $parts_id
+ * @package   Phalcon\Test\ModelRepositories
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -25,15 +21,18 @@ use Phalcon\Test\ModelRepositories\Snapshot\RobotsPartsRepository;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class RobotsParts extends Model
+class CustomersRepository extends Repository
 {
     public function initialize()
     {
-        $this->keepSnapshots(true);
-    }
-
-    public static function getRepositoryClass()
-    {
-        return RobotsPartsRepository::class;
+        $this->hasOne(
+            "customer_id",
+            Users::class,
+            "id",
+            [
+                "alias"    => "user",
+                "reusable" => true,
+            ]
+        );
     }
 }

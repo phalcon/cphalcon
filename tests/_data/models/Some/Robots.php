@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Models\Some;
 
+use Phalcon\Test\ModelRepositories\Some\RobotsRepository;
+
 class Robots extends \Phalcon\Mvc\Model
 {
     public function getSource()
@@ -9,11 +11,9 @@ class Robots extends \Phalcon\Mvc\Model
         return 'robots';
     }
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id', array(
-            'foreignKey' => true
-        ));
+        return RobotsRepository::class;
     }
 
     public function getRobotsParts($arguments = null)

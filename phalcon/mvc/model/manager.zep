@@ -681,13 +681,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *
 	 * @param	array options
 	 */
-	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
+	public function addHasOne(string modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
 
-		let entityName = get_class_lower(model),
+		let entityName = strtolower(modelClass),
 			referencedEntity = strtolower(referencedModel);
 
 		let keyRelation = entityName . "$" . referencedEntity;
@@ -762,12 +762,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *
 	 * @param	array options
 	 */
-	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
+	public function addBelongsTo(string! modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
 
-		let entityName = get_class_lower(model),
+		let entityName = strtolower(modelClass),
 			referencedEntity = strtolower(referencedModel);
 
 		let keyRelation = entityName . "$" . referencedEntity;
@@ -843,13 +843,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	mixed referencedFields
 	 * @param	array options
 	 */
-	public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
+	public function addHasMany(string! modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations;
 
-		let entityName = get_class_lower(model),
+		let entityName = strtolower(modelClass),
 			referencedEntity = strtolower(referencedModel),
 			keyRelation = entityName . "$" . referencedEntity;
 
@@ -928,13 +928,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 * @param	string referencedFields
 	 * @param   array options
 	 */
-	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
+	public function addHasManyToMany(string! modelClass, var fields, string! intermediateModel,
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
 			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
 
-		let entityName = get_class_lower(model),
+		let entityName = strtolower(modelClass),
 			intermediateEntity = strtolower(intermediateModel),
 			referencedEntity = strtolower(referencedModel),
 			keyRelation = entityName . "$" . referencedEntity;

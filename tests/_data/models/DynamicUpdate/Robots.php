@@ -4,6 +4,7 @@ namespace Phalcon\Test\Models\DynamicUpdate;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Test\ModelRepositories\DynamicUpdate\RobotsRepository;
 
 /**
  * \Phalcon\Test\Models\DynamicUpdate\Robots
@@ -38,8 +39,11 @@ class Robots extends Model
 
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id');
-
         $this->useDynamicUpdate(true);
+    }
+
+    public static function getRepositoryClass()
+    {
+        return RobotsRepository::class;
     }
 }

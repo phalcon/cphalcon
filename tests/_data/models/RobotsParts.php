@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\RobotsPartsRepository;
 
 /**
  * \Phalcon\Test\Models\RobotsParts
@@ -22,12 +23,8 @@ use Phalcon\Mvc\Model;
  */
 class RobotsParts extends Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->belongsTo('parts_id', Parts::class, 'id', ['foreignKey' => true]);
-
-        $this->belongsTo('robots_id', Robots::class, 'id', [
-            'foreignKey' => ['message' => 'The robot code does not exist']
-        ]);
+        return RobotsPartsRepository::class;
     }
 }

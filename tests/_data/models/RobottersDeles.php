@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\RobottersDelesRepository;
 
 /**
  * RobottersDeles
@@ -25,26 +26,8 @@ class RobottersDeles extends Model
         ];
     }
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->belongsTo(
-            'delesCode',
-            Deles::class,
-            'code',
-            [
-                'foreignKey' => true
-            ]
-        );
-
-        $this->belongsTo(
-            'robottersCode',
-            Robotters::class,
-            'code',
-            [
-                'foreignKey' => [
-                    'message' => 'The robotters code does not exist'
-                ]
-            ]
-        );
+        return RobottersDelesRepository::class;
     }
 }
