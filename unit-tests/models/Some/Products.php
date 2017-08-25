@@ -8,8 +8,9 @@ use Phalcon\Mvc\Model\MetaData;
 class Products extends \Phalcon\Mvc\Model
 {
 
-	public function getSource(){
-		return 'le_products';
+	public function initialize()
+	{
+		$this->setSource('le_products');
 	}
 
 	public function metaData()

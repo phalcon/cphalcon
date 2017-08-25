@@ -6,14 +6,14 @@ use Phalcon\Test\ModelRepositories\Some\RobotsRepository;
 
 class Robots extends \Phalcon\Mvc\Model
 {
-    public function getSource()
-    {
-        return 'robots';
-    }
-
     public static function getRepositoryClass()
     {
         return RobotsRepository::class;
+    }
+
+    public function initialize()
+    {
+        $this->setSource('robots');
     }
 
     public function getRobotsParts($arguments = null)

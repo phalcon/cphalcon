@@ -8,9 +8,9 @@
 class Pessoas extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
+	public function initialize()
 	{
-		return 'personnes';
+		$this->setSource("personnes");
 	}
 
 	public function columnMap()

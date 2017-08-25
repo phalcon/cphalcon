@@ -33,8 +33,8 @@ class Robotters extends Model
      */
     public $theYear;
 
-    public function getSource()
+    public function initialize()
     {
-        return 'robots';
+        $this->setSource('robots');
     }
 }

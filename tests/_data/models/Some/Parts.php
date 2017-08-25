@@ -6,13 +6,13 @@ use Phalcon\Test\ModelRepositories\Some\PartsRepository;
 
 class Parts extends \Phalcon\Mvc\Model
 {
-    public function getSource()
-    {
-        return 'parts';
-    }
-
     public static function getRepositoryClass()
     {
         return PartsRepository::class;
+    }
+
+    public function initialize()
+    {
+        $this->setSource('parts');
     }
 }

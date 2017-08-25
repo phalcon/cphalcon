@@ -21,9 +21,9 @@ use Phalcon\Mvc\Model;
  */
 class AgeStats extends Model
 {
-	public function getSource()
+	public function initialize()
 	{
-		return 'stats';
+		$this->setSource("stats");
 	}
 
 	public function getResultsetClass()

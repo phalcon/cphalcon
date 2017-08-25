@@ -11,11 +11,6 @@ use Phalcon\Test\ModelRepositories\Some\RobottersDelesRepository;
  */
 class RobottersDeles extends \Phalcon\Mvc\Model
 {
-    public function getSource()
-    {
-        return 'robots_parts';
-    }
-
     public function columnMap()
     {
         return array(
@@ -28,5 +23,10 @@ class RobottersDeles extends \Phalcon\Mvc\Model
     public static function getRepositoryClass()
     {
         return RobottersDelesRepository::class;
+    }
+
+    public function initialize()
+    {
+        $this->setSource('robots_parts');
     }
 }

@@ -25,3 +25,4 @@
 - You can no longer assign data to models in the constructor.
 - Removed `Model::cloneResult()`.
 - Added custom Model Repositories.
+- You can no longer overwrite `Model::getSource()`.

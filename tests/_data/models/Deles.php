@@ -12,9 +12,9 @@ use Phalcon\Test\ModelRepositories\DelesRepository;
  */
 class Deles extends Model
 {
-    public function getSource()
+    public function initialize()
     {
-        return 'parts';
+        $this->setSource('parts');
     }
 
     public function columnMap()

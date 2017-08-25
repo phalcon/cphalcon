@@ -3,9 +3,9 @@
 class People extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
+	public function initialize()
 	{
-		return 'personas';
+		$this->setSource("personas");
 	}
 
 }

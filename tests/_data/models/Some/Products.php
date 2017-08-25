@@ -8,9 +8,9 @@ use Phalcon\Test\ModelRepositories\Some\ProductsRepository;
 
 class Products extends \Phalcon\Mvc\Model
 {
-    public function getSource()
+    public function initialize()
     {
-        return 'le_products';
+        $this->setSource('le_products');
     }
 
     public function metaData()

@@ -34,8 +34,8 @@ class People extends Model
     public $estado;
     public $creado_at;
 
-    public function getSource()
+    public function initialize()
     {
-        return 'personas';
+        $this->setSource('personas');
     }
 }

@@ -8,11 +8,6 @@
 class Deles extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
-	{
-		return 'parts';
-	}
-
 	public function columnMap()
 	{
 		return array(
@@ -23,6 +18,8 @@ class Deles extends Phalcon\Mvc\Model
 
 	public function initialize()
 	{
+		$this->setSource("parts");
+
 		$this->hasMany('code', RobottersDeles::class, 'delesCode', array(
 			'foreignKey' => array(
 				'message' => 'Deles cannot be deleted because is referenced by a Robotter'

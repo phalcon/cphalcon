@@ -9,12 +9,6 @@ use Phalcon\Mvc\Model;
  */
 class Robotters extends Model
 {
-
-	public function getSource()
-	{
-		return 'robots';
-	}
-
 	public function columnMap()
 	{
 		return array(
@@ -30,6 +24,8 @@ class Robotters extends Model
 
 	public function initialize()
 	{
+		$this->setSource('robots');
+
 		$this->hasMany('code', RobottersDeles::class, 'robottersCode', array(
 			'foreignKey' => true
 		));

@@ -11,11 +11,6 @@ use Phalcon\Test\ModelRepositories\Some\DelesRepository;
  */
 class Deles extends \Phalcon\Mvc\Model
 {
-    public function getSource()
-    {
-        return 'parts';
-    }
-
     public function columnMap()
     {
         return array(
@@ -27,5 +22,10 @@ class Deles extends \Phalcon\Mvc\Model
     public static function getRepositoryClass()
     {
         return DelesRepository::class;
+    }
+
+    public function initialize()
+    {
+        $this->setSource('parts');
     }
 }

@@ -10,11 +10,6 @@ namespace Some;
 class Robotters extends \Phalcon\Mvc\Model
 {
 
-	public function getSource()
-	{
-		return 'robots';
-	}
-
 	public function columnMap()
 	{
 		return array(
@@ -30,6 +25,8 @@ class Robotters extends \Phalcon\Mvc\Model
 
 	public function initialize()
 	{
+		$this->setSource('robots');
+
 		$this->hasMany('code', 'Some\RobottersDeles', 'robottersCode', array(
 			'foreignKey' => true
 		));

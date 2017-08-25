@@ -4,14 +4,10 @@ namespace Some;
 
 class RobotsParts extends \Phalcon\Mvc\Model
 {
-
-	public function getSource()
-	{
-		return 'robots_parts';
-	}
-
 	public function initialize()
 	{
+		$this->setSource('robots_parts');
+
 		$this->belongsTo('parts_id', \Parts::class, 'id', array(
 			'foreignKey' => true
 		));

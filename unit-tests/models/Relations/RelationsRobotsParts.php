@@ -5,6 +5,8 @@ class RelationsRobotsParts extends Phalcon\Mvc\Model
 
 	public function initialize()
 	{
+		$this->setSource('robots_parts');
+
 		$this->belongsTo('parts_id', RelationsParts::class, 'id', array(
 			'foreignKey' => true
 		));
@@ -13,11 +15,6 @@ class RelationsRobotsParts extends Phalcon\Mvc\Model
 				'message' => 'The robot code does not exist'
 			)
 		));
-	}
-
-	public function getSource()
-	{
-		return 'robots_parts';
 	}
 
 }

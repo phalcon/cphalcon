@@ -305,7 +305,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Returns the table name mapped in the model
 	 */
-	public function getSource() -> string
+	public final function getSource() -> string
 	{
 		return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
 	}

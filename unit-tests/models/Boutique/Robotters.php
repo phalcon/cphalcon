@@ -32,9 +32,9 @@ class Robotters extends \Phalcon\Mvc\Model
 	 */
 	public $theYear;
 
-	public function getSource()
+	public function initialize()
 	{
-		return 'robots';
+		$this->setSource('robots');
 	}
 
 }

@@ -4,8 +4,9 @@ class Robots2 extends Phalcon\Mvc\Model
 {
 	protected $myname;
 
-    public function getSource() {
-        return 'robots';
+    public function initialize()
+    {
+        $this->setSource("robots");
     }
 
     public function getName() {

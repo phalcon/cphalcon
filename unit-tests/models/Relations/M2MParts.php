@@ -2,8 +2,8 @@
 
 class M2MParts extends Phalcon\Mvc\Model
 {
-	public function getSource()
+	public function initialize()
 	{
-		return 'm2m_parts';
+		$this->setSource('m2m_parts');
 	}
 }

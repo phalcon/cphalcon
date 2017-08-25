@@ -10,9 +10,9 @@ use Phalcon\Db\Column;
  */
 class Robotto extends \Phalcon\Mvc\Model
 {
-    public function getSource()
+    public function initialize()
     {
-        return 'robots';
+        $this->setSource('robots');
     }
 
     public function metaData()

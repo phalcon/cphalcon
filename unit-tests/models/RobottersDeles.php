@@ -8,11 +8,6 @@
 class RobottersDeles extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
-	{
-		return 'robots_parts';
-	}
-
 	public function columnMap()
 	{
 		return array(
@@ -24,6 +19,7 @@ class RobottersDeles extends Phalcon\Mvc\Model
 
 	public function initialize()
 	{
+		$this->setSource("robots_parts");
 
 		$this->belongsTo('delesCode', Deles::class, 'code', array(
 			'foreignKey' => true

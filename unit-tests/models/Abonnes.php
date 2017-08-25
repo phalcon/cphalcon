@@ -19,9 +19,9 @@ use Phalcon\Mvc\Model\Message as Message;
 class Abonnes extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
+	public function initialize()
 	{
-		return 'subscriptores';
+		$this->setSource("subscriptores");
 	}
 
 	public function beforeValidation()

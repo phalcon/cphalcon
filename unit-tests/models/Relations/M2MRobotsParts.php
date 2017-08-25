@@ -2,8 +2,8 @@
 
 class M2MRobotsParts extends Phalcon\Mvc\Model
 {
-	public function getSource()
+	public function initialize()
 	{
-		return 'm2m_robots_parts';
+		$this->setSource('m2m_robots_parts');
 	}
 }

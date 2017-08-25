@@ -5,9 +5,9 @@ class GossipRobots extends Phalcon\Mvc\Model
 
 	public $trace;
 
-	public function getSource()
+	public function initialize()
 	{
-		return 'robots';
+		$this->setSource("robots");
 	}
 
 	protected function _talk($completeMethod)

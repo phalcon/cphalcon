@@ -34,11 +34,6 @@ use Phalcon\Test\ModelRepositories\Snapshot\RobottersRepository;
  */
 class Robotters extends Model
 {
-    public function getSource()
-    {
-        return 'robots';
-    }
-
     public function columnMap()
     {
         return [
@@ -59,6 +54,8 @@ class Robotters extends Model
 
     public function initialize()
     {
+        $this->setSource('robots');
+
         $this->keepSnapshots(true);
     }
 }

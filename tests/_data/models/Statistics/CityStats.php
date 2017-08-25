@@ -21,8 +21,8 @@ use Phalcon\Mvc\Model;
  */
 class CityStats extends Model
 {
-	public function getSource()
+	public function initialize()
 	{
-		return 'stats';
+		$this->setSource("stats");
 	}
 }

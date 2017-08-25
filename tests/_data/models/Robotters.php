@@ -19,9 +19,9 @@ use Phalcon\Test\ModelRepositories\RobottersRepository;
  */
 class Robotters extends Model
 {
-    public function getSource()
+    public function initialize()
     {
-        return 'robots';
+        $this->setSource("robots");
     }
 
     public function columnMap()

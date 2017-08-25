@@ -3,9 +3,9 @@
 class Subscribers extends Phalcon\Mvc\Model
 {
 
-	public function getSource()
+	public function initialize()
 	{
-		return 'subscriptores';
+		$this->setSource('subscriptores');
 	}
 
 }
