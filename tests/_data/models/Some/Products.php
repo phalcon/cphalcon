@@ -8,11 +8,6 @@ use Phalcon\Test\ModelRepositories\Some\ProductsRepository;
 
 class Products extends \Phalcon\Mvc\Model
 {
-    public function initialize()
-    {
-        $this->setSource('le_products');
-    }
-
     public function metaData()
     {
         return array(
@@ -48,5 +43,10 @@ class Products extends \Phalcon\Mvc\Model
             MetaData::MODELS_AUTOMATIC_DEFAULT_INSERT => array(),
             MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE => array()
         );
+    }
+
+    public static function getRepositoryClass()
+    {
+        return ProductsRepository::class;
     }
 }

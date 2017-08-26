@@ -7,7 +7,7 @@ use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 
 /**
- * \Phalcon\Test\ModelRepositories\Some\RobotsRepository
+ * \Phalcon\Test\ModelRepositories\Some\RobotsPartsRepository
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -22,10 +22,12 @@ use Phalcon\Test\Models\Robots;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class RobotsRepository extends Repository
+class RobotsPartsRepository extends Repository
 {
     public function initialize()
     {
+        $this->setSource("robot_parts");
+
         $this->belongsTo(
             "parts_id",
             Parts::class,

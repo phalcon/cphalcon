@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\BodyParts;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\BodyParts\HeadRepository;
 
 /**
  * \Phalcon\Test\Models\Head
@@ -23,8 +24,8 @@ class Head extends Model
 {
     public $id;
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->setSource('issue12071_head');
+        return HeadRepository::class;
     }
 }

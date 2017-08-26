@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\RobosRepository;
 
 /**
  * Robos
@@ -15,10 +16,13 @@ use Phalcon\Mvc\Model;
  */
 class Robos extends Model
 {
+	public static function getRepositoryClass()
+	{
+		return RobosRepository::class;
+	}
+
     public function initialize()
     {
-        $this->setSource("robots");
-
         $this->setConnectionService('dbTwo');
     }
 }

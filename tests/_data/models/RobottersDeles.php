@@ -12,11 +12,6 @@ use Phalcon\Test\ModelRepositories\RobottersDelesRepository;
  */
 class RobottersDeles extends Model
 {
-    public function initialize()
-    {
-        $this->setSource("robots_parts");
-    }
-
     public function columnMap()
     {
         return [

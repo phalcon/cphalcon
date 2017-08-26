@@ -42,10 +42,13 @@ class Introspection implements StrategyInterface
 		var schema, table, readConnection, columns, attributes,
 			primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull,
 			fieldTypes, automaticDefault, identityField, fieldBindTypes,
-			defaultValues, column, fieldName, defaultValue, emptyStringValues;
+			defaultValues, column, fieldName, defaultValue, emptyStringValues,
+			manager, repository;
 
-		let schema    = model->getSchema(),
-			table     = model->getSource();
+		let manager = model->getModelsManager(),
+			repository = manager->getRepository(get_class(model)),
+			table = repository->getSource(),
+			schema = repository->getSchema();
 
 		/**
 		 * Check if the mapped table exists on the database

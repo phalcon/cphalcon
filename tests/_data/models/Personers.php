@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\PersonersRepository;
 
 /**
  * \Phalcon\Test\Models\Personers
@@ -35,9 +36,9 @@ use Phalcon\Mvc\Model;
  */
 class Personers extends Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->setSource('personas');
+        return PersonersRepository::class;
     }
 
     public function columnMap()

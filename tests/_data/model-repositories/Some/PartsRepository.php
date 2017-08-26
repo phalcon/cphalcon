@@ -25,6 +25,8 @@ class PartsRepository extends Repository
 {
     public function initialize()
     {
+        $this->setSource("parts");
+
         $this->hasMany(
             "id",
             RobotsParts::class,

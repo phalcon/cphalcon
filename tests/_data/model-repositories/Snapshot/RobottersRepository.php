@@ -25,6 +25,8 @@ class RobottersRepository extends Repository
 {
     public function initialize()
     {
+        $this->setSource('robots');
+
         $this->hasMany(
             "code",
             RobottersDeles::class,

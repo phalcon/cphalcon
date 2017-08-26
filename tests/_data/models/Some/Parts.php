@@ -10,9 +10,4 @@ class Parts extends \Phalcon\Mvc\Model
     {
         return PartsRepository::class;
     }
-
-    public function initialize()
-    {
-        $this->setSource('parts');
-    }
 }

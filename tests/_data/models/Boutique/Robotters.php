@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\Boutique;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\Boutique\RobottersRepository;
 
 /**
  * Robotters
@@ -33,8 +34,8 @@ class Robotters extends Model
      */
     public $theYear;
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->setSource('robots');
+        return RobottersRepository::class;
     }
 }

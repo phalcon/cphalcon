@@ -27,11 +27,6 @@ class Body extends Model
     public $head_1_id;
     public $head_2_id;
 
-    public function initialize()
-    {
-        $this->setSource('issue12071_body');
-    }
-
     public static function getRepositoryClass()
     {
         return BodyRepository::class;

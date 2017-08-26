@@ -238,10 +238,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public final function readMetaData(<ModelInterface> model)
 	{
-		var source, schema, key;
+		var repository, source, schema, key;
 
-		let source = model->getSource(),
-			schema = model->getSchema();
+		let repository = model->getModelsManager()->getRepository(get_class(model));
+
+		let source = repository->getSource(),
+			schema = repository->getSchema();
 
 		/*
 		 * Unique key for meta-data is created using class-name-schema-source
@@ -268,10 +270,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public final function readMetaDataIndex(<ModelInterface> model, int index)
 	{
-		var source, schema, key;
+		var repository, source, schema, key;
 
-		let source = model->getSource(),
-			schema = model->getSchema();
+		let repository = model->getModelsManager()->getRepository(get_class(model));
+
+		let source = repository->getSource(),
+			schema = repository->getSchema();
 
 		/*
 		 * Unique key for meta-data is created using class-name-schema-source
@@ -302,14 +306,16 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 	 */
 	public final function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
 	{
-		var source, schema, key;
+		var repository, source, schema, key;
 
 		if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
 			throw new Exception("Invalid data for index");
 		}
 
-		let source = model->getSource(),
-			schema = model->getSchema();
+		let repository = model->getModelsManager()->getRepository(get_class(model));
+
+		let source = repository->getSource(),
+			schema = repository->getSchema();
 
 		/*
 		 * Unique key for meta-data is created using class-name-schema-table

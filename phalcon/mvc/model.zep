@@ -294,39 +294,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets the table name to which model should be mapped
-	 */
-	protected function setSource(string! source) -> <Model>
-	{
-		(<ManagerInterface> this->_modelsManager)->setModelSource(this, source);
-		return this;
-	}
-
-	/**
-	 * Returns the table name mapped in the model
-	 */
-	public final function getSource() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getModelSource(this);
-	}
-
-	/**
-	 * Sets schema name where the mapped table is located
-	 */
-	protected function setSchema(string! schema) -> <Model>
-	{
-		return (<ManagerInterface> this->_modelsManager)->setModelSchema(this, schema);
-	}
-
-	/**
-	 * Returns schema name where the mapped table is located
-	 */
-	public function getSchema() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this);
-	}
-
-	/**
 	 * Sets the DependencyInjection connection service name
 	 */
 	public function setConnectionService(string! connectionService) -> <Model>

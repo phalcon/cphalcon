@@ -86,4 +86,14 @@ interface RepositoryInterface
 	 * Create a criteria for a specific model
 	 */
 	public function query(<DiInterface> dependencyInjector = null) -> <Criteria>;
+
+	/**
+	 * Returns the table name mapped in the model
+	 */
+	public function getSource() -> string;
+
+	/**
+	 * Returns schema name where the mapped table is located
+	 */
+	public function getSchema() -> string;
 }

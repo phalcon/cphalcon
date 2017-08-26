@@ -24,9 +24,4 @@ class RobottersDeles extends \Phalcon\Mvc\Model
     {
         return RobottersDelesRepository::class;
     }
-
-    public function initialize()
-    {
-        $this->setSource('robots_parts');
-    }
 }

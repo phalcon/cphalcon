@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\Statistics;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\Statistics\CountryStatsRepository;
 
 /**
  * \Phalcon\Test\Models\Statistics\CountryStats
@@ -21,9 +22,9 @@ use Phalcon\Mvc\Model;
  */
 class CountryStats extends Model
 {
-	public function initialize()
+	public static function getRepositoryClass()
 	{
-		$this->setSource('stats');
+		return CountryStatsRepository::class;
 	}
 
 	public function getResultsetClass()

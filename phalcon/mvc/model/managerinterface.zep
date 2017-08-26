@@ -38,22 +38,22 @@ interface ManagerInterface
 	/**
 	 * Sets the mapped source for a model
 	 */
-	public function setModelSource(<ModelInterface> model, string! source) -> void;
+	public function setModelSource(string! modelClass, string! source) -> void;
 
 	/**
 	 * Returns the mapped source for a model
 	 */
-	public function getModelSource(<ModelInterface> model) -> string;
+	public function getModelSource(string! modelClass) -> string;
 
 	/**
 	 * Sets the mapped schema for a model
 	 */
-	public function setModelSchema(<ModelInterface> model, string! schema);
+	public function setModelSchema(string! modelClass, string! schema);
 
 	/**
 	 * Returns the mapped schema for a model
 	 */
-	public function getModelSchema(<ModelInterface> model) -> string;
+	public function getModelSchema(string! modelClass) -> string;
 
 	/**
 	 * Sets both write and read connection service for a model

@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\Statistics;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\Statistics\CityStatsRepository;
 
 /**
  * \Phalcon\Test\Models\Statistics\CityStats
@@ -21,8 +22,8 @@ use Phalcon\Mvc\Model;
  */
 class CityStats extends Model
 {
-	public function initialize()
+	public static function getRepositoryClass()
 	{
-		$this->setSource("stats");
+		return CityStatsRepository::class;
 	}
 }

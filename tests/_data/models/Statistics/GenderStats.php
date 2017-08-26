@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\Statistics;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\Statistics\GenderStatsRepository;
 
 /**
  * \Phalcon\Test\Models\Statistics\GenderStats
@@ -21,9 +22,9 @@ use Phalcon\Mvc\Model;
  */
 class GenderStats extends Model
 {
-	public function initialize()
+	public static function getRepositoryClass()
 	{
-		$this->setSource('stats');
+		return GenderStatsRepository::class;
 	}
 
 	public function getResultsetClass()

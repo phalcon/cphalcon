@@ -25,6 +25,8 @@ class DelesRepository extends Repository
 {
     public function initialize()
     {
+        $this->setSource('parts');
+
         $this->hasMany(
             "code",
             RobottersDeles::class,

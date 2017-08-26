@@ -54,8 +54,6 @@ class Robotters extends Model
 
     public function initialize()
     {
-        $this->setSource('robots');
-
         $this->keepSnapshots(true);
     }
 }

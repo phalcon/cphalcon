@@ -316,8 +316,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *     return $modelsManager;
 	 * });
 	 *
-	 * $robots = new Robots();
-	 * echo $robots->getSource(); // wp_robots
+	 * $modelsManager = $di->get("modelsManager");
+	 *
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * echo $robotsRepository->getSource(); // wp_robots
 	 * </code>
 	 */
 	public function setModelPrefix(string! prefix) -> void
@@ -338,8 +341,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 *     return $modelsManager;
 	 * });
 	 *
-	 * $robots = new Robots();
-	 * echo $robots->getSource(); // wp_robots
+	 * $modelsManager = $di->get("modelsManager");
+	 *
+	 * $robotsRepository = $modelsManager->getRepository(Robots::class);
+	 *
+	 * echo $robotsRepository->getSource(); // wp_robots
 	 * </code>
 	 */
 	public function getModelPrefix() -> string
@@ -350,9 +356,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets the mapped source for a model
 	 */
-	public function setModelSource(<ModelInterface> model, string! source) -> void
+	public function setModelSource(string! modelClass, string! source) -> void
 	{
-		let this->_sources[get_class_lower(model)] = source;
+		let this->_sources[strtolower(modelClass)] = source;
 	}
 
 	/**
@@ -383,11 +389,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Returns the mapped source for a model
 	 */
-	public function getModelSource(<ModelInterface> model) -> string
+	public function getModelSource(string! modelClass) -> string
 	{
-		var entityName;
+		var entityName, model;
 
-		let entityName = get_class_lower(model);
+		let entityName = strtolower(modelClass);
+
+		let model = new {modelClass}();
 
 		if !isset this->_sources[entityName] {
 			let this->_sources[entityName] = uncamelize(get_class_ns(model));
@@ -399,19 +407,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets the mapped schema for a model
 	 */
-	public function setModelSchema(<ModelInterface> model, string! schema) -> void
+	public function setModelSchema(string! modelClass, string! schema) -> void
 	{
-		let this->_schemas[get_class_lower(model)] = schema;
+		let this->_schemas[strtolower(modelClass)] = schema;
 	}
 
 	/**
 	 * Returns the mapped schema for a model
 	 */
-	public function getModelSchema(<ModelInterface> model) -> string
+	public function getModelSchema(string! modelClass) -> string
 	{
 		var schema;
 
-		if !fetch schema, this->_schemas[get_class_lower(model)] {
+		if !fetch schema, this->_schemas[strtolower(modelClass)] {
 			return "";
 		}
 
@@ -1721,7 +1729,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function refresh(<ModelInterface> model) -> <ModelInterface>
 	{
-		var metaData, readConnection, schema, source, table,
+		var metaData, readConnection, schema, source, table, manager, repository,
 			uniqueKey, tables, uniqueParams, dialect, row, fields, attribute, columnMap;
 
 		if model->getDirtyState() != Model::DIRTY_STATE_PERSISTENT {
@@ -1731,8 +1739,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let metaData = model->getModelsMetaData(),
 			readConnection = model->getReadConnection();
 
-		let schema = model->getSchema(),
-			source = model->getSource();
+		let manager = model->getModelsManager(),
+			repository = manager->getRepository(get_class(model)),
+			source = repository->getSource(),
+			schema = repository->getSchema();
 
 		if schema {
 			let table = [schema, source];
@@ -1805,7 +1815,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		int numberEmpty, numberPrimary;
 		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
 			wherePk, field, attributeField, value, bindDataTypes,
-			joinWhere, num, type, schema, source;
+			joinWhere, num, type, schema, source, repository;
 
 		let uniqueParams = null,
 			uniqueTypes = null;
@@ -1915,8 +1925,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let uniqueTypes = model->getUniqueTypes();
 		}
 
-		let schema = model->getSchema(),
-			source = model->getSource();
+		let repository = this->getRepository(get_class(model));
+
+		let schema = repository->getSchema(),
+			source = repository->getSource();
 
 		if schema {
 			let table = [schema, source];
@@ -1970,7 +1982,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function save(<ModelInterface> model) -> boolean
 	{
 		var metaData, related, schema, writeConnection, readConnection,
-			source, table, identityField, exists, success;
+			source, table, identityField, exists, success, repository;
 
 		let metaData = model->getModelsMetaData();
 
@@ -1994,8 +2006,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		}
 
-		let schema = model->getSchema(),
-			source = model->getSource();
+		let repository = this->getRepository(get_class(model));
+
+		let schema = repository->getSchema(),
+			source = repository->getSource();
 
 		if schema {
 			let table = [schema, source];
@@ -2901,8 +2915,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
 			field, columnMap, value, attributeField, success, bindType,
-			defaultValue, sequenceName, defaultValues, source, schema, snapshot, lastInsertedId;
+			defaultValue, sequenceName, defaultValues, source, schema, snapshot, lastInsertedId, repository;
 		boolean useExplicitIdentity;
+
+		let repository = this->getRepository(get_class(model));
 
 		let bindSkip = Column::BIND_SKIP;
 
@@ -3061,8 +3077,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 					let sequenceName = model->{"getSequenceName"}();
 				} else {
 
-					let source = model->getSource(),
-						schema = model->getSchema();
+					let source = repository->getSource(),
+						schema = repository->getSchema();
 
 					if empty schema {
 						let sequenceName = source . "_" . identityField . "_seq";
@@ -3350,7 +3366,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var metaData, writeConnection, values, bindTypes, primaryKeys,
 			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
-			bindType, value, schema, source, table, success;
+			bindType, value, schema, source, table, success, repository;
+
+		let repository = this->getRepository(get_class(model));
 
 		let metaData = model->getModelsMetaData(),
 			writeConnection = model->getWriteConnection();
@@ -3450,8 +3468,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			}
 		}
 
-		let schema = model->getSchema(),
-			source = model->getSource();
+		let schema = repository->getSchema(),
+			source = repository->getSource();
 
 		if schema {
 			let table = [schema, source];

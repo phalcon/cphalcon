@@ -44,16 +44,6 @@ interface ModelInterface
 	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>;
 
 	/**
-	 * Returns table name mapped in the model
-	 */
-	public function getSource() -> string;
-
-	/**
-	 * Returns schema name where table mapped is located
-	 */
-	public function getSchema() -> string;
-
-	/**
 	 * Sets both read/write connection services
 	 */
 	public function setConnectionService(string connectionService) -> void;

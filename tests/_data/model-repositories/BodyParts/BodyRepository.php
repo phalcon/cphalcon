@@ -25,6 +25,8 @@ class BodyRepository extends Repository
 {
     public function initialize()
     {
+        $this->setSource('issue12071_body');
+
         $this->belongsTo(
             "head_1_id",
             Head::class,

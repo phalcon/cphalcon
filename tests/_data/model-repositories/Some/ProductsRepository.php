@@ -3,10 +3,9 @@
 namespace Phalcon\Test\ModelRepositories\Some;
 
 use Phalcon\Mvc\Model\Repository;
-use Phalcon\Test\Models\Some\RobottersDeles;
 
 /**
- * \Phalcon\Test\ModelRepositories\Some\RobottersRepository
+ * \Phalcon\Test\ModelRepositories\Some\ProductsRepository
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
@@ -21,19 +20,10 @@ use Phalcon\Test\Models\Some\RobottersDeles;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class RobottersRepository extends Repository
+class ProductsRepository extends Repository
 {
     public function initialize()
     {
-        $this->setSource('robots');
-
-        $this->hasMany(
-            "code",
-            RobottersDeles::class,
-            "robottersCode",
-            [
-                "foreignKey" => true,
-            ]
-        );
+        $this->setSource('le_products');
     }
 }

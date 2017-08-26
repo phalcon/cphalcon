@@ -908,15 +908,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getTable(<ManagerInterface> manager, array qualifiedName)
 	{
-		var modelName, model, source, schema;
+		var modelName, repository, source, schema;
 
 		if !fetch modelName, qualifiedName["name"] {
 			throw new Exception("Corrupted SELECT AST");
 		}
 
-		let model = manager->load(modelName),
-			source = model->getSource(),
-			schema = model->getSchema();
+		let repository = manager->getRepository(modelName),
+			source = repository->getSource(),
+			schema = repository->getSchema();
 
 		if schema {
 			return [schema, source];
@@ -930,7 +930,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getJoin(<ManagerInterface> manager, array join) -> array
 	{
-		var qualified, modelName, source, model, schema;
+		var qualified, modelName, source, model, schema, repository;
 
 		if fetch qualified, join["qualified"] {
 
@@ -939,8 +939,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 				let modelName = qualified["name"];
 
 				let model = manager->load(modelName),
-					source = model->getSource(),
-					schema = model->getSchema();
+					repository = manager->getRepository(modelName),
+					source = repository->getSource(),
+					schema = repository->getSchema();
 
 				return [
 					"schema"   : schema,
@@ -1091,7 +1092,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			intermediateModelName, intermediateModel, intermediateSource,
 			intermediateSchema, intermediateFields, intermediateReferencedFields,
 			referencedModelName, manager, field, position, intermediateField,
-			sqlEqualsJoinCondition;
+			sqlEqualsJoinCondition, intermediateRepository;
 
 		let sqlJoins = [];
 
@@ -1117,15 +1118,17 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let intermediateModel = manager->load(intermediateModelName);
 
+		let intermediateRepository = manager->getRepository(intermediateModelName);
+
 		/**
 		 * Source of the related model
 		 */
-		let intermediateSource = intermediateModel->getSource();
+		let intermediateSource = intermediateRepository->getSource();
 
 		/**
 		 * Schema of the related model
 		 */
-		let intermediateSchema = intermediateModel->getSchema();
+		let intermediateSchema = intermediateRepository->getSchema();
 
 		//intermediateFullSource = array(intermediateSchema, intermediateSource);
 
@@ -1689,7 +1692,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			groupBy, order, limit, tempModels, tempModelsInstances, tempSqlAliases,
 			tempSqlModelsAliases, tempSqlAliasesModelsInstances, tempSqlAliasesModels,
 			with, withs, withItem, automaticJoins, number, relation, joinAlias,
-			relationModel, bestAlias, eagerType;
+			relationModel, bestAlias, eagerType, repository;
 
 		if empty ast {
 			let ast = this->_ast;
@@ -1791,9 +1794,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 			// Load a model instance from the models manager
 			let model = manager->load(realModelName);
 
+			let repository = manager->getRepository(realModelName);
+
 			// Define a complete schema/source
-			let schema = model->getSchema(),
-				source = model->getSource();
+			let schema = repository->getSchema(),
+				source = repository->getSource();
 
 			// Obtain the real source including the schema
 			if schema {
@@ -2048,7 +2053,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var ast, qualifiedName, manager, modelName, model, source, schema,
 			exprValues, exprValue, sqlInsert, metaData, fields,
-			sqlFields, field, name, realModelName;
+			sqlFields, field, name, realModelName, repository;
 		boolean notQuoting;
 
 		let ast = this->_ast;
@@ -2074,8 +2079,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let realModelName = modelName;
 
 		let model = manager->load(realModelName),
-			source = model->getSource(),
-			schema = model->getSchema();
+			repository = manager->getRepository(realModelName),
+			source = repository->getSource(),
+			schema = repository->getSchema();
 
 		if schema {
 			let source = [schema, source];
@@ -2135,7 +2141,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			realModelName, completeSource, sqlModels, manager,
 			table, qualifiedName, modelName, model, source, schema, alias,
 			sqlFields, sqlValues, updateValues, updateValue, exprColumn, sqlUpdate,
-			where, limit;
+			where, limit, repository;
 		boolean notQuoting;
 
 		let ast = this->_ast;
@@ -2181,8 +2187,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Load a model instance from the models manager
 			 */
 			let model = manager->load(realModelName),
-				source = model->getSource(),
-				schema = model->getSchema();
+				repository = manager->getRepository(realModelName),
+				source = repository->getSource(),
+				schema = repository->getSchema();
 
 			/**
 			 * Create a full source representation including schema
@@ -2267,7 +2274,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			sqlTables, sqlModels, sqlAliases, sqlAliasesModelsInstances,
 			deleteTables, manager, table, qualifiedName, modelName,
 			realModelName, model, source, schema, completeSource, alias,
-			sqlDelete, where, limit;
+			sqlDelete, where, limit, repository;
 
 		let ast = this->_ast;
 
@@ -2309,8 +2316,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 			 * Load a model instance from the models manager
 			 */
 			let model = manager->load(realModelName),
-				source = model->getSource(),
-				schema = model->getSchema();
+				repository = manager->getRepository(realModelName),
+				source = repository->getSource(),
+				schema = repository->getSchema();
 
 			if schema {
 				let completeSource = [source, schema];
@@ -3186,7 +3194,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 */
 	protected final function _getRelatedRecords(<ModelInterface> model, array intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
 	{
-		var selectIr, whereConditions, limitConditions, query;
+		var selectIr, whereConditions, limitConditions, query, repository;
+
+		let repository = model->getModelsManager()->getRepository(get_class(model));
 
 		/**
 		 * Instead of create a PHQL string statement we manually create the IR representation
@@ -3195,7 +3205,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			"columns": [[
 				"type"  : "object",
 				"model" : get_class(model),
-				"column": model->getSource()
+				"column": repository->getSource()
 			]],
 			"models":  intermediate["models"],
 			"tables":  intermediate["tables"]

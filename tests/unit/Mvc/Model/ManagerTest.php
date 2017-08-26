@@ -64,8 +64,12 @@ class ManagerTest extends UnitTest
             function () {
                 $robots = new Robots();
 
-                expect($robots->getModelsManager()->getModelSource($robots))->equals('robots');
-                expect($robots->getSource())->equals('robots');
+                $modelsManager = $robots->getModelsManager();
+
+                $robotsRepository = $modelsManager->getRepository(Robots::class);
+
+                expect($modelsManager->getModelSource(Robots::class))->equals('robots');
+                expect($robotsRepository->getSource())->equals('robots');
             }
         );
     }
@@ -88,8 +92,8 @@ class ManagerTest extends UnitTest
                 $robots = new Robots(null, $manager);
 
 
-                expect($robots->getModelsManager()->getModelSource($robots))->equals('wp_robots');
-                expect($robots->getSource())->equals('wp_robots');
+                expect($robots->getModelsManager()->getModelSource(Robots::class))->equals('wp_robots');
+                expect($manager->getRepository(Robots::class)->getSource())->equals('wp_robots');
             }
         );
     }

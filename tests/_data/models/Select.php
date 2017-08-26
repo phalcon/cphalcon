@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\SelectRepository;
 
 /**
  * \Phalcon\Test\Models\Select
@@ -22,9 +23,9 @@ use Phalcon\Mvc\Model;
  */
 class Select extends Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->setSource('ph_select');
+        return SelectRepository::class;
     }
 
     public function getId()

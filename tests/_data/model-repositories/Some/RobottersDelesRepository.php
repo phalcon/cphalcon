@@ -26,6 +26,8 @@ class RobottersDelesRepository extends Repository
 {
     public function initialize()
     {
+        $this->setSource('robots_parts');
+
         $this->belongsTo(
             "delesCode",
             Deles::class,

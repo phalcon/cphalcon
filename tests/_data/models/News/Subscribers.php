@@ -5,6 +5,7 @@ namespace Phalcon\Test\Models\News;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
+use Phalcon\Test\ModelRepositories\News\SubscribersRepository;
 
 /**
  * \Phalcon\Test\Models\Subscribers
@@ -29,10 +30,13 @@ use Phalcon\Mvc\Model\Behavior\Timestampable;
  */
 class Subscribers extends Model
 {
+    public static function getRepositoryClass()
+    {
+        return SubscribersRepository::class;
+    }
+
     public function initialize()
     {
-        $this->setSource('subscriptores');
-
         $this->addBehavior(new Timestampable([
             'beforeCreate' => [
                 'field' => 'created_at',

@@ -1,18 +1,17 @@
 <?php
 
-namespace Phalcon\Test\ModelRepositories\Some;
+namespace Phalcon\Test\ModelRepositories\Boutique;
 
 use Phalcon\Mvc\Model\Repository;
-use Phalcon\Test\Models\Some\RobottersDeles;
 
 /**
- * \Phalcon\Test\ModelRepositories\Some\RobottersRepository
+ * \Phalcon\Test\ModelRepositories\Boutique\RobottersRepository
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\ModelRepositories\Some
+ * @package   Phalcon\Test\ModelRepositories\Boutique
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -26,14 +25,5 @@ class RobottersRepository extends Repository
     public function initialize()
     {
         $this->setSource('robots');
-
-        $this->hasMany(
-            "code",
-            RobottersDeles::class,
-            "robottersCode",
-            [
-                "foreignKey" => true,
-            ]
-        );
     }
 }

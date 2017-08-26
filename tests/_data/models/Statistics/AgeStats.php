@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models\Statistics;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\Statistics\AgeStatsRepository;
 
 /**
  * \Phalcon\Test\Models\Statistics\AgeStats
@@ -21,9 +22,9 @@ use Phalcon\Mvc\Model;
  */
 class AgeStats extends Model
 {
-	public function initialize()
+	public static function getRepositoryClass()
 	{
-		$this->setSource("stats");
+		return AgeStatsRepository::class;
 	}
 
 	public function getResultsetClass()

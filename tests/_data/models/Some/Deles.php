@@ -23,9 +23,4 @@ class Deles extends \Phalcon\Mvc\Model
     {
         return DelesRepository::class;
     }
-
-    public function initialize()
-    {
-        $this->setSource('parts');
-    }
 }

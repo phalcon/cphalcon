@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Test\ModelRepositories\PeopleRepository;
 
 /**
  * Phalcon\Test\Models\People
@@ -34,8 +35,8 @@ class People extends Model
     public $estado;
     public $creado_at;
 
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->setSource('personas');
+        return PeopleRepository::class;
     }
 }

@@ -4,15 +4,16 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Column;
+use Phalcon\Test\ModelRepositories\RobottoRepository;
 
 /**
  * Robotto is the japanese for Robot
  */
 class Robotto extends \Phalcon\Mvc\Model
 {
-    public function initialize()
+    public static function getRepositoryClass()
     {
-        $this->setSource('robots');
+        return RobottoRepository::class;
     }
 
     public function metaData()

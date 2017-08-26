@@ -766,4 +766,36 @@ class Repository implements RepositoryInterface
 	{
 		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this->_modelClass, dynamicUpdate);
 	}
+
+	/**
+	 * Sets the table name to which model should be mapped
+	 */
+	protected function setSource(string! source) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->setModelSource(this->_modelClass, source);
+	}
+
+	/**
+	 * Returns the table name mapped in the model
+	 */
+	public function getSource() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getModelSource(this->_modelClass);
+	}
+
+	/**
+	 * Sets schema name where the mapped table is located
+	 */
+	protected function setSchema(string! schema) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->setModelSchema(this->_modelClass, schema);
+	}
+
+	/**
+	 * Returns schema name where the mapped table is located
+	 */
+	public function getSchema() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this->_modelClass);
+	}
 }
