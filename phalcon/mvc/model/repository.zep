@@ -746,4 +746,24 @@ class Repository implements RepositoryInterface
 			options
 		);
 	}
+
+	/**
+	 * Sets if a model must use dynamic update instead of the all-field update
+	 *
+	 *<code>
+	 * use Phalcon\Mvc\Model\Repository;
+	 *
+	 * class RobotsRepository extends Repository
+	 * {
+	 *     public function initialize()
+	 *     {
+	 *         $this->useDynamicUpdate(true);
+	 *     }
+	 * }
+	 *</code>
+	 */
+	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
+	{
+		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this->_modelClass, dynamicUpdate);
+	}
 }

@@ -654,10 +654,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets if a model must use dynamic update instead of the all-field update
 	 */
-	public function useDynamicUpdate(<ModelInterface> model, boolean dynamicUpdate)
+	public function useDynamicUpdate(string! modelClass, boolean dynamicUpdate)
 	{
 		var entityName;
-		let entityName = get_class_lower(model),
+		let entityName = strtolower(modelClass),
 			this->_dynamicUpdate[entityName] = dynamicUpdate,
 			this->_keepSnapshots[entityName] = dynamicUpdate;
 	}

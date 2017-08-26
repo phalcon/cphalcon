@@ -1684,27 +1684,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets if a model must use dynamic update instead of the all-field update
-	 *
-	 *<code>
-	 *
-	 * use Phalcon\Mvc\Model;
-	 *
-	 * class Robots extends Model
-	 * {
-	 *     public function initialize()
-	 *     {
-	 *         $this->useDynamicUpdate(true);
-	 *     }
-	 * }
-	 *</code>
-	 */
-	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
-	{
-		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this, dynamicUpdate);
-	}
-
-	/**
 	 * Returns related records based on defined relations
 	 *
 	 * @param array arguments

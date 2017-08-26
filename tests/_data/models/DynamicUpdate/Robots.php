@@ -37,11 +37,6 @@ class Robots extends Model
 {
     public $year;
 
-    public function initialize()
-    {
-        $this->useDynamicUpdate(true);
-    }
-
     public static function getRepositoryClass()
     {
         return RobotsRepository::class;

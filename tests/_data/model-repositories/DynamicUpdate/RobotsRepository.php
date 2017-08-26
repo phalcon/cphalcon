@@ -25,6 +25,8 @@ class RobotsRepository extends Repository
 {
     public function initialize()
     {
+        $this->useDynamicUpdate(true);
+
         $this->hasMany(
             "id",
             RobotsParts::class,

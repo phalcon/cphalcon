@@ -26,3 +26,4 @@
 - Removed `Model::cloneResult()`.
 - Added custom Model Repositories.
 - You can no longer overwrite `Model::getSource()`.
+- Moved `Model::useDynamicUpdate()` to Models Repository.
