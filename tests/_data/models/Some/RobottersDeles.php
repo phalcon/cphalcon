@@ -11,15 +11,6 @@ use Phalcon\Test\ModelRepositories\Some\RobottersDelesRepository;
  */
 class RobottersDeles extends \Phalcon\Mvc\Model
 {
-    public function columnMap()
-    {
-        return array(
-            'id' => 'code',
-            'robots_id' => 'robottersCode',
-            'parts_id' => 'delesCode',
-        );
-    }
-
     public static function getRepositoryClass()
     {
         return RobottersDelesRepository::class;

@@ -12,14 +12,6 @@ use Phalcon\Test\ModelRepositories\DelesRepository;
  */
 class Deles extends Model
 {
-    public function columnMap()
-    {
-        return [
-            'id' => 'code',
-            'name' => 'theName',
-        ];
-    }
-
     public static function getRepositoryClass()
     {
         return DelesRepository::class;

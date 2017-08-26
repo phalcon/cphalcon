@@ -48,4 +48,13 @@ class RobottersDelesRepository extends Repository
             ]
         );
     }
+
+    public function columnMap()
+    {
+        return array(
+            'id' => 'code',
+            'robots_id' => 'robottersCode',
+            'parts_id' => 'delesCode',
+        );
+    }
 }

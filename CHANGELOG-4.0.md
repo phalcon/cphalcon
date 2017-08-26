@@ -28,3 +28,4 @@
 - You can no longer overwrite `Model::getSource()`.
 - Moved `Model::useDynamicUpdate()` to Models Repository.
 - Moved `Model::{get,set}Source()` and `Model::{get,set}Schema()` to Models Repository.
+- Moved column maps to Model Repository.

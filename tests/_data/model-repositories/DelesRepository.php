@@ -38,4 +38,12 @@ class DelesRepository extends Repository
             ]
         );
     }
+
+    public function columnMap()
+    {
+        return [
+            'id' => 'code',
+            'name' => 'theName',
+        ];
+    }
 }

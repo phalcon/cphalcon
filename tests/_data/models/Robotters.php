@@ -19,19 +19,6 @@ use Phalcon\Test\ModelRepositories\RobottersRepository;
  */
 class Robotters extends Model
 {
-    public function columnMap()
-    {
-        return [
-            'id' => 'code',
-            'name' => 'theName',
-            'type' => 'theType',
-            'year' => 'theYear',
-            'datetime' => 'theDatetime',
-            'deleted' => 'theDeleted',
-            'text' => 'theText',
-        ];
-    }
-
     public static function getRepositoryClass()
     {
         return RobottersRepository::class;

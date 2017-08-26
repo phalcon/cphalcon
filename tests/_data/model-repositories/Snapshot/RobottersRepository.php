@@ -33,4 +33,17 @@ class RobottersRepository extends Repository
             "robottersCode"
         );
     }
+
+    public function columnMap()
+    {
+        return [
+            'id'       => 'code',
+            'name'     => 'theName',
+            'type'     => 'theType',
+            'year'     => 'theYear',
+            'datetime' => 'theDatetime',
+            'deleted'  => 'theDeleted',
+            'text'     => 'theText',
+        ];
+    }
 }

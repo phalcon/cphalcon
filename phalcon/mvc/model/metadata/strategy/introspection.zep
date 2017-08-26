@@ -186,17 +186,20 @@ class Introspection implements StrategyInterface
 	 */
 	public final function getColumnMaps(<ModelInterface> model, <DiInterface> dependencyInjector) -> array
 	{
-		var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName;
+		var orderedColumnMap, userColumnMap, reversedColumnMap, name, userName, modelsManager, repository;
 
 		let orderedColumnMap = null;
 		let reversedColumnMap = null;
 
-		/**
-		 * Check for a columnMap() method on the model
-		 */
-		if method_exists(model, "columnMap") {
+		let modelsManager = model->getModelsManager();
+		let repository = modelsManager->getRepository(get_class(model));
 
-			let userColumnMap = model->{"columnMap"}();
+		/**
+		 * Check for a columnMap() method on the model repository
+		 */
+		if method_exists(repository, "columnMap") {
+
+			let userColumnMap = repository->{"columnMap"}();
 			if typeof userColumnMap != "array" {
 				throw new Exception("columnMap() not returned an array");
 			}
