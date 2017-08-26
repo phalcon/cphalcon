@@ -20,9 +20,4 @@ class Robos extends Model
 	{
 		return RobosRepository::class;
 	}
-
-    public function initialize()
-    {
-        $this->setConnectionService('dbTwo');
-    }
 }

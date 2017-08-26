@@ -58,27 +58,27 @@ interface ManagerInterface
 	/**
 	 * Sets both write and read connection service for a model
 	 */
-	public function setConnectionService(<ModelInterface> model, string! connectionService);
+	public function setConnectionService(string! modelClass, string! connectionService);
 
 	/**
 	 * Sets read connection service for a model
 	 */
-	public function setReadConnectionService(<ModelInterface> model, string! connectionService);
+	public function setReadConnectionService(string! modelClass, string! connectionService);
 
 	/**
 	 * Returns the connection service name used to read data related to a model
 	 */
-	public function getReadConnectionService(<ModelInterface> model) -> string;
+	public function getReadConnectionService(string! modelClass) -> string;
 
 	/**
 	 * Sets write connection service for a model
 	 */
-	public function setWriteConnectionService(<ModelInterface> model, string! connectionService);
+	public function setWriteConnectionService(string! modelClass, string! connectionService);
 
 	/**
 	 * Returns the connection service name used to write data related to a model
 	 */
-	public function getWriteConnectionService(<ModelInterface> model) -> string;
+	public function getWriteConnectionService(string! modelClass) -> string;
 
 	/**
 	 * Returns the connection to read data related to a model

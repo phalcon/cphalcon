@@ -294,48 +294,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Sets the DependencyInjection connection service name
-	 */
-	public function setConnectionService(string! connectionService) -> <Model>
-	{
-		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
-		return this;
-	}
-
-	/**
-	 * Sets the DependencyInjection connection service name used to read data
-	 */
-	public function setReadConnectionService(string! connectionService) -> <Model>
-	{
-		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
-		return this;
-	}
-
-	/**
-	 * Sets the DependencyInjection connection service name used to write data
-	 */
-	public function setWriteConnectionService(string! connectionService) -> <Model>
-	{
-		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
-	}
-
-	/**
-	 * Returns the DependencyInjection connection service name used to read data related the model
-	 */
-	public function getReadConnectionService() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this);
-	}
-
-	/**
-	 * Returns the DependencyInjection connection service name used to write data related to the model
-	 */
-	public function getWriteConnectionService() -> string
-	{
-		return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this);
-	}
-
-	/**
 	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
 	 */
 	public function setDirtyState(int dirtyState) -> <ModelInterface>

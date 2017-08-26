@@ -96,4 +96,29 @@ interface RepositoryInterface
 	 * Returns schema name where the mapped table is located
 	 */
 	public function getSchema() -> string;
+
+	/**
+	 * Sets both read/write connection services
+	 */
+	public function setConnectionService(string connectionService) -> void;
+
+	/**
+	 * Sets the DependencyInjection connection service used to write data
+	 */
+	public function setWriteConnectionService(string connectionService) -> void;
+
+	/**
+	 * Sets the DependencyInjection connection service used to read data
+	 */
+	public function setReadConnectionService(string connectionService) -> void;
+
+	/**
+	 * Returns DependencyInjection connection service used to read data
+	 */
+	public function getReadConnectionService() -> string;
+
+	/**
+	 * Returns DependencyInjection connection service used to write data
+	 */
+	public function getWriteConnectionService() -> string;
 }

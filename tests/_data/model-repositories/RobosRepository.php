@@ -25,5 +25,7 @@ class RobosRepository extends Repository
     public function initialize()
     {
         $this->setSource("robots");
+
+        $this->setConnectionService('dbTwo');
     }
 }

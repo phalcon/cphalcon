@@ -429,26 +429,26 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Sets both write and read connection service for a model
 	 */
-	public function setConnectionService(<ModelInterface> model, string! connectionService) -> void
+	public function setConnectionService(string! modelClass, string! connectionService) -> void
 	{
-		this->setReadConnectionService(model, connectionService);
-		this->setWriteConnectionService(model, connectionService);
+		this->setReadConnectionService(modelClass, connectionService);
+		this->setWriteConnectionService(modelClass, connectionService);
 	}
 
 	/**
 	 * Sets write connection service for a model
 	 */
-	public function setWriteConnectionService(<ModelInterface> model, string! connectionService) -> void
+	public function setWriteConnectionService(string! modelClass, string! connectionService) -> void
 	{
-		let this->_writeConnectionServices[get_class_lower(model)] = connectionService;
+		let this->_writeConnectionServices[strtolower(modelClass)] = connectionService;
 	}
 
 	/**
 	 * Sets read connection service for a model
 	 */
-	public function setReadConnectionService(<ModelInterface> model, string! connectionService) -> void
+	public function setReadConnectionService(string! modelClass, string! connectionService) -> void
 	{
-		let this->_readConnectionServices[get_class_lower(model)] = connectionService;
+		let this->_readConnectionServices[strtolower(modelClass)] = connectionService;
 	}
 
 	/**
@@ -474,7 +474,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	{
 		var dependencyInjector, service, connection;
 
-		let service = this->_getConnectionService(model, connectionServices);
+		let service = this->_getConnectionService(get_class(model), connectionServices);
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -496,28 +496,28 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Returns the connection service name used to read data related to a model
 	 */
-	public function getReadConnectionService(<ModelInterface> model) -> string
+	public function getReadConnectionService(string! modelClass) -> string
 	{
-		return this->_getConnectionService(model, this->_readConnectionServices);
+		return this->_getConnectionService(modelClass, this->_readConnectionServices);
 	}
 
 	/**
 	 * Returns the connection service name used to write data related to a model
 	 */
-	public function getWriteConnectionService(<ModelInterface> model) -> string
+	public function getWriteConnectionService(string! modelClass) -> string
 	{
-		return this->_getConnectionService(model, this->_writeConnectionServices);
+		return this->_getConnectionService(modelClass, this->_writeConnectionServices);
 	}
 
 	/**
 	 * Returns the connection service name used to read or write data related to
 	 * a model depending on the connection services
 	 */
-	public function _getConnectionService(<ModelInterface> model, connectionServices) -> string
+	public function _getConnectionService(string! modelClass, connectionServices) -> string
 	{
 		var connection;
 
-		if !fetch connection, connectionServices[get_class_lower(model)] {
+		if !fetch connection, connectionServices[strtolower(modelClass)] {
 			return "db";
 		}
 

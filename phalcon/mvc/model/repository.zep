@@ -798,4 +798,46 @@ class Repository implements RepositoryInterface
 	{
 		return (<ManagerInterface> this->_modelsManager)->getModelSchema(this->_modelClass);
 	}
+
+	/**
+	 * Sets the DependencyInjection connection service name
+	 */
+	public function setConnectionService(string! connectionService) -> <Model>
+	{
+		(<ManagerInterface> this->_modelsManager)->setConnectionService(this->_modelClass, connectionService);
+		return this;
+	}
+
+	/**
+	 * Sets the DependencyInjection connection service name used to read data
+	 */
+	public function setReadConnectionService(string! connectionService) -> <Model>
+	{
+		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this->_modelClass, connectionService);
+		return this;
+	}
+
+	/**
+	 * Sets the DependencyInjection connection service name used to write data
+	 */
+	public function setWriteConnectionService(string! connectionService) -> <Model>
+	{
+		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this->_modelClass, connectionService);
+	}
+
+	/**
+	 * Returns the DependencyInjection connection service name used to read data related the model
+	 */
+	public function getReadConnectionService() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getReadConnectionService(this->_modelClass);
+	}
+
+	/**
+	 * Returns the DependencyInjection connection service name used to write data related to the model
+	 */
+	public function getWriteConnectionService() -> string
+	{
+		return (<ManagerInterface> this->_modelsManager)->getWriteConnectionService(this->_modelClass);
+	}
 }
