@@ -678,7 +678,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, relation,
-			keyRelation, relations, alias, lowerAlias, singleRelations;
+			keyRelation, relations, alias, lowerAlias;
 
 		let entityName = strtolower(modelClass),
 			referencedEntity = strtolower(referencedModel);
@@ -733,19 +733,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Get existing relations by model
 		 */
-		if !fetch singleRelations, this->_hasOneSingle[entityName] {
-			let singleRelations = [];
+		if !isset this->_hasOneSingle[entityName] {
+			let this->_hasOneSingle[entityName] = [];
 		}
 
 		/**
 		 * Append a new relationship
 		 */
-		let singleRelations[] = relation;
-
-		/**
-		 * Update relations by model
-		 */
-		let this->_hasOneSingle[entityName] = singleRelations;
+		let this->_hasOneSingle[entityName][] = relation;
 
 		return relation;
 	}
@@ -758,7 +753,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function addBelongsTo(string! modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
-		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias, singleRelations;
+		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias;
 
 		let entityName = strtolower(modelClass),
 			referencedEntity = strtolower(referencedModel);
@@ -813,19 +808,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Get existing relations by model
 		 */
-		if !fetch singleRelations, this->_belongsToSingle[entityName] {
-			let singleRelations = [];
+		if !isset this->_belongsToSingle[entityName] {
+			let this->_belongsToSingle[entityName] = [];
 		}
 
 		/**
 		 * Append a new relationship
 		 */
-		let singleRelations[] = relation;
-
-		/**
-		 * Update relations by model
-		 */
-		let this->_belongsToSingle[entityName] = singleRelations;
+		let this->_belongsToSingle[entityName][] = relation;
 
 		return relation;
 	}
@@ -840,7 +830,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasMany, relation,
-			keyRelation, relations, alias, lowerAlias, singleRelations;
+			keyRelation, relations, alias, lowerAlias;
 
 		let entityName = strtolower(modelClass),
 			referencedEntity = strtolower(referencedModel),
@@ -895,19 +885,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Get existing relations by model
 		 */
-		if !fetch singleRelations, this->_hasManySingle[entityName] {
-			let singleRelations = [];
+		if !isset this->_hasManySingle[entityName] {
+			let this->_hasManySingle[entityName] = [];
 		}
 
 		/**
 		 * Append a new relationship
 		 */
-		let singleRelations[] = relation;
-
-		/**
-		 * Update relations by model
-		 */
-		let this->_hasManySingle[entityName] = singleRelations;
+		let this->_hasManySingle[entityName][] = relation;
 
 		return relation;
 	}
@@ -925,7 +910,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
 	{
 		var entityName, referencedEntity, hasManyToMany, relation,
-			keyRelation, relations, alias, lowerAlias, singleRelations, intermediateEntity;
+			keyRelation, relations, alias, lowerAlias, intermediateEntity;
 
 		let entityName = strtolower(modelClass),
 			intermediateEntity = strtolower(intermediateModel),
@@ -1001,19 +986,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Get existing relations by model
 		 */
-		if !fetch singleRelations, this->_hasManyToManySingle[entityName] {
-			let singleRelations = [];
+		if !isset this->_hasManyToManySingle[entityName] {
+			let this->_hasManyToManySingle[entityName] = [];
 		}
 
 		/**
 		 * Append a new relationship
 		 */
-		let singleRelations[] = relation;
-
-		/**
-		 * Update relations by model
-		 */
-		let this->_hasManyToManySingle[entityName] = singleRelations;
+		let this->_hasManyToManySingle[entityName][] = relation;
 
 		return relation;
 	}
