@@ -250,11 +250,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
-		 * Update the last initialized model, so it can be used in modelsManager:afterInitialize
-		 */
-		let this->_lastInitialized = model;
-
-		/**
 		 * If an EventsManager is available we pass to it every initialized model
 		 */
 		let eventsManager = <EventsManagerInterface> this->_eventsManager;
@@ -271,14 +266,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function isInitialized(string! modelName) -> boolean
 	{
 		return isset this->_initialized[strtolower(modelName)];
-	}
-
-	/**
-	 * Get last initialized model
-	 */
-	public function getLastInitialized() -> <ModelInterface>
-	{
-		return this->_lastInitialized;
 	}
 
 	/**

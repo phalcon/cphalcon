@@ -96,11 +96,6 @@ interface ManagerInterface
 	public function isInitialized(string! modelName) -> boolean;
 
 	/**
-	 * Get last initialized model
-	 */
-	public function getLastInitialized() -> <ModelInterface>;
-
-	/**
 	 * Loads a model throwing an exception if it doesn't exist
 	 */
 	public function load(string modelName) -> <ModelInterface>;
