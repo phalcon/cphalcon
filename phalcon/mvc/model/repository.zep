@@ -533,42 +533,24 @@ class Repository implements RepositoryInterface
 	 */
 	public function __call(string method, array arguments)
 	{
-		var extraMethod, type, value, model, attributes, field, extraMethodFirst, metaData, modelClass;
-
-		let extraMethod = null;
-
-		/**
-		 * Check if the method starts with "findFirst"
-		 */
-		if starts_with(method, "findFirstBy") {
-			let type = "findFirst",
-				extraMethod = substr(method, 11);
-		}
-
-		/**
-		 * Check if the method starts with "find"
-		 */
-		elseif starts_with(method, "findBy") {
-			let type = "find",
-				extraMethod = substr(method, 6);
-		}
-
-		/**
-		 * Check if the method starts with "count"
-		 */
-		elseif starts_with(method, "countBy") {
-			let type = "count",
-				extraMethod = substr(method, 7);
-		}
+		var extraMethod, type, value, model, attributes, field, extraMethodFirst, metaData, modelClass,
+			success, matches;
 
 		let modelClass = this->_modelClass;
+
+		let success = preg_match("/^(find|findFirst|count)By(.+)$/", method, matches);
 
 		/**
 		 * The method doesn't exist throw an exception
 		 */
-		if !extraMethod {
-			throw new Exception("The method '" . method . "' doesn't exist on model '" . modelClass . "'");
+		if success !== 1 {
+			throw new Exception(
+				"The method '" . method . "' doesn't exist on model '" . modelClass . "'"
+			);
 		}
+
+		let type = matches[1];
+		let extraMethod = matches[2];
 
 		if !fetch value, arguments[0] {
 			throw new Exception("The method '" . method . "' requires one argument");
