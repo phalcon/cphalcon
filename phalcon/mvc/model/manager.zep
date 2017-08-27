@@ -360,7 +360,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public final function isVisibleModelProperty(<ModelInterface> model, string property) -> boolean
 	{
-		var properties, className;
+		var className;
 
 		let className = get_class(model);
 
@@ -368,9 +368,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			let this->_modelVisibility[className] = get_object_vars(model);
 		}
 
-		let properties = this->_modelVisibility[className];
-
-		return array_key_exists(property, properties);
+		return isset this->_modelVisibility[className][property];
 	}
 
 	/**
