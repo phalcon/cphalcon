@@ -670,6 +670,97 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	}
 
 	/**
+	 * Setup a relation between two models
+	 */
+	protected function _addRelationship(string! modelClass, <RelationInterface> relation) -> <RelationInterface>
+	{
+		var entityName, referencedEntity, keyRelation, alias, lowerAlias, type, options;
+
+		let entityName = strtolower(modelClass),
+			referencedEntity = strtolower(relation->getReferencedModel());
+
+		let keyRelation = entityName . "$" . referencedEntity;
+
+		/**
+		 * Check if the number of fields are the same
+		 */
+		if typeof relation->getReferencedFields() == "array" {
+			if count(relation->getFields()) != count(relation->getReferencedFields()) {
+				throw new Exception("Number of referenced fields are not the same");
+			}
+		}
+
+		let type = relation->getType();
+
+		let options = relation->getOptions();
+
+		/**
+		 * Check an alias for the relation
+		 */
+		if fetch alias, options["alias"] {
+			if typeof alias != "string" {
+				throw new Exception("Relation alias must be a string");
+			}
+			let lowerAlias = strtolower(alias);
+		} else {
+			let lowerAlias = referencedEntity;
+		}
+
+		/**
+		 * Update the global alias
+		 */
+		let this->_aliases[entityName . "$" . lowerAlias] = relation;
+
+		if type === Relation::HAS_ONE {
+			if !isset this->_hasOne[keyRelation] {
+				let this->_hasOne[keyRelation] = [];
+			}
+
+			if !isset this->_hasOneSingle[entityName] {
+				let this->_hasOneSingle[entityName] = [];
+			}
+
+			/**
+			 * Append a new relationship
+			 */
+			let this->_hasOne[keyRelation][] = relation;
+			let this->_hasOneSingle[entityName][] = relation;
+		} elseif type === Relation::BELONGS_TO {
+			if !isset this->_belongsTo[keyRelation] {
+				let this->_belongsTo[keyRelation] = [];
+			}
+
+			if !isset this->_belongsToSingle[entityName] {
+				let this->_belongsToSingle[entityName] = [];
+			}
+
+			/**
+			 * Append a new relationship
+			 */
+			let this->_belongsTo[keyRelation][] = relation;
+			let this->_belongsToSingle[entityName][] = relation;
+		} elseif type === Relation::HAS_MANY {
+			if !isset this->_hasMany[keyRelation] {
+				let this->_hasMany[keyRelation] = [];
+			}
+
+			if !isset this->_hasManySingle[entityName] {
+				let this->_hasManySingle[entityName] = [];
+			}
+
+			/**
+			 * Append a new relationship
+			 */
+			let this->_hasMany[keyRelation][] = relation;
+			let this->_hasManySingle[entityName][] = relation;
+		} else {
+			throw new Exception("Relation type not yet supported.");
+		}
+
+		return relation;
+	}
+
+	/**
 	 * Setup a 1-1 relation between two models
 	 *
 	 * @param	array options
@@ -677,26 +768,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function addHasOne(string modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
-		var entityName, referencedEntity, relation,
-			keyRelation, relations, alias, lowerAlias;
-
-		let entityName = strtolower(modelClass),
-			referencedEntity = strtolower(referencedModel);
-
-		let keyRelation = entityName . "$" . referencedEntity;
-
-		if !fetch relations, this->_hasOne[keyRelation] {
-			let relations = [];
-		}
-
-		/**
-		 * Check if the number of fields are the same
-		 */
-		if typeof referencedFields == "array" {
-			if count(fields) != count(referencedFields) {
-				throw new Exception("Number of referenced fields are not the same");
-			}
-		}
+		var relation;
 
 		/**
 		 * Create a relationship instance
@@ -709,69 +781,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			options
 		);
 
-		/**
-		 * Check an alias for the relation
-		 */
-		if fetch alias, options["alias"] {
-			if typeof alias != "string" {
-				throw new Exception("Relation alias must be a string");
-			}
-			let lowerAlias = strtolower(alias);
-		} else {
-			let lowerAlias = referencedEntity;
-		}
-
-		/**
-		 * Append a new relationship
-		 * Update the global alias
-		 * Update the relations
-		 */
-		let relations[] = relation,
-			this->_aliases[entityName . "$" . lowerAlias] = relation,
-			this->_hasOne[keyRelation] = relations;
-
-		/**
-		 * Get existing relations by model
-		 */
-		if !isset this->_hasOneSingle[entityName] {
-			let this->_hasOneSingle[entityName] = [];
-		}
-
-		/**
-		 * Append a new relationship
-		 */
-		let this->_hasOneSingle[entityName][] = relation;
-
-		return relation;
+		return this->_addRelationship(modelClass, relation);
 	}
 
 	/**
 	 * Setup a relation reverse many to one between two models
 	 *
+	 * @param   string modelClass
+	 * @param	mixed fields
+	 * @param	string referencedModel
+	 * @param	mixed referencedFields
 	 * @param	array options
+	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addBelongsTo(string! modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
-		var entityName, referencedEntity, relation, keyRelation, relations, alias, lowerAlias;
-
-		let entityName = strtolower(modelClass),
-			referencedEntity = strtolower(referencedModel);
-
-		let keyRelation = entityName . "$" . referencedEntity;
-
-		if !fetch relations, this->_belongsTo[keyRelation] {
-			let relations = [];
-		}
-
-		/**
-		 * Check if the number of fields are the same
-		 */
-		if typeof referencedFields == "array" {
-			if count(fields) != count(referencedFields) {
-				throw new Exception("Number of referenced fields are not the same");
-			}
-		}
+		var relation;
 
 		/**
 		 * Create a relationship instance
@@ -784,40 +810,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			options
 		);
 
-		/**
-		 * Check an alias for the relation
-		 */
-		if fetch alias, options["alias"] {
-			if typeof alias != "string" {
-				throw new Exception("Relation alias must be a string");
-			}
-			let lowerAlias = strtolower(alias);
-		} else {
-			let lowerAlias = referencedEntity;
-		}
-
-		/**
-		 * Append a new relationship
-		 * Update the global alias
-		 * Update the relations
-		 */
-		let relations[] = relation,
-			this->_aliases[entityName . "$" . lowerAlias] = relation,
-			this->_belongsTo[keyRelation] = relations;
-
-		/**
-		 * Get existing relations by model
-		 */
-		if !isset this->_belongsToSingle[entityName] {
-			let this->_belongsToSingle[entityName] = [];
-		}
-
-		/**
-		 * Append a new relationship
-		 */
-		let this->_belongsToSingle[entityName][] = relation;
-
-		return relation;
+		return this->_addRelationship(modelClass, relation);
 	}
 
 	/**
@@ -829,26 +822,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	public function addHasMany(string! modelClass, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
 	{
-		var entityName, referencedEntity, hasMany, relation,
-			keyRelation, relations, alias, lowerAlias;
-
-		let entityName = strtolower(modelClass),
-			referencedEntity = strtolower(referencedModel),
-			keyRelation = entityName . "$" . referencedEntity;
-
-		let hasMany = this->_hasMany;
-		if !fetch relations, hasMany[keyRelation] {
-			let relations = [];
-		}
-
-		/**
-		 * Check if the number of fields are the same
-		 */
-		if typeof referencedFields == "array" {
-			if count(fields) != count(referencedFields) {
-				throw new Exception("Number of referenced fields are not the same");
-			}
-		}
+		var relation;
 
 		/**
 		 * Create a relationship instance
@@ -861,40 +835,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 			options
 		);
 
-		/**
-		 * Check an alias for the relation
-		 */
-		if fetch alias, options["alias"] {
-			if typeof alias != "string" {
-				throw new Exception("Relation alias must be a string");
-			}
-			let lowerAlias = strtolower(alias);
-		} else {
-			let lowerAlias = referencedEntity;
-		}
-
-		/**
-		 * Append a new relationship
-		 * Update the global alias
-		 * Update the relations
-		 */
-		let relations[] = relation,
-			this->_aliases[entityName . "$" . lowerAlias] = relation,
-			this->_hasMany[keyRelation] = relations;
-
-		/**
-		 * Get existing relations by model
-		 */
-		if !isset this->_hasManySingle[entityName] {
-			let this->_hasManySingle[entityName] = [];
-		}
-
-		/**
-		 * Append a new relationship
-		 */
-		let this->_hasManySingle[entityName][] = relation;
-
-		return relation;
+		return this->_addRelationship(modelClass, relation);
 	}
 
 	/**
