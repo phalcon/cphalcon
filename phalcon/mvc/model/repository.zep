@@ -414,10 +414,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * Generate a PHQL SELECT statement for an aggregate
 	 *
-	 * @param string function
-	 * @param string alias
 	 * @param array parameters
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
 	 */
 	protected function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
 	{
@@ -528,10 +525,8 @@ class Repository implements RepositoryInterface
 
 	/**
 	 * Handles method calls when a method is not implemented
-	 *
-	 * @return	mixed
 	 */
-	public function __call(string method, array arguments)
+	public function __call(string method, array arguments) -> var
 	{
 		var extraMethod, type, value, model, attributes, field, extraMethodFirst, metaData, modelClass,
 			success, matches;
@@ -698,13 +693,10 @@ class Repository implements RepositoryInterface
 	 *</code>
 	 *
 	 * @param	string|array fields
-	 * @param	string intermediateModel
 	 * @param	string|array intermediateFields
 	 * @param	string|array intermediateReferencedFields
-	 * @param	string referencedModel
 	 * @param   string|array referencedFields
 	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
 		string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -776,7 +768,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * Sets the DependencyInjection connection service name
 	 */
-	public function setConnectionService(string! connectionService) -> <Model>
+	public function setConnectionService(string! connectionService) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->setConnectionService(this->_modelClass, connectionService);
 		return this;
@@ -785,7 +777,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to read data
 	 */
-	public function setReadConnectionService(string! connectionService) -> <Model>
+	public function setReadConnectionService(string! connectionService) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this->_modelClass, connectionService);
 		return this;
@@ -794,7 +786,7 @@ class Repository implements RepositoryInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to write data
 	 */
-	public function setWriteConnectionService(string! connectionService) -> <Model>
+	public function setWriteConnectionService(string! connectionService) -> <Repository>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this->_modelClass, connectionService);
 	}
