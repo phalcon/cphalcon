@@ -624,8 +624,6 @@ class Repository implements RepositoryInterface
 	 * Setup a 1-1 relation between two models
 	 *
 	 *<code>
-	 * <?php
-	 *
 	 * use Phalcon\Mvc\Model\Repository;
 	 *
 	 * class RobotsRepository extends Repository
@@ -646,8 +644,6 @@ class Repository implements RepositoryInterface
 	 * Setup a reverse 1-1 or n-1 relation between two models
 	 *
 	 *<code>
-	 * <?php
-	 *
 	 * use Phalcon\Mvc\Model\Repository;
 	 *
 	 * class RobotsPartsRepository extends Repository
@@ -674,8 +670,6 @@ class Repository implements RepositoryInterface
 	 * Setup a 1-n relation between two models
 	 *
 	 *<code>
-	 * <?php
-	 *
 	 * use Phalcon\Mvc\Model\Repository;
 	 *
 	 * class RobotsRepository extends Repository
@@ -702,8 +696,6 @@ class Repository implements RepositoryInterface
 	 * Setup an n-n relation between two models, through an intermediate relation
 	 *
 	 *<code>
-	 * <?php
-	 *
 	 * use Phalcon\Mvc\Model\Repository;
 	 *
 	 * class RobotsRepository extends Repository
