@@ -728,17 +728,21 @@ class Repository implements RepositoryInterface
 	 * }
 	 *</code>
 	 */
-	protected function useDynamicUpdate(boolean dynamicUpdate) -> void
+	protected function useDynamicUpdate(boolean dynamicUpdate) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->useDynamicUpdate(this->_modelClass, dynamicUpdate);
+
+		return this;
 	}
 
 	/**
 	 * Sets the table name to which model should be mapped
 	 */
-	protected function setSource(string! source) -> void
+	protected function setSource(string! source) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->setModelSource(this->_modelClass, source);
+
+		return this;
 	}
 
 	/**
@@ -752,9 +756,11 @@ class Repository implements RepositoryInterface
 	/**
 	 * Sets schema name where the mapped table is located
 	 */
-	protected function setSchema(string! schema) -> void
+	protected function setSchema(string! schema) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->setModelSchema(this->_modelClass, schema);
+
+		return this;
 	}
 
 	/**
@@ -771,6 +777,7 @@ class Repository implements RepositoryInterface
 	public function setConnectionService(string! connectionService) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->setConnectionService(this->_modelClass, connectionService);
+
 		return this;
 	}
 
@@ -780,6 +787,7 @@ class Repository implements RepositoryInterface
 	public function setReadConnectionService(string! connectionService) -> <Repository>
 	{
 		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this->_modelClass, connectionService);
+
 		return this;
 	}
 
@@ -788,7 +796,9 @@ class Repository implements RepositoryInterface
 	 */
 	public function setWriteConnectionService(string! connectionService) -> <Repository>
 	{
-		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this->_modelClass, connectionService);
+		(<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this->_modelClass, connectionService);
+
+		return this;
 	}
 
 	/**
