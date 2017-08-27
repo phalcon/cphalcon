@@ -2100,10 +2100,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
-		 * _postSave() invokes after* events if the operation was successful
+		 * Invoke after* events if the operation was successful
 		 */
 		if globals_get("orm.events") {
-			let success = this->_postSave(model, success, exists);
+			if success {
+				if exists {
+					model->fireEvent("afterUpdate");
+				} else {
+					model->fireEvent("afterCreate");
+				}
+			}
 		}
 
 		if success === false {
@@ -2783,22 +2789,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		 */
 		connection->commit(nesting);
 		return true;
-	}
-
-	/**
-	 * Executes internal events after save a record
-	 */
-	protected function _postSave(<ModelInterface> model, boolean success, boolean exists) -> boolean
-	{
-		if success {
-			if exists {
-				model->fireEvent("afterUpdate");
-			} else {
-				model->fireEvent("afterCreate");
-			}
-		}
-
-		return success;
 	}
 
 	/**
