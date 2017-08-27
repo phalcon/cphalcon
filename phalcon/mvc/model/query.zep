@@ -22,6 +22,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
+use Phalcon\Db\ResultInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
@@ -2734,7 +2735,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check if the query has data
 		 */
-		if result->numRows(result) {
+		if result instanceof ResultInterface && result->numRows(result) {
 			let resultData = result;
 		} else {
 			let resultData = false;
