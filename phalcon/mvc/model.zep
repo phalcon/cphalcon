@@ -627,64 +627,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Query for a set of records that match the specified conditions
-	 *
-	 * @deprecated
-	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->find(parameters);
-	}
-
-	/**
-	 * Query the first record that matches the specified conditions
-	 *
-	 * @param string|array parameters
-	 *
-	 * @deprecated
-	 */
-	public static function findFirst(var parameters = null) -> <Model>
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->findFirst(parameters);
-	}
-
-	/**
-	 * Counts how many records match the specified conditions
-	 *
-	 * @param array parameters
-	 *
-	 * @deprecated
-	 */
-	public static function count(var parameters = null)
-	{
-		var dependencyInjector, manager, repository;
-
-		let dependencyInjector = Di::getDefault();
-
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		let repository = manager->getRepository(get_called_class());
-
-		return repository->count(parameters);
-	}
-
-	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
 	public function fireEvent(string! eventName) -> boolean
