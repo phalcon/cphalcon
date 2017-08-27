@@ -87,26 +87,6 @@ interface ModelInterface
 	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode);
 
 	/**
-	 * Allows to query a set of records that match the specified conditions
-	 */
-	public static function find(var parameters = null) -> <ResultsetInterface>;
-
-	/**
-	 * Allows to query the first record that match the specified conditions
-	 *
-	 * @param array parameters
-	 */
-	public static function findFirst(parameters = null) -> <ModelInterface>;
-
-	/**
-	 * Allows to count how many records match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return int
-	 */
-	public static function count(parameters = null);
-
-	/**
 	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
 	public function fireEvent(string! eventName) -> boolean;
