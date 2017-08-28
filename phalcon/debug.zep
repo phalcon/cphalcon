@@ -268,20 +268,6 @@ class Debug
 	}
 
 	/**
-	 * Returns the major framework's version
-	 *
-	 * @deprecated Will be removed in 4.0.0
-	 * @see Phalcon\Version::getPart()
-	 */
-	deprecated public function getMajorVersion() -> string
-	{
-		var parts;
-
-		let parts = explode(" ", \Phalcon\Version::get());
-		return parts[0];
-	}
-
-	/**
 	 * Generates a link to the current version documentation
 	 */
 	public function getVersion() -> string
