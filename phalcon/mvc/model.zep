@@ -77,7 +77,7 @@ use Phalcon\Validation\Message\Group as ValidationMessageGroup;
  *     $messages = $robot->getMessages();
  *
  *     foreach ($messages as $message) {
- *         echo message;
+ *         echo $message;
  *     }
  * } else {
  *     echo "Great, a new robot was saved successfully!";
@@ -3499,7 +3499,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated INSERT/UPDATE statement
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3525,7 +3524,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated INSERT statement
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3557,7 +3555,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated UPDATE statement
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3589,7 +3586,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * generated UPDATE statement
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3620,7 +3616,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a 1-1 relation between two models
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3640,7 +3635,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a reverse 1-1 or n-1 relation between two models
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class RobotsParts extends \Phalcon\Mvc\Model
 	 * {
@@ -3666,7 +3660,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup a 1-n relation between two models
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3692,7 +3685,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setup an n-n relation between two models, through an intermediate relation
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {
@@ -3739,7 +3731,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Setups a behavior in a model
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * use Phalcon\Mvc\Model;
 	 * use Phalcon\Mvc\Model\Behavior\Timestampable;
@@ -3771,7 +3762,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sets if the model must keep the original record snapshot in memory
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * use Phalcon\Mvc\Model;
 	 *
@@ -4083,7 +4073,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * Sets if a model must use dynamic update instead of the all-field update
 	 *
 	 *<code>
-	 * <?php
 	 *
 	 * use Phalcon\Mvc\Model;
 	 *
