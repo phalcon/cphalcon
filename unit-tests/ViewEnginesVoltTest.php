@@ -180,7 +180,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$view = new Phalcon\Mvc\View();
 		$view->setDI($di);
-		$view->setViewsDir('unit-tests/views/');
+		$view->setViewsDir(['unit-tests/views/', '/var/www/whatever/']);
 
 		$view->registerEngines(array(
 			'.volt' => 'Phalcon\Mvc\View\Engine\Volt'
