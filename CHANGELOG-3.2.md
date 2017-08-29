@@ -4,6 +4,7 @@
 - Fixed `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate` to escape reserverd words [#12950](https://github.com/phalcon/cphalcon/issues/12950)
 - Fixed `Phalcon\Dispatcher::dispatch` to correct forward with the modified action suffix [#12988](https://github.com/phalcon/cphalcon/pull/12988)
 - Fixed `Phalcon\Forms\Element::_construct` to prevent create form element with empty name [#12954](https://github.com/phalcon/cphalcon/pull/12954)
+- Fixed `Phalcon\Mvc\Model\Query::_executeSelect` threw RuntimeException, if db:beforeQuery() returned false
 
 # [3.2.1](https://github.com/phalcon/cphalcon/releases/tag/v3.2.1) (2017-07-10)
 - Added `Phalcon\Db\Dialect\Mysql::getForeignKeyChecks` to generate a SQL to check the foreign key settings [#2604](https://github.com/phalcon/cphalcon/issues/2604), [phalcon/phalcon-devtools#556](https://github.com/phalcon/phalcon-devtools/issues/556)
