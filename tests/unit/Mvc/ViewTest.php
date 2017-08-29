@@ -441,7 +441,7 @@ class ViewTest extends UnitTest
             function () {
                 $view = new View;
                 $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+                $view->setViewsDir([PATH_DATA . 'views' . DIRECTORY_SEPARATOR, PATH_DATA . 'views1111' . DIRECTORY_SEPARATOR]);
 
                 $view->start();
                 $view->setLayout('test6');
