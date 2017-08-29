@@ -29,7 +29,10 @@ use Phalcon\Validation\Validator;
  * Checks if a value has a correct e-mail format
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Email as EmailValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "email",

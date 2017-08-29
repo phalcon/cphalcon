@@ -1,4 +1,4 @@
-# [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.2) (2017-XX-XX)
+# [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-XX-XX)
 - Fixed `Phalcon\Mvc\Model\Query::_executeSelect` threw RuntimeException, if db:beforeQuery() returned false
 
 # [3.2.2](https://github.com/phalcon/cphalcon/releases/tag/v3.2.2) (2017-08-14)

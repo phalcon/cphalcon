@@ -34,7 +34,10 @@ use Phalcon\Mvc\Collection;
  * Check that a field is unique in the related table
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "username",
