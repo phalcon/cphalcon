@@ -44,11 +44,8 @@ class Simple extends Resultset
 	 *
 	 * @param array columnMap
 	 * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
-	 * @param \Phalcon\Db\Result\Pdo|null result
-	 * @param \Phalcon\Cache\BackendInterface cache
-	 * @param boolean keepSnapshots
 	 */
-	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, keepSnapshots = null)
+	public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, boolean keepSnapshots = null)
 	{
 		let this->_model = model,
 			this->_columnMap = columnMap;

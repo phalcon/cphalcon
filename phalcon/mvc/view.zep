@@ -576,14 +576,8 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Checks whether view exists on registered extensions and render it
-	 *
-	 * @param array engines
-	 * @param string viewPath
-	 * @param boolean silence
-	 * @param boolean mustClean
-	 * @param \Phalcon\Cache\BackendInterface $cache
 	 */
-	protected function _engineRender(engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
+	protected function _engineRender(array engines, string viewPath, boolean silence, boolean mustClean, <BackendInterface> cache = null)
 	{
 		boolean notExists;
 		int renderLevel, cacheLevel;
@@ -760,12 +754,8 @@ class View extends Injectable implements ViewInterface
 	 * // Shows recent posts view (app/views/posts/recent.phtml)
 	 * $view->start()->render("posts", "recent")->finish();
 	 *</code>
-	 *
-	 * @param string controllerName
-	 * @param string actionName
-	 * @param array params
 	 */
-	public function render(string! controllerName, string! actionName, params = null) -> <View> | boolean
+	public function render(string! controllerName, string! actionName, array params = []) -> <View> | boolean
 	{
 		boolean silence, mustClean;
 		int renderLevel;
@@ -1104,13 +1094,9 @@ class View extends Injectable implements ViewInterface
 	 * );
 	 * </code>
 	 *
-	 * @param string controllerName
-	 * @param string actionName
-	 * @param array params
 	 * @param mixed configCallback
-	 * @return string
 	 */
-	public function getRender(string! controllerName, string! actionName, params = null, configCallback = null) -> string
+	public function getRender(string! controllerName, string! actionName, array params = [], configCallback = null) -> string
 	{
 		var view;
 

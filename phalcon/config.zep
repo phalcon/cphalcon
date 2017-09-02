@@ -294,13 +294,8 @@ class Config implements \ArrayAccess, \Countable
 
 	/**
 	 * Helper method for merge configs (forwarding nested config instance)
-	 *
-	 * @param Config config
-	 * @param Config instance = null
-	 *
-	 * @return Config merged config
 	 */
-	protected final function _merge(<Config> config, var instance = null) -> <Config>
+	protected final function _merge(<Config> config, <Config> instance = null) -> <Config>
 	{
 		var key, value, number, localObject, property;
 

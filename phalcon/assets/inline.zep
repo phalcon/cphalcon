@@ -41,20 +41,13 @@ class $Inline implements ResourceInterface
 
 	/**
 	 * Phalcon\Assets\Inline constructor
-	 *
-	 * @param string type
-	 * @param string content
-	 * @param boolean filter
-	 * @param array attributes
 	 */
-	public function __construct(string type, string content, boolean filter = true, attributes = null)
+	public function __construct(string type, string content, boolean filter = true, array attributes = [])
 	{
 		let this->_type = type,
 			this->_content = content,
-			this->_filter = filter;
-		if typeof attributes == "array" {
-			let this->_attributes = attributes;
-		}
+			this->_filter = filter,
+			this->_attributes = attributes;
 	}
 
 	/**

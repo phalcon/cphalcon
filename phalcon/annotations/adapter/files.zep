@@ -44,24 +44,18 @@ class Files extends Adapter
 
 	/**
 	 * Phalcon\Annotations\Adapter\Files constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = [])
 	{
 		var annotationsDir;
-		if typeof options == "array" {
-			if fetch annotationsDir, options["annotationsDir"] {
-				let this->_annotationsDir = annotationsDir;
-			}
+
+		if fetch annotationsDir, options["annotationsDir"] {
+			let this->_annotationsDir = annotationsDir;
 		}
 	}
 
 	/**
 	 * Reads parsed annotations from files
-	 *
-	 * @param string key
-	 * @return \Phalcon\Annotations\Reflection
 	 */
 	public function read(string key) -> <Reflection> | boolean | int
 	{

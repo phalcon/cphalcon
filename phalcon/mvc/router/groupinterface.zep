@@ -108,7 +108,6 @@ interface GroupInterface
 	 * Set common paths for all the routes in the group
 	 *
 	 * @param array paths
-	 * @return \Phalcon\Mvc\Router\Group
 	 */
 	public function setPaths(var paths) -> <GroupInterface>;
 

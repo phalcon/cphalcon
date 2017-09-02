@@ -52,16 +52,11 @@ interface UrlInterface
 	 *
 	 * @param string|array uri
 	 * @param array|object args Optional arguments to be appended to the query string
-	 * @param bool $local
-	 * @return string
 	 */
 	public function get(uri = null, args = null, boolean local = null) -> string;
 
 	/**
 	 * Generates a local path
-	 *
-	 * @param string path
-	 * @return string
 	 */
-	public function path(path = null) -> string;
+	public function path(string path = null) -> string;
 }

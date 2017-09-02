@@ -54,9 +54,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Returns the translation string of the given key
 	 *
-	 * @param string  translateKey
 	 * @param array   placeholders
-	 * @return string
 	 */
 	public function t(string! translateKey, placeholders = null) -> string
 	{
@@ -66,9 +64,7 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Returns the translation string of the given key (alias of method 't')
 	 *
-	 * @param string  translateKey
 	 * @param array   placeholders
-	 * @return string
 	 */
 	public function _(string! translateKey, placeholders = null) -> string
 	{
@@ -78,10 +74,9 @@ abstract class Adapter implements AdapterInterface
 	/**
 	 * Sets a translation value
 	 *
-	 * @param string offset
 	 * @param string value
 	 */
-	public function offsetSet(var offset, var value)
+	public function offsetSet(string! offset, var value)
 	{
 		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
@@ -96,21 +91,16 @@ abstract class Adapter implements AdapterInterface
 
 	/**
 	 * Unsets a translation from the dictionary
-	 *
-	 * @param string offset
 	 */
-	public function offsetUnset(var offset)
+	public function offsetUnset(string! offset)
 	{
 		throw new Exception("Translate is an immutable ArrayAccess object");
 	}
 
 	/**
 	 * Returns the translation related to the given key
-	 *
-	 * @param  string translateKey
-	 * @return string
 	 */
-	public function offsetGet(string! translateKey)
+	public function offsetGet(string! translateKey) -> string
 	{
 		return this->{"query"}(translateKey, null);
 	}

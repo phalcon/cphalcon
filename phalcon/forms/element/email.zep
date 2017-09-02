@@ -32,10 +32,8 @@ class Email extends Element
 
 	/**
 	 * Renders the element widget returning html
-	 *
-	 * @param array attributes
 	 */
-	public function render(var attributes = null) -> string
+	public function render(array attributes = []) -> string
 	{
 		return Tag::emailField(this->prepareAttributes(attributes));
 	}

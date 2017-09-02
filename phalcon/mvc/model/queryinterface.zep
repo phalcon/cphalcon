@@ -30,40 +30,28 @@ interface QueryInterface
 	/**
 	 * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
 	 * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
-	 *
-	 * @return array
 	 */
-	public function parse();
+	public function parse() -> array;
 
 	/**
 	 * Sets the cache parameters of the query
-	 *
-	 * @param array cacheOptions
-	 * @return \Phalcon\Mvc\Model\Query
 	 */
-	public function cache(cacheOptions);
+	public function cache(array cacheOptions) -> <QueryInterface>;
 
 	/**
 	 * Returns the current cache options
-	 *
-	 * @param array
 	 */
-	public function getCacheOptions();
+	public function getCacheOptions() -> array;
 
 	/**
 	 * Tells to the query if only the first row in the resultset must be returned
-	 *
-	 * @param boolean uniqueRow
-	 * @return \Phalcon\Mvc\Model\Query
 	 */
-	public function setUniqueRow(boolean uniqueRow);
+	public function setUniqueRow(boolean uniqueRow) -> <QueryInterface>;
 
 	/**
 	 * Check if the query is programmed to get only the first row in the resultset
-	 *
-	 * @return boolean
 	 */
-	public function getUniqueRow();
+	public function getUniqueRow() -> boolean;
 
 	/**
 	 * Executes a parsed PHQL statement
@@ -73,5 +61,4 @@ interface QueryInterface
 	 * @return mixed
 	 */
 	public function execute(bindParams = null, bindTypes = null);
-
 }

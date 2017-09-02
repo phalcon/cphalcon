@@ -152,7 +152,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array columns
-	 * @return \Phalcon\Mvc\Model\Criteria
 	 */
 	public function columns(var columns) -> <Criteria>
 	{
@@ -632,10 +631,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 	/**
 	 * Returns all the parameters defined in the criteria
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}

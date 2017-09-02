@@ -45,8 +45,6 @@ interface MessageInterface
 
 	/**
 	 * Returns verbose message
-	 *
-	 * @return string
 	 */
 	public function getMessage() -> string;
 

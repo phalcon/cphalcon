@@ -58,13 +58,12 @@ class Apc extends MetaData
 	{
 		var prefix, ttl;
 
-		if typeof options == "array" {
-			if fetch prefix, options["prefix"] {
-				let this->_prefix = prefix;
-			}
-			if fetch ttl, options["lifetime"] {
-				let this->_ttl = ttl;
-			}
+		if fetch prefix, options["prefix"] {
+			let this->_prefix = prefix;
+		}
+
+		if fetch ttl, options["lifetime"] {
+			let this->_ttl = ttl;
 		}
 	}
 
@@ -85,7 +84,7 @@ class Apc extends MetaData
 	/**
 	 * Writes the meta-data to APC
 	 */
-	public function write(string! key, var data) -> void
+	public function write(string! key, array data) -> void
 	{
 		apc_store("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}

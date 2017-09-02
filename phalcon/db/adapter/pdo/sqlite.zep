@@ -82,7 +82,7 @@ class Sqlite extends PdoAdapter
 	 * );
 	 * </code>
 	 */
-	public function describeColumns(string table, string schema = null) -> <Column[]>
+	public function describeColumns(string! table, string! schema = null) -> <Column[]>
 	{
 		var columns, columnType, field, definition,
 			oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
@@ -260,12 +260,8 @@ class Sqlite extends PdoAdapter
 	 *     $connection->describeIndexes("robots_parts")
 	 * );
 	 * </code>
-	 *
-	 * @param  string table
-	 * @param  string schema
-	 * @return \Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(table, schema = null) -> <IndexInterface[]>
+	public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexObjects, name, columns, describeIndex, indexSql;
 
@@ -311,12 +307,8 @@ class Sqlite extends PdoAdapter
 
 	/**
 	 * Lists table references
-	 *
-	 * @param	string table
-	 * @param	string schema
-	 * @return	Phalcon\Db\ReferenceInterface[]
 	 */
-	public function describeReferences(table, schema = null) -> <ReferenceInterface[]>
+	public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
 	{
 		var references, reference,
 			arrayReference, constraintName, referenceObjects, name,

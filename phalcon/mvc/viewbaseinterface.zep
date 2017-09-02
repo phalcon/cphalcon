@@ -44,11 +44,8 @@ interface ViewBaseInterface
 
 	/**
 	 * Adds parameters to views
-	 *
-	 * @param string key
-	 * @param mixed value
 	 */
-	public function setVar(string! key, value);
+	public function setVar(string! key, var value);
 
 	/**
 	 * Returns parameters to views

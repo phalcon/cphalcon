@@ -273,12 +273,8 @@ class Mysql extends PdoAdapter
 	 *     $connection->describeIndexes("robots_parts")
 	 * );
 	 * </code>
-	 *
-	 * @param  string table
-	 * @param  string schema
-	 * @return \Phalcon\Db\IndexInterface[]
 	 */
-	public function describeIndexes(string! table, schema = null) -> <IndexInterface[]>
+	public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
 	{
 		var indexes, index, keyName, indexType, indexObjects, columns, name;
 

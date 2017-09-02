@@ -29,73 +29,55 @@ interface AdapterInterface
 	/**
 	 * Returns the first row in a SQL query result
 	 *
-	 * @param string sqlQuery
-	 * @param int fetchMode
 	 * @param int placeholders
-	 * @return array
 	 */
-	public function fetchOne(string! sqlQuery, fetchMode = 2, placeholders = null);
+	public function fetchOne(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
 
 	/**
 	 * Dumps the complete result of a query into an array
 	 *
-	 * @param string sqlQuery
-	 * @param int fetchMode
 	 * @param int placeholders
-	 * @return array
 	 */
-	public function fetchAll(string! sqlQuery, fetchMode = 2, placeholders = null);
+	public function fetchAll(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
 
 	/**
 	 * Inserts data into a table using custom RDBMS SQL syntax
 	 *
-	 * @param 	string table
-	 * @param 	array values
 	 * @param 	array fields
 	 * @param 	array dataTypes
-	 * @return 	boolean
 	 */
-	public function insert(var table, array! values, fields = null, dataTypes = null);
+	public function insert(string table, array! values, fields = null, dataTypes = null) -> boolean;
 
 	/**
 	 * Updates data on a table using custom RDBMS SQL syntax
 	 *
-	 * @param 	string table
 	 * @param 	array fields
 	 * @param 	array values
 	 * @param 	string whereCondition
 	 * @param 	array dataTypes
-	 * @return 	boolean
 	 */
-	public function update(var table, fields, values, whereCondition = null, dataTypes = null);
+	public function update(string table, fields, values, whereCondition = null, dataTypes = null) -> boolean;
 
 	/**
 	 * Deletes data from a table using custom RDBMS SQL syntax
 	 *
-	 * @param  string table
 	 * @param  string whereCondition
 	 * @param  array placeholders
 	 * @param  array dataTypes
-	 * @return boolean
 	 */
-	public function delete(var table, whereCondition = null, placeholders = null, dataTypes = null);
+	public function delete(string table, whereCondition = null, placeholders = null, dataTypes = null) -> boolean;
 
 	/**
 	 * Gets a list of columns
 	 *
 	 * @param	array columnList
-	 * @return	string
 	 */
-	public function getColumnList(columnList);
+	public function getColumnList(var columnList) -> string;
 
 	/**
 	 * Appends a LIMIT clause to sqlQuery argument
-	 *
-	 * @param  	string sqlQuery
-	 * @param 	int number
-	 * @return 	string
 	 */
-	public function limit(var sqlQuery, number);
+	public function limit(string! sqlQuery, int number) -> string;
 
 	/**
 	 * Generates SQL checking for the existence of a schema.table
@@ -199,17 +181,13 @@ interface AdapterInterface
 
 	/**
 	 * Return descriptor used to connect to the active database
-	 *
-	 * @return array
 	 */
-	public function getDescriptor();
+	public function getDescriptor() -> array;
 
 	/**
 	 * Gets the active connection unique identifier
-	 *
-	 * @return string
 	 */
-	public function getConnectionId();
+	public function getConnectionId() -> string;
 
 	/**
 	 * Active SQL statement in the object
@@ -223,31 +201,23 @@ interface AdapterInterface
 
 	/**
 	 * Active SQL statement in the object
-	 *
-	 * @return array
 	 */
-	public function getSQLVariables();
+	public function getSQLVariables() -> array;
 
 	/**
 	 * Active SQL statement in the object
-	 *
-	 * @return array
 	 */
-	public function getSQLBindTypes();
+	public function getSQLBindTypes() -> array;
 
 	/**
 	 * Returns type of database system the adapter is used for
-	 *
-	 * @return string
 	 */
-	public function getType();
+	public function getType() -> string;
 
 	/**
 	 * Returns the name of the dialect used
-	 *
-	 * @return string
 	 */
-	public function getDialectType();
+	public function getDialectType() -> string;
 
 	/**
 	 * Returns internal dialect instance
@@ -287,7 +257,6 @@ interface AdapterInterface
 	 * Escapes a column/table/schema name
 	 *
 	 * @param string identifier
-	 * @return string
 	 */
 	public function escapeIdentifier(identifier) -> string;
 

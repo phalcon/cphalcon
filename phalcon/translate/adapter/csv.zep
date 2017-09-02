@@ -47,13 +47,8 @@ class Csv extends Adapter implements \ArrayAccess
 
 	/**
 	* Load translates from file
-	*
-	* @param string file
-	* @param int length
-	* @param string delimiter
-	* @param string enclosure
 	*/
-	private function _load(file, length, delimiter, enclosure) -> void
+	private function _load(string file, int length, string delimiter, string enclosure) -> void
 	{
 		var data, fileHandler;
 

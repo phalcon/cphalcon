@@ -45,10 +45,8 @@ class Apc extends Adapter
 
 	/**
 	 * Phalcon\Annotations\Adapter\Apc constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(options = null)
+	public function __construct(array options = [])
 	{
 		var prefix, ttl;
 

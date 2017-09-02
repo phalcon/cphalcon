@@ -84,20 +84,12 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Phalcon\Mvc\Model\Transaction constructor
-	 *
-	 * @param \Phalcon\DiInterface dependencyInjector
-	 * @param boolean autoBegin
-	 * @param string service
 	 */
-	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, service = null)
+	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, string! service = "db")
 	{
 		var connection;
 
-		if service {
-			let connection = dependencyInjector->get(service);
-		} else {
-			let connection = dependencyInjector->get("db");
-		}
+		let connection = dependencyInjector->get(service);
 
 		let this->_connection = connection;
 		if autoBegin {
@@ -138,12 +130,8 @@ class Transaction implements TransactionInterface
 
 	/**
 	 * Rollbacks the transaction
-	 *
-	 * @param  string rollbackMessage
-	 * @param  Phalcon\Mvc\ModelInterface rollbackRecord
-	 * @return boolean
 	 */
-	public function rollback(rollbackMessage = null, rollbackRecord = null) -> boolean
+	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null) -> boolean
 	{
 		var manager, connection;
 

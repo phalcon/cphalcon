@@ -33,9 +33,8 @@ interface EventInterface
 
 	/**
 	 * Sets event data
-	 * @param mixed data
 	 */
-	public function setData(data = null) -> <EventInterface>;
+	public function setData(var data = null) -> <EventInterface>;
 
 	/**
 	 * Gets event type

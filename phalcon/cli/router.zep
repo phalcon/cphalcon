@@ -386,9 +386,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * $router->add("/about", "About::main");
 	 *</code>
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Cli\Router\Route
+	 * @param string|array paths
 	 */
 	public function add(string! pattern, paths = null) -> <RouteInterface>
 	{
@@ -425,10 +423,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns processed extra params
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}
@@ -443,10 +439,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
 	/**
 	 * Returns the sub expressions in the regular expression matched
-	 *
-	 * @return array
 	 */
-	public function getMatches()
+	public function getMatches() -> array
 	{
 		return this->_matches;
 	}
@@ -471,7 +465,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 	 * Returns a route object by its id
 	 *
 	 * @param int id
-	 * @return \Phalcon\Cli\Router\Route
 	 */
 	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
