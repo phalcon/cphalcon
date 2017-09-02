@@ -44,27 +44,31 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *options_param = NULL, *data = NULL;
-	zval *options = NULL;
+	zval *options_param = NULL, data;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&data);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
-	options = options_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, getThis(), "__construct", &_0, 463, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_nativearray_ce, getThis(), "__construct", &_0, 0, &options);
 	zephir_check_call_status();
-	ZEPHIR_OBS_VAR(data);
-	if (!(zephir_array_isset_string_fetch(&data, options, SS("content"), 0 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(&data);
+	if (!(zephir_array_isset_string_fetch(&data, &options, SL("content"), 0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation content was not provided", "phalcon/translate/adapter/nativearray.zep", 45);
 		return;
 	}
-	if (Z_TYPE_P(data) != IS_ARRAY) {
+	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/translate/adapter/nativearray.zep", 49);
 		return;
 	}
-	zephir_update_property_this(getThis(), SL("_translate"), data TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_translate"), &data);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -75,8 +79,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *index_param = NULL, *placeholders = NULL, *translation = NULL, *_0;
-	zval *index = NULL;
+	zval *index_param = NULL, *placeholders = NULL, placeholders_sub, __$null, translation, _0;
+	zval index;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&index);
+	ZVAL_UNDEF(&placeholders_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&translation);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index_param, &placeholders);
@@ -86,22 +97,23 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
+		zephir_get_strval(&index, index_param);
 	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
+		ZEPHIR_INIT_VAR(&index);
+		ZVAL_EMPTY_STRING(&index);
 	}
 	if (!placeholders) {
-		placeholders = ZEPHIR_GLOBAL(global_null);
+		placeholders = &placeholders_sub;
+		placeholders = &__$null;
 	}
 
 
-	ZEPHIR_OBS_VAR(translation);
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
-	if (!(zephir_array_isset_fetch(&translation, _0, index, 0 TSRMLS_CC))) {
-		ZEPHIR_CPY_WRT(translation, index);
+	ZEPHIR_OBS_VAR(&translation);
+	zephir_read_property(&_0, this_ptr, SL("_translate"), PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_fetch(&translation, &_0, &index, 0 TSRMLS_CC))) {
+		ZEPHIR_CPY_WRT(&translation, &index);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, translation, placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, &translation, placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -112,8 +124,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 
-	zval *index_param = NULL, *_0;
-	zval *index = NULL;
+	zval *index_param = NULL, _0;
+	zval index;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&index);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
@@ -123,15 +139,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(index_param) == IS_STRING)) {
-		zephir_get_strval(index, index_param);
+		zephir_get_strval(&index, index_param);
 	} else {
-		ZEPHIR_INIT_VAR(index);
-		ZVAL_EMPTY_STRING(index);
+		ZEPHIR_INIT_VAR(&index);
+		ZVAL_EMPTY_STRING(&index);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_translate"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, index));
+	zephir_read_property(&_0, this_ptr, SL("_translate"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &index));
 
 }
 

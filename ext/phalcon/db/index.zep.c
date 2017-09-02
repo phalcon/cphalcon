@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -87,7 +87,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
  */
 PHP_METHOD(Phalcon_Db_Index, getName) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_name");
 
@@ -98,7 +99,8 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_columns");
 
@@ -109,7 +111,8 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
  */
 PHP_METHOD(Phalcon_Db_Index, getType) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_type");
 
@@ -120,33 +123,40 @@ PHP_METHOD(Phalcon_Db_Index, getType) {
  */
 PHP_METHOD(Phalcon_Db_Index, __construct) {
 
-	zval *columns = NULL;
-	zval *name_param = NULL, *columns_param = NULL, *type = NULL;
-	zval *name = NULL, *_0 = NULL;
+	zval columns;
+	zval *name_param = NULL, *columns_param = NULL, *type_param = NULL;
+	zval name, type;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&columns);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type);
+	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(name, name_param);
+		zephir_get_strval(&name, name_param);
 	} else {
-		ZEPHIR_INIT_VAR(name);
-		ZVAL_EMPTY_STRING(name);
+		ZEPHIR_INIT_VAR(&name);
+		ZVAL_EMPTY_STRING(&name);
 	}
-	columns = columns_param;
-	if (!type) {
-		type = ZEPHIR_GLOBAL(global_null);
+	ZEPHIR_OBS_COPY_OR_DUP(&columns, columns_param);
+	if (!type_param) {
+		ZEPHIR_INIT_VAR(&type);
+		ZVAL_STRING(&type, "");
+	} else {
+		zephir_get_strval(&type, type_param);
 	}
 
 
-	zephir_update_property_this(getThis(), SL("_name"), name TSRMLS_CC);
-	zephir_update_property_this(getThis(), SL("_columns"), columns TSRMLS_CC);
-	zephir_get_strval(_0, type);
-	zephir_update_property_this(getThis(), SL("_type"), _0 TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_name"), &name);
+	zephir_update_property_zval(this_ptr, SL("_columns"), &columns);
+	zephir_update_property_zval(this_ptr, SL("_type"), &type);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -157,32 +167,38 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, *indexName = NULL, *columns = NULL, *type = NULL;
-	zval *data = NULL;
+	zval *data_param = NULL, indexName, columns, type;
+	zval data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&indexName);
+	ZVAL_UNDEF(&columns);
+	ZVAL_UNDEF(&type);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
 
-	data = data_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
 
 
-	ZEPHIR_OBS_VAR(indexName);
-	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_name"), 0 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(&indexName);
+	if (!(zephir_array_isset_string_fetch(&indexName, &data, SL("_name"), 0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 95);
 		return;
 	}
-	ZEPHIR_OBS_VAR(columns);
-	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 0 TSRMLS_CC))) {
+	ZEPHIR_OBS_VAR(&columns);
+	if (!(zephir_array_isset_string_fetch(&columns, &data, SL("_columns"), 0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 99);
 		return;
 	}
-	ZEPHIR_OBS_VAR(type);
-	if (!(zephir_array_isset_string_fetch(&type, data, SS("_type"), 0 TSRMLS_CC))) {
-		ZEPHIR_INIT_NVAR(type);
-		ZVAL_STRING(type, "", 1);
+	ZEPHIR_OBS_VAR(&type);
+	if (!(zephir_array_isset_string_fetch(&type, &data, SL("_type"), 0))) {
+		ZEPHIR_INIT_NVAR(&type);
+		ZVAL_STRING(&type, "");
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 23, indexName, columns, type);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 18, &indexName, &columns, &type);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -134,10 +134,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, registerEngines);
 
 /**
  * Executes render process from dispatching data
- *
- * @param string controllerName
- * @param string actionName
- * @param array params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, render);
 

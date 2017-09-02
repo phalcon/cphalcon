@@ -42,12 +42,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 
-	HashTable *_2$$12;
-	HashPosition _1$$12;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *model, *options = NULL, *timestamp = NULL, *singleField = NULL, *field = NULL, *generator = NULL, *format = NULL, *_0 = NULL, **_3$$12;
-	zval *type = NULL;
+	zval *type_param = NULL, *model, model_sub, options, timestamp, singleField, field, generator, format, _0, *_1$$12;
+	zval type;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&model_sub);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&timestamp);
+	ZVAL_UNDEF(&singleField);
+	ZVAL_UNDEF(&field);
+	ZVAL_UNDEF(&generator);
+	ZVAL_UNDEF(&format);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
@@ -57,60 +66,60 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
-		zephir_get_strval(type, type_param);
+		zephir_get_strval(&type, type_param);
 	} else {
-		ZEPHIR_INIT_VAR(type);
-		ZVAL_EMPTY_STRING(type);
+		ZEPHIR_INIT_VAR(&type);
+		ZVAL_EMPTY_STRING(&type);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "musttakeaction", NULL, 0, type);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "musttakeaction", NULL, 0, &type);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(_0)) {
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL, 0, type);
+	ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL, 0, &type);
 	zephir_check_call_status();
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		ZEPHIR_OBS_VAR(field);
-		if (!(zephir_array_isset_string_fetch(&field, options, SS("field"), 0 TSRMLS_CC))) {
+	if (Z_TYPE_P(&options) == IS_ARRAY) {
+		ZEPHIR_OBS_VAR(&field);
+		if (!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/mvc/model/behavior/timestampable.zep", 56);
 			return;
 		}
-		ZEPHIR_INIT_VAR(timestamp);
-		ZVAL_NULL(timestamp);
-		ZEPHIR_OBS_VAR(format);
-		if (zephir_array_isset_string_fetch(&format, options, SS("format"), 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 311, format);
+		ZEPHIR_INIT_VAR(&timestamp);
+		ZVAL_NULL(&timestamp);
+		ZEPHIR_OBS_VAR(&format);
+		if (zephir_array_isset_string_fetch(&format, &options, SL("format"), 0)) {
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 278, &format);
 			zephir_check_call_status();
 		} else {
-			ZEPHIR_OBS_VAR(generator);
-			if (zephir_array_isset_string_fetch(&generator, options, SS("generator"), 0 TSRMLS_CC)) {
-				if (Z_TYPE_P(generator) == IS_OBJECT) {
-					if (zephir_instance_of_ev(generator, zend_ce_closure TSRMLS_CC)) {
-						ZEPHIR_INIT_NVAR(timestamp);
-						ZEPHIR_CALL_USER_FUNC(timestamp, generator);
+			ZEPHIR_OBS_VAR(&generator);
+			if (zephir_array_isset_string_fetch(&generator, &options, SL("generator"), 0)) {
+				if (Z_TYPE_P(&generator) == IS_OBJECT) {
+					if (zephir_instance_of_ev(&generator, zend_ce_closure TSRMLS_CC)) {
+						ZEPHIR_INIT_NVAR(&timestamp);
+						ZEPHIR_CALL_USER_FUNC(&timestamp, &generator);
 						zephir_check_call_status();
 					}
 				}
 			}
 		}
-		if (Z_TYPE_P(timestamp) == IS_NULL) {
-			ZEPHIR_INIT_NVAR(timestamp);
-			zephir_time(timestamp);
+		if (Z_TYPE_P(&timestamp) == IS_NULL) {
+			ZEPHIR_INIT_NVAR(&timestamp);
+			zephir_time(&timestamp);
 		}
-		if (Z_TYPE_P(field) == IS_ARRAY) {
-			zephir_is_iterable(field, &_2$$12, &_1$$12, 0, 0, "phalcon/mvc/model/behavior/timestampable.zep", 94);
-			for (
-			  ; zend_hash_get_current_data_ex(_2$$12, (void**) &_3$$12, &_1$$12) == SUCCESS
-			  ; zend_hash_move_forward_ex(_2$$12, &_1$$12)
-			) {
-				ZEPHIR_GET_HVALUE(singleField, _3$$12);
-				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_4, 0, singleField, timestamp);
+		if (Z_TYPE_P(&field) == IS_ARRAY) {
+			zephir_is_iterable(&field, 0, "phalcon/mvc/model/behavior/timestampable.zep", 94);
+			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1$$12)
+			{
+				ZEPHIR_INIT_NVAR(&singleField);
+				ZVAL_COPY(&singleField, _1$$12);
+				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_2, 0, &singleField, &timestamp);
 				zephir_check_call_status();
-			}
+			} ZEND_HASH_FOREACH_END();
+			ZEPHIR_INIT_NVAR(&singleField);
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, 0, field, timestamp);
+			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, 0, &field, &timestamp);
 			zephir_check_call_status();
 		}
 	}

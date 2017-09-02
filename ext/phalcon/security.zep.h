@@ -23,8 +23,6 @@ PHP_METHOD(Phalcon_Security, destroyToken);
 PHP_METHOD(Phalcon_Security, computeHmac);
 PHP_METHOD(Phalcon_Security, setDefaultHash);
 PHP_METHOD(Phalcon_Security, getDefaultHash);
-PHP_METHOD(Phalcon_Security, hasLibreSsl);
-PHP_METHOD(Phalcon_Security, getSslVersionNumber);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setworkfactor, 0, 0, 1)
 	ZEND_ARG_INFO(0, workFactor)
@@ -95,7 +93,5 @@ ZEPHIR_INIT_FUNCS(phalcon_security_method_entry) {
 	PHP_ME(Phalcon_Security, computeHmac, arginfo_phalcon_security_computehmac, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, setDefaultHash, arginfo_phalcon_security_setdefaulthash, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, getDefaultHash, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Security, hasLibreSsl, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Security, getSslVersionNumber, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

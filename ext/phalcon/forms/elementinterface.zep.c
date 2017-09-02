@@ -49,7 +49,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getName);
  * Sets the element's filters
  *
  * @param array|string filters
- * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setFilters);
 
@@ -69,8 +68,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getFilters);
  * Adds a group of validators
  *
  * @param \Phalcon\Validation\ValidatorInterface[]
- * @param boolean merge
- * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, addValidators);
 
@@ -92,19 +89,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, prepareAttributes);
 
 /**
  * Sets a default attribute for the element
- *
- * @param string attribute
- * @param mixed value
- * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setAttribute);
 
 /**
  * Returns the value of an attribute if present
- *
- * @param string attribute
- * @param mixed defaultValue
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getAttribute);
 
@@ -120,19 +109,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getAttributes);
 
 /**
  * Sets an option for the element
- *
- * @param string option
- * @param mixed value
- * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setUserOption);
 
 /**
  * Returns the value of an option if present
- *
- * @param string option
- * @param mixed defaultValue
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getUserOption);
 
@@ -164,31 +145,22 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, label);
 /**
  * Sets a default value in case the form does not use an entity
  * or there is no value available for the element in _POST
- *
- * @param mixed value
- * @return \Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, setDefault);
 
 /**
  * Returns the default value assigned to the element
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getDefault);
 
 /**
  * Returns the element's value
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getValue);
 
 /**
  * Returns the messages that belongs to the element
  * The element needs to be attached to a form
- *
- * @return \Phalcon\Validation\Message\Group
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getMessages);
 
@@ -214,8 +186,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, clear);
 
 /**
  * Renders the element widget
- *
- * @param array attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, render);
 

@@ -12,7 +12,7 @@ PHP_METHOD(Phalcon_Application, getModule);
 PHP_METHOD(Phalcon_Application, setDefaultModule);
 PHP_METHOD(Phalcon_Application, getDefaultModule);
 PHP_METHOD(Phalcon_Application, handle);
-zend_object_value zephir_init_properties_Phalcon_Application(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Application(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_application___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)

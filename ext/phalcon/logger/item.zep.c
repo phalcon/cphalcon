@@ -59,7 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
  */
 PHP_METHOD(Phalcon_Logger_Item, getType) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_type");
 
@@ -70,7 +71,8 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
  */
 PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_message");
 
@@ -81,7 +83,8 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage) {
  */
 PHP_METHOD(Phalcon_Logger_Item, getTime) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_time");
 
@@ -89,7 +92,8 @@ PHP_METHOD(Phalcon_Logger_Item, getTime) {
 
 PHP_METHOD(Phalcon_Logger_Item, getContext) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_context");
 
@@ -98,21 +102,24 @@ PHP_METHOD(Phalcon_Logger_Item, getContext) {
 /**
  * Phalcon\Logger\Item constructor
  *
- * @param string $message
- * @param integer $type
- * @param integer $time
- * @param array $context
+ * @param array context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
 	zend_long type, time;
-	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context = NULL, *_0;
-	zval *message = NULL;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context = NULL, context_sub, __$null, _0;
+	zval message;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &message_param, &type_param, &time_param, &context);
 
-	zephir_get_strval(message, message_param);
+	zephir_get_strval(&message, message_param);
 	type = zephir_get_intval(type_param);
 	if (!time_param) {
 		time = 0;
@@ -120,19 +127,20 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 		time = zephir_get_intval(time_param);
 	}
 	if (!context) {
-		context = ZEPHIR_GLOBAL(global_null);
+		context = &context_sub;
+		context = &__$null;
 	}
 
 
-	zephir_update_property_this(getThis(), SL("_message"), message TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_message"), &message);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(_0, type);
-	zephir_update_property_this(getThis(), SL("_type"), _0 TSRMLS_CC);
+	ZVAL_LONG(&_0, type);
+	zephir_update_property_zval(this_ptr, SL("_type"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(_0, time);
-	zephir_update_property_this(getThis(), SL("_time"), _0 TSRMLS_CC);
+	ZVAL_LONG(&_0, time);
+	zephir_update_property_zval(this_ptr, SL("_time"), &_0);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		zephir_update_property_this(getThis(), SL("_context"), context TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_context"), context);
 	}
 	ZEPHIR_MM_RESTORE();
 

@@ -12,7 +12,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\BackendInterface, 1)

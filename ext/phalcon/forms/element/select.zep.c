@@ -36,7 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select) {
 /**
  * Phalcon\Forms\Element constructor
  *
- * @param string name
  * @param object|array options
  * @param array attributes
  */
@@ -44,23 +43,31 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *name_param = NULL, *options = NULL, *attributes = NULL;
-	zval *name = NULL;
+	zval *name_param = NULL, *options = NULL, options_sub, *attributes = NULL, attributes_sub, __$null;
+	zval name;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&options_sub);
+	ZVAL_UNDEF(&attributes_sub);
+	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &name_param, &options, &attributes);
 
-	zephir_get_strval(name, name_param);
+	zephir_get_strval(&name, name_param);
 	if (!options) {
-		options = ZEPHIR_GLOBAL(global_null);
+		options = &options_sub;
+		options = &__$null;
 	}
 	if (!attributes) {
-		attributes = ZEPHIR_GLOBAL(global_null);
+		attributes = &attributes_sub;
+		attributes = &__$null;
 	}
 
 
-	zephir_update_property_this(getThis(), SL("_optionsValues"), options TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, getThis(), "__construct", &_0, 222, name, attributes);
+	zephir_update_property_zval(this_ptr, SL("_optionsValues"), options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, getThis(), "__construct", &_0, 0, &name, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -70,17 +77,19 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
  * Set the choice's options
  *
  * @param array|object options
- * @return \Phalcon\Forms\Element
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, setOptions) {
 
-	zval *options;
+	zval *options, options_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options_sub);
 
 	zephir_fetch_params(0, 1, 0, &options);
 
 
 
-	zephir_update_property_this(getThis(), SL("_optionsValues"), options TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_optionsValues"), options);
 	RETURN_THISW();
 
 }
@@ -92,7 +101,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, getOptions) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_optionsValues");
 
@@ -102,13 +112,17 @@ PHP_METHOD(Phalcon_Forms_Element_Select, getOptions) {
  * Adds an option to the current options
  *
  * @param array option
- * @return this
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
-	HashTable *_1$$3;
-	HashPosition _0$$3;
-	zval *option, *key = NULL, *value = NULL, **_2$$3;
+	zend_string *_2$$3;
+	zend_ulong _1$$3;
+	zval *option, option_sub, key, value, *_0$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&option_sub);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option);
@@ -116,15 +130,21 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, &_1$$3, &_0$$3, 0, 0, "phalcon/forms/element/select.zep", 84);
-		for (
-		  ; zend_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
-		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
-		) {
-			ZEPHIR_GET_HMKEY(key, _1$$3, _0$$3);
-			ZEPHIR_GET_HVALUE(value, _2$$3);
-			zephir_update_property_array(this_ptr, SL("_optionsValues"), key, value TSRMLS_CC);
-		}
+		zephir_is_iterable(option, 0, "phalcon/forms/element/select.zep", 81);
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _1$$3, _2$$3, _0$$3)
+		{
+			ZEPHIR_INIT_NVAR(&key);
+			if (_2$$3 != NULL) { 
+				ZVAL_STR_COPY(&key, _2$$3);
+			} else {
+				ZVAL_LONG(&key, _1$$3);
+			}
+			ZEPHIR_INIT_NVAR(&value);
+			ZVAL_COPY(&value, _0$$3);
+			zephir_update_property_array(this_ptr, SL("_optionsValues"), &key, &value TSRMLS_CC);
+		} ZEND_HASH_FOREACH_END();
+		ZEPHIR_INIT_NVAR(&value);
+		ZEPHIR_INIT_NVAR(&key);
 	} else {
 		zephir_update_property_array_append(this_ptr, SL("_optionsValues"), option TSRMLS_CC);
 	}
@@ -134,27 +154,34 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 /**
  * Renders the element widget returning html
- *
- * @param array attributes
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *attributes = NULL, *_1 = NULL, *_2;
+	zval *attributes_param = NULL, _1, _2;
+	zval attributes;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&attributes);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &attributes);
+	zephir_fetch_params(1, 0, 1, &attributes_param);
 
-	if (!attributes) {
-		attributes = ZEPHIR_GLOBAL(global_null);
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(&attributes);
+		array_init(&attributes);
+	} else {
+		zephir_get_arrval(&attributes, attributes_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, &attributes);
 	zephir_check_call_status();
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_optionsValues"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", &_0, 223, _1, _2);
+	zephir_read_property(&_2, this_ptr, SL("_optionsValues"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", &_0, 0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

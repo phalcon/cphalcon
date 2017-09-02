@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send);
 PHP_METHOD(Phalcon_Http_Response_Headers, reset);
 PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
-zend_object_value zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headers_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)

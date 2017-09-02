@@ -45,6 +45,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 
 	zval *type_param = NULL;
 	zend_long type;
+	zval *this_ptr = getThis();
+
 
 	zephir_fetch_params(0, 1, 0, &type_param);
 
@@ -53,20 +55,20 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
 
 	do {
 		if (type == 0 || type == 1 || type == 3) {
-			RETURN_STRING("ERROR", 1);
+			RETURN_STRING("ERROR");
 		}
 		if (type == 2 || type == 4) {
-			RETURN_STRING("WARN", 1);
+			RETURN_STRING("WARN");
 		}
 		if (type == 6 || type == 5 || type == 8) {
-			RETURN_STRING("INFO", 1);
+			RETURN_STRING("INFO");
 		}
 		if (type == 7 || type == 9) {
-			RETURN_STRING("LOG", 1);
+			RETURN_STRING("LOG");
 		}
 	} while(0);
 
-	RETURN_STRING("CUSTOM", 1);
+	RETURN_STRING("CUSTOM");
 
 }
 
@@ -75,8 +77,12 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
 
-	zval *isShow_param = NULL;
+	zval *isShow_param = NULL, __$true, __$false;
 	zend_bool isShow;
+	zval *this_ptr = getThis();
+
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 
 	zephir_fetch_params(0, 0, 1, &isShow_param);
 
@@ -88,9 +94,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
 
 
 	if (isShow) {
-		zephir_update_property_this(getThis(), SL("_showBacktrace"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_showBacktrace"), &__$true);
 	} else {
-		zephir_update_property_this(getThis(), SL("_showBacktrace"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_showBacktrace"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -101,7 +107,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, setShowBacktrace) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_showBacktrace");
 
@@ -112,8 +119,12 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getShowBacktrace) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
 
-	zval *isEnable_param = NULL;
+	zval *isEnable_param = NULL, __$true, __$false;
 	zend_bool isEnable;
+	zval *this_ptr = getThis();
+
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 
 	zephir_fetch_params(0, 0, 1, &isEnable_param);
 
@@ -125,9 +136,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
 
 
 	if (isEnable) {
-		zephir_update_property_this(getThis(), SL("_enableLabels"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_enableLabels"), &__$true);
 	} else {
-		zephir_update_property_this(getThis(), SL("_enableLabels"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_enableLabels"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -138,7 +149,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, enableLabels) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_enableLabels");
 
@@ -147,120 +159,146 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, labelsEnabled) {
 /**
  * Applies a format to a message before sending it to the log
  *
- * @param string $message
- * @param int $type
- * @param int $timestamp
  * @param array $context
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 
-	HashTable *_7$$4;
-	HashPosition _6$$4;
-	zval *_18;
-	zend_bool _11, _14;
+	zend_string *_7$$4;
+	zend_ulong _6$$4;
+	zval _17;
+	zend_bool _10, _13;
 	zend_long type, timestamp, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, *meta = NULL, *body = NULL, *backtrace = NULL, *encoded = NULL, *len = NULL, *lastTrace = NULL, *_1 = NULL, *_2, *_3, *_9, *_10, *_12, *_13, *_15, *_0$$3 = NULL, *param$$4 = NULL, *backtraceItem$$4 = NULL, *key$$4 = NULL, **_8$$4, *_4$$5, *_5$$6, *_16$$11, *_17$$11;
-	zval *message = NULL;
+	zval *message_param = NULL, *type_param = NULL, *timestamp_param = NULL, *context = NULL, context_sub, __$null, meta, body, backtrace, encoded, len, lastTrace, _1, _2, _8, _9, _11, _12, _14, _0$$3, param$$4, backtraceItem$$4, key$$4, *_5$$4, _3$$5, _4$$6, _15$$11, _16$$11;
+	zval message;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&meta);
+	ZVAL_UNDEF(&body);
+	ZVAL_UNDEF(&backtrace);
+	ZVAL_UNDEF(&encoded);
+	ZVAL_UNDEF(&len);
+	ZVAL_UNDEF(&lastTrace);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&param$$4);
+	ZVAL_UNDEF(&backtraceItem$$4);
+	ZVAL_UNDEF(&key$$4);
+	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_4$$6);
+	ZVAL_UNDEF(&_15$$11);
+	ZVAL_UNDEF(&_16$$11);
+	ZVAL_UNDEF(&_17);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &message_param, &type_param, &timestamp_param, &context);
 
-	zephir_get_strval(message, message_param);
+	zephir_get_strval(&message, message_param);
 	type = zephir_get_intval(type_param);
 	timestamp = zephir_get_intval(timestamp_param);
 	if (!context) {
-		context = ZEPHIR_GLOBAL(global_null);
+		context = &context_sub;
+		context = &__$null;
 	}
 
 
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, message, context);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "interpolate", NULL, 0, &message, context);
 		zephir_check_call_status();
-		zephir_get_strval(message, _0$$3);
+		zephir_get_strval(&message, &_0$$3);
 	}
-	ZEPHIR_INIT_VAR(meta);
-	zephir_create_array(meta, 1, 0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_LONG(_2, type);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "gettypestring", NULL, 0, _2);
+	ZEPHIR_INIT_VAR(&meta);
+	zephir_create_array(&meta, 1, 0 TSRMLS_CC);
+	ZVAL_LONG(&_2, type);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "gettypestring", NULL, 0, &_2);
 	zephir_check_call_status();
 	zephir_array_update_string(&meta, SL("Type"), &_1, PH_COPY | PH_SEPARATE);
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-	if (zephir_is_true(_3)) {
-		ZEPHIR_INIT_VAR(param$$4);
-		ZVAL_LONG(param$$4, 2);
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 168, param$$4);
+	zephir_read_property(&_2, this_ptr, SL("_showBacktrace"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_2)) {
+		ZEPHIR_INIT_VAR(&param$$4);
+		ZVAL_LONG(&param$$4, 2);
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 153, &param$$4);
 		zephir_check_call_status();
-		ZEPHIR_MAKE_REF(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 187, backtrace);
-		ZEPHIR_UNREF(backtrace);
+		ZEPHIR_MAKE_REF(&backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, &backtrace);
+		ZEPHIR_UNREF(&backtrace);
 		zephir_check_call_status();
-		if (zephir_array_isset_string(lastTrace, SS("file"))) {
-			zephir_array_fetch_string(&_4$$5, lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 128 TSRMLS_CC);
-			zephir_array_update_string(&meta, SL("File"), &_4$$5, PH_COPY | PH_SEPARATE);
+		if (zephir_array_isset_string(&lastTrace, SL("file"))) {
+			zephir_array_fetch_string(&_3$$5, &lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 123 TSRMLS_CC);
+			zephir_array_update_string(&meta, SL("File"), &_3$$5, PH_COPY | PH_SEPARATE);
 		}
-		if (zephir_array_isset_string(lastTrace, SS("line"))) {
-			zephir_array_fetch_string(&_5$$6, lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 132 TSRMLS_CC);
-			zephir_array_update_string(&meta, SL("Line"), &_5$$6, PH_COPY | PH_SEPARATE);
+		if (zephir_array_isset_string(&lastTrace, SL("line"))) {
+			zephir_array_fetch_string(&_4$$6, &lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 127 TSRMLS_CC);
+			zephir_array_update_string(&meta, SL("Line"), &_4$$6, PH_COPY | PH_SEPARATE);
 		}
-		zephir_is_iterable(backtrace, &_7$$4, &_6$$4, 1, 0, "phalcon/logger/formatter/firephp.zep", 141);
-		for (
-		  ; zend_hash_get_current_data_ex(_7$$4, (void**) &_8$$4, &_6$$4) == SUCCESS
-		  ; zend_hash_move_forward_ex(_7$$4, &_6$$4)
-		) {
-			ZEPHIR_GET_HMKEY(key$$4, _7$$4, _6$$4);
-			ZEPHIR_GET_HVALUE(backtraceItem$$4, _8$$4);
-			zephir_array_unset_string(&backtraceItem$$4, SS("object"), PH_SEPARATE);
-			zephir_array_unset_string(&backtraceItem$$4, SS("args"), PH_SEPARATE);
-			zephir_array_update_zval(&backtrace, key$$4, &backtraceItem$$4, PH_COPY | PH_SEPARATE);
-		}
-		zend_hash_destroy(_7$$4);
-		FREE_HASHTABLE(_7$$4);
+		zephir_is_iterable(&backtrace, 1, "phalcon/logger/formatter/firephp.zep", 136);
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&backtrace), _6$$4, _7$$4, _5$$4)
+		{
+			ZEPHIR_INIT_NVAR(&key$$4);
+			if (_7$$4 != NULL) { 
+				ZVAL_STR_COPY(&key$$4, _7$$4);
+			} else {
+				ZVAL_LONG(&key$$4, _6$$4);
+			}
+			ZEPHIR_INIT_NVAR(&backtraceItem$$4);
+			ZVAL_COPY(&backtraceItem$$4, _5$$4);
+			zephir_array_unset_string(&backtraceItem$$4, SL("object"), PH_SEPARATE);
+			zephir_array_unset_string(&backtraceItem$$4, SL("args"), PH_SEPARATE);
+			zephir_array_update_zval(&backtrace, &key$$4, &backtraceItem$$4, PH_COPY | PH_SEPARATE);
+		} ZEND_HASH_FOREACH_END();
+		ZEPHIR_INIT_NVAR(&backtraceItem$$4);
+		ZEPHIR_INIT_NVAR(&key$$4);
 	}
-	_9 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-	if (zephir_is_true(_9)) {
+	zephir_read_property(&_8, this_ptr, SL("_enableLabels"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_8)) {
 		zephir_array_update_string(&meta, SL("Label"), &message, PH_COPY | PH_SEPARATE);
 	}
-	_10 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-	_11 = !zephir_is_true(_10);
-	if (_11) {
-		_12 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-		_11 = !zephir_is_true(_12);
+	zephir_read_property(&_9, this_ptr, SL("_enableLabels"), PH_NOISY_CC | PH_READONLY);
+	_10 = !zephir_is_true(&_9);
+	if (_10) {
+		zephir_read_property(&_11, this_ptr, SL("_showBacktrace"), PH_NOISY_CC | PH_READONLY);
+		_10 = !zephir_is_true(&_11);
 	}
-	_13 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-	_14 = zephir_is_true(_13);
-	if (_14) {
-		_15 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-		_14 = !zephir_is_true(_15);
+	zephir_read_property(&_12, this_ptr, SL("_enableLabels"), PH_NOISY_CC | PH_READONLY);
+	_13 = zephir_is_true(&_12);
+	if (_13) {
+		zephir_read_property(&_14, this_ptr, SL("_showBacktrace"), PH_NOISY_CC | PH_READONLY);
+		_13 = !zephir_is_true(&_14);
 	}
-	if (_11) {
-		ZEPHIR_CPY_WRT(body, message);
-	} else if (_14) {
-		ZEPHIR_INIT_NVAR(body);
-		ZVAL_STRING(body, "", 1);
+	if (_10) {
+		ZEPHIR_CPY_WRT(&body, &message);
+	} else if (_13) {
+		ZEPHIR_INIT_NVAR(&body);
+		ZVAL_STRING(&body, "");
 	} else {
-		ZEPHIR_INIT_NVAR(body);
-		array_init(body);
-		_16$$11 = zephir_fetch_nproperty_this(this_ptr, SL("_showBacktrace"), PH_NOISY_CC);
-		if (zephir_is_true(_16$$11)) {
+		ZEPHIR_INIT_NVAR(&body);
+		array_init(&body);
+		zephir_read_property(&_15$$11, this_ptr, SL("_showBacktrace"), PH_NOISY_CC | PH_READONLY);
+		if (zephir_is_true(&_15$$11)) {
 			zephir_array_update_string(&body, SL("backtrace"), &backtrace, PH_COPY | PH_SEPARATE);
 		}
-		_17$$11 = zephir_fetch_nproperty_this(this_ptr, SL("_enableLabels"), PH_NOISY_CC);
-		if (!(zephir_is_true(_17$$11))) {
+		zephir_read_property(&_16$$11, this_ptr, SL("_enableLabels"), PH_NOISY_CC | PH_READONLY);
+		if (!(zephir_is_true(&_16$$11))) {
 			zephir_array_update_string(&body, SL("message"), &message, PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_INIT_VAR(_18);
-	zephir_create_array(_18, 2, 0 TSRMLS_CC);
-	zephir_array_fast_append(_18, meta);
-	zephir_array_fast_append(_18, body);
-	ZEPHIR_INIT_VAR(encoded);
-	zephir_json_encode(encoded, &(encoded), _18, 0  TSRMLS_CC);
-	ZEPHIR_INIT_VAR(len);
-	ZVAL_LONG(len, zephir_fast_strlen_ev(encoded));
-	ZEPHIR_CONCAT_VSVS(return_value, len, "|", encoded, "|");
+	ZEPHIR_INIT_VAR(&_17);
+	zephir_create_array(&_17, 2, 0 TSRMLS_CC);
+	zephir_array_fast_append(&_17, &meta);
+	zephir_array_fast_append(&_17, &body);
+	ZEPHIR_INIT_VAR(&encoded);
+	zephir_json_encode(&encoded, &_17, 0 );
+	ZEPHIR_INIT_VAR(&len);
+	ZVAL_LONG(&len, zephir_fast_strlen_ev(&encoded));
+	ZEPHIR_CONCAT_VSVS(return_value, &len, "|", &encoded, "|");
 	RETURN_MM();
 
 }

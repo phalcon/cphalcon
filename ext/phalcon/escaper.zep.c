@@ -64,15 +64,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
 PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
 	zval *encoding_param = NULL;
-	zval *encoding = NULL;
+	zval encoding;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&encoding);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &encoding_param);
 
-	zephir_get_strval(encoding, encoding_param);
+	zephir_get_strval(&encoding, encoding_param);
 
 
-	zephir_update_property_this(getThis(), SL("_encoding"), encoding TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_encoding"), &encoding);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -82,7 +85,8 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, getEncoding) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_encoding");
 
@@ -97,8 +101,11 @@ PHP_METHOD(Phalcon_Escaper, getEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
-	zval *quoteType_param = NULL, *_0;
+	zval *quoteType_param = NULL, _0;
 	zend_long quoteType;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
 
 	zephir_fetch_params(0, 1, 0, &quoteType_param);
 
@@ -106,8 +113,8 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(_0, quoteType);
-	zephir_update_property_this(getThis(), SL("_htmlQuoteType"), _0 TSRMLS_CC);
+	ZVAL_LONG(&_0, quoteType);
+	zephir_update_property_zval(this_ptr, SL("_htmlQuoteType"), &_0);
 
 }
 
@@ -120,8 +127,12 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
  */
 PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
 
-	zval *doubleEncode_param = NULL;
+	zval *doubleEncode_param = NULL, __$true, __$false;
 	zend_bool doubleEncode;
+	zval *this_ptr = getThis();
+
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 
 	zephir_fetch_params(0, 1, 0, &doubleEncode_param);
 
@@ -129,9 +140,9 @@ PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
 
 
 	if (doubleEncode) {
-		zephir_update_property_this(getThis(), SL("_doubleEncode"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_doubleEncode"), &__$true);
 	} else {
-		zephir_update_property_this(getThis(), SL("_doubleEncode"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_doubleEncode"), &__$false);
 	}
 
 }
@@ -142,55 +153,61 @@ PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
  */
 PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
-	HashTable *_3;
-	HashPosition _2;
-	zval *_0;
+	zval _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_6 = NULL;
-	zval *str_param = NULL, *charset = NULL, *_1 = NULL, **_4, *_5$$5 = NULL;
-	zval *str = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
+	zval *str_param = NULL, __$true, charset, _1, *_2, _3$$5;
+	zval str;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&str);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_UNDEF(&charset);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str_param);
 
-	zephir_get_strval(str, str_param);
+	zephir_get_strval(&str, str_param);
 
 
-	ZEPHIR_INIT_VAR(charset);
-	zephir_is_basic_charset(charset, str);
-	if (Z_TYPE_P(charset) == IS_STRING) {
-		RETURN_CCTOR(charset);
+	ZEPHIR_INIT_VAR(&charset);
+	zephir_is_basic_charset(&charset, &str);
+	if (Z_TYPE_P(&charset) == IS_STRING) {
+		RETURN_CCTOR(&charset);
 	}
-	if (!((zephir_function_exists_ex(SS("mb_detect_encoding") TSRMLS_CC) == SUCCESS))) {
+	if (!((zephir_function_exists_ex(SL("mb_detect_encoding") TSRMLS_CC) == SUCCESS))) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_INIT_VAR(_0);
-	zephir_create_array(_0, 4, 0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_STRING(_1, "UTF-32", 1);
-	zephir_array_fast_append(_0, _1);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "UTF-8", 1);
-	zephir_array_fast_append(_0, _1);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "ISO-8859-1", 1);
-	zephir_array_fast_append(_0, _1);
-	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "ASCII", 1);
-	zephir_array_fast_append(_0, _1);
-	zephir_is_iterable(_0, &_3, &_2, 0, 0, "phalcon/escaper.zep", 132);
-	for (
-	  ; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-	  ; zend_hash_move_forward_ex(_3, &_2)
-	) {
-		ZEPHIR_GET_HVALUE(charset, _4);
-		ZEPHIR_CALL_FUNCTION(&_5$$5, "mb_detect_encoding", &_6, 195, str, charset, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 4, 0 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "UTF-32");
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "UTF-8");
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "ISO-8859-1");
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "ASCII");
+	zephir_array_fast_append(&_0, &_1);
+	zephir_is_iterable(&_0, 0, "phalcon/escaper.zep", 132);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _2)
+	{
+		ZEPHIR_INIT_NVAR(&charset);
+		ZVAL_COPY(&charset, _2);
+		ZEPHIR_CALL_FUNCTION(&_3$$5, "mb_detect_encoding", &_4, 176, &str, &charset, &__$true);
 		zephir_check_call_status();
-		if (zephir_is_true(_5$$5)) {
-			RETURN_CCTOR(charset);
+		if (zephir_is_true(&_3$$5)) {
+			RETURN_CCTOR(&charset);
 		}
-	}
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_6, 195, str);
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&charset);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_4, 176, &str);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -202,24 +219,29 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *str_param = NULL, *_0 = NULL, _1;
-	zval *str = NULL;
+	zval *str_param = NULL, _0, _1;
+	zval str;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&str);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &str_param);
 
-	zephir_get_strval(str, str_param);
+	zephir_get_strval(&str, str_param);
 
 
-	if (!((zephir_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
+	if (!((zephir_function_exists_ex(SL("mb_convert_encoding") TSRMLS_CC) == SUCCESS))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/escaper.zep", 144);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, 196, str);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, 177, &str);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_STRING(&_1, "UTF-32", 0);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 197, str, &_1, _0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "UTF-32");
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 178, &str, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -231,19 +253,25 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *text_param = NULL, *_0, *_1, *_2;
-	zval *text = NULL;
+	zval *text_param = NULL, _0, _1, _2;
+	zval text;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&text);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &text_param);
 
-	zephir_get_strval(text, text_param);
+	zephir_get_strval(&text, text_param);
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
-	_2 = zephir_fetch_nproperty_this(this_ptr, SL("_doubleEncode"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 198, text, _0, _1, _2);
+	zephir_read_property(&_0, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("_encoding"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, SL("_doubleEncode"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 179, &text, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -255,20 +283,25 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *attribute_param = NULL, *_0, *_1, _2;
-	zval *attribute = NULL;
+	zval *attribute_param = NULL, _0, _1, _2;
+	zval attribute;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&attribute);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute_param);
 
-	zephir_get_strval(attribute, attribute_param);
+	zephir_get_strval(&attribute, attribute_param);
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_doubleEncode"), PH_NOISY_CC);
-	ZEPHIR_SINIT_VAR(_2);
+	zephir_read_property(&_0, this_ptr, SL("_encoding"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("_doubleEncode"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, 3);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 198, attribute, &_2, _0, _1);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 179, &attribute, &_2, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -280,18 +313,22 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *css_param = NULL, *_0 = NULL;
-	zval *css = NULL;
+	zval *css_param = NULL, _0;
+	zval css;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&css);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &css_param);
 
-	zephir_get_strval(css, css_param);
+	zephir_get_strval(&css, css_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 199, css);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 180, &css);
 	zephir_check_call_status();
-	zephir_escape_css(return_value, _0);
+	zephir_escape_css(return_value, &_0);
 	RETURN_MM();
 
 }
@@ -302,18 +339,22 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *js_param = NULL, *_0 = NULL;
-	zval *js = NULL;
+	zval *js_param = NULL, _0;
+	zval js;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&js);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &js_param);
 
-	zephir_get_strval(js, js_param);
+	zephir_get_strval(&js, js_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 199, js);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 180, &js);
 	zephir_check_call_status();
-	zephir_escape_js(return_value, _0);
+	zephir_escape_js(return_value, &_0);
 	RETURN_MM();
 
 }
@@ -325,15 +366,18 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *url_param = NULL;
-	zval *url = NULL;
+	zval url;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&url);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &url_param);
 
-	zephir_get_strval(url, url_param);
+	zephir_get_strval(&url, url_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 200, url);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 181, &url);
 	zephir_check_call_status();
 	RETURN_MM();
 

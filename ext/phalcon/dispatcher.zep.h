@@ -27,7 +27,6 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
 PHP_METHOD(Phalcon_Dispatcher, isFinished);
 PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
 PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
-PHP_METHOD(Phalcon_Dispatcher, setModelBinding);
 PHP_METHOD(Phalcon_Dispatcher, setModelBinder);
 PHP_METHOD(Phalcon_Dispatcher, getModelBinder);
 PHP_METHOD(Phalcon_Dispatcher, dispatch);
@@ -38,7 +37,7 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
 PHP_METHOD(Phalcon_Dispatcher, callActionMethod);
 PHP_METHOD(Phalcon_Dispatcher, getBoundModels);
 PHP_METHOD(Phalcon_Dispatcher, _resolveEmptyProperties);
-zend_object_value zephir_init_properties_Phalcon_Dispatcher(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Dispatcher(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
@@ -95,11 +94,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setreturnedvalue, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodelbinding, 0, 0, 1)
-	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_INFO(0, cache)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodelbinder, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, modelBinder, Phalcon\\Mvc\\Model\\BinderInterface, 0)
 	ZEND_ARG_INFO(0, cache)
@@ -140,7 +134,6 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setReturnedValue, arginfo_phalcon_dispatcher_setreturnedvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Dispatcher, setModelBinding, arginfo_phalcon_dispatcher_setmodelbinding, ZEND_ACC_DEPRECATED|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setModelBinder, arginfo_phalcon_dispatcher_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getModelBinder, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)

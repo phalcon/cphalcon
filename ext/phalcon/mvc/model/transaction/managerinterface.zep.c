@@ -48,8 +48,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, commit);
 /**
  * Rollbacks active transactions within the manager
  * Collect will remove transaction from the manager
- *
- * @param boolean collect
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, rollback);
 

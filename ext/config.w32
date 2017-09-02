@@ -3,7 +3,6 @@ ARG_ENABLE("phalcon", "enable phalcon", "no");
 if (PHP_PHALCON != "no") {
   EXTENSION("phalcon", "phalcon.c", null, "-I"+configure_module_dirname);
   ADD_SOURCES(configure_module_dirname + "/kernel", "main.c memory.c exception.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c math.c concat.c variables.c filter.c iterator.c exit.c time.c", "phalcon");
-  ADD_SOURCES(configure_module_dirname + "/kernel/extended", "fcall.c", "phalcon");
   /* PCRE is always included on WIN32 */
   AC_DEFINE("ZEPHIR_USE_PHP_PCRE", 1, "Whether PHP pcre extension is present at compile time");
   if (PHP_JSON != "no") {

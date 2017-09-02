@@ -35,7 +35,7 @@ PHP_METHOD(Phalcon_Forms_Form, current);
 PHP_METHOD(Phalcon_Forms_Form, key);
 PHP_METHOD(Phalcon_Forms_Form, next);
 PHP_METHOD(Phalcon_Forms_Form, valid);
-zend_object_value zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setvalidation, 0, 0, 1)
 	ZEND_ARG_INFO(0, validation)
@@ -43,7 +43,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
-	ZEND_ARG_INFO(0, userOptions)
+	ZEND_ARG_ARRAY_INFO(0, userOptions, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setaction, 0, 0, 1)
@@ -99,7 +99,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_render, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_get, 0, 0, 1)

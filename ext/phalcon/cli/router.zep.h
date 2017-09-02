@@ -22,7 +22,7 @@ PHP_METHOD(Phalcon_Cli_Router, wasMatched);
 PHP_METHOD(Phalcon_Cli_Router, getRoutes);
 PHP_METHOD(Phalcon_Cli_Router, getRouteById);
 PHP_METHOD(Phalcon_Cli_Router, getRouteByName);
-zend_object_value zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)

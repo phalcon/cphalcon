@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore);
 PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_msgpack___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, frontendOptions)
+	ZEND_ARG_ARRAY_INFO(0, frontendOptions, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_msgpack_beforestore, 0, 0, 1)

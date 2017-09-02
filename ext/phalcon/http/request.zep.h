@@ -22,9 +22,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeader);
 PHP_METHOD(Phalcon_Http_Request, getScheme);
 PHP_METHOD(Phalcon_Http_Request, isAjax);
 PHP_METHOD(Phalcon_Http_Request, isSoap);
-PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
 PHP_METHOD(Phalcon_Http_Request, isSecure);
-PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
 PHP_METHOD(Phalcon_Http_Request, getRawBody);
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
 PHP_METHOD(Phalcon_Http_Request, getServerAddress);
@@ -217,9 +215,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getScheme, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isAjax, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isSoap, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, isSoapRequested, NULL, ZEND_ACC_DEPRECATED|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isSecure, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, isSecureRequest, NULL, ZEND_ACC_DEPRECATED|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getRawBody, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, arginfo_phalcon_http_request_getjsonrawbody, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getServerAddress, NULL, ZEND_ACC_PUBLIC)

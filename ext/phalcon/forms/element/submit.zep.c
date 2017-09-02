@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -31,26 +32,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Submit) {
 
 /**
  * Renders the element widget
- *
- * @param array attributes
  */
 PHP_METHOD(Phalcon_Forms_Element_Submit, render) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *attributes = NULL, *_1 = NULL;
+	zval *attributes_param = NULL, _1;
+	zval attributes;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&attributes);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &attributes);
+	zephir_fetch_params(1, 0, 1, &attributes_param);
 
-	if (!attributes) {
-		attributes = ZEPHIR_GLOBAL(global_null);
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(&attributes);
+		array_init(&attributes);
+	} else {
+		zephir_get_arrval(&attributes, attributes_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, &attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "submitbutton", &_0, 224, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "submitbutton", &_0, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 

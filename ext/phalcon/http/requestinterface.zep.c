@@ -28,9 +28,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_RequestInterface) {
 /**
  * Gets a variable from the $_REQUEST superglobal applying filters if needed
  *
- * @param string name
  * @param string|array filters
- * @param mixed defaultValue
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, get);
@@ -38,9 +36,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, get);
 /**
  * Gets a variable from the $_POST superglobal applying filters if needed
  *
- * @param string name
  * @param string|array filters
- * @param mixed defaultValue
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPost);
@@ -48,9 +44,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPost);
 /**
  * Gets variable from $_GET superglobal applying filters if needed
  *
- * @param string name
  * @param string|array filters
- * @param mixed defaultValue
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getQuery);
@@ -58,7 +52,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getQuery);
 /**
  * Gets variable from $_SERVER superglobal
  *
- * @param string name
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServer);
@@ -106,12 +99,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isAjax);
 /**
  * Checks whether request has been made using SOAP
  */
-ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSoapRequested);
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSoap);
 
 /**
  * Checks whether request has been made using any secure layer
  */
-ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSecureRequest);
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSecure);
 
 /**
  * Gets HTTP raw request body
@@ -158,7 +151,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUserAgent);
  * Check if HTTP method match any of the passed methods
  *
  * @param string|array methods
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isMethod);
 
@@ -210,7 +202,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isConnect);
 /**
  * Checks whether request include attached files
  *
- * @param boolean onlySuccessful
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
@@ -257,8 +248,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestLanguage);
 
 /**
  * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBasicAuth);
 

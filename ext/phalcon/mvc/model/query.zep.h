@@ -53,7 +53,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, clean);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, phql)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setdi, 0, 0, 1)
@@ -81,7 +81,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getfunctioncall, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getexpression, 0, 0, 1)
-	ZEND_ARG_INFO(0, expr)
+	ZEND_ARG_ARRAY_INFO(0, expr, 0)
 	ZEND_ARG_INFO(0, quoting)
 ZEND_END_ARG_INFO()
 
@@ -91,16 +91,16 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__gettable, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, manager, Phalcon\\Mvc\\Model\\ManagerInterface, 0)
-	ZEND_ARG_INFO(0, qualifiedName)
+	ZEND_ARG_ARRAY_INFO(0, qualifiedName, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getjoin, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, manager, Phalcon\\Mvc\\Model\\ManagerInterface, 0)
-	ZEND_ARG_INFO(0, join)
+	ZEND_ARG_ARRAY_INFO(0, join, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getjointype, 0, 0, 1)
-	ZEND_ARG_INFO(0, join)
+	ZEND_ARG_ARRAY_INFO(0, join, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getsinglejoin, 0, 0, 5)
@@ -120,7 +120,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getmultijoin, 0, 0, 5)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getjoins, 0, 0, 1)
-	ZEND_ARG_INFO(0, select)
+	ZEND_ARG_ARRAY_INFO(0, select, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getorderclause, 0, 0, 1)
@@ -141,33 +141,33 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__prepareselect, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__executeselect, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediate)
+	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
 	ZEND_ARG_INFO(0, simulate)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__executeinsert, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediate)
+	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__executeupdate, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediate)
+	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__executedelete, 0, 0, 3)
-	ZEND_ARG_INFO(0, intermediate)
+	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__getrelatedrecords, 0, 0, 4)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_INFO(0, intermediate)
+	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
@@ -205,7 +205,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setintermediate, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_cache, 0, 0, 1)
-	ZEND_ARG_INFO(0, cacheOptions)
+	ZEND_ARG_ARRAY_INFO(0, cacheOptions, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {

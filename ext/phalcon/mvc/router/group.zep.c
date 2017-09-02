@@ -96,13 +96,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 
 	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *paths = NULL;
+	zval *paths = NULL, paths_sub, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &paths);
 
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
@@ -111,9 +116,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 		_0 = Z_TYPE_P(paths) == IS_STRING;
 	}
 	if (_0) {
-		zephir_update_property_this(getThis(), SL("_paths"), paths TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_paths"), paths);
 	}
-	if ((zephir_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("initialize") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, paths);
 		zephir_check_call_status();
 	}
@@ -127,15 +132,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname) {
 
 	zval *hostname_param = NULL;
-	zval *hostname = NULL;
+	zval hostname;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&hostname);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &hostname_param);
 
-	zephir_get_strval(hostname, hostname_param);
+	zephir_get_strval(&hostname, hostname_param);
 
 
-	zephir_update_property_this(getThis(), SL("_hostname"), hostname TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_hostname"), &hostname);
 	RETURN_THIS();
 
 }
@@ -145,7 +153,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_hostname");
 
@@ -157,15 +166,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname) {
 PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
 
 	zval *prefix_param = NULL;
-	zval *prefix = NULL;
+	zval prefix;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&prefix);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &prefix_param);
 
-	zephir_get_strval(prefix, prefix_param);
+	zephir_get_strval(&prefix, prefix_param);
 
 
-	zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_prefix"), &prefix);
 	RETURN_THIS();
 
 }
@@ -175,7 +187,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_prefix");
 
@@ -188,13 +201,16 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch) {
 
-	zval *beforeMatch;
+	zval *beforeMatch, beforeMatch_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&beforeMatch_sub);
 
 	zephir_fetch_params(0, 1, 0, &beforeMatch);
 
 
 
-	zephir_update_property_this(getThis(), SL("_beforeMatch"), beforeMatch TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_beforeMatch"), beforeMatch);
 	RETURN_THISW();
 
 }
@@ -204,7 +220,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_beforeMatch");
 
@@ -215,13 +232,16 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths) {
 
-	zval *paths;
+	zval *paths, paths_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&paths_sub);
 
 	zephir_fetch_params(0, 1, 0, &paths);
 
 
 
-	zephir_update_property_this(getThis(), SL("_paths"), paths TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_paths"), paths);
 	RETURN_THISW();
 
 }
@@ -231,7 +251,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_paths");
 
@@ -242,7 +263,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_routes");
 
@@ -258,8 +280,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes) {
 PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, *httpMethods = NULL, httpMethods_sub, __$null;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_UNDEF(&httpMethods_sub);
+	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &pattern_param, &paths, &httpMethods);
@@ -269,20 +297,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 	if (!httpMethods) {
-		httpMethods = ZEPHIR_GLOBAL(global_null);
+		httpMethods = &httpMethods_sub;
+		httpMethods = &__$null;
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, httpMethods);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, httpMethods);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -291,15 +321,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 /**
  * Adds a route to the router that only match if the HTTP method is GET
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -309,20 +343,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "GET", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "GET");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -331,15 +365,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 /**
  * Adds a route to the router that only match if the HTTP method is POST
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -349,20 +387,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "POST", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "POST");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -371,15 +409,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 /**
  * Adds a route to the router that only match if the HTTP method is PUT
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -389,20 +431,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "PUT", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "PUT");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -411,15 +453,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 /**
  * Adds a route to the router that only match if the HTTP method is PATCH
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -429,20 +475,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "PATCH", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "PATCH");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -451,15 +497,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 /**
  * Adds a route to the router that only match if the HTTP method is DELETE
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -469,20 +519,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "DELETE", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "DELETE");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -491,15 +541,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 /**
  * Add a route to the router that only match if the HTTP method is OPTIONS
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -509,20 +563,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "OPTIONS", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "OPTIONS");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -531,15 +585,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 /**
  * Adds a route to the router that only match if the HTTP method is HEAD
  *
- * @param string pattern
- * @param string/array paths
- * @return \Phalcon\Mvc\Router\Route
+ * @param string|array paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pattern_param = NULL, *paths = NULL, *_0;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, _0;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -549,20 +607,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "HEAD", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, pattern, paths, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "HEAD");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_addroute", NULL, 0, &pattern, paths, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -573,13 +631,16 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, clear) {
 
-	zval *_0;
+	zval _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(_0);
-	array_init(_0);
-	zephir_update_property_this(getThis(), SL("_routes"), _0 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_property_zval(this_ptr, SL("_routes"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -591,8 +652,20 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *pattern_param = NULL, *paths = NULL, *httpMethods = NULL, *mergedPaths = NULL, *route = NULL, *defaultPaths = NULL, *processedPaths = NULL, *_1, *_2;
-	zval *pattern = NULL;
+	zval *pattern_param = NULL, *paths = NULL, paths_sub, *httpMethods = NULL, httpMethods_sub, __$null, mergedPaths, route, defaultPaths, processedPaths, _1, _2;
+	zval pattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&paths_sub);
+	ZVAL_UNDEF(&httpMethods_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&mergedPaths);
+	ZVAL_UNDEF(&route);
+	ZVAL_UNDEF(&defaultPaths);
+	ZVAL_UNDEF(&processedPaths);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &pattern_param, &paths, &httpMethods);
@@ -602,48 +675,50 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(pattern_param) == IS_STRING)) {
-		zephir_get_strval(pattern, pattern_param);
+		zephir_get_strval(&pattern, pattern_param);
 	} else {
-		ZEPHIR_INIT_VAR(pattern);
-		ZVAL_EMPTY_STRING(pattern);
+		ZEPHIR_INIT_VAR(&pattern);
+		ZVAL_EMPTY_STRING(&pattern);
 	}
 	if (!paths) {
-		paths = ZEPHIR_GLOBAL(global_null);
+		paths = &paths_sub;
+		paths = &__$null;
 	}
 	if (!httpMethods) {
-		httpMethods = ZEPHIR_GLOBAL(global_null);
+		httpMethods = &httpMethods_sub;
+		httpMethods = &__$null;
 	}
 
 
-	ZEPHIR_OBS_VAR(defaultPaths);
-	zephir_read_property_this(&defaultPaths, this_ptr, SL("_paths"), PH_NOISY_CC);
-	if (Z_TYPE_P(defaultPaths) == IS_ARRAY) {
+	ZEPHIR_OBS_VAR(&defaultPaths);
+	zephir_read_property(&defaultPaths, this_ptr, SL("_paths"), PH_NOISY_CC);
+	if (Z_TYPE_P(&defaultPaths) == IS_ARRAY) {
 		if (Z_TYPE_P(paths) == IS_STRING) {
-			ZEPHIR_CALL_CE_STATIC(&processedPaths, phalcon_mvc_router_route_ce, "getroutepaths", &_0, 81, paths);
+			ZEPHIR_CALL_CE_STATIC(&processedPaths, phalcon_mvc_router_route_ce, "getroutepaths", &_0, 0, paths);
 			zephir_check_call_status();
 		} else {
-			ZEPHIR_CPY_WRT(processedPaths, paths);
+			ZEPHIR_CPY_WRT(&processedPaths, paths);
 		}
-		if (Z_TYPE_P(processedPaths) == IS_ARRAY) {
-			ZEPHIR_INIT_VAR(mergedPaths);
-			zephir_fast_array_merge(mergedPaths, &(defaultPaths), &(processedPaths) TSRMLS_CC);
+		if (Z_TYPE_P(&processedPaths) == IS_ARRAY) {
+			ZEPHIR_INIT_VAR(&mergedPaths);
+			zephir_fast_array_merge(&mergedPaths, &defaultPaths, &processedPaths TSRMLS_CC);
 		} else {
-			ZEPHIR_CPY_WRT(mergedPaths, defaultPaths);
+			ZEPHIR_CPY_WRT(&mergedPaths, &defaultPaths);
 		}
 	} else {
-		ZEPHIR_CPY_WRT(mergedPaths, paths);
+		ZEPHIR_CPY_WRT(&mergedPaths, paths);
 	}
-	ZEPHIR_INIT_VAR(route);
-	object_init_ex(route, phalcon_mvc_router_route_ce);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_VV(_2, _1, pattern);
-	ZEPHIR_CALL_METHOD(NULL, route, "__construct", NULL, 80, _2, mergedPaths, httpMethods);
+	ZEPHIR_INIT_VAR(&route);
+	object_init_ex(&route, phalcon_mvc_router_route_ce);
+	zephir_read_property(&_1, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_2);
+	ZEPHIR_CONCAT_VV(&_2, &_1, &pattern);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 72, &_2, &mergedPaths, httpMethods);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, route, "setgroup", NULL, 394, this_ptr);
+	zephir_update_property_array_append(this_ptr, SL("_routes"), &route TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 355, this_ptr);
 	zephir_check_call_status();
-	RETURN_CCTOR(route);
+	RETURN_CCTOR(&route);
 
 }
 
