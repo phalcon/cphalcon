@@ -50,16 +50,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
  *
  * @param string|array uri
  * @param array|object args Optional arguments to be appended to the query string
- * @param bool $local
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
 
 /**
  * Generates a local path
- *
- * @param string path
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, path);
 

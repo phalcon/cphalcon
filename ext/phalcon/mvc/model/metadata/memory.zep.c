@@ -43,12 +43,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
 
-	zval *options = NULL;
+	zval *options = NULL, options_sub, __$null;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options_sub);
+	ZVAL_NULL(&__$null);
 
 	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		options = ZEPHIR_GLOBAL(global_null);
+		options = &options_sub;
+		options = &__$null;
 	}
 
 
@@ -57,14 +62,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
 
 /**
  * Reads the meta-data from temporal memory
- *
- * @param string key
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 
 	zval *key_param = NULL;
-	zval *key = NULL;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -74,10 +79,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
@@ -87,62 +92,56 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 
 /**
  * Writes the meta-data to temporal memory
- *
- * @param string key
- * @param array data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 
-	zval *key_param = NULL, *data;
-	zval *key = NULL;
+	zval data;
+	zval *key_param = NULL, *data_param = NULL;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&data);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key_param, &data);
+	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
+	zephir_get_arrval(&data, data_param);
 
 
 	RETURN_MM_NULL();
 
 }
 
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Memory(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Memory(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval *_0, *_1$$3;
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 
 		ZEPHIR_MM_GROW();
 	
 	{
-		zval zthis       = zval_used_for_init;
-		zval *this_ptr   = &zthis;
-		zend_object* obj = ecalloc(1, sizeof(zend_object));
-		zend_object_value retval;
-
-		zend_object_std_init(obj, class_type TSRMLS_CC);
-		object_properties_init(obj, class_type);
-		retval.handle   = zend_objects_store_put(obj, (zend_objects_store_dtor_t)zend_objects_destroy_object, zephir_free_object_storage, NULL TSRMLS_CC);
-		retval.handlers = zend_get_std_object_handlers();
-
-		Z_TYPE(zthis)   = IS_OBJECT;
-		Z_OBJVAL(zthis) = retval;
-
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
-		if (Z_TYPE_P(_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(_1$$3);
-			array_init(_1$$3);
-			zephir_update_property_this(getThis(), SL("_metaData"), _1$$3 TSRMLS_CC);
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("_metaData"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("_metaData"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
-		return retval;
+		return Z_OBJ_P(this_ptr);
 	}
 
 }

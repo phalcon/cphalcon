@@ -41,33 +41,38 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed) {
 /**
  * Phalcon\Mvc\Model\ValidationFailed constructor
  *
- * @param Model model
  * @param Message[] validationMessages
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validationMessages = NULL;
-	zval *model, *validationMessages_param = NULL, *messageStr = NULL, *message = NULL;
+	zval validationMessages;
+	zval *model, model_sub, *validationMessages_param = NULL, messageStr, message;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&model_sub);
+	ZVAL_UNDEF(&messageStr);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&validationMessages);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &validationMessages_param);
 
-	validationMessages = validationMessages_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&validationMessages, validationMessages_param);
 
 
-	if (zephir_fast_count_int(validationMessages TSRMLS_CC) > 0) {
-		ZEPHIR_OBS_VAR(message);
-		zephir_array_fetch_long(&message, validationMessages, 0, PH_NOISY, "phalcon/mvc/model/validationfailed.zep", 51 TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&messageStr, message, "getmessage", NULL, 0);
+	if (zephir_fast_count_int(&validationMessages TSRMLS_CC) > 0) {
+		ZEPHIR_OBS_VAR(&message);
+		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/mvc/model/validationfailed.zep", 50 TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_INIT_NVAR(messageStr);
-		ZVAL_STRING(messageStr, "Validation failed", 1);
+		ZEPHIR_INIT_NVAR(&messageStr);
+		ZVAL_STRING(&messageStr, "Validation failed");
 	}
-	zephir_update_property_this(getThis(), SL("_model"), model TSRMLS_CC);
-	zephir_update_property_this(getThis(), SL("_messages"), validationMessages TSRMLS_CC);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, messageStr);
+	zephir_update_property_zval(this_ptr, SL("_model"), model);
+	zephir_update_property_zval(this_ptr, SL("_messages"), &validationMessages);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, &messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -78,7 +83,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_model");
 
@@ -89,7 +95,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_messages");
 

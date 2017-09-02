@@ -42,8 +42,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, setMessage);
 
 /**
  * Returns verbose message
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_MessageInterface, getMessage);
 

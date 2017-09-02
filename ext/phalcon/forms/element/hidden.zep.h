@@ -6,7 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Hidden);
 PHP_METHOD(Phalcon_Forms_Element_Hidden, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_hidden_render, 0, 0, 0)
-	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_hidden_method_entry) {

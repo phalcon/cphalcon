@@ -54,36 +54,48 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct) {
 
-	zval *options = NULL, *prefix = NULL;
+	zval *options = NULL, options_sub, __$null, prefix;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&prefix);
 
 	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		options = ZEPHIR_GLOBAL(global_null);
+		options = &options_sub;
+		options = &__$null;
 	}
 
 
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
-			zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
-		}
+	if (zephir_array_isset_string_fetch(&prefix, options, SL("prefix"), 1)) {
+		zephir_update_property_zval(this_ptr, SL("_prefix"), &prefix);
 	}
 
 }
 
 /**
  * Reads meta-data from $_SESSION
- *
- * @param string key
- * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 
-	zval *key_param = NULL, *_SESSION, *metaData = NULL, *_0, *_1, *_2;
-	zval *key = NULL;
+	zval *key_param = NULL, *_SESSION, metaData, _0, _1, _2;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&metaData);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	zephir_get_global(&_SESSION, SL("_SESSION"));
+	if (!_SESSION) {
+		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
+		return;
+	}
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
@@ -91,19 +103,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_SV(_2, "$PMM$", _1);
-	zephir_array_fetch(&_0, _SESSION, _2, PH_READONLY, "phalcon/mvc/model/metadata/session.zep", 71 TSRMLS_CC);
-	if (zephir_array_isset_fetch(&metaData, _0, key, 1 TSRMLS_CC)) {
-		RETURN_CTOR(metaData);
+	zephir_read_property(&_1, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_2);
+	ZEPHIR_CONCAT_SV(&_2, "$PMM$", &_1);
+	zephir_array_fetch(&_0, _SESSION, &_2, PH_READONLY, "phalcon/mvc/model/metadata/session.zep", 67 TSRMLS_CC);
+	if (zephir_array_isset_fetch(&metaData, &_0, &key, 1 TSRMLS_CC)) {
+		RETURN_CTOR(&metaData);
 	}
 	RETURN_MM_NULL();
 
@@ -111,35 +123,44 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 
 /**
  * Writes the meta-data to $_SESSION
- *
- * @param string key
- * @param array data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write) {
 
-	zval *key_param = NULL, *data, *_SESSION, *_0, *_1;
-	zval *key = NULL;
+	zval data;
+	zval *key_param = NULL, *data_param = NULL, *_SESSION, _0, _1;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&data);
 
 	ZEPHIR_MM_GROW();
-	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	zephir_fetch_params(1, 2, 0, &key_param, &data);
+	zephir_get_global(&_SESSION, SL("_SESSION"));
+	if (!_SESSION) {
+		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
+		return;
+	}
+	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
+	zephir_get_arrval(&data, data_param);
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_CONCAT_SV(_1, "$PMM$", _0);
-	zephir_array_update_multi(&_SESSION, &data TSRMLS_CC, SL("zz"), 2, _1, key);
+	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SV(&_1, "$PMM$", &_0);
+	zephir_array_update_multi(_SESSION, &data TSRMLS_CC, SL("zz"), 2, &_1, &key);
 	ZEPHIR_MM_RESTORE();
 
 }

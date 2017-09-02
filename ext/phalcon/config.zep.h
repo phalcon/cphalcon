@@ -64,7 +64,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config__merge, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, config, Phalcon\\Config, 0)
-	ZEND_ARG_INFO(0, instance)
+	ZEND_ARG_OBJ_INFO(0, instance, Phalcon\\Config, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_config_method_entry) {

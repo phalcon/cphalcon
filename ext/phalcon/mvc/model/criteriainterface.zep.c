@@ -65,9 +65,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
 /**
  * Sets the limit parameter to the criteria
  *
- * @param int limit
  * @param int offset
- * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 
@@ -84,20 +82,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
 /**
  * Appends a condition to the current conditions using an AND operator
  *
- * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
 
 /**
  * Appends a condition to the current conditions using an OR operator
  *
- * @param string conditions
  * @param array bindParams
  * @param array bindTypes
- * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 
@@ -108,10 +102,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
  * $criteria->betweenWhere("price", 100.25, 200.50);
  *</code>
  *
- * @param string expr
  * @param mixed minimum
  * @param mixed maximum
- * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
 
@@ -122,10 +114,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
  * $criteria->notBetweenWhere("price", 100.25, 200.50);
  *</code>
  *
- * @param string expr
  * @param mixed minimum
  * @param mixed maximum
- * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
 
@@ -180,8 +170,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy);
 
 /**
  * Returns all the parameters defined in the criteria
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
 

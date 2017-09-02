@@ -28,18 +28,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_AdapterInterface) {
 /**
  * Returns the translation string of the given key
  *
- * @param	string translateKey
  * @param	array placeholders
- * @return	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, t);
 
 /**
  * Returns the translation related to the given key
  *
- * @param	string index
  * @param	array placeholders
- * @return	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
 

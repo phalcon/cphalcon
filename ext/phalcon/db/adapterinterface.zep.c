@@ -28,54 +28,41 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_AdapterInterface) {
 /**
  * Returns the first row in a SQL query result
  *
- * @param string sqlQuery
- * @param int fetchMode
  * @param int placeholders
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchOne);
 
 /**
  * Dumps the complete result of a query into an array
  *
- * @param string sqlQuery
- * @param int fetchMode
  * @param int placeholders
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchAll);
 
 /**
  * Inserts data into a table using custom RDBMS SQL syntax
  *
- * @param 	string table
- * @param 	array values
  * @param 	array fields
  * @param 	array dataTypes
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 
 /**
  * Updates data on a table using custom RDBMS SQL syntax
  *
- * @param 	string table
  * @param 	array fields
  * @param 	array values
  * @param 	string whereCondition
  * @param 	array dataTypes
- * @return 	boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
 
 /**
  * Deletes data from a table using custom RDBMS SQL syntax
  *
- * @param  string table
  * @param  string whereCondition
  * @param  array placeholders
  * @param  array dataTypes
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, delete);
 
@@ -83,16 +70,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, delete);
  * Gets a list of columns
  *
  * @param	array columnList
- * @return	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnList);
 
 /**
  * Appends a LIMIT clause to sqlQuery argument
- *
- * @param  	string sqlQuery
- * @param 	int number
- * @return 	string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, limit);
 
@@ -198,15 +180,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, listViews);
 
 /**
  * Return descriptor used to connect to the active database
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDescriptor);
 
 /**
  * Gets the active connection unique identifier
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getConnectionId);
 
@@ -222,29 +200,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getRealSQLStatement);
 
 /**
  * Active SQL statement in the object
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getSQLVariables);
 
 /**
  * Active SQL statement in the object
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getSQLBindTypes);
 
 /**
  * Returns type of database system the adapter is used for
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getType);
 
 /**
  * Returns the name of the dialect used
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getDialectType);
 
@@ -286,7 +256,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, close);
  * Escapes a column/table/schema name
  *
  * @param string identifier
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeIdentifier);
 

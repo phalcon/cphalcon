@@ -49,17 +49,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Factory) {
 PHP_METHOD(Phalcon_Cache_Frontend_Factory, load) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config, *_0;
+	zval *config, config_sub, _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "Phalcon\\Cache\\Frontend", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_SELF("loadclass", NULL, 0, _0, config);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "Phalcon\\Cache\\Frontend");
+	ZEPHIR_RETURN_CALL_SELF("loadclass", NULL, 0, &_0, config);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -70,13 +73,23 @@ PHP_METHOD(Phalcon_Cache_Frontend_Factory, loadClass) {
 	zend_class_entry *_4$$6, *_6$$7;
 	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *namespace_param = NULL, *config = NULL, *adapter = NULL, *className = NULL, *_1$$3 = NULL, *_2$$5, *_3$$6 = NULL, *_5$$7 = NULL;
-	zval *namespace = NULL;
+	zval *namespace_param = NULL, *config = NULL, config_sub, adapter, className, _1$$3, _2$$5, _3$$6, _5$$7;
+	zval namespace;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&namespace);
+	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&adapter);
+	ZVAL_UNDEF(&className);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$6);
+	ZVAL_UNDEF(&_5$$7);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &namespace_param, &config);
 
-	zephir_get_strval(namespace, namespace_param);
+	zephir_get_strval(&namespace, namespace_param);
 	ZEPHIR_SEPARATE_PARAM(config);
 
 
@@ -87,22 +100,22 @@ PHP_METHOD(Phalcon_Cache_Frontend_Factory, loadClass) {
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(config, _1$$3);
+		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/cache/frontend/factory.zep", 59);
 		return;
 	}
-	ZEPHIR_OBS_VAR(adapter);
-	if (zephir_array_isset_string_fetch(&adapter, config, SS("adapter"), 0 TSRMLS_CC)) {
-		zephir_array_unset_string(&config, SS("adapter"), PH_SEPARATE);
-		ZEPHIR_INIT_VAR(_2$$5);
-		zephir_camelize(_2$$5, adapter, NULL  );
-		ZEPHIR_INIT_VAR(className);
-		ZEPHIR_CONCAT_VSV(className, namespace, "\\", _2$$5);
-		if (ZEPHIR_IS_STRING(className, "Phalcon\\Cache\\Frontend\\None")) {
-			zephir_fetch_safe_class(_3$$6, className);
-				_4$$6 = zend_fetch_class(Z_STRVAL_P(_3$$6), Z_STRLEN_P(_3$$6), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ZEPHIR_OBS_VAR(&adapter);
+	if (zephir_array_isset_string_fetch(&adapter, config, SL("adapter"), 0)) {
+		zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
+		ZEPHIR_INIT_VAR(&_2$$5);
+		zephir_camelize(&_2$$5, &adapter, NULL  );
+		ZEPHIR_INIT_VAR(&className);
+		ZEPHIR_CONCAT_VSV(&className, &namespace, "\\", &_2$$5);
+		if (ZEPHIR_IS_STRING(&className, "Phalcon\\Cache\\Frontend\\None")) {
+			zephir_fetch_safe_class(&_3$$6, &className);
+			_4$$6 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$6), Z_STRLEN_P(&_3$$6), ZEND_FETCH_CLASS_AUTO);
 			object_init_ex(return_value, _4$$6);
 			if (zephir_has_constructor(return_value TSRMLS_CC)) {
 				ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
@@ -110,8 +123,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Factory, loadClass) {
 			}
 			RETURN_MM();
 		} else {
-			zephir_fetch_safe_class(_5$$7, className);
-				_6$$7 = zend_fetch_class(Z_STRVAL_P(_5$$7), Z_STRLEN_P(_5$$7), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			zephir_fetch_safe_class(&_5$$7, &className);
+			_6$$7 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_5$$7), Z_STRLEN_P(&_5$$7), ZEND_FETCH_CLASS_AUTO);
 			object_init_ex(return_value, _6$$7);
 			if (zephir_has_constructor(return_value TSRMLS_CC)) {
 				ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, config);

@@ -63,9 +63,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
 /**
  * Sets the response content-type mime, optionally the charset
  *
- * @param string contentType
  * @param string charset
- * @return \Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
 

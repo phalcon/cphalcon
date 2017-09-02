@@ -27,8 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface) {
 
 /**
  * Returns the service's name
- *
- * @param string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, getName);
 
@@ -60,7 +58,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, getDefinition);
  * Resolves the service
  *
  * @param array parameters
- * @param \Phalcon\DiInterface dependencyInjector
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
