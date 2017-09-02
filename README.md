@@ -69,6 +69,17 @@ CentOS/Fedora/RHEL
 sudo yum install php-devel pcre-devel gcc make re2c
 ```
 
+macOS(Sierra / El Capitan / Yosemite):
+
+Using [Homebrew](https://brew.sh/)
+
+```bash
+# brew install php<version>-phalcon
+# available versions 56, 70, 71
+
+brew install php71-phalcon
+```
+
 ## Compilation
 
 Follow these instructions to generate a binary extension for your platform:
