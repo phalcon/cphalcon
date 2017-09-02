@@ -42,6 +42,11 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	protected _cookies;
 
+	public function __construct()
+	{
+		let this->_cookies = [];
+	}
+
 	/**
 	 * Sets the dependency injector
 	 */
