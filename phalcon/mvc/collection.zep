@@ -1398,7 +1398,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * echo "There are ", Robots::count(), " robots";
 	 *</code>
 	 */
-	public static function count(array parameters = null) -> array
+	public static function count(array parameters = null) -> int
 	{
 		var className, collection, connection;
 
