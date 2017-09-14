@@ -746,6 +746,8 @@ PHP_METHOD(Phalcon_Security, getDefaultHash) {
 
 /**
  * Testing for LibreSSL
+ *
+ * @deprecated Will be removed in 4.0.0
  */
 PHP_METHOD(Phalcon_Security, hasLibreSsl) {
 
@@ -772,9 +774,12 @@ PHP_METHOD(Phalcon_Security, hasLibreSsl) {
 }
 
 /**
- * Getting OpenSSL or LibreSSL version
+ * Getting OpenSSL or LibreSSL version.
  *
  * Parse OPENSSL_VERSION_TEXT because OPENSSL_VERSION_NUMBER is no use for LibreSSL.
+ * This constant show not the current system openssl library version but version PHP was compiled with.
+ *
+ * @deprecated Will be removed in 4.0.0
  * @link https://bugs.php.net/bug.php?id=71143
  *
  * <code>
@@ -785,29 +790,41 @@ PHP_METHOD(Phalcon_Security, hasLibreSsl) {
  */
 PHP_METHOD(Phalcon_Security, getSslVersionNumber) {
 
-	zval *matches = NULL, *_0, *_1, _2, *patch = NULL, *_4, *_5, *_3$$4;
+	zval *matches = NULL, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4, *_5, *_6$$5;
+	zend_long ZEPHIR_LAST_CALL_STATUS, major = 0, minor = 0, patch = 0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_INIT_VAR(_1);
-	ZEPHIR_GET_CONSTANT(_1, "OPENSSL_VERSION_TEXT");
-	ZEPHIR_SINIT_VAR(_2);
-	ZVAL_STRING(&_2, "#^(?:Libre|Open)SSL ([\\d]+)\\.([\\d]+)(\\.([\\d]+))?$#", 0);
-	zephir_preg_match(_0, &_2, _1, matches, 0, 0 , 0  TSRMLS_CC);
+	ZEPHIR_INIT_VAR(matches);
+	ZVAL_NULL(matches);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_STRING(&_0, "OPENSSL_VERSION_TEXT", 0);
+	ZEPHIR_CALL_FUNCTION(&_1, "defined", NULL, 249, &_0);
+	zephir_check_call_status();
+	if (!(zephir_is_true(_1))) {
+		RETURN_MM_LONG(0);
+	}
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_GET_CONSTANT(_3, "OPENSSL_VERSION_TEXT");
+	ZEPHIR_SINIT_NVAR(_0);
+	ZVAL_STRING(&_0, "#(?:Libre|Open)SSL ([\\d]+)\\.([\\d]+)(?:\\.([\\d]+))?#", 0);
+	zephir_preg_match(_2, &_0, _3, matches, 0, 0 , 0  TSRMLS_CC);
 	if (!(zephir_array_isset_long(matches, 2))) {
 		RETURN_MM_LONG(0);
 	}
-	ZEPHIR_INIT_VAR(patch);
-	ZVAL_LONG(patch, 0);
+	ZEPHIR_OBS_VAR(_4);
+	zephir_array_fetch_long(&_4, matches, 1, PH_NOISY, "phalcon/security.zep", 532 TSRMLS_CC);
+	major = zephir_get_intval(_4);
+	ZEPHIR_OBS_VAR(_5);
+	zephir_array_fetch_long(&_5, matches, 2, PH_NOISY, "phalcon/security.zep", 533 TSRMLS_CC);
+	minor = zephir_get_intval(_5);
 	if (zephir_array_isset_long(matches, 3)) {
-		zephir_array_fetch_long(&_3$$4, matches, 3, PH_NOISY | PH_READONLY, "phalcon/security.zep", 525 TSRMLS_CC);
-		ZEPHIR_INIT_NVAR(patch);
-		ZVAL_LONG(patch, zephir_get_intval(_3$$4));
+		ZEPHIR_OBS_VAR(_6$$5);
+		zephir_array_fetch_long(&_6$$5, matches, 3, PH_NOISY, "phalcon/security.zep", 536 TSRMLS_CC);
+		patch = zephir_get_intval(_6$$5);
 	}
-	zephir_array_fetch_long(&_4, matches, 2, PH_NOISY | PH_READONLY, "phalcon/security.zep", 528 TSRMLS_CC);
-	zephir_array_fetch_long(&_5, matches, 2, PH_NOISY | PH_READONLY, "phalcon/security.zep", 528 TSRMLS_CC);
-	RETURN_MM_LONG(((((10000 * zephir_get_intval(_4))) + ((100 * zephir_get_intval(_5)))) + zephir_get_numberval(patch)));
+	RETURN_MM_LONG((((10000 * major) + (100 * minor)) + patch));
 
 }
 

@@ -12,12 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
@@ -65,7 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element) {
 PHP_METHOD(Phalcon_Forms_Element, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *attributes = NULL, *_0;
+	zval *name_param = NULL, *attributes = NULL, *_0, *_1;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -77,15 +78,22 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 	}
 
 
+	ZEPHIR_INIT_VAR(_0);
+	zephir_fast_trim(_0, name, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
+	zephir_get_strval(name, _0);
+	if (ZEPHIR_IS_EMPTY(name)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/forms/element.zep", 66);
+		return;
+	}
 	zephir_update_property_this(getThis(), SL("_name"), name TSRMLS_CC);
 	if (Z_TYPE_P(attributes) == IS_ARRAY) {
 		zephir_update_property_this(getThis(), SL("_attributes"), attributes TSRMLS_CC);
 	}
-	ZEPHIR_INIT_VAR(_0);
-	object_init_ex(_0, phalcon_validation_message_group_ce);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 3);
+	ZEPHIR_INIT_VAR(_1);
+	object_init_ex(_1, phalcon_validation_message_group_ce);
+	ZEPHIR_CALL_METHOD(NULL, _1, "__construct", NULL, 3);
 	zephir_check_call_status();
-	zephir_update_property_this(getThis(), SL("_messages"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_messages"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -176,7 +184,7 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/forms/element.zep", 113);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/forms/element.zep", 119);
 		return;
 	}
 	zephir_update_property_this(getThis(), SL("_filters"), filters TSRMLS_CC);

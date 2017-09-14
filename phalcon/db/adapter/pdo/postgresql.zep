@@ -141,6 +141,22 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "double precision") {
+				/**
+				 * Double Precision
+				 */
+				let definition["type"] = Column::TYPE_DOUBLE,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+            } elseif memstr(columnType, "real") {
+				/**
+				 * Real
+				 */
+				let definition["type"] = Column::TYPE_FLOAT,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 			} elseif memstr(columnType, "varying") {
 				/**
 				 * Varchar
@@ -173,12 +189,6 @@ class Postgresql extends PdoAdapter
 				 */
 				let definition["type"] = Column::TYPE_CHAR,
 					definition["size"] = charSize;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Date
-				 */
-				let definition["type"] = Column::TYPE_DATETIME,
-					definition["size"] = 0;
 			} elseif memstr(columnType, "text") {
 				/**
 				 * Text are varchars
@@ -221,13 +231,6 @@ class Postgresql extends PdoAdapter
 				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
-			}
-
-			/**
-			 * Check if the column is unsigned, only MySQL support this
-			 */
-			if memstr(columnType, "unsigned") {
-				let definition["unsigned"] = true;
 			}
 
 			/**
