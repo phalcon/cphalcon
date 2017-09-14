@@ -488,6 +488,8 @@ class Security implements InjectionAwareInterface
 
 	/**
 	 * Testing for LibreSSL
+	 *
+	 * @deprecated Will be removed in 4.0.0
 	 */
 	public function hasLibreSsl() -> boolean
 	{
@@ -499,9 +501,12 @@ class Security implements InjectionAwareInterface
 	}
 
 	/**
-	 * Getting OpenSSL or LibreSSL version
+	 * Getting OpenSSL or LibreSSL version.
 	 *
 	 * Parse OPENSSL_VERSION_TEXT because OPENSSL_VERSION_NUMBER is no use for LibreSSL.
+	 * This constant show not the current system openssl library version but version PHP was compiled with.
+	 *
+	 * @deprecated Will be removed in 4.0.0
 	 * @link https://bugs.php.net/bug.php?id=71143
 	 *
 	 * <code>
@@ -512,19 +517,25 @@ class Security implements InjectionAwareInterface
 	 */
 	public function getSslVersionNumber() -> int
 	{
-		var matches;
+		var major, minor, patch, matches = null;
 
-		preg_match("#^(?:Libre|Open)SSL ([\d]+)\.([\d]+)(\.([\d]+))?$#", OPENSSL_VERSION_TEXT, matches);
+		if !defined("OPENSSL_VERSION_TEXT") {
+			return 0;
+		}
+
+		preg_match("#(?:Libre|Open)SSL ([\d]+)\.([\d]+)(?:\.([\d]+))?#", OPENSSL_VERSION_TEXT, matches);
 
 		if !isset matches[2] {
 			return 0;
 		}
 
-		var patch = 0;
+		let major = (int) matches[1],
+			minor = (int) matches[2];
+
 		if isset matches[3] {
-			let patch = intval(matches[3]);
+			let patch = (int) matches[3];
 		}
 
-		return (10000 * intval(matches[2])) + (100 * intval(matches[2])) + patch;
+		return 10000 * major + 100 * minor + patch;
 	}
 }

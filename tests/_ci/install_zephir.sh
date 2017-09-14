@@ -31,3 +31,6 @@ cp ./bin/zephir-cmd ${HOME}/bin/zephir
 rm ./bin/zephir-cmd
 
 cd ${TRAVIS_BUILD_DIR}
+
+
+zephir version

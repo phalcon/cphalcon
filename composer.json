@@ -12,6 +12,7 @@
         "php": ">=5.5"
     },
     "require-dev": {
+        "doctrine/instantiator": "1.0.5",
         "phpdocumentor/reflection-docblock": "^2.0",
         "phpunit/phpunit": "^4.8",
         "mustache/mustache": "^2.11",
@@ -37,6 +38,7 @@
     ],
     "autoload-dev": {
         "psr-4": {
+            "Zephir\\Optimizers\\": "optimizers/",
             "Phalcon\\Test\\Unit\\": "tests/unit/",
             "Phalcon\\Test\\Unit5x\\": "tests/unit5x/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",

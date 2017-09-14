@@ -41,6 +41,9 @@ if (extension_loaded('xdebug')) {
 }
 
 $defaults = [
+    // General
+    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,
+
     // Beanstalk
     "TEST_BT_HOST"              => '127.0.0.1',
     "TEST_BT_PORT"              => 11300,

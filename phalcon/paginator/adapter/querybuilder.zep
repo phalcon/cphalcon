@@ -125,7 +125,8 @@ class QueryBuilder extends Adapter
 	{
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, page, before, items, totalQuery,
-			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup;
+			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
+			model, modelClass, dbService;
 
 		let originalBuilder = this->_builder;
 		let columns = this->_columns;
@@ -202,7 +203,7 @@ class QueryBuilder extends Adapter
 			}
 
 			if !hasHaving {
-			    totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS rowcount"]);
+			    totalBuilder->groupBy(null)->columns(["COUNT(DISTINCT ".groupColumn.") AS [rowcount]"]);
 			} else {
 			    totalBuilder->columns(["DISTINCT ".groupColumn]);
 			}
@@ -223,9 +224,17 @@ class QueryBuilder extends Adapter
 		 * If we have having perform native count on temp table
 		 */
 		if hasHaving {
-		    let sql = totalQuery->getSql();
-		    let db = totalBuilder->getDI()->get("db");
-		    let row = db->fetchOne("SELECT COUNT(*) as rowcount FROM (" .  sql["sql"] . ") as T1", Db::FETCH_ASSOC, sql["bind"]),
+		    let sql = totalQuery->getSql(),
+		      modelClass = builder->_models;
+
+			if typeof modelClass == "array" {
+    			let modelClass = array_values(modelClass)[0];
+			}
+
+			let model = new {modelClass}();
+			let dbService = model->getReadConnectionService();
+			let db = totalBuilder->getDI()->get(dbService);
+			let row = db->fetchOne("SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1", Db::FETCH_ASSOC, sql["bind"]),
 		        rowcount = row ? intval(row["rowcount"]) : 0,
 		        totalPages = intval(ceil(rowcount / limit));
 		} else {

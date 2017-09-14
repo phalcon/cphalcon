@@ -36,7 +36,7 @@ use Phalcon\Di\Service\Builder;
  * );
  *
  * $request = service->resolve();
- *<code>
+ *</code>
  */
 class Service implements ServiceInterface
 {
