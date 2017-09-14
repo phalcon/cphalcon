@@ -30,7 +30,10 @@ use Phalcon\Validation\Validator;
  * For a value x, the test is passed if minimum<=x<=maximum.
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Between;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "price",
