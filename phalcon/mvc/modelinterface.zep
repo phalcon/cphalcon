@@ -31,6 +31,10 @@ use Phalcon\Mvc\Model\MessageInterface;
  */
 interface ModelInterface
 {
+	/**
+	 * Returns the models meta-data service related to the entity instance
+	 */
+	public function getModelsMetaData() -> <MetaDataInterface>;
 
 	/**
 	 * Sets a transaction related to the Model instance
