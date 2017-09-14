@@ -20,32 +20,31 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Di;
+use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Column;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\Message;
-use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Model\ManagerInterface;
-use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\Criteria;
-use Phalcon\Db\AdapterInterface;
-use Phalcon\Db\DialectInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
-use Phalcon\Mvc\Model\TransactionInterface;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Mvc\Model\Message;
+use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
-use Phalcon\Mvc\Model\BehaviorInterface;
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\MessageInterface;
-use Phalcon\Mvc\Model\Message;
-use Phalcon\ValidationInterface;
+use Phalcon\Mvc\Model\ResultInterface;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
-use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\ValidationInterface;
 
 /**
  * Phalcon\Mvc\Model
