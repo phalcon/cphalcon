@@ -82,11 +82,11 @@ abstract class Formatter implements FormatterInterface
 		var replace, key, value;
 
 		if typeof context == "array" && count(context) > 0 {
-			let replace = [];
+			let replace = message;
 			for key, value in context {
-				let replace["{" . key . "}"] = value;
+				let replace = str_replace( key, value, replace );
 			}
-			return strtr(message, replace);
+			return replace;
 		}
 		return message;
 	}
