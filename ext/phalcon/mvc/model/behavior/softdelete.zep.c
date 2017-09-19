@@ -18,7 +18,6 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/hash.h"
 #include "ext/spl/spl_exceptions.h"
 
 
@@ -44,18 +43,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	HashTable *_5$$7;
 	HashPosition _4$$7;
 	zephir_fcall_cache_entry *_7 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *model, *options = NULL, *value = NULL, *field = NULL, *updateModel = NULL, *message = NULL, *_0$$3, *_1$$3 = NULL, *_2$$6 = NULL, *_3$$7 = NULL, **_6$$7;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -96,8 +95,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 				zephir_check_call_status();
 				zephir_is_iterable(_3$$7, &_5$$7, &_4$$7, 0, 0, "phalcon/mvc/model/behavior/softdelete.zep", 89);
 				for (
-				  ; zephir_hash_get_current_data_ex(_5$$7, (void**) &_6$$7, &_4$$7) == SUCCESS
-				  ; zephir_hash_move_forward_ex(_5$$7, &_4$$7)
+				  ; zend_hash_get_current_data_ex(_5$$7, (void**) &_6$$7, &_4$$7) == SUCCESS
+				  ; zend_hash_move_forward_ex(_5$$7, &_4$$7)
 				) {
 					ZEPHIR_GET_HVALUE(message, _6$$7);
 					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_7, 0, message);

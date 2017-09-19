@@ -5,14 +5,16 @@ class_name: UnitTester
 modules:
     # enabled modules and helpers
     enabled:
-        - Helper\Unit
-        - Asserts
         - Db
-        - Filesystem
-        - Phalcon
-        - Redis
-        - Memcache
         - Apc
+        - Redis
+        - Asserts
+        - Phalcon
+        - Memcache
+        - Filesystem
+        - Helper\Unit
+        - Phalcon\Test\Module\Libmemcached
+        - Phalcon\Test\Module\Cache\Backend\File
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
@@ -26,11 +28,18 @@ modules:
             password: %TEST_DB_MYSQL_PASSWD%
             populate: true
             cleanup: false
-            dump: tests/_data/schemas/mysql/mysql.dump.sql
+            dump: tests/_data/schemas/mysql/phalcon_test.sql
         Redis:
-            database: 0
+            database: %TEST_RS_DB%
             host: %TEST_RS_HOST%
             port: %TEST_RS_PORT%
         Memcache:
             host: %TEST_MC_HOST%
             port: %TEST_MC_PORT%
+        Phalcon\Test\Module\Libmemcached:
+            host: %TEST_MC_HOST%
+            port: %TEST_MC_PORT%
+            weight: %TEST_MC_WEIGHT%
+        Phalcon\Test\Module\Cache\Backend\File:
+            frontend: Phalcon\Cache\Frontend\Data
+            cache_dir: %TEST_CACHE_DIR%

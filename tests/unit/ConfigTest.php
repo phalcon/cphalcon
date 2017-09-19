@@ -2,22 +2,21 @@
 
 namespace Phalcon\Test\Unit;
 
+use Phalcon\Config;
 use Phalcon\Test\Unit\Config\Helper\ConfigBase;
-use Phalcon\Test\Proxy\Config;
-use Phalcon\Config as PhConfig;
 
 /**
  * \Phalcon\Test\Unit\ConfigTest
  * Tests the \Phalcon\Config component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -25,6 +24,30 @@ use Phalcon\Config as PhConfig;
  */
 class ConfigTest extends ConfigBase
 {
+    /**
+     * Tests path method
+     *
+     * @author michanismus
+     * @since  2017-03-29
+     */
+    public function testConfigPath()
+    {
+        $this->specify(
+            "Config path does not return expected value",
+            function () {
+                $config = new Config($this->config);
+                expect($config->path('test.parent.property2'))->equals('yeah');
+                expect($config->path('test.parent.property3', 'No'))->equals('No');
+                expect($config->path('test.parent'))->isInstanceOf('Phalcon\Config');
+                expect($config->path('unknown.path'))->equals(null);
+                Config::setPathDelimiter('/');
+                expect($config->path('test.parent.property2', false))->equals(false);
+                expect($config->path('test/parent/property2'))->equals('yeah');
+                expect($config->path('test/parent'))->isInstanceOf('Phalcon\Config');
+            }
+        );
+    }
+
     /**
      * Tests toArray method
      *
@@ -139,8 +162,8 @@ class ConfigTest extends ConfigBase
         $this->specify(
             "Comparison of objects returned a not identical result",
             function () {
-                $expectedConfig = PhConfig::__set_state([
-                    'database' => PhConfig::__set_state(
+                $expectedConfig = Config::__set_state([
+                    'database' => Config::__set_state(
                         [
                             'adapter'  => 'Mysql',
                             'host'     => 'localhost',
@@ -168,7 +191,7 @@ class ConfigTest extends ConfigBase
                     'other' => [1, 2, 3, 4]
                 ];
 
-                expect(new PhConfig($settings))->equals($expectedConfig);
+                expect(new Config($settings))->equals($expectedConfig);
             }
         );
     }
@@ -184,27 +207,27 @@ class ConfigTest extends ConfigBase
         $this->specify(
             "Config objects does not merged properly",
             function () {
-                $expected = PhConfig::__set_state([
-                    'keys' => PhConfig::__set_state([
+                $expected = Config::__set_state([
+                    'keys' => Config::__set_state([
                         '0' => 'scott',
                         '1' => 'cheetah',
                         '2' => 'peter',
                     ]),
                 ]);
 
-                $config = new PhConfig(['keys' => ['scott', 'cheetah']]);
-                expect($config->merge(new PhConfig(['keys' => ['peter']])))->equals($expected);
+                $config = new Config(['keys' => ['scott', 'cheetah']]);
+                expect($config->merge(new Config(['keys' => ['peter']])))->equals($expected);
 
-                $expected = PhConfig::__set_state([
-                    'keys' => PhConfig::__set_state([
+                $expected = Config::__set_state([
+                    'keys' => Config::__set_state([
                         '0' => 'peter',
                         '1' => 'scott',
                         '2' => 'cheetah',
                     ]),
                 ]);
 
-                $config = new PhConfig(['keys' => ['peter']]);
-                expect($config->merge(new PhConfig(['keys' => ['scott', 'cheetah']])))->equals($expected);
+                $config = new Config(['keys' => ['peter']]);
+                expect($config->merge(new Config(['keys' => ['scott', 'cheetah']])))->equals($expected);
             }
         );
     }
@@ -220,7 +243,7 @@ class ConfigTest extends ConfigBase
         $this->specify(
             "Config objects does not merged properly",
             function () {
-                $config1 = new PhConfig([
+                $config1 = new Config([
                     'controllersDir' => '../x/y/z',
                     'modelsDir'      => '../x/y/z',
                     'database'       => [
@@ -239,7 +262,7 @@ class ConfigTest extends ConfigBase
                     ],
                 ]);
 
-                $config2 = new PhConfig([
+                $config2 = new Config([
                     'modelsDir' => '../x/y/z',
                     'database'  => [
                         'adapter'  => 'Postgresql',
@@ -258,24 +281,24 @@ class ConfigTest extends ConfigBase
 
                 $config1->merge($config2);
 
-                $expected = PhConfig::__set_state([
+                $expected = Config::__set_state([
                     'controllersDir' => '../x/y/z',
                     'modelsDir'      => '../x/y/z',
-                    'database' => PhConfig::__set_state([
+                    'database' => Config::__set_state([
                         'adapter'  => 'Postgresql',
                         'host'     => 'localhost',
                         'username' => 'peter',
                         'password' => 'cheetah',
                         'name'     => 'test_db',
-                        'charset'  => PhConfig::__set_state([
+                        'charset'  => Config::__set_state([
                             'primary' => 'utf8',
                         ]),
-                        'alternatives' => PhConfig::__set_state([
+                        'alternatives' => Config::__set_state([
                             'primary' => 'swedish',
                             'second'  => 'latin1',
                             'third'   => 'american',
                         ]),
-                        'options' => PhConfig::__set_state([
+                        'options' => Config::__set_state([
                             'case' => 'lower',
                             (string) \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                         ]),
@@ -284,6 +307,47 @@ class ConfigTest extends ConfigBase
 
                 expect($config1)->equals($expected);
             }
+        );
+    }
+
+    /**
+     * Tests issue 12779
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-06-19
+     */
+    public function testIssue12779()
+    {
+        $config = new Config(
+            [
+                'a' => [
+                    [
+                        1,
+                    ],
+                ],
+            ]
+        );
+
+        $config->merge(
+            new Config(
+                [
+                    'a' => [
+                        [
+                            2,
+                        ],
+                    ],
+                ]
+            )
+        );
+        expect($config->toArray())->equals(
+            [
+                'a' => [
+                    [
+                        1,
+                        2,
+                    ],
+                ],
+            ]
         );
     }
 }

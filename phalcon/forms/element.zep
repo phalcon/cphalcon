@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -60,6 +60,12 @@ abstract class Element implements ElementInterface
 	 */
 	public function __construct(string name, var attributes = null)
 	{
+		let name = trim(name);
+		
+		if empty name {
+			throw new \InvalidArgumentException("Form element name is required");
+		}
+		
 		let this->_name = name;
 		if typeof attributes == "array" {
 			let this->_attributes = attributes;
@@ -399,7 +405,7 @@ abstract class Element implements ElementInterface
 		 * Use the default label or leave the same name as label
 		 */
 		let label = this->_label;
-		if label {
+		if label || is_numeric(label) {
 			let code .= ">" . label . "</label>";
 		} else {
 			let code .= ">" . name . "</label>";

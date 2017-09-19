@@ -2,20 +2,21 @@
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Tag\TagCheckFieldTest
  * Tests the \Phalcon\Tag component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Tag
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -398,5 +399,38 @@ class TagCheckFieldTest extends UnitTest
                 );
             }
         );
+    }
+
+    /**
+     * Tests checkField with setDefault and with a value of zero
+     *
+     * @test
+     * @issue  12316
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2016-12-19
+     */
+    public function shouldGenerateCheckFieldAsCheckedWhenValueIsZeroAndDefaultIsZero()
+    {
+        $this->specify(
+            'The checkbox cannot have value 0 and be checked',
+            function ($value, $default, $expected) {
+                Tag::resetInput();
+                Tag::setDocType(Tag::HTML5);
+                Tag::setDefault("demo-0", $default);
+
+                expect(Tag::checkField(['demo-0', 'value' => $value]))->equals($expected);
+            },
+            ['examples' => $this->nullableValueProvider()]
+        );
+    }
+
+    protected function nullableValueProvider()
+    {
+        return [
+            [ 0,  "0", '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+            [ 0,   0,  '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+            ["0",  0,  '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+            ["0", "0", '<input type="checkbox" id="demo-0" name="demo-0" value="0" checked="checked">'],
+        ];
     }
 }

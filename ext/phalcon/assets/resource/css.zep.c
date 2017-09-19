@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource_Css) {
  */
 PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool local, filter;
 	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL, *_1, *_2, *_3;
@@ -51,11 +51,11 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &path_param, &local_param, &filter_param, &attributes);
 
-	if (unlikely(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(path_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
 		zephir_get_strval(path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(path);
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 	} else {
 		ZVAL_BOOL(_3, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_css_ce, this_ptr, "__construct", &_0, 108, _1, path, _2, _3, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_css_ce, getThis(), "__construct", &_0, 112, _1, path, _2, _3, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -48,18 +48,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message) {
  */
 PHP_METHOD(Phalcon_Validation_Message, __construct) {
 
-	int code;
+	zend_long code;
 	zval *message_param = NULL, *field = NULL, *type_param = NULL, *code_param = NULL, *_0;
 	zval *message = NULL, *type = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &message_param, &field, &type_param, &code_param);
 
-	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -81,12 +81,12 @@ PHP_METHOD(Phalcon_Validation_Message, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_message"), message TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_field"), field TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, code);
-	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_code"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -102,11 +102,11 @@ PHP_METHOD(Phalcon_Validation_Message, setType) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
 
-	if (unlikely(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(type_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
 		zephir_get_strval(type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(type);
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Validation_Message, setType) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), type TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Validation_Message, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -141,11 +141,11 @@ PHP_METHOD(Phalcon_Validation_Message, setMessage) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
 
-	if (unlikely(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(message_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
 		zephir_get_strval(message, message_param);
 	} else {
 		ZEPHIR_INIT_VAR(message);
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Validation_Message, setMessage) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_message"), message TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Validation_Message, getMessage) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_message");
+	RETURN_MEMBER(getThis(), "_message");
 
 }
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Validation_Message, setField) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_field"), field TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Validation_Message, getField) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_field");
+	RETURN_MEMBER(getThis(), "_field");
 
 }
 
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Validation_Message, getField) {
 PHP_METHOD(Phalcon_Validation_Message, setCode) {
 
 	zval *code_param = NULL, *_0;
-	int code;
+	zend_long code;
 
 	zephir_fetch_params(0, 1, 0, &code_param);
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Validation_Message, setCode) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, code);
-	zephir_update_property_this(this_ptr, SL("_code"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_code"), _0 TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Validation_Message, getCode) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_code");
+	RETURN_MEMBER(getThis(), "_code");
 
 }
 
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_message");
+	RETURN_MEMBER(getThis(), "_message");
 
 }
 
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString) {
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *_0, *_1, *_2;
 	zval *message = NULL;
 
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state) {
 	zephir_array_fetch_string(&_0, message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_1, message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
 	zephir_array_fetch_string(&_2, message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/validation/message.zep", 134 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 464, _0, _1, _2);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 475, _0, _1, _2);
 	zephir_check_call_status();
 	RETURN_MM();
 

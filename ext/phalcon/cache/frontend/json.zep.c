@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_frontendOptions"), frontendOptions TSRMLS_CC);
 
 }
 

@@ -2,22 +2,22 @@
 
 namespace Phalcon\Test\Unit\Session\Adapter;
 
-use Phalcon\Test\Proxy\Session\Adapter\Files;
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Session\Adapter;
+use Phalcon\Test\Module\UnitTest;
+use Phalcon\Session\Adapter\Files;
 
 /**
- * \Phalcon\Test\Unit\Session\Adapter\FilesTest
+ * Phalcon\Test\Unit\Session\Adapter\FilesTest
  * Tests the \Phalcon\Session\Adapter\Files component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Session\Adapter
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -39,6 +39,10 @@ class FilesTest extends UnitTest
             'save_path'         => ini_get('session.save_path'),
             'serialize_handler' => ini_get('session.serialize_handler'),
         ];
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
     }
 
     /**
@@ -266,6 +270,38 @@ class FilesTest extends UnitTest
                 $session->destroy();
 
                 $I->dontSeeFileFound($file);
+            }
+        );
+    }
+
+    /**
+     * Tests the destroy with cleanning $_SESSION
+     *
+     * @test
+     * @issue  12326
+     * @issue  12835
+     * @author Serghei Iakovelev <serghei@phalconphp.com>
+     * @since  2017-05-08
+     */
+    public function destroyDataFromSessionSuperGlobal()
+    {
+        $this->specify(
+            'The files adapter does not clear session superglobal after destroy',
+            function () {
+                $session = new Files([
+                    'uniqueId' => 'session',
+                    'lifetime' => 3600,
+                ]);
+
+                $session->start();
+
+                $session->test1 = __METHOD__;
+                expect($_SESSION)->hasKey('session#test1');
+                expect($_SESSION['session#test1'])->contains(__METHOD__);
+
+                // @deprecated See: https://github.com/phalcon/cphalcon/issues/12833
+                $session->destroy(true);
+                expect($_SESSION)->hasntKey('session#test1');
             }
         );
     }

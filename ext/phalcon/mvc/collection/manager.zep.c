@@ -20,7 +20,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 
 
@@ -77,7 +76,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getServiceName) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_serviceName");
+	RETURN_MEMBER(getThis(), "_serviceName");
 
 }
 
@@ -89,7 +88,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setServiceName) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_serviceName"), serviceName TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_serviceName"), serviceName TSRMLS_CC);
+	RETURN_THISW();
 
 }
 
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 
 }
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getDI) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+	RETURN_MEMBER(getThis(), "_dependencyInjector");
 
 }
 
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_eventsManager"), eventsManager TSRMLS_CC);
 
 }
 
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_eventsManager");
+	RETURN_MEMBER(getThis(), "_eventsManager");
 
 }
 
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *className = NULL, *initialized = NULL, *eventsManager = NULL, *_0$$5;
 
 	ZEPHIR_MM_GROW();
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 			zephir_check_call_status();
 		}
 		zephir_update_property_array(this_ptr, SL("_initialized"), className, model TSRMLS_CC);
-		zephir_update_property_this(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_lastInitialized"), model TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -239,11 +239,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName_param);
 
-	if (unlikely(Z_TYPE_P(modelName_param) != IS_STRING && Z_TYPE_P(modelName_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(modelName_param) != IS_STRING && Z_TYPE_P(modelName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'modelName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(modelName_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(modelName_param) == IS_STRING)) {
 		zephir_get_strval(modelName, modelName_param);
 	} else {
 		ZEPHIR_INIT_VAR(modelName);
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_lastInitialized");
+	RETURN_MEMBER(getThis(), "_lastInitialized");
 
 }
 
@@ -280,11 +280,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
-	if (unlikely(Z_TYPE_P(connectionService_param) != IS_STRING && Z_TYPE_P(connectionService_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(connectionService_param) != IS_STRING && Z_TYPE_P(connectionService_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'connectionService' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(connectionService_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(connectionService_param) == IS_STRING)) {
 		zephir_get_strval(connectionService, connectionService_param);
 	} else {
 		ZEPHIR_INIT_VAR(connectionService);
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, *service = NULL, *connectionService = NULL, *connection = NULL, *dependencyInjector = NULL, *entityName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -422,18 +422,18 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 
 	HashTable *_2$$4;
 	HashPosition _1$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, *model, *behavior = NULL, *behaviors = NULL, *modelsBehaviors = NULL, *eventsManager = NULL, *status = NULL, *customEventsManager = NULL, *_0$$3, **_3$$4, *_5$$9;
 	zval *eventName = NULL, *_4$$7, *_6$$10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &eventName_param, &model);
 
-	if (unlikely(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -452,8 +452,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0$$3, 0 TSRMLS_CC)) {
 			zephir_is_iterable(modelsBehaviors, &_2$$4, &_1$$4, 0, 0, "phalcon/mvc/collection/manager.zep", 289);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2$$4, &_1$$4)
+			  ; zend_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_2$$4, &_1$$4)
 			) {
 				ZEPHIR_GET_HVALUE(behavior, _3$$4);
 				ZEPHIR_CALL_METHOD(&status, behavior, "notify", NULL, 0, eventName, model);
@@ -503,18 +503,18 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 
 	HashTable *_2$$4;
 	HashPosition _1$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName = NULL, *_4$$7;
 	zval *model, *eventName_param = NULL, *data, *behaviors = NULL, *modelsBehaviors = NULL, *result = NULL, *eventsManager = NULL, *behavior = NULL, *_0$$3, **_3$$4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &eventName_param, &data);
 
-	if (unlikely(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(eventName_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
 		zephir_get_strval(eventName, eventName_param);
 	} else {
 		ZEPHIR_INIT_VAR(eventName);
@@ -531,8 +531,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 		if (zephir_array_isset_fetch(&modelsBehaviors, behaviors, _0$$3, 0 TSRMLS_CC)) {
 			zephir_is_iterable(modelsBehaviors, &_2$$4, &_1$$4, 0, 0, "phalcon/mvc/collection/manager.zep", 345);
 			for (
-			  ; zephir_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
-			  ; zephir_hash_move_forward_ex(_2$$4, &_1$$4)
+			  ; zend_hash_get_current_data_ex(_2$$4, (void**) &_3$$4, &_1$$4) == SUCCESS
+			  ; zend_hash_move_forward_ex(_2$$4, &_1$$4)
 			) {
 				ZEPHIR_GET_HVALUE(behavior, _3$$4);
 				ZEPHIR_CALL_METHOD(&result, behavior, "missingmethod", NULL, 0, model, eventName, data);

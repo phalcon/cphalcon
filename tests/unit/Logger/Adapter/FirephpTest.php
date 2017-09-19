@@ -3,20 +3,20 @@
 namespace Phalcon\Test\Unit\Logger\Adapter;
 
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Proxy\Logger\Adapter\Firephp;
+use Phalcon\Logger\Adapter\Firephp;
 
 /**
  * \Phalcon\Test\Unit\Logger\Adapter\FirephpTest
  * Tests the \Phalcon\Logger\Adapter\Firephp component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Logger\Adapter
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com

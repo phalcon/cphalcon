@@ -27,7 +27,7 @@ use Phalcon\Test\Models\Robots;
  * @package       Phalcon\Test\Integration\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -786,6 +786,58 @@ class BinderCest
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );
+        }
+    }
+
+    /**
+     * Tests dispatcher and single model original values
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-01-19
+     *
+     * @param IntegrationTester $I
+     */
+    public function testDispatcherSingleBindingOriginalValues(IntegrationTester $I)
+    {
+        $dispatcher = $this->createDispatcher();
+        $params = ['people' => $this->people->cedula];
+        $this->assertDispatcher($dispatcher, $I);
+
+        $returnedValue = $this->returnDispatcherValueForAction(
+            $dispatcher,
+            'test10',
+            'view',
+            $params
+        );
+        $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+        $I->assertEquals($this->people->cedula, $returnedValue->cedula);
+        $I->assertEquals($params, $dispatcher->getModelBinder()->getOriginalValues());
+    }
+
+    /**
+     * Tests dispatcher and single model without cache
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-01-24
+     *
+     * @param IntegrationTester $I
+     */
+    public function testDispatcherSingleBindingNoCache(IntegrationTester $I)
+    {
+        $dispatcher = $this->createDispatcher(false);
+        $modelBinder = new Binder();
+        $dispatcher->setModelBinder($modelBinder);
+        $this->assertDispatcher($dispatcher, $I);
+
+        for ($i = 0; $i <= 1; $i++) {
+            $returnedValue = $this->returnDispatcherValueForAction(
+                $dispatcher,
+                'test10',
+                'view',
+                ['people' => $this->people->cedula]
+            );
+            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertEquals($this->people->cedula, $returnedValue->cedula);
         }
     }
 

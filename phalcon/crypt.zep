@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -62,7 +62,7 @@ class Crypt implements CryptInterface
 	const PADDING_SPACE = 6;
 
 	/**
-	 * Changes the padding scheme used	 
+	 * Changes the padding scheme used
 	 */
 	public function setPadding(int! scheme) -> <CryptInterface>
 	{
@@ -292,11 +292,11 @@ class Crypt implements CryptInterface
 
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
-		
-		if !in_array(cipher, openssl_get_cipher_methods()) {
+
+		if !in_array(cipher, openssl_get_cipher_methods(true)) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
-		
+
 		let ivSize = openssl_cipher_iv_length(cipher);
 		if ivSize > 0 {
 			let blockSize = ivSize;
@@ -343,8 +343,8 @@ class Crypt implements CryptInterface
 
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
-		
-		if !in_array(cipher, openssl_get_cipher_methods()) {
+
+		if !in_array(cipher, openssl_get_cipher_methods(true)) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
 
@@ -372,7 +372,7 @@ class Crypt implements CryptInterface
 	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
 		if safe == true {
-			return strtr(base64_encode(this->encrypt(text, key)), "+/", "-_");
+			return rtrim(strtr(base64_encode(this->encrypt(text, key)), "+/", "-_"), "=");
 		}
 		return base64_encode(this->encrypt(text, key));
 	}
@@ -383,7 +383,7 @@ class Crypt implements CryptInterface
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
 		if safe == true {
-			return this->decrypt(base64_decode(strtr(text, "-_", "+/")), key);
+			return this->decrypt(base64_decode(strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)), key);
 		}
 		return this->decrypt(base64_decode(text), key);
 	}
@@ -393,6 +393,6 @@ class Crypt implements CryptInterface
 	 */
 	public function getAvailableCiphers() -> array
 	{
-		return openssl_get_cipher_methods();
+		return openssl_get_cipher_methods(true);
 	}
 }

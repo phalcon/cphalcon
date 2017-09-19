@@ -12,7 +12,7 @@ use Phalcon\Mvc\View\EngineInterface;
  * \Phalcon\Test\Module\View\Engine\Mustache
  * Adapter to use Mustache library as templating engine.
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
@@ -21,7 +21,7 @@ use Phalcon\Mvc\View\EngineInterface;
  * @property ViewBaseInterface $_view
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com

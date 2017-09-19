@@ -10,14 +10,14 @@ use Phalcon\Test\Module\UnitTest;
  * \Phalcon\Test\Unit\Forms\Element\TextTest
  * Tests the \Phalcon\Test\Unit\Forms\Element\Text component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Forms\Element
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -167,6 +167,9 @@ class TextTest extends UnitTest
                 expect($element->getAttribute('class'))->equals('big-input');
                 expect($element->getAttribute('placeholder', 'the name'))->equals('Type the name');
                 expect($element->getAttribute('lang', 'en'))->equals('en');
+                
+                $element->setLabel(0);
+                expect($element->label())->equals('<label for="name">0</label>');
             }
         );
     }

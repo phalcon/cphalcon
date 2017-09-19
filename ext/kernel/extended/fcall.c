@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -26,7 +26,6 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -273,7 +272,7 @@ int zephir_call_func_aparams_fast(zval **return_value_ptr, zephir_fcall_cache_en
 		ALLOC_INIT_ZVAL(*retval_ptr_ptr);
 
 		/* Not sure what should be done here if it's a static method */
-		zend_error_noreturn(E_ERROR, "Cannot call overloaded function for non-object");
+		zend_error(E_ERROR, "Cannot call overloaded function for non-object");
 
 		if (func->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY) {
 			efree((char*)func->common.function_name);
@@ -1176,7 +1175,7 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 	fn_flags = EX(function_state).function->common.fn_flags;
 	if (fn_flags & (ZEND_ACC_ABSTRACT|ZEND_ACC_DEPRECATED)) {
 		if (fn_flags & ZEND_ACC_ABSTRACT) {
-			zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
+			zend_error(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
 		}
 		if (fn_flags & ZEND_ACC_DEPRECATED) {
 			zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
@@ -1342,7 +1341,7 @@ int zephir_call_function_opt(zend_fcall_info *fci, zend_fcall_info_cache *fci_ca
 		if (fci->object_ptr) {
 			Z_OBJ_HT_P(fci->object_ptr)->call_method(EX(function_state).function->common.function_name, fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, 1 TSRMLS_CC);
 		} else {
-			zend_error_noreturn(E_ERROR, "Cannot call overloaded function for non-object");
+			zend_error(E_ERROR, "Cannot call overloaded function for non-object");
 		}
 
 		if (EX(function_state).function->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY) {

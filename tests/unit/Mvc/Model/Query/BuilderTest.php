@@ -12,7 +12,7 @@ use Phalcon\Test\Models\Parts;
  * \Phalcon\Test\Unit\Mvc\Model\Query\BuilderTest
  * Tests the Phalcon\Mvc\Model\Query\Builder component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
@@ -20,7 +20,7 @@ use Phalcon\Test\Models\Parts;
  * @package   Phalcon\Test\Unit\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -42,8 +42,6 @@ class BuilderTest extends UnitTest
 
         $this->di = $app->getDI();
     }
-
-
 
     public function testAction()
     {
@@ -148,6 +146,82 @@ class BuilderTest extends UnitTest
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->having("SUM(Robots.price) > 1000")
+                                ->andHaving("SUM(Robots.price) < 2000")
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) AND (SUM(Robots.price) < 2000)");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->having("SUM(Robots.price) > 1000")
+                                ->orHaving("SUM(Robots.price) < 500")
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) OR (SUM(Robots.price) < 500)");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->inHaving("SUM(Robots.price)", [1, 2, 3])
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:)");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->notInHaving("SUM(Robots.price)", [1, 2, 3])
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:)");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->having("SUM(Robots.price) > 100")
+                                ->inHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 100) OR (SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:))");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->having("SUM(Robots.price) > 100")
+                                ->notInHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 100) OR (SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:))");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->betweenHaving("SUM(Robots.price)", 100, 200)
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) BETWEEN :AP0: AND :AP1:");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
+                                ->columns(["Robots.name", "SUM(Robots.price)"])
+                                ->from(Robots::class)
+                                ->groupBy("Robots.name")
+                                ->notBetweenHaving("SUM(Robots.price)", 100, 200)
+                                ->getPhql();
+                expect($phql)->equals("SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) NOT BETWEEN :AP0: AND :AP1:");
+
+                $builder = new Builder();
+                $phql = $builder->setDi($di)
                                 ->from(Robots::class)
                                 ->join(RobotsParts::class)
                                 ->getPhql();
@@ -204,13 +278,11 @@ class BuilderTest extends UnitTest
                                 ->getPhql();
                 expect($phql)->equals("SELECT [r].*, [p].* FROM [" . Robots::class . "] AS [r], [" . Parts::class . "] AS [p]");
 
-
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
                                 ->from(["r" => Robots::class, "p" => Parts::class])
                                 ->getPhql();
                 expect($phql)->equals("SELECT [r].*, [p].* FROM [" . Robots::class . "] AS [r], [" . Parts::class . "] AS [p]");
-
 
                 $builder = new Builder();
                 $phql = $builder->setDi($di)
@@ -541,5 +613,46 @@ class BuilderTest extends UnitTest
                 expect($phql)->equals("SELECT name, SUM(price) FROM [" . Robots::class . "] GROUP BY [id], [name]");
             }
         );
+    }
+
+    /**
+     * Tests work with limit / offset
+     *
+     * @test
+     * @issue  12419
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2016-12-18
+     */
+    public function shouldCorrectHandleLimitAndOffset()
+    {
+        $this->specify(
+            'The builder object works with limit / offset incorrectly',
+            function ($limit, $offset, $expected) {
+                $builder = new Builder(null, $this->di);
+                $phql = $builder
+                    ->columns(['name'])
+                    ->from(Robots::class)
+                    ->limit($limit, $offset)
+                    ->getPhql();
+
+                /** Just prevent IDE to highlight this as not valid SQL dialect */
+                expect($phql)->equals('SELECT name ' . "FROM {$expected}");
+            },
+            ['examples' => $this->limitOffsetProvider()]
+        );
+    }
+
+    protected function limitOffsetProvider()
+    {
+        return [
+            [-7,      null,  "[" . Robots::class . "] LIMIT :APL0:"              ],
+            ["-7234", null,  "[" . Robots::class . "] LIMIT :APL0:"              ],
+            ["18",    null,  "[" . Robots::class . "] LIMIT :APL0:"              ],
+            ["18",    2,     "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            ["-1000", -200,  "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            ["0",    "-200", "[" . Robots::class . "]"                           ],
+            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[" . Robots::class . "]"],
+        ];
     }
 }

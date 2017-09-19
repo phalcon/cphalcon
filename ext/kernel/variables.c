@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -107,4 +107,14 @@ void zephir_var_export_ex(zval *return_value, zval **var TSRMLS_DC) {
  */
 void zephir_var_dump(zval **var TSRMLS_DC) {
     php_var_dump(var, 1 TSRMLS_CC);
+}
+
+void zephir_get_defined_vars(zval *return_value TSRMLS_DC)
+{
+	if (!EG(active_symbol_table)) {
+		zend_rebuild_symbol_table(TSRMLS_C);
+	}
+
+	array_init_size(return_value, zend_hash_num_elements(EG(active_symbol_table)));
+	zend_hash_copy(Z_ARRVAL_P(return_value), EG(active_symbol_table), (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval *));
 }

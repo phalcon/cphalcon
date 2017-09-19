@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css) {
  */
 PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool filter;
 	zval *content_param = NULL, *filter_param = NULL, *attributes = NULL, *_1, *_2;
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 	} else {
 		ZVAL_BOOL(_2, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_css_ce, this_ptr, "__construct", &_0, 104, _1, content, _2, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_css_ce, getThis(), "__construct", &_0, 107, _1, content, _2, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

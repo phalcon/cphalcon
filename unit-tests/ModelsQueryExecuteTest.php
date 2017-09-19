@@ -7,7 +7,7 @@
   | Copyright (c) 2011-2015 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file LICENSE.txt.                             |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -698,6 +698,14 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[0]->p->code, 1);
 		$this->assertEquals($result[1]->r->code, 1);
 		$this->assertEquals($result[1]->p->code, 2);
+
+		$result = $manager->executeQuery(
+			'SELECT r.* FROM RobotsParts rp LEFT JOIN Robots2 r ON rp.robots_id=r.id'
+		);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(gettype($result[0]), 'object');
+		$this->assertEquals(get_class($result[0]), 'Robots2');
+		$this->assertNotNull($result[0]->getName());
 
 		$result = $manager->executeQuery(
 			'SELECT r.* FROM Robots r WHERE r.id NOT IN (SELECT p.id FROM Parts p WHERE r.id < p.id)'

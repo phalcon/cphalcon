@@ -27,6 +27,30 @@
  * Allows to define indexes to be used on tables. Indexes are a common way
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index
+ *
+ *<code>
+ * // Define new unique index
+ * $index_unique = new \Phalcon\Db\Index(
+ *     'column_UNIQUE',
+ *     [
+ *         'column',
+ *         'column'
+ *     ],
+ *     'UNIQUE'
+ * );
+ * 
+ * // Define new primary index
+ * $index_primary = new \Phalcon\Db\Index(
+ *     'PRIMARY',
+ *     [
+ *         'column'
+ *     ]
+ * );
+ * 
+ * // Add index to existing table
+ * $connection->addIndex("robots", null, $index_unique);
+ * $connection->addIndex("robots", null, $index_primary);
+ *</code> 
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
@@ -65,7 +89,7 @@ PHP_METHOD(Phalcon_Db_Index, getName) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -76,7 +100,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_columns");
+	RETURN_MEMBER(getThis(), "_columns");
 
 }
 
@@ -87,7 +111,7 @@ PHP_METHOD(Phalcon_Db_Index, getType) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_type");
+	RETURN_MEMBER(getThis(), "_type");
 
 }
 
@@ -103,11 +127,11 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type);
 
-	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -119,10 +143,10 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	}
 
 
-	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_name"), name TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_columns"), columns TSRMLS_CC);
 	zephir_get_strval(_0, type);
-	zephir_update_property_this(this_ptr, SL("_type"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_type"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -132,7 +156,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *indexName = NULL, *columns = NULL, *type = NULL;
 	zval *data = NULL;
 
@@ -144,12 +168,12 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 
 	ZEPHIR_OBS_VAR(indexName);
 	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_name"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_name parameter is required", "phalcon/db/index.zep", 95);
 		return;
 	}
 	ZEPHIR_OBS_VAR(columns);
 	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns"), 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "_columns parameter is required", "phalcon/db/index.zep", 99);
 		return;
 	}
 	ZEPHIR_OBS_VAR(type);
@@ -158,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 		ZVAL_STRING(type, "", 1);
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 22, indexName, columns, type);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 23, indexName, columns, type);
 	zephir_check_call_status();
 	RETURN_MM();
 

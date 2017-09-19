@@ -10,14 +10,14 @@ use Phalcon\Db\Dialect\Postgresql as PostgresqlDialect;
  * \Phalcon\Test\Unit\Db\Column\PostgresqlTest
  * Tests the \Phalcon\Db\Column component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      https://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @package   Phalcon\Test\Unit\Db\Column
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -28,7 +28,7 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::hasDefault for autoincrement fields
      *
-     * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
+     * @issue  853
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-09-28
      */

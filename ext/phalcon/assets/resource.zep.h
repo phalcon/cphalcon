@@ -24,6 +24,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent);
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri);
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath);
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath);
+PHP_METHOD(Phalcon_Assets_Resource, getResourceKey);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -99,5 +100,6 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_resource_method_entry) {
 	PHP_ME(Phalcon_Assets_Resource, getRealTargetUri, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Resource, getRealSourcePath, arginfo_phalcon_assets_resource_getrealsourcepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Resource, getRealTargetPath, arginfo_phalcon_assets_resource_getrealtargetpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Resource, getResourceKey, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

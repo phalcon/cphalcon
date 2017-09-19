@@ -34,18 +34,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray) {
 PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translation_param = NULL, *placeholders = NULL, _1$$3;
 	zval *translation = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
 
-	if (unlikely(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(translation_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
 		zephir_get_strval(translation, translation_param);
 	} else {
 		ZEPHIR_INIT_VAR(translation);
@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 401, placeholders, translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 413, placeholders, translation);
 		ZEPHIR_UNREF(placeholders);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_1$$3);

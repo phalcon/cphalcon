@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Acl_Resource, getName) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __toString) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_name");
+	RETURN_MEMBER(getThis(), "_name");
 
 }
 
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Acl_Resource, getDescription) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_description");
+	RETURN_MEMBER(getThis(), "_description");
 
 }
 
@@ -89,11 +89,11 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
 
-	if (unlikely(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(name_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
 		zephir_get_strval(name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(name);
@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Resource name cannot be '*'", "phalcon/acl/resource.zep", 50);
 		return;
 	}
-	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_name"), name TSRMLS_CC);
 	if (!(!description) && Z_STRLEN_P(description)) {
-		zephir_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_description"), description TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 

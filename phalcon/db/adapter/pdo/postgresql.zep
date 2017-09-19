@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -141,6 +141,22 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "double precision") {
+				/**
+				 * Double Precision
+				 */
+				let definition["type"] = Column::TYPE_DOUBLE,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+            } elseif memstr(columnType, "real") {
+				/**
+				 * Real
+				 */
+				let definition["type"] = Column::TYPE_FLOAT,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 			} elseif memstr(columnType, "varying") {
 				/**
 				 * Varchar
@@ -178,12 +194,6 @@ class Postgresql extends PdoAdapter
 				 */
 				let definition["type"] = Column::TYPE_CHAR,
 					definition["size"] = charSize;
-			} elseif memstr(columnType, "timestamp") {
-				/**
-				 * Date
-				 */
-				let definition["type"] = Column::TYPE_DATETIME,
-					definition["size"] = 0;
 			} elseif memstr(columnType, "text") {
 				/**
 				 * Text are varchars
@@ -226,13 +236,6 @@ class Postgresql extends PdoAdapter
 				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
-			}
-
-			/**
-			 * Check if the column is unsigned, only MySQL support this
-			 */
-			if memstr(columnType, "unsigned") {
-				let definition["unsigned"] = true;
 			}
 
 			/**

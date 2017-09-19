@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -19,6 +19,8 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Annotations\Reflection;
+use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\ReaderInterface;
 
 /**
@@ -28,7 +30,6 @@ use Phalcon\Annotations\ReaderInterface;
  */
 interface AdapterInterface
 {
-
 	/**
 	 * Sets the annotations parser
 	 */
@@ -43,41 +44,26 @@ interface AdapterInterface
 	 * Parses or retrieves all the annotations found in a class
 	 *
 	 * @param string|object className
-	 * @return \Phalcon\Annotations\Reflection
-	 */
-	public function get(className);
+     */
+	public function get(className) -> <Reflection>;
 
 	/**
 	 * Returns the annotations found in all the class' methods
-	 *
-	 * @param string className
-	 * @return array
 	 */
-	public function getMethods(className);
+	public function getMethods(string className) -> array;
 
 	/**
 	 * Returns the annotations found in a specific method
-	 *
-	 * @param string className
-	 * @param string methodName
-	 * @return \Phalcon\Annotations\Collection
 	 */
-	public function getMethod(className, methodName);
+	public function getMethod(string className, string methodName) -> <Collection>;
 
 	/**
 	 * Returns the annotations found in all the class' methods
-	 *
-	 * @param string className
-	 * @return array
 	 */
-	public function getProperties(className);
+	public function getProperties(string className) -> array;
 
 	/**
 	 * Returns the annotations found in a specific property
-	 *
-	 * @param string className
-	 * @param string propertyName
-	 * @return \Phalcon\Annotations\Collection
 	 */
-	public function getProperty(className, propertyName);
+	public function getProperty(string className, string propertyName) -> <Collection>;
 }

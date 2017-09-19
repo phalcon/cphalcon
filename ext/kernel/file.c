@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -417,7 +417,7 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data TSR
 
 void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC)
 {
-	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path) == IS_STRING)) {
 		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_IS_DIR, return_value TSRMLS_CC);
 	} else {
 		ZVAL_FALSE(return_value);
@@ -426,12 +426,12 @@ void zephir_is_dir(zval *return_value, zval *path TSRMLS_DC)
 
 void zephir_unlink(zval *return_value, zval *path TSRMLS_DC)
 {
-	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path) == IS_STRING)) {
 		php_stream_context *context;
 		php_stream_wrapper *wrapper;
 		zval *zctx = NULL;
 
-		if (unlikely(strlen(Z_STRVAL_P(path)) != Z_STRLEN_P(path))) {
+		if (UNEXPECTED(strlen(Z_STRVAL_P(path)) != Z_STRLEN_P(path))) {
 			ZVAL_FALSE(return_value);
 			return;
 		}
@@ -454,7 +454,7 @@ void zephir_unlink(zval *return_value, zval *path TSRMLS_DC)
 
 void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC)
 {
-	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path) == IS_STRING)) {
 		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_MTIME, return_value TSRMLS_CC);
 	} else {
 		ZVAL_FALSE(return_value);
@@ -463,7 +463,7 @@ void zephir_filemtime(zval *return_value, zval *path TSRMLS_DC)
 
 void zephir_basename(zval *return_value, zval *path TSRMLS_DC)
 {
-	if (likely(Z_TYPE_P(path) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(path) == IS_STRING)) {
 		char *ret;
 		size_t ret_len;
 

@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -43,9 +43,9 @@ class Tag
 	 */
 	protected static _documentTitle = null;
 
-	protected static _documentAppendTitle = [];
+	protected static _documentAppendTitle = null;
 
-	protected static _documentPrependTitle = [];
+	protected static _documentPrependTitle = null;
 
 	protected static _documentTitleSeparator = null;
 
@@ -341,7 +341,7 @@ class Tag
 	 * Resets the request and internal values to avoid those fields will have any default value.
 	 * @deprecated Will be removed in 4.0.0
 	 */
-	public static function resetInput() -> void
+	deprecated public static function resetInput() -> void
 	{
 		let self::_displayValues = [],
 			self::_documentTitle = null,
@@ -1159,6 +1159,10 @@ class Tag
 	 */
 	public static function appendTitle(var title) -> void
 	{
+		if typeof self::_documentAppendTitle == "null" {
+			let self::_documentAppendTitle = [];
+		}
+
 		if typeof title == "array" {
 			let self::_documentAppendTitle = title ;
 		} else {
@@ -1170,7 +1174,11 @@ class Tag
 	 * Prepends a text to current document title
 	 */
 	public static function prependTitle(var title) -> void
-	{		
+	{
+		if typeof self::_documentPrependTitle == "null" {
+			let self::_documentPrependTitle = [];
+		}
+
 		if typeof title == "array" {
 			let self::_documentPrependTitle = title ;
 		} else {
@@ -1199,9 +1207,19 @@ class Tag
 		let output = "";
 		let documentTitle = escaper->escapeHtml(self::_documentTitle);
 		let documentTitleSeparator = escaper->escapeHtml(self::_documentTitleSeparator);
+
+		if typeof self::_documentAppendTitle == "null" {
+			let self::_documentAppendTitle = [];
+		}
+
 		let documentAppendTitle = self::_documentAppendTitle;
+
+		if typeof self::_documentPrependTitle == "null" {
+			let self::_documentPrependTitle = [];
+		}
+
 		let documentPrependTitle = self::_documentPrependTitle;
-		
+
 		if !empty documentPrependTitle {
 			var tmp = array_reverse(documentPrependTitle);
 			for title in tmp {

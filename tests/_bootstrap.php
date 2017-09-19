@@ -1,7 +1,5 @@
 <?php
 
-use AspectMock\Kernel;
-
 error_reporting(-1);
 
 ini_set('display_errors', 1);
@@ -33,13 +31,6 @@ unset($root);
 require_once PROJECT_PATH . 'vendor/autoload.php';
 require_once TESTS_PATH . 'shim.php';
 
-$kernel = Kernel::getInstance();
-$kernel->init([
-    'includePaths' => [TESTS_PATH . DIRECTORY_SEPARATOR . '_proxies'],
-    'excludePaths' => [PROJECT_PATH . 'vendor'],
-    'cacheDir'     => TESTS_PATH . DIRECTORY_SEPARATOR . '_output' . DIRECTORY_SEPARATOR . 'mock',
-]);
-
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.cli_color', 1);
     ini_set('xdebug.collect_params', 0);
@@ -50,6 +41,9 @@ if (extension_loaded('xdebug')) {
 }
 
 $defaults = [
+    // General
+    "TEST_CACHE_DIR"            => TESTS_PATH . '_cache' . DIRECTORY_SEPARATOR,
+
     // Beanstalk
     "TEST_BT_HOST"              => '127.0.0.1',
     "TEST_BT_PORT"              => 11300,
@@ -57,6 +51,7 @@ $defaults = [
     // Memcached
     "TEST_MC_HOST"              => '127.0.0.1',
     "TEST_MC_PORT"              => 11211,
+    "TEST_MC_WEIGHT"            => 1,
 
     // SQLite
     "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',
@@ -87,6 +82,7 @@ $defaults = [
     // Redis
     "TEST_RS_HOST"              => '127.0.0.1',
     "TEST_RS_PORT"              => 6379,
+    "TEST_RS_DB"                => 0,
 ];
 
 

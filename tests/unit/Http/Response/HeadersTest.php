@@ -2,21 +2,21 @@
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Test\Proxy\Http\Response\Headers;
 
 /**
  * \Phalcon\Test\Unit\Http\Response\Http\HeadersTest
  * Tests the \Phalcon\Http\Response\Headers component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  * @package   Phalcon\Test\Unit\Http\Response
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -61,6 +61,76 @@ class HeadersTest extends HttpBase
 
                 expect($actual)->equals($expected);
             }
+        );
+    }
+
+    /**
+     * Tests the set of the response status headers
+     *
+     * @test
+     * @issue  12895
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-17
+     */
+    public function shouldSetResponseStatusHeader()
+    {
+        $this->specify(
+            'Setting Response Headers is not correct',
+            function ($code) {
+                $responseHeaders = new Headers();
+                $responseHeaders->set('Status', $code);
+
+                $headers = $this->tester->getProtectedProperty($responseHeaders, '_headers');
+
+                expect($headers)->count(1);
+                expect($headers)->hasKey('Status');
+                expect($headers['Status'])->equals($code);
+            },
+            [
+                'examples' => [
+                    ['Unprocessable Entity' => 422],
+                    ['Moved Permanently' => 301],
+                    ['OK' => 200],
+                    ['Service Unavailable' => 503],
+                    ['Not Found' => 404],
+                    ['Created' => 201],
+                    ['Continue' => 100],
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Tests the get of the response status headers
+     *
+     * @test
+     * @issue  12895
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-17
+     */
+    public function shouldGetResponseStatusHeader()
+    {
+        $this->specify(
+            'Setting Response Headers is not correct',
+            function ($code) {
+                $responseHeaders = new Headers();
+                $this->tester->setProtectedProperty($responseHeaders, '_headers', ['Status' => $code]);
+
+                $responseHeaders->get('Status');
+
+                expect($responseHeaders->get('Status'))->equals($code);
+            },
+            [
+                'examples' => [
+                    ['Unprocessable Entity' => 422],
+                    ['Moved Permanently' => 301],
+                    ['OK' => 200],
+                    ['Service Unavailable' => 503],
+                    ['Not Found' => 404],
+                    ['Created' => 201],
+                    ['Continue' => 100],
+                ],
+            ]
         );
     }
 

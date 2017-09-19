@@ -50,6 +50,9 @@
  *     }
  * }
  *</code>
+ *
+ * @deprecated 3.1.0
+ * @see Phalcon\Validation\Validator\Regex
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex) {
 
@@ -66,7 +69,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 
 	zval *_6$$8;
 	zend_bool failed = 0, _3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field = NULL, *value = NULL, *matches = NULL, *pattern = NULL, *message = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_4$$6, *_5$$8 = NULL, *_7$$8 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -80,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/regex.zep", 68);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/regex.zep", 71);
 		return;
 	}
 	ZEPHIR_INIT_NVAR(_0);
@@ -89,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern", "phalcon/mvc/model/validator/regex.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern", "phalcon/mvc/model/validator/regex.zep", 78);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, 0, field);
@@ -117,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_preg_match(_0, pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(_0)) {
-		zephir_array_fetch_long(&_4$$6, matches, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/validator/regex.zep", 94 TSRMLS_CC);
+		zephir_array_fetch_long(&_4$$6, matches, 0, PH_NOISY | PH_READONLY, "phalcon/mvc/model/validator/regex.zep", 97 TSRMLS_CC);
 		failed = !ZEPHIR_IS_EQUAL(_4$$6, value);
 	} else {
 		failed = 1;
@@ -135,7 +138,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate) {
 		ZEPHIR_INIT_VAR(_6$$8);
 		zephir_create_array(_6$$8, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_6$$8, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_7$$8, "strtr", NULL, 26, message, _6$$8);
+		ZEPHIR_CALL_FUNCTION(&_7$$8, "strtr", NULL, 27, message, _6$$8);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_5$$8);
 		ZVAL_STRING(_5$$8, "Regex", ZEPHIR_TEMP_PARAM_COPY);

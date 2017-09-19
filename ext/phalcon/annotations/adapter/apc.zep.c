@@ -28,9 +28,14 @@
  *
  * Stores the parsed annotations in APC. This adapter is suitable for production
  *
- *<code>
- * $annotations = new \Phalcon\Annotations\Adapter\Apc();
- *</code>
+ * <code>
+ * use Phalcon\Annotations\Adapter\Apc;
+ *
+ * $annotations = new Apc();
+ * </code>
+ *
+ * @see \Phalcon\Annotations\Adapter\Apcu
+ * @deprecated
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
 
@@ -62,10 +67,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 
 	if (Z_TYPE_P(options) == IS_ARRAY) {
 		if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
-			zephir_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
 		}
 		if (zephir_array_isset_string_fetch(&ttl, options, SS("lifetime"), 1 TSRMLS_CC)) {
-			zephir_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}
 
@@ -73,24 +78,21 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 
 /**
  * Reads parsed annotations from APC
- *
- * @param string key
- * @return \Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *_0, *_1, *_2;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
 
-	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);
@@ -114,18 +116,18 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *data, *_0, *_1, *_2, *_3;
 	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
-	if (unlikely(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
+	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
-	if (likely(Z_TYPE_P(key_param) == IS_STRING)) {
+	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
 		zephir_get_strval(key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(key);

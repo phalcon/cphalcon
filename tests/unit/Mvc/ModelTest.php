@@ -2,6 +2,10 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
+use DateTime;
+use Helper\ModelTrait;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Message;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
@@ -11,28 +15,28 @@ use Phalcon\Test\Models\Boutique;
 use Phalcon\Test\Models\Packages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Robotters;
+use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\BodyParts\Body;
+use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\Snapshot\Robots as SnapshotRobots;
-use Phalcon\Test\Models\Snapshot\Robotters as SnapshotRobotters;
-use Phalcon\Test\Models\Snapshot\RobotsParts as SnapshotRobotsParts;
+use Phalcon\Test\Models\Validation;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
  * Tests the Phalcon\Mvc\Model component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link      http://www.phalconphp.com
+ * @copyright (c) 2011-2017 Phalcon Team
+ * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
  * @package   Phalcon\Test\Unit\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com
@@ -40,25 +44,16 @@ use Phalcon\Test\Models\Snapshot\RobotsParts as SnapshotRobotsParts;
  */
 class ModelTest extends UnitTest
 {
-    /**
-     * @var \Phalcon\Mvc\Model\Manager
-     */
-    private $modelsManager;
-
-    protected function _before()
-    {
-        parent::_before();
-        /** @var \Phalcon\Mvc\Application $app */
-        $app = $this->tester->getApplication();
-        $this->modelsManager = $app->getDI()->getShared('modelsManager');
-    }
+    use ModelTrait;
 
     public function testCamelCaseRelation()
     {
         $this->specify(
             "CamelCase relation calls should be the same cache",
             function () {
-                $this->modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
+                $modelsManager = $this->setUpModelsManager();
+
+                $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
                 $album = Albums::findFirst();
 
                 $album->artist->name = 'NotArtist';
@@ -331,12 +326,11 @@ class ModelTest extends UnitTest
         $this->specify(
             "Single row resultsets aren't JSON serialized or JSON unserialized properly",
             function () {
+                $modelsManager = $this->setUpModelsManager();
                 $robot = Robots::findFirst();
 
                 // Single row serialization
-                $result = $this->modelsManager->executeQuery(
-                    "SELECT id FROM " . Robots::class . " LIMIT 1"
-                );
+                $result = $modelsManager->executeQuery("SELECT id FROM " . Robots::class . " LIMIT 1");
 
                 expect($result)->isInstanceOf('Phalcon\Mvc\Model\Resultset\Simple');
 
@@ -559,7 +553,7 @@ class ModelTest extends UnitTest
         $this->specify(
             "Timestampable model behavior doesn't work",
             function () {
-                $subscriber = new \Phalcon\Test\Models\News\Subscribers();
+                $subscriber = new Subscribers();
 
                 $subscriber->email = 'some@some.com';
                 $subscriber->status = 'I';
@@ -575,182 +569,144 @@ class ModelTest extends UnitTest
         $this->specify(
             "Soft Delete model behavior doesn't work",
             function () {
-                $number = \Phalcon\Test\Models\News\Subscribers::count();
+                $number = Subscribers::count();
 
-                $subscriber = \Phalcon\Test\Models\News\Subscribers::findFirst();
+                $subscriber = Subscribers::findFirst();
 
                 expect($subscriber->delete())->true();
                 expect($subscriber->status)->equals('D');
-                expect(\Phalcon\Test\Models\News\Subscribers::count())->equals($number);
+                expect(Subscribers::count())->equals($number);
             }
         );
     }
 
-    public function testSnapshotNormal()
+    /**
+     * @issue 12507
+     */
+    public function testFieldDefaultEmptyStringIsNull()
     {
         $this->specify(
-            "Normal snapshots don't work",
+            'The field default value is empty string and is determined to be null',
             function () {
-                $snapshots = array(
-                    1 => array(
-                        'id' => '1',
-                        'name' => 'Robotina',
-                        'type' => 'mechanical',
-                        'year' => '1972',
-                        'datetime' => '1972-01-01 00:00:00',
-                        'deleted' => null,
-                        'text' => 'text'
-                    ),
-                    2 => array(
-                        'id' => '2',
-                        'name' => 'Astro Boy',
-                        'type' => 'mechanical',
-                        'year' => '1952',
-                        'datetime' => '1952-01-01 00:00:00',
-                        'deleted' => null,
-                        'text' => 'text'
-                    ),
-                    3 => array(
-                        'id' => '3',
-                        'name' => 'Terminator',
-                        'type' => 'cyborg',
-                        'year' => '2029',
-                        'datetime' => '2029-01-01 00:00:00',
-                        'deleted' => null,
-                        'text' => 'text'
-                    )
-                );
+                $personers = new Personers([
+                    'borgerId'     => 'id-' . time() . rand(1, 99),
+                    'slagBorgerId' => 1,
+                    'kredit'       => 2.3,
+                    'status'       => 'A',
+                ]);
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
-                    expect($robot->hasSnapshotData())->true();
-                    expect($snapshots[$robot->id])->equals($robot->getSnapshotData());
-                }
+                //  test field for create
+                $personers->navnes = '';
+                $created = $personers->create();
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
-                    $robot->name = 'Some';
-                    $robot->year = 1999;
-                    expect($robot->hasChanged('name'))->true();
-                    expect($robot->hasChanged('year'))->true();
-                    expect($robot->hasChanged('type'))->false();
-                    expect($robot->hasChanged())->true();
-                }
+                expect($created)->true();
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
-                    $robot->year = $robot->year;
-                    expect($robot->hasChanged('year'))->false();
-                    expect($robot->hasChanged())->false();
-                }
+                //  write something to not null default '' field
+                $personers->navnes = 'save something!';
 
-                foreach (SnapshotRobots::find(array('order' => 'id')) as $robot) {
-                    $robot->name = 'Little';
-                    $robot->year = 2005;
-                    expect($robot->getChangedFields())->equals(array('name', 'year'));
-                }
+                $saved = $personers->save();
+                expect($saved)->true();
+
+                //  test field for update
+                $personers->navnes = '';
+                $saved = $personers->save();
+
+                expect($saved)->true();
+
+                $personers->delete();
             }
         );
     }
 
-    public function testSnapshotRenamed()
+
+    /**
+     * Tests setting code in message from validation messages
+     *
+     * @issue  12645
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-03
+     */
+    public function testIssue12645()
     {
         $this->specify(
-            "Renamed snapshots don't work",
+            "Issue #12645 is not fixed",
             function () {
-                $snapshots = array(
-                    1 => array(
-                        'code' => '1',
-                        'theName' => 'Robotina',
-                        'theType' => 'mechanical',
-                        'theYear' => '1972',
-                        'theDatetime' => '1972-01-01 00:00:00',
-                        'theDeleted' => null,
-                        'theText' => 'text',
-                    ),
-                    2 => array(
-                        'code' => '2',
-                        'theName' => 'Astro Boy',
-                        'theType' => 'mechanical',
-                        'theYear' => '1952',
-                        'theDatetime' => '1952-01-01 00:00:00',
-                        'theDeleted' => null,
-                        'theText' => 'text',
-                    ),
-                    3 => array(
-                        'code' => '3',
-                        'theName' => 'Terminator',
-                        'theType' => 'cyborg',
-                        'theYear' => '2029',
-                        'theDatetime' => '2029-01-01 00:00:00',
-                        'theDeleted' => null,
-                        'theText' => 'text',
-                    )
+                $robots = new Validation\Robots(
+                    [
+                        'name'     => 'asd',
+                        'type'     => 'mechanical',
+                        'year'     => 2017,
+                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'text'     => 'asd',
+                    ]
                 );
-
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
-                    expect($robot->hasSnapshotData())->true();
-                    expect($snapshots[$robot->code])->equals($robot->getSnapshotData());
-                }
-
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
-                    $robot->theName = 'Some';
-                    $robot->theYear = 1999;
-                    expect($robot->hasChanged('theName'))->true();
-                    expect($robot->hasChanged('theYear'))->true();
-                    expect($robot->hasChanged('theType'))->false();
-                    expect($robot->hasChanged())->true();
-                }
-
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
-                    $robot->theYear = $robot->theYear;
-                    expect($robot->hasChanged('theYear'))->false();
-                    expect($robot->hasChanged())->false();
-                }
-
-                foreach (SnapshotRobotters::find(array('order' => 'code')) as $robot) {
-                    $robot->theName = 'Little';
-                    $robot->theYear = 2005;
-                    expect($robot->getChangedFields())->equals(array('theName', 'theYear'));
-                }
+                expect($robots->create())->false();
+                /** @var Message $message */
+                $message = $robots->getMessages()[0];
+                expect($message)->isInstanceOf(Message::class);
+                expect($message->getCode())->equals(20);
             }
         );
     }
 
-    public function testSnapshotNormalComplex()
+    /**
+     * Tests empty string value on not null
+     *
+     * @issue  12688
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-09
+     */
+    public function testIssue12688()
     {
         $this->specify(
-            "Normal complex snapshots don't work",
+            'Issue 12688 is happening',
             function () {
-                $robots = $this->modelsManager->executeQuery(
-                    'SELECT * FROM ' . SnapshotRobots::class
+                $robots = new Robots();
+                $robots->name = '';
+                $robots->save(
+                    [
+                        'datetime' => (new DateTime())->format('Y-m-d'),
+                        'text'     => 'text',
+                    ]
                 );
+            }
+        );
+    }
 
-                foreach ($robots as $robot) {
-                    $robot->name = 'Some';
-                    $robot->year = 1999;
-                    expect($robot->hasChanged('name'))->true();
-                    expect($robot->hasChanged('year'))->true();
-                    expect($robot->hasChanged('type'))->false();
-                    expect($robot->hasChanged())->true();
-                    expect($robot->getChangedFields())->equals(array('name', 'year'));
-                }
-
-
-
-                $robots = $this->modelsManager->executeQuery(
-                    'SELECT robot.*, parts.* FROM ' . SnapshotRobots::class . ' robot JOIN ' . SnapshotRobotsParts::class . ' parts'
+    /**
+     * Tests disabling assign setters
+     *
+     * @issue  12645
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-23
+     */
+    public function testAssignSettersDisabled()
+    {
+        $this->specify(
+            'Disabling setters in assign is not working',
+            function () {
+                $robots = new Robots(
+                    [
+                        'name' => 'test',
+                    ]
                 );
-
-                foreach ($robots as $row) {
-                    $row->robot->name = 'Some';
-                    $row->robot->year = 1999;
-
-                    expect($row->robot->hasChanged('name'))->true();
-                    expect($row->robot->hasChanged('year'))->true();
-                    expect($row->robot->hasChanged('type'))->false();
-                    expect($row->robot->hasChanged())->true();
-                    expect($row->robot->getChangedFields())->equals(array('name', 'year'));
-
-                    $this->assertTrue($row->parts->hasSnapshotData());
-                }
+                expect($robots->wasSetterUsed)->true();
+                Model::setup(
+                    [
+                        'disableAssignSetters' => true,
+                    ]
+                );
+                $robots = new Robots(
+                    [
+                        'name' => 'test',
+                    ]
+                );
+                expect($robots->wasSetterUsed)->false();
+                Model::setup(
+                    [
+                        'disableAssignSetters' => false,
+                    ]
+                );
             }
         );
     }

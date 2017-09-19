@@ -76,6 +76,8 @@
  *     }
  * }
  *</code>
+ *
+ * @deprecated 3.1.0
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Ip) {
 
@@ -96,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 
 	zval *_6, *_12$$5;
 	zend_bool _5;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *record, *field = NULL, *value = NULL, *message = NULL, *version = NULL, *allowPrivate = NULL, *allowReserved = NULL, *options = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, _7 = zval_used_for_init, *_8, *_9 = NULL, *_10$$5 = NULL, *_11$$5, *_13$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -110,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/ip.zep", 99);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Field name must be a string", "phalcon/mvc/model/validator/ip.zep", 101);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&value, record, "readattribute", NULL, 0, field);
@@ -173,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 	zephir_array_update_string(&options, SL("flags"), &_8, PH_COPY | PH_SEPARATE);
 	ZEPHIR_SINIT_NVAR(_7);
 	ZVAL_LONG(&_7, 275);
-	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 201, value, &_7, options);
+	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 208, value, &_7, options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_9))) {
 		ZEPHIR_INIT_VAR(_10$$5);
@@ -187,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 		ZEPHIR_INIT_VAR(_12$$5);
 		zephir_create_array(_12$$5, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_12$$5, SL(":field"), &field, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_13$$5, "strtr", NULL, 26, message, _12$$5);
+		ZEPHIR_CALL_FUNCTION(&_13$$5, "strtr", NULL, 27, message, _12$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_10$$5);
 		ZVAL_STRING(_10$$5, "IP", ZEPHIR_TEMP_PARAM_COPY);

@@ -9,13 +9,13 @@ use Phalcon\Translate\Adapter\Csv;
  * \Phalcon\Test\Unit\Translate\Adapter\CsvTest
  * Tests the \Phalcon\Translate\Adapter\Csv component
  *
- * @copyright (c) 2011-2016 Phalcon Team
+ * @copyright (c) 2011-2017 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Ivan Zubok <chi_no@ukr.net>
  * @package   Phalcon\Test\Unit\Translate\Adapter
  *
  * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
+ * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world-wide-web, please send an email to license@phalconphp.com

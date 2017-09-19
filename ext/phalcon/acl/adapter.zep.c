@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_activeRole");
+	RETURN_MEMBER(getThis(), "_activeRole");
 
 }
 
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_activeResource");
+	RETURN_MEMBER(getThis(), "_activeResource");
 
 }
 
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_activeAccess");
+	RETURN_MEMBER(getThis(), "_activeAccess");
 
 }
 
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
 
 
-	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_eventsManager"), eventsManager TSRMLS_CC);
 
 }
 
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_eventsManager");
+	RETURN_MEMBER(getThis(), "_eventsManager");
 
 }
 
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
 	zval *defaultAccess_param = NULL, *_0;
-	int defaultAccess;
+	zend_long defaultAccess;
 
 	zephir_fetch_params(0, 1, 0, &defaultAccess_param);
 
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, defaultAccess);
-	zephir_update_property_this(this_ptr, SL("_defaultAccess"), _0 TSRMLS_CC);
+	zephir_update_property_this(getThis(), SL("_defaultAccess"), _0 TSRMLS_CC);
 
 }
 
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
 
 	
 
-	RETURN_MEMBER(this_ptr, "_defaultAccess");
+	RETURN_MEMBER(getThis(), "_defaultAccess");
 
 }
 

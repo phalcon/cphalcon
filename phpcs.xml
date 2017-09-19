@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="Phalcon">
+    <description>Phalcon Coding Standards</description>
+    <arg value="-colors"/>
+    <arg value="s"/>
+    <rule ref="PSR2">
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+    </rule>
+    <file>tests/integration</file>
+    <file>tests/unit</file>
+    <file>tests/_support/Helper</file>
+</ruleset>

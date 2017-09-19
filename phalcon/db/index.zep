@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -25,6 +25,30 @@ namespace Phalcon\Db;
  * Allows to define indexes to be used on tables. Indexes are a common way
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index
+ *
+ *<code>
+ * // Define new unique index
+ * $index_unique = new \Phalcon\Db\Index(
+ *     'column_UNIQUE',
+ *     [
+ *         'column',
+ *         'column'
+ *     ],
+ *     'UNIQUE'
+ * );
+ * 
+ * // Define new primary index
+ * $index_primary = new \Phalcon\Db\Index(
+ *     'PRIMARY',
+ *     [
+ *         'column'
+ *     ]
+ * );
+ * 
+ * // Add index to existing table
+ * $connection->addIndex("robots", null, $index_unique);
+ * $connection->addIndex("robots", null, $index_primary);
+ *</code> 
  */
 class Index implements IndexInterface
 {

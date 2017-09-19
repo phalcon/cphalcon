@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -40,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter) {
 PHP_METHOD(Phalcon_Logger_Formatter, getTypeString) {
 
 	zval *type_param = NULL;
-	int type;
+	zend_long type;
 
 	zephir_fetch_params(0, 1, 0, &type_param);
 
@@ -96,7 +95,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 	HashTable *_2$$3;
 	HashPosition _1$$3;
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *context = NULL, *replace = NULL, *key = NULL, *value = NULL, **_3$$3, *_4$$4 = NULL;
 	zval *message = NULL;
 
@@ -118,8 +117,8 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 		array_init(replace);
 		zephir_is_iterable(context, &_2$$3, &_1$$3, 0, 0, "phalcon/logger/formatter.zep", 89);
 		for (
-		  ; zephir_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_2$$3, &_1$$3)
+		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
+		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
 		) {
 			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
 			ZEPHIR_GET_HVALUE(value, _3$$3);
@@ -127,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_Formatter, interpolate) {
 			ZEPHIR_CONCAT_SVS(_4$$4, "{", key, "}");
 			zephir_array_update_zval(&replace, _4$$4, &value, PH_COPY | PH_SEPARATE);
 		}
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 26, message, replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 27, message, replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

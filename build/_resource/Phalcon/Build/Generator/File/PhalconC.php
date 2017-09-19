@@ -85,22 +85,23 @@ class Generator_File_PhalconC
      */
     protected function composeSkipFiles(array $alreadyIncludedHeaders = array())
     {
-        foreach ($alreadyIncludedHeaders as $file) {
-            $path = Util::normalize('ext/' . $file);
+        foreach (array_keys($alreadyIncludedHeaders) as $file) {
+            $path = Util::normalize($this->sourceDir . '/' . $file);
+
             $this->skipFiles[$path] = true;
         }
 
         // Add custom list of skipped files
         $files = include($this->configDir . '/phalcon_c_skip_files.php');
         foreach ($files as $file) {
-            $path = Util::normalize('ext/' . $file);
+            $path = Util::normalize($this->sourceDir . '/' . $file);
             $this->skipFiles[$path] = true;
         }
 
         unset($this->skipFiles[0]);
 
         // Add phalcon.c, because it will be processed separately from other source files, i.e. appended at the very end
-        $this->skipFiles['phalcon.c'] = true;
+        $this->skipFiles[Util::normalize($this->sourceDir . '/phalcon.c')] = true;
     }
 
     /**
@@ -110,7 +111,7 @@ class Generator_File_PhalconC
      */
     protected function addLicense($fileHandler)
     {
-        $docFile = $this->rootDir . '/docs/LICENSE.txt';
+        $docFile = $this->rootDir . '/LICENSE.txt';
         fwrite($fileHandler, '/**' . PHP_EOL . PHP_EOL . file_get_contents($docFile) . '*/' . PHP_EOL);
     }
 

@@ -3,10 +3,10 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
+ | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
@@ -51,6 +51,9 @@ use Phalcon\Cache\Backend;
  * // Get data
  * $data = $cache->get("my-data");
  *</code>
+ *
+ * @see \Phalcon\Cache\Backend\Apcu
+ * @deprecated
  */
 class Apc extends Backend
 {
@@ -76,9 +79,9 @@ class Apc extends Backend
 	/**
 	 * Stores cached content into the APC backend and stops the frontend
 	 *
-	 * @param string|long keyName
+	 * @param string|int keyName
 	 * @param string content
-	 * @param long lifetime
+	 * @param int lifetime
 	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
@@ -150,11 +153,9 @@ class Apc extends Backend
 	/**
 	 * Increment of a given key, by number $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
+	 * @param string keyName
 	 */
-	public function increment(keyName = null, int value = 1)
+	public function increment(keyName = null, int value = 1) -> int | boolean
 	{
 		var prefixedKey, cachedContent, result;
 
@@ -171,20 +172,18 @@ class Apc extends Backend
 				let result = cachedContent + value;
 				this->save(keyName, result);
 				return result;
-			} else {
-				return false;
 			}
 		}
+
+		return false;
 	}
 
 	/**
 	 * Decrement of a given key, by number $value
 	 *
-	 * @param  string keyName
-	 * @param  long value
-	 * @return mixed
+	 * @param string keyName
 	 */
-	public function decrement(keyName = null, int value = 1)
+	public function decrement(keyName = null, int value = 1) -> int | boolean
 	{
 		var lastKey, cachedContent, result;
 
@@ -200,10 +199,10 @@ class Apc extends Backend
 				let result = cachedContent - value;
 				this->save(keyName, result);
 				return result;
-			} else {
-				return false;
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -215,16 +214,20 @@ class Apc extends Backend
 	}
 
 	/**
-	 * Query the existing cached keys
+	 * Query the existing cached keys.
 	 *
-	 * @param string prefix
-	 * @return array
+	 * <code>
+	 * $cache->save("users-ids", [1, 2, 3]);
+	 * $cache->save("projects-ids", [4, 5, 6]);
+	 *
+	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
+	 * </code>
 	 */
 	public function queryKeys(string prefix = null) -> array
 	{
 		var prefixPattern, apc, keys, key;
 
-		if !prefix {
+		if empty prefix {
 			let prefixPattern = "/^_PHCA/";
 		} else {
 			let prefixPattern = "/^_PHCA" . prefix . "/";
@@ -243,9 +246,8 @@ class Apc extends Backend
 	/**
 	 * Checks if cache exists and it hasn't expired
 	 *
-	 * @param  string|long keyName
-	 * @param  long lifetime
-	 * @return boolean
+	 * @param  string|int keyName
+	 * @param  int lifetime
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
