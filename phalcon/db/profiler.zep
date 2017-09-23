@@ -31,9 +31,26 @@ use Phalcon\Db\Profiler\Item;
  *
  *<code>
  * $profiler = new \Phalcon\Db\Profiler();
+ * $eventsManager = new Phalcon\Events\Manager;
+ * $eventsManager->attach(
+ *     "db",
+ *     function (Phalcon\Events\Event $event, $connection) use ($profiler) {
+ *         if ($event->getType() === "beforeQuery") {
+ *             $sql = $connection->getSQLStatement();
  *
- * // Set the connection profiler
- * $connection->setProfiler($profiler);
+ *             // Start a profile with the active connection
+ *             $profiler->startProfile($sql);
+ *         }
+ *
+ *         if ($event->getType() === "afterQuery") {
+ *             // Stop the active profile
+ *             $profiler->stopProfile();
+ *         }
+ *     }
+ * );
+ * // Set the event manager on the connection
+ * $connection->setEventsManager($eventsManager);
+ *
  *
  * $sql = "SELECT buyer_name, quantity, product_name
  * FROM buyers LEFT JOIN products ON
