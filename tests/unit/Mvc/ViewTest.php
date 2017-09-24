@@ -598,6 +598,29 @@ class ViewTest extends UnitTest
         );
     }
 
+    /**
+     * Tests View::render with params
+     *
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-09-24
+     * @issue  13046
+     */
+    public function shouldRenderWithParams()
+    {
+        $this->specify(
+            "The View component doesn't render view with params",
+            function () {
+                $view = new View();
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+
+                $view->start();
+                $view->render('test2', 'params', ['name' => 'Sam', 'age' => 20]);
+                $view->finish();
+
+                expect($view->getContent())->equals("<html>My name is Sam and I am 20 years old</html>\n");
+            }
+        );
+    }
 
     /**
      * Tests View::setMainView
