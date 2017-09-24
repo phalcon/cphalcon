@@ -29,12 +29,17 @@ use Phalcon\Db\Profiler\Item;
  * information includes execution time in milliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
- *<code>
- * $profiler = new \Phalcon\Db\Profiler();
- * $eventsManager = new Phalcon\Events\Manager;
+ * <code>
+ * use Phalcon\Db\Profiler;
+ * use Phalcon\Events\Event;
+ * use Phalcon\Events\Manager;
+ *
+ * $profiler = new Profiler();
+ * $eventsManager = new Manager();
+ *
  * $eventsManager->attach(
  *     "db",
- *     function (Phalcon\Events\Event $event, $connection) use ($profiler) {
+ *     function (Event $event, $connection) use ($profiler) {
  *         if ($event->getType() === "beforeQuery") {
  *             $sql = $connection->getSQLStatement();
  *
@@ -48,6 +53,7 @@ use Phalcon\Db\Profiler\Item;
  *         }
  *     }
  * );
+ *
  * // Set the event manager on the connection
  * $connection->setEventsManager($eventsManager);
  *
@@ -66,7 +72,7 @@ use Phalcon\Db\Profiler\Item;
  * echo "Start Time: ", $profile->getInitialTime(), "\n";
  * echo "Final Time: ", $profile->getFinalTime(), "\n";
  * echo "Total Elapsed Time: ", $profile->getTotalElapsedSeconds(), "\n";
- *</code>
+ * </code>
  */
 class Profiler
 {
