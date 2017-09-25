@@ -44,10 +44,8 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\ValidationInterface;
-use Phalcon\Validation\Message\Group;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Validation\Message\Group as ValidationMessageGroup;
 
 /**
  * Phalcon\Mvc\Model
