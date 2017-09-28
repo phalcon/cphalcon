@@ -61,9 +61,9 @@ interface TransactionInterface
 	/**
 	 * Returns connection related to transaction
 	 *
-	 * @return string
+	 * @return AdapterInterface
 	 */
-	public function getConnection();
+	public function getConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Sets if is a reused transaction or new once

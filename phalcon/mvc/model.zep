@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Jakob Oberhummer <cphalcon@chilimatic.com>                    |
  +------------------------------------------------------------------------+
  */
 
@@ -97,7 +98,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _dirtyState = 1;
 
-	protected _transaction;
+	/**
+	 * @var TransactionInterface | null
+	 */
+	protected _transaction { get };
 
 	protected _uniqueKey;
 
@@ -808,11 +812,57 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * foreach ($robots as $robot) {
 	 *	 echo $robot->name, "\n";
 	 * }
+	 *
+	 * // encapsulate find it into an running transaction esp. useful for application unit-tests
+	 * // or complex business logic where we wanna control which transactions are used.
+	 *
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction->begin();
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction);
+	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * $resultInsideTransaction = Robot::find(['name' => 'test', 'transaction' => $myTransaction]);
+	 * $resultOutsideTransaction = Robot::find(['name' => 'test']);
+	 *
+	 * foreach ($setInsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * foreach ($setOutsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * // reverts all not commited changes
+	 * $myTransaction->rollback();
+	 *
+	 * // creating two different transactions
+	 * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction1->begin();
+	 * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction2->begin();
+	 *
+	 * // add a new robot
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction1);
+	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * // this transaction will not find the robot.
+	 * $resultOutsideExplicitTransaction = Robot::find(['name' => 'test', 'transaction' => $myTransaction2]);
+	 * // this transaction will find the robot
+	 * $resultInsideExplicitTransaction = Robot::find(['name' => 'test', 'transaction' => $myTransaction1]);
+	 *
+	 * // is using the transaction1 and will find the robot
+	 * $resultInsideImplicitTransaction = $robot::find(['name' => 'test']);
+	 * $transaction1->rollback();
+	 * $transaction2->rollback();
+	 *
 	 * </code>
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
+		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager,
+		transaction;
 
 		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
@@ -847,6 +897,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				if typeof bindTypes == "array" {
 					query->setBindTypes(bindTypes, true);
 				}
+			}
+		}
+
+		if fetch transaction, params["transaction"] {
+			if transaction instanceof TransactionInterface {
+				query->setTransaction(transaction);
 			}
 		}
 
@@ -907,7 +963,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	public static function findFirst(var parameters = null) -> <Model>
 	{
 		var params, builder, query, bindParams, bindTypes, cache,
-			dependencyInjector, manager;
+			dependencyInjector, manager, transaction;
 
 		let dependencyInjector = Di::getDefault();
 		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
@@ -933,6 +989,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		builder->limit(1);
 
 		let query = builder->getQuery();
+
+		if fetch transaction, params["transaction"] {
+			if transaction instanceof TransactionInterface {
+				query->setTransaction(transaction);
+			}
+		}
 
 		/**
 		 * Check for bind parameters
