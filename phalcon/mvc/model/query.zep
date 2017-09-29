@@ -1950,7 +1950,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 					let selectColumns[] = [
 						"type":   PHQL_T_DOMAINALL,
-    					"column": joinAlias,
+						"column": joinAlias,
 						"eager":  alias,
 						"eagerType": eagerType,
 						"balias": bestAlias
