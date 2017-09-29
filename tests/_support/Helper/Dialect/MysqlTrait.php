@@ -30,22 +30,22 @@ trait MysqlTrait
             [
                 null,
                 'column1',
-                'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)'
+                'ALTER TABLE `table` MODIFY `column1` VARCHAR(10) NULL'
             ],
             [
                 'schema',
                 'column1',
-                'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)'
+                'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10) NULL'
             ],
             [
                 null,
                 'column2',
-                'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED'
+                'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED NULL'
             ],
             [
                 'schema',
                 'column2',
-                'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED'
+                'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED NULL'
             ],
             [
                 null,
@@ -110,32 +110,32 @@ trait MysqlTrait
             [
                 null,
                 'column9',
-                'ALTER TABLE `table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"'
+                'ALTER TABLE `table` MODIFY `column9` VARCHAR(10) DEFAULT "column9" NULL'
             ],
             [
                 'schema',
                 'column9',
-                'ALTER TABLE `schema`.`table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"'
+                'ALTER TABLE `schema`.`table` MODIFY `column9` VARCHAR(10) DEFAULT "column9" NULL'
             ],
             [
                 null,
                 'column10',
-                'ALTER TABLE `table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"'
+                'ALTER TABLE `table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10" NULL'
             ],
             [
                 'schema',
                 'column10',
-                'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"'
+                'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10" NULL'
             ],
             [
                 null,
                 'column11',
-                'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED'
+                'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED NULL'
             ],
             [
                 'schema',
                 'column11',
-                'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED'
+                'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED NULL'
             ],
             [
                 null,
@@ -206,22 +206,22 @@ trait MysqlTrait
             [
                 null,
                 'column1',
-                'ALTER TABLE `table` ADD `column1` VARCHAR(10)'
+                'ALTER TABLE `table` ADD `column1` VARCHAR(10) NULL'
             ],
             [
                 'schema',
                 'column1',
-                'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10)'
+                'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10) NULL'
             ],
             [
                 null,
                 'column2',
-                'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED'
+                'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED NULL'
             ],
             [
                 'schema',
                 'column2',
-                'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED'
+                'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED NULL'
             ],
             [
                 null,
@@ -286,32 +286,32 @@ trait MysqlTrait
             [
                 null,
                 'column9',
-                'ALTER TABLE `table` ADD `column9` VARCHAR(10) DEFAULT "column9"'
+                'ALTER TABLE `table` ADD `column9` VARCHAR(10) DEFAULT "column9" NULL'
             ],
             [
                 'schema',
                 'column9',
-                'ALTER TABLE `schema`.`table` ADD `column9` VARCHAR(10) DEFAULT "column9"'
+                'ALTER TABLE `schema`.`table` ADD `column9` VARCHAR(10) DEFAULT "column9" NULL'
             ],
             [
                 null,
                 'column10',
-                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"'
+                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NULL'
             ],
             [
                 'schema',
                 'column10',
-                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"'
+                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NULL'
             ],
             [
                 null,
                 'column11',
-                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED'
+                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED NULL'
             ],
             [
                 'schema',
                 'column11',
-                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED'
+                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED NULL'
             ],
             [
                 null,
