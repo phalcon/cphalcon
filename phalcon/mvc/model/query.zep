@@ -63,6 +63,34 @@ use Phalcon\Db\DialectInterface;
  *     echo "Price: ", $row->cars->price, "\n";
  *     echo "Taxes: ", $row->taxes, "\n";
  * }
+ *
+ * // with transaction
+ * use Phalcon\Mvc\Model\Query;
+ * use Phalcon\Mvc\Model\Transaction;
+ *
+ * // $di needs to have the service "db" registered for this to work
+ * $di = Phalcon\Di\FactoryDefault::getDefault();
+ *
+ * $phql = 'SELECT * FROM robot';
+ *
+ * $myTransaction = new Transaction($di);
+ * $myTransaction->begin();
+ *
+ * $newRobot = new Robot();
+ * $newRobot->setTransaction($myTransaction);
+ * $newRobot->type = "mechanical";
+ * $newRobot->name = "Astro Boy";
+ * $newRobot->year = 1952;
+ * $newRobot->save();
+ *
+ * $queryWithTransaction = new Query($phql, $di);
+ * $queryWithTransaction->setTransaction($myTransaction);
+ *
+ * $resultWithEntries = $queryWithTransaction->execute();
+ *
+ * $queryWithOutTransaction = new Query($phql, $di);
+ * $resultWithOutEntries = $queryWithTransaction->execute()
+ *
  *</code>
  */
 class Query implements QueryInterface, InjectionAwareInterface

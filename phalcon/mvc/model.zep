@@ -85,7 +85,6 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  */
 abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
-
 	protected _dependencyInjector;
 
 	protected _modelsManager;
@@ -116,6 +115,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	protected _snapshot;
 
 	protected _oldSnapshot = [];
+
+	const TRANSACTION_INDEX = "transaction";
 
 	const OP_NONE = 0;
 
@@ -814,49 +815,59 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * }
 	 *
 	 * // encapsulate find it into an running transaction esp. useful for application unit-tests
-	 * // or complex business logic where we wanna control which transactions are used.
-	 *
-	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
-	 * $myTransaction->begin();
-	 * $newRobot = new Robot();
-	 * $newRobot->setTransaction($myTransaction);
-	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
-	 *
-	 * $resultInsideTransaction = Robot::find(['name' => 'test', 'transaction' => $myTransaction]);
-	 * $resultOutsideTransaction = Robot::find(['name' => 'test']);
-	 *
-	 * foreach ($setInsideTransaction as $robot) {
-	 *     echo $robot->name, "\n";
-	 * }
-	 *
-	 * foreach ($setOutsideTransaction as $robot) {
-	 *     echo $robot->name, "\n";
-	 * }
-	 *
-	 * // reverts all not commited changes
-	 * $myTransaction->rollback();
-	 *
-	 * // creating two different transactions
-	 * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
-	 * $myTransaction1->begin();
-	 * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
-	 * $myTransaction2->begin();
-	 *
-	 * // add a new robot
-	 * $newRobot = new Robot();
-	 * $newRobot->setTransaction($myTransaction1);
-	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
-	 *
-	 * // this transaction will not find the robot.
-	 * $resultOutsideExplicitTransaction = Robot::find(['name' => 'test', 'transaction' => $myTransaction2]);
-	 * // this transaction will find the robot
-	 * $resultInsideExplicitTransaction = Robot::find(['name' => 'test', 'transaction' => $myTransaction1]);
-	 *
-	 * // is using the transaction1 and will find the robot
-	 * $resultInsideImplicitTransaction = $robot::find(['name' => 'test']);
-	 * $transaction1->rollback();
-	 * $transaction2->rollback();
-	 *
+     * // or complex business logic where we wanna control which transactions are used.
+     *
+     * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction->begin();
+     * $newRobot = new Robot();
+     * $newRobot->setTransaction($myTransaction);
+     * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+     *
+     * $resultInsideTransaction = Robot::find(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
+     * $resultOutsideTransaction = Robot::find(['name' => 'test']);
+     *
+     * foreach ($setInsideTransaction as $robot) {
+     *     echo $robot->name, "\n";
+     * }
+     *
+     * foreach ($setOutsideTransaction as $robot) {
+     *     echo $robot->name, "\n";
+     * }
+     *
+     * // reverts all not commited changes
+     * $myTransaction->rollback();
+     *
+     * // creating two different transactions
+     * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction1->begin();
+     * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction2->begin();
+     *
+     *  // add a new robots
+     * $firstNewRobot = new Robot();
+     * $firstNewRobot->setTransaction($myTransaction1);
+     * $firstNewRobot->save(['name' => 'first-transaction-robot', 'type' => 'mechanical', 'year' => 1944]);
+     *
+     * $secondNewRobot = new Robot();
+     * $secondNewRobot->setTransaction($myTransaction2);
+     * $secondNewRobot->save(['name' => 'second-transaction-robot', 'type' => 'fictional', 'year' => 1984]);
+     *
+     * // this transaction will find the robot.
+     * $resultInFirstTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
+     * // this transaction won't find the robot.
+     * $resultInSecondTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction2]);
+     * // this transaction won't find the robot.
+     * $resultOutsideAnyExplicitTransaction = Robot::find(['name' => 'first-transaction-robot']);
+     *
+     * // this transaction won't find the robot.
+     * $resultInFirstTransaction = Robot::find(['name' => 'second-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction2]);
+     * // this transaction will find the robot.
+     * $resultInSecondTransaction = Robot::find(['name' => 'second-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
+     * // this transaction won't find the robot.
+     * $resultOutsideAnyExplicitTransaction = Robot::find(['name' => 'second-transaction-robot']);
+     *
+     * $transaction1->rollback();
+     * $transaction2->rollback();
 	 * </code>
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
@@ -900,7 +911,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 		}
 
-		if fetch transaction, params["transaction"] {
+		if fetch transaction, params[self::TRANSACTION_INDEX] {
 			if transaction instanceof TransactionInterface {
 				query->setTransaction(transaction);
 			}
@@ -955,6 +966,22 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 *
 	 * echo "The first virtual robot name is ", $robot->name;
+	 *
+	 * // behaviour with transaction
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+     * $myTransaction->begin();
+     * $newRobot = new Robot();
+     * $newRobot->setTransaction($myTransaction);
+     * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+     *
+     * $findsARobot = Robot::findFirst(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
+     * $doesNotFindARobot = Robot::findFirst(['name' => 'test']);
+     *
+     * var_dump($findARobot);
+     * var_dump($doesNotFindARobot);
+     *
+     * $transaction->commit();
+     * $doesFindTheRobotNow = Robot::findFirst(['name' => 'test']);
 	 * </code>
 	 *
 	 * @param string|array parameters
@@ -990,7 +1017,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		let query = builder->getQuery();
 
-		if fetch transaction, params["transaction"] {
+		if fetch transaction, params[self::TRANSACTION_INDEX] {
 			if transaction instanceof TransactionInterface {
 				query->setTransaction(transaction);
 			}
