@@ -81,15 +81,14 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-dist --no-suggest --ignore-platform-reqs
+  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - zephir generate
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
+  # Use -O0 for debug purposes
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
-  # Uncomment for debug
-  # - (cd ext; export CFLAGS="-g3 -O0 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/ci.ini
   - ls -al `$(phpenv which php-config) --extension-dir`
@@ -100,7 +99,7 @@ before_script:
   # - ulimit -c unlimited -S || true
   # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   # attempt to workaroung "ptrace: Operation not permitted"
-  #- sudo chmod +s $(which gdb)
+  # - sudo chmod +s $(which gdb)
 
 script:
   - vendor/bin/phpcs
@@ -108,7 +107,7 @@ script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
-  # Legacy tests
+  # Legacy tests. Only PHP 5
   - phpenv config-rm xdebug.ini
   - if [[ "$PHP_MAJOR" == 5 ]]; then vendor/bin/codecept run -v -n tests/unit5x/; fi;
 
@@ -120,6 +119,11 @@ notifications:
     email:
         recipients:
             - build@phalconphp.com
+        on_success: change
+        on_failure: always
+    webhooks:
+        urls:
+            - https://discordapp.com/api/webhooks/364521356462915584/lJT-Y4oGfPcJ0cZdjLzplmp2KVNOTWuYB3jGTtlyWkbj5tKQwX5kjDPkouCu8iGdDpYe
         on_success: change
         on_failure: always
 
