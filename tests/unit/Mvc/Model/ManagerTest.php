@@ -7,6 +7,7 @@ use Phalcon\Mvc\Model\Manager;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Customers;
+use Phalcon\Test\Models\Relations;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\AlbumORama\Albums;
 
@@ -77,7 +78,7 @@ class ManagerTest extends UnitTest
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2017-04-15
      */
-    public function testShoudReturSourceWithPrefix()
+    public function testShoudReturnSourceWithPrefix()
     {
         $this->specify(
             'Models manager does not return valid mapped source for a model',
@@ -108,6 +109,34 @@ class ManagerTest extends UnitTest
                 foreach (Albums::find() as $album) {
                     expect($album->artist)->isInstanceOf('Phalcon\Test\Models\AlbumORama\Artists');
                 }
+            }
+        );
+    }
+
+    /**
+     * Tests Model::getRelated with the desired fields
+     *
+     * @test
+     * @issue  12972
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-10-02
+     */
+    public function shouldReturnDesiredFieldsFromRelatedModel()
+    {
+        $this->specify(
+            "The getRelated method doesn't work as expected with provided columns",
+            function () {
+                $parts = Relations\RobotsParts::findFirst();
+
+                $robot = $parts->getRobots();
+
+                expect($robot)->isInstanceOf('Phalcon\Mvc\Model\Row');
+                expect($robot->toArray())->equals(['id' => 1, 'name' => 'Robotina']);
+
+                $robot = $parts->getRobots(['columns'=>'id,type,name']);
+
+                expect($robot)->isInstanceOf('Phalcon\Mvc\Model\Row');
+                expect($robot->toArray())->equals(['id' => 1, 'type' => 'mechanical', 'name' => 'Robotina']);
             }
         );
     }
