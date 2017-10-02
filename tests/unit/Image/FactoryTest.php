@@ -10,12 +10,12 @@ use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
  * \Phalcon\Test\Unit\Image\FactoryTest
  * Tests for \Phalcon\Image\Factory component
  *
- * @copyright (c) 2011-2017 Phalcon Team
+ * @copyright (c) 2011-present Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
  * @author    Wojciech Ślawski <jurigag@gmail.com>
- * @package   Phalcon\Test\Unit\Annotations
+ * @package   Phalcon\Test\Unit\Image
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -26,6 +26,18 @@ use Phalcon\Test\Unit\Factory\Helper\FactoryBase;
  */
 class FactoryTest extends FactoryBase
 {
+    /**
+     * executed before each test
+     */
+    protected function _before()
+    {
+        parent::_before();
+
+        if (!class_exists('imagick')) {
+            $this->markTestSkipped('Warning: imagick extension is not loaded');
+        }
+    }
+
     /**
      * Test factory using Phalcon\Config
      *
