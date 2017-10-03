@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use Phalcon\Di;
 use UnitTester;
 use Phalcon\Mvc\Model;
 use Codeception\Example;
