@@ -10,7 +10,7 @@ namespace Helper\Db\Connection;
 abstract class AbstractFactory
 {
     /**
-     * Creates database connection
+     * Creates a database connection
      *
      * @return \Phalcon\Db\Adapter\Pdo
      */
