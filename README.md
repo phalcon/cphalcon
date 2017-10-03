@@ -5,6 +5,7 @@
 [![Phalcon Backers](https://img.shields.io/badge/phalcon-backers-99ddc0.svg)](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
 [![OpenCollective](https://opencollective.com/phalcon/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/phalcon/sponsors/badge.svg)](#sponsors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fphalcon%2Fcphalcon.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fphalcon%2Fcphalcon?ref=badge_shield)
 
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
@@ -195,3 +196,6 @@ Support us with a monthly donation and help us continue our activities. [[Become
 
 ## License
 Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more or visit our [license](https://license.phalconphp.com) page.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fphalcon%2Fcphalcon.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fphalcon%2Fcphalcon?ref=badge_large)
