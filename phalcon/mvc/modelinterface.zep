@@ -21,8 +21,9 @@ namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
@@ -31,6 +32,10 @@ use Phalcon\Mvc\Model\MessageInterface;
  */
 interface ModelInterface
 {
+	/**
+	 * Returns the models meta-data service related to the entity instance
+	 */
+	public function getModelsMetaData() -> <MetaDataInterface>;
 
 	/**
 	 * Sets a transaction related to the Model instance
