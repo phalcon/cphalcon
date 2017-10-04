@@ -27,11 +27,12 @@ class CookiesTest extends HttpBase
     /**
      * Tests the internal cookies property.
      *
+     * @test
      * @issue  12978
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-09-02
      */
-    public function testInternalCookiesProperty()
+    public function shouldWorkWithoutInitializeInternalCookiesProperty()
     {
         $this->specify(
             "The internal cookies property is not initialized or iterable",
