@@ -88,6 +88,95 @@ class DispatcherBeforeDispatchLoopTest extends BaseDispatcher
     }
 
     /**
+     * Tests returning <tt>false</tt> inside a beforeDispatchLoop event with multiple returned items
+     * in event listeners.
+     *
+     * Currently, we only value the return from the last item; therefore, for libraries and plugins
+     * that hook into dispatcher events that need to cancel the event, the event should additionally
+     * be stopped() to ensure proper flow.
+     *
+     * This test case SHOULD be altered in 4.0 along with any other corresponding documentation
+     * changes for stopping. E.g. switching to event->stop() opposed to returning false.
+     *
+     * @author Mark Johnson <https://github.com/virgofx>
+     * @since  2017-10-07
+     */
+    public function testBeforeDispatchLoopBaselinePrePhalcon40MultipleReturnFalseMixed()
+    {
+        $this->specify(
+            'Returning false inside a "dispatch:beforeDispatchLoop" event should immediately cancel dispatching',
+            function () {
+                $dispatcher = $this->getDispatcher();
+
+                $dispatcher->getEventsManager()->attach('dispatch:beforeDispatchLoop', function () {
+                    return false;
+                });
+                // Unfortunately, we really need to collect all responses or use the Event stopping property
+                // instead of return <tt>false</tt>. The following statement breaks the ability to stop the chain.
+
+                $dispatcher->getEventsManager()->attach('dispatch:beforeDispatchLoop', function () {
+                    return true;
+                });
+
+                $dispatcher->dispatch();
+
+                expect($this->getDispatcherListener()->getTrace())->equals([
+                    'beforeDispatchLoop',
+                    'beforeDispatch',
+                    'beforeExecuteRoute',
+                    'beforeExecuteRoute-method',
+                    'initialize-method',
+                    'afterInitialize',
+                    'indexAction',
+                    'afterExecuteRoute',
+                    'afterExecuteRoute-method',
+                    'afterDispatch',
+                    'afterDispatchLoop'
+                ]);
+            }
+        );
+    }
+
+    /**
+     * Tests returning <tt>false</tt> inside a beforeDispatchLoop event with multiple returned items
+     * in event listeners.
+     *
+     * Currently, we only value the return from the last item; therefore, for libraries and plugins
+     * that hook into dispatcher events that need to cancel the event, the event should additionally
+     * be stopped() to ensure proper flow.
+     *
+     * This test case SHOULD be altered in 4.0 along with any other corresponding documentation
+     * changes for stopping. E.g. switching to event->stop() opposed to returning false.
+     *
+     * @author Mark Johnson <https://github.com/virgofx>
+     * @since  2017-10-07
+     */
+    public function testBeforeDispatchLoopBaselinePrePhalcon40MultipleReturnFalse()
+    {
+        $this->specify(
+            'Returning false inside a "dispatch:beforeDispatchLoop" event should immediately cancel dispatching',
+            function () {
+                $dispatcher = $this->getDispatcher();
+
+                $dispatcher->getEventsManager()->attach('dispatch:beforeDispatchLoop', function () {
+                    return false;
+                });
+                // Unfortunately, we really need to collect all responses or use the Event stopping property
+                // instead of return <tt>false</tt>. The following statement breaks the ability to stop the chain.
+                $dispatcher->getEventsManager()->attach('dispatch:beforeDispatchLoop', function () {
+                    return false;
+                });
+
+                $dispatcher->dispatch();
+
+                expect($this->getDispatcherListener()->getTrace())->equals([
+                    'beforeDispatchLoop',
+                ]);
+            }
+        );
+    }
+
+    /**
      * Tests exception handling to ensure exceptions can be properly handled when thrown from
      * inside a beforeDispatchLoop event and then ensure the exception is not bubbled when
      * returning with <tt>false</tt>.
