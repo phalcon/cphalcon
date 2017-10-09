@@ -94,6 +94,10 @@ class DispatcherTest extends BaseDispatcher
                     'beforeDispatchLoop',
                     'beforeDispatch',
                     'beforeExecuteRoute',
+                    // See https://github.com/phalcon/cphalcon/pull/13112
+                    // We now fire the `afterInitialize` for all cases even when the controller does not
+                    // have the `initialize()` method
+                    'afterInitialize',
                     'indexAction',
                     'afterExecuteRoute',
                     'afterDispatch',

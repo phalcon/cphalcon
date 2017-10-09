@@ -610,23 +610,36 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 			}
 
 			// Call the "initialize" method just once per request
-			if wasFresh === true && method_exists(handler, "initialize") {
-				try {
-					let this->_isControllerInitialize = true;
-					handler->initialize();
+			//
+			// Note: The `dispatch:afterInitialize` event is called regardless of the presence of an `initialize`
+			//       method. The naming is poor; however, the intent is for a more global "constructor is ready
+			//       to go" or similarly "__onConstruct()" methodology.
+			//
+			// Note: In Phalcon 4.0, the initialize() and `dispatch:afterInitialize` event will be handled
+			// prior to the `beforeExecuteRoute` event/method blocks. This was a bug in the original design
+			// that was not able to change due to widespread implementation. With proper documentation change
+			// and blog posts for 4.0, this change will happen.
+			//
+			// @see https://github.com/phalcon/cphalcon/pull/13112
+			if wasFresh === true {
+				if method_exists(handler, "initialize") {
+					try {
+						let this->_isControllerInitialize = true;
+						handler->initialize();
 
-				} catch Exception, e {
-					let this->_isControllerInitialize = false;
+					} catch Exception, e {
+						let this->_isControllerInitialize = false;
 
-					// If this is a dispatch exception (e.g. From forwarding) ensure we don't handle this twice. In
-					// order to ensure this doesn't happen all other exceptions thrown outside this method
-					// in this class should not call "_throwDispatchException" but instead throw a normal Exception.
+						// If this is a dispatch exception (e.g. From forwarding) ensure we don't handle this twice. In
+						// order to ensure this doesn't happen all other exceptions thrown outside this method
+						// in this class should not call "_throwDispatchException" but instead throw a normal Exception.
 
-					if this->{"_handleException"}(e) === false || this->_finished === false {
-						continue;
+						if this->{"_handleException"}(e) === false || this->_finished === false {
+							continue;
+						}
+
+						throw e;
 					}
-
-					throw e;
 				}
 
 				let this->_isControllerInitialize = false;
