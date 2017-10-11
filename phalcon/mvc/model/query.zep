@@ -2586,7 +2586,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 			let connection = this->getReadConnection(model, intermediate, bindParams, bindTypes);
 
-			if (connection !== null) {
+			if typeof connection == "object" {
 				// More than one type of connection is not allowed
 				let connectionTypes[connection->getType()] = true;
 				if count(connectionTypes) == 2 {
@@ -3641,7 +3641,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let transaction = this->_transaction;
 
 		if typeof transaction == "object" && transaction instanceof TransactionInterface {
-			return this->getTransactionConnection(model);
+			return transaction->getConnection();
 		}
 
 		if method_exists(model, "selectReadConnection") {
@@ -3667,8 +3667,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 		let transaction = this->_transaction;
 
 		if typeof transaction == "object" && transaction instanceof TransactionInterface {
-			return this->getTransactionConnection(model);
+			return transaction->getConnection();
 		}
+
 
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
@@ -3679,30 +3680,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 		return model->getWriteConnection();
 	}
-
-	/**
-	 * will get the transaction based on following hierarchy
-	 * transactions set directly in an instance of this object
-	 */
-	protected function getTransactionConnection(<ModelInterface> model) -> <AdapterInterface>
-	{
-		var transaction;
-		let transaction = this->_transaction;
-
-		if typeof transaction == "object" && transaction instanceof TransactionInterface {
-			return transaction->getConnection();
-		}
-
-		if method_exists(model, "getTransaction") {
-			let transaction = model->getTransaction();
-			if transaction != null {
-				return transaction->getConnection();
-			}
-		}
-
-		throw new \RuntimeException(__METHOD__ . ": There is no transaction set in the model or the query");
-	}
-
 
 	/**
 	 * allows to wrap a transaction around all queries
