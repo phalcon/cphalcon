@@ -27,7 +27,10 @@
  * Checks that two values have the same value
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Confirmation;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "password",
@@ -97,14 +100,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(fieldWith) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/confirmation.zep", 78 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/confirmation.zep", 81 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(fieldWith, _1$$3);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&valueWith, validation, "getvalue", NULL, 0, fieldWith);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 478, value, valueWith);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 477, value, valueWith);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_2))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
@@ -122,7 +125,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		zephir_check_temp_parameter(_3$$4);
 		zephir_check_call_status();
 		if (Z_TYPE_P(labelWith) == IS_ARRAY) {
-			zephir_array_fetch(&_4$$5, labelWith, fieldWith, PH_NOISY | PH_READONLY, "phalcon/validation/validator/confirmation.zep", 91 TSRMLS_CC);
+			zephir_array_fetch(&_4$$5, labelWith, fieldWith, PH_NOISY | PH_READONLY, "phalcon/validation/validator/confirmation.zep", 94 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(labelWith, _4$$5);
 		}
 		if (ZEPHIR_IS_EMPTY(labelWith)) {
@@ -139,7 +142,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_6$$4);
 		ZVAL_STRING(_6$$4, "Confirmation", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$4, "__construct", NULL, 475, _5$$4, field, _6$$4, code);
+		ZEPHIR_CALL_METHOD(NULL, _3$$4, "__construct", NULL, 474, _5$$4, field, _6$$4, code);
 		zephir_check_temp_parameter(_6$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$4);
@@ -155,9 +158,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 
-	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *a_param = NULL, *b_param = NULL, *_0 = NULL, *_1, *_2, _3$$3 = zval_used_for_init, *_4$$3 = NULL, *_6$$3 = NULL;
+	zval *a_param = NULL, *b_param = NULL, *_0 = NULL, *_1, *_2, _3$$3 = zval_used_for_init, *_4$$3 = NULL, *_5$$3 = NULL;
 	zval *a = NULL, *b = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -176,19 +178,19 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 	zephir_check_call_status();
 	if (zephir_is_true(_0)) {
 		if (!((zephir_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 125);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/validation/validator/confirmation.zep", 128);
 			return;
 		}
 		ZEPHIR_SINIT_VAR(_3$$3);
 		ZVAL_STRING(&_3$$3, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "mb_strtolower", &_5, 211, a, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "mb_strtolower", NULL, 211, a, &_3$$3);
 		zephir_check_call_status();
 		zephir_get_strval(a, _4$$3);
 		ZEPHIR_SINIT_NVAR(_3$$3);
 		ZVAL_STRING(&_3$$3, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "mb_strtolower", &_5, 211, b, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "mb_strtolower", NULL, 211, b, &_3$$3);
 		zephir_check_call_status();
-		zephir_get_strval(b, _6$$3);
+		zephir_get_strval(b, _5$$3);
 	}
 	RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(a, b));
 

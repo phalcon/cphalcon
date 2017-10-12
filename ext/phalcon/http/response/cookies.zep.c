@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -42,6 +42,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_http_response_cookiesinterface_ce);
 	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(getThis(), SL("_cookies"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -238,7 +251,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_OBS_VAR(dependencyInjector);
 		zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 130);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 135);
 			return;
 		}
 		ZEPHIR_INIT_VAR(_9$$6);
@@ -402,7 +415,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_cookies"), PH_NOISY_CC);
-		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 0, "phalcon/http/response/cookies.zep", 242);
+		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 0, "phalcon/http/response/cookies.zep", 247);
 		for (
 		  ; zend_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
 		  ; zend_hash_move_forward_ex(_3$$3, &_2$$3)

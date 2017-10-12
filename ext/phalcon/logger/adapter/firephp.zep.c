@@ -77,13 +77,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 
-	HashTable *_8;
-	HashPosition _7;
-	zephir_fcall_cache_entry *_2 = NULL;
+	HashTable *_7;
+	HashPosition _6;
 	zval *context = NULL;
 	zend_long type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *chunk = NULL, *format = NULL, *chString = NULL, *content = NULL, *key = NULL, *index = NULL, *_0, *_3 = NULL, *_4, *_5, _6, **_9, _1$$3 = zval_used_for_init;
-	zval *message = NULL, *_10$$4 = NULL;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, *chunk = NULL, *format = NULL, *chString = NULL, *content = NULL, *key = NULL, *index = NULL, *_0, *_2 = NULL, *_3, *_4, _5, **_8, _1$$3 = zval_used_for_init;
+	zval *message = NULL, *_9$$4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &message_param, &type_param, &time_param, &context_param);
@@ -98,15 +97,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 257, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 257, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 257, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 257, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 257, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 257, &_1$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_this(getThis(), SL("_initialized"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -114,34 +113,34 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 			zephir_update_property_this(getThis(), SL("_initialized"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getformatter", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getformatter", NULL, 0);
 	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_LONG(_3, type);
 	ZEPHIR_INIT_VAR(_4);
-	ZVAL_LONG(_4, type);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_LONG(_5, time);
-	ZEPHIR_CALL_METHOD(&format, _3, "format", NULL, 0, message, _4, _5, context);
+	ZVAL_LONG(_4, time);
+	ZEPHIR_CALL_METHOD(&format, _2, "format", NULL, 0, message, _3, _4, context);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_VAR(_6);
-	ZVAL_LONG(&_6, 4500);
-	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 74, format, &_6);
+	ZEPHIR_SINIT_VAR(_5);
+	ZVAL_LONG(&_5, 4500);
+	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 74, format, &_5);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(index);
 	zephir_read_property_this(&index, this_ptr, SL("_index"), PH_NOISY_CC);
-	zephir_is_iterable(chunk, &_8, &_7, 0, 0, "phalcon/logger/adapter/firephp.zep", 92);
+	zephir_is_iterable(chunk, &_7, &_6, 0, 0, "phalcon/logger/adapter/firephp.zep", 92);
 	for (
-	  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-	  ; zend_hash_move_forward_ex(_8, &_7)
+	  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+	  ; zend_hash_move_forward_ex(_7, &_6)
 	) {
-		ZEPHIR_GET_HMKEY(key, _8, _7);
-		ZEPHIR_GET_HVALUE(chString, _9);
-		zephir_get_strval(_10$$4, index);
+		ZEPHIR_GET_HMKEY(key, _7, _6);
+		ZEPHIR_GET_HVALUE(chString, _8);
+		zephir_get_strval(_9$$4, index);
 		ZEPHIR_INIT_NVAR(content);
-		ZEPHIR_CONCAT_SVSV(content, "X-Wf-1-1-1-", _10$$4, ": ", chString);
+		ZEPHIR_CONCAT_SVSV(content, "X-Wf-1-1-1-", _9$$4, ": ", chString);
 		if (zephir_array_isset_long(chunk, (zephir_get_numberval(key) + 1))) {
 			zephir_concat_self_str(&content, SL("|\\") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 257, content);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 257, content);
 		zephir_check_call_status();
 		ZEPHIR_SEPARATE(index);
 		zephir_increment(index);

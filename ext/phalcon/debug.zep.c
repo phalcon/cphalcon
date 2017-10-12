@@ -412,9 +412,8 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump) {
  */
 PHP_METHOD(Phalcon_Debug, _getVarDump) {
 
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *variable, *className = NULL, *dumpedObject = NULL, *_0$$9 = NULL, *_2$$11 = NULL;
+	zval *variable, *className = NULL, *dumpedObject = NULL, *_0$$9 = NULL, *_1$$11 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &variable);
@@ -443,7 +442,7 @@ PHP_METHOD(Phalcon_Debug, _getVarDump) {
 		if ((zephir_method_exists_ex(variable, SS("dump") TSRMLS_CC) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&dumpedObject, variable, "dump", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_0$$9, this_ptr, "_getarraydump", &_1, 0, dumpedObject);
+			ZEPHIR_CALL_METHOD(&_0$$9, this_ptr, "_getarraydump", NULL, 0, dumpedObject);
 			zephir_check_call_status();
 			ZEPHIR_CONCAT_SVSVS(return_value, "Object(", className, ": ", _0$$9, ")");
 			RETURN_MM();
@@ -453,9 +452,9 @@ PHP_METHOD(Phalcon_Debug, _getVarDump) {
 		}
 	}
 	if (Z_TYPE_P(variable) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_2$$11, this_ptr, "_getarraydump", &_1, 170, variable);
+		ZEPHIR_CALL_METHOD(&_1$$11, this_ptr, "_getarraydump", NULL, 170, variable);
 		zephir_check_call_status();
-		ZEPHIR_CONCAT_SVS(return_value, "Array(", _2$$11, ")");
+		ZEPHIR_CONCAT_SVS(return_value, "Array(", _1$$11, ")");
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(variable) == IS_NULL) {
