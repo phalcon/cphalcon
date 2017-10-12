@@ -210,8 +210,9 @@ abstract class Adapter implements AdapterInterface
  	 */
 	public function rotate(int degrees) -> <Adapter>
 	{
-		if degrees > 180 {
-			let degrees %= 360;
+			if degrees > 180 {
+			// FIXME: Fix Zephir Parser to allow use  let degrees %= 360
+			let degrees = degrees % 360;
 			if degrees > 180 {
 				let degrees -= 360;
 			}
