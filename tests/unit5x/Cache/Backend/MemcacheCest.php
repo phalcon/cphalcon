@@ -98,6 +98,33 @@ class MemcacheCest
         $I->assertNull($cache->get('non-existent-key-2'));
     }
 
+    /**
+     * @param UnitTester $I
+     * @issue 13092
+     */
+    public function shouldGetTheSameValueRegardlessOfTheNumberOfRequests(UnitTester $I)
+    {
+        $I->wantTo('Get the same data from the Memcache regardless of the number of requests');
+
+        $key = 'memcached-data-get-test';
+        $data = $data = 'this is a test';;
+
+        $cache = $this->getDataCache(null, 20);
+
+        $I->haveInMemcached($key, serialize($data));
+
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+        $I->assertEquals($data, $cache->get($key));
+    }
+
     public function save(UnitTester $I)
     {
         $I->wantTo('Save data by using Memcache as cache backend');

@@ -27,7 +27,10 @@
  * Check if a value is included into a list of values
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\InclusionIn;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "status",
@@ -105,7 +108,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		}
 	}
 	if (Z_TYPE_P(domain) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 87);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array", "phalcon/validation/validator/inclusionin.zep", 90);
 		return;
 	}
 	ZEPHIR_INIT_VAR(strict);
@@ -122,15 +125,15 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		zephir_check_temp_parameter(_2$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(strict) == IS_ARRAY) {
-			zephir_array_fetch(&_3$$7, strict, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/inclusionin.zep", 95 TSRMLS_CC);
+			zephir_array_fetch(&_3$$7, strict, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/inclusionin.zep", 98 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(strict, _3$$7);
 		}
 		if (Z_TYPE_P(strict) != IS_BOOL) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 99);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'strict' must be a boolean", "phalcon/validation/validator/inclusionin.zep", 102);
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 391, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 390, value, domain, strict);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
@@ -154,7 +157,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7$$9);
 		ZVAL_STRING(_7$$9, "InclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _5$$9, "__construct", NULL, 475, _6$$9, field, _7$$9, code);
+		ZEPHIR_CALL_METHOD(NULL, _5$$9, "__construct", NULL, 474, _6$$9, field, _7$$9, code);
 		zephir_check_temp_parameter(_7$$9);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _5$$9);

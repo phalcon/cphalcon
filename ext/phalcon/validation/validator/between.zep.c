@@ -27,7 +27,10 @@
  * For a value x, the test is passed if minimum<=x<=maximum.
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Between;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "price",
@@ -110,11 +113,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 85 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 88 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(minimum, _1$$3);
 	}
 	if (Z_TYPE_P(maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 89 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 92 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(maximum, _2$$4);
 	}
 	_3 = ZEPHIR_LT(value, minimum);
@@ -142,7 +145,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_6$$5);
 		ZVAL_STRING(_6$$5, "Between", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 475, _5$$5, field, _6$$5, code);
+		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 474, _5$$5, field, _6$$5, code);
 		zephir_check_temp_parameter(_6$$5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _4$$5);

@@ -29,7 +29,10 @@ use Phalcon\Validation\Validator;
  * Allows validate if the value of a field matches a regular expression
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Regex as RegexValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "created_at",

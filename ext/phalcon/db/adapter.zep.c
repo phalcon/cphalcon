@@ -459,12 +459,11 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchColumn) {
 PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
 	zval *_5$$5 = NULL;
-	HashTable *_3, *_10$$11;
-	HashPosition _2, _9$$11;
-	zephir_fcall_cache_entry *_8 = NULL;
+	HashTable *_3, *_9$$11;
+	HashPosition _2, _8$$11;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *values = NULL;
-	zval *table, *values_param = NULL, *fields = NULL, *dataTypes = NULL, *placeholders = NULL, *insertValues = NULL, *bindDataTypes = NULL, *bindType = NULL, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues = NULL, *escapedFields = NULL, *field = NULL, *insertSql = NULL, **_4, *_0$$3, *_1$$3, *_6$$7 = NULL, *_7$$8 = NULL, **_11$$11, *_13$$11, *_12$$12 = NULL;
+	zval *table, *values_param = NULL, *fields = NULL, *dataTypes = NULL, *placeholders = NULL, *insertValues = NULL, *bindDataTypes = NULL, *bindType = NULL, *position = NULL, *value = NULL, *escapedTable = NULL, *joinedValues = NULL, *escapedFields = NULL, *field = NULL, *insertSql = NULL, **_4, *_0$$3, *_1$$3, *_6$$7 = NULL, *_7$$8 = NULL, **_10$$11, *_12$$11, *_11$$12 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table, &values_param, &fields, &dataTypes);
@@ -526,7 +525,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 			}
 		}
 	}
-	ZEPHIR_CALL_METHOD(&escapedTable, this_ptr, "escapeidentifier", &_8, 0, table);
+	ZEPHIR_CALL_METHOD(&escapedTable, this_ptr, "escapeidentifier", NULL, 0, table);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(joinedValues);
 	zephir_fast_join_str(joinedValues, SL(", "), placeholders TSRMLS_CC);
@@ -534,19 +533,19 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	if (Z_TYPE_P(fields) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(escapedFields);
 		array_init(escapedFields);
-		zephir_is_iterable(fields, &_10$$11, &_9$$11, 0, 0, "phalcon/db/adapter.zep", 361);
+		zephir_is_iterable(fields, &_9$$11, &_8$$11, 0, 0, "phalcon/db/adapter.zep", 361);
 		for (
-		  ; zend_hash_get_current_data_ex(_10$$11, (void**) &_11$$11, &_9$$11) == SUCCESS
-		  ; zend_hash_move_forward_ex(_10$$11, &_9$$11)
+		  ; zend_hash_get_current_data_ex(_9$$11, (void**) &_10$$11, &_8$$11) == SUCCESS
+		  ; zend_hash_move_forward_ex(_9$$11, &_8$$11)
 		) {
-			ZEPHIR_GET_HVALUE(field, _11$$11);
-			ZEPHIR_CALL_METHOD(&_12$$12, this_ptr, "escapeidentifier", &_8, 0, field);
+			ZEPHIR_GET_HVALUE(field, _10$$11);
+			ZEPHIR_CALL_METHOD(&_11$$12, this_ptr, "escapeidentifier", NULL, 0, field);
 			zephir_check_call_status();
-			zephir_array_append(&escapedFields, _12$$12, PH_SEPARATE, "phalcon/db/adapter.zep", 358);
+			zephir_array_append(&escapedFields, _11$$12, PH_SEPARATE, "phalcon/db/adapter.zep", 358);
 		}
-		ZEPHIR_INIT_VAR(_13$$11);
-		zephir_fast_join_str(_13$$11, SL(", "), escapedFields TSRMLS_CC);
-		ZEPHIR_CONCAT_SVSVSVS(insertSql, "INSERT INTO ", escapedTable, " (", _13$$11, ") VALUES (", joinedValues, ")");
+		ZEPHIR_INIT_VAR(_12$$11);
+		zephir_fast_join_str(_12$$11, SL(", "), escapedFields TSRMLS_CC);
+		ZEPHIR_CONCAT_SVSVSVS(insertSql, "INSERT INTO ", escapedTable, " (", _12$$11, ") VALUES (", joinedValues, ")");
 	} else {
 		ZEPHIR_CONCAT_SVSVS(insertSql, "INSERT INTO ", escapedTable, " VALUES (", joinedValues, ")");
 	}

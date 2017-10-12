@@ -31,7 +31,6 @@ PHP_METHOD(Phalcon_Dispatcher, setModelBinding);
 PHP_METHOD(Phalcon_Dispatcher, setModelBinder);
 PHP_METHOD(Phalcon_Dispatcher, getModelBinder);
 PHP_METHOD(Phalcon_Dispatcher, dispatch);
-PHP_METHOD(Phalcon_Dispatcher, _dispatch);
 PHP_METHOD(Phalcon_Dispatcher, forward);
 PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
 PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
@@ -144,7 +143,6 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher, setModelBinder, arginfo_phalcon_dispatcher_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getModelBinder, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Dispatcher, _dispatch, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcher_forward, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, wasForwarded, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getHandlerClass, NULL, ZEND_ACC_PUBLIC)

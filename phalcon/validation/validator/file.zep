@@ -29,7 +29,10 @@ use Phalcon\Validation\Validator;
  * Checks if a value has a correct file
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File as FileValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "file",
@@ -107,7 +110,8 @@ class File extends Validator
 
 		// Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
 		if _SERVER["REQUEST_METHOD"] == "POST" && empty _POST && empty _FILES && _SERVER["CONTENT_LENGTH"] > 0 || isset value["error"] && value["error"] === UPLOAD_ERR_INI_SIZE {
-			let message = this->prepareMessage(validation, field, "FileIniSize", "messageIniSize");
+			let message = this->prepareMessage(validation, field, "FileIniSize", "messageIniSize"),
+			    replacePairs = [":field": label];
 
 			validation->appendMessage(
 				new Message(
@@ -122,7 +126,8 @@ class File extends Validator
 		}
 
 		if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-			let message = this->prepareMessage(validation, field, "FileEmpty", "messageEmpty");
+			let message = this->prepareMessage(validation, field, "FileEmpty", "messageEmpty"),
+			    replacePairs = [":field": label];
 
 			validation->appendMessage(
 				new Message(
@@ -137,7 +142,8 @@ class File extends Validator
 		}
 
 		if !isset value["name"] || !isset value["type"] || !isset value["size"] {
-			let message = this->prepareMessage(validation, field, "FileValid", "messageValid");
+			let message = this->prepareMessage(validation, field, "FileValid", "messageValid"),
+			    replacePairs = [":field": label];
 
 			validation->appendMessage(
 				new Message(
@@ -171,7 +177,8 @@ class File extends Validator
 			let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
 
 			if floatval(value["size"]) > floatval(bytes) {
-				let message = this->prepareMessage(validation, field, "FileSize", "messageSize");
+				let message = this->prepareMessage(validation, field, "FileSize", "messageSize"),
+					replacePairs = [":field": label, ":max": maxSize];
 
 				validation->appendMessage(
 					new Message(
