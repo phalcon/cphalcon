@@ -368,13 +368,13 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
  */
 PHP_METHOD(Phalcon_Forms_Form, isValid) {
 
-	zend_object_iterator *_17$$15;
-	HashTable *_8, *_12$$11;
-	HashPosition _7, _11$$11;
-	zend_bool validationStatus = 0, _5, _10$$11;
-	zephir_fcall_cache_entry *_1 = NULL, *_14 = NULL, *_15 = NULL, *_20 = NULL;
+	zend_object_iterator *_16$$15;
+	HashTable *_7, *_11$$11;
+	HashPosition _6, _10$$11;
+	zend_bool validationStatus = 0, _4, _9$$11;
+	zephir_fcall_cache_entry *_13 = NULL, *_14 = NULL, *_19 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data = NULL, *entity = NULL, *messages = NULL, *element = NULL, *validators = NULL, *name = NULL, *filters = NULL, *validator = NULL, *validation = NULL, *elementMessage = NULL, *_0, *_6, **_9, *_16 = NULL, *_2$$6, *_3$$7, *_4$$8 = NULL, **_13$$11, *_18$$16 = NULL, *_19$$16 = NULL;
+	zval *data = NULL, *entity = NULL, *messages = NULL, *element = NULL, *validators = NULL, *name = NULL, *filters = NULL, *validator = NULL, *validation = NULL, *elementMessage = NULL, *_0, *_5, **_8, *_15 = NULL, *_1$$6, *_2$$7, *_3$$8 = NULL, **_12$$11, *_17$$16 = NULL, *_18$$16 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -398,92 +398,92 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "bind", &_1, 0, data, entity);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "bind", NULL, 0, data, entity);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_OBS_VAR(_2$$6);
-		zephir_read_property_this(&_2$$6, this_ptr, SL("_entity"), PH_NOISY_CC);
-		if (Z_TYPE_P(_2$$6) == IS_OBJECT) {
-			_3$$7 = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "bind", &_1, 0, data, _3$$7);
+		ZEPHIR_OBS_VAR(_1$$6);
+		zephir_read_property_this(&_1$$6, this_ptr, SL("_entity"), PH_NOISY_CC);
+		if (Z_TYPE_P(_1$$6) == IS_OBJECT) {
+			_2$$7 = zephir_fetch_nproperty_this(this_ptr, SL("_entity"), PH_NOISY_CC);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "bind", NULL, 0, data, _2$$7);
 			zephir_check_call_status();
 		}
 	}
 	if ((zephir_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_METHOD(&_4$$8, this_ptr, "beforevalidation", NULL, 0, data, entity);
+		ZEPHIR_CALL_METHOD(&_3$$8, this_ptr, "beforevalidation", NULL, 0, data, entity);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(_4$$8)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(_3$$8)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
 	validationStatus = 1;
 	ZEPHIR_CALL_METHOD(&validation, this_ptr, "getvalidation", NULL, 0);
 	zephir_check_call_status();
-	_5 = Z_TYPE_P(validation) != IS_OBJECT;
-	if (!(_5)) {
-		_5 = !((zephir_instance_of_ev(validation, phalcon_validationinterface_ce TSRMLS_CC)));
+	_4 = Z_TYPE_P(validation) != IS_OBJECT;
+	if (!(_4)) {
+		_4 = !((zephir_instance_of_ev(validation, phalcon_validationinterface_ce TSRMLS_CC)));
 	}
-	if (_5) {
+	if (_4) {
 		ZEPHIR_INIT_NVAR(validation);
 		object_init_ex(validation, phalcon_validation_ce);
 		ZEPHIR_CALL_METHOD(NULL, validation, "__construct", NULL, 227);
 		zephir_check_call_status();
 	}
-	_6 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
-	zephir_is_iterable(_6, &_8, &_7, 0, 0, "phalcon/forms/form.zep", 338);
+	_5 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	zephir_is_iterable(_5, &_7, &_6, 0, 0, "phalcon/forms/form.zep", 338);
 	for (
-	  ; zend_hash_get_current_data_ex(_8, (void**) &_9, &_7) == SUCCESS
-	  ; zend_hash_move_forward_ex(_8, &_7)
+	  ; zend_hash_get_current_data_ex(_7, (void**) &_8, &_6) == SUCCESS
+	  ; zend_hash_move_forward_ex(_7, &_6)
 	) {
-		ZEPHIR_GET_HVALUE(element, _9);
+		ZEPHIR_GET_HVALUE(element, _8);
 		ZEPHIR_CALL_METHOD(&validators, element, "getvalidators", NULL, 0);
 		zephir_check_call_status();
-		_10$$11 = Z_TYPE_P(validators) != IS_ARRAY;
-		if (!(_10$$11)) {
-			_10$$11 = zephir_fast_count_int(validators TSRMLS_CC) == 0;
+		_9$$11 = Z_TYPE_P(validators) != IS_ARRAY;
+		if (!(_9$$11)) {
+			_9$$11 = zephir_fast_count_int(validators TSRMLS_CC) == 0;
 		}
-		if (_10$$11) {
+		if (_9$$11) {
 			continue;
 		}
 		ZEPHIR_CALL_METHOD(&name, element, "getname", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(validators, &_12$$11, &_11$$11, 0, 0, "phalcon/forms/form.zep", 325);
+		zephir_is_iterable(validators, &_11$$11, &_10$$11, 0, 0, "phalcon/forms/form.zep", 325);
 		for (
-		  ; zend_hash_get_current_data_ex(_12$$11, (void**) &_13$$11, &_11$$11) == SUCCESS
-		  ; zend_hash_move_forward_ex(_12$$11, &_11$$11)
+		  ; zend_hash_get_current_data_ex(_11$$11, (void**) &_12$$11, &_10$$11) == SUCCESS
+		  ; zend_hash_move_forward_ex(_11$$11, &_10$$11)
 		) {
-			ZEPHIR_GET_HVALUE(validator, _13$$11);
-			ZEPHIR_CALL_METHOD(NULL, validation, "add", &_14, 228, name, validator);
+			ZEPHIR_GET_HVALUE(validator, _12$$11);
+			ZEPHIR_CALL_METHOD(NULL, validation, "add", &_13, 228, name, validator);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD(&filters, element, "getfilters", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(filters) == IS_ARRAY) {
-			ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_15, 229, name, filters);
+			ZEPHIR_CALL_METHOD(NULL, validation, "setfilters", &_14, 229, name, filters);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_CALL_METHOD(&messages, validation, "validate", NULL, 230, data, entity);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_16, messages, "count", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_15, messages, "count", NULL, 0);
 	zephir_check_call_status();
-	if (zephir_is_true(_16)) {
-		_17$$15 = zephir_get_iterator(messages TSRMLS_CC);
-		_17$$15->funcs->rewind(_17$$15 TSRMLS_CC);
-		for (;_17$$15->funcs->valid(_17$$15 TSRMLS_CC) == SUCCESS && !EG(exception); _17$$15->funcs->move_forward(_17$$15 TSRMLS_CC)) {
+	if (zephir_is_true(_15)) {
+		_16$$15 = zephir_get_iterator(messages TSRMLS_CC);
+		_16$$15->funcs->rewind(_16$$15 TSRMLS_CC);
+		for (;_16$$15->funcs->valid(_16$$15 TSRMLS_CC) == SUCCESS && !EG(exception); _16$$15->funcs->move_forward(_16$$15 TSRMLS_CC)) {
 			{
 				zval **ZEPHIR_TMP_ITERATOR_PTR;
-				_17$$15->funcs->get_current_data(_17$$15, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
+				_16$$15->funcs->get_current_data(_16$$15, &ZEPHIR_TMP_ITERATOR_PTR TSRMLS_CC);
 				ZEPHIR_CPY_WRT(elementMessage, (*ZEPHIR_TMP_ITERATOR_PTR));
 			}
-			ZEPHIR_CALL_METHOD(&_19$$16, elementMessage, "getfield", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_18$$16, elementMessage, "getfield", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_18$$16, this_ptr, "get", &_20, 0, _19$$16);
+			ZEPHIR_CALL_METHOD(&_17$$16, this_ptr, "get", &_19, 0, _18$$16);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, _18$$16, "appendmessage", NULL, 0, elementMessage);
+			ZEPHIR_CALL_METHOD(NULL, _17$$16, "appendmessage", NULL, 0, elementMessage);
 			zephir_check_call_status();
 		}
-		_17$$15->funcs->dtor(_17$$15 TSRMLS_CC);
+		_16$$15->funcs->dtor(_16$$15 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(NULL, messages, "rewind", NULL, 0);
 		zephir_check_call_status();
 		validationStatus = 0;

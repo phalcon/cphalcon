@@ -27,7 +27,10 @@
  * Allows validate if the value of a field matches a regular expression
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Regex as RegexValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "created_at",
@@ -102,13 +105,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(pattern) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, pattern, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 81 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, pattern, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 84 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(pattern, _1$$3);
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_preg_match(_0, pattern, value, matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(_0)) {
-		zephir_array_fetch_long(&_2$$4, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 85 TSRMLS_CC);
+		zephir_array_fetch_long(&_2$$4, matches, 0, PH_NOISY | PH_READONLY, "phalcon/validation/validator/regex.zep", 88 TSRMLS_CC);
 		failed = !ZEPHIR_IS_EQUAL(_2$$4, value);
 	} else {
 		failed = 1;
@@ -132,7 +135,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5$$6);
 		ZVAL_STRING(_5$$6, "Regex", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 475, _4$$6, field, _5$$6, code);
+		ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", NULL, 474, _4$$6, field, _5$$6, code);
 		zephir_check_temp_parameter(_5$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$6);

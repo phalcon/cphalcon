@@ -26,7 +26,10 @@
  * Checks if a value is a valid date
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Date as DateValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "date",
@@ -98,14 +101,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(format) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, format, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/date.zep", 77 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, format, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/date.zep", 80 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(format, _1$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(format)) {
 		ZEPHIR_INIT_NVAR(format);
 		ZVAL_STRING(format, "Y-m-d", 1);
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdate", NULL, 481, value, format);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "checkdate", NULL, 480, value, format);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_2))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
@@ -126,7 +129,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5$$5);
 		ZVAL_STRING(_5$$5, "Date", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$5, "__construct", NULL, 475, _4$$5, field, _5$$5);
+		ZEPHIR_CALL_METHOD(NULL, _3$$5, "__construct", NULL, 474, _4$$5, field, _5$$5);
 		zephir_check_temp_parameter(_5$$5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$5);
@@ -158,10 +161,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, checkDate) {
 		_1 = zend_fetch_class(SL("DateTime"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	ZEPHIR_CALL_CE_STATIC(&errors, _1, "getlasterrors", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_2, errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/date.zep", 116 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/date.zep", 119 TSRMLS_CC);
 	_3 = ZEPHIR_GT_LONG(_2, 0);
 	if (!(_3)) {
-		zephir_array_fetch_string(&_4, errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/date.zep", 116 TSRMLS_CC);
+		zephir_array_fetch_string(&_4, errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/validation/validator/date.zep", 119 TSRMLS_CC);
 		_3 = ZEPHIR_GT_LONG(_4, 0);
 	}
 	if (_3) {

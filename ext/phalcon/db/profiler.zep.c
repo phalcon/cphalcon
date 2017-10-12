@@ -27,11 +27,34 @@
  * information includes execution time in milliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
- *<code>
- * $profiler = new \Phalcon\Db\Profiler();
+ * <code>
+ * use Phalcon\Db\Profiler;
+ * use Phalcon\Events\Event;
+ * use Phalcon\Events\Manager;
  *
- * // Set the connection profiler
- * $connection->setProfiler($profiler);
+ * $profiler = new Profiler();
+ * $eventsManager = new Manager();
+ *
+ * $eventsManager->attach(
+ *     "db",
+ *     function (Event $event, $connection) use ($profiler) {
+ *         if ($event->getType() === "beforeQuery") {
+ *             $sql = $connection->getSQLStatement();
+ *
+ *             // Start a profile with the active connection
+ *             $profiler->startProfile($sql);
+ *         }
+ *
+ *         if ($event->getType() === "afterQuery") {
+ *             // Stop the active profile
+ *             $profiler->stopProfile();
+ *         }
+ *     }
+ * );
+ *
+ * // Set the event manager on the connection
+ * $connection->setEventsManager($eventsManager);
+ *
  *
  * $sql = "SELECT buyer_name, quantity, product_name
  * FROM buyers LEFT JOIN products ON
@@ -47,7 +70,7 @@
  * echo "Start Time: ", $profile->getInitialTime(), "\n";
  * echo "Final Time: ", $profile->getFinalTime(), "\n";
  * echo "Total Elapsed Time: ", $profile->getTotalElapsedSeconds(), "\n";
- *</code>
+ * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 
