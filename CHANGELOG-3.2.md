@@ -1,4 +1,4 @@
-# [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-XX-XX)
+# [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-10-12)
 - Fixed `Phalcon\Mvc\Model\Query::_executeSelect` threw RuntimeException, if db:beforeQuery() returned false
 - Internal cookies property is now always an array [#12978](https://github.com/phalcon/cphalcon/issues/12978)
 - Fixed `Phalcon\Validation\Validator\File::validate` to work properly with parameter 'message' [#12947](https://github.com/phalcon/cphalcon/issues/12947)
