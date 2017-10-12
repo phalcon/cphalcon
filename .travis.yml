@@ -26,11 +26,12 @@ cache:
   directories:
     - .temp
     # Use ZEPHIR_PARSER_VERSION here
-    - $HOME/zephir-parser-v1.0.3
+    - $HOME/zephir-parser-v1.1.0
     - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
     - $HOME/pear
+    - $HOME/.local/lib
 
 services:
   - beanstalkd

@@ -16,13 +16,13 @@
         "phpdocumentor/reflection-docblock": "^2.0",
         "phpunit/phpunit": "^4.8",
         "mustache/mustache": "^2.11",
-        "twig/twig": "~1.33",
+        "twig/twig": "~1.34",
         "predis/predis": "^1.1",
         "codeception/codeception": "^2.3",
         "codeception/verify": "^0.3",
         "codeception/specify": "^0.4",
         "squizlabs/php_codesniffer": "^2.9",
-        "phalcon/zephir": "^0.9"
+        "phalcon/zephir": "^0.10"
     },
     "license": "BSD-3-Clause",
     "authors": [
