@@ -23,8 +23,6 @@ cache:
   timeout: 691200
   directories:
     - .temp
-    # Use ZEPHIR_PARSER_VERSION here
-    - $HOME/zephir-parser-v1.1.0
     - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
@@ -69,7 +67,7 @@ env:
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
     - BEANSTALKD_VERSION="1.10"
-    - ZEPHIR_PARSER_VERSION="v1.0.3"
+    - ZEPHIR_PARSER_VERSION="v1.1.0"
     # Uncomment for debug
     #- ZEND_DONT_UNLOAD_MODULES=1
 
