@@ -120,11 +120,6 @@ notifications:
             - build@phalconphp.com
         on_success: change
         on_failure: always
-    webhooks:
-        urls:
-            - https://discordapp.com/api/webhooks/364521356462915584/lJT-Y4oGfPcJ0cZdjLzplmp2KVNOTWuYB3jGTtlyWkbj5tKQwX5kjDPkouCu8iGdDpYe
-        on_success: change
-        on_failure: always
 
 addons:
     apt:
