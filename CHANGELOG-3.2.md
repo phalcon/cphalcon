@@ -1,3 +1,6 @@
+# [3.2.4](https://github.com/phalcon/cphalcon/releases/tag/v3.2.4) (TBA)
+- Fixed regression of [#13046](https://github.com/phalcon/cphalcon/issues/13046) by removing injection of dispatcher's parameters (which were never available anyway) [#13121](https://github.com/phalcon/cphalcon/issues/13121)
+
 # [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-10-12)
 - Fixed `Phalcon\Mvc\Model\Query::_executeSelect` threw RuntimeException, if db:beforeQuery() returned false
 - Internal cookies property is now always an array [#12978](https://github.com/phalcon/cphalcon/issues/12978)
