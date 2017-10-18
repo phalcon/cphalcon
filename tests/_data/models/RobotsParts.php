@@ -22,6 +22,22 @@ use Phalcon\Mvc\Model;
  */
 class RobotsParts extends Model
 {
+
+    /**
+     * @var int
+     */
+    public $id;
+
+    /**
+     * @var int
+     */
+    public $robots_id;
+
+    /**
+     * @var int
+     */
+    public $parts_id;
+
     public function initialize()
     {
         $this->belongsTo('parts_id', Parts::class, 'id', ['foreignKey' => true]);

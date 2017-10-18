@@ -33,9 +33,39 @@ class Robots extends Model
     public $wasSetterUsed = false;
 
     /**
+     * @var int
+     */
+    public $id;
+
+    /**
      * @var string
      */
     protected $name;
+
+    /**
+     * @var string
+     */
+    public $type;
+
+    /**
+     * @var int
+     */
+    public $year;
+
+    /**
+     * @var datetime
+     */
+    public $datetime;
+
+    /**
+     * @var datetime
+     */
+    public $deleted;
+
+    /**
+     * @var string
+     */
+    public $text;
 
     public function initialize()
     {
@@ -59,5 +89,10 @@ class Robots extends Model
         $this->wasSetterUsed = true;
 
         return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }
