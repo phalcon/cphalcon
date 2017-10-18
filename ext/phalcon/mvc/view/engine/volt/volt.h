@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -29,7 +29,7 @@ typedef struct _phvolt_parser_status {
 	zval *ret;
 #else
 	zval ret;
-#endif	
+#endif
 	phvolt_scanner_state *scanner_state;
 	int status;
 	unsigned int syntax_error_len;

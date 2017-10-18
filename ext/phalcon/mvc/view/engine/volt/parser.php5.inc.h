@@ -96,6 +96,48 @@ static zval *phvolt_ret_elsefor_statement(phvolt_scanner_state *state)
 	return ret;
 }
 
+static zval *phvolt_ret_switch_statement(zval *expr, zval *case_clauses, phvolt_scanner_state *state)
+{
+	PHVOLT_DEFINE_INIT_ZVAL(ret);
+
+	array_init_size(ret, 6);
+
+	add_assoc_long(ret, "type", PHVOLT_T_SWITCH);
+	add_assoc_zval(ret, "expr", expr);
+
+	if (case_clauses) {
+		add_assoc_zval(ret, "case_clauses", case_clauses);
+	}
+
+	PHVOLT_ADDREF_P(state->active_file);
+
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_case_clause(zval *expr, phvolt_scanner_state *state)
+{
+	PHVOLT_DEFINE_INIT_ZVAL(ret);
+
+	array_init_size(ret, 5);
+
+	if (expr) {
+		add_assoc_long(ret, "type", PHVOLT_T_CASE);
+		add_assoc_zval(ret, "expr", expr);
+	} else {
+		add_assoc_long(ret, "type", PHVOLT_T_DEFAULT);
+	}
+
+	PHVOLT_ADDREF_P(state->active_file);
+
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
 static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_parser_token *key, zval *expr, zval *if_expr, zval *block_statements, phvolt_scanner_state *state)
 {
 	PHVOLT_DEFINE_INIT_ZVAL(ret);
