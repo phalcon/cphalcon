@@ -347,8 +347,7 @@ class Application extends BaseApplication
 							 */
 							view->render(
 								dispatcher->getControllerName(),
-								dispatcher->getActionName(),
-								dispatcher->getParams()
+								dispatcher->getActionName()
 							);
 						}
 					}
