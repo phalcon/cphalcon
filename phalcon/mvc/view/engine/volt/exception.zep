@@ -28,5 +28,27 @@ use Phalcon\Mvc\View\Exception as BaseException;
  */
 class Exception extends BaseException
 {
+	protected statement;
 
+	public function __construct(string message = "", array statement = [], int code = 0, <\Exception> previous = null)
+	{
+		let this->statement = statement;
+
+		parent::__construct(message, code, previous);
+	}
+
+	/**
+	 * Gets currently parsed statement (if any).
+	 */
+	public function getStatement() -> array
+	{
+		var statement;
+
+		let statement = this->statement;
+		if typeof statement !== "array" {
+			let statement = [];
+		}
+
+		return statement;
+	}
 }

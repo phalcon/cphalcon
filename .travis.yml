@@ -99,6 +99,9 @@ before_script:
   # - sudo chmod +s $(which gdb)
 
 script:
+  # Syntax recognize test
+  - $(phpenv which php) -d variables_order=EGPCS $(pwd)/ext/run-tests.php -p $(phpenv which php) -d variables_order=EGPCS -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" --offline --show-diff --set-timeout 120
+
   - vendor/bin/phpcs
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n tests/integration/

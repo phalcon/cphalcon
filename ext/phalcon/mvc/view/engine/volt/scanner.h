@@ -166,6 +166,12 @@
 #define PHVOLT_T_RAW 400
 #define PHVOLT_T_ENDRAW 401
 
+/* switch-case statement */
+#define PHVOLT_T_SWITCH 411
+#define PHVOLT_T_CASE 412
+#define PHVOLT_T_DEFAULT 413
+#define PHVOLT_T_ENDSWITCH 414
+
 /* List of tokens and their names */
 typedef struct _phvolt_token_names {
 	char *name;
@@ -192,6 +198,7 @@ typedef struct _phvolt_scanner_state {
 	unsigned int old_if_level;
 	unsigned int if_level;
 	unsigned int for_level;
+    unsigned int switch_level;
 	int whitespace_control;
 	int forced_raw_state;
 } phvolt_scanner_state;
