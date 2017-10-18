@@ -9,6 +9,8 @@ use Phalcon\Mvc\Model\Message;
 use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Test\Models\Parts;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Models\Boutique;
@@ -21,7 +23,6 @@ use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\BodyParts\Body;
 use Phalcon\Test\Models\News\Subscribers;
-use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\Validation;
 
 /**
@@ -45,19 +46,44 @@ use Phalcon\Test\Models\Validation;
 class ModelTest extends UnitTest
 {
     use ModelTrait;
-
+    
+    /**
+     * tests if the relation is either in camelCase or if it is a new array of objects
+     *
+     * @issue 10800
+     * @author Rudi Servo <rudiservo@gmail.com>
+     * @since 2016-07-18
+     */
     public function testCamelCaseRelation()
     {
         $this->specify(
             "CamelCase relation calls should be the same cache",
             function () {
-                $modelsManager = $this->setUpModelsManager();
+                $robot_part = RobotsParts::findFirst();
+                $robot_part->Parts->name = 'NotAPartForARobot';
+                expect($robot_part->parts->name)->equals($robot_part->Parts->name);
+            }
+        );
+    }
 
-                $modelsManager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
-                $album = Albums::findFirst();
-
-                $album->artist->name = 'NotArtist';
-                expect($album->artist->name)->equals($album->Artist->name);
+    /**
+     * return the relation if it is an array instead of returning a resultset
+     *
+     * @author Rudi Servo <rudiservo@gmail.com>
+     * @since 2017-10-18
+     */
+    public function testArrayRelation()
+    {
+        $this->specify(
+            "Array of new objects should be return if the relation is an array instead of a Resultset",
+            function () {
+                $robot = Robots::findFirst();
+                $robot_parts = [];
+                $robot_parts[] = new RobotsParts();
+                $robot_parts[] = new RobotsParts();
+                expect(is_array($robot->parts))->equals(false);
+                $robot->parts = $robot_parts;
+                expect(is_array($robot->parts))->equals(true);
             }
         );
     }
@@ -80,18 +106,17 @@ class ModelTest extends UnitTest
         $this->specify(
             'The Model::find with empty conditions + bind and limit return wrong result',
             function () {
-                $album = Albums::find([
+                $album = Parts::find([
                     'conditions' => '',
                     'bind'       => [],
                     'limit'      => 10
                 ]);
 
                 expect($album)->isInstanceOf(Simple::class);
-                expect($album->getFirst())->isInstanceOf(Albums::class);
+                expect($album->getFirst())->isInstanceOf(Parts::class);
                 expect($album->getFirst()->toArray())->equals([
                     'id' => 1,
-                    'artists_id' => 1,
-                    'name' => 'Born to Die',
+                    'name' => 'Head',
                 ]);
             }
         );

@@ -23,6 +23,17 @@ use Phalcon\Mvc\Model;
  */
 class Parts extends Model
 {
+
+    /**
+     * @var int
+     */
+    public $id;
+
+    /**
+     * @var string
+     */
+    public $name;
+
     public function initialize()
     {
         $this->hasMany(

@@ -4448,9 +4448,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		if typeof relation == "object" {
 
 			/*
-			 Not fetch a relation if it is on CamelCase
+			 Do not fetch a relation if it is on CamelCase or if it is an Array of new Objects for this relation
 			 */
-			if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
+			if isset this->{lowerProperty} && (typeof this->{lowerProperty} == "object" || typeof this->{lowerProperty} == "array") {
 				return this->{lowerProperty};
 			}
 			/**
