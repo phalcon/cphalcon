@@ -66,3 +66,4 @@ build/gccarch
 
 ide/
 docker-compose.yml
+php_test_results_*.txt
