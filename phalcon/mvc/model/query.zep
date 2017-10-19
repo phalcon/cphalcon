@@ -205,7 +205,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Check if the qualified name is a column alias
 		 */
 		let sqlColumnAliases = this->_sqlColumnAliases;
-		if isset sqlColumnAliases[columnName] {
+		if isset sqlColumnAliases[columnName] && empty expr["domain"] {
 			return [
 				"type": "qualified",
 				"name": columnName
