@@ -6914,6 +6914,52 @@ class QueryTest extends UnitTest
                                 ),
                             ),
                         )
+                    ],
+                    [
+                        // PR #13124, ISSUE #12971
+                        "phql"     => 'SELECT UPPER('. Robots::class . '.name) AS name FROM ' . Robots::class . 'WHERE ' . Robots::class .'.name = Robotina',
+                        "expected" => array(
+                            'distinct' => 0,
+                            'models' => array(
+                                Robots::class,
+                            ),
+                            'tables' => array(
+                                'robots'
+                            ),
+                            'columns' => array(
+                                'id' => array(
+                                    'type' => 'scalar',
+                                    'balias' => 'name',
+                                    'sqlAlias' => 'name',
+                                    'column' => array(
+                                        'type' => 'functionCall',
+                                        'name' => 'UPPER',
+                                        'arguments' => array(
+                                            array(
+                                                'type' => 'qualified',
+                                                'domain' => 'robots',
+                                                'name' => 'name',
+                                                'balias' => 'name'
+                                            )
+                                        ),
+                                    ),
+                                )
+                            ),
+                            'where' => array(
+                                'type' => 'binary-op',
+                                'op' => '=',
+                                'left' => array(
+                                    'type' => 'qualified',
+                                    'domain' => 'robots',
+                                    'name' => 'name',
+                                    'balias' => 'name'
+                                ),
+                                'right' => array(
+                                    'type' => 'literal',
+                                    'value' => 'Robotina'
+                                )
+                            )
+                        )
                     ]
                 ]
             ]
