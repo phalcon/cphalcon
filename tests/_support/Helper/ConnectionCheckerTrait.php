@@ -13,7 +13,7 @@ use Phalcon\Di;
 trait ConnectionCheckerTrait
 {
     /**
-     * @param Phalcon\Db\Adapter $old_conn
+     * @param \Phalcon\Db\Adapter $old_conn
      */
     protected function checkConnection(Adapter $old_conn)
     {

@@ -3,6 +3,7 @@
 namespace Helper;
 
 use Phalcon\Di;
+use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 
@@ -26,10 +27,10 @@ use Phalcon\Mvc\Model\MetaData\Memory;
  */
 trait ModelTrait
 {
-    protected function setUpModelsManager()
+    protected function setUpModelsManager(Pdo $connection = null)
     {
         $di = Di::getDefault();
-        $db = $di->getShared('db');
+        $connection = $connection ?: $di->getShared('db');
 
         Di::reset();
 
@@ -38,7 +39,7 @@ trait ModelTrait
         $manager = new Manager();
         $manager->setDI($di);
 
-        $di->setShared('db', $db);
+        $di->setShared('db', $connection);
         $di->setShared('modelsManager', $manager);
         $di->setShared('modelsMetadata', Memory::class);
 
