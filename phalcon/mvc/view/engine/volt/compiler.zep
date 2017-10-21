@@ -226,6 +226,14 @@ class Compiler implements InjectionAwareInterface
 		return this;
 	}
 
+    /**
+     * Checks to see if a function was previously defined.
+     */
+	public function hasFunction(string! name) -> boolean
+	{
+	    return isset this->_functions[name];
+	}
+
 	/**
 	 * Register the user registered functions
 	 */
@@ -2191,9 +2199,10 @@ class Compiler implements InjectionAwareInterface
 	{
 		var currentPath, intermediate, extended,
 			finalCompilation, blocks, extendedBlocks, name, block,
-			blockCompilation, localBlock, compilation, options, autoescape;
+			blockCompilation, localBlock, compilation, options, autoescape, includePhpFunctions;
 
 		let currentPath = this->_currentPath;
+        let includePhpFunctions = false;
 
 		/**
 		 * Check for compilation options
@@ -2210,7 +2219,22 @@ class Compiler implements InjectionAwareInterface
 				}
 				let this->_autoescape = autoescape;
 			}
+
+            /**
+             * Configures the compiler to register PHP Functions automatically.
+             */
+            if isset options["includePhpFunctions"] {
+                let includePhpFunctions = options["includePhpFunctions"];
+                if typeof includePhpFunctions != "boolean" && typeof includePhpFunctions != "array" {
+                    throw new Exception("'includePhpFunctions' must be a bool or array value");
+                }
+            }
 		}
+
+        //Add PHP Internal Functions If Option Supplied
+        if includePhpFunctions {
+            this->addPhpFunctions(includePhpFunctions);
+        }
 
 		let intermediate = phvolt_parse_view(viewCode, currentPath);
 
@@ -2644,5 +2668,30 @@ class Compiler implements InjectionAwareInterface
 		}
 
 		return path;
+	}
+
+    /**
+     * Registers all internal PHP Functions in the compiler where the function hasn't been defined.
+     */
+	final protected function addPhpFunctions(configOptions) -> <Compiler>
+	{
+	    var functionName;
+
+	    if typeof configOptions == "bool" {
+            let configOptions = get_defined_functions();
+            let configOptions = configOptions["internal"];
+	    }
+
+	    for functionName in configOptions {
+	        if !this->hasFunction(functionName) {
+	            if !call_user_func("function_exists", functionName) {
+	                throw new Exception(functionName . " does not exist");
+	            }
+
+	            this->addFunction(functionName, functionName);
+	        }
+	    }
+
+	    return this;
 	}
 }
