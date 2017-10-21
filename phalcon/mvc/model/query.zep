@@ -206,10 +206,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 */
 		let sqlColumnAliases = this->_sqlColumnAliases;
 		if isset sqlColumnAliases[columnName] {
-			return [
-				"type": "qualified",
-				"name": columnName
-			];
+			var domain;
+
+			if !fetch domain, expr["domain"] {
+				return [
+					"type": "qualified",
+					"name": columnName
+				];
+			}
 		}
 
 		let metaData = this->_metaData;
