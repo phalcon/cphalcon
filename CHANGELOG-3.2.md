@@ -1,4 +1,4 @@
-# [3.2.4](https://github.com/phalcon/cphalcon/releases/tag/v3.2.4) (TBA)
+# [3.2.4](https://github.com/phalcon/cphalcon/releases/tag/v3.2.4) (2017-21-12)
 - Fixed regression of [#13046](https://github.com/phalcon/cphalcon/issues/13046) by removing injection of dispatcher's parameters (which were never available anyway) [#13121](https://github.com/phalcon/cphalcon/issues/13121)
 
 # [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-10-12)
