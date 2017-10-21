@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zend_class_entry *_6$$8;
 	zend_bool returnedResponse = 0, _26, _12$$13, _31$$32, _33$$32;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *uri_param = NULL, *dependencyInjector = NULL, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path = NULL, *implicitView = NULL, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *matchedRoute = NULL, *match = NULL, *_0, *_3 = NULL, *_4 = NULL, *_20 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_1$$4 = NULL, *_2$$4, *_5$$8 = NULL, *_7$$7 = NULL, *_8$$9 = NULL, *_9$$9, *_10$$14 = NULL, *_11$$14, *_13$$21, *_14$$21, *_15$$17 = NULL, *_17$$24, *_18$$25 = NULL, *_19$$25, *_24$$27 = NULL, *_25$$27, *_27$$29 = NULL, *_28$$29, *_29$$31 = NULL, *_30$$31, *_32$$33, *_34$$36, *_35$$37 = NULL, *_36$$37 = NULL, *_37$$37 = NULL, *_38$$40 = NULL, *_39$$40, *_40$$41 = NULL, *_41$$42;
+	zval *uri_param = NULL, *dependencyInjector = NULL, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module = NULL, *moduleObject = NULL, *moduleName = NULL, *className = NULL, *path = NULL, *implicitView = NULL, *controller = NULL, *possibleResponse = NULL, *renderStatus = NULL, *matchedRoute = NULL, *match = NULL, *_0, *_3 = NULL, *_4 = NULL, *_20 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_1$$4 = NULL, *_2$$4, *_5$$8 = NULL, *_7$$7 = NULL, *_8$$9 = NULL, *_9$$9, *_10$$14 = NULL, *_11$$14, *_13$$21, *_14$$21, *_15$$17 = NULL, *_17$$24, *_18$$25 = NULL, *_19$$25, *_24$$27 = NULL, *_25$$27, *_27$$29 = NULL, *_28$$29, *_29$$31 = NULL, *_30$$31, *_32$$33, *_34$$36, *_35$$37 = NULL, *_36$$37 = NULL, *_37$$40 = NULL, *_38$$40, *_39$$41 = NULL, *_40$$42;
 	zval *uri = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -379,9 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&_36$$37, dispatcher, "getactionname", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_37$$37, dispatcher, "getparams", NULL, 0);
-						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, 0, _35$$37, _36$$37, _37$$37);
+						ZEPHIR_CALL_METHOD(NULL, view, "render", NULL, 0, _35$$37, _36$$37);
 						zephir_check_call_status();
 					}
 				}
@@ -393,26 +391,26 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			if (returnedResponse == 1) {
 				ZEPHIR_CPY_WRT(response, possibleResponse);
 			} else {
-				ZEPHIR_INIT_VAR(_39$$40);
-				ZVAL_STRING(_39$$40, "response", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_METHOD(&_38$$40, dependencyInjector, "getshared", NULL, 0, _39$$40);
-				zephir_check_temp_parameter(_39$$40);
+				ZEPHIR_INIT_VAR(_38$$40);
+				ZVAL_STRING(_38$$40, "response", ZEPHIR_TEMP_PARAM_COPY);
+				ZEPHIR_CALL_METHOD(&_37$$40, dependencyInjector, "getshared", NULL, 0, _38$$40);
+				zephir_check_temp_parameter(_38$$40);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(response, _38$$40);
+				ZEPHIR_CPY_WRT(response, _37$$40);
 				if (ZEPHIR_IS_TRUE_IDENTICAL(implicitView)) {
-					ZEPHIR_CALL_METHOD(&_40$$41, view, "getcontent", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_39$$41, view, "getcontent", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, 0, _40$$41);
+					ZEPHIR_CALL_METHOD(NULL, response, "setcontent", NULL, 0, _39$$41);
 					zephir_check_call_status();
 				}
 			}
 		}
 	}
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_41$$42);
-		ZVAL_STRING(_41$$42, "application:beforeSendResponse", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _41$$42, this_ptr, response);
-		zephir_check_temp_parameter(_41$$42);
+		ZEPHIR_INIT_VAR(_40$$42);
+		ZVAL_STRING(_40$$42, "application:beforeSendResponse", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, eventsManager, "fire", NULL, 0, _40$$42, this_ptr, response);
+		zephir_check_temp_parameter(_40$$42);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, response, "sendheaders", NULL, 0);
