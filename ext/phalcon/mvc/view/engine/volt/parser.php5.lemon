@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -128,6 +128,12 @@
 					smart_str_appendl(&error_str, " 'for' blocks without close", sizeof(" 'for' blocks without close") - 1);
 				}
 			}
+
+			/* Report unclosed 'switch' blocks */
+			if (status->scanner_state->switch_level > 0) {
+				smart_str_appendl(&error_str, ", there is a 'switch' block without 'endswitch'", sizeof(", there is a 'switch' block without 'endswitch'") - 1);
+			}
+
 		}
 
 		smart_str_0(&error_str);
@@ -209,6 +215,14 @@ statement(R) ::= for_statement(E) . {
 	R = E;
 }
 
+statement(R) ::= switch_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= case_clause(E) . {
+	R = E;
+}
+
 statement(R) ::= set_statement(S) . {
 	R = S;
 }
@@ -275,22 +289,27 @@ statement(R) ::= macro_call_statement(E) . {
 #endif
 }
 
+/* {% if EXPR %} STMT {% endif %} */
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
 	R = phvolt_ret_if_statement(E, T, NULL, status->scanner_state);
 }
 
+/* {% if EXPR %} {% endif %} */
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
 	R = phvolt_ret_if_statement(E, NULL, NULL, status->scanner_state);
 }
 
+/* {% if EXPR %} STMT {% esle %} STMT {% endif %} */
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list(F) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
 	R = phvolt_ret_if_statement(E, T, F, status->scanner_state);
 }
 
+/* {% if EXPR %} STMT {% esle %} {% endif %} */
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSE CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
 	R = phvolt_ret_if_statement(E, T, NULL, status->scanner_state);
 }
 
+/* {% if EXPR %} {% esle %} {% endif %} */
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER OPEN_DELIMITER ELSE CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
 	R = phvolt_ret_if_statement(E, NULL, NULL, status->scanner_state);
 }
@@ -335,6 +354,38 @@ for_statement(R) ::= OPEN_DELIMITER FOR IDENTIFIER(K) COMMA IDENTIFIER(V) IN exp
 
 for_statement(R) ::= OPEN_DELIMITER FOR IDENTIFIER(K) COMMA IDENTIFIER(V) IN expr(E) IF expr(IE) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDFOR CLOSE_DELIMITER . {
 	R = phvolt_ret_for_statement(V, K, E, IE, T, status->scanner_state);
+}
+
+%destructor switch_statement {
+#if PHP_VERSION_ID < 70000
+	zval_ptr_dtor(&$$);
+#endif
+}
+
+/* {% switch EXPR %} STMT {% endswitch %} */
+switch_statement(R) ::= OPEN_DELIMITER SWITCH expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDSWITCH CLOSE_DELIMITER . {
+	R = phvolt_ret_switch_statement(E, T, status->scanner_state);
+}
+
+/* {% switch EXPR %} {% endswitch %} */
+switch_statement(R) ::= OPEN_DELIMITER SWITCH expr(E) CLOSE_DELIMITER OPEN_DELIMITER ENDSWITCH CLOSE_DELIMITER . {
+	R = phvolt_ret_switch_statement(E, NULL, status->scanner_state);
+}
+
+%destructor case_clause {
+#if PHP_VERSION_ID < 70000
+	zval_ptr_dtor(&$$);
+#endif
+}
+
+/* {% case EXPR %} {% endcase %} */
+case_clause(R) ::= OPEN_DELIMITER CASE expr(E) CLOSE_DELIMITER . {
+	R = phvolt_ret_case_clause(E, status->scanner_state);
+}
+
+/* {% default %} */
+case_clause(R) ::= OPEN_DELIMITER DEFAULT CLOSE_DELIMITER . {
+	R = phvolt_ret_case_clause(NULL, status->scanner_state);
 }
 
 %destructor set_statement {

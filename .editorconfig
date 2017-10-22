@@ -19,3 +19,15 @@ indent_style = tab
 
 [*.zep]
 indent_style = tab
+
+[*.c]
+indent_style = tab
+
+[*.h]
+indent_style = tab
+
+[*.lemon]
+indent_style = tab
+
+[*.re]
+indent_style = tab

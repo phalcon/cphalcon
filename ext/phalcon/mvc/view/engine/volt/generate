@@ -5,11 +5,12 @@ rm -f parser.lo
 rm -f scanner.o
 rm -f scanner.lo
 
-if [ ! -f lemon ]; then
-	gcc -g lemon.c -o lemon
+if [ ! -f $(pwd)/lemon ]; then
+	gcc -g lemon.c -o ./lemon
+    chmod +x ./lemon
 fi
 
-re2c -o scanner.c scanner.re
+re2c --no-generation-date -o scanner.c scanner.re
 
 ./lemon -s parser.php5.lemon
 ./lemon -s parser.php7.lemon
