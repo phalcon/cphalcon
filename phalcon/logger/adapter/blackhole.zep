@@ -14,84 +14,39 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
- |          Ivan Zubok <chi@ukr.net>                                      |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger\Adapter;
-use Phalcon\Logger\Exception;
+use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\FormatterInterface;
-use Phalcon\Logger\Formatter\Firephp as FirePhpFormatter;
 
 /**
- * Phalcon\Logger\Adapter\Firephp
+ * Phalcon\Logger\Adapter\Blackhole
  *
- * Sends logs to FirePHP
- *
- *<code>
- * use Phalcon\Logger\Adapter\Firephp;
- * use Phalcon\Logger;
- *
- * $logger = new Firephp();
- *
- * $logger->log(Logger::ERROR, "This is an error");
- * $logger->error("This is another error");
- *</code>
- *
- * @deprecated Will be removed in 4.0.0
+ * Any record it can handle will be thrown away.
  */
-class Firephp extends Adapter
+class Blackhole extends Adapter
 {
-	private _initialized = false;
-
-	private _index = 1;
-
 	/**
 	 * Returns the internal formatter
 	 */
 	public function getFormatter() -> <FormatterInterface>
 	{
 		if typeof this->_formatter !== "object" {
-			let this->_formatter = new FirePhpFormatter();
+			let this->_formatter = new Line();
 		}
 
 		return this->_formatter;
 	}
 
 	/**
-	 * Writes the log to the stream itself
+	 * Writes the log to the blackhole
 	 */
 	public function logInternal(string message, int type, int time, array context) -> void
 	{
-		var chunk, format, chString, content, key, index;
-
-		if !this->_initialized {
-			header("X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2");
-			header("X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3");
-			header("X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1");
-
-			let this->_initialized = true;
-		}
-
-		let format = this->getFormatter()->format(message, type, time, context),
-			chunk = str_split(format, 4500),
-			index = this->_index;
-
-		for key, chString in chunk {
-			let content = "X-Wf-1-1-1-" . (string) index . ": " . chString;
-
-			if isset(chunk[key + 1]) {
-				let content .= "|\\";
-			}
-
-			header(content);
-
-			let index++;
-		}
-
-		let this->_index = index;
 	}
 
 	/**
@@ -99,6 +54,5 @@ class Firephp extends Adapter
 	 */
 	public function close() -> boolean
 	{
-		return true;
 	}
 }
