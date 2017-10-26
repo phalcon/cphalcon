@@ -132,7 +132,6 @@ class RequestTest extends HttpBase
                 expect($request->hasHeader('HTTP_FOO'))->true();
                 expect($request->hasHeader('AUTH'))->true();
                 expect($request->hasHeader('HTTP_FOO'))->true();
-
             }
         );
     }
