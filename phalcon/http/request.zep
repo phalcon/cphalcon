@@ -253,6 +253,26 @@ class Request implements RequestInterface, InjectionAwareInterface
 		return isset _SERVER[name];
 	}
 
+    /**
+     * Checks whether headers has certain index
+     */
+    public final function hasHeader(string! header) -> boolean
+    {
+        var name;
+
+        let name = strtoupper(strtr(header, "-", "_"));
+
+        if isset _SERVER[name] {
+            return true;
+        }
+
+        if isset _SERVER["HTTP_" . name] {
+            return true;
+        }
+
+        return false;
+    }
+
 	/**
 	 * Gets HTTP header from request data
 	 */
