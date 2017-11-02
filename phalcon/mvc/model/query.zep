@@ -3670,7 +3670,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 			return transaction->getConnection();
 		}
 
-
 		if method_exists(model, "selectWriteConnection") {
 			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
 			if typeof connection != "object" {
