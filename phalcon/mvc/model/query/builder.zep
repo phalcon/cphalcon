@@ -728,6 +728,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 * $builder->orderBy("Robots.name");
 	 * $builder->orderBy(["1", "Robots.name"]);
+	 * $builder->orderBy(["Robots.name DESC"]);
 	 *</code>
 	 *
 	 * @param string|array orderBy
@@ -1301,8 +1302,26 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			if typeof order == "array" {
 				let orderItems = [];
 				for orderItem in order {
+					/**
+					 * For case 'ORDER BY 1'
+					 */
+					if typeof orderItem == "integer" {
+						let orderItems[] = orderItem;
+
+						continue;
+					}
+
+					if memstr(orderItem, " ") !== 0 {
+						var itemExplode;
+						let itemExplode = explode(" ", orderItem);
+						let orderItems[] = this->autoescape(itemExplode[0]) . " " . itemExplode[1];
+
+						continue;
+					}
+
 					let orderItems[] = this->autoescape(orderItem);
 				}
+
 				let phql .= " ORDER BY " . join(", ", orderItems);
 			} else {
 				let phql .= " ORDER BY " . order;
