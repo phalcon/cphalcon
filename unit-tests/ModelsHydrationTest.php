@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsHydrationTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsHydrationTest extends TestCase
 {
 
 	public function __construct()

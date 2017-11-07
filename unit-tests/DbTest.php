@@ -19,7 +19,9 @@
   +------------------------------------------------------------------------+
 */
 
-class DbTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DbTest extends TestCase
 {
 	/**
 	 * @medium

@@ -26,7 +26,8 @@ use
 	Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Regex,
-	Phalcon\Validation\Message;
+	Phalcon\Validation\Message,
+	PHPUnit\Framework\TestCase;
 
 class ContactFormPublicProperties
 {
@@ -61,7 +62,7 @@ class ContactFormSettersGetters
 	}
 }
 
-class FormsTest extends PHPUnit_Framework_TestCase
+class FormsTest extends TestCase
 {
 
 	public function setUp()

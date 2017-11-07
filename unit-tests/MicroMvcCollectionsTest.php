@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 class PersonasController
 {
 	protected $_entered = 0;
@@ -58,7 +60,7 @@ class PersonasLazyController
 	}
 }
 
-class MicroMvcCollectionsTest extends PHPUnit_Framework_TestCase
+class MicroMvcCollectionsTest extends TestCase
 {
 
 	public function testMicroCollections()

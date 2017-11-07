@@ -27,6 +27,7 @@ use Phalcon\Escaper;
 use Phalcon\Mvc\Url;
 use Phalcon\Tag;
 use Phalcon\Di;
+use PHPUnit\Framework\TestCase;
 
 class SomeObject implements Iterator, Countable
 {
@@ -96,7 +97,7 @@ function phalcon_prepare_virtual_path($path, $separator) {
 	return $virtual_str;
 }
 
-class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
+class ViewEnginesVoltTest extends TestCase
 {
 	public function testVoltCompileFileExtends()
 	{
