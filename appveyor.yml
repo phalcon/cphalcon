@@ -3,7 +3,7 @@
 #---------------------------------#
 
 # version format
-version: 3.2.2-{build}
+version: 3.2.4-{build}
 
 # to disable automatic builds
 build: off
@@ -31,8 +31,8 @@ clone_folder: c:\projects\phalcon
 init:
     - SET ANSICON=121x90 (121x90)
     - SET COMPOSER_NO_INTERACTION=1
-    - SET PARSER_RELEASE=1.0.3
-    - SET PARSER_VERSION=1.0.3-258
+    - SET PARSER_VERSION=1.1.0
+    - SET PARSER_RELEASE=261
 
 # build cache to preserve files/folders between builds
 cache:
@@ -64,7 +64,7 @@ install:
         $versions = type sha1sum.txt | where { $_ -match "php-(${env:PHP_TARGET}\.\d+)-src" } | foreach { $matches[1] }
         $version = $versions.Split(' ')[-1]
         $env:PHP_VERSION=${version}
-    - ps: $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_RELEASE}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:PARSER_VERSION}.zip"
+    - ps: $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_VERSION}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
     # ==================================================
     - echo Initializing Build...
     # ==================================================
@@ -84,9 +84,18 @@ install:
     - '7z.exe x ..\php-sdk.zip | FIND /V "ing  "'
     - cd ..
     # ==================================================
-    - echo Downloading PHP-Devel-Pack
+    - echo Install PHP Dev pack
     # ==================================================
-    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:PHP_VERSION} + '-Win32-VC' + ${env:PHP_VC} + '-' + ${env:PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
+    - ps: >-
+        If ($env:PHP_TYPE -Match "nts-Win32") {
+            $env:DEVEL_PACK_VERSION="${env:PHP_VERSION}-nts-Win32-VC${env:PHP_VC}-${env:PLATFORM}"
+        } Else {
+            $env:DEVEL_PACK_VERSION="${env:PHP_VERSION}-Win32-VC${env:PHP_VC}-${env:PLATFORM}"
+        }
+    # ==================================================
+    - echo Downloading PHP Dev pack source code [http://windows.php.net/downloads/releases/php-devel-pack-%DEVEL_PACK_VERSION%.zip]
+    # ==================================================
+    - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:DEVEL_PACK_VERSION} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\..\php-dev.zip')
     - 7z.exe x php-dev.zip | FIND /V "ing  "
     - mv php-%PHP_VERSION%-devel-VC11-%PLATFORM% php-devpack
     # ==================================================

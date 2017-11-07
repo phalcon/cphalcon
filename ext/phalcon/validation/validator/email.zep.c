@@ -26,7 +26,10 @@
  * Checks if a value has a correct e-mail format
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Email as EmailValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "email",
@@ -110,7 +113,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4$$3);
 		ZVAL_STRING(_4$$3, "Email", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 475, _3$$3, field, _4$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 474, _3$$3, field, _4$$3, code);
 		zephir_check_temp_parameter(_4$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _2$$3);

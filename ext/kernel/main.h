@@ -383,7 +383,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 	}
 
 /** Get current hash key copying the iterator if needed */
-
+// TODO: Deprecated. Will be removed in future
 #if PHP_VERSION_ID < 50500
 
 #define ZEPHIR_GET_IMKEY(var, it) \

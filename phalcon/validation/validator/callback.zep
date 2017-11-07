@@ -29,8 +29,11 @@ use Phalcon\Validation\Validator;
  * Calls user function for validation
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Callback as CallbackValidator;
  * use Phalcon\Validation\Validator\Numericality as NumericalityValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     ["user", "admin"],

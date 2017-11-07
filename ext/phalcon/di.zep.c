@@ -747,9 +747,8 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
 PHP_METHOD(Phalcon_Di, __call) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
-	zval *method_param = NULL, *arguments = NULL, *instance = NULL, *possibleService = NULL, *services = NULL, *definition = NULL, *_7, _0$$3, *_1$$3, _4$$8, *_5$$8, *_6$$8 = NULL;
-	zval *method = NULL, *_8;
+	zval *method_param = NULL, *arguments = NULL, *instance = NULL, *possibleService = NULL, *services = NULL, *definition = NULL, *_5, _0$$3, *_1$$3, _2$$8, *_3$$8, *_4$$8 = NULL;
+	zval *method = NULL, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method_param, &arguments);
@@ -776,14 +775,14 @@ PHP_METHOD(Phalcon_Di, __call) {
 		ZVAL_LONG(&_0$$3, 3);
 		ZEPHIR_INIT_VAR(_1$$3);
 		zephir_substr(_1$$3, method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", &_2, 69, _1$$3);
+		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", NULL, 69, _1$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset(services, possibleService)) {
 			if (zephir_fast_count_int(arguments TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(&instance, this_ptr, "get", &_3, 0, possibleService, arguments);
+				ZEPHIR_CALL_METHOD(&instance, this_ptr, "get", NULL, 0, possibleService, arguments);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_METHOD(&instance, this_ptr, "get", &_3, 0, possibleService);
+				ZEPHIR_CALL_METHOD(&instance, this_ptr, "get", NULL, 0, possibleService);
 				zephir_check_call_status();
 			}
 			RETURN_CCTOR(instance);
@@ -792,24 +791,24 @@ PHP_METHOD(Phalcon_Di, __call) {
 	if (zephir_start_with_str(method, SL("set"))) {
 		ZEPHIR_OBS_VAR(definition);
 		if (zephir_array_isset_long_fetch(&definition, arguments, 0, 0 TSRMLS_CC)) {
-			ZEPHIR_SINIT_VAR(_4$$8);
-			ZVAL_LONG(&_4$$8, 3);
-			ZEPHIR_INIT_VAR(_5$$8);
-			zephir_substr(_5$$8, method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_CALL_FUNCTION(&_6$$8, "lcfirst", &_2, 69, _5$$8);
+			ZEPHIR_SINIT_VAR(_2$$8);
+			ZVAL_LONG(&_2$$8, 3);
+			ZEPHIR_INIT_VAR(_3$$8);
+			zephir_substr(_3$$8, method, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+			ZEPHIR_CALL_FUNCTION(&_4$$8, "lcfirst", NULL, 69, _3$$8);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, _6$$8, definition);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, _4$$8, definition);
 			zephir_check_call_status();
 			RETURN_MM_NULL();
 		}
 	}
-	ZEPHIR_INIT_VAR(_7);
-	object_init_ex(_7, phalcon_di_exception_ce);
-	ZEPHIR_INIT_VAR(_8);
-	ZEPHIR_CONCAT_SVS(_8, "Call to undefined method or service '", method, "'");
-	ZEPHIR_CALL_METHOD(NULL, _7, "__construct", NULL, 9, _8);
+	ZEPHIR_INIT_VAR(_5);
+	object_init_ex(_5, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_6);
+	ZEPHIR_CONCAT_SVS(_6, "Call to undefined method or service '", method, "'");
+	ZEPHIR_CALL_METHOD(NULL, _5, "__construct", NULL, 9, _6);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_7, "phalcon/di.zep", 406 TSRMLS_CC);
+	zephir_throw_exception_debug(_5, "phalcon/di.zep", 406 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

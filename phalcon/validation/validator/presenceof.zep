@@ -29,7 +29,10 @@ use Phalcon\Validation\Validator;
  * Validates that a value is not null or empty string
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\PresenceOf;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "name",
