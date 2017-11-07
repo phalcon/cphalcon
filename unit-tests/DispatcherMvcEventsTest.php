@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 class DispatcherListener
 {
 
@@ -149,7 +151,7 @@ class DispatcherListenerWithException extends DispatcherListener
 	}
 }
 
-class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
+class DispatcherMvcEventsTest extends TestCase
 {
 
 	public function dispatcherAutoloader($className)

@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsMetadataTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsMetadataTest extends TestCase
 {
 
 	public function __construct()

@@ -20,9 +20,10 @@
 
 use Phalcon\Logger\Adapter\File as FileLogger,
     Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
-    Phalcon\Events\Manager as EventsManager;
+    Phalcon\Events\Manager as EventsManager,
+    PHPUnit\Framework\TestCase;
 
-class PaginatorTest extends PHPUnit_Framework_TestCase
+class PaginatorTest extends TestCase
 {
 
 	public function __construct()
