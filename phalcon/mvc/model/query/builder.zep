@@ -71,6 +71,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _joins;
 
+	/**
+	 * @deprecated Will be removed in version 4.0.0
+	 */
 	protected _with;
 
 	protected _conditions;
@@ -107,7 +110,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes,
-			with, distinct, bind, bindTypes;
+			distinct, bind, bindTypes;
 
 		if typeof params == "array" {
 
@@ -197,13 +200,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			 */
 			if fetch joinsClause, params["joins"] {
 				let this->_joins = joinsClause;
-			}
-
-			/**
-			 * Check if the resultset must be eager loaded
-			 */
-			if fetch with, params["with"] {
-				let this->_with = with;
 			}
 
 			/**
@@ -389,32 +385,26 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Add a model to take part of the query
 	 *
+	 * NOTE: The third parameter $with is deprecated and will be removed in future releases.
+	 *
 	 *<code>
 	 * // Load data from models Robots
 	 * $builder->addFrom("Robots");
 	 *
 	 * // Load data from model 'Robots' using 'r' as alias in PHQL
 	 * $builder->addFrom("Robots", "r");
-	 *
-	 * // Load data from model 'Robots' using 'r' as alias in PHQL
-	 * // and eager load model 'RobotsParts'
-	 * $builder->addFrom("Robots", "r", "RobotsParts");
-	 *
-	 * // Load data from model 'Robots' using 'r' as alias in PHQL
-	 * // and eager load models 'RobotsParts' and 'Parts'
-	 * $builder->addFrom(
-	 *     "Robots",
-	 *     "r",
-	 *     [
-	 *         "RobotsParts",
-	 *         "Parts",
-	 *     ]
-	 * );
 	 *</code>
 	 */
 	public function addFrom(var model, var alias = null, var with = null) -> <Builder>
 	{
 		var models, currentModel;
+
+		if typeof with != "null" {
+			trigger_error(
+				"The third parameter 'with' is deprecated and will be removed in future releases.",
+				E_DEPRECATED
+			);
+		}
 
 		let models = this->_models;
 		if typeof models != "array" {

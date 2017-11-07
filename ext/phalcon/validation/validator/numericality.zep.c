@@ -27,7 +27,10 @@
  * Check for a valid numeric value
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Numericality;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "price",
@@ -112,7 +115,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5$$3);
 		ZVAL_STRING(_5$$3, "Numericality", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 475, _4$$3, field, _5$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _3$$3, "__construct", NULL, 474, _4$$3, field, _5$$3, code);
 		zephir_check_temp_parameter(_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _3$$3);

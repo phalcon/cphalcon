@@ -1361,7 +1361,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		let findArguments = this->_mergeFindParameters(findParams, parameters);
 
 		if typeof extraParameters == "array" {
-			let findParams = this->_mergeFindParameters(findArguments, extraParameters);
+			let findParams = this->_mergeFindParameters(extraParameters, findArguments);
 		} else {
 			let findParams = findArguments;
 		}

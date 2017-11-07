@@ -30,7 +30,10 @@ use Phalcon\Validation\Exception;
  * Check if a value is not included into a list of values
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\ExclusionIn;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "status",
@@ -54,7 +57,7 @@ use Phalcon\Validation\Exception;
  *         [
  *             "message" => [
  *                 "status" => "The status must not be A or B",
- *                 "type"   => "The type must not be 1 or "'
+ *                 "type"   => "The type must not be 1 or "
  *             ],
  *             "domain" => [
  *                 "status" => [

@@ -1,45 +1,38 @@
 #!/usr/bin/env bash
-#
-#  Phalcon Framework
-#
-#  Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)
-#
-#  This source file is subject to the New BSD License that is bundled
-#  with this package in the file LICENSE.txt.
-#
-#  If you did not receive a copy of the license and are unable to
-#  obtain it through the world-wide-web, please send an email
-#  to license@phalconphp.com so we can send you a copy immediately.
 
-# trace ERR through pipes
-set -o pipefail
-
-# trace ERR through 'time command' and other functions
-set -o errtrace
-
-# set -u : exit the script if you try to use an uninitialised variable
-set -o nounset
-
-# set -e : exit the script if any statement returns a non-true return value
-set -o errexit
-
-# Ensure that this is being run inside a CI
-if [ ! -n "$CI" ] || [ "${CI}" != "true" ]; then
+# Ensure that this is being run inside a CI container
+if [ "${CI}" != "true" ]; then
     echo "This script is designed to run inside a CI container only. Exiting"
     exit 1
 fi
 
-CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
+ZEPHIR_PARSER_VERSION=${ZEPHIR_PARSER_VERSION:-development}
+PHP_MAJOR=`$(phpenv which php-config) --version | cut -d '.' -f 1,2`
 
-PARSER_DIR=$HOME/zephir-parser-${ZEPHIR_PARSER_VERSION}
+LOCAL_SRC_DIR=${HOME}/.cache/zephir-parser/src
+LOCAL_LIB_DIR=${HOME}/.local/lib
+LOCAL_LIBRARY=${LOCAL_LIB_DIR}/zephir-parser-${ZEPHIR_PARSER_VERSION}-${PHP_MAJOR}.so
 
-# Use Travis cache
-if [ ! -f ${PARSER_DIR}/unit-tests/ci/install-travis ]; then
-    git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git -b ${ZEPHIR_PARSER_VERSION} ${PARSER_DIR}
+EXTENSION_DIR=`$(phpenv which php-config) --extension-dir`
+
+if [ ! -f ${LOCAL_LIBRARY} ]; then
+    mkdir -p ${LOCAL_SRC_DIR}
+    mkdir -p ${LOCAL_LIB_DIR}
+
+    rm -rf ${LOCAL_SRC_DIR}/*
+    git clone --depth=1 -v https://github.com/phalcon/php-zephir-parser.git -b ${ZEPHIR_PARSER_VERSION} ${LOCAL_SRC_DIR}
+
+    bash ${LOCAL_SRC_DIR}/install
+
+    if [ ! -f "${EXTENSION_DIR}/zephir_parser.so" ]; then
+        echo "Unable to locate installed zephir_parser.so"
+        exit 1
+    fi
+
+    cp "${EXTENSION_DIR}/zephir_parser.so" ${LOCAL_LIBRARY}
 fi
 
+echo "[Zephir Parser]" > ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/zephir-parser.ini
+echo "extension=${LOCAL_LIBRARY}" >> ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/zephir-parser.ini
 
-cd ${PARSER_DIR}
-
-bash ./unit-tests/ci/install-travis &> /dev/null
+php --ri 'Zephir Parser'

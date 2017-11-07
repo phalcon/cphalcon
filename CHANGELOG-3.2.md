@@ -1,3 +1,16 @@
+# [3.2.4](https://github.com/phalcon/cphalcon/releases/tag/v3.2.4) (2017-10-21)
+- Fixed regression of [#13046](https://github.com/phalcon/cphalcon/issues/13046) by removing injection of dispatcher's parameters (which were never available anyway) [#13121](https://github.com/phalcon/cphalcon/issues/13121)
+- Fixed `Phalcon\Mvc\Model\Query::_getQualified` to correct replace field names in `WHERE` [#12971](https://github.com/phalcon/cphalcon/issues/12971)
+
+# [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-10-12)
+- Fixed `Phalcon\Mvc\Model\Query::_executeSelect` threw RuntimeException, if db:beforeQuery() returned false
+- Internal cookies property is now always an array [#12978](https://github.com/phalcon/cphalcon/issues/12978)
+- Fixed `Phalcon\Validation\Validator\File::validate` to work properly with parameter 'message' [#12947](https://github.com/phalcon/cphalcon/issues/12947)
+- Fixed `Phalcon\Mvc\View::render` to render a view with params [#13046](https://github.com/phalcon/cphalcon/issues/13046)
+- Fixed `Phalcon\Mvc\Model\Manager::getRelationRecords` to work properly with provided columns [#12972](https://github.com/phalcon/cphalcon/issues/12972)
+- Mark as deprecated no longer used `Phalcon\Mvc\Model\Query\Builder::$_with` parameter [#13023](https://github.com/phalcon/cphalcon/issues/13023)
+- Fixed `Phalcon\Dispatcher::dispatch` to ensure proper flow for all forward/exception/dispatch event hooks [#12931](https://github.com/phalcon/cphalcon/issues/12931)
+
 # [3.2.2](https://github.com/phalcon/cphalcon/releases/tag/v3.2.2) (2017-08-14)
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns` to work properly with `DOUBLE PRECISION` and `REAL` data types [#12842](https://github.com/phalcon/cphalcon/issues/12842)
 - Fixed `Phalcon\Paginator\Adapter\QueryBuilder::getPaginate` to use the db connection service of the model [#12957](https://github.com/phalcon/cphalcon/issues/12957)

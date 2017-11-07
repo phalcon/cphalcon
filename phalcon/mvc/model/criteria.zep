@@ -26,6 +26,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
  * Phalcon\Mvc\Model\Criteria

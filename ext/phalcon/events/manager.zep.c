@@ -515,10 +515,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
  */
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
-	zephir_fcall_cache_entry *_5 = NULL, *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancelable, _3$$6, _7$$8;
-	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events = NULL, *eventParts = NULL, *type = NULL, *eventName = NULL, *event = NULL, *status = NULL, *fireEvents = NULL, *_2, *_0$$4, *_4$$7, *_8$$10;
+	zend_bool cancelable, _3$$6, _5$$8;
+	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL, *events = NULL, *eventParts = NULL, *type = NULL, *eventName = NULL, *event = NULL, *status = NULL, *fireEvents = NULL, *_2, *_0$$4, *_4$$7, *_6$$10;
 	zval *eventType = NULL, *_1$$4;
 
 	ZEPHIR_MM_GROW();
@@ -589,32 +588,32 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 			} else {
 				ZVAL_BOOL(_4$$7, 0);
 			}
-			ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_5, 205, eventName, source, data, _4$$7);
+			ZEPHIR_CALL_METHOD(NULL, event, "__construct", NULL, 205, eventName, source, data, _4$$7);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_6, 206, fireEvents, event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, 206, fireEvents, event);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_OBS_NVAR(fireEvents);
 	if (zephir_array_isset_fetch(&fireEvents, events, eventType, 0 TSRMLS_CC)) {
-		_7$$8 = Z_TYPE_P(fireEvents) == IS_OBJECT;
-		if (!(_7$$8)) {
-			_7$$8 = Z_TYPE_P(fireEvents) == IS_ARRAY;
+		_5$$8 = Z_TYPE_P(fireEvents) == IS_OBJECT;
+		if (!(_5$$8)) {
+			_5$$8 = Z_TYPE_P(fireEvents) == IS_ARRAY;
 		}
-		if (_7$$8) {
+		if (_5$$8) {
 			if (Z_TYPE_P(event) == IS_NULL) {
 				ZEPHIR_INIT_NVAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
-				ZEPHIR_INIT_VAR(_8$$10);
+				ZEPHIR_INIT_VAR(_6$$10);
 				if (cancelable) {
-					ZVAL_BOOL(_8$$10, 1);
+					ZVAL_BOOL(_6$$10, 1);
 				} else {
-					ZVAL_BOOL(_8$$10, 0);
+					ZVAL_BOOL(_6$$10, 0);
 				}
-				ZEPHIR_CALL_METHOD(NULL, event, "__construct", &_5, 205, eventName, source, data, _8$$10);
+				ZEPHIR_CALL_METHOD(NULL, event, "__construct", NULL, 205, eventName, source, data, _6$$10);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", &_6, 206, fireEvents, event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, 206, fireEvents, event);
 			zephir_check_call_status();
 		}
 	}

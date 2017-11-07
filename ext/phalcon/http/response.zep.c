@@ -633,9 +633,8 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified) {
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType) {
 
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *contentType_param = NULL, *charset = NULL, *_0$$3, *_2$$4, *_3$$4;
+	zval *contentType_param = NULL, *charset = NULL, *_0$$3, *_1$$4, *_2$$4;
 	zval *contentType = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -650,16 +649,16 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 	if (Z_TYPE_P(charset) == IS_NULL) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		ZVAL_STRING(_0$$3, "Content-Type", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", &_1, 0, _0$$3, contentType);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, _0$$3, contentType);
 		zephir_check_temp_parameter(_0$$3);
 		zephir_check_call_status();
 	} else {
+		ZEPHIR_INIT_VAR(_1$$4);
+		ZEPHIR_CONCAT_VSV(_1$$4, contentType, "; charset=", charset);
 		ZEPHIR_INIT_VAR(_2$$4);
-		ZEPHIR_CONCAT_VSV(_2$$4, contentType, "; charset=", charset);
-		ZEPHIR_INIT_VAR(_3$$4);
-		ZVAL_STRING(_3$$4, "Content-Type", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", &_1, 0, _3$$4, _2$$4);
-		zephir_check_temp_parameter(_3$$4);
+		ZVAL_STRING(_2$$4, "Content-Type", ZEPHIR_TEMP_PARAM_COPY);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, _2$$4, _1$$4);
+		zephir_check_temp_parameter(_2$$4);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();
@@ -1054,9 +1053,8 @@ PHP_METHOD(Phalcon_Http_Response, send) {
  */
 PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 
-	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filePath_param = NULL, *attachmentName = NULL, *attachment = NULL, *basePath = NULL, *_0$$5 = NULL, *_2$$5;
+	zval *filePath_param = NULL, *attachmentName = NULL, *attachment = NULL, *basePath = NULL, *_0$$5 = NULL, *_1$$5;
 	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1080,21 +1078,21 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 	if (zephir_is_true(attachment)) {
 		ZEPHIR_INIT_VAR(_0$$5);
 		ZVAL_STRING(_0$$5, "Content-Description: File Transfer", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", &_1, 0, _0$$5);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, _0$$5);
 		zephir_check_temp_parameter(_0$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0$$5);
 		ZVAL_STRING(_0$$5, "Content-Type: application/octet-stream", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", &_1, 0, _0$$5);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, _0$$5);
 		zephir_check_temp_parameter(_0$$5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_2$$5);
-		ZEPHIR_CONCAT_SV(_2$$5, "Content-Disposition: attachment; filename=", basePath);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", &_1, 0, _2$$5);
+		ZEPHIR_INIT_VAR(_1$$5);
+		ZEPHIR_CONCAT_SV(_1$$5, "Content-Disposition: attachment; filename=", basePath);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, _1$$5);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_0$$5);
 		ZVAL_STRING(_0$$5, "Content-Transfer-Encoding: binary", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", &_1, 0, _0$$5);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, _0$$5);
 		zephir_check_temp_parameter(_0$$5);
 		zephir_check_call_status();
 	}

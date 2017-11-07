@@ -26,7 +26,10 @@
  * Check for alphanumeric character(s)
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alnum as AlnumValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "username",
@@ -87,7 +90,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_alnum", NULL, 477, value);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_alnum", NULL, 476, value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
@@ -108,7 +111,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZVAL_STRING(_3$$3, "Alnum", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 475, _2$$3, field, _3$$3, code);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 474, _2$$3, field, _3$$3, code);
 		zephir_check_temp_parameter(_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _1$$3);

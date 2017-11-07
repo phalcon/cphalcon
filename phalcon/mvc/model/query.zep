@@ -22,6 +22,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
+use Phalcon\Db\ResultInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
@@ -204,7 +205,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		 * Check if the qualified name is a column alias
 		 */
 		let sqlColumnAliases = this->_sqlColumnAliases;
-		if isset sqlColumnAliases[columnName] {
+		if isset sqlColumnAliases[columnName] && (!isset expr["domain"] || empty expr["domain"]) {
 			return [
 				"type": "qualified",
 				"name": columnName
@@ -2760,7 +2761,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check if the query has data
 		 */
-		if result->numRows(result) {
+		if result instanceof ResultInterface && result->numRows(result) {
 			let resultData = result;
 		} else {
 			let resultData = false;
@@ -2832,7 +2833,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 						throw new Exception("Resultset class \"" . resultsetClassName . "\" not found");
 					}
 
-					if ! in_array("Phalcon\\Mvc\\Model\\ResultsetInterface", class_implements(resultsetClassName)) {
+					if ! is_subclass_of(resultsetClassName, "Phalcon\\Mvc\\Model\\ResultsetInterface") {
 						throw new Exception("Resultset class \"" . resultsetClassName . "\" must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface");
 					}
 
