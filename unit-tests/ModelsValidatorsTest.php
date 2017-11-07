@@ -18,12 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 function sqlite_now()
 {
 	return date('Y-m-d H:i:s');
 }
 
-class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
+class ModelsValidatorsTest extends TestCase
 {
 
 	public function __construct()

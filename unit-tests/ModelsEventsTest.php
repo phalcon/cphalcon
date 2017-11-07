@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsEventsTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsEventsTest extends TestCase
 {
 
 	public function __construct()
@@ -123,7 +125,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($trace, array(
 			'prepareSave' => array(
-				'GossipRobots' => 1	
+				'GossipRobots' => 1
 			),
 			'beforeValidation' => array(
 				'GossipRobots' => 2,
@@ -170,7 +172,7 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($trace, array(
 			'prepareSave' => array(
-				'GossipRobots' => 1	
+				'GossipRobots' => 1
 			),
 			'beforeValidation' => array(
 				'GossipRobots' => 2,
