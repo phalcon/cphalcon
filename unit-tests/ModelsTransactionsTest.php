@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class ModelsTransactionsTest extends TestCase {
 
 	public function __construct()
 	{
@@ -213,4 +215,3 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 	}
 
 }
-

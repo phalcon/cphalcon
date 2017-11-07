@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsMetadataStrategyTest extends TestCase
 {
 
 	protected $_expectedMeta = array(

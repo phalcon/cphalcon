@@ -19,8 +19,9 @@
 */
 
 use Phalcon\Mvc\Model\Query as Query;
+use PHPUnit\Framework\TestCase;
 
-class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
+class ModelsQueryExecuteTest extends TestCase
 {
 
 	public function __construct()

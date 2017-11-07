@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsCalculationsTest extends TestCase
 {
 
 	public function __construct()

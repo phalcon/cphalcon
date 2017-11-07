@@ -19,10 +19,12 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * This test has to be in a separate file and cannot be combined with ModelsTest
  */
-class Issue1801 extends PHPUnit_Framework_TestCase
+class Issue1801 extends TestCase
 {
 
 	public function __construct()

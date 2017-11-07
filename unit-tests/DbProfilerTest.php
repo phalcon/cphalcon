@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 class DbProfiler extends Phalcon\Db\Profiler
 {
 
@@ -71,7 +73,7 @@ class DbProfilerListener
 
 }
 
-class DbProfilerTest extends PHPUnit_Framework_TestCase
+class DbProfilerTest extends TestCase
 {
 
 	public function testDbMysql()

@@ -19,12 +19,13 @@
 */
 
 use Phalcon\Mvc\Model\Message as ModelMessage;
+use PHPUnit\Framework\TestCase;
 
 class Issue_1534 extends \Phalcon\Mvc\Model
 {
 }
 
-class ModelsTest extends PHPUnit_Framework_TestCase
+class ModelsTest extends TestCase
 {
 
 	public function __construct()
