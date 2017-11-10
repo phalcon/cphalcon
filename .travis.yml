@@ -6,13 +6,12 @@ sudo: false
 php:
   - 7.0
   - 7.1
+  - 7.2
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: nightly
-  include:
-    - php: nightly
+    - php: 7.2
 
 git:
   depth: 1
@@ -20,14 +19,15 @@ git:
 cache:
   apt: true
   ccache: true
-  timeout: 691200
+  timeout: 604800
   directories:
     - .temp
     - $HOME/beanstalk
     - $HOME/.ccache
     - $HOME/.composer/cache
     - $HOME/pear
-    - $HOME/.local/lib
+    - $HOME/.local/opt/re2c
+    - $HOME/.cache/re2c
 
 services:
   - beanstalkd
@@ -67,7 +67,8 @@ env:
     - CC="ccache gcc"
     - PATH="$PATH:~/bin"
     - BEANSTALKD_VERSION="1.10"
-    - ZEPHIR_PARSER_VERSION="v1.1.0"
+    - ZEPHIR_PARSER_VERSION="v1.1.1"
+    - RE2C_VERSION="1.0.3"
     # Uncomment for debug
     #- ZEND_DONT_UNLOAD_MODULES=1
 
@@ -80,6 +81,7 @@ before_install:
 install:
   - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
+  - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - zephir generate
@@ -100,7 +102,16 @@ before_script:
 
 script:
   # Syntax recognize test
-  - $(phpenv which php) -d variables_order=EGPCS $(pwd)/ext/run-tests.php -p $(phpenv which php) -d variables_order=EGPCS -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" --offline --show-diff --set-timeout 120
+  - |
+      $(phpenv which php) \
+        -d variables_order=EGPCS \
+        $(pwd)/ext/run-tests.php \
+            -p $(phpenv which php) \
+            -d variables_order=EGPCS \
+            -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
+            --offline \
+            --show-diff \
+            --set-timeout 120
 
   - vendor/bin/phpcs
   - vendor/bin/codecept build
@@ -124,7 +135,6 @@ notifications:
 addons:
     apt:
         packages:
-            - re2c
             - beanstalkd
             # Uncomment for debug
             # - gdb
