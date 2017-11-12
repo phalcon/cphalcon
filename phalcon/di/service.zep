@@ -21,6 +21,7 @@ namespace Phalcon\Di;
 
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
 
@@ -40,9 +41,6 @@ use Phalcon\Di\Service\Builder;
  */
 class Service implements ServiceInterface
 {
-
-	protected _name;
-
 	protected _definition;
 
 	protected _shared = false;
@@ -55,20 +53,12 @@ class Service implements ServiceInterface
 	 * Phalcon\Di\Service
 	 *
 	 * @param mixed definition
+	 * @param boolean shared
 	 */
-	public final function __construct(string! name, definition, boolean shared = false)
+	public function __construct(definition, boolean shared = false)
 	{
-		let this->_name = name,
-			this->_definition = definition,
+		let this->_definition = definition,
 			this->_shared = shared;
-	}
-
-	/**
-	 * Returns the service's name
-	 */
-	public function getName() -> string
-	{
-		return this->_name;
 	}
 
 	/**
@@ -121,6 +111,7 @@ class Service implements ServiceInterface
 	 * Resolves the service
 	 *
 	 * @param array parameters
+	 * @param \Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
@@ -202,7 +193,7 @@ class Service implements ServiceInterface
 		 * If the service can't be built, we must throw an exception
 		 */
 		if found === false  {
-			throw new Exception("Service '" . this->_name . "' cannot be resolved");
+			throw new ServiceResolutionException();
 		}
 
 		/**
@@ -254,6 +245,7 @@ class Service implements ServiceInterface
 	/**
 	 * Returns a parameter in a specific position
 	 *
+	 * @param int position
 	 * @return array
 	 */
 	public function getParameter(int position)
@@ -291,10 +283,6 @@ class Service implements ServiceInterface
 	public static function __set_state(array! attributes) -> <Service>
 	{
 		var name, definition, shared;
-
-		if !fetch name, attributes["_name"] {
-			throw new Exception("The attribute '_name' is required");
-		}
 
 		if !fetch definition, attributes["_definition"] {
 			throw new Exception("The attribute '_definition' is required");
