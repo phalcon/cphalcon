@@ -12,9 +12,6 @@ use Phalcon\Config\Adapter\Yaml;
 class ServiceRegistry
 {
 
-	/**
-	 *
-	 */
 	protected di;
 
 	/**
@@ -34,12 +31,12 @@ class ServiceRegistry
 
 		switch (gettype(dirPath)) {
 			case "string":
-				this->_registerDir(dirPath);
+				this->registerDirInternal(dirPath);
 				break;
 			case "array":
 			case "object":
 				for dirPathItem in iterator(dirPath) {
-					this->_registerDir(dirPathItem);
+					this->registerDirInternal(dirPathItem);
 				}
 				break;
 			default:
@@ -51,7 +48,7 @@ class ServiceRegistry
 	/**
 	 *
 	 */
-	protected function _registerDir(string! dirPath)
+	protected function registerDirInternal(string! dirPath)
 	{
 		var dir, fileinfo, extension, serviceNameSection, forceShared, serviceName;
 
@@ -67,22 +64,22 @@ class ServiceRegistry
 			let forceShared = substr(serviceNameSection, -7) === "_shared";
 			let serviceName = forceShared ? substr(serviceNameSection, 0, -7) : serviceNameSection;
 
-			this->_registerFile(fileinfo->getPathname(), serviceName, extension, forceShared);
+			this->registerFile(fileinfo->getPathname(), serviceName, extension, forceShared);
 		}
 	}
 
 	/**
 	 *
 	 */
-	protected function _registerFile(string! path, string! serviceName, string! extension, boolean forceShared)
+	protected function registerFile(string! path, string! serviceName, string! extension, boolean forceShared)
 	{
 		var serviceDef;
 
-		switch (extension) {
+		switch extension {
 			case "php":
 				let serviceDef = require path;
 
-				switch (gettype(serviceDef)) {
+				switch typeof serviceDef {
 					case "object":
 						if (serviceDef instanceof ServiceInterface) {
 							if (forceShared) {

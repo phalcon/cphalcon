@@ -52,10 +52,8 @@ class Service implements ServiceInterface
 	/**
 	 * Phalcon\Di\Service
 	 *
-	 * @param mixed definition
-	 * @param boolean shared
 	 */
-	public function __construct(definition, boolean shared = false)
+	public function __construct(var definition, boolean shared = false)
 	{
 		let this->_definition = definition,
 			this->_shared = shared;
@@ -80,9 +78,8 @@ class Service implements ServiceInterface
 	/**
 	 * Sets/Resets the shared instance related to the service
 	 *
-	 * @param mixed sharedInstance
 	 */
-	public function setSharedInstance(sharedInstance) -> void
+	public function setSharedInstance(var sharedInstance) -> void
 	{
 		let this->_sharedInstance = sharedInstance;
 	}
@@ -90,9 +87,8 @@ class Service implements ServiceInterface
 	/**
 	 * Set the service definition
 	 *
-	 * @param mixed definition
 	 */
-	public function setDefinition(definition) -> void
+	public function setDefinition(var definition) -> void
 	{
 		let this->_definition = definition;
 	}
@@ -100,7 +96,6 @@ class Service implements ServiceInterface
 	/**
 	 * Returns the service definition
 	 *
-	 * @return mixed
 	 */
 	public function getDefinition()
 	{
@@ -110,11 +105,8 @@ class Service implements ServiceInterface
 	/**
 	 * Resolves the service
 	 *
-	 * @param array parameters
-	 * @param \Phalcon\DiInterface dependencyInjector
-	 * @return mixed
 	 */
-	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
+	public function resolve(var parameters = null, <DiInterface> dependencyInjector = null)
 	{
 		boolean found;
 		var shared, definition, sharedInstance, instance, builder;
@@ -245,10 +237,8 @@ class Service implements ServiceInterface
 	/**
 	 * Returns a parameter in a specific position
 	 *
-	 * @param int position
-	 * @return array
 	 */
-	public function getParameter(int position)
+	public function getParameter(int position) -> array | null
 	{
 		var definition, arguments, parameter;
 
