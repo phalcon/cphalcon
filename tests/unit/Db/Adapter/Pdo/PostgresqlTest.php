@@ -77,6 +77,7 @@ class PostgresqlTest extends UnitTest
                     'robots',
                     'robots_parts',
                     'subscriptores',
+                    'table_with_string_field',
                     'tipo_documento',
                 ];
 

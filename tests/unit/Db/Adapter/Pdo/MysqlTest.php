@@ -91,6 +91,7 @@ class MysqlTest extends UnitTest
                     'stats',
                     'stock',
                     'subscriptores',
+                    'table_with_string_field',
                     'tipo_documento',
                     'users',
                 ];

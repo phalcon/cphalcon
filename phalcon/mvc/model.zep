@@ -3613,7 +3613,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		let keysAttributes = [];
 		for attribute in attributes {
-			let keysAttributes[attribute] = null;
+			let keysAttributes[attribute] = true;
 		}
 
 		this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
