@@ -417,7 +417,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			actionSuffix, handlerClass, status, actionMethod, methodParams,
+			actionSuffix, handlerClass, status, actionMethod,
 			modelBinder, bindCacheKey,
 			wasFresh, e;
 
