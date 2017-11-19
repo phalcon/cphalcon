@@ -2,7 +2,7 @@
 switch-case - Tests exception for empty switch
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
-<?php if (!defined('PHP_MAJOR_VERSION') || PHP_MAJOR_VERSION == 5) print "skip tests exception (PHP5 has different message format)"; ?>
+<?php if (!defined('PHP_MAJOR_VERSION') || PHP_MAJOR_VERSION == 5) print "skip PHP5 has different message format"; ?>
 --FILE--
 <?php require(dirname(dirname(dirname(__DIR__))) . "/../bootstrap.inc");
 

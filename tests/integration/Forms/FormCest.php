@@ -149,7 +149,7 @@ class FormCest
      * @since  2017-11-19
      * @param  IntegrationTester $I
      */
-    public function sholdCancelValidationOnFirstFail(IntegrationTester $I)
+    public function shouldCancelValidationOnFirstFail(IntegrationTester $I)
     {
         $form = new Form();
 
