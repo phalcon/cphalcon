@@ -46,8 +46,13 @@ env:
     - PATH="$PATH:$HOME/bin"
     - ZEPHIR_PARSER_VERSION="v1.1.1"
     - RE2C_VERSION="1.0.3"
-    # Uncomment for debug
-    #- ZEND_DONT_UNLOAD_MODULES=1
+    # Generating a valgrind log
+    # For more see: https://bugs.php.net/bugs-getting-valgrind-log.php
+    #
+    # Uncomment to correctly show the stack frames for extensions compiled as shared libraries
+    # - ZEND_DONT_UNLOAD_MODULES=1
+    # Uncomment to disable Zend memory manager before running PHP with valgrind
+    # - USE_ZEND_ALLOC=0
 
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
@@ -106,8 +111,8 @@ install:
   - $(phpenv which php) --ri phalcon
 
 before_script:
-  # Uncomment for debug
-  # - ulimit -c unlimited -S || true
+  - ulimit -c unlimited -S || true
+  # Uncomment for debug purposes
   # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
   # attempt to workaroung "ptrace: Operation not permitted"
   # - sudo chmod +s $(which gdb)
@@ -145,7 +150,7 @@ script:
           vendor/bin/codecept run -v -n tests/unit5x/;
       fi
 
-# Uncomment for debug
+# Uncomment for debug purposes
 # after_failure:
 #  - bash tests/_ci/after_failure.sh
 
