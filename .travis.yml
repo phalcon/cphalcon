@@ -9,11 +9,12 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - nightly
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: 7.2
+    - php: nightly
 
 git:
   depth: 1
@@ -82,34 +83,43 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
+  - composer install -q -n --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
   - |
       if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.2" ]; then
-          composer remove doctrine/instantiator
-          composer remove phpdocumentor/reflection-docblock
-          composer require phpunit/phpunit:~6.0
+          composer remove -q -n --no-ansi --no-progress --dev doctrine/instantiator
+          composer remove -q -n --no-ansi --no-progress --dev phpdocumentor/reflection-docblock
+          composer remove -q -n --no-ansi --no-progress --dev phpunit/phpunit
+          composer require -q -n --no-ansi --no-progress --dev --prefer-source --no-suggest  phpunit/phpunit:^6.4
       fi
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - zephir generate
-  - export PRE_PHP_INCLUDES=`php-config --includes`
-  - cd $TRAVIS_BUILD_DIR/ext
+  # Use `-g -O0' for debug purposes
+  - export CFLAGS="-g3 -O1 -std=gnu90 -Wall"
+  - cd ${TRAVIS_BUILD_DIR}/ext
+  # Creating precompiled headers.
+  # If a `*.gch' file is not found then the normal header files will be used.
+  # For more see: http://en.wikipedia.org/wiki/Precompiled_header
   - |
       for file in `find kernel -name "*.h"`; do
-          $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc";
+          echo -e "Creating a precompiled header from $file ...";
+          $CC "$file" -I. $(php-config --includes) -o "$file.ghc";
       done
-  # Use -g -O0 for debug purposes
-  - export CFLAGS="-g3 -O1 -std=gnu90 -Wall"
+  # You may need to remove all `&> /dev/null' and `--silent' for debug purposes
   - $(phpenv which phpize) &> /dev/null
   - ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null
   - make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
   - make --silent install
   - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/phalcon.ini
+  # Here is common php config
   - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/ci.ini
+  # Some debug info located here
   - ls -al `$(phpenv which php-config) --extension-dir`
-  - php -m
+  - $(phpenv which php) -v
+  - $(phpenv which php) -m
+  - $(phpenv which php) --ri phalcon
 
 before_script:
   # Uncomment for debug
@@ -119,17 +129,15 @@ before_script:
   # - sudo chmod +s $(which gdb)
 
 script:
-  # Syntax recognize test
+  - cd $TRAVIS_BUILD_DIR
+  # Syntax recognize tests
   - |
-      $(phpenv which php) \
-        -d variables_order=EGPCS \
-        $(pwd)/ext/run-tests.php \
-            -p $(phpenv which php) \
-            -d variables_order=EGPCS \
-            -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
-            --offline \
-            --show-diff \
-            --set-timeout 120
+      $(phpenv which php) $TRAVIS_BUILD_DIR/ext/run-tests.php \
+          -p $(phpenv which php) \
+          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
+          --offline \
+          --show-diff \
+          --set-timeout 120
 
   - vendor/bin/phpcs
   - |
