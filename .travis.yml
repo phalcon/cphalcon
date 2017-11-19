@@ -77,18 +77,25 @@ env:
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1)"
+  - export PHP_MINOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 2)"
   - bash tests/_ci/pear_setup.sh
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
+  - composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
+  - |
+      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.2" ]; then
+          composer remove doctrine/instantiator
+          composer remove phpdocumentor/reflection-docblock
+          composer require phpunit/phpunit:^6.4
+      fi
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - zephir generate
   - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
-  # Use -O0 for debug purposes
+  # Use -g -O0 for debug purposes
   - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
   - phpenv config-add tests/_ci/phalcon.ini
   - phpenv config-add tests/_ci/ci.ini
@@ -116,7 +123,10 @@ script:
             --set-timeout 120
 
   - vendor/bin/phpcs
-  - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
+  - |
+      if [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.2" ]; then
+          vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
+      fi
   - vendor/bin/codecept build
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
