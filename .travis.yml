@@ -67,7 +67,7 @@ env:
     - TEST_RS_DB="0"
     - TEST_CACHE_DIR="tests/_cache/"
     - CC="ccache gcc"
-    - PATH="$PATH:~/bin"
+    - PATH="$PATH:$HOME/bin"
     - BEANSTALKD_VERSION="1.10"
     - ZEPHIR_PARSER_VERSION="v1.1.1"
     - RE2C_VERSION="1.0.3"
@@ -87,18 +87,27 @@ install:
       if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.2" ]; then
           composer remove doctrine/instantiator
           composer remove phpdocumentor/reflection-docblock
-          composer require phpunit/phpunit:^6.4
+          composer require phpunit/phpunit:~6.0
       fi
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
   - zephir generate
-  - (export PRE_PHP_INCLUDES=`php-config --includes`; cd ext/; for file in `find kernel -name "*.h"`; do $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc"; done)
+  - export PRE_PHP_INCLUDES=`php-config --includes`
+  - cd $TRAVIS_BUILD_DIR/ext
+  - |
+      for file in `find kernel -name "*.h"`; do
+          $CC "$file" -I. $PRE_PHP_INCLUDES -o "$file.ghc";
+      done
   # Use -g -O0 for debug purposes
-  - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall"; $(phpenv which phpize) &> /dev/null && ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null && make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null && make --silent install)
-  - phpenv config-add tests/_ci/phalcon.ini
-  - phpenv config-add tests/_ci/ci.ini
+  - export CFLAGS="-g3 -O1 -std=gnu90 -Wall"
+  - $(phpenv which phpize) &> /dev/null
+  - ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null
+  - make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
+  - make --silent install
+  - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/phalcon.ini
+  - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/ci.ini
   - ls -al `$(phpenv which php-config) --extension-dir`
   - php -m
 
@@ -140,10 +149,8 @@ script:
 
 notifications:
     email:
-        recipients:
-            - build@phalconphp.com
-        on_success: change
-        on_failure: always
+        on_success: never
+        on_failure: never
 
 addons:
     apt:
