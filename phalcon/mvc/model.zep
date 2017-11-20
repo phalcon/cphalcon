@@ -2563,15 +2563,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  											let changed = (boolean) snapshotValue !== (boolean) value;
  											break;
 
- 										case Column::TYPE_INTEGER:
- 											let changed = (int) snapshotValue !== (int) value;
- 											break;
-
  										case Column::TYPE_DECIMAL:
  										case Column::TYPE_FLOAT:
  											let changed = floatval(snapshotValue) !== floatval(value);
  											break;
 
+ 										case Column::TYPE_INTEGER:
  										case Column::TYPE_DATE:
  										case Column::TYPE_VARCHAR:
  										case Column::TYPE_DATETIME:

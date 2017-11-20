@@ -200,6 +200,34 @@ class DynamicOperationsTest extends UnitTest
     }
 
     /**
+     * Tests dynamic update and rawvalue
+     *
+     * @author limingxinleo <715557344@qq.com>
+     * @issue  13170
+     * @since  2017-11-20
+     */
+    public function testIssue13170()
+    {
+        $robot = new Robots();
+        $robot->name = 'Test';
+        $robot->type = 'mechanical';
+        $robot->datetime = (new \DateTime())->format('Y-m-d');
+        $robot->text = 'text';
+        $robot->year = 1;
+        $robot->save();
+
+        $robot = Robots::findFirst([
+            'conditions' => 'year = ?0',
+            'bind' => [1]
+        ]);
+        $robot->year = new \Phalcon\Db\RawValue('year + 1');
+        $robot->save();
+
+        $robot = Robots::findFirst($robot->id);
+        expect($robot->year)->equals(2);
+    }
+
+    /**
      * Setting up the Events Manager.
      *
      * @return void
