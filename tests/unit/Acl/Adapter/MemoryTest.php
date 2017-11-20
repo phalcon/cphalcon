@@ -653,7 +653,8 @@ class MemoryTest extends UnitTest
             },
             [
                 'throws' => [
-                    PHPUnit_Framework_Exception::class,
+                    // We may need change this for all 7.x series
+                    PHP_VERSION_ID >= 70200 ? 'PHPUnit\Framework\Exception' : 'PHPUnit_Framework_Exception',
                     "You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments."
                 ]
             ]

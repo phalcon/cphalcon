@@ -1,18 +1,18 @@
 <?php
 
-namespace Phalcon\Test\Models\DynamicUpdate;
+namespace Phalcon\Test\Models\Dynamic;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Test\Models\RobotsParts;
 
 /**
- * \Phalcon\Test\Models\DynamicUpdate\Robots
+ * \Phalcon\Test\Models\Dynamic\Robots
  *
  * @copyright 2011-2017 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Models\DynamicUpdate
+ * @package   Phalcon\Test\Models\Dynamic
  *
  * @property int $id
  * @property string $name
