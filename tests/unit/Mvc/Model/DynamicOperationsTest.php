@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Phalcon\Di;
 use Helper\ModelTrait;
+use Phalcon\Db\RawValue;
 use Phalcon\DiInterface;
 use Phalcon\Events\Event;
 use Phalcon\Db\AdapterInterface;
@@ -202,29 +203,36 @@ class DynamicOperationsTest extends UnitTest
     /**
      * Tests dynamic update and rawvalue
      *
+     * @test
      * @author limingxinleo <715557344@qq.com>
      * @issue  13170
      * @since  2017-11-20
      */
-    public function testIssue13170()
+    public function shouldWorkUsingDynamicUpdateForRawValue()
     {
-        $robot = new Robots();
-        $robot->name = 'Test';
-        $robot->type = 'mechanical';
-        $robot->datetime = (new \DateTime())->format('Y-m-d');
-        $robot->text = 'text';
-        $robot->year = 1;
-        $robot->save();
+        $this->specify(
+            'Dynamic update does not work as expected for fields which raw values were assigned to',
+            function () {
+                $robot = new Robots();
+                $robot->name = 'Test';
+                $robot->type = 'mechanical';
+                $robot->datetime = (new \DateTime())->format('Y-m-d');
+                $robot->text = 'text';
+                $robot->year = 1;
+                $robot->save();
 
-        $robot = Robots::findFirst([
-            'conditions' => 'year = ?0',
-            'bind' => [1]
-        ]);
-        $robot->year = new \Phalcon\Db\RawValue('year + 1');
-        $robot->save();
+                $robot = Robots::findFirst([
+                    'conditions' => 'year = ?0',
+                    'bind'       => [1]
+                ]);
 
-        $robot = Robots::findFirst($robot->id);
-        expect($robot->year)->equals(2);
+                $robot->year = new RawValue('year + 1');
+                expect($robot->save())->true();
+
+                $robot = Robots::findFirst($robot->id);
+                expect($robot->year)->equals(2);
+            }
+        );
     }
 
     /**
