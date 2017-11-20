@@ -147,6 +147,18 @@ class ResponseTest extends HttpBase
                 $response = $this->getResponseObject();
                 $response->resetHeaders();
 
+                $response->setStatusCode(103);
+                $expected = Headers::__set_state(
+                    [
+                        '_headers' => [
+                            'HTTP/1.1 103 Early Hints' => '',
+                            'Status'                   => '103 Early Hints'
+                        ]
+                    ]
+                );
+
+                expect($response->getHeaders())->equals($expected);
+
                 $response->setStatusCode(200);
                 $expected = Headers::__set_state(
                     [
