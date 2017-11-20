@@ -142,6 +142,82 @@ class FormCest
     }
 
     /**
+     * Tests canceling validation on first fail
+     *
+     * @issue  13149
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-11-19
+     * @param  IntegrationTester $I
+     */
+    public function shouldCancelValidationOnFirstFail(IntegrationTester $I)
+    {
+        $form = new Form();
+
+        $lastName = new Text('lastName');
+        $lastName->setLabel('user.lastName');
+        $lastName->setFilters([
+            "string",
+            "striptags",
+            "trim",
+        ]);
+
+        $lastName->addValidators([
+            new PresenceOf([
+                'message'      => 'user.lastName.presenceOf',
+                'cancelOnFail' => true,
+            ]),
+            new StringLength([
+                'min'            => 3,
+                'max'            => 255,
+                'messageMaximum' => 'user.lastName.max',
+                'messageMinimum' => 'user.lastName.min',
+            ]),
+        ]);
+
+        $firstName = new Text('firstName');
+        $firstName->setLabel('user.firstName');
+        $firstName->setFilters([
+            "string",
+            "striptags",
+            "trim",
+        ]);
+
+        $firstName->addValidators([
+            new PresenceOf([
+                'message'      => 'user.firstName.presenceOf',
+                'cancelOnFail' => true,
+            ]),
+            new StringLength([
+                'min'            => 3,
+                'max'            => 255,
+                'messageMaximum' => 'user.firstName.max',
+                'messageMinimum' => 'user.firstName.min',
+            ]),
+        ]);
+
+        $form->add($lastName);
+        $form->add($firstName);
+
+        $_POST = [];
+        $I->assertFalse($form->isValid($_POST));
+
+        $actual = $form->getMessages();
+        $expected = Group::__set_state([
+            '_position' => 0,
+            '_messages' => [
+                Message::__set_state([
+                    '_type' => 'PresenceOf',
+                    '_message' => 'user.lastName.presenceOf',
+                    '_field' => 'lastName',
+                    '_code' => '0',
+                ])
+            ],
+        ]);
+
+        $I->assertEquals($actual, $expected);
+    }
+
+    /**
      * Tests clearing the Form Elements and using Form::isValid
      *
      * @issue  11978

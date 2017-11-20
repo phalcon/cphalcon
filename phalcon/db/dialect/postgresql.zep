@@ -341,7 +341,7 @@ class Postgresql extends Dialect
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
 			indexSql, indexSqlAfterCreate, sql, columnLine, indexType,
-			referenceSql, onDelete, onUpdate, defaultValue, primaryColumns,
+			referenceSql, onDelete, onUpdate, primaryColumns,
 			columnDefinition;
 
 		if !fetch columns, definition["columns"] {
@@ -375,12 +375,7 @@ class Postgresql extends Dialect
 			 * Add a Default clause
 			 */
 			if column->hasDefault() {
-				let defaultValue = this->_castDefault(column);
-				if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-					let sql .= " DEFAULT " . defaultValue;
-				} else {
-					let columnLine .= " DEFAULT " . defaultValue;
-				}
+				let columnLine .= " DEFAULT " . this->_castDefault(column);
 			}
 
 			/**
@@ -655,7 +650,7 @@ class Postgresql extends Dialect
 			columnType = column->getType();
 
 		if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-			return defaultValue ? "true" : "false";
+			return defaultValue;
 		}
 
 		if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
