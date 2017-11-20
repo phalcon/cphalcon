@@ -6,6 +6,7 @@ use Helper\ModelTrait;
 use Phalcon\Mvc\Model;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Snapshot\Robots;
+use Phalcon\Test\Models\Snapshot\Requests;
 use Phalcon\Test\Models\Snapshot\Robotters;
 
 /**
@@ -29,6 +30,37 @@ use Phalcon\Test\Models\Snapshot\Robotters;
 class SnapshotTest extends UnitTest
 {
     use ModelTrait;
+
+    /**
+     * Tests dynamic update for identityless models
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @issue  13166
+     * @since  2017-11-20
+     */
+    public function shouldSaveSnapshotForIdentitylessModel()
+    {
+        $this->specify(
+            "Snapshot does not work with identityless models on Creation/Save",
+            function () {
+                $requests = new Requests();
+
+                $requests->method = 'GET';
+                $requests->uri = '/api/status';
+                $requests->count = 1;
+
+                expect($requests->save())->true();
+                expect($requests->getChangedFields())->equals([]);
+                expect($requests->getSnapshotData())->notEmpty();
+                expect($requests->getSnapshotData())->equals($requests->toArray());
+
+                expect($requests->method)->equals('GET');
+                expect($requests->uri)->equals('/api/status');
+                expect($requests->count)->equals(1);
+            }
+        );
+    }
 
     /** @test */
     public function shouldWorkWithSimpleResultset()
