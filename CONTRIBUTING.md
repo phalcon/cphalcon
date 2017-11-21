@@ -13,8 +13,15 @@ follow this format, even those from core contributors.
 
 ## Questions & Support
 
-*We only accept bug reports, new feature requests and pull requests in GitHub*.
-For questions regarding the usage of the framework or support requests please visit the [official forums][forum].
+We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address all of them. Thus
+we only accept bug reports, new feature requests and pull requests in GitHub. Our great community and contributors are
+happy to help you though! Please use these community resources for obtaining help.
+
+* Questions should go to [Official Forums](https://forum.phalconphp.com)
+* Another way is to ask a question on [StackOverflow](https://stackoverflow.com/) and tag it with [`phalcon`](https://stackoverflow.com/questions/tagged/phalcon)
+* Come join the Phalcon [Discord](https://phalcon.link/discord)
+* Our social network accounts are: [Twitter](https://phalcon.link/t), [Facebook](https://phalcon.link/fb) and [Google+](https://phalcon.link/gab)
+* If you still believe that what you found is a bug, please [open an issue](https://github.com/phalcon/cphalcon/issues/new)
 
 ## Bug Report Checklist
 
@@ -56,7 +63,6 @@ If you have a change or new feature in mind, please fill an [NFR][nfr].
 Thanks! <br />
 Phalcon Team
 
-[forum]: https://forum.phalconphp.com/
 [srt]: https://github.com/phalcon/cphalcon/wiki/Submit-Reproducible-Test
 [gb]: https://github.com/phalcon/cphalcon/wiki/Generating-a-backtrace
 [testing]: https://github.com/phalcon/cphalcon/blob/master/tests/README.md
