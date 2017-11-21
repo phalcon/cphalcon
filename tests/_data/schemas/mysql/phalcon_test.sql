@@ -637,6 +637,22 @@ CREATE TABLE `foreign_key_child` (
     KEY (`child_int`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `table_with_string_field`;
+CREATE TABLE `table_with_string_field` (
+    `id` INT(10)   UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `field` VARCHAR(70) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `table_with_string_field` WRITE;
+/*!40000 ALTER TABLE `table_with_string_field` DISABLE KEYS */;
+INSERT INTO `table_with_string_field` VALUES
+  (1,'String one'),
+  (2,'String two'),
+  (3,'Another one string');
+/*!40000 ALTER TABLE `table_with_string_field` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

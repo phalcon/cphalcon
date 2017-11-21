@@ -740,7 +740,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			10 => 'robots_parts',
 			11 => 'sqlite_sequence',
 			12 => 'subscriptores',
-			13 => 'tipo_documento',
+			13 => 'table_with_string_field',
+			14 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
