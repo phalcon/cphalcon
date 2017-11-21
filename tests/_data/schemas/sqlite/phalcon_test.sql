@@ -6529,4 +6529,13 @@ CREATE TABLE COMPANY (
 CREATE INDEX salary_index ON COMPANY (salary);
 CREATE UNIQUE INDEX name_index ON COMPANY (name);
 
+DROP TABLE IF EXISTS `table_with_string_field`;
+CREATE TABLE `table_with_string_field` (
+  `id` INTEGER NOT NULL PRIMARY KEY,
+  `field` varchar(70) NOT NULL
+);
+INSERT INTO "table_with_string_field" VALUES(1,'String one');
+INSERT INTO "table_with_string_field" VALUES(2,'String two');
+INSERT INTO "table_with_string_field" VALUES(3,'Another one string');
+
 COMMIT;
