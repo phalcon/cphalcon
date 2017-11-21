@@ -114,6 +114,29 @@ class RequestTest extends HttpBase
     }
 
     /**
+     * Tests hasHeader
+     *
+     * @author limx <715557344@qq.com>
+     * @since  2017-10-26
+     */
+    public function testHttpRequestCustomHeaderHas()
+    {
+        $this->specify(
+            "hasHeader does not returns correct result",
+            function () {
+                $_SERVER['HTTP_FOO'] = 'Bar';
+                $_SERVER['HTTP_AUTH'] = true;
+
+                $request = $this->getRequestObject();
+
+                expect($request->hasHeader('HTTP_FOO'))->true();
+                expect($request->hasHeader('AUTH'))->true();
+                expect($request->hasHeader('HTTP_FOO'))->true();
+            }
+        );
+    }
+    
+    /**
      * Tests isAjax default
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>

@@ -1010,7 +1010,7 @@ struct symbol *errsym;   /* The error symbol (if defined.  NULL otherwise) */
       apx->type = RD_RESOLVED;
     }
   }else{
-    assert( 
+    assert(
       apx->type==SH_RESOLVED ||
       apx->type==RD_RESOLVED ||
       apx->type==CONFLICT ||
@@ -2307,7 +2307,7 @@ to follow the previous rule.");
 ** macros.  This routine looks for "%ifdef" and "%ifndef" and "%endif" and
 ** comments them out.  Text in between is also commented out as appropriate.
 */
-static preprocess_input(char *z){
+static void preprocess_input(char *z){
   int i, j, k, n;
   int exclude = 0;
   int start;

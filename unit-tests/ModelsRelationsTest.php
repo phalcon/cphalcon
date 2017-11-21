@@ -122,23 +122,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	public function _executeTestsNormal($di)
 	{
-
 		$manager = $di->getShared('modelsManager');
-
-		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsRobots');
-		$this->assertTrue($success);
-
-		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsParts');
-		$this->assertTrue($success);
-
-		$success = $manager->existsHasMany('RelationsRobots', 'RelationsRobotsParts');
-		$this->assertTrue($success);
-
-		$success = $manager->existsHasMany('RelationsParts', 'RelationsRobotsParts');
-		$this->assertTrue($success);
-
-		$success = $manager->existsHasManyToMany('RelationsRobots', 'RelationsParts');
-		$this->assertTrue($success);
 
 		$robot = RelationsRobots::findFirst();
 		$this->assertNotEquals($robot, false);
