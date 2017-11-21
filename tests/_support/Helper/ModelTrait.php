@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 
 /**
- * \Helper\ModelTrait
+ * Helper\ModelTrait
  * Helper class to test Phalcon\Mvc\Model component
  *
  * @copyright (c) 2011-2017 Phalcon Team

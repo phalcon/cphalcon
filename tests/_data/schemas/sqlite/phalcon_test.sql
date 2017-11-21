@@ -1,6 +1,23 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
+DROP TABLE IF EXISTS `ph_select`;
+CREATE TABLE `ph_select` (
+    `sel_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+    `sel_name` varchar(16) NOT NULL,
+    `sel_text` varchar(100) DEFAULT NULL
+);
+
+INSERT INTO `ph_select` (`sel_id`, `sel_name`, `sel_text`) VALUES
+    (1, 'Sun', 'The one and only'),
+    (2, 'Mercury', 'Cold and hot'),
+    (3, 'Venus', 'Yeah baby she''s got it'),
+    (4, 'Earth', 'Home'),
+    (5, 'Mars', 'The God of War'),
+    (6, 'Jupiter', NULL),
+    (7, 'Saturn', 'A car'),
+    (8, 'Uranus', 'Loads of jokes for this one');
+
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
