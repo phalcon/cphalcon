@@ -6938,6 +6938,25 @@ CREATE TABLE table_with_string_field (
 );
 
 --
+-- Name: table_with_string_field; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+CREATE TABLE table_with_string_field (
+    id integer NOT NULL,
+    field character varying(70) NOT NULL
+);
+
+--
+-- Data for Name: table_with_string_field; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY robots (id, field) FROM stdin;
+1	String one
+2	String two
+3	Another one string
+\.
+
+--
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
