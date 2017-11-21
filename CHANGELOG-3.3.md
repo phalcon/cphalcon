@@ -5,4 +5,4 @@
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to correct generate PHQL in argument's array when using order DESC or ASC [#11827](https://github.com/phalcon/cphalcon/issues/11827)
 - Fixed `Phalcon\Db\Dialect\Postgresql::createTable()` to correct inserting default value to SQL for `boolean` type [#13132](https://github.com/phalcon/cphalcon/issues/13132)
 - Fixed `Phalcon\Db\Dialect\Postgresql::_castDefault()` to correct returning value for `boolean` type
-- Fixed `Phalcon\Mvc\Model::allowEmptyStringValues` to correct works with saving empty string values when DEFAULT not set in SQL 
+- Fixed `Phalcon\Mvc\Model::allowEmptyStringValues` to correct works with saving empty string values when DEFAULT not set in SQL
