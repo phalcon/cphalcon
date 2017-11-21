@@ -2432,16 +2432,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->{attributeField} = lastInsertedId;
 			let snapshot[attributeField] = lastInsertedId;
 
-			if manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
-			    let this->_snapshot = snapshot;
-			}
-
 			/**
 			 * Since the primary key was modified, we delete the _uniqueParams
 			 * to force any future update to re-build the primary key
 			 */
 			let this->_uniqueParams = null;
 		}
+
+		if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
+			let this->_snapshot = snapshot;
+		}
+
 
 		return success;
 	}
@@ -2562,15 +2563,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  											let changed = (boolean) snapshotValue !== (boolean) value;
  											break;
 
- 										case Column::TYPE_INTEGER:
- 											let changed = (int) snapshotValue !== (int) value;
- 											break;
-
  										case Column::TYPE_DECIMAL:
  										case Column::TYPE_FLOAT:
  											let changed = floatval(snapshotValue) !== floatval(value);
  											break;
 
+ 										case Column::TYPE_INTEGER:
  										case Column::TYPE_DATE:
  										case Column::TYPE_VARCHAR:
  										case Column::TYPE_DATETIME:

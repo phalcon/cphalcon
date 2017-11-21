@@ -298,6 +298,20 @@ INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00
 UNLOCK TABLES;
 
 --
+-- Table structure for table `identityless_requests`
+--
+
+DROP TABLE IF EXISTS `identityless_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `identityless_requests` (
+    `method` ENUM('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH', 'PURGE', 'TRACE', 'CONNECT'),
+    `requested_uri` VARCHAR(255),
+    `request_count` int(10) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `robots_parts`
 --
 

@@ -70,6 +70,7 @@ class MysqlTest extends UnitTest
                     'customers',
                     'foreign_key_child',
                     'foreign_key_parent',
+                    'identityless_requests',
                     'issue12071_body',
                     'issue12071_head',
                     'issue_11036',
@@ -97,7 +98,7 @@ class MysqlTest extends UnitTest
                 ];
 
                 expect($this->connection->listTables())->equals($expected);
-                expect($this->connection->listTables(TEST_DB_MYSQL_NAME))->equals($expected);
+                expect($this->connection->listTables(env('TEST_DB_MYSQL_NAME', 'phalcon_test')))->equals($expected);
             }
         );
     }
