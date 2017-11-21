@@ -61,10 +61,10 @@ if [ ! -f "${bindir}/re2c" ]; then
 	fi
 
 	cd "${downloaddir}"
-	./configure --prefix="${prefix}"
+	./configure --silent --prefix="${prefix}"
 
-	make -j"$(getconf _NPROCESSORS_ONLN)"
-	make install
+	make --silent -j"$(getconf _NPROCESSORS_ONLN)"
+	make --silent install
 fi
 
 if [ ! -x "${bindir}/re2c" ]; then

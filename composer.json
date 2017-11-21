@@ -12,6 +12,11 @@
         "php": ">=5.5"
     },
     "require-dev": {
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-xml": "*",
         "doctrine/instantiator": "1.0.5",
         "phpdocumentor/reflection-docblock": "^2.0",
         "phpunit/phpunit": "^4.8",
