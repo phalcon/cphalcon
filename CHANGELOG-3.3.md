@@ -7,6 +7,7 @@
 - Added `router:beforeMount` event to `Router::mount` [#13158](https://github.com/phalcon/cphalcon/issues/13158)
 - Added `Phalcon\Mvc\Application::sendHeadersOnHandleRequest` to enable or disable sending headers by each request handling [#13101](https://github.com/phalcon/cphalcon/issues/13101)
 - Added `Phalcon\Mvc\Application::sendCookiesOnHandleRequest` to enable or disable sending cookies by each request handling [#13101](https://github.com/phalcon/cphalcon/issues/13101)
+- Added ability to use PDO option aliases on database connect [#13010](https://github.com/phalcon/cphalcon/issues/13010)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to correct generate PHQL in argument's array when using order DESC or ASC [#11827](https://github.com/phalcon/cphalcon/issues/11827)
 - Fixed `Phalcon\Db\Dialect\Postgresql::createTable` to produce valid SQL for table definition with `BOOLEAN` types [#13132](https://github.com/phalcon/cphalcon/issues/13132)
 - Fixed `Phalcon\Db\Dialect\Postgresql::_castDefault` to return correct value for `BOOLEAN` type [#13132](https://github.com/phalcon/cphalcon/issues/13132), [phalcon/phalcon-devtools#1118](https://github.com/phalcon/phalcon-devtools/issues/1118)
