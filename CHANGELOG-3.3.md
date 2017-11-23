@@ -9,3 +9,4 @@
 - Fixed `Phalcon\Mvc\Model::_doLowInsert` to correct save snapshot on creation/save identityless models [#13166](https://github.com/phalcon/cphalcon/issues/13166)
 - Fixed `Phalcon\Mvc\Model::_doLowUpdate` to correctly work with `Phalcon\Db\RawValue` [#13170](https://github.com/phalcon/cphalcon/issues/13170)
 - Fixed `Phalcon\Mvc\Model::allowEmptyStringValues` to correct works with saving empty string values when DEFAULT not set in SQL 
+- Added `router:beforeMount` event to `Router::mount` [#13158](https://github.com/phalcon/cphalcon/issues/13158)
