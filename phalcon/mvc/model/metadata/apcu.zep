@@ -23,27 +23,24 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
 
 /**
- * Phalcon\Mvc\Model\MetaData\Apc
+ * Phalcon\Mvc\Model\MetaData\Apcu
  *
- * Stores model meta-data in the APC cache. Data will erased if the web server is restarted
+ * Stores model meta-data in the APCu cache. Data will erased if the web server is restarted
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
+ * You can query the meta-data by printing apcu_fetch('$PMM$') or apcu_fetch('$PMM$my-app-id')
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Apc(
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Apcu(
  *     [
  *         "prefix"   => "my-app-id",
  *         "lifetime" => 86400,
  *     ]
  * );
  *</code>
- *
- * @deprecated Deprecated since 3.3.0, will be removed in 4.0.0
- * @see Phalcon\Mvc\Model\Metadata\Apcu
  */
-class Apc extends MetaData
+class Apcu extends MetaData
 {
 
 	protected _prefix = "";
@@ -53,7 +50,7 @@ class Apc extends MetaData
 	protected _metaData = [];
 
 	/**
-	 * Phalcon\Mvc\Model\MetaData\Apc constructor
+	 * Phalcon\Mvc\Model\MetaData\Apcu constructor
 	 *
 	 * @param array options
 	 */
@@ -72,13 +69,13 @@ class Apc extends MetaData
 	}
 
 	/**
-	 * Reads meta-data from APC
+	 * Reads meta-data from APCu
 	 */
 	public function read(string! key) -> array | null
 	{
 		var data;
 
-		let data = apc_fetch("$PMM$" . this->_prefix . key);
+		let data = apcu_fetch("$PMM$" . this->_prefix . key);
 		if typeof data == "array" {
 			return data;
 		}
@@ -86,10 +83,10 @@ class Apc extends MetaData
 	}
 
 	/**
-	 * Writes the meta-data to APC
+	 * Writes the meta-data to APCu
 	 */
 	public function write(string! key, var data) -> void
 	{
-		apc_store("$PMM$" . this->_prefix . key, data, this->_ttl);
+		apcu_store("$PMM$" . this->_prefix . key, data, this->_ttl);
 	}
 }
