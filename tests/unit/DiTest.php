@@ -257,13 +257,11 @@ class DiTest extends UnitTest
             function () {
                 $expectedServices = [
                     'service1' => Service::__set_state([
-                        '_name'           => 'service1',
                         '_definition'     => 'some-service',
                         '_shared'         => false,
                         '_sharedInstance' => null,
                     ]),
                     'service2' => Service::__set_state([
-                        '_name'           => 'service2',
                         '_definition'     => 'some-other-service',
                         '_shared'         => false,
                         '_sharedInstance' => null,
