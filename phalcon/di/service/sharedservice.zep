@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -15,59 +15,34 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
-*/
+ */
 
-namespace Phalcon\Di;
+namespace Phalcon\Di\Service;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\Service;
 
 /**
- * Phalcon\Di\ServiceInterface
+ * Phalcon\Di\Service\SharedService
  *
- * Represents a service in the services container
+ *
+ *<code>
+ * $service = new \Phalcon\Di\Service\SharedService(
+ *     "request",
+ *     "Phalcon\\Http\\Request"
+ * );
+ *
+ * $request = service->resolve();
+ *</code>
  */
-interface ServiceInterface
+class SharedService extends Service
 {
 	/**
-	 * Sets if the service is shared or not
-	 */
-	public function setShared(boolean shared);
-
-	/**
-	 * Check whether the service is shared or not
-	 */
-	public function isShared() -> boolean;
-
-	/**
-	 * Set the service definition
+	 * Phalcon\Di\Service\SharedService
 	 *
 	 * @param mixed definition
 	 */
-	public function setDefinition(definition);
-
-	/**
-	 * Returns the service definition
-	 *
-	 * @return mixed
-	 */
-	public function getDefinition();
-
-	/**
-	 * Resolves the service
-	 *
-	 * @param array parameters
-	 * @return mixed
-	 */
-	public function resolve(parameters = null, <DiInterface> dependencyInjector = null);
-
-	/**
-	 * Changes a parameter in the definition without resolve the service
-	 */
-	public function setParameter(int position, array! parameter) -> <ServiceInterface>;
-
-	/**
-	 * Restore the internal state of a service
-	 */
-	public static function __set_state(array! attributes) -> <ServiceInterface>;
-
+	public final function __construct(definition)
+	{
+		parent::__construct(definition, true);
+	}
 }
