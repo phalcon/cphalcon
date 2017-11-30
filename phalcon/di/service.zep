@@ -282,6 +282,6 @@ class Service implements ServiceInterface
 			throw new Exception("The attribute '_shared' is required");
 		}
 
-		return new self(name, definition, shared);
+		return new self(definition, shared);
 	}
 }
