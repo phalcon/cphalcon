@@ -25,22 +25,22 @@ class ServiceRegistry
 	/**
 	 *
 	 */
-	public function registerDir(dirPath)
+	public function registerDirectory(dirPath)
 	{
 		var dirPathItem;
 
-		switch (gettype(dirPath)) {
+		switch typeof dirPath {
 			case "string":
-				this->registerDirInternal(dirPath);
+				this->registerDirectoryInternal(dirPath);
 				break;
 			case "array":
 			case "object":
 				for dirPathItem in iterator(dirPath) {
-					this->registerDirInternal(dirPathItem);
+					this->registerDirectoryInternal(dirPathItem);
 				}
 				break;
 			default:
-				throw new Exception("Invalid services.");
+				throw new Exception("Invalid service directory variable type.");
 				break;
 		}
 	}
@@ -48,13 +48,15 @@ class ServiceRegistry
 	/**
 	 *
 	 */
-	protected function registerDirInternal(string! dirPath)
+	protected function registerDirectoryInternal(string! dirPath)
 	{
 		var dir, fileinfo, extension, serviceNameSection, forceShared, serviceName;
 
 		let dir = new \DirectoryIterator(dirPath);
 		for fileinfo in iterator(dir) {
-			if (fileinfo->isDir()) {
+
+			// Only handle normal files within a directory.
+			if (!fileinfo->isFile()) {
 				continue;
 			}
 
@@ -64,14 +66,14 @@ class ServiceRegistry
 			let forceShared = substr(serviceNameSection, -7) === "_shared";
 			let serviceName = forceShared ? substr(serviceNameSection, 0, -7) : serviceNameSection;
 
-			this->registerFile(fileinfo->getPathname(), serviceName, extension, forceShared);
+			this->registerFileInternal(fileinfo->getPathname(), serviceName, extension, forceShared);
 		}
 	}
 
 	/**
 	 *
 	 */
-	protected function registerFile(string! path, string! serviceName, string! extension, boolean forceShared)
+	protected function registerFileInternal(string! path, string! serviceName, string! extension, boolean forceShared)
 	{
 		var serviceDef;
 
@@ -89,7 +91,7 @@ class ServiceRegistry
 						} elseif (is_callable(serviceDef)) {
 							this->di->set(serviceName, serviceDef, forceShared);
 						} else {
-							throw new Exception("Invalid service object definiton.");
+							throw new Exception("Invalid service definition object.");
 						}
 						break;
 					case "array":
@@ -97,7 +99,7 @@ class ServiceRegistry
 						this->di->set(serviceName, serviceDef, forceShared);
 						break;
 					default:
-						throw new Exception("Invalid service definiton.");
+						throw new Exception("Invalid service definiton variable type.");
 				}
 				break;
 			case "yml":
@@ -105,7 +107,7 @@ class ServiceRegistry
 				this->di->set(serviceName, serviceDef->toArray(), forceShared);
 				break;
 			default:
-				throw new Exception("Invalid service definition type.");
+				throw new Exception("Invalid service definition file extension.");
 				break;
 		}
 	}
