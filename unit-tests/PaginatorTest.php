@@ -111,9 +111,9 @@ class PaginatorTest extends TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -127,9 +127,9 @@ class PaginatorTest extends TestCase
 		$paginator->setCurrentPage(50);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 49);
 		$this->assertEquals($page->next, 51);
@@ -142,9 +142,9 @@ class PaginatorTest extends TestCase
 		$paginator->setCurrentPage(218);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 217);
 		$this->assertEquals((int) $page->next, 218);
@@ -179,9 +179,9 @@ class PaginatorTest extends TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -215,9 +215,9 @@ class PaginatorTest extends TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -236,9 +236,9 @@ class PaginatorTest extends TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 99);
 		$this->assertEquals($page->next, 101);
@@ -255,9 +255,9 @@ class PaginatorTest extends TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 217);
 		$this->assertEquals($page->next, 218);
@@ -373,9 +373,9 @@ class PaginatorTest extends TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -394,9 +394,9 @@ class PaginatorTest extends TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 9);
 		$this->assertEquals($page->next, 11);
@@ -413,9 +413,9 @@ class PaginatorTest extends TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 9);
+		$this->assertCount(9, $page->items);
 
 		$this->assertEquals($page->before, 17);
 		$this->assertEquals($page->next, 18);

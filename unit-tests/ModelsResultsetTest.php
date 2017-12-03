@@ -207,7 +207,7 @@ class ModelsResultsetTest extends TestCase
 	public function _applyTests($robots)
 	{
 
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertEquals($robots->count(), 3);
 
 		//Using a foreach
@@ -254,7 +254,7 @@ class ModelsResultsetTest extends TestCase
 			}
 		});
 
-		$this->assertEquals(count($filtered), 2);
+		$this->assertCount(2, $filtered);
 		$this->assertEquals($filtered[0]->id, 1);
 		$this->assertEquals($filtered[1]->id, 2);
 
@@ -263,7 +263,7 @@ class ModelsResultsetTest extends TestCase
 	public function _applyTestsBig($personas)
 	{
 
-		$this->assertEquals(count($personas), 33);
+		$this->assertCount(33, $personas);
 		$this->assertEquals($personas->count(), 33);
 
 		//Using a foreach
@@ -286,19 +286,19 @@ class ModelsResultsetTest extends TestCase
 		$personas->seek(1);
 		$personas->valid();
 		$persona = $personas->current();
-		$this->assertEquals(get_class($persona), 'Personas');
+		$this->assertInstanceOf('Personas', $persona);
 
 		$persona = $personas->getFirst();
-		$this->assertEquals(get_class($persona), 'Personas');
+		$this->assertInstanceOf('Personas', $persona);
 
 		$persona = $personas->getLast();
-		$this->assertEquals(get_class($persona), 'Personas');
+		$this->assertInstanceOf('Personas', $persona);
 
 		$persona = $personas[0];
-		$this->assertEquals(get_class($persona), 'Personas');
+		$this->assertInstanceOf('Personas', $persona);
 
 		$persona = $personas[2];
-		$this->assertEquals(get_class($persona), 'Personas');
+		$this->assertInstanceOf('Personas', $persona);
 
 		$this->assertFalse(isset($personas[40]));
 
@@ -318,7 +318,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
 
 		$this->_applyTests($robots);
 
@@ -342,7 +342,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
 
 		$this->_applyTests($robots);
 
@@ -359,7 +359,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
 
 		$this->_applyTests($robots);
 
@@ -383,7 +383,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
 
 		$this->_applyTests($robots);
 
@@ -400,7 +400,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
 
 		$this->_applyTests($robots);
 
@@ -424,7 +424,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
 
 		$this->_applyTests($robots);
 
@@ -443,7 +443,7 @@ class ModelsResultsetTest extends TestCase
 
 		$personas = unserialize($data);
 
-		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
 
 		$this->_applyTestsBig($personas);
 
@@ -462,7 +462,7 @@ class ModelsResultsetTest extends TestCase
 
 		$personas = unserialize($data);
 
-		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
 
 		$this->_applyTestsBig($personas);
 
@@ -481,7 +481,7 @@ class ModelsResultsetTest extends TestCase
 
 		$personas = unserialize($data);
 
-		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
 
 		$this->_applyTestsBig($personas);
 
@@ -496,7 +496,7 @@ class ModelsResultsetTest extends TestCase
 
 		$robots = Robots::find('id > 1000');
 
-		$this->assertEquals(count($robots), 0);
+		$this->assertCount(0, $robots);
 		$this->assertEquals($robots->count(), 0);
 
 		//Using a foreach
@@ -568,21 +568,21 @@ class ModelsResultsetTest extends TestCase
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 0);
 		$this->assertEquals($iterator->getIteratorIndex(), 0);
-		$this->assertEquals(get_class($iterator->current()), 'Robots');
+		$this->assertInstanceOf('Robots', $iterator->current());
 		$this->assertEquals($robots_first_0->name, $iterator->current()->name);
 
 		$iterator->next();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 1);
 		$this->assertEquals($iterator->getIteratorIndex(), 0);
-		$this->assertEquals(get_class($iterator->current()), 'Robots');
+		$this->assertInstanceOf('Robots', $iterator->current());
 		$this->assertEquals($robots_first_1->name, $iterator->current()->name);
 
 		$iterator->next();
 		$this->assertTrue($iterator->valid());
 		$this->assertEquals($iterator->key(), 0);
 		$this->assertEquals($iterator->getIteratorIndex(), 1);
-		$this->assertEquals(get_class($iterator->current()), 'Robots');
+		$this->assertInstanceOf('Robots', $iterator->current());
 		$this->assertEquals($robots_second_0->name, $iterator->current()->name);
 
 		$iterator->next();
@@ -600,13 +600,13 @@ class ModelsResultsetTest extends TestCase
 			'limit' => 33
 		));
 
-		$this->assertEquals(count($personas), 33);
+		$this->assertCount(33, $personas);
 
-		$this->assertEquals(get_class($personas->getLast()), 'Personas');
+		$this->assertInstanceOf('Personas', $personas->getLast());
 
 		// take first object as reference
 		$persona_first = $personas[0];
-		$this->assertEquals(get_class($persona_first), 'Personas');
+		$this->assertInstanceOf('Personas', $persona_first);
 
 		// make sure objects are the same -> object was not recreared
 		$this->assertSame($personas[0], $persona_first);
@@ -644,7 +644,7 @@ class ModelsResultsetTest extends TestCase
 
 		// toArray also re-executes the query and invalidates internal pointer
 		$array = $personas->toArray();
-		$this->assertEquals(count($array), 33);
+		$this->assertCount(33, $array);
 
 		// internal query is re-executed again and set to first
 		$this->assertNotSame($personas[0], $persona_first);
@@ -653,13 +653,13 @@ class ModelsResultsetTest extends TestCase
 		// move to second element and validate
 		$personas->next();
 		$this->assertTrue($personas->valid());
-		$this->assertEquals(get_class($personas[1]), 'Personas');
+		$this->assertInstanceOf('Personas', $personas[1]);
 		$this->assertSame($personas->current(), $personas[1]);
 		$this->assertEquals($persona_second, $personas[1]);
 
 		// pick some random indices
-		$this->assertEquals(get_class($personas[12]), 'Personas');
-		$this->assertEquals(get_class($personas[23]), 'Personas');
-		$this->assertEquals(get_class($personas[23]), 'Personas');
+		$this->assertInstanceOf('Personas', $personas[12]);
+		$this->assertInstanceOf('Personas', $personas[23]);
+		$this->assertInstanceOf('Personas', $personas[23]);
 	}
 }
