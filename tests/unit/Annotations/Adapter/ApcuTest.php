@@ -44,28 +44,28 @@ class ApcuTest extends UnitTest
         $adapter = new Apcu();
 
         $classAnnotations = $adapter->get('TestClass');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('TestClass');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('User\TestClassNs');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('User\TestClassNs');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $property = $adapter->getProperty('TestClass', 'testProp1');
-        $this->assertTrue(is_object($property));
-        $this->assertEquals(get_class($property), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $property);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $property);
         $this->assertEquals($property->count(), 4);
     }
 }
