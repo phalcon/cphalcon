@@ -135,7 +135,7 @@ class RequestTest extends HttpBase
             }
         );
     }
-    
+
     /**
      * Tests isAjax default
      *
@@ -854,7 +854,7 @@ class RequestTest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/json; level=2; q=0.7';
         $accept = $request->getAcceptableContent();
-        $this->assertEquals(count($accept), 5);
+        $this->assertCount(5, $accept);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['accept'], 'text/html');
@@ -878,7 +878,7 @@ class RequestTest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5,unicode-1-1;q=0.8';
         $accept = $request->getClientCharsets();
-        $this->assertEquals(count($accept), 2);
+        $this->assertCount(2, $accept);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['charset'], 'iso-8859-5');
@@ -897,7 +897,7 @@ class RequestTest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9';
         $accept = $request->getLanguages();
-        $this->assertEquals(count($accept), 5);
+        $this->assertCount(5, $accept);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['language'], 'es');

@@ -81,15 +81,15 @@ class ModelsMultipleSourcesTest extends TestCase
 		$this->_prepareDI();
 
 		$robot = Store\Robots::findFirst();
-		$this->assertTrue(is_object($robot));
+		$this->assertInternalType('object', $robot);
 		$this->assertTrue($robot->save());
 
 		$robotParts = $robot->getRobotParts();
-		$this->assertTrue(is_object($robotParts));
+		$this->assertInternalType('object', $robotParts);
 
 		foreach ($robotParts as $robotPart) {
-			$this->assertTrue(is_object($robotPart->getRobot()));
-			$this->assertTrue(is_object($robotPart->getPart()));
+			$this->assertInternalType('object', $robotPart->getRobot());
+			$this->assertInternalType('object', $robotPart->getPart());
 		}
 	}
 

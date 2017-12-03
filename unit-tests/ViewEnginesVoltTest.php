@@ -167,8 +167,8 @@ class ViewEnginesVoltTest extends TestCase
 
 		$path = 'unit-tests/cache/' . phalcon_prepare_virtual_path(realpath("unit-tests/"), ".") . '.views.test10.index.volt.compiled';
 
-		$this->assertTrue(file_exists($path));
-		$this->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');
+		$this->assertFileExists($path);
+		$this->assertStringEqualsFile($path, 'Hello <?= $song ?>!');
 		$this->assertEquals($view->getContent(), 'Hello Lights!');
 	}
 
