@@ -130,40 +130,40 @@ class ModelsRelationsTest extends TestCase
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRelationsRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(3, $robotsParts);
 
 		$parts = $robot->getRelationsParts();
-		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($parts), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $parts);
+		$this->assertCount(3, $parts);
 
 		$partsCount = $robot->countRelationsParts();
 		$this->assertEquals(3, $partsCount);
 
 		/** Passing parameters to magic methods **/
 		$robotsParts = $robot->getRelationsRobotsParts("parts_id = 1");
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(1, $robotsParts);
 
 		/** Passing parameters to magic methods **/
 		$parts = $robot->getRelationsParts("RelationsParts.id = 1");
-		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($parts), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $parts);
+		$this->assertCount(1, $parts);
 
 		$robotsParts = $robot->getRelationsRobotsParts(array(
 			"parts_id > :parts_id:",
 			"bind" => array("parts_id" => 1)
 		));
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(2, $robotsParts);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 2);
 
 		$parts = $robot->getRelationsParts(array(
 			"RelationsParts.id > :id:",
 			"bind" => array("id" => 1)
 		));
-		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($parts), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $parts);
+		$this->assertCount(2, $parts);
 		$this->assertEquals($parts->getFirst()->id, 2);
 
 		$robotsParts = $robot->getRelationsRobotsParts(array(
@@ -171,8 +171,8 @@ class ModelsRelationsTest extends TestCase
 			"bind" => array("parts_id" => 1),
 			"order" => "parts_id DESC"
 		));
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(2, $robotsParts);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
 
 		/** Magic counting */
@@ -183,8 +183,8 @@ class ModelsRelationsTest extends TestCase
 		$this->assertNotEquals($part, false);
 
 		$robotsParts = $part->getRelationsRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(1, $robotsParts);
 
 		$number = $part->countRelationsRobotsParts();
 		$this->assertEquals($number, 1);
@@ -193,30 +193,30 @@ class ModelsRelationsTest extends TestCase
 		$this->assertNotEquals($robotPart, false);
 
 		$robot = $robotPart->getRelationsRobots();
-		$this->assertEquals(get_class($robot), 'RelationsRobots');
+		$this->assertInstanceOf('RelationsRobots', $robot);
 
 		$part = $robotPart->getRelationsParts();
-		$this->assertEquals(get_class($part), 'RelationsParts');
+		$this->assertInstanceOf('RelationsParts', $part);
 
 		/** Relations in namespaced models */
 		$robot = Some\Robots::findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(3, $robotsParts);
 
 		$robotsParts = $robot->getRobotsParts("parts_id = 1");
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(1, $robotsParts);
 
 		$robotsParts = $robot->getRobotsParts(array(
 			"parts_id > :parts_id:",
 			"bind" => array("parts_id" => 1),
 			"order" => "parts_id DESC"
 		));
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robotsParts), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
+		$this->assertCount(2, $robotsParts);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
 
 	}
@@ -242,20 +242,20 @@ class ModelsRelationsTest extends TestCase
 		$this->assertNotEquals($robotter, false);
 
 		$robottersDeles = $robotter->getRobottersDeles();
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(3, $robottersDeles);
 
 		/** Passing parameters to magic methods **/
 		$robottersDeles = $robotter->getRobottersDeles("delesCode = 1");
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(1, $robottersDeles);
 
 		$robottersDeles = $robotter->getRobottersDeles(array(
 			"delesCode > :delesCode:",
 			"bind" => array("delesCode" => 1)
 		));
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(2, $robottersDeles);
 		$this->assertEquals($robottersDeles->getFirst()->delesCode, 2);
 
 		$robottersDeles = $robotter->getRobottersDeles(array(
@@ -263,8 +263,8 @@ class ModelsRelationsTest extends TestCase
 			"bind" => array("delesCode" => 1),
 			"order" => "delesCode DESC"
 		));
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(2, $robottersDeles);
 		$this->assertEquals($robottersDeles->getFirst()->delesCode, 3);
 
 		/** Magic counting */
@@ -275,8 +275,8 @@ class ModelsRelationsTest extends TestCase
 		$this->assertNotEquals($dele, false);
 
 		$robottersDeles = $dele->getRobottersDeles();
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(1, $robottersDeles);
 
 		$number = $dele->countRobottersDeles();
 		$this->assertEquals($number, 1);
@@ -285,30 +285,30 @@ class ModelsRelationsTest extends TestCase
 		$this->assertNotEquals($robotterDele, false);
 
 		$robotter = $robotterDele->getRobotters();
-		$this->assertEquals(get_class($robotter), 'Robotters');
+		$this->assertInstanceOf('Robotters', $robotter);
 
 		$dele = $robotterDele->getDeles();
-		$this->assertEquals(get_class($dele), 'Deles');
+		$this->assertInstanceOf('Deles', $dele);
 
 		/** Relations in namespaced models */
 		$robotter = Some\Robotters::findFirst();
 		$this->assertNotEquals($robotter, false);
 
 		$robottersDeles = $robotter->getRobottersDeles();
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(3, $robottersDeles);
 
 		$robottersDeles = $robotter->getRobottersDeles("delesCode = 1");
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(1, $robottersDeles);
 
 		$robottersDeles = $robotter->getRobottersDeles(array(
 			"delesCode > :delesCode:",
 			"bind" => array("delesCode" => 1),
 			"order" => "delesCode DESC"
 		));
-		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
-		$this->assertEquals(count($robottersDeles), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robottersDeles);
+		$this->assertCount(2, $robottersDeles);
 		$this->assertEquals($robottersDeles->getFirst()->delesCode, 3);
 
 	}
@@ -348,10 +348,10 @@ class ModelsRelationsTest extends TestCase
 		$this->assertTrue($robot->save());
 
 		$parts = M2MParts::find(array('order' => 'id'));
-		$this->assertEquals(count($parts), 4);
+		$this->assertCount(4, $parts);
 
 		$rp = M2MRobotsParts::find(array('order' => 'robots_id, parts_id'));
-		$this->assertEquals(count($rp), 4);
+		$this->assertCount(4, $rp);
 
 		for ($i=0; $i<count($rp); ++$i) {
 			$this->assertEquals($parts[$i]->name, 'Part '. ($i+1));
