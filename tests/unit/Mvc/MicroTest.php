@@ -102,6 +102,7 @@ class MicroTest extends UnitTest
                 $micro->afterBinding(
                     function () use ($micro) {
                         $micro->stop();
+
                         return false;
                     }
                 );
@@ -218,7 +219,7 @@ class MicroTest extends UnitTest
      * @issue T169
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since 2012-11-06
-    */
+     */
     public function testMicroNotFoundT169()
     {
         $this->specify(
@@ -334,22 +335,31 @@ class MicroTest extends UnitTest
 
                 $app = new Micro();
 
-                $app->after(function () use (&$trace) {
-                    $trace[] = 1;
-                });
+                $app->after(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
 
-                $app->after(function () use ($app, &$trace) {
-                    $trace[] = 1;
-                    $app->stop();
-                });
+                $app->after(
+                    function () use ($app, &$trace) {
+                        $trace[] = 1;
+                        $app->stop();
+                    }
+                );
 
-                $app->after(function () use (&$trace) {
-                    $trace[] = 1;
-                });
+                $app->after(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
 
-                $app->map('/blog', function () use (&$trace) {
-                    $trace[] = 1;
-                });
+                $app->map(
+                    '/blog',
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
 
                 $app->handle('/blog');
 
@@ -357,7 +367,6 @@ class MicroTest extends UnitTest
             }
         );
     }
-
 
     public function testMicroFinishHandlers()
     {
@@ -403,22 +412,31 @@ class MicroTest extends UnitTest
 
                 $app = new Micro();
 
-                $app->finish(function () use (&$trace) {
-                    $trace[] = 1;
-                });
+                $app->finish(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
 
-                $app->finish(function () use ($app, &$trace) {
-                    $trace[] = 1;
-                    $app->stop();
-                });
+                $app->finish(
+                    function () use ($app, &$trace) {
+                        $trace[] = 1;
+                        $app->stop();
+                    }
+                );
 
-                $app->finish(function () use (&$trace) {
-                    $trace[] = 1;
-                });
+                $app->finish(
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
 
-                $app->map('/blog', function () use (&$trace) {
-                    $trace[] = 1;
-                });
+                $app->map(
+                    '/blog',
+                    function () use (&$trace) {
+                        $trace[] = 1;
+                    }
+                );
 
                 $app->handle('/blog');
 
@@ -426,7 +444,6 @@ class MicroTest extends UnitTest
             }
         );
     }
-
 
     public function testMicroEvents()
     {
@@ -458,16 +475,17 @@ class MicroTest extends UnitTest
 
                 expect($trace)->equals(
                     [
-                        'beforeHandleRoute'  => true,
+                        'beforeHandleRoute' => true,
                         'beforeExecuteRoute' => true,
-                        'afterExecuteRoute'  => true,
-                        'afterHandleRoute'   => true,
-                        'afterBinding'       => true,
+                        'afterExecuteRoute' => true,
+                        'afterHandleRoute' => true,
+                        'afterBinding' => true,
                     ]
                 );
             }
         );
     }
+
     public function testMicroMiddlewareSimple()
     {
         $this->specify(
@@ -620,7 +638,6 @@ class MicroTest extends UnitTest
         );
     }
 
-
     public function testMicroResponseAlreadySentError()
     {
         $this->specify(
@@ -640,6 +657,26 @@ class MicroTest extends UnitTest
                     }
                 );
                 expect($app->handle('/api'))->equals('success');
+            }
+        );
+    }
+
+    public function testMicroCollectionVia()
+    {
+        $this->specify(
+            "Adding collection via doesn't work as exepected",
+            function () {
+                $app = new Micro();
+                $collection = new Micro\Collection();
+                $collection->setHandler(new \Test2Controller());
+                $collection->mapVia(
+                    "/test",
+                    'indexAction',
+                    ["POST", "GET"],
+                    "test"
+                );
+                $app->mount($collection);
+                expect($app->getRouter()->getRouteByName("test")->getHttpMethods())->equals(["POST", "GET"]);
             }
         );
     }
