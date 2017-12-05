@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Helper\ModelTrait;
 use Phalcon\Mvc\Model;
+use Phalcon\Test\Models\Snapshot\Subscribers;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Requests;
@@ -501,6 +502,31 @@ class SnapshotTest extends UnitTest
                 expect($robots->hasChanged(['name', 'year'], true))->equals(false);
                 $robots->year = 2018;
                 expect($robots->hasChanged(['name', 'year'], true))->equals(true);
+            }
+        );
+    }
+
+    /**
+     * When model is refreshed snapshot should be updated
+     *
+     * @issue  13173
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-12-05
+     */
+    public function testIssue13173()
+    {
+        $this->specify(
+            'getUpdatesFields method is not working correctly with SoftDelete behavior',
+            function () {
+                $this->setUpModelsManager();
+                $subscriber = new Subscribers();
+                $subscriber->email = 'some@some.com';
+                $subscriber->status = 'I';
+
+                expect($subscriber->save())->true();
+                expect($subscriber->getUpdatedFields())->equals(['email', 'created_at', 'status', 'id']);
+                expect($subscriber->delete())->true();
+                expect($subscriber->getUpdatedFields())->equals(['status']);
             }
         );
     }

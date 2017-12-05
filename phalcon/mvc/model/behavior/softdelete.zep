@@ -37,7 +37,7 @@ class SoftDelete extends Behavior
 	 */
 	public function notify(string! type, <ModelInterface> model)
 	{
-		var options, value, field, updateModel, message;
+		var options, value, field, updateModel, message, modelsManager, metaData, columnMap;
 
 		if type == "beforeDelete" {
 
@@ -67,6 +67,8 @@ class SoftDelete extends Behavior
 			 */
 			if model->readAttribute(field) != value {
 
+				let modelsManager = model->getModelsManager();
+
 				/**
 				 * Clone the current model to make a clean new operation
 				 */
@@ -90,9 +92,16 @@ class SoftDelete extends Behavior
 				}
 
 				/**
-				 * Update the original model too
+	 * Update the original model too
 				 */
 				model->writeAttribute(field, value);
+
+				if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
+					let metaData = model->getModelsMetaData();
+					let columnMap = metaData->getColumnMap(model);
+					model->setSnapshotData(updateModel->getSnapshotData(), columnMap);
+					model->setOldSnapshotData(updateModel->getOldSnapshotData(), columnMap);
+				}
 			}
 		}
 	}

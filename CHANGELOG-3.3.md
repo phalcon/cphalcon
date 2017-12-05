@@ -11,9 +11,11 @@
 - Added `Phalcon\Mvc\Model\MetaData\Apcu` [#13078](https://github.com/phalcon/cphalcon/issues/13078)
 - Added ability to use string(file path) as a argument in `Phalcon\Config\Factory::load()`
 - Added `Phalcon\Mvc\Mico\Collection::mapVia` to map routes via methods
+- Added `Phalcon\Mvc\Model::setOldSnapshotData` to set old snapshot data separately to current snapshot data
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to correct generate PHQL in argument's array when using order DESC or ASC [#11827](https://github.com/phalcon/cphalcon/issues/11827)
 - Fixed `Phalcon\Db\Dialect\Postgresql::createTable` to produce valid SQL for table definition with `BOOLEAN` types [#13132](https://github.com/phalcon/cphalcon/issues/13132)
 - Fixed `Phalcon\Db\Dialect\Postgresql::_castDefault` to return correct value for `BOOLEAN` type [#13132](https://github.com/phalcon/cphalcon/issues/13132), [phalcon/phalcon-devtools#1118](https://github.com/phalcon/phalcon-devtools/issues/1118)
 - Fixed `Phalcon\Mvc\Model::_doLowInsert` to correct save snapshot on creation/save identityless models [#13166](https://github.com/phalcon/cphalcon/issues/13166)
 - Fixed `Phalcon\Mvc\Model::_doLowUpdate` to correctly work with `Phalcon\Db\RawValue` [#13170](https://github.com/phalcon/cphalcon/issues/13170)
 - Fixed `Phalcon\Mvc\Model::allowEmptyStringValues` to correct works with saving empty string values when DEFAULT not set in SQL
+- Fixed `Phalcon\Mvc\Model\Behavior\SoftDelete` to correctly update snapshots after deleting item
