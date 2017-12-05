@@ -630,6 +630,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if keepSnapshots {
 			instance->setSnapshotData(data, columnMap);
+			instance->setOldSnapshotData(data, columnMap);
 		}
 
 		/**
@@ -3457,6 +3458,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			this->assign(row, columnMap);
 			if manager->isKeepingSnapshots(this) {
 				this->setSnapshotData(row, columnMap);
+				this->setOldSnapshotData(row, columnMap);
 			}
 		}
 
@@ -3837,8 +3839,57 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let snapshot = data;
 		}
 
-		let this->_oldSnapshot = snapshot;
 		let this->_snapshot = snapshot;
+	}
+
+	/**
+	 * Sets the record's old snapshot data.
+	 * This method is used internally to set old snapshot data when the model was set up to keep snapshot data
+	 *
+	 * @param array data
+	 * @param array columnMap
+	 */
+	public function setOldSnapshotData(array! data, columnMap = null)
+	{
+		var key, value, snapshot, attribute;
+		/**
+		 * Build the snapshot based on a column map
+		 */
+		if typeof columnMap == "array" {
+			let snapshot = [];
+			for key, value in data {
+				/**
+				 * Use only strings
+				 */
+				if typeof key != "string" {
+					continue;
+				}
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+					} else {
+						continue;
+					}
+				}
+				if typeof attribute == "array" {
+					if !fetch attribute, attribute[0] {
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
+					}
+				}
+				let snapshot[attribute] = value;
+			}
+		} else {
+			let snapshot = data;
+		}
+
+		let this->_oldSnapshot = snapshot;
 	}
 
 	/**
