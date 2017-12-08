@@ -72,7 +72,7 @@ class CssMinTest extends UnitTest
             "The cssmin filter with space as parameter does not return correct results",
             function () {
                 $cssmin = new Cssmin();
-                expect($cssmin->filter(' '))->equals(' ');
+                expect($cssmin->filter(' '))->equals('');
             }
         );
 
