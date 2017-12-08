@@ -658,4 +658,19 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 		return this;
 	}
+
+	/**
+	 * Remove a header in the response
+	 *
+	 *<code>
+	 * $response->removeHeader("Expires");
+	 *</code>
+	 */
+	public function removeHeader(string name) -> <Response>
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->remove(name);
+		return this;
+	}
 }

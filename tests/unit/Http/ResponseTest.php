@@ -568,4 +568,30 @@ class ResponseTest extends HttpBase
             }
         );
     }
+
+    /**
+     * Test the removeHeader
+     *
+     * @author Mohamad Rostami <mb.rostami.h@gmail.com>
+     */
+    public function testHttpResponseRemoveHeaderContentType()
+    {
+        $this->specify(
+            "removeHeader is not removing the header properly",
+            function () {
+                $response = $this->getResponseObject();
+                $response->resetHeaders();
+                $response->setHeader('Content-Type', 'text/html');
+                $headers = $response->getHeaders()->toArray();
+
+                $this->assertArrayHasKey('Content-Type', $headers);
+                expect($headers['Content-Type'])->equals('text/html');
+
+                $response->removeHeader('Content-Type');
+                
+                $headers = $response->getHeaders()->toArray();
+                $this->assertArrayNotHasKey('Content-Type', $headers);
+            }
+        );
+    }
 }
