@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Helper\ModelTrait;
 use Phalcon\Mvc\Model;
+use Phalcon\Test\Models\Snapshot\Personas;
 use Phalcon\Test\Models\Snapshot\Subscribers;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Snapshot\Robots;
@@ -527,6 +528,27 @@ class SnapshotTest extends UnitTest
                 expect($subscriber->getUpdatedFields())->equals(['email', 'created_at', 'status', 'id']);
                 expect($subscriber->delete())->true();
                 expect($subscriber->getUpdatedFields())->equals(['status']);
+            }
+        );
+    }
+
+    public function testIssue13202()
+    {
+        $this->specify(
+            "When using dynamic update saving model without changes getUpdatedFields shouldn't return full array",
+            function () {
+                $this->setUpModelsManager();
+                $personas = Personas::findFirst();
+                expect($personas->getChangedFields())->equals([]);
+                try {
+                    $personas->getUpdatedFields();
+                } catch (\Exception $e) {
+                    expect($e->getMessage())->equals(
+                        "Change checking cannot be performed because the object has not been persisted or is deleted"
+                    );
+                }
+                expect($personas->save())->true();
+                expect($personas->getUpdatedFields())->equals([]);
             }
         );
     }

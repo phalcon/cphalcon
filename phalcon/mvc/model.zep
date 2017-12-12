@@ -2611,6 +2611,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 * If there is no fields to update we return true
  		 */
  		if !count(fields) {
+ 			if useDynamicUpdate {
+ 				let this->_oldSnapshot = snapshot;
+ 			}
  			return true;
  		}
 
