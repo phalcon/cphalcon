@@ -65,7 +65,7 @@ before_install:
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
 
 install:
-  - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest --ignore-platform-reqs
+  - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest #--ignore-platform-reqs
   # We'll do this in future for the all 7.x series
   - |
       if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.2" ] || [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ]; then
