@@ -255,6 +255,11 @@ class Mysql extends PdoAdapter
 			}
 
 			/**
+			 * Comment
+			 */
+            let definition["fieldComment"] = field[6];
+
+			/**
 			 * Every route is stored as a Phalcon\Db\Column
 			 */
 			let columnName = field[0],

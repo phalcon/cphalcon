@@ -261,6 +261,13 @@ class Column implements ColumnInterface
 	protected _autoIncrement = false;
 
 	/**
+	 * Column comment
+	 *
+	 * @var string
+	 */
+	protected _fieldComment = "";
+
+	/**
 	 * Position is first
 	 *
 	 * @var boolean
@@ -286,7 +293,7 @@ class Column implements ColumnInterface
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, bindType, isNumeric, autoIncrement, defaultValue,
-			typeReference, typeValues;
+			typeReference, typeValues, fieldComment;
 
 		let this->_name = name;
 
@@ -386,6 +393,13 @@ class Column implements ColumnInterface
 		}
 
 		/**
+		 * Get the column comment
+		 */
+		if fetch fieldComment, definition["fieldComment"] {
+			let this->_fieldComment = fieldComment;
+		}
+
+		/**
 		 * Check if the field is placed at the first position of the table
 		 */
 		if fetch first, definition["first"] {
@@ -441,6 +455,14 @@ class Column implements ColumnInterface
 	}
 
 	/**
+	 * Column comment
+	 */
+	public function getFieldComment() -> string
+	{
+		return this->_fieldComment;
+	}
+
+	/**
 	 * Check whether column have an numeric type
 	 */
 	public function isNumeric() -> boolean
@@ -481,7 +503,7 @@ class Column implements ColumnInterface
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary, columnName, scale,
-			defaultValue, autoIncrement,
+			defaultValue, autoIncrement, fieldComment,
 			columnTypeReference, columnTypeValues;
 
 		if !fetch columnName, data["_columnName"] {
@@ -542,6 +564,10 @@ class Column implements ColumnInterface
 
 		if fetch autoIncrement, data["_autoIncrement"] {
 			let definition["autoIncrement"] = autoIncrement;
+		}
+
+		if fetch fieldComment, data["_fieldComment"] {
+			let definition["fieldComment"] = fieldComment;
 		}
 
 		if fetch isNumeric, data["_isNumeric"] {
