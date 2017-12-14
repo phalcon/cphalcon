@@ -437,6 +437,13 @@ class Mysql extends Dialect
 			}
 
 			/**
+			 * Column comment
+			 */
+			if column->getFieldComment() {
+				let columnLine .= " COMMENT \"" . addcslashes(column->getFieldComment(), "\"") . "\"";
+			}
+
+			/**
 			 * Mark the column as primary key
 			 */
 			if column->isPrimary() {
@@ -610,7 +617,9 @@ class Mysql extends Dialect
 	 */
 	public function describeColumns(string! table, string schema = null) -> string
 	{
-		return "DESCRIBE " . this->prepareTable(table, schema);
+		return "SELECT COLUMN_NAME AS Field, COLUMN_TYPE AS `Type`, IS_NULLABLE AS `Null`, "
+            ."COLUMN_KEY AS `Key`, COLUMN_DEFAULT AS `Default`, EXTRA AS `Extra`, COLUMN_COMMENT AS `Comment` "
+			."FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE TABLE_NAME='" . table . "' AND TABLE_SCHEMA='" . schema . "'";
 	}
 
 	/**
