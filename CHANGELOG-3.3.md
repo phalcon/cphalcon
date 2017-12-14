@@ -21,3 +21,4 @@
 - Fixed `Phalcon\Mvc\Model::allowEmptyStringValues` to correct works with saving empty string values when DEFAULT not set in SQL
 - Fixed `Phalcon\Mvc\Model\Behavior\SoftDelete` to correctly update snapshots after deleting item
 - Fixed `Phalcon\Mvc\Model` to set old snapshot when no fields are changed when dynamic update is enabled
+- Added support JSON dataType for MySQL dialect. [#13216](https://github.com/phalcon/cphalcon/pull/13216)
