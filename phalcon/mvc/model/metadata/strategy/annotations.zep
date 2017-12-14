@@ -191,6 +191,11 @@ class Annotations implements StrategyInterface
 						fieldBindTypes[columnName] = Column::BIND_PARAM_BLOB;
 					break;
 
+				case "json":
+					let fieldTypes[columnName] = Column::TYPE_JSON,
+						fieldBindTypes[columnName] = Column::BIND_PARAM_STR;
+					break;
+
 				default:
 					/**
 					 * By default all columns are varchar/string

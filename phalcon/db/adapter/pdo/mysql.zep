@@ -188,6 +188,11 @@ class Mysql extends PdoAdapter
 				 * Blob
 				 */
 				let definition["type"] = Column::TYPE_BLOB;
+			} elseif memstr(columnType, "json") {
+				/**
+				 * JSON
+				 */
+				let definition["type"] = Column::TYPE_JSON;
 			} else {
 				/**
 				 * By default is string
