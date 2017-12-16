@@ -2,8 +2,13 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
+use Phalcon\Acl\Exception;
 use Phalcon\Db;
 use Phalcon\Db\Reference;
+use Phalcon\Events\Manager;
+use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Test\Models\Robos;
+use Phalcon\Test\Models\TableWithJsonField;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Helper\Dialect\MysqlTrait;
@@ -160,6 +165,30 @@ class MysqlTest extends UnitTest
                         "expected"   => "```schema```.`rob``ots`",
                     ],
                 ]
+            ]
+        );
+    }
+
+    /**
+     * Tests MySQL JSON dataType
+     *
+     * @test
+     * @author gavin <mfkickdx78@126.com>
+     * @since  2017-12-17
+     */
+    public function testDetectJsonDataTypeField ()
+    {
+        $oModel    = new \Phalcon\Test\Models\TableWithJsonField();
+        $dataTypes = $oModel->getModelsMetaData()->getDataTypes($oModel);
+        $this->specify(
+            "JSON dataType not supported",
+            function ($expected, $actual) {
+                $this->assertEquals($expected, $actual, "Detected field datatype is not equal to Column::TYPE_JSON!");
+            },
+            [
+                'examples' => [
+                    [TRUE, $dataTypes['field'] == \Phalcon\Db\Column::TYPE_JSON],
+                ],
             ]
         );
     }
