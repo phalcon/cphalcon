@@ -192,6 +192,12 @@ class Mysql extends Dialect
 				}
 				break;
 
+			case Column::TYPE_JSON:
+				if empty columnSql {
+					let columnSql .= "JSON";
+				}
+				break;
+
 			default:
 				if empty columnSql {
 					throw new Exception("Unrecognized MySQL data type at column " . column->getName());
