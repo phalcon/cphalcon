@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Query;
+use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Robotters;
@@ -40,6 +41,23 @@ class QueryTest extends UnitTest
         /** @var \Phalcon\Mvc\Application $app */
         $app = $this->tester->getApplication();
         $this->di = $app->getDI();
+    }
+
+    /**
+     * @test
+     */
+    public function checkIfTransactionIsSet()
+    {
+        $this->specify(
+            "Check if transaction has been set",
+            function () {
+                $transaction = new Transaction($this->di);
+                $query = new Query(null, $this->di);
+                $query->setTransaction($transaction);
+
+                expect($query->getTransaction(), $transaction);
+            }
+        );
     }
 
     public function testSelectParsing()
