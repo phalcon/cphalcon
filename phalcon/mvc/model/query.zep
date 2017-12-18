@@ -15,6 +15,7 @@
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  |          Kenji Minamoto <kenji.minamoto@gmail.com>                     |
+ |          Jakob Oberhummer <cphalcon@chilimatic.com>                    |
  +------------------------------------------------------------------------+
  */
 
@@ -23,6 +24,7 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
+use Phalcon\Db\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
@@ -37,6 +39,8 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
+use Phalcon\Db\DialectInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -59,6 +63,34 @@ use Phalcon\Mvc\Model\RelationInterface;
  *     echo "Price: ", $row->cars->price, "\n";
  *     echo "Taxes: ", $row->taxes, "\n";
  * }
+ *
+ * // with transaction
+ * use Phalcon\Mvc\Model\Query;
+ * use Phalcon\Mvc\Model\Transaction;
+ *
+ * // $di needs to have the service "db" registered for this to work
+ * $di = Phalcon\Di\FactoryDefault::getDefault();
+ *
+ * $phql = 'SELECT * FROM robot';
+ *
+ * $myTransaction = new Transaction($di);
+ * $myTransaction->begin();
+ *
+ * $newRobot = new Robot();
+ * $newRobot->setTransaction($myTransaction);
+ * $newRobot->type = "mechanical";
+ * $newRobot->name = "Astro Boy";
+ * $newRobot->year = 1952;
+ * $newRobot->save();
+ *
+ * $queryWithTransaction = new Query($phql, $di);
+ * $queryWithTransaction->setTransaction($myTransaction);
+ *
+ * $resultWithEntries = $queryWithTransaction->execute();
+ *
+ * $queryWithOutTransaction = new Query($phql, $di);
+ * $resultWithOutEntries = $queryWithTransaction->execute()
+ *
  *</code>
  */
 class Query implements QueryInterface, InjectionAwareInterface
@@ -106,6 +138,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _sharedLock;
 
+	/**
+	 * TransactionInterface so that the query can wrap a transaction
+	 * around batch updates and intermediate selects within the transaction.
+	 * however if a model got a transaction set inside it will use the local transaction instead of this one
+	 */
+	protected _transaction { get };
+	
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -1910,7 +1949,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 					let selectColumns[] = [
 						"type":   PHQL_T_DOMAINALL,
-    					"column": joinAlias,
+						"column": joinAlias,
 						"eager":  alias,
 						"eagerType": eagerType,
 						"balias": bestAlias
@@ -2544,21 +2583,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 					this->_modelsInstances[modelName] = model;
 			}
 
-			// Get database connection
-			if method_exists(model, "selectReadConnection") {
-				// use selectReadConnection() if implemented in extended Model class
-				let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
-				if typeof connection != "object" {
-					throw new Exception("'selectReadConnection' didn't return a valid connection");
-				}
-			} else {
-				let connection = model->getReadConnection();
-			}
+			let connection = this->getReadConnection(model, intermediate, bindParams, bindTypes);
 
-			// More than one type of connection is not allowed
-			let connectionTypes[connection->getType()] = true;
-			if count(connectionTypes) == 2 {
-				throw new Exception("Cannot use models of different database systems in the same query");
+			if typeof connection == "object" {
+				// More than one type of connection is not allowed
+				let connectionTypes[connection->getType()] = true;
+				if count(connectionTypes) == 2 {
+					throw new Exception("Cannot use models of different database systems in the same query");
+				}
 			}
 		}
 
@@ -2761,7 +2793,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 		/**
 		 * Check if the query has data
 		 */
-		if result instanceof ResultInterface && result->numRows(result) {
+		if result instanceof ResultInterface && result->numRows() {
 			let resultData = result;
 		} else {
 			let resultData = false;
@@ -2876,17 +2908,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let model = manager->load(modelName, true);
 		}
 
-		/**
-		 * Get the model connection
-		 */
-		if method_exists(model, "selectWriteConnection") {
-			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
-			if typeof connection != "object" {
-				throw new Exception("'selectWriteConnection' didn't return a valid connection");
-			}
-		} else {
-			let connection = model->getWriteConnection();
-		}
+		let connection = this->getWriteConnection(model, intermediate, bindParams, bindTypes);
 
 		let metaData = this->_metaData, attributes = metaData->getAttributes(model);
 
@@ -3020,14 +3042,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			let model = this->_manager->load(modelName);
 		}
 
-		if method_exists(model, "selectWriteConnection") {
-			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
-			if typeof connection != "object" {
-				throw new Exception("'selectWriteConnection' didn't return a valid connection");
-			}
-		} else {
-			let connection = model->getWriteConnection();
-		}
+		let connection = this->getWriteConnection(model, intermediate, bindParams, bindTypes);
 
 		let dialect = connection->getDialect();
 
@@ -3110,14 +3125,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 			return new Status(true);
 		}
 
-		if method_exists(model, "selectWriteConnection") {
-			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
-			if typeof connection != "object" {
-				throw new Exception("'selectWriteConnection' didn't return a valid connection");
-			}
-		} else {
-			let connection = model->getWriteConnection();
-		}
+		let connection = this->getWriteConnection(model, intermediate, bindParams, bindTypes);
 
 		/**
 		 * Create a transaction in the write connection
@@ -3194,23 +3202,12 @@ class Query implements QueryInterface, InjectionAwareInterface
 			return new Status(true);
 		}
 
-		if method_exists(model, "selectWriteConnection") {
-			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
-			if typeof connection != "object" {
-				throw new Exception("'selectWriteConnection' didn't return a valid connection");
-			}
-		} else {
-			let connection = model->getWriteConnection();
-		}
+		let connection = this->getWriteConnection(model, intermediate, bindParams, bindTypes);
 
 		/**
 		 * Create a transaction in the write connection
 		 */
 		connection->begin();
-
-		//for record in iterator(records) {
-
-
 		records->rewind();
 
 		while records->valid() {
@@ -3630,5 +3627,60 @@ class Query implements QueryInterface, InjectionAwareInterface
 	public static function clean()
 	{
 		let self::_irPhqlCache = [];
+	}
+
+	/**
+	 * Gets the read connection from the model if there is no transaction set inside the query object
+	 */
+	protected function getReadConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface>
+	{
+		var connection = null, transaction;
+		let transaction = this->_transaction;
+
+		if typeof transaction == "object" && transaction instanceof TransactionInterface {
+			return transaction->getConnection();
+		}
+
+		if method_exists(model, "selectReadConnection") {
+			// use selectReadConnection() if implemented in extended Model class
+			let connection = model->selectReadConnection(intermediate, bindParams, bindTypes);
+			if typeof connection != "object" {
+				throw new Exception("selectReadConnection did not return a connection");
+			}
+			return connection;
+		}
+		return model->getReadConnection();
+	}
+
+
+	/**
+	 * Gets the write connection from the model if there is no transaction inside the query object
+	 */
+	protected function getWriteConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface>
+	{
+		var connection = null, transaction;
+		let transaction = this->_transaction;
+
+		if typeof transaction == "object" && transaction instanceof TransactionInterface {
+			return transaction->getConnection();
+		}
+
+		if method_exists(model, "selectWriteConnection") {
+			let connection = model->selectWriteConnection(intermediate, bindParams, bindTypes);
+			if typeof connection != "object" {
+				throw new Exception("selectWriteConnection did not return a connection");
+			}
+			return connection;
+		}
+		return model->getWriteConnection();
+	}
+
+	/**
+	 * allows to wrap a transaction around all queries
+	 */
+	public function setTransaction(<TransactionInterface> transaction) -> <Query>
+	{
+		let this->_transaction = transaction;
+		return this;
 	}
 }

@@ -749,4 +749,148 @@ class ModelTest extends UnitTest
             }
         );
     }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionWithinFind()
+    {
+        $this->specify(
+            'Transaction is passed as option parameter',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                $subscriber = Subscribers::find(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $transaction
+                    ]
+                );
+
+                expect(\count($subscriber), 1);
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionWithinFindFirst()
+    {
+        $this->specify(
+            'Transaction is passed as option parameter',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                $subscriber = Subscribers::findFirst(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $transaction
+                    ]
+                );
+
+                expect(\get_class($subscriber), 'Subscriber');
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionOutsideFind()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $secondTransaction = $transactionManager->getOrCreateTransaction();
+
+                $subscriber = Subscribers::find(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $secondTransaction
+                    ]
+                );
+
+                expect(\count($subscriber), 0);
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionOutsideFindFirst()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $secondTransaction = $transactionManager->getOrCreateTransaction();
+
+                $subscriber = Subscribers::findFirst(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $secondTransaction
+                    ]
+                );
+
+                expect(false, $subscriber);
+            }
+        );
+    }
 }
