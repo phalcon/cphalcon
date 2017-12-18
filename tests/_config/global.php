@@ -13,6 +13,7 @@ return [
         'controllersDir' => PATH_DATA . 'controllers/',
         'tasksDir' => PATH_DATA . 'tasks/',
         'microDir' => PATH_DATA . 'micro/',
+        'aclDir' => PATH_DATA . 'acl/'
     ],
     'database' => [
         'adapter'  => 'Mysql',
