@@ -653,6 +653,19 @@ INSERT INTO `table_with_string_field` VALUES
 /*!40000 ALTER TABLE `table_with_string_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
+DROP TABLE IF EXISTS `table_with_json_field`;
+CREATE TABLE `table_with_json_field` (
+    `id` INT(10)   UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `field` JSON NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `table_with_json_field` WRITE;
+INSERT INTO `table_with_json_field` VALUES
+  (1,'{}'),
+  (2,'{"code":0,"msg":"ok","items":[{"id":1,"name":"data-1"},{"id":2,"name":"data-2"}]}');
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
