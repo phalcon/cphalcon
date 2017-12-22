@@ -399,10 +399,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	{
 		var models, currentModel;
 
-		if typeof with != "null" {
+		if with != "null" {
 			trigger_error(
 				"The third parameter 'with' is deprecated and will be removed in future releases.",
-				E_DEPRECATED
+				E_USER_DEPRECATED
 			);
 		}
 
