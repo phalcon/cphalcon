@@ -63,7 +63,7 @@ abstract class Element implements ElementInterface
 			throw new \InvalidArgumentException("Form element name is required");
 		}
 
-
+		let this->_name = name;
 		let this->_attributes = attributes;
 		let this->_messages = new Group();
 	}
