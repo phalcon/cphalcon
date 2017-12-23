@@ -746,6 +746,43 @@ trait PostgresqlTrait
                 ],
                 rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example5.sql')),
             ],
+            'example6' => [
+                null,
+                [
+                    'columns' => [
+                        new Column('column14', [
+                            'type' => Column::TYPE_INTEGER,
+                            'notNull' => true,
+                            'autoIncrement' => true,
+                            'first' => true
+                        ]),
+                        new Column('column15', [
+                            'type' => Column::TYPE_INTEGER,
+                            'default' => 5,
+                            'notNull' => true,
+                            'after' => 'user_id'
+                        ]),
+                        new Column('column16', [
+                            'type'    => Column::TYPE_VARCHAR,
+                            'size'    => 10,
+                            'default' => 'column16'
+                        ]),
+                        new Column('column17', [
+                            'type' => Column::TYPE_BOOLEAN,
+                            'default' => "false",
+                            'notNull' => true,
+                            'after' => 'track_id'
+                        ]),
+                        new Column('column18', [
+                            'type' => Column::TYPE_BOOLEAN,
+                            'default' => "true",
+                            'notNull' => true,
+                            'after' => 'like'
+                        ]),
+                    ],
+                ],
+                rtrim(file_get_contents(PATH_FIXTURES . 'postgresql/example6.sql')),
+            ],
         ];
     }
 }

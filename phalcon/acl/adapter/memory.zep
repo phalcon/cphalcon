@@ -540,7 +540,7 @@ class Memory extends Adapter
 			inheritedRoles, funcAccess = null, resourceObject = null, roleObject = null, funcList,
 			reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
 			numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,
-			reflectionParameter;
+			reflectionParameter, hasRole = false, hasResource = false;
 
 		if typeof roleName == "object" {
 			if roleName instanceof RoleAware {
@@ -714,7 +714,8 @@ class Memory extends Adapter
 
 				if reflectionClass !== null {
 					// roleObject is this class
-					if roleObject !== null && reflectionClass->isInstance(roleObject) {
+					if roleObject !== null && reflectionClass->isInstance(roleObject) && !hasRole {
+						let hasRole = true;
 						let parametersForFunction[] = roleObject;
 						let userParametersSizeShouldBe--;
 
@@ -722,7 +723,8 @@ class Memory extends Adapter
 					}
 
 					// resourceObject is this class
-					if resourceObject !== null && reflectionClass->isInstance(resourceObject) {
+					if resourceObject !== null && reflectionClass->isInstance(resourceObject) && !hasResource {
+						let hasResource = true;
 						let parametersForFunction[] = resourceObject;
 						let userParametersSizeShouldBe--;
 

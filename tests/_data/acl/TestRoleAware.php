@@ -1,5 +1,7 @@
 <?php
 
+namespace Phalcon\Test\Acl;
+
 use Phalcon\Acl\RoleAware;
 
 /**

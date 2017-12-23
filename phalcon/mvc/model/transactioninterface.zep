@@ -29,7 +29,6 @@ use Phalcon\Mvc\Model\Transaction\ManagerInterface;
  */
 interface TransactionInterface
 {
-
 	/**
 	 * Sets transaction manager related to the transaction
 	 */
@@ -37,68 +36,48 @@ interface TransactionInterface
 
 	/**
 	 * Starts the transaction
-	 *
-	 * @return boolean
 	 */
-	public function begin();
+	public function begin() -> boolean;
 
 	/**
 	 * Commits the transaction
-	 *
-	 * @return boolean
 	 */
-	public function commit();
+	public function commit() -> boolean;
 
 	/**
 	 * Rollbacks the transaction
-	 *
-	 * @param  string rollbackMessage
-	 * @param  Phalcon\Mvc\ModelInterface rollbackRecord
-	 * @return boolean
 	 */
-	public function rollback(rollbackMessage = null, rollbackRecord = null);
+	public function rollback(string rollbackMessage = null, <ModelInterface> rollbackRecord = null);
 
 	/**
 	 * Returns connection related to transaction
-	 *
-	 * @return string
 	 */
-	public function getConnection();
+	public function getConnection() -> <\Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Sets if is a reused transaction or new once
-	 *
-	 * @param boolean isNew
 	 */
-	public function setIsNewTransaction(isNew);
+	public function setIsNewTransaction(boolean isNew);
 
 	/**
 	 * Sets flag to rollback on abort the HTTP connection
-	 *
-	 * @param boolean rollbackOnAbort
 	 */
-	public function setRollbackOnAbort(rollbackOnAbort);
+	public function setRollbackOnAbort(boolean rollbackOnAbort);
 
 	/**
 	 * Checks whether transaction is managed by a transaction manager
-	 *
-	 * @return boolean
 	 */
-	public function isManaged();
+	public function isManaged() -> boolean;
 
 	/**
 	 * Returns validations messages from last save try
-	 *
-	 * @return array
 	 */
-	public function getMessages();
+	public function getMessages() -> array;
 
 	/**
 	 * Checks whether internal connection is under an active transaction
-	 *
-	 * @return boolean
 	 */
-	public function isValid();
+	public function isValid() -> boolean;
 
 	/**
 	 * Sets object which generates rollback action

@@ -1,6 +1,13 @@
 # Codeception Test Suite Configuration
 #
 # Suite for unit (internal) tests.
+#
+# This suite gets configuration parameters from the environment.
+# You'll need to export environment variables before running tests.
+# For example:
+#   source tests/_ci/environment
+#   export $(cut -d= -f1 tests/_ci/environment)
+
 class_name: UnitTester
 modules:
     # enabled modules and helpers
@@ -18,10 +25,6 @@ modules:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
         Db:
-            # get params from environment vars
-            # Create it before running tests. For example:
-            # export TEST_DB_MYSQL_DSN="mysql:host=10.1.0.3.;dbname=phalcon_test"
-            # ...
             dsn: %TEST_DB_MYSQL_DSN%
             user: %TEST_DB_MYSQL_USER%
             password: %TEST_DB_MYSQL_PASSWD%

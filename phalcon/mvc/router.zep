@@ -795,7 +795,13 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function mount(<GroupInterface> group) -> <RouterInterface>
 	{
-		var groupRoutes, beforeMatch, hostname, routes, route;
+		var groupRoutes, beforeMatch, hostname, routes, route, eventsManager;
+
+		let eventsManager = this->_eventsManager;
+
+		if typeof eventsManager == "object" {
+			eventsManager->fire("router:beforeMount", this, group);
+		}
 
 		let groupRoutes = group->getRoutes();
 		if !count(groupRoutes) {

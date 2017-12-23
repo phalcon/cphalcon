@@ -6,6 +6,7 @@ To see what we changed in particular framework branch refer to the relevant chan
 
 ## Index
 
+- [**`3.3.x`**](CHANGELOG-3.3.md)
 - [**`3.2.x`**](CHANGELOG-3.2.md)
 - [**`3.1.x`**](CHANGELOG-3.1.md)
 - [**`3.0.x`**](CHANGELOG-3.0.md)

@@ -73,15 +73,17 @@ class PostgresqlTest extends UnitTest
                     'parts',
                     'personas',
                     'personnes',
+                    'ph_select',
                     'prueba',
                     'robots',
                     'robots_parts',
                     'subscriptores',
+                    'table_with_string_field',
                     'tipo_documento',
                 ];
 
                 expect($this->connection->listTables())->equals($expected);
-                expect($this->connection->listTables(TEST_DB_POSTGRESQL_SCHEMA))->equals($expected);
+                expect($this->connection->listTables(env('TEST_DB_POSTGRESQL_SCHEMA', 'public')))->equals($expected);
             }
         );
     }

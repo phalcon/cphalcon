@@ -14,6 +14,7 @@
  +------------------------------------------------------------------------+
  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Jakob Oberhummer <cphalcon@chilimatic.com>                    |
  +------------------------------------------------------------------------+
  */
 
@@ -84,7 +85,6 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  */
 abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
 {
-
 	protected _dependencyInjector;
 
 	protected _modelsManager;
@@ -97,7 +97,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _dirtyState = 1;
 
-	protected _transaction;
+	protected _transaction { get };
 
 	protected _uniqueKey;
 
@@ -112,6 +112,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	protected _snapshot;
 
 	protected _oldSnapshot = [];
+
+	const TRANSACTION_INDEX = "transaction";
 
 	const OP_NONE = 0;
 
@@ -467,7 +469,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	{
 		var key, keyMapped, value, attribute, attributeField, metaData, columnMap, dataMapped, disableAssignSetters;
 
-        let disableAssignSetters = globals_get("orm.disable_assign_setters");
+		let disableAssignSetters = globals_get("orm.disable_assign_setters");
 
 		// apply column map for data, if exist
 		if typeof dataColumnMap == "array" {
@@ -630,6 +632,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		if keepSnapshots {
 			instance->setSnapshotData(data, columnMap);
+			instance->setOldSnapshotData(data, columnMap);
 		}
 
 		/**
@@ -808,14 +811,66 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * foreach ($robots as $robot) {
 	 *	 echo $robot->name, "\n";
 	 * }
+	 *
+	 * // encapsulate find it into an running transaction esp. useful for application unit-tests
+	 * // or complex business logic where we wanna control which transactions are used.
+	 *
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction->begin();
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction);
+	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * $resultInsideTransaction = Robot::find(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
+	 * $resultOutsideTransaction = Robot::find(['name' => 'test']);
+	 *
+	 * foreach ($setInsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * foreach ($setOutsideTransaction as $robot) {
+	 *     echo $robot->name, "\n";
+	 * }
+	 *
+	 * // reverts all not commited changes
+	 * $myTransaction->rollback();
+	 *
+	 * // creating two different transactions
+	 * $myTransaction1 = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction1->begin();
+	 * $myTransaction2 = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction2->begin();
+	 *
+	 *  // add a new robots
+	 * $firstNewRobot = new Robot();
+	 * $firstNewRobot->setTransaction($myTransaction1);
+	 * $firstNewRobot->save(['name' => 'first-transaction-robot', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * $secondNewRobot = new Robot();
+	 * $secondNewRobot->setTransaction($myTransaction2);
+	 * $secondNewRobot->save(['name' => 'second-transaction-robot', 'type' => 'fictional', 'year' => 1984]);
+	 *
+	 * // this transaction will find the robot.
+	 * $resultInFirstTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
+	 * // this transaction won't find the robot.
+	 * $resultInSecondTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction2]);
+	 * // this transaction won't find the robot.
+	 * $resultOutsideAnyExplicitTransaction = Robot::find(['name' => 'first-transaction-robot']);
+	 *
+	 * // this transaction won't find the robot.
+	 * $resultInFirstTransaction = Robot::find(['name' => 'second-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction2]);
+	 * // this transaction will find the robot.
+	 * $resultInSecondTransaction = Robot::find(['name' => 'second-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
+	 * // this transaction won't find the robot.
+	 * $resultOutsideAnyExplicitTransaction = Robot::find(['name' => 'second-transaction-robot']);
+	 *
+	 * $transaction1->rollback();
+	 * $transaction2->rollback();
 	 * </code>
 	 */
 	public static function find(var parameters = null) -> <ResultsetInterface>
 	{
-		var params, builder, query, bindParams, bindTypes, cache, resultset, hydration, dependencyInjector, manager;
-
-		let dependencyInjector = Di::getDefault();
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+		var params, query, resultset, hydration;
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -826,36 +881,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let params = parameters;
 		}
 
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = manager->createBuilder(params);
-		builder->from(get_called_class());
-
-		let query = builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		if fetch bindParams, params["bind"] {
-
-			if typeof bindParams == "array" {
-				query->setBindParams(bindParams, true);
-			}
-
-			if fetch bindTypes, params["bindTypes"] {
-				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes, true);
-				}
-			}
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
+		let query = static::getPreparedQuery(params);
 
 		/**
 		 * Execute the query passing the bind-params and casting-types
@@ -885,7 +911,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * // What's the first mechanical robot in robots table?
 	 * $robot = Robots::findFirst(
-	 *     "type = 'mechanical'"
+	 *	 "type = 'mechanical'"
 	 * );
 	 *
 	 * echo "The first mechanical robot name is ", $robot->name;
@@ -899,18 +925,27 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 * );
 	 *
 	 * echo "The first virtual robot name is ", $robot->name;
-	 * </code>
 	 *
-	 * @param string|array parameters
-	 * @return static
+	 * // behaviour with transaction
+	 * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
+	 * $myTransaction->begin();
+	 * $newRobot = new Robot();
+	 * $newRobot->setTransaction($myTransaction);
+	 * $newRobot->save(['name' => 'test', 'type' => 'mechanical', 'year' => 1944]);
+	 *
+	 * $findsARobot = Robot::findFirst(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
+	 * $doesNotFindARobot = Robot::findFirst(['name' => 'test']);
+	 *
+	 * var_dump($findARobot);
+	 * var_dump($doesNotFindARobot);
+	 *
+	 * $transaction->commit();
+	 * $doesFindTheRobotNow = Robot::findFirst(['name' => 'test']);
+	 * </code>
 	 */
 	public static function findFirst(var parameters = null) -> <Model>
 	{
-		var params, builder, query, bindParams, bindTypes, cache,
-			dependencyInjector, manager;
-
-		let dependencyInjector = Di::getDefault();
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+		var params, query;
 
 		if typeof parameters != "array" {
 			let params = [];
@@ -921,41 +956,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let params = parameters;
 		}
 
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = manager->createBuilder(params);
-		builder->from(get_called_class());
-
-		/**
-		 * We only want the first record
-		 */
-		builder->limit(1);
-
-		let query = builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		if fetch bindParams, params["bind"] {
-
-			if typeof bindParams == "array" {
-				query->setBindParams(bindParams, true);
-			}
-
-			if fetch bindTypes, params["bindTypes"] {
-				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes, true);
-				}
-			}
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
+		let query = static::getPreparedQuery(params, 1);
 
 		/**
 		 * Return only the first row
@@ -968,6 +969,58 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		return query->execute();
 	}
 
+
+	/**
+	 * shared prepare query logic for find and findFirst method
+	 */
+	private static function getPreparedQuery(var params, var limit = null) -> <Query> {
+		var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
+
+		let dependencyInjector = Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = manager->createBuilder(params);
+		builder->from(get_called_class());
+
+		if limit != null {
+			builder->limit(limit);
+		}
+
+		let query = builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		if fetch bindParams, params["bind"] {
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams, true);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes, true);
+				}
+			}
+		}
+
+		if fetch transaction, params[self::TRANSACTION_INDEX] {
+			if transaction instanceof TransactionInterface {
+				query->setTransaction(transaction);
+			}
+		}
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		return query;
+	}
 	/**
 	 * Create a criteria for a specific model
 	 */
@@ -2064,7 +2117,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 				} else {
 					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
 				}
-                let defaultValues = metaData->getDefaultValues(this);
+
+				let defaultValues = metaData->getDefaultValues(this);
 
 				/**
 				 * Get string attributes that allow empty strings as defaults
@@ -2432,16 +2486,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let this->{attributeField} = lastInsertedId;
 			let snapshot[attributeField] = lastInsertedId;
 
-			if manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
-			    let this->_snapshot = snapshot;
-			}
-
 			/**
 			 * Since the primary key was modified, we delete the _uniqueParams
 			 * to force any future update to re-build the primary key
 			 */
 			let this->_uniqueParams = null;
 		}
+
+		if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
+			let this->_snapshot = snapshot;
+		}
+
 
 		return success;
 	}
@@ -2562,15 +2617,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  											let changed = (boolean) snapshotValue !== (boolean) value;
  											break;
 
- 										case Column::TYPE_INTEGER:
- 											let changed = (int) snapshotValue !== (int) value;
- 											break;
-
  										case Column::TYPE_DECIMAL:
  										case Column::TYPE_FLOAT:
  											let changed = floatval(snapshotValue) !== floatval(value);
  											break;
 
+ 										case Column::TYPE_INTEGER:
  										case Column::TYPE_DATE:
  										case Column::TYPE_VARCHAR:
  										case Column::TYPE_DATETIME:
@@ -2599,7 +2651,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  							let bindTypes[] = bindType;
  						}
  					}
-                    let newSnapshot[attributeField] = value;
+					let newSnapshot[attributeField] = value;
 
  				} else {
  				    let newSnapshot[attributeField] = null;
@@ -2612,6 +2664,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
  		 * If there is no fields to update we return true
  		 */
  		if !count(fields) {
+ 			if useDynamicUpdate {
+ 				let this->_oldSnapshot = snapshot;
+ 			}
  			return true;
  		}
 
@@ -3459,6 +3514,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			this->assign(row, columnMap);
 			if manager->isKeepingSnapshots(this) {
 				this->setSnapshotData(row, columnMap);
+				this->setOldSnapshotData(row, columnMap);
 			}
 		}
 
@@ -3613,7 +3669,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 		let keysAttributes = [];
 		for attribute in attributes {
-			let keysAttributes[attribute] = null;
+			let keysAttributes[attribute] = true;
 		}
 
 		this->getModelsMetaData()->setEmptyStringAttributes(this, keysAttributes);
@@ -3839,8 +3895,57 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let snapshot = data;
 		}
 
-		let this->_oldSnapshot = snapshot;
 		let this->_snapshot = snapshot;
+	}
+
+	/**
+	 * Sets the record's old snapshot data.
+	 * This method is used internally to set old snapshot data when the model was set up to keep snapshot data
+	 *
+	 * @param array data
+	 * @param array columnMap
+	 */
+	public function setOldSnapshotData(array! data, columnMap = null)
+	{
+		var key, value, snapshot, attribute;
+		/**
+		 * Build the snapshot based on a column map
+		 */
+		if typeof columnMap == "array" {
+			let snapshot = [];
+			for key, value in data {
+				/**
+				 * Use only strings
+				 */
+				if typeof key != "string" {
+					continue;
+				}
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					if !globals_get("orm.ignore_unknown_columns") {
+						throw new Exception("Column '" . key . "' doesn't make part of the column map");
+					} else {
+						continue;
+					}
+				}
+				if typeof attribute == "array" {
+					if !fetch attribute, attribute[0] {
+						if !globals_get("orm.ignore_unknown_columns") {
+							throw new Exception("Column '" . key . "' doesn't make part of the column map");
+						} else {
+							continue;
+						}
+					}
+				}
+				let snapshot[attribute] = value;
+			}
+		} else {
+			let snapshot = data;
+		}
+
+		let this->_oldSnapshot = snapshot;
 	}
 
 	/**

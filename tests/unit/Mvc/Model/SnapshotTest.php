@@ -4,8 +4,11 @@ namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Helper\ModelTrait;
 use Phalcon\Mvc\Model;
+use Phalcon\Test\Models\Snapshot\Personas;
+use Phalcon\Test\Models\Snapshot\Subscribers;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Snapshot\Robots;
+use Phalcon\Test\Models\Snapshot\Requests;
 use Phalcon\Test\Models\Snapshot\Robotters;
 
 /**
@@ -29,6 +32,37 @@ use Phalcon\Test\Models\Snapshot\Robotters;
 class SnapshotTest extends UnitTest
 {
     use ModelTrait;
+
+    /**
+     * Tests dynamic update for identityless models
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @issue  13166
+     * @since  2017-11-20
+     */
+    public function shouldSaveSnapshotForIdentitylessModel()
+    {
+        $this->specify(
+            "Snapshot does not work with identityless models on Creation/Save",
+            function () {
+                $requests = new Requests();
+
+                $requests->method = 'GET';
+                $requests->uri = '/api/status';
+                $requests->count = 1;
+
+                expect($requests->save())->true();
+                expect($requests->getChangedFields())->equals([]);
+                expect($requests->getSnapshotData())->notEmpty();
+                expect($requests->getSnapshotData())->equals($requests->toArray());
+
+                expect($requests->method)->equals('GET');
+                expect($requests->uri)->equals('/api/status');
+                expect($requests->count)->equals(1);
+            }
+        );
+    }
 
     /** @test */
     public function shouldWorkWithSimpleResultset()
@@ -469,6 +503,52 @@ class SnapshotTest extends UnitTest
                 expect($robots->hasChanged(['name', 'year'], true))->equals(false);
                 $robots->year = 2018;
                 expect($robots->hasChanged(['name', 'year'], true))->equals(true);
+            }
+        );
+    }
+
+    /**
+     * When model is refreshed snapshot should be updated
+     *
+     * @issue  13173
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-12-05
+     */
+    public function testIssue13173()
+    {
+        $this->specify(
+            'getUpdatesFields method is not working correctly with SoftDelete behavior',
+            function () {
+                $this->setUpModelsManager();
+                $subscriber = new Subscribers();
+                $subscriber->email = 'some@some.com';
+                $subscriber->status = 'I';
+
+                expect($subscriber->save())->true();
+                expect($subscriber->getUpdatedFields())->equals(['email', 'created_at', 'status', 'id']);
+                expect($subscriber->delete())->true();
+                expect($subscriber->getUpdatedFields())->equals(['status']);
+            }
+        );
+    }
+
+    public function testIssue13202()
+    {
+        $this->specify(
+            "When using dynamic update saving model without changes getUpdatedFields shouldn't return full array",
+            function () {
+                $this->setUpModelsManager();
+                $personas = Personas::findFirst();
+                expect($personas->getChangedFields())->equals([]);
+                try {
+                    $personas->getUpdatedFields();
+                } catch (\Exception $e) {
+                    expect($e->getMessage())->equals(
+                        "Change checking cannot be performed because the object has not been persisted or is deleted"
+                    );
+                }
+                expect($personas->save())->true();
+                expect($personas->getUpdatedFields())->equals([]);
             }
         );
     }
