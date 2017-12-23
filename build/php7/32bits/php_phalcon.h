@@ -135,7 +135,7 @@ typedef zend_function zephir_fcall_cache_entry;
 #define PHP_PHALCON_VERSION     "3.3.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.10.4-07c821e996"
+#define PHP_PHALCON_ZEPVERSION  "0.10.5-04eb3288bf"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
