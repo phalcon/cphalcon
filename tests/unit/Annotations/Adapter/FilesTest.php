@@ -32,24 +32,24 @@ class FilesTest extends UnitTest
         $adapter = new Files(['annotationsDir' => PATH_OUTPUT . 'tests/annotations/']);
 
         $classAnnotations = $adapter->get('TestClass');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('TestClass');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('User\TestClassNs');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('User\TestClassNs');
-        $this->assertTrue(is_object($classAnnotations));
-        $this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
-        $this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+        $this->assertInternalType('object', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $this->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         unset($adapter);
 

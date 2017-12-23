@@ -79,7 +79,7 @@ before_install:
   - bash tests/_ci/setup_dbs.sh
 
 install:
-  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest --ignore-platform-reqs
+  - travis_retry composer install --quiet --no-interaction --no-ansi --no-progress --dev --prefer-source --no-suggest #--ignore-platform-reqs
   - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
