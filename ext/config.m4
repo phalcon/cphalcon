@@ -21,23 +21,23 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/validatorinterface.zep.c
 	phalcon/cache/backendinterface.zep.c
 	phalcon/factory.zep.c
+	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/mvc/model/validator.zep.c
 	phalcon/cache/backend.zep.c
 	phalcon/cache/frontendinterface.zep.c
-	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/dispatcherinterface.zep.c
 	phalcon/annotations/adapterinterface.zep.c
 	phalcon/assets/resourceinterface.zep.c
+	phalcon/logger/adapterinterface.zep.c
 	phalcon/annotations/adapter.zep.c
 	phalcon/config.zep.c
 	phalcon/db/adapterinterface.zep.c
-	phalcon/logger/adapterinterface.zep.c
+	phalcon/logger/adapter.zep.c
 	phalcon/logger/formatterinterface.zep.c
 	phalcon/session/adapterinterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
-	phalcon/logger/adapter.zep.c
 	phalcon/logger/formatter.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
@@ -259,6 +259,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/loader.zep.c
 	phalcon/loader/exception.zep.c
 	phalcon/logger.zep.c
+	phalcon/logger/adapter/blackhole.zep.c
 	phalcon/logger/adapter/file.zep.c
 	phalcon/logger/adapter/firephp.zep.c
 	phalcon/logger/adapter/stream.zep.c
@@ -298,6 +299,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/manager.zep.c
 	phalcon/mvc/model/message.zep.c
 	phalcon/mvc/model/metadata/apc.zep.c
+	phalcon/mvc/model/metadata/apcu.zep.c
 	phalcon/mvc/model/metadata/files.zep.c
 	phalcon/mvc/model/metadata/libmemcached.zep.c
 	phalcon/mvc/model/metadata/memcache.zep.c
