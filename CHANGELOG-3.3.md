@@ -1,3 +1,6 @@
+# [3.3.1](https://github.com/phalcon/cphalcon/releases/tag/v3.3.1) (2018-XX-XX)
+- Fixed a boolean logic error in the CSS minifier and a corresponding unit test so that whitespace is stripped [#13200](https://github.com/phalcon/cphalcon/pull/13200)
+
 # [3.3.0](https://github.com/phalcon/cphalcon/releases/tag/v3.3.0) (2017-12-23)
 - Added support of PHP 7.2 and initial support of PHP 7.3
 - Added support for `switch/case` syntax to the Volt Engine [#13107](https://github.com/phalcon/cphalcon/issues/13107)
@@ -13,6 +16,7 @@
 - Added `Phalcon\Mvc\Mico\Collection::mapVia` to map routes via methods
 - Added `Phalcon\Mvc\Model::setOldSnapshotData` to set old snapshot data separately to current snapshot data
 - Added `Phalcon\Http\Response::removeHeader` to remove specific header from response
+- Added `Phalcon\Mvc\Query::setTransaction` to enable an override transaction [#13226](https://github.com/phalcon/cphalcon/issues/13226)
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to correct generate PHQL in argument's array when using order DESC or ASC [#11827](https://github.com/phalcon/cphalcon/issues/11827)
 - Fixed `Phalcon\Db\Dialect\Postgresql::createTable` to produce valid SQL for table definition with `BOOLEAN` types [#13132](https://github.com/phalcon/cphalcon/issues/13132)
 - Fixed `Phalcon\Db\Dialect\Postgresql::_castDefault` to return correct value for `BOOLEAN` type [#13132](https://github.com/phalcon/cphalcon/issues/13132), [phalcon/phalcon-devtools#1118](https://github.com/phalcon/phalcon-devtools/issues/1118)
@@ -23,5 +27,3 @@
 - Fixed `Phalcon\Mvc\Model` to set old snapshot when no fields are changed when dynamic update is enabled
 - Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to properly pass role and resource objects to custom function if they are objects of the same class
 - Changed `Phalcon\Mvc\Model` to allow to pass a transaction within the query context [#13226](https://github.com/phalcon/cphalcon/issues/13226)
-- Added `Phalcon\Mvc\Query::setTransaction` to enable an override transaction [#13226](https://github.com/phalcon/cphalcon/issues/13226)
-- Fixed a boolean logic error in the CSS minifier and a corresponding unit test so that whitespace is stripped [#13200](https://github.com/phalcon/cphalcon/pull/13200)
