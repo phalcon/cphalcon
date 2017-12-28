@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
@@ -611,6 +612,87 @@ class BuilderTest extends UnitTest
                         ->getPhql();
 
                 expect($phql)->equals("SELECT name, SUM(price) FROM [" . Robots::class . "] GROUP BY [id], [name]");
+            }
+        );
+    }
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testShouldPassTransactionInConstructor()
+    {
+        $this->specify(
+            "Query Builder should get the transaction from the params and set it internally",
+            function () {
+                // separate limit and offset
+
+                $transaction = new Transaction($this->di);
+
+                $params = [
+                    "models" => Robots::class,
+                    "transaction" => new Transaction($this->di)
+                ];
+
+                $buildTransaction = new Builder($params);
+
+                expect($buildTransaction->getTransaction())->equals($transaction);
+            }
+        );
+    }
+
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testShouldBeAbleToSetAndGetTransaction()
+    {
+        $this->specify(
+            "Query Builders getter and setters are working",
+            function () {
+                // separate limit and offset
+
+                $transaction = new Transaction($this->di);
+
+                $params = [
+                    "models" => Robots::class,
+                ];
+
+                $buildTransaction = new Builder($params);
+                $buildTransaction->setTransaction($transaction);
+
+                expect($buildTransaction->getTransaction())->equals($transaction);
+            }
+        );
+    }
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testShouldReturnQueryWithSameTransaction()
+    {
+        $this->specify(
+            "Query Builders sets the transaction in the returned query",
+            function () {
+
+                // separate limit and offset
+
+                $transaction = new Transaction($this->di);
+
+                $params = [
+                    "models"      => Robots::class,
+                    "transaction" => $transaction
+                ];
+
+                $buildTransaction = new Builder($params);
+                $query = $buildTransaction->getQuery();
+
+                expect($query->getTransaction())->equals($buildTransaction->getTransaction());
             }
         );
     }
