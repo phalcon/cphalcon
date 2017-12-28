@@ -1376,7 +1376,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setSharedLock(this->_sharedLock);
 		}
 
-		if typeof this->_transaction === "object" {
+		if this->_transaction && typeof this->_transaction === "object" {
 			query->setTransaction(this->_transaction);
 		}
 
