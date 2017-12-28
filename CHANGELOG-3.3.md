@@ -24,3 +24,4 @@
 - Fixed `Phalcon\Acl\Adapter\Memory::isAllowed` to properly pass role and resource objects to custom function if they are objects of the same class
 - Changed `Phalcon\Mvc\Model` to allow to pass a transaction within the query context [#13226](https://github.com/phalcon/cphalcon/issues/13226)
 - Added `Phalcon\Mvc\Query::setTransaction` to enable an override transaction [#13226](https://github.com/phalcon/cphalcon/issues/13226)
+- Added ability to set the transaction in the params and Query, Criteria and Builder behave the same [#13226](https://github.com/phalcon/cphalcon/issues/13235)

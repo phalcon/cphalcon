@@ -770,4 +770,18 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 		return {model}::find(this->getParams());
 	}
+
+	public function setTransaction(<TransactionInterface> transaction = null) -> <Criteria>
+	{
+		let this->_params["transaction"] = transaction;
+		return this;
+	}
+
+	public function getTransaction() -> <TransactionInterface> | null {
+		var transaction;
+		if fetch transaction, this->_params["transaction"] {
+			return transaction;
+		}
+		return null;
+	}
 }

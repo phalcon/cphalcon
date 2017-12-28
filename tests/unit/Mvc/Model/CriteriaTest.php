@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Phalcon\Di;
+use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Test\Models\Users;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Test\Module\UnitTest;
@@ -65,6 +66,46 @@ class CriteriaTest extends UnitTest
 
                 expect($criteria->getWhere())->equals(Users::class . '.id != ' . Users::class . '.id');
                 expect($criteria->execute())->isInstanceOf(Simple::class);
+            }
+        );
+    }
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testShouldSetAndGetTransactionInCriteria()
+    {
+        $this->specify(
+            'The Criteria::inWhere with empty array does not work as expected',
+            function () {
+                $criteria = Users::query();
+                $transaction = new Transaction(Di::getDefault(), true);
+                $criteria->setTransaction($transaction);
+
+                self::assertSame($transaction, $criteria->getTransaction());
+            }
+        );
+    }
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testShouldReturnTransactionInParamsFromCriteria()
+    {
+        $this->specify(
+            'The Criteria::inWhere with empty array does not work as expected',
+            function () {
+                $criteria = Users::query();
+                $transaction = new Transaction(Di::getDefault(), true);
+                $criteria->setTransaction($transaction);
+                $params = $criteria->getParams();
+
+                self::assertArrayHasKey('transaction', $params);
+                self::assertSame($transaction, $params['transaction']);
             }
         );
     }

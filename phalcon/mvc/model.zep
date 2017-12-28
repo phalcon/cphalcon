@@ -881,7 +881,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let params = parameters;
 		}
 
-		let query = static::getPreparedQuery(params);
+		let query = static::_getPreparedQuery(params);
 
 		/**
 		 * Execute the query passing the bind-params and casting-types
@@ -956,7 +956,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			let params = parameters;
 		}
 
-		let query = static::getPreparedQuery(params, 1);
+		let params["limit"] = 1;
+
+		let query = static::_getPreparedQuery(params);
 
 		/**
 		 * Return only the first row
@@ -969,58 +971,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		return query->execute();
 	}
 
-
-	/**
-	 * shared prepare query logic for find and findFirst method
-	 */
-	private static function getPreparedQuery(var params, var limit = null) -> <Query> {
-		var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
-
-		let dependencyInjector = Di::getDefault();
-		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
-
-		/**
-		 * Builds a query with the passed parameters
-		 */
-		let builder = manager->createBuilder(params);
-		builder->from(get_called_class());
-
-		if limit != null {
-			builder->limit(limit);
-		}
-
-		let query = builder->getQuery();
-
-		/**
-		 * Check for bind parameters
-		 */
-		if fetch bindParams, params["bind"] {
-			if typeof bindParams == "array" {
-				query->setBindParams(bindParams, true);
-			}
-
-			if fetch bindTypes, params["bindTypes"] {
-				if typeof bindTypes == "array" {
-					query->setBindTypes(bindTypes, true);
-				}
-			}
-		}
-
-		if fetch transaction, params[self::TRANSACTION_INDEX] {
-			if transaction instanceof TransactionInterface {
-				query->setTransaction(transaction);
-			}
-		}
-
-		/**
-		 * Pass the cache options to the query
-		 */
-		if fetch cache, params["cache"] {
-			query->cache(cache);
-		}
-
-		return query;
-	}
 	/**
 	 * Create a criteria for a specific model
 	 */
@@ -1283,6 +1233,54 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		 */
 		let firstRow = resultset->getFirst();
 		return firstRow->{alias};
+	}
+	
+	/**
+	 * shared prepare query logic for find and findFirst method
+	 */
+	private static function _getPreparedQuery(var params) -> <Query> {
+		var builder, bindParams, bindTypes, transaction, cache, manager, query, dependencyInjector;
+
+		let dependencyInjector = Di::getDefault();
+		let manager = <ManagerInterface> dependencyInjector->getShared("modelsManager");
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = manager->createBuilder(params);
+		builder->from(get_called_class());
+
+		let query = builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		if fetch bindParams, params["bind"] {
+			if typeof bindParams == "array" {
+				query->setBindParams(bindParams, true);
+			}
+
+			if fetch bindTypes, params["bindTypes"] {
+				if typeof bindTypes == "array" {
+					query->setBindTypes(bindTypes, true);
+				}
+			}
+		}
+
+		if fetch transaction, params[self::TRANSACTION_INDEX] {
+			if transaction instanceof TransactionInterface {
+				query->setTransaction(transaction);
+			}
+		}
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		return query;
 	}
 
 	/**

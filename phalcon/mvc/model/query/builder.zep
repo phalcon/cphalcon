@@ -21,10 +21,11 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\Builder
@@ -96,6 +97,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _bindTypes;
 
+	protected _transaction { get };
+
 	protected _distinct;
 
 	protected _hiddenParamNumber = 0;
@@ -110,7 +113,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes,
-			distinct, bind, bindTypes;
+			distinct, bind, bindTypes, transaction;
 
 		if typeof params == "array" {
 
@@ -172,6 +175,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			if fetch bindTypes, params["bindTypes"] {
 				let this->_bindTypes = bindTypes;
+			}
+
+			if fetch transaction, params["transaction"] {
+				let this->_transaction = transaction;
 			}
 
 			/**
@@ -1418,6 +1425,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setSharedLock(this->_sharedLock);
 		}
 
+		if typeof this->_transaction === "object" {
+			query->setTransaction(this->_transaction);
+		}
+
 		return query;
 	}
 
@@ -1600,4 +1611,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		return this;
 	}
 
+	public function setTransaction(<TransactionInterface> transaction = null) -> <Builder>
+	{
+		let this->_transaction = transaction;
+
+		return this;
+	}
 }

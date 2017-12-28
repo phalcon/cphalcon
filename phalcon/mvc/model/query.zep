@@ -138,13 +138,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 	protected _sharedLock;
 
-	/**
-	 * TransactionInterface so that the query can wrap a transaction
-	 * around batch updates and intermediate selects within the transaction.
-	 * however if a model got a transaction set inside it will use the local transaction instead of this one
-	 */
 	protected _transaction { get };
-	
+
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -3681,6 +3676,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	public function setTransaction(<TransactionInterface> transaction) -> <Query>
 	{
 		let this->_transaction = transaction;
+
 		return this;
 	}
 }

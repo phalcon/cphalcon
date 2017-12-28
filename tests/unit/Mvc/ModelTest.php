@@ -893,4 +893,84 @@ class ModelTest extends UnitTest
             }
         );
     }
+
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testUseTransactionInsideCount()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                $amountWithSameTransaction = Subscribers::count(
+                    [
+                        'transaction' => $transaction
+                    ]
+                );
+
+                $amountNoTransaction = Subscribers::count();
+
+                expect(1, $amountWithSameTransaction);
+                expect(0, $amountNoTransaction);
+            }
+        );
+    }
+
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testUseTransactionOutsideCount()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $secondTransaction = $transactionManager->getOrCreateTransaction();
+
+                $amountWithDifferentTransaction = Subscribers::count(
+                    [
+                        'transaction' => $secondTransaction
+                    ]
+                );
+
+                $amountNoTransaction = Subscribers::count();
+
+                expect(0, $amountWithDifferentTransaction);
+                expect(0, $amountNoTransaction);
+            }
+        );
+    }
 }
