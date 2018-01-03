@@ -33,7 +33,10 @@ class DefaultTest extends UnitTest
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @issue 13242
+     */
     public function shouldCompileDefaulFilter()
     {
         $this->specify(
@@ -46,6 +49,15 @@ class DefaultTest extends UnitTest
 
                 $compilation = file_get_contents($view . '.php');
                 $expected = "<?= (empty(\$robot->price) ? (10.0) : (\$robot->price)) ?>\n";
+
+                expect($compilation)->same($expected);
+
+
+                $view = env('PATH_DATA') . 'views/filters/default_json_encode.volt';
+                $volt->compileFile($view, $view . '.php');
+
+                $compilation = file_get_contents($view . '.php');
+                $expected = "<?= json_encode((empty(\$preparedParams) ? ([]) : (\$preparedParams))) ?>\n";
 
                 expect($compilation)->same($expected);
             }
