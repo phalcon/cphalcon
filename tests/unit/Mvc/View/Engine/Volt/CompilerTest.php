@@ -305,10 +305,6 @@ class CompilerTest extends UnitTest
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count(1);
 
-                $intermediate = $volt->parse('{{ robot.price|default(10.0) }}');
-                expect(is_array($intermediate))->true();
-                expect($intermediate)->count(1);
-
                 //if statement
                 $intermediate = $volt->parse('{% if a==b %} hello {% endif %}');
                 expect(is_array($intermediate))->true();
