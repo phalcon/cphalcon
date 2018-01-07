@@ -56,28 +56,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 
-	zval *options = NULL, options_sub, __$null, prefix, ttl;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&options_sub);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&prefix);
-	ZVAL_UNDEF(&ttl);
+	zval *options = NULL, *prefix = NULL, *ttl = NULL;
 
 	zephir_fetch_params(0, 0, 1, &options);
 
 	if (!options) {
-		options = &options_sub;
-		options = &__$null;
+		options = ZEPHIR_GLOBAL(global_null);
 	}
 
 
 	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_string_fetch(&prefix, options, SL("prefix"), 1)) {
-			zephir_update_property_zval(this_ptr, SL("_prefix"), &prefix);
+		if (zephir_array_isset_string_fetch(&prefix, options, SS("prefix"), 1 TSRMLS_CC)) {
+			zephir_update_property_this(getThis(), SL("_prefix"), prefix TSRMLS_CC);
 		}
-		if (zephir_array_isset_string_fetch(&ttl, options, SL("lifetime"), 1)) {
-			zephir_update_property_zval(this_ptr, SL("_ttl"), &ttl);
+		if (zephir_array_isset_string_fetch(&ttl, options, SS("lifetime"), 1 TSRMLS_CC)) {
+			zephir_update_property_this(getThis(), SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}
 
@@ -89,14 +82,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, __construct) {
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, _0, _1, _2;
-	zval key;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	zval *key_param = NULL, *_0, *_1, *_2;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -106,19 +93,19 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(&key, key_param);
+		zephir_get_strval(key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
 	}
 
 
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_2);
-	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
-	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apc_fetch", NULL, 82, &_0);
+	ZEPHIR_INIT_VAR(_0);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVV(_2, "_PHAN", _1, key);
+	zephir_fast_strtolower(_0, _2);
+	ZEPHIR_RETURN_CALL_FUNCTION("apc_fetch", NULL, 90, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -130,16 +117,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *data, data_sub, _0, _1, _2, _3;
-	zval key;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&data_sub);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	zval *key_param = NULL, *data, *_0, *_1, *_2, *_3;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
@@ -149,20 +128,20 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(&key, key_param);
+		zephir_get_strval(key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
+		ZEPHIR_INIT_VAR(key);
+		ZVAL_EMPTY_STRING(key);
 	}
 
 
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_2);
-	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
-	zephir_fast_strtolower(&_0, &_2);
-	zephir_read_property(&_3, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("apc_store", NULL, 83, &_0, data, &_3);
+	ZEPHIR_INIT_VAR(_0);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SVV(_2, "_PHAN", _1, key);
+	zephir_fast_strtolower(_0, _2);
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("apc_store", NULL, 91, _0, data, _3);
 	zephir_check_call_status();
 	RETURN_MM();
 
