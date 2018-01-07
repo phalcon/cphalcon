@@ -1,4 +1,4 @@
-# [3.3.1](https://github.com/phalcon/cphalcon/releases/tag/v3.3.1) (2018-XX-XX)
+# [3.3.1](https://github.com/phalcon/cphalcon/releases/tag/v3.3.1) (2018-01-08)
 - Fixed a boolean logic error in the CSS minifier and a corresponding unit test so that whitespace is stripped [#13200](https://github.com/phalcon/cphalcon/pull/13200)
 - Fixed `default` Volt filter [#13242](https://github.com/phalcon/cphalcon/issues/13242), [#13244](https://github.com/phalcon/cphalcon/issues/13244)
 - Fixed `Phalcon\Validation\Validator\Date` to return code in validation message
