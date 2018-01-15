@@ -156,13 +156,9 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Adds a javascript resource to the collection
 	 *
-	 * @param string path
-	 * @param boolean local
-	 * @param boolean filter
 	 * @param array attributes
-	 * @return \Phalcon\Assets\Collection
 	 */
-	public function addJs(string! path, var local = null, boolean filter = true, attributes = null) -> <Collection>
+	public function addJs(string! path, boolean local = null, boolean filter = true, attributes = null) -> <Collection>
 	{
 		var collectionLocal, collectionAttributes;
 
@@ -227,10 +223,8 @@ class Collection implements \Countable, \Iterator
 
 	/**
 	 * Returns the current position/key in the iterator
-	 *
-	 * @return int
 	 */
-	public function key()
+	public function key() -> int
 	{
 		return this->_position;
 	}

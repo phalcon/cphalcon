@@ -38,7 +38,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 PHP_METHOD(Phalcon_Mvc_Micro, getModelBinder);
 PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder);
 PHP_METHOD(Phalcon_Mvc_Micro, getBoundModels);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
@@ -118,7 +118,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_getsharedservice, 0, 0, 1)
 	ZEND_ARG_INFO(0, serviceName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_handle, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_handle, 0, 0, 1)
 	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 

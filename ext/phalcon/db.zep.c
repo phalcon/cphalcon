@@ -64,39 +64,39 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Db, phalcon, db, phalcon_db_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_LAZY"), 1 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_LAZY"), 1);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 2 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 2);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NAMED"), 11 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NAMED"), 11);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 4 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 4);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 5 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 5);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOUND"), 6 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOUND"), 6);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_COLUMN"), 7 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_COLUMN"), 7);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASS"), 8 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASS"), 8);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_INTO"), 9 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_INTO"), 9);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_FUNC"), 10 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_FUNC"), 10);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_GROUP"), 65536 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_GROUP"), 65536);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_UNIQUE"), 196608 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_UNIQUE"), 196608);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_KEY_PAIR"), 12 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_KEY_PAIR"), 12);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASSTYPE"), 262144 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_CLASSTYPE"), 262144);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_SERIALIZE"), 524288 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_SERIALIZE"), 524288);
 
-	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_PROPS_LATE"), 1048576 TSRMLS_CC);
+	zephir_declare_class_constant_long(phalcon_db_ce, SL("FETCH_PROPS_LATE"), 1048576);
 
 	return SUCCESS;
 
@@ -107,22 +107,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
-	zval *options_param = NULL, *escapeIdentifiers = NULL, *forceCasting = NULL;
-	zval *options = NULL;
+	zval *options_param = NULL, escapeIdentifiers, forceCasting;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&escapeIdentifiers);
+	ZVAL_UNDEF(&forceCasting);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
 
-	options = options_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	ZEPHIR_OBS_VAR(escapeIdentifiers);
-	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"), 0 TSRMLS_CC)) {
-		ZEPHIR_GLOBAL(db).escape_identifiers = zend_is_true(escapeIdentifiers);
+	ZEPHIR_OBS_VAR(&escapeIdentifiers);
+	if (zephir_array_isset_string_fetch(&escapeIdentifiers, &options, SL("escapeSqlIdentifiers"), 0)) {
+		ZEPHIR_GLOBAL(db).escape_identifiers = zend_is_true(&escapeIdentifiers);
 	}
-	ZEPHIR_OBS_VAR(forceCasting);
-	if (zephir_array_isset_string_fetch(&forceCasting, options, SS("forceCasting"), 0 TSRMLS_CC)) {
-		ZEPHIR_GLOBAL(db).force_casting = zend_is_true(forceCasting);
+	ZEPHIR_OBS_VAR(&forceCasting);
+	if (zephir_array_isset_string_fetch(&forceCasting, &options, SL("forceCasting"), 0)) {
+		ZEPHIR_GLOBAL(db).force_casting = zend_is_true(&forceCasting);
 	}
 	ZEPHIR_MM_RESTORE();
 

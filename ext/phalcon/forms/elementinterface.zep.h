@@ -78,7 +78,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_appendmessage, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_elementinterface_render, 0, 0, 0)
-	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_elementinterface_method_entry) {

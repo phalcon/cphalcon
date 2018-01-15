@@ -34,15 +34,13 @@ class Binder implements BinderInterface
 {
 	/**
 	 * Array for storing active bound models
-	 *
-	 * @var array
 	 */
 	protected boundModels = [] { get };
 
 	/**
 	 * Cache object used for caching parameters for model binding
 	 */
-	protected cache ;
+	protected cache;
 
 	/**
 	 * Internal cache for caching parameters for model binding during request
@@ -83,38 +81,41 @@ class Binder implements BinderInterface
 	/**
 	 * Bind models into params in proper handler
 	 */
-	public function bindToHandler(object handler, array params, string cacheKey, var methodName = null) -> array
+	public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array
 	{
 		var paramKey, className, boundModel, paramsCache, paramValue;
 
 		let this->originalValues = [];
-		if handler instanceof \Closure || methodName != null {
-			let this->boundModels = [];
-			let paramsCache = this->getParamsFromCache(cacheKey);
-			if typeof paramsCache == "array" {
-				for paramKey, className in paramsCache {
-					let paramValue = params[paramKey];
-					let boundModel = this->findBoundModel(paramValue, className);
-					let this->originalValues[paramKey] = paramValue;
-					let params[paramKey] = boundModel;
-					let this->boundModels[paramKey] = boundModel;
-				}
 
-				return params;
+		if !(handler instanceof \Closure) && methodName === null {
+			throw new Exception("You must specify methodName for handler or pass Closure as handler");
+		}
+
+		let this->boundModels = [];
+		let paramsCache = this->getParamsFromCache(cacheKey);
+
+		if typeof paramsCache == "array" {
+			for paramKey, className in paramsCache {
+				let paramValue = params[paramKey];
+				let boundModel = this->findBoundModel(paramValue, className);
+				let this->originalValues[paramKey] = paramValue;
+				let params[paramKey] = boundModel;
+				let this->boundModels[paramKey] = boundModel;
 			}
 
-			return this->getParamsFromReflection(handler, params, cacheKey, methodName);
+			return params;
 		}
-		throw new Exception("You must specify methodName for handler or pass Closure as handler");
+
+		return this->getParamsFromReflection(handler, params, cacheKey, methodName);
 	}
 
-    /**
-    * Find the model by param value.
-    */
-    protected function findBoundModel(var paramValue, string className) -> object | boolean
-    {
-        return {className}::findFirst(paramValue);
-    }
+	/**
+	 * Find the model by param value.
+	 */
+	protected function findBoundModel(var paramValue, string className) -> object | boolean
+	{
+		return {className}::findFirst(paramValue);
+	}
 
 	/**
 	 * Get params classes from cache by key
@@ -129,24 +130,26 @@ class Binder implements BinderInterface
 
 		let cache = this->cache;
 
-		if cache != null && cache->exists(cacheKey) {
-			let internalParams = cache->get(cacheKey);
-			let this->internalCache[cacheKey] = internalParams;
-
-			return internalParams;
+		if cache === null || !cache->exists(cacheKey) {
+			return null;
 		}
 
-		return null;
+		let internalParams = cache->get(cacheKey);
+		let this->internalCache[cacheKey] = internalParams;
+
+		return internalParams;
 	}
 
 	/**
 	 * Get modified params for handler using reflection
 	 */
-	protected function getParamsFromReflection(object handler, array params, string cacheKey, var methodName) -> array
+	protected function getParamsFromReflection(object handler, array params, string cacheKey, string! methodName) -> array
 	{
 		var methodParams, reflection, paramKey, methodParam, paramsCache, className, realClasses = null,
 			boundModel, cache, handlerClass, reflectionClass, paramsKeys, paramValue;
+
 		let paramsCache = [];
+
 		if methodName != null {
 			let reflection = new \ReflectionMethod(handler, methodName);
 		} else {
@@ -157,6 +160,7 @@ class Binder implements BinderInterface
 
 		let methodParams = reflection->getParameters();
 		let paramsKeys = array_keys(params);
+
 		for paramKey, methodParam in methodParams {
 			let reflectionClass = methodParam->getClass();
 
@@ -165,9 +169,11 @@ class Binder implements BinderInterface
 			}
 
 			let className = reflectionClass->getName();
+
 			if !isset params[paramKey] {
 				let paramKey = paramsKeys[paramKey];
 			}
+
 			let boundModel = null;
 			let paramValue = params[paramKey];
 
@@ -182,12 +188,13 @@ class Binder implements BinderInterface
 						throw new Exception("Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter");
 					}
 				}
+
 				if typeof realClasses == "array" {
-					if fetch className, realClasses[paramKey] {
-						let boundModel = this->findBoundModel(paramValue, className);
-					} else {
-						throw new Exception("You should provide model class name for ".paramKey." parameter");
+					if !fetch className, realClasses[paramKey] {
+						throw new Exception("You should provide model class name for " . paramKey . " parameter");
 					}
+
+					let boundModel = this->findBoundModel(paramValue, className);
 				} elseif typeof realClasses == "string" {					
 					let className = realClasses;
 					let boundModel = this->findBoundModel(paramValue, className);

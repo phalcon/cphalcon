@@ -68,9 +68,7 @@ interface ResponseInterface
 	/**
 	 * Sets the response content-type mime, optionally the charset
 	 *
-	 * @param string contentType
 	 * @param string charset
-	 * @return \Phalcon\Http\ResponseInterface
 	 */
 	public function setContentType(string contentType, charset = null) -> <ResponseInterface>;
 

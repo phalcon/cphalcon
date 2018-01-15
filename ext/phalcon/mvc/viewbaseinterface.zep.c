@@ -42,9 +42,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setParamToView);
 
 /**
  * Adds parameters to views
- *
- * @param string key
- * @param mixed value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setVar);
 

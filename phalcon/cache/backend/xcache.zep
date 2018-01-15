@@ -58,11 +58,8 @@ class Xcache extends Backend
 
 	/**
 	 * Phalcon\Cache\Backend\Xcache constructor
-	 *
-	 * @param \Phalcon\Cache\FrontendInterface frontend
-	 * @param array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, array options = [])
 	{
 		if typeof options != "array" {
 			let options = [];
@@ -105,7 +102,6 @@ class Xcache extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{

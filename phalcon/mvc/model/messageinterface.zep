@@ -28,45 +28,33 @@ interface MessageInterface
 {
 	/**
 	 * Sets message type
-	 *
-	 * @param string type
 	 */
-	public function setType(type);
+	public function setType(string! type);
 
 	/**
 	 * Returns message type
-	 *
-	 * @return string
 	 */
-	public function getType();
+	public function getType() -> string;
 
 	/**
 	 * Sets verbose message
-	 *
-	 * @param string message
 	 */
-	public function setMessage(message);
+	public function setMessage(string! message);
 
 	/**
 	 * Returns verbose message
-	 *
-	 * @return string
 	 */
-	public function getMessage();
+	public function getMessage() -> string;
 
 	/**
 	 * Sets field name related to message
-	 *
-	 * @param string field
 	 */
-	public function setField(field);
+	public function setField(string! field);
 
 	/**
 	 * Returns field name related to message
-	 *
-	 * @return string
 	 */
-	public function getField();
+	public function getField() -> string;
 
 	/**
 	 * Magic __toString method returns verbose message

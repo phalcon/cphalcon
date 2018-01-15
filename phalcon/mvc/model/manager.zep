@@ -67,71 +67,71 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
 	protected _eventsManager;
 
-	protected _customEventsManager;
+	protected _customEventsManager = [];
 
-	protected _readConnectionServices;
+	protected _readConnectionServices = [];
 
-	protected _writeConnectionServices;
+	protected _writeConnectionServices = [];
 
-	protected _aliases;
+	protected _aliases = [];
 
 	protected _modelVisibility = [];
 
 	/**
 	 * Has many relations
 	 */
-	protected _hasMany;
+	protected _hasMany = [];
 
 	/**
 	 * Has many relations by model
 	 */
-	protected _hasManySingle;
+	protected _hasManySingle = [];
 
 	/**
 	 * Has one relations
 	 */
-	protected _hasOne;
+	protected _hasOne = [];
 
 	/**
 	 * Has one relations by model
 	 */
-	protected _hasOneSingle;
+	protected _hasOneSingle = [];
 
 	/**
 	 * Belongs to relations
 	 */
-	protected _belongsTo;
+	protected _belongsTo = [];
 
 	/**
 	 * All the relationships by model
 	 */
-	protected _belongsToSingle;
+	protected _belongsToSingle = [];
 
 	/**
 	 * Has many-Through relations
 	 */
-	protected _hasManyToMany;
+	protected _hasManyToMany = [];
 
 	/**
 	 * Has many-Through relations by model
 	 */
-	protected _hasManyToManySingle;
+	protected _hasManyToManySingle = [];
 
 	/**
 	 * Mark initialized models
 	 */
-	protected _initialized;
+	protected _initialized = [];
 
 	protected _prefix = "";
 
-	protected _sources;
+	protected _sources = [];
 
-	protected _schemas;
+	protected _schemas = [];
 
 	/**
 	 * Models' behaviors
 	 */
-	protected _behaviors;
+	protected _behaviors = [];
 
 	/**
 	 * Last model initialized
@@ -146,16 +146,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Stores a list of reusable instances
 	 */
-	protected _reusable;
+	protected _reusable = [];
 
-	protected _keepSnapshots;
+	protected _keepSnapshots = [];
 
 	/**
 	 * Does the model use dynamic update, instead of updating all rows?
 	 */
-	protected _dynamicUpdate;
+	protected _dynamicUpdate = [];
 
-	protected _namespaceAliases;
+	protected _namespaceAliases = [];
 
 	/**
 	 * Sets the DependencyInjector container
@@ -231,7 +231,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		/**
 		 * Update the model as initialized, this avoid cyclic initializations
 		 */
-		let this->_initialized[className] = model;
+		let this->_initialized[className] = true;
 
 		/**
 		 * Call the 'initialize' method if it's implemented
@@ -275,7 +275,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Loads a model throwing an exception if it doesn't exist
 	 */
-	public function load(string! modelName, boolean newInstance = false) -> <ModelInterface>
+	public function load(string! modelName) -> <ModelInterface>
 	{
 		var model, colonPos, namespaceName, namespaceAlias, className;
 
@@ -299,19 +299,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 		}
 
 		/**
-		 * Check if a model with the same is already loaded
-		 */
-		if !newInstance {
-			if fetch model, this->_initialized[strtolower(modelName)] {
-				model->reset();
-				return model;
-			}
-		}
-
-		/**
 		 * Load it using an autoloader
 		 */
-		return new {modelName}(null, this->_dependencyInjector, this);
+		let model = new {modelName}(null, this->_dependencyInjector, this);
+
+		return model;
 	}
 
 	/**
@@ -653,14 +645,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function isKeepingSnapshots(<ModelInterface> model) -> boolean
 	{
-		var keepSnapshots, isKeeping;
-		let keepSnapshots = this->_keepSnapshots;
-		if typeof keepSnapshots == "array" {
-			if fetch isKeeping, keepSnapshots[get_class_lower(model)] {
-				return isKeeping;
-			}
+		var isKeeping;
+
+		if !fetch isKeeping, this->_keepSnapshots[get_class_lower(model)] {
+			return false;
 		}
-		return false;
+
+		return isKeeping;
 	}
 
 	/**
@@ -679,25 +670,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function isUsingDynamicUpdate(<ModelInterface> model) -> boolean
 	{
-		var dynamicUpdate, isUsing;
-		let dynamicUpdate = this->_dynamicUpdate;
-		if typeof dynamicUpdate == "array" {
-			if fetch isUsing, dynamicUpdate[get_class_lower(model)] {
-				return isUsing;
-			}
+		var isUsing;
+
+		if !fetch isUsing, this->_dynamicUpdate[get_class_lower(model)] {
+			return false;
 		}
-		return false;
+
+		return isUsing;
 	}
 
 	/**
 	 * Setup a 1-1 relation between two models
 	 *
-	 * @param   Phalcon\Mvc\Model model
-	 * @param	mixed fields
-	 * @param	string referencedModel
-	 * @param	mixed referencedFields
 	 * @param	array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
@@ -778,12 +763,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setup a relation reverse many to one between two models
 	 *
-	 * @param   Phalcon\Mvc\Model model
-	 * @param	mixed fields
-	 * @param	string referencedModel
-	 * @param	mixed referencedFields
 	 * @param	array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
 		var referencedFields, var options = null) -> <Relation>
@@ -863,9 +843,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setup a relation 1-n between two models
 	 *
-	 * @param 	Phalcon\Mvc\ModelInterface model
-	 * @param	mixed fields
-	 * @param	string referencedModel
 	 * @param	mixed referencedFields
 	 * @param	array options
 	 */
@@ -948,15 +925,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	/**
 	 * Setups a relation n-m between two models
 	 *
-	 * @param 	Phalcon\Mvc\ModelInterface model
 	 * @param	string fields
-	 * @param	string intermediateModel
 	 * @param	string intermediateFields
 	 * @param	string intermediateReferencedFields
-	 * @param	string referencedModel
 	 * @param	string referencedFields
 	 * @param   array options
-	 * @return  Phalcon\Mvc\Model\Relation
 	 */
 	public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
 		var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <Relation>
@@ -1443,7 +1416,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 	 */
 	public function clearReusableObjects()
 	{
-		let this->_reusable = null;
+		let this->_reusable = [];
 	}
 
 	/**

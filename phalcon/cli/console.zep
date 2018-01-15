@@ -39,25 +39,6 @@ class Console extends BaseApplication
 	protected _options = [];
 
 	/**
-	 * Merge modules with the existing ones
-	 *
-	 *<code>
-	 * $application->addModules(
-	 *     [
-	 *         "admin" => [
-	 *             "className" => "Multiple\\Admin\\Module",
-	 *             "path"      => "../apps/admin/Module.php",
-	 *         ],
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	deprecated public function addModules(array! modules)
-	{
-		return this->registerModules(modules, true);
-	}
-
-	/**
 	 * Handle the whole command-line tasks
 	 */
 	public function handle(array arguments = null)

@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsResultsetCacheStaticTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsResultsetCacheStaticTest extends TestCase
 {
 
 	public function __construct()
@@ -82,43 +84,43 @@ class ModelsResultsetCacheStaticTest extends PHPUnit_Framework_TestCase
 		};
 
 		$robot = Cacheable\Robots::findFirst(2);
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = Cacheable\Robots::findFirst(2);
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = Cacheable\Robots::findFirst(array('id = 2'));
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = Cacheable\Robots::findFirst(array('id = 2'));
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = Cacheable\Robots::findFirst(array('order' => 'id DESC'));
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = Cacheable\Robots::findFirst(array('order' => 'id DESC'));
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = Cacheable\Robots::findFirst(1);
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robotParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
 
 		$robotParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
 
 		$part = $robotParts[0]->getParts();
-		$this->assertEquals(get_class($part), 'Cacheable\Parts');
+		$this->assertInstanceOf('Cacheable\Parts', $part);
 
 		$part = $robotParts[0]->getParts();
-		$this->assertEquals(get_class($part), 'Cacheable\Parts');
+		$this->assertInstanceOf('Cacheable\Parts', $part);
 
 		$robot = $robotParts[0]->getRobots();
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 		$robot = $robotParts[0]->getRobots();
-		$this->assertEquals(get_class($robot), 'Cacheable\Robots');
+		$this->assertInstanceOf('Cacheable\Robots', $robot);
 
 	}
 

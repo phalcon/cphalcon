@@ -30,37 +30,30 @@ interface RequestInterface
 	/**
 	 * Gets a variable from the $_REQUEST superglobal applying filters if needed
 	 *
-	 * @param string name
 	 * @param string|array filters
-	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(string! name = null, filters = null, defaultValue = null);
+	public function get(string! name = null, var filters = null, var defaultValue = null);
 
 	/**
 	 * Gets a variable from the $_POST superglobal applying filters if needed
 	 *
-	 * @param string name
 	 * @param string|array filters
-	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getPost(string! name = null, filters = null, defaultValue = null);
+	public function getPost(string! name = null, var filters = null, var defaultValue = null);
 
 	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
 	 *
-	 * @param string name
 	 * @param string|array filters
-	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getQuery(string! name = null, filters = null, defaultValue = null);
+	public function getQuery(string! name = null, var filters = null, var defaultValue = null);
 
 	/**
 	 * Gets variable from $_SERVER superglobal
 	 *
-	 * @param string name
 	 * @return mixed
 	 */
 	public function getServer(string! name);
@@ -108,12 +101,12 @@ interface RequestInterface
 	/**
 	 * Checks whether request has been made using SOAP
 	 */
-	public function isSoapRequested() -> boolean;
+	public function isSoap() -> boolean;
 
 	/**
 	 * Checks whether request has been made using any secure layer
 	 */
-	public function isSecureRequest() -> boolean;
+	public function isSecure() -> boolean;
 
 	/**
 	 * Gets HTTP raw request body
@@ -160,7 +153,6 @@ interface RequestInterface
 	 * Check if HTTP method match any of the passed methods
 	 *
 	 * @param string|array methods
-	 * @return boolean
 	 */
 	public function isMethod(methods, boolean strict = false) -> boolean;
 
@@ -212,7 +204,6 @@ interface RequestInterface
 	/**
 	 * Checks whether request include attached files
 	 *
-	 * @param boolean onlySuccessful
 	 * @return boolean
 	 */
 	public function hasFiles(onlySuccessful = false);
@@ -259,10 +250,8 @@ interface RequestInterface
 
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
-	 *
-	 * @return array
 	 */
-	public function getBasicAuth();
+	public function getBasicAuth() -> array | null;
 
 	/**
 	 * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]

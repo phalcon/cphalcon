@@ -359,6 +359,8 @@ CREATE TABLE foreign_key_child (
 ALTER TABLE public.foreign_key_child OWNER TO postgres;
 ALTER TABLE public.tipo_documento_id_seq OWNER TO postgres;
 
+ALTER TABLE foreign_key_child ADD CONSTRAINT test_describeReferences FOREIGN KEY (child_int) REFERENCES foreign_key_parent (refer_int) ON UPDATE CASCADE ON DELETE RESTRICT;
+
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -6934,6 +6936,25 @@ CREATE TABLE table_with_string_field (
     id integer NOT NULL,
     field character varying(70) NOT NULL
 );
+
+--
+-- Name: table_with_string_field; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+CREATE TABLE table_with_string_field (
+    id integer NOT NULL,
+    field character varying(70) NOT NULL
+);
+
+--
+-- Data for Name: table_with_string_field; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY robots (id, field) FROM stdin;
+1	String one
+2	String two
+3	Another one string
+\.
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres

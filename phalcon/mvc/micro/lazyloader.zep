@@ -46,12 +46,8 @@ class LazyLoader
 
 	/**
 	 * Initializes the internal handler, calling functions on it
-	 *
-	 * @param  string method
-	 * @param  array arguments
-	 * @return mixed
 	 */
-	public function __call(string! method, arguments)
+	public function __call(string! method, array arguments) -> var
 	{
  		var handler, definition, modelBinder, bindCacheKey;
 

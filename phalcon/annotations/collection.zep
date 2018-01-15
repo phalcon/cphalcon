@@ -52,20 +52,16 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @param array reflectionData
 	 */
-	public function __construct(var reflectionData = null)
+	public function __construct(array reflectionData = [])
 	{
 		var annotations, annotationData;
 
-		if typeof reflectionData != "null" && typeof reflectionData != "array" {
-			throw new Exception("Reflection data must be an array");
+		let annotations = [];
+
+		for annotationData in reflectionData {
+			let annotations[] = new Annotation(annotationData);
 		}
 
-		let annotations = [];
-		if typeof reflectionData == "array" {
-			for annotationData in reflectionData {
-				let annotations[] = new Annotation(annotationData);
-			}
-		}
 		let this->_annotations = annotations;
 	}
 
@@ -87,8 +83,6 @@ class Collection implements \Iterator, \Countable
 
 	/**
 	 * Returns the current annotation in the iterator
-	 *
-	 * @return \Phalcon\Annotations\Annotation
 	 */
 	public function current() -> <Annotation> | boolean
 	{

@@ -28,17 +28,11 @@ interface EntityInterface
 {
     /**
 	 * Reads an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @return mixed
 	 */
-	public function readAttribute(string! attribute);
+	public function readAttribute(string! attribute) -> var | null;
 
 	/**
 	 * Writes an attribute value by its name
-	 *
-	 * @param string attribute
-	 * @param mixed value
 	 */
-	public function writeAttribute(string! attribute, value);
+	public function writeAttribute(string! attribute, var value);
 }

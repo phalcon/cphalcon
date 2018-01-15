@@ -36,22 +36,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, start);
 
 /**
  * Stops the frontend without store any cached content
- *
- * @param boolean stopBuffer
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, stop);
 
 /**
  * Returns front-end instance adapter related to the back-end
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getFrontend);
 
 /**
  * Returns the backend options
- *
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getOptions);
 
@@ -67,15 +61,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
 
 /**
  * Sets the last key used in the cache
- *
- * @param string lastKey
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, setLastKey);
 
 /**
  * Gets the last key stored by the cache
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
 
@@ -90,7 +80,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
  * @param int|string keyName
  * @param string content
  * @param int lifetime
- * @param boolean stopBuffer
  * @return boolean true on success/false otherwise
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
@@ -99,15 +88,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
  * Deletes a value from the cache by its key
  *
  * @param int|string keyName
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, delete);
 
 /**
  * Query the existing cached keys
- *
- * @param string prefix
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
 
@@ -116,7 +101,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
  *
  * @param  string keyName
  * @param  int lifetime
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);
 

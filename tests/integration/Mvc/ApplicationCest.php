@@ -43,8 +43,9 @@ class ApplicationCest
         $application = new Application();
         $application->setDI($di);
 
-        $_GET['_url'] = '/test2';
-        $I->assertEquals('<html>We are here</html>' . PHP_EOL, $application->handle()->getContent());
+        $response = $application->handle("/test2");
+
+        $I->assertEquals('<html>We are here</html>' . PHP_EOL, $response->getContent());
     }
 
     public function modulesDefinition(IntegrationTester $I)
@@ -52,7 +53,6 @@ class ApplicationCest
         $I->wantTo('handle request and get content by using single modules strategy (standard definition)');
 
         Di::reset();
-        $_GET['_url'] = '/index';
 
         $di = new FactoryDefault();
         $di->set('router', function () {
@@ -81,7 +81,10 @@ class ApplicationCest
         ]);
 
         $application->setDI($di);
-        $I->assertEquals('<html>here</html>' . PHP_EOL, $application->handle()->getContent());
+
+        $response = $application->handle("/index");
+
+        $I->assertEquals('<html>here</html>' . PHP_EOL, $response->getContent());
     }
 
     public function modulesClosure(IntegrationTester $I)
@@ -89,7 +92,6 @@ class ApplicationCest
         $I->wantTo('handle request and get content by using single modules strategy (closure)');
 
         Di::reset();
-        $_GET['_url'] = '/login';
 
         $di = new FactoryDefault();
         $di->set('router', function () {
@@ -131,6 +133,9 @@ class ApplicationCest
         ]);
 
         $application->setDI($di);
-        $I->assertEquals('<html>here</html>' . PHP_EOL, $application->handle()->getContent());
+
+        $response = $application->handle("/login");
+
+        $I->assertEquals('<html>here</html>' . PHP_EOL, $response->getContent());
     }
 }

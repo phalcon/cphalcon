@@ -20,8 +20,9 @@
 */
 
 use Phalcon\Db\Column as DbColumn;
+use PHPUnit\Framework\TestCase;
 
-class DbBindTest extends PHPUnit_Framework_TestCase
+class DbBindTest extends TestCase
 {
 	public function testDbBindMysql()
 	{

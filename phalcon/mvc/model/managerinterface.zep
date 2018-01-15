@@ -103,180 +103,122 @@ interface ManagerInterface
 	/**
 	 * Loads a model throwing an exception if it doesn't exist
 	 */
-	public function load(string modelName, boolean newInstance = false) -> <ModelInterface>;
+	public function load(string modelName) -> <ModelInterface>;
 
 	/**
 	 * Setup a 1-1 relation between two models
 	 *
-	 * @param   \Phalcon\Mvc\ModelInterface $model
-	 * @param	mixed $fields
-	 * @param	string $referencedModel
-	 * @param	mixed $referencedFields
-	 * @param	array $options
-	 * @return  \Phalcon\Mvc\Model\RelationInterface
+	 * @param	mixed  fields
+	 * @param	mixed  referencedFields
+	 * @param	array  options
 	 */
-	public function addHasOne(<ModelInterface> model, fields, referencedModel, referencedFields, options = null);
+	public function addHasOne(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
 
 	/**
 	 * Setup a relation reverse 1-1  between two models
 	 *
-	 * @param 	\Phalcon\Mvc\ModelInterface $model
-	 * @param	mixed $fields
-	 * @param	string $referencedModel
-	 * @param	mixed $referencedFields
-	 * @param	array $options
-	 * @return 	\Phalcon\Mvc\Model\RelationInterface
+	 * @param	mixed  fields
+	 * @param	mixed  referencedFields
+	 * @param	array  options
 	 */
-	public function addBelongsTo(<ModelInterface> model, fields, referencedModel, referencedFields, options = null);
+	public function addBelongsTo(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
 
 	/**
 	 * Setup a relation 1-n between two models
 	 *
-	 * @param 	\Phalcon\Mvc\ModelInterface $model
-	 * @param	mixed $fields
-	 * @param	string $referencedModel
-	 * @param	mixed $referencedFields
-	 * @param	array $options
-	 * @return 	\Phalcon\Mvc\Model\RelationInterface
+	 * @param	mixed  fields
+	 * @param	mixed  referencedFields
+	 * @param	array  options
 	 */
-	public function addHasMany(<ModelInterface> model, fields, referencedModel, referencedFields, options = null);
+	public function addHasMany(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
 
 	/**
 	 * Checks whether a model has a belongsTo relation with another model
-	 *
-	 * @param 	string $modelName
-	 * @param 	string $modelRelation
-	 * @return 	boolean
 	 */
-	public function existsBelongsTo(modelName, modelRelation);
+	public function existsBelongsTo(string! modelName, string! modelRelation) -> boolean;
 
 	/**
 	 * Checks whether a model has a hasMany relation with another model
-	 *
-	 * @param 	string $modelName
-	 * @param 	string $modelRelation
-	 * @return 	boolean
 	 */
-	public function existsHasMany(modelName, modelRelation);
+	public function existsHasMany(string! modelName, string! modelRelation) -> boolean;
 
 	/**
 	 * Checks whether a model has a hasOne relation with another model
-	 *
-	 * @param 	string $modelName
-	 * @param 	string $modelRelation
-	 * @return 	boolean
 	 */
-	public function existsHasOne(modelName, modelRelation);
+	public function existsHasOne(string! modelName, string! modelRelation) -> boolean;
 
 	/**
 	 * Gets belongsTo related records from a model
 	 *
-	 * @param string $method
-	 * @param string $modelName
-	 * @param string $modelRelation
-	 * @param \Phalcon\Mvc\Model $record
-	 * @param array $parameters
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
+	 * @param string modelRelation
+	 * @param array  parameters
 	 */
-	public function getBelongsToRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
+	public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | boolean;
 
 	/**
 	 * Gets hasMany related records from a model
 	 *
-	 * @param string $method
-	 * @param string $modelName
-	 * @param string $modelRelation
-	 * @param \Phalcon\Mvc\Model $record
-	 * @param array $parameters
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
+	 * @param string modelRelation
+	 * @param array  parameters
 	 */
-	public function getHasManyRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
+	public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | boolean;
 
 	/**
 	 * Gets belongsTo related records from a model
 	 *
-	 * @param string $method
-	 * @param string $modelName
-	 * @param string $modelRelation
-	 * @param \Phalcon\Mvc\Model $record
-	 * @param array $parameters
-	 * @return \Phalcon\Mvc\Model\ResultsetInterface
+	 * @param string modelRelation
+	 * @param array  parameters
 	 */
-	public function getHasOneRecords(method, modelName, modelRelation, <ModelInterface> record, parameters = null);
+	public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ModelInterface> | boolean;
 
 	/**
 	 * Gets belongsTo relations defined on a model
-	 *
-	 * @param  \Phalcon\Mvc\ModelInterface $model
-	 * @return array
 	 */
-	public function getBelongsTo(<ModelInterface> model);
+	public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]>;
 
 	/**
 	 * Gets hasMany relations defined on a model
-	 *
-	 * @param  \Phalcon\Mvc\ModelInterface $model
-	 * @return array
 	 */
-	public function getHasMany(<ModelInterface> model);
+	public function getHasMany(<ModelInterface> model) -> <RelationInterface[]>;
 
 	/**
 	 * Gets hasOne relations defined on a model
-	 *
-	 * @param  \Phalcon\Mvc\ModelInterface $model
-	 * @return array
 	 */
-	public function getHasOne(<ModelInterface> model);
+	public function getHasOne(<ModelInterface> model) -> <RelationInterface[]>;
 
 	/**
 	 * Gets hasOne relations defined on a model
-	 *
-	 * @param  \Phalcon\Mvc\ModelInterface $model
-	 * @return array
 	 */
-	public function getHasOneAndHasMany(<ModelInterface> model);
+	public function getHasOneAndHasMany(<ModelInterface> model) -> <RelationInterface[]>;
 
 	/**
 	 * Query all the relationships defined on a model
-	 *
-	 * @param string $modelName
-	 * @return \Phalcon\Mvc\Model\RelationInterface[]
 	 */
-	public function getRelations(modelName);
+	public function getRelations(string! modelName) -> <RelationInterface[]>;
 
 	/**
 	 * Query the relations between two models
-	 *
-	 * @param string $first
-	 * @param string $second
-	 * @return array
 	 */
-	public function getRelationsBetween(first, second);
+	public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | boolean;
 
 	/**
 	 * Creates a Phalcon\Mvc\Model\Query without execute it
-	 *
-	 * @param string $phql
-	 * @return \Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function createQuery(phql);
+	public function createQuery(string! phql) -> <QueryInterface>;
 
 	/**
 	 * Creates a Phalcon\Mvc\Model\Query and execute it
 	 *
-	 * @param string $phql
 	 * @param array $placeholders
-	 * @return \Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function executeQuery(phql, placeholders = null);
+	public function executeQuery(string! phql, var placeholders = null) -> <QueryInterface>;
 
 	/**
 	 * Creates a Phalcon\Mvc\Model\Query\Builder
 	 *
 	 * @param string $params
-	 * @return \Phalcon\Mvc\Model\Query\BuilderInterface
 	 */
-	public function createBuilder(params = null);
+	public function createBuilder(params = null) -> <BuilderInterface>;
 
 	/**
 	 * Binds a behavior to a model
@@ -288,7 +230,6 @@ interface ManagerInterface
 	 * Notify the behaviors that are listening in the model
 	 *
 	 * @param string $eventName
-	 * @param \Phalcon\Mvc\ModelInterface model
 	 */
 	public function notifyEvent(eventName, <ModelInterface> model);
 
@@ -297,27 +238,19 @@ interface ManagerInterface
 	 * This method expects that the endpoint listeners/behaviors returns true
 	 * meaning that a least one is implemented
 	 *
-	 * @param \Phalcon\Mvc\ModelInterface model
-	 * @param string $eventName
-	 * @param array $data
+	 * @param array data
 	 * @return boolean
 	 */
-	public function missingMethod(<ModelInterface> model, eventName, data);
+	public function missingMethod(<ModelInterface> model, string! eventName, data);
 
 	/**
 	 * Returns the last query created or executed in the models manager
-	 *
-	 * @return \Phalcon\Mvc\Model\QueryInterface
 	 */
-	public function getLastQuery();
+	public function getLastQuery() -> <QueryInterface>;
 
 	/**
 	 * Returns a relation by its alias
-	 *
-	 * @param string $modelName
-	 * @param string $alias
-	 * @return \Phalcon\Mvc\Model\Relation
 	 */
-	public function getRelationByAlias(string modelName, string alias);
+	public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | boolean;
 
 }

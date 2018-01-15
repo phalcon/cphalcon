@@ -45,8 +45,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
-	zval *key_param = NULL, *data = NULL, *_0, *_1;
-	zval *key = NULL;
+	zval *key_param = NULL, data, _0, _1;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -56,18 +62,18 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_fast_strtolower(_1, key);
-	if (zephir_array_isset_fetch(&data, _0, _1, 1 TSRMLS_CC)) {
-		RETURN_CTOR(data);
+	zephir_read_property(&_0, this_ptr, SL("_data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_fast_strtolower(&_1, &key);
+	if (zephir_array_isset_fetch(&data, &_0, &_1, 1 TSRMLS_CC)) {
+		RETURN_CTOR(&data);
 	}
 	RETURN_MM_BOOL(0);
 
@@ -78,8 +84,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
-	zval *key_param = NULL, *data, *lowercasedKey = NULL;
-	zval *key = NULL;
+	zval *key_param = NULL, *data, data_sub, lowercasedKey;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&data_sub);
+	ZVAL_UNDEF(&lowercasedKey);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
@@ -89,16 +100,16 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	ZEPHIR_INIT_VAR(lowercasedKey);
-	zephir_fast_strtolower(lowercasedKey, key);
-	zephir_update_property_array(this_ptr, SL("_data"), lowercasedKey, data TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&lowercasedKey);
+	zephir_fast_strtolower(&lowercasedKey, &key);
+	zephir_update_property_array(this_ptr, SL("_data"), &lowercasedKey, data TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

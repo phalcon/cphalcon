@@ -81,7 +81,6 @@ class Validation extends Injectable implements ValidationInterface
 	 *
 	 * @param array|object data
 	 * @param object entity
-	 * @return \Phalcon\Validation\Message\Group
 	 */
 	public function validate(var data = null, var entity = null) -> <Group>
 	{
@@ -252,7 +251,6 @@ class Validation extends Injectable implements ValidationInterface
 	 *
 	 * @param string field
 	 * @param array|string filters
-	 * @return \Phalcon\Validation
 	 */
 	public function setFilters(var field, filters) -> <Validation>
 	{
@@ -274,7 +272,6 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Returns all the filters or a specific one
 	 *
-	 * @param string field
 	 * @return mixed
 	 */
 	public function getFilters(string field = null)
@@ -398,9 +395,8 @@ class Validation extends Injectable implements ValidationInterface
 	 * Get label for field
 	 *
 	 * @param string field
-	 * @return string
 	 */
-	public function getLabel(var field)
+	public function getLabel(var field) -> string
 	{
 		var labels, value;
 
@@ -442,7 +438,6 @@ class Validation extends Injectable implements ValidationInterface
 	 *
 	 * @param object entity
 	 * @param array|object data
-	 * @return \Phalcon\Validation
 	 */
 	public function bind(entity, data) -> <Validation>
 	{
@@ -462,11 +457,8 @@ class Validation extends Injectable implements ValidationInterface
 
 	/**
 	 * Gets the a value to validate in the array/object data source
-	 *
-	 * @param string field
-	 * @return mixed
 	 */
-	public function getValue(string field)
+	public function getValue(string field) -> var | null
 	{
 		var entity, method, value, data, values,
 			filters, fieldFilters, dependencyInjector,

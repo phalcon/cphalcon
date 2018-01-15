@@ -63,23 +63,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
-	zval *success_param = NULL, *model = NULL;
+	zval *success_param = NULL, *model = NULL, model_sub, __$true, __$false, __$null;
 	zend_bool success;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&model_sub);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_NULL(&__$null);
 
 	zephir_fetch_params(0, 1, 1, &success_param, &model);
 
 	success = zephir_get_boolval(success_param);
 	if (!model) {
-		model = ZEPHIR_GLOBAL(global_null);
+		model = &model_sub;
+		model = &__$null;
 	}
 
 
 	if (success) {
-		zephir_update_property_this(getThis(), SL("_success"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_success"), &__$true);
 	} else {
-		zephir_update_property_this(getThis(), SL("_success"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_success"), &__$false);
 	}
-	zephir_update_property_this(getThis(), SL("_model"), model TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_model"), model);
 
 }
 
@@ -88,7 +95,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_model");
 
@@ -99,18 +107,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
-	zval *model = NULL;
+	zval model;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&model);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(model);
-	zephir_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
-	if (Z_TYPE_P(model) != IS_OBJECT) {
+	ZEPHIR_OBS_VAR(&model);
+	zephir_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	if (Z_TYPE_P(&model) != IS_OBJECT) {
 		array_init(return_value);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(model, "getmessages", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&model, "getmessages", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -121,7 +132,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_MEMBER(getThis(), "_success");
 

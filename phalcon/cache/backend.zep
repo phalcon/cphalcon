@@ -45,11 +45,8 @@ abstract class Backend implements BackendInterface
 
 	/**
 	 * Phalcon\Cache\Backend constructor
-	 *
-	 * @param \Phalcon\Cache\FrontendInterface frontend
-	 * @param array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, array options = [])
 	{
 		var prefix;
 
@@ -129,8 +126,6 @@ abstract class Backend implements BackendInterface
 
 	/**
 	 * Gets the last lifetime set
-	 *
-	 * @return int
 	 */
 	public function getLifetime() -> int
 	{

@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 class DbProfiler extends Phalcon\Db\Profiler
 {
 
@@ -71,7 +73,7 @@ class DbProfilerListener
 
 }
 
-class DbProfilerTest extends PHPUnit_Framework_TestCase
+class DbProfilerTest extends TestCase
 {
 
 	public function testDbMysql()
@@ -134,12 +136,12 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($profiler->getNumberTotalStatements(), 1);
 
 		$profile = $profiler->getLastProfile();
-		$this->assertEquals(get_class($profile), 'Phalcon\Db\Profiler\Item');
+		$this->assertInstanceOf('Phalcon\Db\Profiler\Item', $profile);
 
 		$this->assertEquals($profile->getSQLStatement(), "SELECT * FROM personas LIMIT 3");
-		$this->assertEquals(gettype($profile->getInitialTime()), "double");
-		$this->assertEquals(gettype($profile->getFinalTime()), "double");
-		$this->assertEquals(gettype($profile->getTotalElapsedSeconds()), "double");
+		$this->assertInternalType('double', $profile->getInitialTime());
+		$this->assertInternalType('double', $profile->getFinalTime());
+		$this->assertInternalType('double', $profile->getTotalElapsedSeconds());
 		$this->assertTrue($profile->getFinalTime()>$profile->getInitialTime());
 
 		$connection->query("SELECT * FROM personas LIMIT 100");
@@ -147,7 +149,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($profiler->getNumberTotalStatements(), 2);
 
 		$profile = $profiler->getLastProfile();
-		$this->assertEquals(get_class($profile), 'Phalcon\Db\Profiler\Item');
+		$this->assertInstanceOf('Phalcon\Db\Profiler\Item', $profile);
 
 		$this->assertEquals($profile->getSQLStatement(), "SELECT * FROM personas LIMIT 100");
 		$this->assertTrue($profile->getFinalTime() > $profile->getInitialTime());
@@ -156,14 +158,14 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 		$connection->query("SELECT * FROM personas LIMIT 10");
 		$connection->query("SELECT * FROM personas LIMIT 15");
 
-		$this->assertEquals(count($profiler->getProfiles()), 5);
+		$this->assertCount(5, $profiler->getProfiles());
 		$this->assertEquals($profiler->getNumberTotalStatements(), 5);
-		$this->assertEquals(gettype($profiler->getTotalElapsedSeconds()), "double");
+		$this->assertInternalType('double', $profiler->getTotalElapsedSeconds());
 		$this->assertEquals($profiler->getPoints(), 0);
 
 		$profiler->reset();
 
-		$this->assertEquals(count($profiler->getProfiles()), 0);
+		$this->assertCount(0, $profiler->getProfiles());
 		$this->assertEquals($profiler->getNumberTotalStatements(), 0);
 	}
 }

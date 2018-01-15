@@ -153,7 +153,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array columns
-	 * @return \Phalcon\Mvc\Model\Criteria
 	 */
 	public function columns(var columns) -> <Criteria>
 	{
@@ -261,17 +260,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		}
 
 		return this;
-	}
-
-	/**
-	 * Appends a condition to the current conditions using an AND operator (deprecated)
-	 *
-	 * @deprecated 1.0.0
-	 * @see \Phalcon\Mvc\Model\Criteria::andWhere()
-	 */
-	deprecated public function addWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Criteria>
-	{
-		return this->andWhere(conditions, bindParams, bindTypes);
 	}
 
 	/**
@@ -470,17 +458,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Adds the order-by parameter to the criteria (deprecated)
-	 *
-	 * @see \Phalcon\Mvc\Model\Criteria::orderBy()
-	 */
-	deprecated public function order(string! orderColumns) -> <Criteria>
-	{
-		let this->_params["order"] = orderColumns;
-		return this;
-	}
-
-	/**
 	 * Adds the order-by clause to the criteria
 	 */
 	public function orderBy(string! orderColumns) -> <Criteria>
@@ -655,10 +632,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 	/**
 	 * Returns all the parameters defined in the criteria
-	 *
-	 * @return array
 	 */
-	public function getParams()
+	public function getParams() -> array
 	{
 		return this->_params;
 	}
@@ -769,5 +744,19 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 		}
 
 		return {model}::find(this->getParams());
+	}
+
+	public function setTransaction(<TransactionInterface> transaction = null) -> <Criteria>
+	{
+		let this->_params["transaction"] = transaction;
+		return this;
+	}
+
+	public function getTransaction() -> <TransactionInterface> | null {
+		var transaction;
+		if fetch transaction, this->_params["transaction"] {
+			return transaction;
+		}
+		return null;
 	}
 }

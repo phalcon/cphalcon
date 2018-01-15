@@ -18,12 +18,14 @@
   +------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 function sqlite_now()
 {
 	return date('Y-m-d H:i:s');
 }
 
-class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
+class ModelsValidatorsTest extends TestCase
 {
 
 	public function __construct()
@@ -145,7 +147,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$abonne->statut = 'P';
 		$this->assertFalse($abonne->save());
 
-		$this->assertEquals(count($abonne->getMessages()), 1);
+		$this->assertCount(1, $abonne->getMessages());
 
 		$messages = $abonne->getMessages();
 		$this->assertEquals($messages[0]->getType(), "PresenceOf");
@@ -159,7 +161,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$abonne->statut = 'P';
 		$this->assertFalse($abonne->save());
 
-		$this->assertEquals(count($abonne->getMessages()), 1);
+		$this->assertCount(1, $abonne->getMessages());
 
 		$messages = $abonne->getMessages();
 		$this->assertEquals($messages[0]->getType(), "Email");
@@ -232,7 +234,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$abonne->statut = 'P';
 		$this->assertFalse($abonne->save());
 
-		$this->assertEquals(count($abonne->getMessages()), 2);
+		$this->assertCount(2, $abonne->getMessages());
 
 		$messages = $abonne->getMessages();
 		$this->assertEquals($messages[0]->getType(), "PresenceOf");
@@ -244,13 +246,13 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[1]->getMessage(), "Le courrier électronique est invalide");
 
 		$messages = $abonne->getMessages('creeA');
-		$this->assertEquals(count($messages), 1);
+		$this->assertCount(1, $messages);
 		$this->assertEquals($messages[0]->getType(), "PresenceOf");
 		$this->assertEquals($messages[0]->getField(), "creeA");
 		$this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
 
 		$messages = $abonne->getMessages('courrierElectronique');
-		$this->assertEquals(count($messages), 1);
+		$this->assertCount(1, $messages);
 		$this->assertEquals($messages[0]->getType(), "Email");
 		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
 		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");

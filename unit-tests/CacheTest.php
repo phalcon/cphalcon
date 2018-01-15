@@ -20,7 +20,9 @@
 
 require_once 'helpers/xcache.php';
 
-class CacheTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CacheTest extends TestCase
 {
 
 	public function setUp()
@@ -202,7 +204,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//First time cache
 		$content = $cache->start('test-output');
-		$this->assertTrue($content === null);
+		$this->assertNull($content);
 
 		echo $time;
 
@@ -214,15 +216,15 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($time, $obContent);
 
 		$document = $collection->findOne(array('key' => 'test-output'));
-		$this->assertTrue(is_array($document));
+		$this->assertInternalType('array', $document);
 		$this->assertEquals($time, $document['data']);
 
 		//Expect same cache
 		$content = $cache->start('test-output');
-		$this->assertFalse($content === null);
+		$this->assertNotNull($content);
 
 		$document = $collection->findOne(array('key' => 'test-output'));
-		$this->assertTrue(is_array($document));
+		$this->assertInternalType('array', $document);
 		$this->assertEquals($time, $document['data']);
 
 		//Query keys
@@ -491,8 +493,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->flush());
 
-		$this->assertFalse(file_exists('unit-tests/cache/data'));
-		$this->assertFalse(file_exists('unit-tests/cache/data2'));
+		$this->assertFileNotExists('unit-tests/cache/data');
+		$this->assertFileNotExists('unit-tests/cache/data2');
 	}
 
 	public function testCacheMemoryFlush()

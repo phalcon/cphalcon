@@ -272,11 +272,10 @@ class Di implements DiInterface
 	 * Resolves a service, the resolved service is stored in the DI, subsequent
 	 * requests for this service will return the same instance
 	 *
-	 * @param string name
 	 * @param array parameters
 	 * @return mixed
 	 */
-	public function getShared(string! name, parameters = null)
+	public function getShared(string! name, parameters = null) -> var
 	{
 		var instance;
 
@@ -370,7 +369,7 @@ class Di implements DiInterface
 	/**
 	 * Magic method to get or set services using setters/getters
 	 */
-	public function __call(string! method, arguments = null) -> var|null
+	public function __call(string! method, array arguments = []) -> var | null
 	{
 		var instance, possibleService, services, definition;
 
@@ -380,12 +379,10 @@ class Di implements DiInterface
 		if starts_with(method, "get") {
 			let services = this->_services,
 				possibleService = lcfirst(substr(method, 3));
+
 			if isset services[possibleService] {
-				if count(arguments) {
-					let instance = this->get(possibleService, arguments);
-				} else {
-					let instance = this->get(possibleService);
-				}
+				let instance = this->get(possibleService, arguments);
+
 				return instance;
 			}
 		}

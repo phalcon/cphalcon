@@ -80,7 +80,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getParams);
 /**
  * Set a param by its name or numeric index
  *
- * @param  mixed param
  * @param  mixed value
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParam);
@@ -88,7 +87,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setParam);
 /**
  * Gets a param by its name or numeric index
  *
- * @param  mixed param
  * @param  string|array filters
  * @return mixed
  */
@@ -96,9 +94,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getParam);
 
 /**
  * Check if a param exists
- *
- * @param  mixed param
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, hasParam);
 
@@ -109,8 +104,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, isFinished);
 
 /**
  * Returns value returned by the latest dispatched action
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getReturnedValue);
 

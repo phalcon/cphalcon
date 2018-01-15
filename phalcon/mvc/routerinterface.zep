@@ -53,7 +53,7 @@ interface RouterInterface
 	/**
 	 * Handles routing information received from the rewrite engine
 	 */
-	public function handle(string uri = null) -> void;
+	public function handle(string! uri) -> void;
 
 	/**
 	 * Adds a route to the router on any HTTP method

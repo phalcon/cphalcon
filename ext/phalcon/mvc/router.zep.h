@@ -8,8 +8,6 @@ PHP_METHOD(Phalcon_Mvc_Router, setDI);
 PHP_METHOD(Phalcon_Mvc_Router, getDI);
 PHP_METHOD(Phalcon_Mvc_Router, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Router, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri);
-PHP_METHOD(Phalcon_Mvc_Router, setUriSource);
 PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule);
@@ -44,7 +42,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
 PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -56,10 +54,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_seturisource, 0, 0, 1)
-	ZEND_ARG_INFO(0, uriSource)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_removeextraslashes, 0, 0, 1)
@@ -86,7 +80,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_setdefaults, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_handle, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_handle, 0, 0, 1)
 	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
@@ -179,8 +173,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setEventsManager, arginfo_phalcon_mvc_router_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getEventsManager, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, getRewriteUri, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, setUriSource, arginfo_phalcon_mvc_router_seturisource, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, removeExtraSlashes, arginfo_phalcon_mvc_router_removeextraslashes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setDefaultNamespace, arginfo_phalcon_mvc_router_setdefaultnamespace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setDefaultModule, arginfo_phalcon_mvc_router_setdefaultmodule, ZEND_ACC_PUBLIC)

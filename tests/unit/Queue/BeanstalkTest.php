@@ -112,7 +112,7 @@ class BeanstalkTest extends BeanstalkBase
 
                 expect(is_array($tubeStats))->true();
                 $this->assertArrayHasKey('name', $tubeStats);
-                $this->assertTrue($tubeStats['name'] === self::TUBE_NAME_1);
+                $this->assertSame(self::TUBE_NAME_1, $tubeStats['name']);
 
                 $this->client->choose(self::TUBE_NAME_DEFAULT);
 
@@ -289,7 +289,7 @@ class BeanstalkTest extends BeanstalkBase
             $jobs[] = $job;
         }
 
-        $this->assertEquals(count($tubes), count($jobs));
+        $this->assertCount(count($tubes), $jobs);
 
         foreach ($jobs as $k => $job) {
             $this->assertInstanceOf(self::JOB_CLASS, $jobs[$k]);
@@ -509,7 +509,7 @@ class BeanstalkTest extends BeanstalkBase
     {
         $this->client->choose(self::TUBE_NAME_1);
         $tubes = $this->client->listTubes();
-        $this->assertTrue(in_array(self::TUBE_NAME_1, $tubes));
+        $this->assertContains(self::TUBE_NAME_1, $tubes);
     }
 
     /**

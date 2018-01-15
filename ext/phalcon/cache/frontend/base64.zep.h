@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, frontendOptions)
+	ZEND_ARG_ARRAY_INFO(0, frontendOptions, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64_beforestore, 0, 0, 1)

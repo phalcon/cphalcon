@@ -135,7 +135,7 @@ class RequestTest extends HttpBase
             }
         );
     }
-    
+
     /**
      * Tests isAjax default
      *
@@ -215,37 +215,37 @@ class RequestTest extends HttpBase
     }
 
     /**
-     * Tests isSecureRequest default
+     * Tests isSecure default
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSecureRequestDefault()
+    public function testHttpRequestIsSecureDefault()
     {
         $this->specify(
-            "Default isSecureRequest is true",
+            "Default isSecure is true",
             function () {
                 $request = $this->getRequestObject();
 
-                expect($request->isSecureRequest())->false();
+                expect($request->isSecure())->false();
             }
         );
     }
 
     /**
-     * Tests isSecureRequest
+     * Tests isSecure
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSecureRequest()
+    public function testHttpRequestIsSecure()
     {
         $this->specify(
-            "isSecureRequest is not true",
+            "isSecure is not true",
             function () {
                 $request = $this->getRequestObject();
                 $this->setServerVar('HTTPS', 'on');
-                $actual = $request->isSecureRequest();
+                $actual = $request->isSecure();
                 $this->unsetServerVar('HTTPS');
 
                 expect($actual)->true();
@@ -254,19 +254,19 @@ class RequestTest extends HttpBase
     }
 
     /**
-     * Tests isSoapRequested default
+     * Tests isSoap default
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-23
      */
-    public function testHttpRequestIsSoapRequestedDefault()
+    public function testHttpRequestIsSoapDefault()
     {
         $this->specify(
-            "Default isSoapRequest is true",
+            "Default isSoap is true",
             function () {
                 $request = $this->getRequestObject();
 
-                expect($request->isSoapRequested())->false();
+                expect($request->isSoap())->false();
             }
         );
     }
@@ -277,14 +277,14 @@ class RequestTest extends HttpBase
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-04
      */
-    public function testHttpRequestIsSoapRequested()
+    public function testHttpRequestIsSoap()
     {
         $this->specify(
             "isSoapRequest is not true",
             function () {
                 $request = $this->getRequestObject();
                 $this->setServerVar('CONTENT_TYPE', 'application/soap+xml');
-                $actual = $request->isSoapRequested();
+                $actual = $request->isSoap();
                 $this->unsetServerVar('CONTENT_TYPE');
 
                 expect($actual)->true();
@@ -854,7 +854,7 @@ class RequestTest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/json; level=2; q=0.7';
         $accept = $request->getAcceptableContent();
-        $this->assertEquals(count($accept), 5);
+        $this->assertCount(5, $accept);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['accept'], 'text/html');
@@ -878,7 +878,7 @@ class RequestTest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5,unicode-1-1;q=0.8';
         $accept = $request->getClientCharsets();
-        $this->assertEquals(count($accept), 2);
+        $this->assertCount(2, $accept);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['charset'], 'iso-8859-5');
@@ -897,7 +897,7 @@ class RequestTest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9';
         $accept = $request->getLanguages();
-        $this->assertEquals(count($accept), 5);
+        $this->assertCount(5, $accept);
 
         $firstAccept = $accept[0];
         $this->assertEquals($firstAccept['language'], 'es');

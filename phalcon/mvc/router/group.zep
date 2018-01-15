@@ -187,9 +187,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is GET
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addGet(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -199,9 +197,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is POST
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addPost(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -211,9 +207,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PUT
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addPut(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -223,9 +217,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is PATCH
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -235,9 +227,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is DELETE
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addDelete(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -247,9 +237,7 @@ class Group implements GroupInterface
 	/**
 	 * Add a route to the router that only match if the HTTP method is OPTIONS
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
 	{
@@ -259,9 +247,7 @@ class Group implements GroupInterface
 	/**
 	 * Adds a route to the router that only match if the HTTP method is HEAD
 	 *
-	 * @param string pattern
-	 * @param string/array paths
-	 * @return \Phalcon\Mvc\Router\Route
+	 * @param string|array paths
 	 */
 	public function addHead(string! pattern, var paths = null) -> <RouteInterface>
 	{

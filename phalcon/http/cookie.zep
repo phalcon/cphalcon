@@ -59,16 +59,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 	/**
 	 * Phalcon\Http\Cookie constructor
-	 *
-	 * @param string name
-	 * @param mixed value
-	 * @param int expire
-	 * @param string path
-	 * @param boolean secure
-	 * @param string domain
-	 * @param boolean httpOnly
 	 */
-	public function __construct(string! name, var value = null, expire = 0, path = "/", secure = null, domain = null, httpOnly = null)
+	public function __construct(string! name, var value = null, int expire = 0, string path = "/", boolean secure = null, string domain = null, boolean httpOnly = null)
 	{
 		let this->_name = name;
 
@@ -115,7 +107,6 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	 * Sets the cookie's value
 	 *
 	 * @param string value
-	 * @return \Phalcon\Http\Cookie
 	 */
 	public function setValue(value) -> <CookieInterface>
 	{

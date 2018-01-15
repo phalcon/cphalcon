@@ -86,7 +86,6 @@ class Annotation
 	/**
 	 * Resolves an annotation expression
 	 *
-	 * @param array expr
 	 * @return mixed
 	 */
 	public function getExpression(array! expr)
@@ -183,7 +182,6 @@ class Annotation
 	 * Returns an argument in a specific position
 	 *
 	 * @param int|string position
-	 * @return boolean
 	 */
 	public function hasArgument(var position) -> boolean
 	{

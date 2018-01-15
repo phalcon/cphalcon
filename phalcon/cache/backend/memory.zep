@@ -78,7 +78,6 @@ class Memory extends Backend implements \Serializable
 	 * @param string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
@@ -129,7 +128,6 @@ class Memory extends Backend implements \Serializable
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param string keyName
-	 * @return boolean
 	 */
 	public function delete(var keyName) -> boolean
 	{
@@ -292,7 +290,7 @@ class Memory extends Backend implements \Serializable
 
 		let unserialized = unserialize(data);
 		if typeof unserialized != "array" {
-			throw new \Exception("Unserialized data must be an array");
+			throw new Exception("Unserialized data must be an array");
 		}
 
 		let this->_frontend = unserialized["frontend"];

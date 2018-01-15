@@ -40,14 +40,10 @@ abstract class Adapter implements AdapterInterface
 
 	/**
 	 * Phalcon\Session\Adapter constructor
-	 *
-	 * @param array options
 	 */
-	public function __construct(var options = null)
+	public function __construct(array options = [])
 	{
-		if typeof options == "array" {
-			this->setOptions(options);
-		}
+		this->setOptions(options);
 	}
 
 	/**

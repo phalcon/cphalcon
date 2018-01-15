@@ -19,7 +19,9 @@
   +------------------------------------------------------------------------+
 */
 
-class DbTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DbTest extends TestCase
 {
 	/**
 	 * @medium
@@ -72,21 +74,21 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		try {
 			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-			$this->assertTrue(is_object($connection));
+			$this->assertInternalType('object', $connection);
 		} catch (Exception $e) {
 			$this->assertTrue(false);
 		}
 
 		try {
 			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
-			$this->assertTrue(is_object($connection));
+			$this->assertInternalType('object', $connection);
 		} catch (Exception $e) {
 			$this->assertTrue(false);
 		}
 
 		try {
 			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
-			$this->assertFalse(is_object($connection));
+			$this->assertNotInternalType('object', $connection);
 		} catch (Exception $e) {
 			$this->assertTrue(true);
 		}
@@ -111,12 +113,12 @@ class DbTest extends PHPUnit_Framework_TestCase
 	protected function _executeTests($connection)
 	{
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
-		$this->assertTrue(is_object($result));
-		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
+		$this->assertInternalType('object', $result);
+		$this->assertInstanceOf('Phalcon\Db\Result\Pdo', $result);
 
 		for ($i = 0; $i < 3; $i++) {
 			$row = $result->fetch();
-			$this->assertEquals(count($row), 22);
+			$this->assertCount(22, $row);
 		}
 
 		$row = $result->fetch();
@@ -125,7 +127,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		$number = 0;
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$this->assertTrue(is_object($result));
+		$this->assertInternalType('object', $result);
 
 		while ($row = $result->fetch()) {
 			$number++;
@@ -135,8 +137,8 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_NUM);
 		$row = $result->fetch();
-		$this->assertTrue(is_array($row));
-		$this->assertEquals(count($row), 11);
+		$this->assertInternalType('array', $row);
+		$this->assertCount(11, $row);
 		$this->assertTrue(isset($row[0]));
 		$this->assertFalse(isset($row['cedula']));
 		$this->assertFalse(isset($row->cedula));
@@ -144,8 +146,8 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
 		$row = $result->fetch();
-		$this->assertTrue(is_array($row));
-		$this->assertEquals(count($row), 11);
+		$this->assertInternalType('array', $row);
+		$this->assertCount(11, $row);
 		$this->assertFalse(isset($row[0]));
 		$this->assertTrue(isset($row['cedula']));
 		$this->assertFalse(isset($row->cedula));
@@ -153,7 +155,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
 		$row = $result->fetch();
-		$this->assertTrue(is_object($row));
+		$this->assertInternalType('object', $row);
 		$this->assertTrue(isset($row->cedula));
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
@@ -297,17 +299,17 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($connection->affectedRows(), 54);
 
 		$row = $connection->fetchOne("SELECT * FROM personas");
-		$this->assertEquals(count($row), 11);
+		$this->assertCount(11, $row);
 
 		$row = $connection->fetchOne("SELECT * FROM personas", Phalcon\Db::FETCH_NUM);
-		$this->assertEquals(count($row), 11);
+		$this->assertCount(11, $row);
 
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10");
-		$this->assertEquals(count($rows), 10);
+		$this->assertCount(10, $rows);
 
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::FETCH_NUM);
-		$this->assertEquals(count($rows), 10);
-		$this->assertEquals(count($rows[0]), 11);
+		$this->assertCount(10, $rows);
+		$this->assertCount(11, $rows[0]);
 
 		$id = $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC");
 		$this->assertEquals($id, 3);
@@ -341,13 +343,13 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		//Gets the list of all views.
 		$views = $connection->listViews();
-		$this->assertTrue(is_array($views));
-		$this->assertTrue(in_array('phalcon_test_view', $views));
+		$this->assertInternalType('array', $views);
+		$this->assertContains('phalcon_test_view', $views);
 
 		//Execute created view
 		$row = $connection->fetchOne("SELECT * FROM phalcon_test_view");
-		$this->assertEquals(count($row), 3);
-		$this->assertTrue(array_key_exists('one', $row));
+		$this->assertCount(3, $row);
+		$this->assertArrayHasKey('one', $row);
 		$this->assertEquals($row['two'], 2);
 
 		//Drop view

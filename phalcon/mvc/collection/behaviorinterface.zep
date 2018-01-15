@@ -36,6 +36,6 @@ interface BehaviorInterface
 	/**
 	 * Calls a method when it's missing in the collection
 	 */
-	public function missingMethod(<CollectionInterface> collection, string !method, arguments = null);
+	public function missingMethod(<CollectionInterface> collection, string !method, array arguments = []);
 
 }

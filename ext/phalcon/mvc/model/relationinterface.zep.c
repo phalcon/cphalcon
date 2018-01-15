@@ -29,7 +29,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface) {
  * Sets the intermediate model dat for has-*-through relations
  *
  * @param string|array intermediateFields
- * @param string intermediateModel
  * @param string|array intermediateReferencedFields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, setIntermediateRelation);

@@ -63,22 +63,14 @@ class $Resource implements ResourceInterface
 
 	/**
 	 * Phalcon\Assets\Resource constructor
-	 *
-	 * @param string type
-	 * @param string path
-	 * @param boolean local
-	 * @param boolean filter
-	 * @param array attributes
 	 */
-	public function __construct(string type, string path, boolean local = true, boolean filter = true, attributes = null)
+	public function __construct(string type, string path, boolean local = true, boolean filter = true, array attributes = [])
 	{
 		let this->_type = type,
 			this->_path = path,
 			this->_local = local,
-			this->_filter = filter;
-		if typeof attributes == "array" {
-			let this->_attributes = attributes;
-		}
+			this->_filter = filter,
+			this->_attributes = attributes;
 	}
 
 	/**

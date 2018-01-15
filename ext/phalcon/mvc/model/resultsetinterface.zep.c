@@ -16,7 +16,6 @@
  * Phalcon\Mvc\Model\ResultsetInterface
  *
  * Interface for Phalcon\Mvc\Model\Resultset
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface) {
 
@@ -33,15 +32,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 
 /**
  * Get first row in the resultset
- *
- * @return \Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getFirst);
 
 /**
  * Get last row in the resultset
- *
- * @return \Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getLast);
 
@@ -57,8 +52,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
 
 /**
  * Returns the associated cache for the resultset
- *
- * @return \Phalcon\Cache\BackendInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
 

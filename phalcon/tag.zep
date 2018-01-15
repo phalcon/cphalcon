@@ -88,11 +88,8 @@ class Tag
 
 	/**
 	 * Obtains the 'escaper' service if required
-	 *
-	 * @param array params
-	 * @return EscaperInterface
 	 */
-	public static function getEscaper(array! params)
+	public static function getEscaper(array! params) -> <EscaperInterface> | null
 	{
 		var autoescape;
 
@@ -246,7 +243,6 @@ class Tag
 	 * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
 	 * </code>
 	 *
-	 * @param string id
 	 * @param string value
 	 */
 	public static function setDefault(string! id, value) -> void
@@ -286,10 +282,9 @@ class Tag
 	/**
 	 * Alias of Phalcon\Tag::setDefault
 	 *
-	 * @param string id
 	 * @param string value
 	 */
-	public static function displayTo(id, value) -> void
+	public static function displayTo(string! id, value) -> void
 	{
 		self::setDefault(id, value);
 	}
@@ -298,7 +293,6 @@ class Tag
 	 * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
 	 *
 	 * @param string name
-	 * @return boolean
 	 */
 	public static function hasValue(var name) -> boolean
 	{
@@ -313,14 +307,13 @@ class Tag
 	 * value using Phalcon\Tag::setDefault or value from $_POST
 	 *
 	 * @param string name
-	 * @param array params
 	 * @return mixed
 	 */
-	public static function getValue(var name, params = null)
+	public static function getValue(var name, array params = [])
 	{
 		var value;
 
-		if !params || !fetch value, params["value"] {
+		if !fetch value, params["value"] {
 			/**
 			 * Check if there is a predefined value for it
 			 */
@@ -455,10 +448,7 @@ class Tag
 	/**
 	 * Builds generic INPUT tags
 	 *
-	 * @param string type
 	 * @param array parameters
-	 * @param boolean asValue
-	 * @return string
 	 */
 	static protected final function _inputField(string type, parameters, boolean asValue = false) -> string
 	{
@@ -526,9 +516,7 @@ class Tag
 	/**
 	 * Builds INPUT tags that implements the checked attribute
 	 *
-	 * @param string type
 	 * @param array parameters
-	 * @return string
 	 */
 	static protected final function _inputFieldChecked(string type, var parameters) -> string
 	{
@@ -610,7 +598,6 @@ class Tag
 	 * Builds a HTML input[type="color"] tag
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function colorField(var parameters) -> string
 	{
@@ -630,7 +617,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function textField(var parameters) -> string
 	{
@@ -651,7 +637,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function numericField(var parameters) -> string
 	{
@@ -663,7 +648,6 @@ class Tag
 	* Builds a HTML input[type="range"] tag
 	*
 	* @param array parameters
-	* @return string
 	*/
 	public static function rangeField(var parameters) -> string
 	{
@@ -678,7 +662,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function emailField(var parameters) -> string
 	{
@@ -698,7 +681,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function dateField(var parameters) -> string
 	{
@@ -709,7 +691,6 @@ class Tag
 	* Builds a HTML input[type="datetime"] tag
 	*
 	* @param array parameters
-	* @return string
 	*/
 	public static function dateTimeField(var parameters) -> string
 	{
@@ -720,7 +701,6 @@ class Tag
 	* Builds a HTML input[type="datetime-local"] tag
 	*
 	* @param array parameters
-	* @return string
 	*/
 	public static function dateTimeLocalField(var parameters) -> string
 	{
@@ -731,7 +711,6 @@ class Tag
 	 * Builds a HTML input[type="month"] tag
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function monthField(var parameters) -> string
 	{
@@ -742,7 +721,6 @@ class Tag
 	 * Builds a HTML input[type="time"] tag
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function timeField(var parameters) -> string
 	{
@@ -753,7 +731,6 @@ class Tag
 	 * Builds a HTML input[type="week"] tag
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function weekField(var parameters) -> string
 	{
@@ -773,7 +750,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function passwordField(var parameters) -> string
 	{
@@ -793,7 +769,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function hiddenField(var parameters) -> string
 	{
@@ -808,7 +783,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function fileField(var parameters) -> string
 	{
@@ -819,7 +793,6 @@ class Tag
 	 * Builds a HTML input[type="search"] tag
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function searchField(var parameters) -> string
 	{
@@ -830,7 +803,6 @@ class Tag
 	* Builds a HTML input[type="tel"] tag
 	*
 	* @param array parameters
-	* @return string
 	*/
 	public static function telField(var parameters) -> string
 	{
@@ -841,7 +813,6 @@ class Tag
 	 * Builds a HTML input[type="url"] tag
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function urlField(var parameters) -> string
 	{
@@ -866,7 +837,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function checkField(var parameters) -> string
 	{
@@ -891,7 +861,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function radioField(var parameters) -> string
 	{
@@ -915,7 +884,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function imageInput(var parameters) -> string
 	{
@@ -935,7 +903,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function submitButton(var parameters) -> string
 	{
@@ -957,7 +924,6 @@ class Tag
 	 *
 	 * @param array parameters
 	 * @param array data
-	 * @return string
 	 */
 	public static function selectStatic(parameters, data = null) -> string
 	{
@@ -984,7 +950,6 @@ class Tag
 	 *
 	 * @param array parameters
 	 * @param array data
-	 * @return string
 	 */
 	public static function select(var parameters, data = null) -> string
 	{
@@ -1010,7 +975,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function textArea(var parameters) -> string
 	{
@@ -1076,7 +1040,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @return string
 	 */
 	public static function form(var parameters) -> string
 	{
@@ -1283,8 +1246,6 @@ class Tag
 	 *</code>
 	 *
 	 * @param array parameters
-	 * @param boolean local
-	 * @return string
 	 */
 	public static function stylesheetLink(var parameters = null, boolean local = true) -> string
 	{
@@ -1357,8 +1318,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param array parameters
-	 * @param boolean local
-	 * @return string
 	 */
 	public static function javascriptInclude(var parameters = null, boolean local = true) -> string
 	{
@@ -1426,8 +1385,6 @@ class Tag
 	 * </code>
 	 *
 	 * @param  array parameters
-	 * @param  boolean local
-	 * @return string
 	 */
 	public static function image(var parameters = null, boolean local = true) -> string
 	{

@@ -42,10 +42,8 @@ interface AdapterInterface
 
 	/**
 	 * Parses or retrieves all the annotations found in a class
-	 *
-	 * @param string|object className
-     */
-	public function get(className) -> <Reflection>;
+	 */
+	public function get(string className) -> <Reflection>;
 
 	/**
 	 * Returns the annotations found in all the class' methods

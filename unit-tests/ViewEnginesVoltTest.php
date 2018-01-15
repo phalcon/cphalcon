@@ -27,6 +27,7 @@ use Phalcon\Escaper;
 use Phalcon\Mvc\Url;
 use Phalcon\Tag;
 use Phalcon\Di;
+use PHPUnit\Framework\TestCase;
 
 class SomeObject implements Iterator, Countable
 {
@@ -96,7 +97,7 @@ function phalcon_prepare_virtual_path($path, $separator) {
 	return $virtual_str;
 }
 
-class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
+class ViewEnginesVoltTest extends TestCase
 {
 	public function testVoltCompileFileExtends()
 	{
@@ -166,8 +167,8 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$path = 'unit-tests/cache/' . phalcon_prepare_virtual_path(realpath("unit-tests/"), ".") . '.views.test10.index.volt.compiled';
 
-		$this->assertTrue(file_exists($path));
-		$this->assertEquals(file_get_contents($path), 'Hello <?= $song ?>!');
+		$this->assertFileExists($path);
+		$this->assertStringEqualsFile($path, 'Hello <?= $song ?>!');
 		$this->assertEquals($view->getContent(), 'Hello Lights!');
 	}
 

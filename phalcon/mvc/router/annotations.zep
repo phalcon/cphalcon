@@ -82,22 +82,13 @@ class Annotations extends Router
 	/**
 	 * Produce the routing parameters from the rewrite information
 	 */
-	public function handle(string! uri = null)
+	public function handle(string! uri)
 	{
-		var realUri, annotationsService, handlers, controllerSuffix,
+		var annotationsService, handlers, controllerSuffix,
 			scope, prefix, dependencyInjector, handler, controllerName,
 			lowerControllerName, namespaceName, moduleName, sufixed, handlerAnnotations,
 			classAnnotations, annotations, annotation, methodAnnotations, method,
 			collection;
-
-		if !uri {
-			/**
-			 * If 'uri' isn't passed as parameter it reads $_GET["_url"]
-			 */
-			let realUri = this->getRewriteUri();
-		} else {
-			let realUri = uri;
-		}
 
 		let dependencyInjector = <DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -121,7 +112,7 @@ class Annotations extends Router
 			 */
 			let prefix = scope[0];
 
-			if !empty prefix && !starts_with(realUri, prefix) {
+			if !empty prefix && !starts_with(uri, prefix) {
 				continue;
 			}
 
@@ -202,7 +193,7 @@ class Annotations extends Router
 		/**
 		 * Call the parent handle method()
 		 */
-		parent::handle(realUri);
+		parent::handle(uri);
 	}
 
 	/**

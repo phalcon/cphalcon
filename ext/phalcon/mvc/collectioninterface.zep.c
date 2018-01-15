@@ -113,31 +113,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, save);
  * Find a document by its id
  *
  * @param string id
- * @return \Phalcon\Mvc\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, findById);
 
 /**
  * Allows to query the first record that match the specified conditions
- *
- * @param array parameters
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, findFirst);
 
 /**
  * Allows to query a set of records that match the specified conditions
- *
- * @param 	array parameters
- * @return  array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, find);
 
 /**
  * Perform a count over a collection
- *
- * @param array parameters
- * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, count);
 

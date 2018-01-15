@@ -18,10 +18,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, key);
 PHP_METHOD(Phalcon_Validation_Message_Group, next);
 PHP_METHOD(Phalcon_Validation_Message_Group, valid);
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state);
-zend_object_value zephir_init_properties_Phalcon_Validation_Message_Group(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_ARRAY_INFO(0, messages, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_offsetget, 0, 0, 1)
@@ -54,7 +53,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_filter, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group___set_state, 0, 0, 1)
-	ZEND_ARG_INFO(0, group)
+	ZEND_ARG_ARRAY_INFO(0, group, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_message_group_method_entry) {

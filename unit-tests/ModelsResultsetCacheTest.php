@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsResultsetCacheTest extends TestCase
 {
 
 	public function __construct()
@@ -132,14 +134,14 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			'cache' => array('key' => 'some'),
 			'order' => 'id'
 		));
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertTrue($robots->isFresh());
 
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
 			'order' => 'id'
 		));
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertFalse($robots->isFresh());
 
 		//TODO: I really can't understand why postgresql fails on inserting a simple record
@@ -190,7 +192,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			'bind' => array('id1' => 0, 'id2' => 4),
 			'order' => 'id'
 		));
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertTrue($robots->isFresh());
 
 		$robots = Robots::find(array(
@@ -199,7 +201,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			'bind' => array('id1' => 0, 'id2' => 4),
 			'order' => 'id'
 		));
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertFalse($robots->isFresh());
 
 	}
@@ -222,7 +224,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			),
 			'order' => 'id'
 		));
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertTrue($robots->isFresh());
 
 		$robots = Robots::find(array(
@@ -233,7 +235,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			),
 			'order' => 'id'
 		));
-		$this->assertEquals(count($robots), 3);
+		$this->assertCount(3, $robots);
 		$this->assertFalse($robots->isFresh());
 
 		$this->assertEquals($robots->getCache()->getLastKey(), 'other-some');

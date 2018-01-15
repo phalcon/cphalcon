@@ -32,7 +32,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, getData);
 
 /**
  * Sets event data
- * @param mixed data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, setData);
 

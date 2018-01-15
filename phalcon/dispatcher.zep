@@ -245,9 +245,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Set a param by its name or numeric index
-	 *
-	 * @param  mixed param
-	 * @param  mixed value
 	 */
 	public function setParam(var param, var value)
 	{
@@ -262,7 +259,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	 * @param  mixed defaultValue
 	 * @return mixed
 	 */
-	public function getParam(param, filters = null, defaultValue = null)
+	public function getParam(var param, filters = null, defaultValue = null)
 	{
 		var params, filter, paramValue, dependencyInjector;
 
@@ -285,11 +282,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Check if a param exists
-	 *
-	 * @param  mixed param
-	 * @return boolean
 	 */
-	public function hasParam(param) -> boolean
+	public function hasParam(var param) -> boolean
 	{
 		return isset this->_params[param];
 	}
@@ -312,8 +306,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Sets the latest returned value by an action manually
-	 *
-	 * @param mixed value
 	 */
 	public function setReturnedValue(var value)
 	{
@@ -322,44 +314,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	/**
 	 * Returns value returned by the latest dispatched action
-	 *
-	 * @return mixed
 	 */
-	public function getReturnedValue()
+	public function getReturnedValue() -> var
 	{
 		return this->_returnedValue;
-	}
-
-	/**
-	 * Enable/Disable model binding during dispatch
-	 *
-	 * <code>
-	 * $di->set('dispatcher', function() {
-	 *     $dispatcher = new Dispatcher();
-	 *
-	 *     $dispatcher->setModelBinding(true, 'cache');
-	 *     return $dispatcher;
-	 * });
-	 * </code>
-	 *
-	 * @deprecated 3.1.0 Use setModelBinder method
-	 * @see Phalcon\Dispatcher::setModelBinder()
-	 */
-	deprecated public function setModelBinding(boolean value, var cache = null) -> <Dispatcher>
-	{
-		var dependencyInjector;
-
-		if typeof cache == "string" {
-			let dependencyInjector = this->_dependencyInjector;
-			let cache = dependencyInjector->get(cache);
-		}
-
-		let this->_modelBinding = value;
-		if value {
-			let this->_modelBinder = new Binder(cache);
-		}
-
-		return this;
 	}
 
 	/**

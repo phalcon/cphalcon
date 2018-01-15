@@ -31,26 +31,26 @@
 /**
  * Returns an iterator from the object
  */
-zend_object_iterator *zephir_get_iterator(zval *iterator TSRMLS_DC) {
-
+zend_object_iterator *zephir_get_iterator(zval *iterator)
+{
 	zend_class_entry *ce;
 	zend_object_iterator *it;
 
-	if (Z_TYPE_P(iterator) != IS_OBJECT) {
+	if (UNEXPECTED(Z_TYPE_P(iterator) != IS_OBJECT)) {
 		return NULL;
 	}
 
 	ce = Z_OBJCE_P(iterator);
-	it = ce->get_iterator(ce, iterator, 0 TSRMLS_CC);
-	if (!it || EG(exception)) {
+	it = ce->get_iterator(ce, iterator, 0);
+	if (UNEXPECTED(!it || EG(exception))) {
 		return NULL;
 	}
 
-	if (it->funcs->get_current_key == NULL) {
+	if (UNEXPECTED(it->funcs->get_current_key == NULL)) {
 		return NULL;
 	}
 
-	if (it->funcs->rewind == NULL) {
+	if (UNEXPECTED(it->funcs->rewind == NULL)) {
 		return NULL;
 	}
 

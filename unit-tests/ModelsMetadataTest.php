@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsMetadataTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsMetadataTest extends TestCase
 {
 
 	public function __construct()
@@ -114,7 +116,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 
 		$metaData = $di->getShared('modelsMetadata');
 
-		$personas = new Personas($di);
+		$personas = new Personas();
 
 		$pAttributes = array(
 			0 => 'cedula',
@@ -222,7 +224,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$modelDefValues = $metaData->getDefaultValues($personas);
 		$this->assertEquals($defValues, $modelDefValues);
 
-		$robots = new Robots($di);
+		$robots = new Robots();
 
 		//Robots
 		$pAttributes = array(

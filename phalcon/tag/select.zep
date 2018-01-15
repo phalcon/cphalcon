@@ -22,6 +22,7 @@ namespace Phalcon\Tag;
 use Phalcon\Tag\Exception;
 use Phalcon\Tag as BaseTag;
 use Phalcon\EscaperInterface;
+use Phalcon\Mvc\Model\ResulsetInterface;
 
 /**
  * Phalcon\Tag\Select
@@ -148,12 +149,9 @@ abstract class Select
 	/**
 	 * Generate the OPTION tags based on a resultset
 	 *
-	 * @param \Phalcon\Mvc\Model\Resultset resultset
 	 * @param array using
-	 * @param mixed value
-	 * @param string closeOption
 	 */
-	private static function _optionsFromResultset(resultset, using, value, closeOption)
+	private static function _optionsFromResultset(<ResulsetInterface> resultset, using, var value, string closeOption)
 	{
 		var code, params, option, usingZero, usingOne, escaper,
 			optionValue, optionText, strValue, strOptionValue;
@@ -232,12 +230,8 @@ abstract class Select
 
 	/**
 	 * Generate the OPTION tags based on an array
-	 *
-	 * @param array data
-	 * @param mixed value
-	 * @param string closeOption
 	 */
-	private static function _optionsFromArray(var data, var value, var closeOption)
+	private static function _optionsFromArray(array data, var value, string closeOption)
 	{
 		var strValue, strOptionValue, code, optionValue, optionText, escaped;
 

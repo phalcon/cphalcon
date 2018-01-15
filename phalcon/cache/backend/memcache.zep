@@ -65,16 +65,9 @@ class Memcache extends Backend
 
 	/**
 	 * Phalcon\Cache\Backend\Memcache constructor
-	 *
-	 * @param	Phalcon\Cache\FrontendInterface frontend
-	 * @param	array options
 	 */
-	public function __construct(<FrontendInterface> frontend, options = null)
+	public function __construct(<FrontendInterface> frontend, array options = [])
 	{
-		if typeof options != "array" {
-			let options = [];
-		}
-
 		if !isset options["host"] {
 			let options["host"] = "127.0.0.1";
 		}
@@ -176,7 +169,6 @@ class Memcache extends Backend
 	 * @param int|string keyName
 	 * @param string content
 	 * @param int lifetime
-	 * @param boolean stopBuffer
 	 */
 	public function save(var keyName = null, var content = null, var lifetime = null, boolean stopBuffer = true) -> boolean
 	{
@@ -281,9 +273,8 @@ class Memcache extends Backend
 	 * Deletes a value from the cache by its key
 	 *
 	 * @param int|string keyName
-	 * @return boolean
 	 */
-	public function delete(var keyName)
+	public function delete(var keyName) -> boolean
 	{
 		var memcache, prefixedKey, options, keys, specialKey, ret;
 

@@ -50,11 +50,9 @@ abstract class Validator implements ValidatorInterface
 	/**
 	 * Appends a message to the validator
 	 *
-	 * @param string message
 	 * @param string|array field
-	 * @param string type
 	 */
-	protected function appendMessage(string! message, field = null, type = null)
+	protected function appendMessage(string! message, field = null, string type = null)
 	{
 		if !type {
 			let type = str_replace("Validator", "", get_class(this));
@@ -72,10 +70,8 @@ abstract class Validator implements ValidatorInterface
 
 	/**
 	 * Returns all the options from the validator
-	 *
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions() -> array
 	{
 		return this->_options;
 	}

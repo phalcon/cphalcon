@@ -56,7 +56,6 @@ interface ElementInterface
 	 * Sets the element's filters
 	 *
 	 * @param array|string filters
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function setFilters(filters) -> <ElementInterface>;
 
@@ -76,8 +75,6 @@ interface ElementInterface
 	 * Adds a group of validators
 	 *
 	 * @param \Phalcon\Validation\ValidatorInterface[]
-	 * @param boolean merge
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
 	public function addValidators(array! validators, boolean merge = true) -> <ElementInterface>;
 
@@ -99,21 +96,13 @@ interface ElementInterface
 
 	/**
 	 * Sets a default attribute for the element
-	 *
-	 * @param string attribute
-	 * @param mixed value
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setAttribute(string attribute, value) -> <ElementInterface>;
+	public function setAttribute(string attribute, var value) -> <ElementInterface>;
 
 	/**
 	 * Returns the value of an attribute if present
-	 *
-	 * @param string attribute
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function getAttribute(attribute, defaultValue = null);
+	public function getAttribute(string attribute, var defaultValue = null) -> var;
 
 	/**
 	 * Sets default attributes for the element
@@ -127,21 +116,13 @@ interface ElementInterface
 
 	/**
 	 * Sets an option for the element
-	 *
-	 * @param string option
-	 * @param mixed value
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setUserOption(string option, value) -> <ElementInterface>;
+	public function setUserOption(string option, var value) -> <ElementInterface>;
 
 	/**
 	 * Returns the value of an option if present
-	 *
-	 * @param string option
-	 * @param mixed defaultValue
-	 * @return mixed
 	 */
-	public function getUserOption(string option, defaultValue = null);
+	public function getUserOption(string option, var defaultValue = null) -> var;
 
 	/**
 	 * Sets options for the element
@@ -171,33 +152,24 @@ interface ElementInterface
 	/**
 	 * Sets a default value in case the form does not use an entity
 	 * or there is no value available for the element in _POST
-	 *
-	 * @param mixed value
-	 * @return \Phalcon\Forms\ElementInterface
 	 */
-	public function setDefault(value) -> <ElementInterface>;
+	public function setDefault(var value) -> <ElementInterface>;
 
 	/**
 	 * Returns the default value assigned to the element
-	 *
-	 * @return mixed
 	 */
-	public function getDefault();
+	public function getDefault() -> var;
 
 	/**
 	 * Returns the element's value
-	 *
-	 * @return mixed
 	 */
-	public function getValue();
+	public function getValue() -> var;
 
 	/**
 	 * Returns the messages that belongs to the element
 	 * The element needs to be attached to a form
-	 *
-	 * @return \Phalcon\Validation\Message\Group
 	 */
-	public function getMessages();
+	public function getMessages() -> <Group>;
 
 	/**
 	 * Checks whether there are messages attached to the element
@@ -221,9 +193,7 @@ interface ElementInterface
 
 	/**
 	 * Renders the element widget
-	 *
-	 * @param array attributes
 	 */
-	public function render(attributes = null) -> string;
+	public function render(array attributes = []) -> string;
 
 }

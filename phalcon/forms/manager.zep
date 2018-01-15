@@ -29,7 +29,6 @@ class Manager
 	/**
 	 * Creates a form registering it in the forms manager
 	 *
-	 * @param string name
 	 * @param object entity
 	 */
 	public function create(string name, entity = null) -> <Form>

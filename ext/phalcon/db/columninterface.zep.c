@@ -76,43 +76,31 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getScale);
 
 /**
  * Returns true if number column is unsigned
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, isUnsigned);
 
 /**
  * Not null
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, isNotNull);
 
 /**
  * Column is part of the primary key?
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, isPrimary);
 
 /**
  * Auto-Increment
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, isAutoIncrement);
 
 /**
  * Check whether column have an numeric type
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, isNumeric);
 
 /**
  * Check whether column have first position in table
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, isFirst);
 
@@ -125,8 +113,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getAfterPosition);
 
 /**
  * Returns the type of bind handling
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
 

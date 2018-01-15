@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsCalculationsTest extends TestCase
 {
 
 	public function __construct()
@@ -158,10 +160,10 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($rowcount, $estado_rows);
 
 		$group = Personnes::count(array("group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$group = Personnes::count(array("group" => "estado", "order" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => $estado_rows, 'I' => 2);
 		foreach($group as $row){
@@ -172,10 +174,10 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($group[1]->rowcount, 2);
 
 		$group = Personnes::count(array("group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$group = Personnes::count(array("group" => "ciudad_id"));
-		$this->assertEquals(285, count($group));
+		$this->assertCount(285, $group);
 
 		$group = Personnes::count(array("group" => "ciudad_id", "order" => "rowcount DESC"));
 		$this->assertEquals($group[0]->rowcount, 727);
@@ -188,7 +190,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(567020.00, $total);
 
 		$group = Personnes::sum(array("column" => "cupo", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => $a_sum, 'I' => 567020.00);
 		foreach($group as $row){
@@ -206,7 +208,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(283510.00, $total);
 
 		$group = Personnes::average(array("column" => "cupo", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => $a_average, 'I' => 283510.00);
 		foreach($group as $row){
@@ -224,7 +226,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($max, 127591);
 
 		$group = Personnes::maximum(array("column" => "ciudad_id", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => 302172, 'I' => 127591);
 		foreach($group as $row){
@@ -242,7 +244,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($max, 127591);
 
 		$group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => 20404, 'I' => 127591);
 		foreach($group as $row){
@@ -277,10 +279,10 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($rowcount, $estado_rows);
 
 		$group = Pessoas::count(array("group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$group = Pessoas::count(array("group" => "estado", "order" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => $estado_rows, 'I' => 2);
 		foreach($group as $row){
@@ -291,10 +293,10 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($group[1]->rowcount, 2);
 
 		$group = Pessoas::count(array("group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$group = Pessoas::count(array("group" => "cidadeId"));
-		$this->assertEquals(285, count($group));
+		$this->assertCount(285, $group);
 
 		$group = Pessoas::count(array("group" => "cidadeId", "order" => "rowcount DESC"));
 		$this->assertEquals($group[0]->rowcount, 727);
@@ -307,7 +309,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(567020.00, $total);
 
 		$group = Pessoas::sum(array("column" => "credito", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => $a_sum, 'I' => 567020.00);
 		foreach($group as $row){
@@ -325,7 +327,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(283510.00, $total);
 
 		$group = Pessoas::average(array("column" => "credito", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => $a_average, 'I' => 283510.00);
 		foreach($group as $row){
@@ -343,7 +345,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($max, 127591);
 
 		$group = Pessoas::maximum(array("column" => "cidadeId", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => 302172, 'I' => 127591);
 		foreach($group as $row){
@@ -361,7 +363,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($max, 127591);
 
 		$group = Pessoas::minimum(array("column" => "cidadeId", "group" => "estado"));
-		$this->assertEquals(2, count($group));
+		$this->assertCount(2, $group);
 
 		$results = array('A' => 20404, 'I' => 127591);
 		foreach($group as $row){

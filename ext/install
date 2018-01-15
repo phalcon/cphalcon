@@ -3,7 +3,7 @@
 export CC="gcc"
 export CFLAGS="-O2 -Wall -fvisibility=hidden -flto -DZEPHIR_RELEASE=1"
 
-phpize_bin=$(which phpize 2> /dev/null || which phpize5 2> /dev/null)
+phpize_bin=$(which phpize 2> /dev/null)
 
 if [ -z $(which sudo 2> /dev/null) ]; then
     alias sudo=""

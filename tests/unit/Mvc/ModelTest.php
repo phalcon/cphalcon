@@ -356,12 +356,14 @@ class ModelTest extends UnitTest
             function () {
                 $robot = new Robots();
 
-                $success = $robot->save(
+                $robot->assign(
                     [
                         "type" => "mechanical",
                         "year" => 2018,
                     ]
                 );
+
+                $success = $robot->save();
 
                 expect($success)->false();
                 expect($robot->type)->equals("mechanical");
@@ -435,12 +437,14 @@ class ModelTest extends UnitTest
             function () {
                 $robot = new Robotters();
 
-                $success = $robot->save(
+                $robot->assign(
                     [
                         "theType" => "mechanical",
                         "theYear" => 2018,
                     ]
                 );
+
+                $success = $robot->save();
 
                 expect($success)->false();
                 expect($robot->theType)->equals("mechanical");
@@ -664,12 +668,13 @@ class ModelTest extends UnitTest
             function () {
                 $robots = new Robots();
                 $robots->name = '';
-                $robots->save(
+                $robots->assign(
                     [
                         'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'text',
                     ]
                 );
+                $robots->save();
             }
         );
     }
@@ -890,6 +895,86 @@ class ModelTest extends UnitTest
                 );
 
                 expect(false, $subscriber);
+            }
+        );
+    }
+
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testUseTransactionInsideCount()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                $amountWithSameTransaction = Subscribers::count(
+                    [
+                        'transaction' => $transaction
+                    ]
+                );
+
+                $amountNoTransaction = Subscribers::count();
+
+                expect(1, $amountWithSameTransaction);
+                expect(0, $amountNoTransaction);
+            }
+        );
+    }
+
+
+    /**
+     * @issue 13235
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-27
+     */
+    public function testUseTransactionOutsideCount()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $secondTransaction = $transactionManager->getOrCreateTransaction();
+
+                $amountWithDifferentTransaction = Subscribers::count(
+                    [
+                        'transaction' => $secondTransaction
+                    ]
+                );
+
+                $amountNoTransaction = Subscribers::count();
+
+                expect(0, $amountWithDifferentTransaction);
+                expect(0, $amountNoTransaction);
             }
         );
     }

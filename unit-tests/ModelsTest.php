@@ -19,12 +19,13 @@
 */
 
 use Phalcon\Mvc\Model\Message as ModelMessage;
+use PHPUnit\Framework\TestCase;
 
 class Issue_1534 extends \Phalcon\Mvc\Model
 {
 }
 
-class ModelsTest extends PHPUnit_Framework_TestCase
+class ModelsTest extends TestCase
 {
 
 	public function __construct()
@@ -139,7 +140,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue10371()
 	{
-		$this->assertTrue(in_array('addBehavior', get_class_methods('Phalcon\Mvc\Model')));
+		$this->assertContains('addBehavior', get_class_methods('Phalcon\Mvc\Model'));
 	}
 
 	protected function issue11253($di)
@@ -180,7 +181,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('bb', $entry->language);
 		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
-		$this->assertTrue($entry->brand === NULL);
+		$this->assertNull($entry->brand);
 
 		$this->assertTrue($entry->delete());
 
@@ -202,7 +203,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$entry = Issue_1534::findFirst();
 		$this->assertEquals('0', $entry->sort);
-		$this->assertTrue($entry->brand === NULL);
+		$this->assertNull($entry->brand);
 
 		$entry->language2 = new \Phalcon\Db\RawValue('default(language)');
 		$this->assertTrue($entry->save());
@@ -211,7 +212,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$entry = Issue_1534::findFirst();
 		$this->assertEquals('bb', $entry->language2);
 		$this->assertEquals('0', $entry->sort);
-		$this->assertTrue($entry->brand === NULL);
+		$this->assertNull($entry->brand);
 		$entry->delete();
 
 		//test subject of Issue - setting RawValue('default')
@@ -255,8 +256,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		));
 
 		$people = People::findFirst();
-		$this->assertTrue(is_object($people));
-		$this->assertEquals(get_class($people), 'People');
+		$this->assertInternalType('object', $people);
+		$this->assertInstanceOf('People', $people);
 	}
 
 	protected function _executeTestsNormal($di)
@@ -281,18 +282,18 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Find first
 		$people = People::findFirst();
-		$this->assertTrue(is_object($people));
-		$this->assertEquals(get_class($people), 'People');
+		$this->assertInternalType('object', $people);
+		$this->assertInstanceOf('People', $people);
 
 		$persona = Personas::findFirst();
 		$this->assertEquals($people->nombres, $persona->nombres);
 		$this->assertEquals($people->estado, $persona->estado);
 
 		$people = People::findFirst("estado='I'");
-		$this->assertTrue(is_object($people));
+		$this->assertInternalType('object', $people);
 
 		$persona = Personas::findFirst("estado='I'");
-		$this->assertTrue(is_object($persona));
+		$this->assertInternalType('object', $persona);
 
 		$this->assertEquals($people->nombres, $persona->nombres);
 		$this->assertEquals($people->estado, $persona->estado);
@@ -333,38 +334,38 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($people->estado, $persona->estado);
 
 		$robot = Robots::findFirst(1);
-		$this->assertEquals(get_class($robot), 'Robots');
+		$this->assertInstanceOf('Robots', $robot);
 
 		//Find tests
 		$personas = Personas::find();
 		$people = People::find();
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$personas = Personas::find("estado='I'");
 		$people = People::find("estado='I'");
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$personas = Personas::find(array("estado='I'"));
 		$people = People::find(array("estado='I'"));
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$personas = Personas::find(array("estado='A'", "order" => "nombres"));
 		$people = People::find(array("estado='A'", "order" => "nombres"));
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$personas = Personas::find(array("estado='A'", "order" => "nombres", "limit" => 100));
 		$people = People::find(array("estado='A'", "order" => "nombres", "limit" => 100));
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$params = array("estado=?1", "bind" => array(1 => "A"), "order" => "nombres", "limit" => 100);
 		$personas = Personas::find($params);
 		$people = People::find($params);
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$params = array("estado=:estado:", "bind" => array("estado" => "A"), "order" => "nombres", "limit" => 100);
 		$personas = Personas::find($params);
 		$people = People::find($params);
-		$this->assertEquals(count($personas), count($people));
+		$this->assertCount(count($personas), $people);
 
 		$number = 0;
 		$peoples = Personas::find(array("conditions" => "estado='A'", "order" => "nombres", "limit" => 20));
@@ -373,12 +374,12 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals($number, 20);
 
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$this->assertFalse($persona->save());
 
 		//Messages
-		$this->assertEquals(count($persona->getMessages()), 3);
+		$this->assertCount(3, $persona->getMessages());
 
 		$messages = array(
 			0 => ModelMessage::__set_state(array(
@@ -403,7 +404,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->getMessages(), $messages);
 
 		//Save
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST';
@@ -412,7 +413,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->estado = 'A';
 		$this->assertTrue($persona->save());
 
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST LOST';
@@ -439,10 +440,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->telefono, '123');
 
 		//Update
-		$this->assertTrue($persona->update(array(
+		$persona->assign(array(
 			'nombres' => 'LOST UPDATE',
 			'telefono' => '2121'
-		)));
+		));
+		$this->assertTrue($persona->update());
 
 		//Checking correct update
 		$persona = Personas::findFirst(array("estado='X'"));
@@ -451,7 +453,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->telefono, '2121');
 
 		//Create
-		$persona = new Personas($di);
+		$persona = new Personas();
 		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST CREATE';
@@ -460,22 +462,23 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->estado = 'A';
 		$this->assertTrue($persona->create());
 
-		$persona = new Personas($di);
-		$this->assertTrue($persona->create(array(
+		$persona = new Personas();
+		$persona->assign(array(
 			'cedula' => 'CELL' . mt_rand(0, 999999),
 			'tipo_documento_id' => 1,
 			'nombres' => 'LOST CREATE',
 			'telefono' => '1',
 			'cupo' => 21000,
 			'estado' => 'A'
-		)));
+		));
+		$this->assertTrue($persona->create());
 
 		//Grouping
 		$difEstados = People::count(array("distinct" => "estado"));
 		$this->assertEquals($difEstados, 3);
 
 		$group = People::count(array("group" => "estado"));
-		$this->assertEquals(count($group), 3);
+		$this->assertCount(3, $group);
 
 		//Deleting
 		$before = People::count();
@@ -575,91 +578,91 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->_prepareDb($di->getShared('db'));
 
 		$params = array();
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertGreaterThan(0, Personers::count($params));
 
 		$params = array("status = 'I'");
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertGreaterThan(0, Personers::count($params));
 
 		$params = "status='I'";
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertGreaterThan(0, Personers::count($params));
 
 		$params = array("conditions" => "status='I'");
-		$this->assertTrue(Personers::count($params) > 0);
+		$this->assertGreaterThan(0, Personers::count($params));
 
 		//Find first
 		$personer = Personers::findFirst();
-		$this->assertTrue(is_object($personer));
-		$this->assertEquals(get_class($personer), 'Personers');
+		$this->assertInternalType('object', $personer);
+		$this->assertInstanceOf('Personers', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$personer = Personers::findFirst("status = 'I'");
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$personer = Personers::findFirst(array("status='I'"));
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$params = array("conditions" => "status='I'");
 		$personer = Personers::findFirst($params);
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$params = array("conditions" => "status='A'", "order" => "navnes");
 		$personer = Personers::findFirst($params);
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$params = array("status='A'", "order" => "navnes DESC", "limit" => 30);
 		$personer = Personers::findFirst($params);
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$params = array("status=?1", "bind" => array(1 => 'A'), "order" => "navnes DESC", "limit" => 30);
 		$personer = Personers::findFirst($params);
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$params = array("status=:status:", "bind" => array("status" => 'A'), "order" => "navnes DESC", "limit" => 30);
 		$personer = Personers::findFirst($params);
-		$this->assertTrue(is_object($personer));
+		$this->assertInternalType('object', $personer);
 		$this->assertTrue(isset($personer->navnes));
 		$this->assertTrue(isset($personer->status));
 
 		$robotter = Robotters::findFirst(1);
-		$this->assertEquals(get_class($robotter), 'Robotters');
+		$this->assertInstanceOf('Robotters', $robotter);
 
 		//Find tests
 		$personers = Personers::find();
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		$personers = Personers::find("status='I'");
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		$personers = Personers::find(array("status='I'"));
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		$personers = Personers::find(array("status='I'", "order" => "navnes"));
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		$params = array("status='I'", "order" => "navnes", "limit" => 100);
 		$personers = Personers::find($params);
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		$params = array("status=?1", "bind" => array(1 => "A"), "order" => "navnes", "limit" => 100);
 		$personers = Personers::find($params);
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		$params = array("status=:status:", "bind" => array('status' => "A"), "order" => "navnes", "limit" => 100);
 		$personers = Personers::find($params);
-		$this->assertTrue(count($personers) > 0);
+		$this->assertGreaterThan(0, count($personers));
 
 		//Traverse the cursor
 		$number = 0;
@@ -669,7 +672,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals($number, 20);
 
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$this->assertFalse($personer->save());
 
@@ -699,7 +702,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($personer->getMessages(), $messages);
 
 		//Save
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST';
@@ -708,7 +711,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->status = 'A';
 		$this->assertTrue($personer->save());
 
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST LOST';
@@ -735,10 +738,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($personer->telefon, '123');
 
 		//Update
-		$this->assertTrue($personer->update(array(
+		$personer->assign(array(
 			'navnes' => 'LOST UPDATE',
 			'telefon' => '2121'
-		)));
+		));
+		$this->assertTrue($personer->update());
 
 		//Checking correct update
 		$personer = Personers::findFirst(array("status='X'"));
@@ -747,7 +751,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($personer->telefon, '2121');
 
 		//Create
-		$personer = new Personers($di);
+		$personer = new Personers();
 		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST CREATE';
@@ -756,15 +760,16 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$personer->status = 'A';
 		$this->assertTrue($personer->save());
 
-		$personer = new Personers($di);
-		$this->assertTrue($personer->create(array(
+		$personer = new Personers();
+		$personer->assign(array(
 			'borgerId' => 'CELL'.mt_rand(0, 999999),
 			'slagBorgerId' => 1,
 			'navnes' => 'LOST CREATE',
 			'telefon' => '1',
 			'kredit' => 21000,
 			'status' => 'A'
-		)));
+		));
+		$this->assertTrue($personer->create());
 
 		//Deleting
 		$before = Personers::count();

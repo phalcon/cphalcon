@@ -54,10 +54,7 @@ class Item
 	/**
 	 * Phalcon\Logger\Item constructor
 	 *
-	 * @param string $message
-	 * @param integer $type
-	 * @param integer $time
-	 * @param array $context
+	 * @param array context
 	 */
 	public function __construct(string message, int type, int time = 0, var context = null)
 	{

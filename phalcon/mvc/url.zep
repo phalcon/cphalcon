@@ -199,7 +199,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 	 * );
 	 *</code>
 	 */
-	public function get(var uri = null, var args = null, var local = null, var baseUri = null) -> string
+	public function get(var uri = null, var args = null, boolean local = null, var baseUri = null) -> string
 	{
 		string strUri;
 		var router, dependencyInjector, routeName, route, queryString;

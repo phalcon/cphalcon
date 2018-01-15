@@ -21,10 +21,11 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\Builder
@@ -96,6 +97,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _bindTypes;
 
+	protected _transaction { get };
+
 	protected _distinct;
 
 	protected _hiddenParamNumber = 0;
@@ -110,7 +113,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			singleConditionArray, limit, offset, fromClause,
 			mergedConditions, mergedParams, mergedTypes,
 			singleCondition, singleParams, singleTypes,
-			distinct, bind, bindTypes;
+			distinct, bind, bindTypes, transaction;
 
 		if typeof params == "array" {
 
@@ -172,6 +175,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 			if fetch bindTypes, params["bindTypes"] {
 				let this->_bindTypes = bindTypes;
+			}
+
+			if fetch transaction, params["transaction"] {
+				let this->_transaction = transaction;
 			}
 
 			/**
@@ -395,14 +402,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->addFrom("Robots", "r");
 	 *</code>
 	 */
-	public function addFrom(var model, var alias = null, var with = null) -> <Builder>
+	public function addFrom(string model, string alias = null, string with = null) -> <Builder>
 	{
 		var models, currentModel;
 
-		if typeof with != "null" {
+		if with != "null" {
 			trigger_error(
 				"The third parameter 'with' is deprecated and will be removed in future releases.",
-				E_DEPRECATED
+				E_USER_DEPRECATED
 			);
 		}
 
@@ -452,14 +459,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * // Left Join model 'Robots' specifying conditions, alias and type of join
 	 * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
 	 *</code>
-	 *
-	 * @param string model
-	 * @param string conditions
-	 * @param string alias
-	 * @param string type
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function join(string! model, var conditions = null, var alias = null, var type = null) -> <Builder>
+	public function join(string! model, string conditions = null, string alias = null, string type = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, type];
 		return this;
@@ -478,14 +479,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * // Inner Join model 'Robots' specifying conditions and alias
 	 * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
-	 *
-	 * @param string model
-	 * @param string conditions
-	 * @param string alias
-	 * @param string type
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function innerJoin(string! model, var conditions = null, var alias = null) -> <Builder>
+	public function innerJoin(string! model, string conditions = null, string alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "INNER"];
 		return this;
@@ -497,13 +492,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
-	 *
-	 * @param string model
-	 * @param string conditions
-	 * @param string alias
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function leftJoin(string! model, var conditions = null, var alias = null) -> <Builder>
+	public function leftJoin(string! model, string conditions = null, string alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "LEFT"];
 		return this;
@@ -515,13 +505,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *<code>
 	 * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
 	 *</code>
-	 *
-	 * @param string model
-	 * @param string conditions
-	 * @param string alias
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function rightJoin(string! model, var conditions = null, var alias = null) -> <Builder>
+	public function rightJoin(string! model, string conditions = null, string alias = null) -> <Builder>
 	{
 		let this->_joins[] = [model, conditions, alias, "RIGHT"];
 		return this;
@@ -529,10 +514,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Return join parts of the query
-	 *
-	 * @return array
 	 */
-	public function getJoins()
+	public function getJoins() -> array
 	{
 		return this->_joins;
 	}
@@ -553,13 +536,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *     ]
 	 * );
 	 *</code>
-	 *
-	 * @param mixed conditions
-	 * @param array bindParams
-	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function where(var conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+	public function where(string conditions, array bindParams = [], array bindTypes = []) -> <Builder>
 	{
 		var currentBindParams, currentBindTypes;
 
@@ -568,7 +546,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		/**
 		 * Merge the bind params to the current ones
 		 */
-		if typeof bindParams == "array" {
+		if count(bindParams) > 0 {
 			let currentBindParams = this->_bindParams;
 			if typeof currentBindParams == "array" {
 				let this->_bindParams = currentBindParams + bindParams;
@@ -580,7 +558,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		/**
 		 * Merge the bind types to the current ones
 		 */
-		if typeof bindTypes == "array" {
+		if count(bindTypes) > 0 {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindParams == "array" {
 				let this->_bindTypes = currentBindTypes + bindTypes;
@@ -606,13 +584,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *     ]
 	 * );
 	 *</code>
-	 *
-	 * @param string conditions
-	 * @param array bindParams
-	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+	public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <Builder>
 	{
 		var currentConditions;
 
@@ -642,13 +615,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *     ]
 	 * );
 	 *</code>
-	 *
-	 * @param string conditions
-	 * @param array bindParams
-	 * @param array bindTypes
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
-	public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <Builder>
+	public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <Builder>
 	{
 		var currentConditions;
 
@@ -732,7 +700,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array orderBy
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function orderBy(var orderBy) -> <Builder>
 	{
@@ -922,10 +889,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Return the current having clause
-	 *
-	 * @return string
 	 */
-	public function getHaving()
+	public function getHaving() -> string
 	{
 		return this->_having;
 	}
@@ -994,10 +959,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the current OFFSET clause
-	 *
-	 * @return string|array
 	 */
-	public function getOffset()
+	public function getOffset() -> int
 	{
 		return this->_offset;
 	}
@@ -1014,7 +977,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 *</code>
 	 *
 	 * @param string|array group
-	 * @return \Phalcon\Mvc\Model\Query\Builder
 	 */
 	public function groupBy(var group) -> <Builder>
 	{
@@ -1024,18 +986,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the GROUP BY clause
-	 *
-	 * @return string
 	 */
-	public function getGroupBy()
+	public function getGroupBy() -> string
 	{
 		return this->_group;
 	}
 
 	/**
 	 * Returns a PHQL statement built based on the builder parameters
-	 *
-	 * @return string
 	 */
 	public final function getPhql() -> string
 	{
@@ -1418,6 +1376,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setSharedLock(this->_sharedLock);
 		}
 
+		if this->_transaction && typeof this->_transaction === "object" {
+			query->setTransaction(this->_transaction);
+		}
+
 		return query;
 	}
 
@@ -1600,4 +1562,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		return this;
 	}
 
+	public function setTransaction(<TransactionInterface> transaction = null) -> <Builder>
+	{
+		let this->_transaction = transaction;
+
+		return this;
+	}
 }

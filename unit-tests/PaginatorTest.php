@@ -20,9 +20,10 @@
 
 use Phalcon\Logger\Adapter\File as FileLogger,
     Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
-    Phalcon\Events\Manager as EventsManager;
+    Phalcon\Events\Manager as EventsManager,
+    PHPUnit\Framework\TestCase;
 
-class PaginatorTest extends PHPUnit_Framework_TestCase
+class PaginatorTest extends TestCase
 {
 
 	public function __construct()
@@ -110,9 +111,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -126,9 +127,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$paginator->setCurrentPage(50);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 49);
 		$this->assertEquals($page->next, 51);
@@ -141,9 +142,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$paginator->setCurrentPage(218);
 
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 217);
 		$this->assertEquals((int) $page->next, 218);
@@ -178,9 +179,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		//First Page
 		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -214,9 +215,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -235,9 +236,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 99);
 		$this->assertEquals($page->next, 101);
@@ -254,9 +255,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 217);
 		$this->assertEquals($page->next, 218);
@@ -372,9 +373,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
@@ -393,9 +394,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 10);
+		$this->assertCount(10, $page->items);
 
 		$this->assertEquals($page->before, 9);
 		$this->assertEquals($page->next, 11);
@@ -412,9 +413,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$page = $paginator->getPaginate();
 
-		$this->assertEquals(get_class($page), 'stdClass');
+		$this->assertInstanceOf('stdClass', $page);
 
-		$this->assertEquals(count($page->items), 9);
+		$this->assertCount(9, $page->items);
 
 		$this->assertEquals($page->before, 17);
 		$this->assertEquals($page->next, 18);

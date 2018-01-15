@@ -18,7 +18,9 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsHydrationTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ModelsHydrationTest extends TestCase
 {
 
 	public function __construct()
@@ -133,29 +135,29 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots = Robots::find();
 
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robots');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robots', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robots');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robots', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_array($robot));
-			$this->assertEquals(7, count($robot));
+			$this->assertInternalType('array', $robot);
+			$this->assertCount(7, $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'stdClass');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('stdClass', $robot);
 			$number++;
 		}
 
@@ -166,28 +168,28 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$people = People::find(array('limit' => 33));
 
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'People');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('People', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'People');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('People', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_array($person));
+			$this->assertInternalType('array', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'stdClass');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('stdClass', $person);
 			$number++;
 		}
 
@@ -203,29 +205,29 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots = Robotters::find();
 
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robotters');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robotters', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robotters');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robotters', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_array($robot));
-			$this->assertEquals(count($robot), 7);
+			$this->assertInternalType('array', $robot);
+			$this->assertCount(7, $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'stdClass');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('stdClass', $robot);
 			$number++;
 		}
 
@@ -236,30 +238,30 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$people = Personers::find(array('limit' => 33));
 
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'Personers');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('Personers', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'Personers');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('Personers', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 
 		foreach ($people as $person) {
-			$this->assertTrue(is_array($person));
+			$this->assertInternalType('array', $person);
 			$this->assertTrue(isset($person['navnes']));
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'stdClass');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('stdClass', $person);
 			$this->assertTrue(isset($person->navnes));
 			$number++;
 		}
@@ -273,26 +275,26 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		//Scalar complex query
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($result as $row) {
-			$this->assertTrue(is_array($row));
-			$this->assertTrue(is_numeric($row['id']));
+			$this->assertInternalType('array', $row);
+			$this->assertInternalType('numeric', $row['id']);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'stdClass');
-			$this->assertTrue(is_numeric($row->id));
+			$this->assertInstanceOf('stdClass', $row);
+			$this->assertInternalType('numeric', $row->id);
 		}
 
 		//Complex resultset including scalars and complete objects
@@ -300,42 +302,42 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 			'SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts'
 		);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
-			$this->assertEquals(gettype($row->robots), 'object');
-			$this->assertEquals(get_class($row->robots), 'Robots');
-			$this->assertEquals(gettype($row->robotsParts), 'object');
-			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
+			$this->assertInternalType('object', $row->robots);
+			$this->assertInstanceOf('Robots', $row->robots);
+			$this->assertInternalType('object', $row->robotsParts);
+			$this->assertInstanceOf('RobotsParts', $row->robotsParts);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
-			$this->assertEquals(gettype($row->robots), 'object');
-			$this->assertEquals(get_class($row->robots), 'Robots');
-			$this->assertEquals(gettype($row->robotsParts), 'object');
-			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
+			$this->assertInternalType('object', $row->robots);
+			$this->assertInstanceOf('Robots', $row->robots);
+			$this->assertInternalType('object', $row->robotsParts);
+			$this->assertInstanceOf('RobotsParts', $row->robotsParts);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($result as $row) {
-			$this->assertTrue(is_array($row));
-			$this->assertTrue(is_numeric($row['id']));
-			$this->assertEquals(gettype($row['robots']), 'array');
-			$this->assertEquals(count($row['robots']), 7);
-			$this->assertEquals(gettype($row['robotsParts']), 'array');
-			$this->assertEquals(count($row['robotsParts']), 3);
+			$this->assertInternalType('array', $row);
+			$this->assertInternalType('numeric', $row['id']);
+			$this->assertInternalType('array', $row['robots']);
+			$this->assertCount(7, $row['robots']);
+			$this->assertInternalType('array', $row['robotsParts']);
+			$this->assertCount(3, $row['robotsParts']);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'stdClass');
-			$this->assertTrue(is_numeric($row->id));
-			$this->assertEquals(gettype($row->robots), 'object');
-			$this->assertEquals(get_class($row->robots), 'stdClass');
-			$this->assertEquals(gettype($row->robotsParts), 'object');
-			$this->assertEquals(get_class($row->robotsParts), 'stdClass');
+			$this->assertInstanceOf('stdClass', $row);
+			$this->assertInternalType('numeric', $row->id);
+			$this->assertInternalType('object', $row->robots);
+			$this->assertInstanceOf('stdClass', $row->robots);
+			$this->assertInternalType('object', $row->robotsParts);
+			$this->assertInstanceOf('stdClass', $row->robotsParts);
 		}
 
 	}
@@ -349,29 +351,29 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots = Robots::find();
 
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robots');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robots', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robots');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robots', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_array($robot));
-			$this->assertEquals(7, count($robot));
+			$this->assertInternalType('array', $robot);
+			$this->assertCount(7, $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'stdClass');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('stdClass', $robot);
 			$number++;
 		}
 
@@ -382,28 +384,28 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$people = People::find(array('limit' => 33));
 
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'People');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('People', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'People');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('People', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_array($person));
+			$this->assertInternalType('array', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'stdClass');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('stdClass', $person);
 			$number++;
 		}
 
@@ -421,29 +423,29 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$robots = Robotters::find();
 
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robotters');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robotters', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'Robotters');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('Robotters', $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_array($robot));
-			$this->assertEquals(count($robot), 7);
+			$this->assertInternalType('array', $robot);
+			$this->assertCount(7, $robot);
 			$number++;
 		}
 
 		$robots->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($robots as $robot) {
-			$this->assertTrue(is_object($robot));
-			$this->assertEquals(get_class($robot), 'stdClass');
+			$this->assertInternalType('object', $robot);
+			$this->assertInstanceOf('stdClass', $robot);
 			$number++;
 		}
 
@@ -454,30 +456,30 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$people = Personers::find(array('limit' => 33));
 
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'Personers');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('Personers', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'Personers');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('Personers', $person);
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 
 		foreach ($people as $person) {
-			$this->assertTrue(is_array($person));
+			$this->assertInternalType('array', $person);
 			$this->assertTrue(isset($person['navnes']));
 			$number++;
 		}
 
 		$people->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($people as $person) {
-			$this->assertTrue(is_object($person));
-			$this->assertEquals(get_class($person), 'stdClass');
+			$this->assertInternalType('object', $person);
+			$this->assertInstanceOf('stdClass', $person);
 			$this->assertTrue(isset($person->navnes));
 			$number++;
 		}
@@ -495,26 +497,26 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		//Scalar complex query
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($result as $row) {
-			$this->assertTrue(is_array($row));
-			$this->assertTrue(is_numeric($row['id']));
+			$this->assertInternalType('array', $row);
+			$this->assertInternalType('numeric', $row['id']);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'stdClass');
-			$this->assertTrue(is_numeric($row->id));
+			$this->assertInstanceOf('stdClass', $row);
+			$this->assertInternalType('numeric', $row->id);
 		}
 
 		//Complex resultset including scalars and complete objects
@@ -522,42 +524,42 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 			'SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts'
 		);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
-			$this->assertEquals(gettype($row->robots), 'object');
-			$this->assertEquals(get_class($row->robots), 'Robots');
-			$this->assertEquals(gettype($row->robotsParts), 'object');
-			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
+			$this->assertInternalType('object', $row->robots);
+			$this->assertInstanceOf('Robots', $row->robots);
+			$this->assertInternalType('object', $row->robotsParts);
+			$this->assertInstanceOf('RobotsParts', $row->robotsParts);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
-			$this->assertTrue(is_numeric($row->id));
-			$this->assertEquals(gettype($row->robots), 'object');
-			$this->assertEquals(get_class($row->robots), 'Robots');
-			$this->assertEquals(gettype($row->robotsParts), 'object');
-			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $row);
+			$this->assertInternalType('numeric', $row->id);
+			$this->assertInternalType('object', $row->robots);
+			$this->assertInstanceOf('Robots', $row->robots);
+			$this->assertInternalType('object', $row->robotsParts);
+			$this->assertInstanceOf('RobotsParts', $row->robotsParts);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
 		foreach ($result as $row) {
-			$this->assertTrue(is_array($row));
-			$this->assertTrue(is_numeric($row['id']));
-			$this->assertEquals(gettype($row['robots']), 'array');
-			$this->assertEquals(count($row['robots']), 7);
-			$this->assertEquals(gettype($row['robotsParts']), 'array');
-			$this->assertEquals(count($row['robotsParts']), 3);
+			$this->assertInternalType('array', $row);
+			$this->assertInternalType('numeric', $row['id']);
+			$this->assertInternalType('array', $row['robots']);
+			$this->assertCount(7, $row['robots']);
+			$this->assertInternalType('array', $row['robotsParts']);
+			$this->assertCount(3, $row['robotsParts']);
 		}
 
 		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
 		foreach ($result as $row) {
-			$this->assertEquals(get_class($row), 'stdClass');
-			$this->assertTrue(is_numeric($row->id));
-			$this->assertEquals(gettype($row->robots), 'object');
-			$this->assertEquals(get_class($row->robots), 'stdClass');
-			$this->assertEquals(gettype($row->robotsParts), 'object');
-			$this->assertEquals(get_class($row->robotsParts), 'stdClass');
+			$this->assertInstanceOf('stdClass', $row);
+			$this->assertInternalType('numeric', $row->id);
+			$this->assertInternalType('object', $row->robots);
+			$this->assertInstanceOf('stdClass', $row->robots);
+			$this->assertInternalType('object', $row->robotsParts);
+			$this->assertInstanceOf('stdClass', $row->robotsParts);
 		}
 
 		Phalcon\Mvc\Model::setup(['castOnHydrate' => false]);

@@ -24,7 +24,9 @@
 
 #include <php.h>
 
-#define PHV(v) zephir_vdump(v)
+void zephir_vdump(zval *var, const char *func);
+
+#define PHV(v) zephir_vdump(zval *var, const char *func)
 #define PHPR(v) zephir_print_r(v)
 
 typedef struct _zephir_debug_entry {
@@ -34,35 +36,6 @@ typedef struct _zephir_debug_entry {
 	char *method_name;
 	int lineno;
 } zephir_debug_entry;
-
-int zephir_start_debug();
-int zephir_stop_debug();
-
-int zephir_print_r(zval *userval TSRMLS_DC);
-int zephir_vdump(zval *uservar TSRMLS_DC);
-int zephir_debug_assign(char *name, zval *value TSRMLS_DC);
-int zephir_vpdump(const zval **uservar TSRMLS_DC);
-int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC);
-int zephir_class_debug(zval *val TSRMLS_DC);
-
-int zephir_debug_backtrace_internal();
-int zephir_debug_str(char *what, char *message);
-int zephir_debug_long(char *what, uint vlong);
-int zephir_debug_screen(char *message);
-
-int zephir_step_over(char *message);
-int zephir_step_into(char *message);
-int zephir_step_out(char *message);
-
-int zephir_step_into_entry(char *class_name, char *method_name, int lineno);
-int zephir_step_out_entry();
-
-int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC);
-int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC);
-int zephir_debug_param(zval *param TSRMLS_DC);
-
-int zephir_error_space();
-int zephir_debug_space();
 
 #endif
 #endif
