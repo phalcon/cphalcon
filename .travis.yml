@@ -46,6 +46,9 @@ env:
     - PATH="$PATH:$HOME/bin"
     - ZEPHIR_PARSER_VERSION="v1.1.1"
     - RE2C_VERSION="1.0.3"
+    - REPORT_EXIT_STATUS=1
+    - NO_INTERACTION=1
+    - TEST_PHP_ARGS="--show-diff"
     # Generating a valgrind log
     # For more see: https://bugs.php.net/bugs-getting-valgrind-log.php
     #
