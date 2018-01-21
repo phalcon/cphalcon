@@ -12,28 +12,28 @@ version: 3.3.2-{build}
 # environment variables
 environment:
     matrix:
+        # TODO: Add 7.2 support
         - PHP_TARGET: 7.0
           PHP_VC: 14
           PHP_BUILD_TYPE: Win32
           APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-#        - PHP_TARGET: 7.0
-#          PHP_VC: 14
-#          PHP_BUILD_TYPE: nts-Win32
-#          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-#        - PHP_TARGET: 7.1
-#          PHP_VC: 14
-#          PHP_BUILD_TYPE: Win32
-#          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-#        - PHP_TARGET: 7.1
-#          PHP_VC: 14
-#          PHP_BUILD_TYPE: Win32
-#          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+        - PHP_TARGET: 7.0
+          PHP_VC: 14
+          PHP_BUILD_TYPE: nts-Win32
+          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+        - PHP_TARGET: 7.1
+          PHP_VC: 14
+          PHP_BUILD_TYPE: Win32
+          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+        - PHP_TARGET: 7.1
+          PHP_VC: 14
+          PHP_BUILD_TYPE: nts-Win32
+          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
     PHP_DIR: c:\projects\php
     PHP_SDK: c:\projects\php-sdk
     PHP_DEVPACK: c:\projects\php-devpack
     PHP_SDK_BINARY_TOOLS_VER: php-sdk-2.0.7
     NO_INTERACTION: 1
-    REPORT_EXIT_STATUS: 1
 
 # clone entire repository history if not defined
 clone_depth: 1
@@ -78,10 +78,15 @@ install:
         $versions = type sha1sum.txt | where { $_ -match "php-(${env:PHP_TARGET}\.\d+)-src" } | foreach { $matches[1] }
         $version = $versions.Split(' ')[-1]
         $env:PHP_VERSION=${version}
-    - ps: $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_VERSION}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
     # Phalcon extension is required to be already loaded in PHP to generate builds, optimized for 32-bit and 64-bit platforms
-    - ps: $env:PHALCON_DOWNLOAD_URL="https://github.com/phalcon/cphalcon/releases/download/v${env:PHALCON_STABLE_VERSION}/phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}.0_${env:PHALCON_STABLE_VERSION}.zip"
-
+    - ps: >-
+        If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
+          $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_VERSION}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}-nts_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
+          $env:PHALCON_DOWNLOAD_URL="https://github.com/phalcon/cphalcon/releases/download/v${env:PHALCON_STABLE_VERSION}/phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}.0_${env:PHALCON_STABLE_VERSION}_nts.zip"
+        } Else {
+          $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_VERSION}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
+          $env:PHALCON_DOWNLOAD_URL="https://github.com/phalcon/cphalcon/releases/download/v${env:PHALCON_STABLE_VERSION}/phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}.0_${env:PHALCON_STABLE_VERSION}.zip"
+        }
 build:
     # enable MSBuild parallel builds
     parallel: true
@@ -108,18 +113,24 @@ build_script:
     - ps: >-
         If ($env:PLATFORM -eq 'x86') {
           If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
-            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\Release"
+            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\Release"
           } Else {
-            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\Release_TS"
+            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\Release_TS"
           }
         } Else {
           If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
-            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\${env:PLATFORM}\Release"
+            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\${env:PLATFORM}\Release"
           } Else {
-            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\${env:PLATFORM}\Release_TS"
+            $env:RELEASE_FOLDER="${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\${env:PLATFORM}\Release_TS"
           }
         }
-    - ps: $env:RELEASE_ZIPBALL="phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:APPVEYOR_BUILD_VERSION}"
+    - ps: $env:RELEASE_DLL="${env:RELEASE_FOLDER}\php_phalcon.dll"
+    - ps: >-
+        If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
+          $env:RELEASE_ZIPBALL="phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:APPVEYOR_BUILD_VERSION}_nts"
+        } Else {
+          $env:RELEASE_ZIPBALL="phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:APPVEYOR_BUILD_VERSION}"
+        }
     - ps: (new-object net.webclient).DownloadFile('https://github.com/OSTC/php-sdk-binary-tools/archive/' + ${env:PHP_SDK_BINARY_TOOLS_VER} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} +  '\php-sdk-binary-tools-' + ${env:PHP_SDK_BINARY_TOOLS_VER} + '.zip')
     - 7z x -y php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER%.zip -oC:\projects
     - move C:\projects\php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER% %PHP_SDK%
@@ -145,8 +156,14 @@ build_script:
     # Phalcon extension is required to be already loaded in PHP to generate builds, optimized for 32-bit and 64-bit platforms
     # ==================================================
     - 'cd %PHP_DIR%\ext'
+    # ==================================================
+    - echo Download Zephir Parser [%PARSER_DOWNLOAD_URL%]
+    # ==================================================
     - curl --location --silent --show-error %PARSER_DOWNLOAD_URL% --output zephir_parser.zip
     - 7z.exe x zephir_parser.zip | FIND /V "ing  "
+    # ==================================================
+    - echo Download Phalcon [%PHALCON_DOWNLOAD_URL%]
+    # ==================================================
     - curl --location --silent --show-error %PHALCON_DOWNLOAD_URL% --output phalcon_stable.zip
     - 7z.exe x phalcon_stable.zip | FIND /V "ing  "
     # ==================================================
@@ -166,7 +183,6 @@ build_script:
     - 'echo extension=php_gd2.dll >> php.ini'
     - 'echo memory_limit=256M >> php.ini'
     - php --ri "Zephir Parser"
-    - php -m
     # ==================================================
     - echo Download tests dependencies...
     # ==================================================
@@ -188,19 +204,48 @@ build_script:
     - '%PHP_DEVPACK%\phpize.bat'
     - configure --enable-phalcon
     - nmake
+    # Envable new version for future tests
+    - ps: >-
+        IF (Test-Path -Path "${env:RELEASE_DLL}") {
+            Copy-Item "${env:RELEASE_DLL}" "${env:PHP_DIR}\ext\php_phalcon.dll"
+        }
+    - php --ri phalcon
+
+# scripts to run after build
+after_build:
+    # ==================================================
+    - echo Collect artifacts and zip
+    # ==================================================
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - mkdir %APPVEYOR_BUILD_FOLDER%\package
+    - cd %APPVEYOR_BUILD_FOLDER%\package
+    # dll
+    - cp %RELEASE_DLL% .\
+    # docs
+    - cp %APPVEYOR_BUILD_FOLDER%\LICENSE.txt .\
+    - cp %APPVEYOR_BUILD_FOLDER%\LICENSE-PHP.txt .\
+    - cp %APPVEYOR_BUILD_FOLDER%\LICENSE-ZEND.txt .\
+    # TODO: Convert *.md files to *.html
+    - copy %APPVEYOR_BUILD_FOLDER%\*.md .\
+    - 7z a %RELEASE_ZIPBALL%.zip *.*
+    - mv %RELEASE_ZIPBALL%.zip %APPVEYOR_BUILD_FOLDER%\
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+    # pushing a single file with environment variable in path and "Deployment name" specified
+    - path: '.\$(RELEASE_ZIPBALL).zip'
+      type: zip
+      name: Phalcon
 
 #---------------------------------#
 #        global handlers          #
 #---------------------------------#
 
-on_finish:
-    - cd %APPVEYOR_BUILD_FOLDER%
-    # TODO: Fix path
-    - 'dir build\php7\safe'
-    - ps: >-
-        IF (Test-Path -Path build\php7\safe\Release_TS\php_phalcon.dll) {
-            Push-AppveyorArtifact build\php7\safe\Release_TS\php_phalcon.dll
-        }
+on_success:
+    - 'dir'
 
 on_failure :
     - 'dir'
