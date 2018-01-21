@@ -78,6 +78,7 @@ install:
         $versions = type sha1sum.txt | where { $_ -match "php-(${env:PHP_TARGET}\.\d+)-src" } | foreach { $matches[1] }
         $version = $versions.Split(' ')[-1]
         $env:PHP_VERSION=${version}
+    - cmd: rm sha1sum.txt
     # Phalcon extension is required to be already loaded in PHP to generate builds, optimized for 32-bit and 64-bit platforms
     - ps: >-
         If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
@@ -87,11 +88,6 @@ install:
           $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_VERSION}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
           $env:PHALCON_DOWNLOAD_URL="https://github.com/phalcon/cphalcon/releases/download/v${env:PHALCON_STABLE_VERSION}/phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}.0_${env:PHALCON_STABLE_VERSION}.zip"
         }
-build:
-    # enable MSBuild parallel builds
-    parallel: true
-    # MSBuild verbosity level: quiet|minimal|normal|detailed
-    verbosity: minimal
 
 # to run custom scripts instead of automatic MSBuild
 build_script:
@@ -203,7 +199,7 @@ build_script:
     - 'cd %APPVEYOR_BUILD_FOLDER%\build\php7\safe'
     - '%PHP_DEVPACK%\phpize.bat'
     - configure --enable-phalcon
-    - nmake
+    - nmake 2> compile-errors.log 1> compile.log
     # Envable new version for future tests
     - ps: >-
         IF (Test-Path -Path "${env:RELEASE_DLL}") {
@@ -213,20 +209,33 @@ build_script:
 
 # scripts to run after build
 after_build:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - mkdir %APPVEYOR_BUILD_FOLDER%\package
+    # ==================================================
+    - echo Convert *.md files to *.html
+    # ==================================================
+    - cinst pandoc
+    - pandoc -v
+    - cmd: for %%i in (*.md) do pandoc -f markdown -t html5 %%~ni.md > package/%%~ni.html
     # ==================================================
     - echo Collect artifacts and zip
     # ==================================================
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - mkdir %APPVEYOR_BUILD_FOLDER%\package
     - cd %APPVEYOR_BUILD_FOLDER%\package
     # dll
-    - cp %RELEASE_DLL% .\
+    - copy %RELEASE_DLL% .\
     # docs
-    - cp %APPVEYOR_BUILD_FOLDER%\LICENSE.txt .\
-    - cp %APPVEYOR_BUILD_FOLDER%\LICENSE-PHP.txt .\
-    - cp %APPVEYOR_BUILD_FOLDER%\LICENSE-ZEND.txt .\
-    # TODO: Convert *.md files to *.html
-    - copy %APPVEYOR_BUILD_FOLDER%\*.md .\
+    - ps: >-
+        IF (Test-Path -Path CHANGELOG.html) {
+            (Get-Content CHANGELOG.html) | ForEach-Object { $_ -replace ".md", ".html" } | Set-Content CHANGELOG.html
+        }
+    - 'echo Release date: %DATE% %TIME% > RELEASE.txt'
+    - 'echo Release version: %APPVEYOR_BUILD_VERSION% >> RELEASE.txt'
+    - 'echo Git commit: %APPVEYOR_REPO_COMMIT% >> RELEASE.txt'
+    - 'echo Build type: %PHP_BUILD_TYPE% >> RELEASE.txt'
+    - 'echo Platform: %PLATFORM% >> RELEASE.txt'
+    - 'echo Target PHP version: %PHP_TARGET% >> RELEASE.txt'
+    - 'echo Build worker image: %APPVEYOR_BUILD_WORKER_IMAGE% >> RELEASE.txt'
+    - copy %APPVEYOR_BUILD_FOLDER%\*.txt .\
     - 7z a %RELEASE_ZIPBALL%.zip *.*
     - mv %RELEASE_ZIPBALL%.zip %APPVEYOR_BUILD_FOLDER%\
 
@@ -250,14 +259,14 @@ on_success:
 on_failure :
     - 'dir'
     - ps: >-
-        IF (Test-Path -Path compile-errors.log) {
-            type compile-errors.log
+        IF (Test-Path -Path ${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\compile-errors.log) {
+            type ${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\compile-errors.log
         }
 
-        IF (Test-Path -Path compile.log) {
-            type compile.log
+        IF (Test-Path -Path ${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\compile.log) {
+            type ${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\compile.log
         }
 
-        IF (Test-Path -Path configure.js) {
-            type configure.js
+        IF (Test-Path -Path ${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\configure.js) {
+            type ${env:APPVEYOR_BUILD_FOLDER}\build\php7\safe\configure.js
         }
