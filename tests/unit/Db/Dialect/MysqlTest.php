@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect;
 
+use Phalcon\Db\Column;
 use Helper\DialectTrait;
 use Phalcon\Db\Dialect\Mysql;
 use Helper\Dialect\MysqlTrait;
@@ -563,6 +564,30 @@ class MysqlTest extends UnitTest
             [
                 'examples' => $this->getCreateTable()
             ]
+        );
+    }
+
+    /**
+     * Tests Mysql::modifyColumn
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2018-01-20
+     * @issue  13012
+     */
+    public function shouldRenameColumn()
+    {
+        $this->specify(
+            "Can't rename a Column using MySQL Dialect",
+            function () {
+                $dialect = new Mysql();
+
+                $oldColumn = new Column('old', ['type' => Column::TYPE_VARCHAR]);
+                $newColumn = new Column('new', ['type' => Column::TYPE_VARCHAR]);
+
+                expect($dialect->modifyColumn('table', 'database', $newColumn, $oldColumn))
+                    ->equals('ALTER TABLE `database`.`table` CHANGE COLUMN `old` `new` VARCHAR(0)');
+            }
         );
     }
 }
