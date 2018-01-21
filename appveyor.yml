@@ -3,7 +3,7 @@
 #---------------------------------#
 
 # version format
-version: 3.3.1-{build}
+version: 3.3.2-{build}
 
 # to disable automatic builds
 build: off
