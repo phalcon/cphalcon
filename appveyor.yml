@@ -34,6 +34,7 @@ environment:
     PHP_DEVPACK: c:\projects\php-devpack
     PHP_SDK_BINARY_TOOLS_VER: php-sdk-2.0.7
     NO_INTERACTION: 1
+    REPORT_EXIT_STATUS: 1
 
 # clone entire repository history if not defined
 clone_depth: 1
@@ -48,6 +49,7 @@ init:
     - SET PARSER_VERSION=1.1.1
     - SET PARSER_RELEASE=268
     - SET PHALCON_STABLE_VERSION=3.3.1
+    - SET PATH=C:\Program Files (x86)\MSBuild\%PHP_VC%.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio %PHP_VC%.0\VC;C:\Program Files (x86)\Microsoft Visual Studio %PHP_VC%.0\VC\bin;%PHP_SDK%\bin;%PHP_DIR%\bin;%PHP_DIR%;%PATH%
 
 # build cache to preserve files/folders between builds
 cache:
@@ -88,6 +90,17 @@ install:
           $env:PARSER_DOWNLOAD_URL="https://github.com/phalcon/php-zephir-parser/releases/download/v${env:PARSER_VERSION}/zephir_parser_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
           $env:PHALCON_DOWNLOAD_URL="https://github.com/phalcon/cphalcon/releases/download/v${env:PHALCON_STABLE_VERSION}/phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}.0_${env:PHALCON_STABLE_VERSION}.zip"
         }
+    - ps: >-
+        If ($env:PHP_VC -eq '14') {
+            $env:VSCOMNTOOLS=$env:VS120COMNTOOLS
+        } elseif ($env:PHP_VC -eq '15') {
+            $env:VSCOMNTOOLS=$env:VS140COMNTOOLS
+        }
+        If ($env:PLATFORM -eq 'x64') {
+            $env:ARCH='x86_amd64'
+        } Else {
+            $env:ARCH='x86'
+        }
 
 # to run custom scripts instead of automatic MSBuild
 build_script:
@@ -96,16 +109,8 @@ build_script:
     # ==================================================
     - cd %APPVEYOR_BUILD_FOLDER%
     - git submodule update --init --recursive
-    - set PATH=%PATH%;%PHP_SDK%\bin;%PHP_DIR%\bin;%PHP_DIR%
-    - ps: $env:VS140COMNTOOLS="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\"
-    - ps: >-
-        If ($env:PHP_VC -Match "14") {
-          $env:VSCOMNTOOLS="${env:VS120COMNTOOLS}"
-        } Else {
-          $env:VSCOMNTOOLS="${env:VS140COMNTOOLS}"
-        }
-    - if "%platform%" == "x86" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat"
-    - if "%platform%" == "x64" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+    - '"%VSCOMNTOOLS%\VsDevCmd" %PLATFORM%'
+    - '"%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%'
     - ps: >-
         If ($env:PLATFORM -eq 'x86') {
           If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
