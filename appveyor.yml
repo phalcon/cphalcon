@@ -12,7 +12,6 @@ version: 3.3.2-{build}
 # environment variables
 environment:
     matrix:
-        # TODO: Add 7.2 support
         - PHP_TARGET: 7.0
           PHP_VC: 14
           PHP_BUILD_TYPE: Win32
@@ -29,6 +28,14 @@ environment:
           PHP_VC: 14
           PHP_BUILD_TYPE: nts-Win32
           APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+        - PHP_TARGET: 7.2
+          PHP_VC: 15
+          PHP_BUILD_TYPE: Win32
+          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        - PHP_TARGET: 7.2
+          PHP_VC: 15
+          PHP_BUILD_TYPE: nts-Win32
+          APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     PHP_DIR: c:\projects\php
     PHP_SDK: c:\projects\php-sdk
     PHP_DEVPACK: c:\projects\php-devpack
@@ -41,15 +48,6 @@ clone_depth: 1
 
 # clone directory
 clone_folder: c:\projects\phalcon
-
-# scripts that are called at very beginning, before repo cloning
-init:
-    - SET ANSICON=121x90 (121x90)
-    - SET COMPOSER_NO_INTERACTION=1
-    - SET PARSER_VERSION=1.1.1
-    - SET PARSER_RELEASE=268
-    - SET PHALCON_STABLE_VERSION=3.3.1
-    - SET PATH=C:\Program Files (x86)\MSBuild\%PHP_VC%.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio %PHP_VC%.0\VC;C:\Program Files (x86)\Microsoft Visual Studio %PHP_VC%.0\VC\bin;%PHP_SDK%\bin;%PHP_DIR%\bin;%PHP_DIR%;%PATH%
 
 # build cache to preserve files/folders between builds
 cache:
@@ -70,8 +68,14 @@ platform:
     - x86
     - x64
 
-# scripts that run after cloning repository
-install:
+# scripts that are called at very beginning, before repo cloning
+init:
+    - SET ANSICON=121x90 (121x90)
+    - SET COMPOSER_NO_INTERACTION=1
+    - SET PARSER_VERSION=1.1.2
+    - SET PARSER_RELEASE=290
+    - SET PHALCON_STABLE_VERSION=3.3.1
+    - SET PATH=C:\Program Files (x86)\MSBuild\%PHP_VC%.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio %PHP_VC%.0\VC;C:\Program Files (x86)\Microsoft Visual Studio %PHP_VC%.0\VC\bin;%PHP_SDK%\bin;%PHP_DIR%\bin;%PHP_DIR%;%PATH%
     # ==================================================
     - echo Setting PHP version...
     # ==================================================
@@ -101,16 +105,6 @@ install:
         } Else {
             $env:ARCH='x86'
         }
-
-# to run custom scripts instead of automatic MSBuild
-build_script:
-    # ==================================================
-    - echo Initializing Build...
-    # ==================================================
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - git submodule update --init --recursive
-    - '"%VSCOMNTOOLS%\VsDevCmd" %PLATFORM%'
-    - '"%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%'
     - ps: >-
         If ($env:PLATFORM -eq 'x86') {
           If ($env:PHP_BUILD_TYPE -Match "nts-Win32") {
@@ -132,43 +126,53 @@ build_script:
         } Else {
           $env:RELEASE_ZIPBALL="phalcon_${env:PLATFORM}_vc${env:PHP_VC}_php${env:PHP_TARGET}_${env:APPVEYOR_BUILD_VERSION}"
         }
+    - ps: $env:DEVEL_PACK_VERSION="${env:PHP_VERSION}-${env:PHP_BUILD_TYPE}-vc${env:PHP_VC}-${env:PLATFORM}"
+
+# scripts that run after cloning repository
+install:
+    # ==================================================
+    # Install PHP SDK binary tools
+    # ==================================================
     - ps: (new-object net.webclient).DownloadFile('https://github.com/OSTC/php-sdk-binary-tools/archive/' + ${env:PHP_SDK_BINARY_TOOLS_VER} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} +  '\php-sdk-binary-tools-' + ${env:PHP_SDK_BINARY_TOOLS_VER} + '.zip')
     - 7z x -y php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER%.zip -oC:\projects
     - move C:\projects\php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER% %PHP_SDK%
     # ==================================================
-    - echo Downloading PHP source code [http://windows.php.net/downloads/releases/php-%PHP_VERSION%-%PHP_BUILD_TYPE%-vc%PHP_VC%-%platform%.zip]
+    # Downloading PHP source code
     # ==================================================
     - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-' + ${env:PHP_VERSION} + '-' + ${env:PHP_BUILD_TYPE} + '-vc' + ${env:PHP_VC} + '-' + ${env:PLATFORM} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\php.zip')
     - 'mkdir %PHP_DIR% && mv php.zip %PHP_DIR%\php.zip && cd %PHP_DIR%'
     - 7z.exe x php.zip | FIND /V "ing  "
     # ==================================================
-    - echo Install PHP Dev pack
-    # ==================================================
-    - ps: $env:DEVEL_PACK_VERSION="${env:PHP_VERSION}-${env:PHP_BUILD_TYPE}-vc${env:PHP_VC}-${env:PLATFORM}"
-    # ==================================================
-    - echo Downloading PHP Dev pack source code [http://windows.php.net/downloads/releases/php-devel-pack-%DEVEL_PACK_VERSION%.zip]
+    # Install PHP Dev pack
     # ==================================================
     - ps: (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/php-devel-pack-' + ${env:DEVEL_PACK_VERSION} + '.zip', ${env:APPVEYOR_BUILD_FOLDER} + '\php-dev.zip')
     - cd %APPVEYOR_BUILD_FOLDER%
     - 7z.exe x php-dev.zip | FIND /V "ing  "
     - move %APPVEYOR_BUILD_FOLDER%\php-%PHP_VERSION%-devel-VC%PHP_VC%-%PLATFORM% %PHP_DEVPACK%
     # ==================================================
-    - echo Enable Zephir Parser and Phalcon
-    # Phalcon extension is required to be already loaded in PHP to generate builds, optimized for 32-bit and 64-bit platforms
+    # Install Zephir Parser
     # ==================================================
     - 'cd %PHP_DIR%\ext'
-    # ==================================================
-    - echo Download Zephir Parser [%PARSER_DOWNLOAD_URL%]
-    # ==================================================
     - curl --location --silent --show-error %PARSER_DOWNLOAD_URL% --output zephir_parser.zip
     - 7z.exe x zephir_parser.zip | FIND /V "ing  "
     # ==================================================
-    - echo Download Phalcon [%PHALCON_DOWNLOAD_URL%]
+    # Install stable Phalcon
+    # Phalcon extension is required to be already loaded in PHP to generate builds, optimized for 32-bit and 64-bit platforms
     # ==================================================
     - curl --location --silent --show-error %PHALCON_DOWNLOAD_URL% --output phalcon_stable.zip
     - 7z.exe x phalcon_stable.zip | FIND /V "ing  "
+
+# to run custom scripts instead of automatic MSBuild
+build_script:
     # ==================================================
-    - echo Building PHP [%PHP_VERSION%]
+    # Initializing Build...
+    # ==================================================
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - git submodule update --init --recursive
+    - '"%VSCOMNTOOLS%\VsDevCmd" %PLATFORM%'
+    - '"%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %ARCH%'
+    # ==================================================
+    # Setting up PHP
     # ==================================================
     - '%PHP_SDK%\bin\phpsdk_setvars'
     - 'cd %PHP_DIR%'
@@ -185,19 +189,15 @@ build_script:
     - 'echo memory_limit=256M >> php.ini'
     - php --ri "Zephir Parser"
     # ==================================================
-    - echo Download tests dependencies...
+    #  Install dependencies
     # ==================================================
     - cd %APPVEYOR_BUILD_FOLDER%
     - if not exist vendor (php -r "readfile('https://getcomposer.org/installer');" | php && php composer.phar --version)
     - if not exist vendor (php composer.phar update --quiet --no-ansi --no-interaction --no-progress --optimize-autoloader --dev --prefer-dist --no-suggest --ignore-platform-reqs)
     # ==================================================
-    - echo Download Zephir
+    # Build Phalcon
     # ==================================================
     - cd %APPVEYOR_BUILD_FOLDER%
-    - 'vendor\bin\zephir help'
-    # ==================================================
-    - echo Build Phalcon
-    # ==================================================
     - 'vendor\bin\zephir generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable'
     - 'cd %APPVEYOR_BUILD_FOLDER%\build'
     - 'php gen-build.php'
@@ -205,7 +205,9 @@ build_script:
     - '%PHP_DEVPACK%\phpize.bat'
     - configure --enable-phalcon
     - nmake 2> compile-errors.log 1> compile.log
-    # Envable new version for future tests
+    # ==================================================
+    # Enable new Phalcon version and check it
+    # ==================================================
     - ps: >-
         IF (Test-Path -Path "${env:RELEASE_DLL}") {
             Copy-Item "${env:RELEASE_DLL}" "${env:PHP_DIR}\ext\php_phalcon.dll"
