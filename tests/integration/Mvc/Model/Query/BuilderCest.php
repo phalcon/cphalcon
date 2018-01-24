@@ -1,5 +1,20 @@
 <?php
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-present Phalcon Team (https://phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file LICENSE.txt.                             |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ */
+
 namespace Phalcon\Test\Unit\Mvc\Model\Query;
 
 use Phalcon\Cache\Backend\File;
@@ -7,29 +22,28 @@ use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\RobotsParts;
-use UnitTester;
+use IntegrationTester;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\Query\BuilderCest
+ * Phalcon\Test\Integration\Mvc\Model\Query\BuilderCest
+ *
  * Tests the Phalcon\Mvc\Model\Query\Builder component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @author    Wojciech Ślawski <jurigag@gmail.com>
- * @package   Phalcon\Test\Unit\Mvc
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\Model\Query
  */
 class BuilderCest
 {
-    public function testComplexSnapshotCache(UnitTester $I)
+    /**
+     * Tests Models cache
+     *
+     * @test
+     * @issue  -
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-12-09
+     */
+    public function shouldSaveToUseComplexSnapshotCache(IntegrationTester $I)
     {
         $I->wantToTest("Saving snapshot using complex resultset while using modelsCache");
 
@@ -38,13 +52,9 @@ class BuilderCest
             function () {
                 return new File(
                     new Data(
-                        [
-                            'lifetime' => 20,
-                        ]
+                        ['lifetime' => 20,]
                     ),
-                    [
-                        'cacheDir' => PATH_OUTPUT.'tests/cache/',
-                    ]
+                    ['cacheDir' => PATH_OUTPUT.'tests/cache/',]
                 );
             },
             true
