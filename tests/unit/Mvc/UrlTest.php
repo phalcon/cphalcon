@@ -26,17 +26,24 @@ use Helper\Mvc\RouterTrait;
 /**
  * Phalcon\Test\Unit\Mvc\UrlTest
  *
- * Test URL
+ * Tests the Phalcon\Mvc\Url component
  *
  * @package Phalcon\Test\Unit\Mvc
  */
 class UrlTest extends UnitTest
 {
-
     use RouterTrait;
 
+    /**
+     * @var Di
+     */
     protected $di;
+
+    /**
+     * @var Url
+     */
     protected $url;
+
     /**
      * executed before each test
      */
