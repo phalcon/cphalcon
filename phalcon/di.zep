@@ -549,4 +549,20 @@ class Di implements DiInterface
 			this->set(name, service, isset service["shared"] && service["shared"]);
 		}
 	}
+
+	/**
+	 * Check whether a shared instance exists.
+	 */
+	public function hasSharedInstance(string! name) -> boolean
+	{
+		return isset this->_sharedInstances[name];
+	}
+
+	/**
+	 * Remove a shared instance from DI. Make it recreateable.
+	 */
+	public function removeSharedInstance(string! name)
+	{
+		unset $this->_sharedInstances[name];
+	}
 }
