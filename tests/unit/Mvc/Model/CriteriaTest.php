@@ -99,4 +99,26 @@ class CriteriaTest extends UnitTest
             ]
         );
     }
+
+    /**
+     * Tests work with count
+     *
+     * @test
+     * @author limx <715557344@qq.com>
+     * @since  2018-01-24
+     */
+    public function shouldCountCorrect()
+    {
+        $this->specify(
+            'The criteria object works with count incorrectly',
+            function () {
+                /** @var \Phalcon\Mvc\Model\Criteria $query */
+                $query = Users::query();
+
+                $query->where('id <= :id:', ['id' => 4]);
+
+                expect($query->count())->equals(4);
+            }
+        );
+    }
 }
