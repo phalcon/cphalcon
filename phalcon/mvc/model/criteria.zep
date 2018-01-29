@@ -770,4 +770,19 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
 		return {model}::find(this->getParams());
 	}
+
+    /**
+     * Counts how many records match the specified conditions
+     */
+	public function count()
+	{
+        var model;
+
+        let model = this->getModelName();
+        if typeof model != "string" {
+            throw new Exception("Model name must be string");
+        }
+
+        return {model}::count(this->getParams());
+	}
 }
