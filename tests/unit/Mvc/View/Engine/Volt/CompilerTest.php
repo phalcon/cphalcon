@@ -57,17 +57,16 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shouldReturnArrayParseFunction()
     {
-        $volt = $this->volt;
-
         $this->specify(
             "Volt parser doesn't work as expected",
-            function ($param, $count) use ($volt) {
-                $intermediate = $volt->parse($param);
+            function ($param, $count) {
+                $intermediate = $this->volt->parse($param);
+
                 expect(is_array($intermediate))->true();
                 expect($intermediate)->count($count);
             },
@@ -82,16 +81,16 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shoulrReturnCompiledString()
     {
-        $volt = $this->volt;
         $this->specify(
             "Volt parser doesn't work as expected",
-            function ($param, $expect) use ($volt) {
-                $compilation = $volt->compileString($param);
+            function ($param, $expect) {
+                $compilation = $this->volt->compileString($param);
+
                 expect($compilation)->equals($expect);
             },
             [
@@ -105,18 +104,18 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shouldEscapeStringFromOption()
     {
-        $volt = $this->volt;
         $this->specify(
             "Volt parser doesn't work as expected",
-            function ($param, $expect) use ($volt) {
-                $volt->setOption("autoescape", true);
+            function ($param, $expect) {
+                $this->volt->setOption("autoescape", true);
 
-                $compilation = $volt->compileString($param);
+                $compilation = $this->volt->compileString($param);
+
                 expect($compilation)->equals($expect);
             },
             [
@@ -130,17 +129,17 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shouldReturnSingleStringFunction()
     {
-        $volt = $this->volt;
         $this->specify(
             'Custom functions should work',
-            function ($name, $funcName, $voltName, $result) use ($volt) {
-                $volt->addFunction($name, $funcName);
-                $compilation = $volt->compileString($voltName);
+            function ($name, $funcName, $voltName, $result) {
+                $this->volt->addFunction($name, $funcName);
+                $compilation = $this->volt->compileString($voltName);
+
                 expect($compilation)->equals($result);
             },
             [
@@ -154,20 +153,19 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shouldReturnFunctionWithOneArgument()
     {
-        $volt = $this->volt;
         $this->specify(
             'Custom functions with one argument should work',
-            function ($name, $funcName, $voltName, $result) use ($volt) {
-                $volt->addFunction($name, function ($arguments) use ($funcName) {
+            function ($name, $funcName, $voltName, $result) {
+                $this->volt->addFunction($name, function ($arguments) use ($funcName) {
                     return $funcName . '(' . $arguments . ')';
                 });
+                $compilation = $this->volt->compileString($voltName);
 
-                $compilation = $volt->compileString($voltName);
                 expect($compilation)->equals($result);
             },
             [
@@ -181,17 +179,17 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shouldReturnStringWithAddedSingleStringFilter()
     {
-        $volt = $this->volt;
         $this->specify(
             "Custom linear filters should work",
-            function ($name, $filter, $voltName, $result) use ($volt) {
-                $volt->addFilter($name, $filter);
-                $compilation = $volt->compileString($voltName);
+            function ($name, $filter, $voltName, $result) {
+                $this->volt->addFilter($name, $filter);
+                $compilation = $this->volt->compileString($voltName);
+
                 expect($compilation)->equals($result);
             },
             [
@@ -205,51 +203,23 @@ class CompilerTest extends UnitTest
      *
      * @test
      * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
     public function shouldReturnStringWithAddedFilterWithClosure()
     {
-        $volt = $this->volt;
         $this->specify(
             "Custom linear filters should work",
-            function ($name, $filter, $voltName, $result) use ($volt) {
-                $volt->addFilter($name, function ($arguments) use ($filter) {
+            function ($name, $filter, $voltName, $result) {
+                $this->volt->addFilter($name, function ($arguments) use ($filter) {
                     return $filter . '(",", '.$arguments.')';
                 });
+                $compilation = $this->volt->compileString($voltName);
 
-                $compilation = $volt->compileString($voltName);
                 expect($compilation)->equals($result);
             },
             [
                 'examples' => include_once PATH_FIXTURES . 'volt/compilerTest/volt_closure_filter.php'
-            ]
-        );
-    }
-
-    /**
-     * Tests Compiler::compileFile test case to compile files
-     *
-     * @test
-     * @issue  -
-     * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
-     * @since  2017-01-17
-     */
-    public function shouldCompileFiles()
-    {
-        $volt = $this->volt;
-        $this->specify(
-            "Volt can't compile files properly",
-            function ($unlinkFiles, $filesArray, $compiledFile, $expected) use ($volt) {
-                $this->removeFilesWithoutErrors($unlinkFiles);
-
-                $volt->compileFile($filesArray[0], $filesArray[1]);
-
-                $compilation = file_get_contents($compiledFile);
-                expect($compilation)->equals($expected);
-            },
-            [
-                'examples' => include_once PATH_FIXTURES . 'volt/compilerTest/volt_compiler_file.php'
             ]
         );
     }

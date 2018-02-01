@@ -5,7 +5,7 @@
  *
  * @copyright (c) 2011-present Phalcon Team
  * @link      http://www.phalconphp.com
- * @author    Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
+ * @author    Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
  * @package   Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is
@@ -18,14 +18,16 @@
 
 return [
     [
-        [
-            PATH_DATA . 'views/layouts/test10.volt.php'
-        ],
-        [
-            PATH_DATA . 'views/layouts/test10.volt',
-            PATH_DATA . 'views/layouts/test10.volt.php',
-        ],
-        PATH_DATA . 'views/layouts/test10.volt.php',
+       [
+           'removeFiles' => [
+               PATH_DATA . 'views/layouts/test10.volt.php'
+           ],
+           'compileFiles' => [
+               PATH_DATA . 'views/layouts/test10.volt',
+               PATH_DATA . 'views/layouts/test10.volt.php',
+           ],
+           'contentPath' => PATH_DATA . 'views/layouts/test10.volt.php',
+       ],
         '<?php if ($some_eval) { ?>
 Clearly, the song is: <?= $this->getContent() ?>.
 <?php } ?>',

@@ -2,6 +2,8 @@
 
 namespace Helper;
 
+use Phalcon\Mvc\View;
+use DirectoryIterator;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
@@ -25,11 +27,18 @@ trait ViewTrait
     protected $level;
 
     /**
+     * @var View
+     */
+    protected $view;
+
+    /**
      * executed before each test
      */
     protected function _before()
     {
         $this->level = ob_get_level();
+
+        $this->view = new View;
     }
 
     /**
@@ -47,5 +56,45 @@ trait ViewTrait
         ob_start();
         $view->partial($partial, $expectedParams);
         ob_clean();
+    }
+
+    /**
+     * Set params and check expected data after render view
+     *
+     * @param string $errorMessage
+     * @param array $params
+     * @param View $view
+     */
+    protected function setParamAndCheckData($errorMessage, $params, $view)
+    {
+        foreach ($params as $param) {
+            $view->setParamToView($param['paramToView'][0], $param['paramToView'][1]);
+
+            $view->start();
+            $view->setRenderLevel($param['renderLevel']);
+            $view->render($param['render'][0], $param['render'][1]);
+            $view->finish();
+
+            $this->assertEquals(
+                $view->getContent(),
+                $param['expected'],
+                $errorMessage
+            );
+        }
+    }
+
+    protected function clearCache()
+    {
+        if (!file_exists(PATH_CACHE)) {
+            mkdir(PATH_CACHE);
+        }
+
+        foreach (new DirectoryIterator(PATH_CACHE) as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+
+            unlink($item->getPathname());
+        }
     }
 }
