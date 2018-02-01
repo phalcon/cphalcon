@@ -368,7 +368,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Returns the messages generated in the validation
 	 */
-	public function getMessages(boolean byItemName = false) -> <Group>
+	public function getMessages() -> <Group>
 	{
 		var messages;
 
