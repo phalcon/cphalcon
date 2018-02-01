@@ -20,23 +20,52 @@
 namespace Phalcon\Logger;
 
 use Phalcon\Logger;
+use Phalcon\Logger\Item;
+use Phalcon\Logger\Exception;
 use Phalcon\Logger\AdapterInterface;
 use Phalcon\Logger\FormatterInterface;
-use Phalcon\Logger\Exception;
 
 /**
  * Phalcon\Logger\Multiple
  *
  * Handles multiples logger handlers
  */
-class Multiple
+class Multiple implements AdapterInterface
 {
+	/**
+	 * Tells if there is an active transaction or not
+	 *
+	 * @var boolean
+	 */
+	protected _transaction = false;
 
-	protected _loggers { get };
+	/**
+	 * Array with messages queued in the transaction
+	 *
+	 * @var array
+	 */
+	protected _queue = [];
 
+	/**
+	 * Array with loggers
+	 *
+	 * @var array
+	 */
+	protected _loggers = [] { get };
+
+	/**
+	 * Formatter
+	 *
+	 * @var object
+	 */
 	protected _formatter { get };
 
-	protected _logLevel { get };
+	/**
+	 * Log level
+	 *
+	 * @var int
+	 */
+	protected _logLevel = 9 { get };
 
 	/**
 	 * Pushes a logger to the logger tail
@@ -54,11 +83,13 @@ class Multiple
 		var loggers, logger;
 
 		let loggers = this->_loggers;
+
 		if typeof loggers == "array" {
 			for logger in loggers {
 				logger->setFormatter(formatter);
 			}
 		}
+
 		let this->_formatter = formatter;
 	}
 
@@ -70,27 +101,58 @@ class Multiple
 		var loggers, logger;
 
 		let loggers = this->_loggers;
+
 		if typeof loggers == "array" {
 			for logger in loggers {
 				logger->setLogLevel(level);
 			}
 		}
+
 		let this->_logLevel = level;
 	}
 
 	/**
-	 * Sends a message to each registered logger
+	 * Logs messages to each registered logger by it's internal logger. Appends logs to the logger
 	 */
-	public function log(var type, var message = null, array! context = null)
+	public function log(var type, var message = null, array! context = null) -> <AdapterInterface>
 	{
-		var loggers, logger;
+		var timestamp, toggledMessage, toggledType, loggers, logger;
 
 		let loggers = this->_loggers;
-		if typeof loggers == "array" {
-			for logger in loggers {
-				logger->log(type, message, context);
+
+		/**
+		 * PSR3 compatibility
+		 */
+		if typeof type == "string" && typeof message == "integer" {
+			let toggledMessage = type, toggledType = message;
+		} else {
+			if typeof type == "string" && typeof message == "null" {
+				let toggledMessage = type, toggledType = message;
+			} else {
+				let toggledMessage = message, toggledType = type;
 			}
 		}
+
+		if typeof toggledType == "null" {
+			let toggledType = Logger::DEBUG;
+		}
+
+		/**
+		 * Checks if the log is valid respecting the current log level
+		 */
+		if this->_logLevel >= toggledType {
+			let timestamp = time();
+
+			if this->_transaction {
+				let this->_queue[] = new Item(toggledMessage, toggledType, timestamp, context);
+			} else {
+				for logger in loggers {
+					logger->{"logInternal"}(toggledMessage, toggledType, timestamp, context);
+				}
+			}
+		}
+
+		return this;
 	}
 
 	/**
@@ -155,5 +217,91 @@ class Multiple
 	public function alert(string! message, array! context = null)
 	{
 		this->log(Logger::ALERT, message, context);
+	}
+
+
+	/**
+ 	 * Starts a transaction
+ 	 */
+	public function begin() -> <AdapterInterface>
+	{
+		let this->_transaction = true;
+
+		return this;
+	}
+
+	/**
+ 	 * Commits the internal transaction
+ 	 */
+	public function commit() -> <AdapterInterface>
+	{
+		var message;
+
+		if !this->_transaction {
+			throw new Exception("There is no active transaction");
+		}
+
+		let this->_transaction = false;
+
+		/**
+		 * Check if the queue has something to log
+		 */
+		for message in this->_queue {
+			this->{"logInternal"}(
+				message->getMessage(),
+				message->getType(),
+				message->getTime(),
+				message->getContext()
+			);
+		}
+
+		// clear logger queue at commit
+		let this->_queue = [];
+
+		return this;
+	}
+
+	/**
+ 	 * Rollbacks the internal transaction
+ 	 */
+	public function rollback() -> <AdapterInterface>
+	{
+		var transaction;
+
+		let transaction = this->_transaction;
+		if !transaction {
+			throw new Exception("There is no active transaction");
+		}
+
+		let this->_transaction = false,
+			this->_queue = [];
+
+		return this;
+	}
+
+	/**
+ 	 * Closes the logger
+ 	 */
+	public function close() -> boolean
+	{
+		var loggers, logger, status = true;
+
+		let loggers = this->_loggers;
+
+		if typeof loggers == "array" {
+			for logger in loggers {
+				let status = (status && logger->close());
+			}
+		}
+
+		return status;
+	}
+
+	/**
+	 * Returns the whether the logger is currently in an active transaction or not
+	 */
+	public function isTransaction() -> boolean
+	{
+		return this->_transaction;
 	}
 }
