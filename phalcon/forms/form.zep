@@ -370,10 +370,20 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getMessages(boolean byItemName = false) -> <Group>
 	{
-		var messages;
+		var messages, messagesByItem, elementMessage;
 
 		let messages = this->_messages;
 		if typeof messages == "object" && messages instanceof Group {
+		    /**
+		     * This part of code is for backward compatibility, it should be removed in next major version
+		     */
+		    if byItemName {
+                let messagesByItem = [];
+                for elementMessage in messages {
+                    messagesByItem[elementMessages->getField()][] = new Group([elementMessage]);
+                }
+                return messagesByItem;
+		    }
             return messages;
 		}
 
