@@ -380,6 +380,9 @@ class Form extends Injectable implements \Countable, \Iterator
 		    if byItemName {
                 let messagesByItem = [];
                 for elementMessage in messages {
+                    if !isset messagesByItem[elementMessages->getField()] {
+                        let messagesByItem[elementMessages->getField()] = [];
+                    }
                     messagesByItem[elementMessages->getField()][] = new Group([elementMessage]);
                 }
                 return messagesByItem;
