@@ -383,7 +383,7 @@ class Form extends Injectable implements \Countable, \Iterator
                     if !isset messagesByItem[elementMessages->getField()] {
                         let messagesByItem[elementMessages->getField()] = [];
                     }
-                    messagesByItem[elementMessages->getField()][] = new Group([elementMessage]);
+                    let messagesByItem[elementMessages->getField()][] = new Group([elementMessage]);
                 }
                 return messagesByItem;
 		    }
