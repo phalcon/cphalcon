@@ -367,8 +367,10 @@ class Form extends Injectable implements \Countable, \Iterator
 
 	/**
 	 * Returns the messages generated in the validation
+	 * @param byItemName bool
+	 * @example foreach($form->getMessages(true) as $elementName => $arrayOfGroupMessages)
 	 */
-	public function getMessages(boolean byItemName = false) -> <Group>
+	public function getMessages(boolean byItemName = false) -> <Group> | array
 	{
 		var messages, messagesByItem, elementMessage;
 
@@ -377,13 +379,13 @@ class Form extends Injectable implements \Countable, \Iterator
 		    /**
 		     * This part of code is for backward compatibility, it should be removed in next major version
 		     */
-		    if byItemName {
+		    if unlikely byItemName {
                 let messagesByItem = [];
                 for elementMessage in messages {
-                    if !isset messagesByItem[elementMessages->getField()] {
-                        let messagesByItem[elementMessages->getField()] = [];
+                    if !isset messagesByItem[elementMessage->getField()] {
+                        let messagesByItem[elementMessage->getField()] = [];
                     }
-                    let messagesByItem[elementMessages->getField()][] = new Group([elementMessage]);
+                    let messagesByItem[elementMessage->getField()][] = new Group([elementMessage]);
                 }
                 return messagesByItem;
 		    }
