@@ -593,7 +593,6 @@ class FormTest extends UnitTest
                     ])
                 ]
             ]);
-            expect($form->get('telephone')->getMessages())->equals($form->getMessages(true)['telephone']);
         });
     }
 }
