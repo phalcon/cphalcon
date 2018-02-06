@@ -366,30 +366,56 @@ class Form extends Injectable implements \Countable, \Iterator
 	}
 
 	/**
-	 * Returns the messages generated in the validation
-	 * @param byItemName bool
-	 * @example foreach($form->getMessages(true) as $elementName => $arrayOfGroupMessages)
+	 * Returns the messages generated in the validation.
+	 *
+	 * <code>
+	 * if ($form->isValid($_POST) == false) {
+	 *     // Get messages separated by the item name
+	 *     // $messages is an array of Group object
+	 *     $messages = $form->getMessages(true);
+	 *
+	 *     foreach ($messages as $message) {
+	 *         echo $message, "<br>";
+	 *     }
+	 *
+	 *     // Default behavior.
+	 *     // $messages is a Group object
+	 *     $messages = $form->getMessages();
+	 *
+	 *     foreach ($messages as $message) {
+	 *         echo $message, "<br>";
+	 *     }
+	 * }
+	 * </code>
 	 */
 	public function getMessages(boolean byItemName = false) -> <Group> | array
 	{
-		var messages, messagesByItem, elementMessage;
+		var messages, messagesByItem, elementMessage, fieldName;
 
 		let messages = this->_messages;
+
 		if typeof messages == "object" && messages instanceof Group {
-		    /**
-		     * This part of code is for backward compatibility, it should be removed in next major version
-		     */
-		    if unlikely byItemName {
-                let messagesByItem = [];
-                for elementMessage in messages {
-                    if !isset messagesByItem[elementMessage->getField()] {
-                        let messagesByItem[elementMessage->getField()] = [];
-                    }
-                    let messagesByItem[elementMessage->getField()][] = new Group([elementMessage]);
-                }
-                return messagesByItem;
-		    }
-            return messages;
+			/**
+			 * @deprecated This part of code is for backward compatibility, it should be removed in next major version
+			 */
+			if unlikely byItemName {
+				let messagesByItem = [];
+				messages->rewind();
+				
+				while messages->valid() {
+					let elementMessage = messages->current(),
+						fieldName = elementMessage->getField();
+						
+						if !isset messagesByItem[fieldName] {
+							let messagesByItem[fieldName] = [];
+						}
+						
+						let messagesByItem[fieldName][] = new Group([elementMessage]);
+						messages->next();
+				}
+				return messagesByItem;
+			}
+			return messages;
 		}
 
 		return new Group();
