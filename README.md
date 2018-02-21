@@ -7,6 +7,7 @@
 [![OpenCollective](https://opencollective.com/phalcon/sponsors/badge.svg)](#sponsors)
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
+Phalcon, yüksek performans ve daha düşük kaynak tüketimi sağlayan PHP dili için bir C uzantısı olarak sunulan bir açık kaynak web çerçevesidir.
 
 A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md); you rock!
 
