@@ -1,1 +1,1 @@
-{% extends 'unit-tests/views/templates/b.volt' %}{% block body %}###{{ super() }}###{% endblock %}
+{% extends 'tests/_data/views/templates/b.volt' %}{% block body %}###{{ super() }}###{% endblock %}

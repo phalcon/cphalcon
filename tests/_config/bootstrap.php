@@ -48,6 +48,7 @@ $loader->registerNamespaces(
     [
         'Phalcon\Test\Models'      => $config->get('application')->modelsDir,
         'Phalcon\Test\Resultsets'  => $config->get('application')->resultsetsDir,
+        'Phalcon\Test\Objectsets'  => $config->get('application')->objectsetsDir,
         'Phalcon\Test\Collections' => $config->get('application')->collectionsDir,
         'Phalcon\Test\Modules\Frontend\Controllers' => $config->get('application')->modulesDir . 'frontend/controllers/',
         'Phalcon\Test\Modules\Backend\Controllers'  => $config->get('application')->modulesDir . 'backend/controllers/',
