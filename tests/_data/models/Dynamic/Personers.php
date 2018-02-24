@@ -41,7 +41,7 @@ class Personers extends Model
             new Model\Behavior\SoftDelete(
                 [
                     'field' => 'status',
-                    'value' => 'D',
+                    'value' => 'X',
                 ]
             )
         );
