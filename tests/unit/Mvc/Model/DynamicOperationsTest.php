@@ -217,7 +217,7 @@ class DynamicOperationsTest extends UnitTest
 
                 $persona = Personers::findFirst();
                 expect($persona->delete())->true();
-                expect($persona->status)->equals('D');
+                expect($persona->status)->equals('X');
             }
         );
     }
