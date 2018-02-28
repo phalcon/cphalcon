@@ -201,6 +201,28 @@ class DynamicOperationsTest extends UnitTest
     }
 
     /**
+     * Tests dynamic update soft delete with renamed model.
+     *
+     * @test
+     * @author limx <715557344@qq.com>
+     * @since  2018-02-24
+     */
+    public function shouldWorkUsingDynamicUpdateSoftDeleteForRenamedModel()
+    {
+        $this->specify(
+            'Dynamic update soft delete for renamed model does not work as expected',
+            function () {
+                $this->setUpConnectionAwareModelsManager(MysqlFactory::class);
+                $this->setUpEventsManager();
+
+                $persona = Personers::findFirst();
+                expect($persona->delete())->true();
+                expect($persona->status)->equals('X');
+            }
+        );
+    }
+
+    /**
      * Tests dynamic update and rawvalue
      *
      * @test
