@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZVAL_LONG(_2$$3, 1);
 		ZEPHIR_MAKE_REF(_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 472, _1$$3, index, _2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 471, _1$$3, index, _2$$3);
 		ZEPHIR_UNREF(_1$$3);
 		zephir_check_call_status();
 	}

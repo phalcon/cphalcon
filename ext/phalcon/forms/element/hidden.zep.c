@@ -50,7 +50,7 @@ PHP_METHOD(Phalcon_Forms_Element_Hidden, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, attributes);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "hiddenfield", &_0, 214, _1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "hiddenfield", &_0, 213, _1);
 	zephir_check_call_status();
 	RETURN_MM();
 

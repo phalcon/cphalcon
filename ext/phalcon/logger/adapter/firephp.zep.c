@@ -99,15 +99,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	if (!(zephir_is_true(_0))) {
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 252, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 251, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 252, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 251, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 252, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 251, &_1$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_this(getThis(), SL("_initialized"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 		if (zephir_array_isset_long(chunk, (zephir_get_numberval(key) + 1))) {
 			zephir_concat_self_str(&content, SL("|\\") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 252, content);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 251, content);
 		zephir_check_call_status();
 		ZEPHIR_SEPARATE(index);
 		zephir_increment(index);

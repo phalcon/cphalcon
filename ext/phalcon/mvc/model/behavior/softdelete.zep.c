@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	zend_bool _9$$6;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *model, *options = NULL, *value = NULL, *field = NULL, *updateModel = NULL, *message = NULL, *modelsManager = NULL, *metaData = NULL, *columnMap = NULL, *_0$$3, *_1$$3 = NULL, *_2$$6 = NULL, *_8$$6 = NULL, *_3$$7 = NULL, **_6$$7, *_10$$9 = NULL, *_11$$9 = NULL;
+	zval *type_param = NULL, *model, *options = NULL, *value = NULL, *field = NULL, *updateModel = NULL, *message = NULL, *modelsManager = NULL, *metaData = NULL, *_0$$3, *_1$$3 = NULL, *_2$$6 = NULL, *_8$$6 = NULL, *_3$$7 = NULL, **_6$$7, *_10$$9 = NULL, *_11$$9 = NULL;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -118,15 +118,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 			if (_9$$6) {
 				ZEPHIR_CALL_METHOD(&metaData, model, "getmodelsmetadata", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&columnMap, metaData, "getcolumnmap", NULL, 0, model);
-				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_10$$9, updateModel, "getsnapshotdata", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, model, "setsnapshotdata", NULL, 0, _10$$9, columnMap);
+				ZEPHIR_CALL_METHOD(NULL, model, "setsnapshotdata", NULL, 0, _10$$9);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_11$$9, updateModel, "getoldsnapshotdata", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, model, "setoldsnapshotdata", NULL, 0, _11$$9, columnMap);
+				ZEPHIR_CALL_METHOD(NULL, model, "setoldsnapshotdata", NULL, 0, _11$$9);
 				zephir_check_call_status();
 			}
 		}

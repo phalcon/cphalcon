@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, forward) {
 		zephir_check_temp_parameter(_1$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_dispatcher_ce, getThis(), "forward", &_2, 313, forward);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_dispatcher_ce, getThis(), "forward", &_2, 312, forward);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

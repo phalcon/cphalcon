@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 165, param$$4);
 		zephir_check_call_status();
 		ZEPHIR_MAKE_REF(backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 184, backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 183, backtrace);
 		ZEPHIR_UNREF(backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(lastTrace, SS("file"))) {
