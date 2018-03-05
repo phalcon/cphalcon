@@ -81,12 +81,12 @@ Function InstallBuildDependencies {
 }
 
 Function EnsurePandocIsInstalled {
-    If (-not (Get-Command "pandoc" -ErrorAction SilentlyContinue)) {
-        $PandocInstallationDirectory = "${Env:ProgramData}\chocolatey\bin"
+	If (-not (Get-Command "pandoc" -ErrorAction SilentlyContinue)) {
+		$PandocInstallationDirectory = "${Env:ProgramData}\chocolatey\bin"
 
-        If (-not (Test-Path "$PandocInstallationDirectory")) {
-            Throw "The pandoc is needed to use this module"
-        }
+		If (-not (Test-Path "$PandocInstallationDirectory")) {
+			Throw "The pandoc is needed to use this module"
+		}
 
 		$Env:Path += ";$PandocInstallationDirectory"
 	}
@@ -142,7 +142,7 @@ Function InitializeReleaseVars {
 }
 
 Function PrintLogs {
-    Param([Parameter(Mandatory=$true)][System.String] $BasePath)
+	Param([Parameter(Mandatory=$true)][System.String] $BasePath)
 
 	If (Test-Path -Path "${Env:BasePath}\compile-errors.log") {
 		Get-Content -Path "${Env:BasePath}\compile-errors.log"
@@ -256,8 +256,8 @@ Function TuneUpPhp {
 	Write-Output "extension = php_fileinfo.dll"      | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_gettext.dll"       | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_gd2.dll"           | Out-File -Encoding "ASCII" -Append $IniFile
-    Write-Output "extension = ${Env:EXTENSION_FILE}" | Out-File -Encoding "ASCII" -Append $IniFile
-    Write-Output "extension = php_zephir_parser.dll" | Out-File -Encoding "ASCII" -Append $IniFile
+	Write-Output "extension = ${Env:EXTENSION_FILE}" | Out-File -Encoding "ASCII" -Append $IniFile
+	Write-Output "extension = php_zephir_parser.dll" | Out-File -Encoding "ASCII" -Append $IniFile
 }
 
 Function InstallPhpDevPack {
@@ -283,51 +283,51 @@ Function InstallPhpDevPack {
 }
 
 Function InstallStablePhalcon {
-    $BaseUri = "https://github.com/phalcon/cphalcon/releases/download"
-    $PatchSuffix = ".0"
-    $LocalPart = "${Env:PACKAGE_PREFIX}_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_MINOR}${PatchSuffix}"
-    
+	$BaseUri = "https://github.com/phalcon/cphalcon/releases/download"
+	$PatchSuffix = ".0"
+	$LocalPart = "${Env:PACKAGE_PREFIX}_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_MINOR}${PatchSuffix}"
+	
 
-    If ($Env:BUILD_TYPE -Match "nts-Win32") {
-        $VersionSuffix = "${Env:PHALCON_STABLE_VERSION}_nts"
-    } Else {
-        $VersionSuffix = "${Env:PHALCON_STABLE_VERSION}"
-    }
+	If ($Env:BUILD_TYPE -Match "nts-Win32") {
+		$VersionSuffix = "${Env:PHALCON_STABLE_VERSION}_nts"
+	} Else {
+		$VersionSuffix = "${Env:PHALCON_STABLE_VERSION}"
+	}
 
-    $RemoteUrl = "${BaseUri}/v${Env:PHALCON_STABLE_VERSION}/${LocalPart}_${VersionSuffix}.zip"
-    $DestinationPath = "C:\Downloads\${LocalPart}_${VersionSuffix}.zip"
+	$RemoteUrl = "${BaseUri}/v${Env:PHALCON_STABLE_VERSION}/${LocalPart}_${VersionSuffix}.zip"
+	$DestinationPath = "C:\Downloads\${LocalPart}_${VersionSuffix}.zip"
 
-    If (-not (Test-Path "${Env:PHP_PATH}\ext\${Env:EXTENSION_FILE}")) {
-        If (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Host "Downloading stable Phalcon: ${RemoteUrl} ..."
-            DownloadFile $RemoteUrl $DestinationPath
-        }
+	If (-not (Test-Path "${Env:PHP_PATH}\ext\${Env:EXTENSION_FILE}")) {
+		If (-not [System.IO.File]::Exists($DestinationPath)) {
+			Write-Host "Downloading stable Phalcon: ${RemoteUrl} ..."
+			DownloadFile $RemoteUrl $DestinationPath
+		}
 
-        Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
-    }
+		Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
+	}
 }
 
 Function InstallParser {
-    $BaseUri = "https://github.com/phalcon/php-zephir-parser/releases/download"
-    $LocalPart = "zephir_parser_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_MINOR}"
+	$BaseUri = "https://github.com/phalcon/php-zephir-parser/releases/download"
+	$LocalPart = "zephir_parser_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_MINOR}"
 
-    If ($Env:BUILD_TYPE -Match "nts-Win32") {
-        $VersionPrefix = "-nts"
-    } Else {
-        $VersionPrefix = ""
-    }
+	If ($Env:BUILD_TYPE -Match "nts-Win32") {
+		$VersionPrefix = "-nts"
+	} Else {
+		$VersionPrefix = ""
+	}
 
-    $RemoteUrl = "${BaseUri}/v${Env:PARSER_VERSION}/${LocalPart}${VersionPrefix}_${Env:PARSER_VERSION}-${Env:PARSER_RELEASE}.zip"
-    $DestinationPath = "C:\Downloads\${LocalPart}${VersionPrefix}_${Env:PARSER_VERSION}-${Env:PARSER_RELEASE}.zip"
+	$RemoteUrl = "${BaseUri}/v${Env:PARSER_VERSION}/${LocalPart}${VersionPrefix}_${Env:PARSER_VERSION}-${Env:PARSER_RELEASE}.zip"
+	$DestinationPath = "C:\Downloads\${LocalPart}${VersionPrefix}_${Env:PARSER_VERSION}-${Env:PARSER_RELEASE}.zip"
 
-    If (-not (Test-Path "${Env:PHP_PATH}\ext\php_zephir_parser.dll")) {
-        If (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Host "Downloading Zephir Parser: ${RemoteUrl} ..."
-            DownloadFile $RemoteUrl $DestinationPath
-        }
+	If (-not (Test-Path "${Env:PHP_PATH}\ext\php_zephir_parser.dll")) {
+		If (-not [System.IO.File]::Exists($DestinationPath)) {
+			Write-Host "Downloading Zephir Parser: ${RemoteUrl} ..."
+			DownloadFile $RemoteUrl $DestinationPath
+		}
 
-        Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
-    }
+		Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
+	}
 }
 
 Function InstallPhp {
@@ -373,15 +373,15 @@ Function InstallSdk {
 }
 
 Function Ensure7ZipIsInstalled {
-    If (-not (Get-Command "7z" -ErrorAction SilentlyContinue)) {
-        $7zipInstallationDirectory = "${Env:ProgramFiles}\7-Zip"
+	If (-not (Get-Command "7z" -ErrorAction SilentlyContinue)) {
+		$7zipInstallationDirectory = "${Env:ProgramFiles}\7-Zip"
 
-        If (-not (Test-Path "$7zipInstallationDirectory")) {
-            Throw "The 7-zip file archiver is needed to use this module"
-        }
+		If (-not (Test-Path "$7zipInstallationDirectory")) {
+			Throw "The 7-zip file archiver is needed to use this module"
+		}
 
 		$Env:Path += ";$7zipInstallationDirectory"
-    }
+	}
 }
 
 Function EnsureRequiredDirectoriesPresent {
@@ -399,15 +399,15 @@ Function EnsureRequiredDirectoriesPresent {
 }
 
 Function EnsureChocolateyIsInstalled {
-    If (-not (Get-Command "choco" -ErrorAction SilentlyContinue)) {
-        $ChocolateyInstallationDirectory = "${Env:ProgramData}\chocolatey\bin"
+	If (-not (Get-Command "choco" -ErrorAction SilentlyContinue)) {
+		$ChocolateyInstallationDirectory = "${Env:ProgramData}\chocolatey\bin"
 
-        If (-not (Test-Path "$ChocolateyInstallationDirectory")) {
-            Throw "The choco is needed to use this module"
-        }
+		If (-not (Test-Path "$ChocolateyInstallationDirectory")) {
+			Throw "The choco is needed to use this module"
+		}
 
 		$Env:Path += ";$ChocolateyInstallationDirectory"
-    }
+	}
 }
 
 Function SetupPhpVersionString {
@@ -419,11 +419,15 @@ Function SetupPhpVersionString {
 		DownloadFile $RemoteUrl $DestinationPath
 	}
 
-	$versions = Get-Content $DestinationPath | Where-Object {
-        $_ -match "php-($Env:PHP_MINOR\.\d+)-src"
-    } | ForEach-Object { $matches[1] }
+	$VersionString = Get-Content $DestinationPath | Where-Object {
+		$_ -match "php-($Env:PHP_MINOR\.\d+)-src"
+	} | ForEach-Object { $matches[1] }
 
-	$Env:PHP_VERSION = $versions.Split(' ')[-1]
+	If ($VersionString -NotMatch '\d+\.\d+\.\d+') {
+		Throw "Unable to obtain PHP version string using pattern 'php-($Env:PHP_MINOR\.\d+)-src'"
+	 }
+
+	$Env:PHP_VERSION = $VersionString
 }
 
 Function AppendSessionPath {
@@ -462,51 +466,52 @@ Function AppendSessionPath {
 }
 
 Function Expand-Item7zip {
-    Param(
-        [Parameter(Mandatory=$true)][System.String] $Archive,
-        [Parameter(Mandatory=$true)][System.String] $Destination
-    )
+	Param(
+		[Parameter(Mandatory=$true)][System.String] $Archive,
+		[Parameter(Mandatory=$true)][System.String] $Destination
+	)
 
-    If (-not (Test-Path -Path $Archive -PathType Leaf)) {
-        Throw "Specified archive File is invalid: [$Archive]"
-    }
+	If (-not (Test-Path -Path $Archive -PathType Leaf)) {
+		Throw "Specified archive File is invalid: [$Archive]"
+	}
 
-    If (-not (Test-Path -Path $Destination -PathType Container)) {
-        New-Item $Destination -ItemType Directory | Out-Null
-    }
+	If (-not (Test-Path -Path $Destination -PathType Container)) {
+		New-Item $Destination -ItemType Directory | Out-Null
+	}
 
-    $Result = (& 7z x "$Archive" "-o$Destination" -aoa -bd -y -r)
+	$Result = (& 7z x "$Archive" "-o$Destination" -aoa -bd -y -r)
 
-    $7zipExitCode = $LASTEXITCODE
-    If ($7zipExitCode -ne 0) {
-        Throw "An error occurred while unzipping [$Archive] to [$Destination]. 7Zip Exit Code was [$7zipExitCode]"
-    }
+	$7zipExitCode = $LASTEXITCODE
+	If ($7zipExitCode -ne 0) {
+		Throw "An error occurred while unzipping [$Archive] to [$Destination]. 7Zip Exit Code was [$7zipExitCode]"
+	}
 }
 
 Function DownloadFile {
-    Param(
-        [Parameter(Mandatory=$true)][System.String] $RemoteUrl,
-        [Parameter(Mandatory=$true)][System.String] $DestinationPath
+	Param(
+		[Parameter(Mandatory=$true)][System.String] $RemoteUrl,
+		[Parameter(Mandatory=$true)][System.String] $DestinationPath
 	)
 
-    $RetryMax   = 5
-    $RetryCount = 0
-    $Completed  = $false
+	$RetryMax   = 5
+	$RetryCount = 0
+	$Completed  = $false
 
-    $WebClient = new-object System.Net.WebClient
+	$WebClient = New-Object System.Net.WebClient
+	$WebClient.Headers.Add('User-Agent', 'AppVeyor PowerShell Script')
 
-    While (-not $Completed) {
-        Try {
-            $WebClient.DownloadFile($RemoteUrl, $DestinationPath)
-            $Completed = $true
-        } Catch {
-            If ($RetryCount -ge $RetryMax) {
-                $ErrorMessage = $_.Exception.Message
-                Write-Host "Error downloadingig ${RemoteUrl}: $ErrorMessage"
-                $Completed = $true
-            } Else {
-                $RetryCount++
-            }
-        }
-    }
+	While (-not $Completed) {
+		Try {
+			$WebClient.DownloadFile($RemoteUrl, $DestinationPath)
+			$Completed = $true
+		} Catch {
+			If ($RetryCount -ge $RetryMax) {
+				$ErrorMessage = $_.Exception.Message
+				Write-Host "Error downloadingig ${RemoteUrl}: $ErrorMessage"
+				$Completed = $true
+			} Else {
+				$RetryCount++
+			}
+		}
+	}
 }
