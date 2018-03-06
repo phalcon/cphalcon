@@ -238,6 +238,20 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
 		return statusCode ? (int) statusCode : null;
 	}
+	
+	/**
+	 * Returns the reason phrase
+	 *
+	 *<code>
+	 * echo $response->getReasonPhrase();
+	 *</code>
+	 */
+	public function getReasonPhrase() -> string | null
+	{
+		var statusReasonPhrase;
+		let statusReasonPhrase = substr(this->getHeaders()->get("Status"), 4);
+		return statusReasonPhrase ? statusReasonPhrase : null;
+	}
 
 	/**
 	 * Sets a headers bag for the response externally
