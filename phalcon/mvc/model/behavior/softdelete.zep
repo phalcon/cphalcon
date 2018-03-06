@@ -92,15 +92,14 @@ class SoftDelete extends Behavior
 				}
 
 				/**
-	 * Update the original model too
+	             * Update the original model too
 				 */
 				model->writeAttribute(field, value);
 
 				if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
 					let metaData = model->getModelsMetaData();
-					let columnMap = metaData->getColumnMap(model);
-					model->setSnapshotData(updateModel->getSnapshotData(), columnMap);
-					model->setOldSnapshotData(updateModel->getOldSnapshotData(), columnMap);
+					model->setSnapshotData(updateModel->getSnapshotData());
+					model->setOldSnapshotData(updateModel->getOldSnapshotData());
 				}
 			}
 		}

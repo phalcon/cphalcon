@@ -102,13 +102,13 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 		ZEPHIR_INIT_VAR(_0$$3);
 		ZEPHIR_INIT_NVAR(_0$$3);
 		zephir_create_closure_ex(_0$$3, NULL, phalcon_0__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", NULL, 468, validators, _0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_filter", NULL, 467, validators, _0$$3);
 		zephir_check_call_status();
 		zephir_update_property_this(getThis(), SL("_validators"), _1$$3 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_2$$3);
 		ZEPHIR_INIT_NVAR(_2$$3);
 		zephir_create_closure_ex(_2$$3, NULL, phalcon_1__closure_ce, SS("__invoke") TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_filter", NULL, 468, validators, _2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_filter", NULL, 467, validators, _2$$3);
 		zephir_check_call_status();
 		zephir_update_property_this(getThis(), SL("_combinedFieldsValidators"), _3$$3 TSRMLS_CC);
 	}
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 		ZEPHIR_CALL_METHOD(NULL, messages, "__construct", NULL, 3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, 469, message);
+	ZEPHIR_CALL_METHOD(NULL, messages, "appendmessage", NULL, 468, message);
 	zephir_check_call_status();
 	zephir_update_property_this(getThis(), SL("_messages"), messages TSRMLS_CC);
 	RETURN_THIS();
@@ -810,7 +810,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 						ZEPHIR_CALL_METHOD(NULL, entity, "writeattribute", NULL, 0, field, value);
 						zephir_check_call_status();
 					} else {
-						ZEPHIR_CALL_FUNCTION(&_4$$28, "property_exists", NULL, 330, entity, field);
+						ZEPHIR_CALL_FUNCTION(&_4$$28, "property_exists", NULL, 329, entity, field);
 						zephir_check_call_status();
 						if (zephir_is_true(_4$$28)) {
 							zephir_update_property_zval_zval(entity, field, value TSRMLS_CC);
@@ -851,7 +851,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 		  ; zend_hash_move_forward_ex(_1$$3, &_0$$3)
 		) {
 			ZEPHIR_GET_HVALUE(singleField, _2$$3);
-			ZEPHIR_CALL_METHOD(&result, this_ptr, "prechecking", &_3, 470, singleField, validator);
+			ZEPHIR_CALL_METHOD(&result, this_ptr, "prechecking", &_3, 469, singleField, validator);
 			zephir_check_call_status();
 			if (zephir_is_true(result)) {
 				RETURN_CCTOR(result);

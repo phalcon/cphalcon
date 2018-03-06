@@ -193,17 +193,7 @@ class Dump
 				}
 			} else {
 				// Debug all properties
-				do {
-
-					let attr = each(variable);
-
-					if !attr {
-						continue;
-					}
-
-					let key = attr["key"],
-						value = attr["value"];
-
+				for key, value in variable {
 					if !key {
 						continue;
 					}
@@ -221,8 +211,7 @@ class Dump
 
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": end(key), ":type": type]);
 					let output .= this->output(value, "", tab + 1) . "\n";
-
-				} while attr;
+				}
 			}
 
 			let attr = get_class_methods(variable);

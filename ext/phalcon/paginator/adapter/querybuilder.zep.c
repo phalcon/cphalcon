@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate) {
 		ZEPHIR_OBS_VAR(modelClass);
 		zephir_read_property(&modelClass, builder, SL("_models"), PH_NOISY_CC);
 		if (Z_TYPE_P(modelClass) == IS_ARRAY) {
-			ZEPHIR_CALL_FUNCTION(&_11$$17, "array_values", NULL, 227, modelClass);
+			ZEPHIR_CALL_FUNCTION(&_11$$17, "array_values", NULL, 226, modelClass);
 			zephir_check_call_status();
 			zephir_array_fetch_long(&_12$$17, _11$$17, 0, PH_NOISY | PH_READONLY, "phalcon/paginator/adapter/querybuilder.zep", 231 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(modelClass, _12$$17);

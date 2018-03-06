@@ -9,6 +9,7 @@ return [
         'modelsDir' => PATH_DATA . 'models/',
         'modulesDir' => PATH_DATA . 'modules/',
         'resultsetsDir'  => PATH_DATA . 'resultsets/',
+        'objectsetsDir'  => PATH_DATA . 'objectsets/',
         'collectionsDir' => PATH_DATA . 'collections/',
         'controllersDir' => PATH_DATA . 'controllers/',
         'tasksDir' => PATH_DATA . 'tasks/',

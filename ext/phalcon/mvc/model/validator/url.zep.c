@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate) {
 	}
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, 273);
-	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 204, value, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "filter_var", NULL, 203, value, &_3);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_4))) {
 		ZEPHIR_INIT_VAR(_5$$5);

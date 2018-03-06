@@ -46,6 +46,9 @@ env:
     - PATH="$PATH:$HOME/bin"
     - ZEPHIR_PARSER_VERSION="v1.1.1"
     - RE2C_VERSION="1.0.3"
+    - REPORT_EXIT_STATUS=1
+    - NO_INTERACTION=1
+    - TEST_PHP_ARGS="--show-diff"
     # Generating a valgrind log
     # For more see: https://bugs.php.net/bugs-getting-valgrind-log.php
     #
@@ -68,7 +71,7 @@ install:
   - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest #--ignore-platform-reqs
   # We'll do this in future for the all 7.x series
   - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.2" ] || [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ]; then
+      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ]; then
           composer remove -q -n --no-ansi --no-progress --dev doctrine/instantiator
           composer remove -q -n --no-ansi --no-progress --dev phpdocumentor/reflection-docblock
           composer remove -q -n --no-ansi --no-progress --dev phpunit/phpunit

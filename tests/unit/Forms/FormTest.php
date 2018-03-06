@@ -540,4 +540,59 @@ class FormTest extends UnitTest
             expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
         });
     }
+
+    /**
+     * Tests Form::getMessages(true)
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue 13294
+     * This should be removed in next major version
+     * We should not return multiple type of result in a single method! (form->getMessages(true) vs form->getMessages())
+     */
+    public function testGetElementMessagesFromForm()
+    {
+        $this->specify('When form is not valid, iterate over messages by elements is not possible', function () {
+            // First element
+            $telephone = new Text('telephone');
+            $telephone->addValidators([
+                new PresenceOf([
+                    'message' => 'The telephone is required'
+                ])
+            ]);
+            $customValidation = new Validation();
+            $customValidation->add('telephone', new Regex([
+                'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                'message' => 'The telephone has an invalid format'
+            ]));
+            $form = new Form();
+            $address = new Text('address');
+            $form->add($telephone);
+            $form->add($address);
+            $form->setValidation($customValidation);
+            expect($form->isValid(['address' => 'hello']))->false();
+            expect($form->getMessages(true))->equals([
+                'telephone' => [
+                    Group::__set_state([
+                        '_messages' => [
+                            Message::__set_state([
+                                '_type' => 'Regex',
+                                '_message' => 'The telephone has an invalid format',
+                                '_field' => 'telephone',
+                                '_code' => 0,
+                            ])
+                        ]
+                    ]),
+                    Group::__set_state([
+                        '_messages' => [
+                            Message::__set_state([
+                                '_type' => 'PresenceOf',
+                                '_message' => 'The telephone is required',
+                                '_field' => 'telephone',
+                                '_code' => 0,
+                            ])
+                        ]
+                    ])
+                ]
+            ]);
+        });
+    }
 }

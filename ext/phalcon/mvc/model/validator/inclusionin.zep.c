@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate) {
 		zephir_check_temp_parameter(_5$$7);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_6, "in_array", NULL, 386, value, domain, strict);
+	ZEPHIR_CALL_FUNCTION(&_6, "in_array", NULL, 385, value, domain, strict);
 	zephir_check_call_status();
 	if (!(zephir_is_true(_6))) {
 		ZEPHIR_INIT_VAR(_7$$9);

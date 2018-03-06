@@ -37,6 +37,14 @@ class Personers extends Model
     {
         $this->setSource('personas');
         $this->useDynamicUpdate(true);
+        $this->addBehavior(
+            new Model\Behavior\SoftDelete(
+                [
+                    'field' => 'status',
+                    'value' => 'X',
+                ]
+            )
+        );
     }
 
     public function columnMap()
