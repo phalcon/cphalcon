@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit;
 
 use Phalcon\Debug;
 use Phalcon\Version;
+use Phalcon\Debug\Dump;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -46,6 +47,35 @@ class DebugTest extends UnitTest
                 expect($debug->getVersion())->equals(
                     "<div class='version'>Phalcon Framework <a href={$uri} target={$target}>{$version}</a></div>"
                 );
+            }
+        );
+    }
+
+    /**
+     * Tests function variable for object does not throw a exception
+     *
+     * @author limx <715557344@qq.com>
+     * @link   #13315
+     * @since  2018-03-08
+     */
+    public function testVariableForObjectNotThrowException()
+    {
+        $this->specify(
+            "Function variable for object not work expect",
+            function () {
+                try {
+                    (new Dump(null, true))->variable('xxx');
+                    (new Dump(null, true))->variable(111);
+                    (new Dump(null, true))->variable([1, 2, 3]);
+
+                    $obj = new \stdClass();
+                    $obj->test = 'value';
+                    (new Dump(null, true))->variable($obj);
+
+                    expect(true)->true();
+                } catch (\Exception $ex) {
+                    expect(false)->true();
+                }
             }
         );
     }
