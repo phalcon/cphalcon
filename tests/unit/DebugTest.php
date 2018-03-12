@@ -63,19 +63,31 @@ class DebugTest extends UnitTest
         $this->specify(
             "Function variable for object not work expect",
             function () {
-                try {
-                    (new Dump(null, true))->variable('xxx');
-                    (new Dump(null, true))->variable(111);
-                    (new Dump(null, true))->variable([1, 2, 3]);
+                // Test dump string
+                $string = (new Dump(null, true))->variable('xxx');
+                expect(strip_tags($string))->equals('String (3) "xxx"');
 
-                    $obj = new \stdClass();
-                    $obj->test = 'value';
-                    (new Dump(null, true))->variable($obj);
+                // Test dump integer
+                $string = (new Dump(null, true))->variable(111);
+                expect(strip_tags($string))->equals('Integer (111)');
 
-                    expect(true)->true();
-                } catch (\Exception $ex) {
-                    expect(false)->true();
-                }
+                // Test dump array
+                $string = (new Dump(null, true))->variable([1, 2, 3]);
+                expect(strip_tags($string))->equals('Array (3) (
+  [0] => Integer (1)
+  [1] => Integer (2)
+  [2] => Integer (3)
+)');
+
+                // Test dump object
+                $obj = new \stdClass();
+                $obj->test = 'value';
+                $string = (new Dump(null, true))->variable($obj);
+                expect(strip_tags($string))->equals('Object stdClass (
+  ->test (public) = String (5) "value"
+  stdClass methods: (0) (
+  )
+)');
             }
         );
     }

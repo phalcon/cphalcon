@@ -58,9 +58,7 @@ class Dump
 	{
 		this->setStyles(styles);
 
-        if (version_compare(PHP_VERSION, "7.2", "<")) {
-            let this->_detailed = detailed;
-        }
+        let this->_detailed = detailed;
 	}
 
 
@@ -187,45 +185,12 @@ class Dump
 			if variable instanceof Di {
 				// Skip debugging di
 				let output .= str_repeat(space, tab) . "[skipped]\n";
-			} elseif !this->_detailed {
+			} else {
 				// Debug only public properties
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
 					let output .= this->output(value, "", tab + 1) . "\n";
 				}
-			} else {
-				// Debug all properties
-                do {
-
-                    let attr = each(variable);
-
-                    if !attr {
-                        continue;
-                    }
-
-                    let key = attr["key"],
-                        value = attr["value"];
-
-					if !key {
-						continue;
-					}
-
-					let key = explode(chr(0), key),
-						type = "public";
-
-					if isset key[1] {
-
-						let type = "private";
-
-						if key[1] == "*" {
-							let type = "protected";
-						}
-					}
-
-					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": end(key), ":type": type]);
-					let output .= this->output(value, "", tab + 1) . "\n";
-
-				} while attr;
 			}
 
 			let attr = get_class_methods(variable);
