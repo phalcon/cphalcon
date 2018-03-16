@@ -3518,6 +3518,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 		}
 
+		this->fireEvent("afterFetch");
+
 		return this;
 	}
 
