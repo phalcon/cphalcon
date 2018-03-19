@@ -989,7 +989,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 					}
 				} elseif stripos(authHeader, "digest ") === 0 && !fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
 					let headers["Php-Auth-Digest"] = authHeader;
-				} elseif stripos(authHeader, "bearer ") === 0 {
+				} else {
 					let headers["Authorization"] = authHeader;
 				}
 			}
