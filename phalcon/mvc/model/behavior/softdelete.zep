@@ -37,7 +37,7 @@ class SoftDelete extends Behavior
 	 */
 	public function notify(string! type, <ModelInterface> model)
 	{
-		var options, value, field, updateModel, message, modelsManager, metaData, columnMap;
+		var options, value, field, updateModel, message, modelsManager, metaData;
 
 		if type == "beforeDelete" {
 
