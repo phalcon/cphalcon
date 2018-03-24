@@ -674,6 +674,43 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	}
 
 	/**
+	 * Attach Route object to the routes stack.
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Router;
+	 * use Phalcon\Mvc\Router\Route;
+	 *
+	 * class CustomRoute extends Route {
+     *      // ...
+     * }
+     *
+     * $router = new Router();
+     *
+     * $router->attach(
+     *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
+     *     Router::POSITION_FIRST
+     * );
+	 * </code>
+	 *
+	 * @todo Add to the interface for 4.0.0
+	 */
+	public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>
+	{
+		switch position {
+			case self::POSITION_LAST:
+				let this->_routes[] = route;
+				break;
+			case self::POSITION_FIRST:
+				let this->_routes = array_merge([route], this->_routes);
+				break;
+			default:
+				throw new Exception("Invalid route position");
+		}
+
+		return this;
+	}
+
+	/**
 	 * Adds a route to the router without any HTTP constraint
 	 *
 	 *<code>
@@ -693,19 +730,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		 */
 		let route = new Route(pattern, paths, httpMethods);
 
-		switch position {
-
-			case self::POSITION_LAST:
-				let this->_routes[] = route;
-				break;
-
-			case self::POSITION_FIRST:
-				let this->_routes = array_merge([route], this->_routes);
-				break;
-
-			default:
-				throw new Exception("Invalid route position");
-		}
+		this->attach(route, position);
 
 		return route;
 	}
