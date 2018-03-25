@@ -40,10 +40,11 @@ class AuthHeaderTest extends UnitTest
      */
     public function _before()
     {
+        Di::reset();
         $di = new Di();
 
-        $di->set('filter', Filter::class);
-        $di->set('eventsManager', Manager::class);
+        $di->setShared('filter', Filter::class);
+        $di->setShared('eventsManager', Manager::class);
 
         $this->request = new Request();
         $this->request->setDI($di);

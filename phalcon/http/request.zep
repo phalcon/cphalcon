@@ -978,7 +978,11 @@ class Request implements RequestInterface, InjectionAwareInterface
 		}
 
 		let authHeaders = this->resolveAuthorizationHeaders();
-		let headers = array_merge(headers, authHeaders);
+
+		// Protect for future (child classes) changes
+		if typeof authHeaders === "array" {
+			let headers = array_merge(headers, authHeaders);
+		}
 
 		return headers;
 	}
@@ -988,25 +992,27 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	protected function resolveAuthorizationHeaders() -> array
 	{
-		var resolved, eventsManager, dependencyInjector, exploded, digest, authHeader = null;
+		var resolved, eventsManager, hasEventsManager, dependencyInjector, exploded, digest, authHeader = null;
 		array headers = [];
 
-		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+		let dependencyInjector = <DiInterface> this->getDI();
 
-		if typeof dependencyInjector == "object" {
-			if dependencyInjector->has("eventsManager") {
+		// TODO: Make Request implements EventsAwareInterface for v4.0.0
+		if typeof dependencyInjector === "object" {
+			let hasEventsManager = (bool) dependencyInjector->has("eventsManager");
+			if hasEventsManager {
 				let eventsManager = <ManagerInterface> dependencyInjector->getShared("eventsManager");
 			}
 		}
 
-		if typeof eventsManager == "object" {
+		if hasEventsManager && typeof eventsManager === "object" {
 			let resolved = eventsManager->fire(
 				"request:beforeAuthorizationResolve",
 				this,
 				["server": _SERVER]
 			);
 
-			if typeof resolved == "array" {
+			if typeof resolved === "array" {
 				let headers = array_merge(headers, resolved);
 			}
 		}
@@ -1044,16 +1050,17 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 		}
 
-		if typeof eventsManager == "object" {
+		if hasEventsManager && typeof eventsManager === "object" {
 			let resolved = eventsManager->fire(
 				"request:afterAuthorizationResolve",
 				this,
 				["headers": headers, "server": _SERVER]
 			);
 
-			if typeof resolved == "array" {
+			if typeof resolved === "array" {
 				let headers = array_merge(headers, resolved);
 			}
+
 		}
 
 		return headers;
