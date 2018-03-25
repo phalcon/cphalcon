@@ -34,19 +34,12 @@ class AuthHeaderTest extends UnitTest
      */
     protected $request;
 
-    /**
-     * @var array
-     */
-    protected $server;
 
     /**
      * executed before each test
      */
     public function _before()
     {
-        // Backup current $_SERVER
-        $this->server = $_SERVER;
-
         $di = new Di();
 
         $di->set('filter', Filter::class);
@@ -54,15 +47,6 @@ class AuthHeaderTest extends UnitTest
 
         $this->request = new Request();
         $this->request->setDI($di);
-    }
-
-    /**
-     * executed after each test
-     */
-    public function _after()
-    {
-        // Restore old $_SERVER
-        $_SERVER = $this->server;
     }
 
     /**
