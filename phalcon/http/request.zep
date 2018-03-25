@@ -23,6 +23,7 @@ use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\Exception;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
@@ -952,21 +953,61 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getHeaders() -> array
 	{
-		var name, value, exploded, digest, authHeader = null;
-		array headers, contentHeaders;
+		var name, value, authHeaders;
 
-		let headers = [];
-		let contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true, "CONTENT_MD5": true];
+		array headers = [];
+		array contentHeaders = ["CONTENT_TYPE": true, "CONTENT_LENGTH": true, "CONTENT_MD5": true];
 
 		for name, value in _SERVER {
+			// Note: The starts_with uses case insensitive search here
 			if starts_with(name, "HTTP_") {
 				let name = ucwords(strtolower(str_replace("_", " ", substr(name, 5)))),
 					name = str_replace(" ", "-", name);
 				let headers[name] = value;
-			} elseif isset contentHeaders[name] {
+
+				continue;
+			}
+
+			// The "CONTENT_" headers are not prefixed with "HTTP_".
+			let name = strtoupper(name);
+			if isset contentHeaders[name] {
 				let name = ucwords(strtolower(str_replace("_", " ", name))),
 					name = str_replace(" ", "-", name);
 				let headers[name] = value;
+			}
+		}
+
+		let authHeaders = this->resolveAuthorizationHeaders();
+		let headers = array_merge(headers, authHeaders);
+
+		return headers;
+	}
+
+	/**
+	 * Resolve authorization headers.
+	 */
+	protected function resolveAuthorizationHeaders() -> array
+	{
+		var resolved, eventsManager, dependencyInjector, exploded, digest, authHeader = null;
+		array headers = [];
+
+		let dependencyInjector = <DiInterface> this->_dependencyInjector;
+
+		if typeof dependencyInjector == "object" {
+			if dependencyInjector->has("eventsManager") {
+				let eventsManager = <ManagerInterface> dependencyInjector->getShared("eventsManager");
+			}
+		}
+
+		if typeof eventsManager == "object" {
+			let resolved = eventsManager->fire(
+				"request:beforeAuthorizationResolve",
+				this,
+				["server": _SERVER]
+			);
+
+			if typeof resolved == "array" {
+				let headers = array_merge(headers, resolved);
 			}
 		}
 
@@ -995,14 +1036,24 @@ class Request implements RequestInterface, InjectionAwareInterface
 			}
 		}
 
-		if isset headers["Authorization"] {
-			return headers;
-        }
+		if !isset headers["Authorization"] {
+			if isset headers["Php-Auth-User"] {
+				let headers["Authorization"] = "Basic " . base64_encode(headers["Php-Auth-User"] . ":" . headers["Php-Auth-Pw"]);
+			} elseif fetch digest, headers["Php-Auth-Digest"] {
+				let headers["Authorization"] = digest;
+			}
+		}
 
-		if isset headers["Php-Auth-User"] {
-			let headers["Authorization"] = "Basic " . base64_encode(headers["Php-Auth-User"] . ":" . headers["Php-Auth-Pw"]);
-		} elseif fetch digest, headers["Php-Auth-Digest"] {
-			let headers["Authorization"] = digest;
+		if typeof eventsManager == "object" {
+			let resolved = eventsManager->fire(
+				"request:afterAuthorizationResolve",
+				this,
+				["headers": headers, "server": _SERVER]
+			);
+
+			if typeof resolved == "array" {
+				let headers = array_merge(headers, resolved);
+			}
 		}
 
 		return headers;
