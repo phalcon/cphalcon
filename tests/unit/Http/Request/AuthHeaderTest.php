@@ -5,7 +5,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 use Phalcon\Di;
 use Phalcon\Filter;
 use Phalcon\Http\Request;
+use Phalcon\Events\Manager;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Test\Listener\CustomAuthorizationListener;
+use Phalcon\Test\Listener\NegotiateAuthorizationListener;
 
 /**
  * \Phalcon\Test\Unit\Http\Request\AuthHeaderTest
@@ -32,18 +35,34 @@ class AuthHeaderTest extends UnitTest
     protected $request;
 
     /**
+     * @var array
+     */
+    protected $server;
+
+    /**
      * executed before each test
      */
     public function _before()
     {
+        // Backup current $_SERVER
+        $this->server = $_SERVER;
+
         $di = new Di();
 
-        $di->set('filter', function () {
-            return new Filter();
-        });
+        $di->set('filter', Filter::class);
+        $di->set('eventsManager', Manager::class);
 
         $this->request = new Request();
         $this->request->setDI($di);
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after()
+    {
+        // Restore old $_SERVER
+        $_SERVER = $this->server;
     }
 
     /**
@@ -83,6 +102,82 @@ class AuthHeaderTest extends UnitTest
                 expect($this->request->$function())->equals($expected);
             },
             ['examples' => $this->authProvider()]
+        );
+    }
+
+    /**
+     * Tests fire authorization events.
+     *
+     * @test
+     * @issue  13327
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2018-03-25
+     */
+    public function shouldFireEventWhenRezolveAuthorization()
+    {
+        $this->specify(
+            "Request object does not fire authorization events correctly",
+            function () {
+                $di = $this->request->getDI();
+                $di->getShared('eventsManager')
+                    ->attach('request', new CustomAuthorizationListener());
+
+                $_SERVER = ['HTTP_CUSTOM_KEY' => 'Custom-Value'];
+
+                expect($this->request->getHeaders())->equals([
+                    'Custom-Key'   => 'Custom-Value',
+                    'Fired-Before' => 'beforeAuthorizationResolve',
+                    'Fired-After'  => 'afterAuthorizationResolve',
+                ]);
+            }
+        );
+    }
+
+    /**
+     * Tests custom authorization resolver.
+     *
+     * @test
+     * @issue  13327
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2018-03-25
+     */
+    public function shouldEnableCustomAuthorizationResolver()
+    {
+        $this->specify(
+            'Request object does work with custom authorization resolver correctly',
+            function () {
+                $di = $this->request->getDI();
+                $di->getShared('eventsManager')
+                    ->attach('request', new NegotiateAuthorizationListener());
+
+                $_SERVER['CUSTOM_KERBEROS_AUTH'] = 'Negotiate a87421000492aa874209af8bc028';
+
+                expect($this->request->getHeaders())->equals([
+                    'Authorization' => 'Negotiate a87421000492aa874209af8bc028',
+                ]);
+            }
+        );
+    }
+
+    /**
+     * Tests custom authorization header.
+     *
+     * @test
+     * @issue  13327
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2018-03-25
+     */
+    public function shouldResolveCustomAuthorizationHeaders()
+    {
+        $this->specify(
+            'Request object does work with custom authorization header correctly',
+            function () {
+                $_SERVER['HTTP_AUTHORIZATION'] = 'Enigma Secret';
+
+                expect($this->request->getHeaders())->equals([
+                    'Authorization' => 'Enigma Secret',
+                ]);
+            }
         );
     }
 
