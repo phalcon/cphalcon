@@ -185,7 +185,7 @@ class Dump
 			if variable instanceof Di {
 				// Skip debugging di
 				let output .= str_repeat(space, tab) . "[skipped]\n";
-			} elseif !this->_detailed {
+			} elseif !this->_detailed || variable instanceof \stdClass {
 				// Debug only public properties
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
@@ -193,24 +193,23 @@ class Dump
 				}
 			} else {
 				// Debug all properties
-				for key, value in variable {
-					if !key {
-						continue;
-					}
-					let key = explode(chr(0), key),
-						type = "public";
+				var reflect, props, property;
 
-					if isset key[1] {
+				let reflect = new \ReflectionClass(variable);
+				let props = reflect->getProperties(
+					\ReflectionProperty::IS_PUBLIC |
+					\ReflectionProperty::IS_PROTECTED |
+					\ReflectionProperty::IS_PRIVATE
+				);
 
-						let type = "private";
+				for property in props {
+					property->setAccessible(true);
 
-						if key[1] == "*" {
-							let type = "protected";
-						}
-					}
+					let key = property->getName(),
+						type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
 
-					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": end(key), ":type": type]);
-					let output .= this->output(value, "", tab + 1) . "\n";
+					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
+                    let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
 				}
 			}
 
