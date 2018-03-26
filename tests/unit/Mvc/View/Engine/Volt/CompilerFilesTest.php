@@ -74,7 +74,7 @@ class CompilerFilesTest extends UnitTest
 
                 expect(file_get_contents($params['contentPath']))->equals($expected);
 
-                $this->removeFilesWithoutErrors($params['removeFiles']);
+                $this->silentRemoveFiles($params['removeFiles']);
             },
             [
                 'examples' => include_once PATH_FIXTURES . 'mvc/view/engine/volt/compiler_files_test/volt_compiler_file.php'
@@ -96,7 +96,7 @@ class CompilerFilesTest extends UnitTest
 
         expect(trim(file_get_contents(PATH_DATA . 'views/templates/c.volt.php')))->equals("[A[###[B]###]]");
 
-        $this->removeFilesWithoutErrors([
+        $this->silentRemoveFiles([
             PATH_DATA . 'views/templates/a.volt%%e%%.php',
             PATH_DATA . 'views/templates/b.volt%%e%%.php',
             PATH_DATA . 'views/templates/c.volt.php',
@@ -118,7 +118,7 @@ class CompilerFilesTest extends UnitTest
 
         expect(file_get_contents($data['contentPath']))->equals($data['expected']);
 
-        $this->removeFilesWithoutErrors($data['removeFiles']);
+        $this->silentRemoveFiles($data['removeFiles']);
     }
 
     /**
@@ -138,7 +138,7 @@ class CompilerFilesTest extends UnitTest
 
                 expect(file_get_contents($params['contentPath']))->equals($expected);
 
-                $this->removeFilesWithoutErrors($params['removeFiles']);
+                $this->silentRemoveFiles($params['removeFiles']);
             },
             [
                 'examples' => include_once PATH_FIXTURES . 'mvc/view/engine/volt/compiler_files_test/volt_compile_file_extends_multiple.php'

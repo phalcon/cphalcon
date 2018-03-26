@@ -59,7 +59,7 @@ class ViewEnginesTest extends UnitTest
 
                 $this->assertEquals($this->view->getContent(), $expected);
 
-                $this->removeFilesWithoutErrors([
+                $this->silentRemoveFiles([
                         PATH_DATA . 'views/test11/index.volt.php',
                 ]);
             },
