@@ -1,0 +1,7 @@
+Object Phalcon\Test\Debug\ClassProperties (
+  ->foo (public) = Integer (1)
+  ->bar (protected) = Integer (2)
+  ->baz (private) = Integer (3)
+  Phalcon\Test\Debug\ClassProperties methods: (0) (
+  )
+)
