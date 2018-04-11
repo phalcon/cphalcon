@@ -159,7 +159,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 				}
 
 				if typeof mergedTypes == "array" {
-					let this->_bindTypes  = mergedTypes;
+					let this->_bindTypes  = mergedTypes->values();
 				}
 			}
 
