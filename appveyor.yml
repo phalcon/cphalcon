@@ -28,7 +28,7 @@ environment:
           APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     PHP_PATH: C:\Projects\php
     PHP_SDK_PATH: C:\Projects\php-sdk
-    DEVPACK_PATH: C:\Projects\php-devpack
+    PHP_DEVPACK: C:\Projects\php-devpack
     TEST_PHP_EXECUTABLE: C:\Projects\php\php.exe
     PHP_SDK_VERSION: 2.0.7
     PACKAGE_PREFIX: phalcon
@@ -60,7 +60,9 @@ branches:
   only:
     - master
     - 4.0.x
-    - 3.3.x
+    - 3.4.x
+
+skip_non_tags: true
 
 install:
     - git submodule update --init --recursive
@@ -87,8 +89,8 @@ build_script:
     - 'cd %APPVEYOR_BUILD_FOLDER%\build'
     - 'php gen-build.php'
     - 'cd %APPVEYOR_BUILD_FOLDER%\build\php7\safe'
-    - '%DEVPACK_PATH%\phpize.bat'
-    - 'configure --with-prefix=%PHP_PATH% --with-php-build=%DEVPACK_PATH% --disable-all --enable-phalcon'
+    - '%PHP_DEVPACK%\phpize.bat'
+    - 'configure --with-prefix=%PHP_PATH% --with-php-build=%PHP_DEVPACK% --disable-all --enable-phalcon'
     - nmake 2> compile-errors.log 1> compile.log
     - ps: EnableExtension
 
