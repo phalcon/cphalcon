@@ -23,7 +23,7 @@ Function PrepareReleasePackage {
 	Copy-Item "${Env:RELEASE_DLL_PATH}" "${PackagePath}"
 
 	Set-Location "${PackagePath}"
-	$result = (& 7z a "${Env:RELEASE_ZIPBALL}.zip" *.*)
+	$result = (& 7z a "${Env:RELEASE_ZIPBALL}.zip" "*.*")
 
 	$7zipExitCode = $LASTEXITCODE
 	If ($7zipExitCode -ne 0) {
@@ -187,6 +187,10 @@ Function PrintDirectoriesContent {
 	If (Test-Path -Path "${BuildPath}") {
 		Get-ChildItem -Path "${BuildPath}"
 	}
+
+    If (Test-Path -Path "${Env:PHP_DEVPACK}") {
+        Get-ChildItem -Path "${Env:PHP_DEVPACK}"
+    }
 }
 
 Function PrintPhpInfo {
@@ -214,7 +218,7 @@ Function InitializeBuildVars {
 				Throw'The VS120COMNTOOLS environment variable is not set. Check your MS VS installation'
 			}
 			$Env:VSCOMNTOOLS = $Env:VS120COMNTOOLS -replace '\\$', ''
-			
+
 			break
 		}
 		'15' {
@@ -266,7 +270,7 @@ Function InstallPhpDevPack {
 	$RemoteUrl = "http://windows.php.net/downloads/releases/php-devel-pack-${Env:PHP_VERSION}-${Env:BUILD_TYPE}-vc${Env:VC_VERSION}-${Env:PLATFORM}.zip"
 	$DestinationPath = "C:\Downloads\php-devel-pack-${Env:PHP_VERSION}-${Env:BUILD_TYPE}-VC${Env:VC_VERSION}-${Env:PLATFORM}.zip"
 
-	If (-not (Test-Path $Env:DEVPACK_PATH)) {
+	If (-not (Test-Path $Env:PHP_DEVPACK)) {
 		If (-not [System.IO.File]::Exists($DestinationPath)) {
 			Write-Host "Downloading PHP Dev pack: ${RemoteUrl} ..."
 			DownloadFile $RemoteUrl $DestinationPath
@@ -278,7 +282,7 @@ Function InstallPhpDevPack {
 			Expand-Item7zip $DestinationPath $Env:Temp
 		}
 
-		Move-Item -Path $DestinationUnzipPath -Destination $Env:DEVPACK_PATH
+		Move-Item -Path $DestinationUnzipPath -Destination $Env:PHP_DEVPACK
 	}
 }
 
@@ -286,7 +290,7 @@ Function InstallStablePhalcon {
 	$BaseUri = "https://github.com/phalcon/cphalcon/releases/download"
 	$PatchSuffix = ".0"
 	$LocalPart = "${Env:PACKAGE_PREFIX}_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_MINOR}${PatchSuffix}"
-	
+
 
 	If ($Env:BUILD_TYPE -Match "nts-Win32") {
 		$VersionSuffix = "${Env:PHALCON_STABLE_VERSION}_nts"
