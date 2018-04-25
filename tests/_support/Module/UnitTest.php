@@ -59,20 +59,25 @@ class UnitTest extends Unit
             }
         }
     }
-    
+
     /**
-     * Remove files without errors
+     * Tries to delete a file (or a list of files) which may not exist.
      *
-     * @param mixed $function
+     * @param mixed $files
+     * @return void
      */
-    public function removeFilesWithoutErrors($files)
+    public function silentRemoveFiles($files)
     {
+        if (!is_string($files) && !is_array($files)) {
+            return;
+        }
+
         if (!is_array($files)) {
-            $files = array($files);
+            $files = [$files];
         }
 
         foreach ($files as $file) {
-            if (file_exists($file) && is_readable($file)) {
+            if (file_exists($file) && is_readable($file) && !is_dir($file)) {
                 @unlink($file);
             }
         }

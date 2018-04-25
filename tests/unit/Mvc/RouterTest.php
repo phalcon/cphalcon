@@ -19,7 +19,6 @@ namespace Phalcon\Test\Unit\Mvc;
 
 use Helper\Mvc\RouterTrait;
 use Phalcon\Mvc\Router;
-use Phalcon\Http\Request;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Module\UnitTest;
 
@@ -261,6 +260,30 @@ class RouterTest extends UnitTest
             [
                 'examples' => include_once PATH_FIXTURES . 'mvc/router_test/matching_with_path_provider.php'
             ]
+        );
+    }
+
+    /**
+     * @test
+     * @issue  13326
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2018-03-24
+     */
+    public function shouldAttachRoute()
+    {
+        $this->specify(
+            'Err',
+            function () {
+                $router = $this->getRouter(false);
+                expect($router->getRoutes())->count(0);
+
+                $router->attach(
+                    new Route("/about", "About::index", ["GET", "HEAD"]),
+                    Router::POSITION_FIRST
+                );
+
+                expect($router->getRoutes())->count(1);
+            }
         );
     }
 
