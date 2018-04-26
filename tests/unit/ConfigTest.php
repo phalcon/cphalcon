@@ -350,4 +350,23 @@ class ConfigTest extends ConfigBase
             ]
         );
     }
+
+    /**
+     * Tests issue 13351
+     *
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2018-04-27
+     */
+    public function testIssue13351MergeNonZeroBasedNumericKey()
+    {
+        $config = new Config([1 => 'Apple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+        expect($config->toArray())->equals(
+            [
+                1 => 'Apple',
+                2 => 'Banana',
+            ]
+        );
+    }
 }

@@ -302,7 +302,7 @@ class Config implements \ArrayAccess, \Countable
 	 */
 	protected final function _merge(<Config> config, var instance = null) -> <Config>
 	{
-		var key, value, number, localObject, property;
+		var key, originalKey, value, number, localObject, property;
 
 		if typeof instance !== "object" {
 			let instance = this;
@@ -323,8 +323,14 @@ class Config implements \ArrayAccess, \Countable
 			}
 
 			if is_numeric(key) {
-				let key = strval(number),
-					number++;
+                let originalKey = key;
+				let key = strval(number);
+                if this->offsetExists(key) {
+                    //if we get here then it means we have non zero-based config
+                    //try to use originalKey to avoid we overrite incorrect key
+                    let key = originalKey;
+                }
+                let number++;
 			}
 			let instance->{key} = value;
 		}
