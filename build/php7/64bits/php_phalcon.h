@@ -40,10 +40,13 @@
 typedef struct _zephir_memory_entry {
 	size_t pointer;
 	size_t capacity;
-	zval **addresses;
+	zval ***addresses;
+	size_t alt_pointer;
+	size_t alt_capacity;
+	zval **alt_addresses;
 	size_t hash_pointer;
 	size_t hash_capacity;
-	zval **hash_addresses;
+	zval ***hash_addresses;
 	struct _zephir_memory_entry *prev;
 	struct _zephir_memory_entry *next;
 #ifndef ZEPHIR_RELEASE
@@ -55,7 +58,7 @@ typedef struct _zephir_memory_entry {
 /** Virtual Symbol Table */
 typedef struct _zephir_symbol_table {
 	struct _zephir_memory_entry *scope;
-	zend_array *symbol_table;
+	HashTable *symbol_table;
 	struct _zephir_symbol_table *prev;
 } zephir_symbol_table;
 
@@ -64,7 +67,18 @@ typedef struct _zephir_function_cache {
 	zend_function *func;
 } zephir_function_cache;
 
+#ifndef ZEPHIR_RELEASE
+
+typedef struct _zephir_fcall_cache_entry {
+	zend_function *f;
+	zend_uint times;
+} zephir_fcall_cache_entry;
+
+#else
+
 typedef zend_function zephir_fcall_cache_entry;
+
+#endif
 
 #define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 
@@ -84,6 +98,10 @@ typedef zend_function zephir_fcall_cache_entry;
 	if (zephir_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
 		return FAILURE; \
 	}
+
+#ifndef HASH_KEY_NON_EXISTENT
+# define HASH_KEY_NON_EXISTENT HASH_KEY_NON_EXISTANT
+#endif
 
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
 # define UNREACHABLE() __builtin_unreachable()
@@ -187,6 +205,10 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/* Max recursion control */
 	unsigned int recursive_lock;
 
+	/* Global constants */
+	zval *global_true;
+	zval *global_false;
+	zval *global_null;
 	
 	zephir_struct_db db;
 
@@ -202,14 +224,13 @@ ZEND_END_MODULE_GLOBALS(phalcon)
 ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS
-	#define ZEPHIR_GLOBAL(v) ZEND_MODULE_GLOBALS_ACCESSOR(phalcon, v)
+	#define ZEPHIR_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
 #else
 	#define ZEPHIR_GLOBAL(v) (phalcon_globals.v)
 #endif
 
 #ifdef ZTS
-	void ***tsrm_ls;
-	#define ZEPHIR_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_get_ls_cache()))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
+	#define ZEPHIR_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_ls))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
 #else
 	#define ZEPHIR_VGLOBAL &(phalcon_globals)
 #endif
