@@ -318,4 +318,73 @@ class LoaderTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests Loader::setFileCheckingCallback
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2018-04-29
+     * @issue  https://github.com/phalcon/cphalcon/issues/13360
+     * @issue  https://github.com/phalcon/cphalcon/issues/10472
+     */
+    public function shouldNotFindFilesWithFalseCallback()
+    {
+        $this->specify(
+            'File checking does not work as expected',
+            function () {
+                $loader = new Loader();
+                $loader->setFileCheckingCallback(function ($file) {
+                    return false;
+                });
+
+                $loader->registerFiles([
+                    PATH_DATA . 'vendor/Example/Other/NoClass3.php'
+                ]);
+
+                $loader->registerNamespaces([
+                    'Example' => PATH_DATA . 'vendor/Example/'
+                ], true);
+
+                $loader->register();
+
+                expect(function_exists('noClass3Foo'))->false();
+                expect(function_exists('noClass3Bar'))->false();
+            }
+        );
+    }
+
+    /**
+     * Tests Loader::setFileCheckingCallback
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2018-04-29
+     * @issue  https://github.com/phalcon/cphalcon/issues/13360
+     * @issue  https://github.com/phalcon/cphalcon/issues/10472
+     */
+    public function shouldWorkWithCustomFileCheckCallback()
+    {
+        $this->specify(
+            'File checking does not work as expected',
+            function () {
+                $loader = new Loader();
+                $loader->setFileCheckingCallback('stream_resolve_include_path');
+
+                $loader->registerFiles([
+                    PATH_DATA . 'vendor/Example/Other/NoClass3.php'
+                ]);
+
+                $loader->registerNamespaces([
+                    'Example' => PATH_DATA . 'vendor/Example/'
+                ], true);
+
+                $loader->register();
+
+                expect(function_exists('noClass3Foo'))->true();
+                expect(function_exists('noClass3Bar'))->true();
+                expect(class_exists('\Example\Engines\LeEngine2'))->true();
+            }
+        );
+    }
 }

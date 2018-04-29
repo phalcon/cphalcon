@@ -3,5 +3,6 @@
 - Added the ability to listen `request:beforeAuthorizationResolve` and `request:afterAuthorizationResolve` events. This ability enables using custom authorization resolvers [#13327](https://github.com/phalcon/cphalcon/pull/13327)
 - Added call event `afterFetch` in `Phalcon\Mvc\Model:refresh` [#12220](https://github.com/phalcon/cphalcon/issues/12220)
 - Added `Phalcon\Http\Response::getReasonPhrase` to retrieve the reason phrase from the `Status` header [#13314](https://github.com/phalcon/cphalcon/pull/13314)
+- Added `Phalcon\Loader::setFileCheckingCallaback` to set internal file existence resolver [#13360](https://github.com/phalcon/cphalcon/issues/13360)
 - Fixed regression ([#13308](https://github.com/phalcon/cphalcon/pull/13308)) for `Phalcon\Debug\Dump::output` to correctly work with detailed mode [#13315](https://github.com/phalcon/cphalcon/issues/13315)
 - Do not throw Exception when superglobal does not exist [#13252](https://github.com/phalcon/cphalcon/issues/13252), [#13254](https://github.com/phalcon/cphalcon/issues/13254), [#12918](https://github.com/phalcon/cphalcon/issues/12918)
