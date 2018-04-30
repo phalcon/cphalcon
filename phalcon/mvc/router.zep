@@ -681,15 +681,15 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 * use Phalcon\Mvc\Router\Route;
 	 *
 	 * class CustomRoute extends Route {
-     *      // ...
-     * }
-     *
-     * $router = new Router();
-     *
-     * $router->attach(
-     *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
-     *     Router::POSITION_FIRST
-     * );
+	 *      // ...
+	 * }
+	 *
+	 * $router = new Router();
+	 *
+	 * $router->attach(
+	 *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
+	 *     Router::POSITION_FIRST
+	 * );
 	 * </code>
 	 *
 	 * @todo Add to the interface for 4.0.0
