@@ -39,7 +39,7 @@ environment:
     COMPOSER_NO_INTERACTION: 1
     PARSER_VERSION: 1.1.2
     PARSER_RELEASE: 290
-    PHALCON_STABLE_VERSION: 3.3.1
+    PHALCON_STABLE_VERSION: 3.3.2
 
 matrix:
     fast_finish: true
