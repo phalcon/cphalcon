@@ -144,7 +144,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	 * however if a model got a transaction set inside it will use the local transaction instead of this one
 	 */
 	protected _transaction { get };
-	
+
 	static protected _irPhqlCache;
 
 	const TYPE_SELECT = 309;
@@ -3530,7 +3530,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 	{
 		var currentBindTypes;
 
-		if merge {
+		if unlikely merge {
 			let currentBindTypes = this->_bindTypes;
 			if typeof currentBindTypes == "array" {
 				let this->_bindTypes = currentBindTypes + bindTypes;
