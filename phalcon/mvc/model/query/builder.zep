@@ -757,10 +757,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->having("SUM(Robots.price) > 0");
 	 *
 	 * $builder->having(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -809,10 +809,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->andHaving("SUM(Robots.price) > 0");
 	 *
 	 * $builder->andHaving(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -844,10 +844,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->orHaving("SUM(Robots.price) > 0");
 	 *
 	 * $builder->orHaving(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
