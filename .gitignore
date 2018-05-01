@@ -45,7 +45,7 @@ lemon
 .libs/
 .temp/
 autom4te.cache/
-vendor/
+/vendor/
 ide/
 
 composer.lock
