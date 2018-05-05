@@ -48,6 +48,9 @@ class Crypt implements CryptInterface
 
 	protected _padding = 0;
 
+	/**
+	 * @todo Change default cipher to aes-256-gcm for PHP 7.1+
+     */
 	protected _cipher = "aes-256-cfb";
 
 	/**
@@ -73,6 +76,7 @@ class Crypt implements CryptInterface
 	/**
 	 * Phalcon\Crypt constructor
 	 *
+	 * @todo Change default cipher to aes-256-gcm for PHP 7.1+
 	 * @throws \Phalcon\Crypt\Exception
 	 */
 	public function __construct(string! cipher = "aes-256-cfb")
@@ -94,10 +98,11 @@ class Crypt implements CryptInterface
 	/**
 	 * Sets the cipher algorithm.
 	 *
-	 * The `aes-256-gcm' is preferable cipher , but not usable until
+	 * The `aes-256-gcm' is preferable cipher, but not usable until
 	 * the openssl library is enhanced, which is due in PHP 7.1.
+	 *
 	 * The `aes-256-ctr' is arguably the best choice for cipher
-	 * algorithm for PHP 5.6+.
+	 * algorithm for current openssl library version.
 	 *
 	 * @throws \Phalcon\Crypt\Exception
 	 */
@@ -121,6 +126,15 @@ class Crypt implements CryptInterface
 	 * Sets the encryption key.
 	 *
 	 * The `$key' should have been previously generated in a cryptographically safe way.
+	 *
+	 * Bad key:
+	 * "le password"
+	 *
+	 * Better (but still unsafe):
+	 * "#1dj8$=dp?.ak//j1V$"
+	 *
+	 * Good key:
+	 * "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
 	 *
 	 * @see \Phalcon\Security\Random::bytes
 	 */
