@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2018 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -25,27 +25,36 @@ use Phalcon\Crypt\Exception;
 /**
  * Phalcon\Crypt
  *
- * Provides encryption facilities to phalcon applications
+ * Provides encryption facilities to Phalcon applications.
  *
- *<code>
- * $crypt = new \Phalcon\Crypt();
+ * <code>
+ * use Phalcon\Crypt;
  *
- * $key  = "le password";
- * $text = "This is a secret text";
+ * $crypt = new Crypt();
+ *
+ * $crypt->setCipher('aes-256-ctr');
+ *
+ * $key  = "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
+ * $text = "The message to be encrypted";
  *
  * $encrypted = $crypt->encrypt($text, $key);
  *
  * echo $crypt->decrypt($encrypted, $key);
- *</code>
+ * </code>
  */
 class Crypt implements CryptInterface
 {
-
 	protected _key;
 
 	protected _padding = 0;
 
 	protected _cipher = "aes-256-cfb";
+
+	/**
+	 * Available cipher methods.
+	 * @var array
+     */
+	protected availableCiphers;
 
 	const PADDING_DEFAULT = 0;
 
@@ -62,6 +71,18 @@ class Crypt implements CryptInterface
 	const PADDING_SPACE = 6;
 
 	/**
+	 * Phalcon\Crypt constructor
+	 *
+	 * @throws \Phalcon\Crypt\Exception
+	 */
+	public function __construct(string! cipher = "aes-256-cfb")
+	{
+		let this->availableCiphers = openssl_get_cipher_methods(true);
+
+		this->setCipher(cipher);
+	}
+
+	/**
 	 * Changes the padding scheme used
 	 */
 	public function setPadding(int! scheme) -> <CryptInterface>
@@ -71,10 +92,19 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Sets the cipher algorithm
+	 * Sets the cipher algorithm.
+	 *
+	 * The `aes-256-gcm' is preferable cipher , but not usable until
+	 * the openssl library is enhanced, which is due in PHP 7.1.
+	 * The `aes-256-ctr' is arguably the best choice for cipher
+	 * algorithm for PHP 5.6+.
+	 *
+	 * @throws \Phalcon\Crypt\Exception
 	 */
 	public function setCipher(string! cipher) -> <Crypt>
 	{
+		this->assertAvailableCipher(cipher);
+
 		let this->_cipher = cipher;
 		return this;
 	}
@@ -88,7 +118,11 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Sets the encryption key
+	 * Sets the encryption key.
+	 *
+	 * The `$key' should have been previously generated in a cryptographically safe way.
+	 *
+	 * @see \Phalcon\Security\Random::bytes
 	 */
 	public function setKey(string! key) -> <Crypt>
 	{
@@ -107,7 +141,7 @@ class Crypt implements CryptInterface
 	/**
 	 * Pads texts before encryption
 	 *
-	 * @see http://www.di-mgt.com.au/cryptopad.html
+	 * @link http://www.di-mgt.com.au/cryptopad.html
 	 */
 	protected function _cryptPadText(string text, string! mode, int! blockSize, int! paddingType)
 	{
@@ -169,8 +203,9 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Removes padding @a padding_type from @a text
-	 * If the function detects that the text was not padded, it will return it unmodified
+	 * Removes a padding from a text.
+	 *
+	 * If the function detects that the text was not padded, it will return it unmodified.
 	 *
 	 * @param string text Message to be unpadded
 	 * @param string mode Encryption mode; unpadding is applied only in CBC or ECB mode
@@ -268,9 +303,9 @@ class Crypt implements CryptInterface
 	/**
 	 * Encrypts a text
 	 *
-	 *<code>
+	 * <code>
 	 * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
-	 *</code>
+	 * </code>
 	 */
 	public function encrypt(string! text, string! key = null) -> string
 	{
@@ -293,9 +328,7 @@ class Crypt implements CryptInterface
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 
-		if !in_array(cipher, openssl_get_cipher_methods(true)) {
-			throw new Exception("Cipher algorithm is unknown");
-		}
+		this->assertAvailableCipher(cipher);
 
 		let ivSize = openssl_cipher_iv_length(cipher);
 		if ivSize > 0 {
@@ -319,9 +352,9 @@ class Crypt implements CryptInterface
 	/**
 	 * Decrypts an encrypted text
 	 *
-	 *<code>
+	 * <code>
 	 * echo $crypt->decrypt($encrypted, "decrypt password");
-	 *</code>
+	 * </code>
 	 */
 	public function decrypt(string! text, key = null) -> string
 	{
@@ -344,9 +377,7 @@ class Crypt implements CryptInterface
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 
-		if !in_array(cipher, openssl_get_cipher_methods(true)) {
-			throw new Exception("Cipher algorithm is unknown");
-		}
+		this->assertAvailableCipher(cipher);
 
 		let ivSize = openssl_cipher_iv_length(cipher);
 		if ivSize > 0 {
@@ -393,6 +424,29 @@ class Crypt implements CryptInterface
 	 */
 	public function getAvailableCiphers() -> array
 	{
-		return openssl_get_cipher_methods(true);
+		var availableCiphers;
+
+		let availableCiphers = this->availableCiphers;
+		if unlikely typeof availableCiphers !== "array" {
+			let availableCiphers = openssl_get_cipher_methods(true);
+		}
+
+		return availableCiphers;
+	}
+
+	/**
+	 * Assert a cipher is available.
+	 *
+	 * @throws \Phalcon\Crypt\Exception
+	 */
+	public function assertAvailableCipher(string! cipher) ->void
+	{
+		var availableCiphers;
+
+		let availableCiphers = this->getAvailableCiphers();
+
+		if !in_array(cipher, availableCiphers) {
+			throw new Exception("Cipher algorithm is unknown");
+		}
 	}
 }
