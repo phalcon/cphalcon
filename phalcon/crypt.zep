@@ -48,9 +48,6 @@ class Crypt implements CryptInterface
 
 	protected _padding = 0;
 
-	/**
-	 * @todo Change default cipher to aes-256-gcm for PHP 7.1+
-     */
 	protected _cipher = "aes-256-cfb";
 
 	/**
@@ -58,6 +55,12 @@ class Crypt implements CryptInterface
 	 * @var array
      */
 	protected availableCiphers;
+
+	/**
+	 * The cipher iv length.
+	 * @var int
+	 */
+	protected ivLength = 16;
 
 	const PADDING_DEFAULT = 0;
 
@@ -75,14 +78,10 @@ class Crypt implements CryptInterface
 
 	/**
 	 * Phalcon\Crypt constructor
-	 *
-	 * @todo Change default cipher to aes-256-gcm for PHP 7.1+
-	 * @throws \Phalcon\Crypt\Exception
 	 */
 	public function __construct(string! cipher = "aes-256-cfb")
 	{
-		let this->availableCiphers = openssl_get_cipher_methods(true);
-
+		this->initializeAvailableCiphers();
 		this->setCipher(cipher);
 	}
 
@@ -103,13 +102,12 @@ class Crypt implements CryptInterface
 	 *
 	 * The `aes-256-ctr' is arguably the best choice for cipher
 	 * algorithm for current openssl library version.
-	 *
-	 * @throws \Phalcon\Crypt\Exception
 	 */
 	public function setCipher(string! cipher) -> <Crypt>
 	{
 		this->assertAvailableCipher(cipher);
 
+		let this->ivLength = this->getIvLength(cipher);
 		let this->_cipher = cipher;
 		return this;
 	}
@@ -323,11 +321,7 @@ class Crypt implements CryptInterface
 	 */
 	public function encrypt(string! text, string! key = null) -> string
 	{
-		var encryptKey, ivSize, iv, cipher, mode, blockSize, paddingType, padded;
-
-		if !function_exists("openssl_cipher_iv_length") {
-			throw new Exception("openssl extension is required");
-		}
+		var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType, padded;
 
 		if key === null {
 			let encryptKey = this->_key;
@@ -344,14 +338,14 @@ class Crypt implements CryptInterface
 
 		this->assertAvailableCipher(cipher);
 
-		let ivSize = openssl_cipher_iv_length(cipher);
-		if ivSize > 0 {
-			let blockSize = ivSize;
+		let ivLength = this->ivLength;
+		if likely ivLength > 0 {
+			let blockSize = ivLength;
 		} else {
-			let blockSize = openssl_cipher_iv_length(str_ireplace("-" . mode, "", cipher));
+			let blockSize = this->getIvLength(str_ireplace("-" . mode, "", cipher));
 		}
 
-		let iv = openssl_random_pseudo_bytes(ivSize);
+		let iv = openssl_random_pseudo_bytes(ivLength);
 		let paddingType = this->_padding;
 
 		if paddingType != 0 && (mode == "cbc" || mode == "ecb") {
@@ -372,11 +366,7 @@ class Crypt implements CryptInterface
 	 */
 	public function decrypt(string! text, key = null) -> string
 	{
-		var decryptKey, ivSize, cipher, mode, blockSize, paddingType, decrypted;
-
-		if !function_exists("openssl_cipher_iv_length") {
-			throw new Exception("openssl extension is required");
-		}
+		var decryptKey, ivLength, cipher, mode, blockSize, paddingType, decrypted;
 
 		if key === null {
 			let decryptKey = this->_key;
@@ -393,14 +383,16 @@ class Crypt implements CryptInterface
 
 		this->assertAvailableCipher(cipher);
 
-		let ivSize = openssl_cipher_iv_length(cipher);
-		if ivSize > 0 {
-			let blockSize = ivSize;
+		let ivLength = this->ivLength;
+		if likely ivLength > 0 {
+			let blockSize = ivLength;
 		} else {
-			let blockSize = openssl_cipher_iv_length(str_ireplace("-" . mode, "", cipher));
+			let blockSize = this->getIvLength(str_ireplace("-" . mode, "", cipher));
 		}
 
-		let decrypted = openssl_decrypt(substr(text, ivSize), cipher, decryptKey, OPENSSL_RAW_DATA, substr(text, 0, ivSize));
+		let decrypted = openssl_decrypt(
+			substr(text, ivLength), cipher, decryptKey, OPENSSL_RAW_DATA, substr(text, 0, ivLength)
+		);
 
 		let paddingType = this->_padding;
 
@@ -442,7 +434,8 @@ class Crypt implements CryptInterface
 
 		let availableCiphers = this->availableCiphers;
 		if unlikely typeof availableCiphers !== "array" {
-			let availableCiphers = openssl_get_cipher_methods(true);
+			this->initializeAvailableCiphers();
+			let availableCiphers = this->availableCiphers;
 		}
 
 		return availableCiphers;
@@ -462,5 +455,33 @@ class Crypt implements CryptInterface
 		if !in_array(cipher, availableCiphers) {
 			throw new Exception("Cipher algorithm is unknown");
 		}
+	}
+
+	/**
+	 * Initialize available cipher algorithms.
+	 *
+	 * @throws \Phalcon\Crypt\Exception
+	 */
+	protected function getIvLength(string! cipher) -> int
+	{
+		if !function_exists("openssl_cipher_iv_length") {
+			throw new Exception("openssl extension is required");
+		}
+
+		return openssl_cipher_iv_length(cipher);
+	}
+
+	/**
+	 * Initialize available cipher algorithms.
+	 *
+	 * @throws \Phalcon\Crypt\Exception
+	 */
+	protected function initializeAvailableCiphers(bool aliases = true) -> void
+	{
+		if !function_exists("openssl_get_cipher_methods") {
+			throw new Exception("openssl extension is required");
+		}
+
+		let this->availableCiphers = openssl_get_cipher_methods(aliases);
 	}
 }
