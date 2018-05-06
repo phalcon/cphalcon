@@ -105,7 +105,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	/**
 	 * Sets the cookie's sign key.
 	 *
-	 * The key MUST be at least 32 characters long
+	 * The `$signKey' MUST be at least 32 characters long
 	 * and generated using a cryptographically secure pseudo random generator.
 	 *
 	 * Use NULL to disable cookie signing.
