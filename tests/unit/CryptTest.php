@@ -44,7 +44,7 @@ class CryptTest extends UnitTest
     public function shouldThrowExceptionIfCipherIsUnknown()
     {
         $this->specify(
-            'Crypt does not validate cipher algorithm as exapected',
+            'Crypt does not validate cipher algorithm as expected',
             function () {
                 $crypt = new Crypt();
                 $crypt->setCipher('xxx-yyy-zzz');
