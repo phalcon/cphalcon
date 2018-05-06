@@ -77,7 +77,7 @@ class Crypt implements CryptInterface
 	const PADDING_SPACE = 6;
 
 	/**
-	 * Phalcon\Crypt constructor
+	 * Phalcon\Crypt constructor.
 	 */
 	public function __construct(string! cipher = "aes-256-cfb")
 	{
@@ -86,7 +86,7 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Changes the padding scheme used
+	 * Changes the padding scheme used.
 	 */
 	public function setPadding(int! scheme) -> <CryptInterface>
 	{
@@ -107,8 +107,9 @@ class Crypt implements CryptInterface
 	{
 		this->assertAvailableCipher(cipher);
 
-		let this->ivLength = this->getIvLength(cipher);
-		let this->_cipher = cipher;
+		let this->ivLength = this->getIvLength(cipher),
+			this->_cipher  = cipher;
+
 		return this;
 	}
 
@@ -151,7 +152,7 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Pads texts before encryption
+	 * Pads texts before encryption.
 	 *
 	 * @link http://www.di-mgt.com.au/cryptopad.html
 	 */
@@ -313,10 +314,13 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Encrypts a text
+	 * Encrypts a text.
 	 *
 	 * <code>
-	 * $encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
+	 * $encrypted = $crypt->encrypt(
+	 *     "Top secret",
+	 *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
+	 * );
 	 * </code>
 	 */
 	public function encrypt(string! text, string! key = null) -> string
@@ -358,10 +362,13 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Decrypts an encrypted text
+	 * Decrypts an encrypted text.
 	 *
 	 * <code>
-	 * echo $crypt->decrypt($encrypted, "decrypt password");
+	 * $encrypted = $crypt->decrypt(
+	 *     $encrypted,
+	 *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
+	 * );
 	 * </code>
 	 */
 	public function decrypt(string! text, key = null) -> string
@@ -404,7 +411,7 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Encrypts a text returning the result as a base64 string
+	 * Encrypts a text returning the result as a base64 string.
 	 */
 	public function encryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
@@ -415,7 +422,7 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Decrypt a text that is coded as a base64 string
+	 * Decrypt a text that is coded as a base64 string.
 	 */
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
@@ -426,7 +433,7 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Returns a list of available ciphers
+	 * Returns a list of available ciphers.
 	 */
 	public function getAvailableCiphers() -> array
 	{
@@ -476,12 +483,12 @@ class Crypt implements CryptInterface
 	 *
 	 * @throws \Phalcon\Crypt\Exception
 	 */
-	protected function initializeAvailableCiphers(bool aliases = true) -> void
+	protected function initializeAvailableCiphers() -> void
 	{
 		if !function_exists("openssl_get_cipher_methods") {
 			throw new Exception("openssl extension is required");
 		}
 
-		let this->availableCiphers = openssl_get_cipher_methods(aliases);
+		let this->availableCiphers = openssl_get_cipher_methods(true);
 	}
 }
