@@ -135,7 +135,7 @@ class Crypt implements CryptInterface
 	 * Good key:
 	 * "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
 	 *
-	 * @see \Phalcon\Security\Random::bytes
+	 * @see \Phalcon\Security\Random
 	 */
 	public function setKey(string! key) -> <Crypt>
 	{
