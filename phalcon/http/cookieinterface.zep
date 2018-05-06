@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2018 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -34,14 +34,10 @@ interface CookieInterface
 	public function setValue(value) -> <CookieInterface>;
 
 	/**
-	 * Returns the cookie's value
-	 *
-	 * @param string|array filters
-	 * @param string defaultValue
-	 * @return mixed
+	 * Returns the cookie's value.
 	 */
-	public function getValue(filters = null, defaultValue = null);
-	
+	public function getValue(var filters = null, var defaultValue = null) -> var;
+
 	/**
 	 * Sends the cookie to the HTTP client
 	 */
@@ -61,7 +57,7 @@ interface CookieInterface
 	 * Check if the cookie is using implicit encryption
 	 */
 	public function isUsingEncryption() -> boolean;
-	
+
 	/**
 	 * Sets the cookie's expiration time
 	 */

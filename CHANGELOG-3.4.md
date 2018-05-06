@@ -6,7 +6,8 @@
 - Added `Phalcon\Loader::setFileCheckingCallback` to set internal file existence resolver [#13360](https://github.com/phalcon/cphalcon/issues/13360)
 - Added ability to pass aggregation options for `Phalcon\Mvc\Collection::aggregate` [#12302](https://github.com/phalcon/cphalcon/pull/12302)
 - Added `Phalcon\Crypt::__construct` so now available ciphers and IV length will be set at object construct time
-- Added `Phalcon\Http\Cookie\Mismatch`. Exception thrown in `Phalcon\Http\Cookie` will use this class.
+- Added `Phalcon\Http\Cookie::setSignKey` to set sign key used to generate a message authentication code
+- Added `Phalcon\Http\Cookie\Mismatch`. Exception thrown in `Phalcon\Http\Cookie` will use this class
 - Changed `Phalcon\Crypt::setCipher` so that IV length will be reconfigured during setting the cipher algorithm
 - Changed `Phalcon\Crypt::setCipher` so that method will throw `Phalcon\Crypt\Exception` if a cipher is unavailable
 - Fixed regression ([#13308](https://github.com/phalcon/cphalcon/pull/13308)) for `Phalcon\Debug\Dump::output` to correctly work with detailed mode [#13315](https://github.com/phalcon/cphalcon/issues/13315)
