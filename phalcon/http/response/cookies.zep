@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2018 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -28,12 +28,51 @@ use Phalcon\Http\Cookie\Exception;
 /**
  * Phalcon\Http\Response\Cookies
  *
- * This class is a bag to manage the cookies
- * A cookies bag is automatically registered as part of the 'response' service in the DI
+ * This class is a bag to manage the cookies.
+ *
+ * A cookies bag is automatically registered as part of the 'response' service in the DI.
+ * By default, cookies are automatically encrypted before being sent to the client and are
+ * decrypted when retrieved from the user. To set sign key used to generate a message
+ * authentication code use `Phalcon\Http\Response\Cookies::setSignKey`.
+ *
+ * <code>
+ * use Phalcon\Di;
+ * use Phalcon\Crypt;
+ * use Phalcon\Http\Response\Cookies;
+ *
+ * $di = new Di();
+ *
+ * $di->set(
+ *     'crypt',
+ *     function () {
+ *         $crypt = new Crypt();
+ *
+ *         // The `$key' should have been previously generated in a cryptographically safe way.
+ *         $key = "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
+ *         $crypt->setKey($key);
+ *
+ *         return $crypt;
+ *     }
+ * );
+ *
+ *
+ * $di->set(
+ *     'cookies',
+ *     function () {
+ *         $cookies = new Cookies();
+ *
+ *         // The `$key' MUST be at least 32 characters long and generated using a
+ *         // cryptographically secure pseudo random generator.
+ *         $key = "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
+ *         $cookies->setSignKey($key);
+ *
+ *         return $cookies;
+ *     }
+ * );
+ * </code>
  */
 class Cookies implements CookiesInterface, InjectionAwareInterface
 {
-
 	protected _dependencyInjector;
 
 	protected _registered = false;
@@ -42,9 +81,38 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	protected _cookies;
 
-	public function __construct()
+	/**
+	 * The cookie's sign key.
+	 * @var string|null
+     */
+	protected signKey = null;
+
+	/**
+	 * Phalcon\Http\Response\Cookies constructor
+	 */
+	public function __construct(bool useEncryption = true, string signKey = null)
 	{
+		let this->_useEncryption = useEncryption;
 		let this->_cookies = [];
+
+		this->setSignKey(signKey);
+	}
+
+	/**
+	 * Sets the cookie's sign key.
+	 *
+	 * The `$signKey' MUST be at least 32 characters long
+	 * and generated using a cryptographically secure pseudo random generator.
+	 *
+	 * Use NULL to disable cookie signing.
+	 *
+	 * @see \Phalcon\Security\Random
+	 */
+	public function setSignKey(string signKey = null) -> <CookieInterface>
+	{
+		let this->signKey = signKey;
+
+		return this;
 	}
 
 	/**
@@ -81,11 +149,33 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Sets a cookie to be sent at the end of the request
-	 * This method overrides any cookie set before with the same name
+	 * Sets a cookie to be sent at the end of the request.
+	 *
+	 * This method overrides any cookie set before with the same name.
+	 *
+	 * <code>
+	 * use Phalcon\Http\Response\Cookies;
+	 *
+	 * $now = new DateTimeImmutable();
+	 * $tomorrow = $now->modify('tomorrow');
+	 *
+	 * $cookies = new Cookies();
+	 * $cookies->set(
+	 *     'remember-me',
+	 *     json_encode(['user_id' => 1]),
+	 *     (int) $tomorrow->format('U'),
+	 * );
+	 * </code>
 	 */
-	public function set(string! name, value = null, int expire = 0, string path = "/", boolean secure = null, string! domain = null, boolean httpOnly = null) -> <Cookies>
-	{
+	public function set(
+		string! name,
+		value = null,
+		int expire = 0,
+		string path = "/",
+		boolean secure = null,
+		string! domain = null,
+		boolean httpOnly = null
+	) -> <Cookies> {
 		var cookie, encryption, dependencyInjector, response;
 
 		let encryption = this->_useEncryption;
@@ -95,8 +185,10 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 		 */
 		if !fetch cookie, this->_cookies[name] {
 			let cookie =
-				<CookieInterface> this->_dependencyInjector->get("Phalcon\\Http\\Cookie",
-				[name, value, expire, path, secure, domain, httpOnly]);
+				<CookieInterface> this->_dependencyInjector->get(
+					"Phalcon\\Http\\Cookie",
+					[name, value, expire, path, secure, domain, httpOnly]
+				);
 
 			/**
 			 * Pass the DI to created cookies
@@ -108,12 +200,12 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			 */
 			if encryption {
 				cookie->useEncryption(encryption);
+				cookie->setSignKey(this->signKey);
 			}
 
 			let this->_cookies[name] = cookie;
 
 		} else {
-
 			/**
 			 * Override any settings in the cookie
 			 */
@@ -123,6 +215,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			cookie->setSecure(secure);
 			cookie->setDomain(domain);
 			cookie->setHttpOnly(httpOnly);
+			cookie->setSignKey(this->signKey);
 		}
 
 		/**
@@ -184,6 +277,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 			 */
 			if encryption {
 				cookie->useEncryption(encryption);
+				cookie->setSignKey(this->signKey);
 			}
 		}
 

@@ -7,6 +7,7 @@
 - Added ability to pass aggregation options for `Phalcon\Mvc\Collection::aggregate` [#12302](https://github.com/phalcon/cphalcon/pull/12302)
 - Added `Phalcon\Crypt::__construct` so now available ciphers and IV length will be set at object construction without the need to call `setCipher` explicitly
 - Added `Phalcon\Http\Cookie::setSignKey` to set sign key used to generate a message authentication code
+- Added `Phalcon\Http\Response\Cookies::setSignKey` to set sign key used to generate a message authentication code
 - Added `Phalcon\Http\Cookie\Mismatch`. Exception thrown in `Phalcon\Http\Cookie` will use this class
 - Changed `Phalcon\Crypt::setCipher` so that IV length will be reconfigured during setting the cipher algorithm
 - Changed `Phalcon\Crypt::setCipher` so that method will throw `Phalcon\Crypt\Exception` if a cipher is unavailable
