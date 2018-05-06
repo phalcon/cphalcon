@@ -105,7 +105,7 @@ class Crypt implements CryptInterface
 	 */
 	public function setCipher(string! cipher) -> <Crypt>
 	{
-		this->assertAvailableCipher(cipher);
+		this->assertCipherIsAvailable(cipher);
 
 		let this->ivLength = this->getIvLength(cipher),
 			this->_cipher  = cipher;
@@ -130,7 +130,7 @@ class Crypt implements CryptInterface
 	 * "le password"
 	 *
 	 * Better (but still unsafe):
-	 * "#1dj8$=dp?.ak//j1V$"
+	 * "#1dj8$=dp?.ak//j1V$~%*0X"
 	 *
 	 * Good key:
 	 * "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
@@ -340,7 +340,7 @@ class Crypt implements CryptInterface
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 
-		this->assertAvailableCipher(cipher);
+		this->assertCipherIsAvailable(cipher);
 
 		let ivLength = this->ivLength;
 		if likely ivLength > 0 {
@@ -388,7 +388,7 @@ class Crypt implements CryptInterface
 		let cipher = this->_cipher;
 		let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
 
-		this->assertAvailableCipher(cipher);
+		this->assertCipherIsAvailable(cipher);
 
 		let ivLength = this->ivLength;
 		if likely ivLength > 0 {
@@ -453,14 +453,19 @@ class Crypt implements CryptInterface
 	 *
 	 * @throws \Phalcon\Crypt\Exception
 	 */
-	public function assertAvailableCipher(string! cipher) ->void
+	protected function assertCipherIsAvailable(string! cipher) -> void
 	{
 		var availableCiphers;
 
 		let availableCiphers = this->getAvailableCiphers();
 
 		if !in_array(cipher, availableCiphers) {
-			throw new Exception("Cipher algorithm is unknown");
+			throw new Exception(
+				sprintf(
+					"The cipher algorithm \"%s\" is not supported on this system.",
+					cipher
+				)
+			);
 		}
 	}
 
