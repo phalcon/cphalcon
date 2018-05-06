@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2018 Phalcon Team (https://phalconphp.com)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -22,10 +22,8 @@ namespace Phalcon\Http\Response;
 /**
  * Phalcon\Http\Response\Exception
  *
- * Exceptions thrown in Phalcon\Http\Response will use this class
- *
+ * Exceptions thrown in Phalcon\Http\Response will use this class.
  */
 class Exception extends \Phalcon\Exception
 {
-
 }
