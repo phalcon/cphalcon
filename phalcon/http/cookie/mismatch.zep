@@ -20,10 +20,10 @@
 namespace Phalcon\Http\Cookie;
 
 /**
- * Phalcon\Http\Cookie\Exception
+ * Phalcon\Http\Cookie\Mismatch
  *
  * Exceptions thrown in Phalcon\Http\Cookie will use this class.
  */
-class Exception extends \Phalcon\Exception
+class Mismatch extends Exception
 {
 }
