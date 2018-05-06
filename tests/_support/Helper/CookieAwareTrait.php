@@ -39,7 +39,7 @@ trait CookieAwareTrait
             $headers = headers_list();
         }
 
-        foreach($headers as $header) {
+        foreach ($headers as $header) {
             if (strpos($header, 'Set-Cookie: ') === 0) {
                 $value = str_replace('&', urlencode('&'), substr($header, 12));
                 parse_str(current(explode(';', $value, 1)), $pair);
