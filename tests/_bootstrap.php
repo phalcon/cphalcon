@@ -55,6 +55,7 @@ $defaults = [
 
     // SQLite
     "TEST_DB_SQLITE_NAME"       => PATH_OUTPUT . 'phalcon_test.sqlite',
+    "TEST_DB_I18N_SQLITE_NAME"  => PATH_OUTPUT . 'translations.sqlite',
 
     // MySQL
     "TEST_DB_MYSQL_HOST"        => '127.0.0.1',
