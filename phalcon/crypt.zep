@@ -47,6 +47,8 @@ class Crypt implements CryptInterface
 
 	protected _cipher = "aes-256-cfb";
 
+	protected _hashAlgo = "sha256";
+
 	const PADDING_DEFAULT = 0;
 
 	const PADDING_ANSI_X_923 = 1;
@@ -102,6 +104,23 @@ class Crypt implements CryptInterface
 	public function getKey() -> string
 	{
 		return this->_key;
+	}
+
+	/**
+	 * Sets the hash algorithm
+	 */
+	public function setHashAlgo(string! hashAlgo) -> <Crypt>
+	{
+		let this->_hashAlgo = hashAlgo;
+		return this;
+	}
+
+	/**
+	 * Returns the hash algorithm
+	 */
+	public function getHashAlgo() -> string
+	{
+		return this->_hashAlgo;
 	}
 
 	/**
@@ -274,7 +293,7 @@ class Crypt implements CryptInterface
 	 */
 	public function encrypt(string! text, string! key = null) -> string
 	{
-		var encryptKey, ivSize, iv, cipher, mode, blockSize, paddingType, padded;
+		var encryptKey, ivSize, iv, cipher, mode, blockSize, paddingType, padded, hashAlgo, hash, encrypted;
 
 		if !function_exists("openssl_cipher_iv_length") {
 			throw new Exception("openssl extension is required");
@@ -313,7 +332,16 @@ class Crypt implements CryptInterface
 			let padded = text;
 		}
 
-		return iv . openssl_encrypt(padded, cipher, encryptKey, OPENSSL_RAW_DATA, iv);
+		let hashAlgo   = this->getHashAlgo();
+
+		if !in_array(hashAlgo, this->getAvailableHashAlgos()) {
+			throw new Exception("Hash algorithm is unknown");
+		}
+
+		let hash = hash_hmac(hashAlgo, padded, encryptKey, true);
+		let encrypted = openssl_encrypt(padded, cipher, encryptKey, OPENSSL_RAW_DATA, iv);
+
+		return iv . hash . encrypted;
 	}
 
 	/**
@@ -325,7 +353,7 @@ class Crypt implements CryptInterface
 	 */
 	public function decrypt(string! text, key = null) -> string
 	{
-		var decryptKey, ivSize, cipher, mode, blockSize, paddingType, decrypted;
+		var decryptKey, ivSize, cipher, mode, blockSize, paddingType, decrypted, iv, ciphertext, hashAlgo, hash, hashLength;
 
 		if !function_exists("openssl_cipher_iv_length") {
 			throw new Exception("openssl extension is required");
@@ -355,12 +383,26 @@ class Crypt implements CryptInterface
 			let blockSize = openssl_cipher_iv_length(str_ireplace("-" . mode, "", cipher));
 		}
 
-		let decrypted = openssl_decrypt(substr(text, ivSize), cipher, decryptKey, OPENSSL_RAW_DATA, substr(text, 0, ivSize));
+		let hashAlgo = this->getHashAlgo();
+		let hashLength = strlen(hash(hashAlgo, "", true));
+		let iv = substr(text, 0, ivSize);
+		let hash = substr(text, ivSize, hashLength);
+		let ciphertext = substr(text, ivSize + hashLength);
+
+		if !in_array(hashAlgo, this->getAvailableHashAlgos()) {
+			throw new Exception("Hash algorithm is unknown");
+		}
+
+		let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
 
 		let paddingType = this->_padding;
 
 		if mode == "cbc" || mode == "ecb" {
-			return this->_cryptUnpadText(decrypted, mode, blockSize, paddingType);
+			let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, paddingType);
+		}
+
+		if hash_hmac(hashAlgo, decrypted, decryptKey, true) !== hash {
+			throw new Exception("Hash does not match");
 		}
 
 		return decrypted;
@@ -394,5 +436,13 @@ class Crypt implements CryptInterface
 	public function getAvailableCiphers() -> array
 	{
 		return openssl_get_cipher_methods(true);
+	}
+
+	/**
+	 * Return a list of registered hashing algorithms suitable for hash_hmac
+	 */
+	public function getAvailableHashAlgos()
+	{
+		return hash_hmac_algos();
 	}
 }

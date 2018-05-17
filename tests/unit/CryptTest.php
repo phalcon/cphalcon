@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Crypt;
+use Phalcon\Crypt\Exception;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -182,6 +183,43 @@ class CryptTest extends UnitTest
                 $actual    = $crypt->decryptBase64($encrypted, $key, true);
 
                 expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests the HMAC
+     *
+     * @author k@yejune.com
+     * @since  2018-05-16
+     */
+    public function testCryptHmac()
+    {
+        $this->specify(
+            "hmac comparison test",
+            function () {
+                $crypt = new Crypt();
+
+                $expected = 'https://github.com/phalcon/cphalcon/issues/13379';
+
+                $key1 = 'key1';
+                $key2 = 'key2';
+                $encrypted = $crypt->encrypt($expected, $key1);
+
+                try {
+                    $actual = $crypt->decrypt($encrypted, $key2);
+                } catch (Exception $exception) {
+                    expect($exception->getMessage())->equals("Hash does not match");
+                }
+
+                $expected = '';
+                $encrypted = $crypt->encrypt($expected, $key1);
+
+                try {
+                    $actual = $crypt->decrypt($encrypted, $key2);
+                } catch (Exception $exception) {
+                    expect($exception->getMessage())->equals("Hash does not match");
+                }
             }
         );
     }
