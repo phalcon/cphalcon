@@ -443,6 +443,10 @@ class Crypt implements CryptInterface
 	 */
 	public function getAvailableHashAlgos()
 	{
-		return hash_hmac_algos();
+		if function_exists("hash_hmac_algos") {
+			return hash_hmac_algos();
+		} else {
+			return hash_algos();
+		}
 	}
 }
