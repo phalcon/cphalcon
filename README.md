@@ -141,7 +141,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 * [Documentation](https://docs.phalconphp.com/)
 * [Support](https://forum.phalconphp.com)
-* [Blog](https://blog.phalconphp.com)
 * [Zephir](https://zephir-lang.com/)
 * [Twitter](https://twitter.com/phalconphp)
 
