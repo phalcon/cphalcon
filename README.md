@@ -1,15 +1,34 @@
 # Phalcon Framework
 
 [![Build Status](https://travis-ci.org/phalcon/cphalcon.svg?branch=master)](https://travis-ci.org/phalcon/cphalcon)
-[![Windows Build](https://ci.appveyor.com/api/projects/status/github/sergeyklay/cphalcon?branch=master&svg=true)](https://ci.appveyor.com/project/sergeyklay/cphalcon/branch/master)
+[![Windows Build](https://ci.appveyor.com/api/projects/status/wkws3mgxaoy0u9a6/branch/master?svg=true)](https://ci.appveyor.com/project/sergeyklay/cphalcon/branch/master)
 [![Phalcon Backers](https://img.shields.io/badge/phalcon-backers-99ddc0.svg)](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
 [![OpenCollective](https://opencollective.com/phalcon/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/phalcon/sponsors/badge.svg)](#sponsors)
 
-
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
 A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md); you rock!
+
+## Contents
+
+- [Get Started](#get-started)
+  - [Windows](#windows)
+  - [Linux/Unix/Mac](#linuxunixmac)
+    - [Requirements](#requirements)
+      - [Ubuntu](#ubuntu)
+      - [Suse](#suse)
+      - [CentOS/Fedora/RHEL](#centosfedorarhel)
+      - [macOS(Sierra / El Capitan / Yosemite)](#macossierra--el-capitan--yosemite)
+  - [OSX MAMP ready extensions](#osx-mamp-ready-extensions)
+  - [Gentoo](#gentoo)
+  - [Compilation](#compilation)
+  - [Contributing](#contributing)
+  - [External Links](#external-links)
+  - [Meet the Incubator](#meet-the-incubator)
+  - [Sponsors](#sponsors)
+  - [Backers](#backers)
+  - [License](#license)
 
 ## Get Started
 
@@ -43,31 +62,50 @@ On a Unix-based platform you can easily compile and install the extension from s
 
 Prerequisite packages are:
 
-* PHP 5.5.x/5.6.x/7.0.x/7.1.x development resources (PHP 5.3 and 5.4 are no longer supported)
+* PHP 5.5.x/5.6.x/7.0.x/7.1.x/7.2.x development resources (PHP 5.3 and 5.4 are no longer supported)
 * `g++` >= 4.4 | `clang++` >= 3.x | `vc++` >= 11
 * GNU `make` >= 3.81
 * [`re2c`](http://re2c.org) >= 0.13
 
-Ubuntu:
+##### Ubuntu
 
 ```bash
 # Use actual PHP development headers and tools here
 sudo apt-get install php5-dev libpcre3-dev gcc make re2c
 ```
 
-Suse:
+##### Suse
 
 ```bash
 # Use actual PHP development headers and tools here
 sudo zypper install php5-devel gcc make re2c
 ```
 
-CentOS/Fedora/RHEL
+##### CentOS/Fedora/RHEL
 
 ```bash
 # Use actual PHP development headers and tools here
 sudo yum install php-devel pcre-devel gcc make re2c
 ```
+
+##### macOS(Sierra / El Capitan / Yosemite)
+
+Using [Homebrew](https://brew.sh/)
+
+```bash
+# brew install php<version>-phalcon
+# available versions 56, 70, 71
+
+brew install php71-phalcon
+```
+
+## OSX MAMP ready extensions
+
+https://github.com/majksner/php-phalcon-mamp
+
+## Gentoo
+
+There is Gentoo ebuilds maintained for the Phalcon Framework: https://github.com/smoke/phalcon-gentoo-overlay
 
 ## Compilation
 
@@ -97,22 +135,12 @@ Finally, **restart the web server**.
 
 ## Contributing
 
-Tests are located in `tests/` and use Codeception.
-Test classes should follow the [PSR-2 coding style guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
-
-## OSX MAMP ready extensions
-
-https://github.com/majksner/php-phalcon-mamp
-
-## Gentoo
-
-https://github.com/smoke/phalcon-gentoo-overlay
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## External Links
 
 * [Documentation](https://docs.phalconphp.com/)
 * [Support](https://forum.phalconphp.com)
-* [Blog](https://blog.phalconphp.com)
 * [Zephir](https://zephir-lang.com/)
 * [Twitter](https://twitter.com/phalconphp)
 
@@ -194,4 +222,5 @@ Support us with a monthly donation and help us continue our activities. [[Become
 <a href="https://opencollective.com/phalcon/backer/29/website" target="_blank"><img src="https://opencollective.com/phalcon/backer/29/avatar.svg"></a>
 
 ## License
-Phalcon is open source software licensed under the New BSD License. See the docs/LICENSE.txt file for more or visit our [license](https://license.phalconphp.com) page.
+
+Phalcon is open source software licensed under the New BSD License. See the [LICENSE.txt](LICENSE.txt) file for more.

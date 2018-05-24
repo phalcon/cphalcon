@@ -225,9 +225,9 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline) {
  * use Phalcon\Assets\Collection;
  *
  * $collection = new Collection();
- *
  * $resource = new Resource("js", "js/jquery.js");
- * $resource->has($resource); // true
+ * $collection->add($resource);
+ * $collection->has($resource); // true
  * </code>
  */
 PHP_METHOD(Phalcon_Assets_Collection, has) {
@@ -805,7 +805,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_INIT_VAR(completePath);
 	ZEPHIR_CONCAT_VV(completePath, basePath, targetPath);
 	if ((zephir_file_exists(completePath TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 65, completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 67, completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

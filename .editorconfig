@@ -11,11 +11,34 @@ insert_final_newline = true
 indent_style = space
 indent_size = 4
 
-[Makefile]
-indent_style = tab
+[*.{c,h,awk,w32,bat,mk,Makefile,frag,zep,lemon,re}]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 4
+indent_style             = tab
+tab_width                = 4
+trim_trailing_whitespace = true
+insert_final_newline     = true
 
-[*.sh]
-indent_style = tab
+[*.{yml,m4,sh,json,xml}]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 2
+indent_style             = space
+trim_trailing_whitespace = true
+insert_final_newline     = true
 
-[*.zep]
-indent_style = tab
+[*.{php,phpt}]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 4
+indent_style             = space
+trim_trailing_whitespace = true
+insert_final_newline     = true
+
+[*.md]
+charset                  = utf-8
+end_of_line              = lf
+indent_style             = space
+trim_trailing_whitespace = false
+insert_final_newline     = true

@@ -68,22 +68,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 	zval *_0;
-	zval *method_param = NULL, *routePattern, *handler, *name;
-	zval *method = NULL;
+	zval *method, *routePattern, *handler, *name;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 4, 0, &method_param, &routePattern, &handler, &name);
+	zephir_fetch_params(1, 4, 0, &method, &routePattern, &handler, &name);
 
-	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(method_param) == IS_STRING)) {
-		zephir_get_strval(method, method_param);
-	} else {
-		ZEPHIR_INIT_VAR(method);
-		ZVAL_EMPTY_STRING(method);
-	}
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -265,6 +254,45 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_NULL(_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_addmap", NULL, 0, _0, routePattern, handler, name);
+	zephir_check_call_status();
+	RETURN_THIS();
+
+}
+
+/**
+ * Maps a route to a handler via methods
+ *
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string|array method
+ * @param  string name
+ * @return \Phalcon\Mvc\Micro\Collection
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
+
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *routePattern_param = NULL, *handler, *method, *name = NULL;
+	zval *routePattern = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name);
+
+	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
+		zephir_get_strval(routePattern, routePattern_param);
+	} else {
+		ZEPHIR_INIT_VAR(routePattern);
+		ZVAL_EMPTY_STRING(routePattern);
+	}
+	if (!name) {
+		name = ZEPHIR_GLOBAL(global_null);
+	}
+
+
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_addmap", NULL, 0, method, routePattern, handler, name);
 	zephir_check_call_status();
 	RETURN_THIS();
 

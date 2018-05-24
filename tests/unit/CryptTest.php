@@ -3,13 +3,14 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Crypt;
+use Phalcon\Crypt\Exception;
 use Phalcon\Test\Module\UnitTest;
 
 /**
- * \Phalcon\Test\Unit\CryptTest
- * Tests the \Phalcon\Crypt component
+ * Phalcon\Test\Unit\CryptTest
+ * Tests the Phalcon\Crypt component
  *
- * @copyright (c) 2011-2017 Phalcon Team
+ * @copyright (c) 2011-2018 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -31,6 +32,30 @@ class CryptTest extends UnitTest
         if (!extension_loaded('openssl')) {
             $this->markTestSkipped('Warning: openssl extension is not loaded');
         }
+    }
+
+    /**
+     * Tests the Crypt::setCipher
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2018-05-06
+     */
+    public function shouldThrowExceptionIfCipherIsUnknown()
+    {
+        $this->specify(
+            'Crypt does not validate cipher algorithm as expected',
+            function () {
+                $crypt = new Crypt();
+                $crypt->setCipher('xxx-yyy-zzz');
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    'The cipher algorithm "xxx-yyy-zzz" is not supported on this system.'
+                ]
+            ]
+        );
     }
 
     /**

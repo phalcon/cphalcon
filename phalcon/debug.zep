@@ -336,7 +336,7 @@ class Debug
 		var className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass,
 			functionName, functionReflection, traceArgs, arguments, argument,
 			filez, line, showFiles, lines, numberLines, showFileFragment,
-			beforeLine, firstLine, afterLine, lastLine, i, linePosition, currentLine,
+			firstLine, lastLine, i, linePosition, currentLine,
 			classNameWithLink, functionNameWithLink;
 
 		/**
@@ -474,11 +474,10 @@ class Debug
 				 * File fragments just show a piece of the file where the exception is located
 				 */
 				if showFileFragment {
-
 					/**
 					 * Take seven lines back to the current exception's line, @TODO add an option for this
 					 */
-					let beforeLine = line - 7;
+					int beforeLine = line - 7;
 
 					/**
 					 * Check for overflows
@@ -492,7 +491,7 @@ class Debug
 					/**
 					 * Take five lines after the current exception's line, @TODO add an option for this
 					 */
-					let afterLine = line + 5;
+					int afterLine = line + 5;
 
 					/**
 					 * Check for overflows

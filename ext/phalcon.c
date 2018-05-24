@@ -7,6 +7,7 @@
 
 #include <php.h>
 
+// TODO: Deprecated. Will be removed in future
 #if PHP_VERSION_ID < 50500
 #include <locale.h>
 #endif
@@ -34,13 +35,13 @@ zend_class_entry *phalcon_forms_elementinterface_ce;
 zend_class_entry *phalcon_factoryinterface_ce;
 zend_class_entry *phalcon_mvc_model_validatorinterface_ce;
 zend_class_entry *phalcon_cache_backendinterface_ce;
-zend_class_entry *phalcon_cache_frontendinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
+zend_class_entry *phalcon_cache_frontendinterface_ce;
 zend_class_entry *phalcon_dispatcherinterface_ce;
 zend_class_entry *phalcon_annotations_adapterinterface_ce;
 zend_class_entry *phalcon_assets_resourceinterface_ce;
-zend_class_entry *phalcon_db_adapterinterface_ce;
 zend_class_entry *phalcon_logger_adapterinterface_ce;
+zend_class_entry *phalcon_db_adapterinterface_ce;
 zend_class_entry *phalcon_logger_formatterinterface_ce;
 zend_class_entry *phalcon_session_adapterinterface_ce;
 zend_class_entry *phalcon_db_dialectinterface_ce;
@@ -125,8 +126,8 @@ zend_class_entry *phalcon_cache_backend_ce;
 zend_class_entry *phalcon_mvc_model_metadata_ce;
 zend_class_entry *phalcon_annotations_adapter_ce;
 zend_class_entry *phalcon_config_ce;
-zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_logger_adapter_ce;
+zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_logger_formatter_ce;
 zend_class_entry *phalcon_session_adapter_ce;
 zend_class_entry *phalcon_db_adapter_pdo_ce;
@@ -283,6 +284,7 @@ zend_class_entry *phalcon_image_factory_ce;
 zend_class_entry *phalcon_kernel_ce;
 zend_class_entry *phalcon_loader_ce;
 zend_class_entry *phalcon_loader_exception_ce;
+zend_class_entry *phalcon_logger_adapter_blackhole_ce;
 zend_class_entry *phalcon_logger_adapter_file_ce;
 zend_class_entry *phalcon_logger_adapter_firephp_ce;
 zend_class_entry *phalcon_logger_adapter_stream_ce;
@@ -319,6 +321,7 @@ zend_class_entry *phalcon_mvc_model_criteria_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_message_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
+zend_class_entry *phalcon_mvc_model_metadata_apcu_ce;
 zend_class_entry *phalcon_mvc_model_metadata_files_ce;
 zend_class_entry *phalcon_mvc_model_metadata_libmemcached_ce;
 zend_class_entry *phalcon_mvc_model_metadata_memcache_ce;
@@ -447,6 +450,7 @@ PHP_INI_END()
 
 static PHP_MINIT_FUNCTION(phalcon)
 {
+// TODO: Deprecated. Will be removed in future
 #if PHP_VERSION_ID < 50500
 	char* old_lc_all = setlocale(LC_ALL, NULL);
 	if (old_lc_all) {
@@ -470,13 +474,13 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_FactoryInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Cache_BackendInterface);
-	ZEPHIR_INIT(Phalcon_Cache_FrontendInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaDataInterface);
+	ZEPHIR_INIT(Phalcon_Cache_FrontendInterface);
 	ZEPHIR_INIT(Phalcon_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Annotations_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Assets_ResourceInterface);
-	ZEPHIR_INIT(Phalcon_Db_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Logger_AdapterInterface);
+	ZEPHIR_INIT(Phalcon_Db_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Logger_FormatterInterface);
 	ZEPHIR_INIT(Phalcon_Session_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Db_DialectInterface);
@@ -561,8 +565,8 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData);
 	ZEPHIR_INIT(Phalcon_Annotations_Adapter);
 	ZEPHIR_INIT(Phalcon_Config);
-	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter);
+	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Logger_Formatter);
 	ZEPHIR_INIT(Phalcon_Session_Adapter);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo);
@@ -718,6 +722,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Loader);
 	ZEPHIR_INIT(Phalcon_Loader_Exception);
 	ZEPHIR_INIT(Phalcon_Logger);
+	ZEPHIR_INIT(Phalcon_Logger_Adapter_Blackhole);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter_File);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter_Firephp);
 	ZEPHIR_INIT(Phalcon_Logger_Adapter_Stream);
@@ -753,6 +758,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Manager);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Message);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Apc);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Apcu);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Files);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Libmemcached);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Memcache);
@@ -858,6 +864,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_0__closure);
 	ZEPHIR_INIT(phalcon_1__closure);
 
+// TODO: Deprecated. Will be removed in future
 #if PHP_VERSION_ID < 50500
 	setlocale(LC_ALL, old_lc_all);
 	free(old_lc_all);

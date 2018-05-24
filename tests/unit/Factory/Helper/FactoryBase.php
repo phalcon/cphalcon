@@ -20,7 +20,7 @@ abstract class FactoryBase extends UnitTest
      */
     protected $arrayConfig;
 
-    public function _before()
+    protected function _before()
     {
         parent::_before();
 

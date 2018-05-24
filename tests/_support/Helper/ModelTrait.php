@@ -3,11 +3,13 @@
 namespace Helper;
 
 use Phalcon\Di;
+use Phalcon\Db\Adapter\Pdo;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
 
 /**
- * \Helper\ModelTrait
+ * Helper\ModelTrait
  * Helper class to test Phalcon\Mvc\Model component
  *
  * @copyright (c) 2011-2017 Phalcon Team
@@ -26,10 +28,14 @@ use Phalcon\Mvc\Model\MetaData\Memory;
  */
 trait ModelTrait
 {
-    protected function setUpModelsManager()
+    /**
+     * @param Pdo|null $connection
+     * @return Manager
+     */
+    protected function setUpModelsManager(Pdo $connection = null)
     {
         $di = Di::getDefault();
-        $db = $di->getShared('db');
+        $connection = $connection ?: $di->getShared('db');
 
         Di::reset();
 
@@ -38,12 +44,37 @@ trait ModelTrait
         $manager = new Manager();
         $manager->setDI($di);
 
-        $di->setShared('db', $db);
+        $di->setShared('db', $connection);
         $di->setShared('modelsManager', $manager);
         $di->setShared('modelsMetadata', Memory::class);
 
         Di::setDefault($di);
 
         return $manager;
+    }
+
+    /**
+     * @return TransactionManager
+     */
+    protected function setUpTransactionManager()
+    {
+        $di = Di::getDefault();
+        $db = $di->getShared('db');
+
+        Di::reset();
+
+        $di = new Di();
+
+        $transactionManager = new TransactionManager($di);
+        $manager = new Manager();
+        $manager->setDI($di);
+        $di->setShared('db', $db);
+        $di->setShared('transactionManager', $transactionManager);
+        $di->setShared('modelsManager', $manager);
+        $di->setShared('modelsMetadata', Memory::class);
+
+        Di::setDefault($di);
+
+        return $transactionManager;
     }
 }

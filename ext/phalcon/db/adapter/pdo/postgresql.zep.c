@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 			zephir_array_update_string(&descriptor, SL("password"), &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
 		}
 	}
-	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_postgresql_ce, getThis(), "connect", &_5, 160, descriptor);
+	ZEPHIR_CALL_PARENT(&status, phalcon_db_adapter_pdo_postgresql_ce, getThis(), "connect", &_5, 157, descriptor);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(schema))) {
 		ZEPHIR_INIT_VAR(sql);
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 			ZVAL_STRING(_40$$26, "/^'|'?::[[:alnum:][:space:]]+$/", ZEPHIR_TEMP_PARAM_COPY);
 			ZEPHIR_INIT_NVAR(_41$$26);
 			ZVAL_STRING(_41$$26, "", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_FUNCTION(&_42$$26, "preg_replace", &_43, 40, _40$$26, _41$$26, _39$$26);
+			ZEPHIR_CALL_FUNCTION(&_42$$26, "preg_replace", &_43, 42, _40$$26, _41$$26, _39$$26);
 			zephir_check_temp_parameter(_40$$26);
 			zephir_check_temp_parameter(_41$$26);
 			zephir_check_call_status();
@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY | PH_READONLY, "phalcon/db/adapter/pdo/postgresql.zep", 279 TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_48$$3);
 		object_init_ex(_48$$3, phalcon_db_column_ce);
-		ZEPHIR_CALL_METHOD(NULL, _48$$3, "__construct", &_49, 159, columnName, definition);
+		ZEPHIR_CALL_METHOD(NULL, _48$$3, "__construct", &_49, 156, columnName, definition);
 		zephir_check_call_status();
 		zephir_array_append(&columns, _48$$3, PH_SEPARATE, "phalcon/db/adapter/pdo/postgresql.zep", 280);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue) {
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "DEFAULT", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 25, _0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 26, _0);
 	zephir_check_temp_parameter(_0);
 	zephir_check_call_status();
 	RETURN_MM();

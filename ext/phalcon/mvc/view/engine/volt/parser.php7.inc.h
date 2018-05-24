@@ -75,6 +75,38 @@ static void phvolt_ret_elsefor_statement(zval *ret, phvolt_scanner_state *state)
 	add_assoc_long(ret, "line", state->active_line);
 }
 
+static void phvolt_ret_switch_statement(zval *ret, zval *expr, zval *case_clauses, phvolt_scanner_state *state)
+{
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_SWITCH);
+	add_assoc_zval(ret, "expr", expr);
+
+	if (case_clauses) {
+		add_assoc_zval(ret, "case_clauses", case_clauses);
+	}
+
+	Z_TRY_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+}
+
+static void phvolt_ret_case_clause(zval *ret, zval *expr, phvolt_scanner_state *state)
+{
+	array_init(ret);
+
+	if (expr) {
+		add_assoc_long(ret, "type", PHVOLT_T_CASE);
+		add_assoc_zval(ret, "expr", expr);
+	} else {
+		add_assoc_long(ret, "type", PHVOLT_T_DEFAULT);
+	}
+
+	Z_TRY_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+}
+
 static void phvolt_ret_for_statement(zval *ret, phvolt_parser_token *variable, phvolt_parser_token *key, zval *expr, zval *if_expr, zval *block_statements, phvolt_scanner_state *state)
 {
 	array_init(ret);

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework													   |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)	   |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled	   |
   | with this package in the file docs/LICENSE.txt.					       |
@@ -63,6 +63,10 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("ELSEFOR"),		PHVOLT_T_ELSEFOR },
   { SL("ENDIF"),		  PHVOLT_T_ENDIF },
   { SL("FOR"),			PHVOLT_T_FOR },
+  { SL("SWITCH"),		PHVOLT_T_SWITCH },
+  { SL("CASE"),			PHVOLT_T_CASE },
+  { SL("DEFAULT"),		PHVOLT_T_DEFAULT },
+  { SL("ENDSWITCH"),	PHVOLT_T_ENDSWITCH },
   { SL("IN"),			 PHVOLT_T_IN },
   { SL("ENDFOR"),		 PHVOLT_T_ENDFOR },
   { SL("SET"),			PHVOLT_T_SET },
@@ -162,7 +166,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 #if PHP_VERSION_ID < 70000
 	MAKE_STD_ZVAL(*error_msg);
 #else
-    ZVAL_NULL(*error_msg);
+	ZVAL_NULL(*error_msg);
 #endif
 
 	if (state->start) {
@@ -187,7 +191,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 #if PHP_VERSION_ID < 70000
 	ZVAL_STRING(*error_msg, error, 1);
 #else
-    ZVAL_STRING(*error_msg, error);
+	ZVAL_STRING(*error_msg, error);
 #endif
 
 	efree(error);
@@ -201,13 +205,13 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 #if PHP_VERSION_ID < 70000
 	zval *error_msg = NULL;
 #else
-    zval em, *error_msg = &em;
+	zval em, *error_msg = &em;
 #endif
 
 	ZVAL_NULL(result);
 
 #if PHP_VERSION_ID >= 70000
-    ZVAL_NULL(error_msg);
+	ZVAL_NULL(error_msg);
 #endif
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
@@ -220,7 +224,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 #if PHP_VERSION_ID < 70000
 		zval_ptr_dtor(&error_msg);
 #else
-        zval_dtor(error_msg);
+		zval_dtor(error_msg);
 #endif
 		return FAILURE;
 	}
@@ -265,7 +269,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 #else
-        ZVAL_STRING(*error_msg, "View code cannot be null");
+		ZVAL_STRING(*error_msg, "View code cannot be null");
 #endif
 		return FAILURE;
 	}
@@ -282,7 +286,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		MAKE_STD_ZVAL(*error_msg);
 		ZVAL_STRING(*error_msg, "Memory allocation error", 1);
 #else
-        ZVAL_STRING(*error_msg, "Memory allocation error");
+		ZVAL_STRING(*error_msg, "Memory allocation error");
 #endif
 		return FAILURE;
 	}
@@ -295,7 +299,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 #if PHP_VERSION_ID < 70000
 	parser_status->ret = NULL;
 #else
-    ZVAL_UNDEF(&parser_status->ret);
+	ZVAL_UNDEF(&parser_status->ret);
 #endif
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
@@ -317,6 +321,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->old_if_level = 0;
 	state->if_level = 0;
 	state->for_level = 0;
+	state->switch_level = 0;
 	state->whitespace_control = 0;
 	state->forced_raw_state = 0;
 
@@ -534,6 +539,57 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_ENDFOR, NULL, parser_status);
 				break;
 
+			case PHVOLT_T_SWITCH:
+				if (state->extends_mode == 1 && state->block_level == 0){
+					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				} else if (state->switch_level > 0) {
+					phvolt_create_error_msg(parser_status, "A nested switch detected. There is no nested switch-case statements support");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				}  else {
+					state->switch_level = 1;
+					state->block_level++;
+				}
+				phvolt_(phvolt_parser, PHVOLT_SWITCH, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_CASE:
+				if (state->switch_level == 0) {
+					phvolt_create_error_msg(parser_status, "Unexpected CASE");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				}
+				phvolt_(phvolt_parser, PHVOLT_CASE, NULL, parser_status);
+				break;
+
+			/* only for switch-case statements */
+			case PHVOLT_T_DEFAULT:
+				if (state->switch_level != 0) {
+					phvolt_(phvolt_parser, PHVOLT_DEFAULT, NULL, parser_status);
+				} else {
+					// TODO: Make this better.
+					// Issue: https://github.com/phalcon/cphalcon/issues/13242
+					// Introduced: https://github.com/phalcon/cphalcon/pull/13130
+					phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, &token, parser_status);
+				}
+
+				break;
+
+			case PHVOLT_T_ENDSWITCH:
+				if (state->switch_level == 0) {
+					phvolt_create_error_msg(parser_status, "Unexpected ENDSWITCH");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				} else {
+					state->switch_level = 0;
+					state->block_level--;
+				}
+
+				phvolt_(phvolt_parser, PHVOLT_ENDSWITCH, NULL, parser_status);
+				break;
+
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (token.len > 0) {
 					if (state->extends_mode == 1 && state->block_level == 0){
@@ -713,14 +769,14 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
 				snprintf(error, 48 + Z_STRLEN_P(state->active_file) + state->active_line, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
 #if PHP_VERSION_ID < 70000
-                if (!*error_msg) {
+				if (!*error_msg) {
 					MAKE_STD_ZVAL(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
-                }
+				}
 #else
-                if (Z_TYPE_P(*error_msg) == IS_NULL) {
-                    ZVAL_STRING((*error_msg), error);
-                }
+				if (Z_TYPE_P(*error_msg) == IS_NULL) {
+					ZVAL_STRING((*error_msg), error);
+				}
 #endif
 				efree(error);
 				break;
@@ -741,10 +797,10 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				if (!*error_msg) {
 					phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
 				} else {
-                    if (Z_TYPE_P(*error_msg) == IS_NULL) {
-                        phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
-                    }
-                }
+					if (Z_TYPE_P(*error_msg) == IS_NULL) {
+						phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+					}
+				}
 				status = FAILURE;
 				break;
 			default:
@@ -760,12 +816,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 #if PHP_VERSION_ID < 70000
-            if (!*error_msg) {
+			if (!*error_msg) {
 				MAKE_STD_ZVAL(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-            }
+			}
 #else
-            ZVAL_STRING(*error_msg, parser_status->syntax_error);
+			ZVAL_STRING(*error_msg, parser_status->syntax_error);
 #endif
 			efree(parser_status->syntax_error);
 		}
@@ -780,15 +836,15 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
 				zval_ptr_dtor(&parser_status->ret);
-            } else {
+			} else {
 				array_init(*result);
 			}
 #else
-            if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
-                ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
-            } else {
-                array_init(*result);
-            }
+			if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
+				ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			} else {
+				array_init(*result);
+			}
 #endif
 		}
 	}

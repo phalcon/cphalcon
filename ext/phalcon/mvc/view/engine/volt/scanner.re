@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework													   |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)	   |
+  | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled	   |
   | with this package in the file docs/LICENSE.txt.					       |
@@ -230,6 +230,35 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 		'endfor' {
 			token->opcode = PHVOLT_T_ENDFOR;
+			return 0;
+		}
+
+		'switch' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_SWITCH;
+			return 0;
+		}
+
+		'case' {
+			token->opcode = PHVOLT_T_CASE;
+			return 0;
+		}
+
+		'default' {
+			token->opcode = PHVOLT_T_DEFAULT;
+
+			// TODO: Make this better.
+			// Issue: https://github.com/phalcon/cphalcon/issues/13242
+			// Introduced: https://github.com/phalcon/cphalcon/pull/13130
+			token->value = estrndup(start, YYCURSOR - start);
+			token->len = YYCURSOR - start;
+			q = YYCURSOR;
+
+			return 0;
+		}
+
+		'endswitch' {
+			token->opcode = PHVOLT_T_ENDSWITCH;
 			return 0;
 		}
 

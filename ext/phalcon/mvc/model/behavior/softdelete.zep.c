@@ -42,9 +42,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 
 	HashTable *_5$$7;
 	HashPosition _4$$7;
+	zend_bool _9$$6;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *model, *options = NULL, *value = NULL, *field = NULL, *updateModel = NULL, *message = NULL, *_0$$3, *_1$$3 = NULL, *_2$$6 = NULL, *_3$$7 = NULL, **_6$$7;
+	zval *type_param = NULL, *model, *options = NULL, *value = NULL, *field = NULL, *updateModel = NULL, *message = NULL, *modelsManager = NULL, *metaData = NULL, *_0$$3, *_1$$3 = NULL, *_2$$6 = NULL, *_8$$6 = NULL, *_3$$7 = NULL, **_6$$7, *_10$$9 = NULL, *_11$$9 = NULL;
 	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -82,6 +83,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 		ZEPHIR_CALL_METHOD(&_1$$3, model, "readattribute", NULL, 0, field);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_EQUAL(_1$$3, value)) {
+			ZEPHIR_CALL_METHOD(&modelsManager, model, "getmodelsmanager", NULL, 0);
+			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(updateModel);
 			if (zephir_clone(updateModel, model TSRMLS_CC) == FAILURE) {
 				RETURN_MM();
@@ -93,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 			if (!(zephir_is_true(_2$$6))) {
 				ZEPHIR_CALL_METHOD(&_3$$7, updateModel, "getmessages", NULL, 0);
 				zephir_check_call_status();
-				zephir_is_iterable(_3$$7, &_5$$7, &_4$$7, 0, 0, "phalcon/mvc/model/behavior/softdelete.zep", 89);
+				zephir_is_iterable(_3$$7, &_5$$7, &_4$$7, 0, 0, "phalcon/mvc/model/behavior/softdelete.zep", 91);
 				for (
 				  ; zend_hash_get_current_data_ex(_5$$7, (void**) &_6$$7, &_4$$7) == SUCCESS
 				  ; zend_hash_move_forward_ex(_5$$7, &_4$$7)
@@ -106,6 +109,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 			}
 			ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, 0, field, value);
 			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&_8$$6, modelsManager, "iskeepingsnapshots", NULL, 0, model);
+			zephir_check_call_status();
+			_9$$6 = zephir_is_true(_8$$6);
+			if (_9$$6) {
+				_9$$6 = ZEPHIR_GLOBAL(orm).update_snapshot_on_save;
+			}
+			if (_9$$6) {
+				ZEPHIR_CALL_METHOD(&metaData, model, "getmodelsmetadata", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&_10$$9, updateModel, "getsnapshotdata", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(NULL, model, "setsnapshotdata", NULL, 0, _10$$9);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&_11$$9, updateModel, "getoldsnapshotdata", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(NULL, model, "setoldsnapshotdata", NULL, 0, _11$$9);
+				zephir_check_call_status();
+			}
 		}
 	}
 	ZEPHIR_MM_RESTORE();

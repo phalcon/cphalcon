@@ -119,8 +119,10 @@ interface ViewInterface extends ViewBaseInterface
 
 	/**
 	 * Gets extra parameters of the action rendered
+	 *
+	 * @deprecated Will be removed in 4.0.0
 	 */
-	public function getParams() -> array;
+	deprecated public function getParams() -> array;
 
 	/**
 	 * Starts rendering process enabling the output buffering

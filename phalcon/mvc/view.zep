@@ -493,8 +493,10 @@ class View extends Injectable implements ViewInterface
 
 	/**
 	 * Gets extra parameters of the action rendered
+	 *
+	 * @deprecated Will be removed in 4.0.0
 	 */
-	public function getParams() -> array
+	deprecated public function getParams() -> array
 	{
 		return this->_params;
 	}
@@ -785,8 +787,11 @@ class View extends Injectable implements ViewInterface
 		}
 
 		let this->_controllerName = controllerName,
-			this->_actionName = actionName,
-			this->_params = params;
+			this->_actionName = actionName;
+
+		if typeof params == "array" {
+			this->setVars(params);
+		}
 
 		/**
 		 * Check if there is a layouts directory set

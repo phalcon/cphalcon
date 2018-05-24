@@ -119,6 +119,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getActionName);
 
 /**
  * Gets extra parameters of the action rendered
+ *
+ * @deprecated Will be removed in 4.0.0
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, getParams);
 

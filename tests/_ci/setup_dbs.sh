@@ -2,7 +2,7 @@
 #
 #  Phalcon Framework
 #
-#  Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)
+#  Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
 #  with this package in the file LICENSE.txt.
@@ -26,6 +26,10 @@ echo -e "Done\n"
 
 echo -e "Create SQLite database..."
 sqlite3 /tmp/phalcon_test.sqlite < "${TRAVIS_BUILD_DIR}/tests/_data/schemas/sqlite/phalcon_test.sql"
+echo -e "Done\n"
+
+echo -e "Create translations SQLite database..."
+sqlite3 /tmp/translations.sqlite < "${TRAVIS_BUILD_DIR}/tests/_data/schemas/sqlite/translations.sql"
 echo -e "Done\n"
 
 wait

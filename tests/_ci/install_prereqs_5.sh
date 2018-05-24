@@ -2,7 +2,7 @@
 #
 #  Phalcon Framework
 #
-#  Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)
+#  Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
 #  with this package in the file LICENSE.txt.
@@ -14,7 +14,7 @@
 printf "\n" | pecl install --force apcu-4.0.11 &> /dev/null
 printf "\n" | pecl install --force igbinary &> /dev/null
 printf "\n" | pecl install --force imagick &> /dev/null
-printf "\n" | pecl install --force yaml &> /dev/null
+printf "\n" | pecl install --force yaml-1.3.1 &> /dev/null
 
 echo 'extension="mongo.so"' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 echo 'extension="memcache.so"' >> "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"

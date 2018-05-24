@@ -39,6 +39,9 @@ use Phalcon\Mvc\Model\Exception;
  *     ]
  * );
  *</code>
+ *
+ * @deprecated Deprecated since 3.3.0, will be removed in 4.0.0
+ * @see Phalcon\Mvc\Model\Metadata\Apcu
  */
 class Apc extends MetaData
 {

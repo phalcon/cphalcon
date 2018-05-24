@@ -57,7 +57,7 @@ class Collection implements CollectionInterface
 	 * @param mixed handler
 	 * @param string name
 	 */
-	protected function _addMap(string! method, var routePattern, var handler, var name)
+	protected function _addMap(var method, var routePattern, var handler, var name)
 	{
 		let this->_handlers[] = [method, routePattern, handler, name];
 	}
@@ -140,6 +140,22 @@ class Collection implements CollectionInterface
 	public function map(string! routePattern, var handler, var name = null) -> <Collection>
 	{
 		this->_addMap(null, routePattern, handler, name);
+		return this;
+	}
+
+	/**
+	 * Maps a route to a handler via methods
+	 *
+	 * @param  string routePattern
+	 * @param  callable handler
+	 * @param  string|array method
+	 * @param  string name
+	 * @return \Phalcon\Mvc\Micro\Collection
+	 */
+	public function mapVia(string! routePattern, var handler, var method, var name = null) -> <Collection>
+	{
+		this->_addMap(method, routePattern, handler, name);
+
 		return this;
 	}
 

@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log) {
 		if (zephir_is_true(_3$$8)) {
 			ZEPHIR_INIT_VAR(_4$$9);
 			object_init_ex(_4$$9, phalcon_logger_item_ce);
-			ZEPHIR_CALL_METHOD(NULL, _4$$9, "__construct", NULL, 26, toggledMessage, toggledType, timestamp, context);
+			ZEPHIR_CALL_METHOD(NULL, _4$$9, "__construct", NULL, 23, toggledMessage, toggledType, timestamp, context);
 			zephir_check_call_status();
 			zephir_update_property_array_append(this_ptr, SL("_queue"), _4$$9 TSRMLS_CC);
 		} else {

@@ -140,6 +140,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 				100 : "Continue",                        // RFC 7231, 6.2.1
 				101 : "Switching Protocols",             // RFC 7231, 6.2.2
 				102 : "Processing",                      // RFC 2518, 10.1
+				103 : "Early Hints",
 				// SUCCESS CODES
 				200 : "OK",                              // RFC 7231, 6.3.1
 				201 : "Created",                         // RFC 7231, 6.3.2
@@ -236,6 +237,20 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		var statusCode;
 		let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
 		return statusCode ? (int) statusCode : null;
+	}
+	
+	/**
+	 * Returns the reason phrase
+	 *
+	 *<code>
+	 * echo $response->getReasonPhrase();
+	 *</code>
+	 */
+	public function getReasonPhrase() -> string | null
+	{
+		var statusReasonPhrase;
+		let statusReasonPhrase = substr(this->getHeaders()->get("Status"), 4);
+		return statusReasonPhrase ? statusReasonPhrase : null;
 	}
 
 	/**
@@ -655,6 +670,21 @@ class Response implements ResponseInterface, InjectionAwareInterface
 
 		let this->_file = filePath;
 
+		return this;
+	}
+
+	/**
+	 * Remove a header in the response
+	 *
+	 *<code>
+	 * $response->removeHeader("Expires");
+	 *</code>
+	 */
+	public function removeHeader(string name) -> <Response>
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->remove(name);
 		return this;
 	}
 }

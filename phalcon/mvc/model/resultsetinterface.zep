@@ -36,14 +36,14 @@ interface ResultsetInterface
 	/**
 	 * Get first row in the resultset
 	 *
-	 * @return \Phalcon\Mvc\ModelInterface
+	 * @return bool|\Phalcon\Mvc\ModelInterface
 	 */
 	public function getFirst();
 
 	/**
 	 * Get last row in the resultset
 	 *
-	 * @return \Phalcon\Mvc\ModelInterface
+	 * @return bool|\Phalcon\Mvc\ModelInterface
 	 */
 	public function getLast();
 
