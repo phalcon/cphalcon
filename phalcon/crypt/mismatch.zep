@@ -17,12 +17,12 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Http\Cookie;
+namespace Phalcon\Crypt;
 
 /**
- * Phalcon\Http\Cookie\Mismatch
+ * Phalcon\Crypt\Mismatch
  *
- * Exceptions thrown in Phalcon\Http\Cookie will use this class.
+ * Exceptions thrown in Phalcon\Crypt will use this class.
  */
 class Mismatch extends Exception
 {
