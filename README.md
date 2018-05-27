@@ -67,6 +67,8 @@ Prerequisite packages are:
 * GNU `make` >= 3.81
 * [`re2c`](http://re2c.org) >= 0.13
 
+NOTE: Support for PHP 5.x is provided on a best-effort basis and will be removed in near future.
+
 ##### Ubuntu
 
 ```bash

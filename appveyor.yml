@@ -62,8 +62,6 @@ branches:
     - 4.0.x
     - 3.4.x
 
-skip_non_tags: true
-
 install:
     - git submodule update --init --recursive
     - ps: Import-Module .\tests\_ci\appveyor.psm1
