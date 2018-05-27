@@ -21,6 +21,7 @@ namespace Phalcon;
 
 use Phalcon\CryptInterface;
 use Phalcon\Crypt\Exception;
+use Phalcon\Crypt\Mismatch;
 
 /**
  * Phalcon\Crypt
@@ -62,6 +63,19 @@ class Crypt implements CryptInterface
 	 */
 	protected ivLength = 16;
 
+	/**
+	 * The name of hashing algorithm.
+	 * @var string
+	 */
+	protected hashAlgo = "sha256";
+
+	/**
+	 * Whether calculating message digest enabled or not.
+	 * NOTE: This feature will be enabled by default in Phalcon 4.0.0
+	 * @var bool
+	 */
+	protected useSigning = false;
+
 	const PADDING_DEFAULT = 0;
 
 	const PADDING_ANSI_X_923 = 1;
@@ -79,10 +93,12 @@ class Crypt implements CryptInterface
 	/**
 	 * Phalcon\Crypt constructor.
 	 */
-	public function __construct(string! cipher = "aes-256-cfb")
+	public function __construct(string! cipher = "aes-256-cfb", boolean useSigning = false)
 	{
 		this->initializeAvailableCiphers();
+
 		this->setCipher(cipher);
+		this->useSigning(useSigning);
 	}
 
 	/**
@@ -149,6 +165,40 @@ class Crypt implements CryptInterface
 	public function getKey() -> string
 	{
 		return this->_key;
+	}
+
+	/**
+	 * Set the name of hashing algorithm.
+	 *
+	 * @throws \Phalcon\Crypt\Exception
+	 */
+	public function setHashAlgo(string! hashAlgo) -> <Crypt>
+	{
+		this->assertHashAlgorithmAvailable(hashAlgo);
+
+		let this->hashAlgo = hashAlgo;
+
+		return this;
+	}
+
+	/**
+	 * Get the name of hashing algorithm.
+	 */
+	public function getHashAlgo() -> string
+	{
+		return this->hashAlgo;
+	}
+
+	/**
+	 * Sets if the calculating message digest must used.
+	 *
+	 * NOTE: This feature will be enabled by default in Phalcon 4.0.0
+	 */
+	public function useSigning(boolean useSigning) -> <Crypt>
+	{
+		let this->useSigning = useSigning;
+
+		return this;
 	}
 
 	/**
@@ -325,9 +375,9 @@ class Crypt implements CryptInterface
 	 */
 	public function encrypt(string! text, string! key = null) -> string
 	{
-		var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType, padded;
+		var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType, padded, encrypted;
 
-		if key === null {
+		if likely empty key {
 			let encryptKey = this->_key;
 		} else {
 			let encryptKey = key;
@@ -358,7 +408,18 @@ class Crypt implements CryptInterface
 			let padded = text;
 		}
 
-		return iv . openssl_encrypt(padded, cipher, encryptKey, OPENSSL_RAW_DATA, iv);
+		let encrypted = openssl_encrypt(padded, cipher, encryptKey, OPENSSL_RAW_DATA, iv);
+
+		if this->useSigning {
+			var digest, hashAlgo;
+
+			let hashAlgo = this->getHashAlgo();
+			let digest = hash_hmac(hashAlgo, padded, encryptKey, true);
+
+			return iv . digest . encrypted;
+		}
+
+		return iv . encrypted;
 	}
 
 	/**
@@ -370,12 +431,15 @@ class Crypt implements CryptInterface
 	 *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
 	 * );
 	 * </code>
+	 *
+	 * @throws \Phalcon\Crypt\Mismatch
 	 */
-	public function decrypt(string! text, key = null) -> string
+	public function decrypt(string! text, string! key = null) -> string
 	{
-		var decryptKey, ivLength, cipher, mode, blockSize, paddingType, decrypted;
+		var decryptKey, ivLength, cipher, mode, blockSize, decrypted,
+			ciphertext, hashAlgo, hashLength, iv, hash;
 
-		if key === null {
+		if likely empty key {
 			let decryptKey = this->_key;
 		} else {
 			let decryptKey = key;
@@ -397,14 +461,34 @@ class Crypt implements CryptInterface
 			let blockSize = this->getIvLength(str_ireplace("-" . mode, "", cipher));
 		}
 
-		let decrypted = openssl_decrypt(
-			substr(text, ivLength), cipher, decryptKey, OPENSSL_RAW_DATA, substr(text, 0, ivLength)
-		);
+		let iv = mb_substr(text, 0, ivLength, "8bit");
 
-		let paddingType = this->_padding;
+		if this->useSigning {
+			let hashAlgo = this->getHashAlgo();
+			let hashLength = strlen(hash(hashAlgo, "", true));
+			let hash = mb_substr(text, ivLength, hashLength, "8bit");
+			let ciphertext = mb_substr(text, ivLength + hashLength, null, "8bit");
+			let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
+
+			if mode == "cbc" || mode == "ecb" {
+				let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, this->_padding);
+			}
+
+			/**
+			 * Check the text's message digest using the HMAC method.
+			 */
+			if hash_hmac(hashAlgo, decrypted, decryptKey, true) !== hash {
+				throw new Mismatch("Hash does not match.");
+			}
+
+			return decrypted;
+		}
+
+		let ciphertext = mb_substr(text, ivLength, null, "8bit");
+		let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
 
 		if mode == "cbc" || mode == "ecb" {
-			return this->_cryptUnpadText(decrypted, mode, blockSize, paddingType);
+			let decrypted = this->_cryptUnpadText(decrypted, mode, blockSize, this->_padding);
 		}
 
 		return decrypted;
@@ -449,7 +533,23 @@ class Crypt implements CryptInterface
 	}
 
 	/**
-	 * Assert a cipher is available.
+	 * Return a list of registered hashing algorithms suitable for hash_hmac.
+	 */
+	public function getAvailableHashAlgos() -> array
+	{
+		var algos;
+
+		if likely function_exists("hash_hmac_algos") {
+			let algos = hash_hmac_algos();
+		} else {
+			let algos = hash_algos();
+		}
+
+		return algos;
+	}
+
+	/**
+	 * Assert the cipher is available.
 	 *
 	 * @throws \Phalcon\Crypt\Exception
 	 */
@@ -464,6 +564,27 @@ class Crypt implements CryptInterface
 				sprintf(
 					"The cipher algorithm \"%s\" is not supported on this system.",
 					cipher
+				)
+			);
+		}
+	}
+
+	/**
+	 * Assert the hash algorithm is available.
+	 *
+	 * @throws \Phalcon\Crypt\Exception
+	 */
+	protected function assertHashAlgorithmAvailable(string! hashAlgo) -> void
+	{
+		var availableAlgorithms;
+
+		let availableAlgorithms = this->getAvailableHashAlgos();
+
+		if !in_array(hashAlgo, availableAlgorithms) {
+			throw new Exception(
+				sprintf(
+					"The hash algorithm \"%s\" is not supported on this system.",
+					hashAlgo
 				)
 			);
 		}

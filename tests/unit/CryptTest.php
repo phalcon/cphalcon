@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit;
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Crypt\Mismatch;
 
 /**
  * Phalcon\Test\Unit\CryptTest
@@ -32,6 +33,87 @@ class CryptTest extends UnitTest
         if (!extension_loaded('openssl')) {
             $this->markTestSkipped('Warning: openssl extension is not loaded');
         }
+    }
+
+    /**
+     * Tests decrypt using HMAC
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldThrowExceptionIfHashMismatch()
+    {
+        $this->specify(
+            'Crypt does not check message digest on decrypt',
+            function () {
+                $crypt = new Crypt();
+                $crypt->useSigning(true);
+
+                $crypt->decrypt(
+                    $crypt->encrypt('le text', 'encrypt key'),
+                    'wrong key'
+                );
+            },
+            [
+                'throws' => [Mismatch::class, 'Hash does not match.']
+            ]
+        );
+    }
+
+    /**
+     * Tests decrypt using HMAC
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldDecryptSignedString()
+    {
+        $this->specify(
+            'Crypt does not check message digest on decrypt',
+            function () {
+                $crypt = new Crypt();
+                $crypt->useSigning(true);
+
+                $key = 'secret';
+                $crypt->setKey($key);
+
+                $text = 'le text';
+
+                $encrypted = $crypt->encrypt($text);
+                $decrypted = $crypt->decrypt($encrypted);
+
+                expect(hash_equals($text, $decrypted))->true();
+            }
+        );
+    }
+
+    /**
+     * Tests decrypt without using HMAC
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldNotThrowExceptionIfKeyMismatch()
+    {
+        $this->specify(
+            'Crypt should not check message digest on decrypt',
+            function () {
+                $crypt = new Crypt();
+
+                $result = $crypt->decrypt(
+                    $crypt->encrypt('le text', 'encrypt key'),
+                    'wrong key'
+                );
+
+                expect($result)->notEmpty();
+            }
+        );
     }
 
     /**
