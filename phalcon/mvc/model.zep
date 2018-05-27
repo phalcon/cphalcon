@@ -111,7 +111,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
 	protected _snapshot;
 
-	protected _oldSnapshot = [];
+	protected _oldSnapshot;
 
 	const TRANSACTION_INDEX = "transaction";
 
@@ -134,6 +134,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 */
 	public final function __construct(var data = null, <DiInterface> dependencyInjector = null, <ManagerInterface> modelsManager = null)
 	{
+		let this->_oldSnapshot = [];
+
 		/**
 		 * We use a default DI if the user doesn't define one
 		 */
@@ -3895,6 +3897,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 			}
 		} else {
 			let snapshot = data;
+		}
+
+		if typeof this->_snapshot == "array" {
+			let this->_oldSnapshot = this->_snapshot;
 		}
 
 		let this->_snapshot = snapshot;
