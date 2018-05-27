@@ -37,7 +37,7 @@ class TextTest extends UnitTest
     /**
      * Tests Text::render
      *
-     * @issue  10398
+     * @issue  https://github.com/phalcon/cphalcon/issues/10398
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-17
      */
@@ -167,7 +167,7 @@ class TextTest extends UnitTest
                 expect($element->getAttribute('class'))->equals('big-input');
                 expect($element->getAttribute('placeholder', 'the name'))->equals('Type the name');
                 expect($element->getAttribute('lang', 'en'))->equals('en');
-                
+
                 $element->setLabel(0);
                 expect($element->label())->equals('<label for="name">0</label>');
             }

@@ -68,7 +68,7 @@ class HeadersTest extends HttpBase
      * Tests the set of the response status headers
      *
      * @test
-     * @issue  12895
+     * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-17
      */
@@ -104,7 +104,7 @@ class HeadersTest extends HttpBase
      * Tests the get of the response status headers
      *
      * @test
-     * @issue  12895
+     * @issue  https://github.com/phalcon/cphalcon/issues/12895
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-17
      */

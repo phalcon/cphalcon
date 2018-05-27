@@ -72,7 +72,7 @@ class GroupTest extends UnitTest
      * Tests unsetting a message by index
      *
      * @test
-     * @issue  12455
+     * @issue  https://github.com/phalcon/cphalcon/issues/12455
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-12
      */

@@ -54,7 +54,7 @@ class AuthHeaderTest extends UnitTest
      * Tests basic auth headers
      *
      * @test
-     * @issue  12480
+     * @issue  https://github.com/phalcon/cphalcon/issues/12480
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */
@@ -94,7 +94,7 @@ class AuthHeaderTest extends UnitTest
      * Tests fire authorization events.
      *
      * @test
-     * @issue  13327
+     * @issue  https://github.com/phalcon/cphalcon/issues/13327
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2018-03-25
      */
@@ -122,7 +122,7 @@ class AuthHeaderTest extends UnitTest
      * Tests custom authorization resolver.
      *
      * @test
-     * @issue  13327
+     * @issue  https://github.com/phalcon/cphalcon/issues/13327
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2018-03-25
      */
@@ -148,7 +148,7 @@ class AuthHeaderTest extends UnitTest
      * Tests custom authorization header.
      *
      * @test
-     * @issue  13327
+     * @issue  https://github.com/phalcon/cphalcon/issues/13327
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2018-03-25
      */

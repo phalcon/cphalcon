@@ -149,7 +149,7 @@ class RandomTest extends UnitTest
     /**
      * Tests the random base62 generation
      *
-     * @issue  12105
+     * @issue  https://github.com/phalcon/cphalcon/issues/12105
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-05-21
      */

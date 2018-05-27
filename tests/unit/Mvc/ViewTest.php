@@ -231,7 +231,7 @@ class ViewTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-09-24
-     * @issue  13046
+     * @issue  https://github.com/phalcon/cphalcon/issues/13046
      */
     public function shouldRenderWithParams()
     {
@@ -648,7 +648,7 @@ class ViewTest extends UnitTest
     /**
      * Tests params view scope
      *
-     * @issue  12648
+     * @issue  https://github.com/phalcon/cphalcon/issues/12648
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-17
      */

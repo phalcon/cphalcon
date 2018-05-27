@@ -47,8 +47,8 @@ class FormCest
     /**
      * Tests clearing the Form Elements
      *
-     * @issue  12165
-     * @issue  12099
+     * @issue  https://github.com/phalcon/cphalcon/issues/12165
+     * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-01
      * @param  IntegrationTester $I
@@ -144,7 +144,7 @@ class FormCest
     /**
      * Tests canceling validation on first fail
      *
-     * @issue  13149
+     * @issue  https://github.com/phalcon/cphalcon/issues/13149
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-11-19
      * @param  IntegrationTester $I
@@ -220,7 +220,7 @@ class FormCest
     /**
      * Tests clearing the Form Elements and using Form::isValid
      *
-     * @issue  11978
+     * @issue  https://github.com/phalcon/cphalcon/issues/11978
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-01
      * @param  IntegrationTester $I
@@ -281,7 +281,7 @@ class FormCest
     /**
      * Tests clearing the Form Elements by using Form::bind
      *
-     * @issue  11978
+     * @issue  https://github.com/phalcon/cphalcon/issues/11978
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-01
      * @param  IntegrationTester $I

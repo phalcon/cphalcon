@@ -35,7 +35,7 @@ class DefaultTest extends UnitTest
 
     /**
      * @test
-     * @issue 13242
+     * @issue https://github.com/phalcon/cphalcon/issues/13242
      */
     public function shouldCompileDefaulFilter()
     {

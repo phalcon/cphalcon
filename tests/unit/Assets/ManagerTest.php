@@ -457,7 +457,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests setting local target
      *
-     * @issue  1532
+     * @issue  https://github.com/phalcon/cphalcon/issues/1532
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25
@@ -618,7 +618,7 @@ class ManagerTest extends UnitTest
      * new one with existing name
      *
      * @test
-     * @issue  10938
+     * @issue  https://github.com/phalcon/cphalcon/issues/10938
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */

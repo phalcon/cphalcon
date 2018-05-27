@@ -308,7 +308,7 @@ class CollectionTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-24
-     * @issue  12010
+     * @issue  https://github.com/phalcon/cphalcon/issues/12010
      */
     public function testShouldUseCorrectMongoId()
     {

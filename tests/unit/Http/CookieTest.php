@@ -157,7 +157,7 @@ class CookieTest extends HttpBase
      * Tests Cookie::getValue with using encryption and default crypt algo.
      *
      * @test
-     * @issue  11259
+     * @issue  https://github.com/phalcon/cphalcon/issues/11259
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-10-04
      */

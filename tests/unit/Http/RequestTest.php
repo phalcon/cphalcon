@@ -93,7 +93,7 @@ class RequestTest extends HttpBase
     /**
      * Tests getHeader
      *
-     * @issue  2294
+     * @issue  https://github.com/phalcon/cphalcon/issues/2294
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-19
      */
@@ -135,7 +135,7 @@ class RequestTest extends HttpBase
             }
         );
     }
-    
+
     /**
      * Tests isAjax default
      *
@@ -782,7 +782,7 @@ class RequestTest extends HttpBase
      * Tests the ability to override the HTTP method
      *
      * @test
-     * @issue  12478
+     * @issue  https://github.com/phalcon/cphalcon/issues/12478
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */
@@ -928,7 +928,7 @@ class RequestTest extends HttpBase
     }
 
     /**
-     * @issue 1265
+     * @issue https://github.com/phalcon/cphalcon/issues/1265
      */
     public function testRequestGetValueByUsingSeveralMethods()
     {
