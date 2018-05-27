@@ -250,7 +250,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 	public function send() -> <CookieInterface>
 	{
 		var name, value, expire, domain, path, secure, httpOnly,
-			dependencyInjector, definition, session, crypt, encryptValue, hmac, signKey;
+			dependencyInjector, definition, session, crypt, encryptValue, signKey;
 
 		let name = this->_name,
 			value = this->_value,
