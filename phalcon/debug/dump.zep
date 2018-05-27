@@ -103,16 +103,16 @@ class Dump
 
 		let defaultStyles = [
 			"pre": "background-color:#f3f3f3; font-size:11px; padding:10px; border:1px solid #ccc; text-align:left; color:#333",
-		 	"arr": "color:red",
-		 	"bool": "color:green",
-		 	"float": "color:fuchsia",
-		 	"int": "color:blue",
-		 	"null": "color:black",
-		 	"num": "color:navy",
-		 	"obj": "color:purple",
-		 	"other": "color:maroon",
-		 	"res": "color:lime",
-		 	"str": "color:teal"
+			"arr": "color:red",
+			"bool": "color:green",
+			"float": "color:fuchsia",
+			"int": "color:blue",
+			"null": "color:black",
+			"num": "color:navy",
+			"obj": "color:purple",
+			"other": "color:maroon",
+			"res": "color:lime",
+			"str": "color:teal"
 		];
 
 		let this->_styles = array_merge(defaultStyles, styles);
@@ -209,7 +209,7 @@ class Dump
 						type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
 
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
-                    let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
+					let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
 				}
 			}
 
