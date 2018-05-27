@@ -24,7 +24,7 @@ use Phalcon\CryptInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
-use Phalcon\Http\Cookie\Mismatch;
+use Phalcon\Crypt\Mismatch;
 use Phalcon\Session\AdapterInterface as SessionInterface;
 
 /**
@@ -155,13 +155,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
 	/**
 	 * Returns the cookie's value.
-	 *
-	 * @throws \Phalcon\Http\Cookie\Mismatch
 	 */
 	public function getValue(var filters = null, var defaultValue = null) -> var
 	{
-		var dependencyInjector, value, crypt, decryptedValue, filter,
-			hmac, hmacGiven, originalValue, signKey, name;
+		var dependencyInjector, value, crypt, decryptedValue, filter, signKey, name;
 
 		if !this->_restored {
 			this->restore();
@@ -179,7 +176,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 					let dependencyInjector = <DiInterface> this->_dependencyInjector;
 					if typeof dependencyInjector != "object" {
 						throw new Exception(
-							"A dependency injection object is required to access the 'filter' service"
+							"A dependency injection object is required to access the 'filter' and 'crypt' service"
 						);
 					}
 
@@ -195,26 +192,10 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 					 */
 					let signKey = this->signKey;
 					if typeof signKey === "string" {
-						let hmacGiven = mb_substr(value, 0, 64),
-							originalValue = mb_substr(value, 64);
-
-						let hmac = hash_hmac(
-							"sha256",
-							name . originalValue,
-							signKey
-						);
-
-						/**
-						 * Compares two hashes using the same time whether they're equal or not.
-						 */
-						if hash_equals(hmac, hmacGiven) === false {
-							throw new Mismatch("Request forgery detected.");
-						}
-
 						/**
 						 * Decrypt the value also decoding it with base64
 						 */
-						let decryptedValue = crypt->decryptBase64(originalValue);
+						let decryptedValue = crypt->decryptBase64(value, signKey);
 					} else {
 						/**
 						 * Decrypt the value also decoding it with base64
@@ -335,22 +316,14 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 				}
 
 				/**
-				 * Encrypt the value also coding it with base64
-				 */
-				let encryptValue = crypt->encryptBase64((string) value);
-
-				/**
+				 * Encrypt the value also coding it with base64.
 				 * Sign the cookie's value if the sign key was set
 				 */
 				let signKey = this->signKey;
 				if typeof signKey === "string" {
-					let hmac = hash_hmac(
-						"sha256",
-						name . encryptValue,
-						signKey
-					);
-
-					let encryptValue = hmac . encryptValue;
+					let encryptValue = crypt->encryptBase64((string) value, signKey);
+				} else {
+					let encryptValue = crypt->encryptBase64((string) value);
 				}
 			} else {
 				let encryptValue = value;

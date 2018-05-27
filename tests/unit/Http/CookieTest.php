@@ -8,7 +8,7 @@ use Phalcon\Http\Cookie\Exception;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use Helper\CookieAwareTrait;
-use Phalcon\Http\Cookie\Mismatch;
+use Phalcon\Crypt\Mismatch;
 
 /**
  * Phalcon\Test\Unit\Http\CookieTest
@@ -76,6 +76,7 @@ class CookieTest extends HttpBase
                 $di->setShared('crypt', function () {
                     $crypt = new Crypt();
                     $crypt->setKey('cryptkeycryptkey');
+                    $crypt->useSigning(true);
 
                     return $crypt;
                 });
@@ -101,7 +102,7 @@ class CookieTest extends HttpBase
                 $_COOKIE[$cookieName] = str_repeat('X', 64) . $originalValue;
                 $cookie->getValue();
             },
-            ['throws' => [Mismatch::class, 'Request forgery detected.']]
+            ['throws' => new Mismatch()]
         );
     }
 
