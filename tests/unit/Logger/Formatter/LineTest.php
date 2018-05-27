@@ -71,7 +71,7 @@ class LineTest extends UnitTest
     /**
      * Tests adding newline at end of message
      *
-     * @issue  10631
+     * @issue  https://github.com/phalcon/cphalcon/issues/10631
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-28
      */

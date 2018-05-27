@@ -265,7 +265,7 @@ class RouterTest extends UnitTest
 
     /**
      * @test
-     * @issue  13326
+     * @issue  https://github.com/phalcon/cphalcon/issues/13326
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-03-24
      */
@@ -315,7 +315,7 @@ class RouterTest extends UnitTest
     /**
      * Tests setting host name by using regexp
      *
-     * @issue  2573
+     * @issue  https://github.com/phalcon/cphalcon/issues/2573
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-06-26
      */

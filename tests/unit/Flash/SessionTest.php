@@ -57,7 +57,7 @@ class SessionTest extends UnitTest
      * Tests auto escaping
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @issue  11448
+     * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since  2016-06-15
      */
     public function testShouldAutoEscapeHtml()
@@ -142,7 +142,7 @@ class SessionTest extends UnitTest
     /**
      * Tests getMessages in case of non existent type request
      *
-     * @issue  11941
+     * @issue  https://github.com/phalcon/cphalcon/issues/11941
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-03
      */

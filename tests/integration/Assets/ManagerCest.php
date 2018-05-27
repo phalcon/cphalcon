@@ -8,7 +8,7 @@ use Phalcon\Assets\Manager;
 class ManagerCest
 {
     /**
-     * @issue 11409
+     * @issue https://github.com/phalcon/cphalcon/issues/11409
      * @param IntegrationTester $I
      */
     public function addInlineJs(IntegrationTester $I)

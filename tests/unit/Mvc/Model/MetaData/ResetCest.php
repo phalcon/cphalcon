@@ -21,7 +21,7 @@ class ResetCest
     }
 
     /**
-     * @issue 1801
+     * @issue https://github.com/phalcon/cphalcon/issues/1801
      * @param UnitTester $I
      * @param Example $example
      *

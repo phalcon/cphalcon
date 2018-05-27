@@ -100,7 +100,7 @@ class MemcacheCest
 
     /**
      * @param UnitTester $I
-     * @issue 13092
+     * @issue https://github.com/phalcon/cphalcon/issues/13092
      */
     public function shouldGetTheSameValueRegardlessOfTheNumberOfRequests(UnitTester $I)
     {
@@ -164,7 +164,7 @@ class MemcacheCest
     }
 
     /**
-     * @issue 12182
+     * @issue https://github.com/phalcon/cphalcon/issues/12182
      * @param UnitTester $I
      */
     public function flush(UnitTester $I)

@@ -168,7 +168,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::addForeignKey
      *
      * @test
-     * @issue  556
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      */
@@ -192,7 +192,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::getForeignKey
      *
      * @test
-     * @issue  556
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      */
@@ -216,7 +216,7 @@ class MysqlTest extends UnitTest
       * Tests Mysql::dropAddForeignKey
       *
       * @test
-      * @issue  556
+      * @issue  https://github.com/phalcon/cphalcon/issues/556
       * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
       * @since  2017-07-03
       */

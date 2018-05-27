@@ -181,7 +181,7 @@ class FormTest extends UnitTest
     /**
      * Tests Form::render
      *
-     * @issue  10398
+     * @issue  https://github.com/phalcon/cphalcon/issues/10398
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-17
      */
@@ -353,7 +353,7 @@ class FormTest extends UnitTest
     }
 
     /**
-     * @issue 1190
+     * @issue https://github.com/phalcon/cphalcon/issues/1190
      */
     public function testIssue1190()
     {
@@ -375,7 +375,7 @@ class FormTest extends UnitTest
     }
 
     /**
-     * @issue 706
+     * @issue https://github.com/phalcon/cphalcon/issues/706
      */
     public function testIssue706()
     {
@@ -404,7 +404,8 @@ class FormTest extends UnitTest
      * Tests Element::hasMessages() Element::getMessages()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 11135, 3167
+     * @issue  https://github.com/phalcon/cphalcon/issues/11135
+     * @issue  https://github.com/phalcon/cphalcon/issues/3167
      */
     public function testElementMessages()
     {
@@ -452,7 +453,7 @@ class FormTest extends UnitTest
      * Tests Form::setValidation()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 12465
+     * @issue  https://github.com/phalcon/cphalcon/issues/12465
      */
     public function testCustomValidation()
     {
@@ -493,7 +494,7 @@ class FormTest extends UnitTest
      * Tests Form::isValid()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 11500
+     * @issue  https://github.com/phalcon/cphalcon/issues/11500
      */
     public function testMergeValidators()
     {
@@ -543,8 +544,10 @@ class FormTest extends UnitTest
 
     /**
      * Tests Form::getMessages(true)
+     *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 13294
+     * @issue  https://github.com/phalcon/cphalcon/issues/13294
+     *
      * This should be removed in next major version
      * We should not return multiple type of result in a single method! (form->getMessages(true) vs form->getMessages())
      */

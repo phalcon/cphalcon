@@ -57,7 +57,7 @@ class CriteriaTest extends UnitTest
      * Tests Criteria::inWhere with empty array.
      *
      * @test
-     * @issue  10676
+     * @issue  https://github.com/phalcon/cphalcon/issues/10676
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-08-11
      */
@@ -78,7 +78,7 @@ class CriteriaTest extends UnitTest
      * Tests work with limit / offset
      *
      * @test
-     * @issue  12419
+     * @issue  https://github.com/phalcon/cphalcon/issues/12419
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */

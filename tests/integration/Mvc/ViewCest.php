@@ -37,7 +37,7 @@ class ViewCest
      * Tests the View::getActiveRenderPath
      *
      * @test
-     * @issue  12139
+     * @issue  https://github.com/phalcon/cphalcon/issues/12139
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2014-08-14
      */
@@ -81,7 +81,7 @@ class ViewCest
      * Tests the View::getCurrentRenderLevel
      *
      * @test
-     * @issue  907
+     * @issue  https://github.com/phalcon/cphalcon/issues/907
      * @author Volodymyr Kolesnykov <volodymyr@wildwolf.name>
      * @since  2013-10-03
      */
