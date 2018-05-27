@@ -86,7 +86,7 @@ class CryptTest extends UnitTest
                 $encrypted = $crypt->encrypt($text);
                 $decrypted = $crypt->decrypt($encrypted);
 
-                expect(hash_equals($text, $decrypted))->true();
+                expect($text)->equals($decrypted);
             }
         );
     }
