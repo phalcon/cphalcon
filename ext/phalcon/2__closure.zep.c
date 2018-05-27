@@ -17,15 +17,15 @@
 #include "kernel/object.h"
 
 
-ZEPHIR_INIT_CLASS(phalcon_1__closure) {
+ZEPHIR_INIT_CLASS(phalcon_2__closure) {
 
-	ZEPHIR_REGISTER_CLASS(phalcon, 1__closure, phalcon, 1__closure, phalcon_1__closure_method_entry, ZEND_ACC_FINAL_CLASS);
+	ZEPHIR_REGISTER_CLASS(phalcon, 2__closure, phalcon, 2__closure, phalcon_2__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	return SUCCESS;
 
 }
 
-PHP_METHOD(phalcon_1__closure, __invoke) {
+PHP_METHOD(phalcon_2__closure, __invoke) {
 
 	zend_bool _1;
 	zval *element, *_0, *_2;
@@ -36,12 +36,12 @@ PHP_METHOD(phalcon_1__closure, __invoke) {
 
 
 	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/validation.zep", 62 TSRMLS_CC);
-	_1 = Z_TYPE_P(_0) != IS_ARRAY;
-	if (!(_1)) {
+	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/validation.zep", 65 TSRMLS_CC);
+	_1 = Z_TYPE_P(_0) == IS_ARRAY;
+	if (_1) {
 		ZEPHIR_OBS_VAR(_2);
-		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/validation.zep", 62 TSRMLS_CC);
-		_1 = !(zephir_is_instance_of(_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC));
+		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/validation.zep", 65 TSRMLS_CC);
+		_1 = zephir_is_instance_of(_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC);
 	}
 	RETURN_MM_BOOL(_1);
 

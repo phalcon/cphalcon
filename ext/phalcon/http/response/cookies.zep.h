@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_http_response_cookies_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies);
 
 PHP_METHOD(Phalcon_Http_Response_Cookies, __construct);
+PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey);
 PHP_METHOD(Phalcon_Http_Response_Cookies, setDI);
 PHP_METHOD(Phalcon_Http_Response_Cookies, getDI);
 PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption);
@@ -14,6 +15,15 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has);
 PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
 PHP_METHOD(Phalcon_Http_Response_Cookies, send);
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, useEncryption)
+	ZEND_ARG_INFO(0, signKey)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, 0)
+	ZEND_ARG_INFO(0, signKey)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
@@ -46,7 +56,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_delete, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_response_cookies_method_entry) {
-	PHP_ME(Phalcon_Http_Response_Cookies, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Response_Cookies, __construct, arginfo_phalcon_http_response_cookies___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Response_Cookies, setSignKey, arginfo_phalcon_http_response_cookies_setsignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, setDI, arginfo_phalcon_http_response_cookies_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, useEncryption, arginfo_phalcon_http_response_cookies_useencryption, ZEND_ACC_PUBLIC)

@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 156, columnName, definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 167, columnName, definition);
 	zephir_check_call_status();
 	RETURN_MM();
 

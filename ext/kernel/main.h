@@ -550,7 +550,7 @@ int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optio
 
 #define ZEPHIR_CHECK_POINTER(v) if (!v) fprintf(stderr, "%s:%d\n", __PRETTY_FUNCTION__, __LINE__);
 
-#define zephir_is_php_version(id) (PHP_VERSION_ID / 10 == id / 10 ?  1 : 0)
+int zephir_is_php_version(unsigned int id);
 
 void zephir_get_args(zval* return_value TSRMLS_DC);
 void zephir_get_arg(zval* return_value, int idx TSRMLS_DC);

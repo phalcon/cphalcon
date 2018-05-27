@@ -440,6 +440,32 @@ zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int cl
     return *temp_ce;
 }
 
+/**
+ * Check is PHP Version equals to Runtime PHP Version
+ */
+int zephir_is_php_version(unsigned int id)
+{
+	int php_major = PHP_MAJOR_VERSION * 10000;
+	int php_minor = PHP_MINOR_VERSION * 100;
+	int php_release = PHP_RELEASE_VERSION;
+
+	int zep_major = id / 10000;
+	int zep_minor = id / 100 - zep_major * 100;
+	int zep_release = id - (zep_major * 10000 + zep_minor * 100);
+
+	if (zep_minor == 0)
+	{
+		php_minor = 0;
+	}
+
+	if (zep_release == 0)
+	{
+		php_release = 0;
+	}
+
+	return ((php_major + php_minor + php_release) == id ? 1 : 0);
+}
+
 void zephir_get_args(zval *return_value TSRMLS_DC)
 {
 	zend_execute_data *ex = EG(current_execute_data);

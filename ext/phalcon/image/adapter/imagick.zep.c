@@ -912,7 +912,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 	ZVAL_LONG(&_2, g);
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, b);
-	ZEPHIR_CALL_FUNCTION(&color, "sprintf", NULL, 200, &_0, &_1, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&color, "sprintf", NULL, 164, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_4);
 	object_init_ex(_4, zephir_get_internal_ce(SS("imagickpixel") TSRMLS_CC));
@@ -1212,7 +1212,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	ZVAL_LONG(&_2, g);
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, b);
-	ZEPHIR_CALL_FUNCTION(&color, "sprintf", NULL, 200, &_0, &_1, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&color, "sprintf", NULL, 164, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(pixel1);
 	object_init_ex(pixel1, zephir_get_internal_ce(SS("imagickpixel") TSRMLS_CC));
@@ -1438,7 +1438,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 		zephir_check_call_status();
 		ZEPHIR_SINIT_VAR(_10$$3);
 		ZVAL_STRING(&_10$$3, "w", 0);
-		ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 297, file, &_10$$3);
+		ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 307, file, &_10$$3);
 		zephir_check_call_status();
 		_11$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 		ZEPHIR_CALL_METHOD(NULL, _11$$3, "writeimagesfile", NULL, 0, fp);

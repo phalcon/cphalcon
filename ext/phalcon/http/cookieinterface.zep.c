@@ -34,11 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_CookieInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setValue);
 
 /**
- * Returns the cookie's value
- *
- * @param string|array filters
- * @param string defaultValue
- * @return mixed
+ * Returns the cookie's value.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getValue);
 

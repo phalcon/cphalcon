@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
 		ZVAL_STRING(_2$$7, "", 1);
 		zephir_array_update_string(&options, SL("statsKey"), &_2$$7, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, getThis(), "__construct", &_3, 118, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_memcache_ce, getThis(), "__construct", &_3, 124, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

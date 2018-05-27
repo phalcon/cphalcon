@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Config_Factory, loadClass) {
 		ZEPHIR_CPY_WRT(oldConfig, config);
 		ZEPHIR_SINIT_VAR(_0$$3);
 		ZVAL_STRING(&_0$$3, ".", 0);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "strrchr", NULL, 145, config, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "strrchr", NULL, 151, config, &_0$$3);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_0$$3);
 		ZVAL_LONG(&_0$$3, 1);

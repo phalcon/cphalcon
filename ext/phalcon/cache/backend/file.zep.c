@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, getThis(), "__construct", &_5, 118, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_file_ce, getThis(), "__construct", &_5, 124, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get) {
 		} else {
 			ttl = lifetime;
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 119, ZEPHIR_GLOBAL(global_true), cacheFile);
+		ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 125, ZEPHIR_GLOBAL(global_true), cacheFile);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4$$4);
 		zephir_filemtime(_4$$4, cacheFile TSRMLS_CC);
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete) {
 	ZEPHIR_INIT_VAR(cacheFile);
 	ZEPHIR_CONCAT_VVV(cacheFile, cacheDir, _1, _2);
 	if ((zephir_file_exists(cacheFile TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 120, cacheFile);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 126, cacheFile);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys) {
 	}
 	ZEPHIR_INIT_VAR(_4);
 	object_init_ex(_4, spl_ce_DirectoryIterator);
-	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 121, cacheDir);
+	ZEPHIR_CALL_METHOD(NULL, _4, "__construct", NULL, 127, cacheDir);
 	zephir_check_call_status();
 	_3 = zephir_get_iterator(_4 TSRMLS_CC);
 	_3->funcs->rewind(_3 TSRMLS_CC);
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists) {
 			} else {
 				ttl = lifetime;
 			}
-			ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 119, ZEPHIR_GLOBAL(global_true), cacheFile);
+			ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 125, ZEPHIR_GLOBAL(global_true), cacheFile);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(_5$$6);
 			zephir_filemtime(_5$$6, cacheFile TSRMLS_CC);
@@ -533,7 +533,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, increment) {
 		} else {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 119, ZEPHIR_GLOBAL(global_true), cacheFile);
+		ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 125, ZEPHIR_GLOBAL(global_true), cacheFile);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_4$$3);
 		zephir_filemtime(_4$$3, cacheFile TSRMLS_CC);
@@ -614,7 +614,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, decrement) {
 		} else {
 			ZEPHIR_CPY_WRT(ttl, lifetime);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 119, ZEPHIR_GLOBAL(global_true), cacheFile);
+		ZEPHIR_CALL_FUNCTION(NULL, "clearstatcache", NULL, 125, ZEPHIR_GLOBAL(global_true), cacheFile);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_5$$3);
 		zephir_filemtime(_5$$3, cacheFile TSRMLS_CC);
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 	}
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, spl_ce_DirectoryIterator);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 121, cacheDir);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 127, cacheDir);
 	zephir_check_call_status();
 	_1 = zephir_get_iterator(_2 TSRMLS_CC);
 	_1->funcs->rewind(_1 TSRMLS_CC);
@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, flush) {
 				_4$$5 = zephir_start_with(key, prefix, NULL);
 			}
 			if (_4$$5) {
-				ZEPHIR_CALL_FUNCTION(&_5$$6, "unlink", &_6, 120, cacheFile);
+				ZEPHIR_CALL_FUNCTION(&_5$$6, "unlink", &_6, 126, cacheFile);
 				zephir_check_call_status();
 				if (!(zephir_is_true(_5$$6))) {
 					RETURN_MM_BOOL(0);

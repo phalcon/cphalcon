@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Factory, loadClass) {
 			_2$$6 = zephir_instance_of_ev(frontend, phalcon_config_ce TSRMLS_CC);
 		}
 		if (_2$$6) {
-			ZEPHIR_CALL_CE_STATIC(&_3$$7, phalcon_cache_frontend_factory_ce, "load", &_4, 117, frontend);
+			ZEPHIR_CALL_CE_STATIC(&_3$$7, phalcon_cache_frontend_factory_ce, "load", &_4, 123, frontend);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(frontend, _3$$7);
 		}
