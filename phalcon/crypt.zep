@@ -475,7 +475,7 @@ class Crypt implements CryptInterface
 			}
 
 			/**
-			 * Check the text's message digest using the HMAC method.
+			 * Checkson the decrypted's message digest using the HMAC method.
 			 */
 			if hash_hmac(hashAlgo, decrypted, decryptKey, true) !== hash {
 				throw new Mismatch("Hash does not match.");
@@ -507,6 +507,8 @@ class Crypt implements CryptInterface
 
 	/**
 	 * Decrypt a text that is coded as a base64 string.
+	 *
+	 * @throws \Phalcon\Crypt\Mismatch
 	 */
 	public function decryptBase64(string! text, key = null, boolean! safe = false) -> string
 	{
