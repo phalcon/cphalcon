@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 	} else {
 		ZVAL_BOOL(_3, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_css_ce, getThis(), "__construct", &_0, 112, _1, path, _2, _3, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_resource_css_ce, getThis(), "__construct", &_0, 114, _1, path, _2, _3, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

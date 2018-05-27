@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZEPHIR_GET_HVALUE(annotationData, _3$$4);
 			ZEPHIR_INIT_NVAR(_4$$5);
 			object_init_ex(_4$$5, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", &_5, 95, annotationData);
+			ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", &_5, 97, annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, _4$$5, PH_SEPARATE, "phalcon/annotations/collection.zep", 66);
 		}

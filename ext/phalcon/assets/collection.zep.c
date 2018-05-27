@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresource", NULL, 102, resource);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresource", NULL, 104, resource);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline) {
 
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresource", NULL, 102, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addresource", NULL, 104, code);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	} else {
 		ZVAL_BOOL(_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 103, path, collectionLocal, _1, collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 105, path, collectionLocal, _1, collectionAttributes);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", NULL, 0, _0);
 	zephir_check_call_status();
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	} else {
 		ZVAL_BOOL(_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 104, content, _1, collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 106, content, _1, collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	} else {
 		ZVAL_BOOL(_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 105, path, collectionLocal, _1, collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 107, path, collectionLocal, _1, collectionAttributes);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", NULL, 0, _0);
 	zephir_check_call_status();
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	} else {
 		ZVAL_BOOL(_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 106, content, _1, collectionAttributes);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 108, content, _1, collectionAttributes);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("_codes"), _0 TSRMLS_CC);
 	RETURN_THIS();

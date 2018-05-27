@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, __construct) {
 		ZVAL_STRING(_4$$9, "", 1);
 		zephir_array_update_string(&options, SL("auth"), &_4$$9, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, getThis(), "__construct", &_5, 118, frontend, options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_cache_backend_redis_ce, getThis(), "__construct", &_5, 124, frontend, options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

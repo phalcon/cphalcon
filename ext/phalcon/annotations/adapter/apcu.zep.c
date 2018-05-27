@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_SVV(_2, "_PHAN", _1, key);
 	zephir_fast_strtolower(_0, _2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 0, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 92, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 	ZEPHIR_CONCAT_SVV(_2, "_PHAN", _1, key);
 	zephir_fast_strtolower(_0, _2);
 	_3 = zephir_fetch_nproperty_this(this_ptr, SL("_ttl"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 0, _0, data, _3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 93, _0, data, _3);
 	zephir_check_call_status();
 	RETURN_MM();
 

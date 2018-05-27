@@ -76,6 +76,7 @@
 #include "phalcon/annotations/readerinterface.zep.h"
 #include "phalcon/cli/dispatcherinterface.zep.h"
 #include "phalcon/cli/taskinterface.zep.h"
+#include "phalcon/crypt/exception.zep.h"
 #include "phalcon/cryptinterface.zep.h"
 #include "phalcon/db/columninterface.zep.h"
 #include "phalcon/db/indexinterface.zep.h"
@@ -184,7 +185,7 @@
 #include "phalcon/config/exception.zep.h"
 #include "phalcon/config/factory.zep.h"
 #include "phalcon/crypt.zep.h"
-#include "phalcon/crypt/exception.zep.h"
+#include "phalcon/crypt/mismatch.zep.h"
 #include "phalcon/db.zep.h"
 #include "phalcon/db/adapter/pdo/factory.zep.h"
 #include "phalcon/db/adapter/pdo/mysql.zep.h"
@@ -400,5 +401,6 @@
 #include "phalcon/version.zep.h"
 #include "phalcon/0__closure.zep.h"
 #include "phalcon/1__closure.zep.h"
+#include "phalcon/2__closure.zep.h"
 
 #endif

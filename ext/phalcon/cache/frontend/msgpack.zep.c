@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, beforeStore) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 132, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 138, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Msgpack, afterRetrieve) {
 		RETVAL_ZVAL(data, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 133, data);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 139, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
