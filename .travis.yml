@@ -4,8 +4,6 @@ dist: trusty
 sudo: false
 
 php:
-  - 5.5
-  - 5.6
   - 7.0
   - 7.1
   - 7.2
@@ -20,8 +18,6 @@ git:
   depth: 1
 
 cache:
-  # See: https://github.com/travis-ci/travis-ci/issues/8714
-  edge: true
   apt: true
   ccache: true
   timeout: 604800
@@ -59,8 +55,6 @@ env:
 
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
-  - export PHP_MAJOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 1)"
-  - export PHP_MINOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 2)"
   - bash tests/_ci/pear_setup.sh
   - bash tests/_ci/setup_dbs.sh
   # Setting up test the environment
@@ -68,26 +62,12 @@ before_install:
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
 
 install:
-  - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest #--ignore-platform-reqs
-  # We'll do this in future for the all 7.x series
-  - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ]; then
-          composer remove -q -n --no-ansi --no-progress --dev doctrine/instantiator
-          composer remove -q -n --no-ansi --no-progress --dev phpdocumentor/reflection-docblock
-          composer remove -q -n --no-ansi --no-progress --dev phpunit/phpunit
-          composer require -q -n --no-ansi --no-progress --dev --prefer-source --no-suggest  phpunit/phpunit:^6.4
-      fi
-  - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
+  - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest
+  - bash tests/_ci/install_prereqs.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
   - bash tests/_ci/install_zephir.sh
-  # We still need this until end of support of PHP 5.x
-  - |
-      if [ "${PHP_MAJOR}" = "7" ]; then
-          zephir generate --backend=ZendEngine3
-      else
-          zephir generate --backend=ZendEngine2
-      fi
+  - zephir generate --backend=ZendEngine3
   # Use `-g -O0' for debug purposes
   - export CFLAGS="-g3 -O1 -std=gnu90 -Wall"
   - cd ${TRAVIS_BUILD_DIR}/ext
@@ -135,23 +115,11 @@ script:
           --set-timeout 120
   # Run code style tests
   - vendor/bin/phpcs
-  # Legacy unit tests
-  # We'll drop or rewrite them for Phalcon 4.x
-  - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.2" ] && [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.3" ]; then
-          vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
-      fi
+  # TODO: Refacto legacy unit tests from the "unit-tests" directory
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
-  # Legacy tests (PHP 5.x) only.
-  # We'll drop them for Phalcon 4.x
-  - |
-      if [ "$PHP_MAJOR" == 5 ]; then
-          phpenv config-rm xdebug.ini || true;
-          vendor/bin/codecept run -v -n tests/unit5x/;
-      fi
 
 # Uncomment for debug purposes
 # after_failure:
