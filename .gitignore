@@ -45,8 +45,8 @@ lemon
 .libs/
 .temp/
 autom4te.cache/
-/vendor/
-ide/
+/vendor
+/ide/
 
 composer.lock
 php_test_results_*.txt

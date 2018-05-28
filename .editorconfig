@@ -1,15 +1,14 @@
 # EditorConfig is awesome: http://EditorConfig.org
 
-# top-most EditorConfig file
-root = true
-charset = utf-8
+root                     = true
+charset                  = utf-8
 trim_trailing_whitespace = true
 
 [*]
-end_of_line = lf
-insert_final_newline = true
-indent_style = space
-indent_size = 4
+end_of_line              = lf
+insert_final_newline     = true
+indent_style             = space
+indent_size              = 4
 
 [*.{c,h,awk,w32,bat,mk,Makefile,frag,zep,lemon,re}]
 charset                  = utf-8
