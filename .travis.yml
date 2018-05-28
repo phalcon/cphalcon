@@ -118,10 +118,10 @@ script:
   # Run code style tests
   - vendor/bin/phpcs
   # TODO: Refacto legacy unit tests from the "unit-tests" directory
-  - vendor/bin/codecept build
+  - vendor/bin/codecept build --no-ansi
   # TODO: Add `cli' suite and refactor current cli-tests
-  - vendor/bin/codecept run -v -n tests/integration/
-  - vendor/bin/codecept run -v -n tests/unit/
+  - vendor/bin/codecept run --no-ansi -v -n tests/integration/
+  - vendor/bin/codecept run --no-ansi -v -n tests/unit/
 
 # Uncomment for debug purposes
 # after_failure:
