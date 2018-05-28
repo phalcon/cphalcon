@@ -9,6 +9,7 @@ use Phalcon\Mvc\View\Exception;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Cache\Frontend\Output as FrontendCache;
 use Phalcon\Cache\Backend\File as BackendCache;
+use PHPUnit\Framework\Exception as PhpUnitException;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ViewTest
@@ -666,9 +667,11 @@ class ViewTest extends UnitTest
 
                 $content = $view->setRenderLevel(View::LEVEL_ACTION_VIEW)->getRender('test3', 'another');
                 expect($content)->equals("<html>lol<p>test</p></html>\n");
+
+                // FIXME: This test need to be refactored to not use try/catch
                 try {
                     echo $a_cool_var;
-                } catch (\PHPUnit_Framework_Exception $e) {
+                } catch (PhpUnitException $e) {
                     expect($e->getMessage())->contains("Undefined variable: a_cool_var");
                 }
             }

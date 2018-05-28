@@ -10,6 +10,7 @@ use Phalcon\Test\Acl\TestRoleAware;
 use Phalcon\Test\Acl\TestRoleResourceAware;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Acl\Adapter\Memory;
+use PHPUnit\Framework\Exception;
 
 /**
  * \Phalcon\Test\Unit\Acl\Adapter\MemoryTest
@@ -646,7 +647,7 @@ class MemoryTest extends UnitTest
             },
             [
                 'throws' => [
-                    \PHPUnit_Framework_Exception::class,
+                    Exception::class,
                     "You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments."
                 ]
             ]
