@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, write);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset);
-zend_object_value zephir_init_properties_Phalcon_Mvc_Model_MetaData_Redis(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Redis(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_redis___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -19,7 +19,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_redis_write, 0, 0, 2)
 	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_redis_method_entry) {

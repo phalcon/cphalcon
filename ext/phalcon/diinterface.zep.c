@@ -29,19 +29,14 @@ ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
 /**
  * Registers a service in the services container
  *
- * @param string name
  * @param mixed definition
- * @param boolean shared
- * @return \Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
 
 /**
  * Registers an "always shared" service in the services container
  *
- * @param string name
  * @param mixed definition
- * @return \Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setShared);
 
@@ -55,28 +50,21 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
  * Only is successful if a service hasn't been registered previously
  * with the same name
  *
- * @param string name
  * @param mixed definition
- * @param boolean shared
- * @return \Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, attempt);
 
 /**
  * Resolves the service based on its configuration
  *
- * @param string name
  * @param array parameters
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, get);
 
 /**
  * Returns a shared service based on their configuration
  *
- * @param string name
  * @param array parameters
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getShared);
 
@@ -87,9 +75,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setRaw);
 
 /**
  * Returns a service definition without resolving
- *
- * @param string name
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getRaw);
 
@@ -110,8 +95,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, wasFreshInstance);
 
 /**
  * Return the services registered in the DI
- *
- * @return \Phalcon\Di\ServiceInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getServices);
 

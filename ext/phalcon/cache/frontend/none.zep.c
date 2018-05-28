@@ -73,7 +73,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_None) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_LONG(1);
 
@@ -84,7 +85,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering) {
 
-	
+	zval *this_ptr = getThis();
+
 
 	RETURN_BOOL(0);
 
@@ -95,7 +97,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, start) {
 
-	
+	zval *this_ptr = getThis();
+
 
 
 }
@@ -107,7 +110,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, start) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, getContent) {
 
-	
+	zval *this_ptr = getThis();
+
 
 
 }
@@ -117,7 +121,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getContent) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, stop) {
 
-	
+	zval *this_ptr = getThis();
+
 
 
 }
@@ -127,7 +132,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, stop) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore) {
 
-	zval *data;
+	zval *data, data_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data_sub);
 
 	zephir_fetch_params(0, 1, 0, &data);
 
@@ -143,7 +151,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore) {
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve) {
 
-	zval *data;
+	zval *data, data_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data_sub);
 
 	zephir_fetch_params(0, 1, 0, &data);
 

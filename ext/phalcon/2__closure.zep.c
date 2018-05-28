@@ -28,20 +28,25 @@ ZEPHIR_INIT_CLASS(phalcon_2__closure) {
 PHP_METHOD(phalcon_2__closure, __invoke) {
 
 	zend_bool _1;
-	zval *element, *_0, *_2;
+	zval *element, element_sub, _0, _2;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
 
 
 
-	ZEPHIR_OBS_VAR(_0);
+	ZEPHIR_OBS_VAR(&_0);
 	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/validation.zep", 65 TSRMLS_CC);
-	_1 = Z_TYPE_P(_0) == IS_ARRAY;
+	_1 = Z_TYPE_P(&_0) == IS_ARRAY;
 	if (_1) {
-		ZEPHIR_OBS_VAR(_2);
+		ZEPHIR_OBS_VAR(&_2);
 		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/validation.zep", 65 TSRMLS_CC);
-		_1 = zephir_is_instance_of(_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC);
+		_1 = zephir_is_instance_of(&_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC);
 	}
 	RETURN_MM_BOOL(_1);
 

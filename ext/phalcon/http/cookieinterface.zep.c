@@ -29,7 +29,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_CookieInterface) {
  * Sets the cookie's value
  *
  * @param string value
- * @return \Phalcon\Http\CookieInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setValue);
 

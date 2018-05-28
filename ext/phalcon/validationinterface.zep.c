@@ -30,7 +30,6 @@ ZEPHIR_INIT_CLASS(Phalcon_ValidationInterface) {
  *
  * @param array|object data
  * @param object entity
- * @return \Phalcon\Validation\Message\Group
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, validate);
 
@@ -52,16 +51,13 @@ ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, rules);
 /**
  * Adds filters to the field
  *
- * @param string field
  * @param array|string filters
- * @return \Phalcon\Validation
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setFilters);
 
 /**
  * Returns all the filters or a specific one
  *
- * @param string field
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getFilters);
@@ -85,8 +81,6 @@ ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setDefaultMessages);
 
 /**
  * Get default message for validator type
- *
- * @param string type
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getDefaultMessage);
 
@@ -102,9 +96,6 @@ ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setLabels);
 
 /**
  * Get label for field
- *
- * @param string field
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getLabel);
 
@@ -119,15 +110,11 @@ ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, appendMessage);
  *
  * @param object entity
  * @param array|object data
- * @return \Phalcon\Validation
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, bind);
 
 /**
  * Gets the a value to validate in the array/object data source
- *
- * @param string field
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getValue);
 

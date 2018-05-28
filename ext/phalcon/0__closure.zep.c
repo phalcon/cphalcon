@@ -25,7 +25,10 @@ ZEPHIR_INIT_CLASS(phalcon_0__closure) {
 
 PHP_METHOD(phalcon_0__closure, __invoke) {
 
-	zval *file;
+	zval *file, file_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&file_sub);
 
 	zephir_fetch_params(0, 1, 0, &file);
 

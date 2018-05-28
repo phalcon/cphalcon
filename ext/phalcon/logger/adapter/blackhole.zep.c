@@ -36,19 +36,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Blackhole) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Blackhole, getFormatter) {
 
-	zval *_0, *_1$$3;
+	zval _0, _1$$3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_formatter"), PH_NOISY_CC);
-	if (Z_TYPE_P(_0) != IS_OBJECT) {
-		ZEPHIR_INIT_VAR(_1$$3);
-		object_init_ex(_1$$3, phalcon_logger_formatter_line_ce);
-		ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 311);
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_read_property(&_0, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) != IS_OBJECT) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_logger_formatter_line_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 279);
 		zephir_check_call_status();
-		zephir_update_property_this(getThis(), SL("_formatter"), _1$$3 TSRMLS_CC);
+		zephir_update_property_zval(this_ptr, SL("_formatter"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "_formatter");
 
@@ -59,18 +63,22 @@ PHP_METHOD(Phalcon_Logger_Adapter_Blackhole, getFormatter) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Blackhole, logInternal) {
 
-	zval *context = NULL;
+	zval context;
 	zend_long type, time;
 	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL;
-	zval *message = NULL;
+	zval message;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&context);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &message_param, &type_param, &time_param, &context_param);
 
-	zephir_get_strval(message, message_param);
+	zephir_get_strval(&message, message_param);
 	type = zephir_get_intval(type_param);
 	time = zephir_get_intval(time_param);
-	zephir_get_arrval(context, context_param);
+	zephir_get_arrval(&context, context_param);
 
 
 
@@ -81,7 +89,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Blackhole, logInternal) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Blackhole, close) {
 
-	
+	zval *this_ptr = getThis();
+
 
 
 }

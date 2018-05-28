@@ -27,8 +27,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface) {
 
 /**
  * Sets the object's state
- *
- * @param boolean dirtyState
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultInterface, setDirtyState);
 

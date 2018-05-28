@@ -43,52 +43,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
 PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 
 	zval *options_param = NULL;
-	zval *options = NULL;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
 
 	if (!options_param) {
-		ZEPHIR_INIT_VAR(options);
-		array_init(options);
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
 	} else {
-	options = options_param;
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	}
 
 
-	zephir_update_property_this(getThis(), SL("_options"), options TSRMLS_CC);
+	zephir_update_property_zval(this_ptr, SL("_options"), &options);
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Checks if an option has been defined
-
- * @deprecated since 2.1.0
- * @see \Phalcon\Validation\Validator::hasOption()
- */
-PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
-
-	zval *key_param = NULL, *_0;
-	zval *key = NULL;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key_param);
-
-	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
-	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
-	}
-
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, key));
 
 }
 
@@ -97,8 +69,12 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 
-	zval *key_param = NULL, *_0;
-	zval *key = NULL;
+	zval *key_param = NULL, _0;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -108,15 +84,15 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, key));
+	zephir_read_property(&_0, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &key));
 
 }
 
@@ -127,8 +103,16 @@ PHP_METHOD(Phalcon_Validation_Validator, hasOption) {
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
 	zend_bool _0$$4;
-	zval *key_param = NULL, *defaultValue = NULL, *options = NULL, *value = NULL, *fieldValue = NULL;
-	zval *key = NULL;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, options, value, fieldValue;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&defaultValue_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&fieldValue);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
@@ -138,29 +122,30 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 	if (!defaultValue) {
-		defaultValue = ZEPHIR_GLOBAL(global_null);
+		defaultValue = &defaultValue_sub;
+		defaultValue = &__$null;
 	}
 
 
-	options = zephir_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_fetch(&value, options, key, 1 TSRMLS_CC)) {
-			_0$$4 = ZEPHIR_IS_STRING(key, "attribute");
+	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&options) == IS_ARRAY) {
+		if (zephir_array_isset_fetch(&value, &options, &key, 1 TSRMLS_CC)) {
+			_0$$4 = ZEPHIR_IS_STRING(&key, "attribute");
 			if (_0$$4) {
-				_0$$4 = Z_TYPE_P(value) == IS_ARRAY;
+				_0$$4 = Z_TYPE_P(&value) == IS_ARRAY;
 			}
 			if (_0$$4) {
-				if (zephir_array_isset_fetch(&fieldValue, value, key, 1 TSRMLS_CC)) {
-					RETURN_CTOR(fieldValue);
+				if (zephir_array_isset_fetch(&fieldValue, &value, &key, 1 TSRMLS_CC)) {
+					RETURN_CTOR(&fieldValue);
 				}
 			}
-			RETURN_CTOR(value);
+			RETURN_CTOR(&value);
 		}
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
@@ -173,8 +158,12 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 
-	zval *key_param = NULL, *value;
-	zval *key = NULL;
+	zval *key_param = NULL, *value, value_sub;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value_sub);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
@@ -184,14 +173,14 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("_options"), &key, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -209,8 +198,15 @@ PHP_METHOD(Phalcon_Validation_Validator, validate) {
 PHP_METHOD(Phalcon_Validation_Validator, prepareLabel) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *field = NULL;
-	zval *validation, *field_param = NULL, *label = NULL, *_0, *_1$$3;
+	zval field;
+	zval *validation, validation_sub, *field_param = NULL, label, _0, _1$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&validation_sub);
+	ZVAL_UNDEF(&label);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&field);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -220,27 +216,26 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareLabel) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
+		zephir_get_strval(&field, field_param);
 	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
+		ZEPHIR_INIT_VAR(&field);
+		ZVAL_EMPTY_STRING(&field);
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "label", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "label");
+	ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(label) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 110 TSRMLS_CC);
-		ZEPHIR_CPY_WRT(label, _1$$3);
+	if (Z_TYPE_P(&label) == IS_ARRAY) {
+		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 99 TSRMLS_CC);
+		ZEPHIR_CPY_WRT(&label, &_1$$3);
 	}
-	if (ZEPHIR_IS_EMPTY(label)) {
-		ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, field);
+	if (ZEPHIR_IS_EMPTY(&label)) {
+		ZEPHIR_CALL_METHOD(&label, validation, "getlabel", NULL, 0, &field);
 		zephir_check_call_status();
 	}
-	RETURN_CCTOR(label);
+	RETURN_CCTOR(&label);
 
 }
 
@@ -250,8 +245,16 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareLabel) {
 PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *field = NULL, *type = NULL, *option = NULL;
-	zval *validation, *field_param = NULL, *type_param = NULL, *option_param = NULL, *message = NULL, *_0$$3;
+	zval field, type, option;
+	zval *validation, validation_sub, *field_param = NULL, *type_param = NULL, *option_param = NULL, message, _0$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&validation_sub);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&field);
+	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&option);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &validation, &field_param, &type_param, &option_param);
@@ -261,49 +264,49 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
+		zephir_get_strval(&field, field_param);
 	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
+		ZEPHIR_INIT_VAR(&field);
+		ZVAL_EMPTY_STRING(&field);
 	}
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
-		zephir_get_strval(type, type_param);
+		zephir_get_strval(&type, type_param);
 	} else {
-		ZEPHIR_INIT_VAR(type);
-		ZVAL_EMPTY_STRING(type);
+		ZEPHIR_INIT_VAR(&type);
+		ZVAL_EMPTY_STRING(&type);
 	}
 	if (!option_param) {
-		ZEPHIR_INIT_VAR(option);
-		ZVAL_STRING(option, "message", 1);
+		ZEPHIR_INIT_VAR(&option);
+		ZVAL_STRING(&option, "message");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(option_param) != IS_STRING && Z_TYPE_P(option_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'option' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(option_param) == IS_STRING)) {
-		zephir_get_strval(option, option_param);
+		zephir_get_strval(&option, option_param);
 	} else {
-		ZEPHIR_INIT_VAR(option);
-		ZVAL_EMPTY_STRING(option);
+		ZEPHIR_INIT_VAR(&option);
+		ZVAL_EMPTY_STRING(&option);
 	}
 	}
 
 
-	ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, option);
+	ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, &option);
 	zephir_check_call_status();
-	if (Z_TYPE_P(message) == IS_ARRAY) {
-		zephir_array_fetch(&_0$$3, message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 129 TSRMLS_CC);
-		ZEPHIR_CPY_WRT(message, _0$$3);
+	if (Z_TYPE_P(&message) == IS_ARRAY) {
+		zephir_array_fetch(&_0$$3, &message, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 118 TSRMLS_CC);
+		ZEPHIR_CPY_WRT(&message, &_0$$3);
 	}
-	if (ZEPHIR_IS_EMPTY(message)) {
-		ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, type);
+	if (ZEPHIR_IS_EMPTY(&message)) {
+		ZEPHIR_CALL_METHOD(&message, validation, "getdefaultmessage", NULL, 0, &type);
 		zephir_check_call_status();
 	}
-	RETURN_CCTOR(message);
+	RETURN_CCTOR(&message);
 
 }
 
@@ -313,8 +316,14 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 PHP_METHOD(Phalcon_Validation_Validator, prepareCode) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *field_param = NULL, *code = NULL, *_0, *_1$$3;
-	zval *field = NULL;
+	zval *field_param = NULL, code, _0, _1$$3;
+	zval field;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&field);
+	ZVAL_UNDEF(&code);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field_param);
@@ -324,23 +333,22 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareCode) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
-		zephir_get_strval(field, field_param);
+		zephir_get_strval(&field, field_param);
 	} else {
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_EMPTY_STRING(field);
+		ZEPHIR_INIT_VAR(&field);
+		ZVAL_EMPTY_STRING(&field);
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "code", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, _0);
-	zephir_check_temp_parameter(_0);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "code");
+	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(code) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, code, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 148 TSRMLS_CC);
-		ZEPHIR_CPY_WRT(code, _1$$3);
+	if (Z_TYPE_P(&code) == IS_ARRAY) {
+		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/validation/validator.zep", 137 TSRMLS_CC);
+		ZEPHIR_CPY_WRT(&code, &_1$$3);
 	}
-	RETURN_CCTOR(code);
+	RETURN_CCTOR(&code);
 
 }
 

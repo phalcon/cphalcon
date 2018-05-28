@@ -24,7 +24,9 @@
 
 #include <php.h>
 
-#define PHV(v) zephir_vdump(v)
+void zephir_vdump(zval *var, const char *func);
+
+#define PHV(v) zephir_vdump(zval *var, const char *func)
 #define PHPR(v) zephir_print_r(v)
 
 typedef struct _zephir_debug_entry {
@@ -35,34 +37,23 @@ typedef struct _zephir_debug_entry {
 	int lineno;
 } zephir_debug_entry;
 
-int zephir_start_debug();
-int zephir_stop_debug();
+/** The zval's reference count dump */
+#define RC_DUMP(zv)                                                                                                                \
+	do {                                                                                                                           \
+		char *_n = (strrchr((#zv), '&') ? strrchr((#zv), '&') + 1 : (#zv));                                                        \
+		char *_f = (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__);                                               \
+		zval *_z = (zv);                                                                                                           \
+		if (Z_REFCOUNTED_P(_z)) {                                                                                                  \
+			fprintf(stderr, "[DUMP]: %s:%d %s (%p) refcount=%d, type=%d\n", _f, __LINE__, _n, _z, Z_REFCOUNT_P(_z), Z_TYPE_P(_z)); \
+		} else {                                                                                                                   \
+			fprintf(stderr, "[DUMP]: %s:%d %s (%p) is not reference-counted, type=%d\n", _f, __LINE__, _n, _z, Z_TYPE_P(_z));      \
+		}                                                                                                                          \
+	} while (0)
 
-int zephir_print_r(zval *userval TSRMLS_DC);
-int zephir_vdump(zval *uservar TSRMLS_DC);
-int zephir_debug_assign(char *name, zval *value TSRMLS_DC);
-int zephir_vpdump(const zval **uservar TSRMLS_DC);
-int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC);
-int zephir_class_debug(zval *val TSRMLS_DC);
 
-int zephir_debug_backtrace_internal();
-int zephir_debug_str(char *what, char *message);
-int zephir_debug_long(char *what, uint vlong);
-int zephir_debug_screen(char *message);
+#else
 
-int zephir_step_over(char *message);
-int zephir_step_into(char *message);
-int zephir_step_out(char *message);
+#define RC_DUMP(zv)
 
-int zephir_step_into_entry(char *class_name, char *method_name, int lineno);
-int zephir_step_out_entry();
-
-int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC);
-int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC);
-int zephir_debug_param(zval *param TSRMLS_DC);
-
-int zephir_error_space();
-int zephir_debug_space();
-
-#endif
-#endif
+#endif /* ZEPHIR_RELEASE */
+#endif /* ZEPHIR_KERNEL_DEBUG_H */

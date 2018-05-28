@@ -32,15 +32,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setTransaction);
 
 /**
  * Returns table name mapped in the model
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getSource);
 
 /**
  * Returns schema name where table mapped is located
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getSchema);
 
@@ -86,18 +82,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setDirtyState);
 
 /**
  * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getDirtyState);
 
 /**
  * Assigns values to a model from an array
  *
- * @param \Phalcon\Mvc\Model object
- * @param array data
  * @param array columnMap
- * @return \Phalcon\Mvc\Model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
 
@@ -105,37 +96,25 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
  * Assigns values to a model from an array returning a new model
  *
  * @param \Phalcon\Mvc\Model base
- * @param array data
  * @param array columnMap
- * @param int dirtyState
- * @param boolean keepSnapshots
  * @return \Phalcon\Mvc\Model result
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
 
 /**
  * Assigns values to a model from an array returning a new model
- *
- * @param \Phalcon\Mvc\ModelInterface base
- * @param array data
- * @param int dirtyState
- * @return \Phalcon\Mvc\ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 
 /**
  * Returns an hydrated result based on the data and the column map
  *
- * @param array data
  * @param array columnMap
- * @param int hydrationMode
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
 
 /**
  * Allows to query a set of records that match the specified conditions
- *
- * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 
@@ -143,15 +122,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
  * Allows to query the first record that match the specified conditions
  *
  * @param array parameters
- * @return static
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 
 /**
  * Create a criteria for a specific model
- *
- * @param \Phalcon\DiInterface dependencyInjector
- * @return \Phalcon\Mvc\Model\CriteriaInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, query);
 
@@ -197,18 +172,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, average);
 
 /**
  * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
- *
- * @param string eventName
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, fireEvent);
 
 /**
  * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
  * This method stops if one of the callbacks/listeners returns boolean false
- *
- * @param string eventName
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, fireEventCancel);
 
@@ -219,59 +188,39 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, appendMessage);
 
 /**
  * Check whether validation process has generated any messages
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);
 
 /**
  * Returns array of validation messages
- *
- * @return \Phalcon\Mvc\Model\MessageInterface[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getMessages);
 
 /**
  * Inserts or updates a model instance. Returning true on success or false otherwise.
- *
- * @param  array data
- * @param  array whiteList
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
 
 /**
  * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
  * Returning true on success or false otherwise.
- *
- * @param  array data
- * @param  array whiteList
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
 
 /**
  * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
  * Returning true on success or false otherwise.
- *
- * @param  array data
- * @param  array whiteList
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, update);
 
 /**
  * Deletes a model instance. Returning true on success or false otherwise.
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, delete);
 
 /**
  * Returns the type of the latest operation performed by the ORM
  * Returns one of the OP_* class constants
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getOperationMade);
 
@@ -288,9 +237,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
 /**
  * Returns related records based on defined relations
  *
- * @param string alias
  * @param array arguments
- * @return \Phalcon\Mvc\Model\ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
 
@@ -298,13 +245,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
  * Sets the record's snapshot data.
  * This method is used internally to set snapshot data when the model was set up to keep snapshot data
  *
- * @param array data
  * @param array columnMap
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
-
-/**
- * Reset a model instance data
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, reset);
 

@@ -34,11 +34,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray) {
  */
 PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders) {
 
-	HashTable *_2$$3;
-	HashPosition _1$$3;
+	zend_string *_3$$3;
+	zend_ulong _2$$3;
 	zend_bool _0;
-	zval *translation_param = NULL, *placeholders = NULL, *key = NULL, *value = NULL, **_3$$3, *_4$$4 = NULL, *_5$$4 = NULL;
-	zval *translation = NULL;
+	zval *translation_param = NULL, *placeholders = NULL, placeholders_sub, __$null, key, value, *_1$$3, _4$$4, _5$$4;
+	zval translation;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&translation);
+	ZVAL_UNDEF(&placeholders_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_5$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders);
@@ -48,13 +57,14 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
-		zephir_get_strval(translation, translation_param);
+		zephir_get_strval(&translation, translation_param);
 	} else {
-		ZEPHIR_INIT_VAR(translation);
-		ZVAL_EMPTY_STRING(translation);
+		ZEPHIR_INIT_VAR(&translation);
+		ZVAL_EMPTY_STRING(&translation);
 	}
 	if (!placeholders) {
-		placeholders = ZEPHIR_GLOBAL(global_null);
+		placeholders = &placeholders_sub;
+		placeholders = &__$null;
 	}
 
 
@@ -63,21 +73,27 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 		_0 = ((zephir_fast_count_int(placeholders TSRMLS_CC)) ? 1 : 0);
 	}
 	if (_0) {
-		zephir_is_iterable(placeholders, &_2$$3, &_1$$3, 0, 0, "phalcon/translate/interpolator/associativearray.zep", 38);
-		for (
-		  ; zend_hash_get_current_data_ex(_2$$3, (void**) &_3$$3, &_1$$3) == SUCCESS
-		  ; zend_hash_move_forward_ex(_2$$3, &_1$$3)
-		) {
-			ZEPHIR_GET_HMKEY(key, _2$$3, _1$$3);
-			ZEPHIR_GET_HVALUE(value, _3$$3);
-			ZEPHIR_INIT_NVAR(_4$$4);
+		zephir_is_iterable(placeholders, 0, "phalcon/translate/interpolator/associativearray.zep", 38);
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(placeholders), _2$$3, _3$$3, _1$$3)
+		{
+			ZEPHIR_INIT_NVAR(&key);
+			if (_3$$3 != NULL) { 
+				ZVAL_STR_COPY(&key, _3$$3);
+			} else {
+				ZVAL_LONG(&key, _2$$3);
+			}
+			ZEPHIR_INIT_NVAR(&value);
+			ZVAL_COPY(&value, _1$$3);
+			ZEPHIR_INIT_NVAR(&_4$$4);
 			ZEPHIR_INIT_LNVAR(_5$$4);
-			ZEPHIR_CONCAT_SVS(_5$$4, "%", key, "%");
-			zephir_fast_str_replace(&_4$$4, _5$$4, value, translation TSRMLS_CC);
-			zephir_get_strval(translation, _4$$4);
-		}
+			ZEPHIR_CONCAT_SVS(&_5$$4, "%", &key, "%");
+			zephir_fast_str_replace(&_4$$4, &_5$$4, &value, &translation TSRMLS_CC);
+			zephir_get_strval(&translation, &_4$$4);
+		} ZEND_HASH_FOREACH_END();
+		ZEPHIR_INIT_NVAR(&value);
+		ZEPHIR_INIT_NVAR(&key);
 	}
-	RETURN_CTOR(translation);
+	RETURN_CTOR(&translation);
 
 }
 

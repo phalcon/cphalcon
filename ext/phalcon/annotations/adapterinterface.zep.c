@@ -37,8 +37,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getReader);
 
 /**
  * Parses or retrieves all the annotations found in a class
- *
- * @param string|object className
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, get);
 

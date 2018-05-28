@@ -35,13 +35,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
  * Produces a pre-computed hash key based on a string. This function
  * produces different numbers in 32bit/64bit processors
  *
- * @param string key
  * @return string
  */
 PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
 	zval *key_param = NULL;
-	zval *key = NULL;
+	zval key;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&key);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -51,10 +53,10 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
-		zephir_get_strval(key, key_param);
+		zephir_get_strval(&key, key_param);
 	} else {
-		ZEPHIR_INIT_VAR(key);
-		ZVAL_EMPTY_STRING(key);
+		ZEPHIR_INIT_VAR(&key);
+		ZVAL_EMPTY_STRING(&key);
 	}
 
 
