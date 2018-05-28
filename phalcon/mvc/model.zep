@@ -46,6 +46,8 @@ use Phalcon\Mvc\Model\Message;
 use Phalcon\ValidationInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Model\Query\BuilderInterface;
+use Phalcon\Mvc\Model\QueryInterface;
 
 /**
  * Phalcon\Mvc\Model
@@ -971,14 +973,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = manager->createBuilder(params);
+		let builder = <BuilderInterface> manager->createBuilder(params);
 		builder->from(get_called_class());
 
 		if limit != null {
 			builder->limit(limit);
 		}
 
-		let query = builder->getQuery();
+		let query = <QueryInterface> builder->getQuery();
 
 		/**
 		 * Check for bind parameters
@@ -1229,11 +1231,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Builds a query with the passed parameters
 		 */
-		let builder = manager->createBuilder(params);
+		let builder = <BuilderInterface> manager->createBuilder(params);
 		builder->columns(columns);
 		builder->from(get_called_class());
 
-		let query = builder->getQuery();
+		let query = <QueryInterface> builder->getQuery();
 
 		/**
 		 * Check for bind parameters
