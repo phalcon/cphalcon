@@ -17,9 +17,9 @@
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt;
 
-use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
-use Phalcon\Mvc\View\Exception as ViewException;
+use Phalcon\Mvc\View\Exception;
+use Phalcon\Test\Module\UnitTest;
 
 /**
  * Phalcon\Test\Unit\Mvc\View\Engine\Volt\CompilerExceptionsTest
@@ -55,9 +55,11 @@ class CompilerExceptionsTest extends UnitTest
         $volt = $this->volt;
         $this->specify(
             "Volt parser doesn't throw the proper syntax error",
-            function ($param, $exception) use ($volt) {
-                $this->setExpectedException(\Phalcon\Mvc\View\Exception::class, $exception);
-                $volt->parse($param);
+            function ($code, $message) use ($volt) {
+                $this->expectException(Exception::class);
+                $this->expectExceptionMessage($message);
+
+                $volt->parse($code);
             },
             [
                 'examples' => include_once PATH_FIXTURES . 'volt/compilerExceptionsTest/volt_syntax_error.php'
@@ -71,6 +73,7 @@ class CompilerExceptionsTest extends UnitTest
      * @test
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-15
+     *
      */
 
     public function shouldThrowExceptionCompileStringFunction()
@@ -78,9 +81,11 @@ class CompilerExceptionsTest extends UnitTest
         $volt = $this->volt;
         $this->specify(
             "Volt parser doesn't throw the proper runtime error",
-            function ($param, $exception) use ($volt) {
-                $this->setExpectedException(\Phalcon\Mvc\View\Exception::class, $exception);
-                $volt->compileString($param);
+            function ($code, $message) use ($volt) {
+                $this->expectException(Exception::class);
+                $this->expectExceptionMessage($message);
+
+                $volt->compileString($code);
             },
             [
                 'examples' => include_once PATH_FIXTURES . 'volt/compilerExceptionsTest/volt_compile_string.php'
@@ -100,9 +105,11 @@ class CompilerExceptionsTest extends UnitTest
         $volt = $this->volt;
         $this->specify(
             "Volt parser doesn't throw the proper extends error",
-            function ($param, $exception) use ($volt) {
-                $this->setExpectedException(ViewException::class, $exception);
-                $volt->parse($param);
+            function ($code, $message) use ($volt) {
+                $this->expectException(Exception::class);
+                $this->expectExceptionMessage($message);
+
+                $volt->parse($code);
             },
             [
                 'examples' => include_once PATH_FIXTURES . 'volt/compilerExceptionsTest/volt_extends_error.php'

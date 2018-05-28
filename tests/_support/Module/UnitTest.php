@@ -5,7 +5,6 @@ namespace Phalcon\Test\Module;
 use UnitTester;
 use Codeception\Specify;
 use Codeception\Test\Unit;
-use PHPUnit_Runner_Version;
 
 /**
  * \Phalcon\Test\Module\UnitTest
@@ -40,24 +39,6 @@ class UnitTest extends Unit
     public function getTester()
     {
         return $this->tester;
-    }
-
-    public function setExpectedException($exception, $message = '', $code = null)
-    {
-        if (!method_exists(PHPUnit_Runner_Version::class, 'id') ||
-            version_compare(PHPUnit_Runner_Version::id(), '5.2.0', '<')) {
-            parent::setExpectedException($exception, $message, $code);
-        } else {
-            $this->expectException($exception);
-
-            if ($message !== null && $message !== '') {
-                $this->expectExceptionMessage($message);
-            }
-
-            if ($code !== null) {
-                $this->expectExceptionCode($code);
-            }
-        }
     }
 
     /**
