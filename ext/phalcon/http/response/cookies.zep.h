@@ -15,6 +15,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has);
 PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
 PHP_METHOD(Phalcon_Http_Response_Cookies, send);
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
+zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, useEncryption)

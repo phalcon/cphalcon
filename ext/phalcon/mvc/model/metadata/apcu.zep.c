@@ -137,18 +137,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, read) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, write) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *data, data_sub, _0, _1, _2;
+	zval data;
+	zval *key_param = NULL, *data_param = NULL, _0, _1, _2;
 	zval key;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
-	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&data);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key_param, &data);
+	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be a string") TSRMLS_CC);
@@ -160,13 +161,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, write) {
 		ZEPHIR_INIT_VAR(&key);
 		ZVAL_EMPTY_STRING(&key);
 	}
+	zephir_get_arrval(&data, data_param);
 
 
 	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
 	zephir_read_property(&_2, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 84, &_1, data, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 84, &_1, &data, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

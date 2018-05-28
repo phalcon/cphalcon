@@ -58,34 +58,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
 }
 
 /**
- * Internal function to add a handler to the group
+ * Internal function to add a handler to the group.
+ *
+ * @param string|array method
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 	zval _0;
-	zval *method_param = NULL, *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL;
-	zval method, routePattern, name;
+	zval routePattern, name;
+	zval *method, method_sub, *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&method_sub);
+	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&routePattern);
 	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 4, 0, &method_param, &routePattern_param, &handler, &name_param);
+	zephir_fetch_params(1, 4, 0, &method, &routePattern_param, &handler, &name_param);
 
-	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(method_param) == IS_STRING)) {
-		zephir_get_strval(&method, method_param);
-	} else {
-		ZEPHIR_INIT_VAR(&method);
-		ZVAL_EMPTY_STRING(&method);
-	}
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
 		RETURN_MM_NULL();
@@ -101,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 4, 0 TSRMLS_CC);
-	zephir_array_fast_append(&_0, &method);
+	zephir_array_fast_append(&_0, method);
 	zephir_array_fast_append(&_0, &routePattern);
 	zephir_array_fast_append(&_0, handler);
 	zephir_array_fast_append(&_0, &name);
@@ -166,7 +159,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers) {
 }
 
 /**
- * Sets the main handler
+ * Sets the main handler.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 
@@ -252,7 +247,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler) {
 }
 
 /**
- * Maps a route to a handler
+ * Maps a route to a handler.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 
@@ -295,29 +292,29 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 }
 
 /**
- * Maps a route to a handler via methods
+ * Maps a route to a handler via methods.
  *
- * @param  string routePattern
- * @param  callable handler
- * @param  string|array method
- * @param  string name
- * @return \Phalcon\Mvc\Micro\Collection
+ * <code>
+ * $collection->mapVia("/test", "indexAction", ["POST", "GET"], "test");
+ * </code>
+ *
+ * @param callable handler
+ * @param string|array method
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *routePattern_param = NULL, *handler, handler_sub, *method, method_sub, *name = NULL, name_sub, __$null;
-	zval routePattern;
+	zval *routePattern_param = NULL, *handler, handler_sub, *method, method_sub, *name_param = NULL;
+	zval routePattern, name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&routePattern);
+	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&method_sub);
-	ZVAL_UNDEF(&name_sub);
-	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name);
+	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
@@ -329,20 +326,24 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
 		ZEPHIR_INIT_VAR(&routePattern);
 		ZVAL_EMPTY_STRING(&routePattern);
 	}
-	if (!name) {
-		name = &name_sub;
-		name = &__$null;
+	if (!name_param) {
+		ZEPHIR_INIT_VAR(&name);
+		ZVAL_STRING(&name, "");
+	} else {
+		zephir_get_strval(&name, name_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_addmap", NULL, 0, method, &routePattern, handler, name);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_addmap", NULL, 0, method, &routePattern, handler, &name);
 	zephir_check_call_status();
 	RETURN_THIS();
 
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is GET
+ * Maps a route to a handler that only matches if the HTTP method is GET.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 
@@ -386,7 +387,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is POST
+ * Maps a route to a handler that only matches if the HTTP method is POST.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 
@@ -430,7 +433,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is PUT
+ * Maps a route to a handler that only matches if the HTTP method is PUT.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 
@@ -474,7 +479,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is PATCH
+ * Maps a route to a handler that only matches if the HTTP method is PATCH.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 
@@ -518,7 +525,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is HEAD
+ * Maps a route to a handler that only matches if the HTTP method is HEAD.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 
@@ -562,7 +571,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is DELETE
+ * Maps a route to a handler that only matches if the HTTP method is DELETE.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 
@@ -606,7 +617,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is OPTIONS
+ * Maps a route to a handler that only matches if the HTTP method is OPTIONS.
+ *
+ * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
 

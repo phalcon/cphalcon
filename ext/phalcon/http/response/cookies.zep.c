@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
@@ -85,6 +85,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 	 */
 	zend_declare_property_null(phalcon_http_response_cookies_ce, SL("signKey"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	phalcon_http_response_cookies_ce->create_object = zephir_init_properties_Phalcon_Http_Response_Cookies;
+
 	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_http_response_cookiesinterface_ce);
 	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
@@ -98,13 +100,12 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval signKey;
-	zval *useEncryption_param = NULL, *signKey_param = NULL, __$true, __$false, _0;
+	zval *useEncryption_param = NULL, *signKey_param = NULL, __$true, __$false;
 	zend_bool useEncryption;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&signKey);
 
 	ZEPHIR_MM_GROW();
@@ -128,9 +129,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
 	} else {
 		zephir_update_property_zval(this_ptr, SL("_useEncryption"), &__$false);
 	}
-	ZEPHIR_INIT_VAR(&_0);
-	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("_cookies"), &_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsignkey", NULL, 0, &signKey);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -416,7 +414,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_OBS_VAR(&dependencyInjector);
 		zephir_read_property(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(&dependencyInjector) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 228);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service", "phalcon/http/response/cookies.zep", 227);
 			return;
 		}
 		ZEPHIR_INIT_VAR(&_11$$6);
@@ -605,7 +603,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("_cookies"), PH_NOISY_CC | PH_READONLY);
-		zephir_is_iterable(&_1$$3, 0, "phalcon/http/response/cookies.zep", 341);
+		zephir_is_iterable(&_1$$3, 0, "phalcon/http/response/cookies.zep", 340);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_1$$3), _2$$3)
 		{
 			ZEPHIR_INIT_NVAR(&cookie);
@@ -636,6 +634,29 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset) {
 	array_init(&_0);
 	zephir_update_property_zval(this_ptr, SL("_cookies"), &_0);
 	RETURN_THIS();
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("_cookies"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("_cookies"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 
