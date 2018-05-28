@@ -88,14 +88,14 @@ sudo zypper install php7-devel gcc make re2c
 sudo yum install php-devel pcre-devel gcc make re2c
 ```
 
-##### macOS (Sierra / El Capitan / Yosemite)
+##### macOS
 
-We recomend use command line to build Phalcon extension.
+We recommend to use command line to build Phalcon extension suitable for your system.
 Another way is to use OSX MAMP ready extension: https://github.com/majksner/php-phalcon-mamp
 
-## Gentoo
+##### Gentoo
 
-There is Gentoo ebuilds maintained for the Phalcon Framework: https://github.com/smoke/phalcon-gentoo-overlay
+There is Gentoo ebuilds maintained for the Phalcon: https://github.com/smoke/phalcon-gentoo-overlay
 
 ## Compilation
 
