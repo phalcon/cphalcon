@@ -257,9 +257,20 @@ class Mysql extends Dialect
 	 */
 	public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
 	{
-		var afterPosition, sql, defaultValue;
+		var afterPosition, sql, defaultValue, columnDefinition;
 
-		let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " MODIFY `" . column->getName() . "` " . this->getColumnDefinition(column);
+		let columnDefinition = this->getColumnDefinition(column),
+			sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
+
+		if typeof currentColumn != "object" {
+			let currentColumn = column;
+		}
+
+		if column->getName() !== currentColumn->getName() {
+			let sql .= " CHANGE COLUMN `" . currentColumn->getName() . "` `" . column->getName() . "` " . columnDefinition;
+		} else {
+			let sql .= " MODIFY `" . column->getName() . "` " . columnDefinition;
+		}
 
 		if column->hasDefault() {
 			let defaultValue = column->getDefault();

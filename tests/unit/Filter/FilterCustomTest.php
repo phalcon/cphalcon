@@ -128,7 +128,7 @@ class FilterCustomTest extends Helper\FilterBase
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-04-15
-     * @issue  11581
+     * @issue  https://github.com/phalcon/cphalcon/issues/11581
      */
     public function testSanitizeCustomCallableFilterIp()
     {

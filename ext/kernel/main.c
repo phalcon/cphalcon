@@ -254,11 +254,13 @@ int zephir_fast_count_int(zval *value)
 }
 
 /**
- * Check if a function exists using explicit char param (using precomputed hash key)
+ * Check if a function exists using explicit function length
+ *
+ * TODO: Deprecated. Will be removed in future
  */
-int zephir_function_quick_exists_ex(const char *method_name, unsigned int method_len)
+int zephir_function_quick_exists_ex(const char *function_name, size_t function_len)
 {
-	if (zend_hash_str_exists(CG(function_table), method_name, method_len)) {
+	if (zend_hash_str_exists(CG(function_table), function_name, function_len)) {
 		return SUCCESS;
 	}
 
@@ -267,19 +269,23 @@ int zephir_function_quick_exists_ex(const char *method_name, unsigned int method
 
 /**
  * Check if a function exists
+ *
+ * @param function_name
+ * @return
  */
 int zephir_function_exists(const zval *function_name)
 {
+	if (zend_hash_str_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
+		return SUCCESS;
+	}
 
-	return zephir_function_quick_exists_ex(
-		Z_STRVAL_P(function_name),
-		Z_STRLEN_P(function_name) + 1
-	);
+	return FAILURE;
 }
 
 /**
- * Check if a function exists using explicit char param
+ * Check if a function exists using explicit function length
  *
+ * TODO: Deprecated. Will be removed in future
  * @param function_name
  * @param function_len strlen(function_name) + 1
  */
@@ -449,6 +455,32 @@ int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value)
 {
 	return zephir_declare_class_constant_stringl(ce, name, name_length, value, strlen(value));
+}
+
+/**
+ * Check is PHP Version equals to Runtime PHP Version
+ */
+int zephir_is_php_version(unsigned int id)
+{
+	int php_major = PHP_MAJOR_VERSION * 10000;
+	int php_minor = PHP_MINOR_VERSION * 100;
+	int php_release = PHP_RELEASE_VERSION;
+
+	int zep_major = id / 10000;
+	int zep_minor = id / 100 - zep_major * 100;
+	int zep_release = id - (zep_major * 10000 + zep_minor * 100);
+
+	if (zep_minor == 0)
+	{
+		php_minor = 0;
+	}
+
+	if (zep_release == 0)
+	{
+		php_release = 0;
+	}
+
+	return ((php_major + php_minor + php_release) == id ? 1 : 0);
 }
 
 void zephir_get_args(zval *return_value)

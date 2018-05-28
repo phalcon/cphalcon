@@ -508,10 +508,9 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 
 	zend_string *_4;
 	zend_ulong _3;
-	zephir_fcall_cache_entry *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval values;
-	zval *table_param = NULL, *values_param = NULL, *fields = NULL, fields_sub, *dataTypes = NULL, dataTypes_sub, __$null, placeholders, insertValues, bindDataTypes, bindType, position, value, escapedTable, joinedValues, escapedFields, field, insertSql, *_2, _0$$3, _6$$7, _7$$8, *_9$$11, _11$$11, _10$$12;
+	zval *table_param = NULL, *values_param = NULL, *fields = NULL, fields_sub, *dataTypes = NULL, dataTypes_sub, __$null, placeholders, insertValues, bindDataTypes, bindType, position, value, escapedTable, joinedValues, escapedFields, field, insertSql, *_2, _0$$3, _6$$7, _7$$8, *_8$$11, _10$$11, _9$$12;
 	zval table, _1$$3, _5$$5;
 	zval *this_ptr = getThis();
 
@@ -535,8 +534,8 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&_7$$8);
-	ZVAL_UNDEF(&_11$$11);
-	ZVAL_UNDEF(&_10$$12);
+	ZVAL_UNDEF(&_10$$11);
+	ZVAL_UNDEF(&_9$$12);
 	ZVAL_UNDEF(&values);
 
 	ZEPHIR_MM_GROW();
@@ -608,7 +607,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_METHOD(&escapedTable, this_ptr, "escapeidentifier", &_8, 0, &table);
+	ZEPHIR_CALL_METHOD(&escapedTable, this_ptr, "escapeidentifier", NULL, 0, &table);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&joinedValues);
 	zephir_fast_join_str(&joinedValues, SL(", "), &placeholders TSRMLS_CC);
@@ -617,18 +616,18 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		ZEPHIR_INIT_VAR(&escapedFields);
 		array_init(&escapedFields);
 		zephir_is_iterable(fields, 0, "phalcon/db/adapter.zep", 350);
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(fields), _9$$11)
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(fields), _8$$11)
 		{
 			ZEPHIR_INIT_NVAR(&field);
-			ZVAL_COPY(&field, _9$$11);
-			ZEPHIR_CALL_METHOD(&_10$$12, this_ptr, "escapeidentifier", &_8, 0, &field);
+			ZVAL_COPY(&field, _8$$11);
+			ZEPHIR_CALL_METHOD(&_9$$12, this_ptr, "escapeidentifier", NULL, 0, &field);
 			zephir_check_call_status();
-			zephir_array_append(&escapedFields, &_10$$12, PH_SEPARATE, "phalcon/db/adapter.zep", 347);
+			zephir_array_append(&escapedFields, &_9$$12, PH_SEPARATE, "phalcon/db/adapter.zep", 347);
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&field);
-		ZEPHIR_INIT_VAR(&_11$$11);
-		zephir_fast_join_str(&_11$$11, SL(", "), &escapedFields TSRMLS_CC);
-		ZEPHIR_CONCAT_SVSVSVS(&insertSql, "INSERT INTO ", &escapedTable, " (", &_11$$11, ") VALUES (", &joinedValues, ")");
+		ZEPHIR_INIT_VAR(&_10$$11);
+		zephir_fast_join_str(&_10$$11, SL(", "), &escapedFields TSRMLS_CC);
+		ZEPHIR_CONCAT_SVSVSVS(&insertSql, "INSERT INTO ", &escapedTable, " (", &_10$$11, ") VALUES (", &joinedValues, ")");
 	} else {
 		ZEPHIR_CONCAT_SVSVS(&insertSql, "INSERT INTO ", &escapedTable, " VALUES (", &joinedValues, ")");
 	}
@@ -2348,7 +2347,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 		ZVAL_COPY(&indexColumns, _6);
 		ZEPHIR_INIT_NVAR(&_9$$6);
 		object_init_ex(&_9$$6, phalcon_db_index_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_10, 18, &name, &indexColumns);
+		ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_10, 19, &name, &indexColumns);
 		zephir_check_call_status();
 		zephir_array_update_zval(&indexObjects, &name, &_9$$6, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
@@ -2514,7 +2513,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		ZEPHIR_OBS_NVAR(&_17$$6);
 		zephir_array_fetch_string(&_17$$6, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/db/adapter.zep", 963 TSRMLS_CC);
 		zephir_array_update_string(&_16$$6, SL("referencedColumns"), &_17$$6, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &_15$$6, "__construct", &_18, 19, &name, &_16$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_15$$6, "__construct", &_18, 20, &name, &_16$$6);
 		zephir_check_call_status();
 		zephir_array_update_zval(&referenceObjects, &name, &_15$$6, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
@@ -2833,7 +2832,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue) {
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "null");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 21, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2870,7 +2869,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDefaultValue) {
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "DEFAULT");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 21, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

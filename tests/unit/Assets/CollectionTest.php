@@ -81,7 +81,7 @@ class CollectionTest extends UnitTest
      * Tests Collection::has
      *
      * @test
-     * @issue  10938
+     * @issue  https://github.com/phalcon/cphalcon/issues/10938
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */

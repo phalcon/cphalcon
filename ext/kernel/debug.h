@@ -37,5 +37,23 @@ typedef struct _zephir_debug_entry {
 	int lineno;
 } zephir_debug_entry;
 
-#endif
-#endif
+/** The zval's reference count dump */
+#define RC_DUMP(zv)                                                                                                                \
+	do {                                                                                                                           \
+		char *_n = (strrchr((#zv), '&') ? strrchr((#zv), '&') + 1 : (#zv));                                                        \
+		char *_f = (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__);                                               \
+		zval *_z = (zv);                                                                                                           \
+		if (Z_REFCOUNTED_P(_z)) {                                                                                                  \
+			fprintf(stderr, "[DUMP]: %s:%d %s (%p) refcount=%d, type=%d\n", _f, __LINE__, _n, _z, Z_REFCOUNT_P(_z), Z_TYPE_P(_z)); \
+		} else {                                                                                                                   \
+			fprintf(stderr, "[DUMP]: %s:%d %s (%p) is not reference-counted, type=%d\n", _f, __LINE__, _n, _z, Z_TYPE_P(_z));      \
+		}                                                                                                                          \
+	} while (0)
+
+
+#else
+
+#define RC_DUMP(zv)
+
+#endif /* ZEPHIR_RELEASE */
+#endif /* ZEPHIR_KERNEL_DEBUG_H */

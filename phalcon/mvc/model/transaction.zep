@@ -32,9 +32,12 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * all succeed as one atomic action. Phalcon\Transaction is intended to be used with Phalcon_Model_Base.
  * Phalcon Transactions should be created using Phalcon\Transaction\Manager.
  *
- *<code>
+ * <code>
+ * use Phalcon\Mvc\Model\Transaction\Failed;
+ * use Phalcon\Mvc\Model\Transaction\Manager;
+ *
  * try {
- *     $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
+ *     $manager = new Manager();
  *
  *     $transaction = $manager->get();
  *
@@ -60,14 +63,13 @@ use Phalcon\Mvc\Model\TransactionInterface;
  *     }
  *
  *     $transaction->commit();
- * } catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
+ * } catch(Failed $e) {
  *     echo "Failed, reason: ", $e->getMessage();
  * }
- *</code>
+ * </code>
  */
 class Transaction implements TransactionInterface
 {
-
 	protected _connection;
 
 	protected _activeTransaction = false;
@@ -85,11 +87,17 @@ class Transaction implements TransactionInterface
 	/**
 	 * Phalcon\Mvc\Model\Transaction constructor
 	 */
-	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, string! service = "db")
+	public function __construct(<DiInterface> dependencyInjector, boolean autoBegin = false, string service = null)
 	{
 		var connection;
 
-		let connection = dependencyInjector->get(service);
+		let this->_messages = [];
+
+		if service {
+			let connection = dependencyInjector->get(service);
+		} else {
+			let connection = dependencyInjector->get("db");
+		}
 
 		let this->_connection = connection;
 		if autoBegin {

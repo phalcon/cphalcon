@@ -151,8 +151,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 
 	zend_bool _0$$3, _1$$6, _5$$8, _13$$14;
 	double ratio = 0;
-	zephir_fcall_cache_entry *_27 = NULL;
-	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, _23, _24, _25, _26, _28, _29, _30, _31, _2$$6, _3$$6, _4$$6, _6$$8, _7$$8, _8$$8, _9$$10, _10$$10, _11$$12, _12$$12, _14$$14, _15$$14, _16$$14, _17$$16, _18$$16, _19$$17, _20$$17, _21$$19, _22$$20;
+	zval *width_param = NULL, *height_param = NULL, *master_param = NULL, _23, _24, _25, _26, _27, _28, _29, _30, _2$$6, _3$$6, _4$$6, _6$$8, _7$$8, _8$$8, _9$$10, _10$$10, _11$$12, _12$$12, _14$$14, _15$$14, _16$$14, _17$$16, _18$$16, _19$$17, _20$$17, _21$$19, _22$$20;
 	zend_long width, height, master, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -160,10 +159,10 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 	ZVAL_UNDEF(&_24);
 	ZVAL_UNDEF(&_25);
 	ZVAL_UNDEF(&_26);
+	ZVAL_UNDEF(&_27);
 	ZVAL_UNDEF(&_28);
 	ZVAL_UNDEF(&_29);
 	ZVAL_UNDEF(&_30);
-	ZVAL_UNDEF(&_31);
 	ZVAL_UNDEF(&_2$$6);
 	ZVAL_UNDEF(&_3$$6);
 	ZVAL_UNDEF(&_4$$6);
@@ -322,19 +321,19 @@ PHP_METHOD(Phalcon_Image_Adapter, resize) {
 	ZVAL_LONG(&_24, width);
 	zephir_round(&_23, &_24, NULL, NULL TSRMLS_CC);
 	ZVAL_LONG(&_25, 1);
-	ZEPHIR_CALL_FUNCTION(&_26, "max", &_27, 66, &_23, &_25);
+	ZEPHIR_CALL_FUNCTION(&_26, "max", NULL, 68, &_23, &_25);
 	zephir_check_call_status();
 	width = zephir_get_intval(&_26);
-	ZEPHIR_INIT_VAR(&_28);
+	ZEPHIR_INIT_VAR(&_27);
 	ZVAL_LONG(&_25, height);
-	zephir_round(&_28, &_25, NULL, NULL TSRMLS_CC);
-	ZVAL_LONG(&_29, 1);
-	ZEPHIR_CALL_FUNCTION(&_30, "max", &_27, 66, &_28, &_29);
+	zephir_round(&_27, &_25, NULL, NULL TSRMLS_CC);
+	ZVAL_LONG(&_28, 1);
+	ZEPHIR_CALL_FUNCTION(&_29, "max", NULL, 68, &_27, &_28);
 	zephir_check_call_status();
-	height = zephir_get_intval(&_30);
-	ZVAL_LONG(&_29, width);
-	ZVAL_LONG(&_31, height);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resize", NULL, 0, &_29, &_31);
+	height = zephir_get_intval(&_29);
+	ZVAL_LONG(&_28, width);
+	ZVAL_LONG(&_30, height);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_resize", NULL, 0, &_28, &_30);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -501,7 +500,7 @@ PHP_METHOD(Phalcon_Image_Adapter, rotate) {
 
 
 	if (degrees > 180) {
-		degrees %= 360;
+		degrees = (long) (zephir_safe_mod_long_long(degrees, 360 TSRMLS_CC));
 		if (degrees > 180) {
 			degrees -= 360;
 		}
@@ -810,20 +809,20 @@ PHP_METHOD(Phalcon_Image_Adapter, text) {
 		ZVAL_STRING(&_6$$7, "/./");
 		ZEPHIR_INIT_VAR(&_7$$7);
 		ZVAL_STRING(&_7$$7, "$0$0");
-		ZEPHIR_CALL_FUNCTION(&_8$$7, "preg_replace", NULL, 34, &_6$$7, &_7$$7, &color);
+		ZEPHIR_CALL_FUNCTION(&_8$$7, "preg_replace", NULL, 36, &_6$$7, &_7$$7, &color);
 		zephir_check_call_status();
 		zephir_get_strval(&color, &_8$$7);
 	}
 	ZVAL_LONG(&_9, 2);
-	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 67, &color, &_9);
+	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 69, &color, &_9);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "hexdec");
-	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 68, &_11, &_10);
+	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 70, &_11, &_10);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_12, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 335 TSRMLS_CC);
-	zephir_array_fetch_long(&_13, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 335 TSRMLS_CC);
-	zephir_array_fetch_long(&_14, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 335 TSRMLS_CC);
+	zephir_array_fetch_long(&_12, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 336 TSRMLS_CC);
+	zephir_array_fetch_long(&_13, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 336 TSRMLS_CC);
+	zephir_array_fetch_long(&_14, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 336 TSRMLS_CC);
 	ZVAL_LONG(&_9, opacity);
 	ZVAL_LONG(&_15, size);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_text", NULL, 0, &text, offsetX, offsetY, &_9, &_12, &_13, &_14, &_15, &fontfile);
@@ -912,20 +911,20 @@ PHP_METHOD(Phalcon_Image_Adapter, background) {
 		ZVAL_STRING(&_6$$4, "/./");
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_STRING(&_7$$4, "$0$0");
-		ZEPHIR_CALL_FUNCTION(&_8$$4, "preg_replace", NULL, 34, &_6$$4, &_7$$4, &color);
+		ZEPHIR_CALL_FUNCTION(&_8$$4, "preg_replace", NULL, 36, &_6$$4, &_7$$4, &color);
 		zephir_check_call_status();
 		zephir_get_strval(&color, &_8$$4);
 	}
 	ZVAL_LONG(&_9, 2);
-	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 67, &color, &_9);
+	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 69, &color, &_9);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "hexdec");
-	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 68, &_11, &_10);
+	ZEPHIR_CALL_FUNCTION(&colors, "array_map", NULL, 70, &_11, &_10);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_12, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 366 TSRMLS_CC);
-	zephir_array_fetch_long(&_13, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 366 TSRMLS_CC);
-	zephir_array_fetch_long(&_14, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 366 TSRMLS_CC);
+	zephir_array_fetch_long(&_12, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 367 TSRMLS_CC);
+	zephir_array_fetch_long(&_13, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 367 TSRMLS_CC);
+	zephir_array_fetch_long(&_14, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/image/adapter.zep", 367 TSRMLS_CC);
 	ZVAL_LONG(&_9, opacity);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_background", NULL, 0, &_12, &_13, &_14, &_9);
 	zephir_check_call_status();
@@ -1069,7 +1068,7 @@ PHP_METHOD(Phalcon_Image_Adapter, render) {
 	if (!(!(Z_TYPE_P(&ext) == IS_UNDEF) && Z_STRLEN_P(&ext))) {
 		zephir_read_property(&_0$$3, this_ptr, SL("_file"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_1$$3, 4);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "pathinfo", NULL, 69, &_0$$3, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "pathinfo", NULL, 71, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		zephir_get_strval(&_3$$3, &_2$$3);
 		ZEPHIR_CPY_WRT(&ext, &_3$$3);

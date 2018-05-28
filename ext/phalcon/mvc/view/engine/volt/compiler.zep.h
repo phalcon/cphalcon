@@ -28,6 +28,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSwitch);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCase);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet);
@@ -126,6 +128,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileif, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_INFO(0, extendsMode)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileswitch, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
+	ZEND_ARG_INFO(0, extendsMode)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilecase, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, statement, 0)
+	ZEND_ARG_INFO(0, caseClause)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileelseif, 0, 0, 1)
@@ -232,6 +244,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach, arginfo_phalcon_mvc_view_engine_volt_compiler_compileforeach, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf, arginfo_phalcon_mvc_view_engine_volt_compiler_compileif, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSwitch, arginfo_phalcon_mvc_view_engine_volt_compiler_compileswitch, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCase, arginfo_phalcon_mvc_view_engine_volt_compiler_compilecase, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf, arginfo_phalcon_mvc_view_engine_volt_compiler_compileelseif, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache, arginfo_phalcon_mvc_view_engine_volt_compiler_compilecache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet, arginfo_phalcon_mvc_view_engine_volt_compiler_compileset, ZEND_ACC_PUBLIC)

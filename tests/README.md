@@ -129,6 +129,8 @@ export TEST_DB_MONGO_NAME="phalcon_test"
 export TEST_RS_HOST="127.0.0.1"
 export TEST_RS_PORT="6379"
 export TEST_RS_DB="0"
+
+export TEST_CACHE_DIR="/tmp"
 ```
 
 ## Run tests

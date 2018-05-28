@@ -553,7 +553,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		if count(bindTypes) > 0 {
 			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
+			if typeof currentBindTypes == "array" {
 				let this->_bindTypes = currentBindTypes + bindTypes;
 			} else {
 				let this->_bindTypes = bindTypes;
@@ -717,10 +717,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->having("SUM(Robots.price) > 0");
 	 *
 	 * $builder->having(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -752,7 +752,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
+			if typeof currentBindTypes == "array" {
 				let this->_bindTypes = currentBindTypes + bindTypes;
 			} else {
 				let this->_bindTypes = bindTypes;
@@ -769,10 +769,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->andHaving("SUM(Robots.price) > 0");
 	 *
 	 * $builder->andHaving(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -804,10 +804,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->orHaving("SUM(Robots.price) > 0");
 	 *
 	 * $builder->orHaving(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -1359,7 +1359,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setBindParams(bindParams);
 		}
 
-		// Set default bind params
+		// Set default bind types
 		let bindTypes = this->_bindTypes;
 		if typeof bindTypes == "array" {
 			query->setBindTypes(bindTypes);

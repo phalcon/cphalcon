@@ -421,7 +421,8 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::describeColumns
      *
      * @test
-     * @issue  12536, 11359
+     * @issue  https://github.com/phalcon/cphalcon/issues/12536
+     * @issue  https://github.com/phalcon/cphalcon/issues/11359
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */

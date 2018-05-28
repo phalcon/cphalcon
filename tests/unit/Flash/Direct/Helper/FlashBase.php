@@ -259,7 +259,7 @@ class FlashBase extends UnitTest
      * Tests auto escaping
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @issue  11448
+     * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since  2016-06-15
      */
     public function testFlashDirectWithAutoEscaping()

@@ -295,6 +295,53 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 }
 
 /**
+ * Maps a route to a handler via methods
+ *
+ * @param  string routePattern
+ * @param  callable handler
+ * @param  string|array method
+ * @param  string name
+ * @return \Phalcon\Mvc\Micro\Collection
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
+
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *routePattern_param = NULL, *handler, handler_sub, *method, method_sub, *name = NULL, name_sub, __$null;
+	zval routePattern;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&routePattern);
+	ZVAL_UNDEF(&handler_sub);
+	ZVAL_UNDEF(&method_sub);
+	ZVAL_UNDEF(&name_sub);
+	ZVAL_NULL(&__$null);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name);
+
+	if (UNEXPECTED(Z_TYPE_P(routePattern_param) != IS_STRING && Z_TYPE_P(routePattern_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'routePattern' must be a string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(routePattern_param) == IS_STRING)) {
+		zephir_get_strval(&routePattern, routePattern_param);
+	} else {
+		ZEPHIR_INIT_VAR(&routePattern);
+		ZVAL_EMPTY_STRING(&routePattern);
+	}
+	if (!name) {
+		name = &name_sub;
+		name = &__$null;
+	}
+
+
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_addmap", NULL, 0, method, &routePattern, handler, name);
+	zephir_check_call_status();
+	RETURN_THIS();
+
+}
+
+/**
  * Maps a route to a handler that only matches if the HTTP method is GET
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {

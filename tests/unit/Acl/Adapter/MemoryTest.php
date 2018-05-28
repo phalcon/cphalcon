@@ -5,7 +5,9 @@ namespace Phalcon\Test\Unit\Acl\Adapter;
 use Phalcon\Acl;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\Resource;
-use PHPUnit_Framework_Exception;
+use Phalcon\Test\Acl\TestResourceAware;
+use Phalcon\Test\Acl\TestRoleAware;
+use Phalcon\Test\Acl\TestRoleResourceAware;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Acl\Adapter\Memory;
 
@@ -418,7 +420,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests negation of inherited roles
      *
-     * @issue   65
+     * @issue   https://github.com/phalcon/cphalcon/issues/65
      *
      * @author  Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since   2014-10-04
@@ -455,7 +457,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests ACL Resources with numeric values
      *
-     * @issue   1513
+     * @issue   https://github.com/phalcon/cphalcon/issues/1513
      *
      * @author  Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since   2014-10-04
@@ -480,7 +482,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests function in Acl Allow Method
      *
-     * @issue   11235
+     * @issue   https://github.com/phalcon/cphalcon/issues/11235
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2015-12-16
@@ -490,9 +492,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'The function in allow should be called and isAllowed should return correct values when using function in allow method',
             function () {
-                require_once PATH_DATA . 'acl/TestResourceAware.php';
-                require_once PATH_DATA . 'acl/TestRoleAware.php';
-
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::DENY);
                 $acl->addRole('Guests');
@@ -500,14 +499,14 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Admins', 'Members');
                 $acl->addResource('Post', ['update']);
 
-                $guest = new \TestRoleAware(1, 'Guests');
-                $member = new \TestRoleAware(2, 'Members');
-                $anotherMember = new \TestRoleAware(3, 'Members');
-                $admin = new \TestRoleAware(4, 'Admins');
-                $model = new \TestResourceAware(2, 'Post');
+                $guest = new TestRoleAware(1, 'Guests');
+                $member = new TestRoleAware(2, 'Members');
+                $anotherMember = new TestRoleAware(3, 'Members');
+                $admin = new TestRoleAware(4, 'Admins');
+                $model = new TestResourceAware(2, 'Post');
 
                 $acl->deny('Guests', 'Post', 'update');
-                $acl->allow('Members', 'Post', 'update', function (\TestRoleAware $user, \TestResourceAware $model) {
+                $acl->allow('Members', 'Post', 'update', function (TestRoleAware $user, TestResourceAware $model) {
                     return $user->getId() == $model->getUser();
                 });
                 $acl->allow('Admins', 'Post', 'update');
@@ -523,7 +522,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests function in Acl Allow Method
      *
-     * @issue   12004
+     * @issue   https://github.com/phalcon/cphalcon/issues/12004
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-07-22
@@ -565,7 +564,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests function in Acl Allow Method without arguments
      *
-     * @issue   12094
+     * @issue   https://github.com/phalcon/cphalcon/issues/12094
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-06-05
@@ -575,9 +574,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'The function in allow should be called and isAllowed should return correct values when using function in allow method',
             function () {
-                require_once PATH_DATA . 'acl/TestResourceAware.php';
-                require_once PATH_DATA . 'acl/TestRoleAware.php';
-
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::ALLOW);
                 $acl->setNoArgumentsDefaultAction(Acl::DENY);
@@ -586,11 +582,11 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Admins', 'Members');
                 $acl->addResource('Post', ['update']);
 
-                $guest = new \TestRoleAware(1, 'Guests');
-                $member = new \TestRoleAware(2, 'Members');
-                $anotherMember = new \TestRoleAware(3, 'Members');
-                $admin = new \TestRoleAware(4, 'Admins');
-                $model = new \TestResourceAware(2, 'Post');
+                $guest = new TestRoleAware(1, 'Guests');
+                $member = new TestRoleAware(2, 'Members');
+                $anotherMember = new TestRoleAware(3, 'Members');
+                $admin = new TestRoleAware(4, 'Admins');
+                $model = new TestResourceAware(2, 'Post');
 
                 $acl->allow('Guests', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
@@ -611,7 +607,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests function in Acl Allow Method without arguments
      *
-     * @issue   12094
+     * @issue   https://github.com/phalcon/cphalcon/issues/12094
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-06-05
@@ -621,9 +617,6 @@ class MemoryTest extends UnitTest
         $this->specify(
             'The function in allow should be called and isAllowed should return correct values when using function in allow method',
             function () {
-                require_once PATH_DATA . 'acl/TestResourceAware.php';
-                require_once PATH_DATA . 'acl/TestRoleAware.php';
-
                 $acl = new Memory;
                 $acl->setDefaultAction(Acl::ALLOW);
                 $acl->setNoArgumentsDefaultAction(Acl::DENY);
@@ -632,11 +625,11 @@ class MemoryTest extends UnitTest
                 $acl->addRole('Admins', 'Members');
                 $acl->addResource('Post', ['update']);
 
-                $guest = new \TestRoleAware(1, 'Guests');
-                $member = new \TestRoleAware(2, 'Members');
-                $anotherMember = new \TestRoleAware(3, 'Members');
-                $admin = new \TestRoleAware(4, 'Admins');
-                $model = new \TestResourceAware(2, 'Post');
+                $guest = new TestRoleAware(1, 'Guests');
+                $member = new TestRoleAware(2, 'Members');
+                $anotherMember = new TestRoleAware(3, 'Members');
+                $admin = new TestRoleAware(4, 'Admins');
+                $model = new TestResourceAware(2, 'Post');
 
                 $acl->allow('Guests', 'Post', 'update', function ($parameter) {
                     return $parameter % 2 == 0;
@@ -653,7 +646,7 @@ class MemoryTest extends UnitTest
             },
             [
                 'throws' => [
-                    \PHPUnit\Framework\Exception::class,
+                    \PHPUnit_Framework_Exception::class,
                     "You didn't provide any parameters when check Guests can update Post. We will use default action when no arguments."
                 ]
             ]
@@ -663,7 +656,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests acl with adding new rule for role after adding wildcard rule
      *
-     * @issue   2648
+     * @issue   https://github.com/phalcon/cphalcon/issues/2648
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
@@ -691,7 +684,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests adding wildcard rule second time
      *
-     * @issue   2648
+     * @issue   https://github.com/phalcon/cphalcon/issues/2648
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2016-10-01
@@ -719,7 +712,7 @@ class MemoryTest extends UnitTest
     /**
      * Tests adding wildcard rule second time
      *
-     * @issue   12573
+     * @issue   https://github.com/phalcon/cphalcon/issues/12573
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-25
@@ -765,5 +758,32 @@ class MemoryTest extends UnitTest
                 expect($acl->isAllowed($role, $resource, 'update'))->false();
             }
         );
+    }
+
+    /**
+     * Tests role and resource objects as isAllowed parameters of the same class
+     *
+     * @author  Wojciech Slawski <jurigag@gmail.com>
+     * @since   2017-02-15
+     */
+    public function testRoleResourceSameClassObjects()
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+        $role = new TestRoleResourceAware(1, 'User', 'Admin');
+        $resource = new TestRoleResourceAware(2, 'User', 'Admin');
+        $acl->addRole('Admin');
+        $acl->addResource('User', ['update']);
+        $acl->allow(
+            'Admin',
+            'User',
+            ['update'],
+            function (TestRoleResourceAware $admin, TestRoleResourceAware $user) {
+                return $admin->getUser() == $user->getUser();
+            }
+        );
+        expect($acl->isAllowed($role, $resource, 'update'))->false();
+        expect($acl->isAllowed($role, $role, 'update'))->true();
+        expect($acl->isAllowed($resource, $resource, 'update'))->true();
     }
 }

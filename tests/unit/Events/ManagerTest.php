@@ -47,7 +47,7 @@ class ManagerTest extends UnitTest
      * Tests attaching event listeners by event name after detaching all
      *
      * @test
-     * @issue  1331
+     * @issue  https://github.com/phalcon/cphalcon/issues/1331
      * @author Kamil Skowron <kamil@hedonsoftware.com>
      * @since  2014-05-28
      */
@@ -256,7 +256,7 @@ class ManagerTest extends UnitTest
      * Tests detach handler by using a Closure
      *
      * @test
-     * @issue  12882
+     * @issue  https://github.com/phalcon/cphalcon/issues/12882
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-06
      */
@@ -300,7 +300,7 @@ class ManagerTest extends UnitTest
      * Tests detach handler by using an Object
      *
      * @test
-     * @issue  12882
+     * @issue  https://github.com/phalcon/cphalcon/issues/12882
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-06
      */

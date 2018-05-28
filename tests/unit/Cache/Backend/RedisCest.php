@@ -107,7 +107,7 @@ class RedisCest
     }
 
     /**
-     * @issue 12434
+     * @issue https://github.com/phalcon/cphalcon/issues/12434
      * @param UnitTester $I
      */
     public function existsEmpty(UnitTester $I)
@@ -155,7 +155,7 @@ class RedisCest
     }
 
     /**
-     * @issue 12437
+     * @issue https://github.com/phalcon/cphalcon/issues/12437
      * @param UnitTester $I
      */
     public function getEmpty(UnitTester $I)
@@ -200,7 +200,7 @@ class RedisCest
     }
 
     /**
-     * @issue 12327
+     * @issue https://github.com/phalcon/cphalcon/issues/12327
      * @param UnitTester $I
      */
     public function saveNonExpiring(UnitTester $I)

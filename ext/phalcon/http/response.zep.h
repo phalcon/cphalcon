@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Http_Response, setDI);
 PHP_METHOD(Phalcon_Http_Response, getDI);
 PHP_METHOD(Phalcon_Http_Response, setStatusCode);
 PHP_METHOD(Phalcon_Http_Response, getStatusCode);
+PHP_METHOD(Phalcon_Http_Response, getReasonPhrase);
 PHP_METHOD(Phalcon_Http_Response, setHeaders);
 PHP_METHOD(Phalcon_Http_Response, getHeaders);
 PHP_METHOD(Phalcon_Http_Response, setCookies);
@@ -32,6 +33,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders);
 PHP_METHOD(Phalcon_Http_Response, sendCookies);
 PHP_METHOD(Phalcon_Http_Response, send);
 PHP_METHOD(Phalcon_Http_Response, setFileToSend);
+PHP_METHOD(Phalcon_Http_Response, removeHeader);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, content)
@@ -116,12 +118,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setfiletosend, 0, 0, 1)
 	ZEND_ARG_INFO(0, attachment)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_removeheader, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Response, setDI, arginfo_phalcon_http_response_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_response_setstatuscode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, getStatusCode, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, getReasonPhrase, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setHeaders, arginfo_phalcon_http_response_setheaders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, getHeaders, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setCookies, arginfo_phalcon_http_response_setcookies, ZEND_ACC_PUBLIC)
@@ -146,5 +153,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_method_entry) {
 	PHP_ME(Phalcon_Http_Response, sendCookies, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, send, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_response_setfiletosend, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response, removeHeader, arginfo_phalcon_http_response_removeheader, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -487,7 +487,7 @@ int zephir_is_identical(zval *op1, zval *op2)
 }
 
 /**
- * Do bitwise_and function keeping ref_count and is_ref
+ * Do bitwise_and function
  */
 int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2)
 {
@@ -497,12 +497,22 @@ int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2)
 }
 
 /**
- * Do bitwise_or function keeping ref_count and is_ref
+ * Do bitwise_or function
  */
 int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2)
 {
 	int status;
 	status = bitwise_or_function(result, op1, op2);
+	return status;
+}
+
+/**
+ * Do bitwise_xor function
+ */
+int zephir_bitwise_xor_function(zval *result, zval *op1, zval *op2)
+{
+	int status;
+	status = bitwise_xor_function(result, op1, op2);
 	return status;
 }
 
@@ -528,6 +538,15 @@ int zephir_less_long(zval *op1, long op2)
 	return Z_TYPE(result) == IS_TRUE;
 }
 
+int zephir_less_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+
+	is_smaller_function(&result, op1, &op2_zval);
+	return Z_TYPE(result) == IS_TRUE;
+}
+
 int zephir_less_equal_long(zval *op1, long op2)
 {
 	zval result, op2_zval;
@@ -544,6 +563,15 @@ int zephir_greater_long(zval *op1, long op2)
 {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
+
+	is_smaller_or_equal_function(&result, op1, &op2_zval);
+	return Z_TYPE(result) == IS_FALSE;
+}
+
+int zephir_greater_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
 
 	is_smaller_or_equal_function(&result, op1, &op2_zval);
 	return Z_TYPE(result) == IS_FALSE;

@@ -110,7 +110,7 @@ class ResponseTest extends HttpBase
     /**
      * Tests the Multiple Status Codes
      *
-     * @issue  1892
+     * @issue  https://github.com/phalcon/cphalcon/issues/1892
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
@@ -146,6 +146,18 @@ class ResponseTest extends HttpBase
             function () {
                 $response = $this->getResponseObject();
                 $response->resetHeaders();
+
+                $response->setStatusCode(103);
+                $expected = Headers::__set_state(
+                    [
+                        '_headers' => [
+                            'HTTP/1.1 103 Early Hints' => '',
+                            'Status'                   => '103 Early Hints'
+                        ]
+                    ]
+                );
+
+                expect($response->getHeaders())->equals($expected);
 
                 $response->setStatusCode(200);
                 $expected = Headers::__set_state(
@@ -403,7 +415,7 @@ class ResponseTest extends HttpBase
     /**
      * Tests redirect local with non standard code
      *
-     * @issue  11324
+     * @issue  https://github.com/phalcon/cphalcon/issues/11324
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-19
      */
@@ -433,7 +445,7 @@ class ResponseTest extends HttpBase
     /**
      * Tests redirect remotely 301
      *
-     * @issue  1182
+     * @issue  https://github.com/phalcon/cphalcon/issues/1182
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-08
      */
@@ -553,6 +565,32 @@ class ResponseTest extends HttpBase
                     ]
                 );
                 expect($response->getHeaders())->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Test the removeHeader
+     *
+     * @author Mohamad Rostami <mb.rostami.h@gmail.com>
+     */
+    public function testHttpResponseRemoveHeaderContentType()
+    {
+        $this->specify(
+            "removeHeader is not removing the header properly",
+            function () {
+                $response = $this->getResponseObject();
+                $response->resetHeaders();
+                $response->setHeader('Content-Type', 'text/html');
+                $headers = $response->getHeaders()->toArray();
+
+                $this->assertArrayHasKey('Content-Type', $headers);
+                expect($headers['Content-Type'])->equals('text/html');
+
+                $response->removeHeader('Content-Type');
+
+                $headers = $response->getHeaders()->toArray();
+                $this->assertArrayNotHasKey('Content-Type', $headers);
             }
         );
     }

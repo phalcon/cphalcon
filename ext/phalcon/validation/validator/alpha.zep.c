@@ -27,7 +27,10 @@
  * Check for alphabetic character(s)
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alpha as AlphaValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "username",
@@ -126,7 +129,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "Alpha");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 428, &_4$$3, &field, &_5$$3, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 436, &_4$$3, &field, &_5$$3, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$3);
 		zephir_check_call_status();

@@ -166,8 +166,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, _connect) {
 	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&redis);
 	object_init_ex(&redis, zephir_get_internal_ce(SL("redis")));
-	ZEPHIR_CALL_METHOD(NULL, &redis, "__construct", NULL, 0);
-	zephir_check_call_status();
+	if (zephir_has_constructor(&redis TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, &redis, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
 	ZEPHIR_OBS_VAR(&host);
 	_0 = !(zephir_array_isset_string_fetch(&host, &options, SL("host"), 0));
 	if (!(_0)) {
@@ -599,7 +601,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, queryKeys) {
 PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keyName = NULL, keyName_sub, *lifetime = NULL, lifetime_sub, __$null, lastKey, redis, prefix;
+	zval *keyName = NULL, keyName_sub, *lifetime = NULL, lifetime_sub, __$null, lastKey, redis, prefix, _0$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keyName_sub);
@@ -608,6 +610,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 	ZVAL_UNDEF(&lastKey);
 	ZVAL_UNDEF(&redis);
 	ZVAL_UNDEF(&prefix);
+	ZVAL_UNDEF(&_0$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
@@ -640,9 +643,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, exists) {
 			ZEPHIR_OBS_NVAR(&redis);
 			zephir_read_property(&redis, this_ptr, SL("_redis"), PH_NOISY_CC);
 		}
-		ZEPHIR_RETURN_CALL_METHOD(&redis, "exists", NULL, 0, &lastKey);
+		ZEPHIR_CALL_METHOD(&_0$$5, &redis, "exists", NULL, 0, &lastKey);
 		zephir_check_call_status();
-		RETURN_MM();
+		RETURN_MM_BOOL(zephir_get_boolval(&_0$$5));
 	}
 	RETURN_MM_BOOL(0);
 
