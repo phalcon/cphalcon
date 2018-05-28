@@ -142,7 +142,7 @@ class SimpleTest extends UnitTest
      * @since  2014-05-28
      *
      * @expectedException              \Phalcon\Mvc\View\Exception
-     * @expectedExceptionMessageRegExp "View '*.' was not found in the views directory"
+     * @expectedExceptionMessageRegExp View '.*views/test1/index' was not found in the views directory
      */
     public function testMissingView()
     {
@@ -163,7 +163,7 @@ class SimpleTest extends UnitTest
      * @since  2014-05-28
      *
      * @expectedException              \Phalcon\Mvc\View\Exception
-     * @expectedExceptionMessageRegExp View '.*' was not found in the views directory
+     * @expectedExceptionMessageRegExp View '.*views/test4/index.mhtml' was not found in the views directory
      */
     public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
     {
