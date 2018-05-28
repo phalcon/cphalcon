@@ -13,6 +13,6 @@ SELECT COUNT(tc.constraint_name)
         ON rc.unique_constraint_catalog = ccu.constraint_catalog
            AND rc.unique_constraint_schema = ccu.constraint_schema
            AND rc.unique_constraint_name = ccu.constraint_name
-    WHERE tc.constraint_name = '$foreignKeyName'
+    WHERE tc.constraint_name = '%_FK_%'
           AND rc.update_rule = 'RESTRICT'
           AND rc.delete_rule = 'CASCADE'
