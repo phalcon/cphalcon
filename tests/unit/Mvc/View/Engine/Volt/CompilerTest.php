@@ -56,7 +56,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::parse
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -80,7 +79,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::compileString
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -103,7 +101,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::compileString with option autoescape from options
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -128,7 +125,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::addFunction test case linear function
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -152,7 +148,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::addFunction test case with closure
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -178,7 +173,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::addFilter test case linear filter
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -202,7 +196,6 @@ class CompilerTest extends UnitTest
      * Tests Compiler::addFilter test case with closure filter
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */

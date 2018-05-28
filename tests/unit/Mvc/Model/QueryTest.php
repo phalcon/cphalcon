@@ -85,7 +85,6 @@ class QueryTest extends UnitTest
      * Tests Query::parse insert
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-24
      */
@@ -109,7 +108,6 @@ class QueryTest extends UnitTest
      * Tests Query::parse update
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-24
      */
@@ -133,7 +131,6 @@ class QueryTest extends UnitTest
      * Tests Query::parse delete
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-24
      */

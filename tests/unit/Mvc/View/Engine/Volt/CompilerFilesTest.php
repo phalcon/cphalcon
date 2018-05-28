@@ -61,7 +61,6 @@ class CompilerFilesTest extends UnitTest
      * Tests Compiler::compileFile test case to compile files
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
@@ -86,7 +85,6 @@ class CompilerFilesTest extends UnitTest
      * Tests Compiler::compileFile test case to compile extended files
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-29
      */
@@ -107,7 +105,6 @@ class CompilerFilesTest extends UnitTest
      * Tests Compiler::compileFile test case to compile extended files with blocks
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-29
      */
@@ -125,7 +122,6 @@ class CompilerFilesTest extends UnitTest
      * Tests Compiler::compileFile test case to compile extended files with blocks and two-way blocks
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-29
      */

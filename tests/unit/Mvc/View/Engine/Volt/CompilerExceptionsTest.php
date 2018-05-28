@@ -47,7 +47,6 @@ class CompilerExceptionsTest extends UnitTest
      * Tests Compiler::parse
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-15
      */
@@ -70,7 +69,6 @@ class CompilerExceptionsTest extends UnitTest
      * Tests Compiler::compileString
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-15
      */
@@ -94,7 +92,6 @@ class CompilerExceptionsTest extends UnitTest
      * Tests Compiler::parse
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.svyrydenko@gmail.com>
      * @since  2017-01-15
      */

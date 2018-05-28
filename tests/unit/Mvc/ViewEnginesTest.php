@@ -38,7 +38,6 @@ class ViewEnginesTest extends UnitTest
      * Tests View::render test template engines in function
      *
      * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-29
      */
@@ -73,7 +72,6 @@ class ViewEnginesTest extends UnitTest
      * Tests the View::registerEngines
      *
      * @test
-     * @issue  -
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
@@ -97,7 +95,6 @@ class ViewEnginesTest extends UnitTest
      * Tests the Different engines
      *
      * @test
-     * @issue  -
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-08-17
      */
@@ -122,7 +119,6 @@ class ViewEnginesTest extends UnitTest
      * Tests the mix Twig with PHP Engines
      *
      * @test
-     * @issue  -
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-08-17
      */
@@ -147,7 +143,6 @@ class ViewEnginesTest extends UnitTest
      * Tests the mix Mustache with PHP Engines
      *
      * @test
-     * @issue  -
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-08-17
      */
@@ -172,7 +167,6 @@ class ViewEnginesTest extends UnitTest
      * Tests the mix Mustache with PHP Engines
      *
      * @test
-     * @issue  -
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-08-17
      */
@@ -197,7 +191,6 @@ class ViewEnginesTest extends UnitTest
      * Tests the mix Mustache with PHP Engines
      *
      * @test
-     * @issue  -
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-08-17
      */
