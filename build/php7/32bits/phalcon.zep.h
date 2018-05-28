@@ -12170,6 +12170,7 @@ static PHP_METHOD(Phalcon_Http_Response_Cookies, has);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, send);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
+zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, useEncryption)
@@ -15499,7 +15500,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apcu_write, 0, 0, 2)
 	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_apcu_method_entry) {
@@ -16124,7 +16125,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_addfrom, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, alias)
-	ZEND_ARG_INFO(0, with)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_join, 0, 0, 1)
