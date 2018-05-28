@@ -6,7 +6,6 @@ use Phalcon\Tag;
 use ReflectionClass;
 use Codeception\Module;
 use Codeception\TestInterface;
-use Codeception\Specify\Config as SpecifyConfig;
 
 /**
  * Unit Helper
@@ -31,8 +30,6 @@ class Unit extends Module
     public function _before(TestInterface $test)
     {
         $this->test = $test;
-
-        SpecifyConfig::setDeepClone(false);
     }
 
     public function getProtectedProperty($obj, $prop)
