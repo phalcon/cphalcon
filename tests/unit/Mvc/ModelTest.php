@@ -4,26 +4,27 @@ namespace Phalcon\Test\Unit\Mvc;
 
 use DateTime;
 use Helper\ModelTrait;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Message;
-use Phalcon\Test\Models\ModelWithStringField;
-use Phalcon\Test\Models\Users;
 use Phalcon\Cache\Backend\Apc;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Models\Boutique;
-use Phalcon\Test\Models\Packages;
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\PackageDetails;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Models\BodyParts\Body;
-use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\BodyParts\Body;
+use Phalcon\Test\Models\Boutique;
+use Phalcon\Test\Models\Customers;
+use Phalcon\Test\Models\ModelWithStringField;
+use Phalcon\Test\Models\News\Subscribers;
+use Phalcon\Test\Models\PackageDetails;
+use Phalcon\Test\Models\Packages;
+use Phalcon\Test\Models\Personers;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Robotters;
+use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\Validation;
+use Phalcon\Test\Module\UnitTest;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
@@ -221,7 +222,7 @@ class ModelTest extends UnitTest
         }
 
         if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }

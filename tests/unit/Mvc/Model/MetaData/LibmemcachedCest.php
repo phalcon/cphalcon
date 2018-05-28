@@ -2,9 +2,10 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use UnitTester;
-use Phalcon\Test\Models\Robots;
 use Phalcon\Mvc\Model\Metadata\Libmemcached;
+use Phalcon\Test\Models\Robots;
+use PHPUnit\Framework\SkippedTestError;
+use UnitTester;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\LibmemcachedCest
@@ -30,7 +31,7 @@ class LibmemcachedCest
     public function _before(UnitTester $I)
     {
         if (!class_exists('Memcached')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: Memcached class does not exist, test skipped'
             );
         }

@@ -2,12 +2,13 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
+use Helper\Dialect\PostgresqlTrait;
+use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Db\Adapter\Pdo\Postgresql;
-use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
-use Helper\Dialect\PostgresqlTrait;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\PostgresqlTest
@@ -50,7 +51,7 @@ class PostgresqlTest extends UnitTest
                 'schema'   => TEST_DB_POSTGRESQL_SCHEMA
             ]);
         } catch (\PDOException $e) {
-            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+            throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
         }
     }
 

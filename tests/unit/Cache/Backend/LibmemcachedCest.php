@@ -7,6 +7,7 @@ use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\Backend\Libmemcached;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\LibmemcachedCest
@@ -30,7 +31,7 @@ class LibmemcachedCest
     public function _before(UnitTester $I)
     {
         if (!extension_loaded('memcached')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: memcached extension is not loaded'
             );
         }

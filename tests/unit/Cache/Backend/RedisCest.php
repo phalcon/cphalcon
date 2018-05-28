@@ -7,6 +7,7 @@ use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\Output;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\RedisCest
@@ -32,7 +33,7 @@ class RedisCest
         $I->wantToTest('Redis cache backend');
 
         if (!extension_loaded('redis')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: redis extension is not loaded'
             );
         }

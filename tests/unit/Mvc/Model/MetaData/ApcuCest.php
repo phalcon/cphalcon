@@ -2,9 +2,10 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model\MetaData;
 
-use UnitTester;
-use Phalcon\Test\Models\Robots;
 use Phalcon\Mvc\Model\Metadata\Apcu;
+use Phalcon\Test\Models\Robots;
+use PHPUnit\Framework\SkippedTestError;
+use UnitTester;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\Metadata\ApcuCest
@@ -31,7 +32,7 @@ class ApcuCest
     public function _before(UnitTester $I)
     {
         if (!function_exists('apc_fetch')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: apc extension is not loaded'
             );
         }

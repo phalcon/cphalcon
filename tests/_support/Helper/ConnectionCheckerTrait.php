@@ -4,6 +4,7 @@ namespace Helper;
 
 use Phalcon\Db\Adapter;
 use Phalcon\Di;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * Connection checker
@@ -24,7 +25,7 @@ trait ConnectionCheckerTrait
             $di->getShared('db');
         } catch (\PDOException $e) {
             $di->setShared('db', $old_conn);
-            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+            throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
         }
     }
 }

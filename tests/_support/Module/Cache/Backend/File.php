@@ -3,13 +3,14 @@
 namespace Phalcon\Test\Module\Cache\Backend;
 
 use Codeception\Configuration;
-use Phalcon\Cache\Frontend\Data;
-use Codeception\Module\Filesystem;
-use Phalcon\Cache\FrontendInterface;
-use Codeception\Lib\ModuleContainer;
-use Phalcon\Cache\Frontend\Igbinary;
-use Phalcon\Cache\Backend\File as FileBackend;
 use Codeception\Exception\ModuleConfigException;
+use Codeception\Lib\ModuleContainer;
+use Codeception\Module\Filesystem;
+use Phalcon\Cache\Backend\File as FileBackend;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache\Frontend\Igbinary;
+use Phalcon\Cache\FrontendInterface;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * Phalcon\Test\Module\Cache\Backend\File
@@ -299,7 +300,7 @@ class File extends Filesystem
             Igbinary::class => [
                 'validate_cb'    => function () {
                     if (!extension_loaded('igbinary')) {
-                        throw new \PHPUnit_Framework_SkippedTestError(
+                        throw new SkippedTestError(
                             "The 'igbinary' extension is not loaded."
                         );
                     }
