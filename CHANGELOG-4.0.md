@@ -12,6 +12,7 @@
 - Change catch `Exception` to `Throwable` [#12288](https://github.com/phalcon/cphalcon/issues/12288)
 - Renamed `Phalcon\Http\RequestInterface::isSoapRequested` to `Phalcon\Http\Request::isSoap`
 - Renamed `Phalcon\Http\RequestInterface::isSecureRequest` to `Phalcon\Http\RequestInterface::isSecure`
+- Changed `Phalcon\Mvc\Model\Query\Builder::addFrom` to remove third parameter `$with` [#13109](https://github.com/phalcon/cphalcon/pull/13109)
 
 ## Removed
 - Removed `Phalcon\Model::reset` [#12317](https://github.com/phalcon/cphalcon/issues/12317)

@@ -71,11 +71,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _joins;
 
-	/**
-	 * @deprecated Will be removed in version 4.0.0
-	 */
-	protected _with;
-
 	protected _conditions;
 
 	protected _group;
@@ -385,8 +380,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Add a model to take part of the query
 	 *
-	 * NOTE: The third parameter $with is deprecated and will be removed in future releases.
-	 *
 	 *<code>
 	 * // Load data from models Robots
 	 * $builder->addFrom("Robots");
@@ -395,16 +388,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->addFrom("Robots", "r");
 	 *</code>
 	 */
-	public function addFrom(string model, string alias = null, string with = null) -> <Builder>
+	public function addFrom(string model, string alias = null) -> <Builder>
 	{
 		var models, currentModel;
-
-		if with != "null" {
-			trigger_error(
-				"The third parameter 'with' is deprecated and will be removed in future releases.",
-				E_USER_DEPRECATED
-			);
-		}
 
 		let models = this->_models;
 		if typeof models != "array" {
