@@ -65,6 +65,11 @@ before_install:
 install:
   - if [[ -d "$HOME/.cache/composer/vendor" ]]; then cp -R $HOME/.cache/composer/vendor $TRAVIS_BUILD_DIR/vendor; fi;
   - composer install --no-ansi --no-progress --no-suggest
+  # Improve performance
+  - rm -rf $HOME/.cache/composer
+  - mkdir -p $HOME/.cache/composer/vendor
+  - cp -R $TRAVIS_BUILD_DIR/vendor $HOME/.cache/composer/vendor
+  # Install dependencies
   - bash tests/_ci/install_prereqs.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh
@@ -126,11 +131,6 @@ script:
 # Uncomment for debug purposes
 # after_failure:
 #  - bash tests/_ci/after_failure.sh
-
-after_success:
-  - rm -rf $HOME/.cache/composer
-  - mkdir -p $HOME/.cache/composer/vendor
-  - cp -R $TRAVIS_BUILD_DIR/vendor $HOME/.cache/composer/vendor
 
 notifications:
     # Stop spam me. I already live on Travis CI and GitHub
