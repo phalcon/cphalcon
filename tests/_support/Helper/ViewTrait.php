@@ -38,7 +38,7 @@ trait ViewTrait
     {
         $this->level = ob_get_level();
 
-        $this->view = new View;
+        $this->view = new View();
     }
 
     /**

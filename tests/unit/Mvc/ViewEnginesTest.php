@@ -92,25 +92,51 @@ class ViewEnginesTest extends UnitTest
     }
 
     /**
-     * Tests the Different engines
+     * Tests Mustache template engine
      *
      * @test
      * @author Andres Gutierrez <andres@phalconphp.com>
      * @since  2012-08-17
      */
-    public function shouldWorkEngine()
+    public function shouldWorkWithMustacheEngine()
     {
         $this->specify(
-            'The engine does not work as expected',
-            function ($errorMessage, $engines, $params) {
-                $this->view->setDI(Di::getDefault());
-                $this->view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-                $this->view->registerEngines($engines);
+            'Mustache engine does not work as expected',
+            function ($errorMessage, $engine, $params) {
+                $view = new View();
+                $view->setDI(Di::getDefault());
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
 
-                $this->setParamAndCheckData($errorMessage, $params, $this->view);
+                $view->registerEngines($engine);
+                $this->setParamAndCheckData($errorMessage, $params, $view);
             },
             [
-                'examples' => include PATH_FIXTURES . 'mvc/view_engines_test/view_set_single_engines.php'
+                'examples' => include_once PATH_FIXTURES . 'mvc/view/engine/mustache.php'
+            ]
+        );
+    }
+
+    /**
+     * Tests Twig template engine
+     *
+     * @test
+     * @author Andres Gutierrez <andres@phalconphp.com>
+     * @since  2012-08-17
+     */
+    public function shouldWorkWithTwigEngine()
+    {
+        $this->specify(
+            'Twig engine does not work as expected',
+            function ($errorMessage, $engine, $params) {
+                $view = new View();
+                $view->setDI(Di::getDefault());
+                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
+
+                $view->registerEngines($engine);
+                $this->setParamAndCheckData($errorMessage, $params, $view);
+            },
+            [
+                'examples' => include_once PATH_FIXTURES . 'mvc/view/engine/twig.php'
             ]
         );
     }
