@@ -3,9 +3,7 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Crypt;
-use Phalcon\Crypt\Exception;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Crypt\Mismatch;
 
 /**
  * Phalcon\Test\Unit\CryptTest
@@ -42,6 +40,9 @@ class CryptTest extends UnitTest
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
      * @author <k@yejune.com>
      * @since  2018-05-16
+     *
+     * @expectedException        \Phalcon\Crypt\Mismatch
+     * @expectedExceptionMessage Hash does not match.
      */
     public function shouldThrowExceptionIfHashMismatch()
     {
@@ -55,10 +56,7 @@ class CryptTest extends UnitTest
                     $crypt->encrypt('le text', 'encrypt key'),
                     'wrong key'
                 );
-            },
-            [
-                'throws' => [Mismatch::class, 'Hash does not match.']
-            ]
+            }
         );
     }
 
@@ -122,6 +120,9 @@ class CryptTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-05-06
+     *
+     * @expectedException        \Phalcon\Crypt\Exception
+     * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not supported on this system.
      */
     public function shouldThrowExceptionIfCipherIsUnknown()
     {
@@ -130,13 +131,7 @@ class CryptTest extends UnitTest
             function () {
                 $crypt = new Crypt();
                 $crypt->setCipher('xxx-yyy-zzz');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    'The cipher algorithm "xxx-yyy-zzz" is not supported on this system.'
-                ]
-            ]
+            }
         );
     }
 

@@ -361,6 +361,9 @@ class SnapshotTest extends UnitTest
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-28
+     *
+     * @expectedException        \Phalcon\Mvc\Model\Exception
+     * @expectedExceptionMessage The record doesn't have a valid data snapshot
      */
     public function testUpdatedFieldsNewException()
     {
@@ -377,10 +380,7 @@ class SnapshotTest extends UnitTest
                 );
 
                 $robots->getUpdatedFields();
-            },
-            [
-                'throws' => ['Phalcon\Mvc\Model\Exception', 'The record doesn\'t have a valid data snapshot'],
-            ]
+            }
         );
     }
 
@@ -389,6 +389,9 @@ class SnapshotTest extends UnitTest
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-28
+     *
+     * @expectedException        \Phalcon\Mvc\Model\Exception
+     * @expectedExceptionMessage Change checking cannot be performed because the object has not been persisted or is deleted
      */
     public function testUpdatedFieldsDeleteException()
     {
@@ -408,13 +411,7 @@ class SnapshotTest extends UnitTest
                 $robots->delete();
 
                 $robots->getUpdatedFields();
-            },
-            [
-                'throws' => [
-                    'Phalcon\Mvc\Model\Exception',
-                    'Change checking cannot be performed because the object has not been persisted or is deleted',
-                ],
-            ]
+            }
         );
     }
 

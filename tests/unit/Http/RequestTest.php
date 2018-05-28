@@ -549,6 +549,8 @@ class RequestTest extends HttpBase
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-06-26
+     *
+     * @expectedExceptionMessage \UnexpectedValueException
      */
     public function testInvalidHttpRequestHttpHost()
     {
@@ -562,7 +564,6 @@ class RequestTest extends HttpBase
                 $request->getHttpHost();
             },
             [
-                'throws' => 'UnexpectedValueException',
                 'examples' => [
                     ['foo±bar±baz'],
                     ['foo~bar~baz'],

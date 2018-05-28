@@ -2,13 +2,11 @@
 
 namespace Phalcon\Test\Unit\Http;
 
-use Phalcon\Crypt;
-use Phalcon\Http\Cookie;
-use Phalcon\Http\Cookie\Exception;
-use Phalcon\DI\FactoryDefault;
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use Helper\CookieAwareTrait;
-use Phalcon\Crypt\Mismatch;
+use Phalcon\Crypt;
+use Phalcon\DI\FactoryDefault;
+use Phalcon\Http\Cookie;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 
 /**
  * Phalcon\Test\Unit\Http\CookieTest
@@ -37,6 +35,9 @@ class CookieTest extends HttpBase
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-05-06
+     *
+     * @expectedException        \Phalcon\Http\Cookie\Exception
+     * @expectedExceptionMessage The cookie's key should be at least 32 characters long. Current length is 10.
      */
     public function shouldThrowExceptionIfSignKeyIsUnenoughLong()
     {
@@ -45,13 +46,7 @@ class CookieTest extends HttpBase
             function () {
                 $cookie = new Cookie('test-cookie', 'test', time() + 3600);
                 $cookie->setSignKey('1234567890');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "The cookie's key should be at least 32 characters long. Current length is 10."
-                ]
-            ]
+            }
         );
     }
 
@@ -61,6 +56,9 @@ class CookieTest extends HttpBase
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-05-06
+     *
+     * @expectedException        \Phalcon\Crypt\Mismatch
+     * @expectedExceptionMessage Hash does not match.
      */
     public function shouldThrowExceptionIfMessageAuthenticationCodeIsMismatch()
     {
@@ -101,8 +99,7 @@ class CookieTest extends HttpBase
 
                 $_COOKIE[$cookieName] = str_repeat('X', 64) . $originalValue;
                 $cookie->getValue();
-            },
-            ['throws' => new Mismatch()]
+            }
         );
     }
 

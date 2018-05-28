@@ -5,7 +5,6 @@ namespace Phalcon\Test\Unit\Mvc\View;
 use Phalcon\Di;
 use Helper\ViewTrait;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Mvc\View\Exception;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -141,6 +140,9 @@ class SimpleTest extends UnitTest
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
+     *
+     * @expectedException              \Phalcon\Mvc\View\Exception
+     * @expectedExceptionMessageRegExp "View '*.' was not found in the views directory"
      */
     public function testMissingView()
     {
@@ -150,13 +152,7 @@ class SimpleTest extends UnitTest
                 $view = new Simple;
                 $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->render('test1/index');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test1' . DIRECTORY_SEPARATOR . "index' was not found in the views directory"
-                ]
-            ]
+            }
         );
     }
 
@@ -165,6 +161,9 @@ class SimpleTest extends UnitTest
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
+     *
+     * @expectedException              \Phalcon\Mvc\View\Exception
+     * @expectedExceptionMessageRegExp View '.*' was not found in the views directory
      */
     public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
     {
@@ -179,13 +178,7 @@ class SimpleTest extends UnitTest
                 $view->setParamToView('name', 'FooBar');
 
                 $view->render('test4/index.mhtml');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test4' . DIRECTORY_SEPARATOR . "index.mhtml' was not found in the views directory"
-                ]
-            ]
+            }
         );
     }
 

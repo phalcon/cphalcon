@@ -7,7 +7,6 @@ use Helper\ModelTrait;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\AlbumORama\Albums;
@@ -251,6 +250,10 @@ class ModelTest extends UnitTest
         );
     }
 
+    /**
+     * @expectedException        \Phalcon\Mvc\Model\Exception
+     * @expectedExceptionMessage Property 'serial' does not have a setter.
+     */
     public function testGettersAndSetters()
     {
         $this->specify(
@@ -272,13 +275,7 @@ class ModelTest extends UnitTest
 
                 $robot = new Boutique\Robots();
                 $robot->serial = '1234';
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "Property 'serial' does not have a setter."
-                ]
-            ]
+            }
         );
     }
 

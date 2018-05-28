@@ -29,6 +29,9 @@ class JsminTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
+     *
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Parameter 'content' must be a string
      */
     public function testFilterJsminWithNonStringParam()
     {
@@ -37,8 +40,7 @@ class JsminTest extends UnitTest
             function () {
                 $jsmin = new Jsmin();
                 $jsmin->filter(new \stdClass());
-            },
-            ['throws' => ['InvalidArgumentException', "Parameter 'content' must be a string"]]
+            }
         );
     }
 
@@ -47,6 +49,9 @@ class JsminTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
+     *
+     * @expectedException        \Phalcon\Assets\Exception
+     * @expectedExceptionMessage Unterminated comment.
      */
     public function testFilterJsminUnterminatedComment()
     {
@@ -55,8 +60,7 @@ class JsminTest extends UnitTest
             function () {
                 $jsmin = new Jsmin();
                 $jsmin->filter('/*');
-            },
-            ['throws' => ['Phalcon\Assets\Exception', "Unterminated comment."]]
+            }
         );
     }
 
@@ -65,6 +69,9 @@ class JsminTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
+     *
+     * @expectedException        \Phalcon\Assets\Exception
+     * @expectedExceptionMessage Unterminated string literal.
      */
     public function testFilterJsminUnterminatedStringLiteral()
     {
@@ -73,8 +80,7 @@ class JsminTest extends UnitTest
             function () {
                 $jsmin = new Jsmin();
                 $jsmin->filter('a = "');
-            },
-            ['throws' => ['Phalcon\Assets\Exception', "Unterminated string literal."]]
+            }
         );
     }
 
@@ -83,6 +89,9 @@ class JsminTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-24
+     *
+     * @expectedException        \Phalcon\Assets\Exception
+     * @expectedExceptionMessage Unterminated Regular Expression literal.
      */
     public function testFilterJsminUnterminatedRegexpLiteral()
     {
@@ -91,8 +100,7 @@ class JsminTest extends UnitTest
             function () {
                 $jsmin = new Jsmin();
                 $jsmin->filter('b = /[a-z]+');
-            },
-            ['throws' => ['Phalcon\Assets\Exception', "Unterminated Regular Expression literal."]]
+            }
         );
     }
 

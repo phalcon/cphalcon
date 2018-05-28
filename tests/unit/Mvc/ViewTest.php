@@ -2,13 +2,12 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Di;
 use Helper\ViewTrait;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Exception;
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Cache\Frontend\Output as FrontendCache;
 use Phalcon\Cache\Backend\File as BackendCache;
+use Phalcon\Cache\Frontend\Output as FrontendCache;
+use Phalcon\Di;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Module\UnitTest;
 use PHPUnit\Framework\Exception as PhpUnitException;
 
 /**
@@ -97,6 +96,9 @@ class ViewTest extends UnitTest
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
+     *
+     * @expectedException        \Phalcon\Mvc\View\Exception
+     * @expectedExceptionMessage View 'partials/missing' was not found in any of the views directory
      */
     public function testMissingPartial()
     {
@@ -110,13 +112,7 @@ class ViewTest extends UnitTest
                 $view->start();
                 $view->render('test5', 'missing');
                 $view->finish();
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "View 'partials/missing' was not found in any of the views directory"
-                ]
-            ]
+            }
         );
     }
 

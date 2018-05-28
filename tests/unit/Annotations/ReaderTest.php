@@ -29,6 +29,9 @@ class ReaderTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-25
+     *
+     * @expectedException        \ReflectionException
+     * @expectedExceptionMessage Class TestClass1 does not exist
      */
     public function testParseWithNonExistentClass()
     {
@@ -37,8 +40,7 @@ class ReaderTest extends UnitTest
             function () {
                 $reader = new Reader();
                 $reader->parse('TestClass1');
-            },
-            ['throws' => ['ReflectionException', 'Class TestClass1 does not exist']]
+            }
         );
     }
 
@@ -47,23 +49,20 @@ class ReaderTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-25
+     *
+     * @expectedException              \Phalcon\Annotations\Exception
+     * @expectedExceptionMessageRegExp 'Syntax error, unexpected EOF in .*TestInvalid\.php'
      */
     public function testParseWithInvalidAnnotation()
     {
         $this->specify(
-            "Reader::parse does not throws Phalcon\\Annotations\\Exception when got class with invalid annotation",
+            "Reader::parse does not throws expected exception when got class with invalid annotation",
             function () {
                 require_once PATH_DATA . 'annotations/TestInvalid.php';
 
                 $reader = new Reader();
                 $reader->parse('TestInvalid');
-            },
-            [
-                'throws' => [
-                    'Phalcon\Annotations\Exception',
-                    'Syntax error, unexpected EOF in ' . PATH_DATA . 'annotations/TestInvalid.php'
-                ]
-            ]
+            }
         );
     }
 
