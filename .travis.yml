@@ -62,7 +62,7 @@ before_install:
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
 
 install:
-  - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest
+  - composer install --no-ansi --no-progress --no-suggest
   - bash tests/_ci/install_prereqs.sh
   - bash tests/_ci/install-re2c $RE2C_VERSION
   - bash tests/_ci/install_zephir_parser.sh

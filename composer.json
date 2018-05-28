@@ -1,6 +1,8 @@
 {
     "name": "phalcon/cphalcon",
+
     "description": "Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.",
+
     "keywords": [
         "extension",
         "phalcon",
@@ -8,9 +10,11 @@
         "high load",
         "mvc"
     ],
+
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0 <8.0"
     },
+
     "require-dev": {
         "ext-dom": "*",
         "ext-json": "*",
@@ -22,12 +26,14 @@
         "twig/twig": "~1.35",
         "predis/predis": "^1.1",
         "codeception/codeception": "^2.4",
-        "codeception/verify": "^1.0",
-        "codeception/specify": "^1.1",
+        "codeception/verify": "1.0.*",
+        "codeception/specify": "1.0.*",
         "squizlabs/php_codesniffer": "^3.2",
         "phalcon/zephir": "^0.10"
     },
+
     "license": "BSD-3-Clause",
+
     "authors": [
         {
             "name": "Phalcon Team",
@@ -39,6 +45,7 @@
             "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
         }
     ],
+
     "autoload-dev": {
         "psr-4": {
             "Zephir\\Optimizers\\": "optimizers/",
@@ -48,6 +55,7 @@
             "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
         }
     },
+
     "support": {
         "issues": "https://github.com/phalcon/cphalcon/issues",
         "source": "https://github.com/phalcon/cphalcon",
@@ -57,5 +65,11 @@
         "irc": "irc://irc.freenode.org/phalconphp",
         "rss" : "https://blog.phalconphp.com/rss",
         "email": "support@phalconphp.com"
+    },
+
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }
