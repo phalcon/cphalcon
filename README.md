@@ -62,25 +62,23 @@ On a Unix-based platform you can easily compile and install the extension from s
 
 Prerequisite packages are:
 
-* PHP 5.5.x/5.6.x/7.0.x/7.1.x/7.2.x development resources (PHP 5.3 and 5.4 are no longer supported)
+* PHP 7.0.x/7.1.x/7.2.x development resources (PHP 5 is no longer supported)
 * `g++` >= 4.4 | `clang++` >= 3.x | `vc++` >= 11
 * GNU `make` >= 3.81
 * [`re2c`](http://re2c.org) >= 0.13
-
-NOTE: Support for PHP 5.x is provided on a best-effort basis and will be removed in near future.
 
 ##### Ubuntu
 
 ```bash
 # Use actual PHP development headers and tools here
-sudo apt-get install php5-dev libpcre3-dev gcc make re2c
+sudo apt-get install php-dev libpcre3-dev gcc make re2c
 ```
 
 ##### Suse
 
 ```bash
 # Use actual PHP development headers and tools here
-sudo zypper install php5-devel gcc make re2c
+sudo zypper install php7-devel gcc make re2c
 ```
 
 ##### CentOS/Fedora/RHEL
@@ -90,20 +88,10 @@ sudo zypper install php5-devel gcc make re2c
 sudo yum install php-devel pcre-devel gcc make re2c
 ```
 
-##### macOS(Sierra / El Capitan / Yosemite)
+##### macOS (Sierra / El Capitan / Yosemite)
 
-Using [Homebrew](https://brew.sh/)
-
-```bash
-# brew install php<version>-phalcon
-# available versions 56, 70, 71
-
-brew install php71-phalcon
-```
-
-## OSX MAMP ready extensions
-
-https://github.com/majksner/php-phalcon-mamp
+We recomend use command line to build Phalcon extension.
+Another way is to use OSX MAMP ready extension: https://github.com/majksner/php-phalcon-mamp
 
 ## Gentoo
 
@@ -124,7 +112,7 @@ If you have specific php versions running
 ```bash
 git clone https://github.com/phalcon/cphalcon
 cd cphalcon/build
-sudo ./install --phpize /usr/bin/phpize5.6 --php-config /usr/bin/php-config5.6
+sudo ./install --phpize /usr/bin/phpize7.3 --php-config /usr/bin/php-config7.3
 ```
 
 Add the extension to your **php.ini**:
