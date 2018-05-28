@@ -392,34 +392,4 @@ class RouterTest extends UnitTest
             }
         );
     }
-
-    /**
-     * Tests setting different URI source
-     *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2013-04-07
-     */
-    public function testMatchingByUsingDifferentUriSource()
-    {
-        $this->specify(
-            'Matching uri when setting different uri source does not work as expected',
-            function () {
-                $router = $this->getRouter(false);
-
-                $_GET['_url'] = '/some/route';
-                expect($router->getRewriteUri())->equals('/some/route');
-
-                $router->setUriSource(Router::URI_SOURCE_GET_URL);
-                expect($router->getRewriteUri())->equals('/some/route');
-
-                $_SERVER['REQUEST_URI'] = '/some/route';
-                $router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
-
-                expect($router->getRewriteUri())->equals('/some/route');
-
-                $_SERVER['REQUEST_URI'] = '/some/route?x=1';
-                expect($router->getRewriteUri())->equals('/some/route');
-            }
-        );
-    }
 }

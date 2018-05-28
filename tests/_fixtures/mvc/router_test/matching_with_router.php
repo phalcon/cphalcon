@@ -20,8 +20,8 @@ return [
     [
         [
             'uri' => '',
-            'controller' => 'index',
-            'action' => 'index',
+            'controller' => null,
+            'action' => null,
             'params' => []
         ]
     ],
