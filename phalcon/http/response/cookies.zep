@@ -79,12 +79,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 
 	protected _useEncryption = true;
 
-	protected _cookies;
-
-	public function __construct()
-	{
-		let this->_cookies = [];
-	}
+	protected _cookies = [];
 
 	/**
 	 * The cookie's sign key.
@@ -98,7 +93,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
 	public function __construct(bool useEncryption = true, string signKey = null)
 	{
 		let this->_useEncryption = useEncryption;
-		let this->_cookies = [];
 
 		this->setSignKey(signKey);
 	}

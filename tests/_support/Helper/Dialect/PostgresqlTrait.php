@@ -814,13 +814,4 @@ trait PostgresqlTrait
             ]
         ];
     }
-
-    protected function getReferenceObject()
-    {
-        return [
-            [
-                ['test_describereferences' => require PATH_FIXTURES . 'metadata/test_describereference.php']
-            ]
-        ];
-    }
 }
