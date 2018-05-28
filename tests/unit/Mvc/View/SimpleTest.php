@@ -142,14 +142,14 @@ class SimpleTest extends UnitTest
      * @since  2014-05-28
      *
      * @expectedException              \Phalcon\Mvc\View\Exception
-     * @expectedExceptionMessageRegExp View '.*views/test1/index' was not found in the views directory
+     * @expectedExceptionMessageRegExp #View '.*views[\\/]test1/index' was not found in the views directory#
      */
     public function testMissingView()
     {
         $this->specify(
             'The View component does not throw Exception in case of missing view',
             function () {
-                $view = new Simple;
+                $view = new Simple();
                 $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->render('test1/index');
             }
@@ -163,15 +163,15 @@ class SimpleTest extends UnitTest
      * @since  2014-05-28
      *
      * @expectedException              \Phalcon\Mvc\View\Exception
-     * @expectedExceptionMessageRegExp View '.*views/test4/index.mhtml' was not found in the views directory
+     * @expectedExceptionMessageRegExp #View '.*views[\\/]test4/index\.mhtml' was not found in the views directory#
      */
     public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
     {
         $this->specify(
             'Render with filename without registered engine does not throw Exception',
             function () {
-                $view = new Simple;
-
+                $view = new Simple();
+                
                 $view->setDI(Di::getDefault());
                 $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
 

@@ -51,7 +51,7 @@ class ReaderTest extends UnitTest
      * @since  2016-01-25
      *
      * @expectedException              \Phalcon\Annotations\Exception
-     * @expectedExceptionMessageRegExp 'Syntax error, unexpected EOF in .*TestInvalid\.php'
+     * @expectedExceptionMessageRegExp #Syntax error, unexpected EOF in .*TestInvalid\.php#
      */
     public function testParseWithInvalidAnnotation()
     {
