@@ -73,4 +73,3 @@
 - Fixed `Phalcon\Cache\Backend\Redis::__construct` and `Phalcon\Cache\Backend\Redis::_connect` to correctly handle the Redis auth option [#12736](https://github.com/phalcon/cphalcon/issues/12736)
 - Fixed `Phalcon\Mvc\Collection::getReservedAttributes`, added missing properties to reserved attributes [phalcon/incubator#762](https://github.com/phalcon/incubator/issues/762), [phalcon/incubator#760](https://github.com/phalcon/incubator/issues/760)
 - Fixed `Phalcon\Mvc\Router\Annotation::processActionAnnotation` to support PATCH request
-
