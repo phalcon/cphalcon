@@ -10,8 +10,6 @@
 - The `Phalcon\Mvc\Model\Manager::load` no longer reuses already initialized models [#12317](https://github.com/phalcon/cphalcon/issues/12317)
 - Changed `Phalcon\Db\Dialect\Postgresql::describeReferences` to generate correct SQL, added "on update" and "on delete" constraints
 - Change catch `Exception` to `Throwable` [#12288](https://github.com/phalcon/cphalcon/issues/12288)
-- Renamed `Phalcon\Http\RequestInterface::isSoapRequested` to `Phalcon\Http\Request::isSoap`
-- Renamed `Phalcon\Http\RequestInterface::isSecureRequest` to `Phalcon\Http\RequestInterface::isSecure`
 - Changed `Phalcon\Mvc\Model\Query\Builder::addFrom` to remove third parameter `$with` [#13109](https://github.com/phalcon/cphalcon/pull/13109)
 
 ## Removed
@@ -25,3 +23,5 @@
 - Removed deprecated `Phalcon\Validation\Validator::isSetOption`
 - Removed deprecated `Phalcon\Security::hasLibreSsl`
 - Removed deprecated `Phalcon\Security::getSslVersionNumber`
+- Removed `Phalcon\Http\RequestInterface::isSoapRequested` in favor of `Phalcon\Http\Request::isSoap`
+- Removed `Phalcon\Http\RequestInterface::isSecureRequest` in favor of `Phalcon\Http\RequestInterface::isSecure`
