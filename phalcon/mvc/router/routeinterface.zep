@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)   |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -90,6 +90,11 @@ interface RouteInterface
 	 * Returns the paths using positions as keys and names as values
 	 */
 	public function getReversedPaths() -> array;
+
+	/**
+	 * Adds a converter to perform an additional transformation for certain parameter.
+	 */
+	public function convert(string! name, var converter) -> <RouteInterface>;
 
 	/**
 	 * Returns the HTTP methods that constraint matching the route
