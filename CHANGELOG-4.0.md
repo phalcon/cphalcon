@@ -3,6 +3,7 @@
 ## Added
 - Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` to implement custom Postgresql rules
 - Added `Phalcon\Mvc\Router\RouteInterface::convert` so that calling `Phalcon\Mvc\Router\Group::add` will return an instance that has `convert` method [#13380](https://github.com/phalcon/cphalcon/issues/13380)
+- Add static closure to Service resolution to avoid raise a warning e.g. "Cannot bind an instance to a static closure" [#11709](https://github.com/phalcon/cphalcon/issues/11709)
 
 ## Changed
 - The `Phalcon\Mvc\Application`, `Phalcon\Mvc\Micro` and `Phalcon\Mvc\Router` now must have a URI to process [#12380](https://github.com/phalcon/cphalcon/pull/12380)
