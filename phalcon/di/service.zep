@@ -126,7 +126,7 @@ class Service implements ServiceInterface
 	public function resolve(parameters = null, <DiInterface> dependencyInjector = null)
 	{
 		boolean found;
-		var shared, definition, sharedInstance, instance, builder;
+		var shared, definition, sharedInstance, instance, builder, rf;
 
 		let shared = this->_shared;
 
@@ -174,7 +174,12 @@ class Service implements ServiceInterface
 					 * Bounds the closure to the current DI
 					 */
 					if typeof dependencyInjector == "object" {
-						let definition = \Closure::bind(definition, dependencyInjector);
+						// TODO: Maybe implementing a Zephir optimizer to check this would be more performant than using Reflection
+						let rf = new \ReflectionFunction(definition);
+
+						if rf->getClosureScopeClass() === null || rf->getClosureThis() !== null {
+							let definition = \Closure::bind(definition, dependencyInjector);
+						}
 					}
 
 					if typeof parameters == "array" {
