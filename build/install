@@ -59,7 +59,7 @@ if [ $? != 0 ]; then
 	exit 1
 fi
 
-if [ "${PHP_FULL_VERSION:0:1}" == "5.3" ]; then
+if [ "${PHP_FULL_VERSION:0:1}" == "5" ]; then
 	echo "php 5 is no longer supported"
 	exit 1
 fi
