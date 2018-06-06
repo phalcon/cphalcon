@@ -213,7 +213,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	}
 
 	/**
-	 * Returns the models meta-data service related to the entity instance
+	 * {@inheritdoc}
 	 */
 	public function getModelsMetaData() -> <MetaDataInterface>
 	{

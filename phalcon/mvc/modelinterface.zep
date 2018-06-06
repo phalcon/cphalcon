@@ -25,6 +25,7 @@ use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\MetaDataInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
@@ -33,6 +34,10 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  */
 interface ModelInterface
 {
+	/**
+	 * Returns the models meta-data service related to the entity instance.
+	 */
+	public function getModelsMetaData() -> <MetaDataInterface>;
 
 	/**
 	 * Sets a transaction related to the Model instance
