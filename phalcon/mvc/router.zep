@@ -913,10 +913,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 		let size = count(this->_routes);
 
-		for key in range(0, size) {
+		for key in range(0, size - 1) {
 			let route = this->_routes[key];
 			let routeId = route->getRouteId();
-			let this->_keyRouteNames[routeId] = key;
+			let this->_idRouteNames[routeId] = key;
 
 			if routeId == id {
 				return route;
@@ -938,7 +938,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 		let size = count(this->_routes);
 
-		for key in range(0, size) {
+		for key in range(0, size - 1) {
 			let route = this->_routes[key];
 			let routeName = route->getName();
 			let this->_keyRouteNames[routeName] = key;
