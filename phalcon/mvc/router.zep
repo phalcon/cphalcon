@@ -95,6 +95,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _notFoundPaths;
 
+	protected _keyRouteNames = [] { get, set };
+
+	protected _idRouteNames = [] { get, set };
+
 	const URI_SOURCE_GET_URL = 0;
 
 	const URI_SOURCE_SERVER_REQUEST_URI = 1;
@@ -961,14 +965,23 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
-		var route;
+		var route, size, routeId, key;
 
-		for route in this->_routes {
-			if route->getRouteId() == id {
-				return route;
-			}
-		}
+        if fetch key, this->_idRouteNames[id] {
+            return this->_routes[key];
+        }
 
+        let size = count(this->_routes);
+
+        for key in range(0, size) {
+            let route = this->_routes[key];
+            let routeId = route->getRouteId();
+            let this->_keyRouteNames[routeId] = key;
+
+            if routeId == id {
+                return route;
+            }
+        }
 		return false;
 	}
 
@@ -977,13 +990,23 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteByName(string! name) -> <RouteInterface> | boolean
 	{
-		var route;
+		var route, size, routeName, key;
 
-		for route in this->_routes {
-			if route->getName() == name {
-				return route;
-			}
-		}
+        if fetch key, this->_keyRouteNames[name] {
+            return this->_routes[key];
+        }
+
+        let size = count(this->_routes);
+
+        for key in range(0, size) {
+            let route = this->_routes[key];
+            let routeName = route->getName();
+            let this->_keyRouteNames[routeName] = key;
+
+            if routeName == name {
+                return route;
+            }
+        }
 		return false;
 	}
 
