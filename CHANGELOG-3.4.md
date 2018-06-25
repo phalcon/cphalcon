@@ -1,6 +1,7 @@
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-XX-XX)
 - Fixed `Phalcon\Validaiton\Validator\Uniqueness::isUniquenessModel` to properly get value of primary key when it has different name in column map [#13398](https://github.com/phalcon/cphalcon/issues/13398)
 - Fixed bad performance for repeated `Phalcon\Mvc\Router::getRouteByName` and `Phalcon\Mvc\Router::getRouteById` calls for applications with many routes
+- Added `phalcon/cache/backend/redis` to support set redis timeout
 
 # [3.4.0](https://github.com/phalcon/cphalcon/releases/tag/v3.4.0) (2018-05-28)
 - Added `Phalcon\Mvc\Router::attach` to add `Route` object directly into `Router` [#13326](https://github.com/phalcon/cphalcon/issues/13326)
