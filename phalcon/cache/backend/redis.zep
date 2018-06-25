@@ -100,7 +100,9 @@ class Redis extends Backend
 		if !isset options["auth"] {
 			let options["auth"] = "";
 		}
-
+		if !isset options["timeout"] {
+			let options["timeout"] = 0;
+		}
 		parent::__construct(frontend, options);
 	}
 
@@ -114,14 +116,14 @@ class Redis extends Backend
 		let options = this->_options;
 		let redis = new \Redis();
 
-		if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] {
+		if !fetch host, options["host"] || !fetch port, options["port"] || !fetch persistent, options["persistent"] || !fetch timeout, options["timeout"] {
 			throw new Exception("Unexpected inconsistency in options");
 		}
 
 		if persistent {
-			let success = redis->pconnect(host, port);
+			let success = redis->pconnect(host, port, timeout);
 		} else {
-			let success = redis->connect(host, port);
+			let success = redis->connect(host, port, timeout);
 		}
 
 		if !success {
