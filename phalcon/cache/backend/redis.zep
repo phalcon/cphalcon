@@ -111,7 +111,7 @@ class Redis extends Backend
 	 */
 	public function _connect()
 	{
-		var options, redis, persistent, success, host, port, auth, index;
+		var options, redis, persistent, success, host, port, auth, index, timeout;
 
 		let options = this->_options;
 		let redis = new \Redis();
