@@ -97,7 +97,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _keyRouteNames = [] { get, set };
 
-	protected _idRouteNames = [] { get, set };
+	protected _keyRouteIds = [] { get, set };
 
 	const URI_SOURCE_GET_URL = 0;
 
@@ -965,18 +965,15 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
-		var route, size, routeId, key;
+		var route, routeId, key;
 
-		if fetch key, this->_idRouteNames[id] {
+		if fetch key, this->_keyRouteIds[id] {
 			return this->_routes[key];
 		}
 
-		let size = count(this->_routes);
-
-		for key in range(0, size - 1) {
-			let route = this->_routes[key];
+		for key, route in this->_routes {
 			let routeId = route->getRouteId();
-			let this->_idRouteNames[routeId] = key;
+			let this->_keyRouteIds[routeId] = key;
 
 			if routeId == id {
 				return route;
@@ -996,15 +993,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 			return this->_routes[key];
 		}
 
-		let size = count(this->_routes);
-
-		for key in range(0, size - 1) {
-			let route = this->_routes[key];
+		for key, route in this->_routes {
 			let routeName = route->getName();
-			let this->_keyRouteNames[routeName] = key;
+			if !empty routeName {
+                let this->_keyRouteNames[routeName] = key;
 
-			if routeName == name {
-				return route;
+                if routeName == name {
+                    return route;
+                }
 			}
 		}
 		return false;
