@@ -127,15 +127,20 @@ class Request implements RequestInterface, InjectionAwareInterface
 	public function getPut(string! name = null, var filters = null, var defaultValue = null, boolean notAllowEmpty = false, boolean noRecursive = false) -> var
 	{
 		var put;
-
-		let put = this->_putCache;
-
-		if typeof put != "array" {
-			let put = [];
-			parse_str(this->getRawBody(), put);
-
-			let this->_putCache = put;
-		}
+        let put = this->_putCache;
+        if typeof put != "array" {
+            if (strpos($this->getContentType(), 'json') !== false) {
+                let put = this->getJsonRawBody();
+                if (typeof put != "array") {
+                     let put = [];
+               }
+               let this->_putCache = put;
+            } else {
+                let put = [];
+                parse_str(this->getRawBody(), put);
+                let this->_putCache = put;
+            }
+        }
 
 		return this->getHelper(put, name, filters, defaultValue, notAllowEmpty, noRecursive);
 	}
