@@ -2,7 +2,8 @@
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
 - Fixed `Phalcon\Validaiton\Validator\Uniqueness::isUniquenessModel` to properly get value of primary key when it has different name in column map [#13398](https://github.com/phalcon/cphalcon/issues/13398)
 - Fixed bad performance for repeated `Phalcon\Mvc\Router::getRouteByName` and `Phalcon\Mvc\Router::getRouteById` calls for applications with many routes
-- Fixed incorrect tinyblob bind type ([#13423](https://github.com/phalcon/cphalcon/issues/13423)) in `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns`
+- Fixed incorrect tinyblob bind type in `Phalcon\Db\Adapter\Pdo\Mysql::describeColumns` [#13423](https://github.com/phalcon/cphalcon/issues/13423)
+- Fixed `Phalcon\Http\Request::getPut` to provide json content-type support [#12892](https://github.com/phalcon/cphalcon/issues/12892), [#13418](https://github.com/phalcon/cphalcon/issues/13418)
 
 # [3.4.0](https://github.com/phalcon/cphalcon/releases/tag/v3.4.0) (2018-05-28)
 - Added `Phalcon\Mvc\Router::attach` to add `Route` object directly into `Router` [#13326](https://github.com/phalcon/cphalcon/issues/13326)
