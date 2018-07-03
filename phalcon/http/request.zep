@@ -129,7 +129,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 		var put;
         let put = this->_putCache;
         if typeof put != "array" {
-            if strpos($this->getContentType(), 'json') != false {
+            if strpos(this->getContentType(), 'json') != false {
                 let put = this->getJsonRawBody(true);
                 if (typeof put != "array") {
                      let put = [];
