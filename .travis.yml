@@ -104,7 +104,6 @@ install:
   - $(phpenv which php) --ri psr
 
 before_script:
-
   - ulimit -c unlimited -S || true
   # Uncomment for debug purposes
   # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null

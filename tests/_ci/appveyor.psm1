@@ -262,6 +262,7 @@ Function TuneUpPhp {
 	Write-Output "extension = php_gd2.dll"           | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = ${Env:EXTENSION_FILE}" | Out-File -Encoding "ASCII" -Append $IniFile
 	Write-Output "extension = php_zephir_parser.dll" | Out-File -Encoding "ASCII" -Append $IniFile
+	Write-Output "extension = php_psr.dll"           | Out-File -Encoding "ASCII" -Append $IniFile
 }
 
 Function InstallPhpDevPack {
@@ -284,6 +285,30 @@ Function InstallPhpDevPack {
 
 		Move-Item -Path $DestinationUnzipPath -Destination $Env:PHP_DEVPACK
 	}
+}
+
+Function InstallPsrExtension {
+    Write-Host "Install PSR extension: ${Env:PSR_PECL_VERSION}" -foregroundcolor Cyan
+
+    If ($Env:BUILD_TYPE -eq 'nts-Win32') {
+        $BuildType = 'nts'
+    } Else {
+        $BuildType = 'ts'
+    }
+
+    $FileName = "php_psr-${Env:PSR_PECL_VERSION}-${Env:PHP_MINOR}-${BuildType}-vc${Env:VC_VERSION}-${Env:PLATFORM}.zip"
+
+    $RemoteUrl = "https://windows.php.net/downloads/pecl/releases/psr/${Env:PSR_PECL_VERSION}/${FileName}"
+    $DestinationPath = "C:\Downloads\${FileName}"
+
+    If (-not (Test-Path "${Env:PHP_PATH}\ext\php_psr.dll")) {
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Host "Downloading PSR extension: ${RemoteUrl} ..."
+            DownloadFile $RemoteUrl $DestinationPath
+        }
+
+        Expand-Item7zip $DestinationPath "${Env:PHP_PATH}\ext"
+    }
 }
 
 Function InstallStablePhalcon {
