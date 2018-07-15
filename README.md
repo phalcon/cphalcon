@@ -36,6 +36,9 @@ Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform indepen
 As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS.
 You can either download a binary package for the system of your choice or build it from source.
 
+
+**NOTE:** Phalcon requires the [PSR PHP extension](https://github.com/jbboehr/php-psr) to be installed and enabled.
+
 ### Windows
 
 To install Phalcon on Windows:
