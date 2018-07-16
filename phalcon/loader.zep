@@ -97,7 +97,7 @@ class Loader implements EventsAwareInterface
 				return true;
 			};
 		} else {
-			throw new Exception("The 'callbak' parameter must be either a callable or NULL.");
+			throw new Exception("The 'callback' parameter must be either a callable or NULL.");
 		}
 
 		return this;
