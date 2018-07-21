@@ -256,7 +256,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register the autoload method
 	 */
-	public function register(boolean prepend = null) -> <Loader>
+	public function register(boolean prepend = false) -> <Loader>
 	{
 		if this->_registered === false {
 			/**
