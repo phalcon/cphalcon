@@ -426,7 +426,7 @@ class Loader implements EventsAwareInterface
 		/**
 		 * Change the namespace separator by directory separator too
 		 */
-		let nsClassName = str_replace("\\", ds, className);
+		let nsClassName = str_replace(ns, ds, className);
 
 		/**
 		 * Checking in directories
