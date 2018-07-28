@@ -201,8 +201,8 @@ class Redis extends Backend
 			let lastKey = this->_lastKey;
 			let prefixedKey = substr(lastKey, 5);
 		} else {
-			let prefixedKey = this->_prefix . keyName,
-				lastKey = "_PHCR" . prefixedKey,
+			let prefixedKey = keyName,
+				lastKey = "_PHCR" . this->_prefix . prefixedKey,
 				this->_lastKey = lastKey;
 		}
 
@@ -300,8 +300,8 @@ class Redis extends Backend
 		}
 
 		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let lastKey = "_PHCR" . prefixedKey;
+		let prefixedKey = keyName;
+		let lastKey = "_PHCR" . prefix . prefixedKey;
 		let options = this->_options;
 
 		if !fetch specialKey, options["statsKey"] {
@@ -477,7 +477,7 @@ class Redis extends Backend
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = "_PHCR" . key;
+				let lastKey = "_PHCR" . this->_prefix . key;
 				redis->sRem(specialKey, key);
 				redis->delete(lastKey);
 			}
