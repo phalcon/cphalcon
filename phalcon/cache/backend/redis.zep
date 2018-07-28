@@ -151,7 +151,7 @@ class Redis extends Backend
 	 */
 	public function get(string keyName, int lifetime = null) -> var | null
 	{
-		var redis, frontend, prefix, lastKey, cachedContent;
+		var redis, frontend, lastKey, cachedContent;
 
 		let redis = this->_redis;
 		if typeof redis != "object" {
@@ -160,8 +160,7 @@ class Redis extends Backend
 		}
 
 		let frontend = this->_frontend;
-		let prefix = this->_prefix;
-		let lastKey = "_PHCR" . prefix . keyName;
+		let lastKey = "_PHCR" . this->_prefix . keyName;
 		let this->_lastKey = lastKey;
 		let cachedContent = redis->get(lastKey);
 
@@ -192,15 +191,15 @@ class Redis extends Backend
 	 */
 	public function save(keyName = null, content = null, lifetime = null, boolean stopBuffer = true) -> boolean
 	{
-		var prefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
-			tmp, tt1, success, options, specialKey, isBuffering;
+		var nonePrefixedKey, lastKey, frontend, redis, cachedContent, preparedContent,
+			tmp, ttl, success, options, specialKey, isBuffering;
 
 		if keyName === null {
 			let lastKey = this->_lastKey;
-			let prefixedKey = substr(lastKey, 5);
+			let nonePrefixedKey = substr(lastKey, 5 + strlen(this->_prefix));
 		} else {
-			let prefixedKey = this->_prefix . keyName,
-				lastKey = "_PHCR" . prefixedKey,
+			let nonePrefixedKey = keyName,
+				lastKey = "_PHCR" . this->_prefix . keyName,
 				this->_lastKey = lastKey;
 		}
 
@@ -238,12 +237,12 @@ class Redis extends Backend
 			let tmp = this->_lastLifetime;
 
 			if !tmp {
-				let tt1 = frontend->getLifetime();
+				let ttl = frontend->getLifetime();
 			} else {
-				let tt1 = tmp;
+				let ttl = tmp;
 			}
 		} else {
-			let tt1 = lifetime;
+			let ttl = lifetime;
 		}
 
 		let success = redis->set(lastKey, preparedContent);
@@ -253,8 +252,8 @@ class Redis extends Backend
 		}
 
 		// Don't set expiration for negative ttl or zero
-		if tt1 >= 1 {
-			redis->settimeout(lastKey, tt1);
+		if ttl >= 1 {
+			redis->settimeout(lastKey, ttl);
 		}
 
 		let options = this->_options;
@@ -264,7 +263,7 @@ class Redis extends Backend
 		}
 
 		if specialKey != "" {
-			redis->sAdd(specialKey, prefixedKey);
+			redis->sAdd(specialKey, nonePrefixedKey);
 		}
 
 		let isBuffering = frontend->isBuffering();
@@ -289,7 +288,7 @@ class Redis extends Backend
 	 */
 	public function delete(keyName) -> boolean
 	{
-		var redis, prefix, prefixedKey, lastKey, options, specialKey;
+		var redis, lastKey, options, specialKey;
 
 		let redis = this->_redis;
 		if typeof redis != "object" {
@@ -297,9 +296,7 @@ class Redis extends Backend
 			let redis = this->_redis;
 		}
 
-		let prefix = this->_prefix;
-		let prefixedKey = prefix . keyName;
-		let lastKey = "_PHCR" . prefixedKey;
+		let lastKey = "_PHCR" . this->_prefix . keyName;
 		let options = this->_options;
 
 		if !fetch specialKey, options["statsKey"] {
@@ -307,7 +304,7 @@ class Redis extends Backend
 		}
 
 		if specialKey != "" {
-			redis->sRem(specialKey, prefixedKey);
+			redis->sRem(specialKey, keyName);
 		}
 
 		/**
@@ -372,13 +369,12 @@ class Redis extends Backend
 	 */
 	public function exists(keyName = null, lifetime = null) -> boolean
 	{
-		var lastKey, redis, prefix;
+		var lastKey, redis;
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = "_PHCR" . this->_prefix . keyName;
 		}
 
 		if lastKey {
@@ -401,7 +397,7 @@ class Redis extends Backend
 	 */
 	public function increment(keyName = null, int value = 1) -> int
 	{
-		var redis, prefix, lastKey;
+		var redis, lastKey;
 
 		let redis = this->_redis;
 
@@ -410,11 +406,10 @@ class Redis extends Backend
 			let redis = this->_redis;
 		}
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = "_PHCR" . this->_prefix . keyName;
 			let this->_lastKey = lastKey;
 		}
 
@@ -428,7 +423,7 @@ class Redis extends Backend
 	 */
 	public function decrement(keyName = null, int value = 1) -> int
 	{
-		var redis, prefix, lastKey;
+		var redis, lastKey;
 
 		let redis = this->_redis;
 
@@ -437,11 +432,10 @@ class Redis extends Backend
 			let redis = this->_redis;
 		}
 
-		if !keyName {
+		if keyName === null {
 			let lastKey = this->_lastKey;
 		} else {
-			let prefix = this->_prefix;
-			let lastKey = "_PHCR" . prefix . keyName;
+			let lastKey = "_PHCR" . this->_prefix . keyName;
 			let this->_lastKey = lastKey;
 		}
 
@@ -475,7 +469,7 @@ class Redis extends Backend
 		let keys = redis->sMembers(specialKey);
 		if typeof keys == "array" {
 			for key in keys {
-				let lastKey = "_PHCR" . key;
+				let lastKey = "_PHCR" . this->_prefix . key;
 				redis->sRem(specialKey, key);
 				redis->delete(lastKey);
 			}
