@@ -5,6 +5,7 @@
 [![Phalcon Backers](https://img.shields.io/badge/phalcon-backers-99ddc0.svg)](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md)
 [![OpenCollective](https://opencollective.com/phalcon/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/phalcon/sponsors/badge.svg)](#sponsors)
+[![Feature Requests](http://feathub.com/phalcon/cphalcon?format=svg)](http://feathub.com/phalcon/cphalcon)
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
