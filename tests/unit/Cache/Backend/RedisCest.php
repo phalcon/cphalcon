@@ -393,4 +393,28 @@ class RedisCest
 
         $I->assertNull($cache->get($key));
     }
+
+    public function queryKeysWithStatsKeyAndPrefix(UnitTester $I)
+    {
+        $I->wantTo('Get cache data with prefix and statsKey configuration');
+
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+            'port'  => env('TEST_RS_PORT', 6379),
+            'index' => env('TEST_RS_DB', 0),
+            'prefix' => 'prefix',
+            'statsKey' => '_PHCR'
+        ]);
+        $cache->flush();
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+        $cache->save('a', $data);
+        $cache->save('b', $data);
+
+        $keys = $cache->queryKeys();
+        sort($keys);
+
+        $I->assertEquals(['a', 'b'], $keys);
+        $I->assertEquals($data, $cache->get('a'));
+        $I->assertEquals($data, $cache->get('b'));
+    }
 }
