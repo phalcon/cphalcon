@@ -171,4 +171,6 @@ Support us with a monthly donation and help us continue our activities. [[Become
 
 ## License
 
-Phalcon is open source software licensed under the New BSD License. See the [LICENSE.txt](LICENSE.txt) file for more.
+Phalcon is open source software licensed under the BSD 3-Clause License.
+Copyright © 2011-present, Phalcon Team.<br>
+See the [LICENSE.txt](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) file for more.
