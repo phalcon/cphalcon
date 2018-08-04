@@ -662,7 +662,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources) {
 
 zend_object_value zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval *_0, *_2, *_4, *_1$$3, *_3$$4, *_5$$5;
+		zval *_0, *_2, *_4, *_6, *_8, *_1$$3, *_3$$4, *_5$$5, *_7$$6, *_9$$7;
 
 		ZEPHIR_MM_GROW();
 	
@@ -680,23 +680,35 @@ zend_object_value zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_cla
 		Z_TYPE(zthis)   = IS_OBJECT;
 		Z_OBJVAL(zthis) = retval;
 
-		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultParams"), PH_NOISY_CC);
+		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_keyRouteIds"), PH_NOISY_CC);
 		if (Z_TYPE_P(_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(_1$$3);
 			array_init(_1$$3);
-			zephir_update_property_this(getThis(), SL("_defaultParams"), _1$$3 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_keyRouteIds"), _1$$3 TSRMLS_CC);
 		}
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_keyRouteNames"), PH_NOISY_CC);
 		if (Z_TYPE_P(_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(_3$$4);
 			array_init(_3$$4);
-			zephir_update_property_this(getThis(), SL("_params"), _3$$4 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_keyRouteNames"), _3$$4 TSRMLS_CC);
 		}
-		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_handlers"), PH_NOISY_CC);
+		_4 = zephir_fetch_nproperty_this(this_ptr, SL("_defaultParams"), PH_NOISY_CC);
 		if (Z_TYPE_P(_4) == IS_NULL) {
 			ZEPHIR_INIT_VAR(_5$$5);
 			array_init(_5$$5);
-			zephir_update_property_this(getThis(), SL("_handlers"), _5$$5 TSRMLS_CC);
+			zephir_update_property_this(getThis(), SL("_defaultParams"), _5$$5 TSRMLS_CC);
+		}
+		_6 = zephir_fetch_nproperty_this(this_ptr, SL("_params"), PH_NOISY_CC);
+		if (Z_TYPE_P(_6) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_7$$6);
+			array_init(_7$$6);
+			zephir_update_property_this(getThis(), SL("_params"), _7$$6 TSRMLS_CC);
+		}
+		_8 = zephir_fetch_nproperty_this(this_ptr, SL("_handlers"), PH_NOISY_CC);
+		if (Z_TYPE_P(_8) == IS_NULL) {
+			ZEPHIR_INIT_VAR(_9$$7);
+			array_init(_9$$7);
+			zephir_update_property_this(getThis(), SL("_handlers"), _9$$7 TSRMLS_CC);
 		}
 		ZEPHIR_MM_RESTORE();
 		return retval;

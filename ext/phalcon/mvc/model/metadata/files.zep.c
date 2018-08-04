@@ -30,7 +30,7 @@
  * Stores model meta-data in PHP files.
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(
+ * $metaData = new \Phalcon\Mvc\Model\MetaData\Files(
  *     [
  *         "metaDataDir" => "app/cache/metadata/",
  *     ]
