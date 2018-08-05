@@ -41,7 +41,7 @@ class Route implements RouteInterface
 
 	protected _converters;
 
-	protected _id;
+	protected _id { get };
 
 	protected _name;
 

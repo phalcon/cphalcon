@@ -65,7 +65,8 @@ Please report bugs when you've exhausted all of the above options.
 ## Requesting Features
 
 If you have a change or new feature in mind, please fill an
-[NFR](https://docs.phalconphp.com/en/latest/new-feature-request).
+[NFR](https://docs.phalconphp.com/en/latest/new-feature-request) on the GitHub. Alternatively you may also request features via [the FeatHub page](https://feathub.com/phalcon/cphalcon).
+
 
 Thanks! <br />
 Phalcon Team

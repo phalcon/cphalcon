@@ -97,7 +97,7 @@ class Loader implements EventsAwareInterface
 				return true;
 			};
 		} else {
-			throw new Exception("The 'callbak' parameter must be either a callable or NULL.");
+			throw new Exception("The 'callback' parameter must be either a callable or NULL.");
 		}
 
 		return this;
@@ -256,7 +256,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register the autoload method
 	 */
-	public function register(boolean prepend = null) -> <Loader>
+	public function register(boolean prepend = false) -> <Loader>
 	{
 		if this->_registered === false {
 			/**
@@ -426,7 +426,7 @@ class Loader implements EventsAwareInterface
 		/**
 		 * Change the namespace separator by directory separator too
 		 */
-		let nsClassName = str_replace("\\", ds, className);
+		let nsClassName = str_replace(ns, ds, className);
 
 		/**
 		 * Checking in directories

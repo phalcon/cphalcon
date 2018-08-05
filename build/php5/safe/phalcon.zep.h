@@ -6391,6 +6391,10 @@ zend_class_entry *phalcon_mvc_router_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router);
 
+static PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteNames);
+static PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteNames);
+static PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteIds);
+static PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteIds);
 static PHP_METHOD(Phalcon_Mvc_Router, __construct);
 static PHP_METHOD(Phalcon_Mvc_Router, setDI);
 static PHP_METHOD(Phalcon_Mvc_Router, getDI);
@@ -6434,6 +6438,14 @@ static PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 static PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
 static PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
 zend_object_value zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type TSRMLS_DC);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_setkeyroutenames, 0, 0, 1)
+	ZEND_ARG_INFO(0, keyRouteNames)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_setkeyrouteids, 0, 0, 1)
+	ZEND_ARG_INFO(0, keyRouteIds)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -6568,6 +6580,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_getroutebyname, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
+	PHP_ME(Phalcon_Mvc_Router, getKeyRouteNames, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, setKeyRouteNames, arginfo_phalcon_mvc_router_setkeyroutenames, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, getKeyRouteIds, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, setKeyRouteIds, arginfo_phalcon_mvc_router_setkeyrouteids, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, __construct, arginfo_phalcon_mvc_router___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Router, setDI, arginfo_phalcon_mvc_router_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getDI, NULL, ZEND_ACC_PUBLIC)
@@ -17176,6 +17192,7 @@ zend_class_entry *phalcon_mvc_router_route_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route);
 
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getId);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, __construct);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, via);
@@ -17260,6 +17277,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_convert, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_route_method_entry) {
+	PHP_ME(Phalcon_Mvc_Router_Route, getId, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, __construct, arginfo_phalcon_mvc_router_route___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Router_Route, compilePattern, arginfo_phalcon_mvc_router_route_compilepattern, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, via, arginfo_phalcon_mvc_router_route_via, ZEND_ACC_PUBLIC)

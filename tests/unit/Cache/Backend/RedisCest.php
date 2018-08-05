@@ -365,4 +365,31 @@ class RedisCest
         $I->assertNull($content);
         $I->dontSeeInRedis('_PHCR' . 'test-output');
     }
+
+    public function setTimeout(UnitTester $I)
+    {
+        $I->wantTo('Get data by using Redis as cache backend and set timeout');
+
+        $key = '_PHCR' . 'data-get-timeout';
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+            'port'  => env('TEST_RS_PORT', 6379),
+            'index' => env('TEST_RS_DB', 0),
+            'timeout' => 1,
+        ]);
+
+        $I->haveInRedis('string', $key, serialize($data));
+        $I->assertEquals($data, $cache->get('data-get-timeout'));
+
+        $I->assertNull($cache->get($key));
+
+        $data = 'sure, nothing interesting';
+
+        $I->haveInRedis('string', $key, serialize($data));
+        $I->assertEquals($data, $cache->get('data-get-timeout'));
+
+        $I->assertNull($cache->get($key));
+    }
 }

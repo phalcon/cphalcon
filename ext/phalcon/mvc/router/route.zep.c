@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
@@ -58,6 +58,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route) {
 
 	zend_class_implements(phalcon_mvc_router_route_ce TSRMLS_CC, 1, phalcon_mvc_router_routeinterface_ce);
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Route, getId) {
+
+	
+
+	RETURN_MEMBER(getThis(), "_id");
 
 }
 

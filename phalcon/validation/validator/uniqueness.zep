@@ -295,7 +295,7 @@ class Uniqueness extends CombinedFieldsValidator
 
 			for primaryField in metaData->getPrimaryKeyAttributes(record) {
 				let params["conditions"][] = this->getColumnNameReal(record, primaryField) . " <> ?" . index;
-				let params["bind"][] = record->readAttribute(primaryField);
+				let params["bind"][] = record->readAttribute(this->getColumnNameReal(record, primaryField));
 				let index++;
 			}
 		}
