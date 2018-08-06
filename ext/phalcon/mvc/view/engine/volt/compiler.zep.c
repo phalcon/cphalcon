@@ -3451,7 +3451,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString) {
  * Compiles a template into a file forcing the destination path
  *
  *<code>
- * $compiler->compile("views/layouts/main.volt", "views/layouts/main.volt.php");
+ * $compiler->compileFile("views/layouts/main.volt", "views/layouts/main.volt.php");
  *</code>
  *
  * @return string|array

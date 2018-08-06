@@ -724,7 +724,14 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 			array_init(&tmp);
 			separated = 1;
 		}
-		Z_DELREF(tmp);
+
+		if (Z_REFCOUNTED(tmp)) {
+			if (Z_REFCOUNT(tmp) > 1) {
+				if (!Z_ISREF(tmp)) {
+					Z_DELREF(tmp);
+				}
+			}
+		}
 	}
 
 	Z_TRY_ADDREF_P(value);
@@ -732,6 +739,14 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
+	}
+
+	if (Z_REFCOUNTED(tmp)) {
+		if (Z_REFCOUNT(tmp) > 1) {
+			if (!Z_ISREF(tmp)) {
+				Z_DELREF(tmp);
+			}
+		}
 	}
 
 	return SUCCESS;

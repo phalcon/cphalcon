@@ -28,6 +28,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_sethttpmethods,
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_convert, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, converter)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_routeinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, setHostname, arginfo_phalcon_mvc_router_routeinterface_sethostname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getHostname, NULL)
@@ -42,6 +47,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_routeinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getPaths, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getReversedPaths, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, convert, arginfo_phalcon_mvc_router_routeinterface_convert)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getHttpMethods, NULL)
 	ZEND_FENTRY(reset, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END

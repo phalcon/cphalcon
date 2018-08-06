@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager) {
 }
 
 /**
- * Returns the models meta-data service related to the entity instance
+ * {@inheritdoc}
  */
 PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData) {
 
