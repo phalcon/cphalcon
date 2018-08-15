@@ -1,3 +1,6 @@
+# [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-XX-XX)
+- Fixed `Phalcon\Validation\Validator\Numericality` to accept float numbers on locales with comma decimal point [#13450](https://github.com/phalcon/cphalcon/issues/13450)
+
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
 - Fixed `Phalcon\Validaiton\Validator\Uniqueness::isUniquenessModel` to properly get value of primary key when it has different name in column map [#13398](https://github.com/phalcon/cphalcon/issues/13398)
