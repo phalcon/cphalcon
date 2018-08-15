@@ -987,7 +987,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteByName(string! name) -> <RouteInterface> | boolean
 	{
-		var route, size, routeName, key;
+		var route, routeName, key;
 
 		if fetch key, this->_keyRouteNames[name] {
 			return this->_routes[key];
