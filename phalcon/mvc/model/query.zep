@@ -3366,11 +3366,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 		}
 
 		/**
-		 * The statement is parsed from its PHQL string or a previously processed IR
-		 */
-		let intermediate = this->parse();
-
-		/**
 		 * Check for default bind parameters and merge them with the passed ones
 		 */
 		let defaultBindParams = this->_bindParams;
@@ -3383,6 +3378,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 		} else {
 			let mergedParams = bindParams;
 		}
+
+		let this->_bindParams = mergedParams;
+
+		/**
+		 * The statement is parsed from its PHQL string or a previously processed IR
+		 */
+		let intermediate = this->parse();
 
 		/**
 		 * Check for default bind types and merge them with the passed ones
