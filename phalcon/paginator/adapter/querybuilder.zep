@@ -120,6 +120,8 @@ class QueryBuilder extends Adapter
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
+	 *
+	 * @deprecated `will be removed after 4.0
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
@@ -265,6 +267,9 @@ class QueryBuilder extends Adapter
 			page->current = numberPage,
 			page->last = totalPages,
 			page->next = next,
+			/**
+			 * @deprecated `total_pages` will be removed after 4.0
+			 */
 			page->total_pages = totalPages,
 			page->total_items = rowcount,
 			page->limit = this->_limitRows;
