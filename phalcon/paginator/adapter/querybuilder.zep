@@ -123,7 +123,7 @@ class QueryBuilder extends Adapter
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
-		return this->this->paginate();
+		return this->paginate();
 	}
 
 	/**
