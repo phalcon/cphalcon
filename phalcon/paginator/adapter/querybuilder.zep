@@ -121,7 +121,7 @@ class QueryBuilder extends Adapter
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 *
-	 * @deprecated will be removed after 4.0
+	 * @deprecated `will be removed after 4.0
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
