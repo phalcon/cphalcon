@@ -55,6 +55,9 @@ class NativeArrayTest extends UnitTest
                 expect($page->last)->equals(2);
                 expect($page->limit)->equals(25);
 
+                /**
+                 * Now check by calling 'paginate()'
+                 */
                 $page = $paginator->paginate();
 
                 expect($page)->isInstanceOf('stdClass');
@@ -71,7 +74,6 @@ class NativeArrayTest extends UnitTest
 
                 expect($page->current)->equals(1);
                 expect($page->total_pages)->equals(2);
-
             }
         );
     }
