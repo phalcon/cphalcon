@@ -123,6 +123,14 @@ class QueryBuilder extends Adapter
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
+		return this->this->paginate();
+	}
+
+	/**
+	 * Returns a slice of the resultset to show in the pagination
+	 */
+	public function paginate() -> <\stdClass>
+	{
 		var originalBuilder, builder, totalBuilder, totalPages,
 			limit, numberPage, number, query, page, before, items, totalQuery,
 			result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
@@ -263,5 +271,4 @@ class QueryBuilder extends Adapter
 
 		return page;
 	}
-
 }
