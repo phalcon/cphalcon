@@ -73,6 +73,8 @@ class NativeArray extends Adapter
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
+	 *
+	 * @deprecated `total_pages` will be removed after 4.0
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
@@ -130,6 +132,9 @@ class NativeArray extends Adapter
 			page->current = pageNumber,
 			page->last = totalPages,
 			page->next = next,
+			/**
+			 * @deprecated `total_pages` will be removed after 4.0
+			 */
 			page->total_pages = totalPages,
 			page->total_items = number,
 			page->limit = this->_limitRows;
