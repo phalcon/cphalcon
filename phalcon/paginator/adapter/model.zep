@@ -71,7 +71,7 @@ class Model extends Adapter
 	/**
 	 * Returns a slice of the resultset to show in the pagination
 	 *
-	 * @deprecated `total_pages` will be removed after 4.0
+	 * @deprecated will be removed after 4.0
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
