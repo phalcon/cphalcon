@@ -75,6 +75,14 @@ class Model extends Adapter
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
+		return this->paginate();
+	}
+
+	/**
+	 * Returns a slice of the resultset to show in the pagination
+	 */
+	public function paginate() -> <\stdClass>
+	{
 		var config, items, pageItems, page;
 		int pageNumber, show, n, start, lastShowPage,
 			i, next, totalPages, before;
@@ -146,7 +154,8 @@ class Model extends Adapter
 		let page = new \stdClass(),
 			page->items = pageItems,
 			page->first = 1,
-			page->before =  before,
+			page->previous = before,
+			page->before = before,
 			page->current = pageNumber,
 			page->last = totalPages,
 			page->next = next,

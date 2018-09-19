@@ -78,6 +78,14 @@ class NativeArray extends Adapter
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
+		return this->paginate();
+	}
+
+	/**
+	 * Returns a slice of the resultset to show in the pagination
+	 */
+	public function paginate() -> <\stdClass>
+	{
 		var config, items, page;
 		int show, pageNumber, totalPages, number, before, next;
 		double roundedTotal;
@@ -128,7 +136,8 @@ class NativeArray extends Adapter
 		let page = new \stdClass(),
 			page->items = items,
 			page->first = 1,
-			page->before =  before,
+			page->previous = before,
+			page->before = before,
 			page->current = pageNumber,
 			page->last = totalPages,
 			page->next = next,
