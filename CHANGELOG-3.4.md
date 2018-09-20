@@ -1,5 +1,6 @@
 # [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-XX-XX)
 - Fixed `Phalcon\Validation\Validator\Numericality` to accept float numbers on locales with comma decimal point [#13450](https://github.com/phalcon/cphalcon/issues/13450)
+- Fixed  `\Phalcon\Http\Response::setFileToSend` filename last much _ 
 
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
