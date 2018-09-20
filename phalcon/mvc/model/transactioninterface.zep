@@ -29,7 +29,6 @@ use Phalcon\Mvc\Model\Transaction\ManagerInterface;
  */
 interface TransactionInterface
 {
-
 	/**
 	 * Sets transaction manager related to the transaction
 	 */

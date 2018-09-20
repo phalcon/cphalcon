@@ -26,7 +26,10 @@
  * Checks if a value has a valid credit card number
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\CreditCard as CreditCardValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "creditCard",
@@ -100,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 432, &value);
+	ZEPHIR_CALL_METHOD(&valid, this_ptr, "verifybyluhnalgorithm", NULL, 440, &value);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&valid))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, &field);
@@ -120,7 +123,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "CreditCard");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 428, &_1$$3, &field, &_2$$3, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 436, &_1$$3, &field, &_2$$3, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_0$$3);
 		zephir_check_call_status();
@@ -135,12 +138,11 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 
-	zend_string *_7;
-	zend_ulong _6;
-	zval digits, _2;
+	zend_string *_6;
+	zend_ulong _5;
+	zval digits, _1;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval *number_param = NULL, _0, digit, position, hash, _3, _4, *_5, result, _9, _8$$3;
+	zval *number_param = NULL, _0, digit, position, hash, _2, _3, *_4, result, _8, _7$$3;
 	zval number;
 	zval *this_ptr = getThis();
 
@@ -149,13 +151,13 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	ZVAL_UNDEF(&digit);
 	ZVAL_UNDEF(&position);
 	ZVAL_UNDEF(&hash);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&result);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_8$$3);
-	ZVAL_UNDEF(&digits);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&digits);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &number_param);
@@ -163,39 +165,39 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	zephir_get_strval(&number, number_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "str_split", &_1, 67, &number);
+	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 69, &number);
 	zephir_check_call_status();
-	zephir_get_arrval(&_2, &_0);
-	ZEPHIR_CPY_WRT(&digits, &_2);
+	zephir_get_arrval(&_1, &_0);
+	ZEPHIR_CPY_WRT(&digits, &_1);
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_4, "array_reverse", NULL, 412, &digits);
+	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 415, &digits);
 	zephir_check_call_status();
-	zephir_is_iterable(&_4, 0, "phalcon/validation/validator/creditcard.zep", 108);
-	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_4), _6, _7, _5)
+	zephir_is_iterable(&_3, 0, "phalcon/validation/validator/creditcard.zep", 111);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_3), _5, _6, _4)
 	{
 		ZEPHIR_INIT_NVAR(&position);
-		if (_7 != NULL) { 
-			ZVAL_STR_COPY(&position, _7);
+		if (_6 != NULL) { 
+			ZVAL_STR_COPY(&position, _6);
 		} else {
-			ZVAL_LONG(&position, _6);
+			ZVAL_LONG(&position, _5);
 		}
 		ZEPHIR_INIT_NVAR(&digit);
-		ZVAL_COPY(&digit, _5);
-		ZEPHIR_INIT_LNVAR(_8$$3);
+		ZVAL_COPY(&digit, _4);
+		ZEPHIR_INIT_LNVAR(_7$$3);
 		if (zephir_safe_mod_zval_long(&position, 2 TSRMLS_CC)) {
-			ZEPHIR_INIT_NVAR(&_8$$3);
-			ZVAL_LONG(&_8$$3, (zephir_get_numberval(&digit) * 2));
+			ZEPHIR_INIT_NVAR(&_7$$3);
+			ZVAL_LONG(&_7$$3, (zephir_get_numberval(&digit) * 2));
 		} else {
-			ZEPHIR_CPY_WRT(&_8$$3, &digit);
+			ZEPHIR_CPY_WRT(&_7$$3, &digit);
 		}
-		zephir_concat_self(&hash, &_8$$3 TSRMLS_CC);
+		zephir_concat_self(&hash, &_7$$3 TSRMLS_CC);
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_9, "str_split", &_1, 67, &hash);
+	ZEPHIR_CALL_FUNCTION(&_8, "str_split", NULL, 69, &hash);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 433, &_9);
+	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 441, &_8);
 	zephir_check_call_status();
 	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10 TSRMLS_CC) == 0));
 

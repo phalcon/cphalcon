@@ -230,6 +230,9 @@ class TagFriendlyTitleTest extends UnitTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-11
+     *
+     * @expectedException        \Phalcon\Tag\Exception
+     * @expectedExceptionMessage Parameter replace must be an array or a string
      */
     public function testFriendlyTitleStringParameterReplaceBoolean()
     {
@@ -242,8 +245,7 @@ class TagFriendlyTitleTest extends UnitTest
                 $actual   = Tag::friendlyTitle($options, '_', true, true);
 
                 expect($actual)->equals($expected);
-            },
-            ['throws' => ['Phalcon\Tag\Exception']]
+            }
         );
     }
 }

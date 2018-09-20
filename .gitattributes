@@ -1,13 +1,10 @@
-docs/* linguist-documentation
-
 *.zep.h linguist-language=C
 *.zep.c linguist-language=C
+*.sql   linguist-language=SQL
+*.w32   linguist-language=JavaScript
 
-*.sql linguist-language=SQL
+ext/*        linguist-vendored
+build/php5/* linguist-vendored
+build/php7/* linguist-vendored
 
-*.w32 linguist-language=JavaScript
-
-ext/* linguist-vendored
-build/* linguist-vendored
-
-*.png binary
+*.png   binary

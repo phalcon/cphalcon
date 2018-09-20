@@ -4,25 +4,26 @@ namespace Phalcon\Test\Unit\Mvc;
 
 use DateTime;
 use Helper\ModelTrait;
+use Phalcon\Cache\Backend\Apc;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Message;
-use Phalcon\Test\Models\Users;
-use Phalcon\Cache\Backend\Apc;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Test\Models\Boutique;
-use Phalcon\Test\Models\Packages;
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Test\Models\Robotters;
-use Phalcon\Test\Models\Personers;
-use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\PackageDetails;
 use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Test\Models\BodyParts\Body;
-use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\BodyParts\Body;
+use Phalcon\Test\Models\Boutique;
+use Phalcon\Test\Models\Customers;
+use Phalcon\Test\Models\ModelWithStringField;
+use Phalcon\Test\Models\News\Subscribers;
+use Phalcon\Test\Models\PackageDetails;
+use Phalcon\Test\Models\Packages;
+use Phalcon\Test\Models\Personers;
+use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Robotters;
+use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\Validation;
+use Phalcon\Test\Module\UnitTest;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
@@ -65,7 +66,7 @@ class ModelTest extends UnitTest
     /**
      * Tests find with empty conditions + bind and limit.
      *
-     * @issue  11919
+     * @issue  https://github.com/phalcon/cphalcon/issues/11919
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-29
      */
@@ -100,7 +101,7 @@ class ModelTest extends UnitTest
     /**
      * Tests Model::hasMany by using multi relation column
      *
-     * @issue  12035
+     * @issue  https://github.com/phalcon/cphalcon/issues/12035
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-08-02
      */
@@ -124,7 +125,7 @@ class ModelTest extends UnitTest
     /**
      * Tests reusing Model relation
      *
-     * @issue  11991
+     * @issue  https://github.com/phalcon/cphalcon/issues/11991
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-08-03
      */
@@ -172,7 +173,7 @@ class ModelTest extends UnitTest
      * When having multiple virtual foreign keys, check of the first one should
      * affect the check of the next one.
      *
-     * @issue  12071
+     * @issue  https://github.com/phalcon/cphalcon/issues/12071
      * @author Radek Crlik <radekcrlik@gmail.com>
      * @since  2016-08-03
     */
@@ -200,7 +201,8 @@ class ModelTest extends UnitTest
      *
      * The snapshot should be saved while using cache
      *
-     * @issue  12170, 12000
+     * @issue  https://github.com/phalcon/cphalcon/issues/12170
+     * @issue  https://github.com/phalcon/cphalcon/issues/12000
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-08-26
      */
@@ -219,7 +221,7 @@ class ModelTest extends UnitTest
         }
 
         if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }
@@ -248,6 +250,10 @@ class ModelTest extends UnitTest
         );
     }
 
+    /**
+     * @expectedException        \Phalcon\Mvc\Model\Exception
+     * @expectedExceptionMessage Property 'serial' does not have a setter.
+     */
     public function testGettersAndSetters()
     {
         $this->specify(
@@ -269,13 +275,7 @@ class ModelTest extends UnitTest
 
                 $robot = new Boutique\Robots();
                 $robot->serial = '1234';
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "Property 'serial' does not have a setter."
-                ]
-            ]
+            }
         );
     }
 
@@ -585,7 +585,7 @@ class ModelTest extends UnitTest
     }
 
     /**
-     * @issue 12507
+     * @issue https://github.com/phalcon/cphalcon/issues/12507
      */
     public function testFieldDefaultEmptyStringIsNull()
     {
@@ -626,7 +626,7 @@ class ModelTest extends UnitTest
     /**
      * Tests setting code in message from validation messages
      *
-     * @issue  12645
+     * @issue  https://github.com/phalcon/cphalcon/issues/12645
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-03
      */
@@ -656,7 +656,7 @@ class ModelTest extends UnitTest
     /**
      * Tests empty string value on not null
      *
-     * @issue  12688
+     * @issue  https://github.com/phalcon/cphalcon/issues/12688
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-09
      */
@@ -681,7 +681,7 @@ class ModelTest extends UnitTest
     /**
      * Tests disabling assign setters
      *
-     * @issue  12645
+     * @issue  https://github.com/phalcon/cphalcon/issues/12645
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-23
      */
@@ -712,6 +712,188 @@ class ModelTest extends UnitTest
                         'disableAssignSetters' => false,
                     ]
                 );
+            }
+        );
+    }
+
+    /**
+     * Test check allowEmptyStringValues
+     *
+     * @author Nikolay Sumrak <nikolassumrak@gmail.com>
+     * @since 2017-11-16
+     */
+    public function testAllowEmptyStringFields()
+    {
+        $this->specify(
+            'Allow empty string value',
+            function () {
+                Model::setup(
+                    [
+                        'notNullValidations' => true,
+                        'exceptionOnFailedSave' => false,
+                    ]
+                );
+
+                $model = new ModelWithStringField();
+                $model->field = '';
+                $model->disallowEmptyStringValue();
+                $status = $model->save();
+                expect($status)->false();
+
+                $model->allowEmptyStringValue();
+                $status = $model->save();
+                expect($status)->true();
+
+                Model::setup(
+                    [
+                        'notNullValidations' => false,
+                        'exceptionOnFailedSave' => true,
+                    ]
+                );
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionWithinFind()
+    {
+        $this->specify(
+            'Transaction is passed as option parameter',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                $subscriber = Subscribers::find(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $transaction
+                    ]
+                );
+
+                expect(\count($subscriber), 1);
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionWithinFindFirst()
+    {
+        $this->specify(
+            'Transaction is passed as option parameter',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                $subscriber = Subscribers::findFirst(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $transaction
+                    ]
+                );
+
+                expect(\get_class($subscriber), 'Subscriber');
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionOutsideFind()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $secondTransaction = $transactionManager->getOrCreateTransaction();
+
+                $subscriber = Subscribers::find(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $secondTransaction
+                    ]
+                );
+
+                expect(\count($subscriber), 0);
+            }
+        );
+    }
+
+    /**
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since 2017-12-18
+     */
+    public function testUseTransactionOutsideFindFirst()
+    {
+        $this->specify(
+            'Query outside of the creation transaction',
+            function () {
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $transaction = $transactionManager->getOrCreateTransaction();
+
+                $newSubscriber = new Subscribers();
+                $newSubscriber->setTransaction($transaction);
+                $newSubscriber->email = 'transaction@example.com';
+                $newSubscriber->status = 'I';
+                $newSubscriber->save();
+
+                /**
+                 * @var $transactionManager \Phalcon\Mvc\Model\Transaction\Manager
+                 */
+                $transactionManager = $this->setUpTransactionManager();
+                $secondTransaction = $transactionManager->getOrCreateTransaction();
+
+                $subscriber = Subscribers::findFirst(
+                    [
+                        'email = "transaction@example.com"',
+                        'transaction' => $secondTransaction
+                    ]
+                );
+
+                expect(false, $subscriber);
             }
         );
     }

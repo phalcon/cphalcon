@@ -1,6 +1,6 @@
-# [3.2.4](https://github.com/phalcon/cphalcon/releases/tag/v3.2.4) (2017-21-12)
+# [3.2.4](https://github.com/phalcon/cphalcon/releases/tag/v3.2.4) (2017-10-21)
 - Fixed regression of [#13046](https://github.com/phalcon/cphalcon/issues/13046) by removing injection of dispatcher's parameters (which were never available anyway) [#13121](https://github.com/phalcon/cphalcon/issues/13121)
-- Fixed `Phalcon/Mvc/Model/Query::_getQualified` to correct replace field names in `WHERE` [#12971](https://github.com/phalcon/cphalcon/issues/12971)
+- Fixed `Phalcon\Mvc\Model\Query::_getQualified` to correct replace field names in `WHERE` [#12971](https://github.com/phalcon/cphalcon/issues/12971)
 
 # [3.2.3](https://github.com/phalcon/cphalcon/releases/tag/v3.2.3) (2017-10-12)
 - Fixed `Phalcon\Mvc\Model\Query::_executeSelect` threw RuntimeException, if db:beforeQuery() returned false
@@ -73,4 +73,3 @@
 - Fixed `Phalcon\Cache\Backend\Redis::__construct` and `Phalcon\Cache\Backend\Redis::_connect` to correctly handle the Redis auth option [#12736](https://github.com/phalcon/cphalcon/issues/12736)
 - Fixed `Phalcon\Mvc\Collection::getReservedAttributes`, added missing properties to reserved attributes [phalcon/incubator#762](https://github.com/phalcon/incubator/issues/762), [phalcon/incubator#760](https://github.com/phalcon/incubator/issues/760)
 - Fixed `Phalcon\Mvc\Router\Annotation::processActionAnnotation` to support PATCH request
-

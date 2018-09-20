@@ -19,6 +19,7 @@ Makefile.global
 Makefile.objects
 autom4te.cache/
 configure
+configure.*
 install-sh
 libtool
 ltmain.sh

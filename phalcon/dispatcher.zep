@@ -375,7 +375,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
 			actionName, params, eventsManager,
-			actionSuffix, handlerClass, status, actionMethod, methodParams,
+			actionSuffix, handlerClass, status, actionMethod,
 			modelBinder, bindCacheKey,
 			wasFresh, e;
 
@@ -658,7 +658,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 				if this->_finished === false {
 					continue;
 				}
-			} catch \Throwable, e {
+			} catch Exception, e {
 				if this->{"_handleException"}(e) === false || this->_finished === false {
 					continue;
 				}

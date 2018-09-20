@@ -27,7 +27,7 @@ class TagSetDefaultTest extends UnitTest
     /**
      * Tests setDefault
      *
-     * @issue  2402
+     * @issue  https://github.com/phalcon/cphalcon/issues/2402
      * @author Dmitry Patsura <talk@dmtry.me>
      * @since  2014-05-10
      */

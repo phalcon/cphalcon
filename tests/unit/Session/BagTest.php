@@ -103,7 +103,7 @@ class BagTest extends UnitTest
      * Delete a value in a bag (not initialized internally)
      *
      * @test
-     * @issue  12647
+     * @issue  https://github.com/phalcon/cphalcon/issues/12647
      * @author Fabio Mora <mail@fabiomora.com>
      * @since  2017-02-21
      */

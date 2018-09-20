@@ -50,7 +50,7 @@ class NoneTest extends UnitTest
     /**
      * Tests custom filters
      *
-     * @issue   1198
+     * @issue   https://github.com/phalcon/cphalcon/issues/1198
      * @author  Volodymyr Kolesnykov <volodymyr@wildwolf.name>
      * @since   2013-09-15
      */

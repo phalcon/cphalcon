@@ -2,7 +2,7 @@
 #
 #  Phalcon Framework
 #
-#  Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)
+#  Copyright (c) 2011-present Phalcon Team (https://phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
 #  with this package in the file LICENSE.txt.
@@ -20,7 +20,7 @@
 #  --php-config
 #
 #  Example:
-#  ./install --phpize /usr/bin/phpize5.6 --php-config /usr/bin/php-config5.6 --arch 32bits
+#  ./install --phpize /usr/bin/phpize7.3 --php-config /usr/bin/php-config7.3 --arch 32bits
 
 # Check best compilation flags for GCC
 export CC="gcc"
@@ -59,21 +59,12 @@ if [ $? != 0 ]; then
 	exit 1
 fi
 
-if [ "${PHP_FULL_VERSION:0:3}" == "5.3" ]; then
-	echo "php 5.3 is no longer supported"
-	exit 1
-fi
-
-if [ "${PHP_FULL_VERSION:0:3}" == "5.4" ]; then
-	echo "php 5.4 is no longer supported"
-	exit 1
-fi
-
 if [ "${PHP_FULL_VERSION:0:1}" == "5" ]; then
-	PHP_VERSION="php5"
-else
-	PHP_VERSION="php7"
+	echo "php 5 is no longer supported"
+	exit 1
 fi
+
+PHP_VERSION="php7"
 
 # Detect possible flags
 echo "int main() {}" > t.c

@@ -29,8 +29,8 @@ class TagResetInputTest extends UnitTest
      *
      * Note: The Tag::resetInput should not clear $_POST data.
      *
-     * @issue  11319
-     * @issue  12099
+     * @issue  https://github.com/phalcon/cphalcon/issues/11319
+     * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-20
      */
@@ -49,7 +49,7 @@ class TagResetInputTest extends UnitTest
     /**
      * Tests resetInput with setDefault
      *
-     * @issue  53
+     * @issue  https://github.com/phalcon/cphalcon/issues/53
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */

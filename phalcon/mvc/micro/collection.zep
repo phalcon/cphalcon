@@ -50,9 +50,12 @@ class Collection implements CollectionInterface
 	protected _handlers;
 
 	/**
-	 * Internal function to add a handler to the group
+	 * Internal function to add a handler to the group.
+	 *
+	 * @param string|array method
+	 * @param callable|string handler
 	 */
-	protected function _addMap(string! method, string! routePattern, callable handler, string name)
+	protected function _addMap(var method, string! routePattern, var handler, string name)
 	{
 		let this->_handlers[] = [method, routePattern, handler, name];
 	}
@@ -83,7 +86,9 @@ class Collection implements CollectionInterface
 	}
 
 	/**
-	 * Sets the main handler
+	 * Sets the main handler.
+	 *
+	 * @param callable|string handler
 	 */
 	public function setHandler(var handler, boolean lazy = false) -> <Collection>
 	{
@@ -117,72 +122,105 @@ class Collection implements CollectionInterface
 	}
 
 	/**
-	 * Maps a route to a handler
+	 * Maps a route to a handler.
+	 *
+	 * @param callable|string handler
 	 */
-	public function map(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function map(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap(null, routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is GET
+	 * Maps a route to a handler via methods.
+	 *
+	 * <code>
+	 * $collection->mapVia("/test", "indexAction", ["POST", "GET"], "test");
+	 * </code>
+	 *
+	 * @param callable handler
+	 * @param string|array method
 	 */
-	public function get(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function mapVia(string! routePattern, var handler, var method, string name = null) -> <Collection>
+	{
+		this->_addMap(method, routePattern, handler, name);
+
+		return this;
+	}
+
+	/**
+	 * Maps a route to a handler that only matches if the HTTP method is GET.
+	 *
+	 * @param callable|string handler
+	 */
+	public function get(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("GET", routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is POST
+	 * Maps a route to a handler that only matches if the HTTP method is POST.
+	 *
+	 * @param callable|string handler
 	 */
-	public function post(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function post(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("POST", routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is PUT
+	 * Maps a route to a handler that only matches if the HTTP method is PUT.
+	 *
+	 * @param callable|string handler
 	 */
-	public function put(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function put(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("PUT", routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is PATCH
+	 * Maps a route to a handler that only matches if the HTTP method is PATCH.
+	 *
+	 * @param callable|string handler
 	 */
-	public function patch(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function patch(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("PATCH", routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is HEAD
+	 * Maps a route to a handler that only matches if the HTTP method is HEAD.
+	 *
+	 * @param callable|string handler
 	 */
-	public function head(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function head(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("HEAD", routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is DELETE
+	 * Maps a route to a handler that only matches if the HTTP method is DELETE.
+	 *
+	 * @param callable|string handler
 	 */
-	public function delete(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function delete(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("DELETE", routePattern, handler, name);
 		return this;
 	}
 
 	/**
-	 * Maps a route to a handler that only matches if the HTTP method is OPTIONS
+	 * Maps a route to a handler that only matches if the HTTP method is OPTIONS.
+	 *
+	 * @param callable|string handler
 	 */
-	public function options(string! routePattern, callable handler, string name = null) -> <Collection>
+	public function options(string! routePattern, var handler, string name = null) -> <Collection>
 	{
 		this->_addMap("OPTIONS", routePattern, handler, name);
 		return this;

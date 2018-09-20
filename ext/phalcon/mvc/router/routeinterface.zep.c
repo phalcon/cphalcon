@@ -91,6 +91,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPaths);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getReversedPaths);
 
 /**
+ * Adds a converter to perform an additional transformation for certain parameter.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, convert);
+
+/**
  * Returns the HTTP methods that constraint matching the route
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getHttpMethods);

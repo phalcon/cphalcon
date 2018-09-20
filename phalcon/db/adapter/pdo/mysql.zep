@@ -171,8 +171,7 @@ class Mysql extends PdoAdapter
 				/**
 				 * Tinyblob
 				 */
-				let definition["type"] = Column::TYPE_TINYBLOB,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
+				let definition["type"] = Column::TYPE_TINYBLOB;
 			} elseif memstr(columnType, "mediumblob") {
 				/**
 				 * Mediumblob

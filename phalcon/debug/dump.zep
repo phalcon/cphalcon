@@ -103,16 +103,16 @@ class Dump
 
 		let defaultStyles = [
 			"pre": "background-color:#f3f3f3; font-size:11px; padding:10px; border:1px solid #ccc; text-align:left; color:#333",
-		 	"arr": "color:red",
-		 	"bool": "color:green",
-		 	"float": "color:fuchsia",
-		 	"int": "color:blue",
-		 	"null": "color:black",
-		 	"num": "color:navy",
-		 	"obj": "color:purple",
-		 	"other": "color:maroon",
-		 	"res": "color:lime",
-		 	"str": "color:teal"
+			"arr": "color:red",
+			"bool": "color:green",
+			"float": "color:fuchsia",
+			"int": "color:blue",
+			"null": "color:black",
+			"num": "color:navy",
+			"obj": "color:purple",
+			"other": "color:maroon",
+			"res": "color:lime",
+			"str": "color:teal"
 		];
 
 		let this->_styles = array_merge(defaultStyles, styles);
@@ -185,7 +185,7 @@ class Dump
 			if variable instanceof Di {
 				// Skip debugging di
 				let output .= str_repeat(space, tab) . "[skipped]\n";
-			} elseif !this->_detailed {
+			} elseif !this->_detailed || variable instanceof \stdClass {
 				// Debug only public properties
 				for key, value in get_object_vars(variable) {
 					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
@@ -193,36 +193,24 @@ class Dump
 				}
 			} else {
 				// Debug all properties
-				do {
+				var reflect, props, property;
 
-					let attr = each(variable);
+				let reflect = new \ReflectionClass(variable);
+				let props = reflect->getProperties(
+					\ReflectionProperty::IS_PUBLIC |
+					\ReflectionProperty::IS_PROTECTED |
+					\ReflectionProperty::IS_PRIVATE
+				);
 
-					if !attr {
-						continue;
-					}
+				for property in props {
+					property->setAccessible(true);
 
-					let key = attr["key"],
-						value = attr["value"];
+					let key = property->getName(),
+						type = implode(' ', \Reflection::getModifierNames(property->getModifiers()));
 
-					if !key {
-						continue;
-					}
-					let key = explode(chr(0), key),
-						type = "public";
-
-					if isset key[1] {
-
-						let type = "private";
-
-						if key[1] == "*" {
-							let type = "protected";
-						}
-					}
-
-					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": end(key), ":type": type]);
-					let output .= this->output(value, "", tab + 1) . "\n";
-
-				} while attr;
+					let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": type]);
+					let output .= this->output(property->getValue(variable), "", tab + 1) . "\n";
+				}
 			}
 
 			let attr = get_class_methods(variable);

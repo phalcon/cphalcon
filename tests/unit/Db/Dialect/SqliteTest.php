@@ -2,10 +2,9 @@
 
 namespace Phalcon\Test\Unit\Db\Dialect;
 
-use Helper\DialectTrait;
-use Phalcon\Db\Exception;
-use Phalcon\Db\Dialect\Sqlite;
 use Helper\Dialect\SqliteTrait;
+use Helper\DialectTrait;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Test\Module\UnitTest;
 
 /**
@@ -103,6 +102,9 @@ class SqliteTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @expectedException        \Phalcon\Db\Exception
+     * @expectedExceptionMessage Altering a DB column is not supported by SQLite
      */
     public function modifyColumn()
     {
@@ -113,10 +115,7 @@ class SqliteTest extends UnitTest
                 $columns = $this->getColumns();
 
                 $dialect->modifyColumn('table', null, $columns['column1']);
-            },
-            [
-                'throws' => [Exception::class, 'Altering a DB column is not supported by SQLite']
-            ]
+            }
         );
     }
 
@@ -126,6 +125,9 @@ class SqliteTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @expectedException        \Phalcon\Db\Exception
+     * @expectedExceptionMessage Dropping DB column is not supported by SQLite
      */
     public function dropColumn()
     {
@@ -135,10 +137,7 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
 
                 $dialect->dropColumn('table', null, 'column1');
-            },
-            [
-                'throws' => [Exception::class, 'Dropping DB column is not supported by SQLite']
-            ]
+            }
         );
     }
 
@@ -237,6 +236,9 @@ class SqliteTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @expectedException        \Phalcon\Db\Exception
+     * @expectedExceptionMessage Adding a primary key after table has been created is not supported by SQLite
      */
     public function addPrimaryKey()
     {
@@ -247,12 +249,7 @@ class SqliteTest extends UnitTest
                 $indexes = $this->getIndexes();
 
                 $dialect->addPrimaryKey('table', null, $indexes['PRIMARY']);
-            },
-            ['throws' => [
-                    Exception::class,
-                    'Adding a primary key after table has been created is not supported by SQLite'
-                ],
-            ]
+            }
         );
     }
 
@@ -262,6 +259,9 @@ class SqliteTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @expectedException        \Phalcon\Db\Exception
+     * @expectedExceptionMessage Removing a primary key after table has been created is not supported by SQLite
      */
     public function dropPrimaryKey()
     {
@@ -271,12 +271,7 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
 
                 $dialect->dropPrimaryKey('table', null);
-            },
-            ['throws' => [
-                    Exception::class,
-                    'Removing a primary key after table has been created is not supported by SQLite'
-                ],
-            ]
+            }
         );
     }
 
@@ -286,6 +281,9 @@ class SqliteTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @expectedException        \Phalcon\Db\Exception
+     * @expectedExceptionMessage Adding a foreign key constraint to an existing table is not supported by SQLite
      */
     public function addForeignKey()
     {
@@ -296,12 +294,7 @@ class SqliteTest extends UnitTest
                 $references = $this->getReferences();
 
                 $dialect->addForeignKey('table', null, $references['fk1']);
-            },
-            ['throws' => [
-                    Exception::class,
-                    'Adding a foreign key constraint to an existing table is not supported by SQLite'
-                ],
-            ]
+            }
         );
     }
 
@@ -311,6 +304,9 @@ class SqliteTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @expectedException        \Phalcon\Db\Exception
+     * @expectedExceptionMessage Dropping a foreign key constraint is not supported by SQLite
      */
     public function dropForeignKey()
     {
@@ -320,12 +316,7 @@ class SqliteTest extends UnitTest
                 $dialect = new Sqlite();
 
                 $dialect->dropForeignKey('table', null, 'fk1');
-            },
-            ['throws' => [
-                    Exception::class,
-                    'Dropping a foreign key constraint is not supported by SQLite'
-                ],
-            ]
+            }
         );
     }
 
@@ -421,7 +412,8 @@ class SqliteTest extends UnitTest
      * Tests Sqlite::describeColumns
      *
      * @test
-     * @issue  12536, 11359
+     * @issue  https://github.com/phalcon/cphalcon/issues/12536
+     * @issue  https://github.com/phalcon/cphalcon/issues/11359
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */

@@ -1,33 +1,43 @@
 # EditorConfig is awesome: http://EditorConfig.org
 
-# top-most EditorConfig file
-root = true
-charset = utf-8
+root                     = true
+charset                  = utf-8
 trim_trailing_whitespace = true
 
 [*]
-end_of_line = lf
-insert_final_newline = true
-indent_style = space
-indent_size = 4
+end_of_line              = lf
+insert_final_newline     = true
+indent_style             = space
+indent_size              = 4
 
-[Makefile]
-indent_style = tab
+[*.{c,h,awk,w32,bat,mk,Makefile,frag,zep,lemon,re}]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 4
+indent_style             = tab
+tab_width                = 4
+trim_trailing_whitespace = true
+insert_final_newline     = true
 
-[*.sh]
-indent_style = tab
+[*.{yml,m4,sh,json,xml}]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 2
+indent_style             = space
+trim_trailing_whitespace = true
+insert_final_newline     = true
 
-[*.zep]
-indent_style = tab
+[*.{php,phpt}]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 4
+indent_style             = space
+trim_trailing_whitespace = true
+insert_final_newline     = true
 
-[*.c]
-indent_style = tab
-
-[*.h]
-indent_style = tab
-
-[*.lemon]
-indent_style = tab
-
-[*.re]
-indent_style = tab
+[*.md]
+charset                  = utf-8
+end_of_line              = lf
+indent_style             = space
+trim_trailing_whitespace = false
+insert_final_newline     = true

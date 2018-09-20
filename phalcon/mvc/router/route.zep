@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-present Phalcon Team (https://phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -41,7 +41,7 @@ class Route implements RouteInterface
 
 	protected _converters;
 
-	protected _id;
+	protected _id { get };
 
 	protected _name;
 
@@ -627,11 +627,12 @@ class Route implements RouteInterface
 	}
 
 	/**
-	 * Adds a converter to perform an additional transformation for certain parameter
+	 * {@inheritdoc}
 	 */
 	public function convert(string! name, var converter) -> <Route>
 	{
 		let this->_converters[name] = converter;
+
 		return this;
 	}
 

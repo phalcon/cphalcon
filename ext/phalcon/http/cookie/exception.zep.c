@@ -17,8 +17,7 @@
 /**
  * Phalcon\Http\Cookie\Exception
  *
- * Exceptions thrown in Phalcon\Http\Cookie will use this class
- *
+ * Exceptions thrown in Phalcon\Http\Cookie will use this class.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie_Exception) {
 

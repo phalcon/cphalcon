@@ -334,6 +334,9 @@ class DiTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-29
+     *
+     * @expectedException \Phalcon\Di\Exception
+     * @expectedException Service 'nonExistentService' wasn't found in the dependency injection container
      */
     public function testGettingNonExistentService()
     {
@@ -341,13 +344,7 @@ class DiTest extends UnitTest
             "Getting non-existent service does not throws exception with expected message",
             function () {
                 $this->phDi->get('nonExistentService');
-            },
-            [
-                'throws' => [
-                    'Phalcon\Di\Exception',
-                    "Service 'nonExistentService' wasn't found in the dependency injection container"
-                ]
-            ]
+            }
         );
     }
 

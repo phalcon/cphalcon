@@ -96,7 +96,7 @@ class View extends Injectable implements ViewInterface
 	const CACHE_MODE_NONE = 0;
 	const CACHE_MODE_INVERSE = 1;
 
-	protected _options;
+	protected _options = [];
 
 	protected _basePath = "";
 
@@ -124,10 +124,7 @@ class View extends Injectable implements ViewInterface
 
 	protected _engines = false;
 
-	/**
-	 * @var array
-	 */
-	protected _registeredEngines { get };
+	protected _registeredEngines = [] { get };
 
 	protected _mainView = "index";
 
@@ -530,7 +527,7 @@ class View extends Injectable implements ViewInterface
 
 			let engines = [];
 			let registeredEngines = this->_registeredEngines;
-			if typeof registeredEngines != "array" {
+			if empty registeredEngines {
 
 				/**
 				 * We use Phalcon\Mvc\View\Engine\Php as default
@@ -707,7 +704,7 @@ class View extends Injectable implements ViewInterface
 	/**
 	 * Register templating engines
 	 *
-	 *<code>
+	 * <code>
 	 * $this->view->registerEngines(
 	 *     [
 	 *         ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
@@ -715,7 +712,7 @@ class View extends Injectable implements ViewInterface
 	 *         ".mhtml" => "MyCustomEngine",
 	 *     ]
 	 * );
-	 *</code>
+	 * </code>
 	 */
 	public function registerEngines(array! engines) -> <View>
 	{
@@ -733,9 +730,10 @@ class View extends Injectable implements ViewInterface
 		let basePath = this->_basePath,
 			engines = this->_registeredEngines;
 
-		if typeof engines != "array" {
-			let engines = [".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"],
-				this->_registeredEngines = engines;
+		if empty engines {
+			let engines = [".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"];
+
+			this->registerEngines(engines);
 		}
 
 		for viewsDir in this->getViewsDirs() {

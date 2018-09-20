@@ -26,7 +26,10 @@
  * Checks if a value has a url format
  *
  * <code>
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Url as UrlValidator;
+ *
+ * $validator = new Validation();
  *
  * $validator->add(
  *     "url",
@@ -102,7 +105,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 273);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 189, &value, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 194, &value, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, &field);
@@ -122,7 +125,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Url");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 428, &_3$$3, &field, &_4$$3, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 436, &_3$$3, &field, &_4$$3, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_2$$3);
 		zephir_check_call_status();

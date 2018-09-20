@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset) {
 	}
 	ZEPHIR_INIT_VAR(&collections);
 	array_init(&collections);
-	ZEPHIR_CALL_FUNCTION(&_6, "iterator_to_array", NULL, 279, &documentsCursor, &__$false);
+	ZEPHIR_CALL_FUNCTION(&_6, "iterator_to_array", NULL, 285, &documentsCursor, &__$false);
 	zephir_check_call_status();
 	zephir_is_iterable(&_6, 0, "phalcon/mvc/collection.zep", 451);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_6), _7)
@@ -847,25 +847,24 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool disableEvents, exists;
-	zval *dependencyInjector, dependencyInjector_sub, *disableEvents_param = NULL, *exists_param = NULL, eventName, _4, _5, _0$$3, _1$$3, _3$$3, _6$$9, _7$$10, _8$$10, _9$$10, _10$$10, _11$$10;
+	zval *dependencyInjector, dependencyInjector_sub, *disableEvents_param = NULL, *exists_param = NULL, eventName, _3, _4, _0$$3, _1$$3, _2$$3, _5$$9, _6$$10, _7$$10, _8$$10, _9$$10, _10$$10;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dependencyInjector_sub);
 	ZVAL_UNDEF(&eventName);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_6$$9);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_5$$9);
+	ZVAL_UNDEF(&_6$$10);
 	ZVAL_UNDEF(&_7$$10);
 	ZVAL_UNDEF(&_8$$10);
 	ZVAL_UNDEF(&_9$$10);
 	ZVAL_UNDEF(&_10$$10);
-	ZVAL_UNDEF(&_11$$10);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &dependencyInjector, &disableEvents_param, &exists_param);
@@ -877,7 +876,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 	if (!(disableEvents)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "beforeValidation");
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "fireeventcancel", &_2, 0, &_1$$3);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "fireeventcancel", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_0$$3)) {
 			RETURN_MM_BOOL(0);
@@ -888,21 +887,21 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 		} else {
 			ZVAL_STRING(&eventName, "beforeValidationOnUpdate");
 		}
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "fireeventcancel", &_2, 0, &eventName);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "fireeventcancel", NULL, 0, &eventName);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(&_2$$3)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_INIT_VAR(&_5);
-	ZVAL_STRING(&_5, "validation");
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "fireeventcancel", &_2, 0, &_5);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "validation");
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "fireeventcancel", NULL, 0, &_4);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&_4)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
 		if (!(disableEvents)) {
-			ZEPHIR_INIT_VAR(&_6$$9);
-			ZVAL_STRING(&_6$$9, "onValidationFails");
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, 0, &_6$$9);
+			ZEPHIR_INIT_VAR(&_5$$9);
+			ZVAL_STRING(&_5$$9, "onValidationFails");
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, 0, &_5$$9);
 			zephir_check_call_status();
 		}
 		RETURN_MM_BOOL(0);
@@ -914,23 +913,23 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 		} else {
 			ZVAL_STRING(&eventName, "afterValidationOnUpdate");
 		}
-		ZEPHIR_CALL_METHOD(&_7$$10, this_ptr, "fireeventcancel", &_2, 0, &eventName);
+		ZEPHIR_CALL_METHOD(&_6$$10, this_ptr, "fireeventcancel", NULL, 0, &eventName);
+		zephir_check_call_status();
+		if (ZEPHIR_IS_FALSE_IDENTICAL(&_6$$10)) {
+			RETURN_MM_BOOL(0);
+		}
+		ZEPHIR_INIT_VAR(&_8$$10);
+		ZVAL_STRING(&_8$$10, "afterValidation");
+		ZEPHIR_CALL_METHOD(&_7$$10, this_ptr, "fireeventcancel", NULL, 0, &_8$$10);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_7$$10)) {
 			RETURN_MM_BOOL(0);
 		}
-		ZEPHIR_INIT_VAR(&_9$$10);
-		ZVAL_STRING(&_9$$10, "afterValidation");
-		ZEPHIR_CALL_METHOD(&_8$$10, this_ptr, "fireeventcancel", &_2, 0, &_9$$10);
+		ZEPHIR_INIT_NVAR(&_8$$10);
+		ZVAL_STRING(&_8$$10, "beforeSave");
+		ZEPHIR_CALL_METHOD(&_9$$10, this_ptr, "fireeventcancel", NULL, 0, &_8$$10);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(&_8$$10)) {
-			RETURN_MM_BOOL(0);
-		}
-		ZEPHIR_INIT_NVAR(&_9$$10);
-		ZVAL_STRING(&_9$$10, "beforeSave");
-		ZEPHIR_CALL_METHOD(&_10$$10, this_ptr, "fireeventcancel", &_2, 0, &_9$$10);
-		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(&_10$$10)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(&_9$$10)) {
 			RETURN_MM_BOOL(0);
 		}
 		ZEPHIR_INIT_NVAR(&eventName);
@@ -939,9 +938,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
 		} else {
 			ZVAL_STRING(&eventName, "beforeCreate");
 		}
-		ZEPHIR_CALL_METHOD(&_11$$10, this_ptr, "fireeventcancel", &_2, 0, &eventName);
+		ZEPHIR_CALL_METHOD(&_10$$10, this_ptr, "fireeventcancel", NULL, 0, &eventName);
 		zephir_check_call_status();
-		if (ZEPHIR_IS_FALSE_IDENTICAL(&_11$$10)) {
+		if (ZEPHIR_IS_FALSE_IDENTICAL(&_10$$10)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -954,16 +953,15 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, _postSave) {
 
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *disableEvents_param = NULL, *success_param = NULL, *exists_param = NULL, eventName, _3, _1$$4, _2$$7;
+	zval *disableEvents_param = NULL, *success_param = NULL, *exists_param = NULL, eventName, _2, _0$$4, _1$$7;
 	zend_bool disableEvents, success, exists;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventName);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_2$$7);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&_1$$7);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &disableEvents_param, &success_param, &exists_param);
@@ -981,27 +979,27 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave) {
 			} else {
 				ZVAL_STRING(&eventName, "afterCreate");
 			}
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", &_0, 0, &eventName);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, 0, &eventName);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&_1$$4);
-			ZVAL_STRING(&_1$$4, "afterSave");
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", &_0, 0, &_1$$4);
+			ZEPHIR_INIT_VAR(&_0$$4);
+			ZVAL_STRING(&_0$$4, "afterSave");
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, 0, &_0$$4);
 			zephir_check_call_status();
 		}
 		RETURN_MM_BOOL(success);
 	}
 	if (!(disableEvents)) {
-		ZEPHIR_INIT_VAR(&_2$$7);
-		ZVAL_STRING(&_2$$7, "notSave");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", &_0, 0, &_2$$7);
+		ZEPHIR_INIT_VAR(&_1$$7);
+		ZVAL_STRING(&_1$$7, "notSave");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireevent", NULL, 0, &_1$$7);
 		zephir_check_call_status();
 	}
 	if (disableEvents) {
-		ZVAL_BOOL(&_3, 1);
+		ZVAL_BOOL(&_2, 1);
 	} else {
-		ZVAL_BOOL(&_3, 0);
+		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_canceloperation", NULL, 0, &_3);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "_canceloperation", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(0);
 
@@ -1523,7 +1521,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	zephir_update_property_zval(this_ptr, SL("_errorMessages"), &_2);
 	zephir_read_property(&_4, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_static_property_ce(&_5, phalcon_mvc_collection_ce, SL("_disableEvents"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_presave", NULL, 280, &_4, &_5, &exists);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "_presave", NULL, 286, &_4, &_5, &exists);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
 		RETURN_MM_BOOL(0);
@@ -1559,7 +1557,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	} else {
 		ZVAL_BOOL(&_9, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 281, &_8, &_9, &exists);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 287, &_8, &_9, &exists);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1611,7 +1609,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, create) {
 	} else {
 		ZVAL_BOOL(&_4, 0);
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 280, &_0, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 286, &_0, &_3, &_4);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
@@ -1652,7 +1650,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, create) {
 	} else {
 		ZVAL_BOOL(&_9, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 281, &_7, &_8, &_9);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 287, &_7, &_8, &_9);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1736,22 +1734,22 @@ PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 	} else {
 		ZVAL_BOOL(&_4, 0);
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 280, &_0, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 286, &_0, &_3, &_4);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&keys, "array_flip", NULL, 282, &criteria);
+	ZEPHIR_CALL_FUNCTION(&keys, "array_flip", NULL, 288, &criteria);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "array_diff_key", NULL, 283, &keys, &data);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_diff_key", NULL, 289, &keys, &data);
 	zephir_check_call_status();
 	if (zephir_is_true(&_5)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Criteria parameter must be array with one or more attributes of the model", "phalcon/mvc/collection.zep", 1120);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&query, "array_intersect_key", NULL, 284, &data, &keys);
+	ZEPHIR_CALL_FUNCTION(&query, "array_intersect_key", NULL, 290, &data, &keys);
 	zephir_check_call_status();
 	success = 0;
 	ZEPHIR_INIT_VAR(&_6);
@@ -1796,7 +1794,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 	} else {
 		ZVAL_BOOL(&_14, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 281, &_8, &_13, &_14);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 287, &_8, &_13, &_14);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1847,7 +1845,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update) {
 	zephir_update_property_zval(this_ptr, SL("_errorMessages"), &_1);
 	zephir_read_property(&_0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_static_property_ce(&_3, phalcon_mvc_collection_ce, SL("_disableEvents"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 280, &_0, &_3, &exists);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "_presave", NULL, 286, &_0, &_3, &exists);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
@@ -1881,7 +1879,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update) {
 	} else {
 		ZVAL_BOOL(&_8, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 281, &_7, &_8, &exists);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "_postsave", NULL, 287, &_7, &_8, &exists);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2226,11 +2224,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 
 	zend_class_entry *_1;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters_param = NULL, className, model, connection, source, _0, _2;
-	zval parameters;
+	zval *parameters_param = NULL, *options_param = NULL, className, model, connection, source, _0, _2;
+	zval parameters, options;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&parameters);
+	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&model);
 	ZVAL_UNDEF(&connection);
@@ -2239,13 +2238,19 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &parameters_param);
+	zephir_fetch_params(1, 0, 2, &parameters_param, &options_param);
 
 	if (!parameters_param) {
 		ZEPHIR_INIT_VAR(&parameters);
 		array_init(&parameters);
 	} else {
 		zephir_get_arrval(&parameters, parameters_param);
+	}
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+		zephir_get_arrval(&options, options_param);
 	}
 
 
@@ -2269,7 +2274,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 	}
 	ZEPHIR_CALL_METHOD(&_2, &connection, "selectcollection", NULL, 0, &source);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_2, "aggregate", NULL, 0, &parameters);
+	ZEPHIR_RETURN_CALL_METHOD(&_2, "aggregate", NULL, 0, &parameters, &options);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2656,7 +2661,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 60, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 62, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2698,7 +2703,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 61, &data);
+	ZEPHIR_CALL_FUNCTION(&attributes, "unserialize", NULL, 63, &data);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEPHIR_CALL_CE_STATIC(&dependencyInjector, phalcon_di_ce, "getdefault", &_0, 0);

@@ -27,7 +27,7 @@ class TagTitleTest extends UnitTest
     /**
      * Tests malicious content in the title
      *
-     * @issue  11185
+     * @issue  https://github.com/phalcon/cphalcon/issues/11185
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-13
      */

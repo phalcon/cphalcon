@@ -5,16 +5,18 @@
 
 > **Describe what you are trying to achieve and what goes wrong.**
 
-> Provide output if related. Provide coredump if any. Use https://github.com/phalcon/cphalcon/wiki/Generating-a-backtrace as reference
+> Provide output if related. Provide coredump if any. Use https://docs.phalconphp.com/en/latest/generating-backtrace as reference
 
 ```php
 // paste output here
 ```
+
 > Provide minimal script to reproduce the issue
 
 ```php
 // paste code
 ```
+
 ### Details
 
 * Phalcon version: (`php --ri phalcon`)

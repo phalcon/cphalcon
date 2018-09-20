@@ -2,11 +2,11 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
-use Phalcon\Db;
+use Helper\Dialect\MysqlTrait;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Db\Adapter\Pdo\Mysql;
-use Helper\Dialect\MysqlTrait;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\MysqlTest
@@ -48,7 +48,7 @@ class MysqlTest extends UnitTest
                 'charset'  => TEST_DB_MYSQL_CHARSET,
             ]);
         } catch (\PDOException $e) {
-            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+            throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
         }
     }
 
@@ -70,6 +70,7 @@ class MysqlTest extends UnitTest
                     'customers',
                     'foreign_key_child',
                     'foreign_key_parent',
+                    'identityless_requests',
                     'issue12071_body',
                     'issue12071_head',
                     'issue_11036',
@@ -91,12 +92,13 @@ class MysqlTest extends UnitTest
                     'stats',
                     'stock',
                     'subscriptores',
+                    'table_with_string_field',
                     'tipo_documento',
                     'users',
                 ];
 
                 expect($this->connection->listTables())->equals($expected);
-                expect($this->connection->listTables(TEST_DB_MYSQL_NAME))->equals($expected);
+                expect($this->connection->listTables(env('TEST_DB_MYSQL_NAME', 'phalcon_test')))->equals($expected);
             }
         );
     }
@@ -166,7 +168,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::addForeignKey
      *
      * @test
-     * @issue  556
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      */
@@ -190,7 +192,7 @@ class MysqlTest extends UnitTest
      * Tests Mysql::getForeignKey
      *
      * @test
-     * @issue  556
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
      */
@@ -214,7 +216,7 @@ class MysqlTest extends UnitTest
       * Tests Mysql::dropAddForeignKey
       *
       * @test
-      * @issue  556
+      * @issue  https://github.com/phalcon/cphalcon/issues/556
       * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
       * @since  2017-07-03
       */

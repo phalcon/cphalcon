@@ -80,7 +80,7 @@ class Validation
     }
 
     /**
-     * @issue 1243
+     * @issue https://github.com/phalcon/cphalcon/issues/1243
      * @param UnitTester $I
      */
     protected function emailWithDot(UnitTester $I)
@@ -190,7 +190,7 @@ class Validation
     }
 
     /**
-     * @issue 1527
+     * @issue https://github.com/phalcon/cphalcon/issues/1527
      * @param UnitTester $I
      */
     protected function uniqueness2(UnitTester $I)

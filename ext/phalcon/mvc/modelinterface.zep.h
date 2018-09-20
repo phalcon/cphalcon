@@ -108,6 +108,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_setsnapshotdata, 0, 0,
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getModelsMetaData, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setTransaction, arginfo_phalcon_mvc_modelinterface_settransaction)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSource, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSchema, NULL)

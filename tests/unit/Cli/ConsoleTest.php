@@ -88,7 +88,16 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
             }
         );
+    }
 
+    /**
+     * @test
+     *
+     * @expectedException        \Phalcon\Cli\Console\Exception
+     * @expectedExceptionMessage Module 'devtools' isn't registered in the console container
+     */
+    public function shouldThrowExceptionWhenModuleDoesNotExists()
+    {
         $this->specify(
             "CLI Console doesn't throw exception when module isn't found",
             function () {
@@ -103,7 +112,7 @@ class ConsoleTest extends UnitTest
 
                 $console = new Console();
                 $console->setDI($di);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
+                $console->getDI()->getShared('dispatcher');
 
                 // testing module
                 $console->handle(
@@ -115,15 +124,18 @@ class ConsoleTest extends UnitTest
                         '######'
                     ]
                 );
-            },
-            [
-                'throws' => [
-                    \Phalcon\Cli\Console\Exception::class,
-                    "Module 'devtools' isn't registered in the console container"
-                ]
-            ]
+            }
         );
+    }
 
+    /**
+     * @test
+     *
+     * @expectedException        \Phalcon\Cli\Dispatcher\Exception
+     * @expectedExceptionMessage Dummy\MainTask handler class cannot be loaded
+     */
+    public function shouldThrowExceptionWhenTaskDoesNotExists()
+    {
         $this->specify(
             "CLI Console doesn't throw exception when task isn't found",
             function () {
@@ -144,13 +156,7 @@ class ConsoleTest extends UnitTest
                         '!'
                     ]
                 );
-            },
-            [
-                'throws' => [
-                    \Phalcon\Cli\Dispatcher\Exception::class,
-                    'Dummy\MainTask handler class cannot be loaded'
-                ]
-            ]
+            }
         );
     }
 
@@ -304,36 +310,6 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
             }
         );
-
-        $this->specify(
-            "CLI Console doesn't work with arguments as an array (2)",
-            function () {
-                $di = new CliFactoryDefault();
-
-                $console = new Console();
-                $console->setDI($di);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
-
-                // testing namespace
-                $dispatcher->setDefaultNamespace('Dummy\\');
-
-                $console->setArgument(array(
-                    'php',
-                    'main',
-                    'hello',
-                    'World',
-                    '!'
-                ), false);
-
-                $console->handle();
-            },
-            [
-                'throws' => [
-                    \Phalcon\Cli\Dispatcher\Exception::class,
-                    'Dummy\MainTask handler class cannot be loaded'
-                ]
-            ]
-        );
     }
 
     public function testArgumentNoShift()
@@ -382,7 +358,16 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
             }
         );
+    }
 
+    /**
+     * @test
+     *
+     * @expectedException        \Phalcon\Cli\Dispatcher\Exception
+     * @expectedExceptionMessage Dummy\MainTask handler class cannot be loaded
+     */
+    public function shouldThrowExceptionWithUnshiftedArguments()
+    {
         $this->specify(
             "CLI Console doesn't work with unshifted arguments (2)",
             function () {
@@ -403,13 +388,78 @@ class ConsoleTest extends UnitTest
                 ), false, false);
 
                 $console->handle();
-            },
-            [
-                'throws' => [
-                    \Phalcon\Cli\Dispatcher\Exception::class,
-                    'Dummy\MainTask handler class cannot be loaded'
-                ]
-            ]
+            }
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException        \Phalcon\Cli\Dispatcher\Exception
+     * @expectedExceptionMessage Dummy\MainTask handler class cannot be loaded
+     */
+    public function shouldThrowExceptionWithArgumentsAsAnArray()
+    {
+        $this->specify(
+            "CLI Console doesn't work with arguments as an array (2)",
+            function () {
+                $di = new CliFactoryDefault();
+
+                $console = new Console();
+                $console->setDI($di);
+                $dispatcher = $console->getDI()->getShared('dispatcher');
+
+                // testing namespace
+                $dispatcher->setDefaultNamespace('Dummy\\');
+
+                $console->setArgument(array(
+                    'php',
+                    'main',
+                    'hello',
+                    'World',
+                    '!'
+                ), false);
+
+                $console->handle();
+            }
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException        \Phalcon\Cli\Dispatcher\Exception
+     * @expectedExceptionMessage Dummy\MainTask handler class cannot be loaded
+     */
+    public function shouldThrowExceptionWithArguments()
+    {
+        $this->specify(
+            "CLI Console doesn't work with arguments (2)",
+            function () {
+                $di = new CliFactoryDefault();
+
+                $di->setShared('router', function () {
+                    $router = new Router(true);
+                    return $router;
+                });
+
+                $console = new Console();
+                $console->setDI($di);
+                $dispatcher = $console->getDI()->getShared('dispatcher');
+
+                // testing namespace
+                $dispatcher->setDefaultNamespace('Dummy\\');
+
+                $console->setArgument(array(
+                    'php',
+                    'main',
+                    'hello',
+                    'World',
+                    '!'
+                ));
+
+                $console->handle();
+            }
         );
     }
 
@@ -472,41 +522,6 @@ class ConsoleTest extends UnitTest
                 expect($dispatcher->getParams())->equals(array('World', '######'));
                 expect($dispatcher->getReturnedValue())->equals('Hello World######');
             }
-        );
-
-        $this->specify(
-            "CLI Console doesn't work with arguments (2)",
-            function () {
-                $di = new CliFactoryDefault();
-
-                $di->setShared('router', function () {
-                    $router = new Router(true);
-                    return $router;
-                });
-
-                $console = new Console();
-                $console->setDI($di);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
-
-                // testing namespace
-                $dispatcher->setDefaultNamespace('Dummy\\');
-
-                $console->setArgument(array(
-                    'php',
-                    'main',
-                    'hello',
-                    'World',
-                    '!'
-                ));
-
-                $console->handle();
-            },
-            [
-                'throws' => [
-                    \Phalcon\Cli\Dispatcher\Exception::class,
-                    'Dummy\MainTask handler class cannot be loaded'
-                ]
-            ]
         );
     }
 

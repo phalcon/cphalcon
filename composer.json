@@ -8,19 +8,6 @@
         "high load",
         "mvc"
     ],
-    "require": {
-        "php": ">=7.0"
-    },
-    "require-dev": {
-        "mustache/mustache": "^2.11",
-        "twig/twig": "~1.34",
-        "predis/predis": "^1.1",
-        "codeception/codeception": "^2.3",
-        "codeception/verify": "^0.3",
-        "codeception/specify": "^0.4",
-        "squizlabs/php_codesniffer": "^2.9",
-        "phalcon/zephir": "^0.10"
-    },
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -33,6 +20,41 @@
             "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
         }
     ],
+    "require": {
+        "php": ">=7.0 <8.0"
+    },
+    "provide": {
+        "psr/cache": "^1",
+        "psr/container": "^1",
+        "psr/http-message": "^1",
+        "psr/http-server-handler": "^1",
+        "psr/http-server-middleware": "^1",
+        "psr/link": "^1",
+        "psr/log": "^1",
+        "psr/simple-cache": "^1"
+    },
+    "require-dev": {
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-psr": "*",
+        "ext-xml": "*",
+        "codeception/codeception": "^2.4",
+        "codeception/specify": "1.0.*",
+        "codeception/verify": "1.0.*",
+        "mustache/mustache": "^2.11",
+        "phalcon/zephir": "^0.10",
+        "phpunit/phpunit": "^6.4",
+        "predis/predis": "^1.1",
+        "squizlabs/php_codesniffer": "^3.2",
+        "twig/twig": "~1.35"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
     "autoload-dev": {
         "psr-4": {
             "Zephir\\Optimizers\\": "optimizers/",
@@ -43,13 +65,13 @@
         }
     },
     "support": {
+        "email": "support@phalconphp.com",
         "issues": "https://github.com/phalcon/cphalcon/issues",
-        "source": "https://github.com/phalcon/cphalcon",
         "forum": "https://forum.phalconphp.com/",
-        "docs": "https://docs.phalconphp.com/",
         "wiki": "https://github.com/phalcon/cphalcon/wiki",
         "irc": "irc://irc.freenode.org/phalconphp",
-        "rss" : "https://blog.phalconphp.com/rss",
-        "email": "support@phalconphp.com"
+        "source": "https://github.com/phalcon/cphalcon",
+        "docs": "https://docs.phalconphp.com/",
+        "rss": "https://blog.phalconphp.com/rss"
     }
 }

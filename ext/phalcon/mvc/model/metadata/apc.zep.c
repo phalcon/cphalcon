@@ -39,6 +39,9 @@
  *     ]
  * );
  *</code>
+ *
+ * @deprecated Deprecated since 3.3.0, will be removed in 4.0.0
+ * @see Phalcon\Mvc\Model\Metadata\Apcu
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc) {
 
@@ -120,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read) {
 	zephir_read_property(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
-	ZEPHIR_CALL_FUNCTION(&data, "apc_fetch", NULL, 79, &_1);
+	ZEPHIR_CALL_FUNCTION(&data, "apc_fetch", NULL, 81, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		RETURN_CCTOR(&data);
@@ -166,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVV(&_1, "$PMM$", &_0, &key);
 	zephir_read_property(&_2, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "apc_store", NULL, 80, &_1, &data, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "apc_store", NULL, 82, &_1, &data, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

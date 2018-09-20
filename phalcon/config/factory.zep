@@ -49,7 +49,21 @@ class Factory extends BaseFactory
 
 	protected static function loadClass(string $namespace, var config)
 	{
-		var adapter, className, mode, callbacks, filePath;
+		var adapter, className, mode, callbacks, filePath, extension, oldConfig;
+
+		if typeof config == "string" {
+			let oldConfig = config;
+			let extension = substr(strrchr(config, "."), 1);
+
+			if empty extension {
+				throw new Exception("You need to provide extension in file path");
+			}
+
+			let config = [
+				"adapter": extension,
+				"filePath": oldConfig
+			];
+		}
 
 		if typeof config == "object" && config instanceof Config {
 			let config = config->toArray();

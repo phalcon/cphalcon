@@ -1,5 +1,20 @@
 <?php
 
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-present Phalcon Team (https://phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file LICENSE.txt.                             |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ */
+
 namespace Phalcon\Test\Unit\Mvc\Model;
 
 use Phalcon\Di;
@@ -10,21 +25,11 @@ use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
- * \Phalcon\Test\Unit\Mvc\Model\CriteriaTest
+ * Phalcon\Test\Unit\Mvc\Model\CriteriaTest
+ *
  * Tests the Phalcon\Mvc\Model\Criteria component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Mvc\Model
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Unit\Mvc\Model
  */
 class CriteriaTest extends UnitTest
 {
@@ -52,7 +57,7 @@ class CriteriaTest extends UnitTest
      * Tests Criteria::inWhere with empty array.
      *
      * @test
-     * @issue  10676
+     * @issue  https://github.com/phalcon/cphalcon/issues/10676
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-08-11
      */
@@ -73,7 +78,7 @@ class CriteriaTest extends UnitTest
      * Tests work with limit / offset
      *
      * @test
-     * @issue  12419
+     * @issue  https://github.com/phalcon/cphalcon/issues/12419
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */
@@ -89,21 +94,9 @@ class CriteriaTest extends UnitTest
 
                 expect($query->getLimit())->equals($expected);
             },
-            ['examples' => $this->limitOffsetProvider()]
+            [
+                'examples' => include_once PATH_FIXTURES . 'mvc/model/criteria_test/limit_offset_provider.php'
+            ]
         );
-    }
-
-    protected function limitOffsetProvider()
-    {
-        return [
-            [-7,      null,  7                                  ],
-            ["-7234", null,  7234                               ],
-            ["18",    null,  18                                 ],
-            ["18",    2,     ['number' => 18, 'offset' => 2]    ],
-            ["-1000", -200,  ['number' => 1000, 'offset' => 200]],
-            ["1000", "-200", ['number' => 1000, 'offset' => 200]],
-            ["0",    "-200", null                               ],
-            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, null],
-        ];
     }
 }

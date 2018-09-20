@@ -97,6 +97,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
 	protected _notFoundPaths;
 
+	protected _keyRouteNames = [] { get, set };
+
+	protected _keyRouteIds = [] { get, set };
+
 	const POSITION_FIRST = 0;
 
 	const POSITION_LAST = 1;
@@ -614,6 +618,43 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	}
 
 	/**
+	 * Attach Route object to the routes stack.
+	 *
+	 * <code>
+	 * use Phalcon\Mvc\Router;
+	 * use Phalcon\Mvc\Router\Route;
+	 *
+	 * class CustomRoute extends Route {
+	 *      // ...
+	 * }
+	 *
+	 * $router = new Router();
+	 *
+	 * $router->attach(
+	 *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
+	 *     Router::POSITION_FIRST
+	 * );
+	 * </code>
+	 *
+	 * @todo Add to the interface for 4.0.0
+	 */
+	public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>
+	{
+		switch position {
+			case self::POSITION_LAST:
+				let this->_routes[] = route;
+				break;
+			case self::POSITION_FIRST:
+				let this->_routes = array_merge([route], this->_routes);
+				break;
+			default:
+				throw new Exception("Invalid route position");
+		}
+
+		return this;
+	}
+
+	/**
 	 * Adds a route to the router without any HTTP constraint
 	 *
 	 *<code>
@@ -633,19 +674,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 		 */
 		let route = new Route(pattern, paths, httpMethods);
 
-		switch position {
-
-			case self::POSITION_LAST:
-				let this->_routes[] = route;
-				break;
-
-			case self::POSITION_FIRST:
-				let this->_routes = array_merge([route], this->_routes);
-				break;
-
-			default:
-				throw new Exception("Invalid route position");
-		}
+		this->attach(route, position);
 
 		return route;
 	}
@@ -735,7 +764,13 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function mount(<GroupInterface> group) -> <RouterInterface>
 	{
-		var groupRoutes, beforeMatch, hostname, routes, route;
+		var groupRoutes, beforeMatch, hostname, routes, route, eventsManager;
+
+		let eventsManager = this->_eventsManager;
+
+		if typeof eventsManager == "object" {
+			eventsManager->fire("router:beforeMount", this, group);
+		}
 
 		let groupRoutes = group->getRoutes();
 		if !count(groupRoutes) {
@@ -870,14 +905,20 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteById(var id) -> <RouteInterface> | boolean
 	{
-		var route;
+		var route, routeId, key;
 
-		for route in this->_routes {
-			if route->getRouteId() == id {
+		if fetch key, this->_keyRouteIds[id] {
+			return this->_routes[key];
+		}
+
+		for key, route in this->_routes {
+			let routeId = route->getRouteId();
+			let this->_keyRouteIds[routeId] = key;
+
+			if routeId == id {
 				return route;
 			}
 		}
-
 		return false;
 	}
 
@@ -886,11 +927,20 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 */
 	public function getRouteByName(string! name) -> <RouteInterface> | boolean
 	{
-		var route;
+		var route, routeName, key;
 
-		for route in this->_routes {
-			if route->getName() == name {
-				return route;
+		if fetch key, this->_keyRouteNames[name] {
+			return this->_routes[key];
+		}
+
+		for key, route in this->_routes {
+			let routeName = route->getName();
+			if !empty routeName {
+                let this->_keyRouteNames[routeName] = key;
+
+                if routeName == name {
+                    return route;
+                }
 			}
 		}
 		return false;

@@ -62,7 +62,7 @@ class TextDynamicTest extends UnitTest
     /**
      * Tests custom separator
      *
-     * @issue  11215
+     * @issue  https://github.com/phalcon/cphalcon/issues/11215
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-06-27
      */

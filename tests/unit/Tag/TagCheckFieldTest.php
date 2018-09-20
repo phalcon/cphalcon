@@ -405,7 +405,7 @@ class TagCheckFieldTest extends UnitTest
      * Tests checkField with setDefault and with a value of zero
      *
      * @test
-     * @issue  12316
+     * @issue  https://github.com/phalcon/cphalcon/issues/12316
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-12-19
      */

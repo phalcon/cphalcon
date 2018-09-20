@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Ip, validate) {
 	zephir_bitwise_or_function(&_8, &_7, &allowReserved TSRMLS_CC);
 	zephir_array_update_string(&options, SL("flags"), &_8, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_1, 275);
-	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 189, &value, &_1, &options);
+	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 194, &value, &_1, &options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_9))) {
 		ZEPHIR_INIT_VAR(&_10$$5);

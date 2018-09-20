@@ -34,6 +34,8 @@
  * $logger->log(Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
  *</code>
+ *
+ * @deprecated Will be removed in 4.0.0
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Firephp) {
 
@@ -81,17 +83,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 
-	zend_string *_8;
-	zend_ulong _7;
-	zephir_fcall_cache_entry *_2 = NULL;
+	zend_string *_7;
+	zend_ulong _6;
 	zval context;
 	zend_long type, time, ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, __$true, __$false, chunk, format, chString, content, key, index, _0, _3, _4, _5, *_6, _1$$3;
-	zval message, _9$$4;
+	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *context_param = NULL, __$true, __$false, chunk, format, chString, content, key, index, _0, _2, _3, _4, *_5, _1$$3;
+	zval message, _8$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&_9$$4);
+	ZVAL_UNDEF(&_8$$4);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&chunk);
@@ -101,9 +102,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&index);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&context);
 
@@ -120,15 +121,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2");
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 224, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 229, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3");
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 224, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 229, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "X-Wf-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1");
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 224, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 229, &_1$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_zval(this_ptr, SL("_initialized"), &__$true);
@@ -136,35 +137,35 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal) {
 			zephir_update_property_zval(this_ptr, SL("_initialized"), &__$false);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getformatter", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getformatter", NULL, 0);
 	zephir_check_call_status();
-	ZVAL_LONG(&_4, type);
-	ZVAL_LONG(&_5, time);
-	ZEPHIR_CALL_METHOD(&format, &_3, "format", NULL, 0, &message, &_4, &_5, &context);
+	ZVAL_LONG(&_3, type);
+	ZVAL_LONG(&_4, time);
+	ZEPHIR_CALL_METHOD(&format, &_2, "format", NULL, 0, &message, &_3, &_4, &context);
 	zephir_check_call_status();
-	ZVAL_LONG(&_4, 4500);
-	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 67, &format, &_4);
+	ZVAL_LONG(&_3, 4500);
+	ZEPHIR_CALL_FUNCTION(&chunk, "str_split", NULL, 69, &format, &_3);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&index);
 	zephir_read_property(&index, this_ptr, SL("_index"), PH_NOISY_CC);
-	zephir_is_iterable(&chunk, 0, "phalcon/logger/adapter/firephp.zep", 92);
-	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&chunk), _7, _8, _6)
+	zephir_is_iterable(&chunk, 0, "phalcon/logger/adapter/firephp.zep", 94);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&chunk), _6, _7, _5)
 	{
 		ZEPHIR_INIT_NVAR(&key);
-		if (_8 != NULL) { 
-			ZVAL_STR_COPY(&key, _8);
+		if (_7 != NULL) { 
+			ZVAL_STR_COPY(&key, _7);
 		} else {
-			ZVAL_LONG(&key, _7);
+			ZVAL_LONG(&key, _6);
 		}
 		ZEPHIR_INIT_NVAR(&chString);
-		ZVAL_COPY(&chString, _6);
-		zephir_get_strval(&_9$$4, &index);
+		ZVAL_COPY(&chString, _5);
+		zephir_get_strval(&_8$$4, &index);
 		ZEPHIR_INIT_NVAR(&content);
-		ZEPHIR_CONCAT_SVSV(&content, "X-Wf-1-1-1-", &_9$$4, ": ", &chString);
+		ZEPHIR_CONCAT_SVSV(&content, "X-Wf-1-1-1-", &_8$$4, ": ", &chString);
 		if (zephir_array_isset_long(&chunk, (zephir_get_numberval(&key) + 1))) {
 			zephir_concat_self_str(&content, SL("|\\") TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_2, 224, &content);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 229, &content);
 		zephir_check_call_status();
 		ZEPHIR_SEPARATE(&index);
 		zephir_increment(&index);

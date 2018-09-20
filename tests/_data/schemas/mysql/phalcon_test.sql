@@ -298,6 +298,20 @@ INSERT INTO `robots` VALUES (1,'Robotina','mechanical',1972,'1972/01/01 00:00:00
 UNLOCK TABLES;
 
 --
+-- Table structure for table `identityless_requests`
+--
+
+DROP TABLE IF EXISTS `identityless_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `identityless_requests` (
+    `method` ENUM('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH', 'PURGE', 'TRACE', 'CONNECT'),
+    `requested_uri` VARCHAR(255),
+    `request_count` int(10) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `robots_parts`
 --
 
@@ -622,6 +636,22 @@ CREATE TABLE `foreign_key_child` (
     PRIMARY KEY (`id`),
     KEY (`child_int`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `table_with_string_field`;
+CREATE TABLE `table_with_string_field` (
+    `id` INT(10)   UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `field` VARCHAR(70) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `table_with_string_field` WRITE;
+/*!40000 ALTER TABLE `table_with_string_field` DISABLE KEYS */;
+INSERT INTO `table_with_string_field` VALUES
+  (1,'String one'),
+  (2,'String two'),
+  (3,'Another one string');
+/*!40000 ALTER TABLE `table_with_string_field` ENABLE KEYS */;
+UNLOCK TABLES;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -28,7 +28,7 @@ use Phalcon\Di\FactoryDefault;
 class ForwardCest
 {
     /**
-     * @issue 11819
+     * @issue https://github.com/phalcon/cphalcon/issues/11819
      * @param IntegrationTester $I
      */
     public function handlingException(IntegrationTester $I)
