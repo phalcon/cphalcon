@@ -664,7 +664,7 @@ class Response implements ResponseInterface, InjectionAwareInterface
 		if attachment {
 			this->setRawHeader("Content-Description: File Transfer");
 			this->setRawHeader("Content-Type: application/octet-stream");
-			this->setRawHeader("Content-Disposition: attachment; filename=" . basePath);
+			this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . ';');
 			this->setRawHeader("Content-Transfer-Encoding: binary");
 		}
 
