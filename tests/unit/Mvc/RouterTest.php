@@ -265,7 +265,7 @@ class RouterTest extends UnitTest
 
     /**
      * @test
-     * @issue  13326
+     * @issue  https://github.com/phalcon/cphalcon/issues/13326
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-03-24
      */
@@ -315,7 +315,7 @@ class RouterTest extends UnitTest
     /**
      * Tests setting host name by using regexp
      *
-     * @issue  2573
+     * @issue  https://github.com/phalcon/cphalcon/issues/2573
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-06-26
      */
@@ -419,6 +419,58 @@ class RouterTest extends UnitTest
 
                 $_SERVER['REQUEST_URI'] = '/some/route?x=1';
                 expect($router->getRewriteUri())->equals('/some/route');
+            }
+        );
+    }
+
+    /**
+     * Tests get route by name method
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2018-06-28
+     */
+    public function testGetRouteByName()
+    {
+        $this->specify(
+            "Router::getRouteByName is not working properly.",
+            function () {
+                $router = $this->getRouter(false);
+                $router->add('/test', ['controller' => 'test', 'action' => 'test'])->setName('test');
+                $router->add('/test2', ['controller' => 'test', 'action' => 'test'])->setName('test2');
+                $router->add('/test3', ['controller' => 'test', 'action' => 'test'])->setName('test3');
+                /**
+                 * We reverse routes so we first check last added route
+                 */
+                foreach (array_reverse($router->getRoutes()) as $route) {
+                    expect($route->getName())->equals($router->getRouteByName($route->getName())->getName());
+                    expect($route)->equals($router->getRouteByName($route->getName()));
+                }
+            }
+        );
+    }
+
+    /**
+     * Tests ge route by id method
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2018-06-28
+     */
+    public function testGetRouteById()
+    {
+        $this->specify(
+            "Router::getRouteById is not working properly",
+            function () {
+                $router = $this->getRouter(false);
+                $router->add('/test', ['controller' => 'test', 'action' => 'test']);
+                $router->add('/test2', ['controller' => 'test', 'action' => 'test']);
+                $router->add('/test3', ['controller' => 'test', 'action' => 'test']);
+                /**
+                 * We reverse routes so we first check last added route
+                 */
+                foreach (array_reverse($router->getRoutes()) as $route) {
+                    expect($route->getId())->equals($router->getRoutebyId($route->getId())->getId());
+                    expect($route)->equals($router->getRoutebyId($route->getId()));
+                }
             }
         );
     }

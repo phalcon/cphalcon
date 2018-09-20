@@ -69,7 +69,7 @@ class DynamicOperationsTest extends UnitTest
      *
      * @test
      * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @issue 12766
+     * @issue  https://github.com/phalcon/cphalcon/issues/12766
      * @since  2017-04-04
      */
     public function shouldSaveSnapshotWhenHavingPublicPropertyWithNullValue()
@@ -227,7 +227,7 @@ class DynamicOperationsTest extends UnitTest
      *
      * @test
      * @author limingxinleo <715557344@qq.com>
-     * @issue  13170
+     * @issue  https://github.com/phalcon/cphalcon/issues/13170
      * @since  2017-11-20
      */
     public function shouldWorkUsingDynamicUpdateForRawValue()

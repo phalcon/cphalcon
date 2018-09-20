@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Validation\Validator;
 use DateTime;
 use Phalcon\Di;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Some\Robotters;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
@@ -305,6 +306,30 @@ class UniquenessTest extends UnitTest
                 $messages = $validation->validate(null, $anotherRobot);
                 expect($messages->count())->equals(1);
                 $this->anotherRobot->delete();
+            }
+        );
+    }
+
+    /**
+     * Tests issue 13398
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2018-06-13
+     */
+    public function testIssue13398()
+    {
+        $this->specify(
+            'Uniqueness validator doesnt work correctly when primary key has different name in column map',
+            function () {
+                $validation = new Validation();
+                $validation->add('theName', new Uniqueness());
+                $robot = Robotters::findFirst(1);
+                $robot->theName = 'Astro Boy';
+                $messages = $validation->validate(null, $robot);
+                expect($messages->count())->equals(1);
+                $robot->theName = 'Astro Boyy';
+                $messages = $validation->validate(null, $robot);
+                expect($messages->count())->equals(0);
             }
         );
     }

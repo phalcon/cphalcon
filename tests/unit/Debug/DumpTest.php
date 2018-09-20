@@ -29,7 +29,7 @@ class DumpTest extends UnitTest
      * Tests dump object properties.
      *
      * @test
-     * @issue  13315
+     * @issue  https://github.com/phalcon/cphalcon/issues/13315
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2014-10-23
      */

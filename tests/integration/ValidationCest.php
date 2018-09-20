@@ -30,7 +30,7 @@ class ValidationCest
     /**
      * Tests the get
      *
-     * @issue  10405
+     * @issue  https://github.com/phalcon/cphalcon/issues/10405
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-06-27
      * @param IntegrationTester $I

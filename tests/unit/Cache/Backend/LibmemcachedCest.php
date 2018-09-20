@@ -100,7 +100,7 @@ class LibmemcachedCest
 
     /**
      * @param UnitTester $I
-     * @issue 13092
+     * @issue https://github.com/phalcon/cphalcon/issues/13092
      */
     public function shouldGetTheSameValueRegardlessOfTheNumberOfRequests(UnitTester $I)
     {
@@ -221,7 +221,7 @@ class LibmemcachedCest
     }
 
     /**
-     * @issue 11024
+     * @issue https://github.com/phalcon/cphalcon/issues/11024
      * @param UnitTester $I
      */
     public function prefixedQueryKeys(UnitTester $I)

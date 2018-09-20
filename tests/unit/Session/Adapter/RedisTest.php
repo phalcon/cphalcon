@@ -129,8 +129,8 @@ class RedisTest extends UnitTest
      * Tests the destroy with cleanning $_SESSION
      *
      * @test
-     * @issue  12326
-     * @issue  12835
+     * @issue  https://github.com/phalcon/cphalcon/issues/12326
+     * @issue  https://github.com/phalcon/cphalcon/issues/12835
      * @author Serghei Iakovelev <serghei@phalconphp.com>
      * @since  2017-05-08
      */

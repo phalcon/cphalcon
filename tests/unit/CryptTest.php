@@ -3,13 +3,15 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Crypt;
+use Phalcon\Crypt\Exception;
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Crypt\Mismatch;
 
 /**
- * \Phalcon\Test\Unit\CryptTest
- * Tests the \Phalcon\Crypt component
+ * Phalcon\Test\Unit\CryptTest
+ * Tests the Phalcon\Crypt component
  *
- * @copyright (c) 2011-2017 Phalcon Team
+ * @copyright (c) 2011-2018 Phalcon Team
  * @link      https://phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -31,6 +33,111 @@ class CryptTest extends UnitTest
         if (!extension_loaded('openssl')) {
             $this->markTestSkipped('Warning: openssl extension is not loaded');
         }
+    }
+
+    /**
+     * Tests decrypt using HMAC
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldThrowExceptionIfHashMismatch()
+    {
+        $this->specify(
+            'Crypt does not check message digest on decrypt',
+            function () {
+                $crypt = new Crypt();
+                $crypt->useSigning(true);
+
+                $crypt->decrypt(
+                    $crypt->encrypt('le text', 'encrypt key'),
+                    'wrong key'
+                );
+            },
+            [
+                'throws' => [Mismatch::class, 'Hash does not match.']
+            ]
+        );
+    }
+
+    /**
+     * Tests decrypt using HMAC
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldDecryptSignedString()
+    {
+        $this->specify(
+            'Crypt does not check message digest on decrypt',
+            function () {
+                $crypt = new Crypt();
+                $crypt->useSigning(true);
+
+                $key = 'secret';
+                $crypt->setKey($key);
+
+                $text = 'le text';
+
+                $encrypted = $crypt->encrypt($text);
+                $decrypted = $crypt->decrypt($encrypted);
+
+                expect($text)->equals($decrypted);
+            }
+        );
+    }
+
+    /**
+     * Tests decrypt without using HMAC
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13379
+     * @author <k@yejune.com>
+     * @since  2018-05-16
+     */
+    public function shouldNotThrowExceptionIfKeyMismatch()
+    {
+        $this->specify(
+            'Crypt should not check message digest on decrypt',
+            function () {
+                $crypt = new Crypt();
+
+                $result = $crypt->decrypt(
+                    $crypt->encrypt('le text', 'encrypt key'),
+                    'wrong key'
+                );
+
+                expect($result)->notEmpty();
+            }
+        );
+    }
+
+    /**
+     * Tests the Crypt::setCipher
+     *
+     * @test
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2018-05-06
+     */
+    public function shouldThrowExceptionIfCipherIsUnknown()
+    {
+        $this->specify(
+            'Crypt does not validate cipher algorithm as expected',
+            function () {
+                $crypt = new Crypt();
+                $crypt->setCipher('xxx-yyy-zzz');
+            },
+            [
+                'throws' => [
+                    Exception::class,
+                    'The cipher algorithm "xxx-yyy-zzz" is not supported on this system.'
+                ]
+            ]
+        );
     }
 
     /**

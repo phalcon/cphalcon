@@ -28,4 +28,8 @@ echo -e "Create SQLite database..."
 sqlite3 /tmp/phalcon_test.sqlite < "${TRAVIS_BUILD_DIR}/tests/_data/schemas/sqlite/phalcon_test.sql"
 echo -e "Done\n"
 
+echo -e "Create translations SQLite database..."
+sqlite3 /tmp/translations.sqlite < "${TRAVIS_BUILD_DIR}/tests/_data/schemas/sqlite/translations.sql"
+echo -e "Done\n"
+
 wait

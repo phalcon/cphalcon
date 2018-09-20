@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 		}
 	}
 	if (remove) {
-		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, getThis(), "clear", &_3, 208);
+		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, getThis(), "clear", &_3, 217);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

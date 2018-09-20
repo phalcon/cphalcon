@@ -81,6 +81,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/readerinterface.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
 	phalcon/cli/taskinterface.zep.c
+	phalcon/crypt/exception.zep.c
 	phalcon/cryptinterface.zep.c
 	phalcon/db/columninterface.zep.c
 	phalcon/db/indexinterface.zep.c
@@ -189,7 +190,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/config/exception.zep.c
 	phalcon/config/factory.zep.c
 	phalcon/crypt.zep.c
-	phalcon/crypt/exception.zep.c
+	phalcon/crypt/mismatch.zep.c
 	phalcon/db.zep.c
 	phalcon/db/adapter/pdo/factory.zep.c
 	phalcon/db/adapter/pdo/mysql.zep.c
@@ -404,7 +405,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/validator/url.zep.c
 	phalcon/version.zep.c
 	phalcon/0__closure.zep.c
-	phalcon/1__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/1__closure.zep.c
+	phalcon/2__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

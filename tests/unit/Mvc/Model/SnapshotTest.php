@@ -38,7 +38,7 @@ class SnapshotTest extends UnitTest
      *
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @issue  13166
+     * @issue  https://github.com/phalcon/cphalcon/issues/13166
      * @since  2017-11-20
      */
     public function shouldSaveSnapshotForIdentitylessModel()
@@ -238,7 +238,7 @@ class SnapshotTest extends UnitTest
      * Test snapshots for changes from NULL to Zero
      *
      * @test
-     * @issue  12628
+     * @issue  https://github.com/phalcon/cphalcon/issues/12628
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -266,7 +266,9 @@ class SnapshotTest extends UnitTest
     /**
      * When model is created/updated snapshot should be set/updated
      *
-     * @issue  11007, 11818, 11424
+     * @issue  https://github.com/phalcon/cphalcon/issues/11007
+     * @issue  https://github.com/phalcon/cphalcon/issues/11818
+     * @issue  https://github.com/phalcon/cphalcon/issues/11424
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-03
      */
@@ -304,7 +306,9 @@ class SnapshotTest extends UnitTest
     /**
      * When model is refreshed snapshot should be updated
      *
-     * @issue  11007, 11818, 11424
+     * @issue  https://github.com/phalcon/cphalcon/issues/11007
+     * @issue  https://github.com/phalcon/cphalcon/issues/11818
+     * @issue  https://github.com/phalcon/cphalcon/issues/11424
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-03
      */
@@ -477,7 +481,7 @@ class SnapshotTest extends UnitTest
     /**
      * When model is refreshed snapshot should be updated
      *
-     * @issue  12669
+     * @issue  https://github.com/phalcon/cphalcon/issues/12669
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-15
      */
@@ -510,7 +514,7 @@ class SnapshotTest extends UnitTest
     /**
      * When model is refreshed snapshot should be updated
      *
-     * @issue  13173
+     * @issue  https://github.com/phalcon/cphalcon/issues/13173
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-12-05
      */

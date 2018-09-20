@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 			ZVAL_STRING(&_4$$5, "--", 0);
 			ZEPHIR_SINIT_NVAR(_5$$5);
 			ZVAL_LONG(&_5$$5, 2);
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "strncmp", &_7, 137, arg, &_4$$5, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "strncmp", &_7, 143, arg, &_4$$5, &_5$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_LONG(_6$$5, 0)) {
 				ZEPHIR_SINIT_NVAR(_8$$6);
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 				ZVAL_STRING(&_19$$9, "-", 0);
 				ZEPHIR_SINIT_NVAR(_20$$9);
 				ZVAL_LONG(&_20$$9, 1);
-				ZEPHIR_CALL_FUNCTION(&_21$$9, "strncmp", &_7, 137, arg, &_19$$9, &_20$$9);
+				ZEPHIR_CALL_FUNCTION(&_21$$9, "strncmp", &_7, 143, arg, &_19$$9, &_20$$9);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG(_21$$9, 0)) {
 					ZEPHIR_SINIT_NVAR(_22$$10);
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	if (str) {
 		ZEPHIR_INIT_VAR(_24$$13);
-		ZEPHIR_CALL_CE_STATIC(&_25$$13, phalcon_cli_router_route_ce, "getdelimiter", &_26, 138);
+		ZEPHIR_CALL_CE_STATIC(&_25$$13, phalcon_cli_router_route_ce, "getdelimiter", &_26, 144);
 		zephir_check_call_status();
 		zephir_fast_join(_24$$13, _25$$13, args TSRMLS_CC);
 		zephir_update_property_this(getThis(), SL("_arguments"), _24$$13 TSRMLS_CC);

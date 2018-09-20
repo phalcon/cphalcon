@@ -66,7 +66,7 @@ class ModelTest extends UnitTest
     /**
      * Tests find with empty conditions + bind and limit.
      *
-     * @issue  11919
+     * @issue  https://github.com/phalcon/cphalcon/issues/11919
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-29
      */
@@ -101,7 +101,7 @@ class ModelTest extends UnitTest
     /**
      * Tests Model::hasMany by using multi relation column
      *
-     * @issue  12035
+     * @issue  https://github.com/phalcon/cphalcon/issues/12035
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-08-02
      */
@@ -125,7 +125,7 @@ class ModelTest extends UnitTest
     /**
      * Tests reusing Model relation
      *
-     * @issue  11991
+     * @issue  https://github.com/phalcon/cphalcon/issues/11991
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-08-03
      */
@@ -173,7 +173,7 @@ class ModelTest extends UnitTest
      * When having multiple virtual foreign keys, check of the first one should
      * affect the check of the next one.
      *
-     * @issue  12071
+     * @issue  https://github.com/phalcon/cphalcon/issues/12071
      * @author Radek Crlik <radekcrlik@gmail.com>
      * @since  2016-08-03
     */
@@ -201,7 +201,8 @@ class ModelTest extends UnitTest
      *
      * The snapshot should be saved while using cache
      *
-     * @issue  12170, 12000
+     * @issue  https://github.com/phalcon/cphalcon/issues/12170
+     * @issue  https://github.com/phalcon/cphalcon/issues/12000
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-08-26
      */
@@ -582,7 +583,7 @@ class ModelTest extends UnitTest
     }
 
     /**
-     * @issue 12507
+     * @issue https://github.com/phalcon/cphalcon/issues/12507
      */
     public function testFieldDefaultEmptyStringIsNull()
     {
@@ -623,7 +624,7 @@ class ModelTest extends UnitTest
     /**
      * Tests setting code in message from validation messages
      *
-     * @issue  12645
+     * @issue  https://github.com/phalcon/cphalcon/issues/12645
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-03
      */
@@ -653,7 +654,7 @@ class ModelTest extends UnitTest
     /**
      * Tests empty string value on not null
      *
-     * @issue  12688
+     * @issue  https://github.com/phalcon/cphalcon/issues/12688
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-09
      */
@@ -677,7 +678,7 @@ class ModelTest extends UnitTest
     /**
      * Tests disabling assign setters
      *
-     * @issue  12645
+     * @issue  https://github.com/phalcon/cphalcon/issues/12645
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-23
      */

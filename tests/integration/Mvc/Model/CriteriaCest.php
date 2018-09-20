@@ -360,7 +360,7 @@ class CriteriaCest
      * @param IntegrationTester $I
      * @param Example $example
      *
-     * @issue        2131
+     * @issue        https://github.com/phalcon/cphalcon/issues/2131
      * @dataprovider adapterProvider
      */
     public function freshCache(IntegrationTester $I, Example $example)

@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFileHelper);
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles);
 PHP_METHOD(Phalcon_Http_Request, smoothFiles);
 PHP_METHOD(Phalcon_Http_Request, getHeaders);
+PHP_METHOD(Phalcon_Http_Request, resolveAuthorizationHeaders);
 PHP_METHOD(Phalcon_Http_Request, getHTTPReferer);
 PHP_METHOD(Phalcon_Http_Request, _getBestQuality);
 PHP_METHOD(Phalcon_Http_Request, getContentType);
@@ -255,6 +256,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getUploadedFiles, arginfo_phalcon_http_request_getuploadedfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, smoothFiles, arginfo_phalcon_http_request_smoothfiles, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getHeaders, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, resolveAuthorizationHeaders, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Http_Request, getHTTPReferer, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, _getBestQuality, arginfo_phalcon_http_request__getbestquality, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
 	PHP_ME(Phalcon_Http_Request, getContentType, NULL, ZEND_ACC_PUBLIC)

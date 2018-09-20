@@ -200,7 +200,7 @@ class ApcuCest
     }
 
     /**
-     * @issue 12153
+     * @issue https://github.com/phalcon/cphalcon/issues/12153
      * @param UnitTester $I
      */
     public function flushByPrefix(UnitTester $I)

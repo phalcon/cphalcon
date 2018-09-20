@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Http;
 
 use Phalcon\DiInterface;
 use Phalcon\Http\Request;
+use Helper\Http\PhpStream;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 
 /**
@@ -93,7 +94,7 @@ class RequestTest extends HttpBase
     /**
      * Tests getHeader
      *
-     * @issue  2294
+     * @issue  https://github.com/phalcon/cphalcon/issues/2294
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-10-19
      */
@@ -135,7 +136,7 @@ class RequestTest extends HttpBase
             }
         );
     }
-    
+
     /**
      * Tests isAjax default
      *
@@ -627,6 +628,75 @@ class RequestTest extends HttpBase
     }
 
     /**
+     * Tests getPut with json content type.
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13418
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-03
+     */
+    public function shouldGetDataReceivedByPutMethod()
+    {
+        $this->specify(
+            'The getPuth method does not owrk as expected',
+            function () {
+                stream_wrapper_unregister('php');
+                stream_wrapper_register('php', PhpStream::class);
+
+                file_put_contents('php://input', 'fruit=orange&quantity=4');
+
+                $_SERVER['REQUEST_METHOD'] = 'PUT';
+
+                $request = new Request();
+
+                $data = file_get_contents('php://input');
+                $expected = ['fruit' => 'orange', 'quantity' => '4'];
+
+                parse_str($data, $actual);
+
+                expect($actual)->equals($expected);
+                expect($request->getPut())->equals($expected);
+
+                stream_wrapper_restore('php');
+            }
+        );
+    }
+
+    /**
+     * Tests getPut with json content type.
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13418
+     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @since  2017-06-03
+     */
+    public function shouldGetDataReceivedByPutMethodAndJsonType()
+    {
+        $this->specify(
+            'The getPuth method does not owrk as expected with json content type',
+            function () {
+                stream_wrapper_unregister('php');
+                stream_wrapper_register('php', PhpStream::class);
+
+                file_put_contents('php://input', '{"fruit": "orange", "quantity": "4"}');
+
+                $_SERVER['REQUEST_METHOD'] = 'PUT';
+                $_SERVER['CONTENT_TYPE'] = 'application/json';
+
+                $request = new Request();
+
+                $data = json_decode(file_get_contents('php://input'), true);
+                $expected = ['fruit' => 'orange', 'quantity' => '4'];
+
+                expect($data)->equals($expected);
+                expect($request->getPut())->equals($expected);
+
+                stream_wrapper_restore('php');
+            }
+        );
+    }
+
+    /**
      * Tests GET functions
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
@@ -782,7 +852,7 @@ class RequestTest extends HttpBase
      * Tests the ability to override the HTTP method
      *
      * @test
-     * @issue  12478
+     * @issue  https://github.com/phalcon/cphalcon/issues/12478
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */
@@ -928,7 +998,7 @@ class RequestTest extends HttpBase
     }
 
     /**
-     * @issue 1265
+     * @issue https://github.com/phalcon/cphalcon/issues/1265
      */
     public function testRequestGetValueByUsingSeveralMethods()
     {

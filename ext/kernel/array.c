@@ -184,7 +184,7 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
 
 	HashTable *h;
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+	if (UNEXPECTED(!arr || Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
 	}
 

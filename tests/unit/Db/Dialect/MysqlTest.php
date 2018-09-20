@@ -413,7 +413,8 @@ class MysqlTest extends UnitTest
      * Tests Mysql::describeColumns
      *
      * @test
-     * @issue  12536, 11359
+     * @issue  https://github.com/phalcon/cphalcon/issues/12536
+     * @issue  https://github.com/phalcon/cphalcon/issues/11359
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-02-26
      */
@@ -573,7 +574,7 @@ class MysqlTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2018-01-20
-     * @issue  13012
+     * @issue  https://github.com/phalcon/cphalcon/issues/13012
      */
     public function shouldRenameColumn()
     {

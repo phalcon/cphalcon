@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_loader_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Loader);
 
+PHP_METHOD(Phalcon_Loader, setFileCheckingCallback);
 PHP_METHOD(Phalcon_Loader, setEventsManager);
 PHP_METHOD(Phalcon_Loader, getEventsManager);
 PHP_METHOD(Phalcon_Loader, setExtensions);
@@ -23,6 +24,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad);
 PHP_METHOD(Phalcon_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Loader, getCheckedPath);
 zend_object_value zephir_init_properties_Phalcon_Loader(zend_class_entry *class_type TSRMLS_DC);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_setfilecheckingcallback, 0, 0, 0)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
@@ -65,6 +70,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_autoload, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {
+	PHP_ME(Phalcon_Loader, setFileCheckingCallback, arginfo_phalcon_loader_setfilecheckingcallback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, setEventsManager, arginfo_phalcon_loader_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getEventsManager, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, setExtensions, arginfo_phalcon_loader_setextensions, ZEND_ACC_PUBLIC)

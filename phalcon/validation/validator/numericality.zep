@@ -71,7 +71,7 @@ class Numericality extends Validator
 
 		let value = validation->getValue(field);
 
-		if !preg_match("/^-?\d+\.?\d*$/", value) {
+		if !preg_match("/^-?\d+(?:[\.,]\d+)?$/", value) || !is_numeric(value) {
 			let label = this->prepareLabel(validation, field),
 				message = this->prepareMessage(validation, field, "Numericality"),
 				code = this->prepareCode(field);

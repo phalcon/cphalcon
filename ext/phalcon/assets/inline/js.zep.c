@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct) {
 	} else {
 		ZVAL_BOOL(_2, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_js_ce, getThis(), "__construct", &_0, 107, _1, content, _2, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_js_ce, getThis(), "__construct", &_0, 109, _1, content, _2, attributes);
 	zephir_check_temp_parameter(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
