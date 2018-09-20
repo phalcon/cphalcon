@@ -6,7 +6,6 @@ use Phalcon\Tag;
 use ReflectionClass;
 use Codeception\Module;
 use Codeception\TestInterface;
-use Codeception\Specify\Config as SpecifyConfig;
 
 /**
  * Unit Helper
@@ -31,8 +30,6 @@ class Unit extends Module
     public function _before(TestInterface $test)
     {
         $this->test = $test;
-
-        SpecifyConfig::setDeepClone(false);
     }
 
     public function getProtectedProperty($obj, $prop)
@@ -54,6 +51,33 @@ class Unit extends Module
         $property->setValue($obj, $value);
 
         $this->assertEquals($value, $property->getValue($obj));
+    }
+
+    /**
+     * Calls private or protected method.
+     *
+     * @param string|object $obj
+     * @param mixed         $method,... Method with a variable number of arguments
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public function callProtectedMethod($obj, $method)
+    {
+        $reflectionClass = new ReflectionClass($obj);
+
+        $reflectionMethod = $reflectionClass->getMethod($method);
+        $reflectionMethod->setAccessible(true);
+
+        if (!is_object($obj)) {
+            $obj = $reflectionClass->newInstanceWithoutConstructor();
+        }
+
+        // $obj, $method
+        $args = array_slice(func_get_args(), 2);
+        array_unshift($args, $obj);
+
+        return call_user_func_array([$reflectionMethod, 'invoke'], $args);
     }
 
     /**

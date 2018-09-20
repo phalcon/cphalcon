@@ -313,6 +313,7 @@ class ConfigTest extends ConfigBase
     /**
      * Tests issue 12779
      *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12779
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-06-19
      */

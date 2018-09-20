@@ -96,9 +96,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 
-	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *model, model_sub, *key, key_sub, *table, table_sub, *schema, schema_sub, strategy, className, metaData, data, modelMetadata, modelColumnMap, dependencyInjector, keyName, prefixKey, _3, _0$$8, _1$$8;
+	zval *model, model_sub, *key, key_sub, *table, table_sub, *schema, schema_sub, strategy, className, metaData, data, modelMetadata, modelColumnMap, dependencyInjector, keyName, prefixKey, _2, _0$$8, _1$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&model_sub);
@@ -114,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	ZVAL_UNDEF(&dependencyInjector);
 	ZVAL_UNDEF(&keyName);
 	ZVAL_UNDEF(&prefixKey);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0$$8);
 	ZVAL_UNDEF(&_1$$8);
 
@@ -155,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 				} else {
 					ZEPHIR_OBS_VAR(&dependencyInjector);
 					zephir_read_property(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", &_2, 0);
+					ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&modelMetadata, &strategy, "getmetadata", NULL, 0, model, &dependencyInjector);
 					zephir_check_call_status();
@@ -171,8 +170,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	}
 	ZEPHIR_INIT_VAR(&keyName);
 	zephir_fast_strtolower(&keyName, &className);
-	zephir_read_property(&_3, this_ptr, SL("_columnMap"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset(&_3, &keyName)) {
+	zephir_read_property(&_2, this_ptr, SL("_columnMap"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_array_isset(&_2, &keyName)) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_NVAR(&prefixKey);
@@ -186,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize) {
 	if (Z_TYPE_P(&strategy) != IS_OBJECT) {
 		ZEPHIR_OBS_NVAR(&dependencyInjector);
 		zephir_read_property(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", &_2, 0);
+		ZEPHIR_CALL_METHOD(&strategy, this_ptr, "getstrategy", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&modelColumnMap, &strategy, "getcolumnmaps", NULL, 0, model, &dependencyInjector);

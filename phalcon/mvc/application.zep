@@ -80,6 +80,28 @@ class Application extends BaseApplication
 
 	protected _implicitView = true;
 
+	protected _sendHeaders = true;
+
+	protected _sendCookies = true;
+
+	/**
+	 * Enables or disables sending headers by each request handling
+	 */
+	public function sendHeadersOnHandleRequest(boolean sendHeaders) -> <Application>
+	{
+		let this->_sendHeaders = sendHeaders;
+		return this;
+	}
+
+	/**
+	 * Enables or disables sending cookies by each request handling
+	 */
+	public function sendCookiesOnHandleRequest(boolean sendCookies) -> <Application>
+	{
+		let this->_sendCookies = sendCookies;
+		return this;
+	}
+
 	/**
 	 * By default. The view is implicitly buffering all the output
 	 * You can full disable the view component using this method
@@ -385,6 +407,20 @@ class Application extends BaseApplication
 		 */
 		if typeof eventsManager == "object" {
 			eventsManager->fire("application:beforeSendResponse", this, response);
+		}
+
+		/**
+		 * Check whether send headers or not (by default yes)
+		 */
+		if this->_sendHeaders  {
+			response->sendHeaders();
+		}
+
+		/**
+		 * Check whether send cookies or not (by default yes)
+		 */
+		if this->_sendCookies {
+			response->sendCookies();
 		}
 
 		/**

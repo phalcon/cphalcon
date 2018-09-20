@@ -28,7 +28,7 @@ class DebugTest extends UnitTest
     /**
      * Tests the Debug::getVersion
      *
-     * @issue  12215
+     * @issue  https://github.com/phalcon/cphalcon/issues/12215
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-09-25
      */

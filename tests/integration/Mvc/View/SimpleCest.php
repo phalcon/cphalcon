@@ -2,11 +2,12 @@
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
-use Phalcon\Di;
 use IntegrationTester;
-use Phalcon\Mvc\View\Simple;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Output;
+use Phalcon\Di;
+use Phalcon\Mvc\View\Simple;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Integration\Mvc\View\SimpleCest
@@ -52,7 +53,7 @@ class SimpleCest
         $I->wantToTest('Render by using simple view with cache');
 
         if (PHP_MAJOR_VERSION == 7) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Skipped in view of the experimental support for PHP 7.'
             );
         }

@@ -17,8 +17,7 @@
 /**
  * Phalcon\Http\Response\Exception
  *
- * Exceptions thrown in Phalcon\Http\Response will use this class
- *
+ * Exceptions thrown in Phalcon\Http\Response will use this class.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Exception) {
 

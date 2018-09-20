@@ -25,6 +25,8 @@
  * Phalcon\Logger\Formatter\Firephp
  *
  * Formats messages so that they can be sent to FirePHP
+ *
+ * @deprecated Will be removed in 4.0.0
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Firephp) {
 
@@ -225,21 +227,21 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_INIT_VAR(&param$$4);
 		ZVAL_LONG(&param$$4, 2);
-		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 153, &param$$4);
+		ZEPHIR_CALL_FUNCTION(&backtrace, "debug_backtrace", NULL, 162, &param$$4);
 		zephir_check_call_status();
 		ZEPHIR_MAKE_REF(&backtrace);
-		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 169, &backtrace);
+		ZEPHIR_CALL_FUNCTION(&lastTrace, "end", NULL, 283, &backtrace);
 		ZEPHIR_UNREF(&backtrace);
 		zephir_check_call_status();
 		if (zephir_array_isset_string(&lastTrace, SL("file"))) {
-			zephir_array_fetch_string(&_3$$5, &lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 123 TSRMLS_CC);
+			zephir_array_fetch_string(&_3$$5, &lastTrace, SL("file"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 125 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("File"), &_3$$5, PH_COPY | PH_SEPARATE);
 		}
 		if (zephir_array_isset_string(&lastTrace, SL("line"))) {
-			zephir_array_fetch_string(&_4$$6, &lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 127 TSRMLS_CC);
+			zephir_array_fetch_string(&_4$$6, &lastTrace, SL("line"), PH_NOISY | PH_READONLY, "phalcon/logger/formatter/firephp.zep", 129 TSRMLS_CC);
 			zephir_array_update_string(&meta, SL("Line"), &_4$$6, PH_COPY | PH_SEPARATE);
 		}
-		zephir_is_iterable(&backtrace, 1, "phalcon/logger/formatter/firephp.zep", 136);
+		zephir_is_iterable(&backtrace, 1, "phalcon/logger/formatter/firephp.zep", 138);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&backtrace), _6$$4, _7$$4, _5$$4)
 		{
 			ZEPHIR_INIT_NVAR(&key$$4);

@@ -90,7 +90,7 @@ class TagSelectStaticTest extends UnitTest
     /**
      * Tests selectStatic with array as a parameters and id in it
      *
-     * @issue  54
+     * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
@@ -125,7 +125,7 @@ class TagSelectStaticTest extends UnitTest
     /**
      * Tests selectStatic with name and no id in parameter
      *
-     * @issue  54
+     * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
@@ -370,7 +370,7 @@ class TagSelectStaticTest extends UnitTest
     /**
      * Tests selectStatic with array as a parameters and id in it
      *
-     * @issue  54
+     * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */
@@ -411,7 +411,7 @@ class TagSelectStaticTest extends UnitTest
     /**
      * Tests selectStatic with name and no id in parameter
      *
-     * @issue  54
+     * @issue  https://github.com/phalcon/cphalcon/issues/54
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-05
      */

@@ -40,6 +40,9 @@ class CsvTest extends UnitTest
      *
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
+     *
+     * @expectedException        \Phalcon\Translate\Exception
+     * @expectedExceptionMessage Parameter 'content' is required
      */
     public function testContentParamExist()
     {
@@ -47,8 +50,7 @@ class CsvTest extends UnitTest
             "Parameter 'content' is required",
             function () {
                 new Csv([]);
-            },
-            ['throws' => ['Phalcon\Translate\Exception']]
+            }
         );
     }
 

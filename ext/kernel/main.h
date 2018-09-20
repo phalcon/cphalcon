@@ -299,7 +299,7 @@ int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name,
 
 #define ZEPHIR_CHECK_POINTER(v)
 
-#define zephir_is_php_version(id) (PHP_VERSION_ID / 10 == id / 10 ?  1 : 0)
+int zephir_is_php_version(unsigned int id);
 
 /** Method declaration for API generation */
 #define ZEPHIR_DOC_METHOD(class_name, method)

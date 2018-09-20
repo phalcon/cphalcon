@@ -27,7 +27,7 @@ class TagStylesheetlinkTest extends UnitTest
     /**
      * Tests stylesheetLink with string parameter for a local link
      *
-     * @issue  1486
+     * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
@@ -70,7 +70,7 @@ class TagStylesheetlinkTest extends UnitTest
     /**
      * Tests stylesheetLink with array parameter for a local link
      *
-     * @issue  1486
+     * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
@@ -195,7 +195,7 @@ class TagStylesheetlinkTest extends UnitTest
     /**
      * Tests stylesheetLink overriding the rel link local
      *
-     * @issue  2142
+     * @issue  https://github.com/phalcon/cphalcon/issues/2142
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12

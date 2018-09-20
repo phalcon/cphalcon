@@ -54,7 +54,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests empty prefix for model
      *
-     * @issue  10328
+     * @issue  https://github.com/phalcon/cphalcon/issues/10328
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2017-04-15
      */
@@ -74,7 +74,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests non-empty prefix for model
      *
-     * @issue  10328
+     * @issue  https://github.com/phalcon/cphalcon/issues/10328
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2017-04-15
      */
@@ -117,7 +117,7 @@ class ManagerTest extends UnitTest
      * Tests Model::getRelated with the desired fields
      *
      * @test
-     * @issue  12972
+     * @issue  https://github.com/phalcon/cphalcon/issues/12972
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-10-02
      */

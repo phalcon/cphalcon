@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Unit\Config\Adapter;
 
-use Phalcon\Factory\Exception;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Test\Unit\Config\Helper\ConfigBase;
 
@@ -65,8 +64,11 @@ class GroupedTest extends ConfigBase
      * Testing for exception
      *
      * @test
-     * @author fenikkusu
+     * @author  Fenikkusu
      * @since  2017-06-06
+     *
+     * @expectedException         \Phalcon\Factory\Exception
+     * @expectedExceptionMessage  To use 'array' adapter you have to specify the 'config' as an array.
      */
     public function shouldThrowsFactoryExceptionInCaseOfAbsentConfigParameter()
     {
@@ -80,10 +82,7 @@ class GroupedTest extends ConfigBase
                         ]
                     ]
                 );
-            },
-            [
-                'throws' => new Exception("To use 'array' adapter you have to specify the 'config' as an array.")
-            ]
+            }
         );
     }
 }

@@ -129,6 +129,16 @@ abstract class Pdo extends Adapter
 		}
 
 		/**
+		 * Check for \PDO::XXX class constant aliases
+		 */
+        for key, value in options {
+            if typeof key == "string" && defined("\PDO::" . key->upper()) {
+                let options[constant("\PDO::" . key->upper())] = value;
+                unset options[key];
+            }
+        }
+
+		/**
 		 * Check if the connection must be persistent
 		 */
 		if fetch persistent, descriptor["persistent"] {

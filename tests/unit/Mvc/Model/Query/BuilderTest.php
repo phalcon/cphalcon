@@ -43,6 +43,85 @@ class BuilderTest extends UnitTest
         $this->di = $app->getDI();
     }
 
+    /**
+     * Tests merge bind types for Builder::where
+     *
+     * @test
+     * @issue https://github.com/phalcon/cphalcon/issues/11487
+     */
+    public function shouldMergeBinTypesForWhere()
+    {
+        $this->specify(
+            'Query builder does not merge bind types as expected.',
+            function () {
+                $builder = new Builder();
+                $builder->setDi($this->di);
+
+                $builder
+                    ->from(Robots::class)
+                    ->where(
+                        'id = :id:',
+                        [':id:' => 3],
+                        [':id:' => \PDO::PARAM_INT]
+                    );
+
+                $builder->where(
+                    'name = :name:',
+                    [':name:' => 'Terminator'],
+                    [':name:' => \PDO::PARAM_STR]
+                );
+
+                $actual = $builder->getQuery()->getBindTypes();
+                $expected = [':id:' => 1, ':name:' => 2];
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
+    /**
+     * Tests merge bind types for Builder::having
+     *
+     * @test
+     * @issue https://github.com/phalcon/cphalcon/issues/11487
+     */
+    public function shouldMergeBinTypesForHaving()
+    {
+        $this->specify(
+            'Query builder does not merge bind types as expected.',
+            function () {
+                $builder = new Builder();
+                $builder->setDi($this->di);
+
+                $builder
+                    ->from(Robots::class)
+                    ->columns(
+                        [
+                            'COUNT(id)',
+                            'name'
+                        ]
+                    )
+                    ->groupBy('COUNT(id)')
+                    ->having(
+                        'COUNT(id) > :cnt:',
+                        [':cnt:' => 5],
+                        [':cnt:' => \PDO::PARAM_INT]
+                    );
+
+                $builder->having(
+                    "CONCAT('is_', type) = :type:",
+                    [':type:' => 'mechanical'],
+                    [':type:' => \PDO::PARAM_STR]
+                );
+
+                $actual = $builder->getQuery()->getBindTypes();
+                $expected = [':cnt:' => 1, ':type:' => 2];
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
+
     public function testAction()
     {
         $this->specify(
@@ -619,7 +698,7 @@ class BuilderTest extends UnitTest
      * Tests work with limit / offset
      *
      * @test
-     * @issue  12419
+     * @issue  https://github.com/phalcon/cphalcon/issues/12419
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
      */

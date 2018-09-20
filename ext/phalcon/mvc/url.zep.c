@@ -184,10 +184,6 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri) {
 
 	ZEPHIR_MM_GROW();
 	zephir_get_global(&_SERVER, SL("_SERVER"));
-	if (!_SERVER) {
-		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
-		return;
-	}
 
 	ZEPHIR_OBS_VAR(&baseUri);
 	zephir_read_property(&baseUri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
@@ -495,7 +491,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get) {
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 356, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 361, args);
 		zephir_check_call_status();
 		_25$$19 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_25$$19) {

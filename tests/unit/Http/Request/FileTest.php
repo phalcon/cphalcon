@@ -27,7 +27,7 @@ class FileTest extends UnitTest
     /**
      * Tests getRealType
      *
-     * @issue  1442
+     * @issue  https://github.com/phalcon/cphalcon/issues/1442
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-26

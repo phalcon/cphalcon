@@ -12,11 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 
 
@@ -27,9 +26,12 @@
  * all succeed as one atomic action. Phalcon\Transaction is intended to be used with Phalcon_Model_Base.
  * Phalcon Transactions should be created using Phalcon\Transaction\Manager.
  *
- *<code>
+ * <code>
+ * use Phalcon\Mvc\Model\Transaction\Failed;
+ * use Phalcon\Mvc\Model\Transaction\Manager;
+ *
  * try {
- *     $manager = new \Phalcon\Mvc\Model\Transaction\Manager();
+ *     $manager = new Manager();
  *
  *     $transaction = $manager->get();
  *
@@ -55,10 +57,10 @@
  *     }
  *
  *     $transaction->commit();
- * } catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
+ * } catch(Failed $e) {
  *     echo "Failed, reason: ", $e->getMessage();
  * }
- *</code>
+ * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction) {
 
@@ -91,11 +93,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval service;
 	zend_bool autoBegin;
-	zval *dependencyInjector, dependencyInjector_sub, *autoBegin_param = NULL, *service_param = NULL, connection;
+	zval *dependencyInjector, dependencyInjector_sub, *autoBegin_param = NULL, *service_param = NULL, connection, _0, _1$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dependencyInjector_sub);
 	ZVAL_UNDEF(&connection);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&service);
 
 	ZEPHIR_MM_GROW();
@@ -108,23 +112,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	}
 	if (!service_param) {
 		ZEPHIR_INIT_VAR(&service);
-		ZVAL_STRING(&service, "db");
+		ZVAL_STRING(&service, "");
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(service_param) != IS_STRING && Z_TYPE_P(service_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be a string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(service_param) == IS_STRING)) {
 		zephir_get_strval(&service, service_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_property_zval(this_ptr, SL("_messages"), &_0);
+	if (!(Z_TYPE_P(&service) == IS_UNDEF) && Z_STRLEN_P(&service)) {
+		ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, 0, &service);
+		zephir_check_call_status();
 	} else {
-		ZEPHIR_INIT_VAR(&service);
-		ZVAL_EMPTY_STRING(&service);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		ZVAL_STRING(&_1$$4, "db");
+		ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, 0, &_1$$4);
+		zephir_check_call_status();
 	}
-	}
-
-
-	ZEPHIR_CALL_METHOD(&connection, dependencyInjector, "get", NULL, 0, &service);
-	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("_connection"), &connection);
 	if (autoBegin) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "begin", NULL, 0);
@@ -254,9 +259,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_mvc_model_transaction_failed_ce);
 		zephir_read_property(&_2$$4, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 348, &rollbackMessage, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 354, &rollbackMessage, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$4, "phalcon/mvc/model/transaction.zep", 151 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/mvc/model/transaction.zep", 159 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -281,7 +286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 
 	zephir_read_property(&_0, this_ptr, SL("_rollbackOnAbort"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 349);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 355);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&_2$$4);

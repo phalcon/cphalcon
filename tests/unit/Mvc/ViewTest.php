@@ -2,20 +2,13 @@
 
 namespace Phalcon\Test\Unit\Mvc;
 
-use Phalcon\Di;
 use Helper\ViewTrait;
-use Phalcon\Mvc\View;
-use Phalcon\Events\Manager;
-use Phalcon\Mvc\View\Exception;
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Test\Module\View\AfterRenderListener;
-use Phalcon\Test\Module\View\Engine\Twig as TwigEngine;
-use Phalcon\Test\Module\View\Engine\Mustache as MustacheEngine;
-use Phalcon\Cache\Frontend\Output as FrontendCache;
 use Phalcon\Cache\Backend\File as BackendCache;
-use DirectoryIterator;
+use Phalcon\Cache\Frontend\Output as FrontendCache;
+use Phalcon\Di;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Module\UnitTest;
+use PHPUnit\Framework\Exception as PhpUnitException;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ViewTest
@@ -37,371 +30,6 @@ use DirectoryIterator;
 class ViewTest extends UnitTest
 {
     use ViewTrait;
-
-    protected function _clearCache()
-    {
-        if (!file_exists(PATH_CACHE)) {
-            mkdir(PATH_CACHE);
-        }
-
-        foreach (new DirectoryIterator(PATH_CACHE) as $item) {
-            if ($item->isDir()) {
-                continue;
-            }
-
-            unlink($item->getPathname());
-        }
-    }
-
-    /**
-     * Tests the View::getActiveRenderPath
-     *
-     * @issue  12139
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2014-08-14
-     */
-    public function testGetActiveRenderPath()
-    {
-        $this->specify(
-            'The View::getActiveRenderPath returns unexpected result',
-            function () {
-                $view = new View;
-
-                $eventsManager = new Manager;
-                $eventsManager->attach('view', new AfterRenderListener);
-
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-                $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-                $view->setEventsManager($eventsManager);
-
-                expect($view->getActiveRenderPath())->equals('');
-
-                $view->start();
-                $view->render('test15', 'index');
-                $view->finish();
-
-                $view->getContent();
-
-                expect($view->getActiveRenderPath())->equals(
-                    PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml'
-                );
-
-                $view->setViewsDir([
-                    PATH_DATA . 'views' . DIRECTORY_SEPARATOR,
-                    PATH_DATA . 'views2' . DIRECTORY_SEPARATOR,
-                ]);
-
-                expect($view->getActiveRenderPath())->equals(
-                    [PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test15' . DIRECTORY_SEPARATOR . 'index.phtml']
-                );
-            }
-        );
-    }
-
-    /**
-     * Tests the View::getCurrentRenderLevel
-     *
-     * @issue  907
-     * @author Volodymyr Kolesnykov <volodymyr@wildwolf.name>
-     * @since  2013-10-03
-     */
-    public function testGetCurrentRenderLevel()
-    {
-        $this->specify(
-            'The View listener does not fetch current render level correctly',
-            function () {
-                $view = new View;
-
-                $listener = new AfterRenderListener;
-                $eventsManager = new Manager;
-                $eventsManager->attach('view', $listener);
-
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-                $view->setEventsManager($eventsManager);
-
-                $view->start();
-                $view->render('test3', 'other');
-                $view->finish();
-
-                expect($view->getContent())->equals("<html>lolhere</html>\n");
-                expect($listener->getLevels())->equals('1,3,5');
-
-                $listener->reset();
-                $view->setTemplateAfter('test');
-
-                $view->start();
-                $view->render('test3', 'other');
-                $view->finish();
-
-                expect($view->getContent())->equals("<html>zuplolhere</html>\n");
-                expect($listener->getLevels())->equals('1,3,4,5');
-
-                $listener->reset();
-                $view->cleanTemplateAfter();
-                $view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
-
-                $view->start();
-                $view->render('test3', 'other');
-                $view->finish();
-
-                expect($view->getContent())->equals("<html>lolhere</html>\n");
-                expect($listener->getLevels())->equals('1,3,5');
-
-                $listener->reset();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-
-                $view->start();
-                $view->render('test3', 'other');
-                $view->finish();
-
-                expect($view->getContent())->equals('lolhere');
-                expect($listener->getLevels())->equals('1,3');
-
-                $listener->reset();
-                $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-
-                $view->start();
-                $view->render('test3', 'other');
-                $view->finish();
-
-                expect($view->getContent())->equals('here');
-                expect($listener->getLevels())->equals('1');
-
-                $listener->reset();
-            }
-        );
-    }
-
-    /**
-     * Tests the View::getRegisteredEngines
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function testGetRegisteredEngines()
-    {
-        $this->specify(
-            'Unable to get all registered engines',
-            function () {
-                $expected = [
-                    '.mhtml' => MustacheEngine::class,
-                    '.phtml' => PhpEngine::class,
-                    '.twig'  => TwigEngine::class,
-                    '.volt'  => VoltEngine::class,
-                ];
-
-                $view = new View;
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines($expected);
-                expect($view->getRegisteredEngines())->equals($expected);
-            }
-        );
-    }
-
-    /**
-     * Tests the Mustache Engine
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function testMustacheEngine()
-    {
-        $this->specify(
-            'The Mustache Engine does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines(['.mhtml' => MustacheEngine::class]);
-
-                $view->setParamToView('name', 'Sonny');
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-                $view->render('test4', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals('Hello Sonny');
-
-                $view->setParamToView('some_eval', true);
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-                $view->render('test4', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals("Well, this is the view content: Hello Sonny.\n");
-            }
-        );
-    }
-
-    /**
-     * Tests the Twig Engine
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function testTwigEngine()
-    {
-        $this->specify(
-            'The Twig Engine does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines(['.twig' => TwigEngine::class]);
-
-                $view->setParamToView('song', 'Rock n roll');
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
-                $view->render('test7', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals('Hello Rock n roll!');
-
-                $view->setParamToView('some_eval', true);
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-                $view->render('test7', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals("Clearly, the song is: Hello Rock n roll!.\n");
-            }
-        );
-    }
-
-    /**
-     * Tests the mix Mustache with PHP Engines
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function testMustacheMixedEngine()
-    {
-        $this->specify(
-            'The Mustache Engine does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines([
-                    '.mhtml' => MustacheEngine::class,
-                    '.phtml' => PhpEngine::class,
-                ]);
-
-                $view->setParamToView('name', 'Sonny');
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-                $view->render('test6', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals('Well, this is the view content: Hello Sonny.');
-            }
-        );
-    }
-
-    /**
-     * Tests the mix Twig with PHP Engines
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function testTwigMixedEngine()
-    {
-        $this->specify(
-            'The Twig Engine does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines([
-                    '.twig' => TwigEngine::class,
-                    '.phtml' => PhpEngine::class,
-                ]);
-
-                $view->setParamToView('name', 'Sonny');
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-                $view->render('test12', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals('Well, this is the view content: Hello Sonny.');
-            }
-        );
-    }
-
-    /**
-     * Tests using partials with the mix Mustache with PHP Engines
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function testMustacheMixedEnginePartials()
-    {
-        $this->specify(
-            'The Mustache Engine does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines([
-                    '.mhtml' => MustacheEngine::class,
-                    '.phtml' => PhpEngine::class,
-                ]);
-
-                $view->setParamToView('name', 'Sonny');
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-                $view->render('test6', 'info');
-                $view->finish();
-
-                expect($view->getContent())->equals('Well, this is the view content: Hello Sonny.');
-            }
-        );
-    }
-
-    /**
-     * Tests using partials with the mix Twig with PHP Engines
-     *
-     * @author Andres Gutierrez <andres@phalconphp.com>
-     * @since  2012-08-17
-     */
-    public function testTwigMixedEnginePartials()
-    {
-        $this->specify(
-            'The Twig Engine does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->registerEngines([
-                    '.twig' => TwigEngine::class,
-                    '.phtml' => PhpEngine::class,
-                ]);
-
-                $view->setParamToView('name', 'Sonny');
-
-                $view->start();
-                $view->setRenderLevel(View::LEVEL_LAYOUT);
-                $view->render('test12', 'info');
-                $view->finish();
-
-                expect($view->getContent())->equals('Well, this is the view content: Hello Sonny.');
-            }
-        );
-    }
 
     /**
      * Tests using partials with the mix Twig with PHP Engines
@@ -468,6 +96,9 @@ class ViewTest extends UnitTest
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
+     *
+     * @expectedException        \Phalcon\Mvc\View\Exception
+     * @expectedExceptionMessage View 'partials/missing' was not found in any of the views directory
      */
     public function testMissingPartial()
     {
@@ -481,13 +112,7 @@ class ViewTest extends UnitTest
                 $view->start();
                 $view->render('test5', 'missing');
                 $view->finish();
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "View 'partials/missing' was not found in any of the views directory"
-                ]
-            ]
+            }
         );
     }
 
@@ -603,7 +228,7 @@ class ViewTest extends UnitTest
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-09-24
-     * @issue  13046
+     * @issue  https://github.com/phalcon/cphalcon/issues/13046
      */
     public function shouldRenderWithParams()
     {
@@ -867,7 +492,7 @@ class ViewTest extends UnitTest
         $this->specify(
             "Views are not cached properly",
             function () {
-                $this->_clearCache();
+                $this->clearCache();
 
                 $date = date("r");
                 $content = '<html>' . $date . '</html>' . PHP_EOL;
@@ -924,7 +549,7 @@ class ViewTest extends UnitTest
         $this->specify(
             "Views are not cached properly (2)",
             function () {
-                $this->_clearCache();
+                $this->clearCache();
 
                 $date = date("r");
                 $content = '<html>'.$date.'</html>'.PHP_EOL;
@@ -962,7 +587,7 @@ class ViewTest extends UnitTest
         $this->specify(
             "Views are not cached properly when passing options to the constructor",
             function () {
-                $this->_clearCache();
+                $this->clearCache();
 
                 $config = array(
                     'cache' => array(
@@ -1020,7 +645,7 @@ class ViewTest extends UnitTest
     /**
      * Tests params view scope
      *
-     * @issue  12648
+     * @issue  https://github.com/phalcon/cphalcon/issues/12648
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-17
      */
@@ -1029,7 +654,7 @@ class ViewTest extends UnitTest
         $this->specify(
             "View params are available in local scope",
             function () {
-                $this->_clearCache();
+                $this->clearCache();
                 $di = $this->_getDi();
                 $view = new View();
                 $view->setDI($di);
@@ -1038,9 +663,11 @@ class ViewTest extends UnitTest
 
                 $content = $view->setRenderLevel(View::LEVEL_ACTION_VIEW)->getRender('test3', 'another');
                 expect($content)->equals("<html>lol<p>test</p></html>\n");
+
+                // FIXME: This test need to be refactored to not use try/catch
                 try {
                     echo $a_cool_var;
-                } catch (\PHPUnit_Framework_Exception $e) {
+                } catch (PhpUnitException $e) {
                     expect($e->getMessage())->contains("Undefined variable: a_cool_var");
                 }
             }

@@ -7,6 +7,7 @@ use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\Backend\Libmemcached;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\LibmemcachedCest
@@ -30,7 +31,7 @@ class LibmemcachedCest
     public function _before(UnitTester $I)
     {
         if (!extension_loaded('memcached')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: memcached extension is not loaded'
             );
         }
@@ -100,7 +101,7 @@ class LibmemcachedCest
 
     /**
      * @param UnitTester $I
-     * @issue 13092
+     * @issue https://github.com/phalcon/cphalcon/issues/13092
      */
     public function shouldGetTheSameValueRegardlessOfTheNumberOfRequests(UnitTester $I)
     {
@@ -221,7 +222,7 @@ class LibmemcachedCest
     }
 
     /**
-     * @issue 11024
+     * @issue https://github.com/phalcon/cphalcon/issues/11024
      * @param UnitTester $I
      */
     public function prefixedQueryKeys(UnitTester $I)

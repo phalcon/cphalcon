@@ -394,7 +394,8 @@ class PostgresqlTest extends UnitTest
     /**
      * Tests Postgresql::describeColumns
      *
-     * @issue  12536, 11359
+     * @issue  https://github.com/phalcon/cphalcon/issues/12536
+     * @issue  https://github.com/phalcon/cphalcon/issues/11359
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-09-30
      */

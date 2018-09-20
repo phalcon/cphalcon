@@ -92,10 +92,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 
 	ZEPHIR_MM_GROW();
 	zephir_get_global(&_SESSION, SL("_SESSION"));
-	if (!_SESSION) {
-		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
-		return;
-	}
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
@@ -138,10 +134,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write) {
 
 	ZEPHIR_MM_GROW();
 	zephir_get_global(&_SESSION, SL("_SESSION"));
-	if (!_SESSION) {
-		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
-		return;
-	}
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {

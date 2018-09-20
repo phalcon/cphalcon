@@ -2,7 +2,7 @@
 #
 #  Phalcon Framework
 #
-#  Copyright (c) 2011-2017 Phalcon Team (https://www.phalconphp.com)
+#  Copyright (c) 2011-present Phalcon Team (https://www.phalconphp.com)
 #
 #  This source file is subject to the New BSD License that is bundled
 #  with this package in the file LICENSE.txt.
@@ -16,7 +16,9 @@ TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 ZEPHIRDIR=${TRAVIS_BUILD_DIR}/vendor/phalcon/zephir
 
 if [ ! -d "${ZEPHIRDIR}" ]; then
-  echo -e "The ${ZEPHIRDIR} directory does not exists. First run 'composer install --dev'"
+  echo -e "The ${ZEPHIRDIR} directory does not exists."
+  echo -e "Most likely the project dependencies were not installed."
+  echo -e "First run 'composer install' from the project root"
   exit 1;
 fi
 

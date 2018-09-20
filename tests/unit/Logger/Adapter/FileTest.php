@@ -3,11 +3,11 @@
 namespace Phalcon\Test\Unit\Logger\Adapter;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Multiple;
 use Phalcon\Logger\Adapter\File;
-use Phalcon\Test\Module\UnitTest;
-use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Json;
+use Phalcon\Logger\Formatter\Line;
+use Phalcon\Logger\Multiple;
+use Phalcon\Test\Module\UnitTest;
 
 /**
  * \Phalcon\Test\Unit\Logger\Adapter\FileTest
@@ -101,6 +101,8 @@ class FileTest extends UnitTest
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-13
+     *
+     * @expectedException \Phalcon\Logger\Exception
      */
     public function testLoggerAdapterFileOpenReadThrowsException()
     {
@@ -119,8 +121,7 @@ class FileTest extends UnitTest
                 $logger = new File($this->logPath . $fileName, $params);
                 $logger->log('New Contents');
                 $logger->close();
-            },
-            ['throws' => ['Phalcon\Logger\Exception']]
+            }
         );
 
         $I->amInPath($this->logPath);
@@ -274,7 +275,7 @@ class FileTest extends UnitTest
     /**
      * Tests multiple loggers
      *
-     * @issue  2798
+     * @issue  https://github.com/phalcon/cphalcon/issues/2798
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-28
      */
@@ -706,7 +707,7 @@ class FileTest extends UnitTest
     /**
      * Tests setting Json formatter
      *
-     * @issue  2262
+     * @issue  https://github.com/phalcon/cphalcon/issues/2262
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-28
      */

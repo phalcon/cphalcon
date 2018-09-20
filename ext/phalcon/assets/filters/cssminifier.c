@@ -113,7 +113,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 
 	switch (parser->state) {
 		case STATE_FREE:
-			if (c == ' ' && c == '\t' && c == '\n' && c == '\r') {
+			if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
 				c = 0;
 			} else if (c == '@'){
 				parser->state = STATE_ATRULE;

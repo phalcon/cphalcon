@@ -4,7 +4,6 @@ namespace Phalcon\Test\Unit\Assets;
 
 use Phalcon\Tag;
 use Phalcon\Assets\Manager;
-use Phalcon\Assets\Exception;
 use Phalcon\Assets\Resource\Js;
 use Phalcon\Assets\Resource\Css;
 use Phalcon\Assets\Filters\None;
@@ -45,6 +44,9 @@ class ManagerTest extends UnitTest
      * @test
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-04
+     *
+     * @expectedException        \Phalcon\Assets\Exception
+     * @expectedExceptionMessage The collection does not exist in the manager
      */
     public function assetsManagerShouldThrowExceptionIfThereIsNoCollection()
     {
@@ -53,13 +55,7 @@ class ManagerTest extends UnitTest
             function () {
                 $assets = new Manager();
                 $assets->get('some-non-existent-collection');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    'The collection does not exist in the manager'
-                ]
-            ]
+            }
         );
     }
 
@@ -457,7 +453,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests setting local target
      *
-     * @issue  1532
+     * @issue  https://github.com/phalcon/cphalcon/issues/1532
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25
@@ -618,7 +614,7 @@ class ManagerTest extends UnitTest
      * new one with existing name
      *
      * @test
-     * @issue  10938
+     * @issue  https://github.com/phalcon/cphalcon/issues/10938
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2017-06-02
      */

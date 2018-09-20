@@ -29,6 +29,9 @@ class CssMinTest extends UnitTest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-10
+     *
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Parameter 'content' must be a string
      */
     public function testFilterCssminWithNonStringParam()
     {
@@ -37,8 +40,7 @@ class CssMinTest extends UnitTest
             function () {
                 $cssmin = new Cssmin();
                 $cssmin->filter(new \stdClass());
-            },
-            ['throws' => ['InvalidArgumentException', "Parameter 'content' must be a string"]]
+            }
         );
     }
 
@@ -72,7 +74,7 @@ class CssMinTest extends UnitTest
             "The cssmin filter with space as parameter does not return correct results",
             function () {
                 $cssmin = new Cssmin();
-                expect($cssmin->filter(' '))->equals(' ');
+                expect($cssmin->filter(' '))->equals('');
             }
         );
 

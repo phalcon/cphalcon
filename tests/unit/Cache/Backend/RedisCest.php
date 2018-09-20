@@ -7,6 +7,7 @@ use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\Output;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\RedisCest
@@ -32,7 +33,7 @@ class RedisCest
         $I->wantToTest('Redis cache backend');
 
         if (!extension_loaded('redis')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: redis extension is not loaded'
             );
         }
@@ -107,7 +108,7 @@ class RedisCest
     }
 
     /**
-     * @issue 12434
+     * @issue https://github.com/phalcon/cphalcon/issues/12434
      * @param UnitTester $I
      */
     public function existsEmpty(UnitTester $I)
@@ -155,7 +156,7 @@ class RedisCest
     }
 
     /**
-     * @issue 12437
+     * @issue https://github.com/phalcon/cphalcon/issues/12437
      * @param UnitTester $I
      */
     public function getEmpty(UnitTester $I)
@@ -200,7 +201,7 @@ class RedisCest
     }
 
     /**
-     * @issue 12327
+     * @issue https://github.com/phalcon/cphalcon/issues/12327
      * @param UnitTester $I
      */
     public function saveNonExpiring(UnitTester $I)
@@ -364,5 +365,56 @@ class RedisCest
 
         $I->assertNull($content);
         $I->dontSeeInRedis('_PHCR' . 'test-output');
+    }
+
+    public function setTimeout(UnitTester $I)
+    {
+        $I->wantTo('Get data by using Redis as cache backend and set timeout');
+
+        $key = '_PHCR' . 'data-get-timeout';
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+            'port'  => env('TEST_RS_PORT', 6379),
+            'index' => env('TEST_RS_DB', 0),
+            'timeout' => 1,
+        ]);
+
+        $I->haveInRedis('string', $key, serialize($data));
+        $I->assertEquals($data, $cache->get('data-get-timeout'));
+
+        $I->assertNull($cache->get($key));
+
+        $data = 'sure, nothing interesting';
+
+        $I->haveInRedis('string', $key, serialize($data));
+        $I->assertEquals($data, $cache->get('data-get-timeout'));
+
+        $I->assertNull($cache->get($key));
+    }
+
+    public function queryKeysWithStatsKeyAndPrefix(UnitTester $I)
+    {
+        $I->wantTo('Get cache data with prefix and statsKey configuration');
+
+        $cache = new Redis(new Data(['lifetime' => 20]), [
+            'host'  => env('TEST_RS_HOST', '127.0.0.1'),
+            'port'  => env('TEST_RS_PORT', 6379),
+            'index' => env('TEST_RS_DB', 0),
+            'prefix' => 'prefix',
+            'statsKey' => '_PHCR'
+        ]);
+        $cache->flush();
+        $data = [uniqid(), gethostname(), microtime(), get_include_path(), time()];
+        $cache->save('a', $data);
+        $cache->save('b', $data);
+
+        $keys = $cache->queryKeys();
+        sort($keys);
+
+        $I->assertEquals(['a', 'b'], $keys);
+        $I->assertEquals($data, $cache->get('a'));
+        $I->assertEquals($data, $cache->get('b'));
     }
 }

@@ -19,6 +19,7 @@
 
 namespace Phalcon;
 
+use Phalcon\Loader\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\EventsAwareInterface;
 
@@ -69,6 +70,38 @@ class Loader implements EventsAwareInterface
 	protected _files = [];
 
 	protected _registered = false;
+
+	protected fileCheckingCallback = "is_file";
+
+	/**
+	 * Sets the file check callback.
+	 *
+	 * <code>
+	 * // Default behavior.
+	 * $loader->setFileCheckingCallback("is_file");
+	 *
+	 * // Faster than `is_file()`, but implies some issues if
+	 * // the file is removed from the filesystem.
+	 * $loader->setFileCheckingCallback("stream_resolve_include_path");
+	 *
+	 * // Do not check file existence.
+	 * $loader->setFileCheckingCallback(null);
+	 * </code>
+     */
+	public function setFileCheckingCallback(var callback = null) -> <Loader>
+	{
+		if likely is_callable(callback) {
+			let this->fileCheckingCallback = callback;
+		} elseif callback === null {
+			let this->fileCheckingCallback = function (file) {
+				return true;
+			};
+		} else {
+			throw new Exception("The 'callback' parameter must be either a callable or NULL.");
+		}
+
+		return this;
+	}
 
 	/**
 	 * Sets the events manager
@@ -223,7 +256,7 @@ class Loader implements EventsAwareInterface
 	/**
 	 * Register the autoload method
 	 */
-	public function register(boolean prepend = null) -> <Loader>
+	public function register(boolean prepend = false) -> <Loader>
 	{
 		if this->_registered === false {
 			/**
@@ -258,7 +291,9 @@ class Loader implements EventsAwareInterface
 	 */
 	public function loadFiles()
 	{
-		var filePath;
+		var filePath, fileCheckingCallback;
+
+		let fileCheckingCallback = this->fileCheckingCallback;
 
 		for filePath in this->_files {
 			if typeof this->_eventsManager == "object" {
@@ -269,7 +304,7 @@ class Loader implements EventsAwareInterface
 			/**
 			 * Check if the file specified even exists
 			 */
-			if is_file(filePath) {
+			if call_user_func(fileCheckingCallback, filePath) {
 
 				/**
 				 * Call 'pathFound' event
@@ -294,7 +329,7 @@ class Loader implements EventsAwareInterface
 	{
 		var eventsManager, classes, extensions, filePath, ds, fixedDirectory,
 			directories, ns, namespaces, nsPrefix,
-			directory, fileName, extension, nsClassName;
+			directory, fileName, extension, nsClassName, fileCheckingCallback;
 
 		let eventsManager = this->_eventsManager;
 		if typeof eventsManager == "object" {
@@ -323,6 +358,8 @@ class Loader implements EventsAwareInterface
 		 * Checking in namespaces
 		 */
 		let namespaces = this->_namespaces;
+
+		let fileCheckingCallback = this->fileCheckingCallback;
 
 		for nsPrefix, directories in namespaces {
 
@@ -365,7 +402,7 @@ class Loader implements EventsAwareInterface
 					/**
 					 * This is probably a good path, let's check if the file exists
 					 */
-					if is_file(filePath) {
+					if call_user_func(fileCheckingCallback, filePath) {
 
 						if typeof eventsManager == "object" {
 							let this->_foundPath = filePath;
@@ -389,7 +426,7 @@ class Loader implements EventsAwareInterface
 		/**
 		 * Change the namespace separator by directory separator too
 		 */
-		let nsClassName = str_replace("\\", ds, className);
+		let nsClassName = str_replace(ns, ds, className);
 
 		/**
 		 * Checking in directories
@@ -418,7 +455,7 @@ class Loader implements EventsAwareInterface
 				/**
 				 * Check in every directory if the class exists here
 				 */
-				if is_file(filePath) {
+				if call_user_func(fileCheckingCallback, filePath) {
 
 					/**
 					 * Call 'pathFound' event

@@ -71,11 +71,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
 	protected _joins;
 
-	/**
-	 * @deprecated Will be removed in version 4.0.0
-	 */
-	protected _with;
-
 	protected _conditions;
 
 	protected _group;
@@ -385,8 +380,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Add a model to take part of the query
 	 *
-	 * NOTE: The third parameter $with is deprecated and will be removed in future releases.
-	 *
 	 *<code>
 	 * // Load data from models Robots
 	 * $builder->addFrom("Robots");
@@ -395,16 +388,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->addFrom("Robots", "r");
 	 *</code>
 	 */
-	public function addFrom(string model, string alias = null, string with = null) -> <Builder>
+	public function addFrom(string model, string alias = null) -> <Builder>
 	{
 		var models, currentModel;
-
-		if with != "null" {
-			trigger_error(
-				"The third parameter 'with' is deprecated and will be removed in future releases.",
-				E_USER_DEPRECATED
-			);
-		}
 
 		let models = this->_models;
 		if typeof models != "array" {
@@ -553,7 +539,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		if count(bindTypes) > 0 {
 			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
+			if typeof currentBindTypes == "array" {
 				let this->_bindTypes = currentBindTypes + bindTypes;
 			} else {
 				let this->_bindTypes = bindTypes;
@@ -717,10 +703,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->having("SUM(Robots.price) > 0");
 	 *
 	 * $builder->having(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -752,7 +738,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 		 */
 		if typeof bindTypes == "array" {
 			let currentBindTypes = this->_bindTypes;
-			if typeof currentBindParams == "array" {
+			if typeof currentBindTypes == "array" {
 				let this->_bindTypes = currentBindTypes + bindTypes;
 			} else {
 				let this->_bindTypes = bindTypes;
@@ -769,10 +755,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->andHaving("SUM(Robots.price) > 0");
 	 *
 	 * $builder->andHaving(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -804,10 +790,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	 * $builder->orHaving("SUM(Robots.price) > 0");
 	 *
 	 * $builder->orHaving(
-	 * 		"SUM(Robots.price) > :sum:",
-	 *   	[
-	 *    		"sum" => 100,
-	 *      ]
+	 *     "SUM(Robots.price) > :sum:",
+	 *     [
+	 *         "sum" => 100,
+	 *     ]
 	 * );
 	 *</code>
 	 *
@@ -1359,7 +1345,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 			query->setBindParams(bindParams);
 		}
 
-		// Set default bind params
+		// Set default bind types
 		let bindTypes = this->_bindTypes;
 		if typeof bindTypes == "array" {
 			query->setBindTypes(bindTypes);

@@ -181,7 +181,7 @@ class FormTest extends UnitTest
     /**
      * Tests Form::render
      *
-     * @issue  10398
+     * @issue  https://github.com/phalcon/cphalcon/issues/10398
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-07-17
      */
@@ -353,7 +353,7 @@ class FormTest extends UnitTest
     }
 
     /**
-     * @issue 1190
+     * @issue https://github.com/phalcon/cphalcon/issues/1190
      */
     public function testIssue1190()
     {
@@ -375,7 +375,7 @@ class FormTest extends UnitTest
     }
 
     /**
-     * @issue 706
+     * @issue https://github.com/phalcon/cphalcon/issues/706
      */
     public function testIssue706()
     {
@@ -404,7 +404,8 @@ class FormTest extends UnitTest
      * Tests Element::hasMessages() Element::getMessages()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 11135, 3167
+     * @issue  https://github.com/phalcon/cphalcon/issues/11135
+     * @issue  https://github.com/phalcon/cphalcon/issues/3167
      */
     public function testElementMessages()
     {
@@ -452,7 +453,7 @@ class FormTest extends UnitTest
      * Tests Form::setValidation()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 12465
+     * @issue  https://github.com/phalcon/cphalcon/issues/12465
      */
     public function testCustomValidation()
     {
@@ -493,7 +494,7 @@ class FormTest extends UnitTest
      * Tests Form::isValid()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
-     * @issue 11500
+     * @issue  https://github.com/phalcon/cphalcon/issues/11500
      */
     public function testMergeValidators()
     {
@@ -538,6 +539,63 @@ class FormTest extends UnitTest
             );
             expect($form->get('telephone')->getMessages())->equals($form->getMessages());
             expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
+        });
+    }
+
+    /**
+     * Tests Form::getMessages(true)
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/13294
+     *
+     * This should be removed in next major version
+     * We should not return multiple type of result in a single method! (form->getMessages(true) vs form->getMessages())
+     */
+    public function testGetElementMessagesFromForm()
+    {
+        $this->specify('When form is not valid, iterate over messages by elements is not possible', function () {
+            // First element
+            $telephone = new Text('telephone');
+            $telephone->addValidators([
+                new PresenceOf([
+                    'message' => 'The telephone is required'
+                ])
+            ]);
+            $customValidation = new Validation();
+            $customValidation->add('telephone', new Regex([
+                'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                'message' => 'The telephone has an invalid format'
+            ]));
+            $form = new Form();
+            $address = new Text('address');
+            $form->add($telephone);
+            $form->add($address);
+            $form->setValidation($customValidation);
+            expect($form->isValid(['address' => 'hello']))->false();
+            expect($form->getMessages(true))->equals([
+                'telephone' => [
+                    Group::__set_state([
+                        '_messages' => [
+                            Message::__set_state([
+                                '_type' => 'Regex',
+                                '_message' => 'The telephone has an invalid format',
+                                '_field' => 'telephone',
+                                '_code' => 0,
+                            ])
+                        ]
+                    ]),
+                    Group::__set_state([
+                        '_messages' => [
+                            Message::__set_state([
+                                '_type' => 'PresenceOf',
+                                '_message' => 'The telephone is required',
+                                '_field' => 'telephone',
+                                '_code' => 0,
+                            ])
+                        ]
+                    ])
+                ]
+            ]);
         });
     }
 }

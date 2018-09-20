@@ -623,6 +623,7 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 					ZVAL_DUP(&new_zv, &tmp);
 					ZVAL_COPY_VALUE(&tmp, &new_zv);
 					Z_TRY_DELREF(new_zv);
+					Z_ADDREF(tmp);
 					separated = 1;
 				}
 			}
@@ -642,7 +643,14 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 				array_init(&tmp);
 				separated = 1;
 			}
-			Z_DELREF(tmp);
+
+			if (Z_REFCOUNTED(tmp)) {
+				if (Z_REFCOUNT(tmp) > 1) {
+					if (!Z_ISREF(tmp)) {
+						Z_DELREF(tmp);
+					}
+				}
+			}
 		}
 		Z_TRY_ADDREF_P(value);
 
@@ -656,6 +664,14 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp);
+		}
+
+		if (Z_REFCOUNTED(tmp)) {
+			if (Z_REFCOUNT(tmp) > 1) {
+				if (!Z_ISREF(tmp)) {
+					Z_DELREF(tmp);
+				}
+			}
 		}
 	}
 
@@ -708,7 +724,14 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 			array_init(&tmp);
 			separated = 1;
 		}
-		Z_DELREF(tmp);
+
+		if (Z_REFCOUNTED(tmp)) {
+			if (Z_REFCOUNT(tmp) > 1) {
+				if (!Z_ISREF(tmp)) {
+					Z_DELREF(tmp);
+				}
+			}
+		}
 	}
 
 	Z_TRY_ADDREF_P(value);
@@ -716,6 +739,14 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
+	}
+
+	if (Z_REFCOUNTED(tmp)) {
+		if (Z_REFCOUNT(tmp) > 1) {
+			if (!Z_ISREF(tmp)) {
+				Z_DELREF(tmp);
+			}
+		}
 	}
 
 	return SUCCESS;
@@ -741,6 +772,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 					ZVAL_DUP(&new_zv, &tmp_arr);
 					ZVAL_COPY_VALUE(&tmp_arr, &new_zv);
 					Z_TRY_DELREF(new_zv);
+					Z_ADDREF(tmp_arr);
 					separated = 1;
 				}
 			}
@@ -760,7 +792,14 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 				array_init(&tmp_arr);
 				separated = 1;
 			}
-			Z_DELREF(tmp_arr);
+
+			if (Z_REFCOUNTED(tmp_arr)) {
+				if (Z_REFCOUNT(tmp_arr) > 1) {
+					if (!Z_ISREF(tmp_arr)) {
+						Z_DELREF(tmp_arr);
+					}
+				}
+			}
 		}
 
 		va_start(ap, types_count);
@@ -769,6 +808,14 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp_arr);
+		}
+
+		if (Z_REFCOUNTED(tmp_arr)) {
+			if (Z_REFCOUNT(tmp_arr) > 1) {
+				if (!Z_ISREF(tmp_arr)) {
+					Z_DELREF(tmp_arr);
+				}
+			}
 		}
 	}
 
@@ -939,6 +986,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 				ZVAL_DUP(&new_zv, &tmp_arr);
 				ZVAL_COPY_VALUE(&tmp_arr, &new_zv);
 				Z_TRY_DELREF(new_zv);
+				Z_ADDREF(tmp_arr);
 				separated = 1;
 			}
 		}
@@ -958,7 +1006,13 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 			array_init(&tmp_arr);
 			separated = 1;
 		}
-		Z_DELREF(tmp_arr);
+		if (Z_REFCOUNTED(tmp_arr)) {
+			if (Z_REFCOUNT(tmp_arr) > 1) {
+				if (!Z_ISREF(tmp_arr)) {
+					Z_DELREF(tmp_arr);
+				}
+			}
+		}
 	}
 
 	va_start(ap, types_count);
@@ -968,6 +1022,14 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 
 	if (separated) {
 		zend_update_static_property(ce, property, property_length, &tmp_arr);
+	}
+
+	if (Z_REFCOUNTED(tmp_arr)) {
+		if (Z_REFCOUNT(tmp_arr) > 1) {
+			if (!Z_ISREF(tmp_arr)) {
+				Z_DELREF(tmp_arr);
+			}
+		}
 	}
 
 	return SUCCESS;
@@ -1079,7 +1141,10 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 		return FAILURE;
 	}
 
-	object_init_ex(return_value, ce);
+	if(UNEXPECTED(object_init_ex(return_value, ce) != SUCCESS)) {
+    	return FAILURE;
+    }
+
 	if (EXPECTED(Z_OBJ_HT_P(return_value)->get_constructor)) {
 		zend_object* obj    = Z_OBJ_P(return_value);
 		zend_function* ctor = Z_OBJ_HT_P(return_value)->get_constructor(obj);
@@ -1137,7 +1202,9 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 		return FAILURE;
 	}
 
-	object_init_ex(return_value, ce);
+	if(UNEXPECTED(object_init_ex(return_value, ce) != SUCCESS)) {
+    	return FAILURE;
+    }
 
 	if (EXPECTED(Z_OBJ_HT_P(return_value)->get_constructor)) {
 		zend_object* obj    = Z_OBJ_P(return_value);

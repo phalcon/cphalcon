@@ -2,13 +2,11 @@
 
 namespace Phalcon\Test\Unit\Mvc\Model;
 
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\Models\Statistics;
+use Phalcon\Test\Models\Statistics\AgeStats;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Test\Resultsets\Stats;
-use Phalcon\Test\Models\Statistics;
-use Phalcon\Mvc\Model\Resultset\Simple;
-use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Test\Models\Statistics\AgeStats;
 
 /**
  * \Phalcon\Test\Unit\Mvc\Model\ResultsetClassTest
@@ -63,6 +61,9 @@ class ResultsetClassTest extends UnitTest
      * Checks if exception is thrown when custom resultset doesn't implement ResultsetInterface
      *
      * @author Eugene Smirnov <ashpumpkin@gmail.com>
+     *
+     * @expectedException        \Phalcon\Mvc\Model\Exception
+     * @expectedExceptionMessage Resultset class "Phalcon\Test\Models\Statistics\AgeStats" must be an implementation of Phalcon\Mvc\Model\ResultsetInterface
      */
     public function testExceptionOnBadInterface()
     {
@@ -70,15 +71,7 @@ class ResultsetClassTest extends UnitTest
             "Find() method should throw an exception if resultset doesn't implement interface",
             function () {
                 Statistics\CountryStats::find();
-            },
-            ['throws' => [
-                Exception::class,
-                sprintf(
-                    'Resultset class "%s" must be an implementation of %s',
-                    AgeStats::class,
-                    ResultsetInterface::class
-                )
-            ]]
+            }
         );
     }
 
@@ -86,6 +79,9 @@ class ResultsetClassTest extends UnitTest
      * Checks if exception is thrown when resultset class doesn\'t exist
      *
      * @author Eugene Smirnov <ashpumpkin@gmail.com>
+     *
+     * @expectedException        \Phalcon\Mvc\Model\Exception
+     * @expectedExceptionMessage Resultset class "Not\Existing\Resultset\Class" not found
      */
     public function testExceptionOnUnknownClass()
     {
@@ -93,11 +89,7 @@ class ResultsetClassTest extends UnitTest
             "Find() method should throw an exception if resultset class doesn't exist",
             function () {
                 Statistics\GenderStats::find();
-            },
-            ['throws' => [
-                Exception::class,
-                'Resultset class "Not\Existing\Resultset\Class" not found'
-            ]]
+            }
         );
     }
 }

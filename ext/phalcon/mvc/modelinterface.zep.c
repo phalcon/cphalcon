@@ -26,6 +26,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface) {
 }
 
 /**
+ * Returns the models meta-data service related to the entity instance.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getModelsMetaData);
+
+/**
  * Sets a transaction related to the Model instance
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setTransaction);

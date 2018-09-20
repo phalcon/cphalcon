@@ -5,7 +5,6 @@ namespace Phalcon\Test\Unit\Mvc\View;
 use Phalcon\Di;
 use Helper\ViewTrait;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Mvc\View\Exception;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
@@ -141,22 +140,19 @@ class SimpleTest extends UnitTest
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
+     *
+     * @expectedException              \Phalcon\Mvc\View\Exception
+     * @expectedExceptionMessageRegExp #View '.*views[\\/]test1/index' was not found in the views directory#
      */
     public function testMissingView()
     {
         $this->specify(
             'The View component does not throw Exception in case of missing view',
             function () {
-                $view = new Simple;
+                $view = new Simple();
                 $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
                 $view->render('test1/index');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test1' . DIRECTORY_SEPARATOR . "index' was not found in the views directory"
-                ]
-            ]
+            }
         );
     }
 
@@ -165,27 +161,24 @@ class SimpleTest extends UnitTest
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
+     *
+     * @expectedException              \Phalcon\Mvc\View\Exception
+     * @expectedExceptionMessageRegExp #View '.*views[\\/]test4/index\.mhtml' was not found in the views directory#
      */
     public function testRenderWithFilenameWithEngineWithoutEngineRegistered()
     {
         $this->specify(
             'Render with filename without registered engine does not throw Exception',
             function () {
-                $view = new Simple;
-
+                $view = new Simple();
+                
                 $view->setDI(Di::getDefault());
                 $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
 
                 $view->setParamToView('name', 'FooBar');
 
                 $view->render('test4/index.mhtml');
-            },
-            [
-                'throws' => [
-                    Exception::class,
-                    "View '" . PATH_DATA . 'views' . DIRECTORY_SEPARATOR . 'test4' . DIRECTORY_SEPARATOR . "index.mhtml' was not found in the views directory"
-                ]
-            ]
+            }
         );
     }
 

@@ -50,7 +50,7 @@ class TagLinkToTest extends UnitTest
     /**
      * Tests linkTo with string as URL and name
      *
-     * @issue  2002
+     * @issue  https://github.com/phalcon/cphalcon/issues/2002
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-03-10
@@ -147,7 +147,7 @@ class TagLinkToTest extends UnitTest
     /**
      * Tests linkTo with complex local URL
      *
-     * @issue  1679
+     * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
@@ -203,7 +203,7 @@ class TagLinkToTest extends UnitTest
     /**
      * Tests linkTo with complex remote URL
      *
-     * @issue  1679
+     * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>

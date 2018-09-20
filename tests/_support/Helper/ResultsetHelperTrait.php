@@ -11,6 +11,7 @@ use Phalcon\Cache\Backend\Memcache;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Cache\Backend\Libmemcached;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Helper\ResultsetHelperTrait
@@ -74,7 +75,7 @@ trait ResultsetHelperTrait
     protected function getMemcacheCache()
     {
         if (!extension_loaded('memcache')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: memcache extension is not loaded'
             );
         }
@@ -95,7 +96,7 @@ trait ResultsetHelperTrait
     protected function getLibmemcachedCache()
     {
         if (!extension_loaded('memcached')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: memcached extension is not loaded'
             );
         }
