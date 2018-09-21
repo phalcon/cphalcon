@@ -426,14 +426,6 @@ abstract class Element implements ElementInterface
 			 * Gets the possible value for the widget
 			 */
 			let value = form->getValue(name);
-
-			/**
-			 * Check if the tag has a default value
-			 */
-			if typeof value == "null" && Tag::hasValue(name) {
-				let value = Tag::getValue(name);
-			}
-
 		}
 
 		/**
