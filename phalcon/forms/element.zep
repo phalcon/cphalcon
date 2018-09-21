@@ -414,7 +414,7 @@ abstract class Element implements ElementInterface
 	{
 		var name, form, value;
 
-		let name = this->_name,
+		let name  = this->_name,
 			value = null;
 
 		/**
@@ -426,14 +426,6 @@ abstract class Element implements ElementInterface
 			 * Gets the possible value for the widget
 			 */
 			let value = form->getValue(name);
-
-			/**
-			 * Check if the tag has a default value
-			 */
-			if typeof value == "null" && Tag::hasValue(name) {
-				let value = Tag::getValue(name);
-			}
-
 		}
 
 		/**
@@ -482,11 +474,20 @@ abstract class Element implements ElementInterface
 	}
 
 	/**
-	 * Clears every element in the form to its default value
+	 * Clears element to its default value
 	 */
 	public function clear() -> <Element>
 	{
-		Tag::setDefault(this->_name, null);
+		var form  = this->_form,
+			name  = this->_name,
+			value = this->_value;
+
+		if typeof form == "object" {
+			form->clear(name);
+		} else {
+			Tag::setDefault(name, value);
+		}
+
 		return this;
 	}
 
