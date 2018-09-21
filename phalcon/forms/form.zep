@@ -687,7 +687,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			let data = [];
 		} else {
 			if typeof fields == "array" {
-				for field in fields {
+				for element in elements {
 					if isset data[field] {
 						unset data[field];
 					}
