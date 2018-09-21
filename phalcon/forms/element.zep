@@ -486,6 +486,8 @@ abstract class Element implements ElementInterface
 			
 		if typeof form == "object" {
 			form->clear(name);
+		} else {
+			Tag::setDefault(name, this->_value);
 		}
 
 		return this;
