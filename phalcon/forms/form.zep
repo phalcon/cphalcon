@@ -687,7 +687,7 @@ class Form extends Injectable implements \Countable, \Iterator
 			let data = [];
 		} else {
 			if typeof fields == "array" {
-				for element in elements {
+				for field in fields {
 					if isset data[field] {
 						unset data[field];
 					}
@@ -714,7 +714,7 @@ class Form extends Injectable implements \Countable, \Iterator
                 }
             } else {
                 if typeof fields == "array" {
-                    for field in fields {
+                    for element in elements {
                         if in_array(element->getName(), fields) {
                             Tag::setDefault(element->getName(), element->getDefault());
                         }
