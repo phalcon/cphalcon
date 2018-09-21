@@ -478,6 +478,8 @@ abstract class Element implements ElementInterface
 	 */
 	public function clear() -> <Element>
 	{
+		var form, name;
+
 		/*
 		 * Get the related form
 		 */
