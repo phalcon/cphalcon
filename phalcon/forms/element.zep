@@ -474,11 +474,20 @@ abstract class Element implements ElementInterface
 	}
 
 	/**
-	 * Clears every element in the form to its default value
+	 * Clears element to its default value
 	 */
 	public function clear() -> <Element>
 	{
-		Tag::setDefault(this->_name, null);
+		/*
+		 * Get the related form
+		 */
+		let form = this->_form,
+			name = this->_name;
+			
+		if typeof form == "object" {
+			form->clear(name);
+		}
+
 		return this;
 	}
 
