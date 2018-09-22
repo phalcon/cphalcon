@@ -683,7 +683,7 @@ class Form extends Injectable implements \Countable, \Iterator
 		var elements, element, data, field;
 
 		let data = this->_data;
-		if is_null(fields) {
+		if fields === null {
 			let data = [];
 		} else {
 			if typeof fields == "array" {
@@ -708,7 +708,7 @@ class Form extends Injectable implements \Countable, \Iterator
         * If null, clear all
         */
         if typeof elements == "array" {
-            if is_null(fields) {
+            if fields === null {
                 for element in elements {
                     Tag::setDefault(element->getName(), element->getDefault());
                 }
