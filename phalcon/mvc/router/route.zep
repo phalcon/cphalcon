@@ -629,17 +629,17 @@ class Route implements RouteInterface
 	/**
 	 * Adds a converter to perform an additional transformation for certain parameter
 	 *
-	 *<code>
-	 *$router = new Phalcon\Mvc\Router(false); //create Router without default routes
-	 *$route = $router->add("/catalog/([a-zA-Z0-9\_\-]+)/([^\?]+)", [
+	 * <code>
+	 * $router = new Phalcon\Mvc\Router(false); //create Router without default routes
+	 * $route = $router->add("/catalog/([a-zA-Z0-9\_\-]+)/([^\?]+)", [
 	 *    "controller" => "catalog",
 	 *    "action" => "show",
 	 *    "name" => 1,
 	 *    "params_" => 2,
-	 *]);
+	 * ]);
 	 *
-	 *//additional parsing
-	 *$route->convert(
+	 * //additional parsing
+	 * $route->convert(
 	 *    'params_',
 	 *    function ($string) {
 	 *        $array = explode('/', $string);
@@ -649,9 +649,9 @@ class Route implements RouteInterface
 	 *
 	 *        return $array;
 	 *    });
-	 *$router->handle("https://site.com/controller_name/param1-val1-val2/param2-val3");
-	 *//result is: `["params_"] = ["param1" => ["val1","val2"], "param2" => ["val3"]]`
-	 *</code>
+	 * $router->handle("https://site.com/controller_name/param1-val1-val2/param2-val3");
+	 * //result is: `["params_"] = ["param1" => ["val1","val2"], "param2" => ["val3"]]`
+	 * </code>
 	 */
  	public function convert(string! name, var converter) -> <Route>
 	{
