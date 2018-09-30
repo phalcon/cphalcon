@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Helper;
 
 use Phalcon\Di;
@@ -11,23 +20,12 @@ use Phalcon\Cache\Backend\Memcache;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Metadata\Memory;
 use Phalcon\Cache\Backend\Libmemcached;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
- * \Helper\ResultsetHelperTrait
+ * Helper\ResultsetHelperTrait
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @author    Wojciech Ślawski <jurigag@gmail.com>
- * @package   Phalcon\Test\Unit\Mvc
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * @package Helper
  */
 trait ResultsetHelperTrait
 {
@@ -74,7 +72,7 @@ trait ResultsetHelperTrait
     protected function getMemcacheCache()
     {
         if (!extension_loaded('memcache')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: memcache extension is not loaded'
             );
         }
@@ -95,7 +93,7 @@ trait ResultsetHelperTrait
     protected function getLibmemcachedCache()
     {
         if (!extension_loaded('memcached')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: memcached extension is not loaded'
             );
         }

@@ -1,34 +1,41 @@
-language: php
-
-dist: trusty
 sudo: false
 
+language: php
 php:
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - nightly
+  - 'master'
+  - '7.3'
+  - '7.2'
+  - '7.1'
+  - '7.0'
+  - '5.6'
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: nightly
+    - php: 'master'
+    - php: '7.3'
+
+addons:
+  apt:
+    packages:
+      - beanstalkd
+      - gdb
+
+branches:
+  only:
+    - master
+    - /^(3|4)\.\d+\.(\d+|x)$/
 
 git:
   depth: 1
 
 cache:
-  # See: https://github.com/travis-ci/travis-ci/issues/8714
-  edge: true
   apt: true
   ccache: true
   timeout: 604800
   directories:
     - .temp
     - $HOME/beanstalk
-    - $HOME/.ccache
     - $HOME/.composer/cache
     - $HOME/pear
     - $HOME/.local/opt/re2c
@@ -39,92 +46,56 @@ services:
   - mongodb
   - redis-server
   - postgresql
+  - mysql
 
 env:
   global:
-    - CC="ccache gcc"
+    - CC="gcc"
     - PATH="$PATH:$HOME/bin"
     - ZEPHIR_PARSER_VERSION="v1.1.2"
-    - RE2C_VERSION="1.0.3"
+    - RE2C_VERSION="1.1.1"
     - REPORT_EXIT_STATUS=1
     - NO_INTERACTION=1
     - TEST_PHP_ARGS="--show-diff"
-    # Generating a valgrind log
-    # For more see: https://bugs.php.net/bugs-getting-valgrind-log.php
-    #
-    # Uncomment to correctly show the stack frames for extensions compiled as shared libraries
-    # - ZEND_DONT_UNLOAD_MODULES=1
-    # Uncomment to disable Zend memory manager before running PHP with valgrind
-    # - USE_ZEND_ALLOC=0
+    - CFLAGS="-g -O0 -Wall -std=gnu90"
+    - BACKEND="ZendEngine3"
 
 before_install:
   - if [[ ! -z "${GH_TOKEN}" ]]; then composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"; fi;
   - export PHP_MAJOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 1)"
   - export PHP_MINOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 2)"
-  - bash tests/_ci/pear_setup.sh
-  - bash tests/_ci/setup_dbs.sh
-  # Setting up test the environment
+  - if [ "${PHP_MAJOR}" = "5" ]; then export BACKEND="ZendEngine2"; fi;
+  - ./tests/_ci/pear-setup.sh
+  - ./tests/_ci/setup-dbs.sh
   - source $TRAVIS_BUILD_DIR/tests/_ci/environment
   - export $(cut -d= -f1 $TRAVIS_BUILD_DIR/tests/_ci/environment)
 
 install:
-  - composer install -q -n --no-ansi --no-progress --dev --prefer-dist --no-suggest #--ignore-platform-reqs
-  # We'll do this in future for the all 7.x series
-  - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ]; then
-          composer remove -q -n --no-ansi --no-progress --dev doctrine/instantiator
-          composer remove -q -n --no-ansi --no-progress --dev phpdocumentor/reflection-docblock
-          composer remove -q -n --no-ansi --no-progress --dev phpunit/phpunit
-          composer require -q -n --no-ansi --no-progress --dev --prefer-source --no-suggest  phpunit/phpunit:^6.4
-      fi
-  - bash tests/_ci/install_prereqs_$PHP_MAJOR.sh
-  - bash tests/_ci/install-re2c $RE2C_VERSION
-  - bash tests/_ci/install_zephir_parser.sh
-  - bash tests/_ci/install_zephir.sh
-  # We still need this until end of support of PHP 5.x
-  - |
-      if [ "${PHP_MAJOR}" = "7" ]; then
-          zephir generate --backend=ZendEngine3
-      else
-          zephir generate --backend=ZendEngine2
-      fi
-  # Use `-g -O0' for debug purposes
-  - export CFLAGS="-g3 -O1 -std=gnu90 -Wall"
+  - ./tests/_ci/install-prereqs-$PHP_MAJOR.sh
+  - ./tests/_ci/install-php-prereqs.sh
+  - ./tests/_ci/install-re2c.sh $RE2C_VERSION
+  - ./tests/_ci/install-zephir-parser.sh
+  - ./tests/_ci/install-zephir.sh
+  - zephir generate --backend=${BACKEND}
+  - ./tests/_ci/precompile-headers.sh
   - cd ${TRAVIS_BUILD_DIR}/ext
-  # Creating precompiled headers.
-  # If a `*.gch' file is not found then the normal header files will be used.
-  # For more see: http://en.wikipedia.org/wiki/Precompiled_header
-  - |
-      for file in `find kernel -name "*.h"`; do
-          echo -e "Creating a precompiled header: ext/${file} => ext/${file}.ghc ...";
-          $CC "$file" -I. $(php-config --includes) -o "$file.ghc";
-      done
-  # You may need to remove all `&> /dev/null' and `--silent' for debug purposes
-  - $(phpenv which phpize) &> /dev/null
-  - ./configure --silent --with-php-config=$(phpenv which php-config) --enable-phalcon &> /dev/null
-  - make --silent -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
-  - make --silent install
+  - $(phpenv which phpize)
+  - ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
+  - make -j"$(getconf _NPROCESSORS_ONLN)" &> /dev/null
+  - make install
   - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/phalcon.ini
-  # We use this file as our custom PHP config
   - phpenv config-add $TRAVIS_BUILD_DIR/tests/_ci/ci.ini
-  # Some debug info is located here
-  - ls -al `$(phpenv which php-config) --extension-dir`
-  - $(phpenv which php) -v
-  - $(phpenv which php) -m
-  - $(phpenv which php) --ri phalcon
 
 before_script:
   - ulimit -c unlimited -S || true
-  # Uncomment for debug purposes
-  # - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
-  # attempt to workaroung "ptrace: Operation not permitted"
-  # - sudo chmod +s $(which gdb)
+  # see: https://github.com/sebastianbergmann/phpunit/pull/3359
+  - |
+    if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ] || [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.4" ]; then
+      export USE_ZEND_ALLOC=1
+    fi
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  # To avoud this:
-  # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
-  - ln -s $TRAVIS_BUILD_DIR/ext/libtool $TRAVIS_BUILD_DIR/libtool
   # Syntax recognize tests
   - |
       $(phpenv which php) $TRAVIS_BUILD_DIR/ext/run-tests.php \
@@ -133,39 +104,26 @@ script:
           --offline \
           --show-diff \
           --set-timeout 120
-  # Run code style tests
   - vendor/bin/phpcs
-  # Legacy unit tests
   # We'll drop or rewrite them for Phalcon 4.x
   - |
-      if [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.2" ] && [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.3" ]; then
-          vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php --debug unit-tests/
+      if [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.2" ] && [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.3" ] && [ "${PHP_MAJOR}.${PHP_MINOR}" != "7.4" ]; then
+          vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
+      fi
+  # We'll enable memcached tests on 7.3 release
+  - |
+      if [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.3" ] || [ "${PHP_MAJOR}.${PHP_MINOR}" = "7.4" ]; then
+          mv tests/unit.suite-rc.yml tests/unit.suite.yml
       fi
   - vendor/bin/codecept build
   # TODO: Add `cli' suite and refactor current cli-tests
   - vendor/bin/codecept run -v -n tests/integration/
   - vendor/bin/codecept run -v -n tests/unit/
-  # Legacy tests (PHP 5.x) only.
-  # We'll drop them for Phalcon 4.x
-  - |
-      if [ "$PHP_MAJOR" == 5 ]; then
-          phpenv config-rm xdebug.ini || true;
-          vendor/bin/codecept run -v -n tests/unit5x/;
-      fi
 
-# Uncomment for debug purposes
-# after_failure:
-#  - bash tests/_ci/after_failure.sh
+after_failure:
+ - ./tests/_ci/after-failure.sh
 
 notifications:
-    # Stop spam me. I already live on Travis CI and GitHub
-    email:
-        on_success: never
-        on_failure: never
+    email: false
 
-addons:
-    apt:
-        packages:
-            - beanstalkd
-            # Uncomment for debug
-            # - gdb
+

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
@@ -14,24 +23,13 @@ use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Model\BindingCest
+ * Phalcon\Test\Integration\Mvc\Model\BindingCest
  * Tests the Phalcon\Mvc\Application component
  *
- * @copyright (c) 2011-2016 Phalcon Team
- * @link          http://www.phalconphp.com
- * @author        Andres Gutierrez <andres@phalconphp.com>
- * @author        Serghei Iakovlev <serghei@phalconphp.com>
- * @author        Wojciech Ślawski <jurigag@gmail.com>
- * @package       Phalcon\Test\Integration\Mvc\Model
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\Model
  */
 class BinderCest
 {
@@ -70,19 +68,19 @@ class BinderCest
         Di::setDefault($I->getApplication()->getDI());
 
         if (!extension_loaded('apc')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: apc extension is not loaded'
             );
         }
 
         if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: apc.enable_cli must be set to "On"'
             );
         }
 
         if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }

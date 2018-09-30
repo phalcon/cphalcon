@@ -8,27 +8,6 @@
         "high load",
         "mvc"
     ],
-    "require": {
-        "php": ">=5.5"
-    },
-    "require-dev": {
-        "ext-dom": "*",
-        "ext-json": "*",
-        "ext-libxml": "*",
-        "ext-mbstring": "*",
-        "ext-xml": "*",
-        "doctrine/instantiator": "1.0.5",
-        "phpdocumentor/reflection-docblock": "^2.0",
-        "phpunit/phpunit": "^4.8",
-        "mustache/mustache": "^2.11",
-        "twig/twig": "~1.34",
-        "predis/predis": "^1.1",
-        "codeception/codeception": "^2.3",
-        "codeception/verify": "^0.3",
-        "codeception/specify": "^0.4",
-        "squizlabs/php_codesniffer": "^2.9",
-        "phalcon/zephir": "^0.10"
-    },
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -41,24 +20,46 @@
             "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
         }
     ],
+    "require": {
+        "php": ">=5.5",
+        "ext-apcu": "*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-xml": "*"
+    },
+    "require-dev": {
+        "codeception/codeception": "^2.3",
+        "codeception/specify": "^0.4",
+        "codeception/verify": "^0.3",
+        "doctrine/instantiator": "1.0.5",
+        "mustache/mustache": "^2.11",
+        "phalcon/zephir": "^0.10",
+        "phpdocumentor/reflection-docblock": "^2.0",
+        "phpunit/phpunit": "^4.8 || ^5.7",
+        "predis/predis": "^1.1",
+        "squizlabs/php_codesniffer": "^3.3",
+        "twig/twig": "~1.34"
+    },
     "autoload-dev": {
         "psr-4": {
             "Zephir\\Optimizers\\": "optimizers/",
             "Phalcon\\Test\\Unit\\": "tests/unit/",
-            "Phalcon\\Test\\Unit5x\\": "tests/unit5x/",
             "Phalcon\\Test\\Integration\\": "tests/integration/",
             "Phalcon\\Test\\Module\\": "tests/_support/Module/",
             "Phalcon\\Test\\Listener\\": "tests/_data/listener/"
         }
     },
     "support": {
+        "email": "support@phalconphp.com",
         "issues": "https://github.com/phalcon/cphalcon/issues",
-        "source": "https://github.com/phalcon/cphalcon",
         "forum": "https://forum.phalconphp.com/",
-        "docs": "https://docs.phalconphp.com/",
         "wiki": "https://github.com/phalcon/cphalcon/wiki",
         "irc": "irc://irc.freenode.org/phalconphp",
-        "rss" : "https://blog.phalconphp.com/rss",
-        "email": "support@phalconphp.com"
+        "source": "https://github.com/phalcon/cphalcon",
+        "docs": "https://docs.phalconphp.com/",
+        "rss": "https://blog.phalconphp.com/rss"
     }
 }

@@ -24,6 +24,7 @@ use Phalcon\Test\Models\BodyParts\Body;
 use Phalcon\Test\Models\News\Subscribers;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\Validation;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Mvc\ModelTest
@@ -221,7 +222,7 @@ class ModelTest extends UnitTest
         }
 
         if (extension_loaded('apcu') && version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }

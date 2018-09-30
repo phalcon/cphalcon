@@ -1,19 +1,43 @@
 <?php
+
 /**
- * Phalcon Framework
+ * This file is part of the Phalcon.
  *
- * @copyright (c) 2011-present Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
+ * (c) Phalcon Team <team@phalconphp.com>
  *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
+
+if (!class_exists('\PHPUnit\Framework\TestCase') and class_exists('PHPUnit_Framework_TestCase')) {
+    /** @noinspection PhpIgnoredClassAliasDeclaration */
+    class_alias('PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+}
+
+if (!class_exists('\PHPUnit\TextUI\ResultPrinter') and class_exists('PHPUnit_TextUI_ResultPrinter')) {
+    /** @noinspection PhpIgnoredClassAliasDeclaration */
+    class_alias('PHPUnit_TextUI_ResultPrinter', '\PHPUnit\TextUI\ResultPrinter');
+}
+
+if (!class_exists('\PHPUnit\Framewor\Exception') and class_exists('PHPUnit_Framework_Exception')) {
+    /** @noinspection PhpIgnoredClassAliasDeclaration */
+    class_alias('PHPUnit_Framework_Exception', '\PHPUnit\Framewor\Exception');
+}
+
+if (!class_exists('\PHPUnit\TextUI\Command') and class_exists('PHPUnit_TextUI_Command')) {
+    /** @noinspection PhpIgnoredClassAliasDeclaration */
+    class_alias('PHPUnit_TextUI_Command', '\PHPUnit\TextUI\Command');
+}
+
+if (!class_exists('\PHPUnit\Framework\SkippedTestError') and class_exists('PHPUnit_Framework_SkippedTestError')) {
+    /** @noinspection PhpIgnoredClassAliasDeclaration */
+    class_alias('PHPUnit_Framework_SkippedTestError', '\PHPUnit\Framework\SkippedTestError');
+}
+
+if (!class_exists('\PHPUnit\TextUI\Command') and class_exists('PHPUnit_TextUI_Command')) {
+    /** @noinspection PhpIgnoredClassAliasDeclaration */
+    class_alias('PHPUnit_TextUI_Command', '\PHPUnit\TextUI\Command');
+}
 
 if (!function_exists('env')) {
     function env($key, $default = null)
