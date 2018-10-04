@@ -1,6 +1,8 @@
 # [3.4.2](https://github.com/phalcon/cphalcon/releases/tag/v3.4.2) (2018-XX-XX)
 - Fixed `Phalcon\Validation\Validator\Numericality` to accept float numbers on locales with comma decimal point [#13450](https://github.com/phalcon/cphalcon/issues/13450)
-- Added `paginate()` method as a proxy of `getPaginate`. Added `previous` in the paginator object same as `before`. After 4.0 is released we will deprecate `getPaginate()`, `before` and `total_items` [#13492](https://github.com/phalcon/cphalcon/issues/13492)
+- Fixed `Phalcon\Tag` so it unsets `parameters` before passing options array to `self::renderAttributes`
+- Fixed  `\Phalcon\Http\Response::setFileToSend` filename; when file downloaded it had an extra `_`
+- Added the ability to explicitly define nullable columns (especially timestamp ones). [#13099](https://github.com/phalcon/cphalcon/issues/13099)
 
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
