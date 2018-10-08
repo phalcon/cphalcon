@@ -360,7 +360,8 @@ abstract class Pdo extends Adapter
 				let statement = this->executePrepared(statement, bindParams, bindTypes);
 			}
 		} else {
-			let statement = pdo->execute(sqlStatement);
+			let statement = pdo->prepare(sqlStatement);
+			statement->execute();
 		}
 
 		/**
