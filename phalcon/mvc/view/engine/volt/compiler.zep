@@ -499,7 +499,15 @@ class Compiler implements InjectionAwareInterface
 						"date_field": true,
 						"tel_field": true,
 						"numeric_field": true,
-						"image_input": true
+						"image_input": true,
+						"url_field": true,
+						"color_field": true,
+						"range_field": true,
+						"date_time_field": true,
+						"date_time_local_field": true,
+						"month_field": true,
+						"time_field": true,
+						"week_field": true
 					];
 					let this->_arrayHelpers = arrayHelpers;
 				}
