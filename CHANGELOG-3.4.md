@@ -33,3 +33,4 @@
 - Fixed `Phalcon\Mvc\Model::setSnapshotData` to properly sets the old snapshot
 - Do not throw Exception when superglobal does not exist [#13252](https://github.com/phalcon/cphalcon/issues/13252), [#13254](https://github.com/phalcon/cphalcon/issues/13254), [#12918](https://github.com/phalcon/cphalcon/issues/12918)
 - Fixed `Phalcon\Mvc\Model\Query::execute` to properly bind parameters to sub queries [#11605](https://github.com/phalcon/cphalcon/issues/11605)
+- Added missing Volt tags to array helper in `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` [#13447](https://github.com/phalcon/cphalcon/issues/13447)
