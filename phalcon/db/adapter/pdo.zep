@@ -337,7 +337,7 @@ abstract class Pdo extends Adapter
 	 */
 	public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | boolean
 	{
-		var eventsManager, pdo, statement;
+		var eventsManager, pdo, statement, params, types;
 
 		let eventsManager = <ManagerInterface> this->_eventsManager;
 
