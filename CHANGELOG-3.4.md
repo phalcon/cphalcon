@@ -3,8 +3,7 @@
 - Fixed `Phalcon\Tag` so it unsets `parameters` before passing options array to `self::renderAttributes`
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename; when file downloaded it had an extra `_`
 - Added the ability to explicitly define nullable columns (especially timestamp ones). [#13099](https://github.com/phalcon/cphalcon/issues/13099)
-- Refactor `Phalcon\Db\Adapter\Pdo::query` in fetchOne get All fetch One, `Phalcon\Db\Adapter::queryAll` use `pdo::queryAll`
-
+- Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
 
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter

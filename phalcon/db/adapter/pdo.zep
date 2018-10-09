@@ -355,13 +355,18 @@ abstract class Pdo extends Adapter
 
 		let pdo = <\Pdo> this->_pdo;
 		if typeof bindParams == "array" {
-			let statement = pdo->prepare(sqlStatement);
-			if typeof statement == "object" {
-				let statement = this->executePrepared(statement, bindParams, bindTypes);
-			}
+			let params = bindParams;
+			let types = bindTypes;
 		} else {
-			let statement = pdo->prepare(sqlStatement);
-			statement->execute();
+			let params = [];
+			let types = [];
+		}
+			
+		let statement = pdo->prepare(sqlStatement);
+		if typeof statement == "object" {
+			let statement = this->executePrepared(statement, params, types);
+		} else {
+			throw new Exception("Cannot prepare statement");
 		}
 
 		/**
