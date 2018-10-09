@@ -398,14 +398,20 @@ class Request implements RequestInterface, InjectionAwareInterface
 	 */
 	public function getJsonRawBody(boolean associative = false) -> <\stdClass> | array | boolean
 	{
-		var rawBody;
+		var rawBody, data;
 
 		let rawBody = this->getRawBody();
-		if typeof rawBody != "string" {
+		if empty rawBody {
 			return false;
 		}
 
-		return json_decode(rawBody, associative);
+		let data = json_decode(rawBody, associative);
+
+		if json_last_error() !== JSON_ERROR_NONE {
+			return false;
+		}
+
+		return data;
 	}
 
 	/**
