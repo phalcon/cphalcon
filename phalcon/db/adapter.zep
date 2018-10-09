@@ -236,16 +236,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 			if fetchMode !== null {
 				result->setFetchMode(fetchMode);
 			}
-
-			loop {
-
-				let row = result->$fetch();
-				if !row {
-					break;
-				}
-
-				let results[] = row;
-			}
+			let results = result->fetchAll();
 		}
 
 		return results;

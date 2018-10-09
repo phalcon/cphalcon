@@ -3,9 +3,11 @@
 - Fixed `Phalcon\Tag` so it unsets `parameters` before passing options array to `self::renderAttributes`
 - Fixed  `\Phalcon\Http\Response::setFileToSend` filename; when file downloaded it had an extra `_`
 - Added the ability to explicitly define nullable columns (especially timestamp ones). [#13099](https://github.com/phalcon/cphalcon/issues/13099)
+- Refactored `Phalcon\Db\Adapter\Pdo::query` to use PDO's prepare and execute. `Phalcon\Db\Adapter::fetchAll` to use PDO's fetchAll
 - Fixed `Phalcon\Mvc\Model\Query::execute` to properly bind parameters to sub queries [#11605](https://github.com/phalcon/cphalcon/issues/11605)
 - Added missing Volt tags to array helper in `Phalcon\Mvc\View\Engine\Volt\Compiler::functionCall` [#13447](https://github.com/phalcon/cphalcon/issues/13447)
 - Fixed `Phalcon\Http\Request::getJsonRawBody` [#13501](https://github.com/phalcon/cphalcon/issues/13501). It will now return false when the body content is empty, as well as when it encounters an error whilst decoding the JSON content.
+
 
 # [3.4.1](https://github.com/phalcon/cphalcon/releases/tag/v3.4.1) (2018-08-04)
 - Changed `Phalcon\Cache\Backend\Redis` to support connection timeout parameter
