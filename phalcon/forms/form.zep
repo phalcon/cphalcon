@@ -19,6 +19,7 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Tag;
 use Phalcon\Validation;
 use Phalcon\ValidationInterface;
 use Phalcon\DiInterface;
@@ -552,7 +553,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 */
 	public function getValue(string! name) -> var | null
 	{
-		var entity, method, value, data, $internal, forbidden;
+		var entity, method, value, data, $internal, forbidden, element;
 
 		let entity = this->_entity;
 		let data = this->_data;
@@ -622,6 +623,20 @@ class Form extends Injectable implements \Countable, \Iterator
 		if method_exists(this, method) {
 			return this->{method}();
 		}
+		
+		/**
+		 * Check if the tag has a default value
+		 */
+		if Tag::hasValue(name) {
+			return Tag::getValue(name);
+		}
+
+		/**
+		 * Check if element has default value
+		 */
+		if fetch element, this->_elements[name] {
+			return element->getDefault();
+		}
 
 		return null;
 	}
@@ -661,14 +676,14 @@ class Form extends Injectable implements \Countable, \Iterator
 	/**
 	 * Clears every element in the form to its default value
 	 *
-	 * @param array fields
+	 * @param array|string|null fields
 	 */
 	public function clear(var fields = null) -> <Form>
 	{
 		var elements, element, data, field;
 
 		let data = this->_data;
-		if is_null(fields) {
+		if fields === null {
 			let data = [];
 		} else {
 			if typeof fields == "array" {
@@ -687,17 +702,30 @@ class Form extends Injectable implements \Countable, \Iterator
 		let this->_data = data,
 			elements = this->_elements;
 
-		if typeof elements == "array" {
-			for element in elements {
-				if typeof fields != "array" {
-					element->clear();
-				} else {
-					if in_array(element->getName(), fields) {
-						element->clear();
-					}
-				}
-			}
-		}
+		/**
+        * If fields is string, clear just that field.
+        * If it's array, clear only fields in array.
+        * If null, clear all
+        */
+        if typeof elements == "array" {
+            if fields === null {
+                for element in elements {
+                    Tag::setDefault(element->getName(), element->getDefault());
+                }
+            } else {
+                if typeof fields == "array" {
+                    for element in elements {
+                        if in_array(element->getName(), fields) {
+                            Tag::setDefault(element->getName(), element->getDefault());
+                        }
+                    }
+                } else {
+                    if fetch element, elements[fields] {
+                        Tag::setDefault(element->getName(), element->getDefault());
+                    }
+                }
+            }
+        }
 		return this;
 	}
 
