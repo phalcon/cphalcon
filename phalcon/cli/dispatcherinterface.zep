@@ -28,11 +28,25 @@ use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
  */
 interface DispatcherInterface extends DispatcherInterfaceBase
 {
+	/**
+	 * Returns the active task in the dispatcher
+	 */
+	public function getActiveTask() -> <TaskInterface>;
 
 	/**
-	 * Sets the default task suffix
+	 * Returns the latest dispatched controller
 	 */
-	public function setTaskSuffix(string taskSuffix);
+	public function getLastTask() -> <TaskInterface>;
+
+	/**
+	 * Gets last dispatched task name
+	 */
+	public function getTaskName() -> string;
+
+	/**
+	 * Gets default task suffix
+	 */
+	public function getTaskSuffix() -> string;
 
 	/**
 	 * Sets the default task name
@@ -45,17 +59,7 @@ interface DispatcherInterface extends DispatcherInterfaceBase
 	public function setTaskName(string taskName);
 
 	/**
-	 * Gets last dispatched task name
+	 * Sets the default task suffix
 	 */
-	public function getTaskName() -> string;
-
-	/**
-	 * Returns the latest dispatched controller
-	 */
-	public function getLastTask() -> <TaskInterface>;
-
-	/**
-	 * Returns the active task in the dispatcher
-	 */
-	public function getActiveTask() -> <TaskInterface>;
+	public function setTaskSuffix(string taskSuffix);
 }
