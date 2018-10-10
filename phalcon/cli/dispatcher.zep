@@ -49,83 +49,24 @@ use Phalcon\Dispatcher as CliDispatcher;
  */
 class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
-
-	protected _handlerSuffix = "Task";
+	protected _defaultAction = "main";
 
 	protected _defaultHandler = "main";
 
-	protected _defaultAction = "main";
+	protected _handlerSuffix = "Task";
 
 	protected _options = [];
 
 	/**
-	 * Sets the default task suffix
+	 * Calls the action method.
 	 */
-	public function setTaskSuffix(string taskSuffix)
+	public function callActionMethod(handler, string actionMethod, array! params = []) -> var
 	{
-		let this->_handlerSuffix = taskSuffix;
-	}
+		var options;
 
-	/**
-	 * Sets the default task name
-	 */
-	public function setDefaultTask(string taskName)
-	{
-		let this->_defaultHandler = taskName;
-	}
+		let options = this->_options;
 
-	/**
-	 * Sets the task name to be dispatched
-	 */
-	public function setTaskName(string taskName)
-	{
-		let this->_handlerName = taskName;
-	}
-
-	/**
-	 * Gets last dispatched task name
-	 */
-	public function getTaskName() -> string
-	{
-		return this->_handlerName;
-	}
-
-	/**
-	 * Throws an internal exception
-	 */
-	protected function _throwDispatchException(string message, int exceptionCode = 0)
-	{
-		var exception;
-
-		let exception = new Exception(message, exceptionCode);
-
-		if this->_handleException(exception) === false {
-			return false;
-		}
-
-		throw exception;
-	}
-
-	/**
-	 * Handles a user exception
-	 */
-	protected function _handleException(<\Exception> exception)
-	{
-		var eventsManager;
-		let eventsManager = <ManagerInterface> this->_eventsManager;
-		if typeof eventsManager == "object" {
-			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
-				return false;
-			}
-		}
-	}
-
-	/**
-	 * Returns the latest dispatched controller
-	 */
-	public function getLastTask() -> <TaskInterface>
-	{
-		return this->_lastHandler;
+		return call_user_func_array([handler, actionMethod], [params, options]);
 	}
 
 	/**
@@ -137,19 +78,11 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Set the options to be dispatched
+	 * Returns the latest dispatched controller
 	 */
-	public function setOptions(array options)
+	public function getLastTask() -> <TaskInterface>
 	{
-		let this->_options = options;
-	}
-
-	/**
-	 * Get dispatched options
-	 */
-	public function getOptions() -> array
-	{
-		return this->_options;
+		return this->_lastHandler;
 	}
 
 	/**
@@ -185,6 +118,30 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Get dispatched options
+	 */
+	public function getOptions() -> array
+	{
+		return this->_options;
+	}
+
+	/**
+	 * Gets last dispatched task name
+	 */
+	public function getTaskName() -> string
+	{
+		return this->_handlerName;
+	}
+
+	/**
+	 * Gets the default task suffix
+	 */
+	public function setTaskSuffix() -> string
+	{
+		return this->_handlerSuffix;
+	}
+
+	/**
 	 * Check if an option exists
 	 */
 	public function hasOption(var option) -> boolean
@@ -193,14 +150,64 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Calls the action method.
+	 * Sets the default task name
 	 */
-	public function callActionMethod(handler, string actionMethod, array! params = []) -> var
+	public function setDefaultTask(string taskName)
 	{
-		var options;
+		let this->_defaultHandler = taskName;
+	}
 
-		let options = this->_options;
-		
-		return call_user_func_array([handler, actionMethod], [params, options]);
+	/**
+	 * Set the options to be dispatched
+	 */
+	public function setOptions(array options)
+	{
+		let this->_options = options;
+	}
+
+	/**
+	 * Sets the task name to be dispatched
+	 */
+	public function setTaskName(string taskName)
+	{
+		let this->_handlerName = taskName;
+	}
+
+	/**
+	 * Sets the default task suffix
+	 */
+	public function setTaskSuffix(string taskSuffix)
+	{
+		let this->_handlerSuffix = taskSuffix;
+	}
+
+	/**
+	 * Handles a user exception
+	 */
+	protected function _handleException(<\Exception> exception)
+	{
+		var eventsManager;
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Throws an internal exception
+	 */
+	protected function _throwDispatchException(string message, int exceptionCode = 0)
+	{
+		var exception;
+
+		let exception = new Exception(message, exceptionCode);
+
+		if this->_handleException(exception) === false {
+			return false;
+		}
+
+		throw exception;
 	}
 }
