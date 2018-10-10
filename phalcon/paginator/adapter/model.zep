@@ -70,12 +70,22 @@ class Model extends Adapter
 
 	/**
 	 * Returns a slice of the resultset to show in the pagination
+	 *
+	 * @deprecated will be removed after 4.0
 	 */
 	public function getPaginate() -> <\stdClass>
 	{
+		return this->paginate();
+	}
+
+	/**
+	 * Returns a slice of the resultset to show in the pagination
+	 */
+	public function paginate() -> <\stdClass>
+	{
 		var config, items, pageItems, page;
 		int pageNumber, show, n, start, lastShowPage,
-			i, next, totalPages, before;
+			i, next, totalPages, previous;
 
 		let show       = (int) this->_limitRows,
 			config     = this->_config,
@@ -136,18 +146,25 @@ class Model extends Adapter
 		}
 
 		if pageNumber > 1 {
-			let before = pageNumber - 1;
+			let previous = pageNumber - 1;
 		} else {
-			let before = 1;
+			let previous = 1;
 		}
 
 		let page = new \stdClass(),
 			page->items = pageItems,
 			page->first = 1,
-			page->before =  before,
+			/**
+			 * @deprecated `before` will be removed after 4.0
+			 */
+			page->before = previous,
+			page->previous = previous,
 			page->current = pageNumber,
 			page->last = totalPages,
 			page->next = next,
+			/**
+			 * @deprecated `total_pages` will be removed after 4.0
+			 */
 			page->total_pages = totalPages,
 			page->total_items = n,
 			page->limit = this->_limitRows;

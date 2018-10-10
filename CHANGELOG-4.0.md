@@ -4,6 +4,7 @@
 - Added `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences` to implement custom Postgresql rules
 - Added `Phalcon\Mvc\Router\RouteInterface::convert` so that calling `Phalcon\Mvc\Router\Group::add` will return an instance that has `convert` method [#13380](https://github.com/phalcon/cphalcon/issues/13380)
 - Added `Phalcon\Mvc\ModelInterface::getModelsMetaData` [#13070](https://github.com/phalcon/cphalcon/issues/13402)
+- Added `paginate()` method as a proxy of `getPaginate`. Added `previous` in the paginator object same as `before`. After 4.0 is released we will deprecate `getPaginate()`, `before` and `total_items` [#13492](https://github.com/phalcon/cphalcon/issues/13492)
 
 ## Changed
 - By configuring `prefix` and `statsKey` the `Phalcon\Cache\Backend\Redis::queryKeys` no longer returns prefixed keys, now it returns original keys without prefix. [#13456](https://github.com/phalcon/cphalcon/pull/13456)
