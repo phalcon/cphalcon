@@ -185,7 +185,7 @@ class Memory extends Adapter
 	 * </code>
 	 *
 	 * @param  array|string         accessInherits
-	 * @param  RoleInterface|string role
+	 * @param  RoleInterface|string|array role
 	 */
 	public function addRole(role, accessInherits = null) -> boolean
 	{
@@ -218,47 +218,81 @@ class Memory extends Adapter
 	/**
 	 * Do a role inherit from another existing role
 	 */
-	public function addInherit(string roleName, var roleToInherit) -> boolean
+	public function addInherit(string roleName, var roleToInherits) -> boolean
 	{
-		var roleInheritName, rolesNames, deepInheritName;
+		var roleInheritName, rolesNames, deepInheritName, roleToInherit, checkRoleToInherit,
+		 checkRoleToInherits, usedRoleToInherits, usedRoleToInherit;
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
 			throw new Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
-		if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
-			let roleInheritName = roleToInherit->getName();
-		} else {
-			let roleInheritName = roleToInherit;
-		}
-
-		/**
-		 * Deep inherits
-		 */
-		if isset this->_roleInherits[roleInheritName] {
-			for deepInheritName in this->_roleInherits[roleInheritName] {
-				this->addInherit(roleName, deepInheritName);
-			}
-		}
-
-		/**
-		 * Check if the role to inherit is valid
-		 */
-		if !isset rolesNames[roleInheritName] {
-			throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
-		}
-
-		if roleName == roleInheritName {
-			return false;
-		}
-
 		if !isset this->_roleInherits[roleName] {
-			let this->_roleInherits[roleName] = true;
-		}
+            let this->_roleInherits[roleName] = true;
+        }
+		/**
+		 * Type conversion
+         */
+        if typeof roleToInherits != "array" {
+            let roleToInherits = [roleToInherits];
+        }
+        /**
+         * inherits
+         */
+        for roleToInherit in roleToInherits {
+            if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
+                let roleInheritName = roleToInherit->getName();
+            } else {
+                let roleInheritName = roleToInherit;
+            }
+            /**
+             * Check if the role to inherit is repeat
+             */
+            if typeof this->_roleInherits[roleName] == "array" && in_array(roleToInherit, this->_roleInherits[roleName]) {
+                continue;
+            }
+            /**
+             * Check if the role to inherit is valid
+             */
+            if !isset rolesNames[roleInheritName] {
+                throw new Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
+            }
 
-		let this->_roleInherits[roleName][] = roleInheritName;
+            if roleName == roleInheritName {
+                return false;
+            }
+            /**
+             * Deep check if the role to inherit is valid
+             */
+            if typeof this->_roleInherits[roleInheritName] == "array" {
+                let checkRoleToInherits = this->_roleInherits[roleInheritName];
+                let useRoleToInherits = [];
+                loop {
+                    let checkRoleToInherit = array_shift(checkRoleToInherits);
+                    if empty checkRoleToInherit {
+                        break;
+                    }
+                    if isset useRoleToInherits[checkRoleToInherit] {
+                        continue;
+                    }
+                    let useRoleToInherits[checkRoleToInherit]=true;
+                    if roleName == checkRoleToInherit {
+                        throw new Exception("Role '" . roleInheritName . "' (to inherit) is infinite loop ");
+                    }
+                    /**
+                     * Push inherited roles
+                     */
+                    if typeof this->_roleInherits[checkRoleToInherit] == "array" {
+                        for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
+                            array_push(checkRoleToInherits,usedRoleToInherit);
+                        }
+                    }
+                }
+            }
 
+            let this->_roleInherits[roleName][] = roleInheritName;
+        }
 		return true;
 	}
 
@@ -537,7 +571,7 @@ class Memory extends Adapter
 	{
 		var eventsManager, accessList, accessKey,
 			haveAccess = null, roleInherits, inheritedRole, rolesNames,
-			inheritedRoles, funcAccess = null, resourceObject = null, roleObject = null, funcList,
+			funcAccess = null, resourceObject = null, roleObject = null, funcList,
 			reflectionFunction, reflectionParameters, parameterNumber, parametersForFunction,
 			numberOfRequiredParameters, userParametersSizeShouldBe, reflectionClass, parameterToCheck,
 			reflectionParameter, hasRole = false, hasResource = false;
@@ -586,101 +620,20 @@ class Memory extends Adapter
 			return (this->_defaultAccess == Acl::ALLOW);
 		}
 
-		let accessKey = roleName . "!" . resourceName . "!" . access;
-
 		/**
 		 * Check if there is a direct combination for role-resource-access
 		 */
-		if isset accessList[accessKey] {
-			let haveAccess = accessList[accessKey];
-		}
+		let accessKey = this->_isAllowed(roleName, resourceName, access);
 
-		fetch funcAccess, funcList[accessKey];
+		if accessKey !== false && isset accessList[accessKey] {
+			let haveAccess = accessList[accessKey];
+			fetch funcAccess, funcList[accessKey];
+		}
 
 		/**
 		 * Check in the inherits roles
 		 */
-		if haveAccess == null {
 
-			let roleInherits = this->_roleInherits;
-			if fetch inheritedRoles, roleInherits[roleName] {
-				if typeof inheritedRoles == "array" {
-					for inheritedRole in inheritedRoles {
-						let accessKey = inheritedRole . "!" . resourceName . "!" . access;
-
-						/**
-						 * Check if there is a direct combination in one of the inherited roles
-						 */
-						if isset accessList[accessKey] {
-							let haveAccess = accessList[accessKey];
-						}
-						fetch funcAccess, funcList[accessKey];
-					}
-				}
-			}
-		}
-
-		/**
-		 * If access wasn't found yet, try role-resource-*
-		 */
-		if haveAccess == null {
-
-			let accessKey =  roleName . "!" . resourceName . "!*";
-
-			/**
-			 * In the direct role
-			 */
-			if isset accessList[accessKey] {
-				let haveAccess = accessList[accessKey];
-				fetch funcAccess, funcList[accessKey];
-			} else {
-				if typeof inheritedRoles == "array" {
-					for inheritedRole in inheritedRoles {
-						let accessKey = inheritedRole . "!" . resourceName . "!*";
-
-						/**
-						 * In the inherited roles
-						 */
-						fetch funcAccess, funcList[accessKey];
-						if isset accessList[accessKey] {
-							let haveAccess = accessList[accessKey];
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		/**
-		 * If access wasn't found yet, try role-*-*
-		 */
-		if haveAccess == null {
-
-			let accessKey =  roleName . "!*!*";
-
-			/**
-			 * Try in the direct role
-			 */
-			if isset accessList[accessKey] {
-				let haveAccess = accessList[accessKey];
-				fetch funcAccess, funcList[accessKey];
-			} else {
-				if typeof inheritedRoles == "array" {
-					for inheritedRole in inheritedRoles {
-						let accessKey = inheritedRole . "!*!*";
-
-						/**
-						 * In the inherited roles
-						 */
-						fetch funcAccess, funcList[accessKey];
-						if isset accessList[accessKey] {
-							let haveAccess = accessList[accessKey];
-							break;
-						}
-					}
-				}
-			}
-		}
 
 		let this->_accessGranted = haveAccess;
 		if typeof eventsManager == "object" {
@@ -779,6 +732,88 @@ class Memory extends Adapter
 
 		return haveAccess == Acl::ALLOW;
 	}
+
+	/**
+	 * Check whether a role is allowed to access an action from a resource
+	 */
+	protected function _isAllowed(string roleName, string resourceName, string access) -> string | boolean
+    {
+        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits,
+            usedRoleToInherit;
+
+		let accessList = this->_access;
+
+        let accessKey = roleName . "!" . resourceName . "!" . access;
+
+		/**
+		 * Check if there is a direct combination for role-resource-access
+		 */
+		if isset accessList[accessKey] {
+			return accessKey;
+		}
+		/**
+         * Check if there is a direct combination for role-*-*
+         */
+        let accessKey = roleName . "!" . resourceName . "!*";
+        if isset accessList[accessKey] {
+            return accessKey;
+        }
+        /**
+         * Check if there is a direct combination for role-*-*
+         */
+        let accessKey = roleName . "!*!*";
+        if isset accessList[accessKey] {
+            return accessKey;
+        }
+        /**
+         * Deep check if the role to inherit is valid
+         */
+        if typeof this->_roleInherits[roleName] == "array" {
+            let checkRoleToInherits = this->_roleInherits[roleInheritName];
+            let useRoleToInherits = [];
+            loop {
+                let checkRoleToInherit = array_shift(checkRoleToInherits);
+                if empty checkRoleToInherit {
+                    break;
+                }
+                if isset useRoleToInherits[checkRoleToInherit] {
+                    continue;
+                }
+                let useRoleToInherits[checkRoleToInherit]=true;
+
+                let accessKey = checkRoleToInherit . "!" . resourceName . "!" . access;
+                /**
+                 * Check if there is a direct combination in one of the inherited roles
+                 */
+                if isset accessList[accessKey] {
+                    return accessKey;
+                }
+                /**
+                 * Check if there is a direct combination for role-*-*
+                 */
+                let accessKey = checkRoleToInherit . "!" . resourceName . "!*";
+                if isset accessList[accessKey] {
+                    return accessKey;
+                }
+                /**
+                 * Check if there is a direct combination for role-*-*
+                 */
+                let accessKey = checkRoleToInherit . "!*!*";
+                if isset accessList[accessKey] {
+                    return accessKey;
+                }
+                /**
+                 * Push inherited roles
+                 */
+                if typeof this->_roleInherits[checkRoleToInherit] == "array" {
+                    for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
+                        array_push(checkRoleToInherits,usedRoleToInherit);
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
