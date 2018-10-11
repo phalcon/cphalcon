@@ -86,7 +86,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	protected _isControllerInitialize = false;
 
-	const EXCEPTION_NO_DI = 0;
+	const EXCEPTION_ACTION_NOT_FOUND = 5;
 
 	const EXCEPTION_CYCLIC_ROUTING = 1;
 
@@ -96,267 +96,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
 	const EXCEPTION_INVALID_PARAMS = 4;
 
-	const EXCEPTION_ACTION_NOT_FOUND = 5;
+	const EXCEPTION_NO_DI = 0;
 
-	/**
-	 * Sets the dependency injector
-	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function callActionMethod(handler, string actionMethod, array! params = [])
 	{
-		let this->_dependencyInjector = dependencyInjector;
-	}
-
-	/**
-	 * Returns the internal dependency injector
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		return this->_dependencyInjector;
-	}
-
-	/**
-	 * Sets the events manager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager)
-	{
-		let this->_eventsManager = eventsManager;
-	}
-
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <ManagerInterface>
-	{
-		return this->_eventsManager;
-	}
-
-	/**
-	 * Sets the default action suffix
-	 */
-	public function setActionSuffix(string actionSuffix)
-	{
-		let this->_actionSuffix = actionSuffix;
-	}
-
-	/**
-	 * Gets the default action suffix
-	 */
-	public function getActionSuffix() -> string
-	{
-		return this->_actionSuffix;
-	}
-
-	/**
-	 * Sets the module where the controller is (only informative)
-	 */
-	public function setModuleName(string moduleName) -> void
-	{
-		let this->_moduleName = moduleName;
-	}
-
-	/**
-	 * Gets the module where the controller class is
-	 */
-	public function getModuleName() -> string
-	{
-		return this->_moduleName;
-	}
-
-	/**
-	 * Sets the namespace where the controller class is
-	 */
-	public function setNamespaceName(string namespaceName) -> void
-	{
-		let this->_namespaceName = namespaceName;
-	}
-
-	/**
-	 * Gets a namespace to be prepended to the current handler name
-	 */
-	public function getNamespaceName() -> string
-	{
-		return this->_namespaceName;
-	}
-
-	/**
-	 * Sets the default namespace
-	 */
-	public function setDefaultNamespace(string namespaceName) -> void
-	{
-		let this->_defaultNamespace = namespaceName;
-	}
-
-	/**
-	 * Returns the default namespace
-	 */
-	public function getDefaultNamespace() -> string
-	{
-		return this->_defaultNamespace;
-	}
-
-	/**
-	 * Sets the default action name
-	 */
-	public function setDefaultAction(string actionName) -> void
-	{
-		let this->_defaultAction = actionName;
-	}
-
-	/**
-	 * Sets the action name to be dispatched
-	 */
-	public function setActionName(string actionName) -> void
-	{
-		let this->_actionName = actionName;
-	}
-
-	/**
-	 * Gets the latest dispatched action name
-	 */
-	public function getActionName() -> string
-	{
-		return this->_actionName;
-	}
-
-	/**
-	 * Sets action params to be dispatched
-	 *
-	 * @param array params
-	 */
-	public function setParams(var params) -> void
-	{
-		// @todo Deprecate in 4.0 and replace with array params
-		if typeof params != "array" {
-			// Note: Important that we do not throw a "_throwDispatchException" call here. This is important
-			// because it would allow the application to break out of the defined logic inside the dispatcher
-			// which handles all dispatch exceptions.
-			throw new PhalconException("Parameters must be an Array");
-		}
-		let this->_params = params;
-	}
-
-	/**
-	 * Gets action params
-	 */
-	public function getParams() -> array
-	{
-		return this->_params;
-	}
-
-	/**
-	 * Set a param by its name or numeric index
-	 */
-	public function setParam(var param, var value)
-	{
-		let this->_params[param] = value;
-	}
-
-	/**
-	 * Gets a param by its name or numeric index
-	 *
-	 * @param  mixed param
-	 * @param  string|array filters
-	 * @param  mixed defaultValue
-	 * @return mixed
-	 */
-	public function getParam(var param, filters = null, defaultValue = null)
-	{
-		var params, filter, paramValue, dependencyInjector;
-
-		let params = this->_params;
-		if !fetch paramValue, params[param] {
-			return defaultValue;
-		}
-
-		if filters === null {
-			return paramValue;
-		}
-
-		let dependencyInjector = this->_dependencyInjector;
-		if typeof dependencyInjector != "object" {
-			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
-		}
-		let filter = <FilterInterface> dependencyInjector->getShared("filter");
-		return filter->sanitize(paramValue, filters);
-	}
-
-	/**
-	 * Check if a param exists
-	 */
-	public function hasParam(var param) -> boolean
-	{
-		return isset this->_params[param];
-	}
-
-	/**
-	 * Returns the current method to be/executed in the dispatcher
-	 */
-	public function getActiveMethod() -> string
-	{
-		return this->_actionName . this->_actionSuffix;
-	}
-
-	/**
-	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
-	 */
-	public function isFinished() -> boolean
-	{
-		return this->_finished;
-	}
-
-	/**
-	 * Sets the latest returned value by an action manually
-	 */
-	public function setReturnedValue(var value)
-	{
-		let this->_returnedValue = value;
-	}
-
-	/**
-	 * Returns value returned by the latest dispatched action
-	 */
-	public function getReturnedValue() -> var
-	{
-		return this->_returnedValue;
-	}
-
-	/**
-	 * Enable model binding during dispatch
-	 *
-	 * <code>
-	 * $di->set('dispatcher', function() {
-	 *     $dispatcher = new Dispatcher();
-	 *
-	 *     $dispatcher->setModelBinder(new Binder(), 'cache');
-	 *     return $dispatcher;
-	 * });
-	 * </code>
-	 */
-	public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
-	{
-		var dependencyInjector;
-
-		if typeof cache == "string" {
-			let dependencyInjector = this->_dependencyInjector;
-			let cache = dependencyInjector->get(cache);
-		}
-
-		if cache != null {
-			modelBinder->setCache(cache);
-		}
-
-		let this->_modelBinding = true;
-		let this->_modelBinder = modelBinder;
-
-		return this;
-	}
-
-	/**
-	 * Gets model binder
-	 */
-	public function getModelBinder() -> <BinderInterface>|null
-	{
-		return this->_modelBinder;
+		return call_user_func_array([handler, actionMethod], params);
 	}
 
 	/**
@@ -797,11 +541,77 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
-	 * Check if the current executed action was forwarded by another one
+	 * Gets the latest dispatched action name
 	 */
-	public function wasForwarded() -> boolean
+	public function getActionName() -> string
 	{
-		return this->_forwarded;
+		return this->_actionName;
+	}
+
+	/**
+	 * Gets the default action suffix
+	 */
+	public function getActionSuffix() -> string
+	{
+		return this->_actionSuffix;
+	}
+
+	/**
+	 * Returns the current method to be/executed in the dispatcher
+	 */
+	public function getActiveMethod() -> string
+	{
+		return this->_actionName . this->_actionSuffix;
+	}
+
+	/**
+	 * Returns bound models from binder instance
+	 *
+	 * <code>
+	 * class UserController extends Controller
+	 * {
+	 *     public function showAction(User $user)
+	 *     {
+	 *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
+	 *     }
+	 * }
+	 * </code>
+	 */
+	public function getBoundModels() -> array
+	{
+		var modelBinder;
+
+		let modelBinder = this->_modelBinder;
+
+		if modelBinder != null {
+			return modelBinder->getBoundModels();
+		}
+
+		return [];
+	}
+
+	/**
+	 * Returns the default namespace
+	 */
+	public function getDefaultNamespace() -> string
+	{
+		return this->_defaultNamespace;
+	}
+
+	/**
+	 * Returns the internal dependency injector
+	 */
+	public function getDI() -> <DiInterface>
+	{
+		return this->_dependencyInjector;
+	}
+
+	/**
+	 * Returns the internal event manager
+	 */
+	public function getEventsManager() -> <ManagerInterface>
+	{
+		return this->_eventsManager;
 	}
 
 	/**
@@ -839,35 +649,232 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 		return handlerClass;
 	}
 
-	public function callActionMethod(handler, string actionMethod, array! params = [])
+	/**
+	 * Gets the default handler suffix
+	 */
+	public function getHandlerSuffix() -> string
 	{
-		return call_user_func_array([handler, actionMethod], params);
+		return this->_handlerSuffix;
 	}
 
 	/**
-	 * Returns bound models from binder instance
-	 *
-	 * <code>
-	 * class UserController extends Controller
-	 * {
-	 *     public function showAction(User $user)
-	 *     {
-	 *         $boundModels = $this->dispatcher->getBoundModels(); // return array with $user
-	 *     }
-	 * }
-	 * </code>
+	 * Gets model binder
 	 */
-	public function getBoundModels() -> array
+	public function getModelBinder() -> <BinderInterface>|null
 	{
-		var modelBinder;
+		return this->_modelBinder;
+	}
 
-		let modelBinder = this->_modelBinder;
+	/**
+	 * Gets the module where the controller class is
+	 */
+	public function getModuleName() -> string
+	{
+		return this->_moduleName;
+	}
 
-		if modelBinder != null {
-			return modelBinder->getBoundModels();
+	/**
+	 * Gets a namespace to be prepended to the current handler name
+	 */
+	public function getNamespaceName() -> string
+	{
+		return this->_namespaceName;
+	}
+
+	/**
+	 * Gets a param by its name or numeric index
+	 *
+	 * @param  mixed param
+	 * @param  string|array filters
+	 * @param  mixed defaultValue
+	 * @return mixed
+	 */
+	public function getParam(var param, filters = null, defaultValue = null)
+	{
+		var params, filter, paramValue, dependencyInjector;
+
+		let params = this->_params;
+		if !fetch paramValue, params[param] {
+			return defaultValue;
 		}
 
-		return [];
+		if filters === null {
+			return paramValue;
+		}
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
+		}
+		let filter = <FilterInterface> dependencyInjector->getShared("filter");
+		return filter->sanitize(paramValue, filters);
+	}
+
+	/**
+	 * Gets action params
+	 */
+	public function getParams() -> array
+	{
+		return this->_params;
+	}
+
+	/**
+	 * Returns value returned by the latest dispatched action
+	 */
+	public function getReturnedValue() -> var
+	{
+		return this->_returnedValue;
+	}
+
+	/**
+	 * Check if a param exists
+	 */
+	public function hasParam(var param) -> boolean
+	{
+		return isset this->_params[param];
+	}
+
+	/**
+	 * Checks if the dispatch loop is finished or has more pendent controllers/tasks to dispatch
+	 */
+	public function isFinished() -> boolean
+	{
+		return this->_finished;
+	}
+	/**
+	 * Sets the action name to be dispatched
+	 */
+	public function setActionName(string actionName) -> void
+	{
+		let this->_actionName = actionName;
+	}
+
+	/**
+	 * Sets the default action suffix
+	 */
+	public function setActionSuffix(string actionSuffix)
+	{
+		let this->_actionSuffix = actionSuffix;
+	}
+
+	/**
+	 * Sets the default action name
+	 */
+	public function setDefaultAction(string actionName) -> void
+	{
+		let this->_defaultAction = actionName;
+	}
+
+	/**
+	 * Sets the default namespace
+	 */
+	public function setDefaultNamespace(string namespaceName) -> void
+	{
+		let this->_defaultNamespace = namespaceName;
+	}
+
+	/**
+	 * Sets the dependency injector
+	 */
+	public function setDI(<DiInterface> dependencyInjector)
+	{
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Sets the events manager
+	 */
+	public function setEventsManager(<ManagerInterface> eventsManager)
+	{
+		let this->_eventsManager = eventsManager;
+	}
+
+	/**
+	 * Enable model binding during dispatch
+	 *
+	 * <code>
+	 * $di->set('dispatcher', function() {
+	 *     $dispatcher = new Dispatcher();
+	 *
+	 *     $dispatcher->setModelBinder(new Binder(), 'cache');
+	 *     return $dispatcher;
+	 * });
+	 * </code>
+	 */
+	public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
+	{
+		var dependencyInjector;
+
+		if typeof cache == "string" {
+			let dependencyInjector = this->_dependencyInjector;
+			let cache = dependencyInjector->get(cache);
+		}
+
+		if cache != null {
+			modelBinder->setCache(cache);
+		}
+
+		let this->_modelBinding = true;
+		let this->_modelBinder = modelBinder;
+
+		return this;
+	}
+
+	/**
+	 * Sets the module where the controller is (only informative)
+	 */
+	public function setModuleName(string moduleName) -> void
+	{
+		let this->_moduleName = moduleName;
+	}
+
+	/**
+	 * Sets the namespace where the controller class is
+	 */
+	public function setNamespaceName(string namespaceName) -> void
+	{
+		let this->_namespaceName = namespaceName;
+	}
+
+	/**
+	 * Set a param by its name or numeric index
+	 */
+	public function setParam(var param, var value)
+	{
+		let this->_params[param] = value;
+	}
+
+	/**
+	 * Sets action params to be dispatched
+	 *
+	 * @param array params
+	 */
+	public function setParams(var params) -> void
+	{
+		// @todo Deprecate in 4.0 and replace with array params
+		if typeof params != "array" {
+			// Note: Important that we do not throw a "_throwDispatchException" call here. This is important
+			// because it would allow the application to break out of the defined logic inside the dispatcher
+			// which handles all dispatch exceptions.
+			throw new PhalconException("Parameters must be an Array");
+		}
+		let this->_params = params;
+	}
+
+	/**
+	 * Sets the latest returned value by an action manually
+	 */
+	public function setReturnedValue(var value)
+	{
+		let this->_returnedValue = value;
+	}
+
+	/**
+	 * Check if the current executed action was forwarded by another one
+	 */
+	public function wasForwarded() -> boolean
+	{
+		return this->_forwarded;
 	}
 
 	/**
