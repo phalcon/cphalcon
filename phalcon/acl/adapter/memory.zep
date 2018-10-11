@@ -738,7 +738,7 @@ class Memory extends Adapter
 	 */
 	protected function _isAllowed(string roleName, string resourceName, string access) -> string | boolean
     {
-        var roleInheritName, accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits,
+        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits,
             usedRoleToInherit;
 
 		let accessList = this->_access;
@@ -769,7 +769,7 @@ class Memory extends Adapter
          * Deep check if the role to inherit is valid
          */
         if isset this->_roleInherits[roleName] && typeof this->_roleInherits[roleName] == "array" {
-            let checkRoleToInherits = this->_roleInherits[roleInheritName];
+            let checkRoleToInherits = this->_roleInherits[roleName];
             let usedRoleToInherits = [];
             loop {
                 let checkRoleToInherit = array_shift(checkRoleToInherits);
