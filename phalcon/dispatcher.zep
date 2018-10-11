@@ -790,6 +790,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 	}
 
 	/**
+	 * Sets the default suffix for the handler
+	 */
+	public function setHandlerSuffix(string handlerSuffix) -> void
+	{
+		let this->_handlerSuffix = handlerSuffix;
+	}
+
+	/**
 	 * Enable model binding during dispatch
 	 *
 	 * <code>
