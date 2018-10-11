@@ -738,7 +738,7 @@ class Memory extends Adapter
 	 */
 	protected function _isAllowed(string roleName, string resourceName, string access) -> string | boolean
     {
-        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits,
+        var roleInheritName, accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits,
             usedRoleToInherit;
 
 		let accessList = this->_access;
