@@ -660,7 +660,7 @@ class Memory extends Adapter
 		/**
 		 * If we have funcAccess then do all the checks for it
 		 */
-		if funcAccess !== null {
+		if is_callable(funcAccess) {
 			let reflectionFunction = new \ReflectionFunction(funcAccess);
 			let reflectionParameters = reflectionFunction->getParameters();
 			let parameterNumber = count(reflectionParameters);
