@@ -182,6 +182,7 @@ class Memory extends Adapter
 	 * );
 	 *
 	 * $acl->addRole("administrator", "consultant");
+	 * $acl->addRole("administrator", ["consultant", "consultant2"]);
 	 * </code>
 	 *
 	 * @param  array|string         accessInherits
@@ -216,8 +217,18 @@ class Memory extends Adapter
 	}
 
 	/**
-	 * Do a role inherit from another existing role
-	 */
+     * Do a role inherit from another existing role
+     *
+     * Example:
+     * <code>
+     *
+     * $acl->addRole("administrator", "consultant");
+     * $acl->addRole("administrator", ["consultant", "consultant2"]);
+     * </code>
+     *
+     * @param  array|string         accessInherits
+     * @param  RoleInterface|string|array role
+     */
 	public function addInherit(string roleName, var roleToInherits) -> boolean
 	{
 		var roleInheritName, rolesNames, deepInheritName, roleToInherit, checkRoleToInherit,
@@ -627,7 +638,7 @@ class Memory extends Adapter
 		 */
 		let accessKey = this->_isAllowed(roleName, resourceName, access);
 
-		if accessKey !== false && isset accessList[accessKey] {
+		if accessKey != false && isset accessList[accessKey] {
 			let haveAccess = accessList[accessKey];
 			fetch funcAccess, funcList[accessKey];
 		}
