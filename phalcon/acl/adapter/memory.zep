@@ -267,16 +267,16 @@ class Memory extends Adapter
              */
             if typeof this->_roleInherits[roleInheritName] == "array" {
                 let checkRoleToInherits = this->_roleInherits[roleInheritName];
-                let useRoleToInherits = [];
+                let usedRoleToInherits = [];
                 loop {
                     let checkRoleToInherit = array_shift(checkRoleToInherits);
                     if empty checkRoleToInherit {
                         break;
                     }
-                    if isset useRoleToInherits[checkRoleToInherit] {
+                    if isset usedRoleToInherits[checkRoleToInherit] {
                         continue;
                     }
-                    let useRoleToInherits[checkRoleToInherit]=true;
+                    let usedRoleToInherits[checkRoleToInherit]=true;
                     if roleName == checkRoleToInherit {
                         throw new Exception("Role '" . roleInheritName . "' (to inherit) is infinite loop ");
                     }
@@ -770,16 +770,16 @@ class Memory extends Adapter
          */
         if typeof this->_roleInherits[roleName] == "array" {
             let checkRoleToInherits = this->_roleInherits[roleInheritName];
-            let useRoleToInherits = [];
+            let usedRoleToInherits = [];
             loop {
                 let checkRoleToInherit = array_shift(checkRoleToInherits);
                 if empty checkRoleToInherit {
                     break;
                 }
-                if isset useRoleToInherits[checkRoleToInherit] {
+                if isset usedRoleToInherits[checkRoleToInherit] {
                     continue;
                 }
-                let useRoleToInherits[checkRoleToInherit]=true;
+                let usedRoleToInherits[checkRoleToInherit]=true;
 
                 let accessKey = checkRoleToInherit . "!" . resourceName . "!" . access;
                 /**
