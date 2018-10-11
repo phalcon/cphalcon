@@ -221,7 +221,7 @@ class Memory extends Adapter
 	public function addInherit(string roleName, var roleToInherits) -> boolean
 	{
 		var roleInheritName, rolesNames, deepInheritName, roleToInherit, checkRoleToInherit,
-		 checkRoleToInherits, usedRoleToInherits, usedRoleToInherit;
+		 checkRoleToInherits, usedRoleToInherits, usedRoleToInherit, roleToInheritList;
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
@@ -235,12 +235,14 @@ class Memory extends Adapter
 		 * Type conversion
          */
         if typeof roleToInherits != "array" {
-            let roleToInherits = [roleToInherits];
+            let roleToInheritList = [roleToInherits];
+        }else{
+            let roleToInheritList = roleToInherits;
         }
         /**
          * inherits
          */
-        for roleToInherit in roleToInherits {
+        for roleToInherit in roleToInheritList {
             if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
                 let roleInheritName = roleToInherit->getName();
             } else {
