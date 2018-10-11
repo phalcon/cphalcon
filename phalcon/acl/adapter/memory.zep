@@ -283,7 +283,7 @@ class Memory extends Adapter
                     /**
                      * Push inherited roles
                      */
-                    if typeof this->_roleInherits[checkRoleToInherit] == "array" {
+                    if isset this->_roleInherits[checkRoleToInherit] && typeof this->_roleInherits[checkRoleToInherit] == "array" {
                         for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
                             array_push(checkRoleToInherits,usedRoleToInherit);
                         }
@@ -805,7 +805,7 @@ class Memory extends Adapter
                 /**
                  * Push inherited roles
                  */
-                if typeof this->_roleInherits[checkRoleToInherit] == "array" {
+                if isset this->_roleInherits[checkRoleToInherit] && typeof this->_roleInherits[checkRoleToInherit] == "array" {
                     for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
                         array_push(checkRoleToInherits,usedRoleToInherit);
                     }
