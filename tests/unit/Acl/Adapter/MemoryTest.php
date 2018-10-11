@@ -804,7 +804,7 @@ class MemoryTest extends UnitTest
 
                 $acl->addRole('Guests');
                 $acl->addRole('Guests2');
-                $acl->addRole('Members', ['Guests','Guests2']);
+                $acl->addRole('Members', ['Guests', 'Guests2']);
 
                 $acl->addResource('Login', ['help', 'index']);
 
@@ -839,9 +839,9 @@ class MemoryTest extends UnitTest
                 $acl->setDefaultAction(Acl::DENY);
 
                 $acl->addRole('Guests1');
-                $acl->addRole('Guests12','Guests1');
+                $acl->addRole('Guests12', 'Guests1');
                 $acl->addRole('Guests2');
-                $acl->addRole('Guests22','Guests2');
+                $acl->addRole('Guests22', 'Guests2');
                 $acl->addRole('Members', ['Guests12','Guests22']);
 
                 $acl->addResource('Login', ['help', 'index']);
