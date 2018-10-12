@@ -232,7 +232,7 @@ class Memory extends Adapter
 	public function addInherit(string roleName, var roleToInherits) -> boolean
 	{
 		var roleInheritName, rolesNames, deepInheritName, roleToInherit, checkRoleToInherit,
-		 checkRoleToInherits, usedRoleToInherits, usedRoleToInherit, roleToInheritList;
+		 checkRoleToInherits, usedRoleToInherits, roleToInheritList, usedRoleToInherit;
 
 		let rolesNames = this->_rolesNames;
 		if !isset rolesNames[roleName] {
@@ -240,7 +240,7 @@ class Memory extends Adapter
 		}
 
 		if !isset this->_roleInherits[roleName] {
-            let this->_roleInherits[roleName] = true;
+            let this->_roleInherits[roleName] = [];
         }
 		/**
 		 * Type conversion
@@ -262,7 +262,7 @@ class Memory extends Adapter
             /**
              * Check if the role to inherit is repeat
              */
-            if typeof this->_roleInherits[roleName] == "array" && in_array(roleToInherit, this->_roleInherits[roleName]) {
+            if in_array(roleInheritName, this->_roleInherits[roleName]) {
                 continue;
             }
             /**
@@ -278,14 +278,12 @@ class Memory extends Adapter
             /**
              * Deep check if the role to inherit is valid
              */
-            if isset this->_roleInherits[roleInheritName] && typeof this->_roleInherits[roleInheritName] == "array" {
+            if isset this->_roleInherits[roleInheritName] {
                 let checkRoleToInherits = this->_roleInherits[roleInheritName];
                 let usedRoleToInherits = [];
-                loop {
+                while !empty checkRoleToInherits {
                     let checkRoleToInherit = array_shift(checkRoleToInherits);
-                    if empty checkRoleToInherit {
-                        break;
-                    }
+                    
                     if isset usedRoleToInherits[checkRoleToInherit] {
                         continue;
                     }
@@ -296,9 +294,11 @@ class Memory extends Adapter
                     /**
                      * Push inherited roles
                      */
-                    if isset this->_roleInherits[checkRoleToInherit] && typeof this->_roleInherits[checkRoleToInherit] == "array" {
-                        for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
-                            array_push(checkRoleToInherits,usedRoleToInherit);
+                    if isset this->_roleInherits[checkRoleToInherit] {
+                        if empty checkRoleToInherits {
+                            let checkRoleToInherits = this->_roleInherits[checkRoleToInherit];
+                        }else{
+                            let checkRoleToInherits = checkRoleToInherits + this->_roleInherits[checkRoleToInherit];
                         }
                     }
                 }
@@ -751,8 +751,7 @@ class Memory extends Adapter
 	 */
 	protected function _isAllowed(string roleName, string resourceName, string access) -> string | boolean
     {
-        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits,
-            usedRoleToInherit;
+        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits, usedRoleToInherits, usedRoleToInherit;
 
 		let accessList = this->_access;
 
@@ -781,14 +780,12 @@ class Memory extends Adapter
         /**
          * Deep check if the role to inherit is valid
          */
-        if isset this->_roleInherits[roleName] && typeof this->_roleInherits[roleName] == "array" {
+        if isset this->_roleInherits[roleName] {
             let checkRoleToInherits = this->_roleInherits[roleName];
             let usedRoleToInherits = [];
-            loop {
+            while !empty checkRoleToInherits {
                 let checkRoleToInherit = array_shift(checkRoleToInherits);
-                if empty checkRoleToInherit {
-                    break;
-                }
+
                 if isset usedRoleToInherits[checkRoleToInherit] {
                     continue;
                 }
@@ -818,9 +815,12 @@ class Memory extends Adapter
                 /**
                  * Push inherited roles
                  */
-                if isset this->_roleInherits[checkRoleToInherit] && typeof this->_roleInherits[checkRoleToInherit] == "array" {
-                    for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
-                        array_push(checkRoleToInherits,usedRoleToInherit);
+                if isset this->_roleInherits[checkRoleToInherit] {
+                    if empty checkRoleToInherits {
+                        let checkRoleToInherits = this->_roleInherits[checkRoleToInherit];
+                    }else{
+                        let checkRoleToInherits = checkRoleToInherits + this->_roleInherits[checkRoleToInherit];
+
                     }
                 }
             }
