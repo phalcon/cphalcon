@@ -295,10 +295,8 @@ class Memory extends Adapter
                      * Push inherited roles
                      */
                     if isset this->_roleInherits[checkRoleToInherit] {
-                        if empty checkRoleToInherits {
-                            let checkRoleToInherits = this->_roleInherits[checkRoleToInherit];
-                        }else{
-                            let checkRoleToInherits = checkRoleToInherits + this->_roleInherits[checkRoleToInherit];
+                        for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
+                            array_push(checkRoleToInherits,usedRoleToInherit);
                         }
                     }
                 }
@@ -816,11 +814,8 @@ class Memory extends Adapter
                  * Push inherited roles
                  */
                 if isset this->_roleInherits[checkRoleToInherit] {
-                    if empty checkRoleToInherits {
-                        let checkRoleToInherits = this->_roleInherits[checkRoleToInherit];
-                    }else{
-                        let checkRoleToInherits = checkRoleToInherits + this->_roleInherits[checkRoleToInherit];
-
+                    for usedRoleToInherit in this->_roleInherits[checkRoleToInherit] {
+                        array_push(checkRoleToInherits,usedRoleToInherit);
                     }
                 }
             }
