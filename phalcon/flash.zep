@@ -234,15 +234,9 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 */
 	public function outputMessage(string type, var message)
 	{
-		boolean automaticHtml, implicitFlush;
-		var content, classes, msg,
-			htmlMessage, autoEscape, escaper, preparedMsg;
-
-		let autoEscape = (bool) this->_autoescape;
-
-		if autoEscape === true {
-			let escaper = this->getEscaperService();
-		}
+		boolean implicitFlush;
+		var content, msg,
+			htmlMessage, preparedMsg;
 
 		let implicitFlush = (bool) this->_implicitFlush;
 		if typeof message == "array" {
@@ -372,7 +366,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 				let cssClasses = "";
 			}
 
-			return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->getTemplate());
+			return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->getTemplate(cssClasses));
 		} else {
 			return message;
 		}
