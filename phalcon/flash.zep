@@ -235,7 +235,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	public function outputMessage(string type, var message)
 	{
 		boolean automaticHtml, implicitFlush;
-		var content, cssClasses, classes, typeClasses, eol, msg,
+		var content, classes, typeClasses, eol, msg,
 			htmlMessage, autoEscape, escaper, preparedMsg;
 
 		let autoEscape = (bool) this->_autoescape;
@@ -321,7 +321,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
 	private function getTemplate() -> string
 	{
-		if ("" === template) {
+		if ("" === this->_customTemplate) {
 			return "<div class=\"%cssClass%\">%message%</div>" . PHP_EOL;
 		}
 
