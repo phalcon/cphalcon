@@ -33,6 +33,11 @@ interface FlashInterface
 	public function error(message);
 
 	/**
+	 * Outputs a message
+	 */
+	public function message(string type, var message);
+
+	/**
 	 * Shows a HTML notice/information message
 	 */
 	public function notice(message);
@@ -46,9 +51,4 @@ interface FlashInterface
 	 * Shows a HTML warning message
 	 */
 	public function warning(message);
-
-	/**
-	 * Outputs a message
-	 */
-	public function message(string type, var message);
 }

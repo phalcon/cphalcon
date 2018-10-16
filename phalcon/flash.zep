@@ -35,17 +35,19 @@ use Phalcon\Di\InjectionAwareInterface;
 abstract class Flash implements FlashInterface, InjectionAwareInterface
 {
 
-	protected _cssClasses;
-
-	protected _implicitFlush = true;
+	protected _autoescape = true;
 
 	protected _automaticHtml = true;
 
-	protected _escaperService = null;
+	protected _cssClasses;
 
-	protected _autoescape = true;
+	protected _customTemplate = null;
 
 	protected _dependencyInjector = null;
+
+	protected _escaperService = null;
+
+	protected _implicitFlush = true;
 
 	protected _messages;
 
@@ -66,6 +68,26 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	}
 
 	/**
+	 * Clears accumulated messages when implicit flush is disabled
+	 */
+	public function clear() -> void
+	{
+		let this->_messages = [];
+	}
+
+	/**
+	 * Shows a HTML error message
+	 *
+	 *<code>
+	 * $flash->error("This is an error");
+	 *</code>
+	 */
+	public function error(var message) -> string
+	{
+		return this->{"message"}("error", message);
+	}
+
+	/**
 	 * Returns the autoescape mode in generated html
 	 */
 	public function getAutoescape() -> bool
@@ -74,12 +96,18 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Set the autoescape mode in generated html
+	 * Returns the internal dependency injector
 	 */
-	public function setAutoescape(boolean autoescape) -> <Flash>
+	public function getDI() -> <DiInterface>
 	{
-		let this->_autoescape = autoescape;
-		return this;
+		var di;
+		let di = this->_dependencyInjector;
+
+		if typeof di != "object" {
+			let di = Di::getDefault();
+		}
+
+		return di;
 	}
 
 	/**
@@ -99,46 +127,24 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
 		return escaper;
 	}
-
 	/**
-	 * Sets the Escaper Service
+	 * Shows a HTML notice/information message
+	 *
+	 *<code>
+	 * $flash->notice("This is an information");
+	 *</code>
 	 */
-	public function setEscaperService(<EscaperInterface> escaperService) -> <Flash>
+	public function notice(var message) -> string
 	{
-		let this->_escaperService = escaperService;
-		return this;
+		return this->{"message"}("notice", message);
 	}
 
 	/**
-	 * Sets the dependency injector
+	 * Set the autoescape mode in generated html
 	 */
-	public function setDI(<DiInterface> dependencyInjector) -> <Flash>
+	public function setAutoescape(boolean autoescape) -> <Flash>
 	{
-		let this->_dependencyInjector = dependencyInjector;
-		return this;
-	}
-
-	/**
-	 * Returns the internal dependency injector
-	 */
-	public function getDI() -> <DiInterface>
-	{
-		var di;
-		let di = this->_dependencyInjector;
-
-		if typeof di != "object" {
-			let di = Di::getDefault();
-		}
-
-		return di;
-	}
-
-	/**
-	 * Set whether the output must be implicitly flushed to the output or returned as string
-	 */
-	public function setImplicitFlush(boolean implicitFlush) -> <FlashInterface>
-	{
-		let this->_implicitFlush = implicitFlush;
+		let this->_autoescape = autoescape;
 		return this;
 	}
 
@@ -161,27 +167,30 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Shows a HTML error message
-	 *
-	 *<code>
-	 * $flash->error("This is an error");
-	 *</code>
+	 * Sets the dependency injector
 	 */
-	public function error(var message) -> string
+	public function setDI(<DiInterface> dependencyInjector) -> <Flash>
 	{
-		return this->{"message"}("error", message);
+		let this->_dependencyInjector = dependencyInjector;
+		return this;
 	}
 
 	/**
-	 * Shows a HTML notice/information message
-	 *
-	 *<code>
-	 * $flash->notice("This is an information");
-	 *</code>
+	 * Sets the Escaper Service
 	 */
-	public function notice(var message) -> string
+	public function setEscaperService(<EscaperInterface> escaperService) -> <Flash>
 	{
-		return this->{"message"}("notice", message);
+		let this->_escaperService = escaperService;
+		return this;
+	}
+
+	/**
+	 * Set whether the output must be implicitly flushed to the output or returned as string
+	 */
+	public function setImplicitFlush(boolean implicitFlush) -> <FlashInterface>
+	{
+		let this->_implicitFlush = implicitFlush;
+		return this;
 	}
 
 	/**
@@ -194,18 +203,6 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	public function success(var message) -> string
 	{
 		return this->{"message"}("success", message);
-	}
-
-	/**
-	 * Shows a HTML warning message
-	 *
-	 *<code>
-	 * $flash->warning("Hey, this is important");
-	 *</code>
-	 */
-	public function warning(var message) -> string
-	{
-		return this->{"message"}("warning", message);
 	}
 
 	/**
@@ -224,22 +221,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 		var content, cssClasses, classes, typeClasses, eol, msg,
 			htmlMessage, autoEscape, escaper, preparedMsg;
 
-		let automaticHtml = (bool) this->_automaticHtml,
-			autoEscape = (bool) this->_autoescape;
-
-		if automaticHtml === true {
-			let classes = this->_cssClasses;
-			if fetch typeClasses, classes[type] {
-				if typeof typeClasses == "array" {
-					let cssClasses = " class=\"" . join(" ", typeClasses) . "\"";
-				} else {
-					let cssClasses = " class=\"" . typeClasses . "\"";
-				}
-			} else {
-				let cssClasses = "";
-			}
-			let eol = PHP_EOL;
-		}
+		let autoEscape = (bool) this->_autoescape;
 
 		if autoEscape === true {
 			let escaper = this->getEscaperService();
@@ -269,7 +251,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 				 * We create the applying formatting or not
 				 */
 				if automaticHtml === true {
-					let htmlMessage = "<div" . cssClasses . ">" . preparedMsg . "</div>" . eol;
+					let htmlMessage = this->prepareHtml(type, preparedMsg);
 				} else {
 					let htmlMessage = preparedMsg;
 				}
@@ -300,7 +282,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 			 * We create the applying formatting or not
 			 */
 			if automaticHtml === true {
-				let htmlMessage = "<div" . cssClasses . ">" . preparedMsg . "</div>" . eol;
+				let htmlMessage = this->prepareHtml(type, preparedMsg);
 			} else {
 				let htmlMessage = preparedMsg;
 			}
@@ -318,10 +300,51 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Clears accumulated messages when implicit flush is disabled
+	 * Shows a HTML warning message
+	 *
+	 *<code>
+	 * $flash->warning("Hey, this is important");
+	 *</code>
 	 */
-	public function clear() -> void
+	public function warning(var message) -> string
 	{
-		let this->_messages = [];
+		return this->{"message"}("warning", message);
+	}
+
+	/**
+	 * Prepares the HTML output for the message
+	 */
+	private function prepareHtml(string type, string message) -> string
+	{
+		var classes, cssClasses, typeClasses, automaticHtml, customTemplate;
+
+		let automaticHtml = (bool) this->_automaticHtml,
+			customTemplate = this->_customTemplate;
+
+		let classes = this->_cssClasses;
+		if fetch typeClasses, classes[type] {
+			if typeof typeClasses == "array" {
+				let cssClasses = join(" ", typeClasses);
+			} else {
+				let cssClasses = typeClasses;
+			}
+
+			if (!customTemplate)} {
+				if typeof typeClasses == "array" {
+					let cssClasses = " class=\"" . cssClasses . "\"";
+				} else {
+					let cssClasses = " class=\"" . cssClasses . "\"";
+				}
+			}
+		} else {
+			let cssClasses = "";
+		}
+
+		if (customTemplate) {
+			return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->_customTemplate);
+
+		} else {
+			return "<div" . cssClasses . ">" . message . "</div>" . PHP_EOL;
+		}
 	}
 }
