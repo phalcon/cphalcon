@@ -41,7 +41,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
 	protected _cssClasses;
 
-	protected _customTemplate = null;
+	protected _customTemplate = "";
 
 	protected _dependencyInjector = null;
 
@@ -92,7 +92,15 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 */
 	public function getAutoescape() -> bool
 	{
-			return this->_autoescape;
+		return this->_autoescape;
+	}
+
+	/**
+	 * Returns the custom template set
+	 */
+	public function getCustomTemplate() -> string
+	{
+		return this->_customTemplate;
 	}
 
 	/**
@@ -163,6 +171,15 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	public function setCssClasses(array! cssClasses) -> <FlashInterface>
 	{
 		let this->_cssClasses = cssClasses;
+		return this;
+	}
+
+	/**
+	 * Set an custom template for showing the messages
+	 */
+	public function setCustomTemplate(string! customTemplate) -> <FlashInterface>
+	{
+		let this->_customTemplate = customTemplate;
 		return this;
 	}
 
@@ -311,6 +328,16 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 		return this->{"message"}("warning", message);
 	}
 
+
+	private function getTemplate() -> string
+	{
+		if ("" === template) {
+			return "<div class=\"%cssClass%\">%message%</div>" . PHP_EOL;
+		}
+
+		return this->_customTemplate;
+	}
+
 	/**
 	 * Prepares the HTML output for the message
 	 */
@@ -328,23 +355,10 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 			} else {
 				let cssClasses = typeClasses;
 			}
-
-			if (!customTemplate)} {
-				if typeof typeClasses == "array" {
-					let cssClasses = " class=\"" . cssClasses . "\"";
-				} else {
-					let cssClasses = " class=\"" . cssClasses . "\"";
-				}
-			}
 		} else {
 			let cssClasses = "";
 		}
 
-		if (customTemplate) {
-			return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->_customTemplate);
-
-		} else {
-			return "<div" . cssClasses . ">" . message . "</div>" . PHP_EOL;
-		}
+		return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->getTemplate());
 	}
 }
