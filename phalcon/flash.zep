@@ -258,20 +258,15 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 			 * We create the message with implicit flush or other
 			 */
 			for msg in message {
-				if autoEscape === true {
-					let preparedMsg = escaper->escapeHtml(msg);
-				} else {
-					let preparedMsg = msg;
-				}
+				/**
+				 * Check if the message needs to be escaped
+				 */
+				let preparedMsg = this->prepareEscapedMessage(msg);
 
 				/**
 				 * We create the applying formatting or not
 				 */
-				if automaticHtml === true {
-					let htmlMessage = this->prepareHtml(type, preparedMsg);
-				} else {
-					let htmlMessage = preparedMsg;
-				}
+				let htmlMessage = this->prepareHtmlMessage(type, preparedMsg);
 
 				if implicitFlush === true {
 					echo htmlMessage;
@@ -289,20 +284,15 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 			}
 
 		} else {
-			if autoEscape === true {
-				let preparedMsg = escaper->escapeHtml(message);
-			} else {
-				let preparedMsg = message;
-			}
+			/**
+			 * Check if the message needs to be escaped
+			 */
+			let preparedMsg = this->prepareEscapedMessage(message);
 
 			/**
 			 * We create the applying formatting or not
 			 */
-			if automaticHtml === true {
-				let htmlMessage = this->prepareHtml(type, preparedMsg);
-			} else {
-				let htmlMessage = preparedMsg;
-			}
+			let htmlMessage = this->prepareHtmlMessage(type, preparedMsg);
 
 			/**
 			 * We return the message as string if the implicit_flush is turned off
@@ -339,26 +329,48 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	}
 
 	/**
-	 * Prepares the HTML output for the message
+	 * Returns the message escaped if the autoEscape is true, otherwise the
+	 * original message is returned
 	 */
-	private function prepareHtml(string type, string message) -> string
+	private function prepareEscapedMessage(string message) -> string
 	{
-		var classes, cssClasses, typeClasses, automaticHtml, customTemplate;
+		var autoEscape;
 
-		let automaticHtml = (bool) this->_automaticHtml,
-			customTemplate = this->_customTemplate;
+		let autoEscape = (bool) this->_autoescape;
 
-		let classes = this->_cssClasses;
-		if fetch typeClasses, classes[type] {
-			if typeof typeClasses == "array" {
-				let cssClasses = join(" ", typeClasses);
-			} else {
-				let cssClasses = typeClasses;
-			}
+		if autoEscape === true {
+			let escaper = this->getEscaperService();
+			return escaper->escapeHtml(message);
 		} else {
-			let cssClasses = "";
+			return message;
 		}
+	}
 
-		return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->getTemplate());
+	/**
+	 * Prepares the HTML output for the message. If automaticHtml is not set then
+	 * the original message is returned
+	 */
+	private function prepareHtmlMessage(string type, string message) -> string
+	{
+		var classes, cssClasses, typeClasses, automaticHtml;
+
+		let automaticHtml = (bool) this->_automaticHtml;
+
+		if automaticHtml === true {
+			let classes = this->_cssClasses;
+			if fetch typeClasses, classes[type] {
+				if typeof typeClasses == "array" {
+					let cssClasses = join(" ", typeClasses);
+				} else {
+					let cssClasses = typeClasses;
+				}
+			} else {
+				let cssClasses = "";
+			}
+
+			return str_replace(["%cssClass%", "%message%"], [cssClasses, message], this->getTemplate());
+		} else {
+			return message;
+		}
 	}
 }
