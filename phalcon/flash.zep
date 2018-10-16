@@ -235,7 +235,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	public function outputMessage(string type, var message)
 	{
 		boolean automaticHtml, implicitFlush;
-		var content, classes, typeClasses, eol, msg,
+		var content, classes, msg,
 			htmlMessage, autoEscape, escaper, preparedMsg;
 
 		let autoEscape = (bool) this->_autoescape;
@@ -334,7 +334,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	 */
 	private function prepareEscapedMessage(string message) -> string
 	{
-		var autoEscape;
+		var autoEscape, escaper;
 
 		let autoEscape = (bool) this->_autoescape;
 
