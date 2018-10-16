@@ -257,11 +257,11 @@ class SessionTest extends UnitTest
             "The output() method outputs custom template formatted messages incorrectly",
             function () {
                 $flash    = $this->getFlash();
-                $template = '<span class="%cssClass%">%message%</span>';
+                $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
                 $flash->setCustomTemplate($template);
 
                 $message  = 'sample message';
-                $expected = '<span class="success">sample message</span>';
+                $expected = '<span class="successMessage" aria-label="clickme">sample message</span>';
                 ob_start();
                 $flash->success($message);
                 $flash->output();
