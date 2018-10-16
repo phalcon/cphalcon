@@ -319,10 +319,14 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 	}
 
 
-	private function getTemplate() -> string
+	private function getTemplate(string cssClassses) -> string
 	{
 		if ("" === this->_customTemplate) {
-			return "<div class=\"%cssClass%\">%message%</div>" . PHP_EOL;
+			if ("" === cssClassses) {
+				return "<div>%message%</div>" . PHP_EOL;
+			} else {
+				return "<div class=\"%cssClass%\">%message%</div>" . PHP_EOL;
+			}
 		}
 
 		return this->_customTemplate;
