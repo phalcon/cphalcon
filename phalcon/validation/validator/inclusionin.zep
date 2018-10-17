@@ -19,10 +19,10 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\Message;
 
 /**
  * Phalcon\Validation\Validator\InclusionIn

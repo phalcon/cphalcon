@@ -19,8 +19,8 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\Validator;
 

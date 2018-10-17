@@ -20,10 +20,10 @@
 namespace Phalcon;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Messages\MessageInterface;
+use Phalcon\Messages\Messages;
 use Phalcon\ValidationInterface;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\Message\Group;
-use Phalcon\Validation\MessageInterface;
 use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\CombinedFieldsValidator;
 
@@ -82,7 +82,7 @@ class Validation extends Injectable implements ValidationInterface
 	 * @param array|object data
 	 * @param object entity
 	 */
-	public function validate(var data = null, var entity = null) -> <Group>
+	public function validate(var data = null, var entity = null) -> <Messages>
 	{
 		var validators, messages, scope, field, validator, status, combinedFieldsValidators;
 
@@ -99,9 +99,9 @@ class Validation extends Injectable implements ValidationInterface
 		let this->_values = null;
 
 		/**
-		 * Implicitly creates a Phalcon\Validation\Message\Group object
+		 * Implicitly creates a Phalcon\Messages\Messages object
 		 */
-		let messages = new Group();
+		let messages = new Messages();
 
 		if entity !== null {
 			this->setEntity(entity);
@@ -378,7 +378,7 @@ class Validation extends Injectable implements ValidationInterface
 	/**
 	 * Returns the registered validators
 	 */
-	public function getMessages() -> <Group>
+	public function getMessages() -> <Messages>
 	{
 		return this->_messages;
 	}
@@ -422,7 +422,7 @@ class Validation extends Injectable implements ValidationInterface
 
 		let messages = this->_messages;
 		if typeof messages != "object" {
-			let messages = new Group();
+			let messages = new Messages();
 		}
 
 		messages->appendMessage(message);

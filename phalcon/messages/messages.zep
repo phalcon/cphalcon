@@ -25,7 +25,7 @@ use Phalcon\Messages\MessageInterface;
 /**
  * Phalcon\Messages\Messages
  *
- * Represents a group of messages
+ * Represents a collection of messages
  */
 class Messages implements \Countable, \ArrayAccess, \Iterator
 {
@@ -42,7 +42,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
 	}
 
 	/**
-	 * Appends a message to the group
+	 * Appends a message to the collection
 	 *
 	 *<code>
 	 * $messages->appendMessage(
@@ -56,7 +56,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
 	}
 
 	/**
-	 * Appends an array of messages to the group
+	 * Appends an array of messages to the collection
 	 *
 	 *<code>
 	 * $messages->appendMessages($messagesArray);
@@ -88,7 +88,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
 		} else {
 
 			/**
-			 * A group of messages is iterated and appended one-by-one to the current list
+			 * A collection of messages is iterated and appended one-by-one to the current list
 			 */
 			//for message in iterator(messages) {
 			//	this->appendMessage(message);
@@ -120,7 +120,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
 	}
 
 	/**
-	 * Filters the message group by field name
+	 * Filters the message collection by field name
 	 */
 	public function filter(string! fieldName) -> array
 	{
@@ -131,7 +131,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
 		if typeof messages == "array" {
 
 			/**
-			 * A group of messages is iterated and appended one-by-one to the current list
+			 * A collection of messages is iterated and appended one-by-one to the current list
 			 */
 			for message in messages {
 

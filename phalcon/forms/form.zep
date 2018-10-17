@@ -19,15 +19,15 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Di\Injectable;
+use Phalcon\DiInterface;
+use Phalcon\FilterInterface;
+use Phalcon\Forms\Exception;
+use Phalcon\Forms\ElementInterface;
+use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
 use Phalcon\ValidationInterface;
-use Phalcon\DiInterface;
-use Phalcon\FilterInterface;
-use Phalcon\Di\Injectable;
-use Phalcon\Forms\Exception;
-use Phalcon\Forms\ElementInterface;
-use Phalcon\Validation\Message\Group;
 
 /**
  * Phalcon\Forms\Form
@@ -362,7 +362,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * <code>
 	 * if ($form->isValid($_POST) == false) {
 	 *     // Get messages separated by the item name
-	 *     // $messages is an array of Group object
+	 *     // $messages is an array of Messages object
 	 *     $messages = $form->getMessages(true);
 	 *
 	 *     foreach ($messages as $message) {
@@ -370,7 +370,7 @@ class Form extends Injectable implements \Countable, \Iterator
 	 *     }
 	 *
 	 *     // Default behavior.
-	 *     // $messages is a Group object
+	 *     // $messages is a Messages object
 	 *     $messages = $form->getMessages();
 	 *
 	 *     foreach ($messages as $message) {
@@ -379,13 +379,13 @@ class Form extends Injectable implements \Countable, \Iterator
 	 * }
 	 * </code>
 	 */
-	public function getMessages(boolean byItemName = false) -> <Group> | array
+	public function getMessages(boolean byItemName = false) -> <Messages> | array
 	{
 		var messages, messagesByItem, elementMessage, fieldName;
 
 		let messages = this->_messages;
 
-		if typeof messages == "object" && messages instanceof Group {
+		if typeof messages == "object" && messages instanceof Messages {
 			/**
 			 * @deprecated This part of code is for backward compatibility, it should be removed in next major version
 			 */
@@ -401,7 +401,7 @@ class Form extends Injectable implements \Countable, \Iterator
 							let messagesByItem[fieldName] = [];
 						}
 						
-						let messagesByItem[fieldName][] = new Group([elementMessage]);
+						let messagesByItem[fieldName][] = new Messages([elementMessage]);
 						messages->next();
 				}
 				return messagesByItem;
@@ -409,18 +409,18 @@ class Form extends Injectable implements \Countable, \Iterator
 			return messages;
 		}
 
-		return new Group();
+		return new Messages();
 	}
 
 	/**
 	 * Returns the messages generated for a specific element
 	 */
-	public function getMessagesFor(string! name) -> <Group>
+	public function getMessagesFor(string! name) -> <Messages>
 	{
 	    if this->has(name) {
             return this->get(name)->getMessages();
 	    }
-	    return new Group();
+	    return new Messages();
 	}
 
 	/**

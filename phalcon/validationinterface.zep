@@ -20,9 +20,9 @@
 namespace Phalcon;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Messages\MessageInterface;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\MessageInterface;
-use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
@@ -38,7 +38,7 @@ interface ValidationInterface
 	 * @param array|object data
 	 * @param object entity
 	 */
-	public function validate(var data = null, var entity = null) -> <Group>;
+	public function validate(var data = null, var entity = null) -> <Messages>;
 
 	/**
 	 * Adds a validator to a field
@@ -94,7 +94,7 @@ interface ValidationInterface
 	/**
 	 * Returns the registered validators
 	 */
-	public function getMessages() -> <Group>;
+	public function getMessages() -> <Messages>;
 
 	/**
 	 * Adds labels for fields
