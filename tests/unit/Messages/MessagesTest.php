@@ -1,22 +1,23 @@
 <?php
 
-namespace Phalcon\Test\Unit\Validation\Message;
+namespace Phalcon\Test\Unit\Messages;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
 
 /**
- * \Phalcon\Test\Unit\Validation\Message\GroupTest
- * Tests the \Phalcon\Validation\Message\Group component
+ * \Phalcon\Test\Unit\Messages\MessagesTest
+ * Tests the \Phalcon\Messages\Messages component
  *
- * @copyright (c) 2011-2017 Phalcon Team
+ * @copyright (c) 2011-2018 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Validation\Message
- * @group     validation
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @package   Phalcon\Test\Unit\Messages
+ * @group     messages
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -25,7 +26,7 @@ use Phalcon\Validation\Message\Group;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class GroupTest extends UnitTest
+class MessagesTest extends UnitTest
 {
     /**
      * Tests append messages
@@ -43,7 +44,7 @@ class GroupTest extends UnitTest
                 $message2 = new Message('This a message #2', 'field2', 'Type2');
                 $message3 = new Message('This a message #3', 'field3', 'Type3');
 
-                $messages = new Group([$message1, $message2]);
+                $messages = new Messages([$message1, $message2]);
 
                 expect($messages)->count(2);
 

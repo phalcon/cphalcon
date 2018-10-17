@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
 
@@ -53,10 +55,10 @@ class IdenticalTest extends UnitTest
                 $messages = $validation->validate(['name' => 'SomeValue123']);
                 expect($messages->count())->equals(1);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Identical',
                                     '_message' => 'Field name does not have the expected value',
@@ -158,10 +160,10 @@ class IdenticalTest extends UnitTest
 
                 $messages = $validation->validate([]);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Identical',
                                     '_message' => 'The name must be peter',

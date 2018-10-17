@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\ExclusionIn;
@@ -50,10 +52,10 @@ class ExclusionInTest extends UnitTest
 
                 $messages = $validation->validate(['status' => 'A']);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'ExclusionIn',
                                     '_message' => 'Field status must not be a part of list: A, I',
@@ -161,10 +163,10 @@ class ExclusionInTest extends UnitTest
 
                 $messages = $validation->validate(['status' => 'A']);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'ExclusionIn',
                                     '_message' => 'The status must not be A=Active or I=Inactive',

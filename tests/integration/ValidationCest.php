@@ -6,7 +6,7 @@ use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Message;
 use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Messages\Messages;
 
 /**
  * Phalcon\Test\Integration\ValidationCest
@@ -51,7 +51,7 @@ class ValidationCest
 
         $myValidator->validate($validation, 'foo');
 
-        $expectedMessages = Group::__set_state([
+        $expectedMessages = Messages::__set_state([
             '_position' => 0,
             '_messages' => [
                 new Message('Field foo is required', 'foo', 'PresenceOf', 0)

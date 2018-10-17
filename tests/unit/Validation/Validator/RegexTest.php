@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
 
@@ -49,10 +51,10 @@ class RegexTest extends UnitTest
 
                 $messages = $validation->validate([]);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Regex',
                                     '_message' => 'Field car_plate does not match the required format',
@@ -157,10 +159,10 @@ class RegexTest extends UnitTest
 
                 $messages = $validation->validate([]);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Regex',
                                     '_message' => 'The car plate is not valid',
