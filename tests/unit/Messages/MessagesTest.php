@@ -91,6 +91,7 @@ class MessagesTest extends UnitTest
                     '_message' => 'error a',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
                 $validation->appendMessage(new Message('error b', 'myField', 'MyValidator'));
@@ -100,6 +101,7 @@ class MessagesTest extends UnitTest
                     '_message' => 'error b',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
                 $messages = $validation->getMessages();
@@ -110,6 +112,7 @@ class MessagesTest extends UnitTest
                     '_message' => 'error a',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
                 $validation->appendMessage(new Message('error c', 'myField', 'MyValidator'));
@@ -119,20 +122,23 @@ class MessagesTest extends UnitTest
                     '_message' => 'error c',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
-                expect($validation->getMessages())->equals(Group::__set_state([
+                expect($validation->getMessages())->equals(Messages::__set_state([
                     '_position' => 0,
                     '_messages' => [
                         0 => Message::__set_state([
                             '_message' => 'error a',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                         1 => Message::__set_state([
                             '_message' => 'error c',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                     ]
                 ]));
@@ -143,23 +149,26 @@ class MessagesTest extends UnitTest
                 $messages = $validation->getMessages();
                 $messages->offsetUnset(1);
 
-                expect($validation->getMessages())->equals(Group::__set_state([
+                expect($validation->getMessages())->equals(Messages::__set_state([
                     '_position' => 0,
                     '_messages' => [
                         0 => Message::__set_state([
                             '_message' => 'error a',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                         1 => Message::__set_state([
                             '_message' => 'error d',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                         2 => Message::__set_state([
                             '_message' => 'error e',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                     ]
                 ]));
