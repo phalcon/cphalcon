@@ -1559,8 +1559,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					message->getMessage(),
 					message->getField(),
 					message->getType(),
-					null,
-					message->getCode()
+					message->getCode(),
+					null
 				)
 			);
 		}
