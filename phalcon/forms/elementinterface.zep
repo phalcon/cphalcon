@@ -21,7 +21,7 @@ namespace Phalcon\Forms;
 
 use Phalcon\Forms\Form;
 use Phalcon\Messages\MessageInterface;
-use Phalcon\Messages\Messags;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidatorInterface;
 
 /**

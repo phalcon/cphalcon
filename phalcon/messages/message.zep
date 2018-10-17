@@ -126,10 +126,10 @@ class Message implements MessageInterface
 	}
 
 	/**
-	 * Magic __set_state helps to recover messages from serialization
+	 * Magic __set_state helps to re-build messages variable exporting
 	 */
 	public static function __set_state(array! message) -> <Message>
 	{
-		return new self(message["_message"], message["_field"], message["_type"]);
+		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
 	}
 }

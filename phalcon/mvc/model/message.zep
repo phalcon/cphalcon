@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -12,15 +12,13 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Phalcon Team <team@phalconphp.com>                            |
  +------------------------------------------------------------------------+
  */
 
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\MessageInterface;
 
 /**
  * Phalcon\Mvc\Model\Message
@@ -48,102 +46,22 @@ use Phalcon\Mvc\Model\MessageInterface;
  * </code>
  *
  */
-class Message implements MessageInterface
+class Message extends Phalcon\Messages\Message
 {
 
-	protected _type;
-
-	protected _message;
-
-	protected _field;
-
 	protected _model;
-
-	protected _code;
 
 	/**
 	 * Phalcon\Mvc\Model\Message constructor
 	 *
 	 * @param string|array field
 	 */
-	public function __construct(string! message, field = null, string type = null, <ModelInterface> model = null, int code = null)
+	public function __construct(string! message, var field = null, string type = null, int code = null, <ModelInterface> model = null)
 	{
-		let this->_message = message,
-			this->_field = field,
-			this->_type = type,
-			this->_code = code;
+		parent::__construct(message, field, type, code);
 		if typeof model == "object" {
 			let this->_model = model;
 		}
-	}
-
-	/**
-	 * Sets message type
-	 */
-	public function setType(string! type) -> <Message>
-	{
-		let this->_type = type;
-		return this;
-	}
-
-	/**
-	 * Returns message type
-	 */
-	public function getType() -> string
-	{
-		return this->_type;
-	}
-
-	/**
-	 * Sets verbose message
-	 */
-	public function setMessage(string! message) -> <Message>
-	{
-		let this->_message = message;
-		return this;
-	}
-
-	/**
-	 * Returns verbose message
-	 */
-	public function getMessage() -> string
-	{
-		return this->_message;
-	}
-
-	/**
-	 * Sets field name related to message
-	 */
-	public function setField(var field) -> <Message>
-	{
-		let this->_field = field;
-		return this;
-	}
-
-	/**
-	 * Returns field name related to message
-	 */
-	public function getField()
-	{
-		return this->_field;
-	}
-
-	/**
-	 * Set the model who generates the message
-	 */
-	public function setModel(<ModelInterface> model) -> <Message>
-	{
-		let this->_model = model;
-		return this;
-	}
-
-	/**
-	 * Sets code for the message
-	 */
-	public function setCode(int code) -> <Message>
-	{
-		let this->_code = code;
-		return this;
 	}
 
 	/**
@@ -155,26 +73,12 @@ class Message implements MessageInterface
 	}
 
 	/**
-	 * Returns the message code
+	 * Set the model who generates the message
 	 */
-	public function getCode() -> int
+	public function setModel(<ModelInterface> model) -> <Message>
 	{
-		return this->_code;
+		let this->_model = model;
+		return this;
 	}
 
-	/**
-	 * Magic __toString method returns verbose message
-	 */
-	public function __toString() -> string
-	{
-		return this->_message;
-	}
-
-	/**
-	 * Magic __set_state helps to re-build messages variable exporting
-	 */
-	public static function __set_state(array! message) -> <Message>
-	{
-		return new self(message["_message"], message["_field"], message["_type"], message["_code"]);
-	}
 }

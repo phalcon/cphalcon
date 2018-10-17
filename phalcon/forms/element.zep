@@ -23,7 +23,6 @@ use Phalcon\Tag;
 use Phalcon\Forms\Exception;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation\Message;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
