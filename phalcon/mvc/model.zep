@@ -33,7 +33,7 @@ use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
-use Phalcon\Mvc\Model\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -1487,7 +1487,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * <code>
 	 * use Phalcon\Mvc\Model;
-	 * use Phalcon\Mvc\Model\Message as Message;
+	 * use Phalcon\Messages\Message as Message;
 	 *
 	 * class Robots extends Model
 	 * {
@@ -1559,8 +1559,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 					message->getMessage(),
 					message->getField(),
 					message->getType(),
-					message->getCode(),
-					null
+					message->getCode()
 				)
 			);
 		}

@@ -4,7 +4,7 @@ namespace Phalcon\Test\Models\Validation;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Validation;
-use Phalcon\Mvc\Model\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\Uniqueness;
