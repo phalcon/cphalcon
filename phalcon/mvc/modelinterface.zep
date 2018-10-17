@@ -20,12 +20,12 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
+use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
-use Phalcon\Mvc\Model\TransactionInterface;
-use Phalcon\Mvc\Model\MessageInterface;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\TransactionInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface

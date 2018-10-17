@@ -18,6 +18,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Messages\Message as ParentMessage;
 use Phalcon\Mvc\ModelInterface;
 
 /**
@@ -46,7 +47,7 @@ use Phalcon\Mvc\ModelInterface;
  * </code>
  *
  */
-class Message extends \Phalcon\Messages\Message
+class Message extends ParentMessage
 {
 
 	protected _model;
