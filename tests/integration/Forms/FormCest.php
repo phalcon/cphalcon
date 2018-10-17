@@ -5,7 +5,7 @@ namespace Phalcon\Test\Integration\Forms;
 use Phalcon\Tag;
 use IntegrationTester;
 use Phalcon\Forms\Form;
-use Phalcon\Validation\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\Password;

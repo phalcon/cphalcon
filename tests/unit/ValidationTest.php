@@ -7,7 +7,7 @@ use Phalcon\Messages\Messages;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
+use Phalcon\Messages\Message;
 
 /**
  * \Phalcon\Test\Unit\ValidationTest

@@ -4,7 +4,7 @@ namespace  Phalcon\Test\Integration;
 
 use IntegrationTester;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Messages\Messages;
 
