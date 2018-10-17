@@ -46,7 +46,7 @@ use Phalcon\Mvc\ModelInterface;
  * </code>
  *
  */
-class Message extends Phalcon\Messages\Message
+class Message extends \Phalcon\Messages\Message
 {
 
 	protected _model;
