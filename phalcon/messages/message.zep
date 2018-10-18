@@ -25,7 +25,7 @@ use Phalcon\Messages\MessageInterface;
  *
  * Stores a message from various components
  */
-class Message implements MessageInterface
+class Message implements MessageInterface, \JsonSerializable
 {
 
 	protected _type;
@@ -79,6 +79,19 @@ class Message implements MessageInterface
 	public function getType() -> string
 	{
 		return this->_type;
+	}
+
+    /**
+    * Serializes the object for json_encode
+    */
+	public function jsonSerialize() -> array
+	{
+		return [
+			"field": this->_field,
+			"message": this->_message,
+			"type": this->_type,
+			"code": this->_code
+		];
 	}
 
 	/**

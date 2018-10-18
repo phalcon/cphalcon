@@ -149,6 +149,30 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
 		return filtered;
 	}
 
+    /**
+     * Returns serialised message objects as array for json_encode. Calls
+     * jsonSerialize on each object if present
+     *
+     *<code>
+     * $data = $messages->jsonSerialize();
+     * echo json_encode($data);
+     *</code>
+     */
+    public function jsonSerialize() -> array
+    {
+    	array records;
+
+    	for message in messages {
+        	if typeof message == "object" && method_exists(message, "jsonSerialize") {
+        		let records[] = message->{"jsonSerialize"}();
+        	} else {
+        	    let records[] = message;
+        	}
+        }
+
+        return records;
+    }
+
 	/**
 	 * Returns the current position/key in the iterator
 	 */

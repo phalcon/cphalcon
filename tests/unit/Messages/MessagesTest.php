@@ -175,4 +175,49 @@ class MessagesTest extends UnitTest
             }
         );
     }
+
+    /**
+     * Tests JsonSerializable
+     *
+     * @test
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2018-10-18
+     */
+    public function shouldImplementJsonSerializable()
+    {
+        $this->specify(
+            'The Messages do not implement JsonSerializable',
+            function () {
+                $message1 = new Message('This a message #1', 'field1', 'Type1', 1);
+                $message2 = new Message('This a message #2', 'field2', 'Type2', 2);
+                $message3 = new Message('This a message #3', 'field3', 'Type3', 3);
+                expect($message1 instanceof \JsonSerializable)->true();
+
+                $messages = new Messages(
+                    [
+                        $message1,
+                        $message2,
+                        $message3,
+                    ]
+                );
+
+                expect($messages instanceof \JsonSerializable)->true();
+
+                $expected = [
+                    'field'   => 'field1',
+                    'message' => 'This is a message #1',
+                    'type'    => 'Type1',
+                    'code'    => 1.
+                ];
+
+                expect($message1->jsonSerialize())->equals($expected);
+
+                $actual = $messages->jsonSerialize();
+                expect(is_array($actual))->true();
+                expect(count($actual))->equals(3);
+            }
+        );
+    }
+
+
 }
