@@ -188,9 +188,9 @@ class MessagesTest extends UnitTest
         $this->specify(
             'The Messages do not implement JsonSerializable',
             function () {
-                $message1 = new Message('This a message #1', 'field1', 'Type1', 1);
-                $message2 = new Message('This a message #2', 'field2', 'Type2', 2);
-                $message3 = new Message('This a message #3', 'field3', 'Type3', 3);
+                $message1 = new Message('This is a message #1', 'field1', 'Type1', 1);
+                $message2 = new Message('This is a message #2', 'field2', 'Type2', 2);
+                $message3 = new Message('This is a message #3', 'field3', 'Type3', 3);
                 expect($message1 instanceof \JsonSerializable)->true();
 
                 $messages = new Messages(
@@ -207,7 +207,7 @@ class MessagesTest extends UnitTest
                     'field'   => 'field1',
                     'message' => 'This is a message #1',
                     'type'    => 'Type1',
-                    'code'    => 1.
+                    'code'    => 1,
                 ];
 
                 expect($message1->jsonSerialize())->equals($expected);
@@ -218,6 +218,4 @@ class MessagesTest extends UnitTest
             }
         );
     }
-
-
 }
