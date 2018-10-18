@@ -5,6 +5,7 @@
 - Added `Phalcon\Mvc\Router\RouteInterface::convert` so that calling `Phalcon\Mvc\Router\Group::add` will return an instance that has `convert` method [#13380](https://github.com/phalcon/cphalcon/issues/13380)
 - Added `Phalcon\Mvc\ModelInterface::getModelsMetaData` [#13070](https://github.com/phalcon/cphalcon/issues/13402)
 - Added `paginate()` method as a proxy of `getPaginate`. Added `previous` in the paginator object same as `before`. After 4.0 is released we will deprecate `getPaginate()`, `before` and `total_items` [#13492](https://github.com/phalcon/cphalcon/issues/13492)
+- Added `getHandlerSuffix()`, `setHandlerSuffix()` in Dispatcher, `getTaskSuffix()`, `setTaskSuffix()` in the CLI Dispatcher [#13468](https://github.com/phalcon/cphalcon/issues/13468)
 - Added ability to set a custom template for the Flash Messenger. [#13445](https://github.com/phalcon/cphalcon/issues/13445)
 
 ## Changed

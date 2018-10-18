@@ -83,11 +83,27 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Sets the default task suffix
+	 */
+	public function setTaskSuffix(string taskSuffix)
+	{
+		let this->_handlerSuffix = taskSuffix;
+	}
+
+	/**
 	 * Gets last dispatched task name
 	 */
 	public function getTaskName() -> string
 	{
 		return this->_handlerName;
+	}
+
+	/**
+	 * Gets the default task suffix
+	 */
+	public function getTaskSuffix() -> string
+	{
+		return this->_handlerSuffix;
 	}
 
 	/**

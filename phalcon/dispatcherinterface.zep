@@ -38,9 +38,19 @@ interface DispatcherInterface
 	public function getActionSuffix() -> string;
 
 	/**
+	 * Gets the default handler suffix
+	 */
+	public function getHandlerSuffix() -> string;
+
+	/**
 	 * Sets the default namespace
 	 */
 	public function setDefaultNamespace(string defaultNamespace);
+
+	/**
+	 * Sets the default suffix for the handler
+	 */
+	public function setHandlerSuffix(string handlerSuffix);
 
 	/**
 	 * Sets the default action name
