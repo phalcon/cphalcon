@@ -222,4 +222,54 @@ class SessionTest extends UnitTest
             ]
         );
     }
+
+    /**
+     * Test custom template getter/setter
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/13445
+     * @since  2018-10-16
+     */
+    public function testCustomTemplateGetterSetter()
+    {
+        $this->specify(
+            "The custom template getter/setter does not return correct data",
+            function () {
+                $flash    = $this->getFlash();
+                $template = '<span class="%cssClasses%">%message%</span>';
+                $flash->setCustomTemplate($template);
+
+                expect($flash->getCustomTemplate())->equals($template);
+            }
+        );
+    }
+
+    /**
+     * Test custom message
+     *
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/13445
+     * @since  2018-10-16
+     */
+    public function testCustomFormat()
+    {
+        $this->specify(
+            "The output() method outputs custom template formatted messages incorrectly",
+            function () {
+                $flash    = $this->getFlash();
+                $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
+                $flash->setCustomTemplate($template);
+
+                $message  = 'sample message';
+                $expected = '<span class="successMessage" aria-label="clickme">sample message</span>';
+                ob_start();
+                $flash->success($message);
+                $flash->output();
+                $actual = ob_get_contents();
+                ob_end_clean();
+
+                expect($actual)->equals($expected);
+            }
+        );
+    }
 }
