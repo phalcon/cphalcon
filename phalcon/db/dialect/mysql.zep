@@ -746,4 +746,17 @@ class Mysql extends Dialect
 
 		return sql;
 	}
+
+	/**
+	 * Returns a SQL modified with a LOCK IN SHARE MODE clause
+	 *
+	 *<code>
+	 * $sql = $dialect->sharedLock("SELECT * FROM robots");
+	 * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
+	 *</code>
+	 */
+	public function sharedLock(string! sqlQuery) -> string
+	{
+		return sqlQuery . " LOCK IN SHARE MODE";
+	}
 }
