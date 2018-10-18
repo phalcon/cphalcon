@@ -27,7 +27,7 @@ use Phalcon\Messages\MessageInterface;
  *
  * Represents a collection of messages
  */
-class Messages implements \Countable, \ArrayAccess, \Iterator
+class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
 {
 	protected _position = 0;
 
