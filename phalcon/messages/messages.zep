@@ -161,6 +161,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator, \JsonSerializable
     public function jsonSerialize() -> array
     {
     	var records, message;
+    	let records = [];
 
     	for message in this->_messages {
         	if typeof message == "object" && method_exists(message, "jsonSerialize") {
