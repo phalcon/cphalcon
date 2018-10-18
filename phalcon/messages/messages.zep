@@ -162,7 +162,7 @@ class Messages implements \Countable, \ArrayAccess, \Iterator
     {
     	array records;
 
-    	for message in messages {
+    	for message in this->_messages {
         	if typeof message == "object" && method_exists(message, "jsonSerialize") {
         		let records[] = message->{"jsonSerialize"}();
         	} else {
