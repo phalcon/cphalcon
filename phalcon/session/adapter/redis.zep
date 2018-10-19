@@ -92,33 +92,9 @@ class Redis extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function open() -> boolean
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function close() -> boolean
 	{
 		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function read(sessionId) -> string
-	{
-		return (string) this->_redis->get(sessionId, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function write(string sessionId, string data) -> boolean
-	{
-		return this->_redis->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
@@ -145,5 +121,29 @@ class Redis extends Adapter
 	public function gc() -> boolean
 	{
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function open() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(sessionId) -> string
+	{
+		return (string) this->_redis->get(sessionId, this->_lifetime);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function write(string sessionId, string data) -> boolean
+	{
+		return this->_redis->save(sessionId, data, this->_lifetime);
 	}
 }

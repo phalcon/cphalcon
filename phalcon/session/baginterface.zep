@@ -19,20 +19,24 @@ namespace Phalcon\Session;
 interface BagInterface
 {
 	/**
-	 * Initializes the session bag. This method must not be called directly, the
-	 * class calls it when its internal data is accessed
+	 * Getter of values
 	 */
-	public function initialize();
+	public function __get(string! property) -> var;
+
+	/**
+	 * Isset property
+	 */
+	public function __isset(string! property) -> boolean;
+
+	/**
+	 * Setter of values
+	 */
+	public function __set(string! property, var value);
 
 	/**
 	 * Destroys the session bag
 	 */
 	public function destroy();
-
-	/**
-	 * Setter of values
-	 */
-	public function set(string! property, var value);
 
 	/**
 	 * Getter of values
@@ -45,17 +49,13 @@ interface BagInterface
 	public function has(string! property) -> boolean;
 
 	/**
+	 * Initializes the session bag. This method must not be called directly, the
+	 * class calls it when its internal data is accessed
+	 */
+	public function initialize();
+
+	/**
 	 * Setter of values
 	 */
-	public function __set(string! property, var value);
-
-	/**
-	 * Getter of values
-	 */
-	public function __get(string! property) -> var;
-
-	/**
-	 * Isset property
-	 */
-	public function __isset(string! property) -> boolean;
+	public function set(string! property, var value);
 }

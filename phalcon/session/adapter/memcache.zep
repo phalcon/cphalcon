@@ -87,30 +87,9 @@ class Memcache extends Adapter
 		parent::__construct(options);
 	}
 
-	public function open() -> boolean
-	{
-		return true;
-	}
-
 	public function close() -> boolean
 	{
 		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function read(string sessionId) -> string
-	{
-		return (string) this->_memcache->get(sessionId, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function write(string sessionId, string data) -> boolean
-	{
-		return this->_memcache->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
@@ -141,5 +120,26 @@ class Memcache extends Adapter
 	public function gc() -> boolean
 	{
 		return true;
+	}
+
+	public function open() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(string sessionId) -> string
+	{
+		return (string) this->_memcache->get(sessionId, this->_lifetime);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function write(string sessionId, string data) -> boolean
+	{
+		return this->_memcache->save(sessionId, data, this->_lifetime);
 	}
 }

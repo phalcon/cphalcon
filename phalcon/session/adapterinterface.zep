@@ -19,19 +19,9 @@ namespace Phalcon\Session;
 interface AdapterInterface
 {
 	/**
-	 * Starts session, optionally using an adapter
+	 * Destroys the active session
 	 */
-	public function start();
-
-	/**
-	 * Sets session options
-	 */
-	public function setOptions(array! options);
-
-	/**
-	 * Get internal options
-	 */
-	public function getOptions() -> array;
+	public function destroy(boolean removeData = false) -> boolean;
 
 	/**
 	 * Gets a session variable from an application context
@@ -39,9 +29,19 @@ interface AdapterInterface
 	public function get(string index, var defaultValue = null) -> var;
 
 	/**
-	 * Sets a session variable in an application context
+	 * Returns active session id
 	 */
-	public function set(string index, var value);
+	public function getId() -> string;
+
+	/**
+	 * Get session name
+	 */
+	public function getName() -> string;
+
+	/**
+	 * Get internal options
+	 */
+	public function getOptions() -> array;
 
 	/**
 	 * Check whether a session variable is set in an application context
@@ -49,24 +49,9 @@ interface AdapterInterface
 	public function has(string index) -> boolean;
 
 	/**
-	 * Removes a session variable from an application context
-	 */
-	public function remove(string index);
-
-	/**
-	 * Returns active session id
-	 */
-	public function getId() -> string;
-
-	/**
 	 * Check whether the session has been started
 	 */
 	public function isStarted() -> boolean;
-
-	/**
-	 * Destroys the active session
-	 */
-	public function destroy(boolean removeData = false) -> boolean;
 
 	/**
 	 * Regenerate session's id
@@ -74,12 +59,27 @@ interface AdapterInterface
 	public function regenerateId(bool deleteOldSession = true) -> <AdapterInterface>;
 
 	/**
+	 * Removes a session variable from an application context
+	 */
+	public function remove(string index);
+
+	/**
+	 * Sets a session variable in an application context
+	 */
+	public function set(string index, var value);
+
+	/**
 	 * Set session name
 	 */
 	public function setName(string name);
 
 	/**
-	 * Get session name
+	 * Sets session options
 	 */
-	public function getName() -> string;
+	public function setOptions(array! options);
+
+	/**
+	 * Starts session, optionally using an adapter
+	 */
+	public function start();
 }

@@ -38,74 +38,71 @@ abstract class Adapter implements AdapterInterface
 		this->setOptions(options);
 	}
 
-	/**
-	 * Starts the session (if headers are already sent the session will not be started)
-	 */
-	public function start() -> boolean
+	public function __destruct()
 	{
-		if !headers_sent() {
-			if !this->_started && this->status() !== self::SESSION_ACTIVE {
-				session_start();
-				let this->_started = true;
-				return true;
-			}
+		if this->_started {
+			session_write_close();
+			let this->_started = false;
 		}
-		return false;
 	}
 
 	/**
-	 * Sets session's options
+	 * Alias: Gets a session variable from an application context
+	 */
+	public function __get(string index) -> var
+	{
+		return this->get(index);
+	}
+
+	/**
+	 * Alias: Check whether a session variable is set in an application context
+	 */
+	public function __isset(string index) -> boolean
+	{
+		return this->has(index);
+	}
+
+	/**
+	 * Alias: Sets a session variable in an application context
+	 */
+	public function __set(string index, var value)
+	{
+		return this->set(index, value);
+	}
+
+	/**
+	 * Alias: Removes a session variable from an application context
+	 *
+	 * <code>
+	 * unset($session->auth);
+	 * </code>
+	 */
+	public function __unset(string index)
+	{
+		this->remove(index);
+	}
+
+	/**
+	 * Destroys the active session
 	 *
 	 *<code>
-	 * $session->setOptions(
-	 *     [
-	 *         "uniqueId" => "my-private-app",
-	 *     ]
+	 * var_dump(
+	 *     $session->destroy()
+	 * );
+	 *
+	 * var_dump(
+	 *     $session->destroy(true)
 	 * );
 	 *</code>
 	 */
-	public function setOptions(array! options)
+	public function destroy(boolean removeData = false) -> boolean
 	{
-		var uniqueId;
-
-		if fetch uniqueId, options["uniqueId"] {
-			let this->_uniqueId = uniqueId;
+		if removeData {
+			this->removeSessionData();
 		}
 
-		let this->_options = options;
-	}
-
-	/**
-	 * Get internal options
-	 */
-	public function getOptions() -> array
-	{
-		return this->_options;
-	}
-
-	/**
-	 * Set session name
-	 */
-	public function setName(string name)
-	{
-	    session_name(name);
-	}
-
-	/**
-	 * Get session name
-	 */
-	public function getName() -> string
-	{
-	    return session_name();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
-	{
-		session_regenerate_id(deleteOldSession);
-		return this;
+		let this->_started = false;
+		return session_destroy();
 	}
 
 	/**
@@ -137,23 +134,31 @@ abstract class Adapter implements AdapterInterface
 	}
 
 	/**
-	 * Sets a session variable in an application context
+	 * Returns active session id
 	 *
 	 *<code>
-	 * $session->set("auth", "yes");
+	 * echo $session->getId();
 	 *</code>
 	 */
-	public function set(string index, var value)
+	public function getId() -> string
 	{
-		var uniqueId;
+		return session_id();
+	}
 
-		let uniqueId = this->_uniqueId;
-		if !empty uniqueId {
-			let _SESSION[uniqueId . "#" . index] = value;
-			return;
-		}
+	/**
+	 * Get session name
+	 */
+	public function getName() -> string
+	{
+	    return session_name();
+	}
 
-		let _SESSION[index] = value;
+	/**
+	 * Get internal options
+	 */
+	public function getOptions() -> array
+	{
+		return this->_options;
 	}
 
 	/**
@@ -178,6 +183,29 @@ abstract class Adapter implements AdapterInterface
 	}
 
 	/**
+	 * Check whether the session has been started
+	 *
+	 *<code>
+	 * var_dump(
+	 *     $session->isStarted()
+	 * );
+	 *</code>
+	 */
+	public function isStarted() -> boolean
+	{
+		return this->_started;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function regenerateId(bool deleteOldSession = true) -> <Adapter>
+	{
+		session_regenerate_id(deleteOldSession);
+		return this;
+	}
+
+	/**
 	 * Removes a session variable from an application context
 	 *
 	 * <code>
@@ -198,15 +226,23 @@ abstract class Adapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns active session id
+	 * Sets a session variable in an application context
 	 *
 	 *<code>
-	 * echo $session->getId();
+	 * $session->set("auth", "yes");
 	 *</code>
 	 */
-	public function getId() -> string
+	public function set(string index, var value)
 	{
-		return session_id();
+		var uniqueId;
+
+		let uniqueId = this->_uniqueId;
+		if !empty uniqueId {
+			let _SESSION[uniqueId . "#" . index] = value;
+			return;
+		}
+
+		let _SESSION[index] = value;
 	}
 
 	/**
@@ -222,40 +258,48 @@ abstract class Adapter implements AdapterInterface
 	}
 
 	/**
-	 * Check whether the session has been started
-	 *
-	 *<code>
-	 * var_dump(
-	 *     $session->isStarted()
-	 * );
-	 *</code>
+	 * Set session name
 	 */
-	public function isStarted() -> boolean
+	public function setName(string name)
 	{
-		return this->_started;
+	    session_name(name);
 	}
 
 	/**
-	 * Destroys the active session
+	 * Sets session's options
 	 *
 	 *<code>
-	 * var_dump(
-	 *     $session->destroy()
-	 * );
-	 *
-	 * var_dump(
-	 *     $session->destroy(true)
+	 * $session->setOptions(
+	 *     [
+	 *         "uniqueId" => "my-private-app",
+	 *     ]
 	 * );
 	 *</code>
 	 */
-	public function destroy(boolean removeData = false) -> boolean
+	public function setOptions(array! options)
 	{
-		if removeData {
-			this->removeSessionData();
+		var uniqueId;
+
+		if fetch uniqueId, options["uniqueId"] {
+			let this->_uniqueId = uniqueId;
 		}
 
-		let this->_started = false;
-		return session_destroy();
+		let this->_options = options;
+	}
+
+	/**
+	 * Starts the session (if headers are already sent the session will not be started)
+	 */
+	public function start() -> boolean
+	{
+		if !headers_sent() {
+			if !this->_started && this->status() !== self::SESSION_ACTIVE {
+				session_start();
+				let this->_started = true;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -289,49 +333,8 @@ abstract class Adapter implements AdapterInterface
 	}
 
 	/**
-	 * Alias: Gets a session variable from an application context
+	 * Helper method to remove session data
 	 */
-	public function __get(string index) -> var
-	{
-		return this->get(index);
-	}
-
-	/**
-	 * Alias: Sets a session variable in an application context
-	 */
-	public function __set(string index, var value)
-	{
-		return this->set(index, value);
-	}
-
-	/**
-	 * Alias: Check whether a session variable is set in an application context
-	 */
-	public function __isset(string index) -> boolean
-	{
-		return this->has(index);
-	}
-
-	/**
-	 * Alias: Removes a session variable from an application context
-	 *
-	 * <code>
-	 * unset($session->auth);
-	 * </code>
-	 */
-	public function __unset(string index)
-	{
-		this->remove(index);
-	}
-
-	public function __destruct()
-	{
-		if this->_started {
-			session_write_close();
-			let this->_started = false;
-		}
-	}
-
 	protected function removeSessionData() -> void
 	{
 		var uniqueId, key;
