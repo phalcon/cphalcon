@@ -628,42 +628,24 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Executes validators on every validation call
 	 *
 	 *<code>
-	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
-	 *
-	 * class Subscriptors extends \Phalcon\Mvc\Collection
-	 * {
-	 *     public function validation()
-	 *     {
-	 *         // Old, deprecated syntax, use new one below
-	 *         $this->validate(
-	 *             new ExclusionIn(
-	 *                 [
-	 *                     "field"  => "status",
-	 *                     "domain" => ["A", "I"],
-	 *                 ]
-	 *             )
-	 *         );
-	 *
-	 *         if ($this->validationHasFailed() == true) {
-	 *             return false;
-	 *         }
-	 *     }
-	 * }
-	 *</code>
-	 *
-	 *<code>
-	 * use Phalcon\Validation\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Mvc\Collection;
 	 * use Phalcon\Validation;
+	 * use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 * class Subscriptors extends \Phalcon\Mvc\Collection
+	 * class Subscriptors extends Collection
 	 * {
 	 *     public function validation()
 	 *     {
 	 *         $validator = new Validation();
-	 *         $validator->add("status",
+	 *
+	 *         $validator->add(
+	 *             "status",
 	 *             new ExclusionIn(
 	 *                 [
-	 *                     "domain" => ["A", "I"]
+	 *                     "domain" => [
+	 *                         "A",
+	 *                         "I",
+	 *                     ],
 	 *                 ]
 	 *             )
 	 *         );
@@ -673,73 +655,61 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * }
 	 *</code>
 	 */
-	protected function validate(var validator)
+	protected function validate(<ValidationInterface> validator) -> boolean
 	{
 		var messages, message;
 
-		if validator instanceof Model\ValidatorInterface {
-			if validator->validate(this) === false {
-				for message in validator->getMessages() {
-					let this->_errorMessages[] = message;
-				}
-			}
-		} elseif validator instanceof ValidationInterface {
-			let messages = validator->validate(null, this);
+		let messages = validator->validate(null, this);
 
-			// Call the validation, if it returns not the boolean
-			// we append the messages to the current object
-			if typeof messages != "boolean" {
-
-				messages->rewind();
-
-				// for message in iterator(messages) {
-				while messages->valid() {
-
-					let message = messages->current();
-
-					this->appendMessage(
-						new Message(
-							message->getMessage(),
-							message->getField(),
-							message->getType()
-						)
-					);
-
-					messages->next();
-				}
-
-				// If there is a message, it returns false otherwise true
-				return !count(messages);
-			}
-
+		// Call the validation, if it returns not the boolean
+		// we append the messages to the current object
+		if typeof messages == "boolean" {
 			return messages;
-		} else {
-			throw new Exception("You should pass Phalcon\\Mvc\\Model\\ValidatorInterface or Phalcon\\ValidationInterface object");
 		}
+
+		for message in iterator(messages) {
+			this->appendMessage(
+				new Message(
+					message->getMessage(),
+					message->getField(),
+					message->getType(),
+					null,
+					message->getCode()
+				)
+			);
+		}
+
+		// If there is a message, it returns false otherwise true
+		return !count(messages);
 	}
 
 	/**
 	 * Check whether validation process has generated any messages
 	 *
 	 *<code>
-	 * use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 * use Phalcon\Mvc\Collection;
+	 * use Phalcon\Validation;
+	 * use Phalcon\Validation\Validator\ExclusionIn;
 	 *
-	 * class Subscriptors extends \Phalcon\Mvc\Collection
+	 * class Subscriptors extends Collection
 	 * {
 	 *     public function validation()
 	 *     {
-	 *         $this->validate(
+	 *         $validator = new Validation();
+	 *
+	 *         $validator->validate(
+	 *             "status",
 	 *             new ExclusionIn(
 	 *                 [
-	 *                     "field"  => "status",
-	 *                     "domain" => ["A", "I"],
+	 *                     "domain" => [
+	 *                         "A",
+	 *                         "I",
+	 *                     ],
 	 *                 ]
 	 *             )
 	 *         );
 	 *
-	 *         if ($this->validationHasFailed() == true) {
-	 *             return false;
-	 *         }
+	 *         return $this->validate($validator);
 	 *     }
 	 * }
 	 *</code>
