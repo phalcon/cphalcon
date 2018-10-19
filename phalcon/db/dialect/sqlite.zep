@@ -607,4 +607,13 @@ class Sqlite extends Dialect
 	{
 		return sqlQuery;
 	}
+
+	/**
+	 * Returns a SQL modified with a FOR UPDATE clause. For sqlite it returns
+	 * the original query
+	 */
+	public function forUpdate(string! sqlQuery) -> string
+	{
+		return sqlQuery;
+	}
 }
