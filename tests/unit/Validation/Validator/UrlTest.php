@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
 
@@ -40,10 +42,10 @@ class UrlTest extends UnitTest
 
             $messages = $validation->validate([]);
 
-            $expectedMessages = Validation\Message\Group::__set_state(
+            $expectedMessages = Messages::__set_state(
                 [
                     '_messages' => [
-                        0 => Validation\Message::__set_state(
+                        0 => Message::__set_state(
                             [
                                 '_type'    => 'Url',
                                 '_message' => 'Field url must be a url',
@@ -112,10 +114,10 @@ class UrlTest extends UnitTest
 
                 $messages = $validation->validate([]);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Url',
                                     '_message' => 'The url is not valid',

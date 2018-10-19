@@ -21,9 +21,8 @@ namespace Phalcon\Forms;
 
 use Phalcon\Tag;
 use Phalcon\Forms\Exception;
-use Phalcon\Validation\Message;
-use Phalcon\Validation\MessageInterface;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Messages\MessageInterface;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
@@ -65,7 +64,7 @@ abstract class Element implements ElementInterface
 
 		let this->_name = name;
 		let this->_attributes = attributes;
-		let this->_messages = new Group();
+		let this->_messages = new Messages();
 	}
 
 	/**
@@ -444,7 +443,7 @@ abstract class Element implements ElementInterface
 	 * Returns the messages that belongs to the element
 	 * The element needs to be attached to a form
 	 */
-	public function getMessages() -> <Group>
+	public function getMessages() -> <Messages>
 	{
 		return this->_messages;
 	}
@@ -460,9 +459,9 @@ abstract class Element implements ElementInterface
 	/**
 	 * Sets the validation messages related to the element
 	 */
-	public function setMessages(<Group> group) -> <ElementInterface>
+	public function setMessages(<Messages> messages) -> <ElementInterface>
 	{
-		let this->_messages = group;
+		let this->_messages = messages;
 		return this;
 	}
 

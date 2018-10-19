@@ -20,11 +20,11 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db;
-use Phalcon\Mvc\Model;
 use Phalcon\Cache\BackendInterface;
+use Phalcon\Messages\MessageInterface;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\MessageInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**

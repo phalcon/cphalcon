@@ -19,6 +19,7 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 
@@ -76,7 +77,7 @@ class Status implements StatusInterface
 	/**
 	 * Returns the messages produced because of a failed operation
 	 */
-	public function getMessages() -> <\Phalcon\Mvc\Model\MessageInterface[]>
+	public function getMessages() -> <MessageInterface[]>
 	{
 		var model;
 		let model = this->_model;

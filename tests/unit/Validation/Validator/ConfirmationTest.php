@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
-use Phalcon\Validation;
-use Phalcon\Validation\Message;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Confirmation;
 
 /**
@@ -136,7 +136,7 @@ class ConfirmationTest extends UnitTest
         $this->specify(
             'The Confirmation validator should allow empty value',
             function () {
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type' => 'Confirmation',

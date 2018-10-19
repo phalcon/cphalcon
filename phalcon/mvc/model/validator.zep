@@ -19,7 +19,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Mvc\Model\Message;
+use Phalcon\Messages\Message;
 
 /**
  * Phalcon\Mvc\Model\Validator

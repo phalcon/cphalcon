@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -12,35 +12,19 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Phalcon Team <team@phalconphp.com>                            |
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model\Query;
-
-use Phalcon\Messages\MessageInterface;
-use Phalcon\Mvc\ModelInterface;
+namespace Phalcon\Messages;
 
 /**
- * Phalcon\Mvc\Model\Query\StatusInterface
+ * Phalcon\Validation\Exception
  *
- * Interface for Phalcon\Mvc\Model\Query\Status
+ * Exceptions thrown in Phalcon\Messages\* classes will use this class
+ *
  */
-interface StatusInterface
+class Exception extends \Phalcon\Exception
 {
-	/**
-	 * Returns the model which executed the action
-	 */
-	public function getModel() -> <ModelInterface>;
 
-	/**
-	 * Returns the messages produced by an operation failed
-	 */
-	public function getMessages() -> <MessageInterface[]>;
-
-	/**
-	 * Allows to check if the executed operation was successful
-	 */
-	public function success() -> boolean;
 }

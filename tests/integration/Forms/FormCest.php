@@ -5,11 +5,11 @@ namespace Phalcon\Test\Integration\Forms;
 use Phalcon\Tag;
 use IntegrationTester;
 use Phalcon\Forms\Form;
-use Phalcon\Validation\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\Password;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
@@ -202,7 +202,7 @@ class FormCest
         $I->assertFalse($form->isValid($_POST));
 
         $actual = $form->getMessages();
-        $expected = Group::__set_state([
+        $expected = Messages::__set_state([
             '_position' => 0,
             '_messages' => [
                 Message::__set_state([
@@ -254,7 +254,7 @@ class FormCest
         $I->assertFalse($form->isValid($_POST));
 
         $actual = $form->getMessages();
-        $expected = Group::__set_state([
+        $expected = Messages::__set_state([
             '_position' => 0,
             '_messages' => [
                 Message::__set_state([

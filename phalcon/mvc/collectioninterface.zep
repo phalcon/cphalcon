@@ -19,7 +19,7 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Mvc\Model\MessageInterface;
+use Phalcon\Messages\MessageInterface;
 
 /**
  * Phalcon\Mvc\CollectionInterface

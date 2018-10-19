@@ -6,10 +6,10 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Text;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message;
-use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
@@ -139,7 +139,7 @@ class FormTest extends UnitTest
      */
     public function testFormHasMessagesFor()
     {
-        $this->specify('Form::hasMessagesFor does not check correctly if the Group is empty', function () {
+        $this->specify('Form::hasMessagesFor does not check correctly if the Messages is empty', function () {
             // First element
             $telephone = new Text('telephone');
 
@@ -160,7 +160,7 @@ class FormTest extends UnitTest
             expect($form->isValid(['telephone' => '12345', 'address' => 'hello']))->false();
 
             expect($form->getMessagesFor('telephone'))->equals(
-                Group::__set_state([
+                Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'Regex',
@@ -172,7 +172,7 @@ class FormTest extends UnitTest
                 ])
             );
 
-            expect($form->getMessagesFor('address'))->equals(Group::__set_state(['_messages' => []]));
+            expect($form->getMessagesFor('address'))->equals(Messages::__set_state(['_messages' => []]));
             expect($form->hasMessagesFor('telephone'))->true();
             expect($form->hasMessagesFor('address'))->false();
         });
@@ -270,7 +270,7 @@ class FormTest extends UnitTest
 
                 expect($form->isValid([]))->false();
 
-                $expectedMessages = Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     array(
                         '_messages' => array(
                             0 => Message::__set_state(
@@ -316,7 +316,7 @@ class FormTest extends UnitTest
                     'address' => 'hello'
                 )))->false();
 
-                $expectedMessages = Group::__set_state(array(
+                $expectedMessages = Messages::__set_state(array(
                     '_messages' => array(
                         0 =>  Message::__set_state(array(
                             '_type' => 'Regex',
@@ -432,7 +432,7 @@ class FormTest extends UnitTest
             expect($form->get('address')->hasMessages())->false();
 
             expect($form->get('telephone')->getMessages())->equals(
-                Group::__set_state([
+                Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'Regex',
@@ -444,8 +444,8 @@ class FormTest extends UnitTest
                 ])
             );
             expect($form->get('telephone')->getMessages())->equals($form->getMessages());
-            expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
-            expect($form->getMessagesFor('notelement'))->equals(Group::__set_state(['_messages' => []]));
+            expect($form->get('address')->getMessages())->equals(Messages::__set_state(['_messages' => []]));
+            expect($form->getMessagesFor('notelement'))->equals(Messages::__set_state(['_messages' => []]));
         });
     }
 
@@ -474,7 +474,7 @@ class FormTest extends UnitTest
             expect($form->get('telephone')->hasMessages())->true();
             expect($form->get('address')->hasMessages())->false();
             expect($form->get('telephone')->getMessages())->equals(
-                Group::__set_state([
+                Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type' => 'Regex',
@@ -486,7 +486,7 @@ class FormTest extends UnitTest
                 ])
             );
             expect($form->get('telephone')->getMessages())->equals($form->getMessages());
-            expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
+            expect($form->get('address')->getMessages())->equals(Messages::__set_state(['_messages' => []]));
         });
     }
 
@@ -520,7 +520,7 @@ class FormTest extends UnitTest
             expect($form->get('telephone')->hasMessages())->true();
             expect($form->get('address')->hasMessages())->false();
             expect($form->get('telephone')->getMessages())->equals(
-                Group::__set_state([
+                Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type' => 'Regex',
@@ -538,7 +538,7 @@ class FormTest extends UnitTest
                 ])
             );
             expect($form->get('telephone')->getMessages())->equals($form->getMessages());
-            expect($form->get('address')->getMessages())->equals(Group::__set_state(['_messages' => []]));
+            expect($form->get('address')->getMessages())->equals(Messages::__set_state(['_messages' => []]));
         });
     }
 
@@ -574,7 +574,7 @@ class FormTest extends UnitTest
             expect($form->isValid(['address' => 'hello']))->false();
             expect($form->getMessages(true))->equals([
                 'telephone' => [
-                    Group::__set_state([
+                    Messages::__set_state([
                         '_messages' => [
                             Message::__set_state([
                                 '_type' => 'Regex',
@@ -584,7 +584,7 @@ class FormTest extends UnitTest
                             ])
                         ]
                     ]),
-                    Group::__set_state([
+                    Messages::__set_state([
                         '_messages' => [
                             Message::__set_state([
                                 '_type' => 'PresenceOf',

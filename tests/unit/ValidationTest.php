@@ -3,11 +3,11 @@
 namespace Phalcon\Test\Unit;
 
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Messages\Message;
 
 /**
  * \Phalcon\Test\Unit\ValidationTest
@@ -64,7 +64,7 @@ class ValidationTest extends UnitTest
             expect($messages->count())->equals(1);
             expect($messages->offsetGet(0)->getMessage())->equals('Name cant be empty.');
 
-            $expectedMessages = Group::__set_state([
+            $expectedMessages = Messages::__set_state([
                 '_messages' => [
                     Message::__set_state([
                         '_type' => 'PresenceOf',
@@ -196,7 +196,7 @@ class ValidationTest extends UnitTest
 
                 $messages = $validation->validate(['email' => '', 'firstname' => '']);
 
-                $expectedMessages = Group::__set_state(array(
+                $expectedMessages = Messages::__set_state(array(
                     '_messages' => array(
                         0 => Message::__set_state(array(
                             '_type' => 'PresenceOf',

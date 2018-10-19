@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\Validator\StringLength;
 
 /**
@@ -66,7 +66,7 @@ class StringLengthTest extends UnitTest
 
                 expect($validation->validate(['name' => 'Something']))->count(0);
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'TooShort',
@@ -102,7 +102,7 @@ class StringLengthTest extends UnitTest
 
                 expect($validation->validate(['message' => 'Something']))->count(0);
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'TooShort',
@@ -135,7 +135,7 @@ class StringLengthTest extends UnitTest
 
                 expect($validation->validate(['name' => 'John']))->count(0);
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'TooLong',
@@ -171,7 +171,7 @@ class StringLengthTest extends UnitTest
 
                 expect($validation->validate(['message' => 'Pet']))->count(0);
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'TooLong',

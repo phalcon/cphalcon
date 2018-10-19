@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\Validator\CreditCard;
 
 /**
@@ -137,7 +137,7 @@ class CreditCardTest extends UnitTest
                 $validation = new Validation();
                 $validation->add('creditCard', new CreditCard());
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type'    => 'CreditCard',

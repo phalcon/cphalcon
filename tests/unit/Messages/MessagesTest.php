@@ -1,22 +1,23 @@
 <?php
 
-namespace Phalcon\Test\Unit\Validation\Message;
+namespace Phalcon\Test\Unit\Messages;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
 
 /**
- * \Phalcon\Test\Unit\Validation\Message\GroupTest
- * Tests the \Phalcon\Validation\Message\Group component
+ * \Phalcon\Test\Unit\Messages\MessagesTest
+ * Tests the \Phalcon\Messages\Messages component
  *
- * @copyright (c) 2011-2017 Phalcon Team
+ * @copyright (c) 2011-2018 Phalcon Team
  * @link      https://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Validation\Message
- * @group     validation
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @package   Phalcon\Test\Unit\Messages
+ * @group     messages
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -25,7 +26,7 @@ use Phalcon\Validation\Message\Group;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class GroupTest extends UnitTest
+class MessagesTest extends UnitTest
 {
     /**
      * Tests append messages
@@ -43,7 +44,7 @@ class GroupTest extends UnitTest
                 $message2 = new Message('This a message #2', 'field2', 'Type2');
                 $message3 = new Message('This a message #3', 'field3', 'Type3');
 
-                $messages = new Group([$message1, $message2]);
+                $messages = new Messages([$message1, $message2]);
 
                 expect($messages)->count(2);
 
@@ -90,6 +91,7 @@ class GroupTest extends UnitTest
                     '_message' => 'error a',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
                 $validation->appendMessage(new Message('error b', 'myField', 'MyValidator'));
@@ -99,6 +101,7 @@ class GroupTest extends UnitTest
                     '_message' => 'error b',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
                 $messages = $validation->getMessages();
@@ -109,6 +112,7 @@ class GroupTest extends UnitTest
                     '_message' => 'error a',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
                 $validation->appendMessage(new Message('error c', 'myField', 'MyValidator'));
@@ -118,20 +122,23 @@ class GroupTest extends UnitTest
                     '_message' => 'error c',
                     '_field'   => 'myField',
                     '_type'    => 'MyValidator',
+                    '_code'    => 0,
                 ]));
 
-                expect($validation->getMessages())->equals(Group::__set_state([
+                expect($validation->getMessages())->equals(Messages::__set_state([
                     '_position' => 0,
                     '_messages' => [
                         0 => Message::__set_state([
                             '_message' => 'error a',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                         1 => Message::__set_state([
                             '_message' => 'error c',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                     ]
                 ]));
@@ -142,26 +149,72 @@ class GroupTest extends UnitTest
                 $messages = $validation->getMessages();
                 $messages->offsetUnset(1);
 
-                expect($validation->getMessages())->equals(Group::__set_state([
+                expect($validation->getMessages())->equals(Messages::__set_state([
                     '_position' => 0,
                     '_messages' => [
                         0 => Message::__set_state([
                             '_message' => 'error a',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                         1 => Message::__set_state([
                             '_message' => 'error d',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                         2 => Message::__set_state([
                             '_message' => 'error e',
                             '_field'   => 'myField',
                             '_type'    => 'MyValidator',
+                            '_code'    => 0,
                         ]),
                     ]
                 ]));
+            }
+        );
+    }
+
+    /**
+     * Tests JsonSerializable
+     *
+     * @test
+     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since  2018-10-18
+     */
+    public function shouldImplementJsonSerializable()
+    {
+        $this->specify(
+            'The Messages do not implement JsonSerializable',
+            function () {
+                $message1 = new Message('This is a message #1', 'field1', 'Type1', 1);
+                $message2 = new Message('This is a message #2', 'field2', 'Type2', 2);
+                $message3 = new Message('This is a message #3', 'field3', 'Type3', 3);
+                expect($message1 instanceof \JsonSerializable)->true();
+
+                $messages = new Messages(
+                    [
+                        $message1,
+                        $message2,
+                        $message3,
+                    ]
+                );
+
+                expect($messages instanceof \JsonSerializable)->true();
+
+                $expected = [
+                    'field'   => 'field1',
+                    'message' => 'This is a message #1',
+                    'type'    => 'Type1',
+                    'code'    => 1,
+                ];
+
+                expect($message1->jsonSerialize())->equals($expected);
+
+                $actual = $messages->jsonSerialize();
+                expect(is_array($actual))->true();
+                expect(count($actual))->equals(3);
             }
         );
     }

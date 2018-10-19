@@ -5,7 +5,7 @@ namespace Phalcon\Test\Unit\Mvc\Model\Helpers;
 use Phalcon\Di;
 use UnitTester;
 use Phalcon\Db\RawValue;
-use Phalcon\Mvc\Model\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Test\Models\Validation\Subscriptores;
 
 class Validation

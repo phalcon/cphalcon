@@ -22,13 +22,13 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Di;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Collection\Document;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Collection\ManagerInterface;
+use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
+use Phalcon\Mvc\Collection\Document;
 use Phalcon\Mvc\Collection\Exception;
-use Phalcon\Mvc\Model\MessageInterface;
-use Phalcon\Mvc\Model\Message as Message;
+use Phalcon\Mvc\Collection\ManagerInterface;
+use Phalcon\Messages\Message as Message;
 use Phalcon\ValidationInterface;
 
 /**
@@ -890,7 +890,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 	 * Appends a customized message on the validation process
 	 *
 	 *<code>
-	 * use \Phalcon\Mvc\Model\Message as Message;
+	 * use \Phalcon\Messages\Message as Message;
 	 *
 	 * class Robots extends \Phalcon\Mvc\Model
 	 * {

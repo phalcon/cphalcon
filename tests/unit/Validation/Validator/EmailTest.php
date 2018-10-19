@@ -2,6 +2,8 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email;
@@ -47,10 +49,10 @@ class EmailTest extends UnitTest
                 $messages = $validation->validate(['email' => 'rootlocalhost']);
                 expect($messages->count())->equals(1);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Email',
                                     '_message' => 'Field email must be an email address',
@@ -114,10 +116,10 @@ class EmailTest extends UnitTest
 
                 $messages = $validation->validate([]);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type' => 'Email',
                                     '_message' => 'The email is not valid',

@@ -3,6 +3,8 @@
 namespace Phalcon\Test\Unit\Validation\Validator;
 
 use Phalcon\Test\Module\UnitTest;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Between;
 
@@ -49,10 +51,10 @@ class BetweenTest extends UnitTest
 
             $messages = $validation->validate(['price' => 5]);
 
-            $expectedMessages = Validation\Message\Group::__set_state(
+            $expectedMessages = Messages::__set_state(
                 [
                     '_messages' => [
-                        0 => Validation\Message::__set_state(
+                        0 => Message::__set_state(
                             [
                                 '_type'    => 'Between',
                                 '_message' => 'Field price must be within the range of 1 to 3',
@@ -131,10 +133,10 @@ class BetweenTest extends UnitTest
 
                 $messages = $validation->validate(['price' => 5]);
 
-                $expectedMessages = Validation\Message\Group::__set_state(
+                $expectedMessages = Messages::__set_state(
                     [
                         '_messages' => [
-                            0 => Validation\Message::__set_state(
+                            0 => Message::__set_state(
                                 [
                                     '_type'    => 'Between',
                                     '_message' => 'The price must be between 1 and 3',

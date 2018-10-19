@@ -20,9 +20,9 @@
 namespace Phalcon\Forms;
 
 use Phalcon\Forms\Form;
-use Phalcon\Validation\MessageInterface;
+use Phalcon\Messages\MessageInterface;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidatorInterface;
-use Phalcon\Validation\Message\Group;
 
 /**
  * Phalcon\Forms\Element
@@ -169,7 +169,7 @@ interface ElementInterface
 	 * Returns the messages that belongs to the element
 	 * The element needs to be attached to a form
 	 */
-	public function getMessages() -> <Group>;
+	public function getMessages() -> <Messages>;
 
 	/**
 	 * Checks whether there are messages attached to the element
@@ -179,7 +179,7 @@ interface ElementInterface
 	/**
 	 * Sets the validation messages related to the element
 	 */
-	public function setMessages(<Group> group) -> <ElementInterface>;
+	public function setMessages(<Messages> messages) -> <ElementInterface>;
 
 	/**
 	 * Appends a message to the internal message list

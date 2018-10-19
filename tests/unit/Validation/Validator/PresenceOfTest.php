@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Unit\Validation\Validator;
 
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
 use Phalcon\Validation\Validator\PresenceOf;
 
 /**
@@ -71,7 +71,7 @@ class PresenceOfTest extends UnitTest
             expect($messages->count())->equals(1);
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
 
-            $expectedMessages = Group::__set_state([
+            $expectedMessages = Messages::__set_state([
                 '_messages' => [
                     Message::__set_state([
                         '_type' => 'PresenceOf',
@@ -89,7 +89,7 @@ class PresenceOfTest extends UnitTest
             expect($messages->offsetGet(0)->getMessage())->equals($validationMessages['name']);
             expect($messages->offsetGet(1)->getMessage())->equals($validationMessages['type']);
 
-            $expectedMessages = Group::__set_state([
+            $expectedMessages = Messages::__set_state([
                 '_messages' => [
                     Message::__set_state([
                         '_type' => 'PresenceOf',
@@ -131,7 +131,7 @@ class PresenceOfTest extends UnitTest
 
                 $actual = $validation->validate([]);
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type' => 'PresenceOf',
@@ -183,7 +183,7 @@ class PresenceOfTest extends UnitTest
 
                 $actual = $validation->validate([]);
 
-                $expected = Group::__set_state([
+                $expected = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type' => 'PresenceOf',

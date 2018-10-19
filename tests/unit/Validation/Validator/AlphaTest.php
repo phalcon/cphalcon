@@ -3,9 +3,9 @@
 namespace Phalcon\Test\Unit\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
+use Phalcon\Messages\Message;
 use Phalcon\Test\Module\UnitTest;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation\Validator\Alpha;
 
 /**
@@ -91,7 +91,7 @@ class AlphaTest extends UnitTest
 
                 $messages = $validation->validate(['name' => $input]);
 
-                $expectedMessages = Group::__set_state([
+                $expectedMessages = Messages::__set_state([
                     '_messages' => [
                         Message::__set_state([
                             '_type' => 'Alpha',

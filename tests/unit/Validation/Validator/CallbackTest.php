@@ -4,8 +4,8 @@ namespace Phalcon\Test\Unit\Validation\Validator;
 
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Validation;
-use Phalcon\Validation\Message;
-use Phalcon\Validation\Message\Group;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
 use Phalcon\Validation\Validator\Callback;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
@@ -59,7 +59,7 @@ class CallbackTest extends UnitTest
         $messages = $validation->validate(["user" => "user", "admin" => "admin"]);
         expect($messages)->count(1);
 
-        $expectedMessages = Group::__set_state(
+        $expectedMessages = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -111,7 +111,7 @@ class CallbackTest extends UnitTest
         expect($messages)->count(0);
         $messages = $validation->validate(['user' => 'u', 'admin' => null]);
         expect($messages)->count(1);
-        $expectedMessages = Group::__set_state(
+        $expectedMessages = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -158,7 +158,7 @@ class CallbackTest extends UnitTest
         expect($messages)->count(0);
         $messages = $validation->validate(['user' => 'user', 'admin' => 'admin']);
         expect($messages)->count(2);
-        $expectedMessages = Group::__set_state(
+        $expectedMessages = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -218,7 +218,7 @@ class CallbackTest extends UnitTest
 
         $messages = $validation->validate(['admin' => null, 'user' => null]);
         expect($messages)->count(2);
-        $expectedMessages = Group::__set_state(
+        $expectedMessages = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(
@@ -247,7 +247,7 @@ class CallbackTest extends UnitTest
         expect($messages)->count(0);
         $messages = $validation->validate(['admin' => 'admin', 'user' => 'user']);
         expect($messages)->count(2);
-        $expectedMessages = Group::__set_state(
+        $expectedMessages = Messages::__set_state(
             [
                 '_messages' => [
                     Message::__set_state(

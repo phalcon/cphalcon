@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-present Phalcon Team (http://www.phalconphp.com)    |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
@@ -12,34 +12,34 @@
  | obtain it through the world-wide-web, please send an email             |
  | to license@phalconphp.com so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ | Authors: Phalcon Team <team@phalconphp.com>                            |
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\Mvc\Model;
+namespace Phalcon\Messages;
+
+use Phalcon\Messages\Message;
 
 /**
- * Phalcon\Mvc\Model\Message
+ * Phalcon\Messages\MessageInterface
  *
- * Interface for Phalcon\Mvc\Model\Message
+ * Interface for Phalcon\Messages\MessageInterface
  */
 interface MessageInterface
 {
 	/**
-	 * Sets message type
+	 * Returns the message code related to this message
+	 *
+	 * @return int
 	 */
-	public function setType(string! type);
+	public function getCode();
 
 	/**
-	 * Returns message type
+	 * Returns field name related to message
+	 *
+	 * @return string
 	 */
-	public function getType() -> string;
-
-	/**
-	 * Sets verbose message
-	 */
-	public function setMessage(string! message);
+	public function getField();
 
 	/**
 	 * Returns verbose message
@@ -47,14 +47,29 @@ interface MessageInterface
 	public function getMessage() -> string;
 
 	/**
-	 * Sets field name related to message
+	 * Returns message type
 	 */
-	public function setField(string! field);
+	public function getType() -> string;
 
 	/**
-	 * Returns field name related to message
+	 * Sets code for the message
 	 */
-	public function getField() -> string;
+	public function setCode(int code) -> <Message>;
+
+	/**
+	 * Sets field name related to message
+	 */
+	public function setField(string! field) -> <Message>;
+
+	/**
+	 * Sets verbose message
+	 */
+	public function setMessage(string! message) -> <Message>;
+
+	/**
+	 * Sets message type
+	 */
+	public function setType(string! type) -> <Message>;
 
 	/**
 	 * Magic __toString method returns verbose message
