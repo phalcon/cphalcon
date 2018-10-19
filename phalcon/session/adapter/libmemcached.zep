@@ -1,20 +1,10 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Session\Adapter;
@@ -122,30 +112,9 @@ class Libmemcached extends Adapter
 		parent::__construct(options);
 	}
 
-	public function open() -> boolean
-	{
-		return true;
-	}
-
 	public function close() -> boolean
 	{
 		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function read(string sessionId) -> string
-	{
-		return (string) this->_libmemcached->get(sessionId, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function write(string sessionId, string data) -> boolean
-	{
-		return this->_libmemcached->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
@@ -176,5 +145,26 @@ class Libmemcached extends Adapter
 	public function gc() -> boolean
 	{
 		return true;
+	}
+
+	public function open() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(string sessionId) -> string
+	{
+		return (string) this->_libmemcached->get(sessionId, this->_lifetime);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function write(string sessionId, string data) -> boolean
+	{
+		return this->_libmemcached->save(sessionId, data, this->_lifetime);
 	}
 }

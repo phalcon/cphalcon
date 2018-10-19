@@ -1,20 +1,10 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Session;
@@ -41,11 +31,11 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	protected _dependencyInjector;
 
-	protected _name = null;
-
 	protected _data;
 
 	protected _initialized = false;
+
+	protected _name = null;
 
 	protected _session;
 
@@ -58,11 +48,112 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	}
 
 	/**
-	 * Sets the DependencyInjector container
+	 * Magic getter to obtain values from the session bag
+	 *
+	 *<code>
+	 * echo $user->name;
+	 *</code>
 	 */
-	public function setDI(<DiInterface> dependencyInjector)
+	public function __get(string! property) -> var
 	{
-		let this->_dependencyInjector = dependencyInjector;
+		return this->get(property);
+	}
+
+	/**
+	 * Magic isset to check whether a property is defined in the bag
+	 *
+	 *<code>
+	 * var_dump(
+	 *     isset($user["name"])
+	 * );
+	 *</code>
+	 */
+	public function __isset(string! property) -> boolean
+	{
+		return this->has(property);
+	}
+
+	/**
+	 * Magic setter to assign values to the session bag
+	 *
+	 *<code>
+	 * $user->name = "Kimbra";
+	 *</code>
+	 */
+	public function __set(string! property, var value)
+	{
+		this->set(property, value);
+	}
+
+	/**
+	 * Magic unset to remove items using the array syntax
+	 *
+	 *<code>
+	 * unset($user["name"]);
+	 *</code>
+	 */
+	public function __unset(string! property) -> boolean
+	{
+		return this->remove(property);
+	}
+
+	/**
+	 * Return length of bag
+	 *
+	 *<code>
+	 * echo $user->count();
+	 *</code>
+	 */
+	public final function count() -> int
+	{
+		if this->_initialized === false {
+			this->initialize();
+		}
+		return count(this->_data);
+	}
+
+	/**
+	 * Destroys the session bag
+	 *
+	 *<code>
+	 * $user->destroy();
+	 *</code>
+	 */
+	public function destroy()
+	{
+		if this->_initialized === false {
+			this->initialize();
+		}
+		let this->_data = [];
+		this->_session->remove(this->_name);
+	}
+
+	/**
+	 * Obtains a value from the session bag optionally setting a default value
+	 *
+	 *<code>
+	 * echo $user->get("name", "Kimbra");
+	 *</code>
+	 */
+	public function get(string! property, var defaultValue = null)
+	{
+		var value;
+
+		/**
+		 * Check first if the bag is initialized
+		 */
+		if this->_initialized === false {
+			this->initialize();
+		}
+
+		/**
+		 * Retrieve the data
+		 */
+		if fetch value, this->_data[property] {
+			return value;
+		}
+
+		return defaultValue;
 	}
 
 	/**
@@ -71,6 +162,36 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	public function getDI() -> <DiInterface>
 	{
 		return this->_dependencyInjector;
+	}
+
+	/**
+	 * Returns the bag iterator
+	 */
+	public final function getIterator() -> <\ArrayIterator>
+	{
+		if this->_initialized === false {
+			this->initialize();
+		}
+
+		return new \ArrayIterator(this->_data);
+	}
+
+	/**
+	 * Check whether a property is defined in the internal bag
+	 *
+	 *<code>
+	 * var_dump(
+	 *     $user->has("name")
+	 * );
+	 *</code>
+	 */
+	public function has(string! property) -> boolean
+	{
+		if this->_initialized === false {
+			this->initialize();
+		}
+
+		return isset this->_data[property];
 	}
 
 	/**
@@ -105,121 +226,24 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 		let this->_initialized = true;
 	}
 
-	/**
-	 * Destroys the session bag
-	 *
-	 *<code>
-	 * $user->destroy();
-	 *</code>
-	 */
-	public function destroy()
+	public final function offsetExists(string! property) -> boolean
 	{
-		if this->_initialized === false {
-			this->initialize();
-		}
-		let this->_data = [];
-		this->_session->remove(this->_name);
+		return this->has(property);
 	}
 
-	/**
-	 * Sets a value in the session bag
-	 *
-	 *<code>
-	 * $user->set("name", "Kimbra");
-	 *</code>
-	 */
-	public function set(string! property, var value)
-	{
-		if this->_initialized === false {
-			this->initialize();
-		}
-
-		let this->_data[property] = value;
-		this->_session->set(this->_name, this->_data);
-	}
-
-	/**
-	 * Magic setter to assign values to the session bag
-	 *
-	 *<code>
-	 * $user->name = "Kimbra";
-	 *</code>
-	 */
-	public function __set(string! property, var value)
-	{
-		this->set(property, value);
-	}
-
-	/**
-	 * Obtains a value from the session bag optionally setting a default value
-	 *
-	 *<code>
-	 * echo $user->get("name", "Kimbra");
-	 *</code>
-	 */
-	public function get(string! property, var defaultValue = null)
-	{
-		var value;
-
-		/**
-		 * Check first if the bag is initialized
-		 */
-		if this->_initialized === false {
-			this->initialize();
-		}
-
-		/**
-		 * Retrieve the data
-		 */
-		if fetch value, this->_data[property] {
-			return value;
-		}
-
-		return defaultValue;
-	}
-
-	/**
-	 * Magic getter to obtain values from the session bag
-	 *
-	 *<code>
-	 * echo $user->name;
-	 *</code>
-	 */
-	public function __get(string! property) -> var
+	public final function offsetGet(string! property) -> var
 	{
 		return this->get(property);
 	}
 
-	/**
-	 * Check whether a property is defined in the internal bag
-	 *
-	 *<code>
-	 * var_dump(
-	 *     $user->has("name")
-	 * );
-	 *</code>
-	 */
-	public function has(string! property) -> boolean
+	public final function offsetSet(string! property, var value)
 	{
-		if this->_initialized === false {
-			this->initialize();
-		}
-
-		return isset this->_data[property];
+		return this->set(property, value);
 	}
 
-	/**
-	 * Magic isset to check whether a property is defined in the bag
-	 *
-	 *<code>
-	 * var_dump(
-	 *     isset($user["name"])
-	 * );
-	 *</code>
-	 */
-	public function __isset(string! property) -> boolean
+	public final function offsetUnset(string! property)
 	{
-		return this->has(property);
+		return this->remove(property);
 	}
 
 	/**
@@ -249,61 +273,27 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 	}
 
 	/**
-	 * Magic unset to remove items using the array syntax
+	 * Sets a value in the session bag
 	 *
 	 *<code>
-	 * unset($user["name"]);
+	 * $user->set("name", "Kimbra");
 	 *</code>
 	 */
-	public function __unset(string! property) -> boolean
-	{
-		return this->remove(property);
-	}
-
-	/**
-	 * Return length of bag
-	 *
-	 *<code>
-	 * echo $user->count();
-	 *</code>
-	 */
-	public final function count() -> int
-	{
-		if this->_initialized === false {
-			this->initialize();
-		}
-		return count(this->_data);
-	}
-
-	/**
-	 * Returns the bag iterator
-	 */
-	public final function getIterator() -> <\ArrayIterator>
+	public function set(string! property, var value)
 	{
 		if this->_initialized === false {
 			this->initialize();
 		}
 
-		return new \ArrayIterator(this->_data);
+		let this->_data[property] = value;
+		this->_session->set(this->_name, this->_data);
 	}
 
-	public final function offsetSet(string! property, var value)
+	/**
+	 * Sets the DependencyInjector container
+	 */
+	public function setDI(<DiInterface> dependencyInjector)
 	{
-		return this->set(property, value);
-	}
-
-	public final function offsetExists(string! property) -> boolean
-	{
-		return this->has(property);
-	}
-
-	public final function offsetUnset(string! property)
-	{
-		return this->remove(property);
-	}
-
-	public final function offsetGet(string! property) -> var
-	{
-		return this->get(property);
+		let this->_dependencyInjector = dependencyInjector;
 	}
 }

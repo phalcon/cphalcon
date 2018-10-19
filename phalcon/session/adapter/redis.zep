@@ -1,20 +1,10 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Session\Adapter;
@@ -53,9 +43,9 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  */
 class Redis extends Adapter
 {
-	protected _redis = null { get };
-
 	protected _lifetime = 8600 { get };
+
+	protected _redis = null { get };
 
 	/**
 	 * Phalcon\Session\Adapter\Redis constructor
@@ -100,33 +90,9 @@ class Redis extends Adapter
 	/**
 	 * {@inheritdoc}
 	 */
-	public function open() -> boolean
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function close() -> boolean
 	{
 		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function read(sessionId) -> string
-	{
-		return (string) this->_redis->get(sessionId, this->_lifetime);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function write(string sessionId, string data) -> boolean
-	{
-		return this->_redis->save(sessionId, data, this->_lifetime);
 	}
 
 	/**
@@ -153,5 +119,29 @@ class Redis extends Adapter
 	public function gc() -> boolean
 	{
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function open() -> boolean
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function read(sessionId) -> string
+	{
+		return (string) this->_redis->get(sessionId, this->_lifetime);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function write(string sessionId, string data) -> boolean
+	{
+		return this->_redis->save(sessionId, data, this->_lifetime);
 	}
 }
