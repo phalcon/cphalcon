@@ -617,7 +617,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 		}
 
 		if !disableEvents {
-			this->fireEvent("notSave");
+			this->fireEvent("notSaved");
 		}
 
 		this->_cancelOperation(disableEvents);
