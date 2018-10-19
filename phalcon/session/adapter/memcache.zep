@@ -43,9 +43,9 @@ use Phalcon\Cache\Frontend\Data as FrontendData;
  */
 class Memcache extends Adapter
 {
-	protected _memcache = null { get };
-
 	protected _lifetime = 8600 { get };
+
+	protected _memcache = null { get };
 
 	/**
 	 * Phalcon\Session\Adapter\Memcache constructor

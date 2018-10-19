@@ -33,11 +33,11 @@ class Bag implements InjectionAwareInterface, BagInterface, \IteratorAggregate, 
 
 	protected _dependencyInjector;
 
-	protected _name = null;
-
 	protected _data;
 
 	protected _initialized = false;
+
+	protected _name = null;
 
 	protected _session;
 

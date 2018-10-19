@@ -20,15 +20,15 @@ abstract class Adapter implements AdapterInterface
 {
 	const SESSION_ACTIVE = 2;
 
-	const SESSION_NONE = 1;
-
 	const SESSION_DISABLED = 0;
 
-	protected _uniqueId;
+	const SESSION_NONE = 1;
+
+	protected _options;
 
 	protected _started = false;
 
-	protected _options;
+	protected _uniqueId;
 
 	/**
 	 * Phalcon\Session\Adapter constructor

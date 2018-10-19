@@ -45,9 +45,9 @@ use Phalcon\Cache\Frontend\None as FrontendNone;
  */
 class Redis extends Adapter
 {
-	protected _redis = null { get };
-
 	protected _lifetime = 8600 { get };
+
+	protected _redis = null { get };
 
 	/**
 	 * Phalcon\Session\Adapter\Redis constructor
