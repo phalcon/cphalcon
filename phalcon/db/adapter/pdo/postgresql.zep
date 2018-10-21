@@ -148,32 +148,37 @@ class Postgresql extends PdoAdapter
 			/**
 			 * By checking every column type we convert it to a Phalcon\Db\Column
 			 */
-			let columnType = field[1],
-				charSize = field[2],
-				numericSize = field[3],
+			let columnType   = field[1],
+				charSize     = field[2],
+				numericSize  = field[3],
 				numericScale = field[4];
 
-			if memstr(columnType, "smallint(1)") {
-				/**
-				 * Smallint(1) is boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "bigint") {
+			if memstr(columnType, "bigint") {
 				/**
 				 * Bigint
 				 */
 				let definition["type"] = Column::TYPE_BIGINTEGER,
 					definition["isNumeric"] = true,
 					definition["bindType"] = Column::BIND_PARAM_INT;
-			} elseif memstr(columnType, "int") {
+			} elseif memstr(columnType, "bool") {
 				/**
-				 * Int
+				 * Boolean
 				 */
-				let definition["type"] = Column::TYPE_INTEGER,
-					definition["isNumeric"] = true,
-					definition["size"] = numericSize,
-					definition["bindType"] = Column::BIND_PARAM_INT;
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["size"] = 0,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
+			} elseif memstr(columnType, "char") {
+				/**
+				 * Chars are chars
+				 */
+				let definition["type"] = Column::TYPE_CHAR,
+					definition["size"] = charSize;
+			} elseif memstr(columnType, "date") {
+				/**
+				 * Special type for datetime
+				 */
+				let definition["type"] = Column::TYPE_DATE,
+					definition["size"] = 0;
 			} elseif memstr(columnType, "double precision") {
 				/**
 				 * Double Precision
@@ -182,31 +187,32 @@ class Postgresql extends PdoAdapter
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-            } elseif memstr(columnType, "real") {
+			} elseif memstr(columnType, "float") {
 				/**
-				 * Real
+				 * Float/Smallfloats/Decimals are float
 				 */
 				let definition["type"] = Column::TYPE_FLOAT,
 					definition["isNumeric"] = true,
 					definition["size"] = numericSize,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "varying") {
+			} elseif memstr(columnType, "int") {
 				/**
-				 * Varchar
+				 * Int
 				 */
-				let definition["type"] = Column::TYPE_VARCHAR,
-					definition["size"] = charSize;
-			} elseif memstr(columnType, "date") {
+				let definition["type"] = Column::TYPE_INTEGER,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_INT;
+			} elseif memstr(columnType, "json") {
 				/**
-				 * Special type for datetime
+				 * Json
 				 */
-				let definition["type"] = Column::TYPE_DATE,
-					definition["size"] = 0;
-			} elseif memstr(columnType, "timestamp") {
+				let definition["type"] = Column::TYPE_JSON;
+			} elseif memstr(columnType, "jsonb") {
 				/**
-				 * Timestamp
+				 * Jsonb
 				 */
-				let definition["type"] = Column::TYPE_TIMESTAMP;
+				let definition["type"] = Column::TYPE_JSONB;
 			} elseif memstr(columnType, "numeric") {
 				/**
 				 * Numeric
@@ -216,49 +222,43 @@ class Postgresql extends PdoAdapter
 					definition["size"] = numericSize,
 					definition["scale"] = numericScale,
 					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "char") {
+            } elseif memstr(columnType, "real") {
 				/**
-				 * Chars are chars
+				 * Real
 				 */
-				let definition["type"] = Column::TYPE_CHAR,
-					definition["size"] = charSize;
+				let definition["type"] = Column::TYPE_FLOAT,
+					definition["isNumeric"] = true,
+					definition["size"] = numericSize,
+					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+			} elseif memstr(columnType, "smallint(1)") {
+				/**
+				 * Smallint(1) is boolean
+				 */
+				let definition["type"] = Column::TYPE_BOOLEAN,
+					definition["bindType"] = Column::BIND_PARAM_BOOL;
 			} elseif memstr(columnType, "text") {
 				/**
 				 * Text are varchars
 				 */
 				let definition["type"] = Column::TYPE_TEXT,
 					definition["size"] = charSize;
-			} elseif memstr(columnType, "float") {
+			} elseif memstr(columnType, "timestamp") {
 				/**
-				 * Float/Smallfloats/Decimals are float
+				 * Timestamp
 				 */
-				let definition["type"] = Column::TYPE_FLOAT,
-					definition["isNumeric"] = true,
-					definition["size"] = numericSize,
-					definition["bindType"] = Column::BIND_PARAM_DECIMAL;
-			} elseif memstr(columnType, "bool") {
-				/**
-				 * Boolean
-				 */
-				let definition["type"] = Column::TYPE_BOOLEAN,
-					definition["size"] = 0,
-					definition["bindType"] = Column::BIND_PARAM_BOOL;
-			} elseif memstr(columnType, "jsonb") {
-				/**
-				 * Jsonb
-				 */
-				let definition["type"] = Column::TYPE_JSONB;
-			} elseif memstr(columnType, "json") {
-				/**
-				 * Json
-				 */
-				let definition["type"] = Column::TYPE_JSON;
+				let definition["type"] = Column::TYPE_TIMESTAMP;
 			} elseif memstr(columnType, "uuid") {
 				/**
 				 * UUID
 				 */
 				let definition["type"] = Column::TYPE_CHAR,
 					definition["size"] = 36;
+			} elseif memstr(columnType, "varying") {
+				/**
+				 * Varchar
+				 */
+				let definition["type"] = Column::TYPE_VARCHAR,
+					definition["size"] = charSize;
 			} else {
 				/**
 				 * By default is string
