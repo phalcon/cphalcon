@@ -189,6 +189,14 @@ class Mysql extends PdoAdapter
 				let definition["type"] = Column::TYPE_BLOB;
 			} else {
 				/**
+				 * Enum
+				 */
+				if memstr(columnType, "enum") {
+					let definition["type"] = Column::TYPE_ENUM;
+					break;
+				}
+
+				/**
 				 * By default is string
 				 */
 				let definition["type"] = Column::TYPE_VARCHAR;
@@ -199,7 +207,10 @@ class Mysql extends PdoAdapter
 			 */
 			if memstr(columnType, "(") {
 				let matches = null;
-				if preg_match(sizePattern, columnType, matches) {
+
+				if definition["type"] == Column::TYPE_ENUM {
+					let definition["size"] = substr(columnType, 5, -1);
+				} elseif preg_match(sizePattern, columnType, matches) {
 					if fetch matchOne, matches[1] {
 						let definition["size"] = (int) matchOne;
 					}
