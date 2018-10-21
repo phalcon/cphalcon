@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Db\Adapter;
@@ -49,16 +40,16 @@ abstract class Pdo extends Adapter
 {
 
 	/**
+	 * Last affected rows
+	 */
+	protected _affectedRows;
+
+	/**
 	 * PDO Handler
 	 *
 	 * @var \Pdo
 	 */
 	protected _pdo;
-
-	/**
-	 * Last affected rows
-	 */
-	protected _affectedRows;
 
 	/**
 	 * Constructor for Phalcon\Db\Adapter\Pdo
@@ -67,6 +58,166 @@ abstract class Pdo extends Adapter
 	{
 		this->connect(descriptor);
 		parent::__construct(descriptor);
+	}
+
+	/**
+	 * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE executed in the database system
+	 *
+	 *<code>
+	 * $connection->execute(
+	 *     "DELETE FROM robots"
+	 * );
+	 *
+	 * echo $connection->affectedRows(), " were deleted";
+	 *</code>
+	 */
+	public function affectedRows() -> int
+	{
+		return this->_affectedRows;
+	}
+
+	/**
+	 * Starts a transaction in the connection
+	 */
+	public function begin(boolean nesting = true) -> boolean
+	{
+		var pdo, transactionLevel, eventsManager, savepointName;
+
+		let pdo = this->_pdo;
+		if typeof pdo != "object" {
+			return false;
+		}
+
+		/**
+		 * Increase the transaction nesting level
+		 */
+		let this->_transactionLevel++;
+
+		/**
+		 * Check the transaction nesting level
+		 */
+		let transactionLevel = (int) this->_transactionLevel;
+
+		if transactionLevel == 1 {
+
+			/**
+			 * Notify the events manager about the started transaction
+			 */
+			let eventsManager = <ManagerInterface> this->_eventsManager;
+			if typeof eventsManager == "object" {
+				eventsManager->fire("db:beginTransaction", this);
+			}
+
+			return pdo->beginTransaction();
+		} else {
+
+			/**
+			 * Check if the current database system supports nested transactions
+			 */
+			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
+
+				let eventsManager = <ManagerInterface> this->_eventsManager,
+					savepointName = this->getNestedTransactionSavepointName();
+
+				/**
+				 * Notify the events manager about the created savepoint
+				 */
+				if typeof eventsManager == "object" {
+					eventsManager->fire("db:createSavepoint", this, savepointName);
+				}
+
+				return this->createSavepoint(savepointName);
+			}
+
+		}
+
+		return false;
+	}
+
+	/**
+	 * Closes the active connection returning success. Phalcon automatically closes and destroys
+	 * active connections when the request ends
+	 */
+	public function close() -> boolean
+	{
+		var pdo;
+		let pdo = this->_pdo;
+		if typeof pdo == "object" {
+			let this->_pdo = null;
+		}
+		return true;
+	}
+
+	/**
+	 * Commits the active transaction in the connection
+	 */
+	public function commit(boolean nesting = true) -> boolean
+	{
+		var pdo, transactionLevel, eventsManager, savepointName;
+
+		let pdo = this->_pdo;
+		if typeof pdo != "object" {
+			return false;
+		}
+
+		/**
+		 * Check the transaction nesting level
+		 */
+		let transactionLevel = (int) this->_transactionLevel;
+		if !transactionLevel {
+			throw new Exception("There is no active transaction");
+		}
+
+		if transactionLevel == 1 {
+
+			/**
+			 * Notify the events manager about the committed transaction
+			 */
+			let eventsManager = <ManagerInterface> this->_eventsManager;
+			if typeof eventsManager == "object" {
+				eventsManager->fire("db:commitTransaction", this);
+			}
+
+			/**
+			 * Reduce the transaction nesting level
+			 */
+			let this->_transactionLevel--;
+
+			return pdo->commit();
+		} else {
+
+			/**
+			 * Check if the current database system supports nested transactions
+			 */
+			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
+
+				/**
+				 * Notify the events manager about the committed savepoint
+				 */
+				let eventsManager = <ManagerInterface> this->_eventsManager,
+					savepointName = this->getNestedTransactionSavepointName();
+				if typeof eventsManager == "object" {
+					eventsManager->fire("db:releaseSavepoint", this, savepointName);
+				}
+
+				/**
+				 * Reduce the transaction nesting level
+				 */
+				let this->_transactionLevel--;
+
+				return this->releaseSavepoint(savepointName);
+			}
+
+		}
+
+		/**
+		 * Reduce the transaction nesting level
+		 */
+		if transactionLevel > 0 {
+			let this->_transactionLevel--;
+		}
+
+		return false;
 	}
 
 	/**
@@ -177,29 +328,130 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
-	 * Returns a PDO prepared statement to be executed with 'executePrepared'
+	 * Converts bound parameters such as :name: or ?1 into PDO bind params ?
 	 *
 	 *<code>
-	 * use Phalcon\Db\Column;
+	 * print_r(
+	 *     $connection->convertBoundParams(
+	 *         "SELECT * FROM robots WHERE name = :name:",
+	 *         [
+	 *             "Bender",
+	 *         ]
+	 *     )
+	 * );
+	 *</code>
+	 */
+	public function convertBoundParams(string! sql, array params = []) -> array
+	{
+		var boundSql, placeHolders, bindPattern, matches,
+			setOrder, placeMatch, value;
+
+		let placeHolders = [],
+			bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
+			matches = null, setOrder = 2;
+
+		if preg_match_all(bindPattern, sql, matches, setOrder) {
+			for placeMatch in matches {
+
+				if !fetch value, params[placeMatch[1]] {
+					if isset placeMatch[2] {
+						if !fetch value, params[placeMatch[2]] {
+							throw new Exception("Matched parameter wasn't found in parameters list");
+						}
+					} else {
+						throw new Exception("Matched parameter wasn't found in parameters list");
+					}
+				}
+
+				let placeHolders[] = value;
+			}
+
+			let boundSql = preg_replace(bindPattern, "?", sql);
+		} else {
+			let boundSql = sql;
+		}
+
+		return [
+			"sql"    : boundSql,
+			"params" : placeHolders
+		];
+	}
+
+	/**
+	 * Escapes a value to avoid SQL injections according to the active charset in the connection
 	 *
-	 * $statement = $db->prepare(
-	 *     "SELECT * FROM robots WHERE name = :name"
+	 *<code>
+	 * $escapedStr = $connection->escapeString("some dangerous value");
+	 *</code>
+	 */
+	public function escapeString(string str) -> string
+	{
+		return this->_pdo->quote(str);
+	}
+
+	/**
+	 * Sends SQL statements to the database server returning the success state.
+	 * Use this method only when the SQL statement sent to the server doesn't return any rows
+	 *
+	 *<code>
+	 * // Inserting data
+	 * $success = $connection->execute(
+	 *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
 	 * );
 	 *
-	 * $result = $connection->executePrepared(
-	 *     $statement,
+	 * $success = $connection->execute(
+	 *     "INSERT INTO robots VALUES (?, ?)",
 	 *     [
-	 *         "name" => "Voltron",
-	 *     ],
-	 *     [
-	 *         "name" => Column::BIND_PARAM_INT,
+	 *         1,
+	 *         "Astro Boy",
 	 *     ]
 	 * );
 	 *</code>
 	 */
-	public function prepare(string! sqlStatement) -> <\PDOStatement>
+	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
 	{
-		return this->_pdo->prepare(sqlStatement);
+		var eventsManager, affectedRows, pdo, newStatement, statement;
+
+		/**
+		 * Execute the beforeQuery event if an EventsManager is available
+		 */
+		let eventsManager = <ManagerInterface> this->_eventsManager;
+		if typeof eventsManager == "object" {
+			let this->_sqlStatement = sqlStatement,
+				this->_sqlVariables = bindParams,
+				this->_sqlBindTypes = bindTypes;
+			if eventsManager->fire("db:beforeQuery", this) === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Initialize affectedRows to 0
+		 */
+		let affectedRows = 0;
+
+		let pdo = <\Pdo> this->_pdo;
+		if typeof bindParams == "array" {
+			let statement = pdo->prepare(sqlStatement);
+			if typeof statement == "object" {
+				let newStatement = this->executePrepared(statement, bindParams, bindTypes),
+					affectedRows = newStatement->rowCount();
+			}
+		} else {
+			let affectedRows = pdo->exec(sqlStatement);
+		}
+
+		/**
+		 * Execute the afterQuery event if an EventsManager is available
+		 */
+		if typeof affectedRows == "integer" {
+			let this->_affectedRows = affectedRows;
+			if typeof eventsManager == "object" {
+				eventsManager->fire("db:afterQuery", this);
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -315,6 +567,113 @@ abstract class Pdo extends Adapter
 	}
 
 	/**
+	 * Return the error info, if any
+	 *
+	 * @return array
+	 */
+	public function getErrorInfo()
+	{
+		return this->_pdo->errorInfo();
+	}
+
+	/**
+	 * Return internal PDO handler
+	 */
+	public function getInternalHandler() -> <\Pdo>
+	{
+		return this->_pdo;
+	}
+
+	/**
+	 * Returns the current transaction nesting level
+	 */
+	public function getTransactionLevel() -> int
+	{
+		return this->_transactionLevel;
+	}
+
+	/**
+	 * Checks whether the connection is under a transaction
+	 *
+	 *<code>
+	 * $connection->begin();
+	 *
+	 * // true
+	 * var_dump(
+	 *     $connection->isUnderTransaction()
+	 * );
+	 *</code>
+	 */
+	public function isUnderTransaction() -> boolean
+	{
+		var pdo;
+		let pdo = this->_pdo;
+		if typeof pdo == "object" {
+			return pdo->inTransaction();
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the insert id for the auto_increment/serial column inserted in the latest executed SQL statement
+	 *
+	 *<code>
+	 * // Inserting a new robot
+	 * $success = $connection->insert(
+	 *     "robots",
+	 *     [
+	 *         "Astro Boy",
+	 *         1952,
+	 *     ],
+	 *     [
+	 *         "name",
+	 *         "year",
+	 *     ]
+	 * );
+	 *
+	 * // Getting the generated id
+	 * $id = $connection->lastInsertId();
+	 *</code>
+	 *
+	 * @param string sequenceName
+	 */
+	public function lastInsertId(sequenceName = null) -> int | boolean
+	{
+		var pdo;
+		let pdo = this->_pdo;
+		if typeof pdo != "object" {
+			return false;
+		}
+		return pdo->lastInsertId(sequenceName);
+	}
+
+	/**
+	 * Returns a PDO prepared statement to be executed with 'executePrepared'
+	 *
+	 *<code>
+	 * use Phalcon\Db\Column;
+	 *
+	 * $statement = $db->prepare(
+	 *     "SELECT * FROM robots WHERE name = :name"
+	 * );
+	 *
+	 * $result = $connection->executePrepared(
+	 *     $statement,
+	 *     [
+	 *         "name" => "Voltron",
+	 *     ],
+	 *     [
+	 *         "name" => Column::BIND_PARAM_INT,
+	 *     ]
+	 * );
+	 *</code>
+	 */
+	public function prepare(string! sqlStatement) -> <\PDOStatement>
+	{
+		return this->_pdo->prepare(sqlStatement);
+	}
+
+	/**
 	 * Sends SQL statements to the database server returning the success state.
 	 * Use this method only when the SQL statement sent to the server is returning rows
 	 *
@@ -371,254 +730,6 @@ abstract class Pdo extends Adapter
 		}
 
 		return statement;
-	}
-
-	/**
-	 * Sends SQL statements to the database server returning the success state.
-	 * Use this method only when the SQL statement sent to the server doesn't return any rows
-	 *
-	 *<code>
-	 * // Inserting data
-	 * $success = $connection->execute(
-	 *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
-	 * );
-	 *
-	 * $success = $connection->execute(
-	 *     "INSERT INTO robots VALUES (?, ?)",
-	 *     [
-	 *         1,
-	 *         "Astro Boy",
-	 *     ]
-	 * );
-	 *</code>
-	 */
-	public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> boolean
-	{
-		var eventsManager, affectedRows, pdo, newStatement, statement;
-
-		/**
-		 * Execute the beforeQuery event if an EventsManager is available
-		 */
-		let eventsManager = <ManagerInterface> this->_eventsManager;
-		if typeof eventsManager == "object" {
-			let this->_sqlStatement = sqlStatement,
-				this->_sqlVariables = bindParams,
-				this->_sqlBindTypes = bindTypes;
-			if eventsManager->fire("db:beforeQuery", this) === false {
-				return false;
-			}
-		}
-
-		/**
-		 * Initialize affectedRows to 0
-		 */
-		let affectedRows = 0;
-
-		let pdo = <\Pdo> this->_pdo;
-		if typeof bindParams == "array" {
-			let statement = pdo->prepare(sqlStatement);
-			if typeof statement == "object" {
-				let newStatement = this->executePrepared(statement, bindParams, bindTypes),
-					affectedRows = newStatement->rowCount();
-			}
-		} else {
-			let affectedRows = pdo->exec(sqlStatement);
-		}
-
-		/**
-		 * Execute the afterQuery event if an EventsManager is available
-		 */
-		if typeof affectedRows == "integer" {
-			let this->_affectedRows = affectedRows;
-			if typeof eventsManager == "object" {
-				eventsManager->fire("db:afterQuery", this);
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE executed in the database system
-	 *
-	 *<code>
-	 * $connection->execute(
-	 *     "DELETE FROM robots"
-	 * );
-	 *
-	 * echo $connection->affectedRows(), " were deleted";
-	 *</code>
-	 */
-	public function affectedRows() -> int
-	{
-		return this->_affectedRows;
-	}
-
-	/**
-	 * Closes the active connection returning success. Phalcon automatically closes and destroys
-	 * active connections when the request ends
-	 */
-	public function close() -> boolean
-	{
-		var pdo;
-		let pdo = this->_pdo;
-		if typeof pdo == "object" {
-			let this->_pdo = null;
-		}
-		return true;
-	}
-
-	/**
-	 * Escapes a value to avoid SQL injections according to the active charset in the connection
-	 *
-	 *<code>
-	 * $escapedStr = $connection->escapeString("some dangerous value");
-	 *</code>
-	 */
-	public function escapeString(string str) -> string
-	{
-		return this->_pdo->quote(str);
-	}
-
-	/**
-	 * Converts bound parameters such as :name: or ?1 into PDO bind params ?
-	 *
-	 *<code>
-	 * print_r(
-	 *     $connection->convertBoundParams(
-	 *         "SELECT * FROM robots WHERE name = :name:",
-	 *         [
-	 *             "Bender",
-	 *         ]
-	 *     )
-	 * );
-	 *</code>
-	 */
-	public function convertBoundParams(string! sql, array params = []) -> array
-	{
-		var boundSql, placeHolders, bindPattern, matches,
-			setOrder, placeMatch, value;
-
-		let placeHolders = [],
-			bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
-			matches = null, setOrder = 2;
-
-		if preg_match_all(bindPattern, sql, matches, setOrder) {
-			for placeMatch in matches {
-
-				if !fetch value, params[placeMatch[1]] {
-					if isset placeMatch[2] {
-						if !fetch value, params[placeMatch[2]] {
-							throw new Exception("Matched parameter wasn't found in parameters list");
-						}
-					} else {
-						throw new Exception("Matched parameter wasn't found in parameters list");
-					}
-				}
-
-				let placeHolders[] = value;
-			}
-
-			let boundSql = preg_replace(bindPattern, "?", sql);
-		} else {
-			let boundSql = sql;
-		}
-
-		return [
-			"sql"    : boundSql,
-			"params" : placeHolders
-		];
-	}
-
-	/**
-	 * Returns the insert id for the auto_increment/serial column inserted in the latest executed SQL statement
-	 *
-	 *<code>
-	 * // Inserting a new robot
-	 * $success = $connection->insert(
-	 *     "robots",
-	 *     [
-	 *         "Astro Boy",
-	 *         1952,
-	 *     ],
-	 *     [
-	 *         "name",
-	 *         "year",
-	 *     ]
-	 * );
-	 *
-	 * // Getting the generated id
-	 * $id = $connection->lastInsertId();
-	 *</code>
-	 *
-	 * @param string sequenceName
-	 */
-	public function lastInsertId(sequenceName = null) -> int | boolean
-	{
-		var pdo;
-		let pdo = this->_pdo;
-		if typeof pdo != "object" {
-			return false;
-		}
-		return pdo->lastInsertId(sequenceName);
-	}
-
-	/**
-	 * Starts a transaction in the connection
-	 */
-	public function begin(boolean nesting = true) -> boolean
-	{
-		var pdo, transactionLevel, eventsManager, savepointName;
-
-		let pdo = this->_pdo;
-		if typeof pdo != "object" {
-			return false;
-		}
-
-		/**
-		 * Increase the transaction nesting level
-		 */
-		let this->_transactionLevel++;
-
-		/**
-		 * Check the transaction nesting level
-		 */
-		let transactionLevel = (int) this->_transactionLevel;
-
-		if transactionLevel == 1 {
-
-			/**
-			 * Notify the events manager about the started transaction
-			 */
-			let eventsManager = <ManagerInterface> this->_eventsManager;
-			if typeof eventsManager == "object" {
-				eventsManager->fire("db:beginTransaction", this);
-			}
-
-			return pdo->beginTransaction();
-		} else {
-
-			/**
-			 * Check if the current database system supports nested transactions
-			 */
-			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
-				let eventsManager = <ManagerInterface> this->_eventsManager,
-					savepointName = this->getNestedTransactionSavepointName();
-
-				/**
-				 * Notify the events manager about the created savepoint
-				 */
-				if typeof eventsManager == "object" {
-					eventsManager->fire("db:createSavepoint", this, savepointName);
-				}
-
-				return this->createSavepoint(savepointName);
-			}
-
-		}
-
-		return false;
 	}
 
 	/**
@@ -692,125 +803,5 @@ abstract class Pdo extends Adapter
 		}
 
 		return false;
-	}
-
-	/**
-	 * Commits the active transaction in the connection
-	 */
-	public function commit(boolean nesting = true) -> boolean
-	{
-		var pdo, transactionLevel, eventsManager, savepointName;
-
-		let pdo = this->_pdo;
-		if typeof pdo != "object" {
-			return false;
-		}
-
-		/**
-		 * Check the transaction nesting level
-		 */
-		let transactionLevel = (int) this->_transactionLevel;
-		if !transactionLevel {
-			throw new Exception("There is no active transaction");
-		}
-
-		if transactionLevel == 1 {
-
-			/**
-			 * Notify the events manager about the committed transaction
-			 */
-			let eventsManager = <ManagerInterface> this->_eventsManager;
-			if typeof eventsManager == "object" {
-				eventsManager->fire("db:commitTransaction", this);
-			}
-
-			/**
-			 * Reduce the transaction nesting level
-			 */
-			let this->_transactionLevel--;
-
-			return pdo->commit();
-		} else {
-
-			/**
-			 * Check if the current database system supports nested transactions
-			 */
-			if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
-				/**
-				 * Notify the events manager about the committed savepoint
-				 */
-				let eventsManager = <ManagerInterface> this->_eventsManager,
-					savepointName = this->getNestedTransactionSavepointName();
-				if typeof eventsManager == "object" {
-					eventsManager->fire("db:releaseSavepoint", this, savepointName);
-				}
-
-				/**
-				 * Reduce the transaction nesting level
-				 */
-				let this->_transactionLevel--;
-
-				return this->releaseSavepoint(savepointName);
-			}
-
-		}
-
-		/**
-		 * Reduce the transaction nesting level
-		 */
-		if transactionLevel > 0 {
-			let this->_transactionLevel--;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the current transaction nesting level
-	 */
-	public function getTransactionLevel() -> int
-	{
-		return this->_transactionLevel;
-	}
-
-	/**
-	 * Checks whether the connection is under a transaction
-	 *
-	 *<code>
-	 * $connection->begin();
-	 *
-	 * // true
-	 * var_dump(
-	 *     $connection->isUnderTransaction()
-	 * );
-	 *</code>
-	 */
-	public function isUnderTransaction() -> boolean
-	{
-		var pdo;
-		let pdo = this->_pdo;
-		if typeof pdo == "object" {
-			return pdo->inTransaction();
-		}
-		return false;
-	}
-
-	/**
-	 * Return internal PDO handler
-	 */
-	public function getInternalHandler() -> <\Pdo>
-	{
-		return this->_pdo;
-	}
-
-	/**
-	 * Return the error info, if any
-	 *
-	 * @return array
-	 */
-	public function getErrorInfo()
-	{
-		return this->_pdo->errorInfo();
 	}
 }

@@ -1,20 +1,11 @@
 
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalcon.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Db;
@@ -27,11 +18,23 @@ namespace Phalcon\Db;
 interface ColumnInterface
 {
 	/**
-	 * Returns schema's table related to column
+	 * Check whether field absolute to position in table
 	 *
 	 * @return string
 	 */
-	public function getSchemaName();
+	public function getAfterPosition();
+
+	/**
+	 * Returns the type of bind handling
+	 */
+	public function getBindType() -> int;
+
+	/**
+	 * Returns default value of column
+	 *
+	 * @return int
+	 */
+	public function getDefault();
 
 	/**
 	 * Returns column name
@@ -39,6 +42,27 @@ interface ColumnInterface
 	 * @return string
 	 */
 	public function getName();
+
+	/**
+	 * Returns column scale
+	 *
+	 * @return int
+	 */
+	public function getScale();
+
+	/**
+	 * Returns schema's table related to column
+	 *
+	 * @return string
+	 */
+	public function getSchemaName();
+
+	/**
+	 * Returns column size
+	 *
+	 * @return int
+	 */
+	public function getSize();
 
 	/**
 	 * Returns column type
@@ -62,23 +86,24 @@ interface ColumnInterface
 	public function getTypeValues();
 
 	/**
-	 * Returns column size
-	 *
-	 * @return int
+	 * Check whether column has default value
 	 */
-	public function getSize();
+	public function hasDefault() -> boolean;
 
 	/**
-	 * Returns column scale
-	 *
-	 * @return int
+	 * Auto-Increment
 	 */
-	public function getScale();
+	public function isAutoIncrement() -> boolean;
 
 	/**
-	 * Returns true if number column is unsigned
+	 * Check whether column have first position in table
 	 */
-	public function isUnsigned() -> boolean;
+	public function isFirst() -> boolean;
+
+	/**
+	 * Check whether column have an numeric type
+	 */
+	public function isNumeric() -> boolean;
 
 	/**
 	 * Not null
@@ -91,43 +116,9 @@ interface ColumnInterface
 	public function isPrimary() -> boolean;
 
 	/**
-	 * Auto-Increment
+	 * Returns true if number column is unsigned
 	 */
-	public function isAutoIncrement() -> boolean;
-
-	/**
-	 * Check whether column have an numeric type
-	 */
-	public function isNumeric() -> boolean;
-
-	/**
-	 * Check whether column have first position in table
-	 */
-	public function isFirst() -> boolean;
-
-	/**
-	 * Check whether field absolute to position in table
-	 *
-	 * @return string
-	 */
-	public function getAfterPosition();
-
-	/**
-	 * Returns the type of bind handling
-	 */
-	public function getBindType() -> int;
-
-	/**
-	 * Returns default value of column
-	 *
-	 * @return int
-	 */
-	public function getDefault();
-
-	/**
-	 * Check whether column has default value
-	 */
-	public function hasDefault() -> boolean;
+	public function isUnsigned() -> boolean;
 
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
