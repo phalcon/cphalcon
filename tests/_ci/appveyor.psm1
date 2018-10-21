@@ -1,3 +1,10 @@
+# This file is part of the Phalcon.
+#
+# (c) Phalcon Team <team@phalconphp.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
 Function PrepareReleaseNote {
 	$ReleaseFile = "${Env:APPVEYOR_BUILD_FOLDER}\package\RELEASE.txt"
 	$ReleaseDate = Get-Date -Format g

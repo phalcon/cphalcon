@@ -5,6 +5,7 @@ namespace Phalcon\Test\Unit\Cache\Backend;
 use UnitTester;
 use Phalcon\Cache\Backend\Apcu;
 use Phalcon\Cache\Frontend\Data;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Cache\Backend\ApcuCest
@@ -28,19 +29,19 @@ class ApcuCest
     public function _before(UnitTester $I)
     {
         if (!extension_loaded('apcu')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu extension is not loaded'
             );
         }
 
         if (!ini_get('apc.enabled') || (PHP_SAPI === 'cli' && !ini_get('apc.enable_cli'))) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: apc.enable_cli must be set to "On"'
             );
         }
 
         if (version_compare(phpversion('apcu'), '5.1.6', '=')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
         }

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Test\Unit\Cache\Backend;
 
 use UnitTester;
@@ -7,23 +16,14 @@ use Phalcon\Cache\Exception;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Cache\Frontend\Output;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
- * \Phalcon\Test\Unit\Cache\Backend\RedisCest
+ * Phalcon\Test\Unit\Cache\Backend\RedisCest
+ *
  * Tests the \Phalcon\Cache\Backend\Redis component
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Unit\Cache\Backend
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Unit\Cache\Backend
  */
 class RedisCest
 {
@@ -32,7 +32,7 @@ class RedisCest
         $I->wantToTest('Redis cache backend');
 
         if (!extension_loaded('redis')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: redis extension is not loaded'
             );
         }
@@ -328,6 +328,12 @@ class RedisCest
 
     public function output(UnitTester $I)
     {
+        if (PHP_VERSION_ID >= 70300) {
+            throw new SkippedTestError(
+                'Skipped due unstable PHP version'
+            );
+        }
+
         $I->wantTo('Cache output fragments by using Redis as cache backend');
 
         $time = date('H:i:s');

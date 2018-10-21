@@ -4,6 +4,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use UnitTester;
 use Phalcon\Translate\Adapter\Gettext;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Translate\Adapter\GettextCest
@@ -31,13 +32,13 @@ class GettextCest
     public function _before(UnitTester $I)
     {
         if (!extension_loaded('gettext')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 'Warning: gettext extension is not loaded'
             );
         }
 
         if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            throw new SkippedTestError(
                 "Locale en_US.utf8 not enabled"
             );
         }

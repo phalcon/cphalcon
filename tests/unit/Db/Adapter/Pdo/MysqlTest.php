@@ -2,11 +2,11 @@
 
 namespace Phalcon\Test\Unit\Db\Adapter\Pdo;
 
-use Phalcon\Db;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Module\UnitTest;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Helper\Dialect\MysqlTrait;
+use PHPUnit\Framework\SkippedTestError;
 
 /**
  * \Phalcon\Test\Unit\Db\Adapter\Pdo\MysqlTest
@@ -48,7 +48,7 @@ class MysqlTest extends UnitTest
                 'charset'  => TEST_DB_MYSQL_CHARSET,
             ]);
         } catch (\PDOException $e) {
-            throw new \PHPUnit_Framework_SkippedTestError("Unable to connect to the database: " . $e->getMessage());
+            throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
         }
     }
 

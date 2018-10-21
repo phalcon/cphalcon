@@ -17,10 +17,9 @@ modules:
         - Redis
         - Asserts
         - Phalcon
-        - Memcache
         - Filesystem
         - Helper\Unit
-        - Phalcon\Test\Module\Libmemcached
+        - Phalcon\Test\Module\Cache\Backend\File
     config:
         Phalcon:
             bootstrap: 'tests/_config/bootstrap.php'
@@ -42,3 +41,6 @@ modules:
             host: %TEST_MC_HOST%
             port: %TEST_MC_PORT%
             weight: %TEST_MC_WEIGHT%
+        Phalcon\Test\Module\Cache\Backend\File:
+            frontend: Phalcon\Cache\Frontend\Data
+            cache_dir: %TEST_CACHE_DIR%
