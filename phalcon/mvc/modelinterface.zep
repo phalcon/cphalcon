@@ -11,11 +11,11 @@ namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
 use Phalcon\Messages\MessageInterface;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\ModelInterface
@@ -25,69 +25,9 @@ use Phalcon\Mvc\Model\TransactionInterface;
 interface ModelInterface
 {
 	/**
-	 * Returns the models meta-data service related to the entity instance.
+	 * Appends a customized message on the validation process
 	 */
-	public function getModelsMetaData() -> <MetaDataInterface>;
-
-	/**
-	 * Sets a transaction related to the Model instance
-	 */
-	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>;
-
-	/**
-	 * Returns table name mapped in the model
-	 */
-	public function getSource() -> string;
-
-	/**
-	 * Returns schema name where table mapped is located
-	 */
-	public function getSchema() -> string;
-
-	/**
-	 * Sets both read/write connection services
-	 */
-	public function setConnectionService(string connectionService) -> void;
-
-	/**
-	 * Sets the DependencyInjection connection service used to write data
-	 */
-	public function setWriteConnectionService(string connectionService) -> void;
-
-	/**
-	 * Sets the DependencyInjection connection service used to read data
-	 */
-	public function setReadConnectionService(string connectionService) -> void;
-
-	/**
-	 * Returns DependencyInjection connection service used to read data
-	 */
-	public function getReadConnectionService() -> string;
-
-	/**
-	 * Returns DependencyInjection connection service used to write data
-	 */
-	public function getWriteConnectionService() -> string;
-
-	/**
-	 * Gets internal database connection
-	 */
-	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>;
-
-	/**
-	 * Gets internal database connection
-	 */
-	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
-
-	/**
-	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-	 */
-	public function setDirtyState(int dirtyState) -> <ModelInterface>;
-
-	/**
-	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
-	 */
-	public function getDirtyState() -> int;
+	public function appendMessage(<MessageInterface> message);
 
 	/**
 	 * Assigns values to a model from an array
@@ -95,6 +35,19 @@ interface ModelInterface
 	 * @param array columnMap
 	 */
 	public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>;
+
+	/**
+	 * Allows to calculate the average value on a column matching the specified conditions
+	 *
+	 * @param array parameters
+	 * @return double
+	 */
+	public static function average(parameters = null);
+
+	/**
+	 * Assigns values to a model from an array returning a new model
+	 */
+	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>;
 
 	/**
 	 * Assigns values to a model from an array returning a new model
@@ -106,16 +59,30 @@ interface ModelInterface
 	public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, boolean keepSnapshots = null);
 
 	/**
-	 * Assigns values to a model from an array returning a new model
-	 */
-	public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>;
-
-	/**
 	 * Returns an hydrated result based on the data and the column map
 	 *
 	 * @param array columnMap
 	 */
 	public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode);
+
+	/**
+	 * Allows to count how many records match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return int
+	 */
+	public static function count(parameters = null);
+
+	/**
+	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 */
+	public function create() -> boolean;
+
+	/**
+	 * Deletes a model instance. Returning true on success or false otherwise.
+	 */
+	public function delete() -> boolean;
 
 	/**
 	 * Allows to query a set of records that match the specified conditions
@@ -130,25 +97,73 @@ interface ModelInterface
 	public static function findFirst(parameters = null) -> <ModelInterface>;
 
 	/**
-	 * Create a criteria for a specific model
+	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
 	 */
-	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>;
+	public function fireEvent(string! eventName) -> boolean;
 
 	/**
-	 * Allows to count how many records match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return int
+	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+	 * This method stops if one of the callbacks/listeners returns boolean false
 	 */
-	public static function count(parameters = null);
+	public function fireEventCancel(string! eventName) -> boolean;
 
 	/**
-	 * Allows to calculate a sum on a column that match the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
+	 * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
 	 */
-	public static function sum(parameters = null);
+	public function getDirtyState() -> int;
+
+	/**
+	 * Returns array of validation messages
+	 */
+	public function getMessages() -> <MessageInterface[]>;
+
+	/**
+	 * Returns the models meta-data service related to the entity instance.
+	 */
+	public function getModelsMetaData() -> <MetaDataInterface>;
+
+	/**
+	 * Returns the type of the latest operation performed by the ORM
+	 * Returns one of the OP_* class constants
+	 */
+	public function getOperationMade() -> int;
+
+	/**
+	 * Gets internal database connection
+	 */
+	public function getReadConnection() -> <\Phalcon\Db\AdapterInterface>;
+
+	/**
+	 * Returns DependencyInjection connection service used to read data
+	 */
+	public function getReadConnectionService() -> string;
+
+	/**
+	 * Returns related records based on defined relations
+	 *
+	 * @param array arguments
+	 */
+	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>;
+
+	/**
+	 * Returns schema name where table mapped is located
+	 */
+	public function getSchema() -> string;
+
+	/**
+	 * Returns table name mapped in the model
+	 */
+	public function getSource() -> string;
+
+	/**
+	 * Gets internal database connection
+	 */
+	public function getWriteConnection() -> <\Phalcon\Db\AdapterInterface>;
+
+	/**
+	 * Returns DependencyInjection connection service used to write data
+	 */
+	public function getWriteConnectionService() -> string;
 
 	/**
 	 * Allows to get the maximum value of a column that match the specified conditions
@@ -167,66 +182,9 @@ interface ModelInterface
 	public static function minimum(parameters = null);
 
 	/**
-	 * Allows to calculate the average value on a column matching the specified conditions
-	 *
-	 * @param array parameters
-	 * @return double
+	 * Create a criteria for a specific model
 	 */
-	public static function average(parameters = null);
-
-	/**
-	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 */
-	public function fireEvent(string! eventName) -> boolean;
-
-	/**
-	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
-	 * This method stops if one of the callbacks/listeners returns boolean false
-	 */
-	public function fireEventCancel(string! eventName) -> boolean;
-
-	/**
-	 * Appends a customized message on the validation process
-	 */
-	public function appendMessage(<MessageInterface> message);
-
-	/**
-	 * Check whether validation process has generated any messages
-	 */
-	public function validationHasFailed() -> boolean;
-
-	/**
-	 * Returns array of validation messages
-	 */
-	public function getMessages() -> <MessageInterface[]>;
-
-	/**
-	 * Inserts or updates a model instance. Returning true on success or false otherwise.
-	 */
-	public function save() -> boolean;
-
-	/**
-	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 */
-	public function create() -> boolean;
-
-	/**
-	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
-	 * Returning true on success or false otherwise.
-	 */
-	public function update() -> boolean;
-
-	/**
-	 * Deletes a model instance. Returning true on success or false otherwise.
-	 */
-	public function delete() -> boolean;
-
-	/**
-	 * Returns the type of the latest operation performed by the ORM
-	 * Returns one of the OP_* class constants
-	 */
-	public function getOperationMade() -> int;
+	public static function query(<DiInterface> dependencyInjector = null) -> <CriteriaInterface>;
 
 	/**
 	 * Refreshes the model attributes re-querying the record from the database
@@ -234,16 +192,24 @@ interface ModelInterface
 	public function refresh();
 
 	/**
-	 * Skips the current operation forcing a success state
+	 * Inserts or updates a model instance. Returning true on success or false otherwise.
 	 */
-	public function skipOperation(boolean skip);
+	public function save() -> boolean;
 
 	/**
-	 * Returns related records based on defined relations
-	 *
-	 * @param array arguments
+	 * Sets both read/write connection services
 	 */
-	public function getRelated(string alias, arguments = null) -> <ResultsetInterface>;
+	public function setConnectionService(string connectionService) -> void;
+
+	/**
+	 * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+	 */
+	public function setDirtyState(int dirtyState) -> <ModelInterface>;
+
+	/**
+	 * Sets the DependencyInjection connection service used to read data
+	 */
+	public function setReadConnectionService(string connectionService) -> void;
 
 	/**
 	 * Sets the record's snapshot data.
@@ -252,4 +218,38 @@ interface ModelInterface
 	 * @param array columnMap
 	 */
 	public function setSnapshotData(array! data, columnMap = null);
+
+	/**
+	 * Sets a transaction related to the Model instance
+	 */
+	public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>;
+
+	/**
+	 * Sets the DependencyInjection connection service used to write data
+	 */
+	public function setWriteConnectionService(string connectionService) -> void;
+
+	/**
+	 * Skips the current operation forcing a success state
+	 */
+	public function skipOperation(boolean skip);
+
+	/**
+	 * Allows to calculate a sum on a column that match the specified conditions
+	 *
+	 * @param array parameters
+	 * @return double
+	 */
+	public static function sum(parameters = null);
+
+	/**
+	 * Check whether validation process has generated any messages
+	 */
+	public function validationHasFailed() -> boolean;
+
+	/**
+	 * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
+	 * Returning true on success or false otherwise.
+	 */
+	public function update() -> boolean;
 }
